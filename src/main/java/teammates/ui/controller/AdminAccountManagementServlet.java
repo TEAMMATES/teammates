@@ -56,11 +56,45 @@ public class AdminAccountManagementServlet extends ActionServlet<AdminAccountMan
 		}
 		if(courses != null){
 			helper.accountList.put(i - 1, courses);
-		}	
+		}
+		
+		String url = getRequestedURL(req);
+		
+		ArrayList<Object> data = new ArrayList<Object>();
+		data.add(helper.accountList.size());
+		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET, Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD,
+				true, helper, url, data);
 	}
 
 	@Override
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_ADMIN_ACCOUNT_MANAGEMENT;
+	}
+
+	@Override
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
+		
+		if(action.equals(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
+		}
+			
+		return message;
+	}
+	
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "Admin Account Management Page Load<br>";
+			message += "<span class=\"bold\">Total Instructors:</span> " + (Integer)data.get(0);
+		} catch (NullPointerException e){
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
 	}
 }

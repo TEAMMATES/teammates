@@ -1,9 +1,9 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,8 +41,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 
 	protected static final Logger log = Common.getLogger();
 	protected boolean isPost = false;
-	
-	private int errorCounter = 0;
+	protected ActivityLogEntry activityLogEntry;
 
 	@Override
 	public final void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -67,126 +66,89 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		prepareHelper(req, helper);
 
 		Level logLevel = null;
-		String response = null;
 		String reqParam = Common.printRequestParameters(req);
 
 		try {
+			activityLogEntry = null;
 			doAction(req, helper);
 			logLevel = Level.INFO;
-			response = "OK";
 			doCreateResponse(req, resp, helper);
+			
+			log.log(logLevel, getMessageToBeLogged(req));
 
 		} catch (EntityDoesNotExistException e) {
 			logLevel = Level.WARNING;
-			response = "EntityDoesNotExistException";
+			log.log(logLevel, generateServletActionFailureLogMessage(req, e));
+			
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
+
 		} catch (UnauthorizedAccessException e) {
 			logLevel = Level.WARNING;
-			response = "Unauthorized access";
+			log.log(logLevel, generateServletActionFailureLogMessage(req, e));
+			
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
+
 		}  catch (DeadlineExceededException e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, (Throwable) e);
-			try {
-				String logMsg = getUserActionLog(req, response, helper, email);
-				log.severe(logMsg);
-			} catch (Exception e1) {
-				log.severe(e.getMessage());
-			}
+			
+			log.severe(generateSystemErrorReportLogMessage(req, email));	
 			
 			resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
-			return;
+
 		}  catch (Throwable e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, e);
-			try {
-				String logMsg = getUserActionLog(req, response, helper, email);
-				log.severe(logMsg);
-			} catch (Exception e1) {
-				log.severe(e.getMessage());
-			}
+
+			log.severe(generateSystemErrorReportLogMessage(req, email));	
 						
 		    resp.sendRedirect(Common.JSP_ERROR_PAGE);
-			return;
-		} finally {
-			//log activity for selected actions
-			HashSet<String> servletsToIgnore= new HashSet<String>();
-			servletsToIgnore.add(Common.ADMIN_ACTIVITY_LOG_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_HOME_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_ACCOUNT_DETAILS_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_SEARCH_SERVLET);
-			servletsToIgnore.add(Common.ADMIN_SEARCH_TASK_SERVLET);
-			
-			String[] actionTkn = req.getServletPath().split("/");
-			String action = req.getServletPath();
-			if(actionTkn.length > 0) {
-				action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
-			}
-			
-			if(!servletsToIgnore.contains(action)){
-				String logMsg = getUserActionLog(req, response, helper, null);
-				log.log(logLevel,logMsg);
-			}
+
 		}
 	}
 	
-	protected String getUserActionLog(HttpServletRequest req, String resp, T helper, MimeMessage errorEmail) {
-		UserType user = new Logic().getLoggedInUser();
-		
-		//Assumption.assertFalse("admin activity shouldn't be logged",helper.user.isAdmin);
-		StringBuilder sb;
-		if(errorEmail == null){
-			sb = new StringBuilder("[TEAMMATES_LOG]|||");
-		} else {
-			sb = new StringBuilder("[TEAMMATES_ERROR]|||");
-		}
-		//log action
-		String[] actionTkn = req.getServletPath().split("/");
+	
+	protected String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e){
+		String[] actionTaken = req.getServletPath().split("/");
 		String action = req.getServletPath();
-		if(actionTkn.length > 0) {
-			action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
+		if(actionTaken.length > 0) {
+			action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
 		}
-		
-		sb.append(action+"|||");
-		
-		if(user.isInstructor) {
-			sb.append("Instructor|||");
-		}else if(user.isStudent) {
-			sb.append("Student|||");
-		}else {
-			sb.append("Unknown Role|||");
-		}
-		
-		AccountData account = helper.server.getAccount(user.id);
-		if(account!=null){
-			sb.append(account.name+"|||");
-			sb.append(account.googleId+"|||");
-			sb.append(account.email+"|||");
-		}else{
-			sb.append("N/A|||");
-			sb.append( user.id +"|||");
-			sb.append( "N/A" +"|||");
-		}
-		
-		//log response
-		if(errorEmail != null){
-			try {
-				sb.append(errorEmail.getSubject());
-				sb.append("<br>");
-				sb.append("<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorCounter+"');\">Show/Hide Details >></a>");
-				sb.append("<br>");
-				sb.append("<span id=\"error" + errorCounter + "\" style=\"display: none;\">");
-				sb.append(errorEmail.getContent().toString());
-				sb.append("</span>");
-				errorCounter++;
-			} catch (Exception e) {
-				sb.append("System Error. Unable to retrieve Email Report");
-			}
-		}
-		else {
-			sb.append(Common.printRequestParameters(req));
-		}
+		String url = getRequestedURL(req);
+        
+        String message = "<span class=\"color_red\">Servlet Action failure in " + action + "<br>";
+        message += e.getClass() + ": " + e.getMessage() + "<br>";
+        message += Common.printRequestParameters(req) + "</span>";
+        
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Common.LOG_SERVLET_ACTION_FAILURE, true, null, message, url);
+        
+        return exceptionLog.generateLogMessage();
+	}
+	
 
-		return sb.toString();
+	protected String generateSystemErrorReportLogMessage(HttpServletRequest req, MimeMessage errorEmail) {
+		String[] actionTaken = req.getServletPath().split("/");
+		String action = req.getServletPath();
+		if(actionTaken.length > 0) {
+			action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+		}
+		String url = getRequestedURL(req);
+        
+        String message = "";
+        if(errorEmail != null){
+        	try {
+      			message += "<span class=\"color_red\">" + errorEmail.getSubject() + "</span><br>";
+      			message += "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() +"');\">Show/Hide Details >></a>";
+      			message += "<br>";
+      			message += "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">";
+      			message += errorEmail.getContent().toString();
+      			message += "</span>";
+      		} catch (Exception e) {
+      			message = "System Error. Unable to retrieve Email Report";
+      		}
+      	}
+		
+		ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Common.LOG_SYSTEM_ERROR_REPORT, true, null, message, url);
+		
+		return emailReportLog.generateLogMessage();
 	}
 
 	/**
@@ -258,6 +220,71 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	protected abstract void doAction(HttpServletRequest req, T helper)
 			throws EntityDoesNotExistException, InvalidParametersException;
 
+	/**
+	 * Method to retrieve an application log message from the servlet that is
+	 * currently being executed. This log message will be logged in server, and is
+	 * used for AdminActivityLog. 
+	 */
+	protected String getMessageToBeLogged(HttpServletRequest req){
+		//Create a default activity log if the servlet did not create one, else just ask the activity log for the message
+		if(activityLogEntry == null){
+			String[] actionTaken = req.getServletPath().split("/");
+			String action = req.getServletPath();
+			if(actionTaken.length > 0) {
+				action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+			}
+			String url = getRequestedURL(req);
+			activityLogEntry = new ActivityLogEntry(action, Common.printRequestParameters(req), url); 
+		}
+		return activityLogEntry.generateLogMessage();
+	}
+	
+	
+	/**
+	 * Method to create an activityLog based on the servlet
+	 * Each servlet is supposed to implement the corresponding generateActivityLogEntryMessage 
+	 * The content of the ActivityLogEntry is dependent on the servlet
+	 * @param servletName The name of the servlet. Constant taken from Common.java
+	 * @param action The action the servlet is performing. Constant taken from Common.java
+	 * @param toShow Whether or not this log should be shown in the Admin Activity Log
+	 * @param helper The helper of the servlet 
+	 * @paran data Additional data required for generating the Activity Log Entry, if needed
+	 */
+	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data){
+		UserType user = helper.server.getLoggedInUser();
+		AccountData account = helper.server.getAccount(user.id);
+		String message = generateActivityLogEntryMessage(servletName, action, data);
+			
+		return new ActivityLogEntry(servletName, action, toShow, account, message, url);
+	}
+
+	/**
+	 * Each servlet is supposed to implement their own generateActivityLogEntryMessage 
+	 * @param servletName The name of the servlet. Constant taken from Common.java
+	 * @param action The action the servlet is performing. Constant taken from Common.java
+	 * @param helper The helper of the servlet 
+	 * @paran data Additional data required for generating the Activity Log Entry, if needed
+	 * @return
+	 */
+	protected abstract String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data);
+
+	
+	/**
+	 * Helper method to generate the error messages within the activity log
+	 * Used within generateActivityLogEntryMessage for each servlet
+	 */
+	protected String generateActivityLogEntryErrorMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		if (action.equals(Common.LOG_SERVLET_ACTION_FAILURE)) {
+            String e = (String)data.get(0);
+            message = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            message += e + "</span>";
+        } else {
+        	message = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+		return message;
+	}
+	
 	/**
 	 * Method to redirect or forward the request to appropriate display handler.<br />
 	 * If helper.redirectUrl is not null, it will redirect there. Otherwise it

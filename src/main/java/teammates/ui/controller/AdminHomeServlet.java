@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,6 +36,8 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) {
+		String url = getRequestedURL(req);
+		
 		helper.instructorId = req.getParameter(Common.PARAM_INSTRUCTOR_ID);
 		helper.instructorName = req.getParameter(Common.PARAM_INSTRUCTOR_NAME);
 		helper.instructorEmail = req.getParameter(Common.PARAM_INSTRUCTOR_EMAIL);
@@ -52,6 +55,16 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				helper.server.createAccount(helper.instructorId, helper.instructorName, true, helper.instructorEmail, helper.instructorInstitution);
 				helper.statusMessage = "Instructor " + helper.instructorName
 						+ " has been successfully created";
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+				data.add(helper.instructorId);
+				data.add(helper.instructorName);
+				data.add(helper.instructorEmail);
+				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR,
+						false, helper, url, null);
+			} else {
+				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, Common.ADMIN_HOME_SERVLET_PAGE_LOAD,
+						false, helper, url, null);
 			}
 
 			if (importSampleData != null) {
@@ -60,6 +73,11 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 		} catch (Exception e) {
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+			data.add(e.getClass() + ": " + e.getMessage());
+			activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+					false, helper, url, data);
 		}
 	}
 
@@ -153,4 +171,43 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 		return Common.JSP_ADMIN_HOME;
 	}
 
+	@Override
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		
+		String message;
+		
+		if(action.equals(Common.ADMIN_HOME_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else if (action.equals(Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR)){
+			message = generateCreateInstructorMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
+		}
+			
+		return message;
+	}
+
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		message = "Admin Home Page Load";
+		
+		return message;
+	}
+	
+	
+	private String generateCreateInstructorMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "A New Instructor <span class=\"bold\">" + (String)data.get(1) + "</span> has been created.<br>";
+			message += "<span class=\"bold\">Id: </span>" + (String)data.get(0) + "<br>";
+			message += "<span class=\"bold\">Email: </span>" + (String)data.get(2);
+		} catch (NullPointerException e){
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
+	}
 }

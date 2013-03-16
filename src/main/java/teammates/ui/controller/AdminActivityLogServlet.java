@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,8 +18,8 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	//We want to pull out the application logs
 	private boolean includeAppLogs = true;
-	private int logsPerPage = 50;
-	private int maxLogSearchLimit = 100000;
+	private static final int LOGS_PER_PAGE = 30;
+	private static final int MAX_LOGSEARCH_LIMIT = 10000;
 		
 	@Override
 	protected AdminActivityLogHelper instantiateHelper() {
@@ -27,27 +28,27 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	@Override
 	protected void doAction(HttpServletRequest req, AdminActivityLogHelper helper) {
-		
-		helper.servletSearchList = req.getParameterValues("toggle_servlets");		
-		helper.checkAllServlets = req.getParameter("selectAll");
-		helper.searchPerson = req.getParameter("searchPerson");
-		helper.searchRole = req.getParameter("searchRole");
 		helper.offset = req.getParameter("offset");
-		
-		//For fresh load of the page, default to check and search all servlets on the form
-		if (helper.servletSearchList == null) {
-			helper.servletSearchList = helper.listOfServlets.toArray(new String[helper.listOfServlets.size()]);
-			helper.checkAllServlets = "on";
-		}
-	
-		//New search, reset the page offset
-		if(req.getParameter("pageChange") != null && !req.getParameter("pageChange").equals("true")){
+		helper.pageChange = req.getParameter("pageChange");
+		if(helper.pageChange != null && !helper.pageChange.equals("true")){
+			//Reset the offset because we are performing a new search, so we start from the beginning of the logs
 			helper.offset = null;
 		}
+		helper.filterQuery = req.getParameter("filterQuery");
+		if(helper.filterQuery == null){
+			helper.filterQuery = "";
+		}
+		//This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
+		helper.generateQueryParameters(helper.filterQuery);
+		
 		
 		LogQuery query = buildQuery(helper.offset, includeAppLogs);
-		List<AppLogLine> logs = getAppLogs(query, helper);
+		List<ActivityLogEntry> logs = getAppLogs(query, helper);
 		req.setAttribute("appLogs", logs);
+		
+		String url = getRequestedURL(req);
+		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACTIVITY_LOG_SERVLET, Common.ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD,
+				false, helper, url, null);
 	}
 
 	private LogQuery buildQuery(String offset, boolean includeAppLogs) {
@@ -59,48 +60,47 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 		return query;
 	}
 	
-	private List<AppLogLine> getAppLogs(LogQuery query, AdminActivityLogHelper helper) {
-		List<AppLogLine> appLogs = new LinkedList<AppLogLine>();
+	private List<ActivityLogEntry> getAppLogs(LogQuery query, AdminActivityLogHelper helper) {
+		List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
 		int totalLogsSearched = 0;
 		int currentLogsInPage = 0;
 		
 		String lastOffset = null;
 		
 		//fetch request log
-		for (RequestLogs record : LogServiceFactory.getLogService().fetch(query)) {
+		Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
+		for (RequestLogs record : records) {
 			
 			totalLogsSearched ++;
 			lastOffset = record.getOffset();
 			
-			if (totalLogsSearched >= maxLogSearchLimit){
+			//End the search if we hit limits
+			if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
 				break;
 			}
-			if (currentLogsInPage >= logsPerPage) {
+			if (currentLogsInPage >= LOGS_PER_PAGE) {
 				break;
 			}
 			
 			//fetch application log
-			for (AppLogLine appLog : record.getAppLogLines()) {
-				if (currentLogsInPage >= logsPerPage) {
+			List<AppLogLine> appLogLines = record.getAppLogLines();
+			for (AppLogLine appLog : appLogLines) {
+				if (currentLogsInPage >= LOGS_PER_PAGE) {
 					break;
 				}
 				String logMsg = appLog.getLogMessage();
-				if (logMsg.contains("TEAMMATES_LOG") || logMsg.contains("TEAMMATES_ERROR")) {
-					String[] tokens = logMsg.split("\\|\\|\\|", -1);
-					//Old format logs. Do not search or parse any other older logs
-					if (tokens.length != 7){
-						totalLogsSearched = maxLogSearchLimit;
-					}
-					if(helper.performFiltering(logMsg)){
-						appLogs.add(appLog);
+				if (logMsg.contains("TEAMMATESLOG")) {
+					activityLogEntry = new ActivityLogEntry(appLog);				
+					if(helper.filterLogs(activityLogEntry)){
+						appLogs.add(activityLogEntry);
 						currentLogsInPage ++;
 					}
 				}
 			}	
 		}
-
+		
 		//link for Next button, will fetch older logs
-		if (lastOffset != null && totalLogsSearched < maxLogSearchLimit && appLogs.size() != 0) {
+		if (currentLogsInPage >= LOGS_PER_PAGE) {
 			helper.statusMessage = "<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Next</a>";
 		}
 		return appLogs;
@@ -111,4 +111,25 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 		return Common.JSP_ADMIN_ACTIVITY_LOG;
 	}
 
+	@Override
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
+		
+		if(action.equals(Common.ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
+		}
+			
+		return message;
+	}
+	
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		message = "adminActivityLog Page Load";
+		
+		return message;
+	}
 }

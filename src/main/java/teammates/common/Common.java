@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.security.GeneralSecurityException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -415,7 +414,7 @@ public class Common {
 	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readResourseFile("systemErrorEmailTemplate.html");
 	
 	/**
-	 * Instructor/Student Servlet Names
+	 * Instructor Servlets
 	 */
 	public static String INSTRUCTOR_HOME_SERVLET = "instructorHome";
 	public static String INSTRUCTOR_COURSE_SERVLET = "instructorCourse";
@@ -433,11 +432,46 @@ public class Common {
 	public static String INSTRUCTOR_EVAL_DELETE_SERVLET = "instructorEvalDelete";
 	public static String INSTRUCTOR_EVAL_REMIND_SERVLET = "instructorEvalRemind";
 	public static String INSTRUCTOR_EVAL_PUBLISH_SERVLET = "instructorEvalPublish";
-	public static String INSTRUCTOR_EVAL_RESULTS_SERVLET = "instructorEvalResults";
 	public static String INSTRUCTOR_EVAL_UNPUBLISH_SERVLET = "instructorEvalUnpublish";
+	public static String INSTRUCTOR_EVAL_RESULTS_SERVLET = "instructorEvalResults";
 	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET = "instructorEvalSubmissionEditHandler";
 	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET = "instructorEvalSubmissionEdit";
 	public static String INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET = "instructorEvalSubmissionView";
+	
+	/**
+	 * Instructor Servlet Actions
+	 */
+	public static String INSTRUCTOR_HOME_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_COURSE_SERVLET_ADD_COURSE = "Add New Course";
+	public static String INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET_ENROLL_STUDENTS = "Enroll Students";
+	public static String INSTRUCTOR_COURSE_EDIT_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_COURSE_EDIT_SERVLET_EDIT_COURSE_INFO = "Edit Course Info";
+	public static String INSTRUCTOR_COURSE_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_COURSE_DELETE_SERVLET_DELETE_COURSE = "Delete Course";
+	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_EDIT_DETAILS = "Edit Student Details";
+	public static String INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET_DELETE_STUDENT = "Delete Student";
+	public static String INSTRUCTOR_COURSE_STUDENT_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_COURSE_REMIND_SERVLET_SEND_REGISTRATION = "Send Registration";
+	public static String INSTRUCTOR_EVAL_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_EVAL_SERVLET_NEW_EVALUATION = "Create New Evaluation";
+	public static String INSTRUCTOR_EVAL_EDIT_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_EVAL_EDIT_SERVLET_EDIT_EVALUATION = "Edit Evaluation Info";
+	public static String INSTRUCTOR_EVAL_DELETE_SERVLET_DELETE_EVALUATION = "Delete Evaluation";
+	public static String INSTRUCTOR_EVAL_REMIND_SERVLET_SEND_EVAL_REMINDER = "Remind Students About Evaluation";
+	public static String INSTRUCTOR_EVAL_PUBLISH_SERVLET_PUBLISH_EVALUATION = "Publish Evaluation";
+	public static String INSTRUCTOR_EVAL_UNPUBLISH_SERVLET_UNPUBLISH_EVALUATION = "Unpublish Evaluation";
+	public static String INSTRUCTOR_EVAL_RESULTS_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION = "Edit Submission";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET_PAGE_LOAD = "Pageload";
+	public static String INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET_PAGE_LOAD = "Pageload";
+	
+	
+	/**
+	 * Student Servlets
+	 */
 	public static String STUDENT_HOME_SERVLET = "studentHome";
 	public static String STUDENT_COURSE_DETAILS_SERVLET = "studentCourseDetails";
 	public static String STUDENT_COURSE_JOIN_SERVLET = "studentCourseJoin";
@@ -445,26 +479,17 @@ public class Common {
 	public static String STUDENT_EVAL_EDIT_SERVLET = "studentEvalEdit";
 	public static String STUDENT_EVAL_RESULTS_SERVLET = "studentEvalResults";
 	
-	
 	/**
-	 * Instructor/Student Servlet Actions
+	 * Student Servlet Actions
 	 */
-	public static String INSTRUCTOR_COURSE_SERVLET_ACTION = "Add New Course";
-	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET_ACTION = "Enroll Students";
-	public static String INSTRUCTOR_COURSE_EDIT_SERVLET_ACTION = "Edit Course Info";
-	public static String INSTRUCTOR_COURSE_DELETE_SERVLET_ACTION = "Delete Course";
-	public static String INSTRUCTOR_COURSE_STUDENT_EDIT_SERVLET_ACTION = "Edit Student Details";
-	public static String INSTRUCTOR_COURSE_STUDENT_DELETE_SERVLET_ACTION = "Delete Student";
-	public static String INSTRUCTOR_COURSE_REMIND_SERVLET_ACTION = "Send Registration";
-	public static String INSTRUCTOR_EVAL_SERVLET_ACTION = "Create New Evaluation";
-	public static String INSTRUCTOR_EVAL_EDIT_SERVLET_ACTION = "Edit Evaluation Info";
-	public static String INSTRUCTOR_EVAL_DELETE_SERVLET_ACTION = "Delete Evaluation";
-	public static String INSTRUCTOR_EVAL_REMIND_SERVLET_ACTION = "Remind Students";
-	public static String INSTRUCTOR_EVAL_PUBLISH_SERVLET_ACTION = "Publish Evaluation";
-	public static String INSTRUCTOR_EVAL_UNPUBLISH_SERVLET_ACTION = "Unpublish Evaluation";
-	public static String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER_SERVLET_ACTION = "Edit Submission";
-	public static String STUDENT_EVAL_EDIT_HANDLER_SERVLET_ACTION = "Edit Submission";
-	public static String STUDENT_COURSE_JOIN_SERVLET_ACTION = "Student Join Course";
+	public static String STUDENT_HOME_SERVLET_PAGE_LOAD = "Pageload";
+	public static String STUDENT_COURSE_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
+	public static String STUDENT_COURSE_JOIN_SERVLET_JOIN_COURSE = "Student Joining Course";
+	public static String STUDENT_EVAL_EDIT_HANDLER_SERVLET_EDIT_SUBMISSION = "Edit Submission";
+	public static String STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD = "Pageload";
+	public static String STUDENT_EVAL_RESULTS_SERVLET_PAGE_LOAD = "Pageload";
+	
+	
 	
 	/**
 	 * Admin Servlets
@@ -475,14 +500,41 @@ public class Common {
 	public static String ADMIN_ACTIVITY_LOG_SERVLET = "adminActivityLog";
 	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
 	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";
+	public static String ADMIN_EXCEPTION_TEST_SERVLET = "adminExceptionTest";
+	
+	/**
+	 * Admin Servlet Actions
+	 */
+	public static String ADMIN_HOME_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR = "Create Instructor";
+	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_SEARCH_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD = "Pageload";
+	
+	
 	
 	/**
 	 * Automated Servlets
 	 */
 	public static String EVALUATION_CLOSING_REMINDERS_SERVLET = "evaluationclosingreminders";
-	public static String EVALUATION_CLOSING_REMINDERS_SERVLET_ACTION = "Evaluation Closing Reminders";
 	public static String EVALUATION_OPENING_REMINDERS_SERVLET = "evaluationopeningreminders";
-	public static String EVALUATION_OPENING_REMINDERS_SERVLET_ACTION = "Evaluation Opening Reminders";
+	
+	
+	/**
+	 * Automated Servlet Actions
+	 */
+	public static String EVALUATION_CLOSING_REMINDERS_SERVLET_EVALUATION_CLOSE_REMINDER = "Send Evaluation Closing reminders";
+	public static String EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER = "Send Evaluation Opening reminders";
+	
+	/**
+	 * Other Servlet Actions
+	 */
+	public static String LOG_SYSTEM_ERROR_REPORT = "System Error Report";
+	public static String LOG_SERVLET_ACTION_FAILURE = "Servlet Action Failure";
+	
+			
 	
 	@SuppressWarnings("unused")
 	private void ____VALIDATE_parameters___________________________________() {
@@ -903,42 +955,24 @@ public class Common {
 	
 	
 	/**
-	 * Generate log messages for the automated reminders sent.
+	 * Generate email recipient list for the automated reminders sent.
 	 * Used for AdminActivityLog
 	 */
-	public static String generateLogMessagesForAutomatedReminders(HttpServletRequest req, ArrayList<MimeMessage> emails){
+	public static ArrayList<Object> generateEmailRecipientListForAutomatedReminders(HttpServletRequest req, ArrayList<MimeMessage> emails){
 
-		StringBuilder sb = new StringBuilder("[TEAMMATES_LOG]|||");
+		ArrayList<Object> data = new ArrayList<Object>();
 		
 		try{
-			//log action
-			String[] actionTkn = req.getServletPath().split("/");
-			String action = req.getServletPath();
-			if(actionTkn.length > 0) {
-				action = actionTkn[actionTkn.length-1]; //retrieve last segment in path
-			}
-			
-			sb.append(action+"|||");			
-			sb.append("Automated Reminder|||Automated Reminder|||N/A|||N/A|||");
-	
-			String emailTargets = "{targets::";
 			for (int i = 0; i < emails.size(); i++){
 				Address[] recipients = emails.get(i).getRecipients(Message.RecipientType.TO);
 				for (int j = 0; j < recipients.length; j++){
-					emailTargets += recipients[j] + "//";
+					data.add(recipients[j]);
 				}
 			}
-			if (emailTargets != "{targets::") {
-				emailTargets = emailTargets.substring(0, emailTargets.length() - 2);
-			} else {
-				emailTargets += "none";
-			}
-			emailTargets += "}";
-			sb.append(emailTargets);
 		} catch (Exception e){
 			throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders",e);
 		}
 		
-		return sb.toString();
+		return data;
 	}
 }

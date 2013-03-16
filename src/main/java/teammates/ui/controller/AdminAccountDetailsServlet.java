@@ -37,10 +37,44 @@ public class AdminAccountDetailsServlet extends ActionServlet<AdminAccountDetail
 			//Not a student of any course
 			helper.studentCourseList = null;
 		}
+		
+		String url = getRequestedURL(req);
+		
+		ArrayList<Object> data = new ArrayList<Object>();
+		data.add(helper.accountInformation.googleId);
+		data.add(helper.accountInformation.name);
+		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DETAILS_SERVLET, Common.ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD,
+				false, helper, url, data);
 	}
 	
 	@Override
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_ADMIN_ACCOUNT_DETAILS;
+	}
+
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
+		
+		if(action.equals(Common.ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
+		}
+			
+		return message;
+	}
+	
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "adminAccountDetails Page Load<br>";
+			message += "Viewing details for " + (String)data.get(1) + "(" + (String)data.get(0) + ")";
+		} catch (NullPointerException e) {
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";
+		}
+		
+		return message;
 	}
 }
