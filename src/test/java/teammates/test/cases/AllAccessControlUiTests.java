@@ -149,10 +149,6 @@ public class AllAccessControlUiTests extends BaseTestCase {
 				Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT, unregUsername);
 		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_RESULTS,
 				unregUsername);
-		
-		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		verifyRedirectToNotAuthorized(link);
 
 		______TS("instructor pages");
 
