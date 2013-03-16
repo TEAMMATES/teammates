@@ -23,7 +23,7 @@
 		<div id="frameBodyWrapper">
 			<div style="margin: 30px auto; border: 1px solid #333; padding: 10px; text-align: left; width: 550px; background: #FFFFCC; height: 100px">
 				<img src="/images/error.png"
-					style="float: left; margin: 0 10px 10px 0; height: 90px; border: 1px solid #999;">
+					style="float: left; margin: 0 10px 10px 0; height: 90px;">
 				<p>
 					The page you are looking for is not there.<br><br>
 					Make sure that the URL is correct, or go to <a href="/login.jsp">main page</a>

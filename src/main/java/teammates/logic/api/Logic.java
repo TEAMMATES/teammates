@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Assumption;
 import teammates.common.BuildProperties;
@@ -33,15 +32,14 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.NotImplementedException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
+import teammates.logic.GateKeeper;
 import teammates.logic.TeamEvalResult;
 
 import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
-import com.google.appengine.api.users.User;
 
 /**
  * This class represents the API to the business logic of the system. Please
@@ -57,6 +55,11 @@ public class Logic {
 	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
 	public static final String ERROR_NO_INSTRUCTOR_LINES = "Course must have at lease one instructor\n";
 	public static final String ERROR_COURSE_CREATOR_NO_ACCOUNT = "An instructor with no ACCOUNT was able to create a course\n";
+	
+	private static GateKeeper gateKeeper = GateKeeper.inst();
+	private static AccountsLogic accountsLogic = AccountsLogic.inst();
+	private static CoursesLogic coursesLogic = CoursesLogic.inst();
+	private static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -69,8 +72,7 @@ public class Logic {
 	 *            This is the URL the user will be directed to after login.
 	 */
 	public static String getLoginUrl(String redirectUrl) {
-		AccountsLogic accounts = AccountsLogic.inst();
-		return accounts.getLoginPage(redirectUrl);
+		return gateKeeper.getLoginUrl(redirectUrl);
 	}
 
 	/**
@@ -80,263 +82,29 @@ public class Logic {
 	 *            This is the URL the user will be directed to after logout.
 	 */
 	public static String getLogoutUrl(String redirectUrl) {
-		AccountsLogic accounts = AccountsLogic.inst();
-		return accounts.getLogoutPage(redirectUrl);
+		return gateKeeper.getLogoutUrl(redirectUrl);
 	}
 
 	/**
 	 * Verifies if the user is logged into his/her Google account
 	 */
 	public static boolean isUserLoggedIn() {
-		AccountsLogic accounts = AccountsLogic.inst();
-		return (accounts.getUser() != null);
+		return gateKeeper.isLoggedOn();
 	}
 
 	/**
 	 * @return Returns null if the user is not logged in.
 	 */
 	public UserType getLoggedInUser() {
-		AccountsLogic accounts = AccountsLogic.inst();
-		User user = accounts.getUser();
-		if (user == null) {
-			return null;
-		}
-
-		UserType userType = new UserType(user.getNickname());
-
-		// TODO: make more efficient?
-		if (accounts.isAdministrator()) {
-			userType.isAdmin = true;
-		}
-		if (accounts.isInstructor()) {
-			userType.isInstructor = true;
-		}
-
-		if (accounts.isStudent(user.getNickname())) {
-			userType.isStudent = true;
-		}
-		return userType;
+		return gateKeeper.getLoggedInUser();
 	}
-
-	@SuppressWarnings("unused")
-	private void ____ACCESS_control_methods________________________________() {
+	
+	public boolean isInstructor(String googleId) {
+		return accountsLogic.isInstructor(googleId);
 	}
-
-	// @formatter:off
-
-	protected boolean isInternalCall() {
-		String callerClassName = Thread.currentThread().getStackTrace()[4]
-				.getClassName();
-		String thisClassName = this.getClass().getCanonicalName();
-		return callerClassName.equals(thisClassName);
-	}
-
-	private void verifyInstructorUsingOwnIdOrAbove(String instructorId) {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isOwnId(instructorId))
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifyOwnerOfId(String googleId) {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isOwnId(googleId))
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifyRegisteredUserOrAbove() {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isInstructorLoggedIn())
-			return;
-		if (isStudentLoggedIn())
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifyCourseOwnerOrAbove(String courseId) {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isCourseOwner(courseId))
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifyCourseOwnerOrStudentInCourse(String courseId) {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isCourseOwner(courseId))
-			return;
-		if (isInCourse(courseId))
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifyAdminLoggedIn() {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifyLoggedInUserAndAbove() {
-		if (isInternalCall())
-			return;
-		if (isUserLoggedIn())
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifySameStudentOrAdmin(String googleId) {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isOwnId(googleId))
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifySameStudentOrCourseOwnerOrAdmin(String courseId,
-			String googleId) {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isOwnId(googleId))
-			return;
-		if (isCourseOwner(courseId))
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifyReviewerOrCourseOwnerOrAdmin(String courseId,
-			String reviewerEmail) {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isCourseOwner(courseId))
-			return;
-		if (isOwnEmail(courseId, reviewerEmail))
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verifySubmissionEditableForUser(SubmissionData submission) {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isCourseOwner(submission.course))
-			return;
-		if (isOwnEmail(submission.course, submission.reviewer)
-				&& getEvaluationStatus(submission.course, submission.evaluation) == EvalStatus.OPEN)
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	private void verfyCourseOwner_OR_EmailOwnerAndPublished(String courseId,
-			String evaluationName, String studentEmail) {
-		if (isInternalCall())
-			return;
-		if (isAdminLoggedIn())
-			return;
-		if (isCourseOwner(courseId))
-			return;
-		if (isOwnEmail(courseId, studentEmail)
-				&& isEvaluationPublished(courseId, evaluationName))
-			return;
-		throw new UnauthorizedAccessException();
-	}
-
-	// @formatter:on
-
-	private boolean isOwnEmail(String courseId, String studentEmail) {
-		UserType user = getLoggedInUser();
-		if (user == null) {
-			return false;
-		}
-		CourseData course = getCourse(courseId);
-		if (course == null) {
-			return false;
-		}
-		StudentData student = getStudent(courseId, studentEmail);
-		return student == null ? false : user.id.equals(student.id);
-	}
-
-	private boolean isOwnId(String userId) {
-		UserType loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.id
-				.equalsIgnoreCase(userId);
-	}
-
-	private boolean isCourseOwner(String courseId) {
-		CourseData course = getCourse(courseId);
-		UserType user = getLoggedInUser();
-		return user != null
-				&& course != null
-				&& AccountsLogic.inst().getDb()
-						.isInstructorOfCourse(user.id, courseId);
-	}
-
-	private boolean isInCourse(String courseId) {
-		UserType user = getLoggedInUser();
-		if (user == null)
-			return false;
-
-		CourseData course = getCourse(courseId);
-		if (course == null)
-			return false;
-
-		return (null != getStudentInCourseForGoogleId(courseId, user.id));
-	}
-
-	private boolean isEvaluationPublished(String courseId, String evaluationName) {
-		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
-		if (evaluation == null) {
-			return false;
-		} else {
-			return evaluation.getStatus() == EvalStatus.PUBLISHED;
-		}
-	}
-
-	/**
-	 * Verifies if the logged in user has Admin privileges
-	 */
-	private boolean isAdminLoggedIn() {
-		UserType loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isAdmin;
-	}
-
-	/**
-	 * Verifies if the logged in user has Instructor privileges
-	 */
-	private boolean isInstructorLoggedIn() {
-		UserType loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isInstructor;
-	}
-
-	/**
-	 * Verifies if the logged in user has Student privileges
-	 */
-	private boolean isStudentLoggedIn() {
-		UserType loggedInUser = getLoggedInUser();
-		return loggedInUser == null ? false : loggedInUser.isStudent;
+	
+	public boolean isInstructorOfCourse(String googleId, String courseId) {
+		return accountsLogic.isInstructorOfCourse(googleId, courseId);
 	}
 
 	@SuppressWarnings("unused")
@@ -360,7 +128,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 		
-		verifyAdminLoggedIn();
+		gateKeeper.verifyAdminLoggedIn();
 		
 		AccountData accountToAdd = new AccountData();
 		accountToAdd.googleId = googleId;
@@ -368,7 +136,7 @@ public class Logic {
 		accountToAdd.isInstructor = isInstructor;
 		accountToAdd.email = email;
 		accountToAdd.institute = institute;
-		AccountsLogic.inst().getDb().createAccount(accountToAdd);
+		accountsLogic.getDb().createAccount(accountToAdd);
 	}
 	
 	/**
@@ -377,10 +145,9 @@ public class Logic {
 	public AccountData getAccount(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
-		verifyLoggedInUserAndAbove();
+		gateKeeper.verifyLoggedInUserAndAbove();
 
-		AccountData account = AccountsLogic.inst().getDb()
-				.getAccount(googleId);
+		AccountData account = accountsLogic.getDb().getAccount(googleId);
 
 		return account;
 	}
@@ -393,14 +160,14 @@ public class Logic {
 	public void updateAccount(AccountData a) throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, a);
 		
-		verifyAdminLoggedIn();
+		gateKeeper.verifyAdminLoggedIn();
 		
 		if (!a.isValid()) {
 			throw new InvalidParametersException(
 					a.getInvalidStateInfo());
 		}
 		
-		AccountsLogic.inst().getDb().updateAccount(a);
+		accountsLogic.getDb().updateAccount(a);
 	}
 	
 	/**
@@ -409,11 +176,11 @@ public class Logic {
 	public void deleteAccount(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
-		verifyAdminLoggedIn();
+		gateKeeper.verifyAdminLoggedIn();
 
-		AccountsLogic.inst().getDb().deleteInstructorsByGoogleId(googleId);
-		AccountsLogic.inst().getDb().deleteStudentsByGoogleId(googleId);
-		AccountsLogic.inst().getDb().deleteAccount(googleId);
+		accountsLogic.getDb().deleteInstructorsByGoogleId(googleId);
+		accountsLogic.getDb().deleteStudentsByGoogleId(googleId);
+		accountsLogic.getDb().deleteAccount(googleId);
 	}
 
 	@SuppressWarnings("unused")
@@ -432,23 +199,23 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 
-		verifyAdminLoggedIn();
+		gateKeeper.verifyAdminLoggedIn();
 		// trim @gmail.com in ID field
 		if (googleId.contains("@gmail.com")) {
 			googleId = googleId.split("@")[0];
 		}
 
 		// Create the Account if it does not exist
-		if (!AccountsLogic.inst().getDb().isAccountExists(googleId)) {
+		if (!accountsLogic.getDb().isAccountExists(googleId)) {
 			AccountData accountToAdd = new AccountData();
 			accountToAdd.googleId = googleId;
 			accountToAdd.name = name;
 			accountToAdd.isInstructor = true;
 			accountToAdd.email = email;
 			accountToAdd.institute = institute;
-			AccountsLogic.inst().getDb().createAccount(accountToAdd);
+			accountsLogic.getDb().createAccount(accountToAdd);
 		} else {
-			AccountsLogic.inst().getDb().makeAccountInstructor(googleId);
+			accountsLogic.getDb().makeAccountInstructor(googleId);
 		}
 
 		// Create the Instructor
@@ -459,7 +226,7 @@ public class Logic {
 					instructorToAdd.getInvalidStateInfo());
 		}
 
-		AccountsLogic.inst().getDb().createInstructor(instructorToAdd);
+		accountsLogic.getDb().createInstructor(instructorToAdd);
 	}
 
 	/**
@@ -469,16 +236,16 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyLoggedInUserAndAbove();
+		gateKeeper.verifyLoggedInUserAndAbove();
 
-		InstructorData instructor = AccountsLogic.inst().getDb()
+		InstructorData instructor = accountsLogic.getDb()
 				.getInstructor(instructorId, courseId);
 
 		return instructor;
 	}
 	
 	public List<InstructorData> getAllInstructors() {
-		return AccountsLogic.inst().getDb().getInstructors();
+		return accountsLogic.getDb().getInstructors();
 	}
 	
 	/**
@@ -488,7 +255,7 @@ public class Logic {
 	 * @return List<InstructorData>
 	 */
 	public List<InstructorData> getInstructorsByGoogleId(String googleId) {
-		return AccountsLogic.inst().getDb().getInstructorsByGoogleId(googleId);
+		return accountsLogic.getDb().getInstructorsByGoogleId(googleId);
 	}
 
 	/**
@@ -498,7 +265,7 @@ public class Logic {
 	 * @return List<InstructorData>
 	 */
 	public List<InstructorData> getInstructorsByCourseId(String courseId) {
-		return AccountsLogic.inst().getDb().getInstructorsByCourseId(courseId);
+		return accountsLogic.getDb().getInstructorsByCourseId(courseId);
 	}
 
 	/**
@@ -517,16 +284,16 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyAdminLoggedIn();
+		gateKeeper.verifyAdminLoggedIn();
 
 		/*
 		 * Inverting the heirarchy List<InstructorData> instructorCourseList =
-		 * AccountsLogic.inst().getDb().getInstructorsByGoogleId(instructorId);
+		 * accountsLogic.getDb().getInstructorsByGoogleId(instructorId);
 		 * 
 		 * for (InstructorData id : instructorCourseList) {
 		 * deleteCourse(id.courseId); }
 		 */
-		AccountsLogic.inst().getDb().deleteInstructor(instructorId, courseId);
+		accountsLogic.getDb().deleteInstructor(instructorId, courseId);
 	}
 
 	/**
@@ -537,9 +304,9 @@ public class Logic {
 	public void deleteInstructor(String instructorId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
-		verifyAdminLoggedIn();
+		gateKeeper.verifyAdminLoggedIn();
 
-		AccountsLogic.inst().getDb().deleteInstructorsByGoogleId(instructorId);
+		accountsLogic.getDb().deleteInstructorsByGoogleId(instructorId);
 	}
 
 	/**
@@ -551,9 +318,9 @@ public class Logic {
 			String instructorId) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
-		verifyInstructorUsingOwnIdOrAbove(instructorId);
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		if (!AccountsLogic.inst().isInstructor(instructorId)) {
+		if (!accountsLogic.isInstructor(instructorId)) {
 			throw new EntityDoesNotExistException("Instructor does not exist :"
 					+ instructorId);
 		}
@@ -578,9 +345,9 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, lastRetrievedTime);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, numberToRetrieve);
 
-		verifyInstructorUsingOwnIdOrAbove(instructorId);
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		if (!AccountsLogic.inst().isInstructor(instructorId)) {
+		if (!accountsLogic.isInstructor(instructorId)) {
 			throw new EntityDoesNotExistException("Instructor does not exist :"
 					+ instructorId);
 		}
@@ -600,7 +367,7 @@ public class Logic {
 			String instructorId) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
-		verifyInstructorUsingOwnIdOrAbove(instructorId);
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
@@ -622,14 +389,14 @@ public class Logic {
 			String instructorId) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
-		verifyInstructorUsingOwnIdOrAbove(instructorId);
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		if (!AccountsLogic.inst().isInstructor(instructorId)) {
+		if (!accountsLogic.isInstructor(instructorId)) {
 			throw new EntityDoesNotExistException("Instructor does not exist :"
 					+ instructorId);
 		}
 
-		List<InstructorData> instructorList = AccountsLogic.inst().getDb()
+		List<InstructorData> instructorList = accountsLogic.getDb()
 				.getInstructorsByGoogleId(instructorId);
 
 		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
@@ -665,7 +432,7 @@ public class Logic {
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyCourseOwnerOrStudentInCourse(courseId);
+		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 
 		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
 
@@ -692,11 +459,6 @@ public class Logic {
 	private void ____COURSE_level_methods__________________________________() {
 	}
 
-	public boolean isInstructorOfCourse(String instructorId, String courseId) {
-		return AccountsLogic.inst().getDb()
-				.isInstructorOfCourse(instructorId, courseId);
-	}
-
 	/**
 	 * Access level: Instructor and above
 	 * 
@@ -710,7 +472,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
-		verifyInstructorUsingOwnIdOrAbove(instructorId);
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
 		CourseData courseToAdd = new CourseData(courseId, courseName);
 
@@ -719,15 +481,14 @@ public class Logic {
 					courseToAdd.getInvalidStateInfo());
 		}
 
-		CoursesLogic.inst().getDb().createCourse(courseToAdd);
+		coursesLogic.getDb().createCourse(courseToAdd);
 
 		// Create an instructor relation for the INSTRUCTOR that created this course
 		// The INSTRUCTOR relation is created here with NAME and EMAIL fields retrieved from his AccountData
 		// Otherwise, createCourse() method will have to take in 2 extra parameters for them which is not a good idea
-		AccountData courseCreator = AccountsLogic.inst().getDb().getAccount(instructorId);
+		AccountData courseCreator = accountsLogic.getDb().getAccount(instructorId);
 		Assumption.assertNotNull(ERROR_COURSE_CREATOR_NO_ACCOUNT + Common.getCurrentThreadStack(), courseCreator);
-		AccountsLogic
-				.inst()
+		accountsLogic
 				.getDb()
 				.createInstructor(
 						new InstructorData(instructorId, courseId, courseCreator.name, courseCreator.email));
@@ -740,9 +501,9 @@ public class Logic {
 	public CourseData getCourse(String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyRegisteredUserOrAbove();
+		gateKeeper.verifyRegisteredUserOrAbove();
 
-		CourseData c = CoursesLogic.inst().getDb().getCourse(courseId);
+		CourseData c = coursesLogic.getDb().getCourse(courseId);
 		return c;
 	}
 
@@ -754,14 +515,14 @@ public class Logic {
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyCourseOwnerOrStudentInCourse(courseId);
+		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 
 		// TODO: very inefficient. Should be optimized. (sorta fixed)
 		// Previously it calls a function which prepares ALL the courses for an
 		// instructor,
 		// then returns the selected course from the list.
 		// Now it simply prepares the requesteed course
-		CourseData course = CoursesLogic.inst().getCourseSummary(courseId);
+		CourseData course = coursesLogic.getCourseSummary(courseId);
 
 		if (course == null) {
 			throw new EntityDoesNotExistException("The course does not exist: "
@@ -796,11 +557,11 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseInstitute);
 
-		if (!CoursesLogic.inst().isCourseExists(courseId)) {
+		if (!coursesLogic.isCourseExists(courseId)) {
 			Assumption.fail(ERROR_UPDATE_NON_EXISTENT_COURSE + courseId);
 		}
 		
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 		
 		// Prepare the list to be updated
 		List<InstructorData> instructorsList = parseInstructorLines(courseId, instructorLines);
@@ -808,7 +569,7 @@ public class Logic {
 		// Retrieve the current list of instructors
 		// Remove those that are not in the list and persist the new ones
 		// Edit the ones that are found in both lists
-		List<InstructorData> currentInstructors = AccountsLogic.inst().getDb().getInstructorsByCourseId(courseId);
+		List<InstructorData> currentInstructors = accountsLogic.getDb().getInstructorsByCourseId(courseId);
 		
 		List<InstructorData> toAdd = new ArrayList<InstructorData>();
 		List<InstructorData> toRemove = new ArrayList<InstructorData>();
@@ -845,19 +606,19 @@ public class Logic {
 		for (InstructorData add : toAdd) {
 			try {
 				// Create the Account if it does not exist
-				if (!AccountsLogic.inst().getDb().isAccountExists(add.googleId)) {
+				if (!accountsLogic.getDb().isAccountExists(add.googleId)) {
 					AccountData accountToAdd = new AccountData();
 					accountToAdd.googleId = add.googleId;
 					accountToAdd.name = add.name;
 					accountToAdd.isInstructor = true;
 					accountToAdd.email = add.email;
 					accountToAdd.institute = courseInstitute;
-					AccountsLogic.inst().getDb().createAccount(accountToAdd);
+					accountsLogic.getDb().createAccount(accountToAdd);
 				} else {
-					AccountsLogic.inst().getDb().makeAccountInstructor(add.googleId);
+					accountsLogic.getDb().makeAccountInstructor(add.googleId);
 				}
 				// Create the instructor relation
-				AccountsLogic.inst().getDb().createInstructor(add);
+				accountsLogic.getDb().createInstructor(add);
 				
 			} catch (EntityAlreadyExistsException e) {
 				// This should happens when a row was accidentally entered twice
@@ -865,10 +626,10 @@ public class Logic {
 			}
 		}
 		for (InstructorData remove : toRemove) {
-			AccountsLogic.inst().getDb().deleteInstructor(remove.googleId, remove.courseId);
+			accountsLogic.getDb().deleteInstructor(remove.googleId, remove.courseId);
 		}
 		for (InstructorData edit : toEdit) {
-			AccountsLogic.inst().getDb().updateInstructor(edit);
+			accountsLogic.getDb().updateInstructor(edit);
 		}
 	}
 
@@ -878,10 +639,10 @@ public class Logic {
 	public void deleteCourse(String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		EvaluationsLogic.inst().deleteEvaluationsForCourse(courseId);
-		CoursesLogic.inst().deleteCourse(courseId);
+		evaluationsLogic.deleteEvaluationsForCourse(courseId);
+		coursesLogic.deleteCourse(courseId);
 	}
 
 	/**
@@ -891,9 +652,9 @@ public class Logic {
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		List<StudentData> studentDataList = AccountsLogic.inst().getDb()
+		List<StudentData> studentDataList = accountsLogic.getDb()
 				.getStudentListForCourse(courseId);
 
 		if ((studentDataList.size() == 0) && (getCourse(courseId) == null)) {
@@ -914,9 +675,9 @@ public class Logic {
 			throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		List<StudentData> studentDataList = AccountsLogic.inst().getDb()
+		List<StudentData> studentDataList = accountsLogic.getDb()
 				.getUnregisteredStudentListForCourse(courseId);
 
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
@@ -952,7 +713,7 @@ public class Logic {
 			throws EnrollException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
 		if (getCourse(courseId) == null) {
 			throw new EntityDoesNotExistException("Course does not exist :"
@@ -1011,7 +772,7 @@ public class Logic {
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		verifyCourseOwnerOrStudentInCourse(courseId);
+		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 
 		List<StudentData> students = getStudentListForCourse(courseId);
 		CoursesLogic.sortByTeamName(students);
@@ -1068,17 +829,17 @@ public class Logic {
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentData);
 
-		verifyCourseOwnerOrAbove(studentData.course);
+		gateKeeper.verifyCourseOwnerOrAbove(studentData.course);
 
 		if (!studentData.isValid()) {
 			throw new InvalidParametersException(
 					studentData.getInvalidStateInfo());
 		}
 
-		AccountsLogic.inst().getDb().createStudent(studentData);
+		accountsLogic.getDb().createStudent(studentData);
 
 		// adjust existing evaluations to accommodate new student
-		EvaluationsLogic.inst().adjustSubmissionsForNewStudent(
+		evaluationsLogic.adjustSubmissionsForNewStudent(
 				studentData.course, studentData.email, studentData.team);
 	}
 
@@ -1091,9 +852,9 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
-		verifyRegisteredUserOrAbove();
+		gateKeeper.verifyRegisteredUserOrAbove();
 
-		StudentData studentData = AccountsLogic.inst().getDb()
+		StudentData studentData = accountsLogic.getDb()
 				.getStudent(courseId, email);
 		return studentData;
 	}
@@ -1113,9 +874,9 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
-		verifyCourseOwnerOrAbove(student.course);
+		gateKeeper.verifyCourseOwnerOrAbove(student.course);
 
-		StudentData originalStudent = AccountsLogic.inst().getDb()
+		StudentData originalStudent = accountsLogic.getDb()
 				.getStudent(student.course, originalEmail);
 
 		if (originalStudent == null) {
@@ -1147,7 +908,7 @@ public class Logic {
 
 		// adjust submissions if moving to a different team
 		if (isTeamChanged(originalTeam, student.team)) {
-			EvaluationsLogic.inst().adjustSubmissionsForChangingTeam(
+			evaluationsLogic.adjustSubmissionsForChangingTeam(
 					student.course, student.email, originalTeam, student.team);
 		}
 	}
@@ -1159,10 +920,10 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		AccountsLogic.inst().getDb().deleteStudent(courseId, studentEmail);
-		EvaluationsLogic.inst().getSubmissionsDb()
+		accountsLogic.getDb().deleteStudent(courseId, studentEmail);
+		evaluationsLogic.getSubmissionsDb()
 				.deleteAllSubmissionsForStudent(courseId, studentEmail);
 	}
 
@@ -1175,10 +936,10 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		CourseData course = CoursesLogic.inst().getDb().getCourse(courseId);
-		StudentData studentData = AccountsLogic.inst().getDb()
+		CourseData course = coursesLogic.getDb().getCourse(courseId);
+		StudentData studentData = accountsLogic.getDb()
 				.getStudent(courseId, studentEmail);
 		if (studentData == null) {
 			throw new EntityDoesNotExistException("Student [" + studentEmail
@@ -1207,9 +968,9 @@ public class Logic {
 	public ArrayList<StudentData> getStudentsWithId(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
-		verifySameStudentOrAdmin(googleId);
+		gateKeeper.verifySameStudentOrAdmin(googleId);
 
-		List<StudentData> students = AccountsLogic.inst().getDb()
+		List<StudentData> students = accountsLogic.getDb()
 				.getStudentsWithGoogleId(googleId);
 		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
 		for (StudentData s : students) {
@@ -1230,7 +991,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
-		verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
+		gateKeeper.verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
 
 		ArrayList<StudentData> studentList = getStudentsWithId(googleId);
 		for (StudentData sd : studentList) {
@@ -1249,21 +1010,21 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
 
-		verifyOwnerOfId(googleId);
+		gateKeeper.verifyOwnerOfId(googleId);
 
-		StudentData newJoinedStudent = AccountsLogic.inst().getDb().joinCourse(key, googleId);
+		StudentData newJoinedStudent = accountsLogic.getDb().joinCourse(key, googleId);
 
 		// Create the Account if it does not exist
-		if (!AccountsLogic.inst().getDb().isAccountExists(googleId)) {
+		if (!accountsLogic.getDb().isAccountExists(googleId)) {
 			// Need to retrieve the INSTITUTE of COURSE which this student is enrolling into, for creating his/her ACCOUNT
-			CourseData cd = CoursesLogic.inst().getDb().getCourse(newJoinedStudent.course);
+			CourseData cd = coursesLogic.getDb().getCourse(newJoinedStudent.course);
 			AccountData accountToAdd = new AccountData();
 			accountToAdd.googleId = googleId;
 			accountToAdd.isInstructor = false;
 			accountToAdd.name = newJoinedStudent.name;
 			accountToAdd.email = newJoinedStudent.email;
-			accountToAdd.institute = CoursesLogic.inst().getCourseInstitute(cd.id);
-			AccountsLogic.inst().getDb().createAccount(accountToAdd);
+			accountToAdd.institute = coursesLogic.getCourseInstitute(cd.id);
+			accountsLogic.getDb().createAccount(accountToAdd);
 		}
 	}
 
@@ -1276,9 +1037,9 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		StudentData studentData = AccountsLogic.inst().getDb()
+		StudentData studentData = accountsLogic.getDb()
 				.getStudent(courseId, email);
 
 		if (studentData == null) {
@@ -1301,14 +1062,14 @@ public class Logic {
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
-		verifySameStudentOrAdmin(googleId);
+		gateKeeper.verifySameStudentOrAdmin(googleId);
 
 		if (getStudentsWithId(googleId).size() == 0) {
 			throw new EntityDoesNotExistException("Student with Google ID "
 					+ googleId + " does not exist");
 		}
 
-		return CoursesLogic.inst().getCourseListForStudent(googleId);
+		return coursesLogic.getCourseListForStudent(googleId);
 	}
 
 	/**
@@ -1321,7 +1082,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
-		verifyLoggedInUserAndAbove();
+		gateKeeper.verifyLoggedInUserAndAbove();
 
 		List<SubmissionData> submissions = null;
 		try {
@@ -1354,7 +1115,7 @@ public class Logic {
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
-		verifySameStudentOrAdmin(googleId);
+		gateKeeper.verifySameStudentOrAdmin(googleId);
 
 		// Get the list of courses that this student is in
 		List<CourseData> courseList = getCourseListForStudent(googleId);
@@ -1362,7 +1123,7 @@ public class Logic {
 		// For each course the student is in
 		for (CourseData c : courseList) {
 			// Get the list of evaluations for the course
-			List<EvaluationData> evaluationDataList = EvaluationsLogic.inst()
+			List<EvaluationData> evaluationDataList = evaluationsLogic
 					.getEvaluationsDb().getEvaluationsForCourse(c.id);
 
 			// For the list of evaluations for this course
@@ -1387,7 +1148,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
-		verfyCourseOwner_OR_EmailOwnerAndPublished(courseId, evaluationName,
+		gateKeeper.verfyCourseOwner_OR_EmailOwnerAndPublished(courseId, evaluationName,
 				studentEmail);
 
 		StudentData student = getStudent(courseId, studentEmail);
@@ -1436,14 +1197,14 @@ public class Logic {
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
 
-		verifyCourseOwnerOrAbove(evaluation.course);
+		gateKeeper.verifyCourseOwnerOrAbove(evaluation.course);
 
 		if (!evaluation.isValid()) {
 			throw new InvalidParametersException(
 					evaluation.getInvalidStateInfo());
 		}
 
-		EvaluationsLogic.inst().createEvaluation(evaluation);
+		evaluationsLogic.createEvaluation(evaluation);
 	}
 
 	/**
@@ -1454,9 +1215,9 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		verifyRegisteredUserOrAbove();
+		gateKeeper.verifyRegisteredUserOrAbove();
 
-		EvaluationData e = EvaluationsLogic.inst().getEvaluationsDb()
+		EvaluationData e = evaluationsLogic.getEvaluationsDb()
 				.getEvaluation(courseId, evaluationName);
 
 		return e;
@@ -1482,7 +1243,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, gracePeriod);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, p2pEnabled);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 		EvaluationData original = getEvaluation(courseId, evaluationName);
 
 		verifyEvaluationExists(original, courseId, evaluationName);
@@ -1506,7 +1267,7 @@ public class Logic {
 					evaluation.getInvalidStateInfo());
 		}
 
-		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
+		evaluationsLogic.getEvaluationsDb().editEvaluation(evaluation);
 	}
 
 	/**
@@ -1516,9 +1277,9 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		EvaluationsLogic.inst().deleteEvaluation(courseId, evaluationName);
+		evaluationsLogic.deleteEvaluation(courseId, evaluationName);
 	}
 
 	/**
@@ -1532,7 +1293,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
 		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
 
@@ -1544,7 +1305,7 @@ public class Logic {
 					"Cannot publish an evaluation unless it is CLOSED");
 		}
 
-		EvaluationsLogic.inst().getEvaluationsDb()
+		evaluationsLogic.getEvaluationsDb()
 				.setEvaluationPublishedStatus(courseId, evaluationName, true);
 		sendEvaluationPublishedEmails(courseId, evaluationName);
 	}
@@ -1560,7 +1321,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
 		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
 
@@ -1572,7 +1333,7 @@ public class Logic {
 					"Cannot unpublish an evaluation unless it is PUBLISHED");
 		}
 
-		EvaluationsLogic.inst().getEvaluationsDb()
+		evaluationsLogic.getEvaluationsDb()
 				.setEvaluationPublishedStatus(courseId, evaluationName, false);
 	}
 
@@ -1585,19 +1346,19 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
 		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
 
 		verifyEvaluationExists(evaluation, courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
-		List<StudentData> studentDataList = AccountsLogic.inst().getDb()
+		List<StudentData> studentDataList = accountsLogic.getDb()
 				.getStudentListForCourse(courseId);
 
 		List<StudentData> studentsToRemindList = new ArrayList<StudentData>();
 		for (StudentData sd : studentDataList) {
-			if (!EvaluationsLogic.inst().isEvaluationSubmitted(evaluation,
+			if (!evaluationsLogic.isEvaluationSubmitted(evaluation,
 					sd.email)) {
 				studentsToRemindList.add(sd);
 			}
@@ -1627,7 +1388,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
 		CourseData course = getTeamsForCourse(courseId);
 		EvaluationData returnValue = getEvaluation(courseId, evaluationName);
@@ -1661,7 +1422,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, reviewerEmail);
 
-		verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
+		gateKeeper.verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
 
 		List<SubmissionData> submissions = EvaluationsLogic
 				.inst()
@@ -1670,10 +1431,9 @@ public class Logic {
 						evaluationName, reviewerEmail);
 
 		boolean isSubmissionsExist = (submissions.size() > 0
-				&& CoursesLogic.inst().isCourseExists(courseId)
-				&& EvaluationsLogic.inst().isEvaluationExists(courseId,
-						evaluationName) && AccountsLogic.inst()
-				.isStudentExists(courseId, reviewerEmail));
+				&& coursesLogic.isCourseExists(courseId)
+				&& evaluationsLogic.isEvaluationExists(courseId,
+						evaluationName) && accountsLogic.isStudentExists(courseId, reviewerEmail));
 
 		if (!isSubmissionsExist) {
 			throw new EntityDoesNotExistException(
@@ -1716,7 +1476,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, submissionDataList);
 
 		for (SubmissionData sd : submissionDataList) {
-			verifySubmissionEditableForUser(sd);
+			gateKeeper.verifySubmissionEditableForUser(sd);
 			editSubmission(sd);
 		}
 	}
@@ -1800,27 +1560,14 @@ public class Logic {
 					+ " does not exist");
 		}
 
-		verifySubmissionEditableForUser(submission);
-
-		if (getEvaluationStatus(submission.course, submission.evaluation) == EvalStatus.DOES_NOT_EXIST) {
-			throw new EntityDoesNotExistException("The evaluation "
-					+ submission.evaluation + " does not exist under course "
-					+ submission.course);
-		}
+		gateKeeper.verifySubmissionEditableForUser(submission);
 
 		if (!submission.isValid()) {
 			throw new InvalidParametersException(
 					submission.getInvalidStateInfo());
 		}
 
-		EvaluationsLogic.inst().getSubmissionsDb().editSubmission(submission);
-	}
-
-	private EvalStatus getEvaluationStatus(String courseId,
-			String evaluationName) {
-		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
-		return evaluation == null ? EvalStatus.DOES_NOT_EXIST : evaluation
-				.getStatus();
+		evaluationsLogic.getSubmissionsDb().editSubmission(submission);
 	}
 
 	private StudentData enrollStudent(StudentData student) {
@@ -1874,7 +1621,7 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 
-		List<SubmissionData> submissionsList = EvaluationsLogic.inst()
+		List<SubmissionData> submissionsList = evaluationsLogic
 				.getSubmissionsDb()
 				.getSubmissionsForEvaluation(courseId, evaluationName);
 
@@ -2038,8 +1785,7 @@ public class Logic {
 	}
 
 	private boolean isModificationToExistingStudent(StudentData student) {
-		return AccountsLogic.inst().isStudentExists(student.course,
-				student.email);
+		return accountsLogic.isStudentExists(student.course, student.email);
 	}
 
 	/**
@@ -2110,7 +1856,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evalName);
 		
-		verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 		
 		EvaluationData eval = getEvaluationResult(courseId, evalName);
 		
