@@ -147,6 +147,7 @@ public class Common {
 	public static final String PARAM_COURSE_INSTRUCTOR_LIST = "instructorlist";
 	public static final String PARAM_INSTRUCTOR_ID = "instructorid";
 	public static final String PARAM_INSTRUCTOR_EMAIL = "instructoremail";
+	public static final String PARAM_INSTRUCTOR_INSTITUTION = "instructorinstitution";
 	public static final String PARAM_INSTRUCTOR_NAME = "instructorname";
 	public static final String PARAM_STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 	public static final String PARAM_INSTRUCTOR_IMPORT_SAMPLE = "importsample";
