@@ -70,7 +70,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="bold color_white">Teammates View:</td>
+						<td class="bold color_white">Team's View:</td>
 						<td>
 							Of me: <%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.incoming.get(0).normalizedToStudent)%>
 						</td>
