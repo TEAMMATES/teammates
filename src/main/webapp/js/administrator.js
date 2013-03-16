@@ -14,8 +14,9 @@ var OPERATION_ADMINISTRATOR_LOGOUT = "administrator_logout";
 var INSTRUCTOR_EMAIL = "instructoremail";
 var INSTRUCTOR_GOOGLEID = "instructorid";
 var INSTRUCTOR_NAME = "instructorname";
+var INSTRUCTOR_INSTITUTION = "instructorinstitution";
 
-function addInstructor(googleID, name, email) {
+function addInstructor(googleID, name, email, institution) {
 	if (xmlhttp) {
 		xmlhttp.open("POST", "teammates", false);
 		xmlhttp.setRequestHeader("Content-Type",
@@ -23,20 +24,23 @@ function addInstructor(googleID, name, email) {
 		xmlhttp.send("operation=" + OPERATION_ADMINISTRATOR_ADDINSTRUCTORINATOR
 				+ "&" + INSTRUCTORINATOR_GOOGLEID + "=" + googleID + "&"
 				+ INSTRUCTORINATOR_NAME + "=" + name + "&"
-				+ INSTRUCTORINATOR_EMAIL + "=" + email);
+				+ INSTRUCTORINATOR_EMAIL + "=" + email + "&"
+				+ INSTRUCTORINATOR_INSTITUTION + "=" + institution);
 	}
 }
-
+																			
 function verifyInstructorData() {
 	var googleID = $('[name="' + INSTRUCTOR_GOOGLEID + '"]').val();
 	googleID = sanitizeGoogleId(googleID);
 	
 	var name = $('[name="' + INSTRUCTOR_NAME + '"]').val().trim();
 	var email = $('[name="' + INSTRUCTOR_EMAIL + '"]').val().trim();
+    var institution = $('[name="' + INSTRUCTOR_INSTITUTION + '"]').val().trim();
 
 	$('[name="' + INSTRUCTOR_GOOGLEID + '"]').val(googleID);
 	$('[name="' + INSTRUCTOR_NAME + '"]').val(name);
 	$('[name="' + INSTRUCTOR_EMAIL + '"]').val(email);
+	$('[name="' + INSTRUCTOR_INSTITUTION + '"]').val(institution);
 
 	if (googleID == "" || name == "" || email == "") {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
@@ -49,6 +53,9 @@ function verifyInstructorData() {
 		return false;
 	} else if (!isNameValid(name)) {
 		setStatusMessage(DISPLAY_NAME_INVALID, true);
+		return false;
+	} else if (!isInstitutionValid(institution)) {
+		setStatusMessage(DISPLAY_INSTITUTION_INVALID, true);
 		return false;
 	}
 
