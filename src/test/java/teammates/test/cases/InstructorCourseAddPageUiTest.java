@@ -90,6 +90,16 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		bi.clickCourseTab();
 
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseById.html");
+		
+		bi.click(By.id("button_sortcoursename"));
+		assertContainsRegex("{*}Programming Language Concept{*}Programming Methodology{*}",bi.getCurrentPageSource());
+		bi.click(By.id("button_sortcoursename"));
+		assertContainsRegex("{*}Programming Methodology{*}Programming Language Concept{*}",bi.getCurrentPageSource());
+		
+		bi.click(By.id("button_sortcourseid"));
+		assertContainsRegex("{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104{*}",bi.getCurrentPageSource());
+		bi.click(By.id("button_sortcourseid"));
+		assertContainsRegex("{*}CCAddUiTest.CS2104{*}CCAddUiTest.CS1101{*}",bi.getCurrentPageSource());
 	}
 
 	public void testInstructorCourseAddUiPaths() throws Exception{
