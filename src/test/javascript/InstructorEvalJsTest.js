@@ -1,6 +1,12 @@
 
 module('instructorEval.js');
 
+test('isEvaluationInstructionsLengthValid(instructions)', function(){
+	equal(isEvaluationInstructionsLengthValid('Instructions 1'), true, "Normal input");
+	equal(isEvaluationInstructionsLengthValid(generateRandomString(EVAL_INSTRUCTIONS_MAX_LENGTH)), true, "Maximum number of characters");
+	equal(isEvaluationInstructionsLengthValid(generateRandomString(EVAL_INSTRUCTIONS_MAX_LENGTH + 1)), false, "Exceed maximum number of characters");
+});
+
 test('isEvaluationNameLengthValid(name)', function(){
 	equal(isEvaluationNameLengthValid('Evaluation 1'), true, "Normal input");
 	equal(isEvaluationNameLengthValid(generateRandomString(EVAL_NAME_MAX_LENGTH)), true, "Maximum number of characters");
@@ -104,6 +110,9 @@ test('checkAddEvaluation(form)', function(){
 	form.start.value = oneYearLater;
 	form.deadline.value = oneYearBefore;
 	equal(checkAddEvaluation(form), false, "Schedule invalid");
+	
+	form.instr.value = generateRandomString(EVAL_INSTRUCTIONS_MAX_LENGTH + 1);
+	equal(checkAddEvaluation(form), false, "Instructions length invalid");
 });
 
 
@@ -142,6 +151,9 @@ test('checkEditEvaluation(form)', function(){
 	form.start.value = oneYearLater;
 	form.deadline.value = oneYearBefore;
 	equal(checkEditEvaluation(form), false, "Schedule invalid");
+	
+	form.instr.value = generateRandomString(EVAL_INSTRUCTIONS_MAX_LENGTH + 1);
+	equal(checkEditEvaluation(form), false, "Instructions length invalid");
 });
 
 
