@@ -132,8 +132,8 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		print("Checking status message");
 		bi.dismissCloseWindowAlertIfAny();
 		bi.getSelenium().selectWindow("null");
-		bi.waitForStatusMessage(String.format(Common.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,scn.students.get("Charlie").name,eval.name,eval.course).replace("<br />", "\n"));
-
+		bi.waitForStatusMessage(String.format(Common.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,scn.students.get("Charlie").name,eval.name,eval.course).replace("<br />", "\n").replace("<span class='color_red bold'>", "").replace("</span>", ""));
+		
 		print("Checking modified data");
 		String json = "";
 		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, charlieEmail, charlieEmail);

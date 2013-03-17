@@ -52,6 +52,9 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 			helper.statusMessage = "Found "+Long.toString(count) + " results.";
 		}
 		
+		String url = getRequestedURL(req);
+		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_SEARCH_SERVLET, Common.ADMIN_SEARCH_SERVLET_PAGE_LOAD,
+				false, helper, url, null);
 		
 		
 	}
@@ -101,4 +104,25 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 		return Common.JSP_ADMIN_SEARCH;
 	}
 
+	@Override
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
+		
+		if(action.equals(Common.ADMIN_SEARCH_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
+		}
+			
+		return message;
+	}
+
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
+		
+		message = "adminSearch Page Load";
+		
+		return message;
+	}
 }
