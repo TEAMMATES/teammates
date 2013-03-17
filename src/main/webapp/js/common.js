@@ -219,7 +219,12 @@ function isNumber(num) {
 function sortByPoint(a, b) {
 	a = getPointValue(a, true);
 	b = getPointValue(b, true);
-	return sortBase(a, b);
+	
+	if(isNumber(a) && isNumber(b)){
+		return sortNum(a, b);
+	}else{
+		return sortBase(a, b);
+	}
 }
 
 /**
@@ -233,7 +238,11 @@ function sortByDiff(a, b) {
 	a = getPointValue(a, false);
 	b = getPointValue(b, false);
 
-	return sortBase(a, b);
+	if(isNumber(a) && isNumber(b)){
+		return sortNum(a, b);
+	}else{
+		return sortBase(a, b);
+	}
 }
 
 /**
