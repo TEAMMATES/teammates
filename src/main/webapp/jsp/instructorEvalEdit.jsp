@@ -135,9 +135,12 @@
 					<tr>
 						<td class="label bold middlealign">Instructions to students:</td>
 						<td colspan="3">
+						<table><tr><td>
 							<textarea rows="3" cols="90" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
 									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditHelper.escapeForHTML(helper.newEvaluationToBeCreated.instructions)%></textarea>
+							<p align=right><font color=grey>[maximum length = 500 characters]</font></p>
+						</td></tr></table>
 						</td>
 					</tr>
 					<tr>

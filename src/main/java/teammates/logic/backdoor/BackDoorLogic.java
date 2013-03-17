@@ -192,13 +192,6 @@ public class BackDoorLogic extends Logic {
 		}
 		return messagesSent;
 	}
-	
-	
-	@Override
-	protected boolean isInternalCall() {
-		//back door calls are considered internal calls
-		return true;
-	}
 
 	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
@@ -254,10 +247,5 @@ public class BackDoorLogic extends Logic {
 		}
 
 		CoursesLogic.inst().getDb().createCourse(courseToAdd);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public int appendTimestampForAccount(int entityCountStart) throws EntityDoesNotExistException {
-		return AccountsLogic.inst().getDb().appendTimestampForAccount(entityCountStart);
 	}
 }

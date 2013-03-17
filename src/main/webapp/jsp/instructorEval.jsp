@@ -148,6 +148,7 @@
 					<tr>
 						<td class="label bold middlealign" >Instructions to students:</td>
 						<td colspan="3">
+						<table><tr><td>
 							<%
 								if(helper.newEvaluationToBeCreated==null){
 							%>
@@ -163,6 +164,8 @@
 							<%
 								}
 							%>
+							<p align=right><font color=grey>[maximum length = 500 characters]</font></p>
+						</td></tr></table>
 						</td>
 					</tr>
 					<tr>

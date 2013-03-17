@@ -2301,7 +2301,7 @@ public class LogicTest extends BaseTestCase {
 
 		// make the student an instructor
 		AccountsLogic.inst().getDb().makeAccountInstructor(googleId);
-		assertTrue(AccountsLogic.inst().isInstructor(googleId));
+		assertTrue(logic.isInstructor(googleId));
 		
 		// make the student 'unregistered' again
 		student.id = "";
@@ -2314,7 +2314,7 @@ public class LogicTest extends BaseTestCase {
 				logic.getStudent(student.course, student.email).id);
 		
 		// Check isInstructor status
-		assertTrue(AccountsLogic.inst().isInstructor(googleId));
+		assertTrue(logic.isInstructor(googleId));
 		
 		______TS("null parameters");
 

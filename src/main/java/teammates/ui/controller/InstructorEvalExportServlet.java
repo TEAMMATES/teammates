@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationData;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 

@@ -45,6 +45,7 @@ var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 // Max length for input
 var TEAMNAME_MAX_LENGTH = 24;
 var NAME_MAX_LENGTH = 40;
+var INSTITUTION_MAX_LENGTH = 64;
 
 /**
  * Sorts a table
@@ -406,4 +407,29 @@ function isNameValid(name) {
 	} else {
 		return true;
 	}
+}
+
+/**
+ * Checks whether an institution name is valid
+ * Used in adminHome page (through administrator.js)
+ * @param name
+ * @returns {Boolean}
+ */
+function isInstitutionValid(institution) {
+        institution = institution.trim();
+
+        if (institution == "") {
+                return false;
+        }
+        if (institution.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+                // Returns true if a character NOT belonging to the following set
+                // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
+                // apostrophe('), hyphen(-), round brackets(()), alpha numeric
+                // characters, space, tab
+                return false;
+        } else if (institution.length > NAME_MAX_LENGTH) {
+                return false;
+        } else {
+                return true;
+                }
 }
