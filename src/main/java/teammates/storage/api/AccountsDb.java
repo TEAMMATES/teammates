@@ -1,7 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -997,30 +997,4 @@ public class AccountsDb {
 	
 		return instructorList;
 	}
-
-	
-
-	public int appendTimestampForAccount(int entityCountStart) {
-		String query = "select from " + Account.class.getName();
-
-		Query q = getPM().newQuery(query);
-		q.setRange(entityCountStart, entityCountStart + 500);
-		@SuppressWarnings("unchecked")
-		List<Account> accounts = (List<Account>) q.execute();
-		
-		int count = 0;
-		try {
-			for (Account a : accounts) {
-				if (a.getCreatedAt() == null) {
-					a.setCreatedAt(new Date());
-					count++;
-				}
-			}
-			getPM().close();
-			return count;
-		} catch (DeadlineExceededException dee) {
-			return count;
-		}
-	}
-
 }

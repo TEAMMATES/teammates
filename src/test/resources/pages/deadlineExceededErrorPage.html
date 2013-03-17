@@ -23,7 +23,7 @@
 		<div id="frameBodyWrapper">
 			<div style="background: rgb(255, 255, 204); margin: 30px auto; padding: 10px; border: 1px solid rgb(51, 51, 51); width: 550px; height: 100px; text-align: left;">
 				<img src="/images/error.png"
-					style="margin: 0px 10px 10px 0px; border: 1px solid rgb(153, 153, 153); height: 90px; float: left;">
+					style="margin: 0px 10px 10px 0px; height: 90px; float: left;">
 				<p style="text-align: left;">
 					Server failed to respond within a reasonable time. <br>
 					This may be due to an unusually high load at this time.<br> 

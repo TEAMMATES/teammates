@@ -14,6 +14,7 @@ import teammates.storage.entity.Evaluation;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 
 /**
@@ -73,6 +74,26 @@ public class EvaluationsDb {
 			log.severe("Operation did not persist in time: createEvaluation->"
 					+ evaluationToAdd.course + "/" + evaluationToAdd.name);
 		}
+	}
+	
+
+	/**
+	 * RETRIEVE Boolean
+	 * 
+	 * Check if Evaluation is Open and ready for submission
+	 * 
+	 * @param course
+	 * @param evaluation
+	 * @return
+	 */
+	public boolean isEvaluationOpen(String courseId, String evaluationName) {
+		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		return evaluation != null && evaluation.getStatus() == EvalStatus.OPEN;
+	}
+	
+	public boolean isEvaluationPublished(String courseId, String evaluationName) {
+		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		return evaluation != null && evaluation.getStatus() == EvalStatus.PUBLISHED;
 	}
 
 	/**
@@ -447,5 +468,5 @@ public class EvaluationsDb {
 
 		return cleanList;
 	}
-
+	
 }

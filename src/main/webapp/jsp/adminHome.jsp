@@ -51,6 +51,12 @@
 					<tr>
 						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_EMAIL %>"></td>
 				    </tr>
+   				    <tr>
+					    <td class="label bold">Institution: </td>
+					</tr>
+					<tr>
+						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_INSTITUTION %>"></td>
+				    </tr>
 				    <tr>
 						<td class="centeralign"><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</td>
 				    </tr>

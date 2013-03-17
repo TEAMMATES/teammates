@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.apphosting.api.DeadlineExceededException;
@@ -21,6 +23,10 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 	protected void doAction(HttpServletRequest req, AdminHomeHelper helper) throws EntityDoesNotExistException {
 		 String error = req.getParameter(Common.PARAM_ERROR);
 		
+		 String url = getRequestedURL(req);
+		 activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_EXCEPTION_TEST_SERVLET, Common.ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD,
+				 false, helper, url, null);
+		 
 		 Common.getLogger().info("Generate Exception : " + error);
 		 if(error.equals(AssertionError.class.getSimpleName())) {
 			 
@@ -41,13 +47,33 @@ public class AdminExceptionTestServlet extends ActionServlet<AdminHomeHelper> {
 			 
 			   	throw new DeadlineExceededException();
 		 }
-		 
+
 	}
 
 	@Override
 	protected String getDefaultForwardUrl() {
 		return Common.JSP_ADMIN_HOME;
 	}
-	
 
+
+	@Override
+	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
+		String message;
+		
+		if(action.equals(Common.ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD)){
+			message = generatePageLoadMessage(servletName, action, data);
+		} else {
+			message = generateActivityLogEntryErrorMessage(servletName, action, data);
+		}
+			
+		return message;
+	}
+	
+	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		message = "adminExceptionTest";
+		
+		return message;
+	}
 }

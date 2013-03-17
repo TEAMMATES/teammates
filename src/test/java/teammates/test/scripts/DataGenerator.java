@@ -216,7 +216,6 @@ public class DataGenerator {
 		String output = "\"accounts\":{\n";
 		for (String email : studentEmails) {
 			email = email.split("@")[0];
-			email = PREFIX + email;
 			output+="\t"+account(email);
 			output+=",\n";
 		}
@@ -353,7 +352,8 @@ public class DataGenerator {
 		String result = "\""+acc+"\":{";
 		result += "\"googleId\":\""+acc+"\",";
 		result += "\"name\":\""+acc+"\",";
-		result += "\"email\":\""+acc+"@gmail.com\"";
+		result += "\"email\":\""+acc+"@gmail.com\",";
+		result += "\"institute\":\"\"";
 	  	result += "}";
 	  	return result;
 	}
