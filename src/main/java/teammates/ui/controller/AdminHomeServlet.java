@@ -23,6 +23,7 @@ import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.storage.api.AccountsDb;
 
 import com.google.gson.Gson;
 
@@ -52,16 +53,34 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				helper.instructorEmail = helper.instructorEmail.trim();
 				helper.instructorInstitution = helper.instructorInstitution.trim();
 				
-				helper.server.createAccount(helper.instructorId, helper.instructorName, true, helper.instructorEmail, helper.instructorInstitution);
-				helper.statusMessage = "Instructor " + helper.instructorName
-						+ " has been successfully created";
-				
-				ArrayList<Object> data = new ArrayList<Object>();
-				data.add(helper.instructorId);
-				data.add(helper.instructorName);
-				data.add(helper.instructorEmail);
-				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR,
-						false, helper, url, null);
+				AccountsDb accounts = new AccountsDb();
+				if (accounts.isAccountExists(helper.instructorId)) {
+					helper.error = true;
+					helper.statusMessage = "The Google ID "
+							+ helper.instructorId
+							+ " has been already registered";
+					activityLogEntry = instantiateActivityLogEntry(
+							Common.ADMIN_HOME_SERVLET,
+							Common.ADMIN_HOME_SERVLET_ID_ALREADY_REGISTERED,
+							false, helper, url, null);
+				} else {
+					helper.server.createAccount(helper.instructorId,
+							helper.instructorName, true,
+							helper.instructorEmail,
+							helper.instructorInstitution);
+					helper.statusMessage = "Instructor "
+							+ helper.instructorName
+							+ " has been successfully created";
+
+					ArrayList<Object> data = new ArrayList<Object>();
+					data.add(helper.instructorId);
+					data.add(helper.instructorName);
+					data.add(helper.instructorEmail);
+					activityLogEntry = instantiateActivityLogEntry(
+							Common.ADMIN_HOME_SERVLET,
+							Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR, false,
+							helper, url, null);
+				}
 			} else {
 				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_HOME_SERVLET, Common.ADMIN_HOME_SERVLET_PAGE_LOAD,
 						false, helper, url, null);
@@ -180,6 +199,10 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 			message = generatePageLoadMessage(servletName, action, data);
 		} else if (action.equals(Common.ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR)){
 			message = generateCreateInstructorMessage(servletName, action, data);
+		} else if (action
+				.equals(Common.ADMIN_HOME_SERVLET_ID_ALREADY_REGISTERED)) {
+			message = generateIdAlreadyRegisteredMessage(servletName, action,
+					data);
 		} else {
 			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
@@ -187,6 +210,14 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 		return message;
 	}
 
+	private String generateIdAlreadyRegisteredMessage(String servletName,
+			String action, ArrayList<Object> data) {
+		String message;
+
+		message = "Google Id has already been registered";
+
+		return message;
+	}
 	
 	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data){
 		String message;
