@@ -23,7 +23,8 @@ import teammates.common.datatransfer.SubmissionData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.api.AccountsDb;
+import teammates.logic.api.Logic;
+//import teammates.storage.api.AccountsDb;
 
 import com.google.gson.Gson;
 
@@ -53,12 +54,13 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				helper.instructorEmail = helper.instructorEmail.trim();
 				helper.instructorInstitution = helper.instructorInstitution.trim();
 				
-				AccountsDb accounts = new AccountsDb();
-				if (accounts.isAccountExists(helper.instructorId)) {
+				//AccountsDb accounts = new AccountsDb();
+				Logic logic = new Logic(); 
+				if (logic.isInstructor(helper.instructorId)) {
 					helper.error = true;
 					helper.statusMessage = "The Google ID "
 							+ helper.instructorId
-							+ " has been already registered";
+							+ " is already registered as an instructor";
 					activityLogEntry = instantiateActivityLogEntry(
 							Common.ADMIN_HOME_SERVLET,
 							Common.ADMIN_HOME_SERVLET_ID_ALREADY_REGISTERED,
@@ -214,7 +216,7 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 			String action, ArrayList<Object> data) {
 		String message;
 
-		message = "Google Id has already been registered";
+		message = Common.ADMIN_HOME_SERVLET_ID_ALREADY_REGISTERED;
 
 		return message;
 	}

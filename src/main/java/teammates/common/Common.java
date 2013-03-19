@@ -512,7 +512,7 @@ public class Common {
 	public static String ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_SEARCH_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD = "Pageload";
-	public static String ADMIN_HOME_SERVLET_ID_ALREADY_REGISTERED = "Id already registered";
+	public static String ADMIN_HOME_SERVLET_ID_ALREADY_REGISTERED = "This Google ID is already registered as an instructor";
 	
 	
 	/**
