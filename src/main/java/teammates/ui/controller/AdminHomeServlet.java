@@ -53,8 +53,8 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				helper.instructorEmail = helper.instructorEmail.trim();
 				helper.instructorInstitution = helper.instructorInstitution.trim();
 				
-				Logic logic = new Logic(); 
-				if (logic.isInstructor(helper.instructorId)) {
+				 
+				if (helper.server.isInstructor(helper.instructorId)) {
 					helper.error = true;
 					helper.statusMessage = "The Google ID "
 							+ helper.instructorId
