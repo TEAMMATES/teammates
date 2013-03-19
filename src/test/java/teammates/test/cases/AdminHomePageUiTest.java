@@ -74,6 +74,15 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		assertTrue(instructorVerification.contains("\"courseId\": \"newInstructor-demo\""));
 		assertTrue(instructorVerification.contains("\"googleId\": \"newInstructor\""));
 		
+		______TS("test create account with registered data");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "newInstructor");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "New Instructor Duplicate");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructorDuplicate@gmail.com");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_INSTITUTION), "Institution");
+		bi.click(By.id("btnAddInstructor"));
+		
+		bi.waitForStatusMessage("The Google ID newInstructor is already registered as an instructor");
+		
 		______TS("test create account without sample data");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "newInstructor2");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "New Instructor2");
