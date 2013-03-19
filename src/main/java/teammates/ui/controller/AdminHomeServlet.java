@@ -24,7 +24,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
-//import teammates.storage.api.AccountsDb;
 
 import com.google.gson.Gson;
 
@@ -54,7 +53,6 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				helper.instructorEmail = helper.instructorEmail.trim();
 				helper.instructorInstitution = helper.instructorInstitution.trim();
 				
-				//AccountsDb accounts = new AccountsDb();
 				Logic logic = new Logic(); 
 				if (logic.isInstructor(helper.instructorId)) {
 					helper.error = true;
