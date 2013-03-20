@@ -1,4 +1,4 @@
-package teammates.test.scripts;
+package teammates.client.remoteapi;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,7 +8,6 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
-import teammates.test.driver.RemoteApiClient;
 
 public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 	
