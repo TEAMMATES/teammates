@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-
-  <!-- javax.mail is put at top intentionally. Causes a nullpointer exception otherwise -->
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/v1"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/appengine-api-1.0-sdk-1.7.3.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/xercesImpl-2.9.1.jar"/>
+	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-remote-api.jar"/>
+	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-testing.jar"/>
+	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api.jar"/>
+	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api-stubs.jar"/>
+	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api-labs.jar"/>
+	<classpathentry kind="lib" path="src/test/resources/lib/selenium/selenium-server-standalone-2.26.0.jar"/>
+	<classpathentry kind="lib" path="src/test/resources/lib/selenium/selenium-java-2.26.0.jar"/>
+	<classpathentry kind="lib" path="src/test/resources/lib/junit/junit-4.11.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/javamail/mail.jar"/>
-	
-	<!-- general project classpath configurations -->
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
@@ -13,26 +20,4 @@
 	<classpathentry excluding="**/*.java" kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry kind="src" path="src/test/javascript"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
-	
-	<!-- libraries for main app -->
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/appengine-api-1.0-sdk-1.7.3.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/gson-2.2.2.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/xercesImpl-2.9.1.jar"/>
-
-	<!-- appengine Remote API -->
-	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-remote-api.jar"/>
-
-	<!-- appengine libraries used for local unit testing -->
-	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-testing.jar"/>
-	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api.jar"/>
-	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api-stubs.jar"/>
-	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api-labs.jar"/>
-	
-	<!-- selenium libraries -->
-	<classpathentry kind="lib" path="src/test/resources/lib/selenium/selenium-server-standalone-2.26.0.jar"/>
-	<classpathentry kind="lib" path="src/test/resources/lib/selenium/selenium-java-2.26.0.jar"/>
-	
-	<!-- junit libraries -->
-	<classpathentry kind="lib" path="src/test/resources/lib/junit/junit-4.11.jar"/>
-	
 </classpath>
