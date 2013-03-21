@@ -93,6 +93,10 @@ function isEditEvaluationScheduleValid(start, startTime, deadline,
 	return true;
 }
 
+function isEvaluationInstructionsLengthValid(instructions) {
+	return instructions.length <= EVAL_INSTRUCTIONS_MAX_LENGTH;
+}
+
 /**
  * Check whether the evaluation input (which is passed as a form) is valid
  * @param form
@@ -123,6 +127,9 @@ function checkAddEvaluation(form){
 		return false;
 	} else if (!isAddEvaluationScheduleValid(start, startTime, deadline, deadlineTime)) {
 		setStatusMessage(DISPLAY_EVALUATION_SCHEDULEINVALID, true);
+		return false;
+	} else if (!isEvaluationInstructionsLengthValid(instructions)) {
+		setStatusMessage(DISPLAY_EVALUATION_INSTRUCTIONS_LENGTHINVALID, true);
 		return false;
 	}
 	return true;
@@ -158,6 +165,9 @@ function checkEditEvaluation(form){
 		return false;
 	} else if (!isEditEvaluationScheduleValid(start, startTime, deadline, deadlineTime)) {
 		setStatusMessage(DISPLAY_EVALUATION_SCHEDULEINVALID, true);
+		return false;
+	} else if (!isEvaluationInstructionsLengthValid(instructions)) {
+		setStatusMessage(DISPLAY_EVALUATION_INSTRUCTIONS_LENGTHINVALID, true);
 		return false;
 	}
 	return true;
