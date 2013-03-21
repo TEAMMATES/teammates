@@ -299,7 +299,7 @@ public class Common {
 	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; // Done
 
 	// data field sizes
-	public static final int COURSE_ID_MAX_LENGTH = 30;
+	public static final int COURSE_ID_MAX_LENGTH = 40;
 
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
@@ -514,7 +514,7 @@ public class Common {
 	public static String ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_SEARCH_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD = "Pageload";
-	
+	public static String ADMIN_HOME_SERVLET_ID_ALREADY_REGISTERED = "This Google ID is already registered as an instructor";
 	
 	
 	/**

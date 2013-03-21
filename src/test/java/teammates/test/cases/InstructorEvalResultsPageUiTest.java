@@ -66,7 +66,42 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsOpenEval.html");
 		
-		//TODO: check for sorting?
+		
+		
+		______TS("sort by name");
+		bi.click(By.id("button_sortname"));
+		assertContainsRegex("{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily{*}",bi.getCurrentPageSource());
+		bi.click(By.id("button_sortname"));
+		assertContainsRegex("{*}Emily{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy{*}",bi.getCurrentPageSource());
+		
+		______TS("sort by claimed");
+		bi.click(By.id("button_sortclaimed"));
+		assertContainsRegex("{*}E -5%{*}E +3%{*}E +5%{*}E +10%{*}E +10%{*}",bi.getCurrentPageSource());
+		bi.click(By.id("button_sortclaimed"));
+		assertContainsRegex("{*}E +10%{*}E +10%{*}E +5%{*}E +3%{*}E -5%{*}",bi.getCurrentPageSource());
+		
+		______TS("sort by perceived");
+		//removed the "E" only for testing else will cause infinite loop
+		bi.click(By.id("button_sortperceived"));
+		assertContainsRegex("{*}E -3%{*}E -1%{*}E +4%{*}",bi.getCurrentPageSource());
+		bi.click(By.id("button_sortperceived"));
+		assertContainsRegex("{*}E +4%{*}E -1%{*}E -3%{*}",bi.getCurrentPageSource());
+		
+		______TS("sort by diff");
+		bi.click(By.id("button_sortdiff"));
+		assertContainsRegex("{*}-11%{*}-6%{*}-6%{*}-5%{*}+5%{*}",bi.getCurrentPageSource());
+		bi.click(By.id("button_sortdiff"));
+		assertContainsRegex("{*}+5%{*}-5%{*}-6%{*}-6%{*}-11%{*}",bi.getCurrentPageSource());
+		
+		
+		______TS("sort by team name");
+		bi.click(By.id("button_sortteamname"));
+		assertContainsRegex("{*}Team 1{*}Team 1{*}Team 1{*}Team 2{*}Team 2{*}",bi.getCurrentPageSource());
+		bi.click(By.id("button_sortteamname"));
+		assertContainsRegex("{*}Team 2{*}Team 2{*}Team 1{*}Team 1{*}Team 1{*}",bi.getCurrentPageSource());
+		
+		//set back to ascending
+		bi.click(By.id("button_sortteamname"));
 
 		______TS("details by reviewer");
 		
