@@ -195,7 +195,7 @@ h2 {
 #caption {
 	margin: 30px auto;
 	width: 800px;
-	color: orange;
+	color: #e46d0b;
 	font-weight: bold;
 	font-size: 18px;
 	font-family: Arial, Verdana, Sans-Serif;
@@ -217,7 +217,7 @@ h2.subcaption {
 }
 
 .submissionsNumber {
-	color: orange;
+	color: #e46d0b;
 	font-size: 20px;
 }
 
@@ -227,13 +227,22 @@ h2.subcaption {
 
 .overviewBytePicture {
 	float: left;
-	width: 200px;
+	width: 150px;
+}
+
+.overviewByteHeading {
+	color: #4379D1;
+	font-size: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 10px auto;
+	display: block;
 }
 
 .overviewByteData {
 	float: right;
-	width: 550px;
+	width: 600px;
 	padding-left: 30px;
+	color: gray;
 }
 
 
