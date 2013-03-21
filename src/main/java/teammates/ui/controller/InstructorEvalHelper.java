@@ -55,10 +55,9 @@ public class InstructorEvalHelper extends Helper{
 		ArrayList<String> result = new ArrayList<String>();
 		for(int i=0; i<=30; i+=5){
 			result.add("<option value=\""+i+"\"" +
-						(newEvaluationToBeCreated!=null && newEvaluationToBeCreated.gracePeriod==i
-							|| newEvaluationToBeCreated == null && i == 15 ? 
-							" selected=\"selected\"" : "") +
-						">" + i+" mins</option>");
+						(checkGracePeriodSelected(i) 
+							? " selected=\"selected\"" : "") +
+						">"+i+" mins</option>");
 		}
 		return result;
 	}
@@ -136,5 +135,14 @@ public class InstructorEvalHelper extends Helper{
 			if(hour==24) return true;
 		}
 		return false;
+	}
+	
+	private boolean checkGracePeriodSelected(int mins){
+		int defaultGracePeriod = 15;
+		if(newEvaluationToBeCreated!=null){
+			return mins==newEvaluationToBeCreated.gracePeriod;
+		} else {
+			return mins==defaultGracePeriod;
+		}
 	}
 }
