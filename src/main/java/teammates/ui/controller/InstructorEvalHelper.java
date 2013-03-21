@@ -56,8 +56,8 @@ public class InstructorEvalHelper extends Helper{
 		for(int i=0; i<=30; i+=5){
 			result.add("<option value=\""+i+"\"" +
 						(newEvaluationToBeCreated!=null && newEvaluationToBeCreated.gracePeriod==i
-							? " selected=\"selected\""
-							: "") +
+							|| newEvaluationToBeCreated == null && i == 15 ? 
+							" selected=\"selected\"" : "") +
 						">" + i+" mins</option>");
 		}
 		return result;
