@@ -123,7 +123,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		______TS("testInstructoraddCourseWithInvalidInputsFailed");
 
 		bi.addCourse("", courseName);
-		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
+		bi.waitForStatusMessage("Course ID and Course Name are compulsory fields.\nPlease use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.");
 		
 		// Adding course without name
 		bi.addCourse(courseId, "");
