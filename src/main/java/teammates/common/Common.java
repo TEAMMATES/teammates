@@ -299,7 +299,7 @@ public class Common {
 	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; // Done
 
 	// data field sizes
-	public static final int COURSE_ID_MAX_LENGTH = 30;
+	public static final int COURSE_ID_MAX_LENGTH = 40;
 
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
