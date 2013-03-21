@@ -1,6 +1,7 @@
 var COURSE_ID_MAX_LENGTH = 40;
 var COURSE_NAME_MAX_LENGTH = 64;
 var EVAL_NAME_MAX_LENGTH = 38;
+var EVAL_INSTRUCTIONS_MAX_LENGTH = 500; 
 
 // Field names
 var COURSE_ID = "courseid"; // Used in instructorCourse.js
@@ -39,6 +40,7 @@ var DISPLAY_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whi
 var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"
 		+ "The start time should be in the future, and the deadline should be after start time.";
+var DISPLAY_EVALUATION_INSTRUCTIONS_LENGTHINVALID = "Instructions to students should not exceed 500 characters.";
 var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 
@@ -128,6 +130,10 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
     });
 	
 	var tbody = $(table.get(0)).children('tbody');
+
+	if(tbody.size<1){
+		tbody = table;
+	}
 	
 	//Must push to target tbody else it will generate a new tbody for the table
     for(var i=0; i<store.length; i++){
@@ -215,7 +221,12 @@ function isNumber(num) {
 function sortByPoint(a, b) {
 	a = getPointValue(a, true);
 	b = getPointValue(b, true);
-	return sortBase(a, b);
+	
+	if(isNumber(a) && isNumber(b)){
+		return sortNum(a, b);
+	}else{
+		return sortBase(a, b);
+	}
 }
 
 /**
@@ -229,7 +240,11 @@ function sortByDiff(a, b) {
 	a = getPointValue(a, false);
 	b = getPointValue(b, false);
 
-	return sortBase(a, b);
+	if(isNumber(a) && isNumber(b)){
+		return sortNum(a, b);
+	}else{
+		return sortBase(a, b);
+	}
 }
 
 /**
@@ -242,7 +257,6 @@ function sortByDiff(a, b) {
  * @returns
  */
 function getPointValue(s, ditchZero) {
-	s = s.innerHTML;
 	if (s.lastIndexOf("<") != -1) {
 		s = s.substring(0, s.lastIndexOf("<"));
 		s = s.substring(s.lastIndexOf(">") + 1);

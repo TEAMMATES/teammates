@@ -12,8 +12,6 @@ import teammates.test.driver.RemoteApiClient;
 
 public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 	
-	private static final boolean isTrial = true;
-	
 	public static void main(String[] args) throws IOException {
 		DataMigrationAppendInstitutionForAccounts migrator = new DataMigrationAppendInstitutionForAccounts();
 		migrator.doOperationRemotely();
@@ -82,6 +80,11 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 		// Student Accounts append Institute from Student-Institute pair		
 		int count = 0;
 		for (String id : studentInstitutions.keySet()) {
+			
+			if(id.trim().isEmpty()){
+				continue;
+			}
+			
 			query = "select from " + Account.class.getName()
 					+ " where googleId == \"" + id + "\"";
 			
@@ -91,11 +94,11 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 				Account a = studentAccounts.get(0);
 				if (a.getInstitute() == null || a.getInstitute().equals("")) {
 					System.out.println("Assigning '" + studentInstitutions.get(a.getGoogleId()) + "' to '" + a.getGoogleId());
-					if (!isTrial) {
-						Account newA = new Account(a.getGoogleId(), a.getName(), false, a.getEmail(), studentInstitutions.get(a.getGoogleId()));
-						pm.deletePersistent(a);
-						pm.makePersistent(newA);
-					}
+					Account newA = new Account(a.getGoogleId(), a.getName(),
+							false, a.getEmail(), studentInstitutions.get(a
+									.getGoogleId()));
+					pm.deletePersistent(a);
+					pm.makePersistent(newA);
 					count++;
 				}
 			}
