@@ -200,9 +200,8 @@ h2 {
 }
 
 #mainContent #content .toc{
-	font-weight: bold;
 	color: blue;
-	font-size: 17px;
+	font-size: 15px;
 }
 
 #mainContent #content #question{
