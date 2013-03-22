@@ -192,86 +192,17 @@ h2 {
 	margin: 0px auto;
 }
 
-#mainContent #menu{
-	width: 150px;
-	margin: 30px auto;
-	padding:200;
-	float: left
-}
-
-#mainContent #menu ul{
-	margin:0; 
-	padding:30;
-}
-
-#mainContent #menu li{
-	list-style: none;
-}
-
-#mainContent #menu ul.top-level {
-	background:black;
-	width: 85%
-}
-
-#mainContent #menu ul.top-level li {
-	border-bottom: #fff solid;
-	border-top: #fff solid;
-	border-width: 1px;
-}
-
-#mainContent #menu a {
-	color: #fff;
-	cursor: pointer;
-	display:block;
-	height:25px;
-	line-height: 25px;
-	text-indent: 10px;                   
-	text-decoration:none;
-	width:100%;
-}
-
-#mainContent #menu a:hover{
-	text-decoration:underline;
-}
-
-#mainContent #menu li:hover {
-	background: #f90;
-	position: relative;
-}
-
-#mainContent #menu ul.sub-level {
-    display: none;
-}
-
-#mainContent #menu li:hover .sub-level {
-    background: #999;
-    border: #fff solid;
-    border-width: 1px;
-    display: block;
-    position: absolute;
-    left: 75px;
-    top: 5px;
-}
-
-#mainContent #menu ul.sub-level li {
-    border: none;
-    float:left;
-    width:450px;
-    word-wrap: break-word;
-}
-
-/*RESET STYLES*/
-#mainContent #menu li:hover .sub-level .sub-level {
-	display:none;
-}
-#mainContent #menu  .sub-level li:hover .sub-level {
-	display:block;
-}
 
 #mainContent #content{
-	width: 800px;
+	width: 1000px;
 	margin: 0px auto;
 	float: left
+}
+
+#mainContent #content .toc{
+	font-weight: bold;
+	color: blue;
+	font-size: 17px;
 }
 
 #mainContent #content #question{
@@ -279,14 +210,13 @@ h2 {
 }
 
 #caption {
-	margin: 30px auto;
+	margin: 10px;
 	width: 800px;
 	color: #e46d0b;
 	font-weight: bold;
 	font-size: 20px;
 	font-family: Arial, Verdana, Sans-Serif;
 }
-
 
 #contentHolder {
 	margin: 30px auto;
