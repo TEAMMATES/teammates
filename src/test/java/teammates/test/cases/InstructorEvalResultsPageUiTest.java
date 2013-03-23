@@ -126,7 +126,15 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsPublishedEval.html");
-
+		
+		 ______TS("Check download evaluation report link");
+         
+         //Current attempt
+         String evaluationReportLink = appUrl + Common.PAGE_INSTRUCTOR_EVAL_EXPORT;
+         evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+         evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name); //First Evaluation is the published evaluation in the sample data for instructor
+         bi.goToUrl(evaluationReportLink);
+         		
 		______TS("unpublishing: click and cancel");
 		
 		By unpublishButton = By.id("button_unpublish");

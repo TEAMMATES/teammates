@@ -233,7 +233,8 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_EVAL_REMIND = "/page/instructorEvalRemind";
 	public static final String PAGE_INSTRUCTOR_EVAL_PUBLISH = "/page/instructorEvalPublish";
 	public static final String PAGE_INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
-
+	public static final String PAGE_INSTRUCTOR_EVAL_EXPORT = "/page/instructorEvalExport";
+	
 	public static final String PAGE_STUDENT_HOME = "/page/studentHome";
 	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin";
 	public static final String PAGE_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
