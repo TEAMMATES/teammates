@@ -34,16 +34,16 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
 	public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
-	
-	private String from;
-	private String sender;
-	private String replyTo;
-	public Emails() {
-		from 		= "noreply@"+Common.APP_ID+".appspotmail.com";
-		sender		= "TEAMMATES Admin (noreply)";
-		replyTo 	= "teammates@comp.nus.edu.sg";
-	}
 
+	private String senderEmail;
+	private String senderName;
+	private String replyTo;
+
+	public Emails() {
+		senderEmail = "noreply@" + Common.APP_ID + ".appspotmail.com";
+		senderName = "TEAMMATES Admin (noreply)";
+		replyTo = "teammates@comp.nus.edu.sg";
+	}
 
 	public static String getEmailInfo(MimeMessage message)
 			throws MessagingException {
@@ -58,22 +58,19 @@ public class Emails {
 		return messageInfo.toString();
 	}
 
-	public List<MimeMessage> generateEvaluationOpeningEmails(
-			CourseData course, EvaluationData evaluation,
-			List<StudentData> students) throws MessagingException, IOException {
-		
+	public List<MimeMessage> generateEvaluationOpeningEmails(CourseData course,
+			EvaluationData evaluation, List<StudentData> students)
+			throws MessagingException, IOException {
+
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
 				evaluation, students, template);
 		for (MimeMessage email : emails) {
-			email.setSubject(email.getSubject().replace(
-					"${subjectPrefix}",
+			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING));
 			email.setContent(
-					email.getContent()
-							.toString()
-							.replace("${status}",
-									"is now open"), "text/html");
+					email.getContent().toString()
+							.replace("${status}", "is now open"), "text/html");
 		}
 		return emails;
 	}
@@ -81,19 +78,19 @@ public class Emails {
 	public List<MimeMessage> generateEvaluationReminderEmails(
 			CourseData course, EvaluationData evaluation,
 			List<StudentData> students) throws MessagingException, IOException {
-		
+
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
 				evaluation, students, template);
 		for (MimeMessage email : emails) {
-			email.setSubject(email.getSubject().replace(
-					"${subjectPrefix}",
+			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER));
 			email.setContent(
 					email.getContent()
 							.toString()
 							.replace("${status}",
-									"is still open for submissions"), "text/html");
+									"is still open for submissions"),
+					"text/html");
 		}
 		return emails;
 	}
@@ -101,56 +98,57 @@ public class Emails {
 	public List<MimeMessage> generateEvaluationClosingEmails(CourseData c,
 			EvaluationData e, List<StudentData> students)
 			throws MessagingException, IOException {
-		
+
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
-		List<MimeMessage> emails = generateEvaluationEmailBases(c, e,
-				students, template);
+		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
+				template);
 		for (MimeMessage email : emails) {
-			email.setSubject(email.getSubject().replace(
-					"${subjectPrefix}",
+			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING));
 			email.setContent(
-					email.getContent()
-							.toString()
-							.replace("${status}",
-									"is closing soon"), "text/html");
+					email.getContent().toString()
+							.replace("${status}", "is closing soon"),
+					"text/html");
 		}
 		return emails;
 	}
-	
+
 	public List<MimeMessage> generateEvaluationPublishedEmails(CourseData c,
 			EvaluationData e, List<StudentData> students)
 			throws MessagingException, IOException {
-		
+
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
-		List<MimeMessage> emails = generateEvaluationEmailBases(c, e,
-				students, template);
+		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
+				template);
 		for (MimeMessage email : emails) {
-			email.setSubject(email.getSubject().replace(
-					"${subjectPrefix}",
+			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED));
 		}
 		return emails;
 	}
 
-
 	public List<MimeMessage> generateEvaluationEmailBases(CourseData course,
-			EvaluationData evaluation, List<StudentData> students, String template)
-			throws MessagingException, UnsupportedEncodingException {
+			EvaluationData evaluation, List<StudentData> students,
+			String template) throws MessagingException,
+			UnsupportedEncodingException {
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
 		for (StudentData s : students) {
-			
-			emails.add(generateEvaluationEmailBase(course, evaluation, s, template));
+
+			emails.add(generateEvaluationEmailBase(course, evaluation, s,
+					template));
 		}
 		return emails;
 	}
 
 	public MimeMessage generateEvaluationEmailBase(CourseData c,
-			EvaluationData e, StudentData s, String template) throws MessagingException, UnsupportedEncodingException {
+			EvaluationData e, StudentData s, String template)
+			throws MessagingException, UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
 
-		message.setSubject(String.format("${subjectPrefix} [Course: %s][Evaluation: %s]", c.name, e.name));
+		message.setSubject(String
+				.format("${subjectPrefix} [Course: %s][Evaluation: %s]",
+						c.name, e.name));
 
 		String emailBody = template;
 
@@ -169,39 +167,41 @@ public class Emails {
 
 		String submitUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID, c.id);
-		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_EVALUATION_NAME,
-				e.name);
+		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID,
+				c.id);
+		submitUrl = Common.addParamToUrl(submitUrl,
+				Common.PARAM_EVALUATION_NAME, e.name);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
-		
+
 		String reportUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_RESULTS;
-		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID, c.id);
-		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_EVALUATION_NAME,
-				e.name);
+		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID,
+				c.id);
+		reportUrl = Common.addParamToUrl(reportUrl,
+				Common.PARAM_EVALUATION_NAME, e.name);
 		emailBody = emailBody.replace("${reportUrl}", reportUrl);
-		
+
 		message.setContent(emailBody, "text/html");
 
 		return message;
 	}
 
-
 	public MimeMessage generateStudentCourseJoinEmail(CourseData c,
-			StudentData s) throws AddressException, MessagingException, UnsupportedEncodingException {
-		
+			StudentData s) throws AddressException, MessagingException,
+			UnsupportedEncodingException {
+
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
-		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN+" [%s][Course ID: %s]", c.name, c.id));
-		
+		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
+				+ " [%s][Course ID: %s]", c.name, c.id));
+
 		String emailBody = Common.STUDENT_EMAIL_TEMPLATE_COURSE_JOIN;
 		emailBody = fillUpJoinFragment(s, emailBody);
 		emailBody = emailBody.replace("${studentName}", s.name);
 		emailBody = emailBody.replace("${courseName}", c.name);
-		
+
 		message.setContent(emailBody, "text/html");
 		return message;
 	}
-
 
 	public void sendEmails(List<MimeMessage> messages)
 			throws MessagingException {
@@ -218,64 +218,67 @@ public class Emails {
 	private String fillUpJoinFragment(StudentData s, String emailBody) {
 		emailBody = emailBody.replace("${joinFragment}",
 				Common.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
-	
-		//Try both way
+
+		// Try both way
 		String key;
 		key = Common.encrypt(s.key);
 		emailBody = emailBody.replace("${key}", key);
-	
+
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
 		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, key);
-	
+
 		emailBody = emailBody.replace("${joinUrl}", joinUrl);
 		return emailBody;
 	}
 
-
 	private MimeMessage getEmptyEmailAddressedToStudent(StudentData s)
-			throws MessagingException, AddressException, UnsupportedEncodingException {
+			throws MessagingException, AddressException,
+			UnsupportedEncodingException {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
-	
+
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
 				s.email));
-		message.setFrom(new InternetAddress(from, sender));
-		message.setReplyTo(new Address[] {new InternetAddress(replyTo)});
+		message.setFrom(new InternetAddress(senderEmail, senderName));
+		message.setReplyTo(new Address[] { new InternetAddress(replyTo) });
 		return message;
 	}
 
 	/**
-	 * Generate Email of system error
-	 * the parameter "version" can be encapsulated in side this function
-	 * it's kept as a parameter for testing purpose
-	 * @throws UnsupportedEncodingException 
+	 * Generate Email of system error the parameter "version" can be
+	 * encapsulated in side this function it's kept as a parameter for testing
+	 * purpose
+	 * 
+	 * @throws UnsupportedEncodingException
 	 */
-	public MimeMessage generateSystemErrorEmail(Throwable error, 
-			String requestPath, String requestParam, String version) throws AddressException, MessagingException, UnsupportedEncodingException {
+	public MimeMessage generateSystemErrorEmail(Throwable error,
+			String requestPath, String requestParam, String version)
+			throws AddressException, MessagingException,
+			UnsupportedEncodingException {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
 		String errorMessage = error.getMessage();
 		String stackTrace = Common.stackTraceToString(error);
 
-		
-		//if the error doesn't contain a short description,
-		//retrieve the first line of stack trace.
-		//truncate stack trace at first "at" string		
-		if(errorMessage == null) {
+		// if the error doesn't contain a short description,
+		// retrieve the first line of stack trace.
+		// truncate stack trace at first "at" string
+		if (errorMessage == null) {
 			int msgTruncateIndex = stackTrace.indexOf("at");
-			if(msgTruncateIndex > 0) {
+			if (msgTruncateIndex > 0) {
 				errorMessage = stackTrace.substring(0, msgTruncateIndex);
-			}else{
+			} else {
 				errorMessage = "";
 			}
 		}
 		String recipient = BuildProperties.inst().getAppCrashReportEmail();
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-		message.setFrom(new InternetAddress(from, sender));
-		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, version, errorMessage));
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+				recipient));
+		message.setFrom(new InternetAddress(senderEmail, senderName));
+		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR,
+				version, errorMessage));
 
-		
 		String emailBody = Common.SYSTEM_ERROR_EMAIL_TEMPLATE;
 
 		emailBody = emailBody.replace("${requestPath}", requestPath);

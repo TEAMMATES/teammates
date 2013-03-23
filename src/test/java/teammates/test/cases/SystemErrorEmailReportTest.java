@@ -34,7 +34,7 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 
 	private LocalServiceTestHelper helper;
 	private LocalMailServiceTestConfig localMailService;
-	private InternetAddress internetAddress;
+	
 	private String from;
 	
 	@BeforeClass
@@ -54,8 +54,10 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 		localMailService = new LocalMailServiceTestConfig();
 		helper = new LocalServiceTestHelper(localMailService);
 		helper.setUp();
-		internetAddress = new InternetAddress("noreply@"+Common.APP_ID+".appspotmail.com", "TEAMMATES Admin (noreply)");
-		from 		= internetAddress.toString();
+		InternetAddress internetAddress = new InternetAddress("noreply@"
+				+ Common.APP_ID + ".appspotmail.com",
+				"TEAMMATES Admin (noreply)");
+		from = internetAddress.toString();
 	}
 
 	@Test
