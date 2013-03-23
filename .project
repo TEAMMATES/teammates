@@ -16,7 +16,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.google.appengine.eclipse.core.enhancerbuilder</name>
+			<name>com.google.appengine.eclipse.core.enchancerbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
