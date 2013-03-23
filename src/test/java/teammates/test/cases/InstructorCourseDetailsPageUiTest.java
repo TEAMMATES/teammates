@@ -65,22 +65,32 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 	}
 	
 	public void testInstructorCourseDetailsPageHTML() throws Exception{
-		
-	
 		______TS("default view");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsPage.html");
-		
-		______TS("sort by team name");
-		bi.click(bi.instructorCourseDetailSortByTeamName);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByTeam.html");
 		
 		______TS("sort by status");
 		bi.click(bi.instructorCourseDetailSortByStatus);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByStatus.html");
 		
+		assertContainsRegex("{*}Joined{*}Joined{*}Yet to join{*}Yet to join{*}",bi.getCurrentPageSource());
+		bi.click(bi.instructorCourseDetailSortByStatus);
+		assertContainsRegex("{*}Yet to join{*}Yet to join{*}Joined{*}Joined{*}",bi.getCurrentPageSource());
+		
 		______TS("sort by student name");
 		bi.click(bi.instructorCourseDetailSortByStudentName);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsPage.html");
+		
+		assertContainsRegex("{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}",bi.getCurrentPageSource());
+		bi.click(bi.instructorCourseDetailSortByStudentName);
+		assertContainsRegex("{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy{*}",bi.getCurrentPageSource());
+		
+		______TS("sort by team name");
+		bi.click(bi.instructorCourseDetailSortByTeamName);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByTeam.html");
+		
+		assertContainsRegex("{*}Team 1{*}Team 1{*}Team 2{*}Team 2{*}",bi.getCurrentPageSource());
+		bi.click(bi.instructorCourseDetailSortByTeamName);
+		assertContainsRegex("{*}Team 2{*}Team 2{*}Team 1{*}Team 1{*}",bi.getCurrentPageSource());
 	}
 	
 	public void testInstructorCourseDetailsRemindStudent() {

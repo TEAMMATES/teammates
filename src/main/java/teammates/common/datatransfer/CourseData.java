@@ -24,7 +24,7 @@ public class CourseData extends BaseData {
 
 	private static Logger log = Common.getLogger();
 	
-	public static final int COURSE_NAME_MAX_LENGTH = 38;
+	public static final int COURSE_NAME_MAX_LENGTH = 64;
 	
 	public static final String ERROR_FIELD_ID = "Course ID cannot be null or empty\n";
 	public static final String ERROR_ID_TOOLONG = "Course ID cannot be more than " + Common.COURSE_ID_MAX_LENGTH + " characters\n";
