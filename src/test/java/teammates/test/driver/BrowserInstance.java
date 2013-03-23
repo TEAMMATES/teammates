@@ -2980,5 +2980,8 @@ public class BrowserInstance {
 
 	}
 	
+	public String getCurrentUrl(){
+		return this.driver.getCurrentUrl();
+	}
 	
 }
