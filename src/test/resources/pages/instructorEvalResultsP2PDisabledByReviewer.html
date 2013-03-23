@@ -90,9 +90,13 @@
                 </tr> 
                 <tr>
                     <td class="centeralign" colspan="2">
-                    
+                     <form id="download_eval_report" method="GET" action="instructorEvalExport">	
                         <input type="button" onclick="if(togglePublishEvaluation('Fifth Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&amp;evaluationname=Fifth+Eval&amp;next=%2Fpage%2FinstructorEval%3Fuser%3Dteammates.demo.instructor&amp;user=teammates.demo.instructor';" value="Publish" id="button_publish" class="button" />
                     
+						<input type="hidden" name="courseid" value="CEvalRUiT.CS1101">
+						<input type="hidden" name="evaluationname" value="Fifth Eval">
+						<input type="submit" value="Download Report" class="button">
+					</form>
                     </td>
                 </tr>
             </tbody></table>

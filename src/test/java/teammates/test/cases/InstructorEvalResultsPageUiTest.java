@@ -3,6 +3,9 @@ package teammates.test.cases;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.net.URL;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -56,7 +59,6 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 	@Test
 	public void testInstructorEvalResultsOpenEval() throws Exception{
 		
-
 		______TS("summary view");
 		
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
@@ -65,8 +67,6 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsOpenEval.html");
-		
-		
 		
 		______TS("sort by name");
 		bi.click(By.id("button_sortname"));
@@ -117,7 +117,6 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 	@Test
 	public void testInstructorEvalResultsPublishedEval() throws Exception{
 		
-		
 		______TS("summary view");
 		
 		String link = appUrl + Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
@@ -126,6 +125,39 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsPublishedEval.html");
+				
+		______TS("Check download evaluation report link");
+		
+		//Current attempt
+		String evaluationReportLink = appUrl + Common.PAGE_INSTRUCTOR_EVAL_EXPORT;
+		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_COURSE_ID,TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT+"-demo");
+		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_EVALUATION_NAME,"First Evaluation"); //First Evaluation is the published evaluation in the sample data for instructor
+		bi.loginInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+		bi.downloadAndVerifyReportFile(evaluationReportLink,"b695796098e4714890d7f0f94db0e164361ef599");
+		
+		/* Previous Attempt 1:
+		 *Resulted in login page html being returned in csv report file.
+		 *Inferred that login session as instructor was necessary before report servlet(instructorEvalExport) can be invoked to download report file.
+		 *
+		 *String evaluationReportLink = appUrl + Common.PAGE_INSTRUCTOR_EVAL_EXPORT;
+		 *link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+		 *link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name);
+		 * 
+		 */
+		
+		/* Previous Attempt 2:
+		 * Resulted in login page html being returned in csv report file (same result as previous attempt)
+		 * 
+		 * link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+		 * link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Second Eval").name);
+		 * link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
+		 * bi.goToUrl(link);
+		 * String evaluationReportLink = appUrl + Common.PAGE_INSTRUCTOR_EVAL_EXPORT;
+		 * link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+		 * link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name);
+		 */
+
+		
 
 		______TS("unpublishing: click and cancel");
 		
@@ -150,7 +182,6 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testInstructorEvalResultsClosedEval() throws Exception{
-		
 		
 		______TS("summary view");
 		

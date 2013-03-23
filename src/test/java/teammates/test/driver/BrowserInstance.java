@@ -17,6 +17,8 @@ import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
+import java.io.InputStream;
+import java.io.FileOutputStream;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -47,6 +49,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import teammates.common.Common;
 import teammates.test.cases.BaseTestCase; //TODO: remove this dependency
 
+import com.google.appengine.repackaged.org.apache.commons.httpclient.methods.GetMethod;
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleniumException;
 
@@ -2943,11 +2946,48 @@ public class BrowserInstance {
 	 * @param expectedHash
 	 * @throws Exception
 	 */
-	public void downloadAndVerifyFile(String url,String expectedHash) throws Exception {
+	public void downloadAndVerifyReportFile(String url,String expectedHash) throws Exception {
 		
 		if (!url.startsWith("http") ){
 			url = TestProperties.inst().TEAMMATES_URL + url;
 		}
+		System.out.println(url);
+		
+		URL fileToDownload = new URL(url);
+	    
+        String localDownloadPath = System.getProperty("java.io.tmpdir");
+        System.out.println(localDownloadPath);
+        File downloadedFile = new File(localDownloadPath + "CEvalRUiT.CS1101_First Eval.csv");
+                
+        if (downloadedFile.exists()){ 
+        	downloadedFile.delete();
+        }
+        if (downloadedFile.canWrite() == false){ 
+        	downloadedFile.setWritable(true);
+        }
+        
+        HttpClient client = new DefaultHttpClient();
+        HttpGet httpget = new HttpGet(fileToDownload.toURI());
+ 
+        HttpResponse response = client.execute(httpget);
+        
+        FileUtils.copyInputStreamToFile(response.getEntity().getContent(), downloadedFile);
+        response.getEntity().getContent().close();
+ 
+        String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
+		assertEquals(new File(downloadedFileAbsolutePath).exists(), true);
+		
+		String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
+    	assertEquals(actualHash.toLowerCase(),expectedHash.toLowerCase());
+
+	}
+	
+public void downloadAndVerifyFile(String url,String expectedHash) throws Exception {
+		
+		if (!url.startsWith("http") ){
+			url = TestProperties.inst().TEAMMATES_URL + url;
+		}
+		System.out.println(url);
 		
 		URL fileToDownload = new URL(url);
 	    
@@ -2979,6 +3019,5 @@ public class BrowserInstance {
     	assertEquals(actualHash.toLowerCase(),expectedHash.toLowerCase());
 
 	}
-	
 	
 }
