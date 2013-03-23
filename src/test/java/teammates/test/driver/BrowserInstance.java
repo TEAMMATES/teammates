@@ -17,6 +17,7 @@ import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -1317,6 +1318,36 @@ public class BrowserInstance {
 
 	public void clickInstructorReviewerSummaryEdit(int rowID) {
 		clickWithWait(getReviewerSummaryEdit(rowID));
+	}
+	
+	/**
+	 * Asserts whether the table with class=dataTable has the expectedString
+	 * on input row and column
+	 * 
+	 * @param row, column, expectedString
+	 * @return
+	 */
+	public void assertDataTableCell(int row,int column,String expectedString){
+		assertEquals(tableSortGetCell(row,column),expectedString);
+	}
+	
+	/**
+	 * Compares selected column's rows with patternString
+	 * patternString is split with {*} to separate the rows to compare with
+	 * if a certain row is empty, it will not be asserted with. This is to
+	 * deal with comparing the column header.
+	 * 
+	 * @param column, patternString
+	 * @return
+	 */
+	public void assertDataTablePattern(int column,String patternString){
+		String[] splitString = patternString.split(Pattern.quote("{*}"));
+		for(int i=0;i<splitString.length;i++)
+		{
+			if(splitString[i].length()>0)
+				assertDataTableCell(i,column,splitString[i]);
+		}
+		
 	}
 	
 	// --------------------------------- TableSort

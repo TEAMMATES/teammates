@@ -72,25 +72,25 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		bi.click(bi.instructorCourseDetailSortByStatus);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByStatus.html");
 		
-		assertContainsRegex("{*}Joined{*}Joined{*}Yet to join{*}Yet to join{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(2,"{*}Joined{*}Joined{*}Yet to join{*}Yet to join");
 		bi.click(bi.instructorCourseDetailSortByStatus);
-		assertContainsRegex("{*}Yet to join{*}Yet to join{*}Joined{*}Joined{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(2,"{*}Yet to join{*}Yet to join{*}Joined{*}Joined");
 		
 		______TS("sort by student name");
 		bi.click(bi.instructorCourseDetailSortByStudentName);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsPage.html");
 		
-		assertContainsRegex("{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid");
 		bi.click(bi.instructorCourseDetailSortByStudentName);
-		assertContainsRegex("{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(1,"{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
 		
 		______TS("sort by team name");
 		bi.click(bi.instructorCourseDetailSortByTeamName);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByTeam.html");
 		
-		assertContainsRegex("{*}Team 1{*}Team 1{*}Team 2{*}Team 2{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(0,"{*}Team 1{*}Team 1{*}Team 2{*}Team 2");
 		bi.click(bi.instructorCourseDetailSortByTeamName);
-		assertContainsRegex("{*}Team 2{*}Team 2{*}Team 1{*}Team 1{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(0,"{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
 	}
 	
 	public void testInstructorCourseDetailsRemindStudent() {
