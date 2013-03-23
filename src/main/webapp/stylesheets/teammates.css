@@ -192,24 +192,17 @@ h2 {
 	margin: 0px auto;
 }
 
-
-#mainContent #content{
-	width: 1000px;
-	margin: 0px auto;
-	float: left
-}
-
-#mainContent #content .toc{
+#mainContent .toc{
 	color: blue;
 	font-size: 15px;
 }
 
-#mainContent #content #question{
+#mainContent #question{
 	font-weight: bold;
 }
 
 #caption {
-	margin: 10px;
+	margin: 30px auto;
 	width: 800px;
 	color: #e46d0b;
 	font-weight: bold;
