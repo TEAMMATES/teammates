@@ -35,7 +35,8 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 public class EmailsTest extends BaseTestCase {
 	private LocalServiceTestHelper helper;
 	private LocalMailServiceTestConfig localMailService;
-
+	
+	private InternetAddress internetAddress;
 	private String from;
 	private String replyTo;
 	@BeforeClass
@@ -51,8 +52,8 @@ public class EmailsTest extends BaseTestCase {
 		localMailService = new LocalMailServiceTestConfig();
 		helper = new LocalServiceTestHelper(localMailService);
 		helper.setUp();
-		
-		from 		= "noreply@"+Common.APP_ID+".appspotmail.com";
+		internetAddress = new InternetAddress("noreply@"+Common.APP_ID+".appspotmail.com", "TEAMMATES Admin (noreply)");
+		from 		= internetAddress.toString();
 		replyTo 	= "teammates@comp.nus.edu.sg";
 	}
 
