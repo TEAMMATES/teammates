@@ -1,6 +1,7 @@
 package teammates.logic;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -35,9 +36,11 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
 	
 	private String from;
+	private String sender;
 	private String replyTo;
 	public Emails() {
 		from 		= "noreply@"+Common.APP_ID+".appspotmail.com";
+		sender		= "TEAMMATES Admin (noreply)";
 		replyTo 	= "teammates@comp.nus.edu.sg";
 	}
 
@@ -133,7 +136,7 @@ public class Emails {
 
 	public List<MimeMessage> generateEvaluationEmailBases(CourseData course,
 			EvaluationData evaluation, List<StudentData> students, String template)
-			throws MessagingException {
+			throws MessagingException, UnsupportedEncodingException {
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
 		for (StudentData s : students) {
 			
@@ -143,7 +146,7 @@ public class Emails {
 	}
 
 	public MimeMessage generateEvaluationEmailBase(CourseData c,
-			EvaluationData e, StudentData s, String template) throws MessagingException {
+			EvaluationData e, StudentData s, String template) throws MessagingException, UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
 
@@ -185,7 +188,7 @@ public class Emails {
 
 
 	public MimeMessage generateStudentCourseJoinEmail(CourseData c,
-			StudentData s) throws AddressException, MessagingException {
+			StudentData s) throws AddressException, MessagingException, UnsupportedEncodingException {
 		
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
 		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN+" [%s][Course ID: %s]", c.name, c.id));
@@ -231,14 +234,13 @@ public class Emails {
 
 
 	private MimeMessage getEmptyEmailAddressedToStudent(StudentData s)
-			throws MessagingException, AddressException {
+			throws MessagingException, AddressException, UnsupportedEncodingException {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
 	
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
 				s.email));
-	
-		message.setFrom(new InternetAddress(from));
+		message.setFrom(new InternetAddress(from, sender));
 		message.setReplyTo(new Address[] {new InternetAddress(replyTo)});
 		return message;
 	}
@@ -247,9 +249,10 @@ public class Emails {
 	 * Generate Email of system error
 	 * the parameter "version" can be encapsulated in side this function
 	 * it's kept as a parameter for testing purpose
+	 * @throws UnsupportedEncodingException 
 	 */
 	public MimeMessage generateSystemErrorEmail(Throwable error, 
-			String requestPath, String requestParam, String version) throws AddressException, MessagingException {
+			String requestPath, String requestParam, String version) throws AddressException, MessagingException, UnsupportedEncodingException {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
 		String errorMessage = error.getMessage();
@@ -269,8 +272,7 @@ public class Emails {
 		}
 		String recipient = BuildProperties.inst().getAppCrashReportEmail();
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-		message.setFrom(new InternetAddress(from));
-		
+		message.setFrom(new InternetAddress(from, sender));
 		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR, version, errorMessage));
 
 		
