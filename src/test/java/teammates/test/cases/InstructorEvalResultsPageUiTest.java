@@ -132,7 +132,7 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		String evaluationReportLink = appUrl + Common.PAGE_INSTRUCTOR_EVAL_EXPORT;
 		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_COURSE_ID,TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT+"-demo");
 		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_EVALUATION_NAME,"First Evaluation"); //First Evaluation is the published evaluation in the sample data for instructor
-		//bi.loginInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+		bi.loginInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
 		bi.downloadAndVerifyReportFile(evaluationReportLink,"b695796098e4714890d7f0f94db0e164361ef599");
 		
 		/* Previous Attempt 1:
