@@ -70,7 +70,7 @@ public class Common {
 	public static final String HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
 
 	public static final String HOVER_MESSAGE_COURSE_STUDENT_DETAILS = "View the details of the student";
-	public static final String HOVER_MESSAGE_COURSE_STUDENT_EDIT = "Edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
+	public static final String HOVER_MESSAGE_COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
 	public static final String HOVER_MESSAGE_COURSE_STUDENT_REMIND = "E-mail the registration key to the student";
 	public static final String HOVER_MESSAGE_COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
 
