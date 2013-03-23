@@ -4,10 +4,7 @@
 <%@ page import="teammates.common.datatransfer.TeamData"%>
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
 <%@ page import="teammates.ui.controller.InstructorEvalResultsHelper"%>
-<%@ page import="teammates.ui.controller.InstructorEvalExportServlet"%>
-
 <%	InstructorEvalResultsHelper helper = (InstructorEvalResultsHelper)request.getAttribute("helper"); %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,8 +74,7 @@
 					</td>
 				</tr> 
 				<tr>
-					<td colspan=2 class="centeralign">
-					<form id="download_eval_report" method="GET" action="instructorEvalExport">
+					<td colspan="2" class="centeralign">
 					<%
 						if(InstructorEvalResultsHelper.getInstructorStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) {
 					%>
@@ -96,10 +92,6 @@
 					<%
 						}
 					%>
-						<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=helper.evaluation.course%>">
-						<input type="hidden" name="<%=Common.PARAM_EVALUATION_NAME%>" value="<%=InstructorEvalResultsHelper.escapeForHTML(helper.evaluation.name)%>">
-						<input type="submit" value="Download Report" class="button">
-					</form>
 					</td>
 				</tr>
 			</table>
