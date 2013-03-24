@@ -30,10 +30,10 @@ function verifyCourseData() {
 		return false;
 	}
 	
-	var confirmation = true;
+	var proceedWithoutUser = true;
 	if (!checkInstructorWithinInstructorList($("#" + COURSE_INSTRUCTOR_ID).val(), instructorList)){
-		confirmation = 	confirm(MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST);
-		if (!confirmation) return false;
+		proceedWithoutUser = 	confirm(MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST);
+		if (!proceedWithoutUser) return false;
 	}
 	
 	//checks instructor list
@@ -144,22 +144,23 @@ function isCourseIDValid(courseID) {
 
 
 function isCourseInstructorEntryValid(input) {
-	if (input != "") {
-		// Separate the fields
-		fields = input.split("|");
-		var fieldsLength = fields.length;
-		// Make sure that all fields are present and valid
-		if (fieldsLength<3) {
-			return COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_MISSING;
-		} else if(fieldsLength>3){
-			return COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_EXTRA;
-		} else if (!isValidGoogleId(sanitizeGoogleId(fields[0]))) {
-			return COURSE_STATUS_INSTRUCTOR_LIST_GOOGLEID_INVALID;
-		} else if (!isNameValid(fields[1].trim())) {
-			return COURSE_STATUS_INSTRUCTOR_LIST_NAME_INVALID;
-		} else if (!isEmailValid(fields[2].trim())) {
-			return COURSE_STATUS_INSTRUCTOR_LIST_EMAIL_INVALID;
-		}
+	if (input == "") {
+		return COURSE_STATUS_VALID_INPUT; 
+	}
+	// Separate the fields
+	fields = input.split("|");
+	var fieldsLength = fields.length;
+	// Make sure that all fields are present and valid
+	if (fieldsLength<3) {
+		return COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_MISSING;
+	} else if(fieldsLength>3){
+		return COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_EXTRA;
+	} else if (!isValidGoogleId(sanitizeGoogleId(fields[0].trim()))) {
+		return COURSE_STATUS_INSTRUCTOR_LIST_GOOGLEID_INVALID;
+	} else if (!isNameValid(fields[1].trim())) {
+		return COURSE_STATUS_INSTRUCTOR_LIST_NAME_INVALID;
+	} else if (!isEmailValid(fields[2].trim())) {
+		return COURSE_STATUS_INSTRUCTOR_LIST_EMAIL_INVALID;
 	}	
 	return COURSE_STATUS_VALID_INPUT;
 }
