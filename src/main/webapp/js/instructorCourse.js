@@ -11,6 +11,7 @@ var COURSE_STATUS_INSTRUCTOR_LIST_FIELDS_EXTRA = 9;
 var COURSE_STATUS_INSTRUCTOR_LIST_GOOGLEID_INVALID = 10;
 var COURSE_STATUS_INSTRUCTOR_LIST_NAME_INVALID = 11;
 var COURSE_STATUS_INSTRUCTOR_LIST_EMAIL_INVALID = 12;
+var COURSE_STATUS_EMPTY_LINE_INPUT = 13;
 
 //------------------------------Add Course Validation-----------------------------
 /**
@@ -130,7 +131,7 @@ function checkAddCourseParam(courseID, courseName, instructorList) {
 	var entriesLength = entries.length;
 	for ( var x = 0; x < entriesLength; x++) {
 		 var errorID = isCourseInstructorEntryValid(entries[x]);
-		 if(errorID != COURSE_STATUS_VALID_INPUT){
+		 if(errorID != COURSE_STATUS_VALID_INPUT && errorID != COURSE_STATUS_EMPTY_LINE_INPUT){
 			 errorMessages += courseStatusToMessage(errorID)+" (at line: "+(x+1)+"): " +entries[x]+"<br>";
 		 }
 	}
@@ -145,7 +146,7 @@ function isCourseIDValid(courseID) {
 
 function isCourseInstructorEntryValid(input) {
 	if (input == "") {
-		return COURSE_STATUS_VALID_INPUT; 
+		return COURSE_STATUS_EMPTY_LINE_INPUT; 
 	}
 	// Separate the fields
 	fields = input.split("|");
