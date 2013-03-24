@@ -22,9 +22,12 @@ public class GenerateEmailsOfInstructors extends RemoteApiClient {
 		List<Account> instructorAccounts = (List<Account>) pm.newQuery(q).execute();
 		
 		// Print
-		for (Account a : instructorAccounts) {
-			System.out.println(a.getName() + ": " + a.getEmail() + ", (" + a.getInstitute() + ")");
+		for (int i=0 ; i<instructorAccounts.size() - 1; i++) {
+			System.out.print(instructorAccounts.get(i).getEmail() + ",");
 		}
+		
+		// Last one
+		System.out.print(instructorAccounts.get(instructorAccounts.size()-1).getEmail());
 	}
 	
 }
