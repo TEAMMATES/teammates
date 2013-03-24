@@ -259,6 +259,6 @@ public class TableSortTest extends BaseTestCase {
 	}
 	
 	private void assertStringWithRowColumn(String text,int row,int column){
-		assertEquals(text,bi.tableSortGetCell(row,column));
+		assertEquals(text,bi.getCellFromDataTable(row,column));
 	}
 }

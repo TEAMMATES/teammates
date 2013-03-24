@@ -16,8 +16,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Date;
-import java.util.regex.Pattern;
+import java.util.Date; 
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -1319,35 +1318,24 @@ public class BrowserInstance {
 	public void clickInstructorReviewerSummaryEdit(int rowID) {
 		clickWithWait(getReviewerSummaryEdit(rowID));
 	}
-	
-	/**
-	 * Asserts whether the table with class=dataTable has the expectedString
-	 * on input row and column
-	 * 
-	 * @param row, column, expectedString
-	 * @return
-	 */
-	public void assertDataTableCell(int row,int column,String expectedString){
-		assertEquals(tableSortGetCell(row,column),expectedString);
-	}
-	
+		
 	/**
 	 * Compares selected column's rows with patternString
 	 * patternString is split with {*} to separate the rows to compare with
 	 * if a certain row is empty, it will not be asserted with. This is to
-	 * deal with comparing the column header.
+	 * make sure it does not take the header row (0) for comparison.
 	 * 
 	 * @param column, patternString
 	 * @return
 	 */
 	public void assertDataTablePattern(int column,String patternString){
-		String[] splitString = patternString.split(Pattern.quote("{*}"));
-		for(int i=0;i<splitString.length;i++)
+		String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
+		for(int row=0;row<splitString.length;row++)
 		{
-			if(splitString[i].length()>0)
-				assertDataTableCell(i,column,splitString[i]);
+			if(splitString[row].length()>0){
+				assertEquals(getCellFromDataTable(row,column),splitString[row]);
+			}
 		}
-		
 	}
 	
 	// --------------------------------- TableSort
@@ -1382,12 +1370,12 @@ public class BrowserInstance {
 	
 	/**
 	 * Returns the string for specific row and column. Waits until the
-	 * element exists or timeout. Pre-condition: Should be at table sort page.
+	 * element exists or timeout. Table class must be dataTable
 	 * 
 	 * @param row, column
 	 * @return
 	 */
-	public String tableSortGetCell(int row, int column) {
+	public String getCellFromDataTable(int row, int column) {
 		waitForElementPresent(By.className("dataTable"));
 		return selenium.getTable("class=dataTable." + row + "." + column);
 	}
