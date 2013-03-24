@@ -55,10 +55,9 @@ public class InstructorEvalHelper extends Helper{
 		ArrayList<String> result = new ArrayList<String>();
 		for(int i=0; i<=30; i+=5){
 			result.add("<option value=\""+i+"\"" +
-						(newEvaluationToBeCreated!=null && newEvaluationToBeCreated.gracePeriod==i
-							? " selected=\"selected\""
-							: "") +
-						">" + i+" mins</option>");
+						(isGracePeriodToBeSelected(i) 
+							? " selected=\"selected\"" : "") +
+						">"+i+" mins</option>");
 		}
 		return result;
 	}
@@ -73,7 +72,7 @@ public class InstructorEvalHelper extends Helper{
 		ArrayList<String> result = new ArrayList<String>();
 		for(int i=1; i<=24; i++){
 			result.add("<option value=\""+i+"\"" +
-						(checkTimeSelected(i,isStartTime)
+						(isTimeToBeSelected(i,isStartTime)
 							? " selected=\"selected\""
 							: "") +
 						">" +
@@ -122,8 +121,9 @@ public class InstructorEvalHelper extends Helper{
 		}
 	}
 	
-	private boolean checkTimeSelected(int hour, boolean isStart){
-		if(newEvaluationToBeCreated!=null){
+	private boolean isTimeToBeSelected(int hour, boolean isStart){
+		boolean isEditingExistingEvaluation = (newEvaluationToBeCreated!=null);
+		if(isEditingExistingEvaluation){
 			Date time = (isStart ? newEvaluationToBeCreated.startTime : newEvaluationToBeCreated.endTime);
 			Calendar cal = GregorianCalendar.getInstance();
 			cal.setTime(time);
@@ -136,5 +136,15 @@ public class InstructorEvalHelper extends Helper{
 			if(hour==24) return true;
 		}
 		return false;
+	}
+	
+	private boolean isGracePeriodToBeSelected(int gracePeriodOptionValue){
+		int defaultGracePeriod = 15;
+		boolean isEditingExistingEvaluation = (newEvaluationToBeCreated!=null);
+		if(isEditingExistingEvaluation){
+			return gracePeriodOptionValue==newEvaluationToBeCreated.gracePeriod;
+		} else {
+			return gracePeriodOptionValue==defaultGracePeriod;
+		}
 	}
 }
