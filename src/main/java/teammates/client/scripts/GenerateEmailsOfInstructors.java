@@ -1,8 +1,9 @@
-package teammates.client.remoteapi;
+package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.List;
 
+import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 
 /**
@@ -22,12 +23,15 @@ public class GenerateEmailsOfInstructors extends RemoteApiClient {
 		List<Account> instructorAccounts = (List<Account>) pm.newQuery(q).execute();
 		
 		// Print
-		for (int i=0 ; i<instructorAccounts.size() - 1; i++) {
-			System.out.print(instructorAccounts.get(i).getEmail() + ",");
+		for (int i = 0; i < instructorAccounts.size() - 1; i++) {
+			String email = instructorAccounts.get(i).getEmail();
+			if (email != null) {
+				System.out.print(email + ",");
+			}
 		}
 		
 		// Last one
-		System.out.print(instructorAccounts.get(instructorAccounts.size()-1).getEmail());
+		System.out.println(instructorAccounts.get(instructorAccounts.size()-1).getEmail());
 	}
 	
 }
