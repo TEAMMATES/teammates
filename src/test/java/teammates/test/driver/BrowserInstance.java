@@ -1321,17 +1321,17 @@ public class BrowserInstance {
 		
 	/**
 	 * Compares selected column's rows with patternString
-	 * patternString is split with {*} to separate the rows to compare with
-	 * if a certain row is empty, it will not be asserted with. This is to
-	 * make sure it does not take the header row (0) for comparison.
+	 * Separate rows using {*}
 	 * 
 	 * @param column, patternString
 	 * @return
 	 */
 	public void assertDataTablePattern(int column,String patternString){
+		//patternString is split with {*} to separate the rows
 		String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
-		for(int row=0;row<splitString.length;row++)
-		{
+		for(int row=1;row<splitString.length;row++){
+			//if a row is empty, it will not be asserted with
+			//row starts from 1 to skip the header row, this requires patternString to start with {*}
 			if(splitString[row].length()>0){
 				assertEquals(getCellFromDataTable(row,column),splitString[row]);
 			}
