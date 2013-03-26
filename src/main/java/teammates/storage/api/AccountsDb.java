@@ -510,7 +510,7 @@ public class AccountsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		String query = "select from " + Student.class.getName()
-				+ " where courseID == \"" + courseId + "\"" + " && ID == \"\"";
+				+ " where courseID == \"" + courseId + "\"" + " && (ID == null || ID == '')";
 
 		@SuppressWarnings("unchecked")
 		List<Student> studentList = (List<Student>) getPM().newQuery(query)
