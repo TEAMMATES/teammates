@@ -67,35 +67,34 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		
 		______TS("sort by name");
 		bi.click(By.id("button_sortname"));
-		assertContainsRegex("{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
 		bi.click(By.id("button_sortname"));
-		assertContainsRegex("{*}Emily{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(1,"{*}Emily{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
 		
 		______TS("sort by claimed");
 		bi.click(By.id("button_sortclaimed"));
-		assertContainsRegex("{*}E -5%{*}E +3%{*}E +5%{*}E +10%{*}E +10%{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(2,"{*}E -5%{*}E +3%{*}E +5%{*}E +10%{*}E +10%");
 		bi.click(By.id("button_sortclaimed"));
-		assertContainsRegex("{*}E +10%{*}E +10%{*}E +5%{*}E +3%{*}E -5%{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(2,"{*}E +10%{*}E +10%{*}E +5%{*}E +3%{*}E -5%");
 		
 		______TS("sort by perceived");
 		//removed the "E" only for testing else will cause infinite loop
 		bi.click(By.id("button_sortperceived"));
-		assertContainsRegex("{*}E -3%{*}E -1%{*}E +4%{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(3,"{*}E -3%{*}E -1%{*}E{*}E{*}E +4%");
 		bi.click(By.id("button_sortperceived"));
-		assertContainsRegex("{*}E +4%{*}E -1%{*}E -3%{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(3,"{*}E +4%{*}E{*}E{*}E -1%{*}E -3%");
 		
 		______TS("sort by diff");
 		bi.click(By.id("button_sortdiff"));
-		assertContainsRegex("{*}-11%{*}-6%{*}-6%{*}-5%{*}+5%{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(4,"{*}-11%{*}-6%{*}-6%{*}-5%{*}+5%");
 		bi.click(By.id("button_sortdiff"));
-		assertContainsRegex("{*}+5%{*}-5%{*}-6%{*}-6%{*}-11%{*}",bi.getCurrentPageSource());
-		
+		bi.assertDataTablePattern(4,"{*}+5%{*}-5%{*}-6%{*}-6%{*}-11%");
 		
 		______TS("sort by team name");
 		bi.click(By.id("button_sortteamname"));
-		assertContainsRegex("{*}Team 1{*}Team 1{*}Team 1{*}Team 2{*}Team 2{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(0,"{*}Team 1{*}Team 1{*}Team 2{*}Team 2{*}Team 2");
 		bi.click(By.id("button_sortteamname"));
-		assertContainsRegex("{*}Team 2{*}Team 2{*}Team 1{*}Team 1{*}Team 1{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(0,"{*}Team 2{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
 		
 		//set back to ascending
 		bi.click(By.id("button_sortteamname"));
