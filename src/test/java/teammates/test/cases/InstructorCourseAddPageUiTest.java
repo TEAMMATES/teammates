@@ -92,14 +92,16 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseById.html");
 		
 		bi.click(By.id("button_sortcoursename"));
-		assertContainsRegex("{*}Programming Language Concept{*}Programming Methodology{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(1,"{*}Programming Language Concept{*}Programming Methodology");
+
 		bi.click(By.id("button_sortcoursename"));
-		assertContainsRegex("{*}Programming Methodology{*}Programming Language Concept{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(1,"{*}Programming Methodology{*}Programming Language Concept");
 		
 		bi.click(By.id("button_sortcourseid"));
-		assertContainsRegex("{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(0,"{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104");
+		
 		bi.click(By.id("button_sortcourseid"));
-		assertContainsRegex("{*}CCAddUiTest.CS2104{*}CCAddUiTest.CS1101{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(0,"{*}CCAddUiTest.CS2104{*}CCAddUiTest.CS1101");		
 	}
 
 	public void testInstructorCourseAddUiPaths() throws Exception{
@@ -123,7 +125,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		______TS("testInstructoraddCourseWithInvalidInputsFailed");
 
 		bi.addCourse("", courseName);
-		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD);
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD + "\n" + Common.MESSAGE_COURSE_INVALID_ID);
 		
 		// Adding course without name
 		bi.addCourse(courseId, "");
@@ -155,6 +157,31 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseAddDupIdFailed.html");
 		print("Time to assert page: "+(System.currentTimeMillis()-start)+" ms");
 
+		
+		______TS("testInstructoraddCourseWithMultipleWrongInstructorsEntries");
+		
+		String instructorListTEST = bi.getElementText(bi.instructorCourseInputInstructorList);
+		String instructor1Details = "Instructor1ID" + "|" + "Instructor1Name";
+		String instructor2Details = "Instructor2ID" + "|" + "Instructor2Name" + "|" + "instructor2Email@.gmailcom" + "|" + "EXTRA";
+		String instructor3Details = "Instruct@r3ID" + "|" + "Instructor3Name" + "|" + "instructor3Email@gmail.com";
+		String instructor4Details = "Instructor4ID" + "|" + "Instruct@r4Name" + "|" + "instructor4Email@gmail.com";
+		String instructor5Details = "Instructor5ID" + "|" + "Instructor5Name" + "|" + "instructor5Email@.com";
+		instructorListTEST += "\n" + instructor1Details;
+		instructorListTEST += "\n" + instructor2Details;
+		instructorListTEST += "\n" + instructor3Details;
+		instructorListTEST += "\n" + instructor4Details;
+		instructorListTEST += "\n" + instructor5Details;
+		bi.fillString(bi.instructorCourseInputInstructorList, instructorListTEST);
+		bi.addCourse("wr@ngC@urseID", "");
+		
+		bi.waitForStatusMessage(Common.MESSAGE_COURSE_MISSING_FIELD + "\n"
+				+ Common.MESSAGE_COURSE_INVALID_ID + "\n"
+				+ Common.MESSAGE_COURSE_INPUT_FIELDS_MISSING + " (at line: 2): " + instructor1Details + "\n"
+				+ Common.MESSAGE_COURSE_INPUT_FIELDS_EXTRA + " (at line: 3): " + instructor2Details + "\n"
+				+ Common.MESSAGE_COURSE_GOOGLEID_INVALID + " (at line: 4): " + instructor3Details + "\n"
+				+ Common.MESSAGE_COURSE_INSTRUCTORNAME_INVALID + " (at line: 5): " + instructor4Details + "\n"
+				+ Common.MESSAGE_COURSE_EMAIL_INVALID + " (at line: 6): " + instructor5Details);
+		
 		______TS("testInstructoraddCourseWithMultipleInstructors");
 		
 		String instructorList = bi.getElementText(bi.instructorCourseInputInstructorList);

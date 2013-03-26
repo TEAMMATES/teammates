@@ -102,18 +102,18 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalByName.html");
 		
-		assertContainsRegex("{*}First Eval{*}Second Eval{*}Third Eval{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(1,"{*}First Eval{*}Second Eval{*}Third Eval");
 		bi.click(By.id("button_sortname"));
-		assertContainsRegex("{*}Third Eval{*}Second Eval{*}{*}First Eval",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(1,"{*}Third Eval{*}Second Eval{*}First Eval");
 		
 		______TS("sort by course id");
 		
 		bi.click(By.id("button_sortcourseid"));
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalById.html");
 		
-		assertContainsRegex("{*}CEvalUiT.CS1101{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(0,"{*}CEvalUiT.CS1101{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104");
 		bi.click(By.id("button_sortcourseid"));
-		assertContainsRegex("{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104{*}CEvalUiT.CS1101{*}",bi.getCurrentPageSource());
+		bi.assertDataTablePattern(0,"{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104{*}CEvalUiT.CS1101");
 	
 		//set back to ascending
 		bi.click(By.id("button_sortcourseid"));
