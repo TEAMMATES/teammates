@@ -246,6 +246,7 @@ public class Common {
 	public static final String PAGE_ADMIN_HOME = "/admin/adminHome";
 	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/admin/adminAccountManagement";
 	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/admin/adminAccountDetails";
+	public static final String PAGE_ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
 	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
 	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/admin/adminActivityLog";
 	public static final String PAGE_ADMIN_SEARCH = "/admin/adminSearch";
@@ -354,12 +355,15 @@ public class Common {
 			+ "The start time should be in the future, and the deadline should be after start time.";
 	public static final String MESSAGE_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 
+	public static final String MESSAGE_INSTRUCTOR_ACCOUNT_DELETED = "The Instructor Account has been deleted";
+	public static final String MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";
 	// Messages that are templates only
 	/** Template String. Parameters: Student's name, Evaluation name, Course ID */
 	public static final String MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully.<br />"
 			+ "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
 	/** Template String. Parameters: Evaluation name, Course ID */
 	public static final String MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
+	
 
 	// DIV tags for HTML testing
 	public static final String HEADER_TAG = "<div id=\"frameTop\">";
@@ -508,10 +512,12 @@ public class Common {
 	public static String ADMIN_HOME_SERVLET = "adminHome";
 	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET = "adminAccountManagement";
 	public static String ADMIN_ACCOUNT_DETAILS_SERVLET = "adminAccountDetails";
+	public static String ADMIN_ACCOUNT_DELETE_SERVLET = "adminAccountDelete";
 	public static String ADMIN_ACTIVITY_LOG_SERVLET = "adminActivityLog";
 	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
 	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";
 	public static String ADMIN_EXCEPTION_TEST_SERVLET = "adminExceptionTest";
+	
 	
 	/**
 	 * Admin Servlet Actions
@@ -520,6 +526,8 @@ public class Common {
 	public static String ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR = "Create Instructor";
 	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_FROM_COURSE = "Delete Instructor from Course";
+	public static String ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT = "Delete Instructor Account"; 
 	public static String ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_SEARCH_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD = "Pageload";
