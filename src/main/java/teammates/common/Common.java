@@ -70,7 +70,7 @@ public class Common {
 	public static final String HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
 
 	public static final String HOVER_MESSAGE_COURSE_STUDENT_DETAILS = "View the details of the student";
-	public static final String HOVER_MESSAGE_COURSE_STUDENT_EDIT = "Edit the details of the student";
+	public static final String HOVER_MESSAGE_COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
 	public static final String HOVER_MESSAGE_COURSE_STUDENT_REMIND = "E-mail the registration key to the student";
 	public static final String HOVER_MESSAGE_COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
 
@@ -233,7 +233,8 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_EVAL_REMIND = "/page/instructorEvalRemind";
 	public static final String PAGE_INSTRUCTOR_EVAL_PUBLISH = "/page/instructorEvalPublish";
 	public static final String PAGE_INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
-
+	public static final String PAGE_INSTRUCTOR_EVAL_EXPORT = "/page/instructorEvalExport";
+	
 	public static final String PAGE_STUDENT_HOME = "/page/studentHome";
 	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin";
 	public static final String PAGE_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
@@ -336,9 +337,17 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_EXPIRED = "This evaluation has expired. You are not allowed to edit your submission.";
 
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
+	
 	// Status messages from Javascript
+	
+	public static final String MESSAGE_COURSE_INPUT_FIELDS_EXTRA = "There are too many fields.";
+	public static final String MESSAGE_COURSE_INPUT_FIELDS_MISSING = "There are missing fields.";
+	public static final String MESSAGE_COURSE_GOOGLEID_INVALID = "GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.";
+	public static final String MESSAGE_COURSE_EMAIL_INVALID = "The e-mail address is invalid.";
+	public static final String MESSAGE_COURSE_INSTRUCTORNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.";
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
+	
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"

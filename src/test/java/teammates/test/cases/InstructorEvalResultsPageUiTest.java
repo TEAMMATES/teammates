@@ -55,7 +55,6 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 
 	@Test
 	public void testInstructorEvalResultsOpenEval() throws Exception{
-		
 
 		______TS("summary view");
 		
@@ -65,7 +64,6 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsOpenEval.html");
-		
 		
 		______TS("sort by name");
 		bi.click(By.id("button_sortname"));
@@ -115,7 +113,6 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 	@Test
 	public void testInstructorEvalResultsPublishedEval() throws Exception{
 		
-		
 		______TS("summary view");
 		
 		String link = appUrl + Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
@@ -124,6 +121,16 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsPublishedEval.html");
+		
+		______TS("Check download evaluation report link");
+
+		String evaluationReportLink = appUrl + Common.PAGE_INSTRUCTOR_EVAL_EXPORT;
+		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name); //First Evaluation is the published evaluation in the sample data for instructor
+		String beforeReportDownloadUrl = bi.getCurrentUrl();
+		bi.goToUrl(evaluationReportLink);
+		String afterReportDownloadUrl = bi.getCurrentUrl();
+		assertEquals(beforeReportDownloadUrl, afterReportDownloadUrl);
 
 		______TS("unpublishing: click and cancel");
 		
