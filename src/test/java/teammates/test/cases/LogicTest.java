@@ -1321,6 +1321,9 @@ public class LogicTest extends BaseTestCase {
 				enrollResults.get(1), StudentData.UpdateStatus.NEW);
 		verifyEnrollmentResultForStudent(new StudentData(line4, courseId),
 				enrollResults.get(4), StudentData.UpdateStatus.NEW);
+		
+		CourseData cd = logic.getCourseDetails(courseId);
+		assertEquals(5, cd.unregisteredTotal);
 
 		______TS("includes a mix of unmodified, modified, and new");
 

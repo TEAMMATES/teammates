@@ -106,8 +106,13 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPageResult.html");
 		
 		bi.click(By.id("edit_enroll"));	
-		assertContainsRegex("{*}Enroll Students for CCEnrollUiT.CS2104{*}",bi.getCurrentPageSource());	
+		assertContainsRegex("{*}Enroll Students for CCEnrollUiT.CS2104{*}",bi.getCurrentPageSource());
 		
+		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
+		bi.goToUrl(link);
+		assertEquals("CCEnrollUiT.CS2104 Programming Language Concepts 4 7 3 Enroll View Edit Delete",
+						bi.getElementText(By.className("courses_row")));
 	}
-	
 }
