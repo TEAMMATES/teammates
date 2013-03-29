@@ -294,6 +294,9 @@ public class Logic {
 		 * deleteCourse(id.courseId); }
 		 */
 		accountsLogic.getDb().deleteInstructor(instructorId, courseId);
+		if (accountsLogic.getDb().getInstructorsByGoogleId(instructorId).isEmpty()) {
+			accountsLogic.makeAccountNonInstructor(instructorId);
+		}
 	}
 
 	/**
@@ -307,6 +310,7 @@ public class Logic {
 		gateKeeper.verifyAdminLoggedIn();
 
 		accountsLogic.getDb().deleteInstructorsByGoogleId(instructorId);
+		accountsLogic.makeAccountNonInstructor(instructorId);
 	}
 
 	/**
