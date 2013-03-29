@@ -199,6 +199,30 @@ public class AccountsDb {
 	}
 	
 	/**
+	 * RETRIEVE List<AccountData>
+	 * 
+	 *  Returns list of AccountData of accounts belonging to Instructors (with isInstructor = true)
+	 * 
+	 * @return List<AccountData>
+	 */
+	public List<AccountData> getInstructorAccounts() {
+		String query = "select from " + Account.class.getName()
+				+ " where isInstructor == true";
+
+		@SuppressWarnings("unchecked")
+		List<Account> accountsList = (List<Account>) getPM().newQuery(query)
+				.execute();
+
+		List<AccountData> instructorsAccountData = new ArrayList<AccountData>();
+		
+		for (Account a : accountsList) {
+			instructorsAccountData.add(new AccountData(a));
+		}
+		
+		return instructorsAccountData;
+	}
+	
+	/**
 	 * RETRIEVE List<InstructorData>
 	 * 
 	 *  Returns list of InstructorData which tells the COURSES instructed by this instructor
@@ -997,4 +1021,5 @@ public class AccountsDb {
 	
 		return instructorList;
 	}
+
 }

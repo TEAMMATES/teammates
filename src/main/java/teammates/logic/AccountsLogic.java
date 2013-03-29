@@ -1,6 +1,9 @@
 package teammates.logic;
 
+import java.util.List;
+
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.storage.api.AccountsDb;
@@ -46,6 +49,11 @@ public class AccountsLogic {
 	
 	public boolean isStudentExists(String courseId, String studentEmail) {
 		return accountsDb.isStudentExists(courseId, studentEmail);
+	}
+
+	//==========================================================================
+	public List<AccountData> getInstructorAccounts() {
+		return accountsDb.getInstructorAccounts();
 	}
 		
 }
