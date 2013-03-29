@@ -19,7 +19,7 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 	//We want to pull out the application logs
 	private boolean includeAppLogs = true;
 	private static final int LOGS_PER_PAGE = 30;
-	private static final int MAX_LOGSEARCH_LIMIT = 10000;
+	private static final int MAX_LOGSEARCH_LIMIT = 7000;
 		
 	@Override
 	protected AdminActivityLogHelper instantiateHelper() {
@@ -99,10 +99,15 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 			}	
 		}
 		
+		helper.statusMessage = "Total logs searched: " + totalLogsSearched + "<br>";
 		//link for Next button, will fetch older logs
-		if (currentLogsInPage >= LOGS_PER_PAGE) {
-			helper.statusMessage = "<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Next</a>";
+		if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
+			helper.statusMessage += "<br><span class=\"red\">Maximum amount of logs searched.</span><br>";
 		}
+		if (currentLogsInPage >= LOGS_PER_PAGE) {			
+			helper.statusMessage += "<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Next</a>";
+		}
+		
 		return appLogs;
 	}
 
