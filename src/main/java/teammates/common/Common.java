@@ -355,7 +355,8 @@ public class Common {
 			+ "The start time should be in the future, and the deadline should be after start time.";
 	public static final String MESSAGE_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 
-	public static final String MESSAGE_INSTRUCTOR_ACCOUNT_DELETED = "The Instructor Account has been deleted";
+	public static final String MESSAGE_INSTRUCTOR_STATUS_DELETED = "The Instructor status has been deleted";
+	public static final String MESSAGE_INSTRUCTOR_ACCOUNT_DELETED = "The Account has been deleted";
 	public static final String MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";
 	// Messages that are templates only
 	/** Template String. Parameters: Student's name, Evaluation name, Course ID */
@@ -527,7 +528,8 @@ public class Common {
 	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_FROM_COURSE = "Delete Instructor from Course";
-	public static String ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT = "Delete Instructor Account"; 
+	public static String ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_STATUS = "Delete Instructor Status";
+	public static String ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT = "Delete Instructor Account";
 	public static String ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_SEARCH_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD = "Pageload";

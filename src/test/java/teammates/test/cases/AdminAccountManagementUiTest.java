@@ -47,16 +47,16 @@ public class AdminAccountManagementUiTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testDeleteInstructorAccount(){
+	public void testDeleteInstructorStatus(){
 		String link = appUrl+Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
 		bi.goToUrl(link);
 
 		bi.click(By.id("teammates.instr1_delete"));
-		bi.waitForStatusMessage(Common.MESSAGE_INSTRUCTOR_ACCOUNT_DELETED);
-		String instructor = BackDoor.getInstructorAsJson("teammates.instr1", "CS2104");
-		assertEquals("Instructor Account was not deleted properly", instructor, "null");
-		
+		bi.waitForStatusMessage(Common.MESSAGE_INSTRUCTOR_STATUS_DELETED);
+		String instructor = BackDoor.getAccountAsJson("teammates.instr1");
+		assertTrue(instructor.contains("\"isInstructor\": \"false\""));
 	}
+	
 	
 	@Test
 	public void testRemoveInstructorFromCourse(){
@@ -81,4 +81,17 @@ public class AdminAccountManagementUiTest extends BaseTestCase{
 		String instructor = BackDoor.getStudentAsJson("CS1101", "teammates.instr2@gmail.com");
 		assertEquals("Instructor was not properly removed from the course", instructor, "null");
 	}
+	
+	@Test
+	public void testDeleteInstructorAccount(){
+		String link = appUrl+Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
+		bi.goToUrl(link);
+
+		bi.clickAndConfirm(By.id("teammates.instr3_deleteAccount"));
+		bi.waitForStatusMessage(Common.MESSAGE_INSTRUCTOR_ACCOUNT_DELETED);
+		String instructor = BackDoor.getAccountAsJson("teammates.instr3");
+		assertEquals("Instructor Account was not deleted properly", instructor, "null");
+		
+	}
+	
 }

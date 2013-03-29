@@ -24,6 +24,7 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 		String instructorId = req.getParameter(Common.PARAM_INSTRUCTOR_ID);
 		String studentId = req.getParameter(Common.PARAM_STUDENT_ID);
 		String courseId = req.getParameter(Common.PARAM_COURSE_ID);
+		String account = req.getParameter("account");
 		
 		if(instructorId == null && studentId == null){
 			helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
@@ -34,15 +35,27 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 	        		false, helper, url, null);
 			return;
 		}
-		if(courseId == null){	//Delete the ENTIRE instructor account
-			helper.server.deleteInstructor(instructorId);
-			helper.statusMessage = Common.MESSAGE_INSTRUCTOR_ACCOUNT_DELETED;
-			helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
+		if(courseId == null){	
+			if(account == null){//Delete the ENTIRE instructor account
+				helper.server.deleteInstructor(instructorId);
+				helper.statusMessage = Common.MESSAGE_INSTRUCTOR_STATUS_DELETED;
+				helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+				data.add(instructorId);
+				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_STATUS,
+		        		false, helper, url, data);
+			} else {
+				helper.server.deleteAccount(instructorId);
+				helper.statusMessage = Common.MESSAGE_INSTRUCTOR_ACCOUNT_DELETED;
+				helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
+				
+				ArrayList<Object> data = new ArrayList<Object>();
+				data.add(instructorId);
+				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT,
+		        		false, helper, url, data);
+			}
 			
-			ArrayList<Object> data = new ArrayList<Object>();
-			data.add(instructorId);
-			activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT,
-	        		false, helper, url, data);
 		} else{
 			if (instructorId != null){  //Delete Instructor from a specific course
 				helper.server.deleteInstructor(instructorId, courseId);
@@ -75,10 +88,12 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 			String action, ArrayList<Object> data) {
 		String message;
 		
-		if(action.equals(Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT)){
-			message = generateDeleteInstructorAccountMessage(servletName, action, data);
+		if(action.equals(Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_STATUS)){
+			message = generateDeleteInstructorStatusMessage(servletName, action, data);
 		} else if (action.equals(Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_FROM_COURSE)){
 			message = generateDeleteInstructorFromCourseMessage(servletName, action, data); 
+		} else if (action.equals(Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT)){
+			message = generateDeleteInstructorAccountMessage(servletName, action, data);
 		} else {
 			message = generateActivityLogEntryErrorMessage(servletName, action, data);
 		}
@@ -92,11 +107,11 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 	}
 
 	
-	private String generateDeleteInstructorAccountMessage(String servletName, String action, ArrayList<Object> data){
+	private String generateDeleteInstructorStatusMessage(String servletName, String action, ArrayList<Object> data){
 		String message;
 		
 		try {
-			message = "Instructor Account for <span class=\"bold\">" + (String)data.get(0) + "</span> has been deleted.";   
+			message = "Instructor Status for <span class=\"bold\">" + (String)data.get(0) + "</span> has been deleted.";   
 		} catch (NullPointerException e) {
 			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";  
 		}
@@ -117,4 +132,15 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 		return message;
 	}
 	
+	private String generateDeleteInstructorAccountMessage(String servletName, String action, ArrayList<Object> data){
+		String message;
+		
+		try {
+			message = "Instructor Account for <span class=\"bold\">" + (String)data.get(0) + "</span> has been deleted.";   
+		} catch (NullPointerException e) {
+			message = "<span class=\"color_red\">Null variables detected in " + servletName + ": " + action + ".</span>";  
+		}
+		
+		return message;
+	}
 }

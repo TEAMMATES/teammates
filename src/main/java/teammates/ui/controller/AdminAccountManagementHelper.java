@@ -16,9 +16,16 @@ public class AdminAccountManagementHelper extends Helper{
 		return link;
 	}
 	
+	public String getInstructorDeleteLink(String googleId){
+		String link = Common.PAGE_ADMIN_ACCOUNT_DELETE;
+		link = Common.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
+		return link;
+	}
+	
 	public String getAccountDeleteLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DELETE;
 		link = Common.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
+		link = Common.addParamToUrl(link,"account","true");
 		return link;
 	}
 }

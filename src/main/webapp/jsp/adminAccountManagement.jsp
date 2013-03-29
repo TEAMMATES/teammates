@@ -62,8 +62,9 @@
                      %>
                      </td>
                      <td>
-                        <a id="<%=instructor.googleId + "_details"%>" href="<%=helper.getAccountDetailsLink(instructor.googleId) %>">View Details</a>&nbsp;&nbsp;
-                        <a id="<%=instructor.googleId + "_delete"%>" href="<%=helper.getAccountDeleteLink(instructor.googleId) %>">Delete Account</a>
+                        <a id="<%=instructor.googleId + "_details"%>" href="<%=helper.getAccountDetailsLink(instructor.googleId) %>">View Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="<%=instructor.googleId + "_delete"%>" href="<%=helper.getInstructorDeleteLink(instructor.googleId) %>">Delete Instructor Status</a><br>
+                        <a id="<%=instructor.googleId + "_deleteAccount"%>" href="<%=helper.getAccountDeleteLink(instructor.googleId) %>" onclick="return toggleDeleteAccountConfirmation()">Delete Entire Account</a>
                      </td>
                 </tr>
             <%

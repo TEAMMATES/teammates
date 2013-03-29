@@ -13,6 +13,13 @@
       "isInstructor": true,
       "email": "teammates.instr2@gmail.com",
       "institute": "National University of Singapore"
+    },
+    "teammates.instr3": {
+      "googleId": "teammates.instr3",
+      "name": "Teammates Instr3",
+      "isInstructor": true,
+      "email": "teammates.instr3@gmail.com",
+      "institute": "National University of Singapore"
     }
   },
 
@@ -39,6 +46,12 @@
       "googleId": "teammates.instr2",
       "courseId": "CS1101",
       "name": "Teammates Instr2",
+      "email": "teammates.instr2@gmail.com"
+    },
+    "teammates.instr3": {
+      "googleId": "teammates.instr3",
+      "courseId": "CS2104",
+      "name": "Teammates Instr3",
       "email": "teammates.instr2@gmail.com"
     }
   },
