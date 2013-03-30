@@ -26,26 +26,29 @@ public class AdminAccountManagementServlet extends ActionServlet<AdminAccountMan
 	protected void doAction(HttpServletRequest req,
 			AdminAccountManagementHelper helper)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		List<InstructorData> instructorList = helper.server.getAllInstructors();
-		List<AccountData> instructorAccounts = helper.server.getInstructorAccounts();
+		List<InstructorData> allInstructorsList = helper.server.getAllInstructors();
+		List<AccountData> allInstructorAccountsList = helper.server.getInstructorAccounts();
 		
-		helper.accounts = new HashMap<String, ArrayList<InstructorData>>();
-		for (AccountData acc : instructorAccounts){
-			ArrayList<InstructorData> lst = new ArrayList<InstructorData>();
-			//Insert a dummy course in case the account does not have any courses
-			lst.add(new InstructorData(acc.googleId, null, acc.name, acc.email));
-			helper.accounts.put(acc.googleId, lst);
+		helper.instructorCoursesTable = new HashMap<String, ArrayList<InstructorData>>();
+		helper.instructorAccountsTable = new HashMap<String, AccountData>();
+		
+		for(AccountData acc : allInstructorAccountsList){
+			helper.instructorAccountsTable.put(acc.googleId, acc);
 		}
 		
-		for(InstructorData instruct : instructorList){
-			ArrayList<InstructorData> lst = helper.accounts.get(instruct.googleId);
-			lst.add(instruct);
+		for(InstructorData instructor : allInstructorsList){
+			ArrayList<InstructorData> courseList = helper.instructorCoursesTable.get(instructor.googleId);
+			if (courseList == null){
+				courseList = new ArrayList<InstructorData>();
+				helper.instructorCoursesTable.put(instructor.googleId, courseList);
+			}
+			courseList.add(instructor);
 		}
-		
+			
 		String url = getRequestedURL(req);
 		
 		ArrayList<Object> data = new ArrayList<Object>();
-		data.add(helper.accounts.size());
+		data.add(helper.instructorAccountsTable.size());
 		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET, Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD,
 				true, helper, url, data);
 	}

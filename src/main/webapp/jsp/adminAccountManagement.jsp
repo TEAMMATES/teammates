@@ -1,6 +1,7 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.ui.controller.AdminAccountManagementHelper"%>
 <%@ page import="teammates.common.datatransfer.InstructorData" %>
+<%@ page import="teammates.common.datatransfer.AccountData" %>
 <%@ page import="teammates.common.exception.EntityDoesNotExistException" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
@@ -35,7 +36,7 @@
             <div id="headerOperation">
             <h1>Instructor Account Management</h1>
             </div>
-            <p id="instructorCount" class="rightalign bold">Total Instructors: <%=helper.accounts.size() %></p>
+            <p id="instructorCount" class="rightalign bold">Total Instructors: <%=helper.instructorCoursesTable.size()%></p>
             <table class="dataTable">
             <tr>
                 <th class="bold" width="40%">Account Info</th>
@@ -43,27 +44,27 @@
                 <th class="bold" width="30%">Options</th>
             </tr>
             <%
-	            for (Map.Entry<String, ArrayList<InstructorData>> entry : helper.accounts.entrySet()) {
-	                String key = entry.getKey();
-	                ArrayList<InstructorData> coursesList = entry.getValue();
-	                //Take note that the first InstructorData is a dummy used to hold the account information
-	                //Some instructors may not have courses
-	                InstructorData instructorInfo = coursesList.get(0);
+                for (Map.Entry<String, AccountData> entry : helper.instructorAccountsTable.entrySet()) {
+                        String key = entry.getKey();
+                        AccountData acc = entry.getValue();
+                        ArrayList<InstructorData> coursesList = helper.instructorCoursesTable.get(key);
             %>
                 <tr>
-                     <td><%="<span class=\"bold\">Google ID: </span>" + instructorInfo.googleId + " <br><span class=\"bold\">Name: </span>" + instructorInfo.name + "<br><span class=\"bold\">Email: </span>" + instructorInfo.email %></td>
+                     <td><%="<span class=\"bold\">Google ID: </span>" + acc.googleId + " <br><span class=\"bold\">Name: </span>" + acc.name + "<br><span class=\"bold\">Email: </span>" + acc.email %></td>
                      <td>
                      <%
-                         out.print("Total Courses: " + (coursesList.size() - 1) + "<br>");
-                         for(InstructorData i: coursesList){
-                             if(i.courseId != null){
-                                 out.print(" --- " + i.courseId + "<br>");
-                             }
-                         }
+	                     if(coursesList != null){
+	                         out.print("Total Courses: " + coursesList.size() + "<br>");
+	                         for(InstructorData i: coursesList){
+	                             out.print(" --- " + i.courseId + "<br>");
+	                         }
+	                     } else {
+	                         out.print("No Courses found");
+	                     }
                      %>
                      </td>
                      <td>
-                        <a href="<%=helper.getAccountDetailsLink(instructorInfo.googleId) %>">View Details</a>&nbsp;&nbsp;
+                        <a href="<%=helper.getAccountDetailsLink(acc.googleId) %>">View Details</a>&nbsp;&nbsp;
                         Delete Account
                      </td>
                 </tr>
