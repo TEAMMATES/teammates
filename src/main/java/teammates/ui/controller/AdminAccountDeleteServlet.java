@@ -35,54 +35,65 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 	        		false, helper, url, null);
 			return;
 		}
-		if(courseId == null){	
-			if(account == null){//Delete the ENTIRE instructor account
-				helper.server.deleteInstructor(instructorId);
-				helper.statusMessage = Common.MESSAGE_INSTRUCTOR_STATUS_DELETED;
-				helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
-				
-				ArrayList<Object> data = new ArrayList<Object>();
-				data.add(instructorId);
-				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_STATUS,
-		        		false, helper, url, data);
-			} else {
-				helper.server.deleteAccount(instructorId);
-				helper.statusMessage = Common.MESSAGE_INSTRUCTOR_ACCOUNT_DELETED;
-				helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
-				
-				ArrayList<Object> data = new ArrayList<Object>();
-				data.add(instructorId);
-				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT,
-		        		false, helper, url, data);
-			}
-			
-		} else{
-			if (instructorId != null){  //Delete Instructor from a specific course
-				helper.server.deleteInstructor(instructorId, courseId);
-				helper.statusMessage = Common.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE;
-				helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_DETAILS + "?instructorid=" + instructorId;
-				
-				ArrayList<Object> data = new ArrayList<Object>();
-				data.add(instructorId);
-				data.add(courseId);
-				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_FROM_COURSE,
-		        		false, helper, url, data);
-			} else if (studentId != null) {	//Delete Student from a specific course
-				StudentData student = helper.server.getStudentInCourseForGoogleId(courseId, studentId);
-				helper.server.deleteStudent(courseId, student.email);
-				helper.statusMessage = Common.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE;
-				helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_DETAILS + "?instructorid=" + studentId;
-				
-				ArrayList<Object> data = new ArrayList<Object>();
-				data.add(instructorId);
-				data.add(courseId);
-				activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_FROM_COURSE,
-		        		false, helper, url, data);
-			}
-		}
 		
+		ArrayList<Object> data = new ArrayList<Object>();
+		if(instructorId != null){
+			data.add(instructorId);
+		} else {
+			data.add(studentId);
+		}
+		data.add(courseId);
+		
+		if(courseId == null && account == null){	
+			deleteInstructorStatus(helper, instructorId);
+					
+			activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_STATUS,
+		        	false, helper, url, data);
+		} else if (courseId == null && account != null){
+			deleteInstructorAccount(helper, instructorId);
+				
+			activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT,
+		       		false, helper, url, data);
+		} else if (courseId != null && instructorId != null){
+			removeInstructorFromCourse(helper, instructorId, courseId);	
+
+			activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_FROM_COURSE,
+		       		false, helper, url, data);
+		} else if (courseId != null && studentId != null) {
+			removeStudentFromCourse(helper, studentId, courseId);
+			
+			activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_DELETE_SERVLET, Common.ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_FROM_COURSE,
+		       		false, helper, url, data);
+		}		
 	}
 
+	private void deleteInstructorStatus(Helper helper, String instructorId){
+		helper.server.deleteInstructor(instructorId);
+		helper.statusMessage = Common.MESSAGE_INSTRUCTOR_STATUS_DELETED;
+		helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;	
+	}
+	
+	private void deleteInstructorAccount(Helper helper, String instructorId){
+		helper.server.deleteAccount(instructorId);
+		helper.statusMessage = Common.MESSAGE_INSTRUCTOR_ACCOUNT_DELETED;
+		helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
+	}
+	
+	private void removeInstructorFromCourse(Helper helper, String instructorId, String courseId){
+		helper.server.deleteInstructor(instructorId, courseId);
+		helper.statusMessage = Common.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE;
+		helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_DETAILS + "?instructorid=" + instructorId;
+	}
+	
+	private void removeStudentFromCourse(Helper helper, String studentId, String courseId){
+		StudentData student = helper.server.getStudentInCourseForGoogleId(courseId, studentId);
+		helper.server.deleteStudent(courseId, student.email);
+		helper.statusMessage = Common.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE;
+		helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_DETAILS + "?instructorid=" + studentId;
+	}
+	
+	
+	
 	@Override
 	protected String generateActivityLogEntryMessage(String servletName,
 			String action, ArrayList<Object> data) {

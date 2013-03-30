@@ -54,7 +54,8 @@ public class AdminAccountManagementUiTest extends BaseTestCase{
 		bi.click(By.id("teammates.instr1_delete"));
 		bi.waitForStatusMessage(Common.MESSAGE_INSTRUCTOR_STATUS_DELETED);
 		String instructor = BackDoor.getAccountAsJson("teammates.instr1");
-		assertTrue(instructor.contains("\"isInstructor\": false"));
+		System.out.println(instructor);
+		assertTrue("Account is still an instructor", instructor.contains("\"isInstructor\": false"));
 	}
 	
 	
@@ -86,10 +87,14 @@ public class AdminAccountManagementUiTest extends BaseTestCase{
 	public void testDeleteInstructorAccount(){
 		String link = appUrl+Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;
 		bi.goToUrl(link);
+		
+		bi.clickAndCancel(By.id("teammates.instr3_deleteAccount"));
+		String instructor = BackDoor.getAccountAsJson("teammates.instr3");
+		assertTrue("Instructor Account was deleted when it is not supposed to be", instructor.contains("\"googleId\": \"teammates.instr3\""));
 
 		bi.clickAndConfirm(By.id("teammates.instr3_deleteAccount"));
 		bi.waitForStatusMessage(Common.MESSAGE_INSTRUCTOR_ACCOUNT_DELETED);
-		String instructor = BackDoor.getAccountAsJson("teammates.instr3");
+		instructor = BackDoor.getAccountAsJson("teammates.instr3");
 		assertEquals("Instructor Account was not deleted properly", instructor, "null");
 		
 	}
