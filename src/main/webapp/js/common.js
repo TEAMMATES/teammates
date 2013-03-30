@@ -310,7 +310,7 @@ function setStatusMessage(message, error) {
 				"display: block; background-color: rgb(255, 153, 153);");
 	} else {
 		$(DIV_STATUS_MESSAGE).attr("style",
-				"display: block; background-color: transparent;");
+				"display: block; ");
 	}
 }
 
