@@ -35,7 +35,7 @@
             <div id="headerOperation">
             <h1>Instructor Account Management</h1>
             </div>
-            <p id="instructorCount" class="rightalign bold">Total Instructors: <%=helper.accountList.size() %></p>
+            <p id="instructorCount" class="rightalign bold">Total Instructors: <%=helper.accounts.size() %></p>
             <table class="dataTable">
             <tr>
                 <th class="bold" width="40%">Account Info</th>
@@ -43,23 +43,27 @@
                 <th class="bold" width="30%">Options</th>
             </tr>
             <%
-	            for (Map.Entry<Integer, List<String>> entry : helper.accountList.entrySet()) {
-	                Integer key = entry.getKey();
-	                List<String> coursesList = entry.getValue();
-	                InstructorData instructor = helper.instructorList.get(key);
+	            for (Map.Entry<String, ArrayList<InstructorData>> entry : helper.accounts.entrySet()) {
+	                String key = entry.getKey();
+	                ArrayList<InstructorData> coursesList = entry.getValue();
+	                //Take note that the first InstructorData is a dummy used to hold the account information
+	                //Some instructors may not have courses
+	                InstructorData instructorInfo = coursesList.get(0);
             %>
                 <tr>
-                     <td><%="<span class=\"bold\">Google ID: </span>" + instructor.googleId + " <br><span class=\"bold\">Name: </span>" + instructor.name + "<br><span class=\"bold\">Email: </span>" + instructor.email %></td>
+                     <td><%="<span class=\"bold\">Google ID: </span>" + instructorInfo.googleId + " <br><span class=\"bold\">Name: </span>" + instructorInfo.name + "<br><span class=\"bold\">Email: </span>" + instructorInfo.email %></td>
                      <td>
                      <%
-                         out.print("Total Courses: " + coursesList.size() + "<br>");
-                         for(String course: coursesList){
-                             out.print(" --- " + course + "<br>");
+                         out.print("Total Courses: " + (coursesList.size() - 1) + "<br>");
+                         for(InstructorData i: coursesList){
+                             if(i.courseId != null){
+                                 out.print(" --- " + i.courseId + "<br>");
+                             }
                          }
                      %>
                      </td>
                      <td>
-                        <a href="<%=helper.getAccountDetailsLink(instructor.googleId) %>">View Details</a>&nbsp;&nbsp;
+                        <a href="<%=helper.getAccountDetailsLink(instructorInfo.googleId) %>">View Details</a>&nbsp;&nbsp;
                         Delete Account
                      </td>
                 </tr>

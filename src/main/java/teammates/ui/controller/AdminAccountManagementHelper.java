@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,8 +8,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.InstructorData;
 
 public class AdminAccountManagementHelper extends Helper{
-	public List<InstructorData> instructorList;
-	public HashMap<Integer, List<String>> accountList;
+	public HashMap<String, ArrayList<InstructorData>> accounts;
 	
 	public String getAccountDetailsLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DETAILS;

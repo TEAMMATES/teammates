@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -25,43 +26,26 @@ public class AdminAccountManagementServlet extends ActionServlet<AdminAccountMan
 	protected void doAction(HttpServletRequest req,
 			AdminAccountManagementHelper helper)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		helper.instructorList = helper.server.getAllInstructors();
+		List<InstructorData> instructorList = helper.server.getAllInstructors();
+		List<AccountData> instructorAccounts = helper.server.getInstructorAccounts();
 		
-		//Sort the list of instructors
-		Collections.sort(helper.instructorList, new Comparator<InstructorData>(){
-			public int compare(InstructorData i1, InstructorData i2){
-				return i1.googleId.compareTo(i2.googleId);
-			}
-		});
-				
-		helper.accountList = new HashMap<Integer, List<String>>();
-		String key = "";
-		List<String> courses = null;
-		int i;
-		for (i = 0; i < helper.instructorList.size(); i++){
-			InstructorData instructor = helper.instructorList.get(i);
-			if (!instructor.googleId.equals(key)){
-				//Save existing account if any
-				if(courses != null){
-					helper.accountList.put(i - 1, courses);
-				}
-				
-				//Start new account
-				key = instructor.googleId;
-				courses = new ArrayList<String>();
-				courses.add(instructor.courseId);
-			} else {
-				courses.add(instructor.courseId);
-			}
+		helper.accounts = new HashMap<String, ArrayList<InstructorData>>();
+		for (AccountData acc : instructorAccounts){
+			ArrayList<InstructorData> lst = new ArrayList<InstructorData>();
+			//Insert a dummy course in case the account does not have any courses
+			lst.add(new InstructorData(acc.googleId, null, acc.name, acc.email));
+			helper.accounts.put(acc.googleId, lst);
 		}
-		if(courses != null){
-			helper.accountList.put(i - 1, courses);
+		
+		for(InstructorData instruct : instructorList){
+			ArrayList<InstructorData> lst = helper.accounts.get(instruct.googleId);
+			lst.add(instruct);
 		}
 		
 		String url = getRequestedURL(req);
 		
 		ArrayList<Object> data = new ArrayList<Object>();
-		data.add(helper.accountList.size());
+		data.add(helper.accounts.size());
 		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET, Common.ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD,
 				true, helper, url, data);
 	}
