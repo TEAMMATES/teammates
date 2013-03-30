@@ -54,7 +54,6 @@ public class AdminAccountManagementUiTest extends BaseTestCase{
 		bi.click(By.id("teammates.instr1_delete"));
 		bi.waitForStatusMessage(Common.MESSAGE_INSTRUCTOR_STATUS_DELETED);
 		String instructor = BackDoor.getAccountAsJson("teammates.instr1");
-		System.out.println(instructor);
 		assertTrue("Account is still an instructor", instructor.contains("\"isInstructor\": false"));
 	}
 	
