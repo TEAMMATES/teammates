@@ -285,14 +285,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyAdminLoggedIn();
-
-		/*
-		 * Inverting the heirarchy List<InstructorData> instructorCourseList =
-		 * accountsLogic.getDb().getInstructorsByGoogleId(instructorId);
-		 * 
-		 * for (InstructorData id : instructorCourseList) {
-		 * deleteCourse(id.courseId); }
-		 */
+		
 		accountsLogic.getDb().deleteInstructor(instructorId, courseId);
 	}
 
@@ -307,6 +300,7 @@ public class Logic {
 		gateKeeper.verifyAdminLoggedIn();
 
 		accountsLogic.getDb().deleteInstructorsByGoogleId(instructorId);
+		accountsLogic.makeAccountNonInstructor(instructorId);
 	}
 
 	/**

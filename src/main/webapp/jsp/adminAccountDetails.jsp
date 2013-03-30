@@ -50,6 +50,8 @@
                 </tr>
             </table>
             <br>
+             <jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+            <br>
             <br>
             <h2>Instructor For:</h2>
             <p class="courseCount rightalign bold">Total Courses: <%=helper.instructorCourseList != null ? helper.instructorCourseList.size() : 0 %></p>
@@ -59,11 +61,11 @@
                     <th class="bold">Options</th>
                 </tr>
                 <%
-                    if(helper.instructorCourseList != null){
+                    if(helper.instructorCourseList != null && helper.instructorCourseList.size() != 0){
 	                    for(CourseData course : helper.instructorCourseList){
 	                        out.print("<tr>");
 	                        out.print("<td>[]" + course.id + "] " + course.name + "</td>");
-	                        out.print("<td>Remove From Course</td>");
+	                        out.print("<td><a id=\"instructor_" + course.id + "\" href=\"" + helper.getInstructorCourseDeleteLink(helper.accountInformation.googleId, course.id)+ "\">Remove From Course</a></td>");
 	                        out.print("</tr>");
 	                    }
                     } else {
@@ -85,7 +87,7 @@
                         for(CourseData course : helper.studentCourseList){
                             out.print("<tr>");
                             out.print("<td>[]" + course.id + "] " + course.name + "</td>");
-                            out.print("<td>Remove From Course</td>");
+                            out.print("<td><a id=\"student_" + course.id + "\" href=\"" + helper.getStudentCourseDeleteLink(helper.accountInformation.googleId, course.id)+ "\">Remove From Course</a></td>");
                             out.print("</tr>");
                         }
                     } else {
@@ -94,7 +96,6 @@
                 %>
             </table>
             <br>
-            <jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
             <br>
             <br>
         </div>

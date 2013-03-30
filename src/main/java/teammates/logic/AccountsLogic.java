@@ -47,5 +47,10 @@ public class AccountsLogic {
 	public boolean isStudentExists(String courseId, String studentEmail) {
 		return accountsDb.isStudentExists(courseId, studentEmail);
 	}
+
+	//==========================================================================
+	public void makeAccountNonInstructor(String instructorId) {
+		accountsDb.makeAccountNonInstructor(instructorId);
+	}
 		
 }
