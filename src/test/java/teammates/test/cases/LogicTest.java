@@ -197,6 +197,47 @@ public class LogicTest extends BaseTestCase {
 		logoutUser();
 		assertEquals(null, logic.getLoggedInUser());
 	}
+	
+	@SuppressWarnings("unused")
+	private void ____ACCOUNT_level_methods___________________________________() {
+	}
+	
+	@Test
+	public void testGetInstructorAccounts() throws Exception{
+		restoreTypicalDataInDatastore();
+
+		______TS("unauthorized access");
+
+		String methodName = "getInstructorAccounts";
+		Class<?>[] paramTypes = new Class[] {};
+		Object[] params = new Object[] {};
+
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName,
+				"student1InCourse1", paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+
+		______TS("success case");
+		loginAsAdmin("admin.user");
+		
+		List<AccountData> instructorAccounts = logic.getInstructorAccounts();
+		int size = instructorAccounts.size();
+		
+		logic.createAccount("test.account", "Test Account", true, "test@account.com", "Foo University");
+		instructorAccounts = logic.getInstructorAccounts();
+		assertEquals(instructorAccounts.size(), size + 1);
+		
+		logic.deleteAccount("test.account");
+		instructorAccounts = logic.getInstructorAccounts();
+		assertEquals(instructorAccounts.size(), size);
+	}
 
 	@SuppressWarnings("unused")
 	private void ____INSTRUCTOR_level_methods____________________________________() {

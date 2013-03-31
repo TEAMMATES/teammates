@@ -153,6 +153,17 @@ public class Logic {
 	}
 	
 	/**
+	 * Access: Admin only
+	 */
+	public List<AccountData> getInstructorAccounts() {
+		gateKeeper.verifyAdminLoggedIn();
+
+		List<AccountData> accounts = accountsLogic.getInstructorAccounts();
+
+		return accounts;
+	}
+	
+	/**
 	 * 
 	 * @param a
 	 * @throws InvalidParametersException
