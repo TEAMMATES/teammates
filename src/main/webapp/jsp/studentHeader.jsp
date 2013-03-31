@@ -13,10 +13,11 @@
 				<ul id="navbar">
 					<li><a class='nav home' data-link="studentHome" href="<%= helper.getStudentHomeLink() %>">Home</a></li>
 					<li><a class='nav help' href="/studentHelp.html" target="_blank">Help</a></li>
-					<li><a class='nav logout' href="<%= Common.JSP_LOGOUT %>">Logout</a><%if(helper.userId.length()>=Common.USER_ID_MAX_DISPLAY_LENGTH){ %>
+					<li><a class='nav logout' href="<%= Common.JSP_LOGOUT %>">Logout</a>
+					<b><%if(helper.userId.length()>=Common.USER_ID_MAX_DISPLAY_LENGTH){ %>
 					<span onmouseover="ddrivetip('<%=helper.userId %>')" onmouseout="hideddrivetip()">
 							(<%=Helper.truncate(helper.userId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%}else{%>
-							(<%=Helper.truncate(helper.userId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %>
+							(<%=Helper.truncate(helper.userId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %></b>
 					</li>
 				</ul>
 			</div>

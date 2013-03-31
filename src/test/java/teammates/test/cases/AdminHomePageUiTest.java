@@ -35,9 +35,9 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		printTestClassFooter();
 		
 		BackDoor.deleteCourse("newInstructor-demo");
-		BackDoor.deleteInstructor("newInstructor");
-		BackDoor.deleteInstructor("newInstructor2");
-		BackDoor.deleteInstructor("newInstructor3");
+		BackDoor.deleteAccount("newInstructor");
+		BackDoor.deleteAccount("newInstructor2");
+		BackDoor.deleteAccount("newInstructor3");
 	}
 	
 	@Test
@@ -73,6 +73,15 @@ public class AdminHomePageUiTest extends BaseTestCase{
 		String instructorVerification = BackDoor.getInstructorAsJson("newInstructor", "newInstructor-demo");
 		assertTrue(instructorVerification.contains("\"courseId\": \"newInstructor-demo\""));
 		assertTrue(instructorVerification.contains("\"googleId\": \"newInstructor\""));
+		
+		______TS("test create account with registered data");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "newInstructor");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_NAME), "New Instructor Duplicate");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_EMAIL), "newInstructorDuplicate@gmail.com");
+		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_INSTITUTION), "Institution");
+		bi.click(By.id("btnAddInstructor"));
+		
+		bi.waitForStatusMessage("The Google ID newInstructor is already registered as an instructor");
 		
 		______TS("test create account without sample data");
 		bi.fillString(By.name(Common.PARAM_INSTRUCTOR_ID), "newInstructor2");

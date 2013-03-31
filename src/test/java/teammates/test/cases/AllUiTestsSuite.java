@@ -26,10 +26,14 @@ import org.junit.runners.Suite;
 		StudentEvalEditPageUiTest.class,
 		StudentEvalResultsPageUiTest.class,
 		
+		
 		StudentHomePageUiTest.class,
 		SystemErrorEmailReportTest.class,
 		
 		AdminHomePageUiTest.class,
+		AdminAccountManagementUiTest.class,
+		
+		TableSortTest.class,
 })
 
 //@formatter:on

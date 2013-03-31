@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Date;
+import java.util.Date; 
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -329,9 +329,7 @@ public class BrowserInstance {
 	public By instructorCourseInputCourseName = By.id("coursename");
 	public By instructorCourseInputInstructorList = By.id("instructorlist");
 	public By instructorCourseAddButton = By.id("btnAddCourse");
-	public By instructorCourseSortByIdButton = By.id("button_sortcourseid");
-	public By instructorCourseSortByNameButton = By.id("button_sortcoursename");
-
+	
 	// ------------------------------- Courses Table
 	// ----------------------------- //
 	/*
@@ -1320,22 +1318,68 @@ public class BrowserInstance {
 	public void clickInstructorReviewerSummaryEdit(int rowID) {
 		clickWithWait(getReviewerSummaryEdit(rowID));
 	}
+		
+	/**
+	 * Compares selected column's rows with patternString
+	 * Separate rows using {*}
+	 * 
+	 * @param column, patternString
+	 * @return
+	 */
+	public void assertDataTablePattern(int column,String patternString){
+		//patternString is split with {*} to separate the rows
+		String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
+		for(int row=1;row<splitString.length;row++){
+			//if a row is empty, it will not be asserted with
+			//row starts from 1 to skip the header row, this requires patternString to start with {*}
+			if(splitString[row].length()>0){
+				assertEquals(getCellFromDataTable(row,column),splitString[row]);
+			}
+		}
+	}
+	
+	// --------------------------------- TableSort
+		// -------------------------------- //
+	public By tableSortByIdButton = By.id("button_sortid");
+	public By tableSortByNameButton = By.id("button_sortname");
+	public By tableSortByDateButton = By.id("button_sortdate");
 
 	/**
-	 * Clicks the sort course by name button. Waits for the element to appear.
+	 * Clicks the sort by name button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickInstructorCourseSortByNameButton() {
-		clickWithWait(instructorCourseSortByNameButton);
+	public void clickTableSortByNameButton() {
+		clickWithWait(tableSortByNameButton);
 	}
 
 	/**
-	 * Clicks the sort course by ID button. Waits for the element to appear.
+	 * Clicks the sort by ID button. Waits for the element to appear.
 	 * Pre-condition: Should be at Course Page
 	 */
-	public void clickInstructorCourseSortByIdButton() {
-		clickWithWait(instructorCourseSortByIdButton);
+	public void clickTableSortByIdButton() {
+		clickWithWait(tableSortByIdButton);
 	}
+	
+	/**
+	 * Clicks the sort by date button. Waits for the element to appear.
+	 * Pre-condition: Should be at Course Page
+	 */
+	public void clickTableSortByDateButton() {
+		clickWithWait(tableSortByDateButton);
+	}
+	
+	/**
+	 * Returns the string for specific row and column. Waits until the
+	 * element exists or timeout. Table class must be dataTable
+	 * 
+	 * @param row, column
+	 * @return
+	 */
+	public String getCellFromDataTable(int row, int column) {
+		waitForElementPresent(By.className("dataTable"));
+		return selenium.getTable("class=dataTable." + row + "." + column);
+	}
+	
 
 	// --------------------------------- Students
 	// -------------------------------- //
@@ -2265,6 +2309,7 @@ public class BrowserInstance {
 	 */
 	protected void wrapUp() {
 		selenium.stop();
+		
 		if (chromeService != null && chromeService.isRunning())
 			chromeService.stop();
 	}
@@ -2954,5 +2999,8 @@ public class BrowserInstance {
 
 	}
 	
+	public String getCurrentUrl(){
+		return this.driver.getCurrentUrl();
+	}
 	
 }

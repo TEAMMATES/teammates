@@ -1,4 +1,4 @@
-package teammates.test.driver;
+package teammates.client.remoteapi;
 
 import java.io.IOException;
 
@@ -7,6 +7,8 @@ import com.google.appengine.tools.remoteapi.RemoteApiOptions;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
+
+import teammates.test.driver.TestProperties;
 
 public abstract class RemoteApiClient {
 

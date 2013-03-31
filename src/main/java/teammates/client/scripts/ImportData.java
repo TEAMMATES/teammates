@@ -1,4 +1,4 @@
-package teammates.test.scripts;
+package teammates.client.scripts;
 
 import java.util.HashMap;
 import java.util.Iterator;

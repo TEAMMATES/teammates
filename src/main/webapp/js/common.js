@@ -1,6 +1,7 @@
-var COURSE_ID_MAX_LENGTH = 30;
-var COURSE_NAME_MAX_LENGTH = 38;
+var COURSE_ID_MAX_LENGTH = 40;
+var COURSE_NAME_MAX_LENGTH = 64;
 var EVAL_NAME_MAX_LENGTH = 38;
+var EVAL_INSTRUCTIONS_MAX_LENGTH = 500; 
 
 // Field names
 var COURSE_ID = "courseid"; // Used in instructorCourse.js
@@ -39,6 +40,7 @@ var DISPLAY_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whi
 var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"
 		+ "The start time should be in the future, and the deadline should be after start time.";
+var DISPLAY_EVALUATION_INSTRUCTIONS_LENGTHINVALID = "Instructions to students should not exceed 500 characters.";
 var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 
@@ -46,63 +48,6 @@ var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 var TEAMNAME_MAX_LENGTH = 24;
 var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
-
-/** ---------------------------- Sorting Functions --------------------------* */
-/**
- * jQuery.fn.sortElements --------------
- * 
- * @author James Padolsey (http://james.padolsey.com)
- * @version 0.11
- * @updated 18-MAR-2010 --------------
- * @param Function
- *            comparator: Exactly the same behaviour as [1,2,3].sort(comparator)
- * 
- * @param Function
- *            getSortable A function that should return the element that is to
- *            be sorted. The comparator will run on the current collection, but
- *            you may want the actual resulting sort to occur on a parent or
- *            another associated element.
- * 
- * E.g. $('td').sortElements(comparator, function(){ return this.parentNode; })
- * 
- * The
- * <td>'s parent (
- * <tr>) will be sorted instead of the
- * <td> itself.
- */
-$.fn.sortElements = (function() {
-	var sort = [].sort;
-
-	return function(comparator, getSortable) {
-		getSortable = getSortable || function() {
-			return this;
-		};
-		var placements = this
-				.map(function() {
-					var sortElement = getSortable.call(this), parentNode = sortElement.parentNode,
-
-					// Since the element itself will change position, we have
-					// to have some way of storing it's original position in
-					// the DOM. The easiest way is to have a 'flag' node:
-					nextSibling = parentNode.insertBefore(document
-							.createTextNode(''), sortElement.nextSibling);
-
-					return function() {
-						if (parentNode === this) {
-							throw new Error(
-									"You can't sort elements if any one is a descendant of another.");
-						}
-						// Insert before flag:
-						parentNode.insertBefore(this, nextSibling);
-						// Remove flag:
-						parentNode.removeChild(nextSibling);
-					};
-				});
-		return sort.call(this, comparator).each(function(i) {
-			placements[i].call(getSortable.call(this));
-		});
-	};
-})();
 
 /**
  * Sorts a table
@@ -114,19 +59,21 @@ $.fn.sortElements = (function() {
  */
 function toggleSort(divElement, colIdx, comparator) {
 	if ($(divElement).attr("class") == "buttonSortNone") {
-		sortTable(divElement, colIdx, comparator);
+		sortTable(divElement, colIdx, comparator, true);
 		$(".buttonSortAscending").attr("class", "buttonSortNone");
 		$(".buttonSortDescending").attr("class", "buttonSortNone");
 		$(divElement).attr("class", "buttonSortAscending");
 	} else if ($(divElement).attr("class") == "buttonSortAscending") {
-		sortTable(divElement, colIdx, sortBaseCellDescending);
+		sortTable(divElement, colIdx, comparator, false);
 		$(divElement).attr("class", "buttonSortDescending");
 	} else {
-		sortTable(divElement, colIdx, comparator);
+		sortTable(divElement, colIdx, comparator, true);
 		$(divElement).attr("class", "buttonSortAscending");
 	}
 }
 
+
+//http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
 /**
  * Sorts a table based on certain column and comparator
  * 
@@ -134,44 +81,65 @@ function toggleSort(divElement, colIdx, comparator) {
  *            One of the table cell
  * @param colIdx
  *            The column index (1-based) as key for the sort
- * @param comparator
- *            This will be used to compare two cells. If not specified,
- *            sortBaseCell will be used
+ * @param ascending
+ * 			  if this is true, it will be ascending order, else it will be descending order
  */
-function sortTable(oneOfTableCell, colIdx, comparator) {
-	if (!comparator)
-		comparator = sortBaseCellAscending;
+function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
+			
+	//Get the table
 	var table = $(oneOfTableCell);
-	if (!table.is("table")) {
-		table = $(oneOfTableCell).parentsUntil("table");
-		table = $(table[table.length - 1].parentNode);
+	if (!table.is("table")){
+		table =  $(oneOfTableCell).parents("table");
 	}
-	keys = $("td:nth-child(" + colIdx + ")", table);
-	keys.sortElements(comparator, function() {
-		return this.parentNode;
-	});
-}
+	
+	var columnType=0;
+	var store = [];
+	var RowList = $("tr", table);
+	//Iterate through column's contents to decide which comparator to use
+	for (var i = 1; i < RowList.length; i++) {
+		var innerText = RowList[i].cells[colIdx-1].innerHTML;
+		
+		//Store rows together with the innerText to compare
+		store.push([innerText, RowList[i]]);
+		
+		if((columnType==0 || columnType==1) && isNumber(innerText)){
+			columnType=1;
+		}else if((columnType==0 || columnType==2) && isDate(innerText)){
+			columnType=2;
+		}else{
+			columnType=3;
+		}
+	}
+	
+	if(comparator==null){
+		if (columnType==1){
+			 comparator = sortNum;
+		}else if(columnType==2){
+			 comparator = sortDate;
+		}else{
+			 comparator = sortBase;
+		}
+	}
+	
+	store.sort(function(x,y){
+		if(ascending==true){
+			return comparator(x[0],y[0]);
+		}else{
+			return comparator(y[0],x[0]);
+		}
+    });
+	
+	var tbody = $(table.get(0)).children('tbody');
 
-/**
- * The base comparator for a cell (ascending)
- * 
- * @param cell1
- * @param cell2
- * @returns returns if cell1.innerHTML is larger than cell2.innerHTML
- */
-function sortBaseCellAscending(cell1, cell2) {
-	return sortBase(cell1.innerHTML, cell2.innerHTML);
-}
-
-/**
- * The base comparator for a cell (descending)
- * 
- * @param cell1
- * @param cell2
- * @returns returns the opposite of sortBaseAscending
- */
-function sortBaseCellDescending(cell1, cell2) {
-	return sortBaseCellAscending(cell2, cell1);
+	if(tbody.size<1){
+		tbody = table;
+	}
+	
+	//Must push to target tbody else it will generate a new tbody for the table
+    for(var i=0; i<store.length; i++){
+        tbody.get(0).appendChild(store[i][1]);
+    }
+    store = null;
 }
 
 /**
@@ -182,7 +150,65 @@ function sortBaseCellDescending(cell1, cell2) {
  * @returns
  */
 function sortBase(x, y) {
-	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	//Text sorting
+	return (x < y ? -1 : x > y ? 1 : 0);
+}
+
+/**
+ * Comparator for numbers (integer, double) (ascending)
+ * 
+ * @param x
+ * @param y
+ * @returns
+ */
+function sortNum(x, y){
+	return x-y;
+}
+
+
+/**
+ * Comparator for date in (dd/mm/yyyy) format (ascending)
+ * 
+ * @param x
+ * @param y
+ * @returns
+ */
+function sortDate(x, y){
+	//Date sorting
+	//Allows the following format
+	//DD MM YY or DD-MM-YY or DD/MM/YY or DD MM YYYY or DD-MM-YYYY or DD/MM/YYYY
+	x = x.replace(getDayMonthYearFormat(),"$3$2$1");
+	y = y.replace(getDayMonthYearFormat(),"$3$2$1");
+	return x-y;
+}
+
+/**
+* Function that returns the pattern of DayMonthYearFormat (dd/mm/yyyy)
+* 
+* @returns pattern string
+*/
+function getDayMonthYearFormat(){
+	return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
+}
+
+
+/**
+* Function that checks if the param is in DayMonthYearFormat (dd/mm/yyyy)
+* 
+* @param date
+* @returns boolean
+*/
+function isDate(date){
+	return date.match(getDayMonthYearFormat())!=null;
+}
+
+/**
+* Function to test if param is a numerical value
+* @param num
+* @returns boolean
+*/
+function isNumber(num) {
+	  return (typeof num == 'string' || typeof num == 'number') && !isNaN(num - 0) && num !== '';
 }
 
 /**
@@ -195,8 +221,12 @@ function sortBase(x, y) {
 function sortByPoint(a, b) {
 	a = getPointValue(a, true);
 	b = getPointValue(b, true);
-
-	return sortBase(a, b);
+	
+	if(isNumber(a) && isNumber(b)){
+		return sortNum(a, b);
+	}else{
+		return sortBase(a, b);
+	}
 }
 
 /**
@@ -210,7 +240,11 @@ function sortByDiff(a, b) {
 	a = getPointValue(a, false);
 	b = getPointValue(b, false);
 
-	return sortBase(a, b);
+	if(isNumber(a) && isNumber(b)){
+		return sortNum(a, b);
+	}else{
+		return sortBase(a, b);
+	}
 }
 
 /**
@@ -223,7 +257,6 @@ function sortByDiff(a, b) {
  * @returns
  */
 function getPointValue(s, ditchZero) {
-	s = s.innerHTML;
 	if (s.lastIndexOf("<") != -1) {
 		s = s.substring(0, s.lastIndexOf("<"));
 		s = s.substring(s.lastIndexOf(">") + 1);
@@ -277,7 +310,7 @@ function setStatusMessage(message, error) {
 				"display: block; background-color: rgb(255, 153, 153);");
 	} else {
 		$(DIV_STATUS_MESSAGE).attr("style",
-				"display: block; background-color: transparent;");
+				"display: block; ");
 	}
 }
 

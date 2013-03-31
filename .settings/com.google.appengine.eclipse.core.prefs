@@ -6,4 +6,4 @@ gaeIsEclipseDefaultInstPath=true
 googleCloudSqlEnabled=false
 localDevMySqlEnabled=true
 ormEnhancementInclusions=src/main/java/teammates/storage/entity/*.java
-validationExclusions=src/test/java/teammates/test/scripts/|src/test/java/teammates/test/cases/|src/test/java/teammates/test/driver/
+validationExclusions=src/test/java/teammates/test/cases/|src/test/java/teammates/test/driver/|src/main/java/teammates/client/scripts/

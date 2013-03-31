@@ -9,12 +9,14 @@
 		<link rel=stylesheet href="webpageCompilation.css" type="text/css"></link>
 		<script language="JavaScript" src="/js/jquery-minified.js"></script>
 		<script language="JavaScript" src="/js/tooltip.js"></script>
+		<script src="/js/common.js" type="text/javascript"></script>
 		
 	</head>
 	<body id="compilation">
 		<div id="dhtmltooltip"></div>
 		<h1>Table Of Contents</h1>
 		<table id="tableofcontents">
+		<tbody>
 			<tr>
 				<td width="33%">
 					<h2>Instructor Pages</h2>
@@ -54,6 +56,7 @@
 					</ul>
 				</td>
 			</tr>
+			</tbody>
 		</table>
 			
 		<div class="pageinfo">Instructor Home Page</div>

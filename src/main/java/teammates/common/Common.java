@@ -70,7 +70,7 @@ public class Common {
 	public static final String HOVER_MESSAGE_PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
 
 	public static final String HOVER_MESSAGE_COURSE_STUDENT_DETAILS = "View the details of the student";
-	public static final String HOVER_MESSAGE_COURSE_STUDENT_EDIT = "Edit the details of the student";
+	public static final String HOVER_MESSAGE_COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
 	public static final String HOVER_MESSAGE_COURSE_STUDENT_REMIND = "E-mail the registration key to the student";
 	public static final String HOVER_MESSAGE_COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
 
@@ -233,7 +233,8 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_EVAL_REMIND = "/page/instructorEvalRemind";
 	public static final String PAGE_INSTRUCTOR_EVAL_PUBLISH = "/page/instructorEvalPublish";
 	public static final String PAGE_INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
-
+	public static final String PAGE_INSTRUCTOR_EVAL_EXPORT = "/page/instructorEvalExport";
+	
 	public static final String PAGE_STUDENT_HOME = "/page/studentHome";
 	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin";
 	public static final String PAGE_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
@@ -245,6 +246,7 @@ public class Common {
 	public static final String PAGE_ADMIN_HOME = "/admin/adminHome";
 	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/admin/adminAccountManagement";
 	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/admin/adminAccountDetails";
+	public static final String PAGE_ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
 	public static final String PAGE_ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
 	public static final String PAGE_ADMIN_ACTIVITY_LOG = "/admin/adminActivityLog";
 	public static final String PAGE_ADMIN_SEARCH = "/admin/adminSearch";
@@ -299,7 +301,7 @@ public class Common {
 	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; // Done
 
 	// data field sizes
-	public static final int COURSE_ID_MAX_LENGTH = 30;
+	public static final int COURSE_ID_MAX_LENGTH = 40;
 
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
@@ -307,8 +309,10 @@ public class Common {
 			+ "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
 			+ "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
 			+ "<br/><br/>If you already clicked on such a link and ended up here, it is likely that your email software messed up the link. Please retry to join by filling in the above box the registration key given in that same e-mail."
-			+ "If you still cannot join, feel free to <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>contact us</a> for help. ";
-
+			+ "If you still cannot join, feel free to <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>contact us</a> for help. "
+			+ "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? That can happen if you changed the primary email from a non-Gmail address to a Gmail address recently. " 
+			+ "<br/>In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address. ";
+	
 	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
 	public static final String MESSAGE_COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
 	public static final String MESSAGE_COURSE_EDITED = "The course has been edited.";
@@ -334,21 +338,33 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_EXPIRED = "This evaluation has expired. You are not allowed to edit your submission.";
 
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
+	
 	// Status messages from Javascript
+	
+	public static final String MESSAGE_COURSE_INPUT_FIELDS_EXTRA = "There are too many fields.";
+	public static final String MESSAGE_COURSE_INPUT_FIELDS_MISSING = "There are missing fields.";
+	public static final String MESSAGE_COURSE_GOOGLEID_INVALID = "GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.";
+	public static final String MESSAGE_COURSE_EMAIL_INVALID = "The e-mail address is invalid.";
+	public static final String MESSAGE_COURSE_INSTRUCTORNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.";
 	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
+	
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 	public static final String MESSAGE_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 	public static final String MESSAGE_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"
 			+ "The start time should be in the future, and the deadline should be after start time.";
 	public static final String MESSAGE_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 
+	public static final String MESSAGE_INSTRUCTOR_STATUS_DELETED = "The Instructor status has been deleted";
+	public static final String MESSAGE_INSTRUCTOR_ACCOUNT_DELETED = "The Account has been deleted";
+	public static final String MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";
 	// Messages that are templates only
 	/** Template String. Parameters: Student's name, Evaluation name, Course ID */
 	public static final String MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully.<br />"
 			+ "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
 	/** Template String. Parameters: Evaluation name, Course ID */
 	public static final String MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
+	
 
 	// DIV tags for HTML testing
 	public static final String HEADER_TAG = "<div id=\"frameTop\">";
@@ -497,10 +513,12 @@ public class Common {
 	public static String ADMIN_HOME_SERVLET = "adminHome";
 	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET = "adminAccountManagement";
 	public static String ADMIN_ACCOUNT_DETAILS_SERVLET = "adminAccountDetails";
+	public static String ADMIN_ACCOUNT_DELETE_SERVLET = "adminAccountDelete";
 	public static String ADMIN_ACTIVITY_LOG_SERVLET = "adminActivityLog";
 	public static String ADMIN_SEARCH_SERVLET = "adminSearch";
 	public static String ADMIN_SEARCH_TASK_SERVLET = "adminSearchTask";
 	public static String ADMIN_EXCEPTION_TEST_SERVLET = "adminExceptionTest";
+	
 	
 	/**
 	 * Admin Servlet Actions
@@ -509,10 +527,13 @@ public class Common {
 	public static String ADMIN_HOME_SERVLET_CREATE_INSTRUCTOR = "Create Instructor";
 	public static String ADMIN_ACCOUNT_MANAGEMENT_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_ACCOUNT_DETAILS_SERVLET_PAGE_LOAD = "Pageload";
+	public static String ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_FROM_COURSE = "Delete Instructor from Course";
+	public static String ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_STATUS = "Delete Instructor Status";
+	public static String ADMIN_ACCOUNT_DELETE_SERVLET_DELETE_INSTRUCTOR_ACCOUNT = "Delete Instructor Account";
 	public static String ADMIN_ACTIVITY_LOG_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_SEARCH_SERVLET_PAGE_LOAD = "Pageload";
 	public static String ADMIN_EXCEPTION_TEST_SERVLET_PAGE_LOAD = "Pageload";
-	
+	public static String ADMIN_HOME_SERVLET_ID_ALREADY_REGISTERED = "This Google ID is already registered as an instructor";
 	
 	
 	/**

@@ -125,6 +125,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>AdminAccountDetails</servlet-name>
         <url-pattern>/admin/adminAccountDetails</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminAccountDelete</servlet-name>
+        <servlet-class>teammates.ui.controller.AdminAccountDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminAccountDelete</servlet-name>
+        <url-pattern>/admin/adminAccountDelete</url-pattern>
+    </servlet-mapping>
 	<servlet>
 	    <servlet-name>AdminActivityLog</servlet-name>
 	    <servlet-class>teammates.ui.controller.AdminActivityLogServlet</servlet-class>

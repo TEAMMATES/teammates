@@ -201,6 +201,12 @@ h2 {
 	text-decoration: none;
 }
 
+#navbar li b {
+	color: grey;
+	font-weight: bold;
+	text-decoration: none;
+}
+
 #navbar li a:hover {
 	color: white;
 	font-weight: bold;
