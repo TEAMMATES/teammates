@@ -1,0 +1,86 @@
+{
+  "accounts": {
+    "teammates.instr1": {
+      "googleId": "teammates.instr1",
+      "name": "Teammates Instr1",
+      "isInstructor": true,
+      "email": "teammates.instr1@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "teammates.instr2": {
+      "googleId": "teammates.instr2",
+      "name": "Teammates Instr2",
+      "isInstructor": true,
+      "email": "teammates.instr2@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "teammates.instr3": {
+      "googleId": "teammates.instr3",
+      "name": "Teammates Instr3",
+      "isInstructor": true,
+      "email": "teammates.instr3@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "instructors": {
+    "teammates.instr1": {
+      "googleId": "teammates.instr1",
+      "courseId": "CS2104",
+      "name": "Teammates Instr1",
+      "email": "teammates.instr1@gmail.com"
+    },
+    "teammates.instr2-CS2104": {
+      "googleId": "teammates.instr2",
+      "courseId": "CS2104",
+      "name": "Teammates Instr2",
+      "email": "teammates.instr2@gmail.com"
+    },
+    "teammates.instr2-CS2103": {
+      "googleId": "teammates.instr2",
+      "courseId": "CS2103",
+      "name": "Teammates Instr2",
+      "email": "teammates.instr2@gmail.com"
+    },
+    "teammates.instr2-CS1101": {
+      "googleId": "teammates.instr2",
+      "courseId": "CS1101",
+      "name": "Teammates Instr2",
+      "email": "teammates.instr2@gmail.com"
+    },
+    "teammates.instr3": {
+      "googleId": "teammates.instr3",
+      "courseId": "CS2104",
+      "name": "Teammates Instr3",
+      "email": "teammates.instr2@gmail.com"
+    }
+  },
+
+  "courses": {
+    "CS2104": {
+      "id": "CS2104",
+      "name": "Programming Language Concepts"
+    },
+    "CS2103": {
+      "id": "CS2103",
+      "name": "Software Engineering"
+    },
+    "CS1101": {
+      "id": "CS1101",
+      "name": "Programming Methodology"
+    }
+  },
+
+  "students": {
+    "teammates.instr2-student": {
+      "id": "teammates.instr2",
+      "email": "teammates.instr2@gmail.com",
+      "course": "CS1101",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "profile": {"value": "I am an instructor"},
+      "team": "Team 1"
+    }
+  }
+  
+}
