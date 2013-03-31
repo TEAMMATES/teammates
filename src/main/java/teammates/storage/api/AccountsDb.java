@@ -510,7 +510,7 @@ public class AccountsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		String query = "select from " + Student.class.getName()
-				+ " where courseID == \"" + courseId + "\"" + " && ID == \"\"";
+				+ " where courseID == \"" + courseId + "\"" + " && (ID == null || ID == '')";
 
 		@SuppressWarnings("unchecked")
 		List<Student> studentList = (List<Student>) getPM().newQuery(query)
@@ -540,6 +540,22 @@ public class AccountsDb {
 		
 		a.setIsInstructor(true);
 		getPM().close();
+	}
+	
+	/**
+	 * Called when an instructor is deleted
+	 * 
+	 * This method can be called if the Account does not exist (in test cases)
+	 * 
+	 * @param googleId
+	 */
+	public void makeAccountNonInstructor(String googleId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Account a = getAccountEntity(googleId);
+		if (a != null) {
+			a.setIsInstructor(false);
+			getPM().close();
+		}
 	}
 	
 	/**
@@ -998,3 +1014,4 @@ public class AccountsDb {
 		return instructorList;
 	}
 }
+

@@ -32,7 +32,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 13px;
+	font-size: 15px;
 }
 
 blockquote, q {
@@ -192,15 +192,23 @@ h2 {
 	margin: 0px auto;
 }
 
+#mainContent .toc{
+	color: blue;
+	font-size: 15px;
+}
+
+#mainContent #question{
+	font-weight: bold;
+}
+
 #caption {
 	margin: 30px auto;
 	width: 800px;
-	color: orange;
+	color: #e46d0b;
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 20px;
 	font-family: Arial, Verdana, Sans-Serif;
 }
-
 
 #contentHolder {
 	margin: 30px auto;
@@ -217,7 +225,7 @@ h2.subcaption {
 }
 
 .submissionsNumber {
-	color: orange;
+	color: #e46d0b;
 	font-size: 20px;
 }
 
@@ -227,16 +235,23 @@ h2.subcaption {
 
 .overviewBytePicture {
 	float: left;
-	width: 200px;
+	width: 150px;
+}
+
+.overviewByteHeading {
+	color: #4379D1;
+	font-size: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 10px auto;
+	display: block;
 }
 
 .overviewByteData {
 	float: right;
-	width: 550px;
+	width: 600px;
 	padding-left: 30px;
+	color: gray;
 }
-
-
 
 
 #footer {

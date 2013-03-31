@@ -31,6 +31,7 @@ import org.junit.runners.Suite;
 		SystemErrorEmailReportTest.class,
 		
 		AdminHomePageUiTest.class,
+		AdminAccountManagementUiTest.class,
 		
 		TableSortTest.class,
 })

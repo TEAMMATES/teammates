@@ -22,7 +22,7 @@
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div style="margin: 30px auto; border: 1px solid #333; padding: 10px; text-align: left; width: 550px; background: #FFFFCC; height: 100px;">
-				<img src="/images/warning.png"
+				<img src="/images/angry.png"
 					style="float: left; height: 90px; margin: 0 10px 10px 0;">
 				<p>
 					You are not authorized to view this page. <br> <br>

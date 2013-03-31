@@ -7,6 +7,7 @@ import java.io.File;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -41,6 +42,8 @@ public class TableSortTest extends BaseTestCase {
 		testTableSortingName();
 		testTableSortingDate();
 		testTableSortingID();
+		testTableSortingPoint();
+		testTableSortingDiff();
 	}
 	
 	public void testTableSortingID() throws Exception{
@@ -169,10 +172,93 @@ public class TableSortTest extends BaseTestCase {
 		assertStringWithRowColumn("17/09/12",3,column);
 		assertStringWithRowColumn("01/01/13",2,column);
 		assertStringWithRowColumn("05/06/13",1,column);
+	}
+	
+	public void testTableSortingDiff() throws Exception{
+		bi.click(By.id("button_sortDiff"));
 		
+		int column = 4;
+		
+		//Ascending
+		assertStringWithRowColumn("-99%",1,column);
+		assertStringWithRowColumn("-20%",2,column);
+		assertStringWithRowColumn("-10%",3,column);
+		assertStringWithRowColumn("-2%",4,column);
+		assertStringWithRowColumn("-1%",5,column);
+		assertStringWithRowColumn("0%",6,column);
+		assertStringWithRowColumn("+1%",7,column);
+		assertStringWithRowColumn("+2%",8,column);
+		assertStringWithRowColumn("+3%",9,column);
+		assertStringWithRowColumn("+5%",10,column);
+		assertStringWithRowColumn("+25%",11,column);
+		assertStringWithRowColumn("+30%",12,column);
+		assertStringWithRowColumn("+99%",13,column);
+		assertStringWithRowColumn("N/A",14,column);
+		assertStringWithRowColumn("N/A",15,column);
+		
+		bi.click(By.id("button_sortDiff"));
+	
+		//Descending
+		assertStringWithRowColumn("-99%",15,column);
+		assertStringWithRowColumn("-20%",14,column);
+		assertStringWithRowColumn("-10%",13,column);
+		assertStringWithRowColumn("-2%",12,column);
+		assertStringWithRowColumn("-1%",11,column);
+		assertStringWithRowColumn("0%",10,column);
+		assertStringWithRowColumn("+1%",9,column);
+		assertStringWithRowColumn("+2%",8,column);
+		assertStringWithRowColumn("+3%",7,column);
+		assertStringWithRowColumn("+5%",6,column);
+		assertStringWithRowColumn("+25%",5,column);
+		assertStringWithRowColumn("+30%",4,column);
+		assertStringWithRowColumn("+99%",3,column);
+		assertStringWithRowColumn("N/A",2,column);
+		assertStringWithRowColumn("N/A",1,column);
+	}
+	
+	public void testTableSortingPoint() throws Exception{
+		bi.click(By.id("button_sortPoint"));
+		
+		int column = 3;
+		
+		//Ascending
+		assertStringWithRowColumn("E -99%",1,column);
+		assertStringWithRowColumn("E -21%",2,column);
+		assertStringWithRowColumn("E -10%",3,column);
+		assertStringWithRowColumn("E -4%",4,column);
+		assertStringWithRowColumn("E -2%",5,column);
+		assertStringWithRowColumn("E 0%",6,column);
+		assertStringWithRowColumn("E 0%",7,column);
+		assertStringWithRowColumn("E +5%",8,column);
+		assertStringWithRowColumn("E +20%",9,column);
+		assertStringWithRowColumn("E +20%",10,column);
+		assertStringWithRowColumn("E +99%",11,column);
+		assertStringWithRowColumn("N/S",12,column);
+		assertStringWithRowColumn("N/S",13,column);
+		assertStringWithRowColumn("N/S",14,column);
+		assertStringWithRowColumn("N/A",15,column);
+		
+		bi.click(By.id("button_sortPoint"));
+		
+		//Descending
+		assertStringWithRowColumn("E -99%",15,column);
+		assertStringWithRowColumn("E -21%",14,column);
+		assertStringWithRowColumn("E -10%",13,column);
+		assertStringWithRowColumn("E -4%",12,column);
+		assertStringWithRowColumn("E -2%",11,column);
+		assertStringWithRowColumn("E 0%",10,column);
+		assertStringWithRowColumn("E 0%",9,column);
+		assertStringWithRowColumn("E +5%",8,column);
+		assertStringWithRowColumn("E +20%",7,column);
+		assertStringWithRowColumn("E +20%",6,column);
+		assertStringWithRowColumn("E +99%",5,column);
+		assertStringWithRowColumn("N/S",4,column);
+		assertStringWithRowColumn("N/S",3,column);
+		assertStringWithRowColumn("N/S",2,column);
+		assertStringWithRowColumn("N/A",1,column);
 	}
 	
 	private void assertStringWithRowColumn(String text,int row,int column){
-		assertEquals(text,bi.tableSortGetCell(row,column));
+		assertEquals(text,bi.getCellFromDataTable(row,column));
 	}
 }

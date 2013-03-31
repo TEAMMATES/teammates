@@ -74,7 +74,7 @@ public class InstructorCourseEditPageUiTest extends BaseTestCase {
 		______TS("test invalid info");
 		bi.fillString(bi.instructorCourseInputInstructorList, originalInformation + "GoogleID|NAME|InvalidEmail\n");
 		bi.click(submitButton);
-		bi.waitForStatusMessage("The e-mail address is invalid.");
+		bi.waitForStatusMessage("The e-mail address is invalid. (at line: 3): GoogleID|NAME|InvalidEmail");
 			
 		______TS("test add new instructor");
 		bi.fillString(bi.instructorCourseInputInstructorList, originalInformation + "teammates.instructor|Teammates Instructor|teammates.instructor@gmail.com");

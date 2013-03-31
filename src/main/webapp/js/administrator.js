@@ -115,3 +115,10 @@ function logout() {
 function showHideErrorMessage(s) {
 	$("#" + s).toggle();
 }
+
+
+function toggleDeleteAccountConfirmation() {
+	return confirm("Are you sure you want to delete this account? " +
+			"This operation will delete ALL information about this account" + 
+			"from the system.");
+}

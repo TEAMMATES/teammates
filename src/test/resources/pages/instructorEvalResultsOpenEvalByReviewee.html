@@ -43,8 +43,8 @@
 					<li class="current"><a href="/page/instructorEval?user=teammates.demo.instructor" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <span onmouseover="ddrivetip('teammates.demo.instructor')" onmouseout="hideddrivetip()">
-                                         (teammates.demo.instr...)</span></li>
+					 <b><span onmouseover="ddrivetip('teammates.demo.instructor')" onmouseout="hideddrivetip()">
+                                         (teammates.demo.instr...)</span></b></li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -155,6 +155,23 @@
 										View</a>
 								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="editEvaluationResults1" name="editEvaluationResults1" class="color_black">Edit</a></td>
 						</tr>
+						
+						<tr id="student4" class="student_row">
+							<td>Team 2</td>
+							<td id="studentname">
+								<span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This student\'s name is Emily')">
+									Emily
+								</span>
+							</td>
+							<td><span class="color_positive">E +10%</span></td>
+							<td><span class="color_positive">E +4%</span></td>
+							<td><span class="negDiff">-6%</span></td>
+							<td><span class="color_positive">E +4%</span>, <span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Not Available: There is no data for this<br />or the data is not enough')" class="color_negative">N/A</span></td>
+							<td class="centeralign no-print">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/instructorEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="viewEvaluationResults4" name="viewEvaluationResults4" class="color_black">
+										View</a>
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="editEvaluationResults4" name="editEvaluationResults4" class="color_black">Edit</a></td>
+						</tr>
 					
 						<tr id="student2" class="student_row">
 							<td>Team 2</td>
@@ -189,24 +206,7 @@
 										View</a>
 								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="editEvaluationResults3" name="editEvaluationResults3" class="color_black">Edit</a></td>
 						</tr>
-					
-						<tr id="student4" class="student_row">
-							<td>Team 2</td>
-							<td id="studentname">
-								<span onmouseout="hideddrivetip()" onmouseover="ddrivetip('This student\'s name is Emily')">
-									Emily
-								</span>
-							</td>
-							<td><span class="color_positive">E +10%</span></td>
-							<td><span class="color_positive">E +4%</span></td>
-							<td><span class="negDiff">-6%</span></td>
-							<td><span class="color_positive">E +4%</span>, <span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Not Available: There is no data for this<br />or the data is not enough')" class="color_negative">N/A</span></td>
-							<td class="centeralign no-print">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View feedback from the student for his team<br />This opens in a new window')" href="/page/instructorEvalSubmissionView?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="viewEvaluationResults4" name="viewEvaluationResults4" class="color_black">
-										View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback from the student for his team<br />This opens in a new window')" onclick="return openChildWindow(this.href)" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=emily.tmms%40gmail.com&amp;user=teammates.demo.instructor" target="_blank" id="editEvaluationResults4" name="editEvaluationResults4" class="color_black">Edit</a></td>
-						</tr>
-					
+										
 				</tbody></table>
 				<br />
 				<br />

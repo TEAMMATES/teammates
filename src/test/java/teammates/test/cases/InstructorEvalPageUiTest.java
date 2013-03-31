@@ -70,8 +70,6 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 	}
 
 	public void testInstructorEvalHTML() throws Exception{
-		
-		
 		______TS("no courses");
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalEmptyAll.html");
@@ -101,12 +99,24 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		______TS("sort by name");
 		
 		bi.click(By.id("button_sortname"));
+		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalByName.html");
+		
+		bi.assertDataTablePattern(1,"{*}First Eval{*}Second Eval{*}Third Eval");
+		bi.click(By.id("button_sortname"));
+		bi.assertDataTablePattern(1,"{*}Third Eval{*}Second Eval{*}First Eval");
 		
 		______TS("sort by course id");
 		
 		bi.click(By.id("button_sortcourseid"));
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalById.html");
+		
+		bi.assertDataTablePattern(0,"{*}CEvalUiT.CS1101{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104");
+		bi.click(By.id("button_sortcourseid"));
+		bi.assertDataTablePattern(0,"{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104{*}CEvalUiT.CS1101");
+	
+		//set back to ascending
+		bi.click(By.id("button_sortcourseid"));
 	}
 
 	public void testInstructorEvalUiPaths() throws Exception{

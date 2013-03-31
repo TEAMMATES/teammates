@@ -65,22 +65,32 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 	}
 	
 	public void testInstructorCourseDetailsPageHTML() throws Exception{
-		
-	
 		______TS("default view");
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsPage.html");
-		
-		______TS("sort by team name");
-		bi.click(bi.instructorCourseDetailSortByTeamName);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByTeam.html");
 		
 		______TS("sort by status");
 		bi.click(bi.instructorCourseDetailSortByStatus);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByStatus.html");
 		
+		bi.assertDataTablePattern(2,"{*}Joined{*}Joined{*}Yet to join{*}Yet to join");
+		bi.click(bi.instructorCourseDetailSortByStatus);
+		bi.assertDataTablePattern(2,"{*}Yet to join{*}Yet to join{*}Joined{*}Joined");
+		
 		______TS("sort by student name");
 		bi.click(bi.instructorCourseDetailSortByStudentName);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsPage.html");
+		
+		bi.assertDataTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid");
+		bi.click(bi.instructorCourseDetailSortByStudentName);
+		bi.assertDataTablePattern(1,"{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
+		
+		______TS("sort by team name");
+		bi.click(bi.instructorCourseDetailSortByTeamName);
+		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByTeam.html");
+		
+		bi.assertDataTablePattern(0,"{*}Team 1{*}Team 1{*}Team 2{*}Team 2");
+		bi.click(bi.instructorCourseDetailSortByTeamName);
+		bi.assertDataTablePattern(0,"{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
 	}
 	
 	public void testInstructorCourseDetailsRemindStudent() {

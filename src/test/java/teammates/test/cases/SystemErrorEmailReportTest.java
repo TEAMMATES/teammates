@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
@@ -33,7 +34,7 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 
 	private LocalServiceTestHelper helper;
 	private LocalMailServiceTestConfig localMailService;
-
+	
 	private String from;
 	
 	@BeforeClass
@@ -53,8 +54,10 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 		localMailService = new LocalMailServiceTestConfig();
 		helper = new LocalServiceTestHelper(localMailService);
 		helper.setUp();
-		
-		from 		= "noreply@"+Common.APP_ID+".appspotmail.com";
+		InternetAddress internetAddress = new InternetAddress("noreply@"
+				+ Common.APP_ID + ".appspotmail.com",
+				"TEAMMATES Admin (noreply)");
+		from = internetAddress.toString();
 	}
 
 	@Test

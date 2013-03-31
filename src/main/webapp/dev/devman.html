@@ -296,6 +296,14 @@
 			for each servlet. This is the place for highest-level error handling
 			before the response is returned to the Browser.
 		</li>
+		<li>Within the doAction method, each servlet has to create an Activity Log Entry.
+		    This Activity Log Entry is used to capture the user activities within the 
+		    system. The servlet has to call the <span class="code">instantiateActivityLogEntry
+		    </span> method found in <span class="code">ActionServlet</span> to create
+		    the Activity Log Entry. The servlet also has to implement the abstract
+		    <span class="code">generateActivityLogEntryMessage</span> method which is called
+		    within <span class="code">instantiateActivityLogEntry</span>.
+		</li>
 		<li>It will finally call <span class="code">doCreateResponse</span>
 			method, which redirects the request with appropriate method: either
 			forward the request using <span class="code">requestDispatcher</span>

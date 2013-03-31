@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Date;
+import java.util.Date; 
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -1318,6 +1318,25 @@ public class BrowserInstance {
 	public void clickInstructorReviewerSummaryEdit(int rowID) {
 		clickWithWait(getReviewerSummaryEdit(rowID));
 	}
+		
+	/**
+	 * Compares selected column's rows with patternString
+	 * Separate rows using {*}
+	 * 
+	 * @param column, patternString
+	 * @return
+	 */
+	public void assertDataTablePattern(int column,String patternString){
+		//patternString is split with {*} to separate the rows
+		String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
+		for(int row=1;row<splitString.length;row++){
+			//if a row is empty, it will not be asserted with
+			//row starts from 1 to skip the header row, this requires patternString to start with {*}
+			if(splitString[row].length()>0){
+				assertEquals(getCellFromDataTable(row,column),splitString[row]);
+			}
+		}
+	}
 	
 	// --------------------------------- TableSort
 		// -------------------------------- //
@@ -1351,12 +1370,12 @@ public class BrowserInstance {
 	
 	/**
 	 * Returns the string for specific row and column. Waits until the
-	 * element exists or timeout. Pre-condition: Should be at table sort page.
+	 * element exists or timeout. Table class must be dataTable
 	 * 
 	 * @param row, column
 	 * @return
 	 */
-	public String tableSortGetCell(int row, int column) {
+	public String getCellFromDataTable(int row, int column) {
 		waitForElementPresent(By.className("dataTable"));
 		return selenium.getTable("class=dataTable." + row + "." + column);
 	}
@@ -2980,5 +2999,8 @@ public class BrowserInstance {
 
 	}
 	
+	public String getCurrentUrl(){
+		return this.driver.getCurrentUrl();
+	}
 	
 }

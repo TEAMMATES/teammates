@@ -55,7 +55,6 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 
 	@Test
 	public void testInstructorEvalResultsOpenEval() throws Exception{
-		
 
 		______TS("summary view");
 		
@@ -66,7 +65,39 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsOpenEval.html");
 		
-		//TODO: check for sorting?
+		______TS("sort by name");
+		bi.click(By.id("button_sortname"));
+		bi.assertDataTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
+		bi.click(By.id("button_sortname"));
+		bi.assertDataTablePattern(1,"{*}Emily{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
+		
+		______TS("sort by claimed");
+		bi.click(By.id("button_sortclaimed"));
+		bi.assertDataTablePattern(2,"{*}E -5%{*}E +3%{*}E +5%{*}E +10%{*}E +10%");
+		bi.click(By.id("button_sortclaimed"));
+		bi.assertDataTablePattern(2,"{*}E +10%{*}E +10%{*}E +5%{*}E +3%{*}E -5%");
+		
+		______TS("sort by perceived");
+		//removed the "E" only for testing else will cause infinite loop
+		bi.click(By.id("button_sortperceived"));
+		bi.assertDataTablePattern(3,"{*}E -3%{*}E -1%{*}E{*}E{*}E +4%");
+		bi.click(By.id("button_sortperceived"));
+		bi.assertDataTablePattern(3,"{*}E +4%{*}E{*}E{*}E -1%{*}E -3%");
+		
+		______TS("sort by diff");
+		bi.click(By.id("button_sortdiff"));
+		bi.assertDataTablePattern(4,"{*}-11%{*}-6%{*}-6%{*}-5%{*}+5%");
+		bi.click(By.id("button_sortdiff"));
+		bi.assertDataTablePattern(4,"{*}+5%{*}-5%{*}-6%{*}-6%{*}-11%");
+		
+		______TS("sort by team name");
+		bi.click(By.id("button_sortteamname"));
+		bi.assertDataTablePattern(0,"{*}Team 1{*}Team 1{*}Team 2{*}Team 2{*}Team 2");
+		bi.click(By.id("button_sortteamname"));
+		bi.assertDataTablePattern(0,"{*}Team 2{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
+		
+		//set back to ascending
+		bi.click(By.id("button_sortteamname"));
 
 		______TS("details by reviewer");
 		
@@ -82,7 +113,6 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 	@Test
 	public void testInstructorEvalResultsPublishedEval() throws Exception{
 		
-		
 		______TS("summary view");
 		
 		String link = appUrl + Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
@@ -91,6 +121,16 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.demo.instructor").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsPublishedEval.html");
+		
+		______TS("Check download evaluation report link");
+
+		String evaluationReportLink = appUrl + Common.PAGE_INSTRUCTOR_EVAL_EXPORT;
+		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
+		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name); //First Evaluation is the published evaluation in the sample data for instructor
+		String beforeReportDownloadUrl = bi.getCurrentUrl();
+		bi.goToUrl(evaluationReportLink);
+		String afterReportDownloadUrl = bi.getCurrentUrl();
+		assertEquals(beforeReportDownloadUrl, afterReportDownloadUrl);
 
 		______TS("unpublishing: click and cancel");
 		
