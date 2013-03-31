@@ -89,9 +89,7 @@
 				 	<table class="inputTable enrollStudentTable" > 
 						<tr>
 							<td class="label bold middlealign" id="studentDetails"> Student details: </td>
-							<td><textarea rows="6" cols="120" class ="textvalue" name="enrollstudents" id="enrollstudents" placeholder="This box can be used for enrolling new students and editing details (except email address) of students already enrolled. 
-							To EDIT, simply enroll students using the updated data and existing data will be updated accordingly.
-							To DELETE students or to UPDATE EMAIL address of a student,please use the 'view' page of the course."></textarea></td>
+							<td><textarea rows="6" cols="120" class ="textvalue" name="enrollstudents" id="enrollstudents" placeholder="This box can be used for enrolling new students and editing details (except email address) of students already enrolled. To EDIT, simply enroll students using the updated data and existing data will be updated accordingly. To DELETE students or to UPDATE EMAIL address of a student,please use the 'view' page of the course."></textarea></td>
 						</tr>
 					</table>
 					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
