@@ -12,7 +12,7 @@ import teammates.test.driver.RemoteApiClient;
 
 public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 	
-	private static final boolean isTrial = false;
+	private static final boolean isTrial = true;
 	
 	public static void main(String[] args) throws IOException {
 		DataMigrationAppendInstitutionForAccounts migrator = new DataMigrationAppendInstitutionForAccounts();
@@ -20,38 +20,9 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 	}
 	
 	protected void doOperation() {
-		//appendInstitutionForAccounts();
-		setInstructorStatusForInstructorAccounts();
+		appendInstitutionForAccounts();
 	}
 	
-	private void setInstructorStatusForInstructorAccounts() {
-		String query = "SELECT FROM " + Instructor.class.getName();
-		
-		@SuppressWarnings("unchecked")
-		List<Instructor> instructors = (List<Instructor>) pm.newQuery(query).execute();
-		
-		int count = 0;
-		HashMap<String, Boolean> hasBeenModified = new HashMap<String, Boolean>();
-		for (Instructor i : instructors) {
-			if (!hasBeenModified.containsKey(i.getGoogleId())) {
-				query = "SELECT FROM " + Account.class.getName() +
-						" WHERE googleId == '" + i.getGoogleId() + "'";
-				
-				@SuppressWarnings("unchecked")
-				List<Account> accounts = (List<Account>) pm.newQuery(query).execute();
-				Account instructorAccount = accounts.get(0);
-				instructorAccount.setIsInstructor(true);
-				hasBeenModified.put(i.getGoogleId(), true);
-				count++;
-			}
-		}
-		
-		pm.flush();
-		pm.close();
-		
-		System.out.println("Reapplied instructor status for " + count + " accounts");
-	}
-
 	private static void appendInstitutionForAccounts() {
 		// Instructor Accounts get Institute for an Instructor
 		String query = "select from " + Account.class.getName()
@@ -119,9 +90,11 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 			if (studentAccounts.size() > 0) {
 				Account a = studentAccounts.get(0);
 				if (a.getInstitute() == null || a.getInstitute().equals("")) {
-					System.out.println("Assigning '" + studentInstitutions.get(a.getGoogleId()) + "' to '" + a.getGoogleId() + "'");
+					System.out.println("Assigning '" + studentInstitutions.get(a.getGoogleId()) + "' to '" + a.getGoogleId());
 					if (!isTrial) {
-						a.setInstitute(studentInstitutions.get(a.getGoogleId()));
+						Account newA = new Account(a.getGoogleId(), a.getName(), false, a.getEmail(), studentInstitutions.get(a.getGoogleId()));
+						pm.deletePersistent(a);
+						pm.makePersistent(newA);
 					}
 					count++;
 				}
@@ -129,8 +102,6 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 		}
 		
 		System.out.println("Appended for " + count + " entities");
-		pm.flush();
-		pm.close();
 	}
 	
 	private static void undoAppendInstitutionForAccounts() {
