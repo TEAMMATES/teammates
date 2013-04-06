@@ -144,7 +144,16 @@ public class ActivityLogEntry {
 	}
 	
 	public String getMessageInfo(){
-		return message + "<br><br><a href=\"" + url + "\" target=\"blank\" title=\"" + url + "\">URL</a>";
+		String urlToShow = url;
+		//If not in masquerade mode, add masquerade mode
+		if(!urlToShow.contains("user=")){
+			if(!urlToShow.contains("?")){
+				urlToShow += "?user=" + googleId;
+			} else {
+				urlToShow += "&user=" + googleId;
+			}
+		}
+		return message + "<br><br><a href=\"" + urlToShow + "\" target=\"blank\" title=\"" + urlToShow + "\">URL</a>";
 	}
 	
 	public boolean toShow(){
