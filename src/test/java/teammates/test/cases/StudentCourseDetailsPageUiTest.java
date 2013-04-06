@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -55,25 +56,46 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 		
 		______TS("with teammates");
 		
+		String studentId = scn.students.get("alice.tmms").id;
+		
+		//create the student account if it doesn't exist 
+		AccountData testStudentAccount = new AccountData(studentId, "Alice Tmms", false, "alice.tmms@gmail.com", "National University of Singapore");
+		String backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		String link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , scn.students.get("alice.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , studentId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsWithTeammatesHTML.html");
 
 		______TS("without teammates"); //TODO: to be removed if team is compulsory
 		
+		studentId = scn.students.get("charlie.tmms").id;
+		
+		//recreate student account if it doesn't exist
+		testStudentAccount = new AccountData(studentId, "Charlie Tmms", false, "charlie.tmms@gmail.com", "National University of Singapore");
+		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , scn.students.get("charlie.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , studentId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsWithoutTeammatesHTML.html");
 		
 		______TS("no team"); //TODO: to be removed if team is compulsory
 		
+		studentId = scn.students.get("danny.tmms").id;
+		
+		//recreate student account if it doesn't exist
+		testStudentAccount = new AccountData(studentId, "Danny Tmms", false, "danny.tmms@gmail.com", "National University of Singapore");
+		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		link = appUrl + Common.PAGE_STUDENT_COURSE_DETAILS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.courses.get("SCDetailsUiT.CS2104").id);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , scn.students.get("danny.tmms").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID , studentId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentCourseDetailsNoTeamHTML.html");
 	}

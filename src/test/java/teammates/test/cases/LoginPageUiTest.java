@@ -47,6 +47,11 @@ public class LoginPageUiTest extends BaseTestCase {
 		// Used in testStudentLogin
 		BackDoor.deleteCourse("lput.tsl.course");
 		
+		// Delete accounts used for testing
+		BackDoor.deleteAccount(TestProperties.inst().TEST_STUDENT_ACCOUNT);
+		BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+		
+		
 		BrowserInstancePool.release(bi);
 		printTestClassFooter();
 	}
@@ -71,9 +76,18 @@ public class LoginPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testStudentLogin(){
-		// Create an account for the instructor
+		
+		//recreate instructor account 
+		BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
 		AccountData testCourseCreator = new AccountData(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "Test Course Creator", true, "instructor@testCourse.com", "National University of Singapore");
 		String backDoorOperationStatus = BackDoor.createAccount(testCourseCreator);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
+		
+		//recreate the student account 
+		BackDoor.deleteAccount(TestProperties.inst().TEST_STUDENT_ACCOUNT);
+		AccountData testStudentAccount = new AccountData(TestProperties.inst().TEST_STUDENT_ACCOUNT, "Emily Tmms", false, "emily.tmms@gmail.com", "National University of Singapore");
+		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		//create a course for the new student
@@ -84,7 +98,7 @@ public class LoginPageUiTest extends BaseTestCase {
 		backDoorOperationStatus = BackDoor.createCourse(testCourse);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
-		//create a fresh student in datastore
+		//enroll the student in the course
 		StudentData testStudent = new StudentData();
 		testStudent.id = TestProperties.inst().TEST_STUDENT_ACCOUNT;
 		testStudent.name = "Test student";

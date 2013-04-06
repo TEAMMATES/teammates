@@ -44,7 +44,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		BackDoor.deleteCourse("MultipleInstructorsCourse");
 		BackDoor.deleteCourse("OmitInstructor");
 		for (InstructorData id : ts.instructor.values()) {
-			BackDoor.deleteInstructor(id.googleId);
+			BackDoor.deleteAccount(id.googleId);
 		}
 		
 		String backDoorOperationStatus = BackDoor.createAccount(ts.account);

@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -92,6 +93,13 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 
 		______TS("extreme case: 3");
 		
+		String studentId = scn.students.get("emily.tmms").id;
+		
+		//recreate student account if it doesn't exist
+		AccountData testStudentAccount = new AccountData(studentId, "Danny Tmms", false, "emily.tmms@gmail.com", "National University of Singapore");
+		String backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
@@ -101,6 +109,13 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 
 		______TS("student did not submitt");
 		
+		studentId = scn.students.get("alice.tmms").id;
+		
+		//recreate student account if it doesn't exist
+		testStudentAccount = new AccountData(studentId, "Alice Tmms", false, "alice.tmms@gmail.com", "National University of Singapore");
+		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+				
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
@@ -109,6 +124,13 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsNotSubmittedHTML.html");
 
 		______TS("teammates did not submit");
+		
+		studentId = scn.students.get("benny.tmms").id;
+		
+		//recreate student account if it doesn't exist
+		testStudentAccount = new AccountData(studentId, "Benny Tmms", false, "benny.tmms@gmail.com", "National University of Singapore");
+		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
