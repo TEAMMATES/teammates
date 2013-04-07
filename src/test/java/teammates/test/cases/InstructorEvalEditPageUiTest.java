@@ -35,7 +35,8 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		startRecordingTimeForDataImport();
 		ts = loadTestScenario();
 		BackDoor.deleteCourse(ts.course.id);
-		BackDoor.deleteInstructor(ts.instructor.googleId);
+		BackDoor.deleteAccount(ts.instructor.googleId);
+		BackDoor.deleteAccount(ts.account.googleId);
 		
 		String backDoorOperationStatus = BackDoor.createAccount(ts.account);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);

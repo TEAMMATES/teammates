@@ -94,12 +94,21 @@ h2 {
 	text-align: center;
 }
 
+
 .leftalign {
 	text-align: left;
 }
 
+.floatleft{
+	float: left;
+}
+
 .rightalign {
 	text-align: right;
+}
+
+.floatright{
+	float: right;
 }
 
 .middlealign {
@@ -152,6 +161,10 @@ h2 {
 
 .color_brown {
 	color: Chocolate;
+}
+
+.color_gray {
+	color: gray;
 }
 
 /*---------------------  Frame Top  --------------------------------------------------- */
@@ -226,7 +239,7 @@ h2 {
 #frameBottom {
 	background-color: black;
 	bottom: 0;
-	color: white;
+	color: gray;
 	height: 18px;
 	overflow: hidden;
 	position: absolute;
@@ -234,22 +247,20 @@ h2 {
 }
 
 #contentFooter {
+	font-color: gray;
 	font-size: 12px;
 	font-weight: bold;
 	margin: 3px auto;
-	text-align: right;
+	text-align: center;
 	width: 1024px;
 }
 
 #contentFooter a {
 	color: white;
-	font-weight: bold;
 	text-decoration: none;
 }
 
 #contentFooter a:hover {
-	color: white;
-	font-weight: bold;
 	text-decoration: underline;
 }
 

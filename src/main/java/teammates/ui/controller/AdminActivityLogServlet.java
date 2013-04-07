@@ -1,11 +1,13 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.BuildProperties;
 import teammates.common.Common;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -53,7 +55,18 @@ public class AdminActivityLogServlet extends ActionServlet<AdminActivityLogHelpe
 
 	private LogQuery buildQuery(String offset, boolean includeAppLogs) {
 		LogQuery query = LogQuery.Builder.withDefaults();
+		
+		String currentVersion = BuildProperties.getAppVersion().replace(".", "-");
+		String[] tokens = currentVersion.split("-");
+		List<String> appVersions = new ArrayList<String>();
+		appVersions.add(currentVersion);
+		appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 1));
+		appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 2));
+		appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 3));
+		query.majorVersionIds(appVersions);
+		
 		query.includeAppLogs(includeAppLogs);
+		
 		if (offset != null && !offset.equals("null")) {
 			query.offset(offset);
 		}
