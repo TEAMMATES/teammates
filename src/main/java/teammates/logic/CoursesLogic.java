@@ -14,6 +14,8 @@ import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 
@@ -40,22 +42,143 @@ public class CoursesLogic {
 		return instance;
 	}
 
+	//==========================================================================
 	/**
-	 * Atomically deletes a Course object, along with all the Student objects
-	 * that belong to the course.
+	 * Returns the number of teams in a Course.
 	 * 
 	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
+	 *            the course ID (Precondition: Must be valid)
 	 * 
+	 * @return the number of teams in the course
 	 */
-	public void deleteCourse(String courseId) {
+	public int getNumberOfTeams(String courseID) {
+		// Get all students in the course
 
-		accountsDb.deleteAllStudentsInCourse(courseId);
-		accountsDb.deleteInstructorsByCourseId(courseId);
-		coursesDb.deleteCourse(courseId);
+		List<StudentData> studentDataList = accountsDb
+				.getStudentListForCourse(courseID);
 
+		// The list of teams
+		List<String> teamNameList = new ArrayList<String>();
+
+		// Filter out unique team names
+		for (StudentData sd : studentDataList) {
+			if (!teamNameList.contains(sd.team)) {
+				teamNameList.add(sd.team);
+			}
+		}
+
+		return teamNameList.size();
 	}
 
+	/**
+	 * Returns the number of students in a Course.
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must be valid)
+	 * 
+	 * @return the number of students in the course
+	 */
+	public int getTotalStudents(String courseID) {
+
+		return accountsDb.getStudentListForCourse(courseID).size();
+	}
+
+	/**
+	 * Returns the number of unregistered students in a Course.
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must be valid)
+	 * 
+	 * @return the number of unregistered students in the course
+	 */
+	public int getUnregistered(String courseID) {
+
+		return accountsDb.getUnregisteredStudentListForCourse(courseID).size();
+	}
+
+	public static void sortByTeamName(List<StudentData> students) {
+		Collections.sort(students, new Comparator<StudentData>() {
+			public int compare(StudentData s1, StudentData s2) {
+				String t1 = s1.team;
+				String t2 = s2.team;
+				if ((t1 == null) && (t2 == null)) {
+					return 0;
+				} else if (t1 == null) {
+					return 1;
+				} else if (t2 == null) {
+					return -1;
+				}
+				return t1.compareTo(t2);
+			}
+		});
+	}
+
+	public boolean isCourseExists(String courseId) {
+		return coursesDb.getCourse(courseId) != null;
+	}
+
+	//==========================================================================
+	public void createCourse(String courseId, String courseName) throws InvalidParametersException, EntityAlreadyExistsException {
+		CourseData courseToAdd = new CourseData(courseId, courseName);
+
+		if (!courseToAdd.isValid()) {
+			throw new InvalidParametersException(courseToAdd.getInvalidStateInfo());
+		}
+	
+		coursesDb.createCourse(courseToAdd);
+	}
+
+	//==========================================================================
+	public CourseData getCourse(String courseId) {
+		return coursesDb.getCourse(courseId);
+	}
+
+	public CourseData getCourseSummary(String courseId) {
+		CourseData cd = coursesDb.getCourse(courseId);
+		
+		if (cd == null)
+			return null;
+		
+		cd.teamsTotal = getNumberOfTeams(cd.id);
+		cd.studentsTotal = getTotalStudents(cd.id);
+		cd.unregisteredTotal = getUnregistered(cd.id);
+		return cd;
+	}
+	
+	public List<CourseData> getCourseListForStudent(String googleId) {
+		// Get all Student entries with this googleId
+		List<StudentData> studentDataList = accountsDb.getStudentsWithGoogleId(googleId);
+		ArrayList<CourseData> courseList = new ArrayList<CourseData>();
+
+		// Verify that the course in each entry is existent
+		for (StudentData s : studentDataList) {
+			CourseData course = coursesDb.getCourse(s.course);
+			Assumption.assertNotNull("Course was deleted but Student entry still exists", course);
+			courseList.add(course);
+		}
+		return courseList;
+	}
+	
+	/**
+	 * Returns the Institute string which the specified Course belongs to
+	 * 
+	 * @param courseID
+	 *            the course ID (Precondition: Must be valid)
+	 * 
+	 * @return String institute
+	 */
+	public String getCourseInstitute(String courseId) {
+		CourseData cd = coursesDb.getCourse(courseId);
+		List<InstructorData> instructorList = accountsDb.getInstructorsByCourseId(cd.id);
+		if (instructorList.isEmpty()) {
+			Assumption.fail("Course has no instructors: " + cd.id);
+		} 
+		// Retrieve institute field from the first instructor of the course
+		AccountData instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
+		return instructorAcc.institute;
+
+	}
+	
 	public HashMap<String, CourseData> getCourseSummaryListForInstructor(String instructorId) {
 		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
 		
@@ -107,147 +230,29 @@ public class CoursesLogic {
 		return courseSummaryList;
 	}
 	
-	// New function for schema which makes course higher in heirarchy over instructor
-	public CourseData getCourseSummary(String courseId) {
-		CourseData cd = coursesDb.getCourse(courseId);
-		
-		if (cd == null)
-			return null;
-		
-		cd.teamsTotal = getNumberOfTeams(cd.id);
-		cd.studentsTotal = getTotalStudents(cd.id);
-		cd.unregisteredTotal = getUnregistered(cd.id);
-		return cd;
+	//==========================================================================
+	// Not used
+	public void updateCourse(CourseData course) throws InvalidParametersException {
+		if (!course.isValid()) {
+			throw new InvalidParametersException(course.getInvalidStateInfo());
+		}
+		coursesDb.updateCourse(course);
 	}
 	
+	//==========================================================================
 	/**
-	 * Returns the Institue string which the specified Course belongs to
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must be valid)
-	 * 
-	 * @return String institute
-	 */
-	public String getCourseInstitute(String courseId) {
-		CourseData cd = coursesDb.getCourse(courseId);
-		List<InstructorData> instructorList = accountsDb.getInstructorsByCourseId(cd.id);
-		if (instructorList.isEmpty()) {
-			Assumption.fail("Course has no instructors: " + cd.id);
-		} 
-		// Retrieve institute field from the first instructor of the course
-		AccountData instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
-		return instructorAcc.institute;
-
-	}
-
-	/**
-	 * Returns the number of teams in a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must be valid)
-	 * 
-	 * @return the number of teams in the course
-	 */
-	public int getNumberOfTeams(String courseID) {
-		// Get all students in the course
-
-		List<StudentData> studentDataList = accountsDb
-				.getStudentListForCourse(courseID);
-
-		// The list of teams
-		List<String> teamNameList = new ArrayList<String>();
-
-		// Filter out unique team names
-		for (StudentData sd : studentDataList) {
-			if (!teamNameList.contains(sd.team)) {
-				teamNameList.add(sd.team);
-			}
-		}
-
-		return teamNameList.size();
-	}
-
-	/**
-	 * Returns the team name of a Student in a particular Course.
+	 * Atomically deletes a Course object, along with all the Student objects
+	 * that belong to the course.
 	 * 
 	 * @param courseID
 	 *            the course ID (Precondition: Must not be null)
 	 * 
-	 * @param email
-	 *            the email of the student (Precondition: Must not be null)
-	 * 
-	 * @return the team name of the student in the course
 	 */
-	public String getTeamName(String courseId, String email) {
+	public void deleteCourse(String courseId) {
+		accountsDb.deleteAllStudentsInCourse(courseId);
+		accountsDb.deleteInstructorsByCourseId(courseId);
+		coursesDb.deleteCourse(courseId);
 
-		return accountsDb.getStudent(courseId, email).team;
-	}
-
-	/**
-	 * Returns the number of students in a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must be valid)
-	 * 
-	 * @return the number of students in the course
-	 */
-	public int getTotalStudents(String courseID) {
-
-		return accountsDb.getStudentListForCourse(courseID).size();
-	}
-
-	/**
-	 * Returns the number of unregistered students in a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must be valid)
-	 * 
-	 * @return the number of unregistered students in the course
-	 */
-	public int getUnregistered(String courseID) {
-
-		return accountsDb.getUnregisteredStudentListForCourse(courseID).size();
-	}
-
-	public static void sortByTeamName(List<StudentData> students) {
-		Collections.sort(students, new Comparator<StudentData>() {
-			public int compare(StudentData s1, StudentData s2) {
-				String t1 = s1.team;
-				String t2 = s2.team;
-				if ((t1 == null) && (t2 == null)) {
-					return 0;
-				} else if (t1 == null) {
-					return 1;
-				} else if (t2 == null) {
-					return -1;
-				}
-				return t1.compareTo(t2);
-			}
-		});
-	}
-
-	public List<CourseData> getCourseListForStudent(String googleId) {
-
-		// Get all Student entries with this googleId
-		List<StudentData> studentDataList = accountsDb
-				.getStudentsWithGoogleId(googleId);
-		ArrayList<CourseData> courseList = new ArrayList<CourseData>();
-
-		// Verify that the course in each entry is existent
-		for (StudentData s : studentDataList) {
-			CourseData course = coursesDb.getCourse(s.course);
-			Assumption.assertNotNull("Course was deleted but Student entry still exists", course);
-			courseList.add(course);
-		}
-		return courseList;
-	}
-
-	public boolean isCourseExists(String courseId) {
-		return coursesDb.getCourse(courseId) != null;
-	}
-
-	public CoursesDb getDb() {
-		return coursesDb;
 	}
 
 }

@@ -239,13 +239,6 @@ public class BackDoorLogic extends Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
-		CourseData courseToAdd = new CourseData(courseId, courseName);
-
-		if (!courseToAdd.isValid()) {
-			throw new InvalidParametersException(
-					courseToAdd.getInvalidStateInfo());
-		}
-
-		CoursesLogic.inst().getDb().createCourse(courseToAdd);
+		coursesLogic.createCourse(courseId, courseName);
 	}
 }

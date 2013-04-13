@@ -430,14 +430,7 @@ public class Logic {
 
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		CourseData courseToAdd = new CourseData(courseId, courseName);
-
-		if (!courseToAdd.isValid()) {
-			throw new InvalidParametersException(
-					courseToAdd.getInvalidStateInfo());
-		}
-
-		coursesLogic.getDb().createCourse(courseToAdd);
+		coursesLogic.createCourse(courseId, courseName);
 
 		// Create an instructor relation for the INSTRUCTOR that created this course
 		// The INSTRUCTOR relation is created here with NAME, EMAIL and INSTITUTION fields retrieved from his AccountData
@@ -449,14 +442,12 @@ public class Logic {
 	
 	/**
 	 * AccessLevel : any registered user (because it is too expensive to check
-	 * if a student is in the course)
+-	 * if a student is in the course)
 	 */
 	public CourseData getCourse(String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
 		gateKeeper.verifyRegisteredUserOrAbove();
-
-		CourseData c = coursesLogic.getDb().getCourse(courseId);
+		CourseData c = coursesLogic.getCourse(courseId);
 		return c;
 	}
 
@@ -856,7 +847,7 @@ public class Logic {
 			throw new EntityDoesNotExistException("Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
 		}
 
-		CourseData course = coursesLogic.getDb().getCourse(courseId);
+		CourseData course = coursesLogic.getCourse(courseId);
 		StudentData studentData = accountsLogic.getStudent(courseId, studentEmail);
 		Emails emailMgr = new Emails();
 		try {
@@ -912,7 +903,7 @@ public class Logic {
 		// Create the Account if it does not exist
 		if (!accountsLogic.isAccountExists(googleId)) {
 			// Need to retrieve the INSTITUTE of COURSE which this student is enrolling into, for creating his/her ACCOUNT
-			CourseData cd = coursesLogic.getDb().getCourse(newJoinedStudent.course);
+			CourseData cd = coursesLogic.getCourse(newJoinedStudent.course);
 			accountsLogic.createAccount(googleId, newJoinedStudent.name, false, newJoinedStudent.email, coursesLogic.getCourseInstitute(cd.id));
 		}
 	}
