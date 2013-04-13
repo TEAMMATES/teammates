@@ -215,12 +215,12 @@ public class Logic {
 	/**
 	 * Returns ALL COURSE::ID for this INSTRUCTOR GoogleId
 	 * 
-	 * @param courseId
+	 * @param googleId
 	 * @return List<InstructorData>
 	 */
 	public List<InstructorData> getCoursesOfInstructor(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-		gateKeeper.verifyAdminLoggedIn();
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
 		return accountsLogic.getCoursesOfInstructor(googleId);
 	}
 
@@ -232,7 +232,6 @@ public class Logic {
 	 */
 	public List<InstructorData> getInstructorsOfCourse(String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 		return accountsLogic.getInstructorsOfCourse(courseId);
 	}
 
