@@ -58,7 +58,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		 * Insert instructors
 		 */
 		AccountsDb accounts = new AccountsDb();
-		List<InstructorData> instructors = accounts.getInstructors();
+		List<InstructorData> instructors = accounts.getAllInstructors();
 		
 		Iterator<InstructorData> it = instructors.iterator();
 		while (it.hasNext()) {

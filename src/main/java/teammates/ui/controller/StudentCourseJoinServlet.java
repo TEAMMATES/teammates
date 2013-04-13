@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 
@@ -50,6 +51,14 @@ public class StudentCourseJoinServlet extends ActionServlet<Helper> {
 	        		true, helper, url, data);
 		} catch (InvalidParametersException e) {
 			helper.statusMessage = e.getMessage();
+			helper.error = true;
+			
+			ArrayList<Object> data = new ArrayList<Object>();
+	        data.add(helper.statusMessage);	                        
+	        activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_COURSE_JOIN_SERVLET, Common.LOG_SERVLET_ACTION_FAILURE,
+	        		true, helper, url, data);
+		} catch (EntityAlreadyExistsException e) {
+			helper.statusMessage = Helper.escapeForHTML(e.getMessage());
 			helper.error = true;
 			
 			ArrayList<Object> data = new ArrayList<Object>();

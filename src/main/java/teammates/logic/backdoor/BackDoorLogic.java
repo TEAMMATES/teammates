@@ -201,7 +201,7 @@ public class BackDoorLogic extends Logic {
 
 		for (EvaluationData ed : evaluationDataList) {
 
-			List<StudentData> studentDataList = AccountsLogic.inst().getDb().getStudentListForCourse(ed.course);
+			List<StudentData> studentDataList = accountsLogic.getStudentListForCourse(ed.course);
 
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
