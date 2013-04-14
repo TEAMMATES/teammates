@@ -232,6 +232,7 @@ public class Logic {
 	 */
 	public List<InstructorData> getInstructorsOfCourse(String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 		return accountsLogic.getInstructorsOfCourse(courseId);
 	}
 
