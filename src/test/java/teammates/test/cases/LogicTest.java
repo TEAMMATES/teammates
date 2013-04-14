@@ -67,7 +67,8 @@ import com.google.gson.Gson;
 
 public class LogicTest extends BaseTestCase {
 
-	final static Logic logic = new Logic();
+	private static final Logic logic = new Logic();
+	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 
 	// these are used for access control checking for different types of users
 	private static final int USER_TYPE_NOT_LOGGED_IN = -1;
@@ -1624,12 +1625,12 @@ public class LogicTest extends BaseTestCase {
 		newStudent.email = "new@student.com";
 		verifyAbsentInDatastore(newStudent);
 		
-		List<SubmissionData> submissionsBeforeAdding = EvaluationsLogic.inst().getSubmissionsDb().getSubmissionsForCourse(newStudent.course);
+		List<SubmissionData> submissionsBeforeAdding = evaluationsLogic.getSubmissionsForCourse(newStudent.course);
 		
 		logic.createStudent(newStudent);
 		verifyPresentInDatastore(newStudent);
 		
-		List<SubmissionData> submissionsAfterAdding = EvaluationsLogic.inst().getSubmissionsDb().getSubmissionsForCourse(newStudent.course);
+		List<SubmissionData> submissionsAfterAdding = evaluationsLogic.getSubmissionsForCourse(newStudent.course);
 		
 		//expected increase in submissions = 2*(1+4+4)
 		//2 is the number of evaluations in the course
@@ -1761,16 +1762,14 @@ public class LogicTest extends BaseTestCase {
 		student1InCourse1.team = "Team 1.2"; // move to a different team
 
 		// take a snapshot of submissions before
-		List<SubmissionData> submissionsBeforeEdit = EvaluationsLogic.inst().getSubmissionsDb()
-				.getSubmissionsForCourse(student1InCourse1.course);
+		List<SubmissionData> submissionsBeforeEdit = evaluationsLogic.getSubmissionsForCourse(student1InCourse1.course);
 
 		//verify student details changed correctly
 		logic.editStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
 
 		// take a snapshot of submissions after the edit
-		List<SubmissionData> submissionsAfterEdit = EvaluationsLogic.inst().getSubmissionsDb()
-				.getSubmissionsForCourse(student1InCourse1.course);
+		List<SubmissionData> submissionsAfterEdit = evaluationsLogic.getSubmissionsForCourse(student1InCourse1.course);
 		
 		// We moved a student from a 4-person team to an existing 1-person team.
 		// We have 2 evaluations in the course.

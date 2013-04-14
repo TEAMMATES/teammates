@@ -105,7 +105,7 @@ public class BackDoorLogic extends Logic {
 					+ " to " + submission.reviewee);
 			submissionsList.add(submission);
 		}
-		EvaluationsLogic.inst().getSubmissionsDb().editSubmissions(submissionsList);
+		evaluationsLogic.updateSubmissions(submissionsList);
 		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
 		return Common.BACKEND_STATUS_SUCCESS;
@@ -174,7 +174,7 @@ public class BackDoorLogic extends Logic {
 	
 	public ArrayList<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<EvaluationData> evaluations = EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations(); 
+		List<EvaluationData> evaluations = evaluationsLogic.getReadyEvaluations(); 
 		
 		for (EvaluationData ed: evaluations) {
 			
@@ -196,8 +196,7 @@ public class BackDoorLogic extends Logic {
 	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
-		EvaluationsLogic evaluations = EvaluationsLogic.inst();
-		List<EvaluationData> evaluationDataList = evaluations.getEvaluationsDb().getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+		List<EvaluationData> evaluationDataList = evaluationsLogic.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
 		for (EvaluationData ed : evaluationDataList) {
 
@@ -206,7 +205,7 @@ public class BackDoorLogic extends Logic {
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
 			for (StudentData sd : studentDataList) {
-				if (!evaluations.isEvaluationSubmitted(ed, sd.email)) {
+				if (!evaluationsLogic.isEvaluationSubmitted(ed, sd.email)) {
 					studentToRemindList.add(sd);
 				}
 			}
@@ -222,7 +221,7 @@ public class BackDoorLogic extends Logic {
 	}
 	
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
-		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
+		evaluationsLogic.updateEvaluation(evaluation);
 	}
 
 	/**

@@ -329,7 +329,7 @@ public class Logic {
 
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
-		HashMap<String, CourseData> courseList = getCourseListForInstructor(instructorId);
+		HashMap<String, CourseData> courseList = coursesLogic.getCourseSummaryListForInstructor(instructorId);
 		ArrayList<EvaluationData> evaluationList = getEvaluationsListForInstructor(instructorId);
 		for (EvaluationData ed : evaluationList) {
 			CourseData courseSummary = courseList.get(ed.course);
@@ -359,19 +359,15 @@ public class Logic {
 		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
 
 		for (InstructorData id : instructorList) {
-			List<EvaluationData> evaluationsSummaryForCourse = EvaluationsLogic
-					.inst().getEvaluationsDb()
-					.getEvaluationsForCourse(id.courseId);
-			List<StudentData> students = getStudentListForCourse(id.courseId);
+			List<EvaluationData> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(id.courseId);
+			List<StudentData> students = accountsLogic.getStudentListForCourse(id.courseId);
 
 			// calculate submission statistics for each evaluation
 			for (EvaluationData evaluation : evaluationsSummaryForCourse) {
 				evaluation.expectedTotal = students.size();
 
-				HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(
-						id.courseId, evaluation.name);
-				evaluation.submittedTotal = countSubmittedStudents(submissions
-						.values());
+				HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(id.courseId, evaluation.name);
+				evaluation.submittedTotal = countSubmittedStudents(submissions.values());
 
 				evaluationSummaryList.add(evaluation);
 			}
@@ -393,18 +389,15 @@ public class Logic {
 
 		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
 
-		List<EvaluationData> evaluationsSummaryForCourse = EvaluationsLogic
-				.inst().getEvaluationsDb().getEvaluationsForCourse(courseId);
-		List<StudentData> students = getStudentListForCourse(courseId);
+		List<EvaluationData> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(courseId);
+		List<StudentData> students = accountsLogic.getStudentListForCourse(courseId);
 
 		// calculate submission statistics for each evaluation
 		for (EvaluationData evaluation : evaluationsSummaryForCourse) {
 			evaluation.expectedTotal = students.size();
 
-			HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(
-					courseId, evaluation.name);
-			evaluation.submittedTotal = countSubmittedStudents(submissions
-					.values());
+			HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(courseId, evaluation.name);
+			evaluation.submittedTotal = countSubmittedStudents(submissions.values());
 
 			evaluationSummaryList.add(evaluation);
 		}
@@ -807,7 +800,7 @@ public class Logic {
 
 		// cascade email change, if any
 		if (!originalEmail.equals(student.email)) {
-			evaluationsLogic.getSubmissionsDb().editStudentEmailForSubmissionsInCourse(student.course, originalEmail, student.email);
+			evaluationsLogic.updateStudentEmailForSubmissionsInCourse(student.course, originalEmail, student.email);
 		}
 
 		// adjust submissions if moving to a different team
@@ -826,7 +819,7 @@ public class Logic {
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
 		accountsLogic.deleteStudent(courseId, studentEmail);
-		evaluationsLogic.getSubmissionsDb().deleteAllSubmissionsForStudent(courseId, studentEmail);
+		evaluationsLogic.deleteAllSubmissionsForStudent(courseId, studentEmail);
 	}
 
 	/**
@@ -1003,8 +996,7 @@ public class Logic {
 		// For each course the student is in
 		for (CourseData c : courseList) {
 			// Get the list of evaluations for the course
-			List<EvaluationData> evaluationDataList = evaluationsLogic
-					.getEvaluationsDb().getEvaluationsForCourse(c.id);
+			List<EvaluationData> evaluationDataList = evaluationsLogic.getEvaluationsForCourse(c.id);
 
 			// For the list of evaluations for this course
 			for (EvaluationData ed : evaluationDataList) {
@@ -1097,8 +1089,7 @@ public class Logic {
 
 		gateKeeper.verifyRegisteredUserOrAbove();
 
-		EvaluationData e = evaluationsLogic.getEvaluationsDb()
-				.getEvaluation(courseId, evaluationName);
+		EvaluationData e = evaluationsLogic.getEvaluation(courseId, evaluationName);
 
 		return e;
 	}
@@ -1124,9 +1115,12 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, p2pEnabled);
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
-		EvaluationData original = getEvaluation(courseId, evaluationName);
 
-		verifyEvaluationExists(original, courseId, evaluationName);
+		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
+			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
+		}
+		
+		EvaluationData original = getEvaluation(courseId, evaluationName);
 
 		EvaluationData evaluation = new EvaluationData();
 		evaluation.course = courseId;
@@ -1142,12 +1136,7 @@ public class Logic {
 		evaluation.activated = original.activated;
 		evaluation.published = original.published;
 
-		if (!evaluation.isValid()) {
-			throw new InvalidParametersException(
-					evaluation.getInvalidStateInfo());
-		}
-
-		evaluationsLogic.getEvaluationsDb().editEvaluation(evaluation);
+		evaluationsLogic.updateEvaluation(evaluation);
 	}
 
 	/**
@@ -1175,18 +1164,18 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
+		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
+			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
+		}
+
 		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
-
-		verifyEvaluationExists(evaluation, courseId, evaluationName);
-
 		if (evaluation.getStatus() != EvalStatus.CLOSED) {
 			throw new InvalidParametersException(
 					Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
 					"Cannot publish an evaluation unless it is CLOSED");
 		}
 
-		evaluationsLogic.getEvaluationsDb()
-				.setEvaluationPublishedStatus(courseId, evaluationName, true);
+		evaluationsLogic.setEvaluationPublishedStatus(courseId, evaluationName, true);
 		sendEvaluationPublishedEmails(courseId, evaluationName);
 	}
 
@@ -1203,18 +1192,18 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
+		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
+			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
+		}
+		
 		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
-
-		verifyEvaluationExists(evaluation, courseId, evaluationName);
-
 		if (evaluation.getStatus() != EvalStatus.PUBLISHED) {
 			throw new InvalidParametersException(
 					Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
 					"Cannot unpublish an evaluation unless it is PUBLISHED");
 		}
 
-		evaluationsLogic.getEvaluationsDb()
-				.setEvaluationPublishedStatus(courseId, evaluationName, false);
+		evaluationsLogic.setEvaluationPublishedStatus(courseId, evaluationName, false);
 	}
 
 	/**
@@ -1228,9 +1217,11 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
+			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
+		}
 
-		verifyEvaluationExists(evaluation, courseId, evaluationName);
+		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
 		List<StudentData> studentDataList = accountsLogic.getStudentListForCourse(courseId);
@@ -1303,11 +1294,7 @@ public class Logic {
 
 		gateKeeper.verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
 
-		List<SubmissionData> submissions = EvaluationsLogic
-				.inst()
-				.getSubmissionsDb()
-				.getSubmissionsFromEvaluationFromStudent(courseId,
-						evaluationName, reviewerEmail);
+		List<SubmissionData> submissions = evaluationsLogic.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
 
 		boolean isSubmissionsExist = (submissions.size() > 0
 				&& coursesLogic.isCourseExists(courseId)
@@ -1412,25 +1399,11 @@ public class Logic {
 		return emailsSent;
 	}
 
-	private void verifyEvaluationExists(EvaluationData evaluation,
-			String courseId, String evaluationName)
-			throws EntityDoesNotExistException {
-		if (evaluation == null) {
-			throw new EntityDoesNotExistException(
-					"There is no evaluation named '" + evaluationName
-							+ "' under the course " + courseId);
-		}
-	}
-
 	private void editSubmission(SubmissionData submission)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, submission);
 
-		SubmissionData original = EvaluationsLogic
-				.inst()
-				.getSubmissionsDb()
-				.getSubmission(submission.course, submission.evaluation,
-						submission.reviewee, submission.reviewer);
+		SubmissionData original = evaluationsLogic.getSubmission(submission.course, submission.evaluation,submission.reviewee, submission.reviewer);
 
 		if (original == null) {
 			throw new EntityDoesNotExistException("The submission: "
@@ -1441,12 +1414,7 @@ public class Logic {
 
 		gateKeeper.verifySubmissionEditableForUser(submission);
 
-		if (!submission.isValid()) {
-			throw new InvalidParametersException(
-					submission.getInvalidStateInfo());
-		}
-
-		evaluationsLogic.getSubmissionsDb().editSubmission(submission);
+		evaluationsLogic.updateSubmission(submission);
 	}
 
 	private StudentData enrollStudent(StudentData student) {
@@ -1500,9 +1468,7 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 
-		List<SubmissionData> submissionsList = evaluationsLogic
-				.getSubmissionsDb()
-				.getSubmissionsForEvaluation(courseId, evaluationName);
+		List<SubmissionData> submissionsList = evaluationsLogic.getSubmissionsForEvaluation(courseId, evaluationName);
 
 		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
 		for (SubmissionData sd : submissionsList) {
@@ -1639,11 +1605,7 @@ public class Logic {
 
 	protected SubmissionData getSubmission(String courseId,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
-		SubmissionData sd = EvaluationsLogic
-				.inst()
-				.getSubmissionsDb()
-				.getSubmission(courseId, evaluationName, revieweeEmail,
-						reviewerEmail);
+		SubmissionData sd = evaluationsLogic.getSubmission(courseId, evaluationName, revieweeEmail, reviewerEmail);
 		return sd;
 	}
 

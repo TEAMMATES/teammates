@@ -30,50 +30,7 @@ public class EvaluationsLogic {
 		return instance;
 	}
 
-	/**
-	 * Atomically creates an Evaluation Object and a list of Submissions for the
-	 * evaluation
-	 * 
-	 * @param e
-	 *            An EvaluationData object
-	 * 
-	 * @author wangsha
-	 * @throws EntityAlreadyExistsException
-	 *             , InvalidParametersException
-	 */
-	public void createEvaluation(EvaluationData e)
-			throws EntityAlreadyExistsException, InvalidParametersException {
-
-		// 1st level validation - throw IPE
-		if (!e.isValid()) {
-			throw new InvalidParametersException(e.getInvalidStateInfo());
-		}
-		
-		// this operation throws EntityAlreadyExistsException
-		evaluationsDb.createEvaluation(e);
-
-		// Build submission objects for each student based on their team
-		// number
-		List<StudentData> studentDataList = accountsDb
-				.getStudentListForCourse(e.course);
-		
-		List<SubmissionData> listOfSubmissionsToAdd = new ArrayList<SubmissionData>();
-
-		// This double loop creates 3 submissions for a pair of students:
-		// x->x, x->y, y->x
-		for (StudentData sx : studentDataList) {
-			for (StudentData sy : studentDataList) {
-				if (sx.team.equals(sy.team)) {
-					SubmissionData submissionToAdd = new SubmissionData(
-							e.course, e.name, sx.team, sx.email, sy.email);
-					listOfSubmissionsToAdd.add(submissionToAdd);
-				}
-			}
-		}
-
-		submissionsDb.createListOfSubmissions(listOfSubmissionsToAdd);
-	}
-
+	//==========================================================================
 	/**
 	 * Adjusts submissions for a student moving from one team to another.
 	 * Deletes existing submissions for original team and creates empty
@@ -139,53 +96,7 @@ public class EvaluationsLogic {
 		
 		submissionsDb.createListOfSubmissions(listOfSubmissionsToAdd);
 	}
-
-	private List<String> getExistingStudentsInTeam(String courseId, String team) {
-		Set<String> students = new HashSet<String>();
-		List<SubmissionData> submissionsDataList = submissionsDb
-				.getSubmissionsForCourse(courseId);
-		for (SubmissionData s : submissionsDataList) {
-			if (s.team.equals(team)) {
-				students.add(s.reviewer);
-			}
-		}
-		return new ArrayList<String>(students);
-	}
-
-	/**
-	 * Atomically deletes an Evaluation and its Submission objects.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 * 
-	 */
-	public void deleteEvaluation(String courseId, String name) {
-		// Delete the Evaluation entity
-		evaluationsDb.deleteEvaluation(courseId, name);
-
-		// Delete Submission entries belonging to this Evaluation
-		submissionsDb.deleteAllSubmissionsForEvaluation(courseId, name);
-	}
-
-	/**
-	 * Atomically deletes all Evaluation objects and its Submission objects from
-	 * a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
-	 */
-	public void deleteEvaluationsForCourse(String courseId) {
-
-		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
-		submissionsDb.deleteAllSubmissionsForCourse(courseId);
-	}
-
+	
 	/**
 	 * Checks if a Student has done his submitted his entry for a particular
 	 * Evaluation.
@@ -219,13 +130,167 @@ public class EvaluationsLogic {
 	public boolean isEvaluationExists(String courseId, String evaluationName) {
 		return evaluationsDb.getEvaluation(courseId, evaluationName) != null;
 	}
+	
+	//==========================================================================
+	/**
+	 * Atomically creates an Evaluation Object and a list of Submissions for the
+	 * evaluation
+	 * 
+	 * @param e
+	 *            An EvaluationData object
+	 * 
+	 * @author wangsha
+	 * @throws EntityAlreadyExistsException
+	 *             , InvalidParametersException
+	 */
+	public void createEvaluation(EvaluationData e)
+			throws EntityAlreadyExistsException, InvalidParametersException {
 
-	public EvaluationsDb getEvaluationsDb() {
-		return evaluationsDb;
+		// 1st level validation - throw IPE
+		if (!e.isValid()) {
+			throw new InvalidParametersException(e.getInvalidStateInfo());
+		}
+		
+		// this operation throws EntityAlreadyExistsException
+		evaluationsDb.createEvaluation(e);
+
+		// Build submission objects for each student based on their team
+		// number
+		List<StudentData> studentDataList = accountsDb.getStudentListForCourse(e.course);
+		
+		List<SubmissionData> listOfSubmissionsToAdd = new ArrayList<SubmissionData>();
+
+		// This double loop creates 3 submissions for a pair of students:
+		// x->x, x->y, y->x
+		for (StudentData sx : studentDataList) {
+			for (StudentData sy : studentDataList) {
+				if (sx.team.equals(sy.team)) {
+					SubmissionData submissionToAdd = new SubmissionData(
+							e.course, e.name, sx.team, sx.email, sy.email);
+					listOfSubmissionsToAdd.add(submissionToAdd);
+				}
+			}
+		}
+
+		submissionsDb.createListOfSubmissions(listOfSubmissionsToAdd);
+	}
+	
+	//==========================================================================
+	public EvaluationData getEvaluation(String courseId, String evaluationName) {
+		return evaluationsDb.getEvaluation(courseId, evaluationName);
+	}
+	
+	public List<EvaluationData> getEvaluationsForCourse(String courseId) {
+		return evaluationsDb.getEvaluationsForCourse(courseId);
+	}
+	
+	// Used in BackdoorLogic
+	public List<EvaluationData> getReadyEvaluations() {
+		return evaluationsDb.getReadyEvaluations();
 	}
 
-	public SubmissionsDb getSubmissionsDb() {
-		return submissionsDb;
+	// Used in BackdoorLogic
+	public List<EvaluationData> getEvaluationsClosingWithinTimeLimit(int hoursWithinLimit) {
+		return evaluationsDb.getEvaluationsClosingWithinTimeLimit(hoursWithinLimit);
+	}
+
+	public SubmissionData getSubmission(String course, String evaluation, String reviewee, String reviewer) {
+		return submissionsDb.getSubmission(course, evaluation, reviewee, reviewer);
+	}
+	
+	public List<SubmissionData> getSubmissionsFromEvaluationFromStudent(String courseId, String evaluationName, String reviewerEmail) {
+		return submissionsDb.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
+	}
+	
+	public List<SubmissionData> getSubmissionsForCourse(String courseId) {
+		return submissionsDb.getSubmissionsForCourse(courseId);
+	}
+
+	public List<SubmissionData> getSubmissionsForEvaluation(String courseId,String evaluationName) {
+		return submissionsDb.getSubmissionsForEvaluation(courseId, evaluationName);
+	}
+
+	//==========================================================================
+	public void updateEvaluation(EvaluationData evaluation) throws InvalidParametersException {
+		if (!evaluation.isValid()) {
+			throw new InvalidParametersException(evaluation.getInvalidStateInfo());
+		}
+		evaluationsDb.editEvaluation(evaluation);
+	}
+	
+	public void setEvaluationPublishedStatus(String courseId, String evaluationName, boolean b) {
+		evaluationsDb.setEvaluationPublishedStatus(courseId, evaluationName, b);
+	}	
+
+	public void updateStudentEmailForSubmissionsInCourse(String course,
+			String originalEmail, String email) {
+		submissionsDb.editStudentEmailForSubmissionsInCourse(course, originalEmail, email);
+	}
+	
+	public void updateSubmission(SubmissionData submission) throws InvalidParametersException {
+		if (!submission.isValid()) {
+			throw new InvalidParametersException(submission.getInvalidStateInfo());
+		}
+		submissionsDb.updateSubmission(submission);
+	}
+	
+	public void updateSubmissions(List<SubmissionData> submissionsDataList) {
+		submissionsDb.updateSubmissions(submissionsDataList);
+	}
+	
+	//==========================================================================
+	/**
+	 * Atomically deletes an Evaluation and its Submission objects.
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: The courseID and evaluationName
+	 *            pair must be valid)
+	 * 
+	 * @param name
+	 *            the evaluation name (Pre-condition: The courseID and
+	 *            evaluationName pair must be valid)
+	 * 
+	 */
+	public void deleteEvaluation(String courseId, String name) {
+		// Delete the Evaluation entity
+		evaluationsDb.deleteEvaluation(courseId, name);
+
+		// Delete Submission entries belonging to this Evaluation
+		submissionsDb.deleteAllSubmissionsForEvaluation(courseId, name);
+	}
+
+	/**
+	 * Atomically deletes all Evaluation objects and its Submission objects from
+	 * a Course.
+	 * 
+	 * @param courseID
+	 *            the course ID (Pre-condition: Must be valid)
+	 * 
+	 */
+	public void deleteEvaluationsForCourse(String courseId) {
+		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
+		submissionsDb.deleteAllSubmissionsForCourse(courseId);
+	}
+	
+	public void deleteSubmissionsForOutgoingMember(String courseId, String name, String email, String team) {
+		submissionsDb.deleteSubmissionsForOutgoingMember(courseId, name, email, team);
+	}
+	
+	public void deleteAllSubmissionsForStudent(String courseId, String studentEmail) {
+		submissionsDb.deleteAllSubmissionsForStudent(courseId, studentEmail);
+	}
+	
+	//==========================================================================
+	private List<String> getExistingStudentsInTeam(String courseId, String team) {
+		Set<String> students = new HashSet<String>();
+		List<SubmissionData> submissionsDataList = submissionsDb
+				.getSubmissionsForCourse(courseId);
+		for (SubmissionData s : submissionsDataList) {
+			if (s.team.equals(team)) {
+				students.add(s.reviewer);
+			}
+		}
+		return new ArrayList<String>(students);
 	}
 
 }

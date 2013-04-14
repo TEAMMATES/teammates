@@ -136,12 +136,12 @@ public class SubmissionsDbTest extends BaseTestCase {
 		
 		// Edit existent
 		s.justification = new Text("Hello World");
-		submissionsDb.editSubmission(s);
+		submissionsDb.updateSubmission(s);
 		
 		// Edit non-existent
 		s.reviewer = "non@existent.email";
 		try {
-			submissionsDb.editSubmission(s);
+			submissionsDb.updateSubmission(s);
 			fail();
 		} catch (AssertionError a) {
 			assertContains(SubmissionsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
@@ -149,7 +149,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		
 		// Null params check:
 		try {
-			submissionsDb.editSubmission(null);
+			submissionsDb.updateSubmission(null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());

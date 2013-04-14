@@ -33,6 +33,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class EvaluationsLogicTest extends BaseTestCase{
 	
+	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -64,7 +65,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 			backdoor.editEvaluation(e);
 			assertTrue(backdoor.getEvaluation(e.course, e.name).getStatus() != EvalStatus.AWAITING);
 		}
-		assertEquals(0, EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations().size());
+		assertEquals(0, evaluationsLogic.getReadyEvaluations().size());
 
 		______TS("typical case, two evaluations activated");
 		// Reuse an existing evaluation to create a new one that is ready to
@@ -129,7 +130,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		backdoor.createEvaluation(evaluation);
 
 		// verify number of ready evaluations.
-		assertEquals(2, EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations().size());
+		assertEquals(2, evaluationsLogic.getReadyEvaluations().size());
 
 		// Other variations of ready/not-ready states should be checked at
 		// Evaluation level
@@ -153,23 +154,20 @@ public class EvaluationsLogicTest extends BaseTestCase{
 
 		// We have a 4-member team and a 1-member team.
 		// Therefore, we expect (4*4)+(1*1)=17 submissions.
-		List<SubmissionData> submissions = EvaluationsLogic.inst()
-				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation1.name);
+		List<SubmissionData> submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(17, submissions.size());
 
-		EvaluationsLogic.inst().getSubmissionsDb().deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, student.email, student.team);
+		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, student.email, student.team);
 		
 		// We have a 3-member team and a 1-member team.
 		// Therefore, we expect (3*3)+(1*1)=10 submissions.
-		submissions = EvaluationsLogic.inst().getSubmissionsDb().getSubmissionsForEvaluation(course.id,
-				evaluation1.name);
+		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(10, submissions.size());
 
 		// check the same for the other evaluation, to detect state leakage
-		EvaluationsLogic.inst().getSubmissionsDb().deleteSubmissionsForOutgoingMember(course.id, evaluation2.name, student.email, student.team);
+		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation2.name, student.email, student.team);
 		
-		submissions = EvaluationsLogic.inst().getSubmissionsDb().getSubmissionsForEvaluation(course.id,
-				evaluation2.name);
+		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
 		assertEquals(10, submissions.size());
 
 		// verify the student is no longer included in submissions
@@ -181,15 +179,13 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		______TS("only one student in team");
 
 		StudentData loneStudent = dataBundle.students.get("student5InCourse1");
-		EvaluationsLogic.inst().getSubmissionsDb().deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, loneStudent.email, loneStudent.team);
+		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, loneStudent.email, loneStudent.team);
 		// We expect one fewer submissions than before.
-		submissions = EvaluationsLogic.inst().getSubmissionsDb().getSubmissionsForEvaluation(course.id,
-				evaluation1.name);
+		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(9, submissions.size());
 
-		EvaluationsLogic.inst().getSubmissionsDb().deleteSubmissionsForOutgoingMember(course.id, evaluation2.name, loneStudent.email, loneStudent.team);
-		submissions = EvaluationsLogic.inst().getSubmissionsDb().getSubmissionsForEvaluation(course.id,
-				evaluation2.name);
+		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation2.name, loneStudent.email, loneStudent.team);
+		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
 		assertEquals(9, submissions.size());
 
 		// TODO: test for invalid inputs
@@ -216,15 +212,13 @@ public class EvaluationsLogicTest extends BaseTestCase{
 
 		// We have a 5-member team and a 1-member team.
 		// Therefore, we expect (5*5)+(1*1)=26 submissions.
-		List<SubmissionData> submissions = EvaluationsLogic.inst()
-				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation1.name);
+		List<SubmissionData> submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(26, submissions.size());
 		
 		// Check the same for the other evaluation, to detect any state leakage
 		invokeAddSubmissionsForIncomingMember(course.id,
 				evaluation2.name, "incoming@student.com", student.team);
-		submissions = EvaluationsLogic.inst()
-				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation2.name);
+		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
 		assertEquals(26, submissions.size());
 		
 		______TS("moving to new team");
@@ -232,16 +226,14 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		invokeAddSubmissionsForIncomingMember(course.id,
 				evaluation1.name, "incoming@student.com", "new team");
 		//There should be one more submission now.
-		submissions = EvaluationsLogic.inst()
-				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation1.name);
+		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(27, submissions.size());
 		
 		// Check the same for the other evaluation
 		invokeAddSubmissionsForIncomingMember(course.id,
 				evaluation2.name, "incoming@student.com", "new team");
 		//There should be one more submission now.
-		submissions = EvaluationsLogic.inst()
-				.getSubmissionsDb().getSubmissionsForEvaluation(course.id, evaluation2.name);
+		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
 		assertEquals(27, submissions.size());
 
 		//TODO: test invalid inputs
