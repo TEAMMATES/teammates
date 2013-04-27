@@ -361,7 +361,7 @@ public class SubmissionsDb {
 	 *            modified values.
 	 * 
 	 */
-	public void editSubmission(SubmissionData sd) {
+	public void updateSubmission(SubmissionData sd) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, sd);
 
 		Submission submission = getSubmissionEntity(sd.course, sd.evaluation,
@@ -391,11 +391,11 @@ public class SubmissionsDb {
 	 *            submission list must be valid)
 	 * 
 	 */
-	public void editSubmissions(List<SubmissionData> submissionDataList) {
+	public void updateSubmissions(List<SubmissionData> submissionDataList) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionDataList);
 
 		for (SubmissionData sd : submissionDataList) {
-			editSubmission(sd);
+			updateSubmission(sd);
 		}
 		// closing PM because otherwise the data is not updated during offline
 		// unit testing

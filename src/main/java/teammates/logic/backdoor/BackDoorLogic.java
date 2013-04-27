@@ -105,7 +105,7 @@ public class BackDoorLogic extends Logic {
 					+ " to " + submission.reviewee);
 			submissionsList.add(submission);
 		}
-		EvaluationsLogic.inst().getSubmissionsDb().editSubmissions(submissionsList);
+		evaluationsLogic.updateSubmissions(submissionsList);
 		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
 		return Common.BACKEND_STATUS_SUCCESS;
@@ -174,7 +174,7 @@ public class BackDoorLogic extends Logic {
 	
 	public ArrayList<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<EvaluationData> evaluations = EvaluationsLogic.inst().getEvaluationsDb().getReadyEvaluations(); 
+		List<EvaluationData> evaluations = evaluationsLogic.getReadyEvaluations(); 
 		
 		for (EvaluationData ed: evaluations) {
 			
@@ -196,17 +196,16 @@ public class BackDoorLogic extends Logic {
 	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
-		EvaluationsLogic evaluations = EvaluationsLogic.inst();
-		List<EvaluationData> evaluationDataList = evaluations.getEvaluationsDb().getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+		List<EvaluationData> evaluationDataList = evaluationsLogic.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
 		for (EvaluationData ed : evaluationDataList) {
 
-			List<StudentData> studentDataList = AccountsLogic.inst().getDb().getStudentListForCourse(ed.course);
+			List<StudentData> studentDataList = accountsLogic.getStudentListForCourse(ed.course);
 
 			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
 
 			for (StudentData sd : studentDataList) {
-				if (!evaluations.isEvaluationSubmitted(ed, sd.email)) {
+				if (!evaluationsLogic.isEvaluationSubmitted(ed, sd.email)) {
 					studentToRemindList.add(sd);
 				}
 			}
@@ -222,7 +221,7 @@ public class BackDoorLogic extends Logic {
 	}
 	
 	public void editEvaluation(EvaluationData evaluation) throws InvalidParametersException, EntityDoesNotExistException{
-		EvaluationsLogic.inst().getEvaluationsDb().editEvaluation(evaluation);
+		evaluationsLogic.updateEvaluation(evaluation);
 	}
 
 	/**
@@ -239,13 +238,6 @@ public class BackDoorLogic extends Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
-		CourseData courseToAdd = new CourseData(courseId, courseName);
-
-		if (!courseToAdd.isValid()) {
-			throw new InvalidParametersException(
-					courseToAdd.getInvalidStateInfo());
-		}
-
-		CoursesLogic.inst().getDb().createCourse(courseToAdd);
+		coursesLogic.createCourse(courseId, courseName);
 	}
 }

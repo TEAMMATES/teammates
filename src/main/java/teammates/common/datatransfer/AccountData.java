@@ -44,8 +44,7 @@ public class AccountData extends BaseData {
 	}
 	
 	public Account toEntity() {
-		return new Account(googleId, name, isInstructor,
-						email, institute);
+		return new Account(googleId, name, isInstructor, email, institute);
 	}
 	
 	public String getInvalidStateInfo() {
@@ -62,12 +61,10 @@ public class AccountData extends BaseData {
 		if (!Common.isValidEmail(email)) {
 			errorMessage += ERROR_FIELD_EMAIL;
 		}
-		
-	/*	
+			
 		if (!Common.isValidName(institute)) {
 			errorMessage += ERROR_FIELD_INSTITUTE;
 		}
-	*/
 		return errorMessage;
 
 	}

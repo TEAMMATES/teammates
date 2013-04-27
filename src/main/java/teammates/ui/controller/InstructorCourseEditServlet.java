@@ -56,7 +56,7 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 			
 			if(courseID!=null){
 				helper.course = helper.server.getCourse(courseID);
-				helper.instructorList = helper.server.getInstructorsByCourseId(courseID);
+				helper.instructorList = helper.server.getInstructorsOfCourse(courseID);
 				if(helper.course == null || helper.instructorList == null){
 					helper.statusMessage = "Invalid Course " + courseID + " specified";
 					helper.error = true;

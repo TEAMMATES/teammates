@@ -292,7 +292,7 @@ public class AccountsDb {
 	 * Returns the list of all instructors
 	 * @return
 	 */
-	public List<InstructorData> getInstructors() {
+	public List<InstructorData> getAllInstructors() {
 		List<InstructorData> list = new LinkedList<InstructorData>();
 		List<Instructor> entities = getInstructorEntities();
 		Iterator<Instructor> it = entities.iterator();
@@ -450,6 +450,36 @@ public class AccountsDb {
 		}
 
 		return new StudentData(s);
+	}
+	
+	/**
+	 * RETRIEVE Student
+	 * 
+	 * Returns a StudentData object from a unique Student entry with the
+	 * key(courseId, googleId)
+	 * 
+	 * @param courseId
+	 * 
+	 * @param googleId
+	 * 
+	 * @return the StudentData of Student with the courseId and googleId
+	 */
+	public StudentData getStudentByGoogleId(String courseId, String googleId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		
+		String query = "SELECT FROM " + Student.class.getName() +
+						" WHERE ID == '" + googleId + "' && courseID == '" + courseId + "'";
+		
+		@SuppressWarnings("unchecked")
+		List<Student> studentList = (List<Student>) getPM().newQuery(query).execute();
+		
+		if (studentList.isEmpty()) {
+			log.warning("Trying to get non-existent Student: " + courseId + "/" + googleId);
+			return null;
+		}
+		
+		return new StudentData(studentList.get(0));
 	}
 
 	/**
@@ -687,7 +717,7 @@ public class AccountsDb {
 	 *            , email and params to change
 	 * 
 	 */
-	public void editStudent(String courseId, String email, String newName,
+	public void updateStudent(String courseId, String email, String newName,
 			String newTeamName, String newEmail, String newGoogleID,
 			String newComments) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
@@ -1037,6 +1067,8 @@ public class AccountsDb {
 	
 		return instructorList;
 	}
+
+	
 
 }
 

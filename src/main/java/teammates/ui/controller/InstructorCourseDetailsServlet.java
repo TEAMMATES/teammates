@@ -29,7 +29,7 @@ public class InstructorCourseDetailsServlet extends ActionServlet<InstructorCour
 		if(courseID!=null){
 			helper.course = helper.server.getCourseDetails(courseID);
 			helper.students = helper.server.getStudentListForCourse(courseID);
-			helper.instructors = helper.server.getInstructorsByCourseId(courseID);
+			helper.instructors = helper.server.getInstructorsOfCourse(courseID);
 			
 			ArrayList<Object> data = new ArrayList<Object>();
 			data.add(courseID);			 

@@ -67,7 +67,8 @@ import com.google.gson.Gson;
 
 public class LogicTest extends BaseTestCase {
 
-	final static Logic logic = new Logic();
+	private static final Logic logic = new Logic();
+	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 
 	// these are used for access control checking for different types of users
 	private static final int USER_TYPE_NOT_LOGGED_IN = -1;
@@ -1624,12 +1625,12 @@ public class LogicTest extends BaseTestCase {
 		newStudent.email = "new@student.com";
 		verifyAbsentInDatastore(newStudent);
 		
-		List<SubmissionData> submissionsBeforeAdding = EvaluationsLogic.inst().getSubmissionsDb().getSubmissionsForCourse(newStudent.course);
+		List<SubmissionData> submissionsBeforeAdding = evaluationsLogic.getSubmissionsForCourse(newStudent.course);
 		
 		logic.createStudent(newStudent);
 		verifyPresentInDatastore(newStudent);
 		
-		List<SubmissionData> submissionsAfterAdding = EvaluationsLogic.inst().getSubmissionsDb().getSubmissionsForCourse(newStudent.course);
+		List<SubmissionData> submissionsAfterAdding = evaluationsLogic.getSubmissionsForCourse(newStudent.course);
 		
 		//expected increase in submissions = 2*(1+4+4)
 		//2 is the number of evaluations in the course
@@ -1761,16 +1762,14 @@ public class LogicTest extends BaseTestCase {
 		student1InCourse1.team = "Team 1.2"; // move to a different team
 
 		// take a snapshot of submissions before
-		List<SubmissionData> submissionsBeforeEdit = EvaluationsLogic.inst().getSubmissionsDb()
-				.getSubmissionsForCourse(student1InCourse1.course);
+		List<SubmissionData> submissionsBeforeEdit = evaluationsLogic.getSubmissionsForCourse(student1InCourse1.course);
 
 		//verify student details changed correctly
 		logic.editStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
 
 		// take a snapshot of submissions after the edit
-		List<SubmissionData> submissionsAfterEdit = EvaluationsLogic.inst().getSubmissionsDb()
-				.getSubmissionsForCourse(student1InCourse1.course);
+		List<SubmissionData> submissionsAfterEdit = evaluationsLogic.getSubmissionsForCourse(student1InCourse1.course);
 		
 		// We moved a student from a 4-person team to an existing 1-person team.
 		// We have 2 evaluations in the course.
@@ -1961,13 +1960,13 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetStudentWithId() throws Exception {
+	public void testGetStudentWithGoogleId() throws Exception {
 
 		______TS("authentication");
 
 		restoreTypicalDataInDatastore();
 
-		String methodName = "getStudentsWithId";
+		String methodName = "getStudentsWithGoogleId";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
 		Object[] params = new Object[] { "student1InCourse1" };
 
@@ -1996,13 +1995,13 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 		StudentData studentInOneCourse = dataBundle.students
 				.get("student1InCourse1");
-		assertEquals(1, logic.getStudentsWithId(studentInOneCourse.id).size());
+		assertEquals(1, logic.getStudentsWithGoogleId(studentInOneCourse.id).size());
 		assertEquals(studentInOneCourse.email,
-				logic.getStudentsWithId(studentInOneCourse.id).get(0).email);
+				logic.getStudentsWithGoogleId(studentInOneCourse.id).get(0).email);
 		assertEquals(studentInOneCourse.name,
-				logic.getStudentsWithId(studentInOneCourse.id).get(0).name);
+				logic.getStudentsWithGoogleId(studentInOneCourse.id).get(0).name);
 		assertEquals(studentInOneCourse.course,
-				logic.getStudentsWithId(studentInOneCourse.id).get(0).course);
+				logic.getStudentsWithGoogleId(studentInOneCourse.id).get(0).course);
 
 		______TS("student in two courses");
 
@@ -2012,14 +2011,14 @@ public class LogicTest extends BaseTestCase {
 		StudentData studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
 		ArrayList<StudentData> listReceivedUsingStudentInCourse1 = logic
-				.getStudentsWithId(studentInTwoCoursesInCourse1.id);
+				.getStudentsWithGoogleId(studentInTwoCoursesInCourse1.id);
 		assertEquals(2, listReceivedUsingStudentInCourse1.size());
 
 		// get list using student data from course 2
 		StudentData studentInTwoCoursesInCourse2 = dataBundle.students
 				.get("student2InCourse2");
 		ArrayList<StudentData> listReceivedUsingStudentInCourse2 = logic
-				.getStudentsWithId(studentInTwoCoursesInCourse2.id);
+				.getStudentsWithGoogleId(studentInTwoCoursesInCourse2.id);
 		assertEquals(2, listReceivedUsingStudentInCourse2.size());
 
 		// check the content from first list (we assume the content of the
@@ -2047,12 +2046,12 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non existent student");
 
-		assertEquals(0, logic.getStudentsWithId("non-existent").size());
+		assertEquals(0, logic.getStudentsWithGoogleId("non-existent").size());
 
 		______TS("null parameters");
 
 		try {
-			logic.getStudentsWithId(null);
+			logic.getStudentsWithGoogleId(null);
 			fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -2344,7 +2343,7 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		// make the student an instructor
-		AccountsLogic.inst().getDb().makeAccountInstructor(googleId);
+		AccountsLogic.inst().makeAccountInstructor(googleId);
 		assertTrue(logic.isInstructor(googleId));
 		
 		// make the student 'unregistered' again

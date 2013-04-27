@@ -808,7 +808,6 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		
 		bi.goToUrl(link);
-		bi.clickAndConfirm(By.id("button_submit"));
 		
 		verifyRedirectToNotAuthorized();
 	}

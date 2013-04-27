@@ -42,7 +42,7 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		}
 		
 		helper.course = helper.server.getCourseDetails(courseId);
-		helper.instructors = helper.server.getInstructorsByCourseId(courseId);
+		helper.instructors = helper.server.getInstructorsOfCourse(courseId);
 		
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
 		helper.team = getTeam(helper.server.getTeamsForCourse(courseId),helper.student);
