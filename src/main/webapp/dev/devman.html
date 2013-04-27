@@ -760,7 +760,7 @@
 		environment</h2>
 	<ul>
 		<li><span class="bold">Google App Engine (GAE)</span></li>
-		<li><span class="bold">Java</span> [version 1.6, this is the
+		<li><span class="bold">Java</span> [version 1.7, this is the
 			highest version supported by GAE]</li>
 		<li><span class="bold">Live site</span>: <a
 			href="http://teammatesv4.appspot.com/">http://teammatesv4.appspot.com</a></li>
@@ -774,7 +774,7 @@
 		<li><span class="bold">Google App Engine Plugin for
 				Eclipse</span> [version 4.2]</li>
 		<li><span class="bold">Google App Engine SDK</span> [version
-			1.7.3]</li>
+			1.7.7.1]</li>
 		<li><span class="bold">TortoiseHg</span> or Mac OS equivalent
 			[version: latest stable]</li>
 		<li><span class="bold">Google Code</span> project hosting</li>
@@ -919,11 +919,11 @@
 			does not work. In which case, follow the instructions at <a
 			href="https://developers.google.com/eclipse/docs/install-from-zip">https://developers.google.com/eclipse/docs/install-from-zip</a>.
 		</li>
-		<li>Install <i>Google App Engine SDK</i> version 1.7.3. <br>Instructions
+		<li>Install <i>Google App Engine SDK</i> version 1.7.7.1 <br>Instructions
 			are at <a
 			href="https://developers.google.com/eclipse/docs/using_sdks">https://developers.google.com/eclipse/docs/using_sdks</a>.
 			<br>Download link to the SDK is <a
-			href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip</a>.
+			href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip</a>.
 		</li>
 		<li>If your Firefox is higher than version 12, downgrade to
 			Firefox 12.0 from <a
@@ -1020,17 +1020,18 @@
 	</ol>
 
 	<h3>Running the test suite</h3>
-	Run
+	This can be done using the "TM - Run all tests" option under the green
+	"Run" button in the toolbar. If this option is not available sometimes,
+	Eclipse does not show this option immediately after you set up the
+	project. In will appear in subsequent runs), run
 	<span class="bold code">src/test/java/teammates.test.cases.AllTestsSuite.java</span>
-	to confirm the app works as expected. This can be done using the "TM -
-	Run all tests" option under the green "Run" button in the toolbar. Most
-	of the tests should pass. If a few cases fail (this can happen due to
-	timing issues), run the failed cases individually (right click and
-	choose 'Run as → Junit Test') and ensure they pass. The default browser
-	used for testing is the Firefox browser. Testing on the Firefox browser
-	is relatively faster as compared to the other browsers, and it can be
-	run in the background. Nevertheless, it is still necessary to test with
-	the other supported browsers as well.
+	'as a JUnit Test'. Most of the tests should pass. If a few cases fail
+	(this can happen due to timing issues), run the failed cases
+	individually (right click and choose 'Run as → Junit Test') and ensure
+	they pass. The default browser used for testing is the Firefox browser.
+	Testing on the Firefox browser is relatively faster as compared to the
+	other browsers, and it can be run in the background. Nevertheless, it
+	is still necessary to test with the other supported browsers as well.
 	<br>
 	<br> To change the browser that is used in the UI tests, go to the
 	<span class="code">test.properties</span> file and change the
@@ -1151,6 +1152,15 @@
 			VM, then for the JRE Path enter the path of the <span class="code">jre</span>
 			folder inside your jdk installation folder. e.g., <span class="code">C:\jdk1.6\jre</span>
 			Now you should see all of the JARs added to the library section.
+		</li>
+		<br>
+		<li>ERROR: When trying to deoply, Eclipse complains <span
+			class="code">"...Unable to update app: Cannot get the System
+				Java Compiler. Please use a JDK, not a JRE."</span>. <br> SOLUTION:
+			You can force Eclipse to use the JDK (instead of JRE) by modifiying
+			the <span class="code">eclipse.ini</span> file. See <a
+			href="http://stackoverflow.com/questions/13913019/changing-jdk-in-eclipse">here</a>
+			for more details.
 		</li>
 		<br>
 		<li>ERROR (on Windows): Dev server launched by Eclipse keeps

@@ -82,6 +82,8 @@ public class AdminSearchTaskServlet extends HttpServlet {
 	 * Add student/instructor data to search index
 	 */
 	private void addDocument(String name, String email, String id, String url) {
+		//TODO: fix this to match new sdk
+		/*
 		Document.Builder docBuilder = Document
 				.newBuilder()
 				.addField(
@@ -105,6 +107,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		} catch (RuntimeException e) {
 			log.warning("Failed to add " + doc + e.getLocalizedMessage());
 		}
+		*/
 	}
 
 
@@ -112,6 +115,8 @@ public class AdminSearchTaskServlet extends HttpServlet {
 	 * Clean up existing search indexes 
 	 */
 	private void cleanupExistingSearchIndexes() {
+		//TODO: fix this to match new sdk
+		/*
 		try {
 		    while (true) {
 		        ArrayList<String> docIds = new ArrayList<String>();
@@ -133,6 +138,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		} catch (RuntimeException e) {
 		    log.warning("Failed to remove documents" +e.getLocalizedMessage());
 		}
+		*/
 		
 	}
 
