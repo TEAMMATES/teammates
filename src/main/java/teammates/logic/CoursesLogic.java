@@ -15,6 +15,7 @@ import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
@@ -133,12 +134,15 @@ public class CoursesLogic {
 		return coursesDb.getCourse(courseId);
 	}
 
-	public CourseData getCourseSummary(String courseId) {
+	public CourseData getCourseSummary(String courseId)
+			throws EntityDoesNotExistException {
 		CourseData cd = coursesDb.getCourse(courseId);
-		
-		if (cd == null)
-			return null;
-		
+
+		if (cd == null) {
+			throw new EntityDoesNotExistException("The course does not exist: "
+					+ courseId);
+		}
+
 		cd.teamsTotal = getNumberOfTeams(cd.id);
 		cd.studentsTotal = getTotalStudents(cd.id);
 		cd.unregisteredTotal = getUnregistered(cd.id);

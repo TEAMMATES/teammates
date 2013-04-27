@@ -280,16 +280,13 @@ public class Logic {
 
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		if (!accountsLogic.isInstructor(instructorId)) {
-			throw new EntityDoesNotExistException("Instructor does not exist :"
-					+ instructorId);
-		}
+		verifyInstructorExists(instructorId);
 
 		HashMap<String, CourseData> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId);
 
 		return courseSummaryListForInstructor;
 	}
-	
+
 	// TODO: To be modified to handle API for retrieve paginated results of Courses
 	/**
 	 * Access level: Admin, Instructor (for self)
@@ -306,10 +303,7 @@ public class Logic {
 
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		if (!accountsLogic.isInstructor(instructorId)) {
-			throw new EntityDoesNotExistException("Instructor does not exist :"
-					+ instructorId);
-		}
+		verifyInstructorExists(instructorId);
 
 		HashMap<String, CourseData> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId, lastRetrievedTime, numberToRetrieve);
 
@@ -349,10 +343,7 @@ public class Logic {
 
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		if (!accountsLogic.isInstructor(instructorId)) {
-			throw new EntityDoesNotExistException("Instructor does not exist :"
-					+ instructorId);
-		}
+		verifyInstructorExists(instructorId);
 
 		List<InstructorData> instructorList = accountsLogic.getCoursesOfInstructor(instructorId);
 
@@ -461,11 +452,6 @@ public class Logic {
 		// then returns the selected course from the list.
 		// Now it simply prepares the requesteed course
 		CourseData course = coursesLogic.getCourseSummary(courseId);
-
-		if (course == null) {
-			throw new EntityDoesNotExistException("The course does not exist: "
-					+ courseId);
-		}
 
 		ArrayList<EvaluationData> evaluationList = getEvaluationsListForCourse(course.id);
 		for (EvaluationData ed : evaluationList) {
@@ -604,6 +590,7 @@ public class Logic {
 
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 
+		//TODO: sending mail should be moved to somewhere else.
 		for (StudentData s : studentDataList) {
 			try {
 				MimeMessage email = sendRegistrationInviteToStudent(courseId,
@@ -1361,6 +1348,14 @@ public class Logic {
 	private boolean isTeamChanged(String originalTeam, String newTeam) {
 		return (newTeam != null) && (originalTeam != null)
 				&& (!originalTeam.equals(newTeam));
+	}
+
+	private void verifyInstructorExists(String instructorId)
+			throws EntityDoesNotExistException {
+		if (!accountsLogic.isInstructor(instructorId)) {
+			throw new EntityDoesNotExistException("Instructor does not exist :"
+					+ instructorId);
+		}
 	}
 
 	/**
