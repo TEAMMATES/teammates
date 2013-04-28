@@ -1,11 +1,9 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.AssertJUnit;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.SubmissionData;
@@ -29,37 +27,37 @@ public class SubmissionDataTest extends BaseTestCase {
 		s.team = "valid-team";
 
 		// SUCCESS : minimal properties, still valid
-		assertTrue(s.getInvalidStateInfo(), s.isValid());
+		AssertJUnit.assertTrue(s.getInvalidStateInfo(), s.isValid());
 
 		s.points = 10;
 		s.justification = new Text("valid-justification");
 		s.p2pFeedback = new Text("valid-feedback");
 
 		// SUCCESS : other properties added, still valid
-		assertTrue(s.getInvalidStateInfo(), s.isValid());
+		AssertJUnit.assertTrue(s.getInvalidStateInfo(), s.isValid());
 
 		// FAIL : no course
 		s.course = null;
-		assertFalse(s.isValid());
-		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_COURSE);
+		AssertJUnit.assertFalse(s.isValid());
+		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_COURSE);
 		
 		// FAIL : no evaluation
 		s.course = "valid-course";
 		s.evaluation = null;
-		assertFalse(s.isValid());
-		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_EVALUATION);
+		AssertJUnit.assertFalse(s.isValid());
+		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_EVALUATION);
 		
 		// FAIL : no reviewee
 		s.evaluation = "valid-evaluation";
 		s.reviewee = null;
-		assertFalse(s.isValid());
-		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWEE);
+		AssertJUnit.assertFalse(s.isValid());
+		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWEE);
 		
 		// FAIL : no reviewer
 		s.reviewee = "validreviewee@gmail.com";
 		s.reviewer = null;
-		assertFalse(s.isValid());
-		assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWER);
+		AssertJUnit.assertFalse(s.isValid());
+		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWER);
 	}
 	
 	@Test

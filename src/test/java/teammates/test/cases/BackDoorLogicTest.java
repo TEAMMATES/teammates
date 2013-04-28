@@ -1,20 +1,18 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
@@ -47,9 +45,10 @@ public class BackDoorLogicTest extends BaseTestCase {
 		printTestClassHeader();
 		turnLoggingUp(BackDoorLogic.class);
 		Datastore.initialize();
+		System.out.println("class set up");
 	}
 
-	@Before
+	@BeforeMethod
 	public void caseSetUp() throws ServletException {
 		dataBundle = getTypicalDataBundle();
 
@@ -60,6 +59,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 				new LocalMailServiceTestConfig(), lustc, ltqtc);
 		setHelperTimeZone(helper);
 		helper.setUp();
+		System.out.println("case set up");
 	}
 
 	@Test
@@ -73,6 +73,9 @@ public class BackDoorLogicTest extends BaseTestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		loginAsAdmin("admin.user");
+		
 		DataBundle dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		// clean up the datastore first, to avoid clashes with existing data
 		HashMap<String, InstructorData> instructors = dataBundle.instructors;
@@ -91,7 +94,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// try again, should throw exception
 		try {
 			logic.persistNewDataBundle(dataBundle);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
 
@@ -99,7 +102,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		DataBundle nullDataBundle = null;
 		try {
 			logic.persistNewDataBundle(nullDataBundle);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
@@ -110,7 +113,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		dataBundle.courses.put("invalid", invalidCourse);
 		try {
 			logic.persistNewDataBundle(dataBundle);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
@@ -119,7 +122,6 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// should be checked at lower level methods
 	}
 
-	@Test
 	public void testActivateReadyEvaluations() throws Exception {
 		BackDoorLogic backdoor = new BackDoorLogic();
 		loginAsAdmin("admin.user");
@@ -187,7 +189,6 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 	}
 
-	@Test
 	public void testSendRemindersForClosingEvaluations() throws Exception {
 		BackDoorLogic backdoor = new BackDoorLogic();
 		loginAsAdmin("admin.user");
@@ -276,7 +277,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 	}
 
-	@AfterClass()
+	@AfterClass
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 		turnLoggingDown(BackDoorLogic.class);
@@ -290,11 +291,13 @@ public class BackDoorLogicTest extends BaseTestCase {
 		for (CourseData course : dataBundle.courses.values()) {
 			backDoorLogic.deleteCourse(course.id);
 		}
+		System.out.println("class torn down");
 	}
 
-	@After
+	@AfterMethod
 	public void caseTearDown() {
 		helper.tearDown();
+		System.out.println("case torn down");
 	}
 
 }

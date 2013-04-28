@@ -1,12 +1,10 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentData;
@@ -59,7 +57,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		BackDoor.deleteCourses(jsonString);
 	}
 	
-	@Before
+	@BeforeMethod
 	public void testSetup() {
 		if (!helpWindowClosed){
 			bi.closeSelectedWindow();

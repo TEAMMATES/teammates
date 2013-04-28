@@ -1,17 +1,14 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 import static teammates.logic.TeamEvalResult.NA;
 import static teammates.logic.TeamEvalResult.NSB;
 import static teammates.logic.TeamEvalResult.NSU;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,20 +19,21 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.SubmissionData;
@@ -87,7 +85,7 @@ public class LogicTest extends BaseTestCase {
 		Datastore.initialize();
 	}
 
-	@Before
+	@BeforeMethod
 	public void caseSetUp() throws ServletException {
 		dataBundle = getTypicalDataBundle();
 
@@ -286,7 +284,7 @@ public class LogicTest extends BaseTestCase {
 		logic.createCourse(instructor.googleId, cd.id, cd.name);
 		try {
 			logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email, "National University of Singapore");
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException eaee) {
 			// Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
 		}
@@ -319,7 +317,7 @@ public class LogicTest extends BaseTestCase {
 		// Only checking that exception is thrown at logic level
 		try {
 			logic.createInstructor("valid-id", "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(e.getMessage(), InstructorData.ERROR_FIELD_COURSEID);
 		}
@@ -328,14 +326,14 @@ public class LogicTest extends BaseTestCase {
 		
 		try {
 			logic.createInstructor(null, "valid.courseId", "Valid Name", "valid@email.com", "National University of Singapore");
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 		
 		try {
 			logic.createInstructor("valid.id", null, "Valid Name", "valid@email.com", "National University of Singapore");
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -369,7 +367,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getInstructor(null, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -427,7 +425,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.deleteInstructor(null, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -487,7 +485,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getCourseListForInstructor(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -617,7 +615,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getCourseDetailsListForInstructor(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -721,7 +719,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getEvaluationsListForInstructor(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -801,7 +799,7 @@ public class LogicTest extends BaseTestCase {
 		// Attempt to create again
 		try {
 			logic.createCourse(instructor.googleId, course.id, course.name);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
 		______TS("invalid parameters");
@@ -810,7 +808,7 @@ public class LogicTest extends BaseTestCase {
 		course.id = "invalid id";
 		try {
 			logic.createCourse(instructor.googleId, course.id, course.name);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(e.getMessage(), CourseData.ERROR_ID_INVALIDCHARS);
 		}
@@ -819,7 +817,7 @@ public class LogicTest extends BaseTestCase {
 		
 		try {
 			logic.createCourse(instructor.googleId, null, course.name);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -852,7 +850,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -922,7 +920,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getCourseDetails(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1044,7 +1042,7 @@ public class LogicTest extends BaseTestCase {
 		
 		try {
 			logic.updateCourseInstructors("non.existent", "a|b|c@d.e", "University of Foo");
-			fail();
+			Assert.fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_UPDATE_NON_EXISTENT_COURSE + "non.existent", ae.getMessage());
 		}
@@ -1053,14 +1051,14 @@ public class LogicTest extends BaseTestCase {
 		
 		try {
 			logic.updateCourseInstructors(null, "a|b|c@d.e", "University of Foo");
-			fail();
+			Assert.fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
 		}
 		
 		try {
 			logic.updateCourseInstructors(course.id, null, "University of Foo");
-			fail();
+			Assert.fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
 		}
@@ -1140,7 +1138,7 @@ public class LogicTest extends BaseTestCase {
 				"test2.googleId | test2.name | test2.email | Something extra"
 			};
 			method.invoke(logic,  params);
-			fail();
+			Assert.fail();
 		} catch (InvocationTargetException e) {
 			assertTrue(e.getTargetException().toString().contains(InstructorData.ERROR_INFORMATION_INCORRECT));
 		}
@@ -1151,7 +1149,7 @@ public class LogicTest extends BaseTestCase {
 					"test2.googleId | "
 				};
 				method.invoke(logic,  params);
-			fail();
+			Assert.fail();
 		} catch (InvocationTargetException e) {
 			assertTrue(e.getTargetException().toString().contains(InstructorData.ERROR_INFORMATION_INCORRECT));
 		}
@@ -1163,7 +1161,7 @@ public class LogicTest extends BaseTestCase {
 					""
 				};
 				method.invoke(logic,  params);
-			fail();
+			Assert.fail();
 		} catch (InvocationTargetException e) {
 			assertTrue(e.getTargetException().toString().contains(Logic.ERROR_NO_INSTRUCTOR_LINES));
 		}
@@ -1239,7 +1237,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.deleteCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1296,7 +1294,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getStudentListForCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1396,7 +1394,7 @@ public class LogicTest extends BaseTestCase {
 				+ line3;
 		try {
 			enrollResults = logic.enrollStudents(lines, courseId);
-			fail("Did not throw exception for incorrectly formatted line");
+			Assert.fail("Did not throw exception for incorrectly formatted line");
 		} catch (EnrollException e) {
 			assertTrue(e.getMessage().contains(incorrectLine));
 		}
@@ -1406,7 +1404,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.enrollStudents("a|b|c|d", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1487,7 +1485,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.sendRegistrationInviteForCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1565,7 +1563,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getTeamsForCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1646,7 +1644,7 @@ public class LogicTest extends BaseTestCase {
 		// try to create the same student
 		try {
 			logic.createStudent(newStudent);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 		}
 
@@ -1657,7 +1655,7 @@ public class LogicTest extends BaseTestCase {
 		
 		try {
 			logic.createStudent(newStudent);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(e.getMessage(), StudentData.ERROR_FIELD_EMAIL);
 		}
@@ -1666,7 +1664,7 @@ public class LogicTest extends BaseTestCase {
 		
 		try {
 			logic.createStudent(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1709,7 +1707,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getStudent(null, "valid@email.com");
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1808,7 +1806,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.editStudent(null, new StudentData());
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1893,7 +1891,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.deleteStudent(null, "valid@email.com");
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -1953,7 +1951,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.sendRegistrationInviteToStudent(null, "valid@email.com");
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2052,7 +2050,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getStudentsWithGoogleId(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2188,7 +2186,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getStudentInCourseForGoogleId("valid.course", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2302,7 +2300,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.joinCourse(googleId, key);
-			fail();
+			Assert.fail();
 		} catch (JoinCourseException e) {
 			assertEquals(Common.ERRORCODE_ALREADY_JOINED, e.errorCode);
 		}
@@ -2315,7 +2313,7 @@ public class LogicTest extends BaseTestCase {
 		helper.setEnvAuthDomain("gmail.com");
 		try {
 			logic.joinCourse("student2InCourse1", key);
-			fail();
+			Assert.fail();
 		} catch (JoinCourseException e) {
 			assertEquals(Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
 					e.errorCode);
@@ -2331,7 +2329,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.joinCourse(googleId, "invalidkey");
-			fail();
+			Assert.fail();
 		} catch (JoinCourseException e) {
 			assertEquals(Common.ERRORCODE_INVALID_KEY, e.errorCode);
 		}
@@ -2363,7 +2361,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.joinCourse("valid.user", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2402,7 +2400,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getKeyForStudent("valid.course.id", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2481,7 +2479,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getCourseListForStudent(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2529,7 +2527,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.hasStudentSubmittedEvaluation("valid.course.id", "valid evaluation name", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2663,7 +2661,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getCourseDetailsListForStudent(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2809,7 +2807,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getEvaluationResultForStudent("valid.course.id", "valid evaluation name", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2829,7 +2827,7 @@ public class LogicTest extends BaseTestCase {
 		try {
 			logic.getEvaluationResultForStudent(course.id, evaluation.name,
 					"non-existent@email.com");
-			fail();
+			Assert.fail();
 		} catch (EntityDoesNotExistException e) {
 			BaseTestCase.assertContains("non-existent@email.com", e
 					.getMessage().toLowerCase());
@@ -2894,7 +2892,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.createEvaluation(evaluation);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 			assertContains(evaluation.name, e.getMessage());
 		}
@@ -2903,7 +2901,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.createEvaluation(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -2914,7 +2912,7 @@ public class LogicTest extends BaseTestCase {
 		evaluation.course = "invalid course";
 		try {
 			logic.createEvaluation(evaluation);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(e.getMessage(), EvaluationData.ERROR_FIELD_COURSE);
 		}
@@ -2960,7 +2958,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getEvaluation("valid.course.id", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -3039,7 +3037,7 @@ public class LogicTest extends BaseTestCase {
 									1.00,
 									1,
 									true);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -3051,7 +3049,7 @@ public class LogicTest extends BaseTestCase {
 		eval.endTime = Common.getDateOffsetToCurrentTime(0);
 		try {
 			invokeEditEvaluation(eval);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(EvaluationData.ERROR_END_BEFORE_START + 
 							EvaluationData.ERROR_ACTIVATED_BEFORE_START, e.getMessage());
@@ -3117,7 +3115,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.deleteEvaluation("valid.course.id", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -3196,7 +3194,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.publishEvaluation(eval1.course, eval1.name);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertContains(Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
 					e.errorCode);
@@ -3210,7 +3208,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.unpublishEvaluation(eval1.course, eval1.name);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertContains(Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
 					e.errorCode);
@@ -3231,13 +3229,13 @@ public class LogicTest extends BaseTestCase {
 		// Same as entity does not exist
 		try {
 			logic.publishEvaluation(null, eval1.name);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 		}
 		
 		try {
 			logic.unpublishEvaluation(eval1.course, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 		}
 
@@ -3437,7 +3435,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.getEvaluationResult("valid.course.id", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -3766,7 +3764,7 @@ public class LogicTest extends BaseTestCase {
 		
 		try {
 			logic.getSubmissionsFromStudent("valid.course.id", "valid evaluation name", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -3893,7 +3891,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.sendReminderForEvaluation("valid.course.id", null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -4040,7 +4038,7 @@ public class LogicTest extends BaseTestCase {
 
 		try {
 			logic.editSubmissions(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -4202,14 +4200,14 @@ public class LogicTest extends BaseTestCase {
 		
 		try {
 			logic.getEvaluationExport(null, eval.name);
-			fail();
+			Assert.fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
 		}
 		
 		try {
 			logic.getEvaluationExport(eval.course, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
 		}
@@ -4299,7 +4297,7 @@ public class LogicTest extends BaseTestCase {
 			if (ed.name.equals(evaluation.name))
 				return;
 		}
-		fail("Did not find " + evaluation.name + " in the evaluation info list");
+		Assert.fail("Did not find " + evaluation.name + " in the evaluation info list");
 	}
 
 	private void verifyEnrollmentResultForStudent(StudentData expectedStudent,
@@ -4435,7 +4433,7 @@ public class LogicTest extends BaseTestCase {
 			method.setAccessible(true); // in case it is a private method
 			method.invoke(logic, params);
 			if (isUnauthExceptionExpected) {
-				fail();
+				Assert.fail();
 			}
 		} catch (Exception e) {
 			String stack = Common.stackTraceToString(e);
@@ -4464,7 +4462,7 @@ public class LogicTest extends BaseTestCase {
 		try {
 			method.setAccessible(true); // in case it is a private method
 			method.invoke(logic, params);
-			fail();
+			Assert.fail();
 		} catch (Exception e) {
 			assertEquals(EntityDoesNotExistException.class, e.getCause()
 					.getClass());
@@ -4651,7 +4649,7 @@ public class LogicTest extends BaseTestCase {
 		turnLoggingDown(Logic.class);
 	}
 
-	@After
+	@AfterMethod
 	public void caseTearDown() {
 		helper.tearDown();
 	}

@@ -29,6 +29,5 @@
 	<!-- other libraries used for unit testing -->
 	<classpathentry kind="lib" path="src/test/resources/lib/selenium/selenium-server-standalone-2.26.0.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/selenium/selenium-java-2.26.0.jar"/>
-	<classpathentry kind="lib" path="src/test/resources/lib/junit/junit-4.11.jar"/>
 
 </classpath>

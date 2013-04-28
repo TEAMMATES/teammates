@@ -1,11 +1,10 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
@@ -139,7 +138,7 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 			bi.clickAndCancel(unpublishButton);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsPublishedEval.html");
 		} catch (NoAlertException e){
-			fail("No confirmation box when clicking unpublish button");
+			Assert.fail("No confirmation box when clicking unpublish button");
 		}
 		
 		______TS("unpublishing: click and confirm");
@@ -148,7 +147,7 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 			bi.clickAndConfirm(unpublishButton);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_UNPUBLISHED);
 		} catch (NoAlertException e){
-			fail("No confirmation box when clicking unpublish button");
+			Assert.fail("No confirmation box when clicking unpublish button");
 		}
 		//TODO: check for the full html?
 	}
@@ -173,7 +172,7 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 			bi.clickAndCancel(publishButton);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsClosedEval.html");
 		} catch (NoAlertException e){
-			fail("No confirmation box when clicking publish button");
+			Assert.fail("No confirmation box when clicking publish button");
 		}
 		
 		______TS("publishing: click and confirm");
@@ -183,7 +182,7 @@ public class InstructorEvalResultsPageUiTest extends BaseTestCase {
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_PUBLISHED);
 			//TODO: verify emails were sent to students
 		} catch (NoAlertException e){
-			fail("No confirmation box when clicking publish button");
+			Assert.fail("No confirmation box when clicking publish button");
 		}
 	}
 	

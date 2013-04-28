@@ -201,7 +201,7 @@
 			datastore is a noSQL database, we use it in SQL fashion via a JDO
 			wrapper and GQL (a datastore-specific SQL variant).</li>
 		<li><span class="bold">Test Driver</span>: TEAMMATES makes heavy
-			use of automated regression testing. JUnit is used for Java unit
+			use of automated regression testing. TestNG is used for Java unit
 			testing and QUnit for JavaScript unit testing. We use Selenium Web
 			Driver to automate UI testing. Test Driver can access the application
 			directly to set up test data. We use JSON format to transmit such
@@ -685,11 +685,10 @@
 		tests----|---automated component tests ---|</span>
 	<br>
 	<br>
-	<br> Notable classes:
+	<br> Notable classes/files:
 	<ul>
-		<li><span class="code"><span class="bold">*Suite.java</span></span>
-			classes are containers for test cases, used to run test cases in
-			batch mode.</li>
+		<li><span class="code"><span class="bold">testing.xml</span></span>
+			contains the testNG test configuration.</li>
 		<li><span class="code"><span class="bold">BrowserInstance.java</span></span>
 			represents the UI of the application. It is a wrapper around Selenium
 			Web Driver. It allows the test driver to simulate user actions on the
@@ -847,8 +846,8 @@
 			and messaging applications. <br> Usage: For accessing test
 			users' email accounts to examine emails sent from TEAMMATES.</li>
 		<li><span class="bold"><a
-				href="https://github.com/kentbeck/junit/wiki">JUnit</a></span> [version
-			4.11] <br>JUnit is a Java test automation framework.</li>
+				href="http://testng.org/">TestNG</a></span> [version
+			6.8.1] <br>TestNG is a Java test automation framework.</li>
 		<li><span class="bold"><a href="http://qunitjs.com/">QUnit</a></span>
 			[version 1.10.0] <br>QUnit is a JavaScript unit test suite.</li>
 		<li><span class="bold">NekoHtml</span> [version 1.9.16] <br>NekoHTML
@@ -924,6 +923,10 @@
 			href="https://developers.google.com/eclipse/docs/using_sdks">https://developers.google.com/eclipse/docs/using_sdks</a>.
 			<br>Download link to the SDK is <a
 			href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip</a>.
+		</li>
+		<li>Install the latest <a
+			href="http://testng.org/doc/eclipse.html"><i>TestNG Eclipse
+					plugin</i></a>.
 		</li>
 		<li>If your Firefox is higher than version 12, downgrade to
 			Firefox 12.0 from <a
@@ -1020,14 +1023,14 @@
 	</ol>
 
 	<h3>Running the test suite</h3>
-	This can be done using the "TM - Run all tests" option under the green
-	"Run" button in the toolbar. If this option is not available sometimes,
-	Eclipse does not show this option immediately after you set up the
-	project. In will appear in subsequent runs), run
-	<span class="bold code">src/test/java/teammates.test.cases.AllTestsSuite.java</span>
-	'as a JUnit Test'. Most of the tests should pass. If a few cases fail
-	(this can happen due to timing issues), run the failed cases
-	individually (right click and choose 'Run as → Junit Test') and ensure
+	This can be done using the "All tests in parallel" option under the
+	green "Run" button in the toolbar. If this option is not available
+	(sometimes, Eclipse does not show this option immediately after you set
+	up the project. In will appear in subsequent runs), run
+	<span class="bold code">src/test/testing.xml</span> (right click and
+	choose 'Run as → TestNG Suite'). Most of the tests should pass. If a
+	few cases fail (this can happen due to timing issues), run the failed
+	cases using the "Run Failed Test" icon in the TestNG tab in Eclipse.
 	they pass. The default browser used for testing is the Firefox browser.
 	Testing on the Firefox browser is relatively faster as compared to the
 	other browsers, and it can be run in the background. Nevertheless, it
@@ -1216,23 +1219,11 @@
 			field
 		</li>
 		<br>
-		<li>ERROR: Unusually large number of test cases indicated.<br>
-			SOLUTION: If you right-click the project and choose 'run as Junit
-			test', it will erroneously pick up 500+ test cases. This is because
-			Eclipse runs individual JUnit classes as well as JUnit Suite classes
-			resulting in some test cases being run more than once. <br>
-			Instead, use the 'TM Run all tests' menu item or right-click on the <span
-			class="code">src/test/java/teammates.test.cases.AllTestsSuite.java</span>
-			and choose 'run as Junit test'.<br> Please note that Eclipse may
-			need a restart before the menu item <span class="code">'TM Run
-				all tests'</span> appear.
-		</li>
-		<br>
 		<li>ERROR: A handful of failed test cases (<10)<br>
 			SOLUTION: Ensure compatible version of Firefox is installed as
 			specified under <a href="#settingup-prerequisites">Prerequisites</a>.
 		</li>
-		<br / >
+		<br>
 		<li>ERROR: Browser prompt for invalid ssl certificate.<br/>
 			SOLUTION: Ensure that your url uses -dot- instead of '.' when using secondary subdomains.<br/>
 			Eg. http\://4-30-dot-teammates-john.appspot.com <br/>

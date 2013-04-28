@@ -1,16 +1,15 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import org.json.JSONException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
@@ -231,16 +230,16 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 			String course = BackDoor.getCourseAsJson(ts.validCourse.id);
-			if(isNullJSON(course)) fail("Course was deleted when it's not supposed to be");
+			if(isNullJSON(course)) Assert.fail("Course was deleted when it's not supposed to be");
 		} catch (NoAlertException e){
-			fail("No alert box when clicking delete button at course page.");
+			Assert.fail("No alert box when clicking delete button at course page.");
 		}
 
 		try{
 			bi.clickAndConfirm(deleteLinkLocator);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDeleteSuccessful.html");
 		} catch (NoAlertException e){
-			fail("No alert box when clicking delete button at course page.");
+			Assert.fail("No alert box when clicking delete button at course page.");
 		}
 	}
 	

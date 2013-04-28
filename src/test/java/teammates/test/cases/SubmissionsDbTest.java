@@ -1,11 +1,10 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
+import org.testng.AssertJUnit;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -57,7 +56,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		// FAIL : duplicate
 		try {
 			submissionsDb.createSubmission(s);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 			assertContains(SubmissionsDb.ERROR_CREATE_SUBMISSION_ALREADY_EXISTS, e.getMessage());
 		}
@@ -66,19 +65,19 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.reviewer = "invalid.email";
 		try {
 			submissionsDb.createSubmission(s);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(a.getMessage(), SubmissionData.ERROR_FIELD_REVIEWER);
+			AssertJUnit.assertEquals(a.getMessage(), SubmissionData.ERROR_FIELD_REVIEWER);
 		} catch (EntityAlreadyExistsException e) {
-			fail();
+			Assert.fail();
 		}
 		
 		// Null params check:
 		try {
 			submissionsDb.createSubmission(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -91,42 +90,42 @@ public class SubmissionsDbTest extends BaseTestCase {
 																s.evaluation,
 																s.reviewee,
 																s.reviewer);
-		assertNotNull(retrieved);
+		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
 		retrieved = submissionsDb.getSubmission(s.course,
 												s.evaluation,
 												"dovahkiin@skyrim.com",
 												s.reviewer);
-		assertNull(retrieved);
+		AssertJUnit.assertNull(retrieved);
 		
 		// Null params check:
 		try {
 			submissionsDb.getSubmission(null, s.evaluation, s.reviewee, s.reviewer);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, null, s.reviewee, s.reviewer);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, s.evaluation, null, s.reviewer);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, s.evaluation, s.reviewee, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -142,7 +141,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.reviewer = "non@existent.email";
 		try {
 			submissionsDb.updateSubmission(s);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertContains(SubmissionsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
 		}
@@ -150,9 +149,9 @@ public class SubmissionsDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			submissionsDb.updateSubmission(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -167,7 +166,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 																s.evaluation,
 																s.reviewee,
 																s.reviewer);
-		assertNull(deleted);
+		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
 		submissionsDb.deleteAllSubmissionsForEvaluation(s.course, s.evaluation);
@@ -175,16 +174,16 @@ public class SubmissionsDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			submissionsDb.deleteAllSubmissionsForEvaluation(null, s.evaluation);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.deleteAllSubmissionsForEvaluation(s.course, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 

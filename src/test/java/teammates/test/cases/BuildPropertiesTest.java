@@ -1,9 +1,7 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
+import static org.testng.AssertJUnit.assertTrue;
+import org.testng.annotations.Test;
 import teammates.common.Common;
 
 public class BuildPropertiesTest extends BaseTestCase {

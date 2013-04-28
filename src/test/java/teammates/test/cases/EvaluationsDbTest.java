@@ -1,12 +1,11 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
+import org.testng.AssertJUnit;
 import java.util.Date;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -56,7 +55,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		// FAIL : duplicate
 		try {
 			evaluationsDb.createEvaluation(e);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException ex) {
 			assertContains(EvaluationsDb.ERROR_CREATE_EVALUATION_ALREADY_EXISTS, ex.getMessage());
 		}
@@ -65,19 +64,19 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.startTime = null;
 		try {
 			evaluationsDb.createEvaluation(e);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(a.getMessage(), EvaluationData.ERROR_FIELD_STARTTIME);
+			AssertJUnit.assertEquals(a.getMessage(), EvaluationData.ERROR_FIELD_STARTTIME);
 		} catch (EntityAlreadyExistsException ex) {
-			fail();
+			Assert.fail();
 		}
 		
 		// Null params check:
 		try {
 			evaluationsDb.createEvaluation(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -87,18 +86,18 @@ public class EvaluationsDbTest extends BaseTestCase {
 		
 		// Get existent
 		EvaluationData retrieved = evaluationsDb.getEvaluation(e.course, e.name);
-		assertNotNull(retrieved);
+		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
 		retrieved = evaluationsDb.getEvaluation("non-existent-course", "Non existent Evaluation");
-		assertNull(retrieved);
+		AssertJUnit.assertNull(retrieved);
 		
 		// Null params check:
 		try {
 			evaluationsDb.getEvaluation(e.course, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -114,7 +113,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.name = "Non existent Evaluation";
 		try {
 			evaluationsDb.editEvaluation(e);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertContains(EvaluationsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
 		}
@@ -122,9 +121,9 @@ public class EvaluationsDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			evaluationsDb.editEvaluation(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -136,7 +135,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		evaluationsDb.deleteEvaluation(e.course, e.name);
 		
 		EvaluationData deleted = evaluationsDb.getEvaluation(e.course, e.name);
-		assertNull(deleted);
+		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
 		evaluationsDb.deleteEvaluation(e.course, e.name);
@@ -144,16 +143,16 @@ public class EvaluationsDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			evaluationsDb.deleteEvaluation(null, e.name);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			evaluationsDb.deleteEvaluation(e.course, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 

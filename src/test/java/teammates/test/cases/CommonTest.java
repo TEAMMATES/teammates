@@ -1,16 +1,17 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.Calendar;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 
 public class CommonTest extends BaseTestCase {
+	
 	@BeforeClass
 	public static void setUp() throws Exception {
 		printTestClassHeader();

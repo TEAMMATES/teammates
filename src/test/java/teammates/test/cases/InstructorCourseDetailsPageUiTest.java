@@ -1,11 +1,10 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
+import org.testng.AssertJUnit;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
@@ -35,7 +34,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		BackDoor.deleteCourses(jsonString);
 		BackDoor.deleteInstructors(jsonString);
 		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		AssertJUnit.assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 		
 		bi = BrowserInstancePool.getBrowserInstance();
@@ -110,7 +109,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		try {
 			bi.clickInstructorCourseDetailStudentRemindAndCancel(studentRowId);
 		} catch (NoAlertException e) {
-			fail("No alert box when clicking send invite button at course details page.");
+			Assert.fail("No alert box when clicking send invite button at course details page.");
 		}
 
 		String courseId = scn.courses.get("CCDetailsUiT.CS2104").id;
@@ -126,7 +125,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 					studentEmail, studentPassword, courseId);
 			String errorMessage = "cancel clicked, but key was sent :"
 					+ keyReceivedInEmail + " to " + studentEmail;
-			assertFalse(errorMessage, keyToSend.equals(keyReceivedInEmail));
+			AssertJUnit.assertFalse(errorMessage, keyToSend.equals(keyReceivedInEmail));
 		}
 
 		______TS("sending reminder to a single student to join course: click and confirm");
@@ -134,14 +133,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		try {
 			bi.clickInstructorCourseDetailStudentRemindAndConfirm(studentRowId);
 		} catch (NoAlertException e) {
-			fail("No alert box when clicking send button invite at course details page.");
+			Assert.fail("No alert box when clicking send button invite at course details page.");
 		}
 
 		if (isEmailEnabled) {
 			bi.waitForEmail();
 			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
 					studentEmail, studentPassword, courseId);
-			assertEquals(keyToSend, keyReceivedInEmail);
+			AssertJUnit.assertEquals(keyToSend, keyReceivedInEmail);
 		}
 
 		______TS("sending reminder to all unregistered students to join course");
@@ -157,14 +156,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 			// verify an unregistered student received reminder
 			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
 					otherStudentEmail, studentPassword, courseId);
-			assertEquals(keyToSend, keyReceivedInEmail);
+			AssertJUnit.assertEquals(keyToSend, keyReceivedInEmail);
 
 			// verify a registered student did not receive a reminder
 			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
 					registeredStudentEmail, studentPassword, courseId);
 			String errorMessage = "Registered student was sent key :"
 					+ keyReceivedInEmail + " to " + studentEmail;
-			assertFalse(errorMessage, keyToSend.equals(keyReceivedInEmail));
+			AssertJUnit.assertFalse(errorMessage, keyToSend.equals(keyReceivedInEmail));
 		}
 	}
 
@@ -175,7 +174,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 		String studentEmail = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
 		
 		int studentRowId = bi.getStudentRowId(studentName);
-		assertTrue(studentRowId!=-1);
+		AssertJUnit.assertTrue(studentRowId!=-1);
 		
 		______TS("click and cancel");
 		
@@ -183,10 +182,10 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 			bi.clickInstructorCourseDetailStudentDeleteAndCancel(studentRowId);
 			String student = BackDoor.getStudentAsJson(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
 			if(isNullJSON(student)) {
-				fail("Student was deleted when it's not supposed to be");
+				Assert.fail("Student was deleted when it's not supposed to be");
 			}
 		} catch (NoAlertException e){
-			fail("No alert box when clicking delete button at course details page.");
+			Assert.fail("No alert box when clicking delete button at course details page.");
 		}
 
 		______TS("click and confirm");
@@ -195,7 +194,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
 			bi.clickInstructorCourseDetailStudentDeleteAndConfirm(studentRowId);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsStudentDeleteSuccessful.html");
 		} catch (NoAlertException e){
-			fail("No alert box when clicking delete button at course details page.");
+			Assert.fail("No alert box when clicking delete button at course details page.");
 		}
 	}
 }

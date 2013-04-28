@@ -1,11 +1,9 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.AssertJUnit;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
 
@@ -25,44 +23,44 @@ public class CourseDataTest extends BaseTestCase {
 		c.id = "valid-id-$_abc";
 		c.name = "valid-name";
 		
-		assertTrue(c.isValid());
+		AssertJUnit.assertTrue(c.isValid());
 		
 		// FAIL: ID null
 		c.id = null;
-		assertFalse(c.isValid());
-		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_ID);
+		AssertJUnit.assertFalse(c.isValid());
+		AssertJUnit.assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_ID);
 		
 		// SUCCESS: ID at max length
 		String veryLongId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH);
 		c.id = veryLongId;
-		assertTrue(c.isValid());
+		AssertJUnit.assertTrue(c.isValid());
 		
 		// FAIL: ID too long
 		c.id += "a";
-		assertFalse(c.isValid());
-		assertTrue(c.getInvalidStateInfo().contains(CourseData.ERROR_ID_TOOLONG));
+		AssertJUnit.assertFalse(c.isValid());
+		AssertJUnit.assertTrue(c.getInvalidStateInfo().contains(CourseData.ERROR_ID_TOOLONG));
 		
 		// FAIL : ID with invalid chars
 		c.id = "my-uber-id!";
-		assertFalse(c.isValid());
-		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_ID_INVALIDCHARS);
+		AssertJUnit.assertFalse(c.isValid());
+		AssertJUnit.assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_ID_INVALIDCHARS);
 		
 		// FAIL : Name null
 		c.id = "valid-id";
 		c.name = null;
-		assertFalse(c.isValid());
-		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_NAME);
+		AssertJUnit.assertFalse(c.isValid());
+		AssertJUnit.assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_FIELD_NAME);
 	
 		
 		// SUCCESS: Name at max length
 		String veryLongName = Common.generateStringOfLength(CourseData.COURSE_NAME_MAX_LENGTH);
 		c.name = veryLongName;
-		assertTrue(c.isValid());
+		AssertJUnit.assertTrue(c.isValid());
 		
 		// FAIL : Name too long
 		c.name += "e";
-		assertFalse(c.isValid());
-		assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_NAME_TOOLONG);
+		AssertJUnit.assertFalse(c.isValid());
+		AssertJUnit.assertEquals(c.getInvalidStateInfo(), CourseData.ERROR_NAME_TOOLONG);
 	}
 	
 	@Test

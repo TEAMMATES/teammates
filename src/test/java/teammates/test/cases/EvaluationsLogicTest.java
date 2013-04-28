@@ -1,19 +1,17 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.servlet.ServletException;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
@@ -42,7 +40,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		Datastore.initialize();
 	}
 	
-	@Before
+	@BeforeMethod
 	public void caseSetUp() throws ServletException, IOException {
 		helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 		setHelperTimeZone(helper);
@@ -259,7 +257,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		turnLoggingDown(EvaluationOpeningRemindersServlet.class);
 	}
 
-	@After
+	@AfterMethod
 	public void caseTearDown() {
 		helper.tearDown();
 	}

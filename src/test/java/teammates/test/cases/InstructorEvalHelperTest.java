@@ -1,10 +1,8 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
-
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import java.util.ArrayList;
-
-import org.junit.Test;
 
 import teammates.ui.controller.InstructorEvalHelper;
 
@@ -43,7 +41,7 @@ public class InstructorEvalHelperTest extends BaseTestCase {
 				"<option value=\"22\">2200H</option>\r\n" + 
 				"<option value=\"23\">2300H</option>\r\n" + 
 				"<option value=\"24\" selected=\"selected\">2359H</option>";
-		assertEquals (expected, retValue.trim());
+		AssertJUnit.assertEquals (expected, retValue.trim());
 		
 	}
 

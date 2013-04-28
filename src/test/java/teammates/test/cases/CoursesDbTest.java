@@ -1,11 +1,10 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
+import org.testng.AssertJUnit;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -44,7 +43,7 @@ public class CoursesDbTest extends BaseTestCase {
 		// FAIL : duplicate
 		try {
 			coursesDb.createCourse(c);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 			assertContains(CoursesDb.ERROR_CREATE_COURSE_ALREADY_EXISTS, e.getMessage());
 		}
@@ -53,19 +52,19 @@ public class CoursesDbTest extends BaseTestCase {
 		c.id = "invalid id spaces";
 		try {
 			coursesDb.createCourse(c);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(CourseData.ERROR_ID_INVALIDCHARS, a.getMessage());
+			AssertJUnit.assertEquals(CourseData.ERROR_ID_INVALIDCHARS, a.getMessage());
 		} catch (EntityAlreadyExistsException e) {
-			fail();
+			Assert.fail();
 		}
 		
 		// Null params check:
 		try {
 			coursesDb.createCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -75,18 +74,18 @@ public class CoursesDbTest extends BaseTestCase {
 		
 		// Get existent
 		CourseData retrieved = coursesDb.getCourse(c.id);
-		assertNotNull(retrieved);
+		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
 		retrieved = coursesDb.getCourse("non-existent-course");
-		assertNull(retrieved);
+		AssertJUnit.assertNull(retrieved);
 		
 		// Null params check:
 		try {
 			coursesDb.getCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -103,7 +102,7 @@ public class CoursesDbTest extends BaseTestCase {
 		coursesDb.deleteCourse(c.id);
 		
 		CourseData deleted = coursesDb.getCourse(c.id);
-		assertNull(deleted);
+		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
 		coursesDb.deleteCourse(c.id);
@@ -111,9 +110,9 @@ public class CoursesDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			coursesDb.deleteCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 

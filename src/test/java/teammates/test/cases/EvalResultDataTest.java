@@ -1,8 +1,7 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.EvalResultData;
@@ -29,9 +28,9 @@ public class EvalResultDataTest {
 
 		result.sortOutgoingByStudentNameAscending();
 
-		assertEquals("Alice", result.outgoing.get(0).revieweeName);
-		assertEquals("Benny", result.outgoing.get(1).revieweeName);
-		assertEquals("Charlie", result.outgoing.get(2).revieweeName);
+		AssertJUnit.assertEquals("Alice", result.outgoing.get(0).revieweeName);
+		AssertJUnit.assertEquals("Benny", result.outgoing.get(1).revieweeName);
+		AssertJUnit.assertEquals("Charlie", result.outgoing.get(2).revieweeName);
 	}
 
 	@Test
@@ -52,9 +51,9 @@ public class EvalResultDataTest {
 
 		result.sortIncomingByStudentNameAscending();
 
-		assertEquals("Alice", result.incoming.get(0).reviewerName);
-		assertEquals("Benny", result.incoming.get(1).reviewerName);
-		assertEquals("Charlie", result.incoming.get(2).reviewerName);
+		AssertJUnit.assertEquals("Alice", result.incoming.get(0).reviewerName);
+		AssertJUnit.assertEquals("Benny", result.incoming.get(1).reviewerName);
+		AssertJUnit.assertEquals("Charlie", result.incoming.get(2).reviewerName);
 	}
 
 	@Test
@@ -75,9 +74,9 @@ public class EvalResultDataTest {
 
 		result.sortIncomingByFeedbackAscending();
 
-		assertEquals("abc", result.incoming.get(0).p2pFeedback.getValue());
-		assertEquals("def", result.incoming.get(1).p2pFeedback.getValue());
-		assertEquals("ghk", result.incoming.get(2).p2pFeedback.getValue());
+		AssertJUnit.assertEquals("abc", result.incoming.get(0).p2pFeedback.getValue());
+		AssertJUnit.assertEquals("def", result.incoming.get(1).p2pFeedback.getValue());
+		AssertJUnit.assertEquals("ghk", result.incoming.get(2).p2pFeedback.getValue());
 	}
 
 	

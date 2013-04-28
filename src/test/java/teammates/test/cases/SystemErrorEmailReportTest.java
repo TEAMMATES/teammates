@@ -1,7 +1,11 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import java.io.IOException;
 import java.util.logging.Level;
 
@@ -9,12 +13,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
@@ -49,7 +47,7 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 	}
 
-	@Before
+	@BeforeMethod
 	public void caseSetUp() throws ServletException, IOException {
 		localMailService = new LocalMailServiceTestConfig();
 		helper = new LocalServiceTestHelper(localMailService);
@@ -152,7 +150,7 @@ public class SystemErrorEmailReportTest extends BaseTestCase {
 	}
 
 
-	@After
+	@AfterMethod
 	public void caseTearDown() {
 		helper.tearDown();
 		

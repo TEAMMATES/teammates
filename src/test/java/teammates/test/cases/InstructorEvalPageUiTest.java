@@ -1,11 +1,10 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
@@ -182,14 +181,14 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 		} catch (NoAlertException e){
-			fail("Publish link not clickable on closed evaluation");
+			Assert.fail("Publish link not clickable on closed evaluation");
 		}
 		try{
 			bi.clickAndConfirm(publishLinkLocator);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_PUBLISHED);
 			//TODO: check for email?
 		} catch (NoAlertException e){
-			fail("Publish link not clickable on closed evaluation");
+			Assert.fail("Publish link not clickable on closed evaluation");
 		}
 		
 		______TS("PUBLISHED: unpublish link clickable");
@@ -201,13 +200,13 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 		} catch (NoAlertException e){
-			fail("Unpublish link not clickable on published evaluation");
+			Assert.fail("Unpublish link not clickable on published evaluation");
 		}
 		try{
 			bi.clickAndConfirm(publishLinkLocator);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_UNPUBLISHED);
 		} catch (NoAlertException e){
-			fail("Unpublish link not clickable on published evaluation");
+			Assert.fail("Unpublish link not clickable on published evaluation");
 		}
 	}
 	
@@ -222,7 +221,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		By remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-			fail("Remind link clickable on closed evaluation");
+			Assert.fail("Remind link clickable on closed evaluation");
 		} catch (NoAlertException e){}
 
 		______TS("PUBLISHED: remind link unclickable");
@@ -233,7 +232,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-			fail("Remind link clickable on published evaluation");
+			Assert.fail("Remind link clickable on published evaluation");
 		} catch (NoAlertException e){}
 
 		______TS("AWAITING: remind link unclickable");
@@ -244,7 +243,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-			fail("Remind link clickable on awaiting evaluation");
+			Assert.fail("Remind link clickable on awaiting evaluation");
 		} catch (NoAlertException e){}
 
 		______TS("OPEN: remind link clickable, click and cancel");
@@ -256,7 +255,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(remindLinkLocator);
 		} catch (NoAlertException e){
-			fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
+			Assert.fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
 		}
 		
 		______TS("OPEN: click and confirm");
@@ -264,7 +263,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndConfirm(remindLinkLocator);
 		} catch (NoAlertException e){
-			fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
+			Assert.fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
 		}
 
 		// Check email
@@ -285,9 +284,9 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 			String evaluation = BackDoor.getEvaluationAsJson(courseID, evalName);
-			if(isNullJSON(evaluation)) fail("Evaluation was deleted when it's not supposed to be");
+			if(isNullJSON(evaluation)) Assert.fail("Evaluation was deleted when it's not supposed to be");
 		} catch (NoAlertException e){
-			fail("Delete link not clickable or it is clickable but no confirmation box");
+			Assert.fail("Delete link not clickable or it is clickable but no confirmation box");
 		}
 
 		______TS("click and confirm");
@@ -296,7 +295,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 			// Regex test due to the date in the evaluation form
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalDeleteSuccessful.html");
 		} catch (NoAlertException e){
-			fail("Delete link not clickable or it is clickable but no confirmation box");
+			Assert.fail("Delete link not clickable or it is clickable but no confirmation box");
 		}
 	}
 

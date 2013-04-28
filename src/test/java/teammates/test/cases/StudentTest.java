@@ -1,13 +1,13 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
@@ -16,6 +16,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.storage.entity.Student;
 
 public class StudentTest extends BaseTestCase {
+
 	@BeforeClass
 	public static void setUp() throws Exception {
 		printTestClassHeader();
@@ -67,7 +68,7 @@ public class StudentTest extends BaseTestCase {
 		line = null;
 		try {
 			invalidStudent = new StudentData(line, courseId);
-			fail();
+			Assert.fail();
 		} catch (AssertionError ae) {
 			assertEquals(ae.getMessage(), StudentData.ERROR_ENROLL_LINE_NULL);
 		}
@@ -76,7 +77,7 @@ public class StudentTest extends BaseTestCase {
 		line = "";
 		try {
 			invalidStudent = new StudentData(line, courseId);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException ipe) {
 			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_EMPTY);
 		}
@@ -85,7 +86,7 @@ public class StudentTest extends BaseTestCase {
 		line = "a";
 		try {
 			invalidStudent = new StudentData(line, courseId);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException ipe) {
 			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_TOOFEWPARTS);
 		}
@@ -94,7 +95,7 @@ public class StudentTest extends BaseTestCase {
 		line = "a|b";
 		try {
 			invalidStudent = new StudentData(line, courseId);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException ipe) {
 			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_TOOFEWPARTS);
 		}
@@ -103,7 +104,7 @@ public class StudentTest extends BaseTestCase {
 		line = "p1|p2|p3|p4|p5";
 		try {
 			invalidStudent = new StudentData(line, courseId);
-			fail();
+			Assert.fail();
 		} catch (InvalidParametersException ipe) {
 			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_TOOMANYPARTS);
 		}

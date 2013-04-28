@@ -34,20 +34,6 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class BaseTestCase {
 
-	// Find the un-deprecated way of doing the below
-
-	@Rule
-	public MethodRule methodRule = new MethodRule() {
-
-		@Override
-		public Statement apply(Statement statement, FrameworkMethod method,
-				Object target) {
-			String methodName = method.getName();
-			printTestCaseHeader(methodName);
-			return statement;
-		}
-	};
-
 	/*
 	 * Here, we initialize the Config object using Config.inst(Properties)
 	 * because Config.inst() that is usually used cannot find the

@@ -1,14 +1,13 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.Test;
 import static teammates.common.Common.EOL;
 
 import java.io.IOException;
 
 import javax.xml.transform.TransformerException;
 
-import org.junit.Ignore;
-import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import teammates.test.driver.HtmlHelper;
