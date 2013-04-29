@@ -944,6 +944,23 @@
 			<br /> Note: If you are using TortoiseHg to clone, simply copy the
 			URL above and paste it in the Source field. Alternatively, you can
 			use the command line to do the cloning.
+		</li>
+		<li>Add the following section to the <span class="code">hgrc</span>
+			file inside your project repo folder. <br>
+			<span class="code">
+				[extensions]<br> 
+				#enable mercurial queue extension<br> 
+				hgext.mq =<br> 
+				#enable end-of-line extension<br> 
+				eol =<br>
+				[diff]<br> 
+				# prevent qrefresh
+				from updating timestamps<br> nodates=1<br> 
+				# force all
+				patches to always be in git format<br> 
+				git=1<br>
+			</span>
+		</li>
 		<li>Create config files (these are not under revision control
 			because their content vary from developer to developer).
 			<ol type="a">
