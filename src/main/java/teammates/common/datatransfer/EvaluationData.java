@@ -51,7 +51,7 @@ public class EvaluationData extends BaseData {
 	}
 
 	public EvaluationData(Evaluation e) {
-		this.course = e.getCourseID();
+		this.course = e.getCourseId();
 		this.name = e.getName();
 		this.instructions = e.getInstructions();
 		this.startTime = e.getStart();

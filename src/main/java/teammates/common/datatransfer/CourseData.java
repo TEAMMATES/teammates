@@ -42,7 +42,7 @@ public class CourseData extends BaseData {
 	}
 
 	public CourseData(Course course) {
-		this.id = course.getID();
+		this.id = course.getUniqueId();
 		this.name = course.getName();
 		this.createdAt = course.getCreatedAt();
 	}

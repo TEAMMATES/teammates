@@ -67,7 +67,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 		HashMap<String, String> studentInstitutions = new HashMap<String, String>();
 		
 		for (Student s : students) {
-			studentInstitutions.put(s.getID(), courseInstitutions.get(s.getCourseID()));
+			studentInstitutions.put(s.getGoogleId(), courseInstitutions.get(s.getCourseId()));
 		}
 		
 		System.out.println("Finished mapping student-institutions: " + studentInstitutions.size());

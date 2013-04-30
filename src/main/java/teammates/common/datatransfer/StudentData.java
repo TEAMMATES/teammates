@@ -127,11 +127,11 @@ public class StudentData extends BaseData {
 	public StudentData(Student student) {
 		this();
 		this.email = student.getEmail();
-		this.course = student.getCourseID();
+		this.course = student.getCourseId();
 		this.name = student.getName();
 		this.comments = ((student.getComments() == null) ? "" : student.getComments());
 		this.team = ((student.getTeamName() == null) ? "" : student.getTeamName());
-		this.id = ((student.getID() == null) ? "" : student.getID());
+		this.id = ((student.getGoogleId() == null) ? "" : student.getGoogleId());
 		Long keyAsLong = student.getRegistrationKey();
 		this.key = (keyAsLong == null ? null : Student
 				.getStringKeyForLongKey(keyAsLong));

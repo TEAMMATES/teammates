@@ -5,7 +5,6 @@ import java.util.HashMap;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.entity.Coordinator;
 import teammates.storage.entity.Instructor;
 
 public class InstructorData extends BaseData {
@@ -24,13 +23,6 @@ public class InstructorData extends BaseData {
 	public static final String ERROR_INSTRUCTOR_LINE_NULL = "Instructor line was null";
 	public static final String ERROR_INFORMATION_INCORRECT = "Please enter information in the format: GoogleID | Name | Email\n";
 
-	public InstructorData(Coordinator instructor) {
-		this();
-		this.googleId = instructor.getGoogleID();
-		this.name = instructor.getName();
-		this.email = instructor.getEmail();
-	}
-	
 	public InstructorData(String id, String courseId, String name, String email) {
 		this.googleId = id;
 		this.courseId = courseId;

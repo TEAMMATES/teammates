@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
-import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -10,8 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Course is a persistent data class that holds information pertaining to a
- * course on Teammates.
+ * Course represents a course entity. 
  */
 @PersistenceCapable
 public class Course {
@@ -22,48 +20,43 @@ public class Course {
 
 	@Persistent
 	private String name;
-	
-	// Store a single Date object when the entity is created
-	// Time zone of the user will be stored in this object
+
 	@Persistent
 	private Date createdAt;
-	
+
 	/**
-	 * Constructs a Course object.
+	 * Instantiates a new course.
 	 * 
-	 * @param ID
-	 * @param name
-	 * @param coordinatorID
+	 * @param courseId
+	 * @param courseName
 	 */
-	public Course(String ID, String name) {
-		this.setID(ID);
-		this.setName(name);
-		
-		this.createdAt = new Date();
+	public Course(String courseId, String courseName) {
+		this.setUniqueId(courseId);
+		this.setName(courseName);
+		this.setCreatedAt(new Date());
 	}
 
-	public void setID(String ID) {
-		this.ID = ID.trim();
-	}
-
-	public String getID() {
+	public String getUniqueId() {
 		return ID;
 	}
 
-	public void setName(String name) {
-		this.name = name.trim();
+	public void setUniqueId(String uniqueId) {
+		this.ID = uniqueId.trim();
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	// Should only be used for migration
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+	public void setName(String name) {
+		this.name = name.trim();
 	}
-	
+
 	public Date getCreatedAt() {
 		return this.createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 }

@@ -682,9 +682,9 @@ public class AccountsDb {
 		googleID = googleID.trim();
 
 		// If ID field is not empty -> check if this is user's googleId?
-		if (student.getID() != null && !student.getID().equals("")) {
+		if (student.getGoogleId() != null && !student.getGoogleId().equals("")) {
 
-			if (student.getID().equals(googleID)) {
+			if (student.getGoogleId().equals(googleID)) {
 				// Belongs to the student and the student is already registered
 				// to course
 				throw new JoinCourseException(Common.ERRORCODE_ALREADY_JOINED,
@@ -700,7 +700,7 @@ public class AccountsDb {
 
 		// A Student entry found with this key and ID is unregistered, register
 		// him
-		student.setID(googleID);
+		student.setGoogleId(googleID);
 
 		// TODO: using this to help unit testing, might not work in live server
 		getPM().close();
@@ -737,7 +737,7 @@ public class AccountsDb {
 			student.setComments(newComments);
 		}
 		if (newGoogleID != null) {
-			student.setID(newGoogleID);
+			student.setGoogleId(newGoogleID);
 		}
 		if (newTeamName != null) {
 			student.setTeamName(newTeamName);

@@ -167,7 +167,7 @@
       "gracePeriod": 10,
       "p2pEnabled" : true,
       "startTime" : "2012-04-01 11:59 PM",
-      "endTime" : "2013-04-30 11:59 PM",
+      "endTime" : "2015-04-30 11:59 PM",
       "timeZone" : 2.0,
       "activated" : true,
       "published" : false
@@ -175,7 +175,7 @@
     "evaluation2InCourse1": {
       "course" : "idOfTypicalCourse1",
       "startTime" : "2012-04-01 11:59 PM",
-      "endTime" : "2013-04-30 11:59 PM",
+      "endTime" : "2015-04-30 11:59 PM",
       "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation in Course1",
       "name": "evaluation2 In Course1",
@@ -185,7 +185,7 @@
     "evaluation1InCourse2": {
       "course" : "idOfTypicalCourse2",
       "startTime" : "2012-04-01 11:59 PM",
-      "endTime" : "2013-04-30 11:59 PM",
+      "endTime" : "2015-04-30 11:59 PM",
       "gracePeriod": 20,
       "instructions": "Please please fill in the first evaluation in Course2",
       "name": "evaluation1 In Course2",

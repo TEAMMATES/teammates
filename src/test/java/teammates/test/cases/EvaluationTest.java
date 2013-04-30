@@ -36,7 +36,7 @@ public class EvaluationTest extends BaseTestCase {
 		e.setDeadline(Common.getDateOffsetToCurrentTime(1));
 		e.setActivated(false);
 		e.setTimeZone(0.0);
-		assertEquals(true, e.isReady());
+		assertEquals(true, e.isReadyToActivate());
 		
 		// negative time zone, starting just before current time
 		timeZone = -2.0;
@@ -44,7 +44,7 @@ public class EvaluationTest extends BaseTestCase {
 		e.setDeadline(Common.getDateOffsetToCurrentTime(1));
 		e.setActivated(false);
 		e.setTimeZone(timeZone);
-		assertEquals(true, e.isReady());
+		assertEquals(true, e.isReadyToActivate());
 		
 		
 		// positive time zone, starting just before current time
@@ -53,7 +53,7 @@ public class EvaluationTest extends BaseTestCase {
 		e.setDeadline(Common.getDateOffsetToCurrentTime(1));
 		e.setActivated(false);
 		e.setTimeZone(timeZone);
-		assertEquals(true, e.isReady());
+		assertEquals(true, e.isReadyToActivate());
 		
 		______TS("not ready, just before start time");
 		//start time set to 1 sec after current time
@@ -62,7 +62,7 @@ public class EvaluationTest extends BaseTestCase {
 		e.setDeadline(Common.getDateOffsetToCurrentTime(1));
 		e.setActivated(false);
 		e.setTimeZone(0.0);
-		assertEquals(false, e.isReady());
+		assertEquals(false, e.isReadyToActivate());
 
 		// negative time zone, starting just after current time
 		timeZone = -2.0;
@@ -70,7 +70,7 @@ public class EvaluationTest extends BaseTestCase {
 		e.setDeadline(Common.getDateOffsetToCurrentTime(1));
 		e.setActivated(false);
 		e.setTimeZone(timeZone);
-		assertEquals(false, e.isReady());
+		assertEquals(false, e.isReadyToActivate());
 		
 		// positive time zone, starting just after current time
 		timeZone = 2.0;
@@ -78,7 +78,7 @@ public class EvaluationTest extends BaseTestCase {
 		e.setDeadline(Common.getDateOffsetToCurrentTime(1));
 		e.setActivated(false);
 		e.setTimeZone(timeZone);
-		assertEquals(false, e.isReady());
+		assertEquals(false, e.isReadyToActivate());
 		
 		______TS("not ready, already activated");
 		
@@ -87,14 +87,14 @@ public class EvaluationTest extends BaseTestCase {
 		e.setDeadline(Common.getDateOffsetToCurrentTime(1));
 		e.setActivated(true);
 		e.setTimeZone(0.0);
-		assertEquals(false, e.isReady());
+		assertEquals(false, e.isReadyToActivate());
 
 		// start time set to 1 sec after current time
 		e.setStart(Common.getMsOffsetToCurrentTime(+oneSecInMilliSeconds));
 		e.setDeadline(Common.getDateOffsetToCurrentTime(1));
 		e.setActivated(true);
 		e.setTimeZone(0.0);
-		assertEquals(false, e.isReady());
+		assertEquals(false, e.isReadyToActivate());
 
 	}
 	

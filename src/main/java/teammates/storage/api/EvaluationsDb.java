@@ -173,7 +173,7 @@ public class EvaluationsDb {
 		List<EvaluationData> readyEvaluations = new ArrayList<EvaluationData>();
 
 		for (Evaluation e : evaluationList) {
-			if (!JDOHelper.isDeleted(e) && e.isReady()) {
+			if (!JDOHelper.isDeleted(e) && e.isReadyToActivate()) {
 				readyEvaluations.add(new EvaluationData(e));
 			}
 		}

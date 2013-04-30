@@ -20,7 +20,6 @@ public class StudentTest extends BaseTestCase {
 	@BeforeClass
 	public static void setUp() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(Student.class);
 	}
 
 	@Test
@@ -182,7 +181,7 @@ public class StudentTest extends BaseTestCase {
 		assertFalse(studentUnderTest.isRegistered());
 		
 		// Id given
-		studentUnderTest.setID("name1");
+		studentUnderTest.setGoogleId("name1");
 		assertTrue(studentUnderTest.isRegistered());
 	}
 	
@@ -201,7 +200,6 @@ public class StudentTest extends BaseTestCase {
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		turnLoggingDown(Student.class);
 	}
 
 }

@@ -60,10 +60,10 @@ public class SubmissionData extends BaseData {
 	}
 
 	public SubmissionData(Submission s) {
-		this.course = s.getCourseID();
+		this.course = s.getCourseId();
 		this.evaluation = s.getEvaluationName();
-		this.reviewer = s.getFromStudent();
-		this.reviewee = s.getToStudent();
+		this.reviewer = s.getReviewerEmail();
+		this.reviewee = s.getRevieweeEmail();
 		this.team = s.getTeamName();
 		this.points = s.getPoints();
 		this.justification = s.getJustification() == null ? new Text("") : s.getJustification();

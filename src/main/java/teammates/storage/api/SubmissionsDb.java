@@ -340,12 +340,12 @@ public class SubmissionsDb {
 
 		for (Submission s : submissionList) {
 			// From student is changing email
-			if (s.getFromStudent().equals(email)) {
-				s.setFromStudent(newEmail);
+			if (s.getReviewerEmail().equals(email)) {
+				s.setReviewerEmail(newEmail);
 			}
 			// To student is changing email
-			if (s.getToStudent().equals(email)) {
-				s.setToStudent(newEmail);
+			if (s.getRevieweeEmail().equals(email)) {
+				s.setRevieweeEmail(newEmail);
 			}
 		}
 		getPM().close();
