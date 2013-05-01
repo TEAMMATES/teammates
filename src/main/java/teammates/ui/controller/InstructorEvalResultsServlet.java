@@ -30,11 +30,11 @@ public class InstructorEvalResultsServlet extends
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 
 		if (courseID != null && evalName != null) {
-			helper.evaluation = helper.server.getEvaluationResult(courseID,
+			helper.evaluationDetails = helper.server.getEvaluationResult(courseID,
 					evalName);
 			long start = System.currentTimeMillis();
-			sortTeams(helper.evaluation.teams);
-			for (TeamData team : helper.evaluation.teams) {
+			sortTeams(helper.evaluationDetails.teams);
+			for (TeamData team : helper.evaluationDetails.teams) {
 				team.sortByStudentNameAscending();
 				for (StudentData student : team.students) {
 					sortSubmissionsByFeedback(student.result.incoming);

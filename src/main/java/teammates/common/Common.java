@@ -781,6 +781,12 @@ public class Common {
 		time.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
 		return time; // for chaining
 	}
+	
+	public static boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {
+		Date nowInUserTimeZone = Common.convertToUserTimeZone(
+				Calendar.getInstance(), timeZone).getTime();
+		return nowInUserTimeZone.before(time);
+	}
 
 
 	/**

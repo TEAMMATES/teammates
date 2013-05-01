@@ -34,6 +34,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.datatransfer.EvaluationDataDetails;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
@@ -563,16 +564,16 @@ public class LogicTest extends BaseTestCase {
 		String course1Id = "idOfTypicalCourse1";
 
 		// course with 2 evaluations
-		ArrayList<EvaluationData> course1Evals = courseListForInstructor
+		ArrayList<EvaluationDataDetails> course1Evals = courseListForInstructor
 				.get(course1Id).evaluations;
 		String course1EvalDetails = "";
-		for (EvaluationData ed : course1Evals) {
+		for (EvaluationDataDetails ed : course1Evals) {
 			course1EvalDetails = course1EvalDetails
 					+ Common.getTeammatesGson().toJson(ed) + Common.EOL;
 		}
 		int numberOfEvalsInCourse1 = course1Evals.size();
 		assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
-		assertEquals(course1Id, course1Evals.get(0).course);
+		assertEquals(course1Id, course1Evals.get(0).evaluation.course);
 		verifyEvaluationInfoExistsInList(
 				dataBundle.evaluations.get("evaluation1InCourse1"),
 				course1Evals);
@@ -581,8 +582,8 @@ public class LogicTest extends BaseTestCase {
 				course1Evals);
 
 		// course with 1 evaluation
-		assertEquals(course1Id, course1Evals.get(1).course);
-		ArrayList<EvaluationData> course2Evals = courseListForInstructor
+		assertEquals(course1Id, course1Evals.get(1).evaluation.course);
+		ArrayList<EvaluationDataDetails> course2Evals = courseListForInstructor
 				.get("idOfTypicalCourse2").evaluations;
 		assertEquals(1, course2Evals.size());
 		verifyEvaluationInfoExistsInList(
@@ -662,17 +663,17 @@ public class LogicTest extends BaseTestCase {
 		loginAsInstructor("idOfInstructor3");
 		
 		InstructorData instructor = dataBundle.instructors.get("instructor3OfCourse1");
-		ArrayList<EvaluationData> evalList = logic
+		ArrayList<EvaluationDataDetails> evalList = logic
 				.getEvaluationsListForInstructor(instructor.googleId);
 		// 2 Evals from Course 1, 1 Eval from Course  2
 		assertEquals(3, evalList.size());
 		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
-		for (EvaluationData ed : evalList) {
-			if(ed.name.equals(evaluation.name)){
+		for (EvaluationDataDetails edd : evalList) {
+			if(edd.evaluation.name.equals(evaluation.name)){
 				//We have, 4 students in Team 1.1 and 1 student in Team 1.2
 				//Only 3 have submitted.
-				assertEquals(5,ed.expectedTotal);
-				assertEquals(3,ed.submittedTotal);
+				assertEquals(5,edd.expectedTotal);
+				assertEquals(3,edd.submittedTotal);
 			}
 		}
 		
@@ -686,14 +687,14 @@ public class LogicTest extends BaseTestCase {
 		evalList = logic.getEvaluationsListForInstructor(instructor.googleId);
 		assertEquals(3, evalList.size());
 		
-		for (EvaluationData ed : evalList) {
-			if(ed.name.equals(evaluation.name)){
+		for (EvaluationDataDetails edd : evalList) {
+			if(edd.evaluation.name.equals(evaluation.name)){
 				//Now we have, 3 students in Team 1.1 and 2 student in Team 1.2
 				//Only 2 (1 less than before) have submitted 
 				//   because we just moved a student to a new team and that
 				//   student's previous submissions are now orphaned.
-				assertEquals(5,ed.expectedTotal);
-				assertEquals(2,ed.submittedTotal);
+				assertEquals(5,edd.expectedTotal);
+				assertEquals(2,edd.submittedTotal);
 			}
 		}
 
@@ -704,8 +705,8 @@ public class LogicTest extends BaseTestCase {
 		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse2");
 		evalList = logic.getEvaluationsListForInstructor(instructor2.googleId);
 		assertEquals(1, evalList.size());
-		for (EvaluationData ed : evalList) {
-			assertTrue(logic.isInstructorOfCourse(instructor2.googleId, ed.course));
+		for (EvaluationDataDetails edd : evalList) {
+			assertTrue(logic.isInstructorOfCourse(instructor2.googleId, edd.evaluation.course));
 		}
 
 		______TS("instructor has 0 evaluations");
@@ -2628,11 +2629,11 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(2, actualCourse1.evaluations.size());
 
 		// verify details of evaluation 1 in course 1
-		EvaluationData actualEval1InCourse1 = actualCourse1.evaluations.get(1);
+		EvaluationData actualEval1InCourse1 = actualCourse1.evaluations.get(1).evaluation;
 		verifySameEvaluationData(expectedEval1InCourse1, actualEval1InCourse1);
 
 		// verify some details of evaluation 2 in course 1
-		EvaluationData actualEval2InCourse1 = actualCourse1.evaluations.get(0);
+		EvaluationData actualEval2InCourse1 = actualCourse1.evaluations.get(0).evaluation;
 		verifySameEvaluationData(expectedEval2InCourse1, actualEval2InCourse1);
 
 		// for course 2, verify no evaluations returned (because the evaluation
@@ -3316,22 +3317,22 @@ public class LogicTest extends BaseTestCase {
 				{ 70, 80, 110, 120 } });
 		// @formatter:on
 
-		EvaluationData result = logic.getEvaluationResult(course.id,
+		EvaluationDataDetails result = logic.getEvaluationResult(course.id,
 				evaluation.name);
 		print(result.toString());
 
 		// no need to sort, the result should be sorted by default
 
 		// check for evaluation details
-		assertEquals(evaluation.course, result.course);
-		assertEquals(evaluation.name, result.name);
-		assertEquals(evaluation.startTime, result.startTime);
-		assertEquals(evaluation.endTime, result.endTime);
-		assertEquals(evaluation.gracePeriod, result.gracePeriod);
-		assertEquals(evaluation.instructions, result.instructions);
-		assertEquals(evaluation.timeZone, result.timeZone, 0.1);
-		assertEquals(evaluation.p2pEnabled, result.p2pEnabled);
-		assertEquals(evaluation.published, result.published);
+		assertEquals(evaluation.course, result.evaluation.course);
+		assertEquals(evaluation.name, result.evaluation.name);
+		assertEquals(evaluation.startTime, result.evaluation.startTime);
+		assertEquals(evaluation.endTime, result.evaluation.endTime);
+		assertEquals(evaluation.gracePeriod, result.evaluation.gracePeriod);
+		assertEquals(evaluation.instructions, result.evaluation.instructions);
+		assertEquals(evaluation.timeZone, result.evaluation.timeZone, 0.1);
+		assertEquals(evaluation.p2pEnabled, result.evaluation.p2pEnabled);
+		assertEquals(evaluation.published, result.evaluation.published);
 		assertEquals(Common.UNINITIALIZED_INT, result.submittedTotal);
 		assertEquals(Common.UNINITIALIZED_INT, result.expectedTotal);
 
@@ -4229,8 +4230,8 @@ public class LogicTest extends BaseTestCase {
 		CourseDataDetails course = logic.getCourseDetails(courseId);
 		List<StudentData> students = logic.getStudentListForCourse(courseId);
 
-		for(EvaluationData e: course.evaluations){
-			verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.name, students, submissionList);
+		for(EvaluationDataDetails e: course.evaluations){
+			verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.evaluation.name, students, submissionList);
 		}
 	}
 	
@@ -4292,10 +4293,10 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	private void verifyEvaluationInfoExistsInList(EvaluationData evaluation,
-			ArrayList<EvaluationData> evalInfoList) {
+			ArrayList<EvaluationDataDetails> evalInfoList) {
 
-		for (EvaluationData ed : evalInfoList) {
-			if (ed.name.equals(evaluation.name))
+		for (EvaluationDataDetails edd : evalInfoList) {
+			if (edd.evaluation.name.equals(evaluation.name))
 				return;
 		}
 		Assert.fail("Did not find " + evaluation.name + " in the evaluation info list");

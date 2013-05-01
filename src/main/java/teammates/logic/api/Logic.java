@@ -16,6 +16,7 @@ import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseDataDetails;
+import teammates.common.datatransfer.EvaluationDataDetails;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvalResultData;
@@ -325,10 +326,10 @@ public class Logic {
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
 		HashMap<String, CourseDataDetails> courseList = coursesLogic.getCourseSummaryListForInstructor(instructorId);
-		ArrayList<EvaluationData> evaluationList = getEvaluationsListForInstructor(instructorId);
-		for (EvaluationData ed : evaluationList) {
-			CourseDataDetails courseSummary = courseList.get(ed.course);
-			courseSummary.evaluations.add(ed);
+		ArrayList<EvaluationDataDetails> evaluationList = getEvaluationsListForInstructor(instructorId);
+		for (EvaluationDataDetails edd : evaluationList) {
+			CourseDataDetails courseSummary = courseList.get(edd.evaluation.course);
+			courseSummary.evaluations.add(edd);
 		}
 		return courseList;
 	}
@@ -338,7 +339,7 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's evaluations <br>
 	 */
-	public ArrayList<EvaluationData> getEvaluationsListForInstructor(
+	public ArrayList<EvaluationDataDetails> getEvaluationsListForInstructor(
 			String instructorId) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
@@ -348,7 +349,7 @@ public class Logic {
 
 		List<InstructorData> instructorList = accountsLogic.getCoursesOfInstructor(instructorId);
 
-		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
+		ArrayList<EvaluationDataDetails> evaluationSummaryList = new ArrayList<EvaluationDataDetails>();
 
 		for (InstructorData id : instructorList) {
 			List<EvaluationData> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(id.courseId);
@@ -356,12 +357,13 @@ public class Logic {
 
 			// calculate submission statistics for each evaluation
 			for (EvaluationData evaluation : evaluationsSummaryForCourse) {
-				evaluation.expectedTotal = students.size();
-
+				EvaluationDataDetails edd = new EvaluationDataDetails(evaluation);
+				edd.expectedTotal = students.size();
+				
 				HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(id.courseId, evaluation.name);
-				evaluation.submittedTotal = countSubmittedStudents(submissions.values());
+				edd.submittedTotal = countSubmittedStudents(submissions.values());
 
-				evaluationSummaryList.add(evaluation);
+				evaluationSummaryList.add(edd);
 			}
 		}
 		return evaluationSummaryList;
@@ -373,25 +375,26 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's evaluations <br>
 	 */
-	public ArrayList<EvaluationData> getEvaluationsListForCourse(String courseId)
+	public ArrayList<EvaluationDataDetails> getEvaluationsListForCourse(String courseId)
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 
-		ArrayList<EvaluationData> evaluationSummaryList = new ArrayList<EvaluationData>();
+		ArrayList<EvaluationDataDetails> evaluationSummaryList = new ArrayList<EvaluationDataDetails>();
 
 		List<EvaluationData> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(courseId);
 		List<StudentData> students = accountsLogic.getStudentListForCourse(courseId);
 
 		// calculate submission statistics for each evaluation
 		for (EvaluationData evaluation : evaluationsSummaryForCourse) {
-			evaluation.expectedTotal = students.size();
+			EvaluationDataDetails edd = new EvaluationDataDetails(evaluation);
+			edd.expectedTotal = students.size();
 
 			HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(courseId, evaluation.name);
-			evaluation.submittedTotal = countSubmittedStudents(submissions.values());
+			edd.submittedTotal = countSubmittedStudents(submissions.values());
 
-			evaluationSummaryList.add(evaluation);
+			evaluationSummaryList.add(edd);
 		}
 
 		return evaluationSummaryList;
@@ -454,9 +457,9 @@ public class Logic {
 		// Now it simply prepares the requesteed course
 		CourseDataDetails courseSummary = coursesLogic.getCourseSummary(courseId);
 
-		ArrayList<EvaluationData> evaluationList = getEvaluationsListForCourse(courseSummary.course.id);
-		for (EvaluationData ed : evaluationList) {
-			courseSummary.evaluations.add(ed);
+		ArrayList<EvaluationDataDetails> evaluationList = getEvaluationsListForCourse(courseSummary.course.id);
+		for (EvaluationDataDetails edd : evaluationList) {
+			courseSummary.evaluations.add(edd);
 		}
 
 		return courseSummary;
@@ -992,10 +995,11 @@ public class Logic {
 			CourseDataDetails cdd = new CourseDataDetails(c);
 			// For the list of evaluations for this course
 			for (EvaluationData ed : evaluationDataList) {
+				EvaluationDataDetails edd = new EvaluationDataDetails(ed);
 				// Add this evaluation to the course's list of evaluations.
 				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
 				if (ed.getStatus() != EvalStatus.AWAITING) {
-					cdd.evaluations.add(ed);
+					cdd.evaluations.add(edd);
 				}
 			}
 			courseDetailsList.add(cdd);
@@ -1023,7 +1027,7 @@ public class Logic {
 		}
 		// TODO: this is very inefficient as it calculates the results for the
 		// whole class first
-		EvaluationData courseResult = getEvaluationResult(courseId,
+		EvaluationDataDetails courseResult = getEvaluationResult(courseId,
 				evaluationName);
 		TeamData teamData = courseResult.getTeamData(student.team);
 		EvalResultData returnValue = null;
@@ -1039,7 +1043,7 @@ public class Logic {
 			returnValue.selfEvaluations.add(sd.result.getSelfEvaluation());
 		}
 
-		if (courseResult.p2pEnabled) {
+		if (courseResult.evaluation.p2pEnabled) {
 			returnValue.sortIncomingByFeedbackAscending();
 		}
 		
@@ -1246,7 +1250,7 @@ public class Logic {
 	/**
 	 * Access: course owner and above
 	 */
-	public EvaluationData getEvaluationResult(String courseId,
+	public EvaluationDataDetails getEvaluationResult(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
@@ -1254,7 +1258,7 @@ public class Logic {
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
 		CourseDataDetails course = getTeamsForCourse(courseId);
-		EvaluationData returnValue = getEvaluation(courseId, evaluationName);
+		EvaluationDataDetails returnValue = new EvaluationDataDetails (getEvaluation(courseId, evaluationName));
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
 				courseId, evaluationName);
 		returnValue.teams = course.teams;
@@ -1700,17 +1704,17 @@ public class Logic {
 		
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 		
-		EvaluationData eval = getEvaluationResult(courseId, evalName);
+		EvaluationDataDetails evaluationDetails = getEvaluationResult(courseId, evalName);
 		
 		String export = "";
 		
-		export += "Course" + ",," + eval.course + Common.EOL
-				+ "Evaluation Name" + ",," + eval.name + Common.EOL
+		export += "Course" + ",," + evaluationDetails.evaluation.course + Common.EOL
+				+ "Evaluation Name" + ",," + evaluationDetails.evaluation.name + Common.EOL
 				+ Common.EOL;
 		
 		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Common.EOL;
 		
-		for (TeamData td : eval.teams) {
+		for (TeamData td : evaluationDetails.teams) {
 			for (StudentData sd : td.students) {
 				String result = "";
 				Collections.sort(sd.result.incoming, new Comparator<SubmissionData>(){

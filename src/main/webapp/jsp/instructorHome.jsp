@@ -1,6 +1,6 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.CourseDataDetails"%>
-<%@ page import="teammates.common.datatransfer.EvaluationData"%>
+<%@ page import="teammates.common.datatransfer.EvaluationDataDetails"%>
 <%@ page import="teammates.ui.controller.InstructorHomeHelper"%>
 <%
 	InstructorHomeHelper helper = (InstructorHomeHelper)request.getAttribute("helper");
@@ -108,16 +108,16 @@
 							<th class="centeralign color_white bold no-print">Action(s)</th>
 						</tr>
 						<%
-							for (EvaluationData eval: courseDetails.evaluations){ evalIdx++;
+							for (EvaluationDataDetails edd: courseDetails.evaluations){ evalIdx++;
 						%>
 							<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
-								<td class="t_eval_name<%=idx%>"><%=InstructorHomeHelper.escapeForHTML(eval.name)%></td>
+								<td class="t_eval_name<%=idx%>"><%=InstructorHomeHelper.escapeForHTML(edd.evaluation.name)%></td>
 								<td class="t_eval_status<%= idx %> centeralign"><span
-									onmouseover="ddrivetip('<%= InstructorHomeHelper.getInstructorHoverMessageForEval(eval) %>')"
-									onmouseout="hideddrivetip()"><%= InstructorHomeHelper.getInstructorStatusForEval(eval) %></span></td>
-								<td class="t_eval_response<%= idx %> centeralign"><%= eval.submittedTotal %>
-									/ <%= eval.expectedTotal %></td>
-								<td class="centeralign no-print"><%= helper.getInstructorEvaluationActions(eval,evalIdx, true) %>
+									onmouseover="ddrivetip('<%= InstructorHomeHelper.getInstructorHoverMessageForEval(edd.evaluation) %>')"
+									onmouseout="hideddrivetip()"><%= InstructorHomeHelper.getInstructorStatusForEval(edd.evaluation) %></span></td>
+								<td class="t_eval_response<%= idx %> centeralign"><%= edd.submittedTotal %>
+									/ <%= edd.expectedTotal %></td>
+								<td class="centeralign no-print"><%= helper.getInstructorEvaluationActions(edd.evaluation,evalIdx, true) %>
 								</td>
 							</tr>
 						<%	} %>

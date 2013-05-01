@@ -9,13 +9,13 @@ public class CourseDataDetails {
 	public CourseDataDetails(CourseData courseData) {
 		this.course = courseData;
 	}
-	
+
 	public CourseData course;
-	public transient int teamsTotal = Common.UNINITIALIZED_INT;
-	public transient int studentsTotal = Common.UNINITIALIZED_INT;
-	public transient int unregisteredTotal = Common.UNINITIALIZED_INT;
-	public transient ArrayList<EvaluationData> evaluations = new ArrayList<EvaluationData>();
-	public transient ArrayList<TeamData> teams = new ArrayList<TeamData>();
-	public transient ArrayList<StudentData> loners = new ArrayList<StudentData>();
+	public int teamsTotal = Common.UNINITIALIZED_INT;
+	public int studentsTotal = Common.UNINITIALIZED_INT;
+	public int unregisteredTotal = Common.UNINITIALIZED_INT;
+	public ArrayList<EvaluationDataDetails> evaluations = new ArrayList<EvaluationDataDetails>();
+	public ArrayList<TeamData> teams = new ArrayList<TeamData>();
+	public ArrayList<StudentData> loners = new ArrayList<StudentData>();
 
 }

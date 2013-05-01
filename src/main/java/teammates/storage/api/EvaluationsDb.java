@@ -83,7 +83,7 @@ public class EvaluationsDb {
 	 * Check if Evaluation is Open and ready for submission
 	 * 
 	 * @param courseDetails
-	 * @param evaluation
+	 * @param evaluationDetails
 	 * @return
 	 */
 	public boolean isEvaluationOpen(String courseId, String evaluationName) {

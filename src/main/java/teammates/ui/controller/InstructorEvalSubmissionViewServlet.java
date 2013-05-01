@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.EvaluationDataDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -41,7 +42,7 @@ public class InstructorEvalSubmissionViewServlet extends ActionServlet<Instructo
 		
 		try {
 			helper.student = helper.server.getStudent(courseID, studentEmail);
-			helper.evaluation = helper.server.getEvaluation(courseID, evalName);
+			helper.evaluationDetails = new EvaluationDataDetails(helper.server.getEvaluation(courseID, evalName));
 			helper.result = helper.server.getEvaluationResultForStudent(courseID, evalName, studentEmail);
 			
 			ArrayList<Object> data = new ArrayList<Object>();

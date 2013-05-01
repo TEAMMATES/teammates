@@ -19,6 +19,7 @@ import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationDataDetails;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
 import teammates.common.datatransfer.TeamData;
@@ -385,20 +386,22 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param evals
 	 */
-	protected void sortEvaluationsByDeadline(List<EvaluationData> evals) {
-		Collections.sort(evals, new Comparator<EvaluationData>() {
-			public int compare(EvaluationData obj1, EvaluationData obj2) {
+	protected void sortEvaluationsByDeadline(List<EvaluationDataDetails> evals) {
+		Collections.sort(evals, new Comparator<EvaluationDataDetails>() {
+			public int compare(EvaluationDataDetails edd1, EvaluationDataDetails edd2) {
+				EvaluationData eval1 = edd1.evaluation;
+				EvaluationData eval2 = edd2.evaluation;
 				int result = 0;
 				if (result == 0)
-					result = obj1.endTime.after(obj2.endTime) ? 1
-							: (obj1.endTime.before(obj2.endTime) ? -1 : 0);
+					result = eval1.endTime.after(eval2.endTime) ? 1
+							: (eval1.endTime.before(eval2.endTime) ? -1 : 0);
 				if (result == 0)
-					result = obj1.startTime.after(obj2.startTime) ? 1
-							: (obj1.startTime.before(obj2.startTime) ? -1 : 0);
+					result = eval1.startTime.after(eval2.startTime) ? 1
+							: (eval1.startTime.before(eval2.startTime) ? -1 : 0);
 				if (result == 0)
-					result = obj1.course.compareTo(obj2.course);
+					result = eval1.course.compareTo(eval2.course);
 				if (result == 0)
-					result = obj1.name.compareTo(obj2.name);
+					result = eval1.name.compareTo(eval2.name);
 				return result;
 			}
 		});

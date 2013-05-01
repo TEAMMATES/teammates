@@ -1,6 +1,7 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
 <%@ page import="teammates.common.datatransfer.EvaluationData"%>
+<%@ page import="teammates.common.datatransfer.EvaluationDataDetails"%>
 <%@ page import="teammates.ui.controller.InstructorEvalHelper"%>
 <%	InstructorEvalHelper helper = (InstructorEvalHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>
@@ -199,17 +200,17 @@
 				<%
 					int evalIdx = -1;
 								if (helper.evaluations.size() > 0) {
-									for(EvaluationData eval: helper.evaluations){ evalIdx++;
+									for(EvaluationDataDetails edd: helper.evaluations){ evalIdx++;
 				%>
 							<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
-								<td class="t_eval_coursecode"><%=eval.course%></td>
-								<td class="t_eval_name"><%=InstructorEvalHelper.escapeForHTML(eval.name)%></td>
+								<td class="t_eval_coursecode"><%=edd.evaluation.course%></td>
+								<td class="t_eval_name"><%=InstructorEvalHelper.escapeForHTML(edd.evaluation.name)%></td>
 								<td class="t_eval_status centeralign"><span
-									onmouseover="ddrivetip(' <%=InstructorEvalHelper.getInstructorHoverMessageForEval(eval)%>')"
-									onmouseout="hideddrivetip()"><%=InstructorEvalHelper.getInstructorStatusForEval(eval)%></span></td>
-								<td class="t_eval_response centeralign"><%= eval.submittedTotal %>
-									/ <%= eval.expectedTotal %></td>
-								<td class="centeralign no-print"><%=helper.getInstructorEvaluationActions(eval,evalIdx, false)%>
+									onmouseover="ddrivetip(' <%=InstructorEvalHelper.getInstructorHoverMessageForEval(edd.evaluation)%>')"
+									onmouseout="hideddrivetip()"><%=InstructorEvalHelper.getInstructorStatusForEval(edd.evaluation)%></span></td>
+								<td class="t_eval_response centeralign"><%= edd.submittedTotal %>
+									/ <%= edd.expectedTotal %></td>
+								<td class="centeralign no-print"><%=helper.getInstructorEvaluationActions(edd.evaluation,evalIdx, false)%>
 								</td>
 							</tr>
 						<%	} %>

@@ -48,19 +48,19 @@
 			<table class="inputTable" id="instructorEvaluationInformation">
 				<tr>
 					<td class="label rightalign bold" width="50%">Course ID:</td>
-					<td><%= helper.evaluation.course %></td>
+					<td><%=helper.evaluationDetails.evaluation.course%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold">Evaluation name:</td>
-					<td><%=InstructorEvalResultsHelper.escapeForHTML(helper.evaluation.name)%></td>
+					<td><%=InstructorEvalResultsHelper.escapeForHTML(helper.evaluationDetails.evaluation.name)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold">Opening time:</td>
-					<td><%=Common.formatTime(helper.evaluation.startTime)%></td>
+					<td><%=Common.formatTime(helper.evaluationDetails.evaluation.startTime)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold">Closing time:</td>
-					<td><%=Common.formatTime(helper.evaluation.endTime)%></td>
+					<td><%=Common.formatTime(helper.evaluationDetails.evaluation.endTime)%></td>
 				</tr>
 				<tr>
 					<td class="centeralign" colspan=2>
@@ -80,24 +80,24 @@
 					<td colspan=2 class="centeralign">
 					<form id="download_eval_report" method="GET" action="instructorEvalExport">
 					<%
-						if(InstructorEvalResultsHelper.getInstructorStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) {
+						if(InstructorEvalResultsHelper.getInstructorStatusForEval(helper.evaluationDetails.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) {
 					%>
 						<input type="button" class="button"
 							id = "button_publish"
 							value = "Publish"
-							onclick = "if(togglePublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationPublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';">
+							onclick = "if(togglePublishEvaluation('<%=helper.evaluationDetails.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationPublishLink(helper.evaluationDetails.evaluation.course,helper.evaluationDetails.evaluation.name,false)%>';">
 					<%
-						} else if (InstructorEvalResultsHelper.getInstructorStatusForEval(helper.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
+						} else if (InstructorEvalResultsHelper.getInstructorStatusForEval(helper.evaluationDetails.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
 					%>
 						<input type="button" class="button"
 							id = "button_unpublish"
 							value = "Unpublish"
-							onclick = "if(toggleUnpublishEvaluation('<%=helper.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationUnpublishLink(helper.evaluation.course,helper.evaluation.name,false)%>';">
+							onclick = "if(toggleUnpublishEvaluation('<%=helper.evaluationDetails.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationUnpublishLink(helper.evaluationDetails.evaluation.course,helper.evaluationDetails.evaluation.name,false)%>';">
 					<%
 						}
 					%>
-						<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=helper.evaluation.course%>">
-						<input type="hidden" name="<%=Common.PARAM_EVALUATION_NAME%>" value="<%=InstructorEvalResultsHelper.escapeForHTML(helper.evaluation.name)%>">
+						<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=helper.evaluationDetails.evaluation.course%>">
+						<input type="hidden" name="<%=Common.PARAM_EVALUATION_NAME%>" value="<%=InstructorEvalResultsHelper.escapeForHTML(helper.evaluationDetails.evaluation.name)%>">
 						<input type="submit" value="Download Report" class="button">
 					</form>
 					</td>
@@ -105,12 +105,12 @@
 			</table>
 			
 			<br>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<br>
 			
 			<%
-				out.flush();
-			%>
+							out.flush();
+						%>
 			<div id="instructorEvaluationSummaryTable" class="evaluation_result">
 				<div id="tablecaption">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
 				<table class="dataTable">
@@ -136,8 +136,8 @@
 					</tr>
 					<%
 						int idx = 0;
-												for(TeamData team: helper.evaluation.teams){
-													for(StudentData student: team.students){
+															for(TeamData team: helper.evaluationDetails.teams){
+																for(StudentData student: team.students){
 					%>
 						<tr class="student_row" id="student<%=idx%>">
 							<td><%=InstructorEvalResultsHelper.escapeForHTML(team.name)%></td>
@@ -154,13 +154,13 @@
 							<td class="centeralign no-print">
 								<a class="color_black" name="viewEvaluationResults<%=idx%>" id="viewEvaluationResults<%=idx%>"
 										target="_blank"
-										href="<%=helper.getInstructorEvaluationSubmissionViewLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
+										href="<%=helper.getInstructorEvaluationSubmissionViewLink(helper.evaluationDetails.evaluation.course, helper.evaluationDetails.evaluation.name, student.email)%>"
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER%>')"
 										onmouseout="hideddrivetip()">
 										View</a>
 								<a class="color_black" name="editEvaluationResults<%=idx%>" id="editEvaluationResults<%=idx%>"
 										target="_blank"
-										href="<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, student.email)%>"
+										href="<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationDetails.evaluation.course, helper.evaluationDetails.evaluation.name, student.email)%>"
 										onclick="return openChildWindow(this.href)"
 										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT%>')"
 										onmouseout="hideddrivetip()"
@@ -168,8 +168,8 @@
 						</tr>
 					<%
 						idx++;
-										}
-									}
+													}
+												}
 					%>
 				</table>
 				<br>
@@ -178,8 +178,8 @@
 			</div>
 			
 			<%
-				out.flush();
-			%>
+							out.flush();
+						%>
 			<%
 				for(boolean byReviewer = true, repeat=true; repeat; repeat = byReviewer, byReviewer=false){
 			%>
@@ -190,9 +190,9 @@
 					</div>
 					
 					<%
-						boolean firstTeam = true;
-										for(TeamData team: helper.evaluation.teams){
-					%>
+											boolean firstTeam = true;
+																		for(TeamData team: helper.evaluationDetails.teams){
+										%>
 						<%
 							if(firstTeam) firstTeam = false; else out.print("<br>");
 						%>
@@ -201,7 +201,7 @@
 							<h2 class="color_white"><%=InstructorEvalResultsHelper.escapeForHTML(team.name)%></h2>
 							<%
 								boolean firstStudent = true;
-														for(StudentData student: team.students){
+																			for(StudentData student: team.students){
 							%>
 								<%
 									if(firstStudent) firstStudent = false; else out.print("<br>");
@@ -224,13 +224,13 @@
 											if(byReviewer){
 										%>
 												<a target="_blank" class="color_black"
-													href="<%=helper.getInstructorEvaluationSubmissionEditLink(student.course, helper.evaluation.name, student.email)%>"
+													href="<%=helper.getInstructorEvaluationSubmissionEditLink(student.course, helper.evaluationDetails.evaluation.name, student.email)%>"
 													onclick="return openChildWindow(this.href)">
 													Edit</a>
 									
 										<%
-											}
-										%>
+																				}
+																			%>
 										</th>
 									</tr></thead>
 									<tr>
@@ -239,7 +239,7 @@
 		 							</tr>
 		 							<tr>
 		 								<td colspan="5"><span class="bold">Comments about team:</span><br>
-		 									<%=InstructorEvalResultsHelper.formatP2PFeedback(InstructorEvalResultsHelper.escapeForHTML(student.result.getSelfEvaluation().p2pFeedback.getValue()), helper.evaluation.p2pEnabled)%><br></td>
+		 									<%=InstructorEvalResultsHelper.formatP2PFeedback(InstructorEvalResultsHelper.escapeForHTML(student.result.getSelfEvaluation().p2pFeedback.getValue()), helper.evaluationDetails.evaluation.p2pEnabled)%><br></td>
 		 							</tr>
 									<tr class="resultSubheader bold">
 										<td width="15%"><%=byReviewer ? "To" : "From"%> Student</td>
@@ -252,9 +252,9 @@
 									%>
 										<tr>
 											<td><b><%=InstructorEvalResultsHelper.escapeForHTML(byReviewer ? sub.revieweeName : sub.reviewerName)%></b></td>
-											<td><%= InstructorEvalResultsHelper.printSharePoints(sub.normalizedToInstructor,false) %></td>
-											<td><%= InstructorEvalResultsHelper.printJustification(sub) %></td>
-											<td colspan="2"><%= InstructorEvalResultsHelper.formatP2PFeedback(InstructorEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluation.p2pEnabled) %></td>
+											<td><%=InstructorEvalResultsHelper.printSharePoints(sub.normalizedToInstructor,false)%></td>
+											<td><%=InstructorEvalResultsHelper.printJustification(sub)%></td>
+											<td colspan="2"><%=InstructorEvalResultsHelper.formatP2PFeedback(InstructorEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluationDetails.evaluation.p2pEnabled)%></td>
 										</tr>
 									<%	} %>
 								</table>

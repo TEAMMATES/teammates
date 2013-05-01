@@ -20,19 +20,14 @@ public class EvaluationData extends BaseData {
 	public boolean published = false;
 	public boolean activated = false;
 
-	// marked transient to avoid converting to json
-	public transient int submittedTotal = Common.UNINITIALIZED_INT;
-	public transient int expectedTotal = Common.UNINITIALIZED_INT;
-
-	public transient ArrayList<TeamData> teams = new ArrayList<TeamData>();
-
 	private static Logger log = Common.getLogger();
 
 	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
-	
+
 	public static final String ERROR_FIELD_COURSE = "Evaluation must belong to a valid course\n";
 	public static final String ERROR_FIELD_NAME = "Evaluation name cannot be null or empty\n";
-	public static final String ERROR_NAME_TOOLONG = "Evaluation name cannot be more than " + EVALUATION_NAME_MAX_LENGTH + " characters\n";
+	public static final String ERROR_NAME_TOOLONG = "Evaluation name cannot be more than "
+			+ EVALUATION_NAME_MAX_LENGTH + " characters\n";
 	public static final String ERROR_FIELD_STARTTIME = "Evaluation start time cannot be null\n";
 	public static final String ERROR_FIELD_ENDTIME = "Evaluation end time cannot be null\n";
 	public static final String ERROR_END_BEFORE_START = "Evaluation end time cannot be earlier than start time\n";
@@ -44,8 +39,10 @@ public class EvaluationData extends BaseData {
 	}
 
 	public EvaluationData() {
-		// This constructor should take in String params so we can trim them at construction time
-		// However, this constructor is already being used in more than 10 places
+		// This constructor should take in String params so we can trim them at
+		// construction time
+		// However, this constructor is already being used in more than 10
+		// places
 		// Refactoring it will take a very long time. Maybe much later
 		// For now, the trimming will be done everytime isValid is called.
 	}
@@ -97,73 +94,58 @@ public class EvaluationData extends BaseData {
 		}
 	}
 
-	public TeamData getTeamData(String teamName) {
-		for (TeamData team : teams) {
-			if (team.name.equals(teamName)) {
-				return team;
-			}
-		}
-		return null;
-	}
-
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("course:" + course + ", name:" + name + Common.EOL);
-		for (TeamData team : teams) {
-			sb.append(team.toString(1));
-		}
-		return sb.toString();
-	}
-
 	@Override
 	public boolean isValid() {
 		course = trimIfNotNull(course);
 		name = trimIfNotNull(name);
 		return getInvalidStateInfo().isEmpty();
 	}
-	
+
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
-		
-		if (!Common.isValidCourseId(course)){
+
+		if (!Common.isValidCourseId(course)) {
 			errorMessage += ERROR_FIELD_COURSE;
 		}
-		
+
 		if (!Common.isValidName(name)) {
 			errorMessage += ERROR_FIELD_NAME;
 		} else if (name.length() > EVALUATION_NAME_MAX_LENGTH) {
 			errorMessage += ERROR_NAME_TOOLONG;
 		}
-		
+
 		if (this.startTime == null) {
 			errorMessage += ERROR_FIELD_STARTTIME;
 		}
-		
+
 		if (this.endTime == null) {
 			errorMessage += ERROR_FIELD_ENDTIME;
 		}
-		
+
 		// Check time values are valid
 		if (this.startTime != null && this.endTime != null) {
 			if (endTime.before(startTime)) {
 				errorMessage += ERROR_END_BEFORE_START;
 			}
-			
-			if (isCurrentTimeInUsersTimezoneEarlierThan(endTime) && published) {
+
+			if (Common.isCurrentTimeInUsersTimezoneEarlierThan(endTime,
+					timeZone) && published) {
 				errorMessage += ERROR_PUBLISHED_BEFORE_END;
 			}
-			
-			if (isCurrentTimeInUsersTimezoneEarlierThan(startTime) && activated) {
+
+			if (Common.isCurrentTimeInUsersTimezoneEarlierThan(startTime,
+					timeZone) && activated) {
 				errorMessage += ERROR_ACTIVATED_BEFORE_START;
 			}
 		}
-		
+
 		return errorMessage;
 	}
 
-	private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time) {
-		Date nowInUserTimeZone = Common.convertToUserTimeZone(
-				Calendar.getInstance(), timeZone).getTime();
-		return nowInUserTimeZone.before(time);
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("course:" + course + ", name:" + name + Common.EOL);
+		return sb.toString();
 	}
+
 }

@@ -1,6 +1,6 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
-<%@ page import="teammates.common.datatransfer.EvaluationData"%>
+<%@ page import="teammates.common.datatransfer.EvaluationDataDetails"%>
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
 <%@ page import="teammates.ui.controller.InstructorEvalSubmissionViewHelper"%>
 <%	InstructorEvalSubmissionViewHelper helper = (InstructorEvalSubmissionViewHelper)request.getAttribute("helper"); %>
@@ -43,18 +43,18 @@
 			<table class="inputTable" id="studentEvaluationInfo">
 				<tr>
 					<td class="label rightalign bold" width="30%">Course ID:</td>
-					<td class="leftalign"><%= helper.evaluation.course %></td>
+					<td class="leftalign"><%=helper.evaluationDetails.evaluation.course%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
-					<td class="leftalign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.evaluation.name)%></td>
+					<td class="leftalign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.evaluationDetails.evaluation.name)%></td>
 				</tr>
 			</table>
 			
 
 			<%
-				for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
-			%>
+							for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
+						%>
 			<h2 class="centeralign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
 			<table class="resultTable">
 				<thead><tr>
@@ -84,23 +84,27 @@
 					<td width="40%" class="bold">Feedback to peer</td>
 				</tr>
 				<%
-				for(SubmissionData sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue;
+					for(SubmissionData sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue;
 				%>
 					<tr>
 						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
-						<td><%= InstructorEvalSubmissionViewHelper.printSharePoints(sub.normalizedToInstructor,false) %></td>
-						<td><%= InstructorEvalSubmissionViewHelper.printJustification(sub) %></td>
-						<td><%= InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluation.p2pEnabled) %></td>
+						<td><%=InstructorEvalSubmissionViewHelper.printSharePoints(sub.normalizedToInstructor,false)%></td>
+						<td><%=InstructorEvalSubmissionViewHelper.printJustification(sub)%></td>
+						<td><%=InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluationDetails.evaluation.p2pEnabled)%></td>
 					</tr>
-				<%	} %>
+				<%
+					}
+				%>
 			</table>
 			<br><br>
-			<% } %>
+			<%
+				}
+			%>
 			<div class="centeralign">
 				<input type="button" class="button" id="button_back" value="Close"
 						onclick="window.close()">
 				<input type="button" class="button" id="button_edit" value="Edit Submission"
-						onclick="window.location.href='<%= helper.getInstructorEvaluationSubmissionEditLink(helper.evaluation.course, helper.evaluation.name, helper.student.email) %>'">
+						onclick="window.location.href='<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationDetails.evaluation.course, helper.evaluationDetails.evaluation.name, helper.student.email)%>'">
 			</div>
 			<br>
 			<br>

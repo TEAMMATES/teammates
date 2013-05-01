@@ -9,6 +9,7 @@ import java.util.List;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationDataDetails;
 
 public class InstructorEvalHelper extends Helper{
 	public List<CourseDataDetails> courses;
@@ -18,7 +19,7 @@ public class InstructorEvalHelper extends Helper{
 	// This stores the evaluation details when a user submits a new evaluation
 	//   to be stored.
 	public EvaluationData newEvaluationToBeCreated;
-	public List<EvaluationData> evaluations;
+	public List<EvaluationDataDetails> evaluations;
 	
 	/**
 	 * Returns the timezone options as HTML code.
