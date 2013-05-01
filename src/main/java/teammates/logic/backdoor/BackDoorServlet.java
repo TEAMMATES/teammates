@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 
@@ -185,7 +186,7 @@ public class BackDoorServlet extends HttpServlet {
 		String courseIDs = "";
 
 		try {
-			HashMap<String, CourseData> courseList = backDoorLogic
+			HashMap<String, CourseDataDetails> courseList = backDoorLogic
 					.getCourseListForInstructor(instructorID);
 			for (String courseId : courseList.keySet()) {
 				courseIDs = courseIDs + courseId + " ";

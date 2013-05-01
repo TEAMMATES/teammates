@@ -1,5 +1,5 @@
 <%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.datatransfer.CourseData"%>
+<%@ page import="teammates.common.datatransfer.CourseDataDetails"%>
 <%@ page import="teammates.common.datatransfer.StudentData"%>
 <%@ page import="teammates.common.datatransfer.InstructorData"%>
 <%@ page import="teammates.common.datatransfer.TeamData"%>
@@ -46,36 +46,36 @@
 			<table class="inputTable" id="courseInformationHeader">
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course ID:</td>
-	 				<td id="courseid"><%= helper.course.id %></td>
+	 				<td id="courseid"><%=helper.courseDetails.course.id%></td>
 	 			</tr>
 	 			<tr>
 		 			<td class="label rightalign bold" width="30%">Course name:</td>
-		 			<td id="coursename"><%=InstructorCourseDetailsHelper.escapeForHTML(helper.course.name)%></td>
+		 			<td id="coursename"><%=InstructorCourseDetailsHelper.escapeForHTML(helper.courseDetails.course.name)%></td>
 				</tr>
 				<tr>
 		 			<td class="label rightalign bold" width="30%">Teams:</td>
-		 			<td id="total_teams"><%=helper.course.teamsTotal%></td>
+		 			<td id="total_teams"><%=helper.courseDetails.teamsTotal%></td>
 		 		</tr>
 		 		<tr>
 		 			<td class="label rightalign bold" width="30%">Total students:</td>
-		 			<td id="total_students"><%=helper.course.studentsTotal%></td>
+		 			<td id="total_students"><%=helper.courseDetails.studentsTotal%></td>
 		 		</tr>
 		 		<tr>
 		 			<td class="label rightalign bold" width="30%">Instructors:</td>
 		 			<td id="instructors">
 		 			<%
 		 				for (int i = 0; i < helper.instructors.size(); i++){
-		 					InstructorData instructor = helper.instructors.get(i);
-		 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+		 					 					InstructorData instructor = helper.instructors.get(i);
+		 					 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
 		 			%>
-		 				<%=instructorInfo %><br><br>
+		 				<%=instructorInfo%><br><br>
 		 			<%
 		 				}
 		 			%>
 					</td>
 		 		</tr>
 		 		<%
-		 			if(helper.course.studentsTotal>1){
+		 			if(helper.courseDetails.studentsTotal>1){
 		 		%>
 		 		<tr>
 		 			<td class="centeralign" colspan="2">
@@ -83,7 +83,7 @@
 		 						id="button_remind"
 		 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_REMIND%>')" 
 		 						onmouseout="hideddrivetip();"
-		 						onclick="hideddrivetip(); if(toggleSendRegistrationKeysConfirmation('<%=helper.course.id%>')) window.location.href='<%=helper.getInstructorCourseRemindLink()%>';"
+		 						onclick="hideddrivetip(); if(toggleSendRegistrationKeysConfirmation('<%=helper.courseDetails.course.id%>')) window.location.href='<%=helper.getInstructorCourseRemindLink()%>';"
 		 						value="Remind Students to Join" tabindex="1">
 		 			</td>
 		 		</tr>

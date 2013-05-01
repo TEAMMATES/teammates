@@ -82,7 +82,7 @@ public class EvaluationsDb {
 	 * 
 	 * Check if Evaluation is Open and ready for submission
 	 * 
-	 * @param course
+	 * @param courseDetails
 	 * @param evaluation
 	 * @return
 	 */

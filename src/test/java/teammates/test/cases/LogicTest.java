@@ -29,6 +29,7 @@ import org.testng.annotations.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvalResultData;
 import teammates.common.datatransfer.EvaluationData;
@@ -465,11 +466,11 @@ public class LogicTest extends BaseTestCase {
 		// Instructor 3 is an instructor of 2 courses - Course 1 and Course 2. 
 		// Retrieve from one course to get the googleId, then pull the courses for that googleId
 		InstructorData instructor = dataBundle.instructors.get("instructor3OfCourse1");
-		HashMap<String, CourseData> courseList = logic.getCourseListForInstructor(instructor.googleId);
+		HashMap<String, CourseDataDetails> courseList = logic.getCourseListForInstructor(instructor.googleId);
 		assertEquals(2, courseList.size());
-		for (CourseData cd : courseList.values()) {
+		for (CourseDataDetails cdd : courseList.values()) {
 			// check if course belongs to this instructor
-			assertTrue(logic.isInstructorOfCourse(instructor.googleId, cd.id));
+			assertTrue(logic.isInstructorOfCourse(instructor.googleId, cdd.course.id));
 		}
 
 		______TS("instructor with 0 courses");
@@ -511,9 +512,9 @@ public class LogicTest extends BaseTestCase {
 		Common.waitBriefly();
 		
 		// lastRetrievedTime = 0 => Earliest time
-		HashMap <String, CourseData> courseList = logic.getCourseListForInstructor(googleId, 0, 5);
-		for (CourseData cd : courseList.values()) {
-			System.out.println(cd.id);
+		HashMap <String, CourseDataDetails> courseList = logic.getCourseListForInstructor(googleId, 0, 5);
+		for (CourseDataDetails cd : courseList.values()) {
+			System.out.println(cd.course.id);
 		}
 		assertEquals(5, courseList.size());
 		
@@ -556,7 +557,7 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsInstructor("idOfInstructor3");
 
-		HashMap<String, CourseData> courseListForInstructor = logic
+		HashMap<String, CourseDataDetails> courseListForInstructor = logic
 				.getCourseDetailsListForInstructor("idOfInstructor3");
 		assertEquals(2, courseListForInstructor.size());
 		String course1Id = "idOfTypicalCourse1";
@@ -893,9 +894,9 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		CourseData course = dataBundle.courses.get("typicalCourse1");
-		CourseData courseDetials = logic.getCourseDetails(course.id);
-		assertEquals(course.id, courseDetials.id);
-		assertEquals(course.name, courseDetials.name);
+		CourseDataDetails courseDetials = logic.getCourseDetails(course.id);
+		assertEquals(course.id, courseDetials.course.id);
+		assertEquals(course.name, courseDetials.course.name);
 		assertEquals(2, courseDetials.teamsTotal);
 		assertEquals(5, courseDetials.studentsTotal);
 		assertEquals(0, courseDetials.unregisteredTotal);
@@ -905,8 +906,8 @@ public class LogicTest extends BaseTestCase {
 		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourse("instructor1", "course1", "course 1");
 		courseDetials = logic.getCourseDetails("course1");
-		assertEquals("course1", courseDetials.id);
-		assertEquals("course 1", courseDetials.name);
+		assertEquals("course1", courseDetials.course.id);
+		assertEquals("course 1", courseDetials.course.name);
 		assertEquals(0, courseDetials.teamsTotal);
 		assertEquals(0, courseDetials.studentsTotal);
 		assertEquals(0, courseDetials.unregisteredTotal);
@@ -1362,7 +1363,7 @@ public class LogicTest extends BaseTestCase {
 		verifyEnrollmentResultForStudent(new StudentData(line4, courseId),
 				enrollResults.get(4), StudentData.UpdateStatus.NEW);
 		
-		CourseData cd = logic.getCourseDetails(courseId);
+		CourseDataDetails cd = logic.getCourseDetails(courseId);
 		assertEquals(5, cd.unregisteredTotal);
 
 		______TS("includes a mix of unmodified, modified, and new");
@@ -1532,7 +1533,7 @@ public class LogicTest extends BaseTestCase {
 		CourseData course = dataBundle.courses.get("typicalCourse1");
 		logic.createStudent(new StudentData("|s1|s1@e|", course.id));
 		logic.createStudent(new StudentData("|s2|s2@e|", course.id));
-		CourseData courseAsTeams = logic.getTeamsForCourse(course.id);
+		CourseDataDetails courseAsTeams = logic.getTeamsForCourse(course.id);
 		assertEquals(2, courseAsTeams.teams.size());
 
 		String team1Id = "Team 1.1";
@@ -2614,16 +2615,16 @@ public class LogicTest extends BaseTestCase {
 		backDoorLogic.editEvaluation(expectedEval1InCourse2);
 
 		// Get course details for student
-		List<CourseData> courseList = logic
+		List<CourseDataDetails> courseList = logic
 				.getCourseDetailsListForStudent(studentInTwoCourses.id);
 
 		// verify number of courses received
 		assertEquals(2, courseList.size());
 
 		// verify details of course 1 (note: index of course 1 is not 0)
-		CourseData actualCourse1 = courseList.get(1);
-		assertEquals(expectedCourse1.id, actualCourse1.id);
-		assertEquals(expectedCourse1.name, actualCourse1.name);
+		CourseDataDetails actualCourse1 = courseList.get(1);
+		assertEquals(expectedCourse1.id, actualCourse1.course.id);
+		assertEquals(expectedCourse1.name, actualCourse1.course.name);
 		assertEquals(2, actualCourse1.evaluations.size());
 
 		// verify details of evaluation 1 in course 1
@@ -2636,9 +2637,9 @@ public class LogicTest extends BaseTestCase {
 
 		// for course 2, verify no evaluations returned (because the evaluation
 		// in this course is still AWAITING.
-		CourseData actualCourse2 = courseList.get(0);
-		assertEquals(expectedCourse2.id, actualCourse2.id);
-		assertEquals(expectedCourse2.name, actualCourse2.name);
+		CourseDataDetails actualCourse2 = courseList.get(0);
+		assertEquals(expectedCourse2.id, actualCourse2.course.id);
+		assertEquals(expectedCourse2.name, actualCourse2.course.name);
 		assertEquals(0, actualCourse2.evaluations.size());
 
 		______TS("student in a course with no evaluations");
@@ -4225,7 +4226,7 @@ public class LogicTest extends BaseTestCase {
 	 */
 	private void verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(
 			List<SubmissionData> submissionList, String courseId) throws EntityDoesNotExistException {
-		CourseData course = logic.getCourseDetails(courseId);
+		CourseDataDetails course = logic.getCourseDetails(courseId);
 		List<StudentData> students = logic.getStudentListForCourse(courseId);
 
 		for(EvaluationData e: course.evaluations){

@@ -1,8 +1,6 @@
 package teammates.common.datatransfer;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import teammates.common.Common;
 import teammates.storage.entity.Course;
@@ -12,18 +10,6 @@ public class CourseData extends BaseData {
 	public String name;
 	public Date createdAt;
 
-	// these are marked transient because we don't want to involve them in
-	// Json conversions.
-	public transient int teamsTotal = Common.UNINITIALIZED_INT;
-	public transient int studentsTotal = Common.UNINITIALIZED_INT;
-	public transient int unregisteredTotal = Common.UNINITIALIZED_INT;
-	public transient ArrayList<EvaluationData> evaluations = new ArrayList<EvaluationData>();
-	public transient ArrayList<TeamData> teams = new ArrayList<TeamData>();
-	// TODO: to be removed as we don't allow loners
-	public transient ArrayList<StudentData> loners = new ArrayList<StudentData>();
-
-	private static Logger log = Common.getLogger();
-	
 	public static final int COURSE_NAME_MAX_LENGTH = 64;
 	
 	public static final String ERROR_FIELD_ID = "Course ID cannot be null or empty\n";

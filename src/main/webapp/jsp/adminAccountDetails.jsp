@@ -1,8 +1,11 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.ui.controller.AdminAccountDetailsHelper"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
+<%@ page import="teammates.common.datatransfer.CourseDataDetails"%>
 
-<% AdminAccountDetailsHelper helper = (AdminAccountDetailsHelper)request.getAttribute("helper"); %>
+<%
+	AdminAccountDetailsHelper helper = (AdminAccountDetailsHelper)request.getAttribute("helper");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +26,7 @@
 <body>
     <div id="dhtmltooltip"></div>
     <div id="frameTop">
-    <jsp:include page="<%= Common.JSP_ADMIN_HEADER %>" />
+    <jsp:include page="<%=Common.JSP_ADMIN_HEADER%>" />
     </div>
     <div id="frameBody">
         <div id="frameBodyWrapper">
@@ -50,27 +53,27 @@
                 </tr>
             </table>
             <br>
-             <jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+             <jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
             <br>
             <br>
             <h2>Instructor For:</h2>
-            <p class="courseCount rightalign bold">Total Courses: <%=helper.instructorCourseList != null ? helper.instructorCourseList.size() : 0 %></p>
+            <p class="courseCount rightalign bold">Total Courses: <%=helper.instructorCourseList != null ? helper.instructorCourseList.size() : 0%></p>
             <table class="dataTable">
                 <tr>
                     <th class="bold" width="70%">Course</th>
                     <th class="bold">Options</th>
                 </tr>
                 <%
-                    if(helper.instructorCourseList != null && helper.instructorCourseList.size() != 0){
-	                    for(CourseData course : helper.instructorCourseList){
-	                        out.print("<tr>");
-	                        out.print("<td>[]" + course.id + "] " + course.name + "</td>");
-	                        out.print("<td><a id=\"instructor_" + course.id + "\" href=\"" + helper.getInstructorCourseDeleteLink(helper.accountInformation.googleId, course.id)+ "\">Remove From Course</a></td>");
-	                        out.print("</tr>");
-	                    }
-                    } else {
-                        out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>");
-                    }
+                	if(helper.instructorCourseList != null && helper.instructorCourseList.size() != 0){
+                	                    for(CourseDataDetails courseDetails : helper.instructorCourseList){
+                	                        out.print("<tr>");
+                	                        out.print("<td>[]" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
+                	                        out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + helper.getInstructorCourseDeleteLink(helper.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
+                	                        out.print("</tr>");
+                	                    }
+                                    } else {
+                                        out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>");
+                                    }
                 %>
             </table>
             <br>

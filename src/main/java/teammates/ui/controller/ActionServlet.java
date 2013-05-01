@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
@@ -360,6 +361,14 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param courses
 	 */
+	protected void sortDetailedCourses(List<CourseDataDetails> courses) {
+		Collections.sort(courses, new Comparator<CourseDataDetails>() {
+			public int compare(CourseDataDetails obj1, CourseDataDetails obj2) {
+				return obj1.course.id.compareTo(obj2.course.id);
+			}
+		});
+	}
+	
 	protected void sortCourses(List<CourseData> courses) {
 		Collections.sort(courses, new Comparator<CourseData>() {
 			public int compare(CourseData obj1, CourseData obj2) {

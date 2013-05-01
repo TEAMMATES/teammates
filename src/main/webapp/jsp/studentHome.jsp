@@ -1,8 +1,10 @@
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.common.datatransfer.CourseData" %>
+<%@ page import="teammates.common.datatransfer.CourseDataDetails" %>
 <%@ page import="teammates.common.datatransfer.EvaluationData" %>
 <%@ page import="teammates.ui.controller.StudentHomeHelper"%>
-<% StudentHomeHelper helper = (StudentHomeHelper)request.getAttribute("helper"); %>
+<%
+	StudentHomeHelper helper = (StudentHomeHelper)request.getAttribute("helper");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +29,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_STUDENT_HEADER %>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -37,47 +39,52 @@
 				<h1>Student Home</h1>
 			</div>
 		
-			<form method="post" action="<%= Common.PAGE_STUDENT_JOIN_COURSE %>" name="form_joincourse">
+			<form method="post" action="<%=Common.PAGE_STUDENT_JOIN_COURSE%>" name="form_joincourse">
 				<table class="inputTable" id="result_addOrJoinCourse">
 					<tr>
 						<td class="label bold">Registration Key:</td>
 						<td>
 							<input class="keyvalue" type="text"
-									name="<%= Common.PARAM_REGKEY %>"
-									id="<%= Common.PARAM_REGKEY %>"
-									onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_JOIN_COURSE %>')"
+									name="<%=Common.PARAM_REGKEY%>"
+									id="<%=Common.PARAM_REGKEY%>"
+									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_JOIN_COURSE%>')"
 									onmouseout="hideddrivetip()" tabindex="1">
 						</td>
 						<td>
 							<input id="button_join_course" type="submit" class="button"
-									onclick="return this.form.<%= Common.PARAM_REGKEY %>.value!=''"
+									onclick="return this.form.<%=Common.PARAM_REGKEY%>.value!=''"
 									value="Join Course" tabindex="2">
 						</td>
 					</tr>
 				 </table>
-				<% if(helper.isMasqueradeMode()){ %>
-					<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">
-				<% } %>
+				<%
+					if(helper.isMasqueradeMode()){
+				%>
+					<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=helper.requestedUser%>">
+				<%
+					}
+				%>
 			</form>
 			
 			<br>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<br>
 			
-			<%	int idx = -1;
-				int evalIdx = -1;
-				for (CourseData course: helper.courses) { idx++;
-			%>
+			<%
+							int idx = -1;
+								int evalIdx = -1;
+								for (CourseDataDetails courseDetails: helper.courses) { idx++;
+						%>
 			<div class="backgroundBlock">
 				<div class="result_team home_courses_div" id="course<%= idx %>">
 					<div class="result_homeTitle">
-						<h2 class="color_white">[<%= course.id %>] :
-							<%=StudentHomeHelper.escapeForHTML(course.name)%>
+						<h2 class="color_white">[<%= courseDetails.course.id %>] :
+							<%=StudentHomeHelper.escapeForHTML(courseDetails.course.name)%>
 						</h2>
 					</div>
 					<div class="result_homeLinks blockLink rightalign">
 						<a class="t_course_view<%=idx%> color_white"
-							href="<%=helper.getStudentCourseDetailsLink(course.id)%>"
+							href="<%=helper.getStudentCourseDetailsLink(courseDetails.course.id)%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_COURSE_DETAILS%>')"
 							onmouseout="hideddrivetip()">
 							View Team
@@ -86,7 +93,7 @@
 					<div style="clear: both;"></div>
 					<br>
 					<%
-						if (course.evaluations.size() > 0) {
+						if (courseDetails.evaluations.size() > 0) {
 					%>
 						<table class="dataTable">
 							<tr>
@@ -96,7 +103,7 @@
 								<th class="centeralign bold color_white">Action(s)</th>
 							</tr>
 							<%
-								for (EvaluationData eval: course.evaluations) { evalIdx++;
+								for (EvaluationData eval: courseDetails.evaluations) { evalIdx++;
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
 									<td class="t_eval_name"><%=StudentHomeHelper.escapeForHTML(eval.name)%></td>

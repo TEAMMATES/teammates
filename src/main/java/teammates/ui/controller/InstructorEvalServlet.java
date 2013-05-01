@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -78,10 +79,10 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 	//TODO: unit test this
 	private void populateEvaluationList(InstructorEvalHelper helper)
 			throws EntityDoesNotExistException {
-		HashMap<String, CourseData> summary = helper.server
+		HashMap<String, CourseDataDetails> summary = helper.server
 				.getCourseListForInstructor(helper.userId);
-		helper.courses = new ArrayList<CourseData>(summary.values());
-		sortCourses(helper.courses);
+		helper.courses = new ArrayList<CourseDataDetails>(summary.values());
+		sortDetailedCourses(helper.courses);
 
 		helper.evaluations = helper.server
 				.getEvaluationsListForInstructor(helper.userId);

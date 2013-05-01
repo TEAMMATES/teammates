@@ -12,6 +12,7 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -134,7 +135,7 @@ public class CoursesLogic {
 		return coursesDb.getCourse(courseId);
 	}
 
-	public CourseData getCourseSummary(String courseId)
+	public CourseDataDetails getCourseSummary(String courseId)
 			throws EntityDoesNotExistException {
 		CourseData cd = coursesDb.getCourse(courseId);
 
@@ -143,10 +144,11 @@ public class CoursesLogic {
 					+ courseId);
 		}
 
-		cd.teamsTotal = getNumberOfTeams(cd.id);
-		cd.studentsTotal = getTotalStudents(cd.id);
-		cd.unregisteredTotal = getUnregistered(cd.id);
-		return cd;
+		CourseDataDetails cdd = new CourseDataDetails(cd);
+		cdd.teamsTotal = getNumberOfTeams(cd.id);
+		cdd.studentsTotal = getTotalStudents(cd.id);
+		cdd.unregisteredTotal = getUnregistered(cd.id);
+		return cdd;
 	}
 	
 	public List<CourseData> getCourseListForStudent(String googleId) {
@@ -183,10 +185,10 @@ public class CoursesLogic {
 
 	}
 	
-	public HashMap<String, CourseData> getCourseSummaryListForInstructor(String instructorId) {
+	public HashMap<String, CourseDataDetails> getCourseSummaryListForInstructor(String instructorId) {
 		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
 		
-		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
+		HashMap<String, CourseDataDetails> courseSummaryList = new HashMap<String, CourseDataDetails>();
 		for (InstructorData id : instructorDataList) {
 			CourseData cd = coursesDb.getCourse(id.courseId);
 			
@@ -194,21 +196,22 @@ public class CoursesLogic {
 				Assumption.fail("INSTRUCTOR RELATION EXISTED, BUT COURSE WAS NOT FOUND: " + instructorId + ", " + id.courseId);
 			}
 			
-			cd.teamsTotal = getNumberOfTeams(cd.id);
-			cd.studentsTotal = getTotalStudents(cd.id);
-			cd.unregisteredTotal = getUnregistered(cd.id);
-			courseSummaryList.put(cd.id, cd);
+			CourseDataDetails cdd = new CourseDataDetails(cd);
+			cdd.teamsTotal = getNumberOfTeams(cd.id);
+			cdd.studentsTotal = getTotalStudents(cd.id);
+			cdd.unregisteredTotal = getUnregistered(cd.id);
+			courseSummaryList.put(cd.id, cdd);
 		}
 		
 		return courseSummaryList;
 	}
 	
 	// TODO: To be modified to handle API for retrieve paginated results of Courses
-	public HashMap<String, CourseData> getCourseSummaryListForInstructor(String instructorId, long lastRetrievedTime, int numberToRetrieve) {
+	public HashMap<String, CourseDataDetails> getCourseSummaryListForInstructor(String instructorId, long lastRetrievedTime, int numberToRetrieve) {
 		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
 		
 		int count = 0;
-		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
+		HashMap<String, CourseDataDetails> courseSummaryList = new HashMap<String, CourseDataDetails>();
 		for (InstructorData id : instructorDataList) {
 			CourseData cd = coursesDb.getCourse(id.courseId);
 
@@ -221,10 +224,11 @@ public class CoursesLogic {
 				continue;
 			}
 			
-			cd.teamsTotal = getNumberOfTeams(cd.id);
-			cd.studentsTotal = getTotalStudents(cd.id);
-			cd.unregisteredTotal = getUnregistered(cd.id);
-			courseSummaryList.put(cd.id, cd);
+			CourseDataDetails cdd = new CourseDataDetails(cd);
+			cdd.teamsTotal = getNumberOfTeams(cd.id);
+			cdd.studentsTotal = getTotalStudents(cd.id);
+			cdd.unregisteredTotal = getUnregistered(cd.id);
+			courseSummaryList.put(cd.id, cdd);
 			
 			if (++count >= numberToRetrieve) {
 				break;

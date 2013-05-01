@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -45,11 +46,11 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 			createCourse = true;
 		}
 		
-		HashMap<String, CourseData> courses = helper.server
+		HashMap<String, CourseDataDetails> courses = helper.server
 				.getCourseListForInstructor(helper.userId);
-		helper.courses = new ArrayList<CourseData>(courses.values());
+		helper.courses = new ArrayList<CourseDataDetails>(courses.values());
 		
-		sortCourses(helper.courses);	
+		sortDetailedCourses(helper.courses);	
 		setStatus(helper);
 		
 		if (!createCourse) {

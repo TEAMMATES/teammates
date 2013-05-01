@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
@@ -87,7 +88,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		// Verify that there are no unregistered students.
 		// TODO: this should be removed after absorbing registration reminder
 		// into the evaluation opening alert.
-		CourseData course1 = backdoor.getCourseDetails(evaluation.course);
+		CourseDataDetails course1 = backdoor.getCourseDetails(evaluation.course);
 		assertEquals(0, course1.unregisteredTotal);
 
 		// Create another evaluation in another course in similar fashion.
@@ -110,7 +111,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		// Verify that there are no unregistered students
 		// TODO: this should be removed after absorbing registration reminder
 		// into the evaluation opening alert.
-		CourseData course2 = backdoor.getCourseDetails(evaluation.course);
+		CourseDataDetails course2 = backdoor.getCourseDetails(evaluation.course);
 		assertEquals(0, course2.unregisteredTotal);
 
 		// Create another evaluation not ready to be activated yet.

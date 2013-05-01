@@ -12,7 +12,6 @@ public class CourseDataTest extends BaseTestCase {
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(CourseData.class);
 	}
 
 	@Test
@@ -68,8 +67,4 @@ public class CourseDataTest extends BaseTestCase {
 	    //already tested in testValidate() above
 	}
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		turnLoggingDown(CourseData.class);
-	}
 }

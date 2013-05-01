@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.TeamData;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -41,15 +42,15 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 			return;
 		}
 		
-		helper.course = helper.server.getCourseDetails(courseId);
+		helper.courseDetails = helper.server.getCourseDetails(courseId);
 		helper.instructors = helper.server.getInstructorsOfCourse(courseId);
 		
 		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
 		helper.team = getTeam(helper.server.getTeamsForCourse(courseId),helper.student);
 		
 		ArrayList<Object> data = new ArrayList<Object>();
-		data.add(helper.course.id);
-		data.add(helper.course.name);
+		data.add(helper.courseDetails.course.id);
+		data.add(helper.courseDetails.course.name);
 		activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_COURSE_DETAILS_SERVLET, Common.STUDENT_COURSE_DETAILS_SERVLET_PAGE_LOAD,
 				true, helper, url, data);
 	}
@@ -60,7 +61,7 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 	 * @param student
 	 * @return
 	 */
-	private TeamData getTeam(CourseData course, StudentData student){
+	private TeamData getTeam(CourseDataDetails course, StudentData student){
 		for(TeamData team: course.teams){
 			if(team.name.equals(student.team)){
 				return team;

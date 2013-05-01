@@ -15,6 +15,7 @@ import teammates.common.Assumption;
 import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.EvalResultData;
@@ -274,7 +275,7 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's course data
 	 */
-	public HashMap<String, CourseData> getCourseListForInstructor(
+	public HashMap<String, CourseDataDetails> getCourseListForInstructor(
 			String instructorId) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
@@ -282,7 +283,7 @@ public class Logic {
 
 		verifyInstructorExists(instructorId);
 
-		HashMap<String, CourseData> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId);
+		HashMap<String, CourseDataDetails> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId);
 
 		return courseSummaryListForInstructor;
 	}
@@ -294,7 +295,7 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's course data
 	 */
-	public HashMap<String, CourseData> getCourseListForInstructor(
+	public HashMap<String, CourseDataDetails> getCourseListForInstructor(
 			String instructorId, long lastRetrievedTime, int numberToRetrieve) 
 					throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
@@ -305,7 +306,7 @@ public class Logic {
 
 		verifyInstructorExists(instructorId);
 
-		HashMap<String, CourseData> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId, lastRetrievedTime, numberToRetrieve);
+		HashMap<String, CourseDataDetails> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId, lastRetrievedTime, numberToRetrieve);
 
 		return courseSummaryListForInstructor;
 	}
@@ -315,7 +316,7 @@ public class Logic {
 	 * 
 	 * @return Returns a more-detailed version of Instructor's course data <br>
 	 */
-	public HashMap<String, CourseData> getCourseDetailsListForInstructor(
+	public HashMap<String, CourseDataDetails> getCourseDetailsListForInstructor(
 			String instructorId) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
@@ -323,10 +324,10 @@ public class Logic {
 
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
-		HashMap<String, CourseData> courseList = coursesLogic.getCourseSummaryListForInstructor(instructorId);
+		HashMap<String, CourseDataDetails> courseList = coursesLogic.getCourseSummaryListForInstructor(instructorId);
 		ArrayList<EvaluationData> evaluationList = getEvaluationsListForInstructor(instructorId);
 		for (EvaluationData ed : evaluationList) {
-			CourseData courseSummary = courseList.get(ed.course);
+			CourseDataDetails courseSummary = courseList.get(ed.course);
 			courseSummary.evaluations.add(ed);
 		}
 		return courseList;
@@ -440,7 +441,7 @@ public class Logic {
 	 * Returns a detailed version of course data, including evaluation data
 	 * Access: course owner, student in course, admin
 	 */
-	public CourseData getCourseDetails(String courseId)
+	public CourseDataDetails getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
@@ -451,14 +452,14 @@ public class Logic {
 		// instructor,
 		// then returns the selected course from the list.
 		// Now it simply prepares the requesteed course
-		CourseData course = coursesLogic.getCourseSummary(courseId);
+		CourseDataDetails courseSummary = coursesLogic.getCourseSummary(courseId);
 
-		ArrayList<EvaluationData> evaluationList = getEvaluationsListForCourse(course.id);
+		ArrayList<EvaluationData> evaluationList = getEvaluationsListForCourse(courseSummary.course.id);
 		for (EvaluationData ed : evaluationList) {
-			course.evaluations.add(ed);
+			courseSummary.evaluations.add(ed);
 		}
 
-		return course;
+		return courseSummary;
 	}
 
 	public void editCourse(CourseData course) throws NotImplementedException {
@@ -676,7 +677,7 @@ public class Logic {
 	 *         without teams. This field is to be removed later. <br>
 	 *         Access : course owner and above
 	 */
-	public CourseData getTeamsForCourse(String courseId)
+	public CourseDataDetails getTeamsForCourse(String courseId)
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
@@ -691,6 +692,8 @@ public class Logic {
 			throw new EntityDoesNotExistException("The course " + courseId
 					+ " does not exist");
 		}
+		
+		CourseDataDetails cdd = new CourseDataDetails(course);
 
 		TeamData team = null;
 		for (int i = 0; i < students.size(); i++) {
@@ -699,7 +702,7 @@ public class Logic {
 
 			// if loner
 			if (s.team.equals("")) {
-				course.loners.add(s);
+				cdd.loners.add(s);
 				// first student of first team
 			} else if (team == null) {
 				team = new TeamData();
@@ -710,7 +713,7 @@ public class Logic {
 				team.students.add(s);
 				// first student of subsequent teams (not the first team)
 			} else {
-				course.teams.add(team);
+				cdd.teams.add(team);
 				team = new TeamData();
 				team.name = s.team;
 				team.students.add(s);
@@ -718,11 +721,11 @@ public class Logic {
 
 			// if last iteration
 			if (i == (students.size() - 1)) {
-				course.teams.add(team);
+				cdd.teams.add(team);
 			}
 		}
 
-		return course;
+		return cdd;
 	}
 
 	@SuppressWarnings("unused")
@@ -971,7 +974,7 @@ public class Logic {
 	 *         returned contain details of evaluations too (except the ones
 	 *         still AWAITING).
 	 */
-	public List<CourseData> getCourseDetailsListForStudent(String googleId)
+	public List<CourseDataDetails> getCourseDetailsListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
@@ -979,22 +982,25 @@ public class Logic {
 
 		// Get the list of courses that this student is in
 		List<CourseData> courseList = getCourseListForStudent(googleId);
+		List<CourseDataDetails> courseDetailsList = new ArrayList<CourseDataDetails>();
 
 		// For each course the student is in
 		for (CourseData c : courseList) {
 			// Get the list of evaluations for the course
 			List<EvaluationData> evaluationDataList = evaluationsLogic.getEvaluationsForCourse(c.id);
 
+			CourseDataDetails cdd = new CourseDataDetails(c);
 			// For the list of evaluations for this course
 			for (EvaluationData ed : evaluationDataList) {
 				// Add this evaluation to the course's list of evaluations.
 				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
 				if (ed.getStatus() != EvalStatus.AWAITING) {
-					c.evaluations.add(ed);
+					cdd.evaluations.add(ed);
 				}
 			}
+			courseDetailsList.add(cdd);
 		}
-		return courseList;
+		return courseDetailsList;
 	}
 
 	/**
@@ -1247,7 +1253,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		CourseData course = getTeamsForCourse(courseId);
+		CourseDataDetails course = getTeamsForCourse(courseId);
 		EvaluationData returnValue = getEvaluation(courseId, evaluationName);
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
 				courseId, evaluationName);

@@ -4,11 +4,12 @@ import java.util.List;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 
 public class InstructorCourseDetailsHelper extends Helper{
-	public CourseData course;
+	public CourseDataDetails courseDetails;
 	public List<StudentData> students;
 	public List<InstructorData> instructors;
 	
@@ -35,7 +36,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 */
 	public String getInstructorCourseRemindLink(){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -48,7 +49,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 */
 	public String getCourseStudentDetailsLink(StudentData student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
@@ -62,7 +63,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 */
 	public String getCourseStudentEditLink(StudentData student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
@@ -76,7 +77,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 */
 	public String getCourseStudentRemindLink(StudentData student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
@@ -90,7 +91,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 */
 	public String getCourseStudentDeleteLink(StudentData student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;

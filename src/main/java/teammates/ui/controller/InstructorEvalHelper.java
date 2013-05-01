@@ -7,10 +7,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.EvaluationData;
 
 public class InstructorEvalHelper extends Helper{
-	public List<CourseData> courses;
+	public List<CourseDataDetails> courses;
 	// This is the ID of the course the evaluation page should display, 
 	//   when it loads for the user to fill in data for a new evaluation.
 	public String courseIdForNewEvaluation;
@@ -85,24 +86,24 @@ public class InstructorEvalHelper extends Helper{
 	public ArrayList<String> getCourseIdOptions() {
 		ArrayList<String> result = new ArrayList<String>();
 
-		for (CourseData course : courses) {
+		for (CourseDataDetails courseDetails : courses) {
 
 			// True if this is a submission of the filled 'new evaluation' form
 			// for this course:
 			boolean isFilledFormForEvaluationInThisCourse = (newEvaluationToBeCreated != null)
-					&& course.id.equals(newEvaluationToBeCreated.course);
+					&& courseDetails.course.id.equals(newEvaluationToBeCreated.course);
 
 			// True if this is for displaying an empty form for creating an
 			// evaluation for this course:
 			boolean isEmptyFormForEvaluationInThisCourse = (courseIdForNewEvaluation != null)
-					&& course.id.equals(courseIdForNewEvaluation);
+					&& courseDetails.course.id.equals(courseIdForNewEvaluation);
 
 			String selectedAttribute = isFilledFormForEvaluationInThisCourse
 					|| isEmptyFormForEvaluationInThisCourse ? " selected=\"selected\""
 					: "";
 
-			result.add("<option value=\"" + course.id + "\""
-					+ selectedAttribute + ">" + course.id + "</option>");
+			result.add("<option value=\"" + courseDetails.course.id + "\""
+					+ selectedAttribute + ">" + courseDetails.course.id + "</option>");
 		}
 		return result;
 	}

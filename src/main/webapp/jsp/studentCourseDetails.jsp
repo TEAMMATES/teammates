@@ -34,20 +34,20 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>Team Details for <%= helper.course.id %></h1>
+				<h1>Team Details for <%=helper.courseDetails.course.id%></h1>
 			</div>
 			<br>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<br>
 				
 			<table class="inputTable" id="studentCourseInformation">
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course ID:</td>
-	 				<td id="<%= Common.PARAM_COURSE_ID %>"><%= helper.course.id %></td>
+	 				<td id="<%=Common.PARAM_COURSE_ID%>"><%=helper.courseDetails.course.id%></td>
 	 			</tr>
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course name:</td>
-	 				<td id="<%= Common.PARAM_COURSE_NAME %>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.course.name)%></td>
+	 				<td id="<%=Common.PARAM_COURSE_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.courseDetails.course.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Instructors:</td>

@@ -27,7 +27,7 @@ public class InstructorCourseDetailsServlet extends ActionServlet<InstructorCour
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		
 		if(courseID!=null){
-			helper.course = helper.server.getCourseDetails(courseID);
+			helper.courseDetails = helper.server.getCourseDetails(courseID);
 			helper.students = helper.server.getStudentListForCourse(courseID);
 			helper.instructors = helper.server.getInstructorsOfCourse(courseID);
 			
