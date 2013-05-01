@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.StudentEvalResultData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationDataDetails;
 import teammates.common.datatransfer.SubmissionData;
@@ -108,7 +108,7 @@ public class InstructorEvalResultsHelper extends Helper{
 	 * @param sub
 	 * @return
 	 */
-	public static String printDiff(EvalResultData sub){
+	public static String printDiff(StudentEvalResultData sub){
 		int claimed = sub.claimedToInstructor;
 		int perceived = sub.perceivedToInstructor;
 		int diff = perceived - claimed;

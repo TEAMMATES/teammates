@@ -43,9 +43,9 @@
 			<class name="teammates.test.cases.StudentTest" />
 			<class name="teammates.test.cases.EvaluationTest" />
 			<class name="teammates.test.cases.TeamEvalResultTest" />
-			<class name="teammates.test.cases.EvalResultDataTest" />
+			<class name="teammates.test.cases.StudentEvalResultDataTest" />
 			<class name="teammates.test.cases.SubmissionsDbTest" />
-			<class name="teammates.test.cases.TeamDataTest" />
+			<class name="teammates.test.cases.TeamEvalResultBundleTest" />
 			<class name="teammates.test.cases.EvaluationsLogicTest" />
 			<class name="teammates.test.cases.HelperTest" />
 			<class name="teammates.test.cases.AccountsDbTest" />

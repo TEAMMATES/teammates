@@ -31,7 +31,7 @@ import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.StudentEvalResultData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.EvaluationDataDetails;
@@ -39,7 +39,7 @@ import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.SubmissionData;
-import teammates.common.datatransfer.TeamData;
+import teammates.common.datatransfer.TeamEvalResultBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -2739,7 +2739,7 @@ public class LogicTest extends BaseTestCase {
 
 		// "idOfCourse1OfInstructor1", "evaluation1 In Course1",
 
-		EvalResultData result = logic.getEvaluationResultForStudent(course.id,
+		StudentEvalResultData result = logic.getEvaluationResultForStudent(course.id,
 				evaluation.name, student1email);
 
 		// expected result:
@@ -3340,18 +3340,18 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(2, result.teams.size());
 
 		// check students in team 1.1
-		TeamData team1_1 = result.teams.get(0);
-		assertEquals(4, team1_1.students.size());
+		TeamEvalResultBundle team1_1 = result.teams.get(0);
+		assertEquals(4, team1_1.team.students.size());
 
 		int S1_POS = 0;
 		int S2_POS = 1;
 		int S3_POS = 2;
 		int S4_POS = 3;
 
-		StudentData s1 = team1_1.students.get(S1_POS);
-		StudentData s2 = team1_1.students.get(S2_POS);
-		StudentData s3 = team1_1.students.get(S3_POS);
-		StudentData s4 = team1_1.students.get(S4_POS);
+		StudentData s1 = team1_1.team.students.get(S1_POS);
+		StudentData s2 = team1_1.team.students.get(S2_POS);
+		StudentData s3 = team1_1.team.students.get(S3_POS);
+		StudentData s4 = team1_1.team.students.get(S4_POS);
 
 		assertEquals("student1InCourse1", s1.id);
 		assertEquals("student2InCourse1", s2.id);
@@ -3424,9 +3424,9 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(108, s4.result.incoming.get(S3_POS).normalizedToStudent);
 
 		// check team 1.2
-		TeamData team1_2 = result.teams.get(1);
-		assertEquals(1, team1_2.students.size());
-		StudentData team1_2student = team1_2.students.get(0);
+		TeamEvalResultBundle team1_2 = result.teams.get(1);
+		assertEquals(1, team1_2.team.students.size());
+		StudentData team1_2student = team1_2.team.students.get(0);
 		assertEquals(NSB, team1_2student.result.claimedFromStudent);
 		assertEquals(1, team1_2student.result.outgoing.size());
 		assertEquals(NSB, team1_2student.result.claimedToInstructor);
@@ -3468,13 +3468,13 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCalculateTeamResult() throws Exception {
-		TeamData team = new TeamData();
+		TeamEvalResultBundle teamEvalResultBundle = new TeamEvalResultBundle();
 		StudentData s1 = new StudentData("t1|s1|e1@c", "course1");
-		s1.result = new EvalResultData();
+		s1.result = new StudentEvalResultData();
 		StudentData s2 = new StudentData("t1|s2|e2@c", "course1");
-		s2.result = new EvalResultData();
+		s2.result = new StudentEvalResultData();
 		StudentData s3 = new StudentData("t1|s3|e3@c", "course1");
-		s3.result = new EvalResultData();
+		s3.result = new StudentEvalResultData();
 
 		SubmissionData s1_to_s1 = createSubmission(1, 1);
 		SubmissionData s1_to_s2 = createSubmission(1, 2);
@@ -3510,11 +3510,11 @@ public class LogicTest extends BaseTestCase {
 		s2.result.outgoing.add(s2_to_s2.getCopy());
 		s3.result.incoming.add(s3_to_s3.getCopy());
 
-		team.students.add(s2);
-		team.students.add(s1);
-		team.students.add(s3);
+		teamEvalResultBundle.team.students.add(s2);
+		teamEvalResultBundle.team.students.add(s1);
+		teamEvalResultBundle.team.students.add(s3);
 
-		TeamEvalResult teamResult = invokeCalculateTeamResult(team);
+		TeamEvalResult teamResult = invokeCalculateTeamResult(teamEvalResultBundle);
 		// note the pattern in numbers. due to the way we generate submissions,
 		// 110 means it is from s1 to s1 and
 		// should appear in the 1,1 location in the matrix.
@@ -3552,9 +3552,9 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(0, s1.result.incoming.get(S1_POS).normalizedToStudent);
 		assertEquals(1, s1.result.outgoing.get(S1_POS).normalizedToStudent);
 
-		invokePopulateTeamResult(team, teamResult);
+		invokePopulateTeamResult(teamEvalResultBundle, teamResult);
 
-		s1 = team.students.get(S1_POS);
+		s1 = teamEvalResultBundle.team.students.get(S1_POS);
 		assertEquals(110, s1.result.claimedFromStudent);
 		assertEquals(92, s1.result.claimedToInstructor);
 		assertEquals(116, s1.result.perceivedToStudent);
@@ -3571,7 +3571,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(95, s1.result.incoming.get(S2_POS).normalizedToInstructor);
 		assertEquals(98, s1.result.incoming.get(S3_POS).normalizedToInstructor);
 
-		s2 = team.students.get(S2_POS);
+		s2 = teamEvalResultBundle.team.students.get(S2_POS);
 		assertEquals(220, s2.result.claimedFromStudent);
 		assertEquals(100, s2.result.claimedToInstructor);
 		assertEquals(217, s2.result.perceivedToStudent);
@@ -3586,7 +3586,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(NA, s2.result.incoming.get(S2_POS).normalizedToInstructor);
 		assertEquals(102, s2.result.incoming.get(S3_POS).normalizedToInstructor);
 
-		s3 = team.students.get(S3_POS);
+		s3 = teamEvalResultBundle.team.students.get(S3_POS);
 		assertEquals(330, s3.result.claimedFromStudent);
 		assertEquals(103, s3.result.claimedToInstructor);
 		assertEquals(334, s3.result.perceivedToStudent);
@@ -4482,19 +4482,19 @@ public class LogicTest extends BaseTestCase {
 				e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
 	}
 
-	private TeamEvalResult invokeCalculateTeamResult(TeamData team)
+	private TeamEvalResult invokeCalculateTeamResult(TeamEvalResultBundle team)
 			throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
-				"calculateTeamResult", new Class[] { TeamData.class });
+				"calculateTeamResult", new Class[] { TeamEvalResultBundle.class });
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { team };
 		return (TeamEvalResult) privateMethod.invoke(logic, params);
 	}
 
-	private void invokePopulateTeamResult(TeamData team,
+	private void invokePopulateTeamResult(TeamEvalResultBundle team,
 			TeamEvalResult teamResult) throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
-				"populateTeamResult", new Class[] { TeamData.class,
+				"populateTeamResult", new Class[] { TeamEvalResultBundle.class,
 						TeamEvalResult.class });
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { team, teamResult };

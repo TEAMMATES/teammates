@@ -4,15 +4,15 @@ import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.StudentEvalResultData;
 import teammates.common.datatransfer.SubmissionData;
 
-public class EvalResultDataTest {
+public class StudentEvalResultDataTest {
 
 	
 	@Test
 	public void testSortOutgoingByStudentNameAscending() {
-		EvalResultData result = new EvalResultData();
+		StudentEvalResultData result = new StudentEvalResultData();
 
 		SubmissionData s1 = new SubmissionData();
 		s1.revieweeName = "Benny";
@@ -35,7 +35,7 @@ public class EvalResultDataTest {
 
 	@Test
 	public void testSortIncomingByStudentNameAscending() {
-		EvalResultData result = new EvalResultData();
+		StudentEvalResultData result = new StudentEvalResultData();
 
 		SubmissionData s1 = new SubmissionData();
 		s1.reviewerName = "Benny";
@@ -58,7 +58,7 @@ public class EvalResultDataTest {
 
 	@Test
 	public void testSortIncomingByFeedbackAscending() {
-		EvalResultData result = new EvalResultData();
+		StudentEvalResultData result = new StudentEvalResultData();
 
 		SubmissionData s1 = new SubmissionData();
 		s1.p2pFeedback = new Text("ghk");

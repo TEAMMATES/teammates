@@ -9,6 +9,7 @@ import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.TeamData;
+import teammates.common.datatransfer.TeamEvalResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")

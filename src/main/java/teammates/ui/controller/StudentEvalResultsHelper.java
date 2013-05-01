@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.StudentEvalResultData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
@@ -17,7 +17,7 @@ public class StudentEvalResultsHelper extends Helper {
 	public List<SubmissionData> outgoing;
 	public List<SubmissionData> selfEvaluations;
 
-	public EvalResultData evalResult;
+	public StudentEvalResultData evalResult;
 	
 	public static String colorizePoint(int points){
 		return InstructorEvalResultsHelper.colorizePoints(points);

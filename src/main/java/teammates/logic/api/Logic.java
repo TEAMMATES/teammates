@@ -19,14 +19,15 @@ import teammates.common.datatransfer.CourseDataDetails;
 import teammates.common.datatransfer.EvaluationDataDetails;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.StudentEvalResultData;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
+import teammates.common.datatransfer.TeamData;
 
 import teammates.common.datatransfer.SubmissionData;
-import teammates.common.datatransfer.TeamData;
+import teammates.common.datatransfer.TeamEvalResultBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -1010,7 +1011,7 @@ public class Logic {
 	/**
 	 * Access: owner of the course, owner of result (when PUBLISHED), admin
 	 */
-	public EvalResultData getEvaluationResultForStudent(String courseId,
+	public StudentEvalResultData getEvaluationResultForStudent(String courseId,
 			String evaluationName, String studentEmail)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1029,17 +1030,17 @@ public class Logic {
 		// whole class first
 		EvaluationDataDetails courseResult = getEvaluationResult(courseId,
 				evaluationName);
-		TeamData teamData = courseResult.getTeamData(student.team);
-		EvalResultData returnValue = null;
+		TeamEvalResultBundle teamData = courseResult.getTeamEvalResultBundle(student.team);
+		StudentEvalResultData returnValue = null;
 
-		for (StudentData sd : teamData.students) {
+		for (StudentData sd : teamData.team.students) {
 			if (sd.email.equals(student.email)) {
 				returnValue = sd.result;
 				break;
 			}
 		}
 
-		for (StudentData sd : teamData.students) {
+		for (StudentData sd : teamData.team.students) {
 			returnValue.selfEvaluations.add(sd.result.getSelfEvaluation());
 		}
 
@@ -1261,18 +1262,19 @@ public class Logic {
 		EvaluationDataDetails returnValue = new EvaluationDataDetails (getEvaluation(courseId, evaluationName));
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
 				courseId, evaluationName);
-		returnValue.teams = course.teams;
-		for (TeamData team : returnValue.teams) {
+		returnValue.teams = new ArrayList<TeamEvalResultBundle>();
+		for (TeamData team : course.teams) {
+			TeamEvalResultBundle teamEvalResultBundle = new TeamEvalResultBundle(team);
 			for (StudentData student : team.students) {
-				student.result = new EvalResultData();
+				student.result = new StudentEvalResultData();
 				// TODO: refactor this method. May be have a return value?
-				populateSubmissionsAndNames(submissionDataList, team, student);
+				populateSubmissionsAndNames(submissionDataList, teamEvalResultBundle, student);
 			}
 
-			TeamEvalResult teamResult = calculateTeamResult(team);
-			team.result = teamResult;
-			populateTeamResult(team, teamResult);
-
+			TeamEvalResult teamResult = calculateTeamResult(teamEvalResultBundle);
+			teamEvalResultBundle.result = teamResult;
+			populateTeamResult(teamEvalResultBundle, teamResult);
+			returnValue.teams.add(teamEvalResultBundle);
 		}
 		return returnValue;
 	}
@@ -1482,13 +1484,13 @@ public class Logic {
 		return submissionDataList;
 	}
 
-	private TeamEvalResult calculateTeamResult(TeamData team) {
+	private TeamEvalResult calculateTeamResult(TeamEvalResultBundle teamEvalResultBundle) {
 
-		int teamSize = team.students.size();
+		int teamSize = teamEvalResultBundle.team.students.size();
 		int[][] claimedFromStudents = new int[teamSize][teamSize];
-		team.sortByStudentNameAscending();
+		teamEvalResultBundle.sortByStudentNameAscending();
 		for (int i = 0; i < teamSize; i++) {
-			StudentData studentData = team.students.get(i);
+			StudentData studentData = teamEvalResultBundle.team.students.get(i);
 			if (studentData.result == null){
 				continue;
 			}
@@ -1503,11 +1505,11 @@ public class Logic {
 		return new TeamEvalResult(claimedFromStudents);
 	}
 
-	private void populateTeamResult(TeamData team, TeamEvalResult teamResult) {
-		team.sortByStudentNameAscending();
-		int teamSize = team.students.size();
+	private void populateTeamResult(TeamEvalResultBundle teamEvalResultBundle, TeamEvalResult teamResult) {
+		teamEvalResultBundle.sortByStudentNameAscending();
+		int teamSize = teamEvalResultBundle.team.students.size();
 		for (int i = 0; i < teamSize; i++) {
-			StudentData s = team.students.get(i);
+			StudentData s = teamEvalResultBundle.team.students.get(i);
 			
 			if (s.result == null) {
 				continue;
@@ -1544,9 +1546,9 @@ public class Logic {
 	}
 
 	private void populateSubmissionsAndNames(
-			HashMap<String, SubmissionData> list, TeamData team,
+			HashMap<String, SubmissionData> list, TeamEvalResultBundle teamEvalResultBundle,
 			StudentData student) {
-		for (StudentData peer : team.students) {
+		for (StudentData peer : teamEvalResultBundle.team.students) {
 
 			// get incoming submission from peer
 			String key = peer.email + "->" + student.email;
@@ -1714,8 +1716,8 @@ public class Logic {
 		
 		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Common.EOL;
 		
-		for (TeamData td : evaluationDetails.teams) {
-			for (StudentData sd : td.students) {
+		for (TeamEvalResultBundle td : evaluationDetails.teams) {
+			for (StudentData sd : td.team.students) {
 				String result = "";
 				Collections.sort(sd.result.incoming, new Comparator<SubmissionData>(){
 					@Override
@@ -1729,7 +1731,7 @@ public class Logic {
 					result += sub.normalizedToInstructor;
 				}
 				
-				export += td.name + ",," + sd.name + ",," + sd.result.claimedToInstructor + ",," + sd.result.perceivedToInstructor + ",," + result + Common.EOL;
+				export += td.team.name + ",," + sd.name + ",," + sd.result.claimedToInstructor + ",," + sd.result.perceivedToInstructor + ",," + result + Common.EOL;
 			}
 		}
 		

@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 import teammates.common.Common;
 
-public class EvalResultData {
+public class StudentEvalResultData {
 
 	public ArrayList<SubmissionData> incoming = new ArrayList<SubmissionData>();
 	public ArrayList<SubmissionData> outgoing = new ArrayList<SubmissionData>();

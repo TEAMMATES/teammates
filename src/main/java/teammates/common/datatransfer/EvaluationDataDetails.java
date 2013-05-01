@@ -11,16 +11,16 @@ public class EvaluationDataDetails {
 	public int submittedTotal = Common.UNINITIALIZED_INT;
 	public int expectedTotal = Common.UNINITIALIZED_INT;
 
-	public ArrayList<TeamData> teams = new ArrayList<TeamData>();
+	public ArrayList<TeamEvalResultBundle> teams = new ArrayList<TeamEvalResultBundle>();
 
 	public EvaluationDataDetails(EvaluationData evaluation) {
 		this.evaluation = evaluation;
 	}
 
-	public TeamData getTeamData(String teamName) {
-		for (TeamData team : teams) {
-			if (team.name.equals(teamName)) {
-				return team;
+	public TeamEvalResultBundle getTeamEvalResultBundle(String teamName) {
+		for (TeamEvalResultBundle teamResult : teams) {
+			if (teamResult.team.name.equals(teamName)) {
+				return teamResult;
 			}
 		}
 		return null;
@@ -30,7 +30,7 @@ public class EvaluationDataDetails {
 		StringBuilder sb = new StringBuilder();
 		sb.append("course:" + evaluation.course + ", name:" + evaluation.name
 				+ Common.EOL);
-		for (TeamData team : teams) {
+		for (TeamEvalResultBundle team : teams) {
 			sb.append(team.toString(1));
 		}
 		return sb.toString();

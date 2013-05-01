@@ -22,7 +22,7 @@ import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationDataDetails;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
-import teammates.common.datatransfer.TeamData;
+import teammates.common.datatransfer.TeamEvalResultBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -412,10 +412,10 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param teams
 	 */
-	protected void sortTeams(List<TeamData> teams) {
-		Collections.sort(teams, new Comparator<TeamData>() {
-			public int compare(TeamData s1, TeamData s2) {
-				return (s1.name).compareTo(s2.name);
+	protected void sortTeams(List<TeamEvalResultBundle> teams) {
+		Collections.sort(teams, new Comparator<TeamEvalResultBundle>() {
+			public int compare(TeamEvalResultBundle s1, TeamEvalResultBundle s2) {
+				return (s1.team.name).compareTo(s2.team.name);
 			}
 		});
 	}

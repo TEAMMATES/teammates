@@ -1,12 +1,14 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.EvaluationData"%>
 <%@ page import="teammates.common.datatransfer.StudentData"%>
-<%@ page import="teammates.common.datatransfer.TeamData"%>
+<%@ page import="teammates.common.datatransfer.TeamEvalResultBundle"%>
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
 <%@ page import="teammates.ui.controller.InstructorEvalResultsHelper"%>
 <%@ page import="teammates.ui.controller.InstructorEvalExportServlet"%>
 
-<%	InstructorEvalResultsHelper helper = (InstructorEvalResultsHelper)request.getAttribute("helper"); %>
+<%
+	InstructorEvalResultsHelper helper = (InstructorEvalResultsHelper)request.getAttribute("helper");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -35,7 +37,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -136,11 +138,11 @@
 					</tr>
 					<%
 						int idx = 0;
-															for(TeamData team: helper.evaluationDetails.teams){
-																for(StudentData student: team.students){
+																					for(TeamEvalResultBundle teamEvalResultBundle: helper.evaluationDetails.teams){
+																						for(StudentData student: teamEvalResultBundle.team.students){
 					%>
 						<tr class="student_row" id="student<%=idx%>">
-							<td><%=InstructorEvalResultsHelper.escapeForHTML(team.name)%></td>
+							<td><%=InstructorEvalResultsHelper.escapeForHTML(teamEvalResultBundle.team.name)%></td>
 							<td id="<%=Common.PARAM_STUDENT_NAME%>">
 								<span onmouseover="ddrivetip('<%=InstructorEvalResultsHelper.escapeForJavaScript(student.comments)%>')"
 										onmouseout="hideddrivetip()">
@@ -168,8 +170,8 @@
 						</tr>
 					<%
 						idx++;
-													}
-												}
+																			}
+																		}
 					%>
 				</table>
 				<br>
@@ -191,17 +193,17 @@
 					
 					<%
 											boolean firstTeam = true;
-																		for(TeamData team: helper.evaluationDetails.teams){
+																																		for(TeamEvalResultBundle teamEvalResultBundle: helper.evaluationDetails.teams){
 										%>
 						<%
 							if(firstTeam) firstTeam = false; else out.print("<br>");
 						%>
 						<br>
 						<div class="backgroundBlock">
-							<h2 class="color_white"><%=InstructorEvalResultsHelper.escapeForHTML(team.name)%></h2>
+							<h2 class="color_white"><%=InstructorEvalResultsHelper.escapeForHTML(teamEvalResultBundle.team.name)%></h2>
 							<%
 								boolean firstStudent = true;
-																			for(StudentData student: team.students){
+																			for(StudentData student: teamEvalResultBundle.team.students){
 							%>
 								<%
 									if(firstStudent) firstStudent = false; else out.print("<br>");

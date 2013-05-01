@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvalResultData;
+import teammates.common.datatransfer.StudentEvalResultData;
 import teammates.common.datatransfer.EvaluationDataDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -52,7 +52,7 @@ public class InstructorEvalSubmissionViewServlet extends ActionServlet<Instructo
 			activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET, Common.INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET_PAGE_LOAD,
 					true, helper, url, data);
 		} catch (InvalidParametersException e) {
-			helper.result = new EvalResultData();
+			helper.result = new StudentEvalResultData();
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 			

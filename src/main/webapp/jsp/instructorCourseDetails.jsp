@@ -2,7 +2,7 @@
 <%@ page import="teammates.common.datatransfer.CourseDataDetails"%>
 <%@ page import="teammates.common.datatransfer.StudentData"%>
 <%@ page import="teammates.common.datatransfer.InstructorData"%>
-<%@ page import="teammates.common.datatransfer.TeamData"%>
+<%@ page import="teammates.common.datatransfer.TeamEvalResultBundle"%>
 <%@ page import="teammates.ui.controller.InstructorCourseDetailsHelper"%>
 <%	InstructorCourseDetailsHelper helper = (InstructorCourseDetailsHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>

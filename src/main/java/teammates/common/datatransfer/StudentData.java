@@ -51,7 +51,7 @@ public class StudentData extends BaseData {
 
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
 
-	public transient EvalResultData result;
+	public transient StudentEvalResultData result;
 
 	public static final int STUDENT_NAME_MAX_LENGTH = 40;
 	public static final int TEAM_NAME_MAX_LENGTH = 25;
