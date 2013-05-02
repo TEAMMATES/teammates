@@ -12,7 +12,7 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.CourseDataDetails;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -135,7 +135,7 @@ public class CoursesLogic {
 		return coursesDb.getCourse(courseId);
 	}
 
-	public CourseDataDetails getCourseSummary(String courseId)
+	public CourseDetailsBundle getCourseSummary(String courseId)
 			throws EntityDoesNotExistException {
 		CourseData cd = coursesDb.getCourse(courseId);
 
@@ -144,7 +144,7 @@ public class CoursesLogic {
 					+ courseId);
 		}
 
-		CourseDataDetails cdd = new CourseDataDetails(cd);
+		CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
 		cdd.teamsTotal = getNumberOfTeams(cd.id);
 		cdd.studentsTotal = getTotalStudents(cd.id);
 		cdd.unregisteredTotal = getUnregistered(cd.id);
@@ -185,10 +185,10 @@ public class CoursesLogic {
 
 	}
 	
-	public HashMap<String, CourseDataDetails> getCourseSummaryListForInstructor(String instructorId) {
+	public HashMap<String, CourseDetailsBundle> getCourseSummaryListForInstructor(String instructorId) {
 		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
 		
-		HashMap<String, CourseDataDetails> courseSummaryList = new HashMap<String, CourseDataDetails>();
+		HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
 		for (InstructorData id : instructorDataList) {
 			CourseData cd = coursesDb.getCourse(id.courseId);
 			
@@ -196,7 +196,7 @@ public class CoursesLogic {
 				Assumption.fail("INSTRUCTOR RELATION EXISTED, BUT COURSE WAS NOT FOUND: " + instructorId + ", " + id.courseId);
 			}
 			
-			CourseDataDetails cdd = new CourseDataDetails(cd);
+			CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
 			cdd.teamsTotal = getNumberOfTeams(cd.id);
 			cdd.studentsTotal = getTotalStudents(cd.id);
 			cdd.unregisteredTotal = getUnregistered(cd.id);
@@ -207,11 +207,11 @@ public class CoursesLogic {
 	}
 	
 	// TODO: To be modified to handle API for retrieve paginated results of Courses
-	public HashMap<String, CourseDataDetails> getCourseSummaryListForInstructor(String instructorId, long lastRetrievedTime, int numberToRetrieve) {
+	public HashMap<String, CourseDetailsBundle> getCourseSummaryListForInstructor(String instructorId, long lastRetrievedTime, int numberToRetrieve) {
 		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
 		
 		int count = 0;
-		HashMap<String, CourseDataDetails> courseSummaryList = new HashMap<String, CourseDataDetails>();
+		HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
 		for (InstructorData id : instructorDataList) {
 			CourseData cd = coursesDb.getCourse(id.courseId);
 
@@ -224,7 +224,7 @@ public class CoursesLogic {
 				continue;
 			}
 			
-			CourseDataDetails cdd = new CourseDataDetails(cd);
+			CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
 			cdd.teamsTotal = getNumberOfTeams(cd.id);
 			cdd.studentsTotal = getTotalStudents(cd.id);
 			cdd.unregisteredTotal = getUnregistered(cd.id);

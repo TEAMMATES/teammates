@@ -5,11 +5,11 @@ import java.util.List;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.CourseDataDetails;
+import teammates.common.datatransfer.CourseDetailsBundle;
 
 public class AdminAccountDetailsHelper extends Helper{
 	public AccountData accountInformation;
-	public List<CourseDataDetails> instructorCourseList;
+	public List<CourseDetailsBundle> instructorCourseList;
 	public List<CourseData> studentCourseList;
 	
 	public String getInstructorCourseDeleteLink(String instructorId, String courseId){

@@ -1,6 +1,6 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
-<%@ page import="teammates.common.datatransfer.CourseDataDetails"%>
+<%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorCourseHelper"%>
 <%
 	InstructorCourseHelper helper = (InstructorCourseHelper)request.getAttribute("helper");
@@ -107,7 +107,7 @@
 				</tr>
 				<%
 					int idx = -1;
-										for(CourseDataDetails courseDetails: helper.courses){ idx++;
+														for(CourseDetailsBundle courseDetails: helper.courses){ idx++;
 				%>
 					<tr class="courses_row">
 						<td id="courseid<%=idx%>"><%=courseDetails.course.id%></td>

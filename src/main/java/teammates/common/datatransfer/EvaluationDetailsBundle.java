@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 import teammates.common.Common;
 
-public class EvaluationDataDetails {
+public class EvaluationDetailsBundle {
 
 	public EvaluationData evaluation;
 
 	public int submittedTotal = Common.UNINITIALIZED_INT;
 	public int expectedTotal = Common.UNINITIALIZED_INT;
 
-	public ArrayList<TeamEvalResultBundle> teams = new ArrayList<TeamEvalResultBundle>();
+	public ArrayList<TeamResultBundle> teams = new ArrayList<TeamResultBundle>();
 
-	public EvaluationDataDetails(EvaluationData evaluation) {
+	public EvaluationDetailsBundle(EvaluationData evaluation) {
 		this.evaluation = evaluation;
 	}
 
-	public TeamEvalResultBundle getTeamEvalResultBundle(String teamName) {
-		for (TeamEvalResultBundle teamResult : teams) {
+	public TeamResultBundle getTeamEvalResultBundle(String teamName) {
+		for (TeamResultBundle teamResult : teams) {
 			if (teamResult.team.name.equals(teamName)) {
 				return teamResult;
 			}
@@ -30,7 +30,7 @@ public class EvaluationDataDetails {
 		StringBuilder sb = new StringBuilder();
 		sb.append("course:" + evaluation.course + ", name:" + evaluation.name
 				+ Common.EOL);
-		for (TeamEvalResultBundle team : teams) {
+		for (TeamResultBundle team : teams) {
 			sb.append(team.toString(1));
 		}
 		return sb.toString();

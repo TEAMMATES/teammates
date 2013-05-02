@@ -7,17 +7,17 @@ import static teammates.common.Common.EOL;
 import teammates.common.Common;
 import teammates.logic.TeamEvalResult;
 
-public class TeamEvalResultBundle {
+public class TeamResultBundle {
 	
 	public TeamEvalResult result;
-	public TeamData team;
+	public TeamDetailsBundle team;
 	
-	public TeamEvalResultBundle(TeamData team){
+	public TeamResultBundle(TeamDetailsBundle team){
 		this.team = team;
 	}
 	
-	public TeamEvalResultBundle(){
-		this.team = new TeamData();
+	public TeamResultBundle(){
+		this.team = new TeamDetailsBundle();
 	}
 	
 	public void sortByStudentNameAscending() {

@@ -1,9 +1,11 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
 <%@ page import="teammates.common.datatransfer.EvaluationData"%>
-<%@ page import="teammates.common.datatransfer.EvaluationDataDetails"%>
+<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorEvalHelper"%>
-<%	InstructorEvalHelper helper = (InstructorEvalHelper)request.getAttribute("helper"); %>
+<%
+	InstructorEvalHelper helper = (InstructorEvalHelper)request.getAttribute("helper");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -199,8 +201,8 @@
 				</tr>
 				<%
 					int evalIdx = -1;
-								if (helper.evaluations.size() > 0) {
-									for(EvaluationDataDetails edd: helper.evaluations){ evalIdx++;
+										if (helper.evaluations.size() > 0) {
+											for(EvaluationDetailsBundle edd: helper.evaluations){ evalIdx++;
 				%>
 							<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
 								<td class="t_eval_coursecode"><%=edd.evaluation.course%></td>

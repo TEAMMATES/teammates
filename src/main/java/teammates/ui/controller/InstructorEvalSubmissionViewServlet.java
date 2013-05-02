@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentEvalResultData;
-import teammates.common.datatransfer.EvaluationDataDetails;
+import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -42,7 +42,7 @@ public class InstructorEvalSubmissionViewServlet extends ActionServlet<Instructo
 		
 		try {
 			helper.student = helper.server.getStudent(courseID, studentEmail);
-			helper.evaluationDetails = new EvaluationDataDetails(helper.server.getEvaluation(courseID, evalName));
+			helper.evaluationDetails = new EvaluationDetailsBundle(helper.server.getEvaluation(courseID, evalName));
 			helper.result = helper.server.getEvaluationResultForStudent(courseID, evalName, studentEmail);
 			
 			ArrayList<Object> data = new ArrayList<Object>();
@@ -52,7 +52,7 @@ public class InstructorEvalSubmissionViewServlet extends ActionServlet<Instructo
 			activityLogEntry = instantiateActivityLogEntry(Common.INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET, Common.INSTRUCTOR_EVAL_SUBMISSION_VIEW_SERVLET_PAGE_LOAD,
 					true, helper, url, data);
 		} catch (InvalidParametersException e) {
-			helper.result = new StudentEvalResultData();
+			helper.result = new StudentResultBundle();
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
 			

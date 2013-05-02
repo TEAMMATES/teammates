@@ -5,13 +5,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentEvalResultData;
+import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationDataDetails;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.SubmissionData;
 
 public class InstructorEvalResultsHelper extends Helper{
-	public EvaluationDataDetails evaluationDetails;
+	public EvaluationDetailsBundle evaluationDetails;
 	
 	/**
 	 * Returns the forward URL, which will be current page
@@ -108,7 +108,7 @@ public class InstructorEvalResultsHelper extends Helper{
 	 * @param sub
 	 * @return
 	 */
-	public static String printDiff(StudentEvalResultData sub){
+	public static String printDiff(StudentResultBundle sub){
 		int claimed = sub.claimedToInstructor;
 		int perceived = sub.perceivedToInstructor;
 		int diff = perceived - claimed;

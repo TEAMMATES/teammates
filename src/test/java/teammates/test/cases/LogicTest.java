@@ -29,17 +29,17 @@ import org.testng.annotations.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.CourseDataDetails;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentEvalResultData;
+import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.common.datatransfer.EvaluationDataDetails;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.SubmissionData;
-import teammates.common.datatransfer.TeamEvalResultBundle;
+import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -467,9 +467,9 @@ public class LogicTest extends BaseTestCase {
 		// Instructor 3 is an instructor of 2 courses - Course 1 and Course 2. 
 		// Retrieve from one course to get the googleId, then pull the courses for that googleId
 		InstructorData instructor = dataBundle.instructors.get("instructor3OfCourse1");
-		HashMap<String, CourseDataDetails> courseList = logic.getCourseListForInstructor(instructor.googleId);
+		HashMap<String, CourseDetailsBundle> courseList = logic.getCourseListForInstructor(instructor.googleId);
 		assertEquals(2, courseList.size());
-		for (CourseDataDetails cdd : courseList.values()) {
+		for (CourseDetailsBundle cdd : courseList.values()) {
 			// check if course belongs to this instructor
 			assertTrue(logic.isInstructorOfCourse(instructor.googleId, cdd.course.id));
 		}
@@ -513,8 +513,8 @@ public class LogicTest extends BaseTestCase {
 		Common.waitBriefly();
 		
 		// lastRetrievedTime = 0 => Earliest time
-		HashMap <String, CourseDataDetails> courseList = logic.getCourseListForInstructor(googleId, 0, 5);
-		for (CourseDataDetails cd : courseList.values()) {
+		HashMap <String, CourseDetailsBundle> courseList = logic.getCourseListForInstructor(googleId, 0, 5);
+		for (CourseDetailsBundle cd : courseList.values()) {
 			System.out.println(cd.course.id);
 		}
 		assertEquals(5, courseList.size());
@@ -558,16 +558,16 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsInstructor("idOfInstructor3");
 
-		HashMap<String, CourseDataDetails> courseListForInstructor = logic
+		HashMap<String, CourseDetailsBundle> courseListForInstructor = logic
 				.getCourseDetailsListForInstructor("idOfInstructor3");
 		assertEquals(2, courseListForInstructor.size());
 		String course1Id = "idOfTypicalCourse1";
 
 		// course with 2 evaluations
-		ArrayList<EvaluationDataDetails> course1Evals = courseListForInstructor
+		ArrayList<EvaluationDetailsBundle> course1Evals = courseListForInstructor
 				.get(course1Id).evaluations;
 		String course1EvalDetails = "";
-		for (EvaluationDataDetails ed : course1Evals) {
+		for (EvaluationDetailsBundle ed : course1Evals) {
 			course1EvalDetails = course1EvalDetails
 					+ Common.getTeammatesGson().toJson(ed) + Common.EOL;
 		}
@@ -583,7 +583,7 @@ public class LogicTest extends BaseTestCase {
 
 		// course with 1 evaluation
 		assertEquals(course1Id, course1Evals.get(1).evaluation.course);
-		ArrayList<EvaluationDataDetails> course2Evals = courseListForInstructor
+		ArrayList<EvaluationDetailsBundle> course2Evals = courseListForInstructor
 				.get("idOfTypicalCourse2").evaluations;
 		assertEquals(1, course2Evals.size());
 		verifyEvaluationInfoExistsInList(
@@ -663,12 +663,12 @@ public class LogicTest extends BaseTestCase {
 		loginAsInstructor("idOfInstructor3");
 		
 		InstructorData instructor = dataBundle.instructors.get("instructor3OfCourse1");
-		ArrayList<EvaluationDataDetails> evalList = logic
+		ArrayList<EvaluationDetailsBundle> evalList = logic
 				.getEvaluationsListForInstructor(instructor.googleId);
 		// 2 Evals from Course 1, 1 Eval from Course  2
 		assertEquals(3, evalList.size());
 		EvaluationData evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
-		for (EvaluationDataDetails edd : evalList) {
+		for (EvaluationDetailsBundle edd : evalList) {
 			if(edd.evaluation.name.equals(evaluation.name)){
 				//We have, 4 students in Team 1.1 and 1 student in Team 1.2
 				//Only 3 have submitted.
@@ -687,7 +687,7 @@ public class LogicTest extends BaseTestCase {
 		evalList = logic.getEvaluationsListForInstructor(instructor.googleId);
 		assertEquals(3, evalList.size());
 		
-		for (EvaluationDataDetails edd : evalList) {
+		for (EvaluationDetailsBundle edd : evalList) {
 			if(edd.evaluation.name.equals(evaluation.name)){
 				//Now we have, 3 students in Team 1.1 and 2 student in Team 1.2
 				//Only 2 (1 less than before) have submitted 
@@ -705,7 +705,7 @@ public class LogicTest extends BaseTestCase {
 		InstructorData instructor2 = dataBundle.instructors.get("instructor2OfCourse2");
 		evalList = logic.getEvaluationsListForInstructor(instructor2.googleId);
 		assertEquals(1, evalList.size());
-		for (EvaluationDataDetails edd : evalList) {
+		for (EvaluationDetailsBundle edd : evalList) {
 			assertTrue(logic.isInstructorOfCourse(instructor2.googleId, edd.evaluation.course));
 		}
 
@@ -895,7 +895,7 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 
 		CourseData course = dataBundle.courses.get("typicalCourse1");
-		CourseDataDetails courseDetials = logic.getCourseDetails(course.id);
+		CourseDetailsBundle courseDetials = logic.getCourseDetails(course.id);
 		assertEquals(course.id, courseDetials.course.id);
 		assertEquals(course.name, courseDetials.course.name);
 		assertEquals(2, courseDetials.teamsTotal);
@@ -1364,7 +1364,7 @@ public class LogicTest extends BaseTestCase {
 		verifyEnrollmentResultForStudent(new StudentData(line4, courseId),
 				enrollResults.get(4), StudentData.UpdateStatus.NEW);
 		
-		CourseDataDetails cd = logic.getCourseDetails(courseId);
+		CourseDetailsBundle cd = logic.getCourseDetails(courseId);
 		assertEquals(5, cd.unregisteredTotal);
 
 		______TS("includes a mix of unmodified, modified, and new");
@@ -1534,7 +1534,7 @@ public class LogicTest extends BaseTestCase {
 		CourseData course = dataBundle.courses.get("typicalCourse1");
 		logic.createStudent(new StudentData("|s1|s1@e|", course.id));
 		logic.createStudent(new StudentData("|s2|s2@e|", course.id));
-		CourseDataDetails courseAsTeams = logic.getTeamsForCourse(course.id);
+		CourseDetailsBundle courseAsTeams = logic.getTeamsForCourse(course.id);
 		assertEquals(2, courseAsTeams.teams.size());
 
 		String team1Id = "Team 1.1";
@@ -2616,14 +2616,14 @@ public class LogicTest extends BaseTestCase {
 		backDoorLogic.editEvaluation(expectedEval1InCourse2);
 
 		// Get course details for student
-		List<CourseDataDetails> courseList = logic
+		List<CourseDetailsBundle> courseList = logic
 				.getCourseDetailsListForStudent(studentInTwoCourses.id);
 
 		// verify number of courses received
 		assertEquals(2, courseList.size());
 
 		// verify details of course 1 (note: index of course 1 is not 0)
-		CourseDataDetails actualCourse1 = courseList.get(1);
+		CourseDetailsBundle actualCourse1 = courseList.get(1);
 		assertEquals(expectedCourse1.id, actualCourse1.course.id);
 		assertEquals(expectedCourse1.name, actualCourse1.course.name);
 		assertEquals(2, actualCourse1.evaluations.size());
@@ -2638,7 +2638,7 @@ public class LogicTest extends BaseTestCase {
 
 		// for course 2, verify no evaluations returned (because the evaluation
 		// in this course is still AWAITING.
-		CourseDataDetails actualCourse2 = courseList.get(0);
+		CourseDetailsBundle actualCourse2 = courseList.get(0);
 		assertEquals(expectedCourse2.id, actualCourse2.course.id);
 		assertEquals(expectedCourse2.name, actualCourse2.course.name);
 		assertEquals(0, actualCourse2.evaluations.size());
@@ -2739,7 +2739,7 @@ public class LogicTest extends BaseTestCase {
 
 		// "idOfCourse1OfInstructor1", "evaluation1 In Course1",
 
-		StudentEvalResultData result = logic.getEvaluationResultForStudent(course.id,
+		StudentResultBundle result = logic.getEvaluationResultForStudent(course.id,
 				evaluation.name, student1email);
 
 		// expected result:
@@ -3317,7 +3317,7 @@ public class LogicTest extends BaseTestCase {
 				{ 70, 80, 110, 120 } });
 		// @formatter:on
 
-		EvaluationDataDetails result = logic.getEvaluationResult(course.id,
+		EvaluationDetailsBundle result = logic.getEvaluationResult(course.id,
 				evaluation.name);
 		print(result.toString());
 
@@ -3340,7 +3340,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(2, result.teams.size());
 
 		// check students in team 1.1
-		TeamEvalResultBundle team1_1 = result.teams.get(0);
+		TeamResultBundle team1_1 = result.teams.get(0);
 		assertEquals(4, team1_1.team.students.size());
 
 		int S1_POS = 0;
@@ -3424,7 +3424,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(108, s4.result.incoming.get(S3_POS).normalizedToStudent);
 
 		// check team 1.2
-		TeamEvalResultBundle team1_2 = result.teams.get(1);
+		TeamResultBundle team1_2 = result.teams.get(1);
 		assertEquals(1, team1_2.team.students.size());
 		StudentData team1_2student = team1_2.team.students.get(0);
 		assertEquals(NSB, team1_2student.result.claimedFromStudent);
@@ -3468,13 +3468,13 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCalculateTeamResult() throws Exception {
-		TeamEvalResultBundle teamEvalResultBundle = new TeamEvalResultBundle();
+		TeamResultBundle teamEvalResultBundle = new TeamResultBundle();
 		StudentData s1 = new StudentData("t1|s1|e1@c", "course1");
-		s1.result = new StudentEvalResultData();
+		s1.result = new StudentResultBundle();
 		StudentData s2 = new StudentData("t1|s2|e2@c", "course1");
-		s2.result = new StudentEvalResultData();
+		s2.result = new StudentResultBundle();
 		StudentData s3 = new StudentData("t1|s3|e3@c", "course1");
-		s3.result = new StudentEvalResultData();
+		s3.result = new StudentResultBundle();
 
 		SubmissionData s1_to_s1 = createSubmission(1, 1);
 		SubmissionData s1_to_s2 = createSubmission(1, 2);
@@ -4227,10 +4227,10 @@ public class LogicTest extends BaseTestCase {
 	 */
 	private void verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(
 			List<SubmissionData> submissionList, String courseId) throws EntityDoesNotExistException {
-		CourseDataDetails course = logic.getCourseDetails(courseId);
+		CourseDetailsBundle course = logic.getCourseDetails(courseId);
 		List<StudentData> students = logic.getStudentListForCourse(courseId);
 
-		for(EvaluationDataDetails e: course.evaluations){
+		for(EvaluationDetailsBundle e: course.evaluations){
 			verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.evaluation.name, students, submissionList);
 		}
 	}
@@ -4293,9 +4293,9 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	private void verifyEvaluationInfoExistsInList(EvaluationData evaluation,
-			ArrayList<EvaluationDataDetails> evalInfoList) {
+			ArrayList<EvaluationDetailsBundle> evalInfoList) {
 
-		for (EvaluationDataDetails edd : evalInfoList) {
+		for (EvaluationDetailsBundle edd : evalInfoList) {
 			if (edd.evaluation.name.equals(evaluation.name))
 				return;
 		}
@@ -4482,19 +4482,19 @@ public class LogicTest extends BaseTestCase {
 				e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
 	}
 
-	private TeamEvalResult invokeCalculateTeamResult(TeamEvalResultBundle team)
+	private TeamEvalResult invokeCalculateTeamResult(TeamResultBundle team)
 			throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
-				"calculateTeamResult", new Class[] { TeamEvalResultBundle.class });
+				"calculateTeamResult", new Class[] { TeamResultBundle.class });
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { team };
 		return (TeamEvalResult) privateMethod.invoke(logic, params);
 	}
 
-	private void invokePopulateTeamResult(TeamEvalResultBundle team,
+	private void invokePopulateTeamResult(TeamResultBundle team,
 			TeamEvalResult teamResult) throws Exception {
 		Method privateMethod = Logic.class.getDeclaredMethod(
-				"populateTeamResult", new Class[] { TeamEvalResultBundle.class,
+				"populateTeamResult", new Class[] { TeamResultBundle.class,
 						TeamEvalResult.class });
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { team, teamResult };

@@ -3,14 +3,14 @@ package teammates.test.cases;
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.TeamEvalResultBundle;
+import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.InvalidParametersException;
 
-public class TeamEvalResultBundleTest {
+public class TeamResultBundleTest {
 	
 	@Test
 	public void testSortByStudentNameAscending() throws InvalidParametersException{
-		TeamEvalResultBundle teamEvalResultBundle = new TeamEvalResultBundle();
+		TeamResultBundle teamEvalResultBundle = new TeamResultBundle();
 		//try to sort empty team. Should fail silently.
 		teamEvalResultBundle.sortByStudentNameAscending();
 		

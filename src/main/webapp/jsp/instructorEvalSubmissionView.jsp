@@ -1,6 +1,6 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
-<%@ page import="teammates.common.datatransfer.EvaluationDataDetails"%>
+<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
 <%@ page import="teammates.ui.controller.InstructorEvalSubmissionViewHelper"%>
 <%	InstructorEvalSubmissionViewHelper helper = (InstructorEvalSubmissionViewHelper)request.getAttribute("helper"); %>

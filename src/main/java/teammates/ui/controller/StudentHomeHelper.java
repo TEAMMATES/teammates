@@ -6,13 +6,13 @@ import java.util.List;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.CourseDataDetails;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.InvalidParametersException;
 
 public class StudentHomeHelper extends Helper {
-	public List<CourseDataDetails> courses;
+	public List<CourseDetailsBundle> courses;
 	
 	/**
 	 * Returns the list of evaluation for a specific course.
@@ -20,7 +20,7 @@ public class StudentHomeHelper extends Helper {
 	 * @param course
 	 * @return
 	 */
-	public static EvaluationData[] getEvaluationsForCourse(CourseDataDetails course){
+	public static EvaluationData[] getEvaluationsForCourse(CourseDetailsBundle course){
 		EvaluationData[] result = course.evaluations.toArray(new EvaluationData[]{});
 		Arrays.sort(result, new Comparator<EvaluationData>(){
 			public int compare(EvaluationData e1, EvaluationData e2){

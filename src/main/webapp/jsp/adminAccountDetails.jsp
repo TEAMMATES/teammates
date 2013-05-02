@@ -1,7 +1,7 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.ui.controller.AdminAccountDetailsHelper"%>
 <%@ page import="teammates.common.datatransfer.CourseData"%>
-<%@ page import="teammates.common.datatransfer.CourseDataDetails"%>
+<%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 
 <%
 	AdminAccountDetailsHelper helper = (AdminAccountDetailsHelper)request.getAttribute("helper");
@@ -65,15 +65,15 @@
                 </tr>
                 <%
                 	if(helper.instructorCourseList != null && helper.instructorCourseList.size() != 0){
-                	                    for(CourseDataDetails courseDetails : helper.instructorCourseList){
-                	                        out.print("<tr>");
-                	                        out.print("<td>[]" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
-                	                        out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + helper.getInstructorCourseDeleteLink(helper.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
-                	                        out.print("</tr>");
-                	                    }
-                                    } else {
-                                        out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>");
-                                    }
+                                                	                    for(CourseDetailsBundle courseDetails : helper.instructorCourseList){
+                                                	                        out.print("<tr>");
+                                                	                        out.print("<td>[]" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
+                                                	                        out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + helper.getInstructorCourseDeleteLink(helper.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
+                                                	                        out.print("</tr>");
+                                                	                    }
+                                                                    } else {
+                                                                        out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>");
+                                                                    }
                 %>
             </table>
             <br>

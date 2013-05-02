@@ -7,19 +7,19 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.CourseDataDetails;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationDataDetails;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
 
 public class InstructorEvalHelper extends Helper{
-	public List<CourseDataDetails> courses;
+	public List<CourseDetailsBundle> courses;
 	// This is the ID of the course the evaluation page should display, 
 	//   when it loads for the user to fill in data for a new evaluation.
 	public String courseIdForNewEvaluation;
 	// This stores the evaluation details when a user submits a new evaluation
 	//   to be stored.
 	public EvaluationData newEvaluationToBeCreated;
-	public List<EvaluationDataDetails> evaluations;
+	public List<EvaluationDetailsBundle> evaluations;
 	
 	/**
 	 * Returns the timezone options as HTML code.
@@ -87,7 +87,7 @@ public class InstructorEvalHelper extends Helper{
 	public ArrayList<String> getCourseIdOptions() {
 		ArrayList<String> result = new ArrayList<String>();
 
-		for (CourseDataDetails courseDetails : courses) {
+		for (CourseDetailsBundle courseDetails : courses) {
 
 			// True if this is a submission of the filled 'new evaluation' form
 			// for this course:

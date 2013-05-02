@@ -1,6 +1,6 @@
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.common.datatransfer.CourseDataDetails" %>
-<%@ page import="teammates.common.datatransfer.EvaluationDataDetails" %>
+<%@ page import="teammates.common.datatransfer.CourseDetailsBundle" %>
+<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle" %>
 <%@ page import="teammates.ui.controller.StudentHomeHelper"%>
 <%
 	StudentHomeHelper helper = (StudentHomeHelper)request.getAttribute("helper");
@@ -72,13 +72,13 @@
 			
 			<%
 							int idx = -1;
-								int evalIdx = -1;
-								for (CourseDataDetails courseDetails: helper.courses) { idx++;
+																				int evalIdx = -1;
+																				for (CourseDetailsBundle courseDetails: helper.courses) { idx++;
 						%>
 			<div class="backgroundBlock">
-				<div class="result_team home_courses_div" id="course<%= idx %>">
+				<div class="result_team home_courses_div" id="course<%=idx%>">
 					<div class="result_homeTitle">
-						<h2 class="color_white">[<%= courseDetails.course.id %>] :
+						<h2 class="color_white">[<%=courseDetails.course.id%>] :
 							<%=StudentHomeHelper.escapeForHTML(courseDetails.course.name)%>
 						</h2>
 					</div>
@@ -103,7 +103,7 @@
 								<th class="centeralign bold color_white">Action(s)</th>
 							</tr>
 							<%
-								for (EvaluationDataDetails edd: courseDetails.evaluations) { evalIdx++;
+								for (EvaluationDetailsBundle edd: courseDetails.evaluations) { evalIdx++;
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
 									<td class="t_eval_name"><%=StudentHomeHelper.escapeForHTML(edd.evaluation.name)%></td>

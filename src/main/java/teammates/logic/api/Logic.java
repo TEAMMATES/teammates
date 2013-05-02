@@ -15,19 +15,19 @@ import teammates.common.Assumption;
 import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.CourseDataDetails;
-import teammates.common.datatransfer.EvaluationDataDetails;
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.StudentEvalResultData;
+import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.EvaluationData;
 import teammates.common.datatransfer.EvaluationData.EvalStatus;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
-import teammates.common.datatransfer.TeamData;
+import teammates.common.datatransfer.TeamDetailsBundle;
 
 import teammates.common.datatransfer.SubmissionData;
-import teammates.common.datatransfer.TeamEvalResultBundle;
+import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -277,7 +277,7 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's course data
 	 */
-	public HashMap<String, CourseDataDetails> getCourseListForInstructor(
+	public HashMap<String, CourseDetailsBundle> getCourseListForInstructor(
 			String instructorId) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
@@ -285,7 +285,7 @@ public class Logic {
 
 		verifyInstructorExists(instructorId);
 
-		HashMap<String, CourseDataDetails> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId);
+		HashMap<String, CourseDetailsBundle> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId);
 
 		return courseSummaryListForInstructor;
 	}
@@ -297,7 +297,7 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's course data
 	 */
-	public HashMap<String, CourseDataDetails> getCourseListForInstructor(
+	public HashMap<String, CourseDetailsBundle> getCourseListForInstructor(
 			String instructorId, long lastRetrievedTime, int numberToRetrieve) 
 					throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
@@ -308,7 +308,7 @@ public class Logic {
 
 		verifyInstructorExists(instructorId);
 
-		HashMap<String, CourseDataDetails> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId, lastRetrievedTime, numberToRetrieve);
+		HashMap<String, CourseDetailsBundle> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId, lastRetrievedTime, numberToRetrieve);
 
 		return courseSummaryListForInstructor;
 	}
@@ -318,7 +318,7 @@ public class Logic {
 	 * 
 	 * @return Returns a more-detailed version of Instructor's course data <br>
 	 */
-	public HashMap<String, CourseDataDetails> getCourseDetailsListForInstructor(
+	public HashMap<String, CourseDetailsBundle> getCourseDetailsListForInstructor(
 			String instructorId) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
@@ -326,10 +326,10 @@ public class Logic {
 
 		// TODO: using this method here may not be efficient as it retrieves
 		// info not required
-		HashMap<String, CourseDataDetails> courseList = coursesLogic.getCourseSummaryListForInstructor(instructorId);
-		ArrayList<EvaluationDataDetails> evaluationList = getEvaluationsListForInstructor(instructorId);
-		for (EvaluationDataDetails edd : evaluationList) {
-			CourseDataDetails courseSummary = courseList.get(edd.evaluation.course);
+		HashMap<String, CourseDetailsBundle> courseList = coursesLogic.getCourseSummaryListForInstructor(instructorId);
+		ArrayList<EvaluationDetailsBundle> evaluationList = getEvaluationsListForInstructor(instructorId);
+		for (EvaluationDetailsBundle edd : evaluationList) {
+			CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.course);
 			courseSummary.evaluations.add(edd);
 		}
 		return courseList;
@@ -340,7 +340,7 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's evaluations <br>
 	 */
-	public ArrayList<EvaluationDataDetails> getEvaluationsListForInstructor(
+	public ArrayList<EvaluationDetailsBundle> getEvaluationsListForInstructor(
 			String instructorId) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
@@ -350,7 +350,7 @@ public class Logic {
 
 		List<InstructorData> instructorList = accountsLogic.getCoursesOfInstructor(instructorId);
 
-		ArrayList<EvaluationDataDetails> evaluationSummaryList = new ArrayList<EvaluationDataDetails>();
+		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
 		for (InstructorData id : instructorList) {
 			List<EvaluationData> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(id.courseId);
@@ -358,7 +358,7 @@ public class Logic {
 
 			// calculate submission statistics for each evaluation
 			for (EvaluationData evaluation : evaluationsSummaryForCourse) {
-				EvaluationDataDetails edd = new EvaluationDataDetails(evaluation);
+				EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
 				edd.expectedTotal = students.size();
 				
 				HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(id.courseId, evaluation.name);
@@ -376,20 +376,20 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's evaluations <br>
 	 */
-	public ArrayList<EvaluationDataDetails> getEvaluationsListForCourse(String courseId)
+	public ArrayList<EvaluationDetailsBundle> getEvaluationsListForCourse(String courseId)
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 
-		ArrayList<EvaluationDataDetails> evaluationSummaryList = new ArrayList<EvaluationDataDetails>();
+		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
 		List<EvaluationData> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(courseId);
 		List<StudentData> students = accountsLogic.getStudentListForCourse(courseId);
 
 		// calculate submission statistics for each evaluation
 		for (EvaluationData evaluation : evaluationsSummaryForCourse) {
-			EvaluationDataDetails edd = new EvaluationDataDetails(evaluation);
+			EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
 			edd.expectedTotal = students.size();
 
 			HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(courseId, evaluation.name);
@@ -445,7 +445,7 @@ public class Logic {
 	 * Returns a detailed version of course data, including evaluation data
 	 * Access: course owner, student in course, admin
 	 */
-	public CourseDataDetails getCourseDetails(String courseId)
+	public CourseDetailsBundle getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
@@ -456,10 +456,10 @@ public class Logic {
 		// instructor,
 		// then returns the selected course from the list.
 		// Now it simply prepares the requesteed course
-		CourseDataDetails courseSummary = coursesLogic.getCourseSummary(courseId);
+		CourseDetailsBundle courseSummary = coursesLogic.getCourseSummary(courseId);
 
-		ArrayList<EvaluationDataDetails> evaluationList = getEvaluationsListForCourse(courseSummary.course.id);
-		for (EvaluationDataDetails edd : evaluationList) {
+		ArrayList<EvaluationDetailsBundle> evaluationList = getEvaluationsListForCourse(courseSummary.course.id);
+		for (EvaluationDetailsBundle edd : evaluationList) {
 			courseSummary.evaluations.add(edd);
 		}
 
@@ -681,7 +681,7 @@ public class Logic {
 	 *         without teams. This field is to be removed later. <br>
 	 *         Access : course owner and above
 	 */
-	public CourseDataDetails getTeamsForCourse(String courseId)
+	public CourseDetailsBundle getTeamsForCourse(String courseId)
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
@@ -697,9 +697,9 @@ public class Logic {
 					+ " does not exist");
 		}
 		
-		CourseDataDetails cdd = new CourseDataDetails(course);
+		CourseDetailsBundle cdd = new CourseDetailsBundle(course);
 
-		TeamData team = null;
+		TeamDetailsBundle team = null;
 		for (int i = 0; i < students.size(); i++) {
 
 			StudentData s = students.get(i);
@@ -709,7 +709,7 @@ public class Logic {
 				cdd.loners.add(s);
 				// first student of first team
 			} else if (team == null) {
-				team = new TeamData();
+				team = new TeamDetailsBundle();
 				team.name = s.team;
 				team.students.add(s);
 				// student in the same team as the previous student
@@ -718,7 +718,7 @@ public class Logic {
 				// first student of subsequent teams (not the first team)
 			} else {
 				cdd.teams.add(team);
-				team = new TeamData();
+				team = new TeamDetailsBundle();
 				team.name = s.team;
 				team.students.add(s);
 			}
@@ -978,7 +978,7 @@ public class Logic {
 	 *         returned contain details of evaluations too (except the ones
 	 *         still AWAITING).
 	 */
-	public List<CourseDataDetails> getCourseDetailsListForStudent(String googleId)
+	public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
@@ -986,17 +986,17 @@ public class Logic {
 
 		// Get the list of courses that this student is in
 		List<CourseData> courseList = getCourseListForStudent(googleId);
-		List<CourseDataDetails> courseDetailsList = new ArrayList<CourseDataDetails>();
+		List<CourseDetailsBundle> courseDetailsList = new ArrayList<CourseDetailsBundle>();
 
 		// For each course the student is in
 		for (CourseData c : courseList) {
 			// Get the list of evaluations for the course
 			List<EvaluationData> evaluationDataList = evaluationsLogic.getEvaluationsForCourse(c.id);
 
-			CourseDataDetails cdd = new CourseDataDetails(c);
+			CourseDetailsBundle cdd = new CourseDetailsBundle(c);
 			// For the list of evaluations for this course
 			for (EvaluationData ed : evaluationDataList) {
-				EvaluationDataDetails edd = new EvaluationDataDetails(ed);
+				EvaluationDetailsBundle edd = new EvaluationDetailsBundle(ed);
 				// Add this evaluation to the course's list of evaluations.
 				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
 				if (ed.getStatus() != EvalStatus.AWAITING) {
@@ -1011,7 +1011,7 @@ public class Logic {
 	/**
 	 * Access: owner of the course, owner of result (when PUBLISHED), admin
 	 */
-	public StudentEvalResultData getEvaluationResultForStudent(String courseId,
+	public StudentResultBundle getEvaluationResultForStudent(String courseId,
 			String evaluationName, String studentEmail)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1028,10 +1028,10 @@ public class Logic {
 		}
 		// TODO: this is very inefficient as it calculates the results for the
 		// whole class first
-		EvaluationDataDetails courseResult = getEvaluationResult(courseId,
+		EvaluationDetailsBundle courseResult = getEvaluationResult(courseId,
 				evaluationName);
-		TeamEvalResultBundle teamData = courseResult.getTeamEvalResultBundle(student.team);
-		StudentEvalResultData returnValue = null;
+		TeamResultBundle teamData = courseResult.getTeamEvalResultBundle(student.team);
+		StudentResultBundle returnValue = null;
 
 		for (StudentData sd : teamData.team.students) {
 			if (sd.email.equals(student.email)) {
@@ -1251,22 +1251,22 @@ public class Logic {
 	/**
 	 * Access: course owner and above
 	 */
-	public EvaluationDataDetails getEvaluationResult(String courseId,
+	public EvaluationDetailsBundle getEvaluationResult(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		CourseDataDetails course = getTeamsForCourse(courseId);
-		EvaluationDataDetails returnValue = new EvaluationDataDetails (getEvaluation(courseId, evaluationName));
+		CourseDetailsBundle course = getTeamsForCourse(courseId);
+		EvaluationDetailsBundle returnValue = new EvaluationDetailsBundle (getEvaluation(courseId, evaluationName));
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
 				courseId, evaluationName);
-		returnValue.teams = new ArrayList<TeamEvalResultBundle>();
-		for (TeamData team : course.teams) {
-			TeamEvalResultBundle teamEvalResultBundle = new TeamEvalResultBundle(team);
+		returnValue.teams = new ArrayList<TeamResultBundle>();
+		for (TeamDetailsBundle team : course.teams) {
+			TeamResultBundle teamEvalResultBundle = new TeamResultBundle(team);
 			for (StudentData student : team.students) {
-				student.result = new StudentEvalResultData();
+				student.result = new StudentResultBundle();
 				// TODO: refactor this method. May be have a return value?
 				populateSubmissionsAndNames(submissionDataList, teamEvalResultBundle, student);
 			}
@@ -1484,7 +1484,7 @@ public class Logic {
 		return submissionDataList;
 	}
 
-	private TeamEvalResult calculateTeamResult(TeamEvalResultBundle teamEvalResultBundle) {
+	private TeamEvalResult calculateTeamResult(TeamResultBundle teamEvalResultBundle) {
 
 		int teamSize = teamEvalResultBundle.team.students.size();
 		int[][] claimedFromStudents = new int[teamSize][teamSize];
@@ -1505,7 +1505,7 @@ public class Logic {
 		return new TeamEvalResult(claimedFromStudents);
 	}
 
-	private void populateTeamResult(TeamEvalResultBundle teamEvalResultBundle, TeamEvalResult teamResult) {
+	private void populateTeamResult(TeamResultBundle teamEvalResultBundle, TeamEvalResult teamResult) {
 		teamEvalResultBundle.sortByStudentNameAscending();
 		int teamSize = teamEvalResultBundle.team.students.size();
 		for (int i = 0; i < teamSize; i++) {
@@ -1546,7 +1546,7 @@ public class Logic {
 	}
 
 	private void populateSubmissionsAndNames(
-			HashMap<String, SubmissionData> list, TeamEvalResultBundle teamEvalResultBundle,
+			HashMap<String, SubmissionData> list, TeamResultBundle teamEvalResultBundle,
 			StudentData student) {
 		for (StudentData peer : teamEvalResultBundle.team.students) {
 
@@ -1706,7 +1706,7 @@ public class Logic {
 		
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 		
-		EvaluationDataDetails evaluationDetails = getEvaluationResult(courseId, evalName);
+		EvaluationDetailsBundle evaluationDetails = getEvaluationResult(courseId, evalName);
 		
 		String export = "";
 		
@@ -1716,7 +1716,7 @@ public class Logic {
 		
 		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Common.EOL;
 		
-		for (TeamEvalResultBundle td : evaluationDetails.teams) {
+		for (TeamResultBundle td : evaluationDetails.teams) {
 			for (StudentData sd : td.team.students) {
 				String result = "";
 				Collections.sort(sd.result.incoming, new Comparator<SubmissionData>(){

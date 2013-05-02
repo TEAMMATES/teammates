@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.CourseDataDetails;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.TeamData;
-import teammates.common.datatransfer.TeamEvalResultBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
@@ -62,8 +62,8 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 	 * @param student
 	 * @return
 	 */
-	private TeamData getTeam(CourseDataDetails course, StudentData student){
-		for(TeamData team: course.teams){
+	private TeamDetailsBundle getTeam(CourseDetailsBundle course, StudentData student){
+		for(TeamDetailsBundle team: course.teams){
 			if(team.name.equals(student.team)){
 				return team;
 			}

@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.CourseDataDetails;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationDataDetails;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.SubmissionData;
-import teammates.common.datatransfer.TeamEvalResultBundle;
+import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -362,9 +362,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param courses
 	 */
-	protected void sortDetailedCourses(List<CourseDataDetails> courses) {
-		Collections.sort(courses, new Comparator<CourseDataDetails>() {
-			public int compare(CourseDataDetails obj1, CourseDataDetails obj2) {
+	protected void sortDetailedCourses(List<CourseDetailsBundle> courses) {
+		Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+			public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
 				return obj1.course.id.compareTo(obj2.course.id);
 			}
 		});
@@ -386,9 +386,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param evals
 	 */
-	protected void sortEvaluationsByDeadline(List<EvaluationDataDetails> evals) {
-		Collections.sort(evals, new Comparator<EvaluationDataDetails>() {
-			public int compare(EvaluationDataDetails edd1, EvaluationDataDetails edd2) {
+	protected void sortEvaluationsByDeadline(List<EvaluationDetailsBundle> evals) {
+		Collections.sort(evals, new Comparator<EvaluationDetailsBundle>() {
+			public int compare(EvaluationDetailsBundle edd1, EvaluationDetailsBundle edd2) {
 				EvaluationData eval1 = edd1.evaluation;
 				EvaluationData eval2 = edd2.evaluation;
 				int result = 0;
@@ -412,9 +412,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param teams
 	 */
-	protected void sortTeams(List<TeamEvalResultBundle> teams) {
-		Collections.sort(teams, new Comparator<TeamEvalResultBundle>() {
-			public int compare(TeamEvalResultBundle s1, TeamEvalResultBundle s2) {
+	protected void sortTeams(List<TeamResultBundle> teams) {
+		Collections.sort(teams, new Comparator<TeamResultBundle>() {
+			public int compare(TeamResultBundle s1, TeamResultBundle s2) {
 				return (s1.team.name).compareTo(s2.team.name);
 			}
 		});

@@ -1,7 +1,7 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.EvaluationData"%>
 <%@ page import="teammates.common.datatransfer.StudentData"%>
-<%@ page import="teammates.common.datatransfer.TeamEvalResultBundle"%>
+<%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
 <%@ page import="teammates.common.datatransfer.SubmissionData"%>
 <%@ page import="teammates.ui.controller.InstructorEvalResultsHelper"%>
 <%@ page import="teammates.ui.controller.InstructorEvalExportServlet"%>
@@ -138,8 +138,8 @@
 					</tr>
 					<%
 						int idx = 0;
-																					for(TeamEvalResultBundle teamEvalResultBundle: helper.evaluationDetails.teams){
-																						for(StudentData student: teamEvalResultBundle.team.students){
+																								for(TeamResultBundle teamEvalResultBundle: helper.evaluationDetails.teams){
+																									for(StudentData student: teamEvalResultBundle.team.students){
 					%>
 						<tr class="student_row" id="student<%=idx%>">
 							<td><%=InstructorEvalResultsHelper.escapeForHTML(teamEvalResultBundle.team.name)%></td>
@@ -170,8 +170,8 @@
 						</tr>
 					<%
 						idx++;
-																			}
-																		}
+																						}
+																					}
 					%>
 				</table>
 				<br>
@@ -193,7 +193,7 @@
 					
 					<%
 											boolean firstTeam = true;
-																																		for(TeamEvalResultBundle teamEvalResultBundle: helper.evaluationDetails.teams){
+																																										for(TeamResultBundle teamEvalResultBundle: helper.evaluationDetails.teams){
 										%>
 						<%
 							if(firstTeam) firstTeam = false; else out.print("<br>");

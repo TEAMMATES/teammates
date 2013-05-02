@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import teammates.common.Common;
 
-public class CourseDataDetails {
+public class CourseDetailsBundle {
 
-	public CourseDataDetails(CourseData courseData) {
+	public CourseDetailsBundle(CourseData courseData) {
 		this.course = courseData;
 	}
 
@@ -14,8 +14,8 @@ public class CourseDataDetails {
 	public int teamsTotal = Common.UNINITIALIZED_INT;
 	public int studentsTotal = Common.UNINITIALIZED_INT;
 	public int unregisteredTotal = Common.UNINITIALIZED_INT;
-	public ArrayList<EvaluationDataDetails> evaluations = new ArrayList<EvaluationDataDetails>();
-	public ArrayList<TeamData> teams = new ArrayList<TeamData>();
+	public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
+	public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
 	public ArrayList<StudentData> loners = new ArrayList<StudentData>();
 
 }

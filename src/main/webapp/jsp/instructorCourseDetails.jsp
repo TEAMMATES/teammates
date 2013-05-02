@@ -1,8 +1,8 @@
 <%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.datatransfer.CourseDataDetails"%>
+<%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentData"%>
 <%@ page import="teammates.common.datatransfer.InstructorData"%>
-<%@ page import="teammates.common.datatransfer.TeamEvalResultBundle"%>
+<%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
 <%@ page import="teammates.ui.controller.InstructorCourseDetailsHelper"%>
 <%	InstructorCourseDetailsHelper helper = (InstructorCourseDetailsHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>

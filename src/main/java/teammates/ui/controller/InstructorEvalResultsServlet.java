@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.TeamEvalResultBundle;
+import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
@@ -34,7 +34,7 @@ public class InstructorEvalResultsServlet extends
 					evalName);
 			long start = System.currentTimeMillis();
 			sortTeams(helper.evaluationDetails.teams);
-			for (TeamEvalResultBundle teamEvalResultBundle : helper.evaluationDetails.teams) {
+			for (TeamResultBundle teamEvalResultBundle : helper.evaluationDetails.teams) {
 				teamEvalResultBundle.sortByStudentNameAscending();
 				for (StudentData student : teamEvalResultBundle.team.students) {
 					sortSubmissionsByFeedback(student.result.incoming);

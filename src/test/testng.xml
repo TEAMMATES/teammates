@@ -40,29 +40,29 @@
 	</test>
 		<test name="ComponentTests">
 		<classes>
-			<class name="teammates.test.cases.StudentTest" />
-			<class name="teammates.test.cases.EvaluationTest" />
-			<class name="teammates.test.cases.TeamEvalResultTest" />
-			<class name="teammates.test.cases.StudentEvalResultDataTest" />
-			<class name="teammates.test.cases.SubmissionsDbTest" />
-			<class name="teammates.test.cases.TeamEvalResultBundleTest" />
-			<class name="teammates.test.cases.EvaluationsLogicTest" />
-			<class name="teammates.test.cases.HelperTest" />
-			<class name="teammates.test.cases.AccountsDbTest" />
-			<class name="teammates.test.cases.InstructorEvalHelperTest" />
-			<class name="teammates.test.cases.SubmissionDataTest" />
-			<class name="teammates.test.cases.ActivityLogTest" />
-			<class name="teammates.test.cases.EmailsTest" />
-			<class name="teammates.test.cases.EvaluationsDbTest" />
-			<class name="teammates.test.cases.HtmlHelperTest" />
-			<class name="teammates.test.cases.EvaluationDataTest" />
-			<class name="teammates.test.cases.LogicTest" />
-			<!-- class name="teammates.test.cases.BackDoorLogicTest"/ -->
 			<class name="teammates.test.cases.TestPropertiesTest" />
 			<class name="teammates.test.cases.BuildPropertiesTest" />
-			<class name="teammates.test.cases.CourseDataTest" />
-			<class name="teammates.test.cases.CoursesDbTest" />
 			<class name="teammates.test.cases.CommonTest" />
+			<class name="teammates.test.cases.StudentTest" />
+			<class name="teammates.test.cases.EvaluationTest" />
+			<class name="teammates.test.cases.CourseDataTest" />
+			<class name="teammates.test.cases.EvaluationDataTest" />
+			<class name="teammates.test.cases.SubmissionDataTest" />
+			<class name="teammates.test.cases.StudentResultBundleTest" />
+			<class name="teammates.test.cases.TeamResultBundleTest" />
+			<class name="teammates.test.cases.EvaluationsLogicTest" />
+			<class name="teammates.test.cases.AccountsDbTest" />
+			<class name="teammates.test.cases.CoursesDbTest" />
+			<class name="teammates.test.cases.EvaluationsDbTest" />
+			<class name="teammates.test.cases.SubmissionsDbTest" />
+			<class name="teammates.test.cases.HelperTest" />
+			<class name="teammates.test.cases.InstructorEvalHelperTest" />
+			<class name="teammates.test.cases.ActivityLogTest" />
+			<class name="teammates.test.cases.EmailsTest" />
+			<class name="teammates.test.cases.HtmlHelperTest" />
+			<class name="teammates.test.cases.TeamEvalResultTest" />
+			<class name="teammates.test.cases.LogicTest" />
+			<!-- class name="teammates.test.cases.BackDoorLogicTest"/ -->
 		</classes>
 	</test>
 </suite> <!-- Suite -->
