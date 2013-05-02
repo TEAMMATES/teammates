@@ -1,33 +1,47 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import static teammates.common.Common.EOL;
 import teammates.common.Common;
 import teammates.logic.TeamEvalResult;
 
 public class TeamResultBundle {
 	
 	public TeamEvalResult result;
-	public TeamDetailsBundle team;
+	public ArrayList<StudentResultBundle> studentResults;
 	
-	public TeamResultBundle(TeamDetailsBundle team){
-		this.team = team;
-	}
 	
-	public TeamResultBundle(){
-		this.team = new TeamDetailsBundle();
+	public TeamResultBundle(TeamDetailsBundle teamDetails){
+		this.studentResults = new ArrayList<StudentResultBundle>();
+		for(StudentData student: teamDetails.students){
+			studentResults.add(new StudentResultBundle(student));
+		}
 	}
 	
 	public void sortByStudentNameAscending() {
-		Collections.sort(team.students, new Comparator<StudentData>() {
-			public int compare(StudentData s1, StudentData s2) {
+		Collections.sort(studentResults, new Comparator<StudentResultBundle>() {
+			public int compare(StudentResultBundle s1, StudentResultBundle s2) {
 				//email is prefixed to avoid mix ups due to two students with
 				//same name.
-				return (s1.name+s1.email).compareTo(s2.name+s2.email);
+				return (s1.student.name+s1.student.email).compareTo(s2.student.name+s2.student.email);
 			}
 		});
+	}
+	
+	public StudentResultBundle getStudentResult(String studentEmail){
+		for(StudentResultBundle srb: studentResults){
+			if(studentEmail.equals(srb.student.email)){
+				return srb;
+			}
+		}
+		//not found
+		return null;
+	}
+	
+	public String getTeamName(){
+		return studentResults.size()==0? "":studentResults.get(0).student.team;
 	}
 	
 	public String toString(){
@@ -37,11 +51,11 @@ public class TeamResultBundle {
 	public String toString(int indent){
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
-		sb.append(indentString+"Team:"+team.name+EOL);
-		sb.append(indentString+result.toString(indent+1));
-		for(StudentData student: team.students){
-			sb.append(indentString+student.toString(indent+2)+EOL);
+		sb.append(result==null? "" :indentString+result.toString(indent+1));
+		for(StudentResultBundle srb: studentResults){
+			sb.append(srb.toString(indent+1));
 		}
+
 		return sb.toString();
 	}
 

@@ -5,13 +5,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.StudentResultBundle;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.SubmissionData;
 
 public class InstructorEvalResultsHelper extends Helper{
-	public EvaluationDetailsBundle evaluationDetails;
+	public EvaluationResultsBundle evaluationResults;
 	
 	/**
 	 * Returns the forward URL, which will be current page
@@ -19,8 +18,8 @@ public class InstructorEvalResultsHelper extends Helper{
 	 */
 	public String getForwardURL(){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,evaluationDetails.evaluation.course);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME, evaluationDetails.evaluation.name);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,evaluationResults.evaluation.course);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME, evaluationResults.evaluation.name);
 		if(isMasqueradeMode()){
 			link = Common.addParamToUrl(link,Common.PARAM_USER_ID,requestedUser);
 		}

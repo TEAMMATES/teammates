@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -407,18 +408,6 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		});
 	}
 
-	/**
-	 * Sorts teams based on team name
-	 * 
-	 * @param teams
-	 */
-	protected void sortTeams(List<TeamResultBundle> teams) {
-		Collections.sort(teams, new Comparator<TeamResultBundle>() {
-			public int compare(TeamResultBundle s1, TeamResultBundle s2) {
-				return (s1.team.name).compareTo(s2.team.name);
-			}
-		});
-	}
 
 	/**
 	 * Sorts students based on student name then by email

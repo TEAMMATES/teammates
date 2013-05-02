@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 
@@ -30,15 +31,14 @@ public class InstructorEvalResultsServlet extends
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 
 		if (courseID != null && evalName != null) {
-			helper.evaluationDetails = helper.server.getEvaluationResult(courseID,
+			helper.evaluationResults = helper.server.getEvaluationResult(courseID,
 					evalName);
 			long start = System.currentTimeMillis();
-			sortTeams(helper.evaluationDetails.teams);
-			for (TeamResultBundle teamEvalResultBundle : helper.evaluationDetails.teams) {
-				teamEvalResultBundle.sortByStudentNameAscending();
-				for (StudentData student : teamEvalResultBundle.team.students) {
-					sortSubmissionsByFeedback(student.result.incoming);
-					sortSubmissionsByReviewee(student.result.outgoing);
+			for (TeamResultBundle teamResultBundle : helper.evaluationResults.teamResults.values()) {
+				teamResultBundle.sortByStudentNameAscending();
+				for (StudentResultBundle srb : teamResultBundle.studentResults) {
+					sortSubmissionsByFeedback(srb.incoming);
+					sortSubmissionsByReviewee(srb.outgoing);
 				}
 			}
 			log.fine("Time to sort evaluation, teams, students, and results: "

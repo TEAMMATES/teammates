@@ -43,11 +43,11 @@
 			<table class="inputTable" id="studentEvaluationInfo">
 				<tr>
 					<td class="label rightalign bold" width="30%">Course ID:</td>
-					<td class="leftalign"><%=helper.evaluationDetails.evaluation.course%></td>
+					<td class="leftalign"><%=helper.evaluationResults.evaluation.course%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
-					<td class="leftalign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.evaluationDetails.evaluation.name)%></td>
+					<td class="leftalign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.evaluationResults.evaluation.name)%></td>
 				</tr>
 			</table>
 			
@@ -90,7 +90,7 @@
 						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
 						<td><%=InstructorEvalSubmissionViewHelper.printSharePoints(sub.normalizedToInstructor,false)%></td>
 						<td><%=InstructorEvalSubmissionViewHelper.printJustification(sub)%></td>
-						<td><%=InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluationDetails.evaluation.p2pEnabled)%></td>
+						<td><%=InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluationResults.evaluation.p2pEnabled)%></td>
 					</tr>
 				<%
 					}
@@ -104,7 +104,7 @@
 				<input type="button" class="button" id="button_back" value="Close"
 						onclick="window.close()">
 				<input type="button" class="button" id="button_edit" value="Edit Submission"
-						onclick="window.location.href='<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationDetails.evaluation.course, helper.evaluationDetails.evaluation.name, helper.student.email)%>'">
+						onclick="window.location.href='<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationResults.evaluation.course, helper.evaluationResults.evaluation.name, helper.student.email)%>'">
 			</div>
 			<br>
 			<br>

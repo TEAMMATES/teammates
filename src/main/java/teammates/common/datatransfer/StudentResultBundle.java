@@ -11,6 +11,8 @@ import teammates.common.Common;
 
 public class StudentResultBundle {
 
+	public StudentData student;
+	
 	public ArrayList<SubmissionData> incoming = new ArrayList<SubmissionData>();
 	public ArrayList<SubmissionData> outgoing = new ArrayList<SubmissionData>();
 	public ArrayList<SubmissionData> selfEvaluations = new ArrayList<SubmissionData>();
@@ -22,7 +24,11 @@ public class StudentResultBundle {
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();
-
+	
+	public StudentResultBundle(StudentData student){
+		this.student = student;
+	}
+	
 	/** returns the self-evaluation selected from outgoing submissions */
 	public SubmissionData getSelfEvaluation() {
 		for (SubmissionData s : outgoing) {

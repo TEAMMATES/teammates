@@ -6,8 +6,6 @@ import teammates.common.Common;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Student;
 
-import com.google.appengine.api.datastore.Text;
-
 public class StudentData extends BaseData {
 	public enum UpdateStatus {
 		// @formatter:off
@@ -50,8 +48,6 @@ public class StudentData extends BaseData {
 	public String key = null;
 
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
-
-	public transient StudentResultBundle result;
 
 	public static final int STUDENT_NAME_MAX_LENGTH = 40;
 	public static final int TEAM_NAME_MAX_LENGTH = 25;
@@ -166,9 +162,6 @@ public class StudentData extends BaseData {
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString + "Student:" + name + "[" + email + "]" + EOL);
-		if (result != null) {
-			sb.append(result.toString(indent + 2));
-		}
 		return sb.toString();
 	}
 

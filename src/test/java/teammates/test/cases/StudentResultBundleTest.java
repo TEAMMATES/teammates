@@ -4,15 +4,19 @@ import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionData;
+import teammates.common.exception.InvalidParametersException;
 
 public class StudentResultBundleTest {
 
-	
 	@Test
-	public void testSortOutgoingByStudentNameAscending() {
-		StudentResultBundle result = new StudentResultBundle();
+	public void testSortOutgoingByStudentNameAscending()
+			throws InvalidParametersException {
+
+		StudentResultBundle result = new StudentResultBundle(new StudentData(
+				"t1|adam|a@b", "dummy-course"));
 
 		SubmissionData s1 = new SubmissionData();
 		s1.revieweeName = "Benny";
@@ -30,12 +34,14 @@ public class StudentResultBundleTest {
 
 		AssertJUnit.assertEquals("Alice", result.outgoing.get(0).revieweeName);
 		AssertJUnit.assertEquals("Benny", result.outgoing.get(1).revieweeName);
-		AssertJUnit.assertEquals("Charlie", result.outgoing.get(2).revieweeName);
+		AssertJUnit
+				.assertEquals("Charlie", result.outgoing.get(2).revieweeName);
 	}
 
 	@Test
-	public void testSortIncomingByStudentNameAscending() {
-		StudentResultBundle result = new StudentResultBundle();
+	public void testSortIncomingByStudentNameAscending() throws Exception {
+		StudentResultBundle result = new StudentResultBundle(new StudentData(
+				"t1|adam|a@b", "dummy-course"));
 
 		SubmissionData s1 = new SubmissionData();
 		s1.reviewerName = "Benny";
@@ -53,12 +59,14 @@ public class StudentResultBundleTest {
 
 		AssertJUnit.assertEquals("Alice", result.incoming.get(0).reviewerName);
 		AssertJUnit.assertEquals("Benny", result.incoming.get(1).reviewerName);
-		AssertJUnit.assertEquals("Charlie", result.incoming.get(2).reviewerName);
+		AssertJUnit
+				.assertEquals("Charlie", result.incoming.get(2).reviewerName);
 	}
 
 	@Test
-	public void testSortIncomingByFeedbackAscending() {
-		StudentResultBundle result = new StudentResultBundle();
+	public void testSortIncomingByFeedbackAscending() throws Exception{
+		StudentResultBundle result = new StudentResultBundle(new StudentData(
+				"t1|adam|a@b", "dummy-course"));
 
 		SubmissionData s1 = new SubmissionData();
 		s1.p2pFeedback = new Text("ghk");
@@ -74,11 +82,12 @@ public class StudentResultBundleTest {
 
 		result.sortIncomingByFeedbackAscending();
 
-		AssertJUnit.assertEquals("abc", result.incoming.get(0).p2pFeedback.getValue());
-		AssertJUnit.assertEquals("def", result.incoming.get(1).p2pFeedback.getValue());
-		AssertJUnit.assertEquals("ghk", result.incoming.get(2).p2pFeedback.getValue());
+		AssertJUnit.assertEquals("abc",
+				result.incoming.get(0).p2pFeedback.getValue());
+		AssertJUnit.assertEquals("def",
+				result.incoming.get(1).p2pFeedback.getValue());
+		AssertJUnit.assertEquals("ghk",
+				result.incoming.get(2).p2pFeedback.getValue());
 	}
-
-	
 
 }

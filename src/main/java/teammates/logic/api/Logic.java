@@ -1,12 +1,14 @@
 package teammates.logic.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -17,6 +19,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.AccountData;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
+import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.InstructorData;
 import teammates.common.datatransfer.CourseData;
 import teammates.common.datatransfer.StudentResultBundle;
@@ -1026,25 +1029,19 @@ public class Logic {
 			throw new EntityDoesNotExistException("The student " + studentEmail
 					+ " does not exist in course " + courseId);
 		}
-		// TODO: this is very inefficient as it calculates the results for the
-		// whole class first
-		EvaluationDetailsBundle courseResult = getEvaluationResult(courseId,
+
+		EvaluationResultsBundle evaluationResults = getEvaluationResult(courseId,
 				evaluationName);
-		TeamResultBundle teamData = courseResult.getTeamEvalResultBundle(student.team);
+		TeamResultBundle teamData = evaluationResults.teamResults.get(student.team);
 		StudentResultBundle returnValue = null;
 
-		for (StudentData sd : teamData.team.students) {
-			if (sd.email.equals(student.email)) {
-				returnValue = sd.result;
-				break;
-			}
+		returnValue = teamData.getStudentResult(studentEmail);
+
+		for (StudentResultBundle srb : teamData.studentResults) {
+			returnValue.selfEvaluations.add(teamData.getStudentResult(srb.student.email).getSelfEvaluation());
 		}
 
-		for (StudentData sd : teamData.team.students) {
-			returnValue.selfEvaluations.add(sd.result.getSelfEvaluation());
-		}
-
-		if (courseResult.evaluation.p2pEnabled) {
+		if (evaluationResults.evaluation.p2pEnabled) {
 			returnValue.sortIncomingByFeedbackAscending();
 		}
 		
@@ -1251,30 +1248,36 @@ public class Logic {
 	/**
 	 * Access: course owner and above
 	 */
-	public EvaluationDetailsBundle getEvaluationResult(String courseId,
+	public EvaluationResultsBundle getEvaluationResult(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		CourseDetailsBundle course = getTeamsForCourse(courseId);
-		EvaluationDetailsBundle returnValue = new EvaluationDetailsBundle (getEvaluation(courseId, evaluationName));
+		//TODO: The datatype below is not a good fit for the data. ArralyList<TeamDetailsBundle>?
+		List<TeamDetailsBundle> teams = getTeamsForCourse(courseId).teams;
+		EvaluationResultsBundle returnValue = new EvaluationResultsBundle();
+		returnValue.evaluation = getEvaluation(courseId, evaluationName);
+		
 		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
 				courseId, evaluationName);
-		returnValue.teams = new ArrayList<TeamResultBundle>();
-		for (TeamDetailsBundle team : course.teams) {
-			TeamResultBundle teamEvalResultBundle = new TeamResultBundle(team);
+		returnValue.teamResults = new TreeMap<String,TeamResultBundle>();
+		
+		for (TeamDetailsBundle team : teams) {
+			TeamResultBundle teamResultBundle = new TeamResultBundle(team);
+			
 			for (StudentData student : team.students) {
-				student.result = new StudentResultBundle();
 				// TODO: refactor this method. May be have a return value?
-				populateSubmissionsAndNames(submissionDataList, teamEvalResultBundle, student);
+				populateSubmissionsAndNames(submissionDataList,
+						teamResultBundle,
+						teamResultBundle.getStudentResult(student.email));
 			}
-
-			TeamEvalResult teamResult = calculateTeamResult(teamEvalResultBundle);
-			teamEvalResultBundle.result = teamResult;
-			populateTeamResult(teamEvalResultBundle, teamResult);
-			returnValue.teams.add(teamEvalResultBundle);
+			
+			TeamEvalResult teamResult = calculateTeamResult(teamResultBundle);
+			teamResultBundle.result = teamResult;
+			populateTeamResult(teamResultBundle, teamResult);
+			returnValue.teamResults.put(team.name, teamResultBundle);
 		}
 		return returnValue;
 	}
@@ -1484,102 +1487,101 @@ public class Logic {
 		return submissionDataList;
 	}
 
-	private TeamEvalResult calculateTeamResult(TeamResultBundle teamEvalResultBundle) {
+	private TeamEvalResult calculateTeamResult(TeamResultBundle teamResultBundle) {
 
-		int teamSize = teamEvalResultBundle.team.students.size();
+		int teamSize = teamResultBundle.studentResults.size();
 		int[][] claimedFromStudents = new int[teamSize][teamSize];
-		teamEvalResultBundle.sortByStudentNameAscending();
-		for (int i = 0; i < teamSize; i++) {
-			StudentData studentData = teamEvalResultBundle.team.students.get(i);
-			if (studentData.result == null){
-				continue;
-			}
-			studentData.result.sortOutgoingByStudentNameAscending();
+		teamResultBundle.sortByStudentNameAscending();
+		
+		int i = 0;
+		for (StudentResultBundle studentResult: teamResultBundle.studentResults) {
+			studentResult.sortOutgoingByStudentNameAscending();
 			for (int j = 0; j < teamSize; j++) {
-				SubmissionData submissionData = studentData.result.outgoing.get(j);
+				SubmissionData submissionData = studentResult.outgoing.get(j);
 					claimedFromStudents[i][j] = submissionData.points;
 			}
-			
-
+			i++;
 		}
 		return new TeamEvalResult(claimedFromStudents);
 	}
 
-	private void populateTeamResult(TeamResultBundle teamEvalResultBundle, TeamEvalResult teamResult) {
-		teamEvalResultBundle.sortByStudentNameAscending();
-		int teamSize = teamEvalResultBundle.team.students.size();
-		for (int i = 0; i < teamSize; i++) {
-			StudentData s = teamEvalResultBundle.team.students.get(i);
+	private void populateTeamResult(TeamResultBundle teamResultBundle, TeamEvalResult teamResult) {
+		teamResultBundle.sortByStudentNameAscending();
+		int teamSize = teamResultBundle.studentResults.size();
+		
+		int i = 0;
+		for (StudentResultBundle studentResult: teamResultBundle.studentResults) {
 			
-			if (s.result == null) {
-				continue;
-			}
-				
-				
-			s.result.sortIncomingByStudentNameAscending();
-			s.result.sortOutgoingByStudentNameAscending();
-			s.result.claimedFromStudent = teamResult.claimed[i][i];
-			s.result.claimedToInstructor = teamResult.normalizedClaimed[i][i];
-			s.result.perceivedToStudent = teamResult.denormalizedAveragePerceived[i][i];
-			s.result.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
+			studentResult.sortIncomingByStudentNameAscending();
+			studentResult.sortOutgoingByStudentNameAscending();
+			studentResult.claimedFromStudent = teamResult.claimed[i][i];
+			studentResult.claimedToInstructor = teamResult.normalizedClaimed[i][i];
+			studentResult.perceivedToStudent = teamResult.denormalizedAveragePerceived[i][i];
+			studentResult.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
 
 			// populate incoming and outgoing
 			for (int j = 0; j < teamSize; j++) {
-				SubmissionData incomingSub = s.result.incoming.get(j);
+				SubmissionData incomingSub = studentResult.incoming.get(j);
 				int normalizedIncoming = teamResult.denormalizedAveragePerceived[i][j];
 				incomingSub.normalizedToStudent = normalizedIncoming;
 				incomingSub.normalizedToInstructor = teamResult.normalizedPeerContributionRatio[j][i];
-				log.finer("Setting normalized incoming of " + s.name + " from "
+				log.finer("Setting normalized incoming of " + studentResult.student.name + " from "
 						+ incomingSub.reviewerName + " to "
 						+ normalizedIncoming);
 
-				SubmissionData outgoingSub = s.result.outgoing.get(j);
+				SubmissionData outgoingSub = studentResult.outgoing.get(j);
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
 				outgoingSub.normalizedToStudent = Common.UNINITIALIZED_INT;
 				outgoingSub.normalizedToInstructor = normalizedOutgoing;
-				log.finer("Setting normalized outgoing of " + s.name + " to "
+				log.finer("Setting normalized outgoing of " + studentResult.student.name + " to "
 						+ outgoingSub.revieweeName + " to "
 						+ normalizedOutgoing);
 			}
+			i++;
 		}
 		
 	}
 
+	//TODO: unit test this
 	private void populateSubmissionsAndNames(
-			HashMap<String, SubmissionData> list, TeamResultBundle teamEvalResultBundle,
-			StudentData student) {
-		for (StudentData peer : teamEvalResultBundle.team.students) {
+			HashMap<String, SubmissionData> submissions, 
+			TeamResultBundle teamResultBundle,
+			StudentResultBundle studentResultBundle) {
+		
+		for (StudentResultBundle peerResult : teamResultBundle.studentResults) {
+			
+			StudentData peer = peerResult.student;
 
 			// get incoming submission from peer
-			String key = peer.email + "->" + student.email;
-			SubmissionData submissionFromPeer = list.get(key);
+			String key = peer.email + "->" + studentResultBundle.student.email;
+			SubmissionData submissionFromPeer = submissions.get(key);
 			// this workaround is to cater for missing submissions in
 			// legacy data.
 			if (submissionFromPeer == null) {
 				log.warning("Cannot find submission for" + key);
 				submissionFromPeer = createEmptySubmission(peer.email,
-						student.email);
+						studentResultBundle.student.email);
 			} else {
 				// use a copy to prevent accidental overwriting of data
 				submissionFromPeer = submissionFromPeer.getCopy();
 			}
 
 			// set names in incoming submission
-			submissionFromPeer.revieweeName = student.name;
+			submissionFromPeer.revieweeName = studentResultBundle.student.name;
 			submissionFromPeer.reviewerName = peer.name;
 
 			// add incoming submission
-			student.result.incoming.add(submissionFromPeer);
+			studentResultBundle.incoming.add(submissionFromPeer);
 
 			// get outgoing submission to peer
-			key = student.email + "->" + peer.email;
-			SubmissionData submissionToPeer = list.get(key);
+			key = studentResultBundle.student.email + "->" + peer.email;
+			SubmissionData submissionToPeer = submissions.get(key);
 
 			// this workaround is to cater for missing submissions in
 			// legacy data.
 			if (submissionToPeer == null) {
 				log.warning("Cannot find submission for" + key);
-				submissionToPeer = createEmptySubmission(student.email,
+				submissionToPeer = createEmptySubmission(studentResultBundle.student.email,
 						peer.email);
 			} else {
 				// use a copy to prevent accidental overwriting of data
@@ -1587,11 +1589,11 @@ public class Logic {
 			}
 
 			// set names in outgoing submission
-			submissionToPeer.reviewerName = student.name;
+			submissionToPeer.reviewerName = studentResultBundle.student.name;
 			submissionToPeer.revieweeName = peer.name;
 
 			// add outgoing submission
-			student.result.outgoing.add(submissionToPeer);
+			studentResultBundle.outgoing.add(submissionToPeer);
 
 		}
 	}
@@ -1706,32 +1708,32 @@ public class Logic {
 		
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 		
-		EvaluationDetailsBundle evaluationDetails = getEvaluationResult(courseId, evalName);
+		EvaluationResultsBundle evaluationResults = getEvaluationResult(courseId, evalName);
 		
 		String export = "";
 		
-		export += "Course" + ",," + evaluationDetails.evaluation.course + Common.EOL
-				+ "Evaluation Name" + ",," + evaluationDetails.evaluation.name + Common.EOL
+		export += "Course" + ",," + evaluationResults.evaluation.course + Common.EOL
+				+ "Evaluation Name" + ",," + evaluationResults.evaluation.name + Common.EOL
 				+ Common.EOL;
 		
 		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Common.EOL;
 		
-		for (TeamResultBundle td : evaluationDetails.teams) {
-			for (StudentData sd : td.team.students) {
+		for (TeamResultBundle td : evaluationResults.teamResults.values()) {
+			for (StudentResultBundle srb : td.studentResults) {
 				String result = "";
-				Collections.sort(sd.result.incoming, new Comparator<SubmissionData>(){
+				Collections.sort(srb.incoming, new Comparator<SubmissionData>(){
 					@Override
 					public int compare(SubmissionData s1, SubmissionData s2){
 							return Integer.valueOf(s2.normalizedToInstructor).compareTo(s1.normalizedToInstructor);
 					}
 				});
-				for(SubmissionData sub: sd.result.incoming){
+				for(SubmissionData sub: srb.incoming){
 					if(sub.reviewee.equals(sub.reviewer)) continue;
 					if(result!="") result+=",";
 					result += sub.normalizedToInstructor;
 				}
 				
-				export += td.team.name + ",," + sd.name + ",," + sd.result.claimedToInstructor + ",," + sd.result.perceivedToInstructor + ",," + result + Common.EOL;
+				export += srb.student.team + ",," + srb.student.name + ",," + srb.claimedToInstructor + ",," + srb.perceivedToInstructor + ",," + result + Common.EOL;
 			}
 		}
 		

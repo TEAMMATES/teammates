@@ -218,7 +218,6 @@ public class CoursesLogic {
 			if (cd == null) {
 				Assumption.fail("INSTRUCTOR RELATION EXISTED, BUT COURSE WAS NOT FOUND: " + instructorId + ", " + id.courseId);
 			}
-			//System.out.println(cd.createdAt + ", " + (new Date(lastRetrievedTime)));
 			if (cd.createdAt.before(new Date(lastRetrievedTime))) {
 				// Discard
 				continue;
