@@ -49,10 +49,19 @@ public class HtmlHelper {
 		StringBuilder expectedHTML= new StringBuilder();
 		StringBuilder actualHTML = new StringBuilder();
 		boolean isLogicalMatch = compare(actualPage, expectedPage, "", actualHTML, expectedHTML);
-		if(!isLogicalMatch){
-			//If they are not a logical match, we force a literal comparison
-			//   just so that JUnit gives us a side-by-side comparison.
-			assertEquals("The two HTML pages are not logically equivalent. Aborting comparison at the first difference encountered.", expectedHTML.toString(), actualHTML.toString());		
+		if (!isLogicalMatch) {
+			// If they are not a logical match, we force a literal comparison
+			// just so that JUnit gives us a side-by-side comparison.
+			String outputDivider =
+					"\n\n######################################################################\n"
+							+
+							"Given below is the normalized HTML with the difference highlighted\n"
+							+
+							"######################################################################\n\n";
+			assertEquals(
+					"The two HTML pages are not logically equivalent. Aborting comparison at the first difference encountered.",
+					expectedString + outputDivider + expectedHTML.toString(),
+					actualString + outputDivider + actualHTML.toString());
 		}
 		return isLogicalMatch;
 	}

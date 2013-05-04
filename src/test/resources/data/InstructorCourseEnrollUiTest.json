@@ -1,7 +1,7 @@
 {
   "accounts": {
-    "teammates.test": {
-      "googleId": "teammates.test",
+    "CCEnrollUiT.teammates.test": {
+      "googleId": "CCEnrollUiT.teammates.test",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "teammates.test@gmail.com",
@@ -17,8 +17,8 @@
   },
   
   "instructors": {
-    "teammates.test": {
-      "googleId": "teammates.test",
+    "CCEnrollUiT.teammates.test": {
+      "googleId": "CCEnrollUiT.teammates.test",
       "courseId": "CCEnrollUiT.CS2104",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.com"
@@ -27,7 +27,7 @@
   
   "students": {
     "alice.b.tmms@CCEnrollUiT.CS2104": {
-      "id": "alice.b.tmms",
+      "id": "CCEnrollUiT.alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
       "course": "CCEnrollUiT.CS2104",
       "name": "Alice Betsy",
@@ -36,7 +36,7 @@
       "team": "Team 1"
     },
     "benny.c.tmms@CCEnrollUiT.CS2104": {
-      "id": "benny.c.tmms",
+      "id": "CCEnrollUiT.benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
       "course": "CCEnrollUiT.CS2104",
       "name": "Benny Charles",
@@ -45,7 +45,7 @@
       "team": "Team 1"
     },
     "charlie.d.tmms@CCEnrollUiT.CS2104": {
-      "id": "charlie.d.tmms",
+      "id": "CCEnrollUiT.charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
       "course": "CCEnrollUiT.CS2104",
       "name": "Charlie Davis",
@@ -54,7 +54,7 @@
       "team": "Team 2"
     },
     "danny.e.tmms@CCEnrollUiT.CS2104": {
-      "id": "danny.e.tmms",
+      "id": "CCEnrollUiT.danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
       "course": "CCEnrollUiT.CS2104",
       "name": "Danny Engrid",
