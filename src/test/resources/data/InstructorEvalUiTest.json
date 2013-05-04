@@ -1,7 +1,7 @@
 {
   "accounts": {
-  	"teammates.test": {
-  	  "googleId": "teammates.test",
+  	"CEvalUiT.instructor": {
+  	  "googleId": "CEvalUiT.instructor",
   	  "name": "Teammates Test",
   	  "isInstructor": true,
   	  "email": "tmms.test@gmail.com",
@@ -21,14 +21,14 @@
   },
   
   "instructors": {
-    "teammates.test.course": {
-      "googleId": "teammates.test",
+    "teammates.test.instructor": {
+      "googleId": "CEvalUiT.instructor",
       "courseId": "CEvalUiT.CS2104",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.com"
     },
-    "teammates.test.anotherCourse": {
-      "googleId": "teammates.test",
+    "teammates.test.anotherInstructor": {
+      "googleId": "CEvalUiT.instructor",
       "courseId": "CEvalUiT.CS1101",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.com"
@@ -37,7 +37,7 @@
   
   "students": {
     "alice.tmms@CEvalUiT.CS2104": {
-      "id": "alice.tmms",
+      "id": "CEvalUiT.alice.tmms",
       "email": "alice.tmms@gmail.com",
       "course": "CEvalUiT.CS2104",
       "name": "Alice Betsy",
@@ -46,7 +46,7 @@
       "team": "Team 1"
     },
     "benny.tmms@CEvalUiT.CS2104": {
-      "id": "benny.tmms",
+      "id": "CEvalUiT.benny.tmms",
       "email": "benny.tmms@gmail.com",
       "course": "CEvalUiT.CS2104",
       "name": "Benny Charles",
@@ -56,7 +56,7 @@
     },
     "charlie.tmms@CEvalUiT.CS1101": {
       "id": "charlie.tmms",
-      "email": "charlie.tmms@gmail.com",
+      "email": "CEvalUiT.charlie.tmms@gmail.com",
       "course": "CEvalUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
@@ -65,7 +65,7 @@
     },
     "danny.tmms@CEvalUiT.CS1101": {
       "id": "danny.tmms",
-      "email": "danny.tmms@gmail.com",
+      "email": "CEvalUiT.danny.tmms@gmail.com",
       "course": "CEvalUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",

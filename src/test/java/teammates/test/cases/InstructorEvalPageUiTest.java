@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -40,7 +41,8 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		BackDoor.deleteInstructors(jsonString);
 		
 		// Create fresh account relation
-		String backDoorOperationStatus = BackDoor.createAccount(scn.accounts.get("teammates.test"));
+		AccountAttributes instructorAccount = scn.accounts.get("CEvalUiT.instructor");
+		String backDoorOperationStatus = BackDoor.createAccount(instructorAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 
@@ -48,7 +50,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("teammates.test").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,instructorAccount.googleId);
 		bi.goToUrl(link);
 	}
 	
@@ -76,8 +78,8 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		______TS("no evaluations");
 		BackDoor.createCourse(scn.courses.get("course"));
 		BackDoor.createCourse(scn.courses.get("anotherCourse"));
-		BackDoor.createInstructor(scn.instructors.get("teammates.test.course"));
-		BackDoor.createInstructor(scn.instructors.get("teammates.test.anotherCourse"));
+		BackDoor.createInstructor(scn.instructors.get("teammates.test.instructor"));
+		BackDoor.createInstructor(scn.instructors.get("teammates.test.anotherInstructor"));
 		BackDoor.createStudent(scn.students.get("alice.tmms@CEvalUiT.CS2104"));
 		BackDoor.createStudent(scn.students.get("benny.tmms@CEvalUiT.CS2104"));
 		BackDoor.createStudent(scn.students.get("charlie.tmms@CEvalUiT.CS1101"));
@@ -127,7 +129,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("teammates.test").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("CEvalUiT.instructor").googleId);
 		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/instructorEvalAddSuccess.html",link);
 
 		______TS("client-side input validation");
