@@ -1,21 +1,21 @@
 {
   "accounts": {
-    "teammates.test": {
-      "googleId": "teammates.test",
+    "CCDetailsUiT.test": {
+      "googleId": "CCDetailsUiT.test",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "teammates.test@gmail.com",
       "institute": "National University of Singapore"
     },
-    "teammates.coord": {
-      "googleId": "teammates.coord",
+    "CCDetailsUiT.coord": {
+      "googleId": "CCDetailsUiT.coord",
       "name": "Teammates Coord",
       "isInstructor": true,
       "email": "teammates.coord@gmail.com",
       "institute": "National University of Singapore"
     },
-    "teammates.instructor": {
-      "googleId": "teammates.instructor",
+    "CCDetailsUiT.instructor": {
+      "googleId": "CCDetailsUiT.instructor",
       "name": "Teammates Instructor",
       "isInstructor": true,
       "email": "teammates.instructor@gmail.com",
@@ -31,14 +31,14 @@
   },
   
   "instructors": {
-    "teammates.test": {
-      "googleId": "teammates.test",
+    "CCDetailsUiT.test": {
+      "googleId": "CCDetailsUiT.test",
       "courseId": "CCDetailsUiT.CS2104",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.com"
     },
-    "teammates.coord": {
-      "googleId": "teammates.coord",
+    "CCDetailsUiT.coord": {
+      "googleId": "CCDetailsUiT.coord",
       "courseId": "CCDetailsUiT.CS2104",
       "name": "Teammates Coord",
       "email": "teammates.coord@gmail.com"
@@ -47,7 +47,7 @@
   
   "students": {
     "alice.tmms@CCDetailsUiT.CS2104": {
-      "id": "alice.tmms",
+      "id": "CCDetailsUiT.alice.tmms",
       "email": "alice.tmms@gmail.com",
       "course": "CCDetailsUiT.CS2104",
       "name": "Alice Betsy",
@@ -74,7 +74,7 @@
       "team": "Team 1"
     },
     "danny.tmms@CCDetailsUiT.CS2104": {
-      "id": "danny.tmms",
+      "id": "CCDetailsUiT.danny.tmms",
       "email": "danny.e.tmms@gmail.com",
       "course": "CCDetailsUiT.CS2104",
       "name": "Danny Engrid",
