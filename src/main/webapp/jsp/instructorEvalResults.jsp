@@ -158,8 +158,8 @@
 							onmouseover="ddrivetip('<%=InstructorEvalResultsHelper.escapeForJavaScript(student.comments)%>')"
 							onmouseout="hideddrivetip()"> <%=student.name%>
 						</span></td>
-						<td><%=InstructorEvalResultsHelper.colorizePoints(studentResult.claimedToInstructor)%></td>
-						<td><%=InstructorEvalResultsHelper.colorizePoints(studentResult.perceivedToInstructor)%></td>
+						<td><%=InstructorEvalResultsHelper.colorizePoints(studentResult.summary.claimedToInstructor)%></td>
+						<td><%=InstructorEvalResultsHelper.colorizePoints(studentResult.summary.perceivedToInstructor)%></td>
 						<td><%=InstructorEvalResultsHelper.printDiff(studentResult)%></td>
 						<td><%=InstructorEvalResultsHelper.getPointsList(studentResult.incoming, true)%></td>
 						<td class="centeralign no-print"><a class="color_black"
@@ -224,10 +224,10 @@
 								</span><%=student.name%></th>
 								<th class="leftalign bold"><span class="resultHeader"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
-									onmouseout="hideddrivetip()"> Claimed Contributions: </span><%=InstructorEvalResultsHelper.printSharePoints(studentResult.claimedToInstructor,true)%></th>
+									onmouseout="hideddrivetip()"> Claimed Contributions: </span><%=InstructorEvalResultsHelper.printSharePoints(studentResult.summary.claimedToInstructor,true)%></th>
 								<th class="leftalign bold"><span class="resultHeader"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
-									onmouseout="hideddrivetip()"> Perceived Contributions: </span><%=InstructorEvalResultsHelper.printSharePoints(studentResult.perceivedToInstructor,true)%>
+									onmouseout="hideddrivetip()"> Perceived Contributions: </span><%=InstructorEvalResultsHelper.printSharePoints(studentResult.summary.perceivedToInstructor,true)%>
 								</th>
 								<th class="rightalign no-print">
 									<%

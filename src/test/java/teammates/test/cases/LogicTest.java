@@ -2759,10 +2759,10 @@ public class LogicTest extends BaseTestCase {
 
 		// check calculated values
 		assertEquals(student1email, result.getOwnerEmail());
-		assertEquals(100, result.claimedFromStudent);
-		assertEquals(100, result.claimedToInstructor);
-		assertEquals(90, result.perceivedToInstructor);
-		assertEquals(90, result.perceivedToStudent);
+		assertEquals(100, result.summary.claimedFromStudent);
+		assertEquals(100, result.summary.claimedToInstructor);
+		assertEquals(90, result.summary.perceivedToInstructor);
+		assertEquals(90, result.summary.perceivedToStudent);
 		int teamSize = 4;
 
 		// check size of submission lists
@@ -3372,15 +3372,15 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(s3.name, srb3.getSelfEvaluation().reviewerName);
 
 		// check individual values for s1
-		assertEquals(100, srb1.claimedFromStudent);
-		assertEquals(100, srb1.claimedToInstructor);
-		assertEquals(90, srb1.perceivedToStudent);
-		assertEquals(90, srb1.perceivedToInstructor);
+		assertEquals(100, srb1.summary.claimedFromStudent);
+		assertEquals(100, srb1.summary.claimedToInstructor);
+		assertEquals(90, srb1.summary.perceivedToStudent);
+		assertEquals(90, srb1.summary.perceivedToInstructor);
 		// check some more individual values
-		assertEquals(110, srb2.claimedFromStudent);
-		assertEquals(NSB, srb3.claimedToInstructor);
-		assertEquals(95, srb4.perceivedToStudent);
-		assertEquals(96, srb2.perceivedToInstructor);
+		assertEquals(110, srb2.summary.claimedFromStudent);
+		assertEquals(NSB, srb3.summary.claimedToInstructor);
+		assertEquals(95, srb4.summary.perceivedToStudent);
+		assertEquals(96, srb2.summary.perceivedToInstructor);
 
 		// check outgoing submissions (s1 more intensely than others)
 
@@ -3434,9 +3434,9 @@ public class LogicTest extends BaseTestCase {
 		TeamResultBundle team1_2 = result.teamResults.get("Team 1.2");
 		assertEquals(1, team1_2.studentResults.size());
 		StudentResultBundle team1_2studentResult = team1_2.studentResults.get(0);
-		assertEquals(NSB, team1_2studentResult.claimedFromStudent);
+		assertEquals(NSB, team1_2studentResult.summary.claimedFromStudent);
 		assertEquals(1, team1_2studentResult.outgoing.size());
-		assertEquals(NSB, team1_2studentResult.claimedToInstructor);
+		assertEquals(NSB, team1_2studentResult.summary.claimedToInstructor);
 		assertEquals(NSB, team1_2studentResult.outgoing.get(0).points);
 		assertEquals(NA, team1_2studentResult.incoming.get(0).normalizedToStudent);
 
@@ -3572,10 +3572,10 @@ public class LogicTest extends BaseTestCase {
 		invokePopulateTeamResult(teamEvalResultBundle, teamResult);
 		
 		s1 = teamEvalResultBundle.studentResults.get(S1_POS).student;
-		assertEquals(110, srb1.claimedFromStudent);
-		assertEquals(92, srb1.claimedToInstructor);
-		assertEquals(116, srb1.perceivedToStudent);
-		assertEquals(97, srb1.perceivedToInstructor);
+		assertEquals(110, srb1.summary.claimedFromStudent);
+		assertEquals(92, srb1.summary.claimedToInstructor);
+		assertEquals(116, srb1.summary.perceivedToStudent);
+		assertEquals(97, srb1.summary.perceivedToInstructor);
 		assertEquals(92, srb1.outgoing.get(S1_POS).normalizedToInstructor);
 		assertEquals(100, srb1.outgoing.get(S2_POS).normalizedToInstructor);
 		assertEquals(108, srb1.outgoing.get(S3_POS).normalizedToInstructor);
@@ -3589,10 +3589,10 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(98, srb1.incoming.get(S3_POS).normalizedToInstructor);
 
 		s2 = teamEvalResultBundle.studentResults.get(S2_POS).student;
-		assertEquals(220, srb2.claimedFromStudent);
-		assertEquals(100, srb2.claimedToInstructor);
-		assertEquals(217, srb2.perceivedToStudent);
-		assertEquals(99, srb2.perceivedToInstructor);
+		assertEquals(220, srb2.summary.claimedFromStudent);
+		assertEquals(100, srb2.summary.claimedToInstructor);
+		assertEquals(217, srb2.summary.perceivedToStudent);
+		assertEquals(99, srb2.summary.perceivedToInstructor);
 		assertEquals(95, srb2.outgoing.get(S1_POS).normalizedToInstructor);
 		assertEquals(100, srb2.outgoing.get(S2_POS).normalizedToInstructor);
 		assertEquals(105, srb2.outgoing.get(S3_POS).normalizedToInstructor);
@@ -3604,10 +3604,10 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(102, srb2.incoming.get(S3_POS).normalizedToInstructor);
 
 		s3 = teamEvalResultBundle.studentResults.get(S3_POS).student;
-		assertEquals(330, srb3.claimedFromStudent);
-		assertEquals(103, srb3.claimedToInstructor);
-		assertEquals(334, srb3.perceivedToStudent);
-		assertEquals(104, srb3.perceivedToInstructor);
+		assertEquals(330, srb3.summary.claimedFromStudent);
+		assertEquals(103, srb3.summary.claimedToInstructor);
+		assertEquals(334, srb3.summary.perceivedToStudent);
+		assertEquals(104, srb3.summary.perceivedToInstructor);
 		assertEquals(97, srb3.outgoing.get(S1_POS).normalizedToInstructor);
 		assertEquals(100, srb3.outgoing.get(S2_POS).normalizedToInstructor);
 		assertEquals(103, srb3.outgoing.get(S3_POS).normalizedToInstructor);

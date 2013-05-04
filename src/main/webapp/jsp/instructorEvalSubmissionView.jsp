@@ -63,11 +63,11 @@
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
 							onmouseout="hideddrivetip()">
-						Claimed Contribution: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.claimedToInstructor,true)%></th>
+						Claimed Contribution: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.summary.claimedToInstructor,true)%></th>
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
 							onmouseout="hideddrivetip()">
-						Perceived Contribution: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.perceivedToInstructor,true)%></th>
+						Perceived Contribution: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.summary.perceivedToInstructor,true)%></th>
 				</tr></thead>
 				<tr>
 					<td colspan="4"><span class="bold">Self evaluation:</span><br>

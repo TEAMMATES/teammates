@@ -108,8 +108,8 @@ public class InstructorEvalResultsHelper extends Helper{
 	 * @return
 	 */
 	public static String printDiff(StudentResultBundle sub){
-		int claimed = sub.claimedToInstructor;
-		int perceived = sub.perceivedToInstructor;
+		int claimed = sub.summary.claimedToInstructor;
+		int perceived = sub.summary.perceivedToInstructor;
 		int diff = perceived - claimed;
 		if(perceived==Common.POINTS_NOT_SUBMITTED || perceived==Common.UNINITIALIZED_INT
 				|| claimed==Common.POINTS_NOT_SUBMITTED || claimed==Common.UNINITIALIZED_INT){

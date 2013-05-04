@@ -1504,10 +1504,10 @@ public class Logic {
 			
 			studentResult.sortIncomingByStudentNameAscending();
 			studentResult.sortOutgoingByStudentNameAscending();
-			studentResult.claimedFromStudent = teamResult.claimed[i][i];
-			studentResult.claimedToInstructor = teamResult.normalizedClaimed[i][i];
-			studentResult.perceivedToStudent = teamResult.denormalizedAveragePerceived[i][i];
-			studentResult.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
+			studentResult.summary.claimedFromStudent = teamResult.claimed[i][i];
+			studentResult.summary.claimedToInstructor = teamResult.normalizedClaimed[i][i];
+			studentResult.summary.perceivedToStudent = teamResult.denormalizedAveragePerceived[i][i];
+			studentResult.summary.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
 
 			// populate incoming and outgoing
 			for (int j = 0; j < teamSize; j++) {
@@ -1723,7 +1723,7 @@ public class Logic {
 					result += sub.normalizedToInstructor;
 				}
 				
-				export += srb.student.team + ",," + srb.student.name + ",," + srb.claimedToInstructor + ",," + srb.perceivedToInstructor + ",," + result + Common.EOL;
+				export += srb.student.team + ",," + srb.student.name + ",," + srb.summary.claimedToInstructor + ",," + srb.summary.perceivedToInstructor + ",," + result + Common.EOL;
 			}
 		}
 		

@@ -17,16 +17,14 @@ public class StudentResultBundle {
 	public ArrayList<SubmissionData> outgoing = new ArrayList<SubmissionData>();
 	public ArrayList<SubmissionData> selfEvaluations = new ArrayList<SubmissionData>();
 
-	public int claimedFromStudent = Common.UNINITIALIZED_INT;
-	public int claimedToInstructor = Common.UNINITIALIZED_INT;
-	public int perceivedToInstructor = Common.UNINITIALIZED_INT;
-	public int perceivedToStudent = Common.UNINITIALIZED_INT;
+	public StudentResultSummary summary;
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();
 	
 	public StudentResultBundle(StudentData student){
 		this.student = student;
+		this.summary = new StudentResultSummary();
 	}
 	
 	/** returns the self-evaluation selected from outgoing submissions */
@@ -86,12 +84,12 @@ public class StudentResultBundle {
 	public String toString(int indent) {
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
-		sb.append(indentString + "claimedFromStudent:" + claimedFromStudent
+		sb.append(indentString + "claimedFromStudent:" + summary.claimedFromStudent
 				+ EOL);
-		sb.append(indentString + "claimedToInstructor:" + claimedToInstructor + EOL);
-		sb.append(indentString + "perceivedToStudent:" + perceivedToStudent
+		sb.append(indentString + "claimedToInstructor:" + summary.claimedToInstructor + EOL);
+		sb.append(indentString + "perceivedToStudent:" + summary.perceivedToStudent
 				+ EOL);
-		sb.append(indentString + "perceivedToInstructor:" + perceivedToInstructor + EOL);
+		sb.append(indentString + "perceivedToInstructor:" + summary.perceivedToInstructor + EOL);
 
 		sb.append(indentString + "outgoing:" + EOL);
 		for (SubmissionData submission : outgoing) {
