@@ -1256,7 +1256,6 @@ public class Logic {
 			}
 			
 			TeamEvalResult teamResult = calculateTeamResult(teamResultBundle);
-			teamResultBundle.result = teamResult;
 			populateTeamResult(teamResultBundle, teamResult);
 			returnValue.teamResults.put(team.name, teamResultBundle);
 		}

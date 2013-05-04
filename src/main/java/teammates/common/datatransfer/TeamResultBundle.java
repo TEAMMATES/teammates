@@ -9,9 +9,7 @@ import teammates.logic.TeamEvalResult;
 
 public class TeamResultBundle {
 	
-	public TeamEvalResult result;
 	public ArrayList<StudentResultBundle> studentResults;
-	
 	
 	public TeamResultBundle(TeamDetailsBundle teamDetails){
 		this.studentResults = new ArrayList<StudentResultBundle>();
@@ -51,11 +49,9 @@ public class TeamResultBundle {
 	public String toString(int indent){
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
-		sb.append(result==null? "" :indentString+result.toString(indent+1));
 		for(StudentResultBundle srb: studentResults){
-			sb.append(srb.toString(indent+1));
+			sb.append(indentString+srb.toString(indent+1));
 		}
-
 		return sb.toString();
 	}
 
