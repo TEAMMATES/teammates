@@ -224,10 +224,10 @@ public class Logic {
 	 * @param googleId
 	 * @return List<InstructorData>
 	 */
-	public List<InstructorData> getCoursesOfInstructor(String googleId) {
+	public List<InstructorData> getInstructorRolesForAccount(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
-		return accountsLogic.getCoursesOfInstructor(googleId);
+		return accountsLogic.getInstructorRolesForAccount(googleId);
 	}
 
 	/**
@@ -351,24 +351,11 @@ public class Logic {
 
 		verifyInstructorExists(instructorId);
 
-		List<InstructorData> instructorList = accountsLogic.getCoursesOfInstructor(instructorId);
-
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
+		List<InstructorData> instructorList = accountsLogic.getInstructorRolesForAccount(instructorId);
 		for (InstructorData id : instructorList) {
-			List<EvaluationData> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(id.courseId);
-			List<StudentData> students = accountsLogic.getStudentListForCourse(id.courseId);
-
-			// calculate submission statistics for each evaluation
-			for (EvaluationData evaluation : evaluationsSummaryForCourse) {
-				EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
-				edd.stats.expectedTotal = students.size();
-				
-				HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(id.courseId, evaluation.name);
-				edd.stats.submittedTotal = countSubmittedStudents(submissions.values());
-
-				evaluationSummaryList.add(edd);
-			}
+			evaluationSummaryList.addAll(getEvaluationsListForCourse(id.courseId));
 		}
 		return evaluationSummaryList;
 	}
@@ -390,14 +377,8 @@ public class Logic {
 		List<EvaluationData> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(courseId);
 		List<StudentData> students = accountsLogic.getStudentListForCourse(courseId);
 
-		// calculate submission statistics for each evaluation
 		for (EvaluationData evaluation : evaluationsSummaryForCourse) {
-			EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
-			edd.stats.expectedTotal = students.size();
-
-			HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(courseId, evaluation.name);
-			edd.stats.submittedTotal = countSubmittedStudents(submissions.values());
-
+			EvaluationDetailsBundle edd = getEvaluationDetails(students, evaluation);
 			evaluationSummaryList.add(edd);
 		}
 
@@ -1363,6 +1344,15 @@ public class Logic {
 	private boolean isTeamChanged(String originalTeam, String newTeam) {
 		return (newTeam != null) && (originalTeam != null)
 				&& (!originalTeam.equals(newTeam));
+	}
+
+	private EvaluationDetailsBundle getEvaluationDetails(List<StudentData> students, EvaluationData evaluation)
+			throws EntityDoesNotExistException {
+		EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
+		edd.stats.expectedTotal = students.size();
+		HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(evaluation.course, evaluation.name);
+		edd.stats.submittedTotal = countSubmittedStudents(submissions.values());
+		return edd;
 	}
 
 	private void verifyInstructorExists(String instructorId)

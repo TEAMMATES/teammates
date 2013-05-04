@@ -131,7 +131,7 @@ public class AccountsLogic {
 		return accountsDb.getInstructorsByCourseId(courseId);
 	}
 	
-	public List<InstructorData> getCoursesOfInstructor(String googleId) {
+	public List<InstructorData> getInstructorRolesForAccount(String googleId) {
 		return accountsDb.getInstructorsByGoogleId(googleId);
 	}
 	
