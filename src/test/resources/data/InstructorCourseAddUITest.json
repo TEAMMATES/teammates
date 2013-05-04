@@ -1,42 +1,42 @@
 {
   "account": {
-  	"googleId": "teammates.demo.instructor",
+  	"googleId": "CCAddUiTest.instructor",
   	"name":	"Teammates Demo Instr",
-  	"email": "teammates.demo.instructor@gmail.com",
+  	"email": "CCAddUiTest.instructor@gmail.com",
   	"isInstructor": true,
   	"institute": "Some Other University With a Long Name, South Africa"
   },
 
   "instructor": {
   	"instructor1course1": { 
-      "googleId": "teammates.demo.instructor", 
+      "googleId": "CCAddUiTest.instructor", 
       "courseId":"CCAddUiTest.course1",
       "name": "Teammates Demo Instr",
-      "email": "teammates.demo.instructor@gmail.com"
+      "email": "CCAddUiTest.instructor@gmail.com"
     },
     "instructor1CS1101": { 
-      "googleId": "teammates.demo.instructor", 
+      "googleId": "CCAddUiTest.instructor", 
       "courseId":"CCAddUiTest.CS1101",
       "name": "Teammates Demo Instr",
-      "email": "teammates.demo.instructor@gmail.com"
+      "email": "CCAddUiTest.instructor@gmail.com"
     },
     "instructor2CS1101": { 
-      "googleId": "teammates.demo.instructor2", 
+      "googleId": "CCAddUiTest.instructor2", 
       "courseId":"CCAddUiTest.CS1101",
       "name": "Teammates Demo Instr2",
-      "email": "teammates.demo.instructor2@gmail.com"
+      "email": "CCAddUiTest.instructor2@gmail.com"
     },
     "instructor1CS2104": { 
-      "googleId": "teammates.demo.instructor", 
+      "googleId": "CCAddUiTest.instructor", 
       "courseId":"CCAddUiTest.CS2104",
       "name": "Teammates Demo Instr",
-      "email": "teammates.demo.instructor@gmail.com"
+      "email": "CCAddUiTest.instructor@gmail.com"
     },
     "instructor3CS2104": { 
-      "googleId": "teammates.demo.instructor3", 
+      "googleId": "CCAddUiTest.instructor3", 
       "courseId":"CCAddUiTest.CS2104",
       "name": "Teammates Demo Instr3",
-      "email": "teammates.demo.instructor3@gmail.com"
+      "email": "CCAddUiTest.instructor3@gmail.com"
     }
   },
   
