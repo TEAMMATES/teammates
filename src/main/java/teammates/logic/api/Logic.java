@@ -362,10 +362,10 @@ public class Logic {
 			// calculate submission statistics for each evaluation
 			for (EvaluationData evaluation : evaluationsSummaryForCourse) {
 				EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
-				edd.expectedTotal = students.size();
+				edd.stats.expectedTotal = students.size();
 				
 				HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(id.courseId, evaluation.name);
-				edd.submittedTotal = countSubmittedStudents(submissions.values());
+				edd.stats.submittedTotal = countSubmittedStudents(submissions.values());
 
 				evaluationSummaryList.add(edd);
 			}
@@ -393,10 +393,10 @@ public class Logic {
 		// calculate submission statistics for each evaluation
 		for (EvaluationData evaluation : evaluationsSummaryForCourse) {
 			EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
-			edd.expectedTotal = students.size();
+			edd.stats.expectedTotal = students.size();
 
 			HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(courseId, evaluation.name);
-			edd.submittedTotal = countSubmittedStudents(submissions.values());
+			edd.stats.submittedTotal = countSubmittedStudents(submissions.values());
 
 			evaluationSummaryList.add(edd);
 		}

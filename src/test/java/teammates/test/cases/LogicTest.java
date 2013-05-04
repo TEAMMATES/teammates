@@ -672,8 +672,8 @@ public class LogicTest extends BaseTestCase {
 			if(edd.evaluation.name.equals(evaluation.name)){
 				//We have, 4 students in Team 1.1 and 1 student in Team 1.2
 				//Only 3 have submitted.
-				assertEquals(5,edd.expectedTotal);
-				assertEquals(3,edd.submittedTotal);
+				assertEquals(5,edd.stats.expectedTotal);
+				assertEquals(3,edd.stats.submittedTotal);
 			}
 		}
 		
@@ -693,8 +693,8 @@ public class LogicTest extends BaseTestCase {
 				//Only 2 (1 less than before) have submitted 
 				//   because we just moved a student to a new team and that
 				//   student's previous submissions are now orphaned.
-				assertEquals(5,edd.expectedTotal);
-				assertEquals(2,edd.submittedTotal);
+				assertEquals(5,edd.stats.expectedTotal);
+				assertEquals(2,edd.stats.submittedTotal);
 			}
 		}
 

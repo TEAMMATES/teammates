@@ -4,14 +4,12 @@ import teammates.common.Common;
 
 public class EvaluationDetailsBundle {
 
+	public EvaluationStats stats;
 	public EvaluationData evaluation;
-
-	public int submittedTotal = Common.UNINITIALIZED_INT;
-	public int expectedTotal = Common.UNINITIALIZED_INT;
-
 
 	public EvaluationDetailsBundle(EvaluationData evaluation) {
 		this.evaluation = evaluation;
+		this.stats = new EvaluationStats();
 	}
 
 	public String toString() {

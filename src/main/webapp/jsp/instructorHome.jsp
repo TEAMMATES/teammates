@@ -1,6 +1,7 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
+<%@ page import="teammates.common.datatransfer.EvaluationStats"%>
 <%@ page import="teammates.ui.controller.InstructorHomeHelper"%>
 <%
 	InstructorHomeHelper helper = (InstructorHomeHelper)request.getAttribute("helper");
@@ -115,8 +116,8 @@
 								<td class="t_eval_status<%= idx %> centeralign"><span
 									onmouseover="ddrivetip('<%= InstructorHomeHelper.getInstructorHoverMessageForEval(edd.evaluation) %>')"
 									onmouseout="hideddrivetip()"><%= InstructorHomeHelper.getInstructorStatusForEval(edd.evaluation) %></span></td>
-								<td class="t_eval_response<%= idx %> centeralign"><%= edd.submittedTotal %>
-									/ <%= edd.expectedTotal %></td>
+								<td class="t_eval_response<%= idx %> centeralign"><%= edd.stats.submittedTotal %>
+									/ <%= edd.stats.expectedTotal %></td>
 								<td class="centeralign no-print"><%= helper.getInstructorEvaluationActions(edd.evaluation,evalIdx, true) %>
 								</td>
 							</tr>
