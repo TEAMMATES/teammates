@@ -3485,7 +3485,7 @@ public class LogicTest extends BaseTestCase {
 		teamDetails.students.add(s3);
 		
 		TeamResultBundle teamEvalResultBundle = new TeamResultBundle(
-				teamDetails);
+				teamDetails.students);
 
 		SubmissionData s1_to_s1 = createSubmission(1, 1);
 		SubmissionData s1_to_s2 = createSubmission(1, 2);

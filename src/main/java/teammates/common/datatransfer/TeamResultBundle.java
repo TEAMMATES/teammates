@@ -11,9 +11,9 @@ public class TeamResultBundle {
 	
 	public ArrayList<StudentResultBundle> studentResults;
 	
-	public TeamResultBundle(TeamDetailsBundle teamDetails){
+	public TeamResultBundle(ArrayList<StudentData> students){
 		this.studentResults = new ArrayList<StudentResultBundle>();
-		for(StudentData student: teamDetails.students){
+		for(StudentData student: students){
 			studentResults.add(new StudentResultBundle(student));
 		}
 	}

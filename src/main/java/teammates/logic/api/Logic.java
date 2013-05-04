@@ -1246,7 +1246,7 @@ public class Logic {
 		returnValue.teamResults = new TreeMap<String,TeamResultBundle>();
 		
 		for (TeamDetailsBundle team : teams) {
-			TeamResultBundle teamResultBundle = new TeamResultBundle(team);
+			TeamResultBundle teamResultBundle = new TeamResultBundle(team.students);
 			
 			for (StudentData student : team.students) {
 				// TODO: refactor this method. May be have a return value?

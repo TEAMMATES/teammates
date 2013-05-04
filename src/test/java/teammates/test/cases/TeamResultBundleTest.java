@@ -13,7 +13,7 @@ public class TeamResultBundleTest {
 	@Test
 	public void testSortByStudentNameAscending() throws InvalidParametersException{
 		//try to sort empty team. Should fail silently.
-		TeamResultBundle teamResultBundle = new TeamResultBundle(new TeamDetailsBundle());
+		TeamResultBundle teamResultBundle = new TeamResultBundle(new TeamDetailsBundle().students);
 		teamResultBundle.sortByStudentNameAscending();
 		
 		//sort typical team
@@ -24,7 +24,7 @@ public class TeamResultBundleTest {
 		teamDetails.students.add(s2);
 		StudentData s3 = new StudentData("|Frank|z@e|", "dummyCourse");
 		teamDetails.students.add(s3);
-		teamResultBundle = new TeamResultBundle(teamDetails);
+		teamResultBundle = new TeamResultBundle(teamDetails.students);
 		
 		teamResultBundle.sortByStudentNameAscending();
 		AssertJUnit.assertEquals("Alice",teamResultBundle.studentResults.get(0).student.name);
