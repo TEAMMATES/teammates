@@ -2,12 +2,12 @@ package teammates.ui.controller;
 
 import java.util.List;
 
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 
 public class InstructorCourseEditHelper extends Helper{
-	public CourseData course;
-	public List<InstructorData> instructorList;
+	public CourseAttributes course;
+	public List<InstructorAttributes> instructorList;
 	
 	
 }

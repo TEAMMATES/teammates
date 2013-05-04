@@ -11,7 +11,7 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 
 public class CoursesDb {
@@ -30,7 +30,7 @@ public class CoursesDb {
 	 * @throws EntityAlreadyExistsException
 	 *             if a course with the specified ID already exists
 	 */
-	public void createCourse(CourseData courseToAdd)
+	public void createCourse(CourseAttributes courseToAdd)
 			throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToAdd);
 		
@@ -72,7 +72,7 @@ public class CoursesDb {
 	 * 
 	 * @return CourseData of the course that has the specified ID
 	 */
-	public CourseData getCourse(String courseId) {
+	public CourseAttributes getCourse(String courseId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		Course c = getCourseEntity(courseId);
@@ -82,7 +82,7 @@ public class CoursesDb {
 			return null;
 		}
 
-		return new CourseData(c);
+		return new CourseAttributes(c);
 	}
 	
 	/**
@@ -93,7 +93,7 @@ public class CoursesDb {
 	 * 
 	 * @return CourseData of the course that has the specified ID
 	 */
-	public void updateCourse(CourseData courseToUpdate) {
+	public void updateCourse(CourseAttributes courseToUpdate) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToUpdate);
 		
 		Course c = getCourseEntity(courseToUpdate.id);
@@ -110,11 +110,11 @@ public class CoursesDb {
 	
 	// Used in DataMigration (will be removed after)
 	// Takes a List input to use makePersistAll.
-	public void updateCourses(List<CourseData> courses) {
+	public void updateCourses(List<CourseAttributes> courses) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courses);
 		
 		List<Course> updatedList = new ArrayList<Course>();
-		for (CourseData cd : courses) {
+		for (CourseAttributes cd : courses) {
 			Course updatedCourse = cd.toEntity();
 			updatedCourse.setCreatedAt(cd.createdAt);
 			updatedList.add(updatedCourse);
@@ -185,16 +185,16 @@ public class CoursesDb {
 	/**
 	 * Returns all Course Entities 
 	 */
-	public List<CourseData> getAllCourses() {
+	public List<CourseAttributes> getAllCourses() {
 		String query = "select from " + Course.class.getName();
 
 		@SuppressWarnings("unchecked")
 		List<Course> courseList = (List<Course>) getPM().newQuery(query)
 				.execute();
 
-		List<CourseData> courseDataList = new ArrayList<CourseData>();
+		List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
 		for (Course c : courseList) {
-			courseDataList.add(new CourseData(c));
+			courseDataList.add(new CourseAttributes(c));
 		}
 
 		return courseDataList;

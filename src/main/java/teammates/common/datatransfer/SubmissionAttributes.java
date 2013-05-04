@@ -9,7 +9,7 @@ import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text;
 
-public class SubmissionData extends BaseData {
+public class SubmissionAttributes extends EntityAttributes {
 	/** course ID */
 	public String course;
 
@@ -46,11 +46,11 @@ public class SubmissionData extends BaseData {
 	public static final String ERROR_FIELD_REVIEWEE = "Submission reviewee should be a valid email\n";
 	public static final String ERROR_FIELD_REVIEWER = "Submission reviewer should be a valid email\n";
 	
-	public SubmissionData() {
+	public SubmissionAttributes() {
 
 	}
 
-	public SubmissionData(String courseId, String evalName, String teamName,
+	public SubmissionAttributes(String courseId, String evalName, String teamName,
 			String toStudent, String fromStudent) {
 		this.course = trimIfNotNull(courseId);
 		this.evaluation = trimIfNotNull(evalName);
@@ -59,7 +59,7 @@ public class SubmissionData extends BaseData {
 		this.reviewer = trimIfNotNull(fromStudent);
 	}
 
-	public SubmissionData(Submission s) {
+	public SubmissionAttributes(Submission s) {
 		this.course = s.getCourseId();
 		this.evaluation = s.getEvaluationName();
 		this.reviewer = s.getReviewerEmail();
@@ -82,8 +82,8 @@ public class SubmissionData extends BaseData {
 	 * 
 	 * @return a copy of the object
 	 */
-	public SubmissionData getCopy() {
-		SubmissionData copy = new SubmissionData();
+	public SubmissionAttributes getCopy() {
+		SubmissionAttributes copy = new SubmissionAttributes();
 		copy.course = this.course;
 		copy.evaluation = this.evaluation;
 		copy.team = this.team;

@@ -10,7 +10,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
@@ -36,7 +36,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 	@Test
 	public void testCreateSubmission() throws EntityAlreadyExistsException {
 		// SUCCESS
-		SubmissionData s = new SubmissionData();
+		SubmissionAttributes s = new SubmissionAttributes();
 		s.course = "Computing101";
 		s.evaluation = "Very First Evaluation";
 		s.team = "team1";
@@ -45,7 +45,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		submissionsDb.createSubmission(s);
 		
 		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380) 
-		s = new SubmissionData();
+		s = new SubmissionAttributes();
 		s.course = "Computing102";
 		s.evaluation = "text group text";
 		s.team = "team2";
@@ -67,7 +67,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 			submissionsDb.createSubmission(s);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(a.getMessage(), SubmissionData.ERROR_FIELD_REVIEWER);
+			AssertJUnit.assertEquals(a.getMessage(), SubmissionAttributes.ERROR_FIELD_REVIEWER);
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}
@@ -83,10 +83,10 @@ public class SubmissionsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetSubmission() {
-		SubmissionData s = createNewSubmission();
+		SubmissionAttributes s = createNewSubmission();
 		
 		// Get existent
-		SubmissionData retrieved = submissionsDb.getSubmission(s.course,
+		SubmissionAttributes retrieved = submissionsDb.getSubmission(s.course,
 																s.evaluation,
 																s.reviewee,
 																s.reviewer);
@@ -131,7 +131,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testEditSubmission() {
-		SubmissionData s = createNewSubmission();
+		SubmissionAttributes s = createNewSubmission();
 		
 		// Edit existent
 		s.justification = new Text("Hello World");
@@ -157,12 +157,12 @@ public class SubmissionsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteSubmission() {
-		SubmissionData s = createNewSubmission();
+		SubmissionAttributes s = createNewSubmission();
 		
 		// Delete
 		submissionsDb.deleteAllSubmissionsForCourse(s.course);
 		
-		SubmissionData deleted = submissionsDb.getSubmission(s.course,
+		SubmissionAttributes deleted = submissionsDb.getSubmission(s.course,
 																s.evaluation,
 																s.reviewee,
 																s.reviewer);
@@ -193,8 +193,8 @@ public class SubmissionsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private SubmissionData createNewSubmission() {
-		SubmissionData s = new SubmissionData();
+	private SubmissionAttributes createNewSubmission() {
+		SubmissionAttributes s = new SubmissionAttributes();
 		s.course = "Computing101";
 		s.evaluation = "Basic Computing Evaluation1";
 		s.team = "team1";

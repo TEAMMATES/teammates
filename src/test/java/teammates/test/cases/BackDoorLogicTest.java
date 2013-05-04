@@ -15,14 +15,14 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.Emails;
@@ -78,8 +78,8 @@ public class BackDoorLogicTest extends BaseTestCase {
 		
 		DataBundle dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		// clean up the datastore first, to avoid clashes with existing data
-		HashMap<String, InstructorData> instructors = dataBundle.instructors;
-		for (InstructorData instructor : instructors.values()) {
+		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
+		for (InstructorAttributes instructor : instructors.values()) {
 			logic.deleteInstructor(instructor.googleId, instructor.courseId);
 		}
 
@@ -108,7 +108,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		}
 
 		// try with invalid parameters in an entity
-		CourseData invalidCourse = new CourseData();
+		CourseAttributes invalidCourse = new CourseAttributes();
 		dataBundle = new DataBundle();
 		dataBundle.courses.put("invalid", invalidCourse);
 		try {
@@ -127,7 +127,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 		restoreTypicalDataInDatastore();
 		// ensure all existing evaluations are already activated.
-		for (EvaluationData e : dataBundle.evaluations.values()) {
+		for (EvaluationAttributes e : dataBundle.evaluations.values()) {
 			e.activated = true;
 			backdoor.editEvaluation(e);
 			assertTrue(backdoor.getEvaluation(e.course, e.name).getStatus() != EvalStatus.AWAITING);
@@ -139,7 +139,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 		// Reuse an existing evaluation to create a new one that is ready to
 		// activate. Put this evaluation in a negative time zone.
-		EvaluationData evaluation1 = dataBundle.evaluations
+		EvaluationAttributes evaluation1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfInstructor1");
 		String nameOfEvalInCourse1 = "new-eval-in-course-1-tARE";
 		evaluation1.name = nameOfEvalInCourse1;
@@ -158,7 +158,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// Create another evaluation in another course in similar fashion.
 		// Put this evaluation in a positive time zone.
 		// This one too is ready to activate.
-		EvaluationData evaluation2 = dataBundle.evaluations
+		EvaluationAttributes evaluation2 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfInstructor2");
 		evaluation2.activated = false;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
@@ -199,7 +199,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 		// Reuse an existing evaluation to create a new one that is
 		// closing in 24 hours.
-		EvaluationData evaluation1 = dataBundle.evaluations
+		EvaluationAttributes evaluation1 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfInstructor1");
 		String nameOfEvalInCourse1 = "new-eval-in-course-1-tSRFCE";
 		evaluation1.name = nameOfEvalInCourse1;
@@ -214,7 +214,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 		// Create another evaluation in another course in similar fashion.
 		// This one too is closing in 24 hours.
-		EvaluationData evaluation2 = dataBundle.evaluations
+		EvaluationAttributes evaluation2 = dataBundle.evaluations
 				.get("evaluation1InCourse1OfInstructor2");
 		evaluation2.activated = true;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
@@ -250,13 +250,13 @@ public class BackDoorLogicTest extends BaseTestCase {
 			throws Exception {
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
-		HashMap<String, InstructorData> instructors = data.instructors;
-		for (InstructorData expectedInstructor : instructors.values()) {
+		HashMap<String, InstructorAttributes> instructors = data.instructors;
+		for (InstructorAttributes expectedInstructor : instructors.values()) {
 			LogicTest.verifyPresentInDatastore(expectedInstructor);
 		}
 
-		HashMap<String, CourseData> courses = data.courses;
-		for (CourseData expectedCourse : courses.values()) {
+		HashMap<String, CourseAttributes> courses = data.courses;
+		for (CourseAttributes expectedCourse : courses.values()) {
 			LogicTest.verifyPresentInDatastore(expectedCourse);
 		}
 
@@ -265,13 +265,13 @@ public class BackDoorLogicTest extends BaseTestCase {
 			LogicTest.verifyPresentInDatastore(expectedStudent);
 		}
 
-		HashMap<String, EvaluationData> evaluations = data.evaluations;
-		for (EvaluationData expectedEvaluation : evaluations.values()) {
+		HashMap<String, EvaluationAttributes> evaluations = data.evaluations;
+		for (EvaluationAttributes expectedEvaluation : evaluations.values()) {
 			LogicTest.verifyPresentInDatastore(expectedEvaluation);
 		}
 
-		HashMap<String, SubmissionData> submissions = data.submissions;
-		for (SubmissionData expectedSubmission : submissions.values()) {
+		HashMap<String, SubmissionAttributes> submissions = data.submissions;
+		for (SubmissionAttributes expectedSubmission : submissions.values()) {
 			LogicTest.verifyPresentInDatastore(expectedSubmission);
 		}
 
@@ -282,13 +282,13 @@ public class BackDoorLogicTest extends BaseTestCase {
 		printTestClassFooter();
 		turnLoggingDown(BackDoorLogic.class);
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		for (AccountData account : dataBundle.accounts.values()) {
+		for (AccountAttributes account : dataBundle.accounts.values()) {
 			backDoorLogic.deleteAccount(account.googleId);
 		}
 
 		// delete courses first in case there are existing courses with same id
 		// but under different instructors.
-		for (CourseData course : dataBundle.courses.values()) {
+		for (CourseAttributes course : dataBundle.courses.values()) {
 			backDoorLogic.deleteCourse(course.id);
 		}
 		System.out.println("class torn down");

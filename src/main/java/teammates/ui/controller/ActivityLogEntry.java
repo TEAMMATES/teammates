@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.AccountAttributes;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -83,7 +83,7 @@ public class ActivityLogEntry {
 	 * @param params
 	 * @param toShow
 	 */
-	public ActivityLogEntry(String servlet, String act, boolean show, AccountData acc,  String params, String link){
+	public ActivityLogEntry(String servlet, String act, boolean show, AccountAttributes acc,  String params, String link){
 		time = System.currentTimeMillis();
 		servletName = servlet;
 		action = act;

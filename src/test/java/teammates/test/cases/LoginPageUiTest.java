@@ -9,9 +9,9 @@ import java.io.FileNotFoundException;
 
 import org.json.JSONException;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.StudentData;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -57,7 +57,7 @@ public class LoginPageUiTest extends BaseTestCase {
 	@Test
 	public void testInstructorLogin() {
 		// Create an account for the instructor
-		AccountData testInstructor = new AccountData(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "Test Course Creator", true, "instructor@testCourse.com", "National University of Singapore");
+		AccountAttributes testInstructor = new AccountAttributes(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "Test Course Creator", true, "instructor@testCourse.com", "National University of Singapore");
 		String backDoorOperationStatus = BackDoor.createAccount(testInstructor);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
@@ -77,19 +77,19 @@ public class LoginPageUiTest extends BaseTestCase {
 		
 		//recreate instructor account 
 		BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-		AccountData testCourseCreator = new AccountData(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "Test Course Creator", true, "instructor@testCourse.com", "National University of Singapore");
+		AccountAttributes testCourseCreator = new AccountAttributes(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "Test Course Creator", true, "instructor@testCourse.com", "National University of Singapore");
 		String backDoorOperationStatus = BackDoor.createAccount(testCourseCreator);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		
 		//recreate the student account 
 		BackDoor.deleteAccount(TestProperties.inst().TEST_STUDENT_ACCOUNT);
-		AccountData testStudentAccount = new AccountData(TestProperties.inst().TEST_STUDENT_ACCOUNT, "Emily Tmms", false, "emily.tmms@gmail.com", "National University of Singapore");
+		AccountAttributes testStudentAccount = new AccountAttributes(TestProperties.inst().TEST_STUDENT_ACCOUNT, "Emily Tmms", false, "emily.tmms@gmail.com", "National University of Singapore");
 		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		//create a course for the new student
-		CourseData testCourse = new CourseData();
+		CourseAttributes testCourse = new CourseAttributes();
 		testCourse.id = "lput.tsl.course";
 		testCourse.name = "test.course.fornewstudent";
 		BackDoor.deleteCourse(testCourse.id);

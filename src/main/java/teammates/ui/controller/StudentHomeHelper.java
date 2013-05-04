@@ -5,9 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.InvalidParametersException;
 
@@ -20,10 +20,10 @@ public class StudentHomeHelper extends Helper {
 	 * @param course
 	 * @return
 	 */
-	public static EvaluationData[] getEvaluationsForCourse(CourseDetailsBundle course){
-		EvaluationData[] result = course.evaluations.toArray(new EvaluationData[]{});
-		Arrays.sort(result, new Comparator<EvaluationData>(){
-			public int compare(EvaluationData e1, EvaluationData e2){
+	public static EvaluationAttributes[] getEvaluationsForCourse(CourseDetailsBundle course){
+		EvaluationAttributes[] result = course.evaluations.toArray(new EvaluationAttributes[]{});
+		Arrays.sort(result, new Comparator<EvaluationAttributes>(){
+			public int compare(EvaluationAttributes e1, EvaluationAttributes e2){
 				return e1.name.compareTo(e2.name);
 			}
 		});
@@ -43,7 +43,7 @@ public class StudentHomeHelper extends Helper {
 	 * @param eval
 	 * @return
 	 */
-	public String getStudentStatusForEval(EvaluationData eval){
+	public String getStudentStatusForEval(EvaluationAttributes eval){
 		String studentEmail = null;
 		StudentData student = server.getStudentInCourseForGoogleId(eval.course, userId);
 		if(student!=null) studentEmail = student.email;
@@ -67,7 +67,7 @@ public class StudentHomeHelper extends Helper {
 	 * @param eval
 	 * @return
 	 */
-	public String getStudentHoverMessageForEval(EvaluationData eval){
+	public String getStudentHoverMessageForEval(EvaluationAttributes eval){
 		String status = getStudentStatusForEval(eval);
 		if(status.equals(Common.STUDENT_EVALUATION_STATUS_PENDING)){
 			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PENDING;
@@ -135,7 +135,7 @@ public class StudentHomeHelper extends Helper {
 	 * @param idx
 	 * @return
 	 */
-	public String getStudentEvaluationActions(EvaluationData eval, int idx) {
+	public String getStudentEvaluationActions(EvaluationAttributes eval, int idx) {
 		String studentStatus = getStudentStatusForEval(eval);
 		
 		if (studentStatus.equals(Common.STUDENT_EVALUATION_STATUS_PENDING)) {

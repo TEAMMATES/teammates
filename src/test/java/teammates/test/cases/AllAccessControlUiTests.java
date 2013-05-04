@@ -10,11 +10,11 @@ import java.io.FileNotFoundException;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentData;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -41,18 +41,18 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	private static String backDoorOperationStatus;
 	private static String link;
 
-	private static InstructorData otherInstructor;
+	private static InstructorAttributes otherInstructor;
 
 	// both TEST_INSTRUCTOR and TEST_STUDENT are from this course
-	private static CourseData ownCourse;
+	private static CourseAttributes ownCourse;
 
-	private static CourseData otherCourse;
+	private static CourseAttributes otherCourse;
 
 	private static StudentData ownStudent;
 	private static StudentData otherStudent;
 
-	private static EvaluationData ownEvaluation;
-	private static EvaluationData otherEvaluation;
+	private static EvaluationAttributes ownEvaluation;
+	private static EvaluationAttributes otherEvaluation;
 	
 	@BeforeClass
 	public static void classSetup() {
@@ -393,7 +393,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		EvaluationData ownEvaluation = dataBundle.evaluations
+		EvaluationAttributes ownEvaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
@@ -444,7 +444,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		______TS("student cannot view details of a course she is not registered for");
 		
 		link = Common.PAGE_STUDENT_COURSE_DETAILS;
-		CourseData otherCourse = dataBundle.courses.get("typicalCourse2");
+		CourseAttributes otherCourse = dataBundle.courses.get("typicalCourse2");
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 

@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -84,9 +84,9 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 	 * @param subs
 	 * @return
 	 */
-	private List<SubmissionData> organizeSubmissions(List<SubmissionData> subs, StudentEvalResultsHelper helper) {
+	private List<SubmissionAttributes> organizeSubmissions(List<SubmissionAttributes> subs, StudentEvalResultsHelper helper) {
 		for(int i=0; i<subs.size(); i++){
-			SubmissionData sub = subs.get(i);
+			SubmissionAttributes sub = subs.get(i);
 			if(sub.reviewee.equals(sub.reviewer) && sub.reviewee.equals(helper.student.email)){
 				subs.remove(sub);
 				subs.add(0,sub);

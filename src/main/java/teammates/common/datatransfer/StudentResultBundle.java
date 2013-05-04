@@ -13,9 +13,9 @@ public class StudentResultBundle {
 
 	public StudentData student;
 	
-	public ArrayList<SubmissionData> incoming = new ArrayList<SubmissionData>();
-	public ArrayList<SubmissionData> outgoing = new ArrayList<SubmissionData>();
-	public ArrayList<SubmissionData> selfEvaluations = new ArrayList<SubmissionData>();
+	public ArrayList<SubmissionAttributes> incoming = new ArrayList<SubmissionAttributes>();
+	public ArrayList<SubmissionAttributes> outgoing = new ArrayList<SubmissionAttributes>();
+	public ArrayList<SubmissionAttributes> selfEvaluations = new ArrayList<SubmissionAttributes>();
 
 	public StudentResultSummary summary;
 
@@ -28,8 +28,8 @@ public class StudentResultBundle {
 	}
 	
 	/** returns the self-evaluation selected from outgoing submissions */
-	public SubmissionData getSelfEvaluation() {
-		for (SubmissionData s : outgoing) {
+	public SubmissionAttributes getSelfEvaluation() {
+		for (SubmissionAttributes s : outgoing) {
 			if (s.reviewee.equals(s.reviewer)) {
 				return s;
 			}
@@ -38,8 +38,8 @@ public class StudentResultBundle {
 	}
 
 	public void sortOutgoingByStudentNameAscending() {
-		Collections.sort(outgoing, new Comparator<SubmissionData>() {
-			public int compare(SubmissionData s1, SubmissionData s2) {
+		Collections.sort(outgoing, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				// email is appended to avoid mix ups due to two students with
 				// same name.
 				return (s1.revieweeName + s1.reviewee)
@@ -49,8 +49,8 @@ public class StudentResultBundle {
 	}
 
 	public void sortIncomingByStudentNameAscending() {
-		Collections.sort(incoming, new Comparator<SubmissionData>() {
-			public int compare(SubmissionData s1, SubmissionData s2) {
+		Collections.sort(incoming, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				// email is appended to avoid mix ups due to two students with
 				// same name.
 				return (s1.reviewerName + s1.reviewer)
@@ -60,8 +60,8 @@ public class StudentResultBundle {
 	}
 
 	public void sortIncomingByFeedbackAscending() {
-		Collections.sort(incoming, new Comparator<SubmissionData>() {
-			public int compare(SubmissionData s1, SubmissionData s2) {
+		Collections.sort(incoming, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				return s1.p2pFeedback.getValue().compareTo(
 						s2.p2pFeedback.getValue());
 			}
@@ -69,7 +69,7 @@ public class StudentResultBundle {
 	}
 
 	public String getOwnerEmail() {
-		for (SubmissionData sb : outgoing) {
+		for (SubmissionAttributes sb : outgoing) {
 			if (sb.reviewee.equals(sb.reviewer)) {
 				return sb.reviewer;
 			}
@@ -92,17 +92,17 @@ public class StudentResultBundle {
 		sb.append(indentString + "perceivedToInstructor:" + summary.perceivedToInstructor + EOL);
 
 		sb.append(indentString + "outgoing:" + EOL);
-		for (SubmissionData submission : outgoing) {
+		for (SubmissionAttributes submission : outgoing) {
 			sb.append(submission.toString(indent + 2) + EOL);
 		}
 
 		sb.append(indentString + "incoming:" + EOL);
-		for (SubmissionData submission : incoming) {
+		for (SubmissionAttributes submission : incoming) {
 			sb.append(submission.toString(indent + 2) + EOL);
 		}
 		
 		sb.append(indentString + "self evaluations:" + EOL);
-		for (SubmissionData submission : selfEvaluations) {
+		for (SubmissionAttributes submission : selfEvaluations) {
 			sb.append(submission.toString(indent + 2) + EOL);
 		}
 		

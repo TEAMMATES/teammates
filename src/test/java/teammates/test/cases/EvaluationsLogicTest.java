@@ -14,13 +14,13 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.logic.backdoor.BackDoorLogic;
@@ -59,7 +59,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
 		BackDoorLogic backdoor = new BackDoorLogic();
-		for (EvaluationData e : dataBundle.evaluations.values()) {
+		for (EvaluationAttributes e : dataBundle.evaluations.values()) {
 			e.activated = true;
 			backdoor.editEvaluation(e);
 			assertTrue(backdoor.getEvaluation(e.course, e.name).getStatus() != EvalStatus.AWAITING);
@@ -69,7 +69,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		______TS("typical case, two evaluations activated");
 		// Reuse an existing evaluation to create a new one that is ready to
 		// activate. Put this evaluation in a negative time zone.
-		EvaluationData evaluation = dataBundle.evaluations
+		EvaluationAttributes evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 		String nameOfEvalInCourse1 = "new-evaluation-in-course-1-tGRE";
 		evaluation.name = nameOfEvalInCourse1;
@@ -144,16 +144,16 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
 
-		CourseData course = dataBundle.courses.get("typicalCourse1");
-		EvaluationData evaluation1 = dataBundle.evaluations
+		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+		EvaluationAttributes evaluation1 = dataBundle.evaluations
 				.get("evaluation1InCourse1");
-		EvaluationData evaluation2 = dataBundle.evaluations
+		EvaluationAttributes evaluation2 = dataBundle.evaluations
 				.get("evaluation2InCourse1");
 		StudentData student = dataBundle.students.get("student1InCourse1");
 
 		// We have a 4-member team and a 1-member team.
 		// Therefore, we expect (4*4)+(1*1)=17 submissions.
-		List<SubmissionData> submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
+		List<SubmissionAttributes> submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(17, submissions.size());
 
 		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, student.email, student.team);
@@ -170,7 +170,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		assertEquals(10, submissions.size());
 
 		// verify the student is no longer included in submissions
-		for (SubmissionData s : submissions) {
+		for (SubmissionAttributes s : submissions) {
 			assertTrue(!s.reviewee.equals(student.email));
 			assertTrue(!s.reviewer.equals(student.email));
 		}
@@ -199,10 +199,10 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
 
-		CourseData course = dataBundle.courses.get("typicalCourse1");
-		EvaluationData evaluation1 = dataBundle.evaluations
+		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+		EvaluationAttributes evaluation1 = dataBundle.evaluations
 				.get("evaluation1InCourse1");
-		EvaluationData evaluation2 = dataBundle.evaluations
+		EvaluationAttributes evaluation2 = dataBundle.evaluations
 				.get("evaluation2InCourse1");
 		StudentData student = dataBundle.students.get("student1InCourse1");
 
@@ -211,7 +211,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 
 		// We have a 5-member team and a 1-member team.
 		// Therefore, we expect (5*5)+(1*1)=26 submissions.
-		List<SubmissionData> submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
+		List<SubmissionAttributes> submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(26, submissions.size());
 		
 		// Check the same for the other evaluation, to detect any state leakage

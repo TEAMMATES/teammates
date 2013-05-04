@@ -9,7 +9,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
@@ -35,7 +35,7 @@ public class CoursesDbTest extends BaseTestCase {
 	@Test
 	public void testCreateCourse() throws EntityAlreadyExistsException {
 		// SUCCESS
-		CourseData c = new CourseData();
+		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101-fresh";
 		c.name = "Basic Computing";
 		coursesDb.createCourse(c);
@@ -54,7 +54,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.createCourse(c);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(CourseData.ERROR_ID_INVALIDCHARS, a.getMessage());
+			AssertJUnit.assertEquals(CourseAttributes.ERROR_ID_INVALIDCHARS, a.getMessage());
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}
@@ -70,10 +70,10 @@ public class CoursesDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetCourse() {
-		CourseData c = createNewCourse();
+		CourseAttributes c = createNewCourse();
 		
 		// Get existent
-		CourseData retrieved = coursesDb.getCourse(c.id);
+		CourseAttributes retrieved = coursesDb.getCourse(c.id);
 		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
@@ -96,12 +96,12 @@ public class CoursesDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteCourse() {
-		CourseData c = createNewCourse();
+		CourseAttributes c = createNewCourse();
 		
 		// Delete
 		coursesDb.deleteCourse(c.id);
 		
-		CourseData deleted = coursesDb.getCourse(c.id);
+		CourseAttributes deleted = coursesDb.getCourse(c.id);
 		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
@@ -122,8 +122,8 @@ public class CoursesDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private CourseData createNewCourse() {
-		CourseData c = new CourseData();
+	private CourseAttributes createNewCourse() {
+		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101";
 		c.name = "Basic Computing";
 		

@@ -11,7 +11,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.datastore.Datastore;
@@ -37,7 +37,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	@Test
 	public void testCreateEvaluation() throws EntityAlreadyExistsException {
 		// SUCCESS
-		EvaluationData e = new EvaluationData();
+		EvaluationAttributes e = new EvaluationAttributes();
 		e.course = "Computing101";
 		e.name = "Very First Evaluation";
 		e.startTime = new Date();
@@ -45,7 +45,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		evaluationsDb.createEvaluation(e);
 		
 		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380)
-		e = new EvaluationData();
+		e = new EvaluationAttributes();
 		e.course = "Computing102";
 		e.name = "text group text";
 		e.startTime = new Date();
@@ -66,7 +66,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 			evaluationsDb.createEvaluation(e);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(a.getMessage(), EvaluationData.ERROR_FIELD_STARTTIME);
+			AssertJUnit.assertEquals(a.getMessage(), EvaluationAttributes.ERROR_FIELD_STARTTIME);
 		} catch (EntityAlreadyExistsException ex) {
 			Assert.fail();
 		}
@@ -82,10 +82,10 @@ public class EvaluationsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetEvaluation() {
-		EvaluationData e = createNewEvaluation();
+		EvaluationAttributes e = createNewEvaluation();
 		
 		// Get existent
-		EvaluationData retrieved = evaluationsDb.getEvaluation(e.course, e.name);
+		EvaluationAttributes retrieved = evaluationsDb.getEvaluation(e.course, e.name);
 		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
@@ -103,7 +103,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testEditEvaluation() {
-		EvaluationData e = createNewEvaluation();
+		EvaluationAttributes e = createNewEvaluation();
 				
 		// Edit existent
 		e.instructions = "Foo Bar";
@@ -129,12 +129,12 @@ public class EvaluationsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteEvaluation() {
-		EvaluationData e = createNewEvaluation();
+		EvaluationAttributes e = createNewEvaluation();
 		
 		// Delete
 		evaluationsDb.deleteEvaluation(e.course, e.name);
 		
-		EvaluationData deleted = evaluationsDb.getEvaluation(e.course, e.name);
+		EvaluationAttributes deleted = evaluationsDb.getEvaluation(e.course, e.name);
 		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
@@ -162,8 +162,8 @@ public class EvaluationsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private EvaluationData createNewEvaluation() {
-		EvaluationData e = new EvaluationData();
+	private EvaluationAttributes createNewEvaluation() {
+		EvaluationAttributes e = new EvaluationAttributes();
 		e.course = "Computing101";
 		e.name = "Basic Computing Evaluation1";
 		e.startTime = new Date();

@@ -1,6 +1,5 @@
 package teammates.common.datatransfer;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -8,7 +7,7 @@ import java.util.logging.Logger;
 import teammates.common.Common;
 import teammates.storage.entity.Evaluation;
 
-public class EvaluationData extends BaseData {
+public class EvaluationAttributes extends EntityAttributes {
 	public String course;
 	public String name;
 	public String instructions = "";
@@ -38,7 +37,7 @@ public class EvaluationData extends BaseData {
 		AWAITING, OPEN, CLOSED, PUBLISHED, DOES_NOT_EXIST
 	}
 
-	public EvaluationData() {
+	public EvaluationAttributes() {
 		// This constructor should take in String params so we can trim them at
 		// construction time
 		// However, this constructor is already being used in more than 10
@@ -47,7 +46,7 @@ public class EvaluationData extends BaseData {
 		// For now, the trimming will be done everytime isValid is called.
 	}
 
-	public EvaluationData(Evaluation e) {
+	public EvaluationAttributes(Evaluation e) {
 		this.course = e.getCourseId();
 		this.name = e.getName();
 		this.instructions = e.getInstructions();

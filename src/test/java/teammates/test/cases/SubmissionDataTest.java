@@ -6,19 +6,19 @@ import org.testng.annotations.BeforeClass;
 import org.testng.AssertJUnit;
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 
 public class SubmissionDataTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(SubmissionData.class);
+		turnLoggingUp(SubmissionAttributes.class);
 	}
 
 	@Test
 	public void testValidate() {
-		SubmissionData s = new SubmissionData();
+		SubmissionAttributes s = new SubmissionAttributes();
 		
 		s.course = "valid-course";
 		s.evaluation = "valid-evaluation";
@@ -39,25 +39,25 @@ public class SubmissionDataTest extends BaseTestCase {
 		// FAIL : no course
 		s.course = null;
 		AssertJUnit.assertFalse(s.isValid());
-		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_COURSE);
+		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionAttributes.ERROR_FIELD_COURSE);
 		
 		// FAIL : no evaluation
 		s.course = "valid-course";
 		s.evaluation = null;
 		AssertJUnit.assertFalse(s.isValid());
-		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_EVALUATION);
+		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionAttributes.ERROR_FIELD_EVALUATION);
 		
 		// FAIL : no reviewee
 		s.evaluation = "valid-evaluation";
 		s.reviewee = null;
 		AssertJUnit.assertFalse(s.isValid());
-		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWEE);
+		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionAttributes.ERROR_FIELD_REVIEWEE);
 		
 		// FAIL : no reviewer
 		s.reviewee = "validreviewee@gmail.com";
 		s.reviewer = null;
 		AssertJUnit.assertFalse(s.isValid());
-		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionData.ERROR_FIELD_REVIEWER);
+		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionAttributes.ERROR_FIELD_REVIEWER);
 	}
 	
 	@Test
@@ -67,6 +67,6 @@ public class SubmissionDataTest extends BaseTestCase {
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		turnLoggingDown(SubmissionData.class);
+		turnLoggingDown(SubmissionAttributes.class);
 	}
 }

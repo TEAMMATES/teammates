@@ -1,11 +1,11 @@
 package teammates.logic;
 
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.UserType;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
@@ -231,7 +231,7 @@ public class GateKeeper {
 		throw new UnauthorizedAccessException();
 	}
 
-	public void verifySubmissionEditableForUser(SubmissionData submission) {
+	public void verifySubmissionEditableForUser(SubmissionAttributes submission) {
 		if (isInternalCall())
 			return;
 		if (isAdministrator())
@@ -273,7 +273,7 @@ public class GateKeeper {
 		if (user == null) {
 			return false;
 		}
-		CourseData course = coursesDb.getCourse(courseId);
+		CourseAttributes course = coursesDb.getCourse(courseId);
 		if (course == null) {
 			return false;
 		}

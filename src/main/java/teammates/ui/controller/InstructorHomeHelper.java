@@ -3,7 +3,7 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 
 public class InstructorHomeHelper extends Helper {

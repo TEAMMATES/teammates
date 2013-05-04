@@ -6,16 +6,16 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.datatransfer.StudentResultBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 
 public class StudentEvalResultsHelper extends Helper {
-	public EvaluationData eval;
+	public EvaluationAttributes eval;
 	public StudentData student;
-	public List<SubmissionData> incoming;
-	public List<SubmissionData> outgoing;
-	public List<SubmissionData> selfEvaluations;
+	public List<SubmissionAttributes> incoming;
+	public List<SubmissionAttributes> outgoing;
+	public List<SubmissionAttributes> selfEvaluations;
 
 	public StudentResultBundle evalResult;
 	
@@ -23,11 +23,11 @@ public class StudentEvalResultsHelper extends Helper {
 		return InstructorEvalResultsHelper.colorizePoints(points);
 	}
 	
-	public static String getPointsListOriginal(List<SubmissionData> subs){
+	public static String getPointsListOriginal(List<SubmissionAttributes> subs){
 		return InstructorEvalResultsHelper.getPointsList(subs, false);
 	}
 	
-	public static String getPointsListNormalized(List<SubmissionData> subs){
+	public static String getPointsListNormalized(List<SubmissionAttributes> subs){
 		return InstructorEvalResultsHelper.getPointsList(subs, true);
 	}
 	
@@ -37,17 +37,17 @@ public class StudentEvalResultsHelper extends Helper {
 	 *    submission list, sorted in descending order, formatted as a comma 
 	 *    separated and colorized string. Excludes self-rating.
 	 */
-	public static String getNormalizedToStudentsPointsList(final List<SubmissionData> subs){
+	public static String getNormalizedToStudentsPointsList(final List<SubmissionAttributes> subs){
 		String result = "";
-		List<SubmissionData> tempSubs =  new ArrayList<SubmissionData>(subs);
+		List<SubmissionAttributes> tempSubs =  new ArrayList<SubmissionAttributes>(subs);
 
-		Collections.sort(tempSubs, new Comparator<SubmissionData>(){
+		Collections.sort(tempSubs, new Comparator<SubmissionAttributes>(){
 			@Override
-			public int compare(SubmissionData s1, SubmissionData s2){
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
 				return Integer.valueOf(s2.normalizedToStudent).compareTo(s1.normalizedToStudent);
 			}
 		});
-		for(SubmissionData sub: tempSubs){
+		for(SubmissionAttributes sub: tempSubs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
 			result+=InstructorEvalResultsHelper.colorizePoints(sub.normalizedToStudent);

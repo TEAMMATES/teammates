@@ -14,13 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NotImplementedException;
 import teammates.logic.backdoor.BackDoorServlet;
@@ -76,8 +76,8 @@ public class BackDoor {
 	public static void deleteInstructors(String jsonString) {
 		Gson gson = Common.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-		HashMap<String, InstructorData> instructors = data.instructors;
-		for (InstructorData instructor : instructors.values()) {
+		HashMap<String, InstructorAttributes> instructors = data.instructors;
+		for (InstructorAttributes instructor : instructors.values()) {
 			deleteInstructor(instructor.googleId);
 		}
 	}
@@ -92,8 +92,8 @@ public class BackDoor {
 	public static void deleteCourses(String jsonString) {
 		Gson gson = Common.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-		HashMap<String, CourseData> courses = data.courses;
-		for (CourseData course : courses.values()) {
+		HashMap<String, CourseAttributes> courses = data.courses;
+		for (CourseAttributes course : courses.values()) {
 			deleteCourse(course.id);
 		}
 	}
@@ -104,7 +104,7 @@ public class BackDoor {
 	private void ____ACCOUNT_level_methods______________________________() {
 	}
 	
-	public static String createAccount(AccountData account) {
+	public static String createAccount(AccountAttributes account) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.accounts.put(account.googleId, account);
 		return persistNewDataBundle(Common.getTeammatesGson()
@@ -118,7 +118,7 @@ public class BackDoor {
 		return instructorJsonString;
 	}
 
-	public static String editAccount(AccountData account) {
+	public static String editAccount(AccountAttributes account) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_ACCOUNT);
 		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
 				.getTeammatesGson().toJson(account));
@@ -137,7 +137,7 @@ public class BackDoor {
 	private void ____INSTRUCTOR_level_methods______________________________() {
 	}
 
-	public static String createInstructor(InstructorData instructor) {
+	public static String createInstructor(InstructorAttributes instructor) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.instructors.put(instructor.googleId, instructor);
 		return persistNewDataBundle(Common.getTeammatesGson()
@@ -152,7 +152,7 @@ public class BackDoor {
 		return instructorJsonString;
 	}
 
-	public static String editInstructor(InstructorData instructor)
+	public static String editInstructor(InstructorAttributes instructor)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"Not implemented because editing instructors is not currently allowed");
@@ -186,7 +186,7 @@ public class BackDoor {
 	private void ____COURSE_level_methods______________________________() {
 	}
 
-	public static String createCourse(CourseData course) {
+	public static String createCourse(CourseAttributes course) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.courses.put("dummy-key", course);
 		return persistNewDataBundle(Common.getTeammatesGson()
@@ -200,7 +200,7 @@ public class BackDoor {
 		return courseJsonString;
 	}
 
-	public static String editCourse(CourseData course)
+	public static String editCourse(CourseAttributes course)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"Not implemented because editing courses is not currently allowed");
@@ -262,7 +262,7 @@ public class BackDoor {
 	private void ____EVALUATION_level_methods______________________________() {
 	}
 
-	public static String createEvaluation(EvaluationData evaluation) {
+	public static String createEvaluation(EvaluationAttributes evaluation) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.evaluations.put("dummy-key", evaluation);
 		return persistNewDataBundle(Common.getTeammatesGson()
@@ -278,7 +278,7 @@ public class BackDoor {
 		return evaluationJson;
 	}
 
-	public static String editEvaluation(EvaluationData evaluation) {
+	public static String editEvaluation(EvaluationAttributes evaluation) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_EVALUATION);
 		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
 				.getTeammatesGson().toJson(evaluation));
@@ -298,7 +298,7 @@ public class BackDoor {
 	private void ____SUBMISSION_level_methods______________________________() {
 	}
 
-	public static String createSubmission(SubmissionData submission)
+	public static String createSubmission(SubmissionAttributes submission)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"Not implemented because creating submissions is automatically done");
@@ -315,7 +315,7 @@ public class BackDoor {
 		return submissionJson;
 	}
 
-	public static String editSubmission(SubmissionData submission) {
+	public static String editSubmission(SubmissionAttributes submission) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_SUBMISSION);
 		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
 				.getTeammatesGson().toJson(submission));

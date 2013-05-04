@@ -1,9 +1,11 @@
-<%@page import="teammates.common.datatransfer.EvaluationData.EvalStatus"%>
+<%@page import="teammates.common.datatransfer.EvaluationAttributes.EvalStatus"%>
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.common.datatransfer.SubmissionData" %>
+<%@ page import="teammates.common.datatransfer.SubmissionAttributes" %>
 <%@ page import="teammates.ui.controller.EvalSubmissionEditHelper" %>
 
-<% EvalSubmissionEditHelper helper = (EvalSubmissionEditHelper)request.getAttribute("helper"); %>
+<%
+	EvalSubmissionEditHelper helper = (EvalSubmissionEditHelper)request.getAttribute("helper");
+%>
 <%
 	boolean isStudent = Boolean.parseBoolean(request.getParameter("isStudent"));
 	String disableAttributeValue = "";
@@ -11,12 +13,10 @@
 	if (helper.eval.getStatus() == EvalStatus.CLOSED && isStudent){
 		disableAttributeValue = "disabled=\"disabled\"";
 	}
-		
-	
 %>
-<input type="hidden" value="<%= helper.eval.course %>"
-		name="<%= Common.PARAM_COURSE_ID %>"
-		id="<%= Common.PARAM_COURSE_ID %>">
+<input type="hidden" value="<%=helper.eval.course%>"
+		name="<%=Common.PARAM_COURSE_ID%>"
+		id="<%=Common.PARAM_COURSE_ID%>">
 <input type="hidden" value="<%=EvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%>"
 		name="<%=Common.PARAM_EVALUATION_NAME%>"
 		id="<%=Common.PARAM_EVALUATION_NAME%>">
@@ -29,7 +29,7 @@
 <table class="inputTable">
 	<%
 		int idx = 0;
-						for(SubmissionData sub: helper.submissions){
+					for(SubmissionAttributes sub: helper.submissions){
 	%>
 		<tr style="display: none;">
 			<td>

@@ -5,9 +5,9 @@ import teammates.common.Common;
 public class EvaluationDetailsBundle {
 
 	public EvaluationStats stats;
-	public EvaluationData evaluation;
+	public EvaluationAttributes evaluation;
 
-	public EvaluationDetailsBundle(EvaluationData evaluation) {
+	public EvaluationDetailsBundle(EvaluationAttributes evaluation) {
 		this.evaluation = evaluation;
 		this.stats = new EvaluationStats();
 	}

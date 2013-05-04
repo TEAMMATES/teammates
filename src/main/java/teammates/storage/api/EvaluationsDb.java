@@ -13,8 +13,8 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Evaluation;
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 
 /**
@@ -40,7 +40,7 @@ public class EvaluationsDb {
 	 * @throws EntityAlreadyExistsException
 	 * 
 	 */
-	public void createEvaluation(EvaluationData evaluationToAdd)
+	public void createEvaluation(EvaluationAttributes evaluationToAdd)
 			throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationToAdd);
 
@@ -87,12 +87,12 @@ public class EvaluationsDb {
 	 * @return
 	 */
 	public boolean isEvaluationOpen(String courseId, String evaluationName) {
-		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 		return evaluation != null && evaluation.getStatus() == EvalStatus.OPEN;
 	}
 	
 	public boolean isEvaluationPublished(String courseId, String evaluationName) {
-		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 		return evaluation != null && evaluation.getStatus() == EvalStatus.PUBLISHED;
 	}
 
@@ -109,7 +109,7 @@ public class EvaluationsDb {
 	 * 
 	 * @return the EvaluationData of the specified course and name
 	 */
-	public EvaluationData getEvaluation(String courseId, String name) {
+	public EvaluationAttributes getEvaluation(String courseId, String name) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
 
@@ -120,7 +120,7 @@ public class EvaluationsDb {
 			return null;
 		}
 
-		return new EvaluationData(e);
+		return new EvaluationAttributes(e);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class EvaluationsDb {
 	 * 
 	 * @return the list of evaluations belonging to the specified course
 	 */
-	public List<EvaluationData> getEvaluationsForCourse(String courseId) {
+	public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		String query = "select from " + Evaluation.class.getName()
@@ -143,11 +143,11 @@ public class EvaluationsDb {
 		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
 				query).execute();
 
-		List<EvaluationData> evaluationDataList = new ArrayList<EvaluationData>();
+		List<EvaluationAttributes> evaluationDataList = new ArrayList<EvaluationAttributes>();
 
 		for (Evaluation e : evaluationList) {
 			if (!JDOHelper.isDeleted(e)) {
-				evaluationDataList.add(new EvaluationData(e));
+				evaluationDataList.add(new EvaluationAttributes(e));
 			}
 		}
 
@@ -164,17 +164,17 @@ public class EvaluationsDb {
 	 * 
 	 * @return List<EvaluationData> of ready evaluations
 	 */
-	public List<EvaluationData> getReadyEvaluations() {
+	public List<EvaluationAttributes> getReadyEvaluations() {
 		// TODO: very inefficient to go through all evaluations
 		// There doesn't seem to be another alternative.
 		// The readiness must be evaluated from a Calendar instance, not able to
 		// select at query time
 		List<Evaluation> evaluationList = getAllEvaluations();
-		List<EvaluationData> readyEvaluations = new ArrayList<EvaluationData>();
+		List<EvaluationAttributes> readyEvaluations = new ArrayList<EvaluationAttributes>();
 
 		for (Evaluation e : evaluationList) {
 			if (!JDOHelper.isDeleted(e) && e.isReadyToActivate()) {
-				readyEvaluations.add(new EvaluationData(e));
+				readyEvaluations.add(new EvaluationAttributes(e));
 			}
 		}
 		return readyEvaluations;
@@ -189,7 +189,7 @@ public class EvaluationsDb {
 	 * 
 	 * @return the list of all existing evaluations
 	 */
-	public List<EvaluationData> getEvaluationsClosingWithinTimeLimit(int hours) {
+	public List<EvaluationAttributes> getEvaluationsClosingWithinTimeLimit(int hours) {
 		String query = "select from " + Evaluation.class.getName();
 
 		@SuppressWarnings("unchecked")
@@ -232,11 +232,11 @@ public class EvaluationsDb {
 					(int) (-60 * 60 * 1000 * e.getTimeZone()));
 		}
 
-		List<EvaluationData> evalDataList = new ArrayList<EvaluationData>();
+		List<EvaluationAttributes> evalDataList = new ArrayList<EvaluationAttributes>();
 
 		for (Evaluation e : dueEvaluationList) {
 			if (!JDOHelper.isDeleted(e)) {
-				evalDataList.add(new EvaluationData(e));
+				evalDataList.add(new EvaluationAttributes(e));
 			}
 		}
 
@@ -313,13 +313,13 @@ public class EvaluationsDb {
 	 * Edits an Evaluation object with the new values and returns true if there
 	 * are changes, false otherwise.
 	 * 
-	 * @param EvaluationData
+	 * @param EvaluationAttributes
 	 * 
 	 * @return <code>true</code> if there are changes, <code>false</code>
 	 *         otherwise
 	 * 
 	 */
-	public void editEvaluation(EvaluationData ed) {
+	public void editEvaluation(EvaluationAttributes ed) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, ed);
 
 		editEvaluation(ed.course, ed.name, ed.instructions,

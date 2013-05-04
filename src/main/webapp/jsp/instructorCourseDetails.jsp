@@ -1,10 +1,12 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentData"%>
-<%@ page import="teammates.common.datatransfer.InstructorData"%>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
 <%@ page import="teammates.ui.controller.InstructorCourseDetailsHelper"%>
-<%	InstructorCourseDetailsHelper helper = (InstructorCourseDetailsHelper)request.getAttribute("helper"); %>
+<%
+	InstructorCourseDetailsHelper helper = (InstructorCourseDetailsHelper)request.getAttribute("helper");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +35,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -65,8 +67,8 @@
 		 			<td id="instructors">
 		 			<%
 		 				for (int i = 0; i < helper.instructors.size(); i++){
-		 					 					InstructorData instructor = helper.instructors.get(i);
-		 					 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+		 					 					 					InstructorAttributes instructor = helper.instructors.get(i);
+		 					 					 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
 		 			%>
 		 				<%=instructorInfo%><br><br>
 		 			<%

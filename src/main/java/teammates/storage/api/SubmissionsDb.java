@@ -13,7 +13,7 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 
 /**
@@ -37,7 +37,7 @@ public class SubmissionsDb {
 	 * @throws EntityAlreadyExistsException 
 	 * 
 	 */
-	public void createSubmission(SubmissionData submissionToAdd) throws EntityAlreadyExistsException {
+	public void createSubmission(SubmissionAttributes submissionToAdd) throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionToAdd);
 		
 		Assumption.assertTrue(submissionToAdd.getInvalidStateInfo(), submissionToAdd.isValid());
@@ -96,12 +96,12 @@ public class SubmissionsDb {
 	 * @param List<SubmissionData>
 	 * 
 	 */
-	public void createListOfSubmissions(List<SubmissionData> newList) {
+	public void createListOfSubmissions(List<SubmissionAttributes> newList) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newList);
 		
 		List<Submission> newEntityList = new ArrayList<Submission>();
 		
-		for (SubmissionData sd : newList) {
+		for (SubmissionAttributes sd : newList) {
 			Assumption.assertTrue(sd.getInvalidStateInfo(), sd.isValid());
 			newEntityList.add(sd.toEntity());
 		}
@@ -136,7 +136,7 @@ public class SubmissionsDb {
 	 * @return the submission entry of the specified fromStudent to the
 	 *         specified toStudent
 	 */
-	public SubmissionData getSubmission(String courseId, String evaluationName,
+	public SubmissionAttributes getSubmission(String courseId, String evaluationName,
 			String toStudent, String fromStudent) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
@@ -152,7 +152,7 @@ public class SubmissionsDb {
 					+ toStudent);
 			return null;
 		}
-		return new SubmissionData(s);
+		return new SubmissionAttributes(s);
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class SubmissionsDb {
 	 * 
 	 * @return the submissions pertaining to the specified course
 	 */
-	public List<SubmissionData> getSubmissionsForCourse(String courseId) {
+	public List<SubmissionAttributes> getSubmissionsForCourse(String courseId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		String query = "select from " + Submission.class.getName()
@@ -175,11 +175,11 @@ public class SubmissionsDb {
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute();
 
-		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
+		List<SubmissionAttributes> submissionDataList = new ArrayList<SubmissionAttributes>();
 
 		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
-				submissionDataList.add(new SubmissionData(s));
+				submissionDataList.add(new SubmissionAttributes(s));
 			}
 		}
 
@@ -201,7 +201,7 @@ public class SubmissionsDb {
 	 * 
 	 * @return List<SubmissionData>
 	 */
-	public List<SubmissionData> getSubmissionsForEvaluation(String courseId,
+	public List<SubmissionAttributes> getSubmissionsForEvaluation(String courseId,
 			String evaluationName) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
@@ -213,11 +213,11 @@ public class SubmissionsDb {
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute(courseId, evaluationName);
-		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
+		List<SubmissionAttributes> submissionDataList = new ArrayList<SubmissionAttributes>();
 
 		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
-				submissionDataList.add(new SubmissionData(s));
+				submissionDataList.add(new SubmissionAttributes(s));
 			}
 		}
 
@@ -242,7 +242,7 @@ public class SubmissionsDb {
 	 * 
 	 * @return the submissions to the target student
 	 */
-	public List<SubmissionData> getSubmissionsFromEvaluationToStudent(
+	public List<SubmissionAttributes> getSubmissionsFromEvaluationToStudent(
 			String courseId, String evaluationName, String revieweeEmail) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
@@ -258,10 +258,10 @@ public class SubmissionsDb {
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute(courseId, evaluationName, revieweeEmail);
 
-		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
+		List<SubmissionAttributes> submissionDataList = new ArrayList<SubmissionAttributes>();
 
 		for (Submission s : submissionList) {
-			submissionDataList.add(new SubmissionData(s));
+			submissionDataList.add(new SubmissionAttributes(s));
 		}
 		return submissionDataList;
 	}
@@ -283,7 +283,7 @@ public class SubmissionsDb {
 	 * @return the submissions of the specified student pertaining to the
 	 *         specified evaluation
 	 */
-	public List<SubmissionData> getSubmissionsFromEvaluationFromStudent(
+	public List<SubmissionAttributes> getSubmissionsFromEvaluationFromStudent(
 			String courseId, String evaluationName, String reviewerEmail) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
@@ -300,10 +300,10 @@ public class SubmissionsDb {
 		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
 				query).execute(courseId, evaluationName, reviewerEmail);
 
-		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
+		List<SubmissionAttributes> submissionDataList = new ArrayList<SubmissionAttributes>();
 
 		for (Submission s : submissionList) {
-			submissionDataList.add(new SubmissionData(s));
+			submissionDataList.add(new SubmissionAttributes(s));
 		}
 		return submissionDataList;
 	}
@@ -361,7 +361,7 @@ public class SubmissionsDb {
 	 *            modified values.
 	 * 
 	 */
-	public void updateSubmission(SubmissionData sd) {
+	public void updateSubmission(SubmissionAttributes sd) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, sd);
 
 		Submission submission = getSubmissionEntity(sd.course, sd.evaluation,
@@ -391,10 +391,10 @@ public class SubmissionsDb {
 	 *            submission list must be valid)
 	 * 
 	 */
-	public void updateSubmissions(List<SubmissionData> submissionDataList) {
+	public void updateSubmissions(List<SubmissionAttributes> submissionDataList) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionDataList);
 
-		for (SubmissionData sd : submissionDataList) {
+		for (SubmissionAttributes sd : submissionDataList) {
 			updateSubmission(sd);
 		}
 		// closing PM because otherwise the data is not updated during offline

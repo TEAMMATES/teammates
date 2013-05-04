@@ -16,20 +16,20 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.Assumption;
 import teammates.common.BuildProperties;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.EvaluationResultsBundle;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentData.UpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
 
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
@@ -143,19 +143,19 @@ public class Logic {
 	/**
 	 * Access: any logged in user
 	 */
-	public AccountData getAccount(String googleId) {
+	public AccountAttributes getAccount(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		gateKeeper.verifyLoggedInUserAndAbove();
-		AccountData account = accountsLogic.getAccount(googleId);
+		AccountAttributes account = accountsLogic.getAccount(googleId);
 		return account;
 	}
 	
 	/**
 	 * Access: Admin only
 	 */
-	public List<AccountData> getInstructorAccounts() {
+	public List<AccountAttributes> getInstructorAccounts() {
 		gateKeeper.verifyAdminLoggedIn();
-		List<AccountData> accounts = accountsLogic.getInstructorAccounts();
+		List<AccountAttributes> accounts = accountsLogic.getInstructorAccounts();
 		return accounts;
 	}
 	
@@ -164,7 +164,7 @@ public class Logic {
 	 * @param a
 	 * @throws InvalidParametersException
 	 */
-	public void updateAccount(AccountData a) throws InvalidParametersException {
+	public void updateAccount(AccountAttributes a) throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, a);
 		gateKeeper.verifyAdminLoggedIn();
 		accountsLogic.updateAccount(a);
@@ -201,19 +201,19 @@ public class Logic {
 	/**
 	 * Access: any logged in user
 	 */
-	public InstructorData getInstructor(String instructorId, String courseId) {
+	public InstructorAttributes getInstructor(String instructorId, String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyLoggedInUserAndAbove();
-		InstructorData instructor = accountsLogic.getInstructor(instructorId, courseId);
+		InstructorAttributes instructor = accountsLogic.getInstructor(instructorId, courseId);
 		return instructor;
 	}
 	
 	/**
 	 * Access: admin only
 	 */
-	public List<InstructorData> getAllInstructors() {
+	public List<InstructorAttributes> getAllInstructors() {
 		gateKeeper.verifyAdminLoggedIn();
 		return accountsLogic.getAllInstructors();
 	}
@@ -224,7 +224,7 @@ public class Logic {
 	 * @param googleId
 	 * @return List<InstructorData>
 	 */
-	public List<InstructorData> getInstructorRolesForAccount(String googleId) {
+	public List<InstructorAttributes> getInstructorRolesForAccount(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
 		return accountsLogic.getInstructorRolesForAccount(googleId);
@@ -236,7 +236,7 @@ public class Logic {
 	 * @param courseId
 	 * @return List<InstructorData>
 	 */
-	public List<InstructorData> getInstructorsOfCourse(String courseId) {
+	public List<InstructorAttributes> getInstructorsOfCourse(String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 		return accountsLogic.getInstructorsOfCourse(courseId);
@@ -247,7 +247,7 @@ public class Logic {
 	 * @throws InvalidParametersException 
 	 * 
 	 */
-	public void editInstructor(InstructorData instructor) throws InvalidParametersException {
+	public void editInstructor(InstructorAttributes instructor) throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructor.googleId);
 		accountsLogic.updateInstructor(instructor);
@@ -353,8 +353,8 @@ public class Logic {
 
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
-		List<InstructorData> instructorList = accountsLogic.getInstructorRolesForAccount(instructorId);
-		for (InstructorData id : instructorList) {
+		List<InstructorAttributes> instructorList = accountsLogic.getInstructorRolesForAccount(instructorId);
+		for (InstructorAttributes id : instructorList) {
 			evaluationSummaryList.addAll(getEvaluationsListForCourse(id.courseId));
 		}
 		return evaluationSummaryList;
@@ -374,10 +374,10 @@ public class Logic {
 
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
-		List<EvaluationData> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(courseId);
+		List<EvaluationAttributes> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(courseId);
 		List<StudentData> students = accountsLogic.getStudentListForCourse(courseId);
 
-		for (EvaluationData evaluation : evaluationsSummaryForCourse) {
+		for (EvaluationAttributes evaluation : evaluationsSummaryForCourse) {
 			EvaluationDetailsBundle edd = getEvaluationDetails(students, evaluation);
 			evaluationSummaryList.add(edd);
 		}
@@ -409,7 +409,7 @@ public class Logic {
 		// Create an instructor relation for the INSTRUCTOR that created this course
 		// The INSTRUCTOR relation is created here with NAME, EMAIL and INSTITUTION fields retrieved from his AccountData
 		// Otherwise, createCourse() method will have to take in 3 extra parameters for them which is not a good idea
-		AccountData courseCreator = accountsLogic.getAccount(instructorId);
+		AccountAttributes courseCreator = accountsLogic.getAccount(instructorId);
 		Assumption.assertNotNull(ERROR_COURSE_CREATOR_NO_ACCOUNT + Common.getCurrentThreadStack(), courseCreator);
 		accountsLogic.createInstructor(instructorId, courseId, courseCreator.name, courseCreator.email, courseCreator.institute);
 	}
@@ -418,10 +418,10 @@ public class Logic {
 	 * AccessLevel : any registered user (because it is too expensive to check
 -	 * if a student is in the course)
 	 */
-	public CourseData getCourse(String courseId) {
+	public CourseAttributes getCourse(String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		gateKeeper.verifyRegisteredUserOrAbove();
-		CourseData c = coursesLogic.getCourse(courseId);
+		CourseAttributes c = coursesLogic.getCourse(courseId);
 		return c;
 	}
 
@@ -450,7 +450,7 @@ public class Logic {
 		return courseSummary;
 	}
 
-	public void editCourse(CourseData course) throws NotImplementedException {
+	public void editCourse(CourseAttributes course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing courses");
 	}
@@ -477,21 +477,21 @@ public class Logic {
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 		
 		// Prepare the list to be updated
-		List<InstructorData> instructorsList = parseInstructorLines(courseId, instructorLines);
+		List<InstructorAttributes> instructorsList = parseInstructorLines(courseId, instructorLines);
 		
 		// Retrieve the current list of instructors
 		// Remove those that are not in the list and persist the new ones
 		// Edit the ones that are found in both lists
-		List<InstructorData> currentInstructors = accountsLogic.getInstructorsOfCourse(courseId);
+		List<InstructorAttributes> currentInstructors = accountsLogic.getInstructorsOfCourse(courseId);
 		
-		List<InstructorData> toAdd = new ArrayList<InstructorData>();
-		List<InstructorData> toRemove = new ArrayList<InstructorData>();
-		List<InstructorData> toEdit = new ArrayList<InstructorData>();
+		List<InstructorAttributes> toAdd = new ArrayList<InstructorAttributes>();
+		List<InstructorAttributes> toRemove = new ArrayList<InstructorAttributes>();
+		List<InstructorAttributes> toEdit = new ArrayList<InstructorAttributes>();
 		
 		// Find new names
-		for (InstructorData id : instructorsList) {
+		for (InstructorAttributes id : instructorsList) {
 			boolean found = false;
-			for (InstructorData currentInstructor : currentInstructors) {
+			for (InstructorAttributes currentInstructor : currentInstructors) {
 				if (id.googleId.equals(currentInstructor.googleId)) {
 					toEdit.add(id);
 					found = true;
@@ -503,9 +503,9 @@ public class Logic {
 		}
 		
 		// Find lost names
-		for (InstructorData currentInstructor : currentInstructors) {
+		for (InstructorAttributes currentInstructor : currentInstructors) {
 			boolean found = false;
-			for (InstructorData id : instructorsList) {
+			for (InstructorAttributes id : instructorsList) {
 				if (id.googleId.equals(currentInstructor.googleId)) {
 					found = true;
 				}
@@ -516,7 +516,7 @@ public class Logic {
 		}
 		
 		// Operate on each of the lists respectively
-		for (InstructorData add : toAdd) {
+		for (InstructorAttributes add : toAdd) {
 			try {
 				accountsLogic.createInstructor(add.googleId, courseId, add.name, add.email, courseInstitute);  
 			} catch (EntityAlreadyExistsException e) {
@@ -524,10 +524,10 @@ public class Logic {
 				// When that happens we continue silently
 			}
 		}
-		for (InstructorData remove : toRemove) {
+		for (InstructorAttributes remove : toRemove) {
 			accountsLogic.deleteInstructor(remove.googleId, remove.courseId);
 		}
-		for (InstructorData edit : toEdit) {
+		for (InstructorAttributes edit : toEdit) {
 			accountsLogic.updateInstructor(edit);
 		}
 	}
@@ -674,7 +674,7 @@ public class Logic {
 		List<StudentData> students = getStudentListForCourse(courseId);
 		CoursesLogic.sortByTeamName(students);
 
-		CourseData course = getCourse(courseId);
+		CourseAttributes course = getCourse(courseId);
 
 		if (course == null) {
 			throw new EntityDoesNotExistException("The course " + courseId
@@ -819,7 +819,7 @@ public class Logic {
 			throw new EntityDoesNotExistException("Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
 		}
 
-		CourseData course = coursesLogic.getCourse(courseId);
+		CourseAttributes course = coursesLogic.getCourse(courseId);
 		StudentData studentData = accountsLogic.getStudent(courseId, studentEmail);
 		Emails emailMgr = new Emails();
 		try {
@@ -875,7 +875,7 @@ public class Logic {
 		// Create the Account if it does not exist
 		if (!accountsLogic.isAccountExists(googleId)) {
 			// Need to retrieve the INSTITUTE of COURSE which this student is enrolling into, for creating his/her ACCOUNT
-			CourseData cd = coursesLogic.getCourse(newJoinedStudent.course);
+			CourseAttributes cd = coursesLogic.getCourse(newJoinedStudent.course);
 			accountsLogic.createAccount(googleId, newJoinedStudent.name, false, newJoinedStudent.email, coursesLogic.getCourseInstitute(cd.id));
 		}
 	}
@@ -909,7 +909,7 @@ public class Logic {
 	 * @throws EntityDoesNotExistException
 	 *             Thrown if no such student.
 	 */
-	public List<CourseData> getCourseListForStudent(String googleId)
+	public List<CourseAttributes> getCourseListForStudent(String googleId)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
@@ -935,7 +935,7 @@ public class Logic {
 
 		gateKeeper.verifyLoggedInUserAndAbove();
 
-		List<SubmissionData> submissions = null;
+		List<SubmissionAttributes> submissions = null;
 		try {
 			submissions = getSubmissionsFromStudent(courseId, evaluationName,
 					studentEmail);
@@ -947,7 +947,7 @@ public class Logic {
 			return false;
 		}
 
-		for (SubmissionData sd : submissions) {
+		for (SubmissionAttributes sd : submissions) {
 			if (sd.points != Common.POINTS_NOT_SUBMITTED) {
 				return true;
 			}
@@ -969,17 +969,17 @@ public class Logic {
 		gateKeeper.verifySameStudentOrAdmin(googleId);
 
 		// Get the list of courses that this student is in
-		List<CourseData> courseList = getCourseListForStudent(googleId);
+		List<CourseAttributes> courseList = getCourseListForStudent(googleId);
 		List<CourseDetailsBundle> courseDetailsList = new ArrayList<CourseDetailsBundle>();
 
 		// For each course the student is in
-		for (CourseData c : courseList) {
+		for (CourseAttributes c : courseList) {
 			// Get the list of evaluations for the course
-			List<EvaluationData> evaluationDataList = evaluationsLogic.getEvaluationsForCourse(c.id);
+			List<EvaluationAttributes> evaluationDataList = evaluationsLogic.getEvaluationsForCourse(c.id);
 
 			CourseDetailsBundle cdd = new CourseDetailsBundle(c);
 			// For the list of evaluations for this course
-			for (EvaluationData ed : evaluationDataList) {
+			for (EvaluationAttributes ed : evaluationDataList) {
 				EvaluationDetailsBundle edd = new EvaluationDetailsBundle(ed);
 				// Add this evaluation to the course's list of evaluations.
 				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
@@ -1041,7 +1041,7 @@ public class Logic {
 	 *             invalid state (e.g., endTime is set before startTime).
 	 *             However, setting start time to a past time is allowed.
 	 */
-	public void createEvaluation(EvaluationData evaluation)
+	public void createEvaluation(EvaluationAttributes evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
 
@@ -1059,13 +1059,13 @@ public class Logic {
 	 * Access: all registered users
 	 * 
 	 */
-	public EvaluationData getEvaluation(String courseId, String evaluationName) {
+	public EvaluationAttributes getEvaluation(String courseId, String evaluationName) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		gateKeeper.verifyRegisteredUserOrAbove();
 
-		EvaluationData e = evaluationsLogic.getEvaluation(courseId, evaluationName);
+		EvaluationAttributes e = evaluationsLogic.getEvaluation(courseId, evaluationName);
 
 		return e;
 	}
@@ -1096,9 +1096,9 @@ public class Logic {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
 		}
 		
-		EvaluationData original = getEvaluation(courseId, evaluationName);
+		EvaluationAttributes original = getEvaluation(courseId, evaluationName);
 
-		EvaluationData evaluation = new EvaluationData();
+		EvaluationAttributes evaluation = new EvaluationAttributes();
 		evaluation.course = courseId;
 		evaluation.name = evaluationName;
 		evaluation.instructions = instructions;
@@ -1144,7 +1144,7 @@ public class Logic {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
 		}
 
-		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 		if (evaluation.getStatus() != EvalStatus.CLOSED) {
 			throw new InvalidParametersException(
 					Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
@@ -1172,7 +1172,7 @@ public class Logic {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
 		}
 		
-		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 		if (evaluation.getStatus() != EvalStatus.PUBLISHED) {
 			throw new InvalidParametersException(
 					Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
@@ -1197,7 +1197,7 @@ public class Logic {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
 		}
 
-		EvaluationData evaluation = getEvaluation(courseId, evaluationName);
+		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
 		List<StudentData> studentDataList = accountsLogic.getStudentListForCourse(courseId);
@@ -1210,7 +1210,7 @@ public class Logic {
 			}
 		}
 
-		CourseData course = getCourse(courseId);
+		CourseAttributes course = getCourse(courseId);
 
 		List<MimeMessage> emails;
 
@@ -1241,7 +1241,7 @@ public class Logic {
 		EvaluationResultsBundle returnValue = new EvaluationResultsBundle();
 		returnValue.evaluation = getEvaluation(courseId, evaluationName);
 		
-		HashMap<String, SubmissionData> submissionDataList = getSubmissionsForEvaluation(
+		HashMap<String, SubmissionAttributes> submissionDataList = getSubmissionsForEvaluation(
 				courseId, evaluationName);
 		returnValue.teamResults = new TreeMap<String,TeamResultBundle>();
 		
@@ -1267,7 +1267,7 @@ public class Logic {
 	 *         Access: course owner, reviewer, admin
 	 * 
 	 */
-	public List<SubmissionData> getSubmissionsFromStudent(String courseId,
+	public List<SubmissionAttributes> getSubmissionsFromStudent(String courseId,
 			String evaluationName, String reviewerEmail)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1276,7 +1276,7 @@ public class Logic {
 
 		gateKeeper.verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
 
-		List<SubmissionData> submissions = evaluationsLogic.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
+		List<SubmissionAttributes> submissions = evaluationsLogic.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
 
 		boolean isSubmissionsExist = (submissions.size() > 0
 				&& coursesLogic.isCourseExists(courseId)
@@ -1291,8 +1291,8 @@ public class Logic {
 		}
 
 		StudentData student = getStudent(courseId, reviewerEmail);
-		ArrayList<SubmissionData> returnList = new ArrayList<SubmissionData>();
-		for (SubmissionData sd : submissions) {
+		ArrayList<SubmissionAttributes> returnList = new ArrayList<SubmissionAttributes>();
+		for (SubmissionAttributes sd : submissions) {
 			StudentData reviewee = getStudent(courseId, sd.reviewee);
 			if (!isOrphanSubmission(student, reviewee, sd)) {
 				sd.reviewerName = student.name;
@@ -1309,7 +1309,7 @@ public class Logic {
 	private void ____SUBMISSION_level_methods_____________________________() {
 	}
 
-	public void createSubmission(SubmissionData submission)
+	public void createSubmission(SubmissionAttributes submission)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"Not implemented because submissions "
@@ -1319,17 +1319,17 @@ public class Logic {
 	/**
 	 * Access: course owner, reviewer (if OPEN), admin
 	 */
-	public void editSubmissions(List<SubmissionData> submissionDataList)
+	public void editSubmissions(List<SubmissionAttributes> submissionDataList)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, submissionDataList);
 
-		for (SubmissionData sd : submissionDataList) {
+		for (SubmissionAttributes sd : submissionDataList) {
 			gateKeeper.verifySubmissionEditableForUser(sd);
 			editSubmission(sd);
 		}
 	}
 
-	public void deleteSubmission(SubmissionData submission)
+	public void deleteSubmission(SubmissionAttributes submission)
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"Not implemented because submissions "
@@ -1345,11 +1345,11 @@ public class Logic {
 				&& (!originalTeam.equals(newTeam));
 	}
 
-	private EvaluationDetailsBundle getEvaluationDetails(List<StudentData> students, EvaluationData evaluation)
+	private EvaluationDetailsBundle getEvaluationDetails(List<StudentData> students, EvaluationAttributes evaluation)
 			throws EntityDoesNotExistException {
 		EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
 		edd.stats.expectedTotal = students.size();
-		HashMap<String, SubmissionData> submissions = getSubmissionsForEvaluation(evaluation.course, evaluation.name);
+		HashMap<String, SubmissionAttributes> submissions = getSubmissionsForEvaluation(evaluation.course, evaluation.name);
 		edd.stats.submittedTotal = countSubmittedStudents(submissions.values());
 		return edd;
 	}
@@ -1365,10 +1365,10 @@ public class Logic {
 	/**
 	 * Returns how many students have submitted at least one submission.
 	 */
-	private int countSubmittedStudents(Collection<SubmissionData> submissions) {
+	private int countSubmittedStudents(Collection<SubmissionAttributes> submissions) {
 		int count = 0;
 		List<String> emailsOfSubmittedStudents = new ArrayList<String>();
-		for (SubmissionData s : submissions) {
+		for (SubmissionAttributes s : submissions) {
 			if (s.points != Common.POINTS_NOT_SUBMITTED
 					&& !emailsOfSubmittedStudents.contains(s.reviewer)) {
 				count++;
@@ -1382,8 +1382,8 @@ public class Logic {
 			String evaluationName) throws EntityDoesNotExistException {
 		List<MimeMessage> emailsSent;
 
-		CourseData c = getCourse(courseId);
-		EvaluationData e = getEvaluation(courseId, evaluationName);
+		CourseAttributes c = getCourse(courseId);
+		EvaluationAttributes e = getEvaluation(courseId, evaluationName);
 		List<StudentData> students = getStudentListForCourse(courseId);
 
 		Emails emailMgr = new Emails();
@@ -1398,11 +1398,11 @@ public class Logic {
 		return emailsSent;
 	}
 
-	private void editSubmission(SubmissionData submission)
+	private void editSubmission(SubmissionAttributes submission)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, submission);
 
-		SubmissionData original = evaluationsLogic.getSubmission(submission.course, submission.evaluation,submission.reviewee, submission.reviewer);
+		SubmissionAttributes original = evaluationsLogic.getSubmission(submission.course, submission.evaluation,submission.reviewee, submission.reviewer);
 
 		if (original == null) {
 			throw new EntityDoesNotExistException("The submission: "
@@ -1442,7 +1442,7 @@ public class Logic {
 	 * submission is different from those in two students.
 	 */
 	private boolean isOrphanSubmission(StudentData reviewer,
-			StudentData reviewee, SubmissionData submission) {
+			StudentData reviewee, SubmissionAttributes submission) {
 		if ((reviewer == null) || (reviewee == null) || (submission == null)) {
 			return true;
 		}
@@ -1458,7 +1458,7 @@ public class Logic {
 	/**
 	 * Returns submissions for the evaluation
 	 */
-	private HashMap<String, SubmissionData> getSubmissionsForEvaluation(
+	private HashMap<String, SubmissionAttributes> getSubmissionsForEvaluation(
 			String courseId, String evaluationName)
 			throws EntityDoesNotExistException {
 		if (getEvaluation(courseId, evaluationName) == null) {
@@ -1467,10 +1467,10 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 
-		List<SubmissionData> submissionsList = evaluationsLogic.getSubmissionsForEvaluation(courseId, evaluationName);
+		List<SubmissionAttributes> submissionsList = evaluationsLogic.getSubmissionsForEvaluation(courseId, evaluationName);
 
-		HashMap<String, SubmissionData> submissionDataList = new HashMap<String, SubmissionData>();
-		for (SubmissionData sd : submissionsList) {
+		HashMap<String, SubmissionAttributes> submissionDataList = new HashMap<String, SubmissionAttributes>();
+		for (SubmissionAttributes sd : submissionsList) {
 			submissionDataList.put(sd.reviewer + "->" + sd.reviewee, sd);
 		}
 		return submissionDataList;
@@ -1486,7 +1486,7 @@ public class Logic {
 		for (StudentResultBundle studentResult: teamResultBundle.studentResults) {
 			studentResult.sortOutgoingByStudentNameAscending();
 			for (int j = 0; j < teamSize; j++) {
-				SubmissionData submissionData = studentResult.outgoing.get(j);
+				SubmissionAttributes submissionData = studentResult.outgoing.get(j);
 					claimedFromStudents[i][j] = submissionData.points;
 			}
 			i++;
@@ -1510,7 +1510,7 @@ public class Logic {
 
 			// populate incoming and outgoing
 			for (int j = 0; j < teamSize; j++) {
-				SubmissionData incomingSub = studentResult.incoming.get(j);
+				SubmissionAttributes incomingSub = studentResult.incoming.get(j);
 				int normalizedIncoming = teamResult.denormalizedAveragePerceived[i][j];
 				incomingSub.normalizedToStudent = normalizedIncoming;
 				incomingSub.normalizedToInstructor = teamResult.normalizedPeerContributionRatio[j][i];
@@ -1518,7 +1518,7 @@ public class Logic {
 						+ incomingSub.reviewerName + " to "
 						+ normalizedIncoming);
 
-				SubmissionData outgoingSub = studentResult.outgoing.get(j);
+				SubmissionAttributes outgoingSub = studentResult.outgoing.get(j);
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
 				outgoingSub.normalizedToStudent = Common.UNINITIALIZED_INT;
 				outgoingSub.normalizedToInstructor = normalizedOutgoing;
@@ -1533,7 +1533,7 @@ public class Logic {
 
 	//TODO: unit test this
 	private void populateSubmissionsAndNames(
-			HashMap<String, SubmissionData> submissions, 
+			HashMap<String, SubmissionAttributes> submissions, 
 			TeamResultBundle teamResultBundle,
 			StudentResultBundle studentResultBundle) {
 		
@@ -1543,7 +1543,7 @@ public class Logic {
 
 			// get incoming submission from peer
 			String key = peer.email + "->" + studentResultBundle.student.email;
-			SubmissionData submissionFromPeer = submissions.get(key);
+			SubmissionAttributes submissionFromPeer = submissions.get(key);
 			// this workaround is to cater for missing submissions in
 			// legacy data.
 			if (submissionFromPeer == null) {
@@ -1564,7 +1564,7 @@ public class Logic {
 
 			// get outgoing submission to peer
 			key = studentResultBundle.student.email + "->" + peer.email;
-			SubmissionData submissionToPeer = submissions.get(key);
+			SubmissionAttributes submissionToPeer = submissions.get(key);
 
 			// this workaround is to cater for missing submissions in
 			// legacy data.
@@ -1587,10 +1587,10 @@ public class Logic {
 		}
 	}
 
-	private SubmissionData createEmptySubmission(String reviewer,
+	private SubmissionAttributes createEmptySubmission(String reviewer,
 			String reviewee) {
-		SubmissionData s;
-		s = new SubmissionData();
+		SubmissionAttributes s;
+		s = new SubmissionAttributes();
 		s.reviewer = reviewer;
 		s.reviewee = reviewee;
 		s.points = Common.UNINITIALIZED_INT;
@@ -1601,9 +1601,9 @@ public class Logic {
 		return s;
 	}
 
-	protected SubmissionData getSubmission(String courseId,
+	protected SubmissionAttributes getSubmission(String courseId,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
-		SubmissionData sd = evaluationsLogic.getSubmission(courseId, evaluationName, revieweeEmail, reviewerEmail);
+		SubmissionAttributes sd = evaluationsLogic.getSubmission(courseId, evaluationName, revieweeEmail, reviewerEmail);
 		return sd;
 	}
 
@@ -1661,18 +1661,18 @@ public class Logic {
 	 * @return
 	 * @throws InvalidParametersException
 	 */
-	private List<InstructorData> parseInstructorLines(String courseId, String instructorLines) 
+	private List<InstructorAttributes> parseInstructorLines(String courseId, String instructorLines) 
 			throws InvalidParametersException {
 		String[] linesArray = instructorLines.split(Common.EOL);
 		
 		// check if all non-empty lines are formatted correctly
-		List<InstructorData> instructorsList = new ArrayList<InstructorData>();
+		List<InstructorAttributes> instructorsList = new ArrayList<InstructorAttributes>();
 		for (int i = 0; i < linesArray.length; i++) {
 			String information = linesArray[i];
 			if (Common.isWhiteSpace(information)) {
 				continue;
 			}
-			instructorsList.add(new InstructorData(courseId, information));
+			instructorsList.add(new InstructorAttributes(courseId, information));
 		}
 		
 		if (instructorsList.size() < 1) {
@@ -1710,13 +1710,13 @@ public class Logic {
 		for (TeamResultBundle td : evaluationResults.teamResults.values()) {
 			for (StudentResultBundle srb : td.studentResults) {
 				String result = "";
-				Collections.sort(srb.incoming, new Comparator<SubmissionData>(){
+				Collections.sort(srb.incoming, new Comparator<SubmissionAttributes>(){
 					@Override
-					public int compare(SubmissionData s1, SubmissionData s2){
+					public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
 							return Integer.valueOf(s2.normalizedToInstructor).compareTo(s1.normalizedToInstructor);
 					}
 				});
-				for(SubmissionData sub: srb.incoming){
+				for(SubmissionAttributes sub: srb.incoming){
 					if(sub.reviewee.equals(sub.reviewer)) continue;
 					if(result!="") result+=",";
 					result += sub.normalizedToInstructor;

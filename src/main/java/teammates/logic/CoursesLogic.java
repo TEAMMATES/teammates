@@ -10,10 +10,10 @@ import java.util.logging.Logger;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -121,7 +121,7 @@ public class CoursesLogic {
 
 	//==========================================================================
 	public void createCourse(String courseId, String courseName) throws InvalidParametersException, EntityAlreadyExistsException {
-		CourseData courseToAdd = new CourseData(courseId, courseName);
+		CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName);
 
 		if (!courseToAdd.isValid()) {
 			throw new InvalidParametersException(courseToAdd.getInvalidStateInfo());
@@ -131,13 +131,13 @@ public class CoursesLogic {
 	}
 
 	//==========================================================================
-	public CourseData getCourse(String courseId) {
+	public CourseAttributes getCourse(String courseId) {
 		return coursesDb.getCourse(courseId);
 	}
 
 	public CourseDetailsBundle getCourseSummary(String courseId)
 			throws EntityDoesNotExistException {
-		CourseData cd = coursesDb.getCourse(courseId);
+		CourseAttributes cd = coursesDb.getCourse(courseId);
 
 		if (cd == null) {
 			throw new EntityDoesNotExistException("The course does not exist: "
@@ -151,14 +151,14 @@ public class CoursesLogic {
 		return cdd;
 	}
 	
-	public List<CourseData> getCourseListForStudent(String googleId) {
+	public List<CourseAttributes> getCourseListForStudent(String googleId) {
 		// Get all Student entries with this googleId
 		List<StudentData> studentDataList = accountsDb.getStudentsWithGoogleId(googleId);
-		ArrayList<CourseData> courseList = new ArrayList<CourseData>();
+		ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
 
 		// Verify that the course in each entry is existent
 		for (StudentData s : studentDataList) {
-			CourseData course = coursesDb.getCourse(s.course);
+			CourseAttributes course = coursesDb.getCourse(s.course);
 			Assumption.assertNotNull("Course was deleted but Student entry still exists", course);
 			courseList.add(course);
 		}
@@ -174,23 +174,23 @@ public class CoursesLogic {
 	 * @return String institute
 	 */
 	public String getCourseInstitute(String courseId) {
-		CourseData cd = coursesDb.getCourse(courseId);
-		List<InstructorData> instructorList = accountsDb.getInstructorsByCourseId(cd.id);
+		CourseAttributes cd = coursesDb.getCourse(courseId);
+		List<InstructorAttributes> instructorList = accountsDb.getInstructorsByCourseId(cd.id);
 		if (instructorList.isEmpty()) {
 			Assumption.fail("Course has no instructors: " + cd.id);
 		} 
 		// Retrieve institute field from the first instructor of the course
-		AccountData instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
+		AccountAttributes instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
 		return instructorAcc.institute;
 
 	}
 	
 	public HashMap<String, CourseDetailsBundle> getCourseSummaryListForInstructor(String instructorId) {
-		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
+		List<InstructorAttributes> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
 		
 		HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
-		for (InstructorData id : instructorDataList) {
-			CourseData cd = coursesDb.getCourse(id.courseId);
+		for (InstructorAttributes id : instructorDataList) {
+			CourseAttributes cd = coursesDb.getCourse(id.courseId);
 			
 			if (cd == null) {
 				Assumption.fail("INSTRUCTOR RELATION EXISTED, BUT COURSE WAS NOT FOUND: " + instructorId + ", " + id.courseId);
@@ -208,12 +208,12 @@ public class CoursesLogic {
 	
 	// TODO: To be modified to handle API for retrieve paginated results of Courses
 	public HashMap<String, CourseDetailsBundle> getCourseSummaryListForInstructor(String instructorId, long lastRetrievedTime, int numberToRetrieve) {
-		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
+		List<InstructorAttributes> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
 		
 		int count = 0;
 		HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
-		for (InstructorData id : instructorDataList) {
-			CourseData cd = coursesDb.getCourse(id.courseId);
+		for (InstructorAttributes id : instructorDataList) {
+			CourseAttributes cd = coursesDb.getCourse(id.courseId);
 
 			if (cd == null) {
 				Assumption.fail("INSTRUCTOR RELATION EXISTED, BUT COURSE WAS NOT FOUND: " + instructorId + ", " + id.courseId);
@@ -239,7 +239,7 @@ public class CoursesLogic {
 	
 	//==========================================================================
 	// Not used
-	public void updateCourse(CourseData course) throws InvalidParametersException {
+	public void updateCourse(CourseAttributes course) throws InvalidParametersException {
 		if (!course.isValid()) {
 			throw new InvalidParametersException(course.getInvalidStateInfo());
 		}

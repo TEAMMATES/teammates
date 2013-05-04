@@ -5,7 +5,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -94,7 +94,7 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		String studentId = scn.students.get("emily.tmms").id;
 		
 		//recreate student account if it doesn't exist
-		AccountData testStudentAccount = new AccountData(studentId, "Danny Tmms", false, "emily.tmms@gmail.com", "National University of Singapore");
+		AccountAttributes testStudentAccount = new AccountAttributes(studentId, "Danny Tmms", false, "emily.tmms@gmail.com", "National University of Singapore");
 		String backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
@@ -110,7 +110,7 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		studentId = scn.students.get("alice.tmms").id;
 		
 		//recreate student account if it doesn't exist
-		testStudentAccount = new AccountData(studentId, "Alice Tmms", false, "alice.tmms@gmail.com", "National University of Singapore");
+		testStudentAccount = new AccountAttributes(studentId, "Alice Tmms", false, "alice.tmms@gmail.com", "National University of Singapore");
 		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 				
@@ -126,7 +126,7 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		studentId = scn.students.get("benny.tmms").id;
 		
 		//recreate student account if it doesn't exist
-		testStudentAccount = new AccountData(studentId, "Benny Tmms", false, "benny.tmms@gmail.com", "National University of Singapore");
+		testStudentAccount = new AccountAttributes(studentId, "Benny Tmms", false, "benny.tmms@gmail.com", "National University of Singapore");
 		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		

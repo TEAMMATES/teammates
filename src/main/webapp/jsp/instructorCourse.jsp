@@ -1,5 +1,5 @@
 <%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.datatransfer.CourseData"%>
+<%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorCourseHelper"%>
 <%
@@ -62,7 +62,7 @@
 							value="<%=(helper.courseName==null ? "" : InstructorCourseHelper.escapeForHTML(helper.courseName))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
-							maxlength=<%=CourseData.COURSE_NAME_MAX_LENGTH%> tabindex=2
+							maxlength=<%=CourseAttributes.COURSE_NAME_MAX_LENGTH%> tabindex=2
 							placeholder="e.g. Software Engineering" /></td>
 					</tr>
 					<tr>

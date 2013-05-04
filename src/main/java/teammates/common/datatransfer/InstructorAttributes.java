@@ -7,8 +7,8 @@ import teammates.common.Common;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Instructor;
 
-public class InstructorData extends BaseData {
-	public HashMap<String, CourseData> courses;
+public class InstructorAttributes extends EntityAttributes {
+	public HashMap<String, CourseAttributes> courses;
 	public String googleId;
 	public String name;
 	public String email;
@@ -23,25 +23,25 @@ public class InstructorData extends BaseData {
 	public static final String ERROR_INSTRUCTOR_LINE_NULL = "Instructor line was null";
 	public static final String ERROR_INFORMATION_INCORRECT = "Please enter information in the format: GoogleID | Name | Email\n";
 
-	public InstructorData(String id, String courseId, String name, String email) {
+	public InstructorAttributes(String id, String courseId, String name, String email) {
 		this.googleId = id;
 		this.courseId = courseId;
 		this.name = name;
 		this.email = email;
 	}
 	
-	public InstructorData(Instructor instructor) {
+	public InstructorAttributes(Instructor instructor) {
 		this.googleId = instructor.getGoogleId();
 		this.courseId = instructor.getCourseId();
 		this.name = instructor.getName();
 		this.email = instructor.getEmail();
 	}
 
-	public InstructorData() {
+	public InstructorAttributes() {
 		
 	}
 	
-	public InstructorData(String courseId, String information) throws InvalidParametersException {
+	public InstructorAttributes(String courseId, String information) throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_INSTRUCTOR_LINE_NULL, information);
 		
 		String[] parts = information.replace("|", "\t").split("\t");

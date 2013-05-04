@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -107,7 +107,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 		
 		// Put self submission at first
 		for(int i=0; i<helper.submissions.size(); i++){
-			SubmissionData sub = helper.submissions.get(i);
+			SubmissionAttributes sub = helper.submissions.get(i);
 			if(sub.reviewee.equals(sub.reviewer)){
 				helper.submissions.remove(sub);
 				helper.submissions.add(0,sub);

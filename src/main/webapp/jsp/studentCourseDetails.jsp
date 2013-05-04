@@ -1,8 +1,10 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.StudentData" %>
-<%@ page import="teammates.common.datatransfer.InstructorData" %>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.ui.controller.StudentCourseDetailsHelper"%>
-<% StudentCourseDetailsHelper helper = (StudentCourseDetailsHelper)request.getAttribute("helper"); %>
+<%
+	StudentCourseDetailsHelper helper = (StudentCourseDetailsHelper)request.getAttribute("helper");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +29,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_STUDENT_HEADER %>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -53,10 +55,10 @@
 	 				<td class="label rightalign bold" width="30%">Instructors:</td>
 	 				<td id="<%=Common.PARAM_INSTRUCTOR_NAME%>">
 	 				<%
-		 				for (int i = 0; i < helper.instructors.size(); i++){
-		 					InstructorData instructor = helper.instructors.get(i);
-		 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
-		 			%>
+	 					for (int i = 0; i < helper.instructors.size(); i++){
+	 						 					InstructorAttributes instructor = helper.instructors.get(i);
+	 						 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+	 				%>
 		 				<a href = "mailto:<%=instructor.email%>"><%=instructorInfo %></a><br><br>
 		 			<%
 		 				}

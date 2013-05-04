@@ -6,7 +6,7 @@ import teammates.common.Common;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Student;
 
-public class StudentData extends BaseData {
+public class StudentData extends EntityAttributes {
 	public enum UpdateStatus {
 		// @formatter:off
 		ERROR(0), NEW(1), MODIFIED(2), UNMODIFIED(3), NOT_IN_ENROLL_LIST(4), UNKNOWN(

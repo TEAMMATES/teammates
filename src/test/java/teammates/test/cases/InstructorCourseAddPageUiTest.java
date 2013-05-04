@@ -13,9 +13,9 @@ import org.json.JSONException;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -42,7 +42,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		BackDoor.deleteCourse(ts.CS2104.id);
 		BackDoor.deleteCourse("MultipleInstructorsCourse");
 		BackDoor.deleteCourse("OmitInstructor");
-		for (InstructorData id : ts.instructor.values()) {
+		for (InstructorAttributes id : ts.instructor.values()) {
 			BackDoor.deleteAccount(id.googleId);
 		}
 		
@@ -139,14 +139,14 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		String shortCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH);
 		String longCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH+1);
 		
-		String shortCourseName = Common.generateStringOfLength(CourseData.COURSE_NAME_MAX_LENGTH);
-		String longCourseName = Common.generateStringOfLength(CourseData.COURSE_NAME_MAX_LENGTH+1);
+		String shortCourseName = Common.generateStringOfLength(CourseAttributes.COURSE_NAME_MAX_LENGTH);
+		String longCourseName = Common.generateStringOfLength(CourseAttributes.COURSE_NAME_MAX_LENGTH+1);
 		
 		assertEquals(shortCourseId, bi.fillInCourseID(shortCourseId));
 		assertEquals(longCourseId.substring(0, Common.COURSE_ID_MAX_LENGTH), bi.fillInCourseID(longCourseId));
 		
 		assertEquals(shortCourseName, bi.fillInCourseName(shortCourseName));
-		assertEquals(longCourseName.substring(0, CourseData.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
+		assertEquals(longCourseName.substring(0, CourseAttributes.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
 
 		______TS("testInstructoraddCourseWithDuplicateIdFailed");
 		
@@ -184,7 +184,7 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		______TS("testInstructoraddCourseWithMultipleInstructors");
 		
 		String instructorList = bi.getElementText(bi.instructorCourseInputInstructorList);
-		InstructorData instructor2 = ts.instructor.get("instructor2CS1101");
+		InstructorAttributes instructor2 = ts.instructor.get("instructor2CS1101");
 		instructorList += "\n" + instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email;
 		bi.fillString(bi.instructorCourseInputInstructorList, instructorList);
 		bi.addCourse("MultipleInstructorsCourse", "Course with multiple instructors");
@@ -251,10 +251,10 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 	}
 
 	private class TestScenario{
-		public AccountData account;
-		public HashMap<String,InstructorData> instructor;
-		public CourseData validCourse;
-		public CourseData CS1101;
-		public CourseData CS2104;
+		public AccountAttributes account;
+		public HashMap<String,InstructorAttributes> instructor;
+		public CourseAttributes validCourse;
+		public CourseAttributes CS1101;
+		public CourseAttributes CS2104;
 	}
 }

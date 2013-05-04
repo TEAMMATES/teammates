@@ -6,7 +6,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.StudentData;
 import teammates.common.datatransfer.StudentResultBundle;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.InvalidParametersException;
 
 public class StudentResultBundleTest {
@@ -18,15 +18,15 @@ public class StudentResultBundleTest {
 		StudentResultBundle result = new StudentResultBundle(new StudentData(
 				"t1|adam|a@b", "dummy-course"));
 
-		SubmissionData s1 = new SubmissionData();
+		SubmissionAttributes s1 = new SubmissionAttributes();
 		s1.revieweeName = "Benny";
 		result.outgoing.add(s1);
 
-		SubmissionData s2 = new SubmissionData();
+		SubmissionAttributes s2 = new SubmissionAttributes();
 		s2.revieweeName = "Alice";
 		result.outgoing.add(s2);
 
-		SubmissionData s3 = new SubmissionData();
+		SubmissionAttributes s3 = new SubmissionAttributes();
 		s3.revieweeName = "Charlie";
 		result.outgoing.add(s3);
 
@@ -43,15 +43,15 @@ public class StudentResultBundleTest {
 		StudentResultBundle result = new StudentResultBundle(new StudentData(
 				"t1|adam|a@b", "dummy-course"));
 
-		SubmissionData s1 = new SubmissionData();
+		SubmissionAttributes s1 = new SubmissionAttributes();
 		s1.reviewerName = "Benny";
 		result.incoming.add(s1);
 
-		SubmissionData s2 = new SubmissionData();
+		SubmissionAttributes s2 = new SubmissionAttributes();
 		s2.reviewerName = "Alice";
 		result.incoming.add(s2);
 
-		SubmissionData s3 = new SubmissionData();
+		SubmissionAttributes s3 = new SubmissionAttributes();
 		s3.reviewerName = "Charlie";
 		result.incoming.add(s3);
 
@@ -68,15 +68,15 @@ public class StudentResultBundleTest {
 		StudentResultBundle result = new StudentResultBundle(new StudentData(
 				"t1|adam|a@b", "dummy-course"));
 
-		SubmissionData s1 = new SubmissionData();
+		SubmissionAttributes s1 = new SubmissionAttributes();
 		s1.p2pFeedback = new Text("ghk");
 		result.incoming.add(s1);
 
-		SubmissionData s2 = new SubmissionData();
+		SubmissionAttributes s2 = new SubmissionAttributes();
 		s2.p2pFeedback = new Text("def");
 		result.incoming.add(s2);
 
-		SubmissionData s3 = new SubmissionData();
+		SubmissionAttributes s3 = new SubmissionAttributes();
 		s3.p2pFeedback = new Text("abc");
 		result.incoming.add(s3);
 

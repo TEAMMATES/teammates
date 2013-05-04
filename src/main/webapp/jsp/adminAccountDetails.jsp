@@ -1,6 +1,6 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.ui.controller.AdminAccountDetailsHelper"%>
-<%@ page import="teammates.common.datatransfer.CourseData"%>
+<%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 
 <%
@@ -65,37 +65,37 @@
                 </tr>
                 <%
                 	if(helper.instructorCourseList != null && helper.instructorCourseList.size() != 0){
-                                                	                    for(CourseDetailsBundle courseDetails : helper.instructorCourseList){
-                                                	                        out.print("<tr>");
-                                                	                        out.print("<td>[]" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
-                                                	                        out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + helper.getInstructorCourseDeleteLink(helper.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
-                                                	                        out.print("</tr>");
-                                                	                    }
-                                                                    } else {
-                                                                        out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>");
-                                                                    }
+                                                                	                    for(CourseDetailsBundle courseDetails : helper.instructorCourseList){
+                                                                	                        out.print("<tr>");
+                                                                	                        out.print("<td>[]" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
+                                                                	                        out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + helper.getInstructorCourseDeleteLink(helper.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
+                                                                	                        out.print("</tr>");
+                                                                	                    }
+                                                                                    } else {
+                                                                                        out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>");
+                                                                                    }
                 %>
             </table>
             <br>
             <br>
             <h2>Student For:</h2>
-            <p class="courseCount rightalign bold">Total Courses: <%=helper.studentCourseList != null ? helper.studentCourseList.size() : 0 %></p>
+            <p class="courseCount rightalign bold">Total Courses: <%=helper.studentCourseList != null ? helper.studentCourseList.size() : 0%></p>
             <table class="dataTable">
                 <tr>
                     <th class="bold" width="70%">Course</th>
                     <th class="bold">Options</th>
                 </tr>
                 <%
-                    if(helper.studentCourseList != null){
-                        for(CourseData course : helper.studentCourseList){
-                            out.print("<tr>");
-                            out.print("<td>[]" + course.id + "] " + course.name + "</td>");
-                            out.print("<td><a id=\"student_" + course.id + "\" href=\"" + helper.getStudentCourseDeleteLink(helper.accountInformation.googleId, course.id)+ "\">Remove From Course</a></td>");
-                            out.print("</tr>");
-                        }
-                    } else {
-                        out.print("<tr><td colspan=\"2\" class=\"bold\">This Account is not a Student.</td></tr>");
-                    }
+                	if(helper.studentCourseList != null){
+                                        for(CourseAttributes course : helper.studentCourseList){
+                                            out.print("<tr>");
+                                            out.print("<td>[]" + course.id + "] " + course.name + "</td>");
+                                            out.print("<td><a id=\"student_" + course.id + "\" href=\"" + helper.getStudentCourseDeleteLink(helper.accountInformation.googleId, course.id)+ "\">Remove From Course</a></td>");
+                                            out.print("</tr>");
+                                        }
+                                    } else {
+                                        out.print("<tr><td colspan=\"2\" class=\"bold\">This Account is not a Student.</td></tr>");
+                                    }
                 %>
             </table>
             <br>

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
@@ -58,7 +58,7 @@ public class AccountsLogic {
 	public void createAccount(String googleId, String name, 
 			boolean isInstructor, String email, String institute) 
 					throws InvalidParametersException, EntityAlreadyExistsException {
-		AccountData accountToAdd = new AccountData();
+		AccountAttributes accountToAdd = new AccountAttributes();
 		accountToAdd.googleId = googleId;
 		accountToAdd.name = name;
 		accountToAdd.isInstructor = isInstructor;
@@ -80,7 +80,7 @@ public class AccountsLogic {
 
 		// Create the Account if it does not exist
 		if (!accountsDb.isAccountExists(googleId)) {
-			AccountData accountToAdd = new AccountData();
+			AccountAttributes accountToAdd = new AccountAttributes();
 			accountToAdd.googleId = googleId;
 			accountToAdd.name = name;
 			accountToAdd.isInstructor = true;
@@ -92,7 +92,7 @@ public class AccountsLogic {
 		}
 
 		// Create the Instructor
-		InstructorData instructorToAdd = new InstructorData(googleId, courseId, name, email);
+		InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
 
 		if (!instructorToAdd.isValid()) {
 			throw new InvalidParametersException(instructorToAdd.getInvalidStateInfo());
@@ -111,27 +111,27 @@ public class AccountsLogic {
 	
 
 	//==========================================================================
-	public AccountData getAccount(String googleId) {
+	public AccountAttributes getAccount(String googleId) {
 		return accountsDb.getAccount(googleId);
 	}
 	
-	public InstructorData getInstructor(String instructorId, String courseId) {
+	public InstructorAttributes getInstructor(String instructorId, String courseId) {
 		return accountsDb.getInstructor(instructorId, courseId);
 	}
 	
-	public List<AccountData> getInstructorAccounts() {
+	public List<AccountAttributes> getInstructorAccounts() {
 		return accountsDb.getInstructorAccounts();
 	}
 	
-	public List<InstructorData> getAllInstructors() {
+	public List<InstructorAttributes> getAllInstructors() {
 		return accountsDb.getAllInstructors();
 	}
 	
-	public List<InstructorData> getInstructorsOfCourse(String courseId) {
+	public List<InstructorAttributes> getInstructorsOfCourse(String courseId) {
 		return accountsDb.getInstructorsByCourseId(courseId);
 	}
 	
-	public List<InstructorData> getInstructorRolesForAccount(String googleId) {
+	public List<InstructorAttributes> getInstructorRolesForAccount(String googleId) {
 		return accountsDb.getInstructorsByGoogleId(googleId);
 	}
 	
@@ -162,7 +162,7 @@ public class AccountsLogic {
 
 
 	//==========================================================================
-	public void updateAccount(AccountData account) throws InvalidParametersException {
+	public void updateAccount(AccountAttributes account) throws InvalidParametersException {
 		if (!account.isValid()) {
 			throw new InvalidParametersException(account.getInvalidStateInfo());
 		}
@@ -177,7 +177,7 @@ public class AccountsLogic {
 		accountsDb.makeAccountNonInstructor(instructorId);
 	}
 	
-	public void updateInstructor(InstructorData instructor) throws InvalidParametersException {
+	public void updateInstructor(InstructorAttributes instructor) throws InvalidParametersException {
 		if (!instructor.isValid()) {
 			throw new InvalidParametersException(instructor.getInvalidStateInfo());
 		}

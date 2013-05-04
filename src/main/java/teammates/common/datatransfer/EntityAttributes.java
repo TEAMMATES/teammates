@@ -1,6 +1,6 @@
 package teammates.common.datatransfer;
 
-public abstract class BaseData {
+public abstract class EntityAttributes {
 	
 	protected String trimIfNotNull(String string) {
 		return ((string == null) ? "" : string.trim());

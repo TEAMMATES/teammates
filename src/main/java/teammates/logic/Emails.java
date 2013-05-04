@@ -18,8 +18,8 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
 
 /**
@@ -58,8 +58,8 @@ public class Emails {
 		return messageInfo.toString();
 	}
 
-	public List<MimeMessage> generateEvaluationOpeningEmails(CourseData course,
-			EvaluationData evaluation, List<StudentData> students)
+	public List<MimeMessage> generateEvaluationOpeningEmails(CourseAttributes course,
+			EvaluationAttributes evaluation, List<StudentData> students)
 			throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
@@ -76,7 +76,7 @@ public class Emails {
 	}
 
 	public List<MimeMessage> generateEvaluationReminderEmails(
-			CourseData course, EvaluationData evaluation,
+			CourseAttributes course, EvaluationAttributes evaluation,
 			List<StudentData> students) throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
@@ -95,8 +95,8 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationClosingEmails(CourseData c,
-			EvaluationData e, List<StudentData> students)
+	public List<MimeMessage> generateEvaluationClosingEmails(CourseAttributes c,
+			EvaluationAttributes e, List<StudentData> students)
 			throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
@@ -113,8 +113,8 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationPublishedEmails(CourseData c,
-			EvaluationData e, List<StudentData> students)
+	public List<MimeMessage> generateEvaluationPublishedEmails(CourseAttributes c,
+			EvaluationAttributes e, List<StudentData> students)
 			throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
@@ -127,8 +127,8 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationEmailBases(CourseData course,
-			EvaluationData evaluation, List<StudentData> students,
+	public List<MimeMessage> generateEvaluationEmailBases(CourseAttributes course,
+			EvaluationAttributes evaluation, List<StudentData> students,
 			String template) throws MessagingException,
 			UnsupportedEncodingException {
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
@@ -140,8 +140,8 @@ public class Emails {
 		return emails;
 	}
 
-	public MimeMessage generateEvaluationEmailBase(CourseData c,
-			EvaluationData e, StudentData s, String template)
+	public MimeMessage generateEvaluationEmailBase(CourseAttributes c,
+			EvaluationAttributes e, StudentData s, String template)
 			throws MessagingException, UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
@@ -186,7 +186,7 @@ public class Emails {
 		return message;
 	}
 
-	public MimeMessage generateStudentCourseJoinEmail(CourseData c,
+	public MimeMessage generateStudentCourseJoinEmail(CourseAttributes c,
 			StudentData s) throws AddressException, MessagingException,
 			UnsupportedEncodingException {
 

@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -151,19 +151,19 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 		Set<String> set = map.keySet();
 		@SuppressWarnings("rawtypes")
 		Iterator itr = set.iterator();
-		List<SubmissionData> submissionDataList = new LinkedList<SubmissionData>();
+		List<SubmissionAttributes> submissionDataList = new LinkedList<SubmissionAttributes>();
 		String type = "";
 		while (itr.hasNext()) {
 			String key = (String) itr.next();
 			Object obj = map.get(key);
 
-			if (obj instanceof InstructorData) {
+			if (obj instanceof InstructorAttributes) {
 				type = "InstructorData";
-				InstructorData instructorData = (InstructorData) obj;
+				InstructorAttributes instructorData = (InstructorAttributes) obj;
 				// skip
-			} else if (obj instanceof CourseData) {
+			} else if (obj instanceof CourseAttributes) {
 				type = "CourseData";
-				CourseData courseData = (CourseData) obj;
+				CourseAttributes courseData = (CourseAttributes) obj;
 				helper.server.createCourse(helper.instructorId, courseData.id,
 						courseData.name);
 
@@ -171,13 +171,13 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				type = "StudentData";
 				StudentData studentData = (StudentData) obj;
 				helper.server.createStudent(studentData);
-			} else if (obj instanceof EvaluationData) {
+			} else if (obj instanceof EvaluationAttributes) {
 				type = "EvaluationData";
-				EvaluationData evaluationData = (EvaluationData) obj;
+				EvaluationAttributes evaluationData = (EvaluationAttributes) obj;
 				helper.server.createEvaluation(evaluationData);
-			} else if (obj instanceof SubmissionData) {
+			} else if (obj instanceof SubmissionAttributes) {
 				type = "SubmissionData";
-				SubmissionData submissionData = (SubmissionData) obj;
+				SubmissionAttributes submissionData = (SubmissionAttributes) obj;
 				submissionDataList.add(submissionData);
 			}
 			itr.remove();

@@ -1,6 +1,6 @@
 <%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.datatransfer.CourseData"%>
-<%@ page import="teammates.common.datatransfer.EvaluationData"%>
+<%@ page import="teammates.common.datatransfer.CourseAttributes"%>
+<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationStats"%>
 <%@ page import="teammates.ui.controller.InstructorEvalHelper"%>
@@ -89,7 +89,7 @@
 						<td><input  type="text"
 									name="<%=Common.PARAM_EVALUATION_NAME%>" id="<%=Common.PARAM_EVALUATION_NAME%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME%>')"
-									onmouseout="hideddrivetip()" maxlength =<%=EvaluationData.EVALUATION_NAME_MAX_LENGTH%>
+									onmouseout="hideddrivetip()" maxlength =<%=EvaluationAttributes.EVALUATION_NAME_MAX_LENGTH%>
 									value="<%if(helper.newEvaluationToBeCreated!=null) out.print(InstructorEvalHelper.escapeForHTML(helper.newEvaluationToBeCreated.name));%>"
 									tabindex="2" placeholder="e.g. Midterm Evaluation"></td>
 						<td class="label bold" >Closing time:</td>

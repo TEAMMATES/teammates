@@ -6,11 +6,11 @@ import teammates.common.Common;
 
 public class CourseDetailsBundle {
 
-	public CourseDetailsBundle(CourseData courseData) {
+	public CourseDetailsBundle(CourseAttributes courseData) {
 		this.course = courseData;
 	}
 
-	public CourseData course;
+	public CourseAttributes course;
 	public int teamsTotal = Common.UNINITIALIZED_INT;
 	public int studentsTotal = Common.UNINITIALIZED_INT;
 	public int unregisteredTotal = Common.UNINITIALIZED_INT;

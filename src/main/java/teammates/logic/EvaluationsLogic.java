@@ -7,9 +7,9 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
@@ -39,9 +39,9 @@ public class EvaluationsLogic {
 	 */
 	public void adjustSubmissionsForChangingTeam(String courseId,
 			String studentEmail, String originalTeam, String newTeam) {
-		List<EvaluationData> evaluationDataList = evaluationsDb
+		List<EvaluationAttributes> evaluationDataList = evaluationsDb
 				.getEvaluationsForCourse(courseId);
-		for (EvaluationData ed : evaluationDataList) {
+		for (EvaluationAttributes ed : evaluationDataList) {
 
 			submissionsDb.deleteSubmissionsForOutgoingMember(courseId, ed.name,
 					studentEmail, originalTeam);
@@ -59,9 +59,9 @@ public class EvaluationsLogic {
 	 */
 	public void adjustSubmissionsForNewStudent(String courseId,
 			String studentEmail, String team) {
-		List<EvaluationData> evaluationDataList = evaluationsDb
+		List<EvaluationAttributes> evaluationDataList = evaluationsDb
 				.getEvaluationsForCourse(courseId);
-		for (EvaluationData ed : evaluationDataList) {
+		for (EvaluationAttributes ed : evaluationDataList) {
 			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail,
 					team);
 		}
@@ -73,9 +73,9 @@ public class EvaluationsLogic {
 		List<String> students = getExistingStudentsInTeam(courseId, newTeam);
 
 		// add self evaluation and remove self from list
-		List<SubmissionData> listOfSubmissionsToAdd = new ArrayList<SubmissionData>();
+		List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
 		
-		SubmissionData submissionToAdd = new SubmissionData(courseId,
+		SubmissionAttributes submissionToAdd = new SubmissionAttributes(courseId,
 				evaluationName, newTeam, studentEmail, studentEmail);
 		listOfSubmissionsToAdd.add(submissionToAdd);
 		students.remove(studentEmail);
@@ -84,12 +84,12 @@ public class EvaluationsLogic {
 		for (String peer : students) {
 
 			// To
-			submissionToAdd = new SubmissionData(courseId, evaluationName,
+			submissionToAdd = new SubmissionAttributes(courseId, evaluationName,
 					newTeam, peer, studentEmail);
 			listOfSubmissionsToAdd.add(submissionToAdd);
 
 			// From
-			submissionToAdd = new SubmissionData(courseId, evaluationName,
+			submissionToAdd = new SubmissionAttributes(courseId, evaluationName,
 					newTeam, studentEmail, peer);
 			listOfSubmissionsToAdd.add(submissionToAdd);
 		}
@@ -112,12 +112,12 @@ public class EvaluationsLogic {
 	 * @return <code>true</code> if the student has submitted the evaluation,
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean isEvaluationSubmitted(EvaluationData evaluation, String email) {
-		List<SubmissionData> submissionList = submissionsDb
+	public boolean isEvaluationSubmitted(EvaluationAttributes evaluation, String email) {
+		List<SubmissionAttributes> submissionList = submissionsDb
 				.getSubmissionsFromEvaluationFromStudent(evaluation.course,
 						evaluation.name, email);
 
-		for (SubmissionData sd : submissionList) {
+		for (SubmissionAttributes sd : submissionList) {
 			// Return false if user has outstanding submissions to any of
 			// his/her teammates
 			if (sd.points == Common.POINTS_NOT_SUBMITTED) {
@@ -143,7 +143,7 @@ public class EvaluationsLogic {
 	 * @throws EntityAlreadyExistsException
 	 *             , InvalidParametersException
 	 */
-	public void createEvaluation(EvaluationData e)
+	public void createEvaluation(EvaluationAttributes e)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 
 		// 1st level validation - throw IPE
@@ -158,14 +158,14 @@ public class EvaluationsLogic {
 		// number
 		List<StudentData> studentDataList = accountsDb.getStudentListForCourse(e.course);
 		
-		List<SubmissionData> listOfSubmissionsToAdd = new ArrayList<SubmissionData>();
+		List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
 
 		// This double loop creates 3 submissions for a pair of students:
 		// x->x, x->y, y->x
 		for (StudentData sx : studentDataList) {
 			for (StudentData sy : studentDataList) {
 				if (sx.team.equals(sy.team)) {
-					SubmissionData submissionToAdd = new SubmissionData(
+					SubmissionAttributes submissionToAdd = new SubmissionAttributes(
 							e.course, e.name, sx.team, sx.email, sy.email);
 					listOfSubmissionsToAdd.add(submissionToAdd);
 				}
@@ -176,42 +176,42 @@ public class EvaluationsLogic {
 	}
 	
 	//==========================================================================
-	public EvaluationData getEvaluation(String courseId, String evaluationName) {
+	public EvaluationAttributes getEvaluation(String courseId, String evaluationName) {
 		return evaluationsDb.getEvaluation(courseId, evaluationName);
 	}
 	
-	public List<EvaluationData> getEvaluationsForCourse(String courseId) {
+	public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
 		return evaluationsDb.getEvaluationsForCourse(courseId);
 	}
 	
 	// Used in BackdoorLogic
-	public List<EvaluationData> getReadyEvaluations() {
+	public List<EvaluationAttributes> getReadyEvaluations() {
 		return evaluationsDb.getReadyEvaluations();
 	}
 
 	// Used in BackdoorLogic
-	public List<EvaluationData> getEvaluationsClosingWithinTimeLimit(int hoursWithinLimit) {
+	public List<EvaluationAttributes> getEvaluationsClosingWithinTimeLimit(int hoursWithinLimit) {
 		return evaluationsDb.getEvaluationsClosingWithinTimeLimit(hoursWithinLimit);
 	}
 
-	public SubmissionData getSubmission(String course, String evaluation, String reviewee, String reviewer) {
+	public SubmissionAttributes getSubmission(String course, String evaluation, String reviewee, String reviewer) {
 		return submissionsDb.getSubmission(course, evaluation, reviewee, reviewer);
 	}
 	
-	public List<SubmissionData> getSubmissionsFromEvaluationFromStudent(String courseId, String evaluationName, String reviewerEmail) {
+	public List<SubmissionAttributes> getSubmissionsFromEvaluationFromStudent(String courseId, String evaluationName, String reviewerEmail) {
 		return submissionsDb.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
 	}
 	
-	public List<SubmissionData> getSubmissionsForCourse(String courseId) {
+	public List<SubmissionAttributes> getSubmissionsForCourse(String courseId) {
 		return submissionsDb.getSubmissionsForCourse(courseId);
 	}
 
-	public List<SubmissionData> getSubmissionsForEvaluation(String courseId,String evaluationName) {
+	public List<SubmissionAttributes> getSubmissionsForEvaluation(String courseId,String evaluationName) {
 		return submissionsDb.getSubmissionsForEvaluation(courseId, evaluationName);
 	}
 
 	//==========================================================================
-	public void updateEvaluation(EvaluationData evaluation) throws InvalidParametersException {
+	public void updateEvaluation(EvaluationAttributes evaluation) throws InvalidParametersException {
 		if (!evaluation.isValid()) {
 			throw new InvalidParametersException(evaluation.getInvalidStateInfo());
 		}
@@ -227,14 +227,14 @@ public class EvaluationsLogic {
 		submissionsDb.editStudentEmailForSubmissionsInCourse(course, originalEmail, email);
 	}
 	
-	public void updateSubmission(SubmissionData submission) throws InvalidParametersException {
+	public void updateSubmission(SubmissionAttributes submission) throws InvalidParametersException {
 		if (!submission.isValid()) {
 			throw new InvalidParametersException(submission.getInvalidStateInfo());
 		}
 		submissionsDb.updateSubmission(submission);
 	}
 	
-	public void updateSubmissions(List<SubmissionData> submissionsDataList) {
+	public void updateSubmissions(List<SubmissionAttributes> submissionsDataList) {
 		submissionsDb.updateSubmissions(submissionsDataList);
 	}
 	
@@ -283,9 +283,9 @@ public class EvaluationsLogic {
 	//==========================================================================
 	private List<String> getExistingStudentsInTeam(String courseId, String team) {
 		Set<String> students = new HashSet<String>();
-		List<SubmissionData> submissionsDataList = submissionsDb
+		List<SubmissionAttributes> submissionsDataList = submissionsDb
 				.getSubmissionsForCourse(courseId);
-		for (SubmissionData s : submissionsDataList) {
+		for (SubmissionAttributes s : submissionsDataList) {
 			if (s.team.equals(team)) {
 				students.add(s.reviewer);
 			}

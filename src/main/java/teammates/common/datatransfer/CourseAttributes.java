@@ -5,7 +5,7 @@ import java.util.Date;
 import teammates.common.Common;
 import teammates.storage.entity.Course;
 
-public class CourseData extends BaseData {
+public class CourseAttributes extends EntityAttributes {
 	public String id;
 	public String name;
 	public Date createdAt;
@@ -18,16 +18,16 @@ public class CourseData extends BaseData {
 	public static final String ERROR_FIELD_NAME = "Course name cannot be null or empty\n";
 	public static final String ERROR_NAME_TOOLONG = "Course name cannot be more than " + COURSE_NAME_MAX_LENGTH + " characters\n";
 	
-	public CourseData() {
+	public CourseAttributes() {
 
 	}
 
-	public CourseData(String id, String name) {
+	public CourseAttributes(String id, String name) {
 		this.id = trimIfNotNull(id);
 		this.name = trimIfNotNull(name);
 	}
 
-	public CourseData(Course course) {
+	public CourseAttributes(Course course) {
 		this.id = course.getUniqueId();
 		this.name = course.getName();
 		this.createdAt = course.getCreatedAt();

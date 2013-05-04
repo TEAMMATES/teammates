@@ -3,14 +3,14 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 
 public class AdminAccountDetailsHelper extends Helper{
-	public AccountData accountInformation;
+	public AccountAttributes accountInformation;
 	public List<CourseDetailsBundle> instructorCourseList;
-	public List<CourseData> studentCourseList;
+	public List<CourseAttributes> studentCourseList;
 	
 	public String getInstructorCourseDeleteLink(String instructorId, String courseId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DELETE;

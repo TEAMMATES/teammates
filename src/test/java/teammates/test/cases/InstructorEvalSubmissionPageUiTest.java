@@ -8,8 +8,8 @@ import org.openqa.selenium.By;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -58,7 +58,7 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 	public void testInstructorEvalSubmissionViewAndEdit() throws Exception{
 		
 		//Checking indirect link to View Submission through Evaluation Results
-		EvaluationData eval = scn.evaluations.get("First Eval");
+		EvaluationAttributes eval = scn.evaluations.get("First Eval");
 		
 		______TS("view submissions for open evaluation, from results page");
 		
@@ -98,7 +98,7 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalSubmissionEdit.html");
 		
-		SubmissionData[] subs = new SubmissionData[3];
+		SubmissionAttributes[] subs = new SubmissionAttributes[3];
 		subs[0] = scn.submissions.get("CharlieCharlie");
 		subs[1] = scn.submissions.get("CharlieDanny");
 		subs[2] = scn.submissions.get("CharlieEmily");
@@ -136,19 +136,19 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		print("Checking modified data");
 		String json = "";
 		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, charlieEmail, charlieEmail);
-		SubmissionData charlieModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);
+		SubmissionAttributes charlieModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[0].points+"",charlieModified.points+"");
 		assertEquals(subs[0].justification.getValue(),charlieModified.justification.getValue());
 		assertEquals(subs[0].p2pFeedback.getValue(),charlieModified.p2pFeedback.getValue());
 
 		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, charlieEmail, dannyEmail);
-		SubmissionData dannyModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);
+		SubmissionAttributes dannyModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[1].points+"",dannyModified.points+"");
 		assertEquals(subs[1].justification.getValue(),dannyModified.justification.getValue());
 		assertEquals(subs[1].p2pFeedback.getValue(),dannyModified.p2pFeedback.getValue());
 
 		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, charlieEmail, emilyEmail);
-		SubmissionData emilyModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);
+		SubmissionAttributes emilyModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[2].points+"",emilyModified.points+"");
 		assertEquals(subs[2].justification.getValue(),emilyModified.justification.getValue());
 		assertEquals(subs[2].p2pFeedback.getValue(),emilyModified.p2pFeedback.getValue());
@@ -157,7 +157,7 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testInstructorEvalSubmissionPageWithP2PDisabled() throws Exception{
-		EvaluationData eval = scn.evaluations.get("Second Eval");
+		EvaluationAttributes eval = scn.evaluations.get("Second Eval");
 		
 		______TS("verify p2p fields are disabled");
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;

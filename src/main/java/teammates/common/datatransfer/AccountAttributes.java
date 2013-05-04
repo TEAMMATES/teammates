@@ -5,7 +5,7 @@ import java.util.Date;
 import teammates.common.Common;
 import teammates.storage.entity.Account;
 
-public class AccountData extends BaseData {
+public class AccountAttributes extends EntityAttributes {
 	public String googleId;
 	public String name;
 	public boolean isInstructor;
@@ -21,7 +21,7 @@ public class AccountData extends BaseData {
 	public static final String ERROR_FIELD_EMAIL = "Email Field is invalid\n";
 	public static final String ERROR_FIELD_INSTITUTE = "Institute field cannot be null or empty\n";
 	
-	public AccountData(Account a) {
+	public AccountAttributes(Account a) {
 		googleId = a.getGoogleId();
 		name = a.getName();
 		isInstructor = a.isInstructor();
@@ -30,11 +30,11 @@ public class AccountData extends BaseData {
 		createdAt = a.getCreatedAt();
 	}
 	
-	public AccountData() {
+	public AccountAttributes() {
 		
 	}
 	
-	public AccountData(String googleId, String name, boolean isInstructor,
+	public AccountAttributes(String googleId, String name, boolean isInstructor,
 				String email, String institute) {
 		this.googleId = trimIfNotNull(googleId);
 		this.name = trimIfNotNull(name);

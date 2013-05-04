@@ -7,7 +7,7 @@ import java.util.List;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.StudentResultBundle;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 
 public class InstructorEvalResultsHelper extends Helper{
 	public EvaluationResultsBundle evaluationResults;
@@ -131,7 +131,7 @@ public class InstructorEvalResultsHelper extends Helper{
 	 * @param sub
 	 * @return
 	 */
-	public static String printJustification(SubmissionData sub){
+	public static String printJustification(SubmissionAttributes sub){
 		if(sub.justification==null || sub.justification.getValue()==null
 				|| sub.justification.getValue().equals(""))
 			return "N/A";
@@ -145,19 +145,19 @@ public class InstructorEvalResultsHelper extends Helper{
 	 * @param subs
 	 * @return
 	 */
-	public static String getPointsList(List<SubmissionData> subs, final boolean normalized){
+	public static String getPointsList(List<SubmissionAttributes> subs, final boolean normalized){
 		//TODO: remove boolean variable and have two different variations of the method?
 		String result = "";
-		Collections.sort(subs, new Comparator<SubmissionData>(){
+		Collections.sort(subs, new Comparator<SubmissionAttributes>(){
 			@Override
-			public int compare(SubmissionData s1, SubmissionData s2){
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
 				if(normalized)
 					return Integer.valueOf(s2.normalizedToInstructor).compareTo(s1.normalizedToInstructor);
 				else
 					return Integer.valueOf(s2.points).compareTo(s1.points);
 			}
 		});
-		for(SubmissionData sub: subs){
+		for(SubmissionAttributes sub: subs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
 			if(normalized){

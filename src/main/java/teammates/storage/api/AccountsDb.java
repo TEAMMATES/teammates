@@ -13,8 +13,8 @@ import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.JoinCourseException;
@@ -53,7 +53,7 @@ public class AccountsDb {
 	 * 
 	 * @param accountToAdd
 	 */
-	public void createAccount(AccountData accountToAdd) {
+	public void createAccount(AccountAttributes accountToAdd) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, accountToAdd);
 		
 		Assumption.assertTrue(accountToAdd.getInvalidStateInfo(),
@@ -83,11 +83,11 @@ public class AccountsDb {
 	 * 
 	 * @param List<AccountData>
 	 */
-	public void createAccounts(List<AccountData> accountsToAdd) {
+	public void createAccounts(List<AccountAttributes> accountsToAdd) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, accountsToAdd);
 		
 		List<Account> accounts = new ArrayList<Account>();
-		for (AccountData ad : accountsToAdd) {
+		for (AccountAttributes ad : accountsToAdd) {
 			accounts.add(ad.toEntity());
 		}
 		
@@ -104,7 +104,7 @@ public class AccountsDb {
 	 * @throws EntityAlreadyExistsException
 	 * 
 	 */
-	public void createInstructor(InstructorData instructorToAdd)
+	public void createInstructor(InstructorAttributes instructorToAdd)
 			throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorToAdd);
 
@@ -205,7 +205,7 @@ public class AccountsDb {
 	 * 
 	 * @return List<AccountData>
 	 */
-	public List<AccountData> getInstructorAccounts() {
+	public List<AccountAttributes> getInstructorAccounts() {
 		String query = "select from " + Account.class.getName()
 				+ " where isInstructor == true";
 
@@ -213,10 +213,10 @@ public class AccountsDb {
 		List<Account> accountsList = (List<Account>) getPM().newQuery(query)
 				.execute();
 
-		List<AccountData> instructorsAccountData = new ArrayList<AccountData>();
+		List<AccountAttributes> instructorsAccountData = new ArrayList<AccountAttributes>();
 		
 		for (Account a : accountsList) {
-			instructorsAccountData.add(new AccountData(a));
+			instructorsAccountData.add(new AccountAttributes(a));
 		}
 		
 		return instructorsAccountData;
@@ -230,14 +230,14 @@ public class AccountsDb {
 	 * @param googleId
 	 * @return List<InstructorData>
 	 */
-	public List<InstructorData> getInstructorsByGoogleId(String googleId) {
+	public List<InstructorAttributes> getInstructorsByGoogleId(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		
 		List<Instructor> instructorList = getInstructorEntitiesByGoogleId(googleId);
 		
-		List<InstructorData> instructorDataList = new ArrayList<InstructorData>();
+		List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
 		for (Instructor i : instructorList) {
-			instructorDataList.add(new InstructorData(i));
+			instructorDataList.add(new InstructorAttributes(i));
 		}
 		
 		return instructorDataList;
@@ -251,14 +251,14 @@ public class AccountsDb {
 	 * @param googleId
 	 * @return List<InstructorData>
 	 */
-	public List<InstructorData> getInstructorsByCourseId(String courseId) {
+	public List<InstructorAttributes> getInstructorsByCourseId(String courseId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Instructor> instructorList = getInstructorEntitiesByCourseId(courseId);
 		
-		List<InstructorData> instructorDataList = new ArrayList<InstructorData>();
+		List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
 		for (Instructor i : instructorList) {
-			instructorDataList.add(new InstructorData(i));
+			instructorDataList.add(new InstructorAttributes(i));
 		}
 		
 		return instructorDataList;
@@ -292,12 +292,12 @@ public class AccountsDb {
 	 * Returns the list of all instructors
 	 * @return
 	 */
-	public List<InstructorData> getAllInstructors() {
-		List<InstructorData> list = new LinkedList<InstructorData>();
+	public List<InstructorAttributes> getAllInstructors() {
+		List<InstructorAttributes> list = new LinkedList<InstructorAttributes>();
 		List<Instructor> entities = getInstructorEntities();
 		Iterator<Instructor> it = entities.iterator();
 		while(it.hasNext()) {
-			list.add(new InstructorData(it.next()));
+			list.add(new InstructorAttributes(it.next()));
 		}	
 		return list;
 	}
@@ -388,7 +388,7 @@ public class AccountsDb {
 	 * 
 	 * @param googleID
 	 */
-	public AccountData getAccount(String googleId) {
+	public AccountAttributes getAccount(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 
 		Account a = getAccountEntity(googleId);
@@ -398,7 +398,7 @@ public class AccountsDb {
 			return null;
 		}
 
-		return new AccountData(a);
+		return new AccountAttributes(a);
 	}
 
 	/**
@@ -412,7 +412,7 @@ public class AccountsDb {
 	 * @return the InstructorData of Instructor with the specified Google ID, or
 	 *         null if not found
 	 */
-	public InstructorData getInstructor(String googleId, String courseId) {
+	public InstructorAttributes getInstructor(String googleId, String courseId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 
@@ -423,7 +423,7 @@ public class AccountsDb {
 			return null;
 		}
 
-		return new InstructorData(c);
+		return new InstructorAttributes(c);
 	}
 
 	/**
@@ -615,9 +615,9 @@ public class AccountsDb {
 	/**
 	 * To be use for a user to update his/her information.
 	 * 
-	 * @param AccountData a
+	 * @param AccountAttributes a
 	 */
-	public void updateAccount(AccountData a) {
+	public void updateAccount(AccountAttributes a) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, a);
 		Account accountToUpdate = getAccountEntity(a.googleId);
 		
@@ -752,9 +752,9 @@ public class AccountsDb {
 	 * Allow instructors to modify their NAME and EMAIL Fields
 	 * Cannot modify GoogleId and Course Id
 	 * 
-	 * @param InstructorData id
+	 * @param InstructorAttributes id
 	 */
-	public void updateInstructor(InstructorData id) {
+	public void updateInstructor(InstructorAttributes id) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, id);
 		
 		Assumption.assertTrue(id.getInvalidStateInfo(), id.isValid());

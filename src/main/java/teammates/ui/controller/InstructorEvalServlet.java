@@ -7,9 +7,9 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -115,8 +115,8 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 				&& helper.evaluations.size()==0;
 	}
 
-	public static EvaluationData extractEvaluationData(HttpServletRequest req) {
-		EvaluationData newEval = new EvaluationData();
+	public static EvaluationAttributes extractEvaluationData(HttpServletRequest req) {
+		EvaluationAttributes newEval = new EvaluationAttributes();
 		newEval.course = req.getParameter(Common.PARAM_COURSE_ID);
 		newEval.name = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		newEval.p2pEnabled = Boolean.parseBoolean(req
@@ -197,7 +197,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 		String message;
 		
 		try {
-			EvaluationData eval = (EvaluationData)data.get(0);
+			EvaluationAttributes eval = (EvaluationAttributes)data.get(0);
 			message = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span> created.<br>" +
 					"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
 					"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 

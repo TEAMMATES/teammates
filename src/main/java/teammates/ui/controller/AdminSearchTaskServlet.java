@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentData;
 import teammates.storage.api.AccountsDb;
 
@@ -58,11 +58,11 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		 * Insert instructors
 		 */
 		AccountsDb accounts = new AccountsDb();
-		List<InstructorData> instructors = accounts.getAllInstructors();
+		List<InstructorAttributes> instructors = accounts.getAllInstructors();
 		
-		Iterator<InstructorData> it = instructors.iterator();
+		Iterator<InstructorAttributes> it = instructors.iterator();
 		while (it.hasNext()) {
-			InstructorData instructor = it.next();
+			InstructorAttributes instructor = it.next();
 			addDocument(instructor.name, instructor.email, instructor.googleId, Common.PAGE_INSTRUCTOR_HOME);
 		}
 		

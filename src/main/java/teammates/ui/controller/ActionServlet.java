@@ -16,13 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -255,7 +255,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 */
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data){
 		UserType user = helper.server.getLoggedInUser();
-		AccountData account = helper.server.getAccount(user.id);
+		AccountAttributes account = helper.server.getAccount(user.id);
 		String message = generateActivityLogEntryMessage(servletName, action, data);
 			
 		return new ActivityLogEntry(servletName, action, toShow, account, message, url);
@@ -371,9 +371,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		});
 	}
 	
-	protected void sortCourses(List<CourseData> courses) {
-		Collections.sort(courses, new Comparator<CourseData>() {
-			public int compare(CourseData obj1, CourseData obj2) {
+	protected void sortCourses(List<CourseAttributes> courses) {
+		Collections.sort(courses, new Comparator<CourseAttributes>() {
+			public int compare(CourseAttributes obj1, CourseAttributes obj2) {
 				return obj1.id.compareTo(obj2.id);
 			}
 		});
@@ -390,8 +390,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	protected void sortEvaluationsByDeadline(List<EvaluationDetailsBundle> evals) {
 		Collections.sort(evals, new Comparator<EvaluationDetailsBundle>() {
 			public int compare(EvaluationDetailsBundle edd1, EvaluationDetailsBundle edd2) {
-				EvaluationData eval1 = edd1.evaluation;
-				EvaluationData eval2 = edd2.evaluation;
+				EvaluationAttributes eval1 = edd1.evaluation;
+				EvaluationAttributes eval2 = edd2.evaluation;
 				int result = 0;
 				if (result == 0)
 					result = eval1.endTime.after(eval2.endTime) ? 1
@@ -430,9 +430,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param submissions
 	 */
-	protected void sortSubmissionsByFeedback(List<SubmissionData> submissions) {
-		Collections.sort(submissions, new Comparator<SubmissionData>() {
-			public int compare(SubmissionData s1, SubmissionData s2) {
+	protected void sortSubmissionsByFeedback(List<SubmissionAttributes> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				return s1.p2pFeedback.toString().compareTo(
 						s2.p2pFeedback.toString());
 			}
@@ -444,9 +444,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param submissions
 	 */
-	protected void sortSubmissionsByJustification(List<SubmissionData> submissions) {
-		Collections.sort(submissions, new Comparator<SubmissionData>() {
-			public int compare(SubmissionData s1, SubmissionData s2) {
+	protected void sortSubmissionsByJustification(List<SubmissionAttributes> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				return s1.justification.toString().compareTo(
 						s2.justification.toString());
 			}
@@ -458,9 +458,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param submissions
 	 */
-	protected void sortSubmissionsByReviewer(List<SubmissionData> submissions) {
-		Collections.sort(submissions, new Comparator<SubmissionData>() {
-			public int compare(SubmissionData s1, SubmissionData s2) {
+	protected void sortSubmissionsByReviewer(List<SubmissionAttributes> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				int result = s1.reviewerName.compareTo(s2.reviewerName);
 				if (result == 0)
 					s1.reviewer.compareTo(s2.reviewer);
@@ -474,9 +474,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param submissions
 	 */
-	protected void sortSubmissionsByReviewee(List<SubmissionData> submissions) {
-		Collections.sort(submissions, new Comparator<SubmissionData>() {
-			public int compare(SubmissionData s1, SubmissionData s2) {
+	protected void sortSubmissionsByReviewee(List<SubmissionAttributes> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				int result = s1.revieweeName.compareTo(s2.revieweeName);
 				if (result == 0)
 					s1.reviewee.compareTo(s2.reviewee);
@@ -491,9 +491,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param submissions
 	 */
-	protected void sortSubmissionsByPoints(List<SubmissionData> submissions) {
-		Collections.sort(submissions, new Comparator<SubmissionData>() {
-			public int compare(SubmissionData s1, SubmissionData s2) {
+	protected void sortSubmissionsByPoints(List<SubmissionAttributes> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				return Integer.valueOf(s1.points).compareTo(
 						Integer.valueOf(s2.points));
 			}

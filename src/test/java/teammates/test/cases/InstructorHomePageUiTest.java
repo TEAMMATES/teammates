@@ -10,7 +10,7 @@ import org.openqa.selenium.By;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -24,9 +24,9 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static EvaluationData firstEval;
-	private static EvaluationData secondEval;
-	private static EvaluationData thirdEval;
+	private static EvaluationAttributes firstEval;
+	private static EvaluationAttributes secondEval;
+	private static EvaluationAttributes thirdEval;
 	
 	private static Boolean helpWindowClosed;
 	

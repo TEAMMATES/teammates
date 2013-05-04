@@ -5,15 +5,15 @@ import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import org.testng.AssertJUnit;
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 
 public class EvaluationDataTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(EvaluationData.class);
+		turnLoggingUp(EvaluationAttributes.class);
 	}
 
 	@Test
@@ -21,7 +21,7 @@ public class EvaluationDataTest extends BaseTestCase {
 		
 		double timeZone;
 		int gracePeriod;
-		EvaluationData evaluation = new EvaluationData();
+		EvaluationAttributes evaluation = new EvaluationAttributes();
 		int safetyMargin = 1000; // we use this to compensate for test execution
 
 		______TS("in the awaiting period");
@@ -129,7 +129,7 @@ public class EvaluationDataTest extends BaseTestCase {
 
 	@Test
 	public void testValidate() {
-		EvaluationData e = new EvaluationData();
+		EvaluationAttributes e = new EvaluationAttributes();
 
 		e.course = "valid-course";
 		e.name = "valid name";
@@ -152,34 +152,34 @@ public class EvaluationDataTest extends BaseTestCase {
 		// FAIL : no course: invalid
 		e.course = null;
 		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_COURSE);
+		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_FIELD_COURSE);
 		
 		// FAIL : no name: invalid
 		e.course = "valid-course";
 		e.name = null;
 		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_NAME);
+		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_FIELD_NAME);
 		
 		// SUCCESS : name at max length
-		e.name = Common.generateStringOfLength(EvaluationData.EVALUATION_NAME_MAX_LENGTH);
+		e.name = Common.generateStringOfLength(EvaluationAttributes.EVALUATION_NAME_MAX_LENGTH);
 		AssertJUnit.assertTrue(e.isValid());
 		
 		// FAIL : name too long
 		e.name += "e";
 		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_NAME_TOOLONG);
+		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_NAME_TOOLONG);
 		
 		// FAIL : no start time
 		e.name = "valid name";
 		e.startTime = null;
 		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_STARTTIME);
+		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_FIELD_STARTTIME);
 		
 		// FAIL : no end time
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = null;
 		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_FIELD_ENDTIME);
+		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_FIELD_ENDTIME);
 		
 		// SUCCESS : end == start
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
@@ -198,14 +198,14 @@ public class EvaluationDataTest extends BaseTestCase {
 		print(Common.calendarToString(Common
 				.dateToCalendar(e.endTime)));
 		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_END_BEFORE_START);
+		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_END_BEFORE_START);
 
 		// FAIL : published before endtime: invalid
 		e.published = true;
 		e.startTime = Common.getDateOffsetToCurrentTime(0);
 		e.endTime = Common.getMsOffsetToCurrentTime(5);
 		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_PUBLISHED_BEFORE_END);
+		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_PUBLISHED_BEFORE_END);
 
 		// SUCCESS : just after endtime and published: valid
 		e.startTime = Common.getDateOffsetToCurrentTime(-1);
@@ -219,7 +219,7 @@ public class EvaluationDataTest extends BaseTestCase {
 		e.published = false;
 		e.activated = true;
 		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationData.ERROR_ACTIVATED_BEFORE_START);
+		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_ACTIVATED_BEFORE_START);
 	}
 	
 	@Test
@@ -229,6 +229,6 @@ public class EvaluationDataTest extends BaseTestCase {
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		turnLoggingDown(EvaluationData.class);
+		turnLoggingDown(EvaluationAttributes.class);
 	}
 }

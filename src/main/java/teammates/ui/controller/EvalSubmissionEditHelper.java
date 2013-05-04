@@ -3,14 +3,14 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 
 public class EvalSubmissionEditHelper extends Helper {
-	public EvaluationData eval;
+	public EvaluationAttributes eval;
 	public StudentData student;
-	public List<SubmissionData> submissions;
+	public List<SubmissionAttributes> submissions;
 	
 	/**
 	 * Returns the p2p comments depending whether it is for self or others, and
@@ -18,7 +18,7 @@ public class EvalSubmissionEditHelper extends Helper {
 	 * @param sub
 	 * @return
 	 */
-	public String getP2PComments(SubmissionData sub) {
+	public String getP2PComments(SubmissionAttributes sub) {
 		String commentsString = EvalSubmissionEditHelper.escapeForHTML(sub.p2pFeedback.getValue());
 		if (commentsString.trim().equals("")){
 			if(sub.reviewee.equals(sub.reviewer)) {
@@ -37,7 +37,7 @@ public class EvalSubmissionEditHelper extends Helper {
 	 * @param sub
 	 * @return
 	 */
-	public String getEvaluationSectionTitle(SubmissionData sub){
+	public String getEvaluationSectionTitle(SubmissionAttributes sub){
 		if(sub.reviewee.equals(sub.reviewer)){
 			return "Self evaluation in Team [" + student.team + "]";
 		} else {
@@ -51,7 +51,7 @@ public class EvalSubmissionEditHelper extends Helper {
 	 * @param sub
 	 * @return
 	 */
-	public String getJustificationInstr(SubmissionData sub){
+	public String getJustificationInstr(SubmissionAttributes sub){
 		if(sub.reviewee.equals(sub.reviewer)){
 			return "Comments about my contribution:<br />" +
 					"(shown to other teammates)";
@@ -67,7 +67,7 @@ public class EvalSubmissionEditHelper extends Helper {
 	 * @param sub
 	 * @return
 	 */
-	public String getCommentsInstr(SubmissionData sub){
+	public String getCommentsInstr(SubmissionAttributes sub){
 		if(sub.reviewee.equals(sub.reviewer)){
 			return "Comments about team dynamics:<br />" +
 					"(confidential and only shown to instructor)";
@@ -85,7 +85,7 @@ public class EvalSubmissionEditHelper extends Helper {
 	 * @param sub
 	 * @return
 	 */
-	public String getEvaluationOptions(SubmissionData sub){
+	public String getEvaluationOptions(SubmissionAttributes sub){
 		String result = "";
 		if(sub.points==Common.POINTS_NOT_SUBMITTED ||
 				sub.points==Common.UNINITIALIZED_INT){

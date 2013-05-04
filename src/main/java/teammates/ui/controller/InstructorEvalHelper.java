@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 
 public class InstructorEvalHelper extends Helper{
@@ -18,7 +18,7 @@ public class InstructorEvalHelper extends Helper{
 	public String courseIdForNewEvaluation;
 	// This stores the evaluation details when a user submits a new evaluation
 	//   to be stored.
-	public EvaluationData newEvaluationToBeCreated;
+	public EvaluationAttributes newEvaluationToBeCreated;
 	public List<EvaluationDetailsBundle> evaluations;
 	
 	/**

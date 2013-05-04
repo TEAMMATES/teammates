@@ -8,10 +8,10 @@ import org.testng.Assert;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -122,7 +122,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		
 		______TS("typical success case");
-		EvaluationData eval = scn.evaluations.get("awaitingEval");
+		EvaluationAttributes eval = scn.evaluations.get("awaitingEval");
 		bi.addEvaluation(eval.course, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
@@ -301,9 +301,9 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 	@SuppressWarnings("unused")
 	private class TestScenario{
-		public InstructorData instructor;
-		public CourseData course;
-		public EvaluationData evaluation;
-		public EvaluationData evaluationInCourseWithNoTeams;
+		public InstructorAttributes instructor;
+		public CourseAttributes course;
+		public EvaluationAttributes evaluation;
+		public EvaluationAttributes evaluationInCourseWithNoTeams;
 	}
 }

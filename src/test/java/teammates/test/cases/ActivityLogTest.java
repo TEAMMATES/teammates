@@ -5,7 +5,7 @@ import org.testng.AssertJUnit;
 import com.google.appengine.api.log.AppLogLine;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.ui.controller.ActivityLogEntry;
 
 public class ActivityLogTest extends BaseTestCase{
@@ -14,7 +14,7 @@ public class ActivityLogTest extends BaseTestCase{
 	public void TestActivityLogEntryClass() {
 		______TS("Test constructors and generateLogMessage");
 		String logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId|||UserEmail|||Message|||URL";
-		AccountData acc = new AccountData("UserId", "UserName", true, "UserEmail", "UserInstitute");
+		AccountAttributes acc = new AccountAttributes("UserId", "UserName", true, "UserEmail", "UserInstitute");
 		ActivityLogEntry entry = new ActivityLogEntry(Common.INSTRUCTOR_HOME_SERVLET, Common.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD, true, acc, "Message", "URL");		
 		AssertJUnit.assertEquals(logMessage, entry.generateLogMessage());
 		

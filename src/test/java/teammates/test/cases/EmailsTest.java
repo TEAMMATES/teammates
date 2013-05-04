@@ -22,8 +22,8 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
 import teammates.logic.Emails;
 
@@ -82,11 +82,11 @@ public class EmailsTest extends BaseTestCase {
 	public void testGenerateEvaluationEmailBase() throws IOException,
 			MessagingException, GeneralSecurityException {
 
-		EvaluationData e = new EvaluationData();
+		EvaluationAttributes e = new EvaluationAttributes();
 		e.name = "Evaluation Name";
 		e.endTime = Common.getDateOffsetToCurrentTime(0);
 
-		CourseData c = new CourseData();
+		CourseAttributes c = new CourseAttributes();
 		c.id = "course-id";
 		c.name = "Course Name";
 
@@ -201,7 +201,7 @@ public class EmailsTest extends BaseTestCase {
 	public void testGenerateStudentCourseJoinEmail() throws IOException,
 			MessagingException, GeneralSecurityException {
 
-		CourseData c = new CourseData();
+		CourseAttributes c = new CourseAttributes();
 		c.id = "course-id";
 		c.name = "Course Name";
 
@@ -259,11 +259,11 @@ public class EmailsTest extends BaseTestCase {
 			IOException {
 		List<StudentData> students = new ArrayList<StudentData>();
 
-		EvaluationData e = new EvaluationData();
+		EvaluationAttributes e = new EvaluationAttributes();
 		e.name = "Evaluation Name";
 		e.endTime = Common.getDateOffsetToCurrentTime(0);
 
-		CourseData c = new CourseData();
+		CourseAttributes c = new CourseAttributes();
 		c.id = "course-id";
 		c.name = "Course Name";
 

@@ -22,9 +22,9 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
@@ -251,18 +251,18 @@ public class BaseTestCase {
 
 		DataBundle dataBundle = getTypicalDataBundle();
 		
-		for (AccountData account : dataBundle.accounts.values()) {
+		for (AccountAttributes account : dataBundle.accounts.values()) {
 			backDoorLogic.deleteAccount(account.googleId);
 		}
 
 		// delete courses first in case there are existing courses with same id
 		// but under different instructors.
-		for (CourseData course : dataBundle.courses.values()) {
+		for (CourseAttributes course : dataBundle.courses.values()) {
 			backDoorLogic.deleteCourse(course.id);
 		}
 
-		HashMap<String, InstructorData> instructors = dataBundle.instructors;
-		for (InstructorData instructor : instructors.values()) {
+		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
+		for (InstructorAttributes instructor : instructors.values()) {
 			backDoorLogic.deleteInstructor(instructor.googleId);
 		}
 		backDoorLogic.persistNewDataBundle(dataBundle);

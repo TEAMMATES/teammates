@@ -10,8 +10,8 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.storage.api.AccountsDb;
@@ -38,7 +38,7 @@ public class AccountsDbTest extends BaseTestCase {
 	@Test
 	public void testCreateAccount() {
 		// SUCCESS
-		AccountData a = new AccountData();
+		AccountAttributes a = new AccountAttributes();
 		a.googleId = "test.account";
 		a.name = "Test account Name";
 		a.isInstructor = false;
@@ -50,7 +50,7 @@ public class AccountsDbTest extends BaseTestCase {
 		accountsDb.createAccount(a);
 		
 		// Test for latest entry persistence
-		AccountData accountDataTest = accountsDb.getAccount(a.googleId);
+		AccountAttributes accountDataTest = accountsDb.getAccount(a.googleId);
 		AssertJUnit.assertFalse(accountDataTest.isInstructor);
 		// Change a field
 		accountDataTest.isInstructor = true;
@@ -84,10 +84,10 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetAccount() {
-		AccountData a = createNewAccount();
+		AccountAttributes a = createNewAccount();
 		
 		// Get existent
-		AccountData retrieved = accountsDb.getAccount(a.googleId);
+		AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
 		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
@@ -105,7 +105,7 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testEditAccount() {
-		AccountData a = createNewAccount();
+		AccountAttributes a = createNewAccount();
 		
 		// Edit existent
 		a.name = "Edited name";
@@ -132,12 +132,12 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteAccount() {
-		AccountData a = createNewAccount();
+		AccountAttributes a = createNewAccount();
 		
 		// Delete
 		accountsDb.deleteAccount(a.googleId);
 		
-		AccountData deleted = accountsDb.getAccount(a.googleId);
+		AccountAttributes deleted = accountsDb.getAccount(a.googleId);
 		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
@@ -287,7 +287,7 @@ public class AccountsDbTest extends BaseTestCase {
 	@Test
 	public void testCreateInstructor() throws EntityAlreadyExistsException {
 		// SUCCESS
-		InstructorData i = new InstructorData();
+		InstructorAttributes i = new InstructorAttributes();
 		i.googleId = "valid.fresh.id";
 		i.courseId = "valid.course.Id";
 		i.name = "valid.name";
@@ -308,7 +308,7 @@ public class AccountsDbTest extends BaseTestCase {
 			accountsDb.createInstructor(i);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(a.getMessage(), InstructorData.ERROR_FIELD_ID);
+			AssertJUnit.assertEquals(a.getMessage(), InstructorAttributes.ERROR_FIELD_ID);
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}
@@ -324,10 +324,10 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetInstructor() {
-		InstructorData i = createNewInstructor();
+		InstructorAttributes i = createNewInstructor();
 		
 		// Get existent
-		InstructorData retrieved = accountsDb.getInstructor(i.googleId, i.courseId);
+		InstructorAttributes retrieved = accountsDb.getInstructor(i.googleId, i.courseId);
 		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
@@ -345,7 +345,7 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testUpdateInstructor() {
-		InstructorData instructorToEdit = createNewInstructor();
+		InstructorAttributes instructorToEdit = createNewInstructor();
 		
 		// SUCCESS
 		// Test for old value
@@ -369,7 +369,7 @@ public class AccountsDbTest extends BaseTestCase {
 			accountsDb.updateInstructor(instructorToEdit);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(a.getMessage(), InstructorData.ERROR_FIELD_NAME + InstructorData.ERROR_FIELD_EMAIL);
+			AssertJUnit.assertEquals(a.getMessage(), InstructorAttributes.ERROR_FIELD_NAME + InstructorAttributes.ERROR_FIELD_EMAIL);
 		}
 		
 		// Null parameters check:
@@ -382,12 +382,12 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteInstructor() {
-		InstructorData i = createNewInstructor();
+		InstructorAttributes i = createNewInstructor();
 		
 		// Delete
 		accountsDb.deleteInstructor(i.googleId, i.courseId);
 		
-		InstructorData deleted = accountsDb.getInstructor(i.googleId, i.courseId);
+		InstructorAttributes deleted = accountsDb.getInstructor(i.googleId, i.courseId);
 		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
@@ -408,8 +408,8 @@ public class AccountsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private AccountData createNewAccount() {
-		AccountData a = new AccountData();
+	private AccountAttributes createNewAccount() {
+		AccountAttributes a = new AccountAttributes();
 		a.googleId = "valid.googleId";
 		a.name = "Valid Fresh Account";
 		a.isInstructor = false;
@@ -435,8 +435,8 @@ public class AccountsDbTest extends BaseTestCase {
 		return s;
 	}
 	
-	private InstructorData createNewInstructor() {
-		InstructorData c = new InstructorData();
+	private InstructorAttributes createNewInstructor() {
+		InstructorAttributes c = new InstructorAttributes();
 		c.googleId = "valid.id";
 		c.courseId = "valid.course";
 		c.name = "valid.name";
