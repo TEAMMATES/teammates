@@ -4,21 +4,21 @@
       "googleId": "CCDetailsUiT.test",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "teammates.test@gmail.com",
+      "email": "CCDetailsUiT.test@gmail.com",
       "institute": "National University of Singapore"
     },
     "CCDetailsUiT.coord": {
       "googleId": "CCDetailsUiT.coord",
       "name": "Teammates Coord",
       "isInstructor": true,
-      "email": "teammates.coord@gmail.com",
+      "email": "CCDetailsUiT.coord@gmail.com",
       "institute": "National University of Singapore"
     },
     "CCDetailsUiT.instructor": {
       "googleId": "CCDetailsUiT.instructor",
       "name": "Teammates Instructor",
       "isInstructor": true,
-      "email": "teammates.instructor@gmail.com",
+      "email": "CCDetailsUiT.instructor@gmail.com",
       "institute": "National University of Singapore"
     }
   },
@@ -35,13 +35,13 @@
       "googleId": "CCDetailsUiT.test",
       "courseId": "CCDetailsUiT.CS2104",
       "name": "Teammates Test",
-      "email": "teammates.test@gmail.com"
+      "email": "CCDetailsUiT.test@gmail.com"
     },
     "CCDetailsUiT.coord": {
       "googleId": "CCDetailsUiT.coord",
       "courseId": "CCDetailsUiT.CS2104",
       "name": "Teammates Coord",
-      "email": "teammates.coord@gmail.com"
+      "email": "CCDetailsUiT.coord@gmail.com"
     }
   },
   

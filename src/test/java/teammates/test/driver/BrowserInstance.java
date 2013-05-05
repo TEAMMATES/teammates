@@ -3,8 +3,8 @@ package teammates.test.driver;
 //TODO: remove junit dependencies
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -2837,8 +2837,10 @@ public class BrowserInstance {
 	}
 
 
-
-	
+	public void verifyNotServerError() {
+		assertTrue(!getCurrentPageSource().toLowerCase()
+				.contains("error in our server"));
+	}
 
 	/**
 	 * Verifies current page with a reference page, i.e., finding the reference
