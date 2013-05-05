@@ -65,7 +65,7 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("teammates.demo.instructor").googleId);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("CESubEditUiT.instructor").googleId);
 		bi.goToUrl(link);
 		
 		int studentResultsRowID = bi.getStudentRowId(scn.students.get("Charlie").name);
@@ -87,7 +87,7 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, scn.students.get("Charlie").email);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("teammates.demo.instructor").googleId);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("CESubEditUiT.instructor").googleId);
 		bi.goToUrl(link);
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalSubmissionView.html");
@@ -164,7 +164,7 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, scn.students.get("Charlie").email);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("teammates.demo.instructor").googleId);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("CESubEditUiT.instructor").googleId);
 		bi.goToUrl(link);
 		
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalSubmissionP2PDisabled.html");
