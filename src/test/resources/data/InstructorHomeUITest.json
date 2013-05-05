@@ -12,16 +12,16 @@
   
   "instructors": {
     "CHomeUiT.instr.CS2104": {
-      "googleId": "CHomeUiT.instr",
+      "googleId": "teammates.coord",
       "courseId": "CHomeUiT.CS2104",
       "name": "Teammates Test",
-      "email": "CHomeUiT.instr@gmail.com"
+      "email": "teammates.coord@gmail.com"
     },
     "CHomeUiT.instr.CS1101": {
-      "googleId": "CHomeUiT.instr",
+      "googleId": "teammates.coord",
       "courseId": "CHomeUiT.CS1101",
       "name": "Teammates Test",
-      "email": "CHomeUiT.instr@gmail.com"
+      "email": "teammates.coord@gmail.com"
     }
   },
   

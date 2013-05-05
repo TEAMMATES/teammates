@@ -2401,6 +2401,7 @@ public class BrowserInstance {
 	 * @param message
 	 */
 	public void waitForStatusMessage(String message) {
+		verifyNotServerError();
 		waitForTextInElement(statusMessage, message);
 	}
 

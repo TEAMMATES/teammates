@@ -84,9 +84,9 @@ public class InstructorCourseEditPageUiTest extends BaseTestCase {
 		courseDetailsLink = Common.addParamToUrl(courseDetailsLink,Common.PARAM_USER_ID,scn.instructors.get("CCDetailsUiT.test").googleId);
 		bi.goToUrl(courseDetailsLink);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsAddInstructor.html");
-		bi.goToUrl(link);
 		
 		______TS("test edit existing instructor");
+		bi.goToUrl(link);
 		bi.fillString(bi.instructorCourseInputInstructorList, originalInformation + "CCDetailsUiT.instructor|Teammates Instructor New|CCDetailsUiT.instructor.new@gmail.com");
 		bi.click(submitButton);
 		bi.waitForStatusMessage("The course has been edited.");
@@ -95,9 +95,9 @@ public class InstructorCourseEditPageUiTest extends BaseTestCase {
 		courseDetailsLink = Common.addParamToUrl(courseDetailsLink,Common.PARAM_USER_ID,scn.instructors.get("CCDetailsUiT.test").googleId);
 		bi.goToUrl(courseDetailsLink);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsEditInstructor.html");
-		bi.goToUrl(link);
 		
 		______TS("test delete existing instructor");
+		bi.goToUrl(link);
 		bi.fillString(bi.instructorCourseInputInstructorList, originalInformation);
 		bi.click(submitButton);
 		bi.waitForStatusMessage("The course has been edited.");
@@ -106,9 +106,9 @@ public class InstructorCourseEditPageUiTest extends BaseTestCase {
 		courseDetailsLink = Common.addParamToUrl(courseDetailsLink,Common.PARAM_USER_ID,scn.instructors.get("CCDetailsUiT.test").googleId);
 		bi.goToUrl(courseDetailsLink);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsDeleteInstructor.html");
-		bi.goToUrl(link);
 		
 		______TS("test instructor list without logged-in instructor");
+		bi.goToUrl(link);
 		bi.fillString(bi.instructorCourseInputInstructorList, "CCDetailsUiT.instructor|Teammates Instructor|CCDetailsUiT.instructor@gmail.com");
 		bi.clickAndConfirm(submitButton);
 		bi.waitForStatusMessage("The course has been edited.\nYou have not created any courses yet. Use the form above to create a course.");
