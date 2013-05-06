@@ -60,7 +60,7 @@ public class InstructorCourseEditPageUiTest extends BaseTestCase {
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCDetailsUiT.CS2104").id);
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CCDetailsUiT.test").googleId);
 		bi.goToUrl(link);
-		bi.verifyNotServerError();
+		bi.verifyNotServerSideError();
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEdit.html");
 		
 		______TS("test empty instructor list");

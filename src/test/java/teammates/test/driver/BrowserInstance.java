@@ -2401,7 +2401,7 @@ public class BrowserInstance {
 	 * @param message
 	 */
 	public void waitForStatusMessage(String message) {
-		verifyNotServerError();
+		verifyNotServerSideError();
 		waitForTextInElement(statusMessage, message);
 	}
 
@@ -2838,9 +2838,11 @@ public class BrowserInstance {
 	}
 
 
-	public void verifyNotServerError() {
+	public void verifyNotServerSideError() {
 		assertTrue(!getCurrentPageSource().toLowerCase()
 				.contains("error in our server"));
+		assertTrue(!getCurrentPageSource().toLowerCase()
+				.contains("could not locate what you were"));
 	}
 
 	/**
