@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
 
-	<test name="InstructorUiTests" parallel="classes">
+	<test name="frequent-ui-tests" parallel="classes">
 		<classes>
 			<class name="teammates.test.cases.InstructorLoginPageUiTest" />
 			<class name="teammates.test.cases.InstructorCourseEnrollPageUiTest" />
@@ -15,10 +15,6 @@
 			<class name="teammates.test.cases.InstructorEvalEditPageUiTest" />
 			<class name="teammates.test.cases.InstructorEvalResultsPageUiTest" />
 			<class name="teammates.test.cases.InstructorCourseDetailsPageUiTest" />
-		</classes>
-	</test>
-	<test name="StudentAndAdminUiTests" parallel="classes">
-		<classes>
 			<class name="teammates.test.cases.AdminAccountManagementUiTest" />
 			<class name="teammates.test.cases.AdminHomePageUiTest" />
 			<class name="teammates.test.cases.StudentLoginPageUiTest" />
@@ -28,17 +24,7 @@
 			<class name="teammates.test.cases.StudentEvalResultsPageUiTest" />
 		</classes>
 	</test>
-	<test name="MiscUiTests">
-		<classes>
-			<class name="teammates.test.cases.BackDoorTest" />
-			<class name="teammates.test.cases.SystemErrorEmailReportTest" />
-			<class name="teammates.test.cases.TableSortTest" />
-			<class name="teammates.test.cases.AllAccessControlUiTests" />
-			<class name="teammates.test.cases.AllJsTests" />
-			<class name="teammates.test.cases.WebpageCompilationUiTest" />
-		</classes>
-	</test>
-		<test name="ComponentTests">
+		<test name="component-tests">
 		<classes>
 			<class name="teammates.test.cases.TestPropertiesTest" />
 			<class name="teammates.test.cases.BuildPropertiesTest" />
@@ -63,6 +49,16 @@
 			<class name="teammates.test.cases.TeamEvalResultTest" />
 			<class name="teammates.test.cases.LogicTest" />
 			<!-- class name="teammates.test.cases.BackDoorLogicTest"/ -->
+		</classes>
+	</test>
+	<test name="occasional-tests">
+		<classes>
+			<class name="teammates.test.cases.BackDoorTest" />
+			<class name="teammates.test.cases.SystemErrorEmailReportTest" />
+			<class name="teammates.test.cases.TableSortTest" />
+			<class name="teammates.test.cases.AllAccessControlUiTests" />
+			<class name="teammates.test.cases.AllJsTests" />
+			<class name="teammates.test.cases.WebpageCompilationUiTest" />
 		</classes>
 	</test>
 </suite> 

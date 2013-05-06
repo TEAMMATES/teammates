@@ -21,6 +21,7 @@ public class InstructorLoginPageUiTest extends BaseTestCase {
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		bi = BrowserInstancePool.getBrowserInstance();
+		bi.logout();
 	}
 	
 	@AfterClass
