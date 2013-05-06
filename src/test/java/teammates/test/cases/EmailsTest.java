@@ -21,11 +21,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
+import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentData;
 import teammates.logic.Emails;
+import teammates.test.driver.TestProperties;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -311,6 +313,46 @@ public class EmailsTest extends BaseTestCase {
 		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
 
 	}
+	
+	@Test
+	public void testSystemCrashReportEmailContent() throws IOException,
+			MessagingException {
+
+		
+		AssertionError error = new AssertionError("invalid parameter");
+		StackTraceElement s1 = new StackTraceElement(
+				SystemErrorEmailReportTest.class.getName(), 
+				"testSystemCrashReportEmailContent", 
+				"SystemErrorEmailReportTest.java", 
+				89);
+		error.setStackTrace(new StackTraceElement[] {s1});
+		String stackTrace = Common.stackTraceToString(error);
+		String requestPath = "/page/studentHome";
+		String requestParam = "{}";
+
+		MimeMessage email = new Emails().generateSystemErrorEmail(
+				error, 
+				requestPath, requestParam,
+				TestProperties.inst().TEAMMATES_VERSION);
+
+		// check receiver
+		String recipient = BuildProperties.inst().getAppCrashReportEmail();
+		assertEquals(recipient, email.getAllRecipients()[0].toString());
+
+		// check sender
+		assertEquals(from, email.getFrom()[0].toString());
+		
+			
+		// check email body
+		String emailBody = email.getContent().toString();
+		assertContainsRegex(
+				"<b>Error Message</b><br/><pre><code>" + error.getMessage()
+				+ "</code></pre><br/><b>Request Path</b>" + requestPath 
+				+ "<br/><b>Request Parameters</b>" + requestParam
+				+ "<br/><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>",
+				emailBody);
+	}
+
 
 	private void verifyEvaluationEmail(StudentData s, MimeMessage email,
 			String prefix, String status) throws MessagingException,
