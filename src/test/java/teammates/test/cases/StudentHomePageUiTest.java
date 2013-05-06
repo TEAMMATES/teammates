@@ -41,7 +41,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginStudent(scn.students.get("alice.tmms@SHomeUiT.CS2104").id, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
+		bi.loginStudent(scn.students.get("SHomeUiT.alice.b@SHomeUiT.CS2104").id, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
 	}
 	
 	@AfterClass
@@ -85,9 +85,9 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		______TS("invalid key");
 		
 		BackDoor.createCourse(scn.courses.get("SHomeUiT.CS2104"));
-		BackDoor.createInstructor(scn.instructors.get("teammates.test.CS2104"));
-		BackDoor.createAccount(scn.accounts.get("teammates.test"));
-		StudentData alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
+		BackDoor.createInstructor(scn.instructors.get("SHomeUiT.instr.CS2104"));
+		BackDoor.createAccount(scn.accounts.get("SHomeUiT.instr"));
+		StudentData alice = scn.students.get("SHomeUiT.alice.b@SHomeUiT.CS2104");
 		alice.id = null;
 		BackDoor.createStudent(alice);
 		bi.fillString(bi.studentInputRegKey, "ThisIsAnInvalidKey");
@@ -99,7 +99,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 
 		BackDoor.createCourse(scn.courses.get("SHomeUiT.CS2104"));
 		String courseID = scn.courses.get("SHomeUiT.CS2104").id;
-		String studentEmail = scn.students.get("alice.tmms@SHomeUiT.CS2104").email;
+		String studentEmail = scn.students.get("SHomeUiT.alice.b@SHomeUiT.CS2104").email;
 		bi.fillString(bi.studentInputRegKey, BackDoor.getKeyForStudent(courseID, studentEmail));
 		bi.click(bi.studentJoinCourseButton);
 
