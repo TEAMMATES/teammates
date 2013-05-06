@@ -1,14 +1,14 @@
 {
   "accounts": {
-  	"teammates.test": {
-  	  "googleId": "teammates.test",
+  	"SCDetailsUiT.instr": {
+  	  "googleId": "SCDetailsUiT.instr",
   	  "name": "Instructor",
   	  "isInstructor": true,
   	  "email": "tmms.test@gmail.com",
   	  "institute": "National University of Singapore"
   	},
-    "teammates.coord": {
-      "googleId": "teammates.coord",
+    "SCDetailsUiT.coord": {
+      "googleId": "SCDetailsUiT.coord",
       "name": "Instructor",
       "isInstructor": true,
       "email": "tmms.coord@gmail.com",
@@ -24,51 +24,51 @@
   },
   
   "instructors": {
-    "teammates.test": {
-      "googleId": "teammates.test",
+    "SCDetailsUiT.instr": {
+      "googleId": "SCDetailsUiT.instr",
       "courseId": "SCDetailsUiT.CS2104",
       "name": "Teammates Test",
-      "email": "teammates.test@gmail.com"
+      "email": "SCDetailsUiT.instr@gmail.com"
     },
-    "teammates.coord": {
-      "googleId": "teammates.coord",
+    "SCDetailsUiT.coord": {
+      "googleId": "SCDetailsUiT.coord",
       "courseId": "SCDetailsUiT.CS2104",
       "name": "Teammates Coord",
-      "email": "teammates.coord@gmail.com"
+      "email": "SCDetailsUiT.coord@gmail.com"
     }
   },
   
   "students": {
-    "alice.tmms": {
-      "id": "alice.tmms",
-      "email": "alice.tmms@gmail.com",
+    "SCDetailsUiT.alice": {
+      "id": "SCDetailsUiT.alice",
+      "email": "SCDetailsUiT.alice@gmail.com",
       "course": "SCDetailsUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "profile": {"value": "My name is Alice Betsy, and I'm a student in SCDetailsUiT.CS2104"},
       "team": "Team 1"
     },
-    "benny.tmms": {
-      "id": "benny.tmms",
-      "email": "benny.tmms@gmail.com",
+    "SCDetailsUiT.benny": {
+      "id": "SCDetailsUiT.benny",
+      "email": "SCDetailsUiT.benny@gmail.com",
       "course": "SCDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "profile": {"value": "My name is Benny Charles, and I'm a student in SCDetailsUiT.CS2104"},
       "team": "Team 1"
     },
-    "charlie.tmms": {
-      "id": "charlie.tmms",
-      "email": "charlie.tmms@gmail.com",
+    "SCDetailsUiT.charlie": {
+      "id": "SCDetailsUiT.charlie",
+      "email": "SCDetailsUiT.charlie@gmail.com",
       "course": "SCDetailsUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "profile": {"value": "My name is Charlie Davis, and I'm a student in SCDetailsUiT.CS2104"},
       "team": "Team 2"
     },
-    "danny.tmms": {
-      "id": "danny.tmms",
-      "email": "danny.tmms@gmail.com",
+    "SCDetailsUiT.danny": {
+      "id": "SCDetailsUiT.danny",
+      "email": "SCDetailsUiT.danny@gmail.com",
       "course": "SCDetailsUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
