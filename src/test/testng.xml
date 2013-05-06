@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="all-tests-in-parallel" parallel="tests">
+<suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
 
-	<test name="InstructorUiTests">
+	<test name="InstructorUiTests" parallel="classes">
 		<classes>
+			<class name="teammates.test.cases.InstructorLoginPageUiTest" />
 			<class name="teammates.test.cases.InstructorCourseEnrollPageUiTest" />
 			<class name="teammates.test.cases.InstructorCourseAddPageUiTest" />
 			<class name="teammates.test.cases.InstructorEvalPageUiTest" />
 			<class name="teammates.test.cases.InstructorCourseEditPageUiTest" />
-			<class
-				name="teammates.test.cases.InstructorCourseStudentDetailsPageUiTest" />
+			<class name="teammates.test.cases.InstructorHomePageUiTest" />
+			<class name="teammates.test.cases.InstructorCourseStudentDetailsPageUiTest" />
 			<class name="teammates.test.cases.InstructorEvalSubmissionPageUiTest" />
 			<class name="teammates.test.cases.InstructorEvalEditPageUiTest" />
-			<class name="teammates.test.cases.InstructorHomePageUiTest" />
+			<class name="teammates.test.cases.InstructorEvalResultsPageUiTest" />
 			<class name="teammates.test.cases.InstructorCourseDetailsPageUiTest" />
 		</classes>
 	</test>
-	<test name="StudentAndAdminUiTests">
+	<test name="StudentAndAdminUiTests" parallel="classes">
 		<classes>
-			<class name="teammates.test.cases.LoginPageUiTest" />
 			<class name="teammates.test.cases.AdminAccountManagementUiTest" />
 			<class name="teammates.test.cases.AdminHomePageUiTest" />
-			<class name="teammates.test.cases.InstructorEvalResultsPageUiTest" />
+			<class name="teammates.test.cases.StudentLoginPageUiTest" />
 			<class name="teammates.test.cases.StudentCourseDetailsPageUiTest" />
 			<class name="teammates.test.cases.StudentHomePageUiTest" />
 			<class name="teammates.test.cases.StudentEvalEditPageUiTest" />
@@ -65,4 +65,4 @@
 			<!-- class name="teammates.test.cases.BackDoorLogicTest"/ -->
 		</classes>
 	</test>
-</suite> <!-- Suite -->
+</suite> 
