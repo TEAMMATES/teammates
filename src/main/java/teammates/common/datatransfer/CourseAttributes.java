@@ -23,8 +23,8 @@ public class CourseAttributes extends EntityAttributes {
 	}
 
 	public CourseAttributes(String id, String name) {
-		this.id = trimIfNotNull(id);
-		this.name = trimIfNotNull(name);
+		this.id = Common.trimIfNotNull(id);
+		this.name = Common.trimIfNotNull(name);
 	}
 
 	public CourseAttributes(Course course) {

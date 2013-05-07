@@ -67,12 +67,12 @@ public class StudentData extends EntityAttributes {
 	public StudentData(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();
-		this.id = trimIfNotNull(id);
-		this.email = trimIfNotNull(email);
-		this.course = trimIfNotNull(courseId);
-		this.name = trimIfNotNull(name);
-		this.comments = trimIfNotNull(comments);
-		this.team = trimIfNotNull(team);
+		this.id = Common.trimIfNotNull(id);
+		this.email = Common.trimIfNotNull(email);
+		this.course = Common.trimIfNotNull(courseId);
+		this.name = Common.trimIfNotNull(name);
+		this.comments = Common.trimIfNotNull(comments);
+		this.team = Common.trimIfNotNull(team);
 	}
 
 	public StudentData() {

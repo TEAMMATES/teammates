@@ -36,11 +36,11 @@ public class AccountAttributes extends EntityAttributes {
 	
 	public AccountAttributes(String googleId, String name, boolean isInstructor,
 				String email, String institute) {
-		this.googleId = trimIfNotNull(googleId);
-		this.name = trimIfNotNull(name);
+		this.googleId = Common.trimIfNotNull(googleId);
+		this.name = Common.trimIfNotNull(name);
 		this.isInstructor = isInstructor;
-		this.email = trimIfNotNull(email);
-		this.institute = trimIfNotNull(institute);
+		this.email = Common.trimIfNotNull(email);
+		this.institute = Common.trimIfNotNull(institute);
 	}
 	
 	public Account toEntity() {

@@ -52,11 +52,11 @@ public class SubmissionAttributes extends EntityAttributes {
 
 	public SubmissionAttributes(String courseId, String evalName, String teamName,
 			String toStudent, String fromStudent) {
-		this.course = trimIfNotNull(courseId);
-		this.evaluation = trimIfNotNull(evalName);
-		this.team = trimIfNotNull(teamName);
-		this.reviewee = trimIfNotNull(toStudent);
-		this.reviewer = trimIfNotNull(fromStudent);
+		this.course = Common.trimIfNotNull(courseId);
+		this.evaluation = Common.trimIfNotNull(evalName);
+		this.team = Common.trimIfNotNull(teamName);
+		this.reviewee = Common.trimIfNotNull(toStudent);
+		this.reviewer = Common.trimIfNotNull(fromStudent);
 	}
 
 	public SubmissionAttributes(Submission s) {

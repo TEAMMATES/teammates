@@ -95,8 +95,8 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	@Override
 	public boolean isValid() {
-		course = trimIfNotNull(course);
-		name = trimIfNotNull(name);
+		course = Common.trimIfNotNull(course);
+		name = Common.trimIfNotNull(name);
 		return getInvalidStateInfo().isEmpty();
 	}
 

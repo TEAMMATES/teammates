@@ -617,6 +617,16 @@ public class Common {
 	@SuppressWarnings("unused")
 	private void ____MISC_utility_methods___________________________________() {
 	}
+	
+	/**
+	 * Trims the string if it is not null. 
+	 * 
+	 * @param string
+	 * @return the trimmed string or null (if the parameter was null).
+	 */
+	public static String trimIfNotNull(String string) {
+		return ((string == null) ? "" : string.trim());
+	}
 
 	/**
 	 * This creates a Gson object that can handle the Date format we use in the
