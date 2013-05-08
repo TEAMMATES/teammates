@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.util.Date;
 
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.storage.entity.Account;
 
 public class AccountAttributes extends EntityAttributes {
@@ -54,9 +55,9 @@ public class AccountAttributes extends EntityAttributes {
 			errorMessage += ERROR_FIELD_ID;
 		}
 	
-		if (!Common.isValidName(name)) {
-			errorMessage += ERROR_FIELD_NAME;
-		}
+		errorMessage += new FieldValidator().getInvalidStateInfo(
+				FieldValidator.FieldType.PERSON_NAME, name);
+		
 		
 		if (!Common.isValidEmail(email)) {
 			errorMessage += ERROR_FIELD_EMAIL;

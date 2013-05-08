@@ -26,6 +26,7 @@
 	</test>
 		<test name="component-tests">
 		<classes>
+			<class name="teammates.test.cases.FieldValidatorTest" />
 			<class name="teammates.test.cases.TestPropertiesTest" />
 			<class name="teammates.test.cases.BuildPropertiesTest" />
 			<class name="teammates.test.cases.CommonTest" />

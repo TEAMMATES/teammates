@@ -30,7 +30,7 @@
 		},
 		"instructor3": {
 			"googleId": "idOfInstructor3",
-			"name": "Instructor 3 of Course 1 & 2",
+			"name": "Instructor 3 of Course 1 and 2",
 			"isInstructor": true,
 			"email": "instr3@course1n2.com",
 			"institute": "National University of Singapore"

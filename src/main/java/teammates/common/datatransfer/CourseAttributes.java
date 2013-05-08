@@ -32,6 +32,7 @@ public class CourseAttributes extends EntityAttributes {
 		this.name = course.getName();
 		this.createdAt = course.getCreatedAt();
 	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\ncourse id: " + id);

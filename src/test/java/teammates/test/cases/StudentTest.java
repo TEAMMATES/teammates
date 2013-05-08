@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.common.datatransfer.StudentData;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
@@ -112,7 +113,8 @@ public class StudentTest extends BaseTestCase {
 		line = "t1| |e@e.com|c";
 		invalidStudent = new StudentData(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_NAME);
+		assertEquals(invalidStudent.getInvalidStateInfo(), 
+				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "",	FieldValidator.REASON_EMPTY));
 		
 		// FAIL : empty email
 		line = "t1|n||c";
@@ -132,7 +134,8 @@ public class StudentTest extends BaseTestCase {
 		line = "t1|" + longStudentName + "|e@e.com|c";
 		invalidStudent = new StudentData(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_NAME_TOOLONG);
+		assertEquals(invalidStudent.getInvalidStateInfo(), 
+				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, longStudentName,	FieldValidator.REASON_TOO_LONG));
 		
 		// FAIL : invalid email
 		line = "t1|name|ee.com|c";

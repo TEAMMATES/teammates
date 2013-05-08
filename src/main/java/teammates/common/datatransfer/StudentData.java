@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import static teammates.common.Common.EOL;
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Student;
 
@@ -194,11 +195,8 @@ public class StudentData extends EntityAttributes {
 	public String getInvalidStateInfo() {
 		String errorMessage = "";
 
-		if (!Common.isValidName(name)) {
-			errorMessage += ERROR_FIELD_NAME;
-		} else if (name.length() > STUDENT_NAME_MAX_LENGTH) {
-			errorMessage += ERROR_NAME_TOOLONG;
-		}
+		errorMessage += new FieldValidator().getInvalidStateInfo(
+				FieldValidator.FieldType.PERSON_NAME, name);
 
 		if (team != null && team.length() > TEAM_NAME_MAX_LENGTH) {
 			errorMessage += ERROR_TEAMNAME_TOOLONG;
