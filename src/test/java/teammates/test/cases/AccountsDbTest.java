@@ -1,5 +1,8 @@
 package teammates.test.cases;
 
+import static teammates.common.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_EMPTY;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
@@ -369,7 +372,8 @@ public class AccountsDbTest extends BaseTestCase {
 			accountsDb.updateInstructor(instructorToEdit);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(a.getMessage(), InstructorAttributes.ERROR_FIELD_NAME + InstructorAttributes.ERROR_FIELD_EMAIL);
+			AssertJUnit.assertEquals(String.format(PERSON_NAME_ERROR_MESSAGE, "",	REASON_EMPTY) + InstructorAttributes.ERROR_FIELD_EMAIL, 
+					a.getMessage());
 		}
 		
 		// Null parameters check:

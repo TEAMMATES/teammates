@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Instructor;
 
@@ -63,7 +64,8 @@ public class InstructorAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
-		String errorMessage = "";
+		String errorMessage = new FieldValidator().getInvalidStateInfo(
+				FieldValidator.FieldType.PERSON_NAME, name);
 
 		if (!Common.isValidGoogleId(googleId)) {
 			errorMessage += ERROR_FIELD_ID;
@@ -71,10 +73,6 @@ public class InstructorAttributes extends EntityAttributes {
 		
 		if (!Common.isValidCourseId(courseId)) {
 			errorMessage += ERROR_FIELD_COURSEID;
-		}
-		
-		if (!Common.isValidName(name)) {
-			errorMessage += ERROR_FIELD_NAME;
 		}
 		
 		if (!Common.isValidEmail(email)) {

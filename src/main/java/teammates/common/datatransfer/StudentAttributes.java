@@ -193,9 +193,7 @@ public class StudentAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
-		String errorMessage = "";
-
-		errorMessage += new FieldValidator().getInvalidStateInfo(
+		String errorMessage = new FieldValidator().getInvalidStateInfo(
 				FieldValidator.FieldType.PERSON_NAME, name);
 
 		if (team != null && team.length() > TEAM_NAME_MAX_LENGTH) {

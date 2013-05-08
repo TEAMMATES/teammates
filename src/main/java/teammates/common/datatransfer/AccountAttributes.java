@@ -49,23 +49,19 @@ public class AccountAttributes extends EntityAttributes {
 	}
 	
 	public String getInvalidStateInfo() {
-		String errorMessage = "";
+		FieldValidator validator = new FieldValidator();
+		String errorMessage = 
+				validator.getInvalidStateInfo(FieldValidator.FieldType.PERSON_NAME, name) +
+				validator.getInvalidStateInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
 
 		if (!Common.isValidGoogleId(googleId)) {
 			errorMessage += ERROR_FIELD_ID;
 		}
-	
-		errorMessage += new FieldValidator().getInvalidStateInfo(
-				FieldValidator.FieldType.PERSON_NAME, name);
-		
 		
 		if (!Common.isValidEmail(email)) {
 			errorMessage += ERROR_FIELD_EMAIL;
 		}
-			
-		if (!Common.isValidName(institute)) {
-			errorMessage += ERROR_FIELD_INSTITUTE;
-		}
+		
 		return errorMessage;
 
 	}
