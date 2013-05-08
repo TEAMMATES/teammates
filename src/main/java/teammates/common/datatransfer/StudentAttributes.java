@@ -7,7 +7,7 @@ import teammates.common.FieldValidator;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Student;
 
-public class StudentData extends EntityAttributes {
+public class StudentAttributes extends EntityAttributes {
 	public enum UpdateStatus {
 		// @formatter:off
 		ERROR(0), NEW(1), MODIFIED(2), UNMODIFIED(3), NOT_IN_ENROLL_LIST(4), UNKNOWN(
@@ -65,7 +65,7 @@ public class StudentData extends EntityAttributes {
 	public static final String ERROR_FIELD_COURSE = "Student must belong to a valid course\n";
 	public static final String ERROR_COMMENTS_TOOLONG = "Comments cannot be longer than " + COMMENTS_MAX_LENGTH + " characters\n";
 	
-	public StudentData(String id, String email, String name, String comments,
+	public StudentAttributes(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();
 		this.id = Common.trimIfNotNull(id);
@@ -76,12 +76,12 @@ public class StudentData extends EntityAttributes {
 		this.team = Common.trimIfNotNull(team);
 	}
 
-	public StudentData() {
+	public StudentAttributes() {
 		
 	}
 
 	// This is the only entity constructor that throws IPE, because of the way it takes input
-	public StudentData(String enrollLine, String courseId)
+	public StudentAttributes(String enrollLine, String courseId)
 			throws InvalidParametersException {
 
 		this();
@@ -121,7 +121,7 @@ public class StudentData extends EntityAttributes {
 		this.comments = paramComment;
 	}
 
-	public StudentData(Student student) {
+	public StudentAttributes(Student student) {
 		this();
 		this.email = student.getEmail();
 		this.course = student.getCourseId();
@@ -138,7 +138,7 @@ public class StudentData extends EntityAttributes {
 		// null as unregistered.
 	}
 
-	public boolean isEnrollInfoSameAs(StudentData otherStudent) {
+	public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
 		return (otherStudent != null) && otherStudent.email.equals(this.email)
 				&& otherStudent.course.equals(this.course)
 				&& otherStudent.name.equals(this.name)
@@ -146,7 +146,7 @@ public class StudentData extends EntityAttributes {
 				&& otherStudent.team.equals(this.team);
 	}
 
-	public boolean isEnrollmentInfoMatchingTo(StudentData other) {
+	public boolean isEnrollmentInfoMatchingTo(StudentAttributes other) {
 		return (this.email.equals(other.email))
 				&& (this.course.equals(other.course))
 				&& (this.name.equals(other.name))
@@ -166,8 +166,8 @@ public class StudentData extends EntityAttributes {
 		return sb.toString();
 	}
 
-	public static void equalizeIrrelevantData(StudentData expectedStudent,
-			StudentData actualStudent) {
+	public static void equalizeIrrelevantData(StudentAttributes expectedStudent,
+			StudentAttributes actualStudent) {
 		// For these fields, we consider null and "" equivalent.
 		if ((expectedStudent.id == null) && (actualStudent.id.equals(""))) {
 			actualStudent.id = null;

@@ -19,7 +19,7 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
@@ -149,7 +149,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 				.get("evaluation1InCourse1");
 		EvaluationAttributes evaluation2 = dataBundle.evaluations
 				.get("evaluation2InCourse1");
-		StudentData student = dataBundle.students.get("student1InCourse1");
+		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
 		// We have a 4-member team and a 1-member team.
 		// Therefore, we expect (4*4)+(1*1)=17 submissions.
@@ -177,7 +177,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 
 		______TS("only one student in team");
 
-		StudentData loneStudent = dataBundle.students.get("student5InCourse1");
+		StudentAttributes loneStudent = dataBundle.students.get("student5InCourse1");
 		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, loneStudent.email, loneStudent.team);
 		// We expect one fewer submissions than before.
 		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
@@ -204,7 +204,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 				.get("evaluation1InCourse1");
 		EvaluationAttributes evaluation2 = dataBundle.evaluations
 				.get("evaluation2InCourse1");
-		StudentData student = dataBundle.students.get("student1InCourse1");
+		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
 		invokeAddSubmissionsForIncomingMember(course.id,
 				evaluation1.name, "incoming@student.com", student.team);

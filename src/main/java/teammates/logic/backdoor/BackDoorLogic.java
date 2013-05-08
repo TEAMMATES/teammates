@@ -20,7 +20,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -81,8 +81,8 @@ public class BackDoorLogic extends Logic {
 			super.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email, "National University of Singapore");
 		}
 
-		HashMap<String, StudentData> students = dataBundle.students;
-		for (StudentData student : students.values()) {
+		HashMap<String, StudentAttributes> students = dataBundle.students;
+		for (StudentAttributes student : students.values()) {
 			log.fine("API Servlet adding student :" + student.email
 					+ " to course " + student.course);
 			super.createStudent(student);
@@ -127,7 +127,7 @@ public class BackDoorLogic extends Logic {
 	}
 
 	public String getStudentAsJson(String courseId, String email) {
-		StudentData student = getStudent(courseId, email);
+		StudentAttributes student = getStudent(courseId, email);
 		return Common.getTeammatesGson().toJson(student);
 	}
 
@@ -152,8 +152,8 @@ public class BackDoorLogic extends Logic {
 	
 	public void editStudentAsJson(String originalEmail, String newValues)
 			throws InvalidParametersException, EntityDoesNotExistException {
-		StudentData student = Common.getTeammatesGson().fromJson(newValues,
-				StudentData.class);
+		StudentAttributes student = Common.getTeammatesGson().fromJson(newValues,
+				StudentAttributes.class);
 		editStudent(originalEmail, student);
 	}
 
@@ -179,7 +179,7 @@ public class BackDoorLogic extends Logic {
 		for (EvaluationAttributes ed: evaluations) {
 			
 			CourseAttributes course = getCourse(ed.course);
-			List<StudentData> students = getStudentListForCourse(ed.course);
+			List<StudentAttributes> students = getStudentListForCourse(ed.course);
 			
 			Emails emails = new Emails();
 			List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
@@ -200,11 +200,11 @@ public class BackDoorLogic extends Logic {
 
 		for (EvaluationAttributes ed : evaluationDataList) {
 
-			List<StudentData> studentDataList = accountsLogic.getStudentListForCourse(ed.course);
+			List<StudentAttributes> studentDataList = accountsLogic.getStudentListForCourse(ed.course);
 
-			List<StudentData> studentToRemindList = new ArrayList<StudentData>();
+			List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
 
-			for (StudentData sd : studentDataList) {
+			for (StudentAttributes sd : studentDataList) {
 				if (!evaluationsLogic.isEvaluationSubmitted(ed, sd.email)) {
 					studentToRemindList.add(sd);
 				}

@@ -1,6 +1,6 @@
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
-<%@ page import="teammates.common.datatransfer.StudentData"%>
+<%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
 <%@ page import="teammates.ui.controller.InstructorCourseDetailsHelper"%>
@@ -67,8 +67,8 @@
 		 			<td id="instructors">
 		 			<%
 		 				for (int i = 0; i < helper.instructors.size(); i++){
-		 					 					 					InstructorAttributes instructor = helper.instructors.get(i);
-		 					 					 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+		 					 					 					 					InstructorAttributes instructor = helper.instructors.get(i);
+		 					 					 					 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
 		 			%>
 		 				<%=instructorInfo%><br><br>
 		 			<%
@@ -110,7 +110,7 @@
 				</tr>
 				<%
 					int idx = -1;
-								for(StudentData student: helper.students){ idx++;
+										for(StudentAttributes student: helper.students){ idx++;
 				%>
 						<tr class="student_row" id="student<%=idx%>">
 							<td id="<%=Common.PARAM_TEAM_NAME%>"><%=InstructorCourseDetailsHelper.escapeForHTML(student.team)%></td>

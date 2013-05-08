@@ -15,7 +15,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -48,8 +48,8 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	private static CourseAttributes otherCourse;
 
-	private static StudentData ownStudent;
-	private static StudentData otherStudent;
+	private static StudentAttributes ownStudent;
+	private static StudentAttributes otherStudent;
 
 	private static EvaluationAttributes ownEvaluation;
 	private static EvaluationAttributes otherEvaluation;
@@ -450,7 +450,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("student cannot view course details while masquerading as a student in that course");
 
-		StudentData otherStudent = dataBundle.students.get("student1InCourse2");
+		StudentAttributes otherStudent = dataBundle.students.get("student1InCourse2");
 		// ensure other student belong to other course
 		assertEquals(otherStudent.course, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherStudent.id);

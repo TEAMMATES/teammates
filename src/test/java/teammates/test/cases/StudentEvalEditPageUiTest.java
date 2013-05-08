@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -45,11 +45,11 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		// after creating evaluations.
 
 		// move one student out of Team 2
-		StudentData extraGuy = scn.students.get("ExtraGuy");
+		StudentAttributes extraGuy = scn.students.get("ExtraGuy");
 		moveToTeam(extraGuy, "New Team");
 
 		// delete one student
-		StudentData dropOutGuy = scn.students.get("DropOut");
+		StudentAttributes dropOutGuy = scn.students.get("DropOut");
 		backDoorOperationStatus = BackDoor.deleteStudent(dropOutGuy.course,
 				dropOutGuy.email);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -57,7 +57,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		
 		// add a new student to Team 2, and change his email
 		String newGuyOriginalEmail = "old@guy.com";
-		StudentData newGuy = new StudentData("Team 2|New Guy|"
+		StudentAttributes newGuy = new StudentAttributes("Team 2|New Guy|"
 				+ newGuyOriginalEmail, course);
 		backDoorOperationStatus = BackDoor.createStudent(newGuy);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -211,7 +211,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 			bi.waitForStatusMessage(String.format(Common.MESSAGE_EVALUATION_EXPIRED,eval.name,eval.course).replace("<br />", "\n"));
 	}
 	
-	private static void moveToTeam(StudentData student, String newTeam) {
+	private static void moveToTeam(StudentAttributes student, String newTeam) {
 		String backDoorOperationStatus;
 		student.team = newTeam;
 		backDoorOperationStatus = BackDoor.editStudent(student.email, student);

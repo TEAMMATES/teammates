@@ -8,7 +8,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.InvalidParametersException;
 
 public class StudentHomeHelper extends Helper {
@@ -45,7 +45,7 @@ public class StudentHomeHelper extends Helper {
 	 */
 	public String getStudentStatusForEval(EvaluationAttributes eval){
 		String studentEmail = null;
-		StudentData student = server.getStudentInCourseForGoogleId(eval.course, userId);
+		StudentAttributes student = server.getStudentInCourseForGoogleId(eval.course, userId);
 		if(student!=null) studentEmail = student.email;
 		switch(eval.getStatus()){
 		case PUBLISHED: return Common.STUDENT_EVALUATION_STATUS_PUBLISHED;

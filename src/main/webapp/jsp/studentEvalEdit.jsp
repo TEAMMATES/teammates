@@ -1,7 +1,7 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes.EvalStatus" %>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes" %>
-<%@ page import="teammates.common.datatransfer.StudentData" %>
+<%@ page import="teammates.common.datatransfer.StudentAttributes" %>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes" %>
 <%@ page import="teammates.ui.controller.StudentEvalEditHelper"%>
 <%@ page import="java.util.Date" %>

@@ -21,7 +21,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.datatransfer.UserType;
@@ -414,9 +414,9 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param students
 	 */
-	protected void sortStudents(List<StudentData> students) {
-		Collections.sort(students, new Comparator<StudentData>() {
-			public int compare(StudentData s1, StudentData s2) {
+	protected void sortStudents(List<StudentAttributes> students) {
+		Collections.sort(students, new Comparator<StudentAttributes>() {
+			public int compare(StudentAttributes s1, StudentAttributes s2) {
 				int result = s1.name.compareTo(s2.name);
 				if (result == 0)
 					result = s1.email.compareTo(s2.email);

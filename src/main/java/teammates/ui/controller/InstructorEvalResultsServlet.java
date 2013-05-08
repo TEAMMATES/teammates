@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;

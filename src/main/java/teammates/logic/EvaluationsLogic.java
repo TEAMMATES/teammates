@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -156,14 +156,14 @@ public class EvaluationsLogic {
 
 		// Build submission objects for each student based on their team
 		// number
-		List<StudentData> studentDataList = accountsDb.getStudentListForCourse(e.course);
+		List<StudentAttributes> studentDataList = accountsDb.getStudentListForCourse(e.course);
 		
 		List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
 
 		// This double loop creates 3 submissions for a pair of students:
 		// x->x, x->y, y->x
-		for (StudentData sx : studentDataList) {
-			for (StudentData sy : studentDataList) {
+		for (StudentAttributes sx : studentDataList) {
+			for (StudentAttributes sy : studentDataList) {
 				if (sx.team.equals(sy.team)) {
 					SubmissionAttributes submissionToAdd = new SubmissionAttributes(
 							e.course, e.name, sx.team, sx.email, sy.email);

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -86,7 +86,7 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 	}
 	
 	private void removeStudentFromCourse(Helper helper, String studentId, String courseId){
-		StudentData student = helper.server.getStudentInCourseForGoogleId(courseId, studentId);
+		StudentAttributes student = helper.server.getStudentInCourseForGoogleId(courseId, studentId);
 		helper.server.deleteStudent(courseId, student.email);
 		helper.statusMessage = Common.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE;
 		helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_DETAILS + "?instructorid=" + studentId;

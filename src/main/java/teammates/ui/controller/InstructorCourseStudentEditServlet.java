@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -111,7 +111,7 @@ public class InstructorCourseStudentEditServlet extends
 		String message;
 		
 		try {
-			StudentData student = (StudentData)data.get(1);
+			StudentAttributes student = (StudentAttributes)data.get(1);
 			message = "Student <span class=\"bold\">" + student.name + "'s</span> details in Course <span class=\"bold\">[" + (String)data.get(0) + "]</span> edited.<br>";
 			message += "New Email: " + student.email + "<br>New Team: " + student.team + "<br>Comments: " + student.comments;
 		} catch (NullPointerException e){

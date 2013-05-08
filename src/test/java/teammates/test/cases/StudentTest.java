@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.storage.entity.Student;
@@ -27,128 +27,128 @@ public class StudentTest extends BaseTestCase {
 	public void testStudentConstructor() throws TeammatesException {
 		String line;
 		String courseId = "anyCoursId";
-		StudentData invalidStudent;
+		StudentAttributes invalidStudent;
 		
 		Student expected;
-		StudentData studentUnderTest;
+		StudentAttributes studentUnderTest;
 		
 		// SUCCESS : normal input, using tab as separator
 		expected = generateTypicalStudentObject();
 		String enrollmentLine = "team 1\tname 1\temail@email.com\tcomment 1";
-		studentUnderTest = new StudentData(enrollmentLine, courseId);
+		studentUnderTest = new StudentAttributes(enrollmentLine, courseId);
 		verifyStudentContent(expected, studentUnderTest.toEntity());
 		
 		// SUCCESS : normal input, using '|' as separator
 		enrollmentLine = "team 1|name 1|email@email.com|comment 1";
-		studentUnderTest = new StudentData(enrollmentLine, courseId);
+		studentUnderTest = new StudentAttributes(enrollmentLine, courseId);
 		verifyStudentContent(expected, studentUnderTest.toEntity());
 		
 		// SUCCESS : normal input, using both separators
 		enrollmentLine = "team 1|name 1\temail@email.com|comment 1";
-		studentUnderTest = new StudentData(enrollmentLine, courseId);
+		studentUnderTest = new StudentAttributes(enrollmentLine, courseId);
 		verifyStudentContent(expected, studentUnderTest.toEntity());
 		
 		// FAIL : courseId is null
 		line = "team|name|e@e.com|c";
-		invalidStudent = new StudentData(line, null);
+		invalidStudent = new StudentAttributes(line, null);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_COURSE);
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_COURSE);
 		
 		// FAIL : empty courseId
-		invalidStudent = new StudentData(line, "");
+		invalidStudent = new StudentAttributes(line, "");
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_COURSE);
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_COURSE);
 
 		// FAIL : invalid courseId
-		invalidStudent = new StudentData(line, "Course Id with space");
+		invalidStudent = new StudentAttributes(line, "Course Id with space");
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_COURSE);
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_COURSE);
 		
 		// FAIL : enroll line is null
 		line = null;
 		try {
-			invalidStudent = new StudentData(line, courseId);
+			invalidStudent = new StudentAttributes(line, courseId);
 			Assert.fail();
 		} catch (AssertionError ae) {
-			assertEquals(ae.getMessage(), StudentData.ERROR_ENROLL_LINE_NULL);
+			assertEquals(ae.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_NULL);
 		}
 		
 		// FAIL : enroll line is empty
 		line = "";
 		try {
-			invalidStudent = new StudentData(line, courseId);
+			invalidStudent = new StudentAttributes(line, courseId);
 			Assert.fail();
 		} catch (InvalidParametersException ipe) {
-			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_EMPTY);
+			assertEquals(ipe.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_EMPTY);
 		}
 		
 		// FAIL : too few inputs in enroll line
 		line = "a";
 		try {
-			invalidStudent = new StudentData(line, courseId);
+			invalidStudent = new StudentAttributes(line, courseId);
 			Assert.fail();
 		} catch (InvalidParametersException ipe) {
-			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_TOOFEWPARTS);
+			assertEquals(ipe.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS);
 		}
 		
 		// FAIL : too few inputs in enroll line
 		line = "a|b";
 		try {
-			invalidStudent = new StudentData(line, courseId);
+			invalidStudent = new StudentAttributes(line, courseId);
 			Assert.fail();
 		} catch (InvalidParametersException ipe) {
-			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_TOOFEWPARTS);
+			assertEquals(ipe.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS);
 		}
 		
 		// FAIL : too many inputs in enroll line
 		line = "p1|p2|p3|p4|p5";
 		try {
-			invalidStudent = new StudentData(line, courseId);
+			invalidStudent = new StudentAttributes(line, courseId);
 			Assert.fail();
 		} catch (InvalidParametersException ipe) {
-			assertEquals(ipe.getMessage(), StudentData.ERROR_ENROLL_LINE_TOOMANYPARTS);
+			assertEquals(ipe.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOMANYPARTS);
 		}
 
 		// FAIL : empty name
 		line = "t1| |e@e.com|c";
-		invalidStudent = new StudentData(line, courseId);
+		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
 		assertEquals(invalidStudent.getInvalidStateInfo(), 
 				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "",	FieldValidator.REASON_EMPTY));
 		
 		// FAIL : empty email
 		line = "t1|n||c";
-		invalidStudent = new StudentData(line, courseId);
+		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_EMAIL);
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_EMAIL);
 
 		// FAIL : team name too long
-		String longTeamName = Common.generateStringOfLength(StudentData.TEAM_NAME_MAX_LENGTH + 1);
+		String longTeamName = Common.generateStringOfLength(StudentAttributes.TEAM_NAME_MAX_LENGTH + 1);
 		line = longTeamName + "|name|e@e.com|c";
-		invalidStudent = new StudentData(line, courseId);
+		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_TEAMNAME_TOOLONG);
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_TEAMNAME_TOOLONG);
 		
 		// FAIL : student name too long
-		String longStudentName = Common.generateStringOfLength(StudentData.STUDENT_NAME_MAX_LENGTH + 1);
+		String longStudentName = Common.generateStringOfLength(StudentAttributes.STUDENT_NAME_MAX_LENGTH + 1);
 		line = "t1|" + longStudentName + "|e@e.com|c";
-		invalidStudent = new StudentData(line, courseId);
+		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
 		assertEquals(invalidStudent.getInvalidStateInfo(), 
 				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, longStudentName,	FieldValidator.REASON_TOO_LONG));
 		
 		// FAIL : invalid email
 		line = "t1|name|ee.com|c";
-		invalidStudent = new StudentData(line, courseId);
+		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_FIELD_EMAIL);
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_EMAIL);
 		
 		// FAIL : comment too long
-		String longComment = Common.generateStringOfLength(StudentData.COMMENTS_MAX_LENGTH + 1);
+		String longComment = Common.generateStringOfLength(StudentAttributes.COMMENTS_MAX_LENGTH + 1);
 		line = "t1|name|e@e.com|" + longComment;
-		invalidStudent = new StudentData(line, courseId);
+		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentData.ERROR_COMMENTS_TOOLONG);
+		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_COMMENTS_TOOLONG);
 
 		// Other invalid parameters cases are omitted because they are already
 		// unit-tested in validate*() methods in Common.java
@@ -156,28 +156,28 @@ public class StudentTest extends BaseTestCase {
 		// extra white space
 		expected = generateTypicalStudentObject();
 		enrollmentLine = "  team 1   |   name 1   |   email@email.com  |  comment 1  ";
-		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		studentUnderTest = new StudentAttributes(enrollmentLine, "courseId1");
 		verifyStudentContent(expected, studentUnderTest.toEntity());
 
 		// comment left out
 		expected = generateTypicalStudentObject();
 		expected.setComments("");
 		enrollmentLine = "  team 1   |   name 1   |   email@email.com ";
-		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		studentUnderTest = new StudentAttributes(enrollmentLine, "courseId1");
 		verifyStudentContent(expected, studentUnderTest.toEntity());
 
 		// team name left out
 		expected = generateTypicalStudentObject();
 		expected.setTeamName("");
 		enrollmentLine = "|name 1|email@email.com|comment 1";
-		studentUnderTest = new StudentData(enrollmentLine, "courseId1");
+		studentUnderTest = new StudentAttributes(enrollmentLine, "courseId1");
 		verifyStudentContent(expected, studentUnderTest.toEntity());
 
 	}
 	
 	@Test 
 	public void testIsRegistered() throws Exception{
-		StudentData sd = new StudentData("team 1|name 1|email@email.com|comment 1", "course1");
+		StudentAttributes sd = new StudentAttributes("team 1|name 1|email@email.com|comment 1", "course1");
 		Student studentUnderTest = sd.toEntity();
 		
 		// Id is not given yet

@@ -28,7 +28,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -515,7 +515,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.createStudent(student);
     	}
     	return status;
@@ -545,7 +545,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.getStudentAsJson(student.course, student.email);
     	}
     	return status;
@@ -558,7 +558,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.getKeyForStudent(student.course, student.email);
     	}
     	return status;
@@ -571,7 +571,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.editStudent(student.email, student);
     	}
     	return status;
@@ -667,7 +667,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.deleteStudent(student.course, student.email);
     	}
     	return status;

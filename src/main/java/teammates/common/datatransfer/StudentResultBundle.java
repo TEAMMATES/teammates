@@ -11,7 +11,7 @@ import teammates.common.Common;
 
 public class StudentResultBundle {
 
-	public StudentData student;
+	public StudentAttributes student;
 	
 	public ArrayList<SubmissionAttributes> incoming = new ArrayList<SubmissionAttributes>();
 	public ArrayList<SubmissionAttributes> outgoing = new ArrayList<SubmissionAttributes>();
@@ -22,7 +22,7 @@ public class StudentResultBundle {
 	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();
 	
-	public StudentResultBundle(StudentData student){
+	public StudentResultBundle(StudentAttributes student){
 		this.student = student;
 		this.summary = new StudentResultSummary();
 	}

@@ -2,7 +2,7 @@ package teammates.test.cases;
 
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.TeamResultBundle;
@@ -18,11 +18,11 @@ public class TeamResultBundleTest {
 		
 		//sort typical team
 		TeamDetailsBundle teamDetails = new TeamDetailsBundle();
-		StudentData s1 = new StudentData("|Benny|x@e|", "dummyCourse");
+		StudentAttributes s1 = new StudentAttributes("|Benny|x@e|", "dummyCourse");
 		teamDetails.students.add(s1);
-		StudentData s2 = new StudentData("|Alice|y@e|", "dummyCourse");
+		StudentAttributes s2 = new StudentAttributes("|Alice|y@e|", "dummyCourse");
 		teamDetails.students.add(s2);
-		StudentData s3 = new StudentData("|Frank|z@e|", "dummyCourse");
+		StudentAttributes s3 = new StudentAttributes("|Frank|z@e|", "dummyCourse");
 		teamDetails.students.add(s3);
 		teamResultBundle = new TeamResultBundle(teamDetails.students);
 		

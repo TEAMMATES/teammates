@@ -17,7 +17,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.test.driver.BackDoor;
@@ -163,7 +163,7 @@ public class BackDoorTest extends BaseTestCase {
 		verifyAbsentInDatastore(course2);
 
 		// check if related student entities are also deleted
-		StudentData student2InCourse2 = dataBundle.students
+		StudentAttributes student2InCourse2 = dataBundle.students
 				.get("student2InCourse2");
 		verifyAbsentInDatastore(student2InCourse2);
 
@@ -180,7 +180,7 @@ public class BackDoorTest extends BaseTestCase {
 		verifyAbsentInDatastore(course1);
 		
 		// check if related student entities are also deleted
-		StudentData student1InCourse1 = dataBundle.students
+		StudentAttributes student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		verifyAbsentInDatastore(student1InCourse1);
 		
@@ -377,7 +377,7 @@ public class BackDoorTest extends BaseTestCase {
 		// only minimal testing because this is a wrapper method for
 		// another well-tested method.
 
-		StudentData student = new StudentData(
+		StudentAttributes student = new StudentAttributes(
 				"|name of tcs student|tcsStudent@gmail.com|",
 				"tmapit.tcs.course");
 		BackDoor.deleteStudent(student.course, student.email);
@@ -391,7 +391,7 @@ public class BackDoorTest extends BaseTestCase {
 	@Test
 	public void testGetKeyForStudent() throws InvalidParametersException {
 
-		StudentData student = new StudentData("t1|name of tgsr student|tgsr@gmail.com|", "course1");
+		StudentAttributes student = new StudentAttributes("t1|name of tgsr student|tgsr@gmail.com|", "course1");
 		BackDoor.createStudent(student);
 		String key = BackDoor.getKeyForStudent(student.course, student.email); 
 
@@ -426,7 +426,7 @@ public class BackDoorTest extends BaseTestCase {
 
 		// check for successful edit
 		refreshDataInDatastore();
-		StudentData student = dataBundle.students.get("student1InCourse1");
+		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 		String originalEmail = student.email;
 		student.name = "New name";
 		student.email = "new@gmail.com";
@@ -604,7 +604,7 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals("Typical Course 2 with 1 Evals", course2.name);
 
 		// STUDENTS
-		StudentData student1InCourse1 = data.students.get("student1InCourse1");
+		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		assertEquals("student1InCourse1", student1InCourse1.id);
 		assertEquals("student1 In Course1", student1InCourse1.name);
 		assertEquals("Team 1.1", student1InCourse1.team);
@@ -612,7 +612,7 @@ public class BackDoorTest extends BaseTestCase {
 				student1InCourse1.comments);
 		assertEquals("idOfTypicalCourse1", student1InCourse1.course);
 		
-		StudentData student2InCourse2 = data.students.get("student2InCourse2");
+		StudentAttributes student2InCourse2 = data.students.get("student2InCourse2");
 		assertEquals("student2InCourse1", student2InCourse2.id);
 		assertEquals("student2 In Course2", student2InCourse2.name);
 		assertEquals("Team 2.1", student2InCourse2.team);
@@ -687,7 +687,7 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals("null", BackDoor.getInstructorAsJson(expectedInstructor.googleId, expectedInstructor.courseId));
 	}
 
-	private void verifyAbsentInDatastore(StudentData student) {
+	private void verifyAbsentInDatastore(StudentAttributes student) {
 		assertEquals("null",
 				BackDoor.getStudentAsJson(student.course, student.email));
 	}
@@ -725,8 +725,8 @@ public class BackDoorTest extends BaseTestCase {
 			verifyPresentInDatastore(expectedInstructor);
 		}
 
-		HashMap<String, StudentData> students = data.students;
-		for (StudentData expectedStudent : students.values()) {
+		HashMap<String, StudentAttributes> students = data.students;
+		for (StudentAttributes expectedStudent : students.values()) {
 			verifyPresentInDatastore(expectedStudent);
 		}
 
@@ -762,12 +762,12 @@ public class BackDoorTest extends BaseTestCase {
 				gson.toJson(actualEvaluation));
 	}
 
-	private void verifyPresentInDatastore(StudentData expectedStudent) {
+	private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
 		String studentJsonString = BackDoor.getStudentAsJson(
 				expectedStudent.course, expectedStudent.email);
-		StudentData actualStudent = gson.fromJson(studentJsonString,
-				StudentData.class);
-		StudentData.equalizeIrrelevantData(expectedStudent, actualStudent);
+		StudentAttributes actualStudent = gson.fromJson(studentJsonString,
+				StudentAttributes.class);
+		StudentAttributes.equalizeIrrelevantData(expectedStudent, actualStudent);
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 

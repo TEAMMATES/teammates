@@ -18,7 +18,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -167,9 +167,9 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				helper.server.createCourse(helper.instructorId, courseData.id,
 						courseData.name);
 
-			} else if (obj instanceof StudentData) {
+			} else if (obj instanceof StudentAttributes) {
 				type = "StudentData";
-				StudentData studentData = (StudentData) obj;
+				StudentAttributes studentData = (StudentAttributes) obj;
 				helper.server.createStudent(studentData);
 			} else if (obj instanceof EvaluationAttributes) {
 				type = "EvaluationData";

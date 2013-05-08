@@ -5,6 +5,6 @@ import java.util.ArrayList;
 public class TeamDetailsBundle {
 	
 	public String name;
-	public ArrayList<StudentData> students = new ArrayList<StudentData>();
+	public ArrayList<StudentAttributes> students = new ArrayList<StudentAttributes>();
 
 }

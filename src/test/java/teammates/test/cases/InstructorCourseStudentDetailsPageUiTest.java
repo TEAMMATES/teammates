@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -143,7 +143,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 				
 		// Verify data
 		String json = BackDoor.getStudentAsJson(scn.courses.get("CCSDetailsUiT.CS2104").id, "newemail@gmail.com");
-		StudentData student = Common.getTeammatesGson().fromJson(json, StudentData.class);
+		StudentAttributes student = Common.getTeammatesGson().fromJson(json, StudentAttributes.class);
 		assertEquals("New name",student.name);
 		assertEquals("New team",student.team);
 		assertEquals(scn.students.get("registeredStudent").id,student.id);

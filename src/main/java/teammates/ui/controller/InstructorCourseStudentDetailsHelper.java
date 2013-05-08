@@ -1,8 +1,8 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 
 public class InstructorCourseStudentDetailsHelper extends Helper {
-	public StudentData student;
+	public StudentAttributes student;
 	public String regKey;
 }

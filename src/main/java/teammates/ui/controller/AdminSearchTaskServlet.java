@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.storage.api.AccountsDb;
 
 import com.google.appengine.api.search.Document;
@@ -69,10 +69,10 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		/**
 		 * Insert students
 		 */
-		List<StudentData> students = accounts.getStudents();
-		Iterator<StudentData> it2 = students.iterator();
+		List<StudentAttributes> students = accounts.getStudents();
+		Iterator<StudentAttributes> it2 = students.iterator();
 		while (it2.hasNext()) {
-			StudentData stu = it2.next();
+			StudentAttributes stu = it2.next();
 			addDocument(stu.name, stu.email, stu.id, Common.PAGE_STUDENT_HOME);
 		}
 

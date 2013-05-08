@@ -1,7 +1,7 @@
 <%@page import="teammates.common.datatransfer.StudentResultBundle"%>
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="teammates.common.datatransfer.StudentData"%>
+<%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorEvalResultsHelper"%>
@@ -148,9 +148,9 @@
 					</tr>
 					<%
 						int idx = 0;
-																														for(TeamResultBundle teamResultBundle: helper.evaluationResults.teamResults.values()){
-																															for(StudentResultBundle studentResult: teamResultBundle.studentResults){
-																																StudentData student = studentResult.student;
+																																	for(TeamResultBundle teamResultBundle: helper.evaluationResults.teamResults.values()){
+																																		for(StudentResultBundle studentResult: teamResultBundle.studentResults){
+																																			StudentAttributes student = studentResult.student;
 					%>
 					<tr class="student_row" id="student<%=idx%>">
 						<td><%=InstructorEvalResultsHelper.escapeForHTML(student.team)%></td>
@@ -177,8 +177,8 @@
 					</tr>
 					<%
 						idx++;
-																												}
-																											}
+																															}
+																														}
 					%>
 				</table>
 				<br> <br> <br>
@@ -200,7 +200,7 @@
 
 				<%
 					boolean firstTeam = true;
-							for(TeamResultBundle teamResultBundle: helper.evaluationResults.teamResults.values()){
+									for(TeamResultBundle teamResultBundle: helper.evaluationResults.teamResults.values()){
 				%>
 				<%
 					if(firstTeam) firstTeam = false; else out.print("<br>");
@@ -210,8 +210,8 @@
 					<h2 class="color_white"><%=InstructorEvalResultsHelper.escapeForHTML(teamResultBundle.getTeamName())%></h2>
 					<%
 						boolean firstStudent = true;
-									for(StudentResultBundle studentResult: teamResultBundle.studentResults){
-										StudentData student = studentResult.student;
+												for(StudentResultBundle studentResult: teamResultBundle.studentResults){
+													StudentAttributes student = studentResult.student;
 					%>
 					<%
 						if(firstStudent) firstStudent = false; else out.print("<br>");

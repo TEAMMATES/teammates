@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeClass;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -87,7 +87,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		BackDoor.createCourse(scn.courses.get("SHomeUiT.CS2104"));
 		BackDoor.createInstructor(scn.instructors.get("SHomeUiT.instr.CS2104"));
 		BackDoor.createAccount(scn.accounts.get("SHomeUiT.instr"));
-		StudentData alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
+		StudentAttributes alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
 		alice.id = null;
 		BackDoor.createStudent(alice);
 		bi.fillString(bi.studentInputRegKey, "ThisIsAnInvalidKey");

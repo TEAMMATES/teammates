@@ -1,5 +1,5 @@
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.common.datatransfer.StudentData" %>
+<%@ page import="teammates.common.datatransfer.StudentAttributes" %>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.ui.controller.StudentCourseDetailsHelper"%>
 <%
@@ -56,10 +56,10 @@
 	 				<td id="<%=Common.PARAM_INSTRUCTOR_NAME%>">
 	 				<%
 	 					for (int i = 0; i < helper.instructors.size(); i++){
-	 						 					InstructorAttributes instructor = helper.instructors.get(i);
-	 						 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+	 					 						 					InstructorAttributes instructor = helper.instructors.get(i);
+	 					 						 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
 	 				%>
-		 				<a href = "mailto:<%=instructor.email%>"><%=instructorInfo %></a><br><br>
+		 				<a href = "mailto:<%=instructor.email%>"><%=instructorInfo%></a><br><br>
 		 			<%
 		 				}
 		 			%>
@@ -89,7 +89,7 @@
 	 					%>
 	 						<ul>
 									<%
-										for(StudentData student: helper.team.students){
+										for(StudentAttributes student: helper.team.students){
 									%>
 										<%
 											if(!student.email.equals(helper.student.email)) {

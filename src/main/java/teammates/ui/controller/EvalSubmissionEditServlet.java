@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -34,7 +34,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 	 * 		Contains additional information that might be required
 	 * @return
 	 */
-	protected abstract StudentData getStudentObject(HttpServletRequest req, EvalSubmissionEditHelper helper);
+	protected abstract StudentAttributes getStudentObject(HttpServletRequest req, EvalSubmissionEditHelper helper);
 	
 	/**
 	 * The message to be displayed in case the {@link #getStudentObject) returns null

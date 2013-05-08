@@ -11,7 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.driver.BackDoor;
 
@@ -111,10 +111,10 @@ public class ImportData {
 				type = "CourseData";
 				CourseAttributes courseData = (CourseAttributes)obj;
 				bundle.courses.put(key, courseData);
-			} else if(obj instanceof StudentData)
+			} else if(obj instanceof StudentAttributes)
 			{
 				type = "StudentData";
-				StudentData studentData = (StudentData)obj;
+				StudentAttributes studentData = (StudentAttributes)obj;
 				bundle.students.put(key, studentData);
 			} else if (obj instanceof EvaluationAttributes)
 			{

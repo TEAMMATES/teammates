@@ -15,7 +15,7 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.datastore.Datastore;
@@ -146,7 +146,7 @@ public class AccountsDb {
 	 * @throws EntityAlreadyExistsException
 	 * 
 	 */
-	public void createStudent(StudentData studentToAdd)
+	public void createStudent(StudentAttributes studentToAdd)
 			throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentToAdd);
 
@@ -438,7 +438,7 @@ public class AccountsDb {
 	 * 
 	 * @return the StudentData of Student with the courseId and email
 	 */
-	public StudentData getStudent(String courseId, String email) {
+	public StudentAttributes getStudent(String courseId, String email) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
 
@@ -449,7 +449,7 @@ public class AccountsDb {
 			return null;
 		}
 
-		return new StudentData(s);
+		return new StudentAttributes(s);
 	}
 	
 	/**
@@ -464,7 +464,7 @@ public class AccountsDb {
 	 * 
 	 * @return the StudentData of Student with the courseId and googleId
 	 */
-	public StudentData getStudentByGoogleId(String courseId, String googleId) {
+	public StudentAttributes getStudentByGoogleId(String courseId, String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		
@@ -479,7 +479,7 @@ public class AccountsDb {
 			return null;
 		}
 		
-		return new StudentData(studentList.get(0));
+		return new StudentAttributes(studentList.get(0));
 	}
 
 	/**
@@ -491,15 +491,15 @@ public class AccountsDb {
 	 * @return List<StudentData> Each element in list are StudentData of
 	 *         returned Students
 	 */
-	public List<StudentData> getStudentsWithGoogleId(String googleId) {
+	public List<StudentAttributes> getStudentsWithGoogleId(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		
 		List<Student> studentList = getStudentEntitiesByGoogleId(googleId);
 
-		List<StudentData> studentDataList = new ArrayList<StudentData>();
+		List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 		for (Student student : studentList) {
 			if (!JDOHelper.isDeleted(student)) {
-				studentDataList.add(new StudentData(student));
+				studentDataList.add(new StudentAttributes(student));
 			}
 		}
 
@@ -527,7 +527,7 @@ public class AccountsDb {
 	 * 
 	 * @return List<Student> the list of students that are in the course
 	 */
-	public List<StudentData> getStudentListForCourse(String courseId) {
+	public List<StudentAttributes> getStudentListForCourse(String courseId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		String query = "select from " + Student.class.getName()
@@ -537,11 +537,11 @@ public class AccountsDb {
 		List<Student> studentList = (List<Student>) getPM().newQuery(query)
 				.execute();
 
-		List<StudentData> studentDataList = new ArrayList<StudentData>();
+		List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
 		for (Student s : studentList) {
 			if (!JDOHelper.isDeleted(s)) {
-				studentDataList.add(new StudentData(s));
+				studentDataList.add(new StudentAttributes(s));
 			}
 		}
 
@@ -560,7 +560,7 @@ public class AccountsDb {
 	 * @return List<StudentData> the list of unregistered students that are in
 	 *         the course
 	 */
-	public List<StudentData> getUnregisteredStudentListForCourse(String courseId) {
+	public List<StudentAttributes> getUnregisteredStudentListForCourse(String courseId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		String query = "select from " + Student.class.getName()
@@ -570,10 +570,10 @@ public class AccountsDb {
 		List<Student> studentList = (List<Student>) getPM().newQuery(query)
 				.execute();
 
-		List<StudentData> studentDataList = new ArrayList<StudentData>();
+		List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
 		for (Student s : studentList) {
-			studentDataList.add(new StudentData(s));
+			studentDataList.add(new StudentAttributes(s));
 		}
 
 		return studentDataList;
@@ -652,7 +652,7 @@ public class AccountsDb {
 	 *             already registered in the course if the registration key has
 	 *             been used by another student
 	 */
-	public StudentData joinCourse(String registrationKey, String googleID)
+	public StudentAttributes joinCourse(String registrationKey, String googleID)
 			throws JoinCourseException {
 
 		registrationKey = registrationKey.trim();
@@ -705,7 +705,7 @@ public class AccountsDb {
 		// TODO: using this to help unit testing, might not work in live server
 		getPM().close();
 		
-		return new StudentData(student);
+		return new StudentAttributes(student);
 	}
 
 	/**
@@ -1045,12 +1045,12 @@ public class AccountsDb {
 	/**
 	 * @return the list of all students
 	 */
-	public List<StudentData> getStudents() { 
-		List<StudentData> list = new LinkedList<StudentData>();
+	public List<StudentAttributes> getStudents() { 
+		List<StudentAttributes> list = new LinkedList<StudentAttributes>();
 		List<Student> entities = getStudentEntities();
 		Iterator<Student> it = entities.iterator();
 		while(it.hasNext()) {
-			list.add(new StudentData(it.next()));
+			list.add(new StudentAttributes(it.next()));
 		}
 		return list;
 	}

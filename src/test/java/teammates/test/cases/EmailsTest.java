@@ -25,7 +25,7 @@ import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.Emails;
 import teammates.test.driver.TestProperties;
 
@@ -92,7 +92,7 @@ public class EmailsTest extends BaseTestCase {
 		c.id = "course-id";
 		c.name = "Course Name";
 
-		StudentData s = new StudentData();
+		StudentAttributes s = new StudentAttributes();
 		s.name = "Student Name";
 		s.key = "skxxxxxxxxxks";
 		s.email = "student@email.com";
@@ -207,7 +207,7 @@ public class EmailsTest extends BaseTestCase {
 		c.id = "course-id";
 		c.name = "Course Name";
 
-		StudentData s = new StudentData();
+		StudentAttributes s = new StudentAttributes();
 		s.name = "Student Name";
 		s.key = "skxxxxxxxxxks";
 		s.email = "student@email.com";
@@ -259,7 +259,7 @@ public class EmailsTest extends BaseTestCase {
 	@Test
 	public void testGenerateEvaluationEmails() throws MessagingException,
 			IOException {
-		List<StudentData> students = new ArrayList<StudentData>();
+		List<StudentAttributes> students = new ArrayList<StudentAttributes>();
 
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.name = "Evaluation Name";
@@ -269,13 +269,13 @@ public class EmailsTest extends BaseTestCase {
 		c.id = "course-id";
 		c.name = "Course Name";
 
-		StudentData s1 = new StudentData();
+		StudentAttributes s1 = new StudentAttributes();
 		s1.name = "Student1 Name";
 		s1.key = "skxxxxxxxxxks1";
 		s1.email = "student1@email.com";
 		students.add(s1);
 
-		StudentData s2 = new StudentData();
+		StudentAttributes s2 = new StudentAttributes();
 		s2.name = "Student2 Name";
 		s2.key = "skxxxxxxxxxks2";
 		s2.email = "student2@email.com";
@@ -354,7 +354,7 @@ public class EmailsTest extends BaseTestCase {
 	}
 
 
-	private void verifyEvaluationEmail(StudentData s, MimeMessage email,
+	private void verifyEvaluationEmail(StudentAttributes s, MimeMessage email,
 			String prefix, String status) throws MessagingException,
 			IOException {
 		assertEquals(s.email, email.getAllRecipients()[0].toString());

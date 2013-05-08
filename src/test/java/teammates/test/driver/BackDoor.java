@@ -19,7 +19,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NotImplementedException;
@@ -217,7 +217,7 @@ public class BackDoor {
 	private void ____STUDENT_level_methods______________________________() {
 	}
 
-	public static String createStudent(StudentData student) {
+	public static String createStudent(StudentAttributes student) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.students.put("dummy-key", student);
 		return persistNewDataBundle(Common.getTeammatesGson()
@@ -241,7 +241,7 @@ public class BackDoor {
 
 	}
 
-	public static String editStudent(String originalEmail, StudentData student) {
+	public static String editStudent(String originalEmail, StudentAttributes student) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT);
 		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
 		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common

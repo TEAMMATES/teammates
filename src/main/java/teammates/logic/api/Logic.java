@@ -25,8 +25,8 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.StudentData.UpdateStatus;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
 
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -375,7 +375,7 @@ public class Logic {
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
 		List<EvaluationAttributes> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(courseId);
-		List<StudentData> students = accountsLogic.getStudentListForCourse(courseId);
+		List<StudentAttributes> students = accountsLogic.getStudentListForCourse(courseId);
 
 		for (EvaluationAttributes evaluation : evaluationsSummaryForCourse) {
 			EvaluationDetailsBundle edd = getEvaluationDetails(students, evaluation);
@@ -547,13 +547,13 @@ public class Logic {
 	/**
 	 * Access: course owner and above
 	 */
-	public List<StudentData> getStudentListForCourse(String courseId)
+	public List<StudentAttributes> getStudentListForCourse(String courseId)
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		List<StudentData> studentDataList = accountsLogic.getStudentListForCourse(courseId);
+		List<StudentAttributes> studentDataList = accountsLogic.getStudentListForCourse(courseId);
 
 		if ((studentDataList.size() == 0) && (getCourse(courseId) == null)) {
 			throw new EntityDoesNotExistException("Course does not exist :"
@@ -575,12 +575,12 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		List<StudentData> studentDataList = accountsLogic.getUnregisteredStudentListForCourse(courseId);
+		List<StudentAttributes> studentDataList = accountsLogic.getUnregisteredStudentListForCourse(courseId);
 
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 
 		//TODO: sending mail should be moved to somewhere else.
-		for (StudentData s : studentDataList) {
+		for (StudentAttributes s : studentDataList) {
 			try {
 				MimeMessage email = sendRegistrationInviteToStudent(courseId,
 						s.email);
@@ -607,7 +607,7 @@ public class Logic {
 	 *         enrollment. It also includes data for other students in the
 	 *         course that were not touched by the operation.
 	 */
-	public List<StudentData> enrollStudents(String enrollLines, String courseId)
+	public List<StudentAttributes> enrollStudents(String enrollLines, String courseId)
 			throws EnrollException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
@@ -617,12 +617,12 @@ public class Logic {
 			throw new EntityDoesNotExistException("Course does not exist :" + courseId);
 		}
 
-		Assumption.assertNotNull(StudentData.ERROR_ENROLL_LINE_NULL,
+		Assumption.assertNotNull(StudentAttributes.ERROR_ENROLL_LINE_NULL,
 				enrollLines);
 
-		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
+		ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
 		String[] linesArray = enrollLines.split(Common.EOL);
-		ArrayList<StudentData> studentList = new ArrayList<StudentData>();
+		ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
 
 		// check if all non-empty lines are formatted correctly
 		for (int i = 0; i < linesArray.length; i++) {
@@ -630,7 +630,7 @@ public class Logic {
 			try {
 				if (Common.isWhiteSpace(line))
 					continue;
-				studentList.add(new StudentData(line, courseId));
+				studentList.add(new StudentAttributes(line, courseId));
 			} catch (InvalidParametersException e) {
 				throw new EnrollException(e.errorCode, "Problem in line : "
 						+ line + Common.EOL + e.getMessage());
@@ -638,17 +638,17 @@ public class Logic {
 		}
 
 		// enroll all students
-		for (StudentData student : studentList) {
-			StudentData studentInfo;
+		for (StudentAttributes student : studentList) {
+			StudentAttributes studentInfo;
 			studentInfo = enrollStudent(student);
 			returnList.add(studentInfo);
 		}
 
 		// add to return list students not included in the enroll list.
-		List<StudentData> studentsInCourse = getStudentListForCourse(courseId);
-		for (StudentData student : studentsInCourse) {
+		List<StudentAttributes> studentsInCourse = getStudentListForCourse(courseId);
+		for (StudentAttributes student : studentsInCourse) {
 			if (!isInEnrollList(student, returnList)) {
-				student.updateStatus = StudentData.UpdateStatus.NOT_IN_ENROLL_LIST;
+				student.updateStatus = StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST;
 				returnList.add(student);
 			}
 		}
@@ -671,7 +671,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 
-		List<StudentData> students = getStudentListForCourse(courseId);
+		List<StudentAttributes> students = getStudentListForCourse(courseId);
 		CoursesLogic.sortByTeamName(students);
 
 		CourseAttributes course = getCourse(courseId);
@@ -686,7 +686,7 @@ public class Logic {
 		TeamDetailsBundle team = null;
 		for (int i = 0; i < students.size(); i++) {
 
-			StudentData s = students.get(i);
+			StudentAttributes s = students.get(i);
 
 			// if loner
 			if (s.team.equals("")) {
@@ -724,7 +724,7 @@ public class Logic {
 	 * Creates a student and adjust existing evaluations to accommodate the new
 	 * student Access: course owner and above
 	 */
-	public void createStudent(StudentData studentData)
+	public void createStudent(StudentAttributes studentData)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentData);
 
@@ -741,13 +741,13 @@ public class Logic {
 	 * 
 	 * @return returns null if there is no such student.
 	 */
-	public StudentData getStudent(String courseId, String email) {
+	public StudentAttributes getStudent(String courseId, String email) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
 		gateKeeper.verifyRegisteredUserOrAbove();
 
-		StudentData studentData = accountsLogic.getStudent(courseId, email);
+		StudentAttributes studentData = accountsLogic.getStudent(courseId, email);
 		return studentData;
 	}
 
@@ -760,7 +760,7 @@ public class Logic {
 	 * Team changed-> creates new submissions for the new team, deletes
 	 * submissions for previous team structure
 	 */
-	public void editStudent(String originalEmail, StudentData student)
+	public void editStudent(String originalEmail, StudentAttributes student)
 			throws InvalidParametersException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
@@ -771,7 +771,7 @@ public class Logic {
 			throw new EntityDoesNotExistException("Non-existent student " + student.course + "/" + originalEmail);
 		}
 
-		StudentData originalStudent = accountsLogic.getStudent(student.course, originalEmail);
+		StudentAttributes originalStudent = accountsLogic.getStudent(student.course, originalEmail);
 		String originalTeam = originalStudent.team;
 
 		accountsLogic.updateStudent(originalEmail, student);
@@ -820,7 +820,7 @@ public class Logic {
 		}
 
 		CourseAttributes course = coursesLogic.getCourse(courseId);
-		StudentData studentData = accountsLogic.getStudent(courseId, studentEmail);
+		StudentAttributes studentData = accountsLogic.getStudent(courseId, studentEmail);
 		Emails emailMgr = new Emails();
 		try {
 			MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
@@ -838,7 +838,7 @@ public class Logic {
 	 * @return Returns all StudentData objects associated with this Google ID.
 	 *         Returns an empty list if no student has this Google ID.
 	 */
-	public ArrayList<StudentData> getStudentsWithGoogleId(String googleId) {
+	public ArrayList<StudentAttributes> getStudentsWithGoogleId(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		gateKeeper.verifySameStudentOrAdmin(googleId);
 		return accountsLogic.getStudentsWithGoogleId(googleId);
@@ -850,12 +850,12 @@ public class Logic {
 	 * @return Returns the StudentData object that has the given courseId and is
 	 *         in given course. Returns null if no such student in the course.
 	 */
-	public StudentData getStudentInCourseForGoogleId(String courseId, String googleId) {
+	public StudentAttributes getStudentInCourseForGoogleId(String courseId, String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
 		gateKeeper.verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
-		StudentData sd = accountsLogic.getStudentByGoogleId(courseId, googleId);
+		StudentAttributes sd = accountsLogic.getStudentByGoogleId(courseId, googleId);
 		return sd;
 	}
 
@@ -870,7 +870,7 @@ public class Logic {
 
 		gateKeeper.verifyOwnerOfId(googleId);
 
-		StudentData newJoinedStudent = accountsLogic.joinCourse(key, googleId);
+		StudentAttributes newJoinedStudent = accountsLogic.joinCourse(key, googleId);
 
 		// Create the Account if it does not exist
 		if (!accountsLogic.isAccountExists(googleId)) {
@@ -891,7 +891,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		StudentData studentData = accountsLogic.getStudent(courseId, email);
+		StudentAttributes studentData = accountsLogic.getStudent(courseId, email);
 
 		if (studentData == null) {
 			return null;
@@ -1005,7 +1005,7 @@ public class Logic {
 		gateKeeper.verfyCourseOwner_OR_EmailOwnerAndPublished(courseId, evaluationName,
 				studentEmail);
 
-		StudentData student = getStudent(courseId, studentEmail);
+		StudentAttributes student = getStudent(courseId, studentEmail);
 		if (student == null) {
 			throw new EntityDoesNotExistException("The student " + studentEmail
 					+ " does not exist in course " + courseId);
@@ -1200,10 +1200,10 @@ public class Logic {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
-		List<StudentData> studentDataList = accountsLogic.getStudentListForCourse(courseId);
+		List<StudentAttributes> studentDataList = accountsLogic.getStudentListForCourse(courseId);
 
-		List<StudentData> studentsToRemindList = new ArrayList<StudentData>();
-		for (StudentData sd : studentDataList) {
+		List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+		for (StudentAttributes sd : studentDataList) {
 			if (!evaluationsLogic.isEvaluationSubmitted(evaluation,
 					sd.email)) {
 				studentsToRemindList.add(sd);
@@ -1248,7 +1248,7 @@ public class Logic {
 		for (TeamDetailsBundle team : teams) {
 			TeamResultBundle teamResultBundle = new TeamResultBundle(team.students);
 			
-			for (StudentData student : team.students) {
+			for (StudentAttributes student : team.students) {
 				// TODO: refactor this method. May be have a return value?
 				populateSubmissionsAndNames(submissionDataList,
 						teamResultBundle,
@@ -1290,10 +1290,10 @@ public class Logic {
 							+ reviewerEmail);
 		}
 
-		StudentData student = getStudent(courseId, reviewerEmail);
+		StudentAttributes student = getStudent(courseId, reviewerEmail);
 		ArrayList<SubmissionAttributes> returnList = new ArrayList<SubmissionAttributes>();
 		for (SubmissionAttributes sd : submissions) {
-			StudentData reviewee = getStudent(courseId, sd.reviewee);
+			StudentAttributes reviewee = getStudent(courseId, sd.reviewee);
 			if (!isOrphanSubmission(student, reviewee, sd)) {
 				sd.reviewerName = student.name;
 				sd.revieweeName = reviewee.name;
@@ -1345,7 +1345,7 @@ public class Logic {
 				&& (!originalTeam.equals(newTeam));
 	}
 
-	private EvaluationDetailsBundle getEvaluationDetails(List<StudentData> students, EvaluationAttributes evaluation)
+	private EvaluationDetailsBundle getEvaluationDetails(List<StudentAttributes> students, EvaluationAttributes evaluation)
 			throws EntityDoesNotExistException {
 		EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
 		edd.stats.expectedTotal = students.size();
@@ -1384,7 +1384,7 @@ public class Logic {
 
 		CourseAttributes c = getCourse(courseId);
 		EvaluationAttributes e = getEvaluation(courseId, evaluationName);
-		List<StudentData> students = getStudentListForCourse(courseId);
+		List<StudentAttributes> students = getStudentListForCourse(courseId);
 
 		Emails emailMgr = new Emails();
 		try {
@@ -1416,8 +1416,8 @@ public class Logic {
 		evaluationsLogic.updateSubmission(submission);
 	}
 
-	private StudentData enrollStudent(StudentData student) {
-		StudentData.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
+	private StudentAttributes enrollStudent(StudentAttributes student) {
+		StudentAttributes.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
 		try {
 			if (isSameAsExistingStudent(student)) {
 				updateStatus = UpdateStatus.UNMODIFIED;
@@ -1441,8 +1441,8 @@ public class Logic {
 	 * Returns true if either of the three objects is null or if the team in
 	 * submission is different from those in two students.
 	 */
-	private boolean isOrphanSubmission(StudentData reviewer,
-			StudentData reviewee, SubmissionAttributes submission) {
+	private boolean isOrphanSubmission(StudentAttributes reviewer,
+			StudentAttributes reviewee, SubmissionAttributes submission) {
 		if ((reviewer == null) || (reviewee == null) || (submission == null)) {
 			return true;
 		}
@@ -1539,7 +1539,7 @@ public class Logic {
 		
 		for (StudentResultBundle peerResult : teamResultBundle.studentResults) {
 			
-			StudentData peer = peerResult.student;
+			StudentAttributes peer = peerResult.student;
 
 			// get incoming submission from peer
 			String key = peer.email + "->" + studentResultBundle.student.email;
@@ -1607,23 +1607,23 @@ public class Logic {
 		return sd;
 	}
 
-	private boolean isInEnrollList(StudentData student,
-			ArrayList<StudentData> studentInfoList) {
-		for (StudentData studentInfo : studentInfoList) {
+	private boolean isInEnrollList(StudentAttributes student,
+			ArrayList<StudentAttributes> studentInfoList) {
+		for (StudentAttributes studentInfo : studentInfoList) {
 			if (studentInfo.email.equalsIgnoreCase(student.email))
 				return true;
 		}
 		return false;
 	}
 
-	private boolean isSameAsExistingStudent(StudentData student) {
-		StudentData existingStudent = getStudent(student.course, student.email);
+	private boolean isSameAsExistingStudent(StudentAttributes student) {
+		StudentAttributes existingStudent = getStudent(student.course, student.email);
 		if (existingStudent == null)
 			return false;
 		return student.isEnrollInfoSameAs(existingStudent);
 	}
 
-	private boolean isModificationToExistingStudent(StudentData student) {
+	private boolean isModificationToExistingStudent(StudentAttributes student) {
 		return accountsLogic.isStudentExists(student.course, student.email);
 	}
 

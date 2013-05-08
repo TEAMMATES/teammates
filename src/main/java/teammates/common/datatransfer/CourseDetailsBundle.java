@@ -16,6 +16,6 @@ public class CourseDetailsBundle {
 	public int unregisteredTotal = Common.UNINITIALIZED_INT;
 	public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
 	public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
-	public ArrayList<StudentData> loners = new ArrayList<StudentData>();
+	public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
 
 }

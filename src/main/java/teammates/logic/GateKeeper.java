@@ -2,7 +2,7 @@ package teammates.logic;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
@@ -277,7 +277,7 @@ public class GateKeeper {
 		if (course == null) {
 			return false;
 		}
-		StudentData student = accountsDb.getStudent(courseId, studentEmail);
+		StudentAttributes student = accountsDb.getStudent(courseId, studentEmail);
 		return student == null ? false : user.id.equals(student.id);
 	}
 

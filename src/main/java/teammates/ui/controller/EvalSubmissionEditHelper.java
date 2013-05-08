@@ -4,12 +4,12 @@ import java.util.List;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 
 public class EvalSubmissionEditHelper extends Helper {
 	public EvaluationAttributes eval;
-	public StudentData student;
+	public StudentAttributes student;
 	public List<SubmissionAttributes> submissions;
 	
 	/**

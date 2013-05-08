@@ -20,7 +20,7 @@ import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 
 /**
  * Email handles all operations with regards to sending e-mails.
@@ -59,7 +59,7 @@ public class Emails {
 	}
 
 	public List<MimeMessage> generateEvaluationOpeningEmails(CourseAttributes course,
-			EvaluationAttributes evaluation, List<StudentData> students)
+			EvaluationAttributes evaluation, List<StudentAttributes> students)
 			throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
@@ -77,7 +77,7 @@ public class Emails {
 
 	public List<MimeMessage> generateEvaluationReminderEmails(
 			CourseAttributes course, EvaluationAttributes evaluation,
-			List<StudentData> students) throws MessagingException, IOException {
+			List<StudentAttributes> students) throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
@@ -96,7 +96,7 @@ public class Emails {
 	}
 
 	public List<MimeMessage> generateEvaluationClosingEmails(CourseAttributes c,
-			EvaluationAttributes e, List<StudentData> students)
+			EvaluationAttributes e, List<StudentAttributes> students)
 			throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
@@ -114,7 +114,7 @@ public class Emails {
 	}
 
 	public List<MimeMessage> generateEvaluationPublishedEmails(CourseAttributes c,
-			EvaluationAttributes e, List<StudentData> students)
+			EvaluationAttributes e, List<StudentAttributes> students)
 			throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
@@ -128,11 +128,11 @@ public class Emails {
 	}
 
 	public List<MimeMessage> generateEvaluationEmailBases(CourseAttributes course,
-			EvaluationAttributes evaluation, List<StudentData> students,
+			EvaluationAttributes evaluation, List<StudentAttributes> students,
 			String template) throws MessagingException,
 			UnsupportedEncodingException {
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
-		for (StudentData s : students) {
+		for (StudentAttributes s : students) {
 
 			emails.add(generateEvaluationEmailBase(course, evaluation, s,
 					template));
@@ -141,7 +141,7 @@ public class Emails {
 	}
 
 	public MimeMessage generateEvaluationEmailBase(CourseAttributes c,
-			EvaluationAttributes e, StudentData s, String template)
+			EvaluationAttributes e, StudentAttributes s, String template)
 			throws MessagingException, UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
@@ -187,7 +187,7 @@ public class Emails {
 	}
 
 	public MimeMessage generateStudentCourseJoinEmail(CourseAttributes c,
-			StudentData s) throws AddressException, MessagingException,
+			StudentAttributes s) throws AddressException, MessagingException,
 			UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
@@ -215,7 +215,7 @@ public class Emails {
 		Transport.send(message);
 	}
 
-	private String fillUpJoinFragment(StudentData s, String emailBody) {
+	private String fillUpJoinFragment(StudentAttributes s, String emailBody) {
 		emailBody = emailBody.replace("${joinFragment}",
 				Common.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
 
@@ -232,7 +232,7 @@ public class Emails {
 		return emailBody;
 	}
 
-	private MimeMessage getEmptyEmailAddressedToStudent(StudentData s)
+	private MimeMessage getEmptyEmailAddressedToStudent(StudentAttributes s)
 			throws MessagingException, AddressException,
 			UnsupportedEncodingException {
 		Session session = Session.getDefaultInstance(new Properties(), null);
@@ -290,7 +290,7 @@ public class Emails {
 		return message;
 	}
 
-	private boolean isYetToJoinCourse(StudentData s) {
+	private boolean isYetToJoinCourse(StudentAttributes s) {
 		return s.id == null || s.id.isEmpty();
 	}
 }

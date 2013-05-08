@@ -5,7 +5,7 @@ import java.util.List;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -101,7 +101,7 @@ public class AccountsLogic {
 		accountsDb.createInstructor(instructorToAdd);
 	}
 	
-	public void createStudent(StudentData studentData) throws InvalidParametersException, EntityAlreadyExistsException {
+	public void createStudent(StudentAttributes studentData) throws InvalidParametersException, EntityAlreadyExistsException {
 		if (!studentData.isValid()) {
 			throw new InvalidParametersException(studentData.getInvalidStateInfo());
 		}
@@ -135,26 +135,26 @@ public class AccountsLogic {
 		return accountsDb.getInstructorsByGoogleId(googleId);
 	}
 	
-	public List<StudentData> getStudentListForCourse(String courseId) {
+	public List<StudentAttributes> getStudentListForCourse(String courseId) {
 		return accountsDb.getStudentListForCourse(courseId);
 	}
 	
-	public List<StudentData> getUnregisteredStudentListForCourse(String courseId) {
+	public List<StudentAttributes> getUnregisteredStudentListForCourse(String courseId) {
 		return accountsDb.getUnregisteredStudentListForCourse(courseId);
 	}
 	
-	public StudentData getStudent(String courseId, String email) {
+	public StudentAttributes getStudent(String courseId, String email) {
 		return accountsDb.getStudent(courseId, email);
 	}
 	
-	public StudentData getStudentByGoogleId(String courseId, String googleId) {
+	public StudentAttributes getStudentByGoogleId(String courseId, String googleId) {
 		return accountsDb.getStudentByGoogleId(courseId, googleId);
 	}
 	
-	public ArrayList<StudentData> getStudentsWithGoogleId(String googleId) {
-		List<StudentData> students = accountsDb.getStudentsWithGoogleId(googleId);
-		ArrayList<StudentData> returnList = new ArrayList<StudentData>();
-		for (StudentData s : students) {
+	public ArrayList<StudentAttributes> getStudentsWithGoogleId(String googleId) {
+		List<StudentAttributes> students = accountsDb.getStudentsWithGoogleId(googleId);
+		ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
+		for (StudentAttributes s : students) {
 			returnList.add(s);
 		}
 		return returnList;
@@ -184,7 +184,7 @@ public class AccountsLogic {
 		accountsDb.updateInstructor(instructor);
 	}
 	
-	public void updateStudent(String originalEmail, StudentData student) {
+	public void updateStudent(String originalEmail, StudentAttributes student) {
 		// Edit student uses KeepOriginal policy, where unchanged fields are set
 		// as null
 		// Hence, we can't do isValid() here.
@@ -193,7 +193,7 @@ public class AccountsLogic {
 		accountsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.email, student.id, student.comments);	
 	}
 	
-	public StudentData joinCourse(String key, String googleId) throws JoinCourseException {
+	public StudentAttributes joinCourse(String key, String googleId) throws JoinCourseException {
 		return accountsDb.joinCourse(key, googleId);
 	}
 

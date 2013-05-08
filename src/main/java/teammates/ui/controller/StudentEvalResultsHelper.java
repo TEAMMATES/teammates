@@ -7,12 +7,12 @@ import java.util.List;
 
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 
 public class StudentEvalResultsHelper extends Helper {
 	public EvaluationAttributes eval;
-	public StudentData student;
+	public StudentAttributes student;
 	public List<SubmissionAttributes> incoming;
 	public List<SubmissionAttributes> outgoing;
 	public List<SubmissionAttributes> selfEvaluations;

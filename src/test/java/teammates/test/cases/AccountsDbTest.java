@@ -12,7 +12,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.datastore.Datastore;
@@ -158,7 +158,7 @@ public class AccountsDbTest extends BaseTestCase {
 	@Test
 	public void testCreateStudent() throws EntityAlreadyExistsException {
 		// SUCCESS
-		StudentData s = new StudentData();
+		StudentAttributes s = new StudentAttributes();
 		s.name = "valid student";
 		s.course = "valid-course";
 		s.email = "valid-fresh@email.com";
@@ -178,7 +178,7 @@ public class AccountsDbTest extends BaseTestCase {
 			accountsDb.createStudent(s);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(a.getMessage(), StudentData.ERROR_FIELD_COURSE);
+			AssertJUnit.assertEquals(a.getMessage(), StudentAttributes.ERROR_FIELD_COURSE);
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}
@@ -194,10 +194,10 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testGetStudent() {
-		StudentData s = createNewStudent();
+		StudentAttributes s = createNewStudent();
 		
 		// Get existent
-		StudentData retrieved = accountsDb.getStudent(s.course, s.email);
+		StudentAttributes retrieved = accountsDb.getStudent(s.course, s.email);
 		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
@@ -222,7 +222,7 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testEditStudent() {
-		StudentData s = createNewStudent();
+		StudentAttributes s = createNewStudent();
 		
 		// Edit existent
 		accountsDb.updateStudent(s.course, s.email, "new-name", "new-team", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
@@ -253,12 +253,12 @@ public class AccountsDbTest extends BaseTestCase {
 	
 	@Test
 	public void testDeleteStudent() {
-		StudentData s = createNewStudent();
+		StudentAttributes s = createNewStudent();
 		
 		// Delete
 		accountsDb.deleteStudent(s.course, s.email);
 		
-		StudentData deleted = accountsDb.getStudent(s.course, s.email);
+		StudentAttributes deleted = accountsDb.getStudent(s.course, s.email);
 		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
@@ -420,8 +420,8 @@ public class AccountsDbTest extends BaseTestCase {
 		return a;
 	}
 	
-	private StudentData createNewStudent() {
-		StudentData s = new StudentData();
+	private StudentAttributes createNewStudent() {
+		StudentAttributes s = new StudentAttributes();
 		s.name = "valid student";
 		s.course = "valid-course";
 		s.email = "valid@email.com";

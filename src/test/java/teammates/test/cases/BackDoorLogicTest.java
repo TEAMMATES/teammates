@@ -20,7 +20,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -260,8 +260,8 @@ public class BackDoorLogicTest extends BaseTestCase {
 			LogicTest.verifyPresentInDatastore(expectedCourse);
 		}
 
-		HashMap<String, StudentData> students = data.students;
-		for (StudentData expectedStudent : students.values()) {
+		HashMap<String, StudentAttributes> students = data.students;
+		for (StudentAttributes expectedStudent : students.values()) {
 			LogicTest.verifyPresentInDatastore(expectedStudent);
 		}
 

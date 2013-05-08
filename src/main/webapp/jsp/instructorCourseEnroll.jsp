@@ -1,8 +1,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.datatransfer.StudentData"%>
+<%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEnrollHelper"%>
-<%	InstructorCourseEnrollHelper helper = (InstructorCourseEnrollHelper)request.getAttribute("helper"); %>
+<%
+	InstructorCourseEnrollHelper helper = (InstructorCourseEnrollHelper)request.getAttribute("helper");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,30 +32,38 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
-			<% if(helper.isResult){ %>
+			<%
+				if(helper.isResult){
+			%>
 				<div id="headerOperation">
-					<h1>Enrollment Results for <%= helper.courseID %></h1>
+					<h1>Enrollment Results for <%=helper.courseID%></h1>
 				</div>
 				<div style="display: block;" id="statusMessage">Enrollment Successful. Summary given below. Click <a href="javascript:history.go(-1)" id="edit_enroll">here</a> to modify values and re-do the enrollment.</div>
-				<%	for(int i=0; i<5; i++){
-						List<StudentData> students = helper.students[i]; %>
-					<%	if(students.size()>0){ %>
-						<p class="bold centeralign"><%= helper.getMessageForStudentsListID(i) %></p>
+				<%
+					for(int i=0; i<5; i++){
+								List<StudentAttributes> students = helper.students[i];
+				%>
+					<%
+						if(students.size()>0){
+					%>
+						<p class="bold centeralign"><%=helper.getMessageForStudentsListID(i)%></p>
 						<br>
-						<table class="dataTable" class="enroll_result<%= i %>">
+						<table class="dataTable" class="enroll_result<%=i%>">
 						<tr>
 							<th class="bold color_white">Student Name</th>
 							<th class="bold color_white centeralign">E-mail address</th>
 							<th class="bold color_white centeralign">Team</th>
 							<th class="bold color_white centeralign" width="40%">Comments</th>
 						</tr>
-						<% for(StudentData student: students){ %>
+						<%
+							for(StudentAttributes student: students){
+						%>
 							<tr>
 								<td><%= student.name %></td>
 								<td><%= student.email %></td>

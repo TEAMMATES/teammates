@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -15,7 +15,7 @@ public class StudentResultBundleTest {
 	public void testSortOutgoingByStudentNameAscending()
 			throws InvalidParametersException {
 
-		StudentResultBundle result = new StudentResultBundle(new StudentData(
+		StudentResultBundle result = new StudentResultBundle(new StudentAttributes(
 				"t1|adam|a@b", "dummy-course"));
 
 		SubmissionAttributes s1 = new SubmissionAttributes();
@@ -40,7 +40,7 @@ public class StudentResultBundleTest {
 
 	@Test
 	public void testSortIncomingByStudentNameAscending() throws Exception {
-		StudentResultBundle result = new StudentResultBundle(new StudentData(
+		StudentResultBundle result = new StudentResultBundle(new StudentAttributes(
 				"t1|adam|a@b", "dummy-course"));
 
 		SubmissionAttributes s1 = new SubmissionAttributes();
@@ -65,7 +65,7 @@ public class StudentResultBundleTest {
 
 	@Test
 	public void testSortIncomingByFeedbackAscending() throws Exception{
-		StudentResultBundle result = new StudentResultBundle(new StudentData(
+		StudentResultBundle result = new StudentResultBundle(new StudentAttributes(
 				"t1|adam|a@b", "dummy-course"));
 
 		SubmissionAttributes s1 = new SubmissionAttributes();

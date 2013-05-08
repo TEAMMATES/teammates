@@ -14,7 +14,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -56,14 +56,14 @@ public class CoursesLogic {
 	public int getNumberOfTeams(String courseID) {
 		// Get all students in the course
 
-		List<StudentData> studentDataList = accountsDb
+		List<StudentAttributes> studentDataList = accountsDb
 				.getStudentListForCourse(courseID);
 
 		// The list of teams
 		List<String> teamNameList = new ArrayList<String>();
 
 		// Filter out unique team names
-		for (StudentData sd : studentDataList) {
+		for (StudentAttributes sd : studentDataList) {
 			if (!teamNameList.contains(sd.team)) {
 				teamNameList.add(sd.team);
 			}
@@ -98,9 +98,9 @@ public class CoursesLogic {
 		return accountsDb.getUnregisteredStudentListForCourse(courseID).size();
 	}
 
-	public static void sortByTeamName(List<StudentData> students) {
-		Collections.sort(students, new Comparator<StudentData>() {
-			public int compare(StudentData s1, StudentData s2) {
+	public static void sortByTeamName(List<StudentAttributes> students) {
+		Collections.sort(students, new Comparator<StudentAttributes>() {
+			public int compare(StudentAttributes s1, StudentAttributes s2) {
 				String t1 = s1.team;
 				String t2 = s2.team;
 				if ((t1 == null) && (t2 == null)) {
@@ -153,11 +153,11 @@ public class CoursesLogic {
 	
 	public List<CourseAttributes> getCourseListForStudent(String googleId) {
 		// Get all Student entries with this googleId
-		List<StudentData> studentDataList = accountsDb.getStudentsWithGoogleId(googleId);
+		List<StudentAttributes> studentDataList = accountsDb.getStudentsWithGoogleId(googleId);
 		ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
 
 		// Verify that the course in each entry is existent
-		for (StudentData s : studentDataList) {
+		for (StudentAttributes s : studentDataList) {
 			CourseAttributes course = coursesDb.getCourse(s.course);
 			Assumption.assertNotNull("Course was deleted but Student entry still exists", course);
 			courseList.add(course);

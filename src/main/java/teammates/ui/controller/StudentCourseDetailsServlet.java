@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -62,7 +62,7 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 	 * @param student
 	 * @return
 	 */
-	private TeamDetailsBundle getTeam(CourseDetailsBundle course, StudentData student){
+	private TeamDetailsBundle getTeam(CourseDetailsBundle course, StudentAttributes student){
 		for(TeamDetailsBundle team: course.teams){
 			if(team.name.equals(student.team)){
 				return team;
