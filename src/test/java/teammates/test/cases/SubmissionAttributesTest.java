@@ -8,7 +8,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.SubmissionAttributes;
 
-public class SubmissionDataTest extends BaseTestCase {
+public class SubmissionAttributesTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void setupClass() throws Exception {

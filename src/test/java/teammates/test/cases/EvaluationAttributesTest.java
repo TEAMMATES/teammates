@@ -1,14 +1,18 @@
 package teammates.test.cases;
 
+import static teammates.common.FieldValidator.EVALUATION_NAME_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_TOO_LONG;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import org.testng.AssertJUnit;
+import static org.testng.AssertJUnit.*;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 
-public class EvaluationDataTest extends BaseTestCase {
+public class EvaluationAttributesTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void setupClass() throws Exception {
@@ -157,8 +161,13 @@ public class EvaluationDataTest extends BaseTestCase {
 		// FAIL : no name: invalid
 		e.course = "valid-course";
 		e.name = null;
-		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_FIELD_NAME);
+		try {
+			e.getInvalidStateInfo();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e1) {
+			assertTrue(true);
+		}
+		
 		
 		// SUCCESS : name at max length
 		e.name = Common.generateStringOfLength(EvaluationAttributes.EVALUATION_NAME_MAX_LENGTH);
@@ -167,7 +176,9 @@ public class EvaluationDataTest extends BaseTestCase {
 		// FAIL : name too long
 		e.name += "e";
 		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_NAME_TOOLONG);
+		AssertJUnit.assertEquals(
+				String.format(EVALUATION_NAME_ERROR_MESSAGE, e.name, REASON_TOO_LONG),
+				e.getInvalidStateInfo());
 		
 		// FAIL : no start time
 		e.name = "valid name";

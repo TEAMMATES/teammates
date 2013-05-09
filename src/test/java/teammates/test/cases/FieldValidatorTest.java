@@ -86,6 +86,25 @@ public class FieldValidatorTest {
 				String.format(COURSE_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
 		
 	}
+	
+	@Test
+	public void testInvalidStateInfo_EVALUATION_NAME() {
+		
+		//Testing intensity is less here because the code indirectly executed by 
+		// this method is already covered in another test method.
+		
+		// test one valid case
+		testOnce(FieldType.EVALUATION_NAME, "valid: typical name",
+				"First Peer Evaluation - 1 (trial)", 
+				"");
+		
+		//test one invalid case
+		String tooLongName = Common.generateStringOfLength(EVALUATION_NAME_MAX_LENGTH+1);
+		testOnce(FieldType.EVALUATION_NAME, "invalid: too long",
+				tooLongName, 
+				String.format(EVALUATION_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
+		
+	}
 
 
 	@Test

@@ -11,7 +11,7 @@ import static org.testng.AssertJUnit.*;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 
-public class CourseDataTest extends BaseTestCase {
+public class CourseAttributesTest extends BaseTestCase {
 
 	@BeforeClass
 	public static void setupClass() throws Exception {

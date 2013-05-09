@@ -39,6 +39,13 @@ public class FieldValidator {
 					"The value of "+COURSE_NAME_FIELD_NAME+" should be no longer than "+
 					COURSE_NAME_MAX_LENGTH+" characters. It should not be empty.";
 	
+	private static final String EVALUATION_NAME_FIELD_NAME = "an evaluation name";
+	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
+	public static final String EVALUATION_NAME_ERROR_MESSAGE = 
+			"\"%s\" is not acceptable to TEAMMATES as "+EVALUATION_NAME_FIELD_NAME+" because it %s. " +
+					"The value of "+EVALUATION_NAME_FIELD_NAME+" should be no longer than "+
+					EVALUATION_NAME_MAX_LENGTH+" characters. It should not be empty.";
+	
 	public static final int GOOGLE_ID_MAX_LENGTH = 45;
 	public static final String GOOGLE_ID_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. "+
@@ -55,7 +62,7 @@ public class FieldValidator {
 
 
 	public enum FieldType {
-		PERSON_NAME, INSTITUTE_NAME, GOOGLE_ID, EMAIL, COURSE_NAME		
+		PERSON_NAME, INSTITUTE_NAME, GOOGLE_ID, EMAIL, COURSE_NAME, EVALUATION_NAME		
 	}
 
 	public String getInvalidStateInfo(FieldType fieldType, Object value) {
@@ -66,6 +73,8 @@ public class FieldValidator {
 			return getInvalidStateInfo_INSTITUTE_NAME((String)value);
 		case COURSE_NAME:
 			return getInvalidStateInfo_COURSE_NAME((String)value);
+		case EVALUATION_NAME:
+			return getInvalidStateInfo_EVALUATION_NAME((String)value);
 		case GOOGLE_ID:
 			return getInvalidStateInfo_GOOGLE_ID((String)value);
 		case EMAIL:
@@ -121,6 +130,11 @@ public class FieldValidator {
 	private String getInvalidStateInfo_COURSE_NAME(String value) {
 		return getInvalidStateInfo_NAME_STRING(
 				COURSE_NAME_FIELD_NAME, value, COURSE_NAME_MAX_LENGTH);
+	}
+	
+	private String getInvalidStateInfo_EVALUATION_NAME(String value) {
+		return getInvalidStateInfo_NAME_STRING(
+				EVALUATION_NAME_FIELD_NAME, value, EVALUATION_NAME_MAX_LENGTH);
 	}
 	
 	private String getInvalidStateInfo_NAME_STRING(String fieldName, String value, int maxLength) {
