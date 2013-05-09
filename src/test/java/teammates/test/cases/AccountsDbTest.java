@@ -1,9 +1,6 @@
 package teammates.test.cases;
 
-import static teammates.common.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_DISALLOWED_CHAR;
-import static teammates.common.FieldValidator.REASON_EMPTY;
+import static teammates.common.FieldValidator.*;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -316,7 +313,7 @@ public class AccountsDbTest extends BaseTestCase {
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(
 					a.getMessage(), 
-					String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_DISALLOWED_CHAR));
+					String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT));
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}
@@ -372,12 +369,14 @@ public class AccountsDbTest extends BaseTestCase {
 		
 		// FAIL : invalid parameters
 		instructorToEdit.name = "";
-		instructorToEdit.email = null;
+		instructorToEdit.email = "aaa";
 		try {
 			accountsDb.updateInstructor(instructorToEdit);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(String.format(PERSON_NAME_ERROR_MESSAGE, "",	REASON_EMPTY) + EOL + InstructorAttributes.ERROR_FIELD_EMAIL, 
+			AssertJUnit.assertEquals(
+					String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,	REASON_EMPTY) + EOL + 
+					String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email,	REASON_INCORRECT_FORMAT), 
 					a.getMessage());
 		}
 		

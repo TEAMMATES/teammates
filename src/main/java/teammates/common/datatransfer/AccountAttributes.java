@@ -54,13 +54,10 @@ public class AccountAttributes extends EntityAttributes {
 		String errorMessage = 
 				validator.getInvalidStateInfo(FieldValidator.FieldType.PERSON_NAME, name) + EOL +
 				validator.getInvalidStateInfo(FieldValidator.FieldType.GOOGLE_ID, googleId) + EOL +
+				validator.getInvalidStateInfo(FieldValidator.FieldType.EMAIL, email) + EOL +
 				validator.getInvalidStateInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
 		
-		if (!Common.isValidEmail(email)) {
-			errorMessage += ERROR_FIELD_EMAIL;
-		}
-		
 		return errorMessage.trim();
-
 	}
+	
 }

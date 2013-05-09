@@ -193,17 +193,16 @@ public class StudentAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
-		String errorMessage = new FieldValidator().getInvalidStateInfo(
-				FieldValidator.FieldType.PERSON_NAME, name);
+		FieldValidator validator = new FieldValidator();
+		
+		String errorMessage = 
+				validator.getInvalidStateInfo(FieldValidator.FieldType.PERSON_NAME, name) + EOL+
+				validator.getInvalidStateInfo(FieldValidator.FieldType.EMAIL, email);
 
 		if (team != null && team.length() > TEAM_NAME_MAX_LENGTH) {
 			errorMessage += ERROR_TEAMNAME_TOOLONG;
 		}
 		
-		if (!Common.isValidEmail(email)) {
-			errorMessage += ERROR_FIELD_EMAIL;
-		}
-
 		if (!Common.isValidCourseId(course)) {
 			errorMessage += ERROR_FIELD_COURSE;
 		}

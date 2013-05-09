@@ -3,6 +3,7 @@ package teammates.test.cases;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
+import static teammates.common.FieldValidator.*;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -120,7 +121,9 @@ public class StudentTest extends BaseTestCase {
 		line = "t1|n||c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_EMAIL);
+		assertEquals( 
+				String.format(EMAIL_ERROR_MESSAGE, "", REASON_EMPTY), 
+				invalidStudent.getInvalidStateInfo());
 
 		// FAIL : team name too long
 		String longTeamName = Common.generateStringOfLength(StudentAttributes.TEAM_NAME_MAX_LENGTH + 1);
@@ -141,7 +144,9 @@ public class StudentTest extends BaseTestCase {
 		line = "t1|name|ee.com|c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_EMAIL);
+		assertEquals(
+				String.format(EMAIL_ERROR_MESSAGE, "ee.com", REASON_INCORRECT_FORMAT), 
+				invalidStudent.getInvalidStateInfo());
 		
 		// FAIL : comment too long
 		String longComment = Common.generateStringOfLength(StudentAttributes.COMMENTS_MAX_LENGTH + 1);

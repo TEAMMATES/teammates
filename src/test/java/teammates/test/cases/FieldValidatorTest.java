@@ -19,7 +19,7 @@ public class FieldValidatorTest {
 		verifyAssertError("white space value", FieldType.PERSON_NAME, "  \t ");
 		verifyAssertError("untrimmed value", FieldType.PERSON_NAME, "  abc ");
 		
-		testOnce_PERSON_NAME("valid: typical name",
+		testOnce_PERSON_NAME("valid: typical value",
 				"Adam Smith", 
 				"");
 		
@@ -28,7 +28,7 @@ public class FieldValidatorTest {
 				"");
 		
 		String maxLengthName = Common.generateStringOfLength(PERSON_NAME_MAX_LENGTH);
-		testOnce_PERSON_NAME("valid: max length name", 
+		testOnce_PERSON_NAME("valid: max length value", 
 				maxLengthName, 
 				"");
 
@@ -46,12 +46,12 @@ public class FieldValidatorTest {
 		String nameWithOneInvalidChar = "adam *";
 		testOnce_PERSON_NAME("invalid: disallowed symbol",
 				nameWithOneInvalidChar, 
-				String.format(PERSON_NAME_ERROR_MESSAGE, nameWithOneInvalidChar, REASON_DISALLOWED_CHAR));
+				String.format(PERSON_NAME_ERROR_MESSAGE, nameWithOneInvalidChar, REASON_INCORRECT_FORMAT));
 		
 		String nameWithManyInvalidChars = "_adam$ * [first year]";
 		testOnce_PERSON_NAME("invalid: many disallowed symbols",
 				nameWithManyInvalidChars, 
-				String.format(PERSON_NAME_ERROR_MESSAGE, nameWithManyInvalidChars, REASON_DISALLOWED_CHAR));
+				String.format(PERSON_NAME_ERROR_MESSAGE, nameWithManyInvalidChars, REASON_INCORRECT_FORMAT));
 	}
 	
 	@Test
@@ -87,12 +87,12 @@ public class FieldValidatorTest {
 		String nameWithOneInvalidChar = "^ uni";
 		testOnce_INSTITUTE_NAME("invalid: one disallowed symbol",
 				nameWithOneInvalidChar, 
-				String.format(INSTITUTE_NAME_ERROR_MESSAGE, nameWithOneInvalidChar, REASON_DISALLOWED_CHAR));
+				String.format(INSTITUTE_NAME_ERROR_MESSAGE, nameWithOneInvalidChar, REASON_INCORRECT_FORMAT));
 		
 		String nameWithManyInvalidChars = "_uni$ * #private @city";
 		testOnce_INSTITUTE_NAME("invalid: many disallowed symbols",
 				nameWithManyInvalidChars, 
-				String.format(INSTITUTE_NAME_ERROR_MESSAGE, nameWithManyInvalidChars, REASON_DISALLOWED_CHAR));
+				String.format(INSTITUTE_NAME_ERROR_MESSAGE, nameWithManyInvalidChars, REASON_INCORRECT_FORMAT));
 	}
 
 	@Test
@@ -104,7 +104,7 @@ public class FieldValidatorTest {
 		verifyAssertError("contains '@gmail.com'", FieldType.GOOGLE_ID, "abc@GMAIL.com");
 		
 		
-		testOnce_GOOGLE_ID("valid: typical id",
+		testOnce_GOOGLE_ID("valid: typical value",
 				"valid9.Goo-gle.id_", 
 				"");
 		
@@ -138,12 +138,60 @@ public class FieldValidatorTest {
 		String valueWithDisallowedChar = "man woman";
 		testOnce_GOOGLE_ID("invalid: disallowed char (space)",
 				valueWithDisallowedChar, 
-				String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_DISALLOWED_CHAR));
+				String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 		
 		valueWithDisallowedChar = "man/woman";
 		testOnce_GOOGLE_ID("invalid: disallowed char",
 				valueWithDisallowedChar, 
-				String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_DISALLOWED_CHAR));
+				String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+		
+	}
+	
+	@Test
+	public void testInvalidStateInfo_EMAIL() {
+		
+		verifyAssertError("null value", FieldType.EMAIL, null);
+		verifyAssertError("white space value", FieldType.EMAIL, "  \t \n ");
+		verifyAssertError("untrimmed value", FieldType.EMAIL, "  abc@gmail.com ");
+		
+		
+		testOnce_EMAIL("valid: typical value",
+				"someone@yahoo.com", 
+				"");
+		
+		testOnce_EMAIL("valid: minimal",
+				"e@y", 
+				"");
+		
+		String maxLengthValue = Common.generateStringOfLength(EMAIL_MAX_LENGTH-6)+"@c.gov";
+		testOnce_EMAIL("valid: max length", 
+				maxLengthValue, 
+				"");
+
+		String emptyValue = "";
+		testOnce_EMAIL("invalid: empty string",
+				emptyValue, 
+				String.format(EMAIL_ERROR_MESSAGE, emptyValue,	REASON_EMPTY));
+		
+		String tooLongValue = maxLengthValue + "x";
+		testOnce_EMAIL("invalid: too long",
+				tooLongValue, 
+				String.format(EMAIL_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
+		
+		String valueWithDisallowedChar = "woMAN@com. sg";
+		testOnce_EMAIL("invalid: disallowed char (space) after @",
+				valueWithDisallowedChar, 
+				String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+		
+		valueWithDisallowedChar = "man woman@com.sg";
+		testOnce_EMAIL("invalid: disallowed char (space)",
+				valueWithDisallowedChar, 
+				String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+		
+		valueWithDisallowedChar = "man@woman@com.lk";
+		testOnce_EMAIL("invalid: multiple '@' signs",
+				valueWithDisallowedChar, 
+				String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 		
 	}
 	
@@ -160,6 +208,11 @@ public class FieldValidatorTest {
 	private void testOnce_GOOGLE_ID(String description, String id,
 			String expected) {
 		testOnce(FieldType.GOOGLE_ID, description, id, expected);
+	}
+	
+	private void testOnce_EMAIL(String description, String id,
+			String expected) {
+		testOnce(FieldType.EMAIL, description, id, expected);
 	}
 
 	private void testOnce(FieldType fieldType, String description, String value, String expected) {

@@ -3,6 +3,8 @@ package teammates.test.cases;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
 import static teammates.logic.TeamEvalResult.NA;
 import static teammates.logic.TeamEvalResult.NSB;
 import static teammates.logic.TeamEvalResult.NSU;
@@ -1659,7 +1661,9 @@ public class LogicTest extends BaseTestCase {
 			logic.createStudent(newStudent);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), StudentAttributes.ERROR_FIELD_EMAIL);
+			assertEquals(
+					String.format(EMAIL_ERROR_MESSAGE, "invalid email", REASON_INCORRECT_FORMAT),
+					e.getMessage());
 		}
 		
 		______TS("null parameters");
