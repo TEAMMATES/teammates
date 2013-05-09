@@ -56,7 +56,7 @@ public class AccountAttributes extends EntityAttributes {
 				validator.getInvalidStateInfo(FieldValidator.FieldType.GOOGLE_ID, googleId) + EOL +
 				validator.getInvalidStateInfo(FieldValidator.FieldType.EMAIL, email) + EOL +
 				validator.getInvalidStateInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
-		
+		//No validation for isInstructor and createdAt fields.
 		return errorMessage.trim();
 	}
 	

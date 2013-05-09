@@ -3,6 +3,9 @@ package teammates.common.datatransfer;
 import java.util.Date;
 
 import teammates.common.Common;
+import static teammates.common.Common.EOL;
+import teammates.common.FieldValidator;
+import teammates.common.FieldValidator.FieldType;
 import teammates.storage.entity.Course;
 
 public class CourseAttributes extends EntityAttributes {
@@ -12,9 +15,9 @@ public class CourseAttributes extends EntityAttributes {
 
 	public static final int COURSE_NAME_MAX_LENGTH = 64;
 	
-	public static final String ERROR_FIELD_ID = "Course ID cannot be null or empty\n";
+	public static final String ERROR_FIELD_ID = "Course ID cannot be null or empty";
 	public static final String ERROR_ID_TOOLONG = "Course ID cannot be more than " + Common.COURSE_ID_MAX_LENGTH + " characters\n";
-	public static final String ERROR_ID_INVALIDCHARS = "Course ID can have only alphabets, numbers, dashes, underscores, and dollar sign\n";
+	public static final String ERROR_ID_INVALIDCHARS = "Course ID can have only alphabets, numbers, dashes, underscores, and dollar sign";
 	public static final String ERROR_FIELD_NAME = "Course name cannot be null or empty\n";
 	public static final String ERROR_NAME_TOOLONG = "Course name cannot be more than " + COURSE_NAME_MAX_LENGTH + " characters\n";
 	
@@ -45,7 +48,8 @@ public class CourseAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
-		String errorMessage = "";
+		FieldValidator validator = new FieldValidator();
+		String errorMessage = validator.getInvalidStateInfo(FieldType.COURSE_NAME, name) + EOL;
 
 		if (!Common.isValidString(id)) {
 			errorMessage += ERROR_FIELD_ID;
@@ -58,14 +62,7 @@ public class CourseAttributes extends EntityAttributes {
 				errorMessage += ERROR_ID_INVALIDCHARS;
 			}
 		}
-
-		// Validate name not null, empty and less than max length
-		if (!Common.isValidName(name)) {
-			errorMessage += ERROR_FIELD_NAME;
-		} else if (name.length() > COURSE_NAME_MAX_LENGTH) {
-			errorMessage += ERROR_NAME_TOOLONG;
-		}
 		
-		return errorMessage;
+		return errorMessage.trim();
 	}
 }

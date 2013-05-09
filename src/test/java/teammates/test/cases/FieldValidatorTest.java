@@ -1,9 +1,10 @@
 package teammates.test.cases;
 
-import static org.testng.AssertJUnit.*;
-
-import org.testng.annotations.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.FieldValidator.*;
+
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
@@ -14,6 +15,9 @@ public class FieldValidatorTest {
 	
 	@Test
 	public void testInvalidStateInfo_PERSON_NAME() {
+		
+		/* This method is used to cover getInvalidStateInfo_NAME_STRING(String, String, int) 
+		which is reused in several other methods. */
 
 		verifyAssertError("null value", FieldType.PERSON_NAME, null);
 		verifyAssertError("white space value", FieldType.PERSON_NAME, "  \t ");
@@ -43,57 +47,46 @@ public class FieldValidatorTest {
 				tooLongName, 
 				String.format(PERSON_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
 		
-		String nameWithOneInvalidChar = "adam *";
-		testOnce_PERSON_NAME("invalid: disallowed symbol",
-				nameWithOneInvalidChar, 
-				String.format(PERSON_NAME_ERROR_MESSAGE, nameWithOneInvalidChar, REASON_INCORRECT_FORMAT));
-		
-		String nameWithManyInvalidChars = "_adam$ * [first year]";
-		testOnce_PERSON_NAME("invalid: many disallowed symbols",
-				nameWithManyInvalidChars, 
-				String.format(PERSON_NAME_ERROR_MESSAGE, nameWithManyInvalidChars, REASON_INCORRECT_FORMAT));
 	}
 	
 	@Test
 	public void testInvalidStateInfo_INSTITUTE_NAME() {
 		
-		verifyAssertError("null value", FieldType.INSTITUTE_NAME, null);
-		verifyAssertError("white space value", FieldType.INSTITUTE_NAME, "  \t ");
-		verifyAssertError("untrimmed value", FieldType.INSTITUTE_NAME, "  abc ");
-		
+		//Testing intensity is less here because the code indirectly executed by 
+		// this method is already covered in another test method.
+
+		// test one valid case
 		testOnce_INSTITUTE_NAME("valid: typical name",
 				"National University of Singapore", 
 				"");
 		
-		testOnce_INSTITUTE_NAME("valid: typical name with allowed symbols",
-				"3rd Nat. & Univer-sity/city, (S'pore)", 
-				"");
-		
-		String maxLengthName = Common.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH);
-		testOnce_INSTITUTE_NAME("valid: max length name", 
-				maxLengthName, 
-				"");
-
-		String emptyName = "";
-		testOnce_INSTITUTE_NAME("invalid: empty string",
-				emptyName, 
-				String.format(INSTITUTE_NAME_ERROR_MESSAGE, emptyName,	REASON_EMPTY));
-		
-		String tooLongName = maxLengthName + "x";
+		//test one invalid case
+		String tooLongName = Common.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH+1);
 		testOnce_INSTITUTE_NAME("invalid: too long",
 				tooLongName, 
 				String.format(INSTITUTE_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
 		
-		String nameWithOneInvalidChar = "^ uni";
-		testOnce_INSTITUTE_NAME("invalid: one disallowed symbol",
-				nameWithOneInvalidChar, 
-				String.format(INSTITUTE_NAME_ERROR_MESSAGE, nameWithOneInvalidChar, REASON_INCORRECT_FORMAT));
-		
-		String nameWithManyInvalidChars = "_uni$ * #private @city";
-		testOnce_INSTITUTE_NAME("invalid: many disallowed symbols",
-				nameWithManyInvalidChars, 
-				String.format(INSTITUTE_NAME_ERROR_MESSAGE, nameWithManyInvalidChars, REASON_INCORRECT_FORMAT));
 	}
+	
+	@Test
+	public void testInvalidStateInfo_COURSE_NAME() {
+		
+		//Testing intensity is less here because the code indirectly executed by 
+		// this method is already covered in another test method.
+
+		// test one valid case
+		testOnce(FieldType.COURSE_NAME, "valid: typical name",
+				"Software Engineering - '15 Summer (tutorial)", 
+				"");
+		
+		//test one invalid case
+		String tooLongName = Common.generateStringOfLength(COURSE_NAME_MAX_LENGTH+1);
+		testOnce(FieldType.COURSE_NAME, "invalid: too long",
+				tooLongName, 
+				String.format(COURSE_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
+		
+	}
+
 
 	@Test
 	public void testInvalidStateInfo_GOOGLE_ID() {

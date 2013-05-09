@@ -1,9 +1,13 @@
 package teammates.test.cases;
 
+import static teammates.common.FieldValidator.COURSE_NAME_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_TOO_LONG;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import org.testng.AssertJUnit;
+import static org.testng.AssertJUnit.*;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 
@@ -47,9 +51,12 @@ public class CourseDataTest extends BaseTestCase {
 		// FAIL : Name null
 		c.id = "valid-id";
 		c.name = null;
-		AssertJUnit.assertFalse(c.isValid());
-		AssertJUnit.assertEquals(c.getInvalidStateInfo(), CourseAttributes.ERROR_FIELD_NAME);
-	
+		try {
+			c.isValid();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e) {
+			assertTrue(true); //expected
+		}
 		
 		// SUCCESS: Name at max length
 		String veryLongName = Common.generateStringOfLength(CourseAttributes.COURSE_NAME_MAX_LENGTH);
@@ -59,7 +66,9 @@ public class CourseDataTest extends BaseTestCase {
 		// FAIL : Name too long
 		c.name += "e";
 		AssertJUnit.assertFalse(c.isValid());
-		AssertJUnit.assertEquals(c.getInvalidStateInfo(), CourseAttributes.ERROR_NAME_TOOLONG);
+		AssertJUnit.assertEquals(
+				c.getInvalidStateInfo(), 
+				String.format(COURSE_NAME_ERROR_MESSAGE, c.name, REASON_TOO_LONG));
 	}
 	
 	@Test
