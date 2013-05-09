@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Instructor;
@@ -17,10 +18,10 @@ public class InstructorAttributes extends EntityAttributes {
 	// New
 	public String courseId;
 	
-	public static final String ERROR_FIELD_ID = "Instructor ID is invalid\n";
+	public static final String ERROR_FIELD_ID = "Instructor ID is invalid";
 	public static final String ERROR_FIELD_NAME = "Instructor name cannot be null or empty\n";
-	public static final String ERROR_FIELD_EMAIL = "Instructor email is invalid\n";
-	public static final String ERROR_FIELD_COURSEID = "Course ID is invalid\n";
+	public static final String ERROR_FIELD_EMAIL = "Instructor email is invalid";
+	public static final String ERROR_FIELD_COURSEID = "Course ID is invalid";
 	public static final String ERROR_INSTRUCTOR_LINE_NULL = "Instructor line was null";
 	public static final String ERROR_INFORMATION_INCORRECT = "Please enter information in the format: GoogleID | Name | Email\n";
 
@@ -64,13 +65,11 @@ public class InstructorAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
-		String errorMessage = new FieldValidator().getInvalidStateInfo(
-				FieldValidator.FieldType.PERSON_NAME, name);
+		FieldValidator validator = new FieldValidator();
+		String errorMessage = 
+				validator.getInvalidStateInfo(FieldValidator.FieldType.PERSON_NAME, name) + EOL+
+				validator.getInvalidStateInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
 
-		if (!Common.isValidGoogleId(googleId)) {
-			errorMessage += ERROR_FIELD_ID;
-		}
-		
 		if (!Common.isValidCourseId(courseId)) {
 			errorMessage += ERROR_FIELD_COURSEID;
 		}
@@ -79,6 +78,6 @@ public class InstructorAttributes extends EntityAttributes {
 			errorMessage += ERROR_FIELD_EMAIL;
 		}
 
-		return errorMessage;
+		return errorMessage.trim();
 	}
 }

@@ -1,6 +1,8 @@
 package teammates.test.cases;
 
+import static teammates.common.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_DISALLOWED_CHAR;
 import static teammates.common.FieldValidator.REASON_EMPTY;
 
 import org.testng.annotations.AfterClass;
@@ -13,6 +15,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
+import static teammates.common.Common.EOL;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -311,7 +314,9 @@ public class AccountsDbTest extends BaseTestCase {
 			accountsDb.createInstructor(i);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(a.getMessage(), InstructorAttributes.ERROR_FIELD_ID);
+			AssertJUnit.assertEquals(
+					a.getMessage(), 
+					String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_DISALLOWED_CHAR));
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}
@@ -372,7 +377,7 @@ public class AccountsDbTest extends BaseTestCase {
 			accountsDb.updateInstructor(instructorToEdit);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(String.format(PERSON_NAME_ERROR_MESSAGE, "",	REASON_EMPTY) + InstructorAttributes.ERROR_FIELD_EMAIL, 
+			AssertJUnit.assertEquals(String.format(PERSON_NAME_ERROR_MESSAGE, "",	REASON_EMPTY) + EOL + InstructorAttributes.ERROR_FIELD_EMAIL, 
 					a.getMessage());
 		}
 		
