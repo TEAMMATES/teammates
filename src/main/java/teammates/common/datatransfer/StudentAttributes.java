@@ -51,21 +51,12 @@ public class StudentAttributes extends EntityAttributes {
 
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
 
-	public static final int STUDENT_NAME_MAX_LENGTH = 40;
-	public static final int TEAM_NAME_MAX_LENGTH = 25;
-	public static final int COMMENTS_MAX_LENGTH = 500;
-	
+		
 	public static final String ERROR_ENROLL_LINE_NULL = "Enroll line was null\n";
 	public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
 	public static final String ERROR_ENROLL_LINE_TOOFEWPARTS = "Enroll line had too few parts\n";
 	public static final String ERROR_ENROLL_LINE_TOOMANYPARTS = "Enroll line had too many parts\n";
-	public static final String ERROR_FIELD_NAME = "Student name cannot be null or empty\n";
-	public static final String ERROR_NAME_TOOLONG = "Student name cannot be longer than " + STUDENT_NAME_MAX_LENGTH + " characters\n";
-	public static final String ERROR_TEAMNAME_TOOLONG = "Team name cannot be longer than " + TEAM_NAME_MAX_LENGTH + " characters";
-	public static final String ERROR_FIELD_EMAIL = "Student email is invalid";
-	public static final String ERROR_FIELD_COURSE = "Student must belong to a valid course";
-	public static final String ERROR_COMMENTS_TOOLONG = "Comments cannot be longer than " + COMMENTS_MAX_LENGTH + " characters";
-	
+		
 	public StudentAttributes(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();

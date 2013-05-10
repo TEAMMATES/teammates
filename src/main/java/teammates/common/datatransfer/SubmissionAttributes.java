@@ -44,11 +44,6 @@ public class SubmissionAttributes extends EntityAttributes {
 
 	public transient int normalizedToInstructor = Common.UNINITIALIZED_INT;
 	
-	public static final String ERROR_FIELD_COURSE = "Submission must belong to a valid course\n";
-	public static final String ERROR_FIELD_EVALUATION = "Submission must belong to a valid evaluation\n";
-	public static final String ERROR_FIELD_REVIEWEE = "Submission reviewee should be a valid email";
-	public static final String ERROR_FIELD_REVIEWER = "Submission reviewer should be a valid email";
-	
 	public SubmissionAttributes() {
 
 	}

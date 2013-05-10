@@ -134,7 +134,7 @@ public class StudentTest extends BaseTestCase {
 				invalidStudent.getInvalidStateInfo());
 
 		// FAIL : team name too long
-		String longTeamName = Common.generateStringOfLength(StudentAttributes.TEAM_NAME_MAX_LENGTH + 1);
+		String longTeamName = Common.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
 		line = longTeamName + "|name|e@e.com|c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
@@ -143,7 +143,7 @@ public class StudentTest extends BaseTestCase {
 				invalidStudent.getInvalidStateInfo());
 		
 		// FAIL : student name too long
-		String longStudentName = Common.generateStringOfLength(StudentAttributes.STUDENT_NAME_MAX_LENGTH + 1);
+		String longStudentName = Common.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 		line = "t1|" + longStudentName + "|e@e.com|c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
@@ -159,7 +159,7 @@ public class StudentTest extends BaseTestCase {
 				invalidStudent.getInvalidStateInfo());
 		
 		// FAIL : comment too long
-		String longComment = Common.generateStringOfLength(StudentAttributes.COMMENTS_MAX_LENGTH + 1);
+		String longComment = Common.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
 		line = "t1|name|e@e.com|" + longComment;
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());

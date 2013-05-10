@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -139,14 +140,14 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 		String shortCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH);
 		String longCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH+1);
 		
-		String shortCourseName = Common.generateStringOfLength(CourseAttributes.COURSE_NAME_MAX_LENGTH);
-		String longCourseName = Common.generateStringOfLength(CourseAttributes.COURSE_NAME_MAX_LENGTH+1);
+		String shortCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
+		String longCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH+1);
 		
 		assertEquals(shortCourseId, bi.fillInCourseID(shortCourseId));
 		assertEquals(longCourseId.substring(0, Common.COURSE_ID_MAX_LENGTH), bi.fillInCourseID(longCourseId));
 		
 		assertEquals(shortCourseName, bi.fillInCourseName(shortCourseName));
-		assertEquals(longCourseName.substring(0, CourseAttributes.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
+		assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));
 
 		______TS("testInstructoraddCourseWithDuplicateIdFailed");
 		

@@ -27,12 +27,6 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
 
-	public static final String ERROR_FIELD_COURSE = "Evaluation must belong to a valid course";
-	public static final String ERROR_FIELD_NAME = "Evaluation name cannot be null or empty\n";
-	public static final String ERROR_NAME_TOOLONG = "Evaluation name cannot be more than "
-			+ EVALUATION_NAME_MAX_LENGTH + " characters\n";
-	public static final String ERROR_FIELD_STARTTIME = "Evaluation start time cannot be null";
-	public static final String ERROR_FIELD_ENDTIME = "Evaluation end time cannot be null";
 	public static final String ERROR_END_BEFORE_START = "Evaluation end time cannot be earlier than start time";
 	public static final String ERROR_PUBLISHED_BEFORE_END = "Evaluation cannot be published before end time";
 	public static final String ERROR_ACTIVATED_BEFORE_START = "Evaluation cannot be activated before start time";

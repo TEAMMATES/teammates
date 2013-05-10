@@ -14,13 +14,8 @@ public class AccountAttributes extends EntityAttributes {
 	public boolean isInstructor;
 	public String email;
 	public String institute;
-	
 	public Date createdAt;
 	
-	public static final String ERROR_FIELD_ID = "GoogleID Field is invalid\n";
-	public static final String ERROR_FIELD_NAME = "Name field cannot be null or empty\n";
-	public static final String ERROR_FIELD_EMAIL = "Email Field is invalid\n";
-	public static final String ERROR_FIELD_INSTITUTE = "Institute field cannot be null or empty\n";
 	
 	public AccountAttributes(Account a) {
 		googleId = a.getGoogleId();

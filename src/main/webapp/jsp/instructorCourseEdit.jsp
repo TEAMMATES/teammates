@@ -1,5 +1,6 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
+<%@ page import="teammates.common.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEditHelper"%>
 <%
@@ -66,7 +67,7 @@
 							value="<%=(helper.course.name==null ? "" : helper.course.name)%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
-							maxlength=<%=CourseAttributes.COURSE_NAME_MAX_LENGTH%> tabindex=2 disabled="disabled"/></td>
+							maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2 disabled="disabled"/></td>
 					</tr>
 					<tr>
 						<td class="label bold">Instructors:</td>

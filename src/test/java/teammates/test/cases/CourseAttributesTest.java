@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.AssertJUnit;
 import static org.testng.AssertJUnit.*;
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.common.datatransfer.CourseAttributes;
 
 public class CourseAttributesTest extends BaseTestCase {
@@ -69,7 +70,7 @@ public class CourseAttributesTest extends BaseTestCase {
 		}
 		
 		// SUCCESS: Name at max length
-		String veryLongName = Common.generateStringOfLength(CourseAttributes.COURSE_NAME_MAX_LENGTH);
+		String veryLongName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
 		c.name = veryLongName;
 		AssertJUnit.assertTrue(c.isValid());
 		
