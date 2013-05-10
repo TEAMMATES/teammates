@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.Date;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
@@ -48,6 +49,9 @@ public class CourseAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
+		Assumption.assertTrue(id!=null);
+		Assumption.assertTrue(name!=null);
+		
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
 				validator.getValidityInfo(FieldType.COURSE_ID, id) + EOL+

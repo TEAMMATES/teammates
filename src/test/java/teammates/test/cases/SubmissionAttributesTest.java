@@ -27,6 +27,8 @@ public class SubmissionAttributesTest extends BaseTestCase {
 		s.reviewer = "valid.reviewer@gmail.com";
 		s.reviewee = "valid.reviewee@gmail.com";
 		s.team = "valid-team";
+		s.justification = new Text("");
+		s.p2pFeedback = new Text("");
 
 		// SUCCESS : minimal properties, still valid
 		AssertJUnit.assertTrue(s.getInvalidStateInfo(), s.isValid());

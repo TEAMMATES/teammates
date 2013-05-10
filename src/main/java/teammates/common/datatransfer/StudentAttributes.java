@@ -194,11 +194,20 @@ public class StudentAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
+		//id is allowed to be null when the student is not registered
+		Assumption.assertTrue(name!=null);
+		Assumption.assertTrue(email!=null);
+		Assumption.assertTrue(course!=null);
+		Assumption.assertTrue(team!=null);
+		Assumption.assertTrue(comments!=null);
+		
 		FieldValidator validator = new FieldValidator();
 		
 		String errorMessage = 
+				(id==null || id.isEmpty()? "": validator.getValidityInfo(FieldType.GOOGLE_ID, id) + EOL) +
 				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
 				validator.getValidityInfo(FieldType.EMAIL, email) + EOL +
+				//team and comments are allowed to be empty
 				(team.isEmpty()? "": validator.getValidityInfo(FieldType.TEAM_NAME, team) + EOL) +
 				(comments.isEmpty()? "": validator.getValidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments) + EOL) +
 				validator.getValidityInfo(FieldType.PERSON_NAME, name) + EOL;

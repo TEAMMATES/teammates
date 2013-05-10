@@ -64,12 +64,11 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.startTime = null;
 		try {
 			evaluationsDb.createEvaluation(e);
-			Assert.fail();
-		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(a.getMessage(), EvaluationAttributes.ERROR_FIELD_STARTTIME);
-		} catch (EntityAlreadyExistsException ex) {
-			Assert.fail();
+			signalFailureToDetectAssumptionViolation();
+		} catch (AssertionError e1) {
+			ignoreExpectedException();
 		}
+	
 		
 		// Null params check:
 		try {

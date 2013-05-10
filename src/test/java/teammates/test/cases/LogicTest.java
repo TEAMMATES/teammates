@@ -4605,6 +4605,7 @@ public class LogicTest extends BaseTestCase {
 			student.team = teamName;
 			student.course = courseId;
 			student.comments = "";
+			student.id="";
 			logic.createStudent(student);
 		}
 		// create evaluation

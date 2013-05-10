@@ -4,6 +4,7 @@ import static teammates.common.Common.EOL;
 
 import java.util.logging.Logger;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
@@ -126,10 +127,21 @@ public class SubmissionAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
+		
+		Assumption.assertTrue(course != null);
+		Assumption.assertTrue(evaluation != null);
+		Assumption.assertTrue(team != null);
+		Assumption.assertTrue(reviewer != null);
+		Assumption.assertTrue(reviewee != null);
+		Assumption.assertTrue(justification != null);
+		
+		//p2pFeedback can be null if p2p feedback is not enabled;
+		
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
 				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
 				validator.getValidityInfo(FieldType.EVALUATION_NAME, evaluation) + EOL +
+				(team.isEmpty()? "": validator.getValidityInfo(FieldType.TEAM_NAME, team) + EOL) +
 				validator.getValidityInfo(FieldType.EMAIL, 
 						"email address for the student receiving the evaluation", reviewee) + EOL+
 				validator.getValidityInfo(FieldType.EMAIL, 

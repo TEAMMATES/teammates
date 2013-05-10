@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -77,6 +79,8 @@ public class EvaluationsLogic {
 		
 		SubmissionAttributes submissionToAdd = new SubmissionAttributes(courseId,
 				evaluationName, newTeam, studentEmail, studentEmail);
+		submissionToAdd.p2pFeedback = new Text("");
+		submissionToAdd.justification = new Text("");
 		listOfSubmissionsToAdd.add(submissionToAdd);
 		students.remove(studentEmail);
 
@@ -86,11 +90,15 @@ public class EvaluationsLogic {
 			// To
 			submissionToAdd = new SubmissionAttributes(courseId, evaluationName,
 					newTeam, peer, studentEmail);
+			submissionToAdd.p2pFeedback = new Text("");
+			submissionToAdd.justification = new Text("");
 			listOfSubmissionsToAdd.add(submissionToAdd);
 
 			// From
 			submissionToAdd = new SubmissionAttributes(courseId, evaluationName,
 					newTeam, studentEmail, peer);
+			submissionToAdd.p2pFeedback = new Text("");
+			submissionToAdd.justification = new Text("");
 			listOfSubmissionsToAdd.add(submissionToAdd);
 		}
 		
@@ -167,6 +175,8 @@ public class EvaluationsLogic {
 				if (sx.team.equals(sy.team)) {
 					SubmissionAttributes submissionToAdd = new SubmissionAttributes(
 							e.course, e.name, sx.team, sx.email, sy.email);
+					submissionToAdd.p2pFeedback = new Text("");
+					submissionToAdd.justification = new Text("");
 					listOfSubmissionsToAdd.add(submissionToAdd);
 				}
 			}

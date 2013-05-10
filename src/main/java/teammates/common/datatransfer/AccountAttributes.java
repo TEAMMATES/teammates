@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.Date;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
@@ -11,8 +12,6 @@ public class AccountAttributes extends EntityAttributes {
 	public String googleId;
 	public String name;
 	public boolean isInstructor;
-	
-	// Other Information
 	public String email;
 	public String institute;
 	
@@ -50,6 +49,12 @@ public class AccountAttributes extends EntityAttributes {
 	}
 	
 	public String getInvalidStateInfo() {
+		
+		Assumption.assertTrue(googleId!=null);
+		Assumption.assertTrue(name!=null);
+		Assumption.assertTrue(email!=null);
+		Assumption.assertTrue(institute!=null);
+		
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
 				validator.getValidityInfo(FieldValidator.FieldType.PERSON_NAME, name) + EOL +

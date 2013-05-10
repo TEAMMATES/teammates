@@ -187,14 +187,22 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		// FAIL : no start time
 		e.name = "valid name";
 		e.startTime = null;
-		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_FIELD_STARTTIME);
+		try {
+			e.getInvalidStateInfo();
+			signalFailureToDetectAssumptionViolation();
+		} catch (AssertionError e1) {
+			ignoreExpectedException();
+		}
 		
 		// FAIL : no end time
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = null;
-		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_FIELD_ENDTIME);
+		try {
+			e.getInvalidStateInfo();
+			signalFailureToDetectAssumptionViolation();
+		} catch (AssertionError e1) {
+			ignoreExpectedException();
+		}
 		
 		// SUCCESS : end == start
 		e.endTime = Common.getDateOffsetToCurrentTime(1);

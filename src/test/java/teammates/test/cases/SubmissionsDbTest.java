@@ -45,6 +45,9 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.team = "team1";
 		s.reviewee = "student1@gmail.com";
 		s.reviewer = "student2@gmail.com";
+		s.p2pFeedback = new Text("");
+		s.justification = new Text("");
+		
 		submissionsDb.createSubmission(s);
 		
 		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380) 
@@ -54,6 +57,8 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.team = "team2";
 		s.reviewee = "student1@gmail.com";
 		s.reviewer = "student2@gmail.com";
+		s.p2pFeedback = new Text("");
+		s.justification = new Text("");
 		submissionsDb.createSubmission(s);
 			
 		// FAIL : duplicate
@@ -203,6 +208,8 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.team = "team1";
 		s.reviewee = "student1@gmail.com";
 		s.reviewer = "student2@gmail.com";
+		s.p2pFeedback = new Text("");
+		s.justification = new Text("");
 		
 		try {
 			submissionsDb.createSubmission(s);

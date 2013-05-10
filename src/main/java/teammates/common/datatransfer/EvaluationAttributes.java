@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
@@ -104,19 +105,18 @@ public class EvaluationAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
+		
+		Assumption.assertTrue(course!=null);
+		Assumption.assertTrue(name!=null);
+		Assumption.assertTrue(instructions!=null);
+		Assumption.assertTrue(startTime!=null);
+		Assumption.assertTrue(endTime!=null);
+		
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
 				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
 				validator.getValidityInfo(FieldType.EVALUATION_NAME, name) + EOL+
 				(instructions.isEmpty() ? "" : validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions)) + EOL;
-
-		if (this.startTime == null) {
-			errorMessage += ERROR_FIELD_STARTTIME;
-		}
-
-		if (this.endTime == null) {
-			errorMessage += ERROR_FIELD_ENDTIME;
-		}
 
 		// Check time values are valid
 		if (this.startTime != null && this.endTime != null) {
