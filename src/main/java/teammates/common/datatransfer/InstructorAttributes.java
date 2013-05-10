@@ -68,10 +68,10 @@ public class InstructorAttributes extends EntityAttributes {
 	public String getInvalidStateInfo() {
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
-				validator.getInvalidStateInfo(FieldType.GOOGLE_ID, googleId)+ EOL+
-				validator.getInvalidStateInfo(FieldType.COURSE_ID, courseId)+ EOL+
-				validator.getInvalidStateInfo(FieldType.PERSON_NAME, name) + EOL+
-				validator.getInvalidStateInfo(FieldType.EMAIL, email);
+				validator.getValidityInfo(FieldType.GOOGLE_ID, googleId)+ EOL+
+				validator.getValidityInfo(FieldType.COURSE_ID, courseId)+ EOL+
+				validator.getValidityInfo(FieldType.PERSON_NAME, name) + EOL+
+				validator.getValidityInfo(FieldType.EMAIL, email);
 
 		return errorMessage.trim();
 	}

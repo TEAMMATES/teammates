@@ -49,6 +49,13 @@ public class FieldValidator {
 					"The value of "+EVALUATION_NAME_FIELD_NAME+" should be no longer than "+
 					EVALUATION_NAME_MAX_LENGTH+" characters. It should not be empty.";
 	
+	private static final String EVALUATION_INSTRUCTIONS_FIELD_NAME = "instructions for an evaluation";
+	public static final int EVALUATION_INSTRUCTIONS_MAX_LENGTH = 500;
+	public static final String EVALUATION_INSTRUCTIONS_ERROR_MESSAGE = 
+			"\"%s\" is not acceptable to TEAMMATES as "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" because it %s. " +
+					"The value of "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" should be no longer than "+
+					EVALUATION_INSTRUCTIONS_MAX_LENGTH+" characters. It should not be empty.";
+	
 	private static final String TEAM_NAME_FIELD_NAME = "a team name";
 	public static final int TEAM_NAME_MAX_LENGTH = 25;
 	public static final String TEAM_NAME_ERROR_MESSAGE = 
@@ -79,39 +86,48 @@ public class FieldValidator {
 
 
 	public enum FieldType {
-		PERSON_NAME, INSTITUTE_NAME, GOOGLE_ID, COURSE_ID, EMAIL, COURSE_NAME, EVALUATION_NAME, TEAM_NAME		
+		PERSON_NAME, INSTITUTE_NAME, GOOGLE_ID, COURSE_ID, EMAIL, COURSE_NAME, EVALUATION_NAME, EVALUATION_INSTRUCTIONS, TEAM_NAME
 	}
 
-	public String getInvalidStateInfo(FieldType fieldType, Object value) {
-		return getInvalidStateInfo(fieldType, "", value);
+	public String getValidityInfo(FieldType fieldType, Object value) {
+		return getValidityInfo(fieldType, "", value);
 	}
 	
-	public String getInvalidStateInfo(FieldType fieldType, String fieldName, Object value) {
+	public String getValidityInfo(FieldType fieldType, String fieldName, Object value) {
 		String returnValue = null;
 		switch (fieldType) {
 		case PERSON_NAME:
-			returnValue = getInvalidStateInfo_PERSON_NAME((String)value);
+			returnValue = getValidityInfoForSizeCappedString(
+			PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String)value);
 			break;
 		case INSTITUTE_NAME:
-			returnValue = getInvalidStateInfo_INSTITUTE_NAME((String)value);
+			returnValue = getValidityInfoForSizeCappedString(
+			INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String)value);
 			break;
 		case COURSE_NAME:
-			returnValue = getInvalidStateInfo_COURSE_NAME((String)value);
+			returnValue = getValidityInfoForSizeCappedString(
+			COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String)value);
 			break;
 		case EVALUATION_NAME:
-			returnValue = getInvalidStateInfo_EVALUATION_NAME((String)value);
+			returnValue = getValidityInfoForSizeCappedString(
+			EVALUATION_NAME_FIELD_NAME, EVALUATION_NAME_MAX_LENGTH, (String)value);
+			break;
+		case EVALUATION_INSTRUCTIONS:
+			returnValue = getValidityInfoForSizeCappedString(
+					EVALUATION_INSTRUCTIONS_FIELD_NAME, EVALUATION_INSTRUCTIONS_MAX_LENGTH, (String)value);
 			break;
 		case TEAM_NAME:
-			returnValue = getInvalidStateInfo_TEAM_NAME((String)value);
+			returnValue = getValidityInfoForSizeCappedString(
+			TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String)value);
 			break;
 		case GOOGLE_ID:
 			returnValue = getInvalidStateInfo_GOOGLE_ID((String)value);
 			break;
 		case COURSE_ID:
-			returnValue = getInvalidStateInfo_COURSE_ID((String)value);
+			returnValue = getValidityInfo_COURSE_ID((String)value);
 			break;
 		case EMAIL:
-			returnValue = getInvalidStateInfo_EMAIL((String)value);
+			returnValue = getValidityInfo_EMAIL((String)value);
 			break;
 		default:
 			throw new AssertionError("Unrecognized field type : " + fieldType);
@@ -141,7 +157,7 @@ public class FieldValidator {
 		return "";
 	}
 	
-	private String getInvalidStateInfo_COURSE_ID(String value) {
+	private String getValidityInfo_COURSE_ID(String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
@@ -156,7 +172,7 @@ public class FieldValidator {
 		return "";
 	}
 	
-	private String getInvalidStateInfo_EMAIL(String value) {
+	private String getValidityInfo_EMAIL(String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
@@ -171,32 +187,7 @@ public class FieldValidator {
 		return "";
 	}
 
-	private String getInvalidStateInfo_PERSON_NAME(String value) {
-		return getInvalidStateInfo_NAME_STRING(
-				PERSON_NAME_FIELD_NAME, value, PERSON_NAME_MAX_LENGTH);
-	}
-
-	private String getInvalidStateInfo_INSTITUTE_NAME(String value) {
-		return getInvalidStateInfo_NAME_STRING(
-				INSTITUTE_NAME_FIELD_NAME, value, INSTITUTE_NAME_MAX_LENGTH);
-	}
-	
-	private String getInvalidStateInfo_COURSE_NAME(String value) {
-		return getInvalidStateInfo_NAME_STRING(
-				COURSE_NAME_FIELD_NAME, value, COURSE_NAME_MAX_LENGTH);
-	}
-	
-	private String getInvalidStateInfo_TEAM_NAME(String value) {
-		return getInvalidStateInfo_NAME_STRING(
-				TEAM_NAME_FIELD_NAME, value, TEAM_NAME_MAX_LENGTH);
-	}
-	
-	private String getInvalidStateInfo_EVALUATION_NAME(String value) {
-		return getInvalidStateInfo_NAME_STRING(
-				EVALUATION_NAME_FIELD_NAME, value, EVALUATION_NAME_MAX_LENGTH);
-	}
-	
-	private String getInvalidStateInfo_NAME_STRING(String fieldName, String value, int maxLength) {
+	public String getValidityInfoForSizeCappedString(String fieldName, int maxLength, String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));

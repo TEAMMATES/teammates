@@ -106,8 +106,9 @@ public class EvaluationAttributes extends EntityAttributes {
 	public String getInvalidStateInfo() {
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
-				validator.getInvalidStateInfo(FieldType.COURSE_ID, course) + EOL+
-				validator.getInvalidStateInfo(FieldType.EVALUATION_NAME, name) + EOL;
+				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
+				validator.getValidityInfo(FieldType.EVALUATION_NAME, name) + EOL+
+				(instructions.isEmpty() ? "" : validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions)) + EOL;
 
 		if (this.startTime == null) {
 			errorMessage += ERROR_FIELD_STARTTIME;

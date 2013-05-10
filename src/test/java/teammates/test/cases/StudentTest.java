@@ -138,7 +138,9 @@ public class StudentTest extends BaseTestCase {
 		line = longTeamName + "|name|e@e.com|c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_TEAMNAME_TOOLONG);
+		assertEquals(
+				String.format(TEAM_NAME_ERROR_MESSAGE, longTeamName, REASON_TOO_LONG),
+				invalidStudent.getInvalidStateInfo());
 		
 		// FAIL : student name too long
 		String longStudentName = Common.generateStringOfLength(StudentAttributes.STUDENT_NAME_MAX_LENGTH + 1);

@@ -52,10 +52,10 @@ public class AccountAttributes extends EntityAttributes {
 	public String getInvalidStateInfo() {
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
-				validator.getInvalidStateInfo(FieldValidator.FieldType.PERSON_NAME, name) + EOL +
-				validator.getInvalidStateInfo(FieldValidator.FieldType.GOOGLE_ID, googleId) + EOL +
-				validator.getInvalidStateInfo(FieldValidator.FieldType.EMAIL, email) + EOL +
-				validator.getInvalidStateInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+				validator.getValidityInfo(FieldValidator.FieldType.PERSON_NAME, name) + EOL +
+				validator.getValidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId) + EOL +
+				validator.getValidityInfo(FieldValidator.FieldType.EMAIL, email) + EOL +
+				validator.getValidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
 		//No validation for isInstructor and createdAt fields.
 		return errorMessage.trim();
 	}

@@ -197,14 +197,11 @@ public class StudentAttributes extends EntityAttributes {
 		FieldValidator validator = new FieldValidator();
 		
 		String errorMessage = 
-				validator.getInvalidStateInfo(FieldType.COURSE_ID, course) + EOL+
-				validator.getInvalidStateInfo(FieldType.EMAIL, email) + EOL +
-				validator.getInvalidStateInfo(FieldType.PERSON_NAME, name) + EOL;
+				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
+				validator.getValidityInfo(FieldType.EMAIL, email) + EOL +
+				(team.isEmpty()? "": validator.getValidityInfo(FieldType.TEAM_NAME, team) + EOL) +
+				validator.getValidityInfo(FieldType.PERSON_NAME, name) + EOL;
 
-		if (team != null && team.length() > TEAM_NAME_MAX_LENGTH) {
-			errorMessage += ERROR_TEAMNAME_TOOLONG;
-		}
-		
 		if (comments != null && comments.length() > COMMENTS_MAX_LENGTH) {
 			errorMessage += ERROR_COMMENTS_TOOLONG;
 		}

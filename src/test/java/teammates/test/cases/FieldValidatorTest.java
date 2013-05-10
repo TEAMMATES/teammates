@@ -1,8 +1,8 @@
 package teammates.test.cases;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.FieldValidator.*;
+
 
 import org.testng.annotations.Test;
 
@@ -10,135 +10,134 @@ import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
 
-public class FieldValidatorTest {
+public class FieldValidatorTest extends BaseTestCase{
 	public FieldValidator validator = new FieldValidator();
 	
+	
 	@Test
-	public void testInvalidStateInfo_PERSON_NAME() {
+	public void testGetValidityInfoForSizeCappedString() {
 		
-		/* This method is used to cover getInvalidStateInfo_NAME_STRING(String, String, int) 
-		which is reused in several other methods. */
+		String typicalFieldName = "my field";
+		int typicalLength = 25;
+		
+		try {
+			validator.getValidityInfoForSizeCappedString(typicalFieldName, typicalLength, null);
+			signalFailureToDetectAssumptionViolation("not expected to be null");
+		} catch (AssertionError e) {
+			ignoreExpectedException(); 
+		}
+		
+		try {
+			validator.getValidityInfoForSizeCappedString(typicalFieldName, typicalLength, " abc ");
+			signalFailureToDetectAssumptionViolation("not expected to be untrimmed");
+		} catch (AssertionError e) {
+			ignoreExpectedException();
+		}
+		
+		int maxLength = 50;
+		assertEquals("valid: typical value", 
+				"",
+				validator.getValidityInfoForSizeCappedString(
+						typicalFieldName, 
+						maxLength, 
+						"Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
+		
+		assertEquals("valid: max length", 
+				"",
+				validator.getValidityInfoForSizeCappedString(
+						typicalFieldName, 
+						maxLength, 
+						Common.generateStringOfLength(maxLength)));
+		
+		String tooLongName = Common.generateStringOfLength(maxLength+1);
+		assertEquals("invalid: too long", 
+				String.format(
+						NAME_STRING_ERROR_MESSAGE, 
+						tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+				validator.getValidityInfoForSizeCappedString(
+						typicalFieldName, 
+						maxLength, 
+						tooLongName));
+		
+		
+		String emptyValue = "";
+		assertEquals("invalid: empty", 
+				String.format(
+						NAME_STRING_ERROR_MESSAGE, 
+						emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
+				validator.getValidityInfoForSizeCappedString(
+						typicalFieldName, 
+						maxLength, 
+						emptyValue));
+	}
 
-		verifyAssertError("null value", FieldType.PERSON_NAME, null);
-		verifyAssertError("white space value", FieldType.PERSON_NAME, "  \t ");
-		verifyAssertError("untrimmed value", FieldType.PERSON_NAME, "  abc ");
+	@Test
+	public void testGetValidityInfo_PERSON_NAME() {
 		
-		testOnce("valid: typical value", 
+		//NOTE 1: The SUT's work is done mostly in testGetValidityInfoForSizeCappedString,
+		//  which is already unit tested. Therefore, this method checks if the 
+		//  max length and the field name are handled correctly by SUT.
+		
+		runGenericTestCasesForCappedSizeStringTypeField(
 				FieldType.PERSON_NAME, 
-				"Adam Smith", 
-				"");
-		
-		testOnce("valid: name with allowed symbols", 
-				FieldType.PERSON_NAME, 
-				"Dr. Amy-B s/o O'br, & 2nd \t (alias 'JB')", 
-				"");
-		
-		String maxLengthName = Common.generateStringOfLength(PERSON_NAME_MAX_LENGTH);
-		testOnce("valid: max length value", 
-				FieldType.PERSON_NAME, 
-				maxLengthName, 
-				"");
-
-		String emptyName = "";
-		testOnce("invalid: empty string", 
-				FieldType.PERSON_NAME, 
-				emptyName, 
-				String.format(PERSON_NAME_ERROR_MESSAGE, emptyName,	REASON_EMPTY));
-		
-		
-		String tooLongName = maxLengthName + "x";
-		testOnce("invalid: too long", 
-				FieldType.PERSON_NAME, 
-				tooLongName, 
-				String.format(PERSON_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
-		
+				PERSON_NAME_MAX_LENGTH, 
+				PERSON_NAME_ERROR_MESSAGE);
 	}
 	
 	@Test
-	public void testInvalidStateInfo_INSTITUTE_NAME() {
+	public void testGetValidityInfo_INSTITUTE_NAME() {
 		
-		//Testing intensity is less here because the code indirectly executed by 
-		// this method is already covered in another test method.
-
-		// test one valid case, with field name
-		testOnce("valid: typical name", FieldType.INSTITUTE_NAME, 
-				"Instructor's institute name",
-				"National University of Singapore", 
-				"");
-		
-		//test one invalid case, with field name
-		String tooLongName = Common.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH+1);
-		testOnce("invalid: too long", FieldType.INSTITUTE_NAME,
-				"Instructor's institute name",
-				tooLongName, 
-				String.format(INSTITUTE_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
-		
+		//See NOTE 1.
+		runGenericTestCasesForCappedSizeStringTypeField(
+				FieldType.INSTITUTE_NAME, 
+				INSTITUTE_NAME_MAX_LENGTH, 
+				INSTITUTE_NAME_ERROR_MESSAGE);
 	}
 	
 	@Test
-	public void testInvalidStateInfo_COURSE_NAME() {
+	public void testGetValidityInfo_COURSE_NAME() {
 		
-		//Testing intensity is less here because the code indirectly executed by 
-		// this method is already covered in another test method.
-
-		// test one valid case
-		testOnce("valid: typical name", 
-				FieldType.COURSE_NAME,
-				"Software Engineering - '15 Summer (tutorial)", 
-				"");
-		
-		//test one invalid case
-		String tooLongName = Common.generateStringOfLength(COURSE_NAME_MAX_LENGTH+1);
-		testOnce("invalid: too long", 
-				FieldType.COURSE_NAME,
-				tooLongName, 
-				String.format(COURSE_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
-		
+		//See NOTE 1.
+		runGenericTestCasesForCappedSizeStringTypeField(
+				FieldType.COURSE_NAME, 
+				COURSE_NAME_MAX_LENGTH, 
+				COURSE_NAME_ERROR_MESSAGE);
 	}
 	
 	@Test
-	public void testInvalidStateInfo_TEAM_NAME() {
+	public void testGetValidityInfo_TEAM_NAME() {
 		
-		//Testing intensity is less here because the code indirectly executed by 
-		// this method is already covered in another test method.
+		//See NOTE 1.
+		runGenericTestCasesForCappedSizeStringTypeField(
+				FieldType.TEAM_NAME, 
+				TEAM_NAME_MAX_LENGTH, 
+				TEAM_NAME_ERROR_MESSAGE);
+		
+	}
 
-		// test one valid case
-		testOnce("valid: typical name", 
-				FieldType.TEAM_NAME,
-				"The A* Team", 
-				"");
+	@Test
+	public void testGetValidityInfo_EVALUATION_NAME() {
 		
-		//test one invalid case
-		String tooLongName = Common.generateStringOfLength(TEAM_NAME_MAX_LENGTH+1);
-		testOnce("invalid: too long", 
-				FieldType.TEAM_NAME,
-				tooLongName, 
-				String.format(TEAM_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
-		
+		//See NOTE 1.
+		runGenericTestCasesForCappedSizeStringTypeField(
+				FieldType.EVALUATION_NAME, 
+				EVALUATION_NAME_MAX_LENGTH, 
+				EVALUATION_NAME_ERROR_MESSAGE);
 	}
 	
 	@Test
-	public void testInvalidStateInfo_EVALUATION_NAME() {
+	public void testGetValidityInfo_EVAL_INSTRUCTIONS() {
 		
-		//Testing intensity is less here because the code indirectly executed by 
-		// this method is already covered in another test method.
-		
-		// test one valid case
-		testOnce("valid: typical name", FieldType.EVALUATION_NAME,
-				"First Peer Evaluation - 1 (trial)", 
-				"");
-		
-		//test one invalid case
-		String tooLongName = Common.generateStringOfLength(EVALUATION_NAME_MAX_LENGTH+1);
-		testOnce("invalid: too long", FieldType.EVALUATION_NAME,
-				tooLongName, 
-				String.format(EVALUATION_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
-		
+		//See NOTE 1.
+		runGenericTestCasesForCappedSizeStringTypeField(
+				FieldType.EVALUATION_INSTRUCTIONS, 
+				EVALUATION_INSTRUCTIONS_MAX_LENGTH, 
+				EVALUATION_INSTRUCTIONS_ERROR_MESSAGE);
 	}
 
 
 	@Test
-	public void testInvalidStateInfo_GOOGLE_ID() {
+	public void testGetValidityInfo_GOOGLE_ID() {
 		
 		verifyAssertError("null value", FieldType.GOOGLE_ID, null);
 		verifyAssertError("white space value", FieldType.GOOGLE_ID, "  \t ");
@@ -198,7 +197,7 @@ public class FieldValidatorTest {
 	}
 	
 	@Test
-	public void testInvalidStateInfo_EMAIL() {
+	public void testGetValidityInfo_EMAIL() {
 		
 		verifyAssertError("null value", FieldType.EMAIL, null);
 		verifyAssertError("white space value", FieldType.EMAIL, "  \t \n ");
@@ -254,7 +253,7 @@ public class FieldValidatorTest {
 	}
 	
 	@Test
-	public void testInvalidStateInfo_COURSE_ID() {
+	public void testGetValidityInfo_COURSE_ID() {
 		
 		verifyAssertError("null value", FieldType.COURSE_ID, null);
 		verifyAssertError("white space value", FieldType.COURSE_ID, "  \t \n ");
@@ -302,9 +301,31 @@ public class FieldValidatorTest {
 				String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 	}
 	
+	private void runGenericTestCasesForCappedSizeStringTypeField(FieldType fieldType, int maxSize, String errorMessageFormat) {
+		
+		String maxLengthValue = Common.generateStringOfLength(maxSize);
+		testOnce("valid: max length value", 
+				fieldType, 
+				maxLengthValue, 
+				"");
+		
+		String tooLongValue = maxLengthValue + "x";
+		testOnce("invalid: too long value, without fieldName parameter", 
+				fieldType, 
+				tooLongValue, 
+				String.format(errorMessageFormat, tooLongValue, REASON_TOO_LONG));
+		
+		String emptyValue = "";
+		testOnce("invalid: empty value, *with* fieldName parameter", 
+				fieldType,
+				"course name of the student",
+				emptyValue, 
+				String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
+	}
+
 	private void testOnce(String description, FieldType fieldType, String value, String expected) {
 		assertEquals(description,expected, 
-				validator.getInvalidStateInfo(fieldType, value));
+				validator.getValidityInfo(fieldType, value));
 	}
 	
 	private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
@@ -312,16 +333,16 @@ public class FieldValidatorTest {
 			expected = "Invalid "+ fieldName + ": " + expected;
 		}
 		assertEquals(description,expected, 
-				validator.getInvalidStateInfo(fieldType, fieldName, value));
+				validator.getValidityInfo(fieldType, fieldName, value));
 	}
 
 	private void verifyAssertError(String description, FieldType fieldType, String value) {
 		String errorMessage = "Did not throw the expected AssertionError for "+ description;
 		try {
-			validator.getInvalidStateInfo(fieldType, value);
-			throw new RuntimeException(errorMessage);
+			validator.getValidityInfo(fieldType, value);
+			signalFailureToDetectAssumptionViolation(errorMessage);
 		} catch (AssertionError e) {
-			assertTrue(true); //expected exception
+			ignoreExpectedException();
 		}
 	}
 	

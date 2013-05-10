@@ -128,11 +128,11 @@ public class SubmissionAttributes extends EntityAttributes {
 	public String getInvalidStateInfo() {
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
-				validator.getInvalidStateInfo(FieldType.COURSE_ID, course) + EOL+
-				validator.getInvalidStateInfo(FieldType.EVALUATION_NAME, evaluation) + EOL +
-				validator.getInvalidStateInfo(FieldType.EMAIL, 
+				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
+				validator.getValidityInfo(FieldType.EVALUATION_NAME, evaluation) + EOL +
+				validator.getValidityInfo(FieldType.EMAIL, 
 						"email address for the student receiving the evaluation", reviewee) + EOL+
-				validator.getInvalidStateInfo(FieldType.EMAIL, 
+				validator.getValidityInfo(FieldType.EMAIL, 
 						"email address for the student giving the evaluation", reviewer) + EOL;
 
 		return errorMessage.trim();

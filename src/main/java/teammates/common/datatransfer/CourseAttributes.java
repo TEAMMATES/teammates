@@ -50,8 +50,8 @@ public class CourseAttributes extends EntityAttributes {
 	public String getInvalidStateInfo() {
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
-				validator.getInvalidStateInfo(FieldType.COURSE_ID, id) + EOL+
-				validator.getInvalidStateInfo(FieldType.COURSE_NAME, name) + EOL;
+				validator.getValidityInfo(FieldType.COURSE_ID, id) + EOL+
+				validator.getValidityInfo(FieldType.COURSE_NAME, name) + EOL;
 
 		return errorMessage.trim();
 	}

@@ -1,11 +1,13 @@
 package teammates.test.cases;
 
 import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
@@ -346,6 +348,14 @@ public class BaseTestCase {
 		assertEquals(true, logic.getLoggedInUser().isStudent);
 		assertEquals(false, logic.getLoggedInUser().isInstructor);
 		assertEquals(false, logic.getLoggedInUser().isAdmin);
+	}
+
+	protected void signalFailureToDetectAssumptionViolation(String... messages) {
+		throw new RuntimeException("Assumption Violation not detected."+ Arrays.toString(messages));
+	}
+
+	protected void ignoreExpectedException() {
+		assertTrue(true);
 	}
 
 	protected static void print(String message) {
