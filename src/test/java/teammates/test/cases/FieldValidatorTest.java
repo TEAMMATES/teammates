@@ -97,6 +97,27 @@ public class FieldValidatorTest {
 	}
 	
 	@Test
+	public void testInvalidStateInfo_TEAM_NAME() {
+		
+		//Testing intensity is less here because the code indirectly executed by 
+		// this method is already covered in another test method.
+
+		// test one valid case
+		testOnce("valid: typical name", 
+				FieldType.TEAM_NAME,
+				"The A* Team", 
+				"");
+		
+		//test one invalid case
+		String tooLongName = Common.generateStringOfLength(TEAM_NAME_MAX_LENGTH+1);
+		testOnce("invalid: too long", 
+				FieldType.TEAM_NAME,
+				tooLongName, 
+				String.format(TEAM_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
+		
+	}
+	
+	@Test
 	public void testInvalidStateInfo_EVALUATION_NAME() {
 		
 		//Testing intensity is less here because the code indirectly executed by 
