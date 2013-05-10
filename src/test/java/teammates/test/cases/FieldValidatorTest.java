@@ -23,27 +23,32 @@ public class FieldValidatorTest {
 		verifyAssertError("white space value", FieldType.PERSON_NAME, "  \t ");
 		verifyAssertError("untrimmed value", FieldType.PERSON_NAME, "  abc ");
 		
-		testOnce_PERSON_NAME("valid: typical value",
+		testOnce("valid: typical value", 
+				FieldType.PERSON_NAME, 
 				"Adam Smith", 
 				"");
 		
-		testOnce_PERSON_NAME("valid: name with allowed symbols",
+		testOnce("valid: name with allowed symbols", 
+				FieldType.PERSON_NAME, 
 				"Dr. Amy-B s/o O'br, & 2nd \t (alias 'JB')", 
 				"");
 		
 		String maxLengthName = Common.generateStringOfLength(PERSON_NAME_MAX_LENGTH);
-		testOnce_PERSON_NAME("valid: max length value", 
+		testOnce("valid: max length value", 
+				FieldType.PERSON_NAME, 
 				maxLengthName, 
 				"");
 
 		String emptyName = "";
-		testOnce_PERSON_NAME("invalid: empty string",
+		testOnce("invalid: empty string", 
+				FieldType.PERSON_NAME, 
 				emptyName, 
 				String.format(PERSON_NAME_ERROR_MESSAGE, emptyName,	REASON_EMPTY));
 		
 		
 		String tooLongName = maxLengthName + "x";
-		testOnce_PERSON_NAME("invalid: too long",
+		testOnce("invalid: too long", 
+				FieldType.PERSON_NAME, 
 				tooLongName, 
 				String.format(PERSON_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
 		
@@ -55,14 +60,16 @@ public class FieldValidatorTest {
 		//Testing intensity is less here because the code indirectly executed by 
 		// this method is already covered in another test method.
 
-		// test one valid case
-		testOnce_INSTITUTE_NAME("valid: typical name",
+		// test one valid case, with field name
+		testOnce("valid: typical name", FieldType.INSTITUTE_NAME, 
+				"Instructor's institute name",
 				"National University of Singapore", 
 				"");
 		
-		//test one invalid case
+		//test one invalid case, with field name
 		String tooLongName = Common.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH+1);
-		testOnce_INSTITUTE_NAME("invalid: too long",
+		testOnce("invalid: too long", FieldType.INSTITUTE_NAME,
+				"Instructor's institute name",
 				tooLongName, 
 				String.format(INSTITUTE_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
 		
@@ -75,13 +82,15 @@ public class FieldValidatorTest {
 		// this method is already covered in another test method.
 
 		// test one valid case
-		testOnce(FieldType.COURSE_NAME, "valid: typical name",
+		testOnce("valid: typical name", 
+				FieldType.COURSE_NAME,
 				"Software Engineering - '15 Summer (tutorial)", 
 				"");
 		
 		//test one invalid case
 		String tooLongName = Common.generateStringOfLength(COURSE_NAME_MAX_LENGTH+1);
-		testOnce(FieldType.COURSE_NAME, "invalid: too long",
+		testOnce("invalid: too long", 
+				FieldType.COURSE_NAME,
 				tooLongName, 
 				String.format(COURSE_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
 		
@@ -94,13 +103,13 @@ public class FieldValidatorTest {
 		// this method is already covered in another test method.
 		
 		// test one valid case
-		testOnce(FieldType.EVALUATION_NAME, "valid: typical name",
+		testOnce("valid: typical name", FieldType.EVALUATION_NAME,
 				"First Peer Evaluation - 1 (trial)", 
 				"");
 		
 		//test one invalid case
 		String tooLongName = Common.generateStringOfLength(EVALUATION_NAME_MAX_LENGTH+1);
-		testOnce(FieldType.EVALUATION_NAME, "invalid: too long",
+		testOnce("invalid: too long", FieldType.EVALUATION_NAME,
 				tooLongName, 
 				String.format(EVALUATION_NAME_ERROR_MESSAGE, tooLongName, REASON_TOO_LONG));
 		
@@ -116,44 +125,52 @@ public class FieldValidatorTest {
 		verifyAssertError("contains '@gmail.com'", FieldType.GOOGLE_ID, "abc@GMAIL.com");
 		
 		
-		testOnce_GOOGLE_ID("valid: typical value",
+		testOnce("valid: typical value", 
+				FieldType.GOOGLE_ID, 
 				"valid9.Goo-gle.id_", 
 				"");
 		
-		testOnce_GOOGLE_ID("valid: minimal non-email id accepted",
+		testOnce("valid: minimal non-email id accepted", 
+				FieldType.GOOGLE_ID, 
 				"e", 
 				"");
 		
-		testOnce_GOOGLE_ID("valid: typical email address used as id",
-				"someone@yahoo.com", 
-				"");
+		testOnce("valid: typical email address used as id", 
+				FieldType.GOOGLE_ID, 
+				"someone@yahoo.com", "");
 		
-		testOnce_GOOGLE_ID("valid: minimal email id accepted as id",
+		testOnce("valid: minimal email id accepted as id", 
+				FieldType.GOOGLE_ID, 
 				"e@y", 
 				"");
 		
 		String maxLengthValue = Common.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
-		testOnce_GOOGLE_ID("valid: max length", 
+		testOnce("valid: max length", 
+				FieldType.GOOGLE_ID, 
 				maxLengthValue, 
 				"");
 
 		String emptyValue = "";
-		testOnce_GOOGLE_ID("invalid: empty string",
-				emptyValue, 
+		testOnce("invalid: empty string", 
+				FieldType.GOOGLE_ID, 
+				emptyValue,
 				String.format(GOOGLE_ID_ERROR_MESSAGE, emptyValue,	REASON_EMPTY));
 		
 		String tooLongValue = maxLengthValue + "x";
-		testOnce_GOOGLE_ID("invalid: too long",
+		testOnce("invalid: too long", 
+				FieldType.GOOGLE_ID, 
 				tooLongValue, 
 				String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
 		
 		String valueWithDisallowedChar = "man woman";
-		testOnce_GOOGLE_ID("invalid: disallowed char (space)",
+		testOnce("invalid: disallowed char (space)", 
+				FieldType.GOOGLE_ID, 
 				valueWithDisallowedChar, 
 				String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 		
 		valueWithDisallowedChar = "man/woman";
-		testOnce_GOOGLE_ID("invalid: disallowed char",
+		testOnce("invalid: disallowed char", 
+				FieldType.GOOGLE_ID, 
 				valueWithDisallowedChar, 
 				String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 		
@@ -167,41 +184,49 @@ public class FieldValidatorTest {
 		verifyAssertError("untrimmed value", FieldType.EMAIL, "  abc@gmail.com ");
 		
 		
-		testOnce_EMAIL("valid: typical value",
+		testOnce("valid: typical value", 
+				FieldType.EMAIL, 
 				"someone@yahoo.com", 
 				"");
 		
-		testOnce_EMAIL("valid: minimal",
+		testOnce("valid: minimal", 
+				FieldType.EMAIL, 
 				"e@y", 
 				"");
 		
 		String maxLengthValue = Common.generateStringOfLength(EMAIL_MAX_LENGTH-6)+"@c.gov";
-		testOnce_EMAIL("valid: max length", 
+		testOnce("valid: max length", 
+				FieldType.EMAIL, 
 				maxLengthValue, 
 				"");
 
 		String emptyValue = "";
-		testOnce_EMAIL("invalid: empty string",
+		testOnce("invalid: empty string", 
+				FieldType.EMAIL, 
 				emptyValue, 
 				String.format(EMAIL_ERROR_MESSAGE, emptyValue,	REASON_EMPTY));
 		
 		String tooLongValue = maxLengthValue + "x";
-		testOnce_EMAIL("invalid: too long",
+		testOnce("invalid: too long", 
+				FieldType.EMAIL, 
 				tooLongValue, 
 				String.format(EMAIL_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
 		
 		String valueWithDisallowedChar = "woMAN@com. sg";
-		testOnce_EMAIL("invalid: disallowed char (space) after @",
+		testOnce("invalid: disallowed char (space) after @", 
+				FieldType.EMAIL, 
 				valueWithDisallowedChar, 
 				String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 		
 		valueWithDisallowedChar = "man woman@com.sg";
-		testOnce_EMAIL("invalid: disallowed char (space)",
+		testOnce("invalid: disallowed char (space)", 
+				FieldType.EMAIL, 
 				valueWithDisallowedChar, 
 				String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 		
 		valueWithDisallowedChar = "man@woman@com.lk";
-		testOnce_EMAIL("invalid: multiple '@' signs",
+		testOnce("invalid: multiple '@' signs", 
+				FieldType.EMAIL, 
 				valueWithDisallowedChar, 
 				String.format(EMAIL_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 		
@@ -215,68 +240,58 @@ public class FieldValidatorTest {
 		verifyAssertError("untrimmed value", FieldType.COURSE_ID, "  abc@gmail.com ");
 		
 		
-		testOnce_COURSE_ID("valid: typical value",
+		testOnce("valid: typical value", 
+				FieldType.COURSE_ID, 
 				"$cs1101-sem1.2_", 
 				"");
 		
-		testOnce_COURSE_ID("valid: minimal",
+		testOnce("valid: minimal", 
+				FieldType.COURSE_ID, 
 				"c", 
 				"");
 		
 		String maxLengthValue = Common.generateStringOfLength(COURSE_ID_MAX_LENGTH);
-		testOnce_COURSE_ID("valid: max length", 
+		testOnce("valid: max length", 
+				FieldType.COURSE_ID, 
 				maxLengthValue, 
 				"");
 
 		String emptyValue = "";
-		testOnce_COURSE_ID("invalid: empty string",
+		testOnce("invalid: empty string", 
+				FieldType.COURSE_ID, 
 				emptyValue, 
 				String.format(COURSE_ID_ERROR_MESSAGE, emptyValue,	REASON_EMPTY));
 		
 		String tooLongValue = maxLengthValue + "x";
-		testOnce_COURSE_ID("invalid: too long",
+		testOnce("invalid: too long", 
+				FieldType.COURSE_ID, 
 				tooLongValue, 
 				String.format(COURSE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
 		
 		String valueWithDisallowedChar = "my course id";
-		testOnce_COURSE_ID("invalid: disallowed char (space)",
+		testOnce("invalid: disallowed char (space)", 
+				FieldType.COURSE_ID, 
 				valueWithDisallowedChar, 
 				String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 		
 		valueWithDisallowedChar = "cour@s*hy#";
-		testOnce_COURSE_ID("invalid: multiple disallowed chars",
+		testOnce("invalid: multiple disallowed chars", 
+				FieldType.COURSE_ID, 
 				valueWithDisallowedChar, 
 				String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 	}
 	
-	private void testOnce_INSTITUTE_NAME(String description, String name,
-			String expected) {
-		testOnce(FieldType.INSTITUTE_NAME, description, name, expected);
-	}
-	
-	private void testOnce_PERSON_NAME(String description, String name,
-			String expected) {
-		testOnce(FieldType.PERSON_NAME, description, name, expected);
-	}
-	
-	private void testOnce_GOOGLE_ID(String description, String id,
-			String expected) {
-		testOnce(FieldType.GOOGLE_ID, description, id, expected);
-	}
-	
-	private void testOnce_EMAIL(String description, String id,
-			String expected) {
-		testOnce(FieldType.EMAIL, description, id, expected);
-	}
-	
-	private void testOnce_COURSE_ID(String description, String id,
-			String expected) {
-		testOnce(FieldType.COURSE_ID, description, id, expected);
-	}
-
-	private void testOnce(FieldType fieldType, String description, String value, String expected) {
+	private void testOnce(String description, FieldType fieldType, String value, String expected) {
 		assertEquals(description,expected, 
 				validator.getInvalidStateInfo(fieldType, value));
+	}
+	
+	private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
+		if(!fieldName.isEmpty() && !expected.isEmpty()){
+			expected = "Invalid "+ fieldName + ": " + expected;
+		}
+		assertEquals(description,expected, 
+				validator.getInvalidStateInfo(fieldType, fieldName, value));
 	}
 
 	private void verifyAssertError(String description, FieldType fieldType, String value) {

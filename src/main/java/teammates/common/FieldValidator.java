@@ -76,25 +76,42 @@ public class FieldValidator {
 	}
 
 	public String getInvalidStateInfo(FieldType fieldType, Object value) {
+		return getInvalidStateInfo(fieldType, "", value);
+	}
+	
+	public String getInvalidStateInfo(FieldType fieldType, String fieldName, Object value) {
+		String returnValue = null;
 		switch (fieldType) {
 		case PERSON_NAME:
-			return getInvalidStateInfo_PERSON_NAME((String)value);
+			returnValue = getInvalidStateInfo_PERSON_NAME((String)value);
+			break;
 		case INSTITUTE_NAME:
-			return getInvalidStateInfo_INSTITUTE_NAME((String)value);
+			returnValue = getInvalidStateInfo_INSTITUTE_NAME((String)value);
+			break;
 		case COURSE_NAME:
-			return getInvalidStateInfo_COURSE_NAME((String)value);
+			returnValue = getInvalidStateInfo_COURSE_NAME((String)value);
+			break;
 		case EVALUATION_NAME:
-			return getInvalidStateInfo_EVALUATION_NAME((String)value);
+			returnValue = getInvalidStateInfo_EVALUATION_NAME((String)value);
+			break;
 		case GOOGLE_ID:
-			return getInvalidStateInfo_GOOGLE_ID((String)value);
+			returnValue = getInvalidStateInfo_GOOGLE_ID((String)value);
+			break;
 		case COURSE_ID:
-			return getInvalidStateInfo_COURSE_ID((String)value);
+			returnValue = getInvalidStateInfo_COURSE_ID((String)value);
+			break;
 		case EMAIL:
-			return getInvalidStateInfo_EMAIL((String)value);
+			returnValue = getInvalidStateInfo_EMAIL((String)value);
+			break;
 		default:
 			throw new AssertionError("Unrecognized field type : " + fieldType);
 		}
-
+		
+		if (!fieldName.isEmpty() && !returnValue.isEmpty()) {
+			return "Invalid " + fieldName + ": " + returnValue;
+		} else {
+			return returnValue;
+		}
 	}
 
 	private String getInvalidStateInfo_GOOGLE_ID(String value) {

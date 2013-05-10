@@ -1,5 +1,8 @@
 package teammates.test.cases;
 
+import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
@@ -67,10 +70,10 @@ public class SubmissionsDbTest extends BaseTestCase {
 			submissionsDb.createSubmission(s);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(a.getMessage(), SubmissionAttributes.ERROR_FIELD_REVIEWER);
-		} catch (EntityAlreadyExistsException e) {
-			Assert.fail();
-		}
+			AssertJUnit.assertEquals(
+					String.format("Invalid email address for the student giving the evaluation: "+ EMAIL_ERROR_MESSAGE, s.reviewer, REASON_INCORRECT_FORMAT),
+					a.getMessage());
+		} 
 		
 		// Null params check:
 		try {

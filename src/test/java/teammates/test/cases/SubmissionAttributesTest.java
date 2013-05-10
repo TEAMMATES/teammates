@@ -60,14 +60,22 @@ public class SubmissionAttributesTest extends BaseTestCase {
 		// FAIL : no reviewee
 		s.evaluation = "valid-evaluation";
 		s.reviewee = null;
-		AssertJUnit.assertFalse(s.isValid());
-		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionAttributes.ERROR_FIELD_REVIEWEE);
+		try {
+			s.getInvalidStateInfo();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e1) {
+			assertTrue(true);
+		}
 		
 		// FAIL : no reviewer
 		s.reviewee = "validreviewee@gmail.com";
 		s.reviewer = null;
-		AssertJUnit.assertFalse(s.isValid());
-		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionAttributes.ERROR_FIELD_REVIEWER);
+		try {
+			s.getInvalidStateInfo();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e1) {
+			assertTrue(true);
+		}
 	}
 	
 	@Test
