@@ -52,7 +52,7 @@ public class FieldValidatorTest extends BaseTestCase{
 		String tooLongName = Common.generateStringOfLength(maxLength+1);
 		assertEquals("invalid: too long", 
 				String.format(
-						NAME_STRING_ERROR_MESSAGE, 
+						SIZE_CAPPED_STRING_ERROR_MESSAGE, 
 						tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
 				validator.getValidityInfoForSizeCappedString(
 						typicalFieldName, 
@@ -63,7 +63,7 @@ public class FieldValidatorTest extends BaseTestCase{
 		String emptyValue = "";
 		assertEquals("invalid: empty", 
 				String.format(
-						NAME_STRING_ERROR_MESSAGE, 
+						SIZE_CAPPED_STRING_ERROR_MESSAGE, 
 						emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
 				validator.getValidityInfoForSizeCappedString(
 						typicalFieldName, 
@@ -214,8 +214,14 @@ public class FieldValidatorTest extends BaseTestCase{
 		verifyAssertError("untrimmed value", FieldType.EMAIL, "  abc@gmail.com ");
 		
 		
-		testOnce("valid: typical value", 
+		testOnce("valid: typical value, without field name", 
 				FieldType.EMAIL, 
+				"someone@yahoo.com", 
+				"");
+		
+		testOnce("valid: typical value, with field name", 
+				FieldType.EMAIL, 
+				"student email",
 				"someone@yahoo.com", 
 				"");
 		
@@ -310,6 +316,7 @@ public class FieldValidatorTest extends BaseTestCase{
 				valueWithDisallowedChar, 
 				String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 	}
+	
 	
 	private void runGenericTestCasesForCappedSizeStringTypeField(FieldType fieldType, int maxSize, String errorMessageFormat) {
 		
