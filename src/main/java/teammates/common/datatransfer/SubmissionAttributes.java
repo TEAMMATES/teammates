@@ -5,6 +5,8 @@ import static teammates.common.Common.EOL;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
+import teammates.common.FieldValidator;
+import teammates.common.FieldValidator.FieldType;
 import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text;
@@ -43,8 +45,8 @@ public class SubmissionAttributes extends EntityAttributes {
 	
 	public static final String ERROR_FIELD_COURSE = "Submission must belong to a valid course\n";
 	public static final String ERROR_FIELD_EVALUATION = "Submission must belong to a valid evaluation\n";
-	public static final String ERROR_FIELD_REVIEWEE = "Submission reviewee should be a valid email\n";
-	public static final String ERROR_FIELD_REVIEWER = "Submission reviewer should be a valid email\n";
+	public static final String ERROR_FIELD_REVIEWEE = "Submission reviewee should be a valid email";
+	public static final String ERROR_FIELD_REVIEWER = "Submission reviewer should be a valid email";
 	
 	public SubmissionAttributes() {
 
@@ -124,15 +126,11 @@ public class SubmissionAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
-		String errorMessage = "";
+		FieldValidator validator = new FieldValidator();
+		String errorMessage = 
+				validator.getInvalidStateInfo(FieldType.COURSE_ID, course) + EOL+
+				validator.getInvalidStateInfo(FieldType.EVALUATION_NAME, evaluation) + EOL;
 
-		if (!Common.isValidCourseId(course)) {
-			errorMessage += ERROR_FIELD_COURSE;
-		}
-
-		if (!Common.isValidName(evaluation)) {
-			errorMessage += ERROR_FIELD_EVALUATION;
-		}
 
 		if (!Common.isValidEmail(reviewee)) {
 			errorMessage += ERROR_FIELD_REVIEWEE;
@@ -142,7 +140,7 @@ public class SubmissionAttributes extends EntityAttributes {
 			errorMessage += ERROR_FIELD_REVIEWER;
 		}
 
-		return errorMessage;
+		return errorMessage.trim();
 	}
 
 }

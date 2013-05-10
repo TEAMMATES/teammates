@@ -2,8 +2,11 @@ package teammates.common;
 
 public class FieldValidator {
 
-	//Allows English alphabet, numbers,underscore,  dot and hyphen.
-	private static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-z0-9_\\.-]+";
+	//Allows English alphabet, numbers, underscore,  dot and hyphen.
+	private static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
+	
+	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
+	private static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
 
 	//Allows anything with some non-empty text followed by '@' followed by another non-empty text
 	// We have made this less restrictive because there is no accepted regex to check the validity of email addresses.
@@ -32,7 +35,7 @@ public class FieldValidator {
 			"The value of "+INSTITUTE_NAME_FIELD_NAME+" should be no longer than "+
 			INSTITUTE_NAME_MAX_LENGTH+" characters. It should not be empty.";
 	
-	private static final String COURSE_NAME_FIELD_NAME = "an institute name";
+	private static final String COURSE_NAME_FIELD_NAME = "a course name";
 	public static final int COURSE_NAME_MAX_LENGTH = 64;
 	public static final String COURSE_NAME_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as "+COURSE_NAME_FIELD_NAME+" because it %s. " +
@@ -49,9 +52,16 @@ public class FieldValidator {
 	public static final int GOOGLE_ID_MAX_LENGTH = 45;
 	public static final String GOOGLE_ID_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. "+
-			"A Google ID can contain letters, numbers, fullstops, and at most one '@' sign. " +
+			"A Google ID must be a valid id already registered with Google. " +
 			"It cannot be longer than "+GOOGLE_ID_MAX_LENGTH+" characters. " +
 			"It cannot be empty.";
+	
+	public static final int COURSE_ID_MAX_LENGTH = 40;
+	public static final String COURSE_ID_ERROR_MESSAGE = 
+			"\"%s\" is not acceptable to TEAMMATES as a Course ID because it %s. "+
+					"A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " +
+					"It cannot be longer than "+COURSE_ID_MAX_LENGTH+" characters. " +
+					"It cannot be empty or contain spaces.";
 	
 	public static final int EMAIL_MAX_LENGTH = 45;
 	public static final String EMAIL_ERROR_MESSAGE = 
@@ -62,7 +72,7 @@ public class FieldValidator {
 
 
 	public enum FieldType {
-		PERSON_NAME, INSTITUTE_NAME, GOOGLE_ID, EMAIL, COURSE_NAME, EVALUATION_NAME		
+		PERSON_NAME, INSTITUTE_NAME, GOOGLE_ID, COURSE_ID, EMAIL, COURSE_NAME, EVALUATION_NAME		
 	}
 
 	public String getInvalidStateInfo(FieldType fieldType, Object value) {
@@ -77,6 +87,8 @@ public class FieldValidator {
 			return getInvalidStateInfo_EVALUATION_NAME((String)value);
 		case GOOGLE_ID:
 			return getInvalidStateInfo_GOOGLE_ID((String)value);
+		case COURSE_ID:
+			return getInvalidStateInfo_COURSE_ID((String)value);
 		case EMAIL:
 			return getInvalidStateInfo_EMAIL((String)value);
 		default:
@@ -98,6 +110,21 @@ public class FieldValidator {
 			return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
 		}else if(!isValidEmail(value) && !isValidGoogleUsername(value)){
 			return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
+		}
+		return "";
+	}
+	
+	private String getInvalidStateInfo_COURSE_ID(String value) {
+		
+		Assumption.assertTrue("Non-null value expected", value != null);
+		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
+		
+		if (value.isEmpty()) {
+			return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
+		}else if(value.length()>COURSE_ID_MAX_LENGTH){
+			return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
+		}else if(!value.matches(REGEX_COURSE_ID)){
+			return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
 		}
 		return "";
 	}

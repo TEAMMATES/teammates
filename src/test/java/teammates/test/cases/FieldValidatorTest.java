@@ -207,6 +207,48 @@ public class FieldValidatorTest {
 		
 	}
 	
+	@Test
+	public void testInvalidStateInfo_COURSE_ID() {
+		
+		verifyAssertError("null value", FieldType.COURSE_ID, null);
+		verifyAssertError("white space value", FieldType.COURSE_ID, "  \t \n ");
+		verifyAssertError("untrimmed value", FieldType.COURSE_ID, "  abc@gmail.com ");
+		
+		
+		testOnce_COURSE_ID("valid: typical value",
+				"$cs1101-sem1.2_", 
+				"");
+		
+		testOnce_COURSE_ID("valid: minimal",
+				"c", 
+				"");
+		
+		String maxLengthValue = Common.generateStringOfLength(COURSE_ID_MAX_LENGTH);
+		testOnce_COURSE_ID("valid: max length", 
+				maxLengthValue, 
+				"");
+
+		String emptyValue = "";
+		testOnce_COURSE_ID("invalid: empty string",
+				emptyValue, 
+				String.format(COURSE_ID_ERROR_MESSAGE, emptyValue,	REASON_EMPTY));
+		
+		String tooLongValue = maxLengthValue + "x";
+		testOnce_COURSE_ID("invalid: too long",
+				tooLongValue, 
+				String.format(COURSE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
+		
+		String valueWithDisallowedChar = "my course id";
+		testOnce_COURSE_ID("invalid: disallowed char (space)",
+				valueWithDisallowedChar, 
+				String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+		
+		valueWithDisallowedChar = "cour@s*hy#";
+		testOnce_COURSE_ID("invalid: multiple disallowed chars",
+				valueWithDisallowedChar, 
+				String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+	}
+	
 	private void testOnce_INSTITUTE_NAME(String description, String name,
 			String expected) {
 		testOnce(FieldType.INSTITUTE_NAME, description, name, expected);
@@ -225,6 +267,11 @@ public class FieldValidatorTest {
 	private void testOnce_EMAIL(String description, String id,
 			String expected) {
 		testOnce(FieldType.EMAIL, description, id, expected);
+	}
+	
+	private void testOnce_COURSE_ID(String description, String id,
+			String expected) {
+		testOnce(FieldType.COURSE_ID, description, id, expected);
 	}
 
 	private void testOnce(FieldType fieldType, String description, String value, String expected) {

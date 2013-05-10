@@ -1,5 +1,7 @@
 package teammates.test.cases;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
@@ -38,14 +40,22 @@ public class SubmissionAttributesTest extends BaseTestCase {
 
 		// FAIL : no course
 		s.course = null;
-		AssertJUnit.assertFalse(s.isValid());
-		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionAttributes.ERROR_FIELD_COURSE);
+		try {
+			s.getInvalidStateInfo();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e1) {
+			assertTrue(true);
+		}
 		
 		// FAIL : no evaluation
 		s.course = "valid-course";
 		s.evaluation = null;
-		AssertJUnit.assertFalse(s.isValid());
-		AssertJUnit.assertEquals(s.getInvalidStateInfo(), SubmissionAttributes.ERROR_FIELD_EVALUATION);
+		try {
+			s.getInvalidStateInfo();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e1) {
+			assertTrue(true);
+		}
 		
 		// FAIL : no reviewee
 		s.evaluation = "valid-evaluation";

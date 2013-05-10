@@ -52,18 +52,26 @@ public class StudentTest extends BaseTestCase {
 		// FAIL : courseId is null
 		line = "team|name|e@e.com|c";
 		invalidStudent = new StudentAttributes(line, null);
-		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_COURSE);
+		try {
+			invalidStudent.getInvalidStateInfo();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e) {
+			assertTrue(true);
+		}
 		
 		// FAIL : empty courseId
 		invalidStudent = new StudentAttributes(line, "");
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_COURSE);
-
+		assertEquals(
+				String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_EMPTY), 
+				invalidStudent.getInvalidStateInfo());
+ 
 		// FAIL : invalid courseId
 		invalidStudent = new StudentAttributes(line, "Course Id with space");
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_FIELD_COURSE);
+		assertEquals(
+				String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_INCORRECT_FORMAT),
+				invalidStudent.getInvalidStateInfo());
 		
 		// FAIL : enroll line is null
 		line = null;

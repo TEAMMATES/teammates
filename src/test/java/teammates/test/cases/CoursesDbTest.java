@@ -1,5 +1,8 @@
 package teammates.test.cases;
 
+import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
@@ -54,7 +57,9 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.createCourse(c);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(CourseAttributes.ERROR_ID_INVALIDCHARS, a.getMessage());
+			AssertJUnit.assertEquals(
+					String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
+					a.getMessage());
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}

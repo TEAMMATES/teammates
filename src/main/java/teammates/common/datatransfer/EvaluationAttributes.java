@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
+import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
 import teammates.storage.entity.Evaluation;
@@ -104,11 +105,9 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	public String getInvalidStateInfo() {
 		FieldValidator validator = new FieldValidator();
-		String errorMessage = validator.getInvalidStateInfo(FieldType.EVALUATION_NAME, name);
-
-		if (!Common.isValidCourseId(course)) {
-			errorMessage += ERROR_FIELD_COURSE;
-		}
+		String errorMessage = 
+				validator.getInvalidStateInfo(FieldType.COURSE_ID, course) + EOL+
+				validator.getInvalidStateInfo(FieldType.EVALUATION_NAME, name) + EOL;
 
 		if (this.startTime == null) {
 			errorMessage += ERROR_FIELD_STARTTIME;

@@ -3,8 +3,10 @@ package teammates.test.cases;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+import static teammates.common.FieldValidator.REASON_TOO_LONG;
 import static teammates.logic.TeamEvalResult.NA;
 import static teammates.logic.TeamEvalResult.NSB;
 import static teammates.logic.TeamEvalResult.NSU;
@@ -325,7 +327,9 @@ public class LogicTest extends BaseTestCase {
 			logic.createInstructor("valid-id", "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), InstructorAttributes.ERROR_FIELD_COURSEID);
+			assertEquals(
+					String.format(COURSE_ID_ERROR_MESSAGE, "invalid courseId" , REASON_INCORRECT_FORMAT),
+					e.getMessage());
 		}
 
 		______TS("null parameters");
@@ -814,7 +818,9 @@ public class LogicTest extends BaseTestCase {
 			logic.createCourse(instructor.googleId, course.id, course.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), CourseAttributes.ERROR_ID_INVALIDCHARS);
+			assertEquals(
+					String.format(COURSE_ID_ERROR_MESSAGE, course.id, REASON_INCORRECT_FORMAT),
+					e.getMessage());
 		}
 
 		______TS("null parameters");
@@ -2922,7 +2928,9 @@ public class LogicTest extends BaseTestCase {
 			logic.createEvaluation(evaluation);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(), EvaluationAttributes.ERROR_FIELD_COURSE);
+			assertEquals(
+					String.format(COURSE_ID_ERROR_MESSAGE, evaluation.course, REASON_INCORRECT_FORMAT),
+					e.getMessage());
 		}
 		// invalid values to other parameters should be checked against
 		// EvaluationData.validate();

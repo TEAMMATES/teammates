@@ -4,6 +4,7 @@ import static teammates.common.Common.EOL;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
+import static teammates.common.FieldValidator.*;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Student;
 
@@ -196,15 +197,12 @@ public class StudentAttributes extends EntityAttributes {
 		FieldValidator validator = new FieldValidator();
 		
 		String errorMessage = 
-				validator.getInvalidStateInfo(FieldValidator.FieldType.PERSON_NAME, name) + EOL+
-				validator.getInvalidStateInfo(FieldValidator.FieldType.EMAIL, email);
+				validator.getInvalidStateInfo(FieldType.COURSE_ID, course) + EOL+
+				validator.getInvalidStateInfo(FieldType.EMAIL, email) + EOL +
+				validator.getInvalidStateInfo(FieldType.PERSON_NAME, name) + EOL;
 
 		if (team != null && team.length() > TEAM_NAME_MAX_LENGTH) {
 			errorMessage += ERROR_TEAMNAME_TOOLONG;
-		}
-		
-		if (!Common.isValidCourseId(course)) {
-			errorMessage += ERROR_FIELD_COURSE;
 		}
 		
 		if (comments != null && comments.length() > COMMENTS_MAX_LENGTH) {

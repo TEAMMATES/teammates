@@ -155,8 +155,12 @@ public class EvaluationAttributesTest extends BaseTestCase {
 
 		// FAIL : no course: invalid
 		e.course = null;
-		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_FIELD_COURSE);
+		try {
+			e.getInvalidStateInfo();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e1) {
+			assertTrue(true);
+		}
 		
 		// FAIL : no name: invalid
 		e.course = "valid-course";

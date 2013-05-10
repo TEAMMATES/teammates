@@ -49,20 +49,10 @@ public class CourseAttributes extends EntityAttributes {
 
 	public String getInvalidStateInfo() {
 		FieldValidator validator = new FieldValidator();
-		String errorMessage = validator.getInvalidStateInfo(FieldType.COURSE_NAME, name) + EOL;
+		String errorMessage = 
+				validator.getInvalidStateInfo(FieldType.COURSE_ID, id) + EOL+
+				validator.getInvalidStateInfo(FieldType.COURSE_NAME, name) + EOL;
 
-		if (!Common.isValidString(id)) {
-			errorMessage += ERROR_FIELD_ID;
-		} else {
-			if (id.length() > Common.COURSE_ID_MAX_LENGTH) {
-				errorMessage += (ERROR_ID_TOOLONG + ":" + id) ;
-			}
-
-			if (!id.matches("^[a-zA-Z_$0-9.-]+$")) {
-				errorMessage += ERROR_ID_INVALIDCHARS;
-			}
-		}
-		
 		return errorMessage.trim();
 	}
 }

@@ -1,6 +1,8 @@
 package teammates.test.cases;
 
+import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.COURSE_NAME_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
 import static teammates.common.FieldValidator.REASON_TOO_LONG;
 
 import org.testng.annotations.AfterClass;
@@ -30,8 +32,12 @@ public class CourseAttributesTest extends BaseTestCase {
 		
 		// FAIL: ID null
 		c.id = null;
-		AssertJUnit.assertFalse(c.isValid());
-		AssertJUnit.assertEquals(c.getInvalidStateInfo(), CourseAttributes.ERROR_FIELD_ID);
+		try {
+			c.getInvalidStateInfo();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e) {
+			assertTrue(true); //expected
+		}
 		
 		// SUCCESS: ID at max length
 		String veryLongId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH);
@@ -41,18 +47,22 @@ public class CourseAttributesTest extends BaseTestCase {
 		// FAIL: ID too long
 		c.id += "a";
 		AssertJUnit.assertFalse(c.isValid());
-		AssertJUnit.assertTrue(c.getInvalidStateInfo().contains(CourseAttributes.ERROR_ID_TOOLONG));
+		AssertJUnit.assertEquals(
+				String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_TOO_LONG),
+				c.getInvalidStateInfo());
 		
 		// FAIL : ID with invalid chars
 		c.id = "my-uber-id!";
 		AssertJUnit.assertFalse(c.isValid());
-		AssertJUnit.assertEquals(c.getInvalidStateInfo(), CourseAttributes.ERROR_ID_INVALIDCHARS);
+		AssertJUnit.assertEquals(
+				String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT),
+				c.getInvalidStateInfo());
 		
 		// FAIL : Name null
 		c.id = "valid-id";
 		c.name = null;
 		try {
-			c.isValid();
+			c.getInvalidStateInfo();
 			throw new RuntimeException("Assumption violation not detected");
 		} catch (AssertionError e) {
 			assertTrue(true); //expected
