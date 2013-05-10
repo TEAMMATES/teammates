@@ -200,11 +200,8 @@ public class StudentAttributes extends EntityAttributes {
 				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
 				validator.getValidityInfo(FieldType.EMAIL, email) + EOL +
 				(team.isEmpty()? "": validator.getValidityInfo(FieldType.TEAM_NAME, team) + EOL) +
+				(comments.isEmpty()? "": validator.getValidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments) + EOL) +
 				validator.getValidityInfo(FieldType.PERSON_NAME, name) + EOL;
-
-		if (comments != null && comments.length() > COMMENTS_MAX_LENGTH) {
-			errorMessage += ERROR_COMMENTS_TOOLONG;
-		}
 
 		return errorMessage.trim();
 	}

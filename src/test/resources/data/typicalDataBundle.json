@@ -118,6 +118,7 @@
       "name": "student2 In Course1",
       "id": "student2InCourse1",
       "team": "Team 1.1",
+      "comments" : "",
  	  "course" : "idOfTypicalCourse1"
     },
     "student3InCourse1":{
@@ -125,6 +126,7 @@
       "name": "student3 In Course1",
       "id": "student3InCourse1",
       "team": "Team 1.1",
+      "comments" : "",
       "course" : "idOfTypicalCourse1"
     },
     "student4InCourse1":{
@@ -132,6 +134,7 @@
       "name": "student4 In Course1",
       "id": "student4InCourse1",
       "team": "Team 1.1",
+      "comments" : "",
  	  "course" : "idOfTypicalCourse1"
     },
     "student5InCourse1":{
@@ -139,6 +142,7 @@
       "name": "student5 In Course1",
       "id": "student5InCourse1",
       "team": "Team 1.2",
+      "comments" : "",
       "course" : "idOfTypicalCourse1"
     },
     "student1InCourse2":{
@@ -146,6 +150,7 @@
       "name": "student1 In Course2",
       "id": "student1InCourse2",
       "team": "Team 2.1",
+      "comments" : "",
       "course" : "idOfTypicalCourse2"
     },
     "student2InCourse2":{
@@ -154,6 +159,7 @@
       "id": "student2InCourse1",
       "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
       "team": "Team 2.1",
+      "comments" : "",
       "course" : "idOfTypicalCourse2"
     }
   },

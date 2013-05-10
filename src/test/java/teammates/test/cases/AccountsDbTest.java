@@ -167,6 +167,7 @@ public class AccountsDbTest extends BaseTestCase {
 		s.course = "valid-course";
 		s.email = "valid-fresh@email.com";
 		s.team = "";
+		s.comments="";
 		accountsDb.createStudent(s);
 			
 		// FAIL : duplicate
@@ -434,6 +435,7 @@ public class AccountsDbTest extends BaseTestCase {
 		s.course = "valid-course";
 		s.email = "valid@email.com";
 		s.team = "";
+		s.comments = "";
 		try {
 			accountsDb.createStudent(s);
 		} catch (EntityAlreadyExistsException e) {

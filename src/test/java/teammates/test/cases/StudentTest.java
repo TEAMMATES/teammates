@@ -163,7 +163,9 @@ public class StudentTest extends BaseTestCase {
 		line = "t1|name|e@e.com|" + longComment;
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), StudentAttributes.ERROR_COMMENTS_TOOLONG);
+		assertEquals(
+				String.format(STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, longComment, REASON_TOO_LONG),
+				invalidStudent.getInvalidStateInfo());
 
 		// Other invalid parameters cases are omitted because they are already
 		// unit-tested in validate*() methods in Common.java

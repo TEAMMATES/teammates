@@ -56,6 +56,13 @@ public class FieldValidator {
 					"The value of "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" should be no longer than "+
 					EVALUATION_INSTRUCTIONS_MAX_LENGTH+" characters. It should not be empty.";
 	
+	private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
+	public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
+	public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE = 
+			"\"%s\" is not acceptable to TEAMMATES as "+STUDENT_ROLE_COMMENTS_FIELD_NAME+" because it %s. " +
+					"The value of "+STUDENT_ROLE_COMMENTS_FIELD_NAME+" should be no longer than "+
+					STUDENT_ROLE_COMMENTS_MAX_LENGTH+" characters. It should not be empty.";
+	
 	private static final String TEAM_NAME_FIELD_NAME = "a team name";
 	public static final int TEAM_NAME_MAX_LENGTH = 25;
 	public static final String TEAM_NAME_ERROR_MESSAGE = 
@@ -86,7 +93,8 @@ public class FieldValidator {
 
 
 	public enum FieldType {
-		PERSON_NAME, INSTITUTE_NAME, GOOGLE_ID, COURSE_ID, EMAIL, COURSE_NAME, EVALUATION_NAME, EVALUATION_INSTRUCTIONS, TEAM_NAME
+		PERSON_NAME, INSTITUTE_NAME, GOOGLE_ID, COURSE_ID, EMAIL, COURSE_NAME, 
+		EVALUATION_NAME, EVALUATION_INSTRUCTIONS, TEAM_NAME, STUDENT_ROLE_COMMENTS
 	}
 
 	public String getValidityInfo(FieldType fieldType, Object value) {
@@ -115,6 +123,10 @@ public class FieldValidator {
 		case EVALUATION_INSTRUCTIONS:
 			returnValue = getValidityInfoForSizeCappedString(
 					EVALUATION_INSTRUCTIONS_FIELD_NAME, EVALUATION_INSTRUCTIONS_MAX_LENGTH, (String)value);
+			break;
+		case STUDENT_ROLE_COMMENTS:
+			returnValue = getValidityInfoForSizeCappedString(
+					STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String)value);
 			break;
 		case TEAM_NAME:
 			returnValue = getValidityInfoForSizeCappedString(
