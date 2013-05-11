@@ -1,7 +1,5 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.Common.EOL;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

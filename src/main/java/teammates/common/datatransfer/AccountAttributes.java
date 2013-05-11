@@ -1,6 +1,5 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.Common.EOL;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,7 +7,6 @@ import java.util.List;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
-import teammates.common.FieldValidator.FieldType;
 import teammates.storage.entity.Account;
 
 /**
