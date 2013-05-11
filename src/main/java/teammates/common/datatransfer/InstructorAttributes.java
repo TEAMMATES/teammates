@@ -65,11 +65,6 @@ public class InstructorAttributes extends EntityAttributes {
 	}
 
 	public String getInvalidStateInfo() {
-		Assumption.assertTrue(googleId!=null);
-		Assumption.assertTrue(courseId!=null);
-		Assumption.assertTrue(name!=null);
-		Assumption.assertTrue(email!=null);
-		
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
 				validator.getValidityInfo(FieldType.GOOGLE_ID, googleId)+ EOL+
@@ -79,4 +74,6 @@ public class InstructorAttributes extends EntityAttributes {
 
 		return errorMessage.trim();
 	}
+	
+	//TODO: implement toString()
 }

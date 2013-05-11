@@ -35,6 +35,7 @@
 			<class name="teammates.test.cases.AccountAttributesTest" />
 			<class name="teammates.test.cases.CourseAttributesTest" />
 			<class name="teammates.test.cases.StudentAttributesTest" />
+			<class name="teammates.test.cases.InstructorAttributesTest" />
 			<class name="teammates.test.cases.EvaluationAttributesTest" />
 			<class name="teammates.test.cases.SubmissionAttributesTest" />
 			<class name="teammates.test.cases.StudentResultBundleTest" />
