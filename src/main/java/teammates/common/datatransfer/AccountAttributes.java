@@ -4,7 +4,6 @@ import static teammates.common.Common.EOL;
 
 import java.util.Date;
 
-import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.storage.entity.Account;
@@ -49,11 +48,6 @@ public class AccountAttributes extends EntityAttributes {
 	}
 	
 	public String getInvalidStateInfo() {
-		
-		Assumption.assertTrue(googleId!=null);
-		Assumption.assertTrue(name!=null);
-		Assumption.assertTrue(email!=null);
-		Assumption.assertTrue(institute!=null);
 		
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 

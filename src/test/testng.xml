@@ -32,6 +32,7 @@
 			<class name="teammates.test.cases.CommonTest" />
 			<class name="teammates.test.cases.StudentTest" />
 			<class name="teammates.test.cases.EvaluationTest" />
+			<class name="teammates.test.cases.AccountAttributesTest" />
 			<class name="teammates.test.cases.CourseAttributesTest" />
 			<class name="teammates.test.cases.EvaluationAttributesTest" />
 			<class name="teammates.test.cases.SubmissionAttributesTest" />
