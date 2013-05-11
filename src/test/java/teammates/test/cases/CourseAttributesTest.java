@@ -24,7 +24,6 @@ public class CourseAttributesTest extends BaseTestCase {
 		CourseAttributes c = generateValidCourseAttributesObject();
 		
 		assertEquals("valid value", true, c.isValid());
-		assertEquals("valid value", "", c.getInvalidStateInfo());
 		
 		
 		String veryLongId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH+1);
@@ -36,7 +35,7 @@ public class CourseAttributesTest extends BaseTestCase {
 		String errorMessage = 
 				String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_TOO_LONG) + EOL + 
 				String.format(COURSE_NAME_ERROR_MESSAGE, c.name, REASON_EMPTY);
-		assertEquals("invalid value", errorMessage, c.getInvalidStateInfo());
+		assertEquals("invalid value", errorMessage, Common.toString(c.getInvalidStateInfo()));
 	}
 
 	@Test

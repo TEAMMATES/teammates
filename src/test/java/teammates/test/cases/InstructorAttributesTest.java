@@ -30,7 +30,6 @@ public class InstructorAttributesTest extends BaseTestCase {
 		i.courseId = "valid-course-id";
 		
 		assertEquals("valid value", true, i.isValid());
-		assertEquals("valid value", "", i.getInvalidStateInfo());
 		
 		i.googleId = "invalid@google@id";
 		i.name = "";
@@ -43,7 +42,7 @@ public class InstructorAttributesTest extends BaseTestCase {
 				+ String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
 				+ String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
 				+ String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
-		assertEquals("invalid value", errorMessage, i.getInvalidStateInfo());
+		assertEquals("invalid value", errorMessage, Common.toString(i.getInvalidStateInfo()));
 	}
 
 	@Test

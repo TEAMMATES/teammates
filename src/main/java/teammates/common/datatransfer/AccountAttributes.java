@@ -2,10 +2,13 @@ package teammates.common.datatransfer;
 
 import static teammates.common.Common.EOL;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.FieldValidator.FieldType;
 import teammates.storage.entity.Account;
 
 /**
@@ -47,16 +50,26 @@ public class AccountAttributes extends EntityAttributes {
 		this.institute = Common.trimIfNotNull(institute);
 	}
 	
-	public String getInvalidStateInfo() {
+	public List<String> getInvalidStateInfo() {
 		
 		FieldValidator validator = new FieldValidator();
-		String errorMessage = 
-				validator.getValidityInfo(FieldValidator.FieldType.PERSON_NAME, name) + EOL +
-				validator.getValidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId) + EOL +
-				validator.getValidityInfo(FieldValidator.FieldType.EMAIL, email) + EOL +
-				validator.getValidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+		List<String> errors = new ArrayList<String>();
+		String error;
+		
+		error= validator.getValidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldValidator.FieldType.EMAIL, email);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+		if(!error.isEmpty()) { errors.add(error); }
+		
 		//No validation for isInstructor and createdAt fields.
-		return errorMessage.trim();
+		return errors;
 	}
 
 	public Account toEntity() {

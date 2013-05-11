@@ -4,9 +4,11 @@ import static org.testng.AssertJUnit.*;
 import static teammates.common.Common.EOL;
 import static teammates.common.FieldValidator.*;
 
+
 import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionAttributes;
 
 public class SubmissionAttributesTest extends BaseTestCase {
@@ -25,13 +27,11 @@ public class SubmissionAttributesTest extends BaseTestCase {
 		s.p2pFeedback = null; //this can be null
 
 		assertEquals("valid values, minimal properties", true, s.isValid());
-		assertEquals("valid values, minimal properties", "", s.getInvalidStateInfo());
 
 		s.points = 10;
 		s.p2pFeedback = new Text("valid-feedback");
 		
 		assertEquals("valid values, all properties", true, s.isValid());
-		assertEquals("valid values, all properties", "", s.getInvalidStateInfo());
 		
 		assertEquals("not self evaluation", false, s.isSelfEvaluation());
 		s.reviewee = s.reviewer;
@@ -58,10 +58,9 @@ public class SubmissionAttributesTest extends BaseTestCase {
 		String errorMessage = 
 				String.format(COURSE_ID_ERROR_MESSAGE, s.course, REASON_INCORRECT_FORMAT) + EOL 
 				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, s.evaluation, REASON_EMPTY) + EOL 
-				+ EOL
 				+ "Invalid email address for the student receiving the evaluation: "+ String.format(EMAIL_ERROR_MESSAGE, s.reviewer, REASON_EMPTY) + EOL
 				+ "Invalid email address for the student giving the evaluation: "+ String.format(EMAIL_ERROR_MESSAGE, s.reviewee, REASON_EMPTY);
-		assertEquals("valid values", errorMessage, s.getInvalidStateInfo());
+		assertEquals("valid values", errorMessage, Common.toString(s.getInvalidStateInfo()));
 
 	}
 	

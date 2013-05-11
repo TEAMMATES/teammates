@@ -56,7 +56,7 @@ public class AccountsDb {
 	public void createAccount(AccountAttributes accountToAdd) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, accountToAdd);
 		
-		Assumption.assertTrue(accountToAdd.getInvalidStateInfo(),
+		Assumption.assertTrue(accountToAdd.getInvalidStateInfo().toString(),
 				accountToAdd.isValid());
 		
 		Account newAccount = accountToAdd.toEntity();
@@ -108,7 +108,7 @@ public class AccountsDb {
 			throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorToAdd);
 
-		Assumption.assertTrue(instructorToAdd.getInvalidStateInfo(),
+		Assumption.assertTrue(Common.toString(instructorToAdd.getInvalidStateInfo()),
 				instructorToAdd.isValid());
 
 		if (getInstructorEntity(instructorToAdd.googleId, instructorToAdd.courseId) != null) {
@@ -150,7 +150,7 @@ public class AccountsDb {
 			throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentToAdd);
 
-		Assumption.assertTrue(studentToAdd.getInvalidStateInfo(),
+		Assumption.assertTrue(studentToAdd.getInvalidStateInfo().toString(),
 				studentToAdd.isValid());
 		
 		if (getStudentEntity(studentToAdd.course, studentToAdd.email) != null) {
@@ -757,7 +757,7 @@ public class AccountsDb {
 	public void updateInstructor(InstructorAttributes id) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, id);
 		
-		Assumption.assertTrue(id.getInvalidStateInfo(), id.isValid());
+		Assumption.assertTrue(Common.toString(id.getInvalidStateInfo()), id.isValid());
 		
 		Instructor instructorToUpdate = getInstructorEntity(id.googleId, id.courseId);
 		

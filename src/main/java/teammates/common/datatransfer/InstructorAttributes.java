@@ -1,6 +1,10 @@
 package teammates.common.datatransfer;
 
 import static teammates.common.Common.EOL;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
@@ -64,15 +68,24 @@ public class InstructorAttributes extends EntityAttributes {
 		return new Instructor(googleId, courseId, name, email);
 	}
 
-	public String getInvalidStateInfo() {
+	public List<String> getInvalidStateInfo() {
 		FieldValidator validator = new FieldValidator();
-		String errorMessage = 
-				validator.getValidityInfo(FieldType.GOOGLE_ID, googleId)+ EOL+
-				validator.getValidityInfo(FieldType.COURSE_ID, courseId)+ EOL+
-				validator.getValidityInfo(FieldType.PERSON_NAME, name) + EOL+
-				validator.getValidityInfo(FieldType.EMAIL, email);
-
-		return errorMessage.trim();
+		List<String> errors = new ArrayList<String>();
+		String error;
+		
+		error= validator.getValidityInfo(FieldType.GOOGLE_ID, googleId);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.COURSE_ID, courseId);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.PERSON_NAME, name);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.EMAIL, email);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		return errors;
 	}
 	
 	//TODO: implement toString()

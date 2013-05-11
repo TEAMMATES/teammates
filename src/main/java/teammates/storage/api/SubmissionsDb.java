@@ -40,7 +40,7 @@ public class SubmissionsDb {
 	public void createSubmission(SubmissionAttributes submissionToAdd) throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionToAdd);
 		
-		Assumption.assertTrue(submissionToAdd.getInvalidStateInfo(), submissionToAdd.isValid());
+		Assumption.assertTrue(Common.toString(submissionToAdd.getInvalidStateInfo()), submissionToAdd.isValid());
 		
 		if (getSubmissionEntity(submissionToAdd.course,
 				submissionToAdd.evaluation, submissionToAdd.reviewee,
@@ -102,7 +102,7 @@ public class SubmissionsDb {
 		List<Submission> newEntityList = new ArrayList<Submission>();
 		
 		for (SubmissionAttributes sd : newList) {
-			Assumption.assertTrue(sd.getInvalidStateInfo(), sd.isValid());
+			Assumption.assertTrue(sd.getInvalidStateInfo().toString(), sd.isValid());
 			newEntityList.add(sd.toEntity());
 		}
 		

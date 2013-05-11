@@ -2,7 +2,9 @@ package teammates.common.datatransfer;
 
 import static teammates.common.Common.EOL;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
@@ -37,14 +39,19 @@ public class CourseAttributes extends EntityAttributes {
 		this.createdAt = course.getCreatedAt();
 	}
 	
-	public String getInvalidStateInfo() {
+	public List<String> getInvalidStateInfo() {
 		
 		FieldValidator validator = new FieldValidator();
-		String errorMessage = 
-				validator.getValidityInfo(FieldType.COURSE_ID, id) + EOL+
-				validator.getValidityInfo(FieldType.COURSE_NAME, name) + EOL;
-
-		return errorMessage.trim();
+		List<String> errors = new ArrayList<String>();
+		String error;
+		
+		error= validator.getValidityInfo(FieldType.COURSE_ID, id);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.COURSE_NAME, name);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		return errors;
 	}
 
 	public Course toEntity() {

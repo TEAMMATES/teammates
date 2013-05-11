@@ -3,12 +3,11 @@ package teammates.test.cases;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.*;
 import teammates.common.Common;
 import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.test.driver.BackDoor;
 
 public class AccountAttributesTest extends BaseTestCase {
 	
@@ -22,24 +21,21 @@ public class AccountAttributesTest extends BaseTestCase {
 	@Test
 	public void testGetInvalidStateInfo(){
 		AccountAttributes account = createValidAccountAttributesObject();
-		assertEquals("all valid values","", account.getInvalidStateInfo());
+		assertTrue("all valid values", account.isValid());
 		
 		account = createInvalidAccountAttributesObject();
 		String expectedError = "\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person name should be no longer than 40 characters. It should not be empty."+ EOL +
 				"\"invalid google id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 45 characters. It cannot be empty."+ EOL +
 				"\"invalid@email@com\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces."+ EOL +
 				"\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as an institute name because it is too long. The value of an institute name should be no longer than 64 characters. It should not be empty.";
-		assertEquals("all valid values",expectedError, account.getInvalidStateInfo());
+		assertEquals("all valid values",false, account.isValid());
+		assertEquals("all valid values",expectedError, Common.toString(account.getInvalidStateInfo()));
 		
 	}
 	
 	@Test
 	public void testIsValid(){
-		AccountAttributes account = createValidAccountAttributesObject();
-		assertEquals("all valid values",true, account.isValid());
-		
-		account = createInvalidAccountAttributesObject();
-		assertEquals("all valid values",false, account.isValid());
+		//already tested in testGetInvalidStateInfo()
 	}
 
 	private AccountAttributes createInvalidAccountAttributesObject() {

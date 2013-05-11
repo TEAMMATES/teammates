@@ -44,7 +44,7 @@ public class EvaluationsDb {
 			throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationToAdd);
 
-		Assumption.assertTrue(evaluationToAdd.getInvalidStateInfo(),
+		Assumption.assertTrue(evaluationToAdd.getInvalidStateInfo().toString(),
 				evaluationToAdd.isValid());
 		
 		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {

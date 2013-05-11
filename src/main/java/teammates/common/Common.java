@@ -1,5 +1,7 @@
 package teammates.common;
 
+import static teammates.common.Common.EOL;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
@@ -12,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -616,6 +619,14 @@ public class Common {
 
 	@SuppressWarnings("unused")
 	private void ____MISC_utility_methods___________________________________() {
+	}
+	
+	public static String toString(List<String> strings) {
+		String returnValue = "";
+		for(String s: strings){
+			returnValue += s + EOL;
+		}
+		return returnValue.trim();	
 	}
 	
 	/**

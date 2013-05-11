@@ -1,6 +1,10 @@
 package teammates.common.datatransfer;
 
 import static teammates.common.Common.EOL;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
@@ -185,23 +189,37 @@ public class StudentAttributes extends EntityAttributes {
 	}
 
 	//TODO: rename to getInvalidityInfo(), in other similar classes too, and in FieldValidator as well
-	public String getInvalidStateInfo() {
+	public List<String> getInvalidStateInfo() {
 		
 		//id is allowed to be null when the student is not registered
 		Assumption.assertTrue(team!=null);
 		Assumption.assertTrue(comments!=null);
 		
 		FieldValidator validator = new FieldValidator();
-		String errorMessage = 
-				(id==null || id.isEmpty()? "": validator.getValidityInfo(FieldType.GOOGLE_ID, id) + EOL) +
-				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
-				validator.getValidityInfo(FieldType.EMAIL, email) + EOL +
-				//team and comments are allowed to be empty
-				validator.getValidityInfo(FieldType.TEAM_NAME, team) + EOL +
-				validator.getValidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments) + EOL +
-				validator.getValidityInfo(FieldType.PERSON_NAME, name) + EOL;
-
-		return errorMessage.trim();
+		List<String> errors = new ArrayList<String>();
+		String error;
+		
+		if (id != null && !id.isEmpty()) {
+			error = validator.getValidityInfo(FieldType.GOOGLE_ID, id);
+			if (!error.isEmpty()) {	errors.add(error);}
+		}
+		
+		error= validator.getValidityInfo(FieldType.COURSE_ID, course);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.EMAIL, email);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.TEAM_NAME, team);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.PERSON_NAME, name);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		return errors;
 	}
 
 	public Student toEntity() {

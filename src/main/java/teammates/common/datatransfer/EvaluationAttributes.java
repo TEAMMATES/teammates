@@ -2,8 +2,10 @@ package teammates.common.datatransfer;
 
 import static teammates.common.Common.EOL;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.Assumption;
@@ -99,31 +101,38 @@ public class EvaluationAttributes extends EntityAttributes {
 		return getInvalidStateInfo().isEmpty();
 	}
 
-	public String getInvalidStateInfo() {
+	public List<String> getInvalidStateInfo() {
 		
 		Assumption.assertTrue(startTime!=null);
 		Assumption.assertTrue(endTime!=null);
 		
 		FieldValidator validator = new FieldValidator();
-		String errorMessage = 
-				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
-				validator.getValidityInfo(FieldType.EVALUATION_NAME, name) + EOL+
-				validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions) + EOL;
-
-			
+		List<String> errors = new ArrayList<String>();
+		String error;
+		
+		error= validator.getValidityInfo(FieldType.COURSE_ID, course);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.EVALUATION_NAME, name);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		
 		if (endTime.before(startTime)) {
-			errorMessage += ERROR_END_BEFORE_START;
+			errors.add(ERROR_END_BEFORE_START);
 		}
 
 		if (Common.isCurrentTimeInUsersTimezoneEarlierThan(endTime,	timeZone) && published) {
-			errorMessage += ERROR_PUBLISHED_BEFORE_END;
+			errors.add(ERROR_PUBLISHED_BEFORE_END);
 		}
 
 		if (Common.isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
-			errorMessage += ERROR_ACTIVATED_BEFORE_START;
+			errors.add(ERROR_ACTIVATED_BEFORE_START);
 		}
 
-		return errorMessage.trim();
+		return errors;
 	}
 
 	//TODO: implement toString()

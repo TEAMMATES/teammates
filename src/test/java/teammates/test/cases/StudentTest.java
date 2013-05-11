@@ -64,14 +64,14 @@ public class StudentTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_EMPTY), 
-				invalidStudent.getInvalidStateInfo());
+				invalidStudent.getInvalidStateInfo().get(0));
  
 		// FAIL : invalid courseId
 		invalidStudent = new StudentAttributes(line, "Course Id with space");
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_INCORRECT_FORMAT),
-				invalidStudent.getInvalidStateInfo());
+				invalidStudent.getInvalidStateInfo().get(0));
 		
 		// FAIL : enroll line is null
 		line = null;
@@ -122,7 +122,7 @@ public class StudentTest extends BaseTestCase {
 		line = "t1| |e@e.com|c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), 
+		assertEquals(invalidStudent.getInvalidStateInfo().get(0), 
 				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "",	FieldValidator.REASON_EMPTY));
 		
 		// FAIL : empty email
@@ -131,7 +131,7 @@ public class StudentTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals( 
 				String.format(EMAIL_ERROR_MESSAGE, "", REASON_EMPTY), 
-				invalidStudent.getInvalidStateInfo());
+				invalidStudent.getInvalidStateInfo().get(0));
 
 		// FAIL : team name too long
 		String longTeamName = Common.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
@@ -140,15 +140,16 @@ public class StudentTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(TEAM_NAME_ERROR_MESSAGE, longTeamName, REASON_TOO_LONG),
-				invalidStudent.getInvalidStateInfo());
+				invalidStudent.getInvalidStateInfo().get(0));
 		
 		// FAIL : student name too long
 		String longStudentName = Common.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 		line = "t1|" + longStudentName + "|e@e.com|c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo(), 
-				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, longStudentName,	FieldValidator.REASON_TOO_LONG));
+		assertEquals(
+				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, longStudentName,	FieldValidator.REASON_TOO_LONG),
+				invalidStudent.getInvalidStateInfo().get(0));
 		
 		// FAIL : invalid email
 		line = "t1|name|ee.com|c";
@@ -156,7 +157,7 @@ public class StudentTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(EMAIL_ERROR_MESSAGE, "ee.com", REASON_INCORRECT_FORMAT), 
-				invalidStudent.getInvalidStateInfo());
+				invalidStudent.getInvalidStateInfo().get(0));
 		
 		// FAIL : comment too long
 		String longComment = Common.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
@@ -165,7 +166,7 @@ public class StudentTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, longComment, REASON_TOO_LONG),
-				invalidStudent.getInvalidStateInfo());
+				invalidStudent.getInvalidStateInfo().get(0));
 
 		// Other invalid parameters cases are omitted because they are already
 		// unit-tested in validate*() methods in Common.java

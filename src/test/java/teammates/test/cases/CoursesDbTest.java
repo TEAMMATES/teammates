@@ -1,13 +1,12 @@
 package teammates.test.cases;
 
-import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+import static teammates.common.FieldValidator.*;
+import static org.testng.AssertJUnit.*;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
-import org.testng.AssertJUnit;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -57,7 +56,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.createCourse(c);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(
+			assertEquals(
 					String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
 					a.getMessage());
 		} catch (EntityAlreadyExistsException e) {
@@ -69,7 +68,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.createCourse(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -79,18 +78,18 @@ public class CoursesDbTest extends BaseTestCase {
 		
 		// Get existent
 		CourseAttributes retrieved = coursesDb.getCourse(c.id);
-		AssertJUnit.assertNotNull(retrieved);
+		assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
 		retrieved = coursesDb.getCourse("non-existent-course");
-		AssertJUnit.assertNull(retrieved);
+		assertNull(retrieved);
 		
 		// Null params check:
 		try {
 			coursesDb.getCourse(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -107,7 +106,7 @@ public class CoursesDbTest extends BaseTestCase {
 		coursesDb.deleteCourse(c.id);
 		
 		CourseAttributes deleted = coursesDb.getCourse(c.id);
-		AssertJUnit.assertNull(deleted);
+		assertNull(deleted);
 		
 		// delete again - should fail silently
 		coursesDb.deleteCourse(c.id);
@@ -117,7 +116,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.deleteCourse(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 

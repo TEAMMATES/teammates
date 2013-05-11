@@ -7,6 +7,8 @@ import static teammates.common.FieldValidator.*;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
+
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
@@ -145,17 +147,15 @@ public class EvaluationAttributesTest extends BaseTestCase {
 				String.format(COURSE_ID_ERROR_MESSAGE, e.course, REASON_EMPTY) + EOL 
 				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, e.name, REASON_EMPTY) + EOL 
 				+ String.format(EVALUATION_INSTRUCTIONS_ERROR_MESSAGE, e.instructions, REASON_TOO_LONG);
-		assertEquals("valid values", errorMessage, e.getInvalidStateInfo());
+		assertEquals("valid values", errorMessage, Common.toString(e.getInvalidStateInfo()));
 
 		e.course = "valid-course";
 		e.name = "valid name";
 		e.instructions = "valid instructions";
 		assertTrue("valid, minimal properties", e.isValid());
-		assertEquals("valid, minimal properties", "", e.getInvalidStateInfo());
 
 
 		assertEquals("valid values", true, e.isValid());
-		assertEquals("valid values", "", e.getInvalidStateInfo());
 		
 		e.startTime = null;
 		try {
@@ -178,42 +178,37 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		// SUCCESS : end == start
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
 		e.startTime = e.endTime;
-		print(Common.calendarToString(Common
-				.dateToCalendar(e.startTime)));
-		print(Common.calendarToString(Common
-				.dateToCalendar(e.endTime)));
-		AssertJUnit.assertTrue(e.isValid());
+		assertTrue(e.isValid());
 		
 		// FAIL : end before start
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
 		e.startTime = Common.getDateOffsetToCurrentTime(2);
-		print(Common.calendarToString(Common
-				.dateToCalendar(e.startTime)));
-		print(Common.calendarToString(Common
-				.dateToCalendar(e.endTime)));
-		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_END_BEFORE_START);
+		assertFalse(e.isValid());
+		assertEquals(EvaluationAttributes.ERROR_END_BEFORE_START, 
+				Common.toString(e.getInvalidStateInfo()));
 
 		// FAIL : published before endtime: invalid
 		e.published = true;
 		e.startTime = Common.getDateOffsetToCurrentTime(0);
 		e.endTime = Common.getMsOffsetToCurrentTime(5);
-		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_PUBLISHED_BEFORE_END);
+		assertFalse(e.isValid());
+		assertEquals(EvaluationAttributes.ERROR_PUBLISHED_BEFORE_END,
+				Common.toString(e.getInvalidStateInfo()));
 
 		// SUCCESS : just after endtime and published: valid
 		e.startTime = Common.getDateOffsetToCurrentTime(-1);
 		e.endTime = Common.getMsOffsetToCurrentTime(-5);
 		e.published = true;
-		AssertJUnit.assertTrue(e.getInvalidStateInfo(), e.isValid());
+		assertTrue(e.isValid());
 
 		// FAIL : activated before start time: invalid
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = Common.getDateOffsetToCurrentTime(2);
 		e.published = false;
 		e.activated = true;
-		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(e.getInvalidStateInfo(), EvaluationAttributes.ERROR_ACTIVATED_BEFORE_START);
+		assertFalse(e.isValid());
+		assertEquals(EvaluationAttributes.ERROR_ACTIVATED_BEFORE_START,
+			Common.toString(e.getInvalidStateInfo()));
 	}
 	
 	@Test

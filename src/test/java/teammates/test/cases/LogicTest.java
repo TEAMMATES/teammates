@@ -3,13 +3,9 @@ package teammates.test.cases;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
-import static teammates.common.FieldValidator.REASON_TOO_LONG;
-import static teammates.logic.TeamEvalResult.NA;
-import static teammates.logic.TeamEvalResult.NSB;
-import static teammates.logic.TeamEvalResult.NSU;
+import static teammates.common.FieldValidator.*;
+import static teammates.logic.TeamEvalResult.*;
+import static teammates.common.Common.EOL;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -3067,7 +3063,7 @@ public class LogicTest extends BaseTestCase {
 			invokeEditEvaluation(eval);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(EvaluationAttributes.ERROR_END_BEFORE_START + 
+			assertEquals(EvaluationAttributes.ERROR_END_BEFORE_START + EOL+
 							EvaluationAttributes.ERROR_ACTIVATED_BEFORE_START, e.getMessage());
 		}
 

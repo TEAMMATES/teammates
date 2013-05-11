@@ -34,7 +34,7 @@ public class CoursesDb {
 			throws EntityAlreadyExistsException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToAdd);
 		
-		Assumption.assertTrue(courseToAdd.getInvalidStateInfo(),
+		Assumption.assertTrue(Common.toString(courseToAdd.getInvalidStateInfo()),
 				courseToAdd.isValid());
 		
 		// Check if entity already exists

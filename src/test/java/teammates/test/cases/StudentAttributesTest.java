@@ -26,7 +26,6 @@ public class StudentAttributesTest extends BaseTestCase {
 		StudentAttributes s = generateValidStudentAttributesObject();
 		
 		assertEquals("valid value", true, s.isValid());
-		assertEquals("valid value", "", s.getInvalidStateInfo());
 		
 		s.id = "invalid@google@id";
 		s.name = "";
@@ -43,7 +42,7 @@ public class StudentAttributesTest extends BaseTestCase {
 				+"\"aaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a team name because it is too long. The value of a team name should be no longer than 25 characters."+EOL
 				+"\""+s.comments+"\" is not acceptable to TEAMMATES as comments about a student enrolled in a course because it is too long. The value of comments about a student enrolled in a course should be no longer than 500 characters."+EOL
 				+"\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person name should be no longer than 40 characters. It should not be empty.";
-		assertEquals("invalid value", errorMessage, s.getInvalidStateInfo());
+		assertEquals("invalid value", errorMessage, Common.toString(s.getInvalidStateInfo()));
 	}
 
 	@Test
