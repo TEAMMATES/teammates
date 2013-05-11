@@ -1,22 +1,16 @@
 package teammates.test.cases;
 
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.*;
+import static teammates.common.Common.EOL;
+import static teammates.common.FieldValidator.*;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import org.testng.AssertJUnit;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.SubmissionAttributes;
 
 public class SubmissionAttributesTest extends BaseTestCase {
 
-	@BeforeClass
-	public static void setupClass() throws Exception {
-		printTestClassHeader();
-		turnLoggingUp(SubmissionAttributes.class);
-	}
 
 	@Test
 	public void testValidate() {
@@ -28,65 +22,64 @@ public class SubmissionAttributesTest extends BaseTestCase {
 		s.reviewee = "valid.reviewee@gmail.com";
 		s.team = "valid-team";
 		s.justification = new Text("");
-		s.p2pFeedback = new Text("");
+		s.p2pFeedback = null; //this can be null
 
-		// SUCCESS : minimal properties, still valid
-		AssertJUnit.assertTrue(s.getInvalidStateInfo(), s.isValid());
+		assertEquals("valid values, minimal properties", true, s.isValid());
+		assertEquals("valid values, minimal properties", "", s.getInvalidStateInfo());
 
 		s.points = 10;
-		s.justification = new Text("valid-justification");
 		s.p2pFeedback = new Text("valid-feedback");
+		
+		assertEquals("valid values, all properties", true, s.isValid());
+		assertEquals("valid values, all properties", "", s.getInvalidStateInfo());
+		
+		assertEquals("not self evaluation", false, s.isSelfEvaluation());
+		s.reviewee = s.reviewer;
+		assertEquals("not self evaluation", true, s.isSelfEvaluation());
 
-		// SUCCESS : other properties added, still valid
-		AssertJUnit.assertTrue(s.getInvalidStateInfo(), s.isValid());
+		
+		s.justification = null;
+		try {
+			s.getInvalidStateInfo();
+			throw new RuntimeException("Assumption violation not detected");
+		} catch (AssertionError e1) {
+			assertTrue(true);
+		}
+		
+		s.justification = new Text("");
+		
+		s.course = "invalid course id";
+		s.evaluation = "";
+		s.reviewer = "";
+		s.reviewee = "";
+		s.team = "valid-team";
+		
+		assertEquals("valid values, all properties", false, s.isValid());
+		String errorMessage = 
+				String.format(COURSE_ID_ERROR_MESSAGE, s.course, REASON_INCORRECT_FORMAT) + EOL 
+				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, s.evaluation, REASON_EMPTY) + EOL 
+				+ EOL
+				+ "Invalid email address for the student receiving the evaluation: "+ String.format(EMAIL_ERROR_MESSAGE, s.reviewer, REASON_EMPTY) + EOL
+				+ "Invalid email address for the student giving the evaluation: "+ String.format(EMAIL_ERROR_MESSAGE, s.reviewee, REASON_EMPTY);
+		assertEquals("valid values", errorMessage, s.getInvalidStateInfo());
 
-		// FAIL : no course
-		s.course = null;
-		try {
-			s.getInvalidStateInfo();
-			throw new RuntimeException("Assumption violation not detected");
-		} catch (AssertionError e1) {
-			assertTrue(true);
-		}
-		
-		// FAIL : no evaluation
-		s.course = "valid-course";
-		s.evaluation = null;
-		try {
-			s.getInvalidStateInfo();
-			throw new RuntimeException("Assumption violation not detected");
-		} catch (AssertionError e1) {
-			assertTrue(true);
-		}
-		
-		// FAIL : no reviewee
-		s.evaluation = "valid-evaluation";
-		s.reviewee = null;
-		try {
-			s.getInvalidStateInfo();
-			throw new RuntimeException("Assumption violation not detected");
-		} catch (AssertionError e1) {
-			assertTrue(true);
-		}
-		
-		// FAIL : no reviewer
-		s.reviewee = "validreviewee@gmail.com";
-		s.reviewer = null;
-		try {
-			s.getInvalidStateInfo();
-			throw new RuntimeException("Assumption violation not detected");
-		} catch (AssertionError e1) {
-			assertTrue(true);
-		}
+	}
+	
+	@Test
+	public void testIsSelfvaluation(){
+	    //already tested in testValidate() above
 	}
 	
 	@Test
 	public void testGetInvalidStateInfo(){
 	    //already tested in testValidate() above
 	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		turnLoggingDown(SubmissionAttributes.class);
+	
+	@Test
+	public void testIsValid(){
+	    //already tested in testValidate() above
 	}
+	
+	//TODO: test toString() 
+
 }

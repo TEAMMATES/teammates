@@ -96,13 +96,7 @@ public class SubmissionAttributes extends EntityAttributes {
 
 	public String getInvalidStateInfo() {
 		
-		Assumption.assertTrue(course != null);
-		Assumption.assertTrue(evaluation != null);
-		Assumption.assertTrue(team != null);
-		Assumption.assertTrue(reviewer != null);
-		Assumption.assertTrue(reviewee != null);
 		Assumption.assertTrue(justification != null);
-		
 		//p2pFeedback can be null if p2p feedback is not enabled;
 		
 		FieldValidator validator = new FieldValidator();
