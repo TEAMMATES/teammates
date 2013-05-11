@@ -1,25 +1,18 @@
 package teammates.test.cases;
 
-import static teammates.common.FieldValidator.EVALUATION_NAME_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_TOO_LONG;
-
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import org.testng.AssertJUnit;
 import static org.testng.AssertJUnit.*;
+import static teammates.common.Common.EOL;
+import static teammates.common.FieldValidator.*;
+
+import org.testng.AssertJUnit;
+import org.testng.annotations.Test;
+
 import teammates.common.Common;
-import teammates.common.FieldValidator;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 
 public class EvaluationAttributesTest extends BaseTestCase {
 
-	@BeforeClass
-	public static void setupClass() throws Exception {
-		printTestClassHeader();
-		turnLoggingUp(EvaluationAttributes.class);
-	}
 
 	@Test
 	public void testCalculateEvalStatus() throws InterruptedException {
@@ -27,7 +20,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		double timeZone;
 		int gracePeriod;
 		EvaluationAttributes evaluation = new EvaluationAttributes();
-		int safetyMargin = 1000; // we use this to compensate for test execution
+		int safetyMargin = 1000; // we use this to compensate for test execution time
 
 		______TS("in the awaiting period");
 
@@ -136,74 +129,51 @@ public class EvaluationAttributesTest extends BaseTestCase {
 	public void testValidate() {
 		EvaluationAttributes e = new EvaluationAttributes();
 
-		e.course = "valid-course";
-		e.name = "valid name";
+		e.course = "";
+		e.name = "";
+		e.instructions = Common.generateStringOfLength(EVALUATION_INSTRUCTIONS_MAX_LENGTH+1);
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = Common.getDateOffsetToCurrentTime(2);
-
-		// minimal properties, still valid
-		AssertJUnit.assertTrue(e.getInvalidStateInfo(), e.isValid());
-
 		e.activated = false;
 		e.published = false;
-		e.instructions = "valid instructions";
 		e.timeZone = 0.0;
 		e.gracePeriod = 5;
 		e.p2pEnabled = true;
-
-		// SUCCESS : other properties added, still valid
-		AssertJUnit.assertTrue(e.getInvalidStateInfo(),e.isValid());
-
-		// FAIL : no course: invalid
-		e.course = null;
-		try {
-			e.getInvalidStateInfo();
-			throw new RuntimeException("Assumption violation not detected");
-		} catch (AssertionError e1) {
-			assertTrue(true);
-		}
 		
-		// FAIL : no name: invalid
+		assertEquals("invalid values", false, e.isValid());
+		String errorMessage = 
+				String.format(COURSE_ID_ERROR_MESSAGE, e.course, REASON_EMPTY) + EOL 
+				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, e.name, REASON_EMPTY) + EOL 
+				+ String.format(EVALUATION_INSTRUCTIONS_ERROR_MESSAGE, e.instructions, REASON_TOO_LONG);
+		assertEquals("valid values", errorMessage, e.getInvalidStateInfo());
+
 		e.course = "valid-course";
-		e.name = null;
-		try {
-			e.getInvalidStateInfo();
-			throw new RuntimeException("Assumption violation not detected");
-		} catch (AssertionError e1) {
-			assertTrue(true);
-		}
-		
-		
-		// SUCCESS : name at max length
-		e.name = Common.generateStringOfLength(FieldValidator.EVALUATION_NAME_MAX_LENGTH);
-		AssertJUnit.assertTrue(e.isValid());
-		
-		// FAIL : name too long
-		e.name += "e";
-		AssertJUnit.assertFalse(e.isValid());
-		AssertJUnit.assertEquals(
-				String.format(EVALUATION_NAME_ERROR_MESSAGE, e.name, REASON_TOO_LONG),
-				e.getInvalidStateInfo());
-		
-		// FAIL : no start time
 		e.name = "valid name";
+		e.instructions = "valid instructions";
+		assertTrue("valid, minimal properties", e.isValid());
+		assertEquals("valid, minimal properties", "", e.getInvalidStateInfo());
+
+
+		assertEquals("valid values", true, e.isValid());
+		assertEquals("valid values", "", e.getInvalidStateInfo());
+		
 		e.startTime = null;
 		try {
 			e.getInvalidStateInfo();
-			signalFailureToDetectAssumptionViolation();
+			signalFailureToDetectAssumptionViolation("null start time not detected");
 		} catch (AssertionError e1) {
 			ignoreExpectedException();
 		}
 		
-		// FAIL : no end time
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = null;
 		try {
 			e.getInvalidStateInfo();
-			signalFailureToDetectAssumptionViolation();
+			signalFailureToDetectAssumptionViolation("null end time not detected");
 		} catch (AssertionError e1) {
 			ignoreExpectedException();
 		}
+
 		
 		// SUCCESS : end == start
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
@@ -250,9 +220,10 @@ public class EvaluationAttributesTest extends BaseTestCase {
 	public void testGetInvalidStateInfo(){
 	    //already tested in testValidate() above
 	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		turnLoggingDown(EvaluationAttributes.class);
+	
+	@Test
+	public void testIsValid(){
+		//already tested in testValidate() above
 	}
+	
 }

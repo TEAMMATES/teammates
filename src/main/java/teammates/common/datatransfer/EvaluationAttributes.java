@@ -96,18 +96,11 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	@Override
 	public boolean isValid() {
-		//TODO: remove these two lines. 
-		course = Common.trimIfNotNull(course);
-		name = Common.trimIfNotNull(name);
-		
 		return getInvalidStateInfo().isEmpty();
 	}
 
 	public String getInvalidStateInfo() {
 		
-		Assumption.assertTrue(course!=null);
-		Assumption.assertTrue(name!=null);
-		Assumption.assertTrue(instructions!=null);
 		Assumption.assertTrue(startTime!=null);
 		Assumption.assertTrue(endTime!=null);
 		
@@ -117,29 +110,22 @@ public class EvaluationAttributes extends EntityAttributes {
 				validator.getValidityInfo(FieldType.EVALUATION_NAME, name) + EOL+
 				validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions) + EOL;
 
-		// Verify that time values are valid
-		if (this.startTime != null && this.endTime != null) {
 			
-			if (endTime.before(startTime)) {
-				errorMessage += ERROR_END_BEFORE_START;
-			}
+		if (endTime.before(startTime)) {
+			errorMessage += ERROR_END_BEFORE_START;
+		}
 
-			if (Common.isCurrentTimeInUsersTimezoneEarlierThan(endTime,	timeZone) && published) {
-				errorMessage += ERROR_PUBLISHED_BEFORE_END;
-			}
+		if (Common.isCurrentTimeInUsersTimezoneEarlierThan(endTime,	timeZone) && published) {
+			errorMessage += ERROR_PUBLISHED_BEFORE_END;
+		}
 
-			if (Common.isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
-				errorMessage += ERROR_ACTIVATED_BEFORE_START;
-			}
+		if (Common.isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
+			errorMessage += ERROR_ACTIVATED_BEFORE_START;
 		}
 
 		return errorMessage.trim();
 	}
 
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("course:" + course + ", name:" + name + Common.EOL);
-		return sb.toString();
-	}
+	//TODO: implement toString()
 
 }
