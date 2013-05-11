@@ -184,12 +184,10 @@ public class StudentAttributes extends EntityAttributes {
 
 	}
 
+	//TODO: rename to getInvalidityInfo(), in other similar classes too, and in FieldValidator as well
 	public String getInvalidStateInfo() {
 		
 		//id is allowed to be null when the student is not registered
-		Assumption.assertTrue(name!=null);
-		Assumption.assertTrue(email!=null);
-		Assumption.assertTrue(course!=null);
 		Assumption.assertTrue(team!=null);
 		Assumption.assertTrue(comments!=null);
 		
