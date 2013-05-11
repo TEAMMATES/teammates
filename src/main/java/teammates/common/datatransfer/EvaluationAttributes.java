@@ -115,7 +115,7 @@ public class EvaluationAttributes extends EntityAttributes {
 		String errorMessage = 
 				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
 				validator.getValidityInfo(FieldType.EVALUATION_NAME, name) + EOL+
-				(instructions.isEmpty() ? "" : validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions)) + EOL;
+				validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions) + EOL;
 
 		// Verify that time values are valid
 		if (this.startTime != null && this.endTime != null) {

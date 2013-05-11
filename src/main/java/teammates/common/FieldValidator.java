@@ -49,7 +49,7 @@ public class FieldValidator {
 	public static final String EVALUATION_INSTRUCTIONS_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" because it %s. " +
 					"The value of "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" should be no longer than "+
-					EVALUATION_INSTRUCTIONS_MAX_LENGTH+" characters. It should not be empty.";	
+					EVALUATION_INSTRUCTIONS_MAX_LENGTH+" characters.";	
 	
 	private static final String EVALUATION_NAME_FIELD_NAME = "an evaluation name";
 	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
@@ -84,19 +84,23 @@ public class FieldValidator {
 	public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as "+STUDENT_ROLE_COMMENTS_FIELD_NAME+" because it %s. " +
 					"The value of "+STUDENT_ROLE_COMMENTS_FIELD_NAME+" should be no longer than "+
-					STUDENT_ROLE_COMMENTS_MAX_LENGTH+" characters. It should not be empty.";
+					STUDENT_ROLE_COMMENTS_MAX_LENGTH+" characters.";
 
-	public static final String SIZE_CAPPED_STRING_ERROR_MESSAGE = 
+	public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
 			"The value of %s should be no longer than %d characters. " +
 			"It should not be empty.";
+	
+	public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE = 
+			"\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
+					"The value of %s should be no longer than %d characters.";
 		
 	private static final String TEAM_NAME_FIELD_NAME = "a team name";
 	public static final int TEAM_NAME_MAX_LENGTH = 25;
 	public static final String TEAM_NAME_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as "+TEAM_NAME_FIELD_NAME+" because it %s. " +
 					"The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
-					TEAM_NAME_MAX_LENGTH+" characters. It should not be empty.";
+					TEAM_NAME_MAX_LENGTH+" characters.";
 
 	
 	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
@@ -143,31 +147,31 @@ public class FieldValidator {
 		String returnValue = null;
 		switch (fieldType) {
 		case PERSON_NAME:
-			returnValue = getValidityInfoForSizeCappedString(
+			returnValue = getValidityInfoForSizeCappedNonEmptyString(
 			PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String)value);
 			break;
 		case INSTITUTE_NAME:
-			returnValue = getValidityInfoForSizeCappedString(
+			returnValue = getValidityInfoForSizeCappedNonEmptyString(
 			INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String)value);
 			break;
 		case COURSE_NAME:
-			returnValue = getValidityInfoForSizeCappedString(
+			returnValue = getValidityInfoForSizeCappedNonEmptyString(
 			COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String)value);
 			break;
 		case EVALUATION_NAME:
-			returnValue = getValidityInfoForSizeCappedString(
+			returnValue = getValidityInfoForSizeCappedNonEmptyString(
 			EVALUATION_NAME_FIELD_NAME, EVALUATION_NAME_MAX_LENGTH, (String)value);
 			break;
 		case EVALUATION_INSTRUCTIONS:
-			returnValue = getValidityInfoForSizeCappedString(
+			returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
 					EVALUATION_INSTRUCTIONS_FIELD_NAME, EVALUATION_INSTRUCTIONS_MAX_LENGTH, (String)value);
 			break;
 		case STUDENT_ROLE_COMMENTS:
-			returnValue = getValidityInfoForSizeCappedString(
+			returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
 					STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String)value);
 			break;
 		case TEAM_NAME:
-			returnValue = getValidityInfoForSizeCappedString(
+			returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
 			TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String)value);
 			break;
 		case GOOGLE_ID:
@@ -204,15 +208,40 @@ public class FieldValidator {
 	 * @return An explanation of why the {@code value} is not acceptable.
 	 *         Returns an empty string "" if the {@code value} is acceptable.
 	 */
-	public String getValidityInfoForSizeCappedString(String fieldName, int maxLength, String value) {
+	public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.isEmpty()) {
-			return String.format(SIZE_CAPPED_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
 		}else if(value.length()>maxLength){
-			return String.format(SIZE_CAPPED_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+		} 
+		return "";
+	}
+	
+	/**
+	 * Checks if the given string is a non-null string no longer than
+	 * the specified length {@code maxLength}. However, this string can be empty.
+	 * 
+	 * @param fieldName
+	 *            A descriptive name of the field e.g., "student name", to be
+	 *            used in the return value to make the explanation more
+	 *            descriptive. 
+	 * @param maxLength
+	 * @param value
+	 *            The string to be checked.
+	 * @return An explanation of why the {@code value} is not acceptable.
+	 *         Returns an empty string "" if the {@code value} is acceptable.
+	 */
+	public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
+		
+		Assumption.assertTrue("Non-null value expected", value != null);
+		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
+		
+		if (value.length()>maxLength){
+			return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
 		} 
 		return "";
 	}

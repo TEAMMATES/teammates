@@ -21,20 +21,20 @@ public class FieldValidatorTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testGetValidityInfoForSizeCappedString() {
+	public void testGetValidityInfoForSizeCappedNonEmptyString() {
 		
 		String typicalFieldName = "my field";
 		int typicalLength = 25;
 		
 		try {
-			validator.getValidityInfoForSizeCappedString(typicalFieldName, typicalLength, null);
+			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null);
 			signalFailureToDetectAssumptionViolation("not expected to be null");
 		} catch (AssertionError e) {
 			ignoreExpectedException(); 
 		}
 		
 		try {
-			validator.getValidityInfoForSizeCappedString(typicalFieldName, typicalLength, " abc ");
+			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, " abc ");
 			signalFailureToDetectAssumptionViolation("not expected to be untrimmed");
 		} catch (AssertionError e) {
 			ignoreExpectedException();
@@ -43,14 +43,14 @@ public class FieldValidatorTest extends BaseTestCase{
 		int maxLength = 50;
 		assertEquals("valid: typical value", 
 				"",
-				validator.getValidityInfoForSizeCappedString(
+				validator.getValidityInfoForSizeCappedNonEmptyString(
 						typicalFieldName, 
 						maxLength, 
 						"Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
 		
 		assertEquals("valid: max length", 
 				"",
-				validator.getValidityInfoForSizeCappedString(
+				validator.getValidityInfoForSizeCappedNonEmptyString(
 						typicalFieldName, 
 						maxLength, 
 						Common.generateStringOfLength(maxLength)));
@@ -58,9 +58,9 @@ public class FieldValidatorTest extends BaseTestCase{
 		String tooLongName = Common.generateStringOfLength(maxLength+1);
 		assertEquals("invalid: too long", 
 				String.format(
-						SIZE_CAPPED_STRING_ERROR_MESSAGE, 
+						SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
 						tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
-				validator.getValidityInfoForSizeCappedString(
+				validator.getValidityInfoForSizeCappedNonEmptyString(
 						typicalFieldName, 
 						maxLength, 
 						tooLongName));
@@ -69,25 +69,82 @@ public class FieldValidatorTest extends BaseTestCase{
 		String emptyValue = "";
 		assertEquals("invalid: empty", 
 				String.format(
-						SIZE_CAPPED_STRING_ERROR_MESSAGE, 
+						SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
 						emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
-				validator.getValidityInfoForSizeCappedString(
+				validator.getValidityInfoForSizeCappedNonEmptyString(
 						typicalFieldName, 
 						maxLength, 
 						emptyValue));
+	}
+	
+	@Test
+	public void testGetValidityInfoForSizeCappedPossiblyEmptyString() {
+		
+		String typicalFieldName = "my field";
+		int typicalLength = 25;
+		
+		try {
+			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null);
+			signalFailureToDetectAssumptionViolation("not expected to be null");
+		} catch (AssertionError e) {
+			ignoreExpectedException(); 
+		}
+		
+		try {
+			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, " abc ");
+			signalFailureToDetectAssumptionViolation("not expected to be untrimmed");
+		} catch (AssertionError e) {
+			ignoreExpectedException();
+		}
+		
+		int maxLength = 50;
+		assertEquals("valid: typical value", 
+				"",
+				validator.getValidityInfoForSizeCappedPossiblyEmptyString(
+						typicalFieldName, 
+						maxLength, 
+						"Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
+		
+		assertEquals("valid: max length", 
+				"",
+				validator.getValidityInfoForSizeCappedPossiblyEmptyString(
+						typicalFieldName, 
+						maxLength, 
+						Common.generateStringOfLength(maxLength)));
+		
+		
+		String emptyValue = "";
+		assertEquals("valid: empty", 
+				"",
+				validator.getValidityInfoForSizeCappedPossiblyEmptyString(
+						typicalFieldName, 
+						maxLength, 
+						emptyValue));
+		
+		String tooLongName = Common.generateStringOfLength(maxLength+1);
+		assertEquals("invalid: too long", 
+				String.format(
+						SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, 
+						tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+				validator.getValidityInfoForSizeCappedPossiblyEmptyString(
+						typicalFieldName, 
+						maxLength, 
+						tooLongName));
 	}
 
 	@Test
 	public void testGetValidityInfo_PERSON_NAME() {
 		
-		//NOTE 1: The SUT's work is done mostly in testGetValidityInfoForSizeCappedString,
-		//  which is already unit tested. Therefore, this method checks if the 
+		//NOTE 1: The SUT's work is done mostly in testGetValidityInfoForSizeCappedNonEmptyString
+		//  or testGetValidityInfoForSizeCappedPossiblyEmptyString methods
+		//  which are already unit tested. Therefore, this method checks if the 
 		//  max length and the field name are handled correctly by SUT.
 		
 		runGenericTestCasesForCappedSizeStringTypeField(
 				FieldType.PERSON_NAME, 
 				PERSON_NAME_MAX_LENGTH, 
-				PERSON_NAME_ERROR_MESSAGE);
+				PERSON_NAME_ERROR_MESSAGE, 
+				false);
 	}
 	
 	@Test
@@ -97,7 +154,8 @@ public class FieldValidatorTest extends BaseTestCase{
 		runGenericTestCasesForCappedSizeStringTypeField(
 				FieldType.INSTITUTE_NAME, 
 				INSTITUTE_NAME_MAX_LENGTH, 
-				INSTITUTE_NAME_ERROR_MESSAGE);
+				INSTITUTE_NAME_ERROR_MESSAGE, 
+				false);
 	}
 	
 	@Test
@@ -107,7 +165,8 @@ public class FieldValidatorTest extends BaseTestCase{
 		runGenericTestCasesForCappedSizeStringTypeField(
 				FieldType.COURSE_NAME, 
 				COURSE_NAME_MAX_LENGTH, 
-				COURSE_NAME_ERROR_MESSAGE);
+				COURSE_NAME_ERROR_MESSAGE, 
+				false);
 	}
 	
 	@Test
@@ -117,7 +176,8 @@ public class FieldValidatorTest extends BaseTestCase{
 		runGenericTestCasesForCappedSizeStringTypeField(
 				FieldType.TEAM_NAME, 
 				TEAM_NAME_MAX_LENGTH, 
-				TEAM_NAME_ERROR_MESSAGE);
+				TEAM_NAME_ERROR_MESSAGE, 
+				true);
 		
 	}
 
@@ -128,7 +188,8 @@ public class FieldValidatorTest extends BaseTestCase{
 		runGenericTestCasesForCappedSizeStringTypeField(
 				FieldType.EVALUATION_NAME, 
 				EVALUATION_NAME_MAX_LENGTH, 
-				EVALUATION_NAME_ERROR_MESSAGE);
+				EVALUATION_NAME_ERROR_MESSAGE, 
+				false);
 	}
 	
 	@Test
@@ -138,7 +199,8 @@ public class FieldValidatorTest extends BaseTestCase{
 		runGenericTestCasesForCappedSizeStringTypeField(
 				FieldType.EVALUATION_INSTRUCTIONS, 
 				EVALUATION_INSTRUCTIONS_MAX_LENGTH, 
-				EVALUATION_INSTRUCTIONS_ERROR_MESSAGE);
+				EVALUATION_INSTRUCTIONS_ERROR_MESSAGE, 
+				true);
 	}
 	
 	@Test
@@ -148,7 +210,8 @@ public class FieldValidatorTest extends BaseTestCase{
 		runGenericTestCasesForCappedSizeStringTypeField(
 				FieldType.STUDENT_ROLE_COMMENTS, 
 				STUDENT_ROLE_COMMENTS_MAX_LENGTH, 
-				STUDENT_ROLE_COMMENTS_ERROR_MESSAGE);
+				STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, 
+				true);
 	}
 
 
@@ -324,7 +387,11 @@ public class FieldValidatorTest extends BaseTestCase{
 	}
 	
 	
-	private void runGenericTestCasesForCappedSizeStringTypeField(FieldType fieldType, int maxSize, String errorMessageFormat) {
+	private void runGenericTestCasesForCappedSizeStringTypeField(
+			FieldType fieldType, 
+			int maxSize, 
+			String errorMessageFormat, 
+			boolean emptyStringAllowed) {
 		
 		String maxLengthValue = Common.generateStringOfLength(maxSize);
 		testOnce("valid: max length value", 
@@ -343,7 +410,7 @@ public class FieldValidatorTest extends BaseTestCase{
 				fieldType,
 				"course name of the student",
 				emptyValue, 
-				String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
+				emptyStringAllowed? "" : String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
 	}
 
 	private void testOnce(String description, FieldType fieldType, String value, String expected) {
