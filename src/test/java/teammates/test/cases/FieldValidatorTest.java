@@ -4,6 +4,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import static teammates.common.FieldValidator.*;
 
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
@@ -13,6 +15,10 @@ import teammates.common.FieldValidator.FieldType;
 public class FieldValidatorTest extends BaseTestCase{
 	public FieldValidator validator = new FieldValidator();
 	
+	@BeforeClass
+	public static void setupClass() throws Exception {
+		printTestClassHeader();
+	}
 	
 	@Test
 	public void testGetValidityInfoForSizeCappedString() {
@@ -363,5 +369,9 @@ public class FieldValidatorTest extends BaseTestCase{
 		}
 	}
 	
+	@AfterClass
+	public static void tearDown() {
+		printTestClassFooter();
+	}
 
 }

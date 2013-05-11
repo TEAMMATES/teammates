@@ -1,15 +1,23 @@
 package teammates.test.cases;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import static org.testng.AssertJUnit.assertEquals;
 import teammates.common.Common;
 import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.test.driver.BackDoor;
 
 public class AccountAttributesTest extends BaseTestCase {
 	
 	//TODO: test toString() method
+	
+	@BeforeClass
+	public static void setupClass() throws Exception {
+		printTestClassHeader();
+	}
 	
 	@Test
 	public void testGetInvalidStateInfo(){
@@ -51,5 +59,11 @@ public class AccountAttributesTest extends BaseTestCase {
 		account.institute = "valid institute name";
 		return account;
 	}
+	
+	@AfterClass
+	public static void tearDown() {
+		printTestClassFooter();
+	}
+
 
 }

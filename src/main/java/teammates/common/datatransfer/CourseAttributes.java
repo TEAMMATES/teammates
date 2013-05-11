@@ -4,7 +4,6 @@ import static teammates.common.Common.EOL;
 
 import java.util.Date;
 
-import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
@@ -39,8 +38,6 @@ public class CourseAttributes extends EntityAttributes {
 	}
 	
 	public String getInvalidStateInfo() {
-		Assumption.assertTrue(id!=null);
-		Assumption.assertTrue(name!=null);
 		
 		FieldValidator validator = new FieldValidator();
 		String errorMessage = 
@@ -55,9 +52,6 @@ public class CourseAttributes extends EntityAttributes {
 	}
 
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\ncourse id: " + id);
-		sb.append("\ncourse name: "+ name);
-		return sb.toString();
+		return "["+CourseAttributes.class.getSimpleName() +"] id: " + id +" name: "+ name;
 	}
 }
