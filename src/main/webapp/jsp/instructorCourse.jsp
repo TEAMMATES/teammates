@@ -53,7 +53,7 @@
 							value="<%=(helper.courseID==null ? "" : helper.courseID)%>"
 							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
 							onmouseout="hideddrivetip()"
-							maxlength=<%=Common.COURSE_ID_MAX_LENGTH%> tabindex="1"
+							maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
 							placeholder="e.g. CS3215-2013Semester1" /></td>
 					</tr>
 					<tr>

@@ -1,7 +1,5 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.Common.EOL;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +55,7 @@ public class InstructorAttributes extends EntityAttributes {
 		}
 		
 		this.googleId = Common.sanitizeGoogleId(parts[0]);
-		Assumption.assertEquals(true, Common.isValidGoogleId(googleId));
+		Assumption.assertTrue(new FieldValidator().getValidityInfo(FieldType.GOOGLE_ID, googleId).isEmpty());
 
 		this.courseId = courseId;
 		this.name = parts[1].trim();

@@ -137,14 +137,14 @@ public class InstructorCourseAddPageUiTest extends BaseTestCase {
 
 		______TS("testMaxLengthOfInputFields");
 		
-		String shortCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH);
-		String longCourseId = Common.generateStringOfLength(Common.COURSE_ID_MAX_LENGTH+1);
+		String shortCourseId = Common.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
+		String longCourseId = Common.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH+1);
 		
 		String shortCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
 		String longCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH+1);
 		
 		assertEquals(shortCourseId, bi.fillInCourseID(shortCourseId));
-		assertEquals(longCourseId.substring(0, Common.COURSE_ID_MAX_LENGTH), bi.fillInCourseID(longCourseId));
+		assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH), bi.fillInCourseID(longCourseId));
 		
 		assertEquals(shortCourseName, bi.fillInCourseName(shortCourseName));
 		assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), bi.fillInCourseName(longCourseName));

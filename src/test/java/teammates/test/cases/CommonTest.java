@@ -42,15 +42,6 @@ public class CommonTest extends BaseTestCase {
 		assertEquals("user@hotmail.com", Common.sanitizeGoogleId(" user@hotmail.com \t\n"));
 	}
 	
-	@Test
-	public void testIsValidGoogleId() {
-
-		assertEquals(true, Common.isValidGoogleId("   Hello.12-3_4  \t\n  "));
-		assertEquals(true, Common.isValidGoogleId("  user@hotmail.com  \t\n"));
-		assertEquals(false, Common.isValidGoogleId(" HI@GMAIL.com \t\n "));
-		assertEquals(false, Common.isValidGoogleId("/wrong!user\\"));
-		assertEquals(false, Common.isValidGoogleId("\t\n\t"));
-	}
 
 	@Test
 	public void testAssertContains() {
