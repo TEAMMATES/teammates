@@ -3,6 +3,7 @@
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationStats"%>
+<%@ page import="teammates.common.FieldValidator"%>
 <%@ page import="teammates.ui.controller.InstructorEvalHelper"%>
 <%
 	InstructorEvalHelper helper = (InstructorEvalHelper)request.getAttribute("helper");
@@ -89,7 +90,7 @@
 						<td><input  type="text"
 									name="<%=Common.PARAM_EVALUATION_NAME%>" id="<%=Common.PARAM_EVALUATION_NAME%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME%>')"
-									onmouseout="hideddrivetip()" maxlength =<%=EvaluationAttributes.EVALUATION_NAME_MAX_LENGTH%>
+									onmouseout="hideddrivetip()" maxlength =<%=FieldValidator.EVALUATION_NAME_MAX_LENGTH%>
 									value="<%if(helper.newEvaluationToBeCreated!=null) out.print(InstructorEvalHelper.escapeForHTML(helper.newEvaluationToBeCreated.name));%>"
 									tabindex="2" placeholder="e.g. Midterm Evaluation"></td>
 						<td class="label bold" >Closing time:</td>

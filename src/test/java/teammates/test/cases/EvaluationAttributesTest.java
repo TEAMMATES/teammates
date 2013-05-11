@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.AssertJUnit;
 import static org.testng.AssertJUnit.*;
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 
@@ -174,7 +175,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		
 		
 		// SUCCESS : name at max length
-		e.name = Common.generateStringOfLength(EvaluationAttributes.EVALUATION_NAME_MAX_LENGTH);
+		e.name = Common.generateStringOfLength(FieldValidator.EVALUATION_NAME_MAX_LENGTH);
 		AssertJUnit.assertTrue(e.isValid());
 		
 		// FAIL : name too long

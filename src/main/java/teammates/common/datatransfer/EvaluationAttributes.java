@@ -1,18 +1,28 @@
 package teammates.common.datatransfer;
 
+import static teammates.common.Common.EOL;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
-import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
 import teammates.storage.entity.Evaluation;
 
+/**
+ * Represents a data transfer object for Evaluation entities.
+ */
 public class EvaluationAttributes extends EntityAttributes {
-	public String course;
+	
+	public enum EvalStatus {
+		AWAITING, OPEN, CLOSED, PUBLISHED, DOES_NOT_EXIST
+	}
+		
+	//Note: be careful when changing these variables as their names are used in *.json files.
+	public String course; //TODO: rename to courseId
 	public String name;
 	public String instructions = "";
 	public Date startTime;
@@ -25,23 +35,16 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	private static Logger log = Common.getLogger();
 
-	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
-
+	//TODO: move these to FieldValidator. All filed validation error messages should be in that class.
 	public static final String ERROR_END_BEFORE_START = "Evaluation end time cannot be earlier than start time";
 	public static final String ERROR_PUBLISHED_BEFORE_END = "Evaluation cannot be published before end time";
 	public static final String ERROR_ACTIVATED_BEFORE_START = "Evaluation cannot be activated before start time";
 
-	public enum EvalStatus {
-		AWAITING, OPEN, CLOSED, PUBLISHED, DOES_NOT_EXIST
-	}
 
+	//TODO: add a constructor that takes all parameters. Provide sanitization.
+	
 	public EvaluationAttributes() {
-		// This constructor should take in String params so we can trim them at
-		// construction time
-		// However, this constructor is already being used in more than 10
-		// places
-		// Refactoring it will take a very long time. Maybe much later
-		// For now, the trimming will be done everytime isValid is called.
+
 	}
 
 	public EvaluationAttributes(Evaluation e) {
@@ -93,8 +96,10 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	@Override
 	public boolean isValid() {
+		//TODO: remove these two lines. 
 		course = Common.trimIfNotNull(course);
 		name = Common.trimIfNotNull(name);
+		
 		return getInvalidStateInfo().isEmpty();
 	}
 
@@ -112,19 +117,18 @@ public class EvaluationAttributes extends EntityAttributes {
 				validator.getValidityInfo(FieldType.EVALUATION_NAME, name) + EOL+
 				(instructions.isEmpty() ? "" : validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions)) + EOL;
 
-		// Check time values are valid
+		// Verify that time values are valid
 		if (this.startTime != null && this.endTime != null) {
+			
 			if (endTime.before(startTime)) {
 				errorMessage += ERROR_END_BEFORE_START;
 			}
 
-			if (Common.isCurrentTimeInUsersTimezoneEarlierThan(endTime,
-					timeZone) && published) {
+			if (Common.isCurrentTimeInUsersTimezoneEarlierThan(endTime,	timeZone) && published) {
 				errorMessage += ERROR_PUBLISHED_BEFORE_END;
 			}
 
-			if (Common.isCurrentTimeInUsersTimezoneEarlierThan(startTime,
-					timeZone) && activated) {
+			if (Common.isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
 				errorMessage += ERROR_ACTIVATED_BEFORE_START;
 			}
 		}

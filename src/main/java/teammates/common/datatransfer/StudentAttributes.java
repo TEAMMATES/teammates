@@ -4,15 +4,21 @@ import static teammates.common.Common.EOL;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
-import static teammates.common.FieldValidator.*;
+import teammates.common.FieldValidator.FieldType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {
+	
+	//=========================================================================
 	public enum UpdateStatus {
 		// @formatter:off
-		ERROR(0), NEW(1), MODIFIED(2), UNMODIFIED(3), NOT_IN_ENROLL_LIST(4), UNKNOWN(
-				5);
+		ERROR(0), 
+		NEW(1), 
+		MODIFIED(2), 
+		UNMODIFIED(3), 
+		NOT_IN_ENROLL_LIST(4), 
+		UNKNOWN(5);
 		// @formatter:on
 
 		public final int numericRepresentation;
@@ -41,7 +47,10 @@ public class StudentAttributes extends EntityAttributes {
 		}
 	}
 
-	public String id;
+	//=========================================================================
+	
+	//Note: be careful when changing these variables as their names are used in *.json files.
+	public String id; //TODO: rename to googleId
 	public String name;
 	public String email;
 	public String course = null;
@@ -51,7 +60,7 @@ public class StudentAttributes extends EntityAttributes {
 
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
 
-		
+	//TODO: move these constants into FieldValidator	
 	public static final String ERROR_ENROLL_LINE_NULL = "Enroll line was null\n";
 	public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
 	public static final String ERROR_ENROLL_LINE_TOOFEWPARTS = "Enroll line had too few parts\n";
@@ -59,6 +68,8 @@ public class StudentAttributes extends EntityAttributes {
 		
 	public StudentAttributes(String id, String email, String name, String comments,
 			String courseId, String team) {
+		//TODO: this method should follow our normal sanitization policy
+		// (when we have one).
 		this();
 		this.id = Common.trimIfNotNull(id);
 		this.email = Common.trimIfNotNull(email);
@@ -72,7 +83,8 @@ public class StudentAttributes extends EntityAttributes {
 		
 	}
 
-	// This is the only entity constructor that throws IPE, because of the way it takes input
+	//TODO: Replace InvalidParametersException with field validation? 
+	//   i.e. let the caller use getValidiyInfo to check correctness instead of throwing IPE
 	public StudentAttributes(String enrollLine, String courseId)
 			throws InvalidParametersException {
 
@@ -82,6 +94,7 @@ public class StudentAttributes extends EntityAttributes {
 		int EMAIL_POS = 2;
 		int COMMENT_POS = 3;
 
+		//TODO: move enroll line validation to FieldValidator
 		Assumption.assertNotNull(ERROR_ENROLL_LINE_NULL, enrollLine);
 			
 		if (enrollLine.equals("")) {
@@ -96,14 +109,11 @@ public class StudentAttributes extends EntityAttributes {
 			throw new InvalidParametersException(ERROR_ENROLL_LINE_TOOMANYPARTS);
 		}
 
+		//TODO: apply proper sanitization
 		String paramCourseId = courseId == null ? null : courseId.trim();
-
 		String paramTeam = parts[TEAM_POS].trim();
-
 		String paramName = parts[NAME_POS].trim();
-
 		String paramEmail = parts[EMAIL_POS].trim();
-
 		String paramComment = ((parts.length == 4) ? parts[COMMENT_POS].trim() : "");
 
 		this.team = paramTeam;
@@ -138,6 +148,8 @@ public class StudentAttributes extends EntityAttributes {
 				&& otherStudent.team.equals(this.team);
 	}
 
+	//TODO: this method is very similar to  isEnrollInfoSameAs above. 
+	//  It is also used in testing only. eliminate?
 	public boolean isEnrollmentInfoMatchingTo(StudentAttributes other) {
 		return (this.email.equals(other.email))
 				&& (this.course.equals(other.course))
@@ -147,19 +159,11 @@ public class StudentAttributes extends EntityAttributes {
 				&& (this.updateStatus == other.updateStatus);
 	}
 
-	public String toString() {
-		return toString(0);
-	}
-
-	public String toString(int indent) {
-		String indentString = Common.getIndent(indent);
-		StringBuilder sb = new StringBuilder();
-		sb.append(indentString + "Student:" + name + "[" + email + "]" + EOL);
-		return sb.toString();
-	}
-
-	public static void equalizeIrrelevantData(StudentAttributes expectedStudent,
+	//TODO: consider moving out of here. It is used only in testing.
+	public static void equalizeIrrelevantData(
+			StudentAttributes expectedStudent,
 			StudentAttributes actualStudent) {
+		
 		// For these fields, we consider null and "" equivalent.
 		if ((expectedStudent.id == null) && (actualStudent.id.equals(""))) {
 			actualStudent.id = null;
@@ -180,11 +184,8 @@ public class StudentAttributes extends EntityAttributes {
 
 	}
 
-	public Student toEntity() {
-		return new Student(email, name, id, comments, course, team);
-	}
-
 	public String getInvalidStateInfo() {
+		
 		//id is allowed to be null when the student is not registered
 		Assumption.assertTrue(name!=null);
 		Assumption.assertTrue(email!=null);
@@ -193,7 +194,6 @@ public class StudentAttributes extends EntityAttributes {
 		Assumption.assertTrue(comments!=null);
 		
 		FieldValidator validator = new FieldValidator();
-		
 		String errorMessage = 
 				(id==null || id.isEmpty()? "": validator.getValidityInfo(FieldType.GOOGLE_ID, id) + EOL) +
 				validator.getValidityInfo(FieldType.COURSE_ID, course) + EOL+
@@ -204,5 +204,20 @@ public class StudentAttributes extends EntityAttributes {
 				validator.getValidityInfo(FieldType.PERSON_NAME, name) + EOL;
 
 		return errorMessage.trim();
+	}
+
+	public Student toEntity() {
+		return new Student(email, name, id, comments, course, team);
+	}
+
+	public String toString() {
+		return toString(0);
+	}
+
+	public String toString(int indent) {
+		String indentString = Common.getIndent(indent);
+		StringBuilder sb = new StringBuilder();
+		sb.append(indentString + "Student:" + name + "[" + email + "]" + EOL);
+		return sb.toString();
 	}
 }

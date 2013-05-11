@@ -45,8 +45,8 @@
 			</tr>
 			
 			<%
-			if(sub.reviewee.equals(sub.reviewer)){
-		%>
+							if(sub.reviewee.equals(sub.reviewer)){
+						%>
 				<tr>
 					<td class="label rightalign bold">My Estimated contribution:</td>
 					<td>

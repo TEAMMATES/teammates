@@ -1,7 +1,7 @@
 package teammates.common;
 
 /**
- * Used to validate data fields such as emails, names, etc.
+ * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
 public class FieldValidator {
 	

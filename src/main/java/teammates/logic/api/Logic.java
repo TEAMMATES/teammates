@@ -1004,7 +1004,7 @@ public class Logic {
 
 		gateKeeper.verfyCourseOwner_OR_EmailOwnerAndPublished(courseId, evaluationName,
 				studentEmail);
-
+		
 		StudentAttributes student = getStudent(courseId, studentEmail);
 		if (student == null) {
 			throw new EntityDoesNotExistException("The student " + studentEmail

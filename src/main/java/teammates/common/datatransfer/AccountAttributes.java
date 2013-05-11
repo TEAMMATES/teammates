@@ -1,14 +1,21 @@
 package teammates.common.datatransfer;
 
+import static teammates.common.Common.EOL;
+
 import java.util.Date;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
-import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
 import teammates.storage.entity.Account;
 
+/**
+ * A data transfer object for Account entities.
+ */
 public class AccountAttributes extends EntityAttributes {
+	
+	//Note: be careful when changing these variables as their names are used in *.json files.
+	
 	public String googleId;
 	public String name;
 	public boolean isInstructor;
@@ -31,16 +38,14 @@ public class AccountAttributes extends EntityAttributes {
 	}
 	
 	public AccountAttributes(String googleId, String name, boolean isInstructor,
+			//TODO: this method should follow our normal sanitization policy
+			// (when we have one).
 				String email, String institute) {
 		this.googleId = Common.trimIfNotNull(googleId);
 		this.name = Common.trimIfNotNull(name);
 		this.isInstructor = isInstructor;
 		this.email = Common.trimIfNotNull(email);
 		this.institute = Common.trimIfNotNull(institute);
-	}
-	
-	public Account toEntity() {
-		return new Account(googleId, name, isInstructor, email, institute);
 	}
 	
 	public String getInvalidStateInfo() {
@@ -59,5 +64,11 @@ public class AccountAttributes extends EntityAttributes {
 		//No validation for isInstructor and createdAt fields.
 		return errorMessage.trim();
 	}
+
+	public Account toEntity() {
+		return new Account(googleId, name, isInstructor, email, institute);
+	}
+	
+	//TODO: implement toString method
 	
 }
