@@ -22,6 +22,8 @@ public class TeamResultBundle {
 		}
 	}
 	
+	//TODO: unit test sort methods
+	
 	public void sortByStudentNameAscending() {
 		Collections.sort(studentResults, new Comparator<StudentResultBundle>() {
 			public int compare(StudentResultBundle s1, StudentResultBundle s2) {
@@ -50,6 +52,7 @@ public class TeamResultBundle {
 		return toString(0);
 	}
 	
+	//TODO: unit test this
 	public String toString(int indent){
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();

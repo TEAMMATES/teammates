@@ -34,6 +34,7 @@ public class StudentResultBundle {
 		this.summary = new StudentResultSummary();
 	}
 	
+	//TODO: unit test this
 	/** returns the self-evaluation selected from outgoing submissions */
 	public SubmissionAttributes getSelfEvaluation() {
 		for (SubmissionAttributes s : outgoing) {
@@ -44,6 +45,7 @@ public class StudentResultBundle {
 		return null;
 	}
 
+	//TODO: unit test these sort methods
 	public void sortOutgoingByStudentNameAscending() {
 		Collections.sort(outgoing, new Comparator<SubmissionAttributes>() {
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
@@ -88,6 +90,7 @@ public class StudentResultBundle {
 		return toString(0);
 	}
 
+	//TODO: unit test this
 	public String toString(int indent) {
 		String indentString = Common.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
