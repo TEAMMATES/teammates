@@ -3,8 +3,8 @@ package teammates.common.datatransfer;
 import java.util.HashMap;
 
 /**
- * This is a class to hold a bundle of entities
- * This class is mainly used for serializing JSON strings
+ * Holds a bundle of *Attributes data transfer objects.
+ * This class is mainly used for serializing JSON strings.
  */
 public class DataBundle {
 	public HashMap<String, AccountAttributes> accounts = new HashMap<String, AccountAttributes>();

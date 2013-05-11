@@ -15,7 +15,7 @@ import teammates.common.Common;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Evaluation represents an evaluation/feedback session.
+ * Represents an evaluation/feedback session.
  */
 @PersistenceCapable
 public class Evaluation {
@@ -83,17 +83,6 @@ public class Evaluation {
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private boolean activated = false;
 
-	/**
-	 * Constructs an Evaluation object.
-	 * 
-	 * @param courseId
-	 * @param evaluationName
-	 * @param instructions
-	 * @param commentsEnabled
-	 * @param start
-	 * @param deadline
-	 * @param gracePeriod
-	 */
 	public Evaluation(String courseId, String evaluationName,
 			String instructions, boolean commentsEnabled, Date start,
 			Date deadline, double timeZone, int gracePeriod) {
@@ -188,6 +177,7 @@ public class Evaluation {
 		this.timeZone = timeZone;
 	}
 
+	//TODO: move this method to EvaluationAttributes class?
 	/**
 	 * @return True if the current time is between start time and deadline, but
 	 *         the evaluation has not been activated yet.

@@ -11,7 +11,7 @@ import teammates.common.Common;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Submission represents a evaluation/feedback submission from one student to
+ * Represents an evaluation/feedback submission from one student to
  * another student.
  */
 @PersistenceCapable
@@ -48,13 +48,7 @@ public class Submission {
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Text commentsToStudent;
 
-	/**
-	 * @param reviewerEmail
-	 * @param revieweeEmail
-	 * @param courseId
-	 * @param evaluationName
-	 * @param teamName
-	 */
+	
 	public Submission(String reviewerEmail, String revieweeEmail,
 			String courseId, String evaluationName, String teamName) {
 		// TODO: why do we need the team name here?

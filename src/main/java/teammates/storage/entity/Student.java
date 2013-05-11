@@ -10,7 +10,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Student is an association class that represents the association Account -->
+ * An association class that represents the association Account -->
  * [enrolled in] --> Course.
  */
 @PersistenceCapable

@@ -5,8 +5,12 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import teammates.common.Common;
-import teammates.logic.TeamEvalResult;
 
+/**
+ * Represents detailed results for a team.
+ * <br> Contains:
+ * <br> * {@link StudentResultBundle} objects for each team member.
+ */
 public class TeamResultBundle {
 	
 	public ArrayList<StudentResultBundle> studentResults;

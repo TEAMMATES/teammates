@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Course represents a course entity. 
+ * Represents a course entity. 
  */
 @PersistenceCapable
 public class Course {
@@ -24,12 +24,7 @@ public class Course {
 	@Persistent
 	private Date createdAt;
 
-	/**
-	 * Instantiates a new course.
-	 * 
-	 * @param courseId
-	 * @param courseName
-	 */
+
 	public Course(String courseId, String courseName) {
 		this.setUniqueId(courseId);
 		this.setName(courseName);

@@ -7,7 +7,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * Account represents a unique user in the system. 
+ * Represents a unique user in the system. 
  */
 @PersistenceCapable
 public class Account {

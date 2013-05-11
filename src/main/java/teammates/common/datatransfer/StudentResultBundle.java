@@ -9,6 +9,13 @@ import java.util.logging.Logger;
 
 import teammates.common.Common;
 
+/**
+ *  Represents detailed results of one student for one evaluation. 
+ *  <br> Contains: 
+ *  <br> *  The student details (as a {@link StudentAttributes} object)
+ *  <br> *  The submissions given and received by the student (as {@link SubmissionAttributes} objects),
+ *  <br> *  Contribution ratings for the student (as a {@link StudentResultSummary} object). 
+ */
 public class StudentResultBundle {
 
 	public StudentAttributes student;

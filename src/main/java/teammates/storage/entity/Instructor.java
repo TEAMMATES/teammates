@@ -5,7 +5,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * Instructor is an association class that represents the association Account
+ * An association class that represents the association Account
  * --> [is an instructor for] --> Course.
  */
 @PersistenceCapable

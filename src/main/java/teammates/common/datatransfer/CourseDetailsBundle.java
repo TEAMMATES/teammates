@@ -4,6 +4,15 @@ import java.util.ArrayList;
 
 import teammates.common.Common;
 
+/**
+ * Represents details of a course, including its students and evaluations.
+ * <br> Contains:
+ * <br> * statistics of teams, enrollments, registrations
+ * <br> * Details of its evaluations (as {@link EvaluationDetailsBundle} objects)
+ * <br> * Details of its teams (as {@link TeamDetailsBundle} objects)
+ * <br> * Details of students without teams i.e. 'loners'  (as {@link StudentAttributes} objects)
+ *
+ */
 public class CourseDetailsBundle {
 
 	public CourseDetailsBundle(CourseAttributes courseData) {

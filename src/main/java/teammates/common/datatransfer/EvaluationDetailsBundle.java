@@ -2,6 +2,12 @@ package teammates.common.datatransfer;
 
 import teammates.common.Common;
 
+/**
+ * Represents details of an evaluation. 
+ * Contains:
+ * <br> * The basic info of the evaluation (as a {@link EvaluationAttributes} object).
+ * <br> * Submission statistics (as a {@link EvaluationStats} object).
+ */
 public class EvaluationDetailsBundle {
 
 	public EvaluationStats stats;
