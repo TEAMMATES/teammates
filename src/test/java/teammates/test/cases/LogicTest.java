@@ -2348,9 +2348,6 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsAdmin("admin.user");
 
-		// make the student an instructor
-		AccountsLogic.inst().makeAccountInstructor(googleId);
-		assertTrue(logic.isInstructor(googleId));
 		
 		// make the student 'unregistered' again
 		student.id = "";
@@ -2361,9 +2358,6 @@ public class LogicTest extends BaseTestCase {
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
 				logic.getStudent(student.course, student.email).id);
-		
-		// Check isInstructor status
-		assertTrue(logic.isInstructor(googleId));
 		
 		______TS("null parameters");
 

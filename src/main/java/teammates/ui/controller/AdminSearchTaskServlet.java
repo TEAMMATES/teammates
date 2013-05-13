@@ -69,7 +69,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		/**
 		 * Insert students
 		 */
-		List<StudentAttributes> students = accounts.getStudents();
+		List<StudentAttributes> students = accounts.getAllStudents();
 		Iterator<StudentAttributes> it2 = students.iterator();
 		while (it2.hasNext()) {
 			StudentAttributes stu = it2.next();

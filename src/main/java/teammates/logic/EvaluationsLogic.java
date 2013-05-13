@@ -164,7 +164,7 @@ public class EvaluationsLogic {
 
 		// Build submission objects for each student based on their team
 		// number
-		List<StudentAttributes> studentDataList = accountsDb.getStudentListForCourse(e.course);
+		List<StudentAttributes> studentDataList = accountsDb.getStudentsForCourse(e.course);
 		
 		List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
 

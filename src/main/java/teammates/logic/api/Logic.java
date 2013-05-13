@@ -206,7 +206,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyLoggedInUserAndAbove();
-		InstructorAttributes instructor = accountsLogic.getInstructor(instructorId, courseId);
+		InstructorAttributes instructor = accountsLogic.getInstructorForGoogleId(courseId, instructorId);
 		return instructor;
 	}
 	
@@ -261,7 +261,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyAdminLoggedIn();
-		accountsLogic.deleteInstructor(instructorId, courseId);
+		accountsLogic.deleteInstructor(courseId, instructorId);
 	}
 
 	/**
@@ -272,7 +272,7 @@ public class Logic {
 	public void deleteInstructor(String instructorId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 		gateKeeper.verifyAdminLoggedIn();
-		accountsLogic.deleteInstructor(instructorId);
+		accountsLogic.deleteInstructorsForGoogleId(instructorId);
 	}
 
 	/**
@@ -525,7 +525,7 @@ public class Logic {
 			}
 		}
 		for (InstructorAttributes remove : toRemove) {
-			accountsLogic.deleteInstructor(remove.googleId, remove.courseId);
+			accountsLogic.deleteInstructor(remove.courseId, remove.googleId);
 		}
 		for (InstructorAttributes edit : toEdit) {
 			accountsLogic.updateInstructor(edit);
@@ -575,7 +575,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		List<StudentAttributes> studentDataList = accountsLogic.getUnregisteredStudentListForCourse(courseId);
+		List<StudentAttributes> studentDataList = accountsLogic.getUnregisteredStudentsForCourse(courseId);
 
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 
@@ -637,6 +637,7 @@ public class Logic {
 			}
 		}
 
+		//TODO: can we use a batch persist operation here?
 		// enroll all students
 		for (StudentAttributes student : studentList) {
 			StudentAttributes studentInfo;
@@ -855,7 +856,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
 		gateKeeper.verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
-		StudentAttributes sd = accountsLogic.getStudentByGoogleId(courseId, googleId);
+		StudentAttributes sd = accountsLogic.getStudentForGoogleId(courseId, googleId);
 		return sd;
 	}
 
@@ -873,7 +874,7 @@ public class Logic {
 		StudentAttributes newJoinedStudent = accountsLogic.joinCourse(key, googleId);
 
 		// Create the Account if it does not exist
-		if (!accountsLogic.isAccountExists(googleId)) {
+		if (accountsLogic.getAccount(googleId)==null) {
 			// Need to retrieve the INSTITUTE of COURSE which this student is enrolling into, for creating his/her ACCOUNT
 			CourseAttributes cd = coursesLogic.getCourse(newJoinedStudent.course);
 			accountsLogic.createAccount(googleId, newJoinedStudent.name, false, newJoinedStudent.email, coursesLogic.getCourseInstitute(cd.id));

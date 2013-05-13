@@ -57,7 +57,7 @@ public class CoursesLogic {
 		// Get all students in the course
 
 		List<StudentAttributes> studentDataList = accountsDb
-				.getStudentListForCourse(courseID);
+				.getStudentsForCourse(courseID);
 
 		// The list of teams
 		List<String> teamNameList = new ArrayList<String>();
@@ -82,7 +82,7 @@ public class CoursesLogic {
 	 */
 	public int getTotalStudents(String courseID) {
 
-		return accountsDb.getStudentListForCourse(courseID).size();
+		return accountsDb.getStudentsForCourse(courseID).size();
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class CoursesLogic {
 	 */
 	public int getUnregistered(String courseID) {
 
-		return accountsDb.getUnregisteredStudentListForCourse(courseID).size();
+		return AccountsLogic.inst().getUnregisteredStudentsForCourse(courseID).size();
 	}
 
 	public static void sortByTeamName(List<StudentAttributes> students) {
@@ -153,7 +153,7 @@ public class CoursesLogic {
 	
 	public List<CourseAttributes> getCourseListForStudent(String googleId) {
 		// Get all Student entries with this googleId
-		List<StudentAttributes> studentDataList = accountsDb.getStudentsWithGoogleId(googleId);
+		List<StudentAttributes> studentDataList = accountsDb.getStudentsForGoogleId(googleId);
 		ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
 
 		// Verify that the course in each entry is existent
@@ -175,7 +175,7 @@ public class CoursesLogic {
 	 */
 	public String getCourseInstitute(String courseId) {
 		CourseAttributes cd = coursesDb.getCourse(courseId);
-		List<InstructorAttributes> instructorList = accountsDb.getInstructorsByCourseId(cd.id);
+		List<InstructorAttributes> instructorList = accountsDb.getInstructorsForCourse(cd.id);
 		if (instructorList.isEmpty()) {
 			Assumption.fail("Course has no instructors: " + cd.id);
 		} 
@@ -186,7 +186,7 @@ public class CoursesLogic {
 	}
 	
 	public HashMap<String, CourseDetailsBundle> getCourseSummaryListForInstructor(String instructorId) {
-		List<InstructorAttributes> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
+		List<InstructorAttributes> instructorDataList = accountsDb.getInstructorsForGoogleId(instructorId);
 		
 		HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
 		for (InstructorAttributes id : instructorDataList) {
@@ -208,7 +208,7 @@ public class CoursesLogic {
 	
 	// TODO: To be modified to handle API for retrieve paginated results of Courses
 	public HashMap<String, CourseDetailsBundle> getCourseSummaryListForInstructor(String instructorId, long lastRetrievedTime, int numberToRetrieve) {
-		List<InstructorAttributes> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
+		List<InstructorAttributes> instructorDataList = accountsDb.getInstructorsForGoogleId(instructorId);
 		
 		int count = 0;
 		HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
@@ -256,8 +256,8 @@ public class CoursesLogic {
 	 * 
 	 */
 	public void deleteCourse(String courseId) {
-		accountsDb.deleteAllStudentsInCourse(courseId);
-		accountsDb.deleteInstructorsByCourseId(courseId);
+		accountsDb.deleteStudentsForCourse(courseId);
+		accountsDb.deleteInstructorsForCourse(courseId);
 		coursesDb.deleteCourse(courseId);
 
 	}

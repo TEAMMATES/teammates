@@ -277,7 +277,7 @@ public class GateKeeper {
 		if (course == null) {
 			return false;
 		}
-		StudentAttributes student = accountsDb.getStudent(courseId, studentEmail);
+		StudentAttributes student = accountsDb.getStudentForEmail(courseId, studentEmail);
 		return student == null ? false : user.id.equals(student.id);
 	}
 
@@ -294,23 +294,23 @@ public class GateKeeper {
 	//===========================================================================
 	private boolean isInstructor() {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.isInstructor(user.getNickname());
+		return isLoggedOn() &&  AccountsLogic.inst().isInstructor(user.getNickname());
 	}
 	
 	private boolean isInstructorOfCourse(String courseId) {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.isInstructorOfCourse(user.getNickname(), courseId);
+		return isLoggedOn() && AccountsLogic.inst().isInstructorOfCourse(user.getNickname(), courseId);
 	}
 
 	//===========================================================================
 	private boolean isStudent() {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.getStudentsWithGoogleId(user.getNickname()).size()!=0;
+		return isLoggedOn() && accountsDb.getStudentsForGoogleId(user.getNickname()).size()!=0;
 	}
 	
 	private boolean isStudentOfCourse(String courseId) {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.isStudentOfCourse(user.getNickname(), courseId);
+		return isLoggedOn() && accountsDb.getStudentForGoogleId(courseId, user.getNickname()) != null;
 	}
 	
 

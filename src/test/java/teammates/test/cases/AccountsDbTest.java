@@ -202,23 +202,23 @@ public class AccountsDbTest extends BaseTestCase {
 		StudentAttributes s = createNewStudent();
 		
 		// Get existent
-		StudentAttributes retrieved = accountsDb.getStudent(s.course, s.email);
+		StudentAttributes retrieved = accountsDb.getStudentForEmail(s.course, s.email);
 		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
-		retrieved = accountsDb.getStudent("any-course-id", "non-existent@email.com");
+		retrieved = accountsDb.getStudentForEmail("any-course-id", "non-existent@email.com");
 		AssertJUnit.assertNull(retrieved);
 		
 		// Null params check:
 		try {
-			accountsDb.getStudent(null, "valid@email.com");
+			accountsDb.getStudentForEmail(null, "valid@email.com");
 			Assert.fail();
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
-			accountsDb.getStudent("any-course-id", null);
+			accountsDb.getStudentForEmail("any-course-id", null);
 			Assert.fail();
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -263,7 +263,7 @@ public class AccountsDbTest extends BaseTestCase {
 		// Delete
 		accountsDb.deleteStudent(s.course, s.email);
 		
-		StudentAttributes deleted = accountsDb.getStudent(s.course, s.email);
+		StudentAttributes deleted = accountsDb.getStudentForEmail(s.course, s.email);
 		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
@@ -314,8 +314,8 @@ public class AccountsDbTest extends BaseTestCase {
 			Assert.fail();
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(
-					a.getMessage(), 
-					String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT));
+				"Invalid object received as a parameter :"+String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT),
+				a.getMessage()); 
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}
@@ -334,16 +334,16 @@ public class AccountsDbTest extends BaseTestCase {
 		InstructorAttributes i = createNewInstructor();
 		
 		// Get existent
-		InstructorAttributes retrieved = accountsDb.getInstructor(i.googleId, i.courseId);
+		InstructorAttributes retrieved = accountsDb.getInstructorForGoogleId(i.courseId, i.googleId);
 		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
-		retrieved = accountsDb.getInstructor("non.existent", "non.existent.course");
+		retrieved = accountsDb.getInstructorForGoogleId("non.existent.course", "non.existent");
 		AssertJUnit.assertNull(retrieved);
 		
 		// Null params check:
 		try {
-			accountsDb.getInstructor(null, null);
+			accountsDb.getInstructorForGoogleId(null, null);
 			Assert.fail();
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -365,7 +365,7 @@ public class AccountsDbTest extends BaseTestCase {
 		accountsDb.updateInstructor(instructorToEdit);
 		
 		// Re-retrieve
-		instructorToEdit = accountsDb.getInstructor(instructorToEdit.googleId, instructorToEdit.courseId);
+		instructorToEdit = accountsDb.getInstructorForGoogleId(instructorToEdit.courseId, instructorToEdit.googleId);
 		AssertJUnit.assertEquals("My New Name", instructorToEdit.name);
 		AssertJUnit.assertEquals("new@email.com", instructorToEdit.email);
 		
@@ -377,8 +377,9 @@ public class AccountsDbTest extends BaseTestCase {
 			Assert.fail();
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(
-					String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,	REASON_EMPTY) + EOL + 
-					String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email,	REASON_INCORRECT_FORMAT), 
+					"Invalid object received as a parameter :" 
+						+ String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,	REASON_EMPTY) + EOL 
+						+ String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email,	REASON_INCORRECT_FORMAT), 
 					a.getMessage());
 		}
 		
@@ -395,13 +396,13 @@ public class AccountsDbTest extends BaseTestCase {
 		InstructorAttributes i = createNewInstructor();
 		
 		// Delete
-		accountsDb.deleteInstructor(i.googleId, i.courseId);
+		accountsDb.deleteInstructor(i.courseId, i.googleId);
 		
-		InstructorAttributes deleted = accountsDb.getInstructor(i.googleId, i.courseId);
+		InstructorAttributes deleted = accountsDb.getInstructorForGoogleId(i.courseId, i.googleId);
 		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
-		accountsDb.deleteInstructor(i.googleId, i.courseId);
+		accountsDb.deleteInstructor(i.courseId, i.googleId);
 		
 		// Null params check:
 		try {
