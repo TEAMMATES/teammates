@@ -279,7 +279,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	protected String generateActivityLogEntryErrorMessage(String servletName, String action, ArrayList<Object> data){
 		String message;
 		if (action.equals(Common.LOG_SERVLET_ACTION_FAILURE)) {
-            String e = (String)data.get(0);
+            String e = data.get(0).toString();
             message = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
             message += e + "</span>";
         } else {
