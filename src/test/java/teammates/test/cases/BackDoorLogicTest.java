@@ -45,7 +45,6 @@ public class BackDoorLogicTest extends BaseTestCase {
 		printTestClassHeader();
 		turnLoggingUp(BackDoorLogic.class);
 		Datastore.initialize();
-		System.out.println("class set up");
 	}
 
 	@BeforeMethod
@@ -108,20 +107,22 @@ public class BackDoorLogicTest extends BaseTestCase {
 		}
 
 		// try with invalid parameters in an entity
-		CourseAttributes invalidCourse = new CourseAttributes();
+		CourseAttributes invalidCourse = CourseAttributesTest.generateValidCourseAttributesObject();
+		invalidCourse.id = "invalid id";
 		dataBundle = new DataBundle();
 		dataBundle.courses.put("invalid", invalidCourse);
 		try {
 			logic.persistNewDataBundle(dataBundle);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			assertTrue(e.getMessage().contains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format"));
 		}
 
 		// Not checking for invalid values in other entities because they
 		// should be checked at lower level methods
 	}
 
+	@Test
 	public void testActivateReadyEvaluations() throws Exception {
 		BackDoorLogic backdoor = new BackDoorLogic();
 		loginAsAdmin("admin.user");
@@ -134,13 +135,13 @@ public class BackDoorLogicTest extends BaseTestCase {
 		}
 		List<MimeMessage> emailsSent = backdoor.activateReadyEvaluations();
 		assertEquals(0, emailsSent.size());
-
+		
 		______TS("typical case, two evaluations activated");
 
 		// Reuse an existing evaluation to create a new one that is ready to
 		// activate. Put this evaluation in a negative time zone.
 		EvaluationAttributes evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		String nameOfEvalInCourse1 = "new-eval-in-course-1-tARE";
 		evaluation1.name = nameOfEvalInCourse1;
 
@@ -154,12 +155,15 @@ public class BackDoorLogicTest extends BaseTestCase {
 		evaluation1.endTime = Common.getDateOffsetToCurrentTime(2);
 
 		backdoor.createEvaluation(evaluation1);
+		assertEquals("This evaluation is not ready to activate as expected "+ evaluation1.toString(),
+				true, 
+				backdoor.getEvaluation(evaluation1.course, evaluation1.name).toEntity().isReadyToActivate());
 
 		// Create another evaluation in another course in similar fashion.
 		// Put this evaluation in a positive time zone.
 		// This one too is ready to activate.
 		EvaluationAttributes evaluation2 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor2");
+				.get("evaluation1InCourse2");
 		evaluation2.activated = false;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
 		evaluation2.name = nameOfEvalInCourse2;
@@ -172,6 +176,23 @@ public class BackDoorLogicTest extends BaseTestCase {
 		evaluation2.endTime = Common.getDateOffsetToCurrentTime(2);
 
 		backdoor.createEvaluation(evaluation2);
+		assertEquals("This evaluation is not ready to activate as expected "+ evaluation2.toString(),
+				true, 
+				backdoor.getEvaluation(evaluation2.course, evaluation2.name).toEntity().isReadyToActivate());
+		
+		// Create an orphan evaluation (this should be ignored by SUT)
+		EvaluationAttributes orphan = new EvaluationAttributes();
+		orphan.name = "Orphan Evaluation";
+		orphan.course = "non-existent-course-BDLT";
+		orphan.timeZone = evaluation2.timeZone;
+		orphan.startTime = evaluation2.startTime;
+		orphan.endTime = evaluation2.endTime;
+		orphan.activated = evaluation2.activated;
+		orphan.published = evaluation2.published;
+		backdoor.createEvaluation(orphan);
+		assertEquals("This evaluation is not ready to activate as expected "+ orphan.toString(),
+				true, 
+				backdoor.getEvaluation(orphan.course, orphan.name).toEntity().isReadyToActivate());
 
 		emailsSent = backdoor.activateReadyEvaluations();
 		int course1StudentCount = backdoor.getStudentListForCourse(
@@ -189,6 +210,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 	}
 
+	@Test
 	public void testSendRemindersForClosingEvaluations() throws Exception {
 		BackDoorLogic backdoor = new BackDoorLogic();
 		loginAsAdmin("admin.user");
@@ -200,7 +222,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// Reuse an existing evaluation to create a new one that is
 		// closing in 24 hours.
 		EvaluationAttributes evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor1");
+				.get("evaluation1InCourse1");
 		String nameOfEvalInCourse1 = "new-eval-in-course-1-tSRFCE";
 		evaluation1.name = nameOfEvalInCourse1;
 
@@ -215,7 +237,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// Create another evaluation in another course in similar fashion.
 		// This one too is closing in 24 hours.
 		EvaluationAttributes evaluation2 = dataBundle.evaluations
-				.get("evaluation1InCourse1OfInstructor2");
+				.get("evaluation1InCourse2");
 		evaluation2.activated = true;
 		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
 		evaluation2.name = nameOfEvalInCourse2;
@@ -226,7 +248,18 @@ public class BackDoorLogicTest extends BaseTestCase {
 		evaluation2.endTime = Common.getDateOffsetToCurrentTime(1);
 
 		backdoor.createEvaluation(evaluation2);
-
+		
+		// Create an orphan evaluation (this should be ignored by SUT)
+		EvaluationAttributes orphan = new EvaluationAttributes();
+		orphan.name = "Orphan Evaluation";
+		orphan.course = "non-existent-course-BDLT";
+		orphan.timeZone = evaluation2.timeZone;
+		orphan.startTime = evaluation2.startTime;
+		orphan.endTime = evaluation2.endTime;
+		orphan.activated = evaluation2.activated;
+		orphan.published = evaluation2.published;
+		backdoor.createEvaluation(orphan);
+		
 		emailsSent = backdoor.sendRemindersForClosingEvaluations();
 
 		int course1StudentCount = backdoor.getStudentListForCourse(
@@ -281,17 +314,6 @@ public class BackDoorLogicTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 		turnLoggingDown(BackDoorLogic.class);
-		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		for (AccountAttributes account : dataBundle.accounts.values()) {
-			backDoorLogic.deleteAccount(account.googleId);
-		}
-
-		// delete courses first in case there are existing courses with same id
-		// but under different instructors.
-		for (CourseAttributes course : dataBundle.courses.values()) {
-			backDoorLogic.deleteCourse(course.id);
-		}
-		System.out.println("class torn down");
 	}
 
 	@AfterMethod

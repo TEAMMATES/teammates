@@ -54,7 +54,7 @@ public class CourseAttributesTest extends BaseTestCase {
 		assertEquals("valid value", "[CourseAttributes] id: valid-id-$_abc name: valid-name", c.toString());
 	}
 	
-	private CourseAttributes generateValidCourseAttributesObject() {
+	public static CourseAttributes generateValidCourseAttributesObject() {
 		CourseAttributes c;
 		c = new CourseAttributes();
 		c.id = "valid-id-$_abc";

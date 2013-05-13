@@ -124,7 +124,7 @@ public class CoursesLogic {
 		CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName);
 
 		if (!courseToAdd.isValid()) {
-			throw new InvalidParametersException(courseToAdd.getInvalidStateInfo());
+			throw new InvalidParametersException(Common.toString(courseToAdd.getInvalidStateInfo()));
 		}
 	
 		coursesDb.createCourse(courseToAdd);

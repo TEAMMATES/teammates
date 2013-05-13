@@ -133,6 +133,10 @@ public class EvaluationAttributes extends EntityAttributes {
 		return errors;
 	}
 
-	//TODO: implement toString()
+	@Override
+	public String toString() {
+		return Common.getTeammatesGson()
+				.toJson(this, EvaluationAttributes.class);
+	}
 
 }

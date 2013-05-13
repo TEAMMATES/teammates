@@ -207,6 +207,7 @@ public class EvaluationsDb {
 		List<Evaluation> dueEvaluationList = new ArrayList<Evaluation>();
 
 		for (Evaluation e : evaluationList) {
+			//TODO some of this should be pushed to Evaluation::isClosingSoon()
 			// Fix the time zone accordingly
 			now.add(Calendar.MILLISECOND,
 					(int) (60 * 60 * 1000 * e.getTimeZone()));

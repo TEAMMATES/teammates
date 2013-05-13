@@ -52,7 +52,7 @@
 			<class name="teammates.test.cases.HtmlHelperTest" />
 			<class name="teammates.test.cases.TeamEvalResultTest" />
 			<class name="teammates.test.cases.LogicTest" />
-			<!-- class name="teammates.test.cases.BackDoorLogicTest"/ -->
+			<class name="teammates.test.cases.BackDoorLogicTest"/>
 		</classes>
 	</test>
 	<test name="occasional-tests">

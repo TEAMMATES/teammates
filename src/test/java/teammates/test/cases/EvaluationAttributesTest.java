@@ -221,4 +221,32 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		//already tested in testValidate() above
 	}
 	
+	@Test
+	public void testToString() {
+		EvaluationAttributes e ;
+		e = generateValidEvaluationAttributesObject();
+
+		String inStringFormat = Common.getTeammatesGson().toJson(e,
+				EvaluationAttributes.class);
+		assertEquals(inStringFormat, e.toString());
+
+	}
+
+	public static EvaluationAttributes generateValidEvaluationAttributesObject() {
+		EvaluationAttributes e;
+		e = new EvaluationAttributes();
+
+		e.course = "valid-course";
+		e.name = "valid name";
+		e.instructions = "1st line of instructions \n 2nd line of instructions";
+		e.startTime = Common.getDateOffsetToCurrentTime(1);
+		e.endTime = Common.getDateOffsetToCurrentTime(2);
+		e.activated = false;
+		e.published = false;
+		e.timeZone = 0.0;
+		e.gracePeriod = 5;
+		e.p2pEnabled = true;
+		return e;
+	}
+	
 }
