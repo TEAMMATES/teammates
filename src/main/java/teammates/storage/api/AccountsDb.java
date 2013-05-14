@@ -98,6 +98,7 @@ public class AccountsDb {
 	/**
 	 * Preconditions: 
 	 * <br> * All parameters are non-null. 
+	 * @return Null if not found.
 	 */
 	public AccountAttributes getAccount(String googleId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
@@ -136,7 +137,6 @@ public class AccountsDb {
 	/**
 	 * Preconditions: 
 	 * <br> * {@code accountToAdd} is not null and has valid data.
-	 * <br> * {@code accountToAdd} corresponds to a valid account.
 	 */
 	public void updateAccount(AccountAttributes a) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, a);
@@ -145,6 +145,7 @@ public class AccountsDb {
 				a.isValid());
 		
 		Account accountToUpdate = getAccountEntity(a.googleId);
+		//TODO: this should be an exception instead?
 		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
 				+ Common.getCurrentThreadStack(), accountToUpdate);
 		
@@ -157,8 +158,7 @@ public class AccountsDb {
 	}
 
 	/**
-	 * Note: This deletes the {@link Account} object only. It does not delete
-	 *   data that belongs to this account (e.g., courses).
+	 * Note: This is a non-cascade delete. <br>
 	 *   <br> Fails silently if there is no such account.
 	 * <br> Preconditions: 
 	 * <br> * {@code googleId} is not null.
@@ -386,6 +386,7 @@ public class AccountsDb {
 	
 		Student student = getStudentEntityForEmail(courseId, email);
 	
+		//TODO: this should be an exception instead?
 		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_STUDENT + courseId
 				+ "/ + email " + Common.getCurrentThreadStack(), student);
 	
@@ -624,6 +625,7 @@ public class AccountsDb {
 		
 		Instructor instructorToUpdate = getInstructorEntityForGoogleId(instructorAttributesToUpdate.courseId, instructorAttributesToUpdate.googleId);
 		
+		//TODO: this should be an exception instead?
 		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.googleId
 				+ Common.getCurrentThreadStack(), instructorToUpdate);
 		

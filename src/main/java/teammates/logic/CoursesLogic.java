@@ -239,7 +239,8 @@ public class CoursesLogic {
 	
 	//==========================================================================
 	// Not used
-	public void updateCourse(CourseAttributes course) throws InvalidParametersException {
+	public void updateCourse(CourseAttributes course) 
+			throws InvalidParametersException, EntityDoesNotExistException {
 		if (!course.isValid()) {
 			throw new InvalidParametersException(course.getInvalidStateInfo());
 		}
