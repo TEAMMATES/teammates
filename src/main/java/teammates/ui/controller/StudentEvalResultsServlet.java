@@ -36,7 +36,7 @@ public class StudentEvalResultsServlet extends ActionServlet<StudentEvalResultsH
 			return;
 		}
 		
-		helper.student = helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
+		helper.student = helper.server.getStudentForGoogleId(courseID, helper.userId);
 		if(helper.student==null){
 			helper.statusMessage = "You are not registered in the course "+Helper.escapeForHTML(courseID);
 			helper.error = true;

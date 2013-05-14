@@ -44,9 +44,9 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 		}
 		
 		helper.courseDetails = helper.server.getCourseDetails(courseId);
-		helper.instructors = helper.server.getInstructorsOfCourse(courseId);
+		helper.instructors = helper.server.getInstructorsForCourse(courseId);
 		
-		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
+		helper.student = helper.server.getStudentForGoogleId(courseId, helper.userId);
 		helper.team = getTeam(helper.server.getTeamsForCourse(courseId),helper.student);
 		
 		ArrayList<Object> data = new ArrayList<Object>();

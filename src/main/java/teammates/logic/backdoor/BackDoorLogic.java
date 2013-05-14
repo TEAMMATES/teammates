@@ -117,7 +117,7 @@ public class BackDoorLogic extends Logic {
 	}
 	
 	public String getInstructorAsJson(String instructorID, String courseId) {
-		InstructorAttributes instructorData = getInstructor(instructorID, courseId);
+		InstructorAttributes instructorData = getInstructorForGoogleId(courseId, instructorID);
 		return Common.getTeammatesGson().toJson(instructorData);
 	}
 
@@ -154,7 +154,7 @@ public class BackDoorLogic extends Logic {
 			throws InvalidParametersException, EntityDoesNotExistException {
 		StudentAttributes student = Common.getTeammatesGson().fromJson(newValues,
 				StudentAttributes.class);
-		editStudent(originalEmail, student);
+		updateStudent(originalEmail, student);
 	}
 
 	public void editEvaluationAsJson(String evaluationJson)

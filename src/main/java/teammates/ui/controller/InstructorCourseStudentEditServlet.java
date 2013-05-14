@@ -45,7 +45,7 @@ public class InstructorCourseStudentEditServlet extends
 			helper.student.team = teamName;
 			helper.student.comments = comments;
 			try {
-				helper.server.editStudent(studentEmail, helper.student);
+				helper.server.updateStudent(studentEmail, helper.student);
 				helper.statusMessage = Common.MESSAGE_STUDENT_EDITED;
 				helper.redirectUrl = helper.getInstructorCourseDetailsLink(courseID);
 				

@@ -5,11 +5,13 @@ import java.util.List;
 
 import java.util.logging.Logger;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.api.AccountsDb;
@@ -61,6 +63,10 @@ public class AccountsLogic {
 
 	public AccountAttributes getAccount(String googleId) {
 		return accountsDb.getAccount(googleId);
+	}
+	
+	public boolean isAccountPresent(String googleId) {
+		return accountsDb.getAccount(googleId) != null;
 	}
 
 	public List<AccountAttributes> getInstructorAccounts() {
@@ -143,6 +149,17 @@ public class AccountsLogic {
 		}
 		return unregistered;
 	}
+	
+	public String getKeyForStudent(String courseId, String email) {
+	
+		StudentAttributes studentData = getStudentForEmail(courseId, email);
+	
+		if (studentData == null) {
+			return null; //TODO: throw EntityDoesNotExistException here
+		}
+	
+		return studentData.key;
+	}
 
 	public boolean isStudentInAnyCourse(String googleId) {
 		return accountsDb.getStudentsForGoogleId(googleId).size()!=0;
@@ -152,11 +169,23 @@ public class AccountsLogic {
 		return accountsDb.getStudentForEmail(courseId, studentEmail) != null;
 	}
 
-	public void updateStudent(String originalEmail, StudentAttributes student) {
+	public void confirmStudentExists(String courseId, String email) 
+			throws EntityDoesNotExistException {
+		if (!isStudentInCourse(courseId, email)) {
+			throw new EntityDoesNotExistException(
+					"Non-existent student " + courseId + "/" + email);
+		}
+		
+	}
+	
+	public void updateStudent(String originalEmail, StudentAttributes student) 
+			throws EntityDoesNotExistException {
 		// Edit student uses KeepOriginal policy, where unchanged fields are set
 		// as null. Hence, we can't do isValid() here.
 	
 		// TODO: make the implementation more defensive, e.g. duplicate email
+		confirmStudentExists(student.course, originalEmail);
+		
 		accountsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.email, student.id, student.comments);	
 	}
 

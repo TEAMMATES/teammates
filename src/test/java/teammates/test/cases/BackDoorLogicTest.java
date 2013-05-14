@@ -79,7 +79,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// clean up the datastore first, to avoid clashes with existing data
 		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
 		for (InstructorAttributes instructor : instructors.values()) {
-			logic.deleteInstructor(instructor.googleId, instructor.courseId);
+			logic.deleteInstructor(instructor.courseId, instructor.googleId);
 		}
 
 		// try with empty dataBundle

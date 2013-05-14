@@ -14,7 +14,7 @@ public class StudentEvalEditServlet extends EvalSubmissionEditServlet {
 	protected StudentAttributes getStudentObject(HttpServletRequest req,
 			EvalSubmissionEditHelper helper) {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
-		return helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
+		return helper.server.getStudentForGoogleId(courseID, helper.userId);
 	}
 	
 	@Override

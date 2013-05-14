@@ -1,7 +1,6 @@
 package teammates.logic.api;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -105,6 +104,9 @@ public class Logic {
 		return gateKeeper.getLoggedInUser();
 	}
 	
+	/**
+	 * @return true if this user has instructor privileges.
+	 */
 	public boolean isInstructor(String googleId) {
 		return accountsLogic.isInstructor(googleId);
 	}
@@ -118,15 +120,10 @@ public class Logic {
 	}
 
 	/**
-	 * Access: Admin only
+	 * Access: Admin only <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 * 
-	 * @param googleId
-	 * @param name
-	 * @param isInstructor
-	 * @param email
-	 * @param institute
-	 * @throws EntityAlreadyExistsException 
-	 * @throws InvalidParametersException 
 	 */
 	public void createAccount(String googleId, String name, boolean isInstructor,
 								String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException {
@@ -141,7 +138,9 @@ public class Logic {
 	}
 	
 	/**
-	 * Access: any logged in user
+	 * Access: any logged in user <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
 	public AccountAttributes getAccount(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -151,7 +150,12 @@ public class Logic {
 	}
 	
 	/**
-	 * Access: Admin only
+	 * Access: Admin only.<br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * 
+	 * @return Details of accounts with instruction privileges. Returns empty
+	 *         list if no such accounts are found.
 	 */
 	public List<AccountAttributes> getInstructorAccounts() {
 		gateKeeper.verifyAdminLoggedIn();
@@ -160,18 +164,22 @@ public class Logic {
 	}
 	
 	/**
-	 * 
-	 * @param a
-	 * @throws InvalidParametersException
+	 * Access: Admin only. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.<br>
+	 * * {@code newAccountAttributes} represents an existing account.
 	 */
-	public void updateAccount(AccountAttributes a) throws InvalidParametersException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, a);
+	public void updateAccount(AccountAttributes newAccountAttributes) throws InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAccountAttributes);
 		gateKeeper.verifyAdminLoggedIn();
-		accountsLogic.updateAccount(a);
+		accountsLogic.updateAccount(newAccountAttributes);
 	}
 	
 	/**
-	 * Access: Admin only
+	 * Fails silently if no such account. <br>
+	 * Access: Admin only. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
 	public void deleteAccount(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -184,7 +192,10 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin only
+	 * Creates an account and an instructor. 
+	 * Access: admin only. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
 	public void createInstructor(String googleId, String courseId, String name, String email, String institute)
 			throws EntityAlreadyExistsException, InvalidParametersException {
@@ -199,80 +210,91 @@ public class Logic {
 	}
 
 	/**
-	 * Access: any logged in user
+	 * Access: any logged in user. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return null if not found.
 	 */
-	public InstructorAttributes getInstructor(String instructorId, String courseId) {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+	public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyLoggedInUserAndAbove();
-		InstructorAttributes instructor = accountsLogic.getInstructorForGoogleId(courseId, instructorId);
+		InstructorAttributes instructor = accountsLogic.getInstructorForGoogleId(courseId, googleId);
 		return instructor;
 	}
 	
 	/**
 	 * Access: admin only
+	 * @deprecated Not scalable. Don't use unless in admin features.
 	 */
+	@Deprecated
 	public List<InstructorAttributes> getAllInstructors() {
 		gateKeeper.verifyAdminLoggedIn();
 		return accountsLogic.getAllInstructors();
 	}
 	
 	/**
-	 * Returns ALL COURSE::ID for this INSTRUCTOR GoogleId
-	 * 
-	 * @param googleId
-	 * @return List<InstructorData>
+	 * Access: admin, instructor using own google id. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Empty list if none found.
 	 */
-	public List<InstructorAttributes> getInstructorRolesForAccount(String googleId) {
+	public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
 		return accountsLogic.getInstructorsForGoogleId(googleId);
 	}
 
 	/**
-	 * Returns ALL INSTRUCTORS for this COURSE
-	 * 
-	 * @param courseId
-	 * @return List<InstructorData>
+	 * Access: admin, course owner, student in course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Empty list if none found.
 	 */
-	public List<InstructorAttributes> getInstructorsOfCourse(String courseId) {
+	public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 		return accountsLogic.getInstructorsForCourse(courseId);
 	}
 
 	/**
-	 * To update Name and Email fields
-	 * @throws InvalidParametersException 
-	 * 
+	 * Access: admin, instructor using own google id. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
 	 */
-	public void editInstructor(InstructorAttributes instructor) throws InvalidParametersException {
+	public void updateInstructor(InstructorAttributes instructor) 
+			throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructor.googleId);
 		accountsLogic.updateInstructor(instructor);
 	}
 
 	/**
-	 * Access: Admin only
+	 * Fails silently if no match found.
+	 * Access: admin. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
 	 */
-	public void deleteInstructor(String instructorId, String courseId) {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+	public void deleteInstructor(String courseId, String googleId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyAdminLoggedIn();
-		accountsLogic.deleteInstructor(courseId, instructorId);
+		accountsLogic.deleteInstructor(courseId, googleId);
 	}
 
 	/**
-	 * Access: Admin only
-	 * 
-	 * Deletes all INSTRUCTOR-COURSE relations for this INSTRUCTOR
+	 * Fails silently if no match found.
+	 * Access: admin. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
 	 */
-	public void deleteInstructor(String instructorId) {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+	public void deleteInstructorsForGoogleId(String googleId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
 		gateKeeper.verifyAdminLoggedIn();
-		accountsLogic.deleteInstructorsForGoogleId(instructorId);
+		accountsLogic.deleteInstructorsForGoogleId(googleId);
 	}
 
 	/**
@@ -722,25 +744,31 @@ public class Logic {
 	}
 
 	/**
+	 * Creates a student and adjust existing evaluations to accommodate the new student. <br> 
+	 * Access: admin, course owner. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	/**
 	 * Creates a student and adjust existing evaluations to accommodate the new
 	 * student Access: course owner and above
 	 */
-	public void createStudent(StudentAttributes studentData)
+	public void createStudent(StudentAttributes student)
 			throws EntityAlreadyExistsException, InvalidParametersException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentData);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
-		gateKeeper.verifyCourseOwnerOrAbove(studentData.course);
+		gateKeeper.verifyCourseOwnerOrAbove(student.course);
 
-		accountsLogic.createStudent(studentData);
-
-		// adjust existing evaluations to accommodate new student
-		evaluationsLogic.adjustSubmissionsForNewStudent(studentData.course, studentData.email, studentData.team);
+		accountsLogic.createStudent(student);
+		evaluationsLogic.adjustSubmissionsForNewStudent(student.course, student.email, student.team);
 	}
 
 	/**
-	 * Access: any registered user (to minimize cost of checking)
+	 * Access: any registered user (to minimize cost of checking). <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 * 
-	 * @return returns null if there is no such student.
+	 * @return Null if no match found.
 	 */
 	public StudentAttributes getStudent(String courseId, String email) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -752,6 +780,56 @@ public class Logic {
 		return studentData;
 	}
 
+	
+	/**
+	 * Access: admin, same student. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * 
+	 * @return Null if no match found.
+	 */
+	public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+	
+		gateKeeper.verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
+		
+		StudentAttributes sd = accountsLogic.getStudentForGoogleId(courseId, googleId);
+		return sd;
+	}
+
+	/**
+	 * Access: admin, same student. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * 
+	 * @return Empty list if no match found.
+	 */
+	public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
+		gateKeeper.verifySameStudentOrAdmin(googleId);
+		
+		return accountsLogic.getStudentsForGoogleId(googleId);
+	}
+
+	
+	/**
+	 * Access: admin, instructor of course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * 
+	 * @return null if no match found.
+	 */
+	public String getKeyForStudent(String courseId, String email) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+	
+		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+	
+		return accountsLogic.getKeyForStudent(courseId, email);
+	}
+
 	/**
 	 * Access: instructor of course and above.<br>
 	 * All attributes except courseId be changed. Trying to change courseId will
@@ -759,18 +837,18 @@ public class Logic {
 	 * Changing team name will not delete existing submissions under that team <br>
 	 * Cascade logic: Email changed-> changes email in all existing submissions <br>
 	 * Team changed-> creates new submissions for the new team, deletes
-	 * submissions for previous team structure
+	 * submissions for previous team structure. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
-	public void editStudent(String originalEmail, StudentAttributes student)
+	public void updateStudent(String originalEmail, StudentAttributes student)
 			throws InvalidParametersException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
 		gateKeeper.verifyCourseOwnerOrAbove(student.course);
 
-		if (!accountsLogic.isStudentInCourse(student.course, originalEmail)) {
-			throw new EntityDoesNotExistException("Non-existent student " + student.course + "/" + originalEmail);
-		}
+		accountsLogic.confirmStudentExists(student.course, originalEmail);
 
 		StudentAttributes originalStudent = accountsLogic.getStudentForEmail(student.course, originalEmail);
 		String originalTeam = originalStudent.team;
@@ -789,7 +867,29 @@ public class Logic {
 	}
 
 	/**
-	 * Access: course owner and above
+	 * Access: owner of googleId
+	 * @throws EntityAlreadyExistsException 
+	 */
+	public void joinCourse(String googleId, String key)
+			throws JoinCourseException, InvalidParametersException, EntityAlreadyExistsException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+	
+		gateKeeper.verifyOwnerOfId(googleId);
+	
+		StudentAttributes newlyJoinedStudent = accountsLogic.joinCourse(key, googleId);
+	
+		if (!accountsLogic.isAccountPresent(googleId)) {
+			String institute = coursesLogic.getCourseInstitute(newlyJoinedStudent.course);
+			accountsLogic.createAccount(googleId, newlyJoinedStudent.name, false, newlyJoinedStudent.email, institute);
+		}
+	}
+
+	/**
+	 * Fails silently if no match found. <br>
+	 * Access: admin, an instructor of the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
 	public void deleteStudent(String courseId, String studentEmail) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -834,75 +934,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: same student and admin only
-	 * 
-	 * @return Returns all StudentData objects associated with this Google ID.
-	 *         Returns an empty list if no student has this Google ID.
-	 */
-	public List<StudentAttributes> getStudentsWithGoogleId(String googleId) {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-		gateKeeper.verifySameStudentOrAdmin(googleId);
-		return accountsLogic.getStudentsForGoogleId(googleId);
-	}
-
-	/**
-	 * Access: same student and admin only
-	 * 
-	 * @return Returns the StudentData object that has the given courseId and is
-	 *         in given course. Returns null if no such student in the course.
-	 */
-	public StudentAttributes getStudentInCourseForGoogleId(String courseId, String googleId) {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-
-		gateKeeper.verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
-		StudentAttributes sd = accountsLogic.getStudentForGoogleId(courseId, googleId);
-		return sd;
-	}
-
-	/**
-	 * Access: owner of googleId
-	 * @throws EntityAlreadyExistsException 
-	 */
-	public void joinCourse(String googleId, String key)
-			throws JoinCourseException, InvalidParametersException, EntityAlreadyExistsException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
-
-		gateKeeper.verifyOwnerOfId(googleId);
-
-		StudentAttributes newJoinedStudent = accountsLogic.joinCourse(key, googleId);
-
-		// Create the Account if it does not exist
-		if (accountsLogic.getAccount(googleId)==null) {
-			// Need to retrieve the INSTITUTE of COURSE which this student is enrolling into, for creating his/her ACCOUNT
-			CourseAttributes cd = coursesLogic.getCourse(newJoinedStudent.course);
-			accountsLogic.createAccount(googleId, newJoinedStudent.name, false, newJoinedStudent.email, coursesLogic.getCourseInstitute(cd.id));
-		}
-	}
-
-	/**
-	 * Access: course owner and above
-	 * 
-	 * @return Returns registration key for a student in the given course.
-	 */
-	public String getKeyForStudent(String courseId, String email) {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
-
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
-
-		StudentAttributes studentData = accountsLogic.getStudentForEmail(courseId, email);
-
-		if (studentData == null) {
-			return null;
-		}
-
-		// TODO: this should be pushed to lower levels
-		return studentData.key;
-	}
-
-	/**
 	 * Access: student who owns the googleId, admin
 	 * 
 	 * @return Returns Courses associated with the student with the given Google
@@ -916,7 +947,7 @@ public class Logic {
 
 		gateKeeper.verifySameStudentOrAdmin(googleId);
 
-		if (getStudentsWithGoogleId(googleId).size() == 0) {
+		if (getStudentsForGoogleId(googleId).size() == 0) {
 			throw new EntityDoesNotExistException("Student with Google ID "
 					+ googleId + " does not exist");
 		}
@@ -1423,7 +1454,7 @@ public class Logic {
 			if (isSameAsExistingStudent(student)) {
 				updateStatus = UpdateStatus.UNMODIFIED;
 			} else if (isModificationToExistingStudent(student)) {
-				editStudent(student.email, student);
+				updateStudent(student.email, student);
 				updateStatus = UpdateStatus.MODIFIED;
 			} else {
 				createStudent(student);

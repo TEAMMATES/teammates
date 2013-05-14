@@ -45,7 +45,7 @@ public class StudentHomeHelper extends Helper {
 	 */
 	public String getStudentStatusForEval(EvaluationAttributes eval){
 		String studentEmail = null;
-		StudentAttributes student = server.getStudentInCourseForGoogleId(eval.course, userId);
+		StudentAttributes student = server.getStudentForGoogleId(eval.course, userId);
 		if(student!=null) studentEmail = student.email;
 		switch(eval.getStatus()){
 		case PUBLISHED: return Common.STUDENT_EVALUATION_STATUS_PUBLISHED;
