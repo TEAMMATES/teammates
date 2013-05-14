@@ -5,7 +5,6 @@ import java.util.List;
 
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -139,15 +138,8 @@ public class AccountsLogic {
 	}
 
 	public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
-		List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
-		ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
 		
-		for(StudentAttributes s: allStudents){
-			if(s.id==null || s.id.trim().isEmpty()){
-				unregistered.add(s);
-			}
-		}
-		return unregistered;
+		return accountsDb.getUnregisteredStudentsForCourse(courseId);
 	}
 	
 	public String getKeyForStudent(String courseId, String email) {

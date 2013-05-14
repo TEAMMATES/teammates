@@ -355,6 +355,25 @@ public class AccountsDb {
 	
 		return studentDataList;
 	}
+	
+	/**
+	 * Preconditions: <br>
+	 *  * All parameters are non-null.
+	 * @return an empty list if no students in the course.
+	 */
+	public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		
+		List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
+		ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
+		
+		for(StudentAttributes s: allStudents){
+			if(s.id==null || s.id.trim().isEmpty()){
+				unregistered.add(s);
+			}
+		}
+		return unregistered;
+	}
 
 	/**
 	 * This method is not scalable. Not to be used unless for admin features.

@@ -315,28 +315,6 @@ public class Logic {
 		return courseSummaryListForInstructor;
 	}
 
-	// TODO: To be modified to handle API for retrieve paginated results of Courses
-	/**
-	 * Access level: Admin, Instructor (for self)
-	 * With 2 additional parameters
-	 * 
-	 * @return Returns a less-detailed version of Instructor's course data
-	 */
-	public HashMap<String, CourseDetailsBundle> getCourseListForInstructor(
-			String instructorId, long lastRetrievedTime, int numberToRetrieve) 
-					throws EntityDoesNotExistException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, lastRetrievedTime);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, numberToRetrieve);
-
-		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
-
-		verifyInstructorExists(instructorId);
-
-		HashMap<String, CourseDetailsBundle> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId, lastRetrievedTime, numberToRetrieve);
-
-		return courseSummaryListForInstructor;
-	}
 
 	/**
 	 * Access level: Admin, Instructor (for self)
@@ -492,7 +470,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseInstitute);
 
-		if (!coursesLogic.isCourseExists(courseId)) {
+		if (!coursesLogic.isCoursePresent(courseId)) {
 			Assumption.fail(ERROR_UPDATE_NON_EXISTENT_COURSE + courseId);
 		}
 		
@@ -562,8 +540,9 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
+		//TODO: evaluations should be deleted within deleteCourseCascade method
 		evaluationsLogic.deleteEvaluationsForCourse(courseId);
-		coursesLogic.deleteCourse(courseId);
+		coursesLogic.deleteCourseCascade(courseId);
 	}
 
 	/**
@@ -635,7 +614,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		if (!coursesLogic.isCourseExists(courseId)) {
+		if (!coursesLogic.isCoursePresent(courseId)) {
 			throw new EntityDoesNotExistException("Course does not exist :" + courseId);
 		}
 
@@ -695,7 +674,7 @@ public class Logic {
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 
 		List<StudentAttributes> students = getStudentListForCourse(courseId);
-		CoursesLogic.sortByTeamName(students);
+		StudentAttributes.sortByTeamName(students);
 
 		CourseAttributes course = getCourse(courseId);
 
@@ -912,7 +891,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		if (!coursesLogic.isCourseExists(courseId)) {
+		if (!coursesLogic.isCoursePresent(courseId)) {
 			throw new EntityDoesNotExistException("Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
 		}
 		
@@ -952,7 +931,7 @@ public class Logic {
 					+ googleId + " does not exist");
 		}
 
-		return coursesLogic.getCourseListForStudent(googleId);
+		return coursesLogic.getCoursesForGoogleId(googleId);
 	}
 
 	/**
@@ -1311,7 +1290,7 @@ public class Logic {
 		List<SubmissionAttributes> submissions = evaluationsLogic.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
 
 		boolean isSubmissionsExist = (submissions.size() > 0
-				&& coursesLogic.isCourseExists(courseId)
+				&& coursesLogic.isCoursePresent(courseId)
 				&& evaluationsLogic.isEvaluationExists(courseId,
 						evaluationName) && accountsLogic.isStudentInCourse(courseId, reviewerEmail));
 

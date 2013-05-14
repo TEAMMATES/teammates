@@ -3,6 +3,8 @@ package teammates.common.datatransfer;
 import static teammates.common.Common.EOL;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.Assumption;
@@ -224,6 +226,23 @@ public class StudentAttributes extends EntityAttributes {
 		if(!error.isEmpty()) { errors.add(error); }
 		
 		return errors;
+	}
+	
+	public static void sortByTeamName(List<StudentAttributes> students) {
+		Collections.sort(students, new Comparator<StudentAttributes>() {
+			public int compare(StudentAttributes s1, StudentAttributes s2) {
+				String t1 = s1.team;
+				String t2 = s2.team;
+				if ((t1 == null) && (t2 == null)) {
+					return 0;
+				} else if (t1 == null) {
+					return 1;
+				} else if (t2 == null) {
+					return -1;
+				}
+				return t1.compareTo(t2);
+			}
+		});
 	}
 
 	public Student toEntity() {

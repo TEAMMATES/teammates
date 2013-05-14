@@ -9,7 +9,6 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.common.Assumption;
 import teammates.common.Common;

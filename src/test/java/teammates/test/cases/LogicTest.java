@@ -511,32 +511,6 @@ public class LogicTest extends BaseTestCase {
 				new Object[] { "non-existent" });
 	}
 	
-	// TODO: To be modified to handle API for retrieve paginated results of Courses
-	@Test
-	public void testGetCourseListForInstructorWithCountAndTime() throws Exception {
-		loginAsAdmin("admin.user");
-		//SETUP
-		String googleId = "InstructorOfManyCourses";
-		logic.createAccount(googleId, "Instructor of Many Courses", true, "instructor@many.course", "NUS");
-		for (int i = 1; i< 10; i++) {
-			logic.createCourse(googleId, "course" + i, "Course " + i);
-		}
-		
-		
-		// lastRetrievedTime = 0 => Earliest time
-		HashMap <String, CourseDetailsBundle> courseList = logic.getCourseListForInstructor(googleId, 0, 5);
-		for (CourseDetailsBundle cd : courseList.values()) {
-			System.out.println(cd.course.id);
-		}
-		assertEquals(5, courseList.size());
-		
-		// TEARDOWN
-		logic.deleteAccount(googleId);
-		for (int i = 1; i<= 10; i++) {
-			logic.deleteCourse("course" + i);
-		}
-	}
-
 	@Test
 	public void testGetCourseDetailsListForInstructor() throws Exception {
 
