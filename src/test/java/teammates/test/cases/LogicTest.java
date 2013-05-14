@@ -293,7 +293,8 @@ public class LogicTest extends BaseTestCase {
 			// Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
 		}
 		// Here we create another INSTRUCTOR for testing our createInstructor() method
-		logic.createInstructor(instructor2.googleId, instructor2.courseId, instructor2.name, instructor2.email, "National University of Singapore");
+		String googleIdWithGmailDomain = instructor2.googleId+"@GMAIL.COM"; //to check if "@GMAIL.COM" is stripped out correctly
+		logic.createInstructor(googleIdWithGmailDomain, instructor2.courseId, instructor2.name, instructor2.email, "National University of Singapore");
 		
 		// `instructor` here is created with NAME and EMAIL field obtain from his AccountData
 		AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
@@ -318,15 +319,23 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("invalid parameters");
 
-		// Only checking that exception is thrown at logic level
+		String googleId = "valid-id";
+		
+		//ensure no account exist for this instructor
+		assertNull(logic.getAccount(googleId));
+		
+		// Ensure the exception is thrown at logic level
 		try {
-			logic.createInstructor("valid-id", "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
+			logic.createInstructor(googleId, "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(
 					String.format(COURSE_ID_ERROR_MESSAGE, "invalid courseId" , REASON_INCORRECT_FORMAT),
 					e.getMessage());
 		}
+		
+		//ensure no account exist for this instructor because the operation above failed 
+		assertNull(logic.getAccount(googleId));
 
 		______TS("null parameters");
 		
@@ -2016,14 +2025,14 @@ public class LogicTest extends BaseTestCase {
 		// get list using student data from course 1
 		StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
-		ArrayList<StudentAttributes> listReceivedUsingStudentInCourse1 = logic
+		List<StudentAttributes> listReceivedUsingStudentInCourse1 = logic
 				.getStudentsWithGoogleId(studentInTwoCoursesInCourse1.id);
 		assertEquals(2, listReceivedUsingStudentInCourse1.size());
 
 		// get list using student data from course 2
 		StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
 				.get("student2InCourse2");
-		ArrayList<StudentAttributes> listReceivedUsingStudentInCourse2 = logic
+		List<StudentAttributes> listReceivedUsingStudentInCourse2 = logic
 				.getStudentsWithGoogleId(studentInTwoCoursesInCourse2.id);
 		assertEquals(2, listReceivedUsingStudentInCourse2.size());
 

@@ -184,7 +184,7 @@ public class BackDoorLogic extends Logic {
 				log.warning("Trying to activate an orphan evaluation "+ ed.toString());
 			}
 
-			List<StudentAttributes> students = accountsLogic.getStudentListForCourse(ed.course);
+			List<StudentAttributes> students = accountsLogic.getStudentsForCourse(ed.course);
 			
 			Emails emails = new Emails();
 			List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
@@ -210,7 +210,7 @@ public class BackDoorLogic extends Logic {
 				log.warning("Trying to send closing reminders for an orphan evaluation "+ ed.toString() );
 			} 
 
-			List<StudentAttributes> studentDataList = accountsLogic.getStudentListForCourse(ed.course);;
+			List<StudentAttributes> studentDataList = accountsLogic.getStudentsForCourse(ed.course);;
 
 			List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
 

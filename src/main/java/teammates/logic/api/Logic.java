@@ -176,7 +176,7 @@ public class Logic {
 	public void deleteAccount(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		gateKeeper.verifyAdminLoggedIn();
-		accountsLogic.deleteAccount(googleId);
+		accountsLogic.deleteAccountCascade(googleId);
 	}
 
 	@SuppressWarnings("unused")
@@ -227,7 +227,7 @@ public class Logic {
 	public List<InstructorAttributes> getInstructorRolesForAccount(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
-		return accountsLogic.getInstructorRolesForAccount(googleId);
+		return accountsLogic.getInstructorsForGoogleId(googleId);
 	}
 
 	/**
@@ -239,7 +239,7 @@ public class Logic {
 	public List<InstructorAttributes> getInstructorsOfCourse(String courseId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
-		return accountsLogic.getInstructorsOfCourse(courseId);
+		return accountsLogic.getInstructorsForCourse(courseId);
 	}
 
 	/**
@@ -353,7 +353,7 @@ public class Logic {
 
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
-		List<InstructorAttributes> instructorList = accountsLogic.getInstructorRolesForAccount(instructorId);
+		List<InstructorAttributes> instructorList = accountsLogic.getInstructorsForGoogleId(instructorId);
 		for (InstructorAttributes id : instructorList) {
 			evaluationSummaryList.addAll(getEvaluationsListForCourse(id.courseId));
 		}
@@ -375,7 +375,7 @@ public class Logic {
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
 		List<EvaluationAttributes> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(courseId);
-		List<StudentAttributes> students = accountsLogic.getStudentListForCourse(courseId);
+		List<StudentAttributes> students = accountsLogic.getStudentsForCourse(courseId);
 
 		for (EvaluationAttributes evaluation : evaluationsSummaryForCourse) {
 			EvaluationDetailsBundle edd = getEvaluationDetails(students, evaluation);
@@ -482,7 +482,7 @@ public class Logic {
 		// Retrieve the current list of instructors
 		// Remove those that are not in the list and persist the new ones
 		// Edit the ones that are found in both lists
-		List<InstructorAttributes> currentInstructors = accountsLogic.getInstructorsOfCourse(courseId);
+		List<InstructorAttributes> currentInstructors = accountsLogic.getInstructorsForCourse(courseId);
 		
 		List<InstructorAttributes> toAdd = new ArrayList<InstructorAttributes>();
 		List<InstructorAttributes> toRemove = new ArrayList<InstructorAttributes>();
@@ -553,7 +553,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		List<StudentAttributes> studentDataList = accountsLogic.getStudentListForCourse(courseId);
+		List<StudentAttributes> studentDataList = accountsLogic.getStudentsForCourse(courseId);
 
 		if ((studentDataList.size() == 0) && (getCourse(courseId) == null)) {
 			throw new EntityDoesNotExistException("Course does not exist :"
@@ -748,7 +748,7 @@ public class Logic {
 
 		gateKeeper.verifyRegisteredUserOrAbove();
 
-		StudentAttributes studentData = accountsLogic.getStudent(courseId, email);
+		StudentAttributes studentData = accountsLogic.getStudentForEmail(courseId, email);
 		return studentData;
 	}
 
@@ -768,11 +768,11 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(student.course);
 
-		if (!accountsLogic.isStudentExists(student.course, originalEmail)) {
+		if (!accountsLogic.isStudentInCourse(student.course, originalEmail)) {
 			throw new EntityDoesNotExistException("Non-existent student " + student.course + "/" + originalEmail);
 		}
 
-		StudentAttributes originalStudent = accountsLogic.getStudent(student.course, originalEmail);
+		StudentAttributes originalStudent = accountsLogic.getStudentForEmail(student.course, originalEmail);
 		String originalTeam = originalStudent.team;
 
 		accountsLogic.updateStudent(originalEmail, student);
@@ -816,12 +816,12 @@ public class Logic {
 			throw new EntityDoesNotExistException("Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
 		}
 		
-		if (!accountsLogic.isStudentExists(courseId, studentEmail)) {
+		if (!accountsLogic.isStudentInCourse(courseId, studentEmail)) {
 			throw new EntityDoesNotExistException("Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
 		}
 
 		CourseAttributes course = coursesLogic.getCourse(courseId);
-		StudentAttributes studentData = accountsLogic.getStudent(courseId, studentEmail);
+		StudentAttributes studentData = accountsLogic.getStudentForEmail(courseId, studentEmail);
 		Emails emailMgr = new Emails();
 		try {
 			MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
@@ -839,10 +839,10 @@ public class Logic {
 	 * @return Returns all StudentData objects associated with this Google ID.
 	 *         Returns an empty list if no student has this Google ID.
 	 */
-	public ArrayList<StudentAttributes> getStudentsWithGoogleId(String googleId) {
+	public List<StudentAttributes> getStudentsWithGoogleId(String googleId) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		gateKeeper.verifySameStudentOrAdmin(googleId);
-		return accountsLogic.getStudentsWithGoogleId(googleId);
+		return accountsLogic.getStudentsForGoogleId(googleId);
 	}
 
 	/**
@@ -892,7 +892,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrAbove(courseId);
 
-		StudentAttributes studentData = accountsLogic.getStudent(courseId, email);
+		StudentAttributes studentData = accountsLogic.getStudentForEmail(courseId, email);
 
 		if (studentData == null) {
 			return null;
@@ -1201,7 +1201,7 @@ public class Logic {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
-		List<StudentAttributes> studentDataList = accountsLogic.getStudentListForCourse(courseId);
+		List<StudentAttributes> studentDataList = accountsLogic.getStudentsForCourse(courseId);
 
 		List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
 		for (StudentAttributes sd : studentDataList) {
@@ -1282,7 +1282,7 @@ public class Logic {
 		boolean isSubmissionsExist = (submissions.size() > 0
 				&& coursesLogic.isCourseExists(courseId)
 				&& evaluationsLogic.isEvaluationExists(courseId,
-						evaluationName) && accountsLogic.isStudentExists(courseId, reviewerEmail));
+						evaluationName) && accountsLogic.isStudentInCourse(courseId, reviewerEmail));
 
 		if (!isSubmissionsExist) {
 			throw new EntityDoesNotExistException(
@@ -1625,7 +1625,7 @@ public class Logic {
 	}
 
 	private boolean isModificationToExistingStudent(StudentAttributes student) {
-		return accountsLogic.isStudentExists(student.course, student.email);
+		return accountsLogic.isStudentInCourse(student.course, student.email);
 	}
 
 	/**

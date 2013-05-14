@@ -175,7 +175,7 @@ public class AccountsDb {
 		getPM().deletePersistent(accountToDelete);
 		getPM().flush();
 	
-		// Wait for the delete operation to persist
+		// Wait for the operation to persist
 		int elapsedTime = 0;
 		Account accountCheck = getAccountEntity(googleId);
 		while ((accountCheck != null)
@@ -188,6 +188,9 @@ public class AccountsDb {
 			log.severe("Operation did not persist in time: deleteAccount->"
 					+ googleId);
 		}
+		
+		//TODO: the above piece of code is duplicated in many places. 
+		//  Eliminate using anonymous classes? e.g., similar to the way sorting works
 	}
 
 	@SuppressWarnings("unused")

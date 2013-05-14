@@ -144,6 +144,10 @@ public class StudentAttributes extends EntityAttributes {
 		// null as unregistered.
 	}
 
+	public boolean isRegistered() {
+		return id != null && !id.equals("");
+	}
+
 	public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
 		return (otherStudent != null) && otherStudent.email.equals(this.email)
 				&& otherStudent.course.equals(this.course)
