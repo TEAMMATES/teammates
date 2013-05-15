@@ -27,13 +27,13 @@ public class AdminAccountDetailsServlet extends ActionServlet<AdminAccountDetail
 		
 		helper.accountInformation = helper.server.getAccount(googleId);
 		try{
-			helper.instructorCourseList = new ArrayList<CourseDetailsBundle>(helper.server.getCourseListForInstructor(googleId).values());
+			helper.instructorCourseList = new ArrayList<CourseDetailsBundle>(helper.server.getCourseSummariesForInstructor(googleId).values());
 		} catch (EntityDoesNotExistException e){
 			//Not an instructor of any course
 			helper.instructorCourseList = null;
 		}
 		try{
-			helper.studentCourseList = helper.server.getCourseListForStudent(googleId);
+			helper.studentCourseList = helper.server.getCoursesForStudentAccount(googleId);
 		} catch(EntityDoesNotExistException e){
 			//Not a student of any course
 			helper.studentCourseList = null;

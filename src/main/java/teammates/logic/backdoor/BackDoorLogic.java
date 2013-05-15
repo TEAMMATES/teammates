@@ -25,6 +25,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
@@ -172,28 +173,27 @@ public class BackDoorLogic extends Logic {
 		editSubmissions(submissionList);
 	}
 	
-	public ArrayList<MimeMessage> activateReadyEvaluations() throws EntityDoesNotExistException, MessagingException, InvalidParametersException, IOException{
+	public ArrayList<MimeMessage> activateReadyEvaluations() {
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
 		List<EvaluationAttributes> evaluations = evaluationsLogic.getReadyEvaluations(); 
 		
 		for (EvaluationAttributes ed: evaluations) {
-			
-			
-			CourseAttributes course = getCourse(ed.course);
-			if(course==null){
-				log.warning("Trying to activate an orphan evaluation "+ ed.toString());
-			}
-
-			List<StudentAttributes> students = accountsLogic.getStudentsForCourse(ed.course);
-			
-			Emails emails = new Emails();
-			List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
-			emails.sendEmails(messages);
-			messagesSent.addAll(messages);
-			
-			//mark evaluation as activated
-			ed.activated=true;
-			editEvaluation(ed);
+			try {
+				CourseAttributes course = getCourse(ed.course);
+				
+				List<StudentAttributes> students = accountsLogic.getStudentsForCourse(ed.course);
+				
+				Emails emails = new Emails();
+				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
+				emails.sendEmails(messages);
+				messagesSent.addAll(messages);
+				
+				//mark evaluation as activated
+				ed.activated=true;
+				editEvaluation(ed);
+			} catch (Exception e) {
+				log.severe("Unexpected error "+ Common.stackTraceToString(e));
+			} 
 		}
 		return messagesSent;
 	}
@@ -204,28 +204,28 @@ public class BackDoorLogic extends Logic {
 		List<EvaluationAttributes> evaluationDataList = evaluationsLogic.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 
 		for (EvaluationAttributes ed : evaluationDataList) {
-			
-			CourseAttributes course = getCourse(ed.course);
-			if(course==null){
-				log.warning("Trying to send closing reminders for an orphan evaluation "+ ed.toString() );
-			} 
+			try {
 
-			List<StudentAttributes> studentDataList = accountsLogic.getStudentsForCourse(ed.course);;
+				List<StudentAttributes> studentDataList = accountsLogic.getStudentsForCourse(ed.course);
+				
+				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
 
-			List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
-
-			for (StudentAttributes sd : studentDataList) {
-				if (!evaluationsLogic.isEvaluationSubmitted(ed, sd.email)) {
-					studentToRemindList.add(sd);
+				for (StudentAttributes sd : studentDataList) {
+					if (!evaluationsLogic.isEvaluationSubmitted(ed, sd.email)) {
+						studentToRemindList.add(sd);
+					}
 				}
+
+				CourseAttributes c = getCourse(ed.course);
+
+				Emails emailMgr = new Emails();
+				List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
+				emailMgr.sendEmails(emails);
+				emailsSent.addAll(emails);
+				
+			} catch (Exception e) {
+				log.severe("Unexpected error " + Common.stackTraceToString(e));
 			}
-			
-			CourseAttributes c = getCourse(ed.course);
-			
-			Emails emailMgr = new Emails();
-			List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
-			emailMgr.sendEmails(emails);
-			emailsSent.addAll(emails);
 		}
 		return emailsSent;
 	}

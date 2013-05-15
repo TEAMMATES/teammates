@@ -183,7 +183,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// Create an orphan evaluation (this should be ignored by SUT)
 		EvaluationAttributes orphan = new EvaluationAttributes();
 		orphan.name = "Orphan Evaluation";
-		orphan.course = "non-existent-course-BDLT";
+		orphan.course = "non-existent-course-BDLT-causes-EDNEE";
 		orphan.timeZone = evaluation2.timeZone;
 		orphan.startTime = evaluation2.startTime;
 		orphan.endTime = evaluation2.endTime;
@@ -195,9 +195,9 @@ public class BackDoorLogicTest extends BaseTestCase {
 				backdoor.getEvaluation(orphan.course, orphan.name).toEntity().isReadyToActivate());
 
 		emailsSent = backdoor.activateReadyEvaluations();
-		int course1StudentCount = backdoor.getStudentListForCourse(
+		int course1StudentCount = backdoor.getStudentsForCourse(
 				evaluation1.course).size();
-		int course2StudentCount = backdoor.getStudentListForCourse(
+		int course2StudentCount = backdoor.getStudentsForCourse(
 				evaluation2.course).size();
 
 		assertEquals(course1StudentCount + course2StudentCount,
@@ -252,7 +252,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		// Create an orphan evaluation (this should be ignored by SUT)
 		EvaluationAttributes orphan = new EvaluationAttributes();
 		orphan.name = "Orphan Evaluation";
-		orphan.course = "non-existent-course-BDLT";
+		orphan.course = "non-existent-course-BDLT-causes-EDNEE";
 		orphan.timeZone = evaluation2.timeZone;
 		orphan.startTime = evaluation2.startTime;
 		orphan.endTime = evaluation2.endTime;
@@ -262,9 +262,9 @@ public class BackDoorLogicTest extends BaseTestCase {
 		
 		emailsSent = backdoor.sendRemindersForClosingEvaluations();
 
-		int course1StudentCount = backdoor.getStudentListForCourse(
+		int course1StudentCount = backdoor.getStudentsForCourse(
 				evaluation1.course).size();
-		int course2StudentCount = backdoor.getStudentListForCourse(
+		int course2StudentCount = backdoor.getStudentsForCourse(
 				evaluation2.course).size();
 
 		assertEquals(course1StudentCount + course2StudentCount,

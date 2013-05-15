@@ -187,7 +187,7 @@ public class BackDoorServlet extends HttpServlet {
 
 		try {
 			HashMap<String, CourseDetailsBundle> courseList = backDoorLogic
-					.getCourseListForInstructor(instructorID);
+					.getCourseSummariesForInstructor(instructorID);
 			for (String courseId : courseList.keySet()) {
 				courseIDs = courseIDs + courseId + " ";
 			}

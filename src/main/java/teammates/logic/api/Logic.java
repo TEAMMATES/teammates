@@ -134,6 +134,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 		
 		gateKeeper.verifyAdminLoggedIn();
+		
 		accountsLogic.createAccount(googleId, name, isInstructor, email, institute);
 	}
 	
@@ -143,10 +144,12 @@ public class Logic {
 	 * * All parameters are non-null.
 	 */
 	public AccountAttributes getAccount(String googleId) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
 		gateKeeper.verifyLoggedInUserAndAbove();
-		AccountAttributes account = accountsLogic.getAccount(googleId);
-		return account;
+		
+		return accountsLogic.getAccount(googleId);
 	}
 	
 	/**
@@ -158,9 +161,10 @@ public class Logic {
 	 *         list if no such accounts are found.
 	 */
 	public List<AccountAttributes> getInstructorAccounts() {
+		
 		gateKeeper.verifyAdminLoggedIn();
-		List<AccountAttributes> accounts = accountsLogic.getInstructorAccounts();
-		return accounts;
+		
+		return accountsLogic.getInstructorAccounts();
 	}
 	
 	/**
@@ -170,8 +174,11 @@ public class Logic {
 	 * * {@code newAccountAttributes} represents an existing account.
 	 */
 	public void updateAccount(AccountAttributes newAccountAttributes) throws InvalidParametersException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAccountAttributes);
+		
 		gateKeeper.verifyAdminLoggedIn();
+		
 		accountsLogic.updateAccount(newAccountAttributes);
 	}
 	
@@ -182,8 +189,11 @@ public class Logic {
 	 * * All parameters are non-null.
 	 */
 	public void deleteAccount(String googleId) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
 		gateKeeper.verifyAdminLoggedIn();
+		
 		accountsLogic.deleteAccountCascade(googleId);
 	}
 
@@ -192,13 +202,14 @@ public class Logic {
 	}
 
 	/**
-	 * Creates an account and an instructor. 
+	 * Creates an account and an instructor. <br>
 	 * Access: admin only. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
 	public void createInstructor(String googleId, String courseId, String name, String email, String institute)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
@@ -206,6 +217,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 
 		gateKeeper.verifyAdminLoggedIn();
+		
 		accountsLogic.createInstructor(googleId, courseId, name, email, institute);
 	}
 
@@ -216,12 +228,13 @@ public class Logic {
 	 * @return null if not found.
 	 */
 	public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyLoggedInUserAndAbove();
-		InstructorAttributes instructor = accountsLogic.getInstructorForGoogleId(courseId, googleId);
-		return instructor;
+		
+		return accountsLogic.getInstructorForGoogleId(courseId, googleId);
 	}
 	
 	/**
@@ -230,7 +243,9 @@ public class Logic {
 	 */
 	@Deprecated
 	public List<InstructorAttributes> getAllInstructors() {
+		
 		gateKeeper.verifyAdminLoggedIn();
+		
 		return accountsLogic.getAllInstructors();
 	}
 	
@@ -241,8 +256,11 @@ public class Logic {
 	 * @return Empty list if none found.
 	 */
 	public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
+		
 		return accountsLogic.getInstructorsForGoogleId(googleId);
 	}
 
@@ -253,8 +271,11 @@ public class Logic {
 	 * @return Empty list if none found.
 	 */
 	public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
+		
 		return accountsLogic.getInstructorsForCourse(courseId);
 	}
 
@@ -265,8 +286,11 @@ public class Logic {
 	 */
 	public void updateInstructor(InstructorAttributes instructor) 
 			throws InvalidParametersException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
+		
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructor.googleId);
+		
 		accountsLogic.updateInstructor(instructor);
 	}
 
@@ -277,10 +301,12 @@ public class Logic {
 	 * * All parameters are non-null. 
 	 */
 	public void deleteInstructor(String courseId, String googleId) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyAdminLoggedIn();
+		
 		accountsLogic.deleteInstructor(courseId, googleId);
 	}
 
@@ -291,46 +317,48 @@ public class Logic {
 	 * * All parameters are non-null. 
 	 */
 	public void deleteInstructorsForGoogleId(String googleId) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		
 		gateKeeper.verifyAdminLoggedIn();
+		
 		accountsLogic.deleteInstructorsForGoogleId(googleId);
 	}
 
 	/**
-	 * Access level: Admin, Instructor (for self)
-	 * 
-	 * @return Returns a less-detailed version of Instructor's course data
+	 * Access: admin, instructor using own google id. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return A less deatailed version of courses for this instructor. 
+	 *   Returns an empty list if none found.
 	 */
-	public HashMap<String, CourseDetailsBundle> getCourseListForInstructor(
-			String instructorId) throws EntityDoesNotExistException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+	public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) 
+			throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
-		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
 
-		verifyInstructorExists(instructorId);
-
-		HashMap<String, CourseDetailsBundle> courseSummaryListForInstructor = coursesLogic.getCourseSummaryListForInstructor(instructorId);
-
-		return courseSummaryListForInstructor;
+		return coursesLogic.getCourseSummariesForInstructor(googleId);
 	}
 
 
 	/**
-	 * Access level: Admin, Instructor (for self)
-	 * 
-	 * @return Returns a more-detailed version of Instructor's course data <br>
+	 * Access: admin, instructor using own google id. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return A more deatailed version of courses for this instructor. 
+	 *   Returns an empty list if none found.
 	 */
 	public HashMap<String, CourseDetailsBundle> getCourseDetailsListForInstructor(
 			String instructorId) throws EntityDoesNotExistException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 
-		// TODO: using this method here may not be efficient as it retrieves
-		// info not required
-		HashMap<String, CourseDetailsBundle> courseList = coursesLogic.getCourseSummaryListForInstructor(instructorId);
-		ArrayList<EvaluationDetailsBundle> evaluationList = getEvaluationsListForInstructor(instructorId);
+		HashMap<String, CourseDetailsBundle> courseList = coursesLogic.getCourseSummariesForInstructor(instructorId);
+		ArrayList<EvaluationDetailsBundle> evaluationList = getEvaluationsDetailsForInstructor(instructorId);
 		for (EvaluationDetailsBundle edd : evaluationList) {
 			CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.course);
 			courseSummary.evaluations.add(edd);
@@ -343,8 +371,9 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's evaluations <br>
 	 */
-	public ArrayList<EvaluationDetailsBundle> getEvaluationsListForInstructor(
+	public ArrayList<EvaluationDetailsBundle> getEvaluationsDetailsForInstructor(
 			String instructorId) throws EntityDoesNotExistException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
@@ -355,7 +384,7 @@ public class Logic {
 
 		List<InstructorAttributes> instructorList = accountsLogic.getInstructorsForGoogleId(instructorId);
 		for (InstructorAttributes id : instructorList) {
-			evaluationSummaryList.addAll(getEvaluationsListForCourse(id.courseId));
+			evaluationSummaryList.addAll(getEvaluationDetailsForCourse(id.courseId));
 		}
 		return evaluationSummaryList;
 	}
@@ -366,7 +395,7 @@ public class Logic {
 	 * 
 	 * @return Returns a less-detailed version of Instructor's evaluations <br>
 	 */
-	public ArrayList<EvaluationDetailsBundle> getEvaluationsListForCourse(String courseId)
+	public ArrayList<EvaluationDetailsBundle> getEvaluationDetailsForCourse(String courseId)
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
@@ -390,59 +419,56 @@ public class Logic {
 	}
 
 	/**
-	 * Access level: Instructor and above
-	 * 
-	 * If instructorId is null then only the course will be created with no instructor owning it
-	 * (only used in restoring data bundle in test cases)
+	 * Creates a course and an instructor for it. <br>
+	 * Access: admin, instructor. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * * {@code instructorGoogleId} already has instructor privileges.
 	 */
-	public void createCourse(String instructorId, String courseId,
-			String courseName) throws EntityAlreadyExistsException,
-			InvalidParametersException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+	public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName) 
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorGoogleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
-		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorGoogleId);
 
-		coursesLogic.createCourse(courseId, courseName);
-
-		// Create an instructor relation for the INSTRUCTOR that created this course
-		// The INSTRUCTOR relation is created here with NAME, EMAIL and INSTITUTION fields retrieved from his AccountData
-		// Otherwise, createCourse() method will have to take in 3 extra parameters for them which is not a good idea
-		AccountAttributes courseCreator = accountsLogic.getAccount(instructorId);
-		Assumption.assertNotNull(ERROR_COURSE_CREATOR_NO_ACCOUNT + Common.getCurrentThreadStack(), courseCreator);
-		accountsLogic.createInstructor(instructorId, courseId, courseCreator.name, courseCreator.email, courseCreator.institute);
+		coursesLogic.createCourseAndInstructor(instructorGoogleId, courseId, courseName);
 	}
 	
 	/**
-	 * AccessLevel : any registered user (because it is too expensive to check
--	 * if a student is in the course)
+	 * Access: any registered in user (because it is too expensive to check
+-	 * if a student is in the course). <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return null if not found.
 	 */
 	public CourseAttributes getCourse(String courseId) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		
 		gateKeeper.verifyRegisteredUserOrAbove();
-		CourseAttributes c = coursesLogic.getCourse(courseId);
-		return c;
+		
+		return coursesLogic.getCourse(courseId);
 	}
 
 	/**
-	 * Returns a detailed version of course data, including evaluation data
-	 * Access: course owner, student in course, admin
+	 * Returns a detailed version of course data, including evaluation data. <br>
+	 * Access: admin, instructors of the course, students in the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
 	public CourseDetailsBundle getCourseDetails(String courseId)
 			throws EntityDoesNotExistException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 
-		// TODO: very inefficient. Should be optimized. (sorta fixed)
-		// Previously it calls a function which prepares ALL the courses for an
-		// instructor,
-		// then returns the selected course from the list.
-		// Now it simply prepares the requesteed course
 		CourseDetailsBundle courseSummary = coursesLogic.getCourseSummary(courseId);
 
-		ArrayList<EvaluationDetailsBundle> evaluationList = getEvaluationsListForCourse(courseSummary.course.id);
+		ArrayList<EvaluationDetailsBundle> evaluationList = getEvaluationDetailsForCourse(courseSummary.course.id);
 		for (EvaluationDetailsBundle edd : evaluationList) {
 			courseSummary.evaluations.add(edd);
 		}
@@ -450,7 +476,39 @@ public class Logic {
 		return courseSummary;
 	}
 
-	public void editCourse(CourseAttributes course) throws NotImplementedException {
+	/**
+	 * Access: admin, instructors of the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return Empty list if none found.
+	 */
+	public List<StudentAttributes> getStudentsForCourse(String courseId)
+			throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
+		return accountsLogic.getStudentsForCourse(courseId);
+	
+	}
+
+	/**
+	 * Access: admin, instructors of the course, students in the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public CourseDetailsBundle getTeamsForCourse(String courseId)
+			throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+	
+		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
+	
+		return coursesLogic.getTeamsForCourse(courseId);
+		
+	}
+
+	public void updateCourse(CourseAttributes course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing courses");
 	}
@@ -474,7 +532,7 @@ public class Logic {
 			Assumption.fail(ERROR_UPDATE_NON_EXISTENT_COURSE + courseId);
 		}
 		
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 		
 		// Prepare the list to be updated
 		List<InstructorAttributes> instructorsList = parseInstructorLines(courseId, instructorLines);
@@ -533,35 +591,66 @@ public class Logic {
 	}
 
 	/**
+	 * Enrolls new students in the course or modifies existing students. But it
+	 * will not delete any students. It will not edit email address either. If
+	 * an existing student was enrolled with a different email address, that
+	 * student will be treated as a new student.<br>
+	 * If there is an error in the enrollLines, there will be no changes to the
+	 * datastore <br>
 	 * Access: course owner and above
+	 * 
+	 * @return StudentData objects in the return value contains the status of
+	 *         enrollment. It also includes data for other students in the
+	 *         course that were not touched by the operation.
 	 */
-	public void deleteCourse(String courseId) {
+	public List<StudentAttributes> enrollStudents(String enrollLines, String courseId)
+			throws EnrollException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
-
-		//TODO: evaluations should be deleted within deleteCourseCascade method
-		evaluationsLogic.deleteEvaluationsForCourse(courseId);
-		coursesLogic.deleteCourseCascade(courseId);
-	}
-
-	/**
-	 * Access: course owner and above
-	 */
-	public List<StudentAttributes> getStudentListForCourse(String courseId)
-			throws EntityDoesNotExistException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
-
-		List<StudentAttributes> studentDataList = accountsLogic.getStudentsForCourse(courseId);
-
-		if ((studentDataList.size() == 0) && (getCourse(courseId) == null)) {
-			throw new EntityDoesNotExistException("Course does not exist :"
-					+ courseId);
+	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+	
+		if (!coursesLogic.isCoursePresent(courseId)) {
+			throw new EntityDoesNotExistException("Course does not exist :" + courseId);
 		}
-
-		return studentDataList;
+	
+		Assumption.assertNotNull(StudentAttributes.ERROR_ENROLL_LINE_NULL,
+				enrollLines);
+	
+		ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
+		String[] linesArray = enrollLines.split(Common.EOL);
+		ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+	
+		// check if all non-empty lines are formatted correctly
+		for (int i = 0; i < linesArray.length; i++) {
+			String line = linesArray[i];
+			try {
+				if (Common.isWhiteSpace(line))
+					continue;
+				studentList.add(new StudentAttributes(line, courseId));
+			} catch (InvalidParametersException e) {
+				throw new EnrollException(e.errorCode, "Problem in line : "
+						+ line + Common.EOL + e.getMessage());
+			}
+		}
+	
+		//TODO: can we use a batch persist operation here?
+		// enroll all students
+		for (StudentAttributes student : studentList) {
+			StudentAttributes studentInfo;
+			studentInfo = enrollStudent(student);
+			returnList.add(studentInfo);
+		}
+	
+		// add to return list students not included in the enroll list.
+		List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+		for (StudentAttributes student : studentsInCourse) {
+			if (!isInEnrollList(student, returnList)) {
+				student.updateStatus = StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST;
+				returnList.add(student);
+			}
+		}
+	
+		return returnList;
 	}
 
 	/**
@@ -573,13 +662,13 @@ public class Logic {
 	public List<MimeMessage> sendRegistrationInviteForCourse(String courseId)
 			throws InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
-
+	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+	
 		List<StudentAttributes> studentDataList = accountsLogic.getUnregisteredStudentsForCourse(courseId);
-
+	
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
-
+	
 		//TODO: sending mail should be moved to somewhere else.
 		for (StudentAttributes s : studentDataList) {
 			try {
@@ -596,126 +685,19 @@ public class Logic {
 	}
 
 	/**
-	 * Enrolls new students in the course or modifies existing students. But it
-	 * will not delete any students. It will not edit email address either. If
-	 * an existing student was enrolled with a different email address, that
-	 * student will be treated as a new student.<br>
-	 * If there is an error in the enrollLines, there will be no changes to the
-	 * datastore <br>
-	 * Access: course owner and above
-	 * 
-	 * @return StudentData objects in the return value contains the status of
-	 *         enrollment. It also includes data for other students in the
-	 *         course that were not touched by the operation.
+	 * Deletes the course and all data related to the course.
+	 * Fails silently if no such account. <br>
+	 * Access: admin, instructors of the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
-	public List<StudentAttributes> enrollStudents(String enrollLines, String courseId)
-			throws EnrollException, EntityDoesNotExistException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
-
-		if (!coursesLogic.isCoursePresent(courseId)) {
-			throw new EntityDoesNotExistException("Course does not exist :" + courseId);
-		}
-
-		Assumption.assertNotNull(StudentAttributes.ERROR_ENROLL_LINE_NULL,
-				enrollLines);
-
-		ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
-		String[] linesArray = enrollLines.split(Common.EOL);
-		ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-
-		// check if all non-empty lines are formatted correctly
-		for (int i = 0; i < linesArray.length; i++) {
-			String line = linesArray[i];
-			try {
-				if (Common.isWhiteSpace(line))
-					continue;
-				studentList.add(new StudentAttributes(line, courseId));
-			} catch (InvalidParametersException e) {
-				throw new EnrollException(e.errorCode, "Problem in line : "
-						+ line + Common.EOL + e.getMessage());
-			}
-		}
-
-		//TODO: can we use a batch persist operation here?
-		// enroll all students
-		for (StudentAttributes student : studentList) {
-			StudentAttributes studentInfo;
-			studentInfo = enrollStudent(student);
-			returnList.add(studentInfo);
-		}
-
-		// add to return list students not included in the enroll list.
-		List<StudentAttributes> studentsInCourse = getStudentListForCourse(courseId);
-		for (StudentAttributes student : studentsInCourse) {
-			if (!isInEnrollList(student, returnList)) {
-				student.updateStatus = StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST;
-				returnList.add(student);
-			}
-		}
-
-		return returnList;
-	}
-
-	/**
-	 * Access: course owner, student in course, admin
-	 * 
-	 * @return The CourseData object that is returned will contain attributes
-	 *         teams(type:TeamData) and loners(type:StudentData). We do not
-	 *         expect any loners as the current system does not support students
-	 *         without teams. This field is to be removed later. <br>
-	 *         Access : course owner and above
-	 */
-	public CourseDetailsBundle getTeamsForCourse(String courseId)
-			throws EntityDoesNotExistException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
-
-		List<StudentAttributes> students = getStudentListForCourse(courseId);
-		StudentAttributes.sortByTeamName(students);
-
-		CourseAttributes course = getCourse(courseId);
-
-		if (course == null) {
-			throw new EntityDoesNotExistException("The course " + courseId
-					+ " does not exist");
-		}
+	public void deleteCourse(String courseId) {
 		
-		CourseDetailsBundle cdd = new CourseDetailsBundle(course);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		TeamDetailsBundle team = null;
-		for (int i = 0; i < students.size(); i++) {
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
-			StudentAttributes s = students.get(i);
-
-			// if loner
-			if (s.team.equals("")) {
-				cdd.loners.add(s);
-				// first student of first team
-			} else if (team == null) {
-				team = new TeamDetailsBundle();
-				team.name = s.team;
-				team.students.add(s);
-				// student in the same team as the previous student
-			} else if (s.team.equals(team.name)) {
-				team.students.add(s);
-				// first student of subsequent teams (not the first team)
-			} else {
-				cdd.teams.add(team);
-				team = new TeamDetailsBundle();
-				team.name = s.team;
-				team.students.add(s);
-			}
-
-			// if last iteration
-			if (i == (students.size() - 1)) {
-				cdd.teams.add(team);
-			}
-		}
-
-		return cdd;
+		coursesLogic.deleteCourseCascade(courseId);
 	}
 
 	@SuppressWarnings("unused")
@@ -736,7 +718,7 @@ public class Logic {
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
-		gateKeeper.verifyCourseOwnerOrAbove(student.course);
+		gateKeeper.verifyCourseInstructorOrAbove(student.course);
 
 		accountsLogic.createStudent(student);
 		evaluationsLogic.adjustSubmissionsForNewStudent(student.course, student.email, student.team);
@@ -750,13 +732,13 @@ public class Logic {
 	 * @return Null if no match found.
 	 */
 	public StudentAttributes getStudent(String courseId, String email) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
 		gateKeeper.verifyRegisteredUserOrAbove();
 
-		StudentAttributes studentData = accountsLogic.getStudentForEmail(courseId, email);
-		return studentData;
+		return accountsLogic.getStudentForEmail(courseId, email);
 	}
 
 	
@@ -773,8 +755,7 @@ public class Logic {
 	
 		gateKeeper.verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
 		
-		StudentAttributes sd = accountsLogic.getStudentForGoogleId(courseId, googleId);
-		return sd;
+		return accountsLogic.getStudentForGoogleId(courseId, googleId);
 	}
 
 	/**
@@ -785,6 +766,7 @@ public class Logic {
 	 * @return Empty list if no match found.
 	 */
 	public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		
 		gateKeeper.verifySameStudentOrAdmin(googleId);
@@ -794,6 +776,21 @@ public class Logic {
 
 	
 	/**
+	 * Access: admin, a student who owns the googleId. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public List<CourseAttributes> getCoursesForStudentAccount(String googleId)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+	
+		gateKeeper.verifySameStudentOrAdmin(googleId);
+	
+		return coursesLogic.getCoursesForStudentAccount(googleId);
+	}
+
+	/**
 	 * Access: admin, instructor of course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
@@ -801,10 +798,11 @@ public class Logic {
 	 * @return null if no match found.
 	 */
 	public String getKeyForStudent(String courseId, String email) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 	
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 	
 		return accountsLogic.getKeyForStudent(courseId, email);
 	}
@@ -822,10 +820,11 @@ public class Logic {
 	 */
 	public void updateStudent(String originalEmail, StudentAttributes student)
 			throws InvalidParametersException, EntityDoesNotExistException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
-		gateKeeper.verifyCourseOwnerOrAbove(student.course);
+		gateKeeper.verifyCourseInstructorOrAbove(student.course);
 
 		accountsLogic.confirmStudentExists(student.course, originalEmail);
 
@@ -846,22 +845,21 @@ public class Logic {
 	}
 
 	/**
-	 * Access: owner of googleId
-	 * @throws EntityAlreadyExistsException 
+	 * Access: admin, owner of id. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * 
 	 */
 	public void joinCourse(String googleId, String key)
 			throws JoinCourseException, InvalidParametersException, EntityAlreadyExistsException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
 	
 		gateKeeper.verifyOwnerOfId(googleId);
 	
-		StudentAttributes newlyJoinedStudent = accountsLogic.joinCourse(key, googleId);
+		accountsLogic.joinCourse(key, googleId);
 	
-		if (!accountsLogic.isAccountPresent(googleId)) {
-			String institute = coursesLogic.getCourseInstitute(newlyJoinedStudent.course);
-			accountsLogic.createAccount(googleId, newlyJoinedStudent.name, false, newlyJoinedStudent.email, institute);
-		}
 	}
 
 	/**
@@ -874,66 +872,28 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
-		accountsLogic.deleteStudent(courseId, studentEmail);
-		evaluationsLogic.deleteAllSubmissionsForStudent(courseId, studentEmail);
+		accountsLogic.deleteStudentCascade(courseId, studentEmail);
 	}
 
 	/**
-	 * Access: course owner and above
+	 * Access: admin, an instructor of the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
-	public MimeMessage sendRegistrationInviteToStudent(String courseId,
-			String studentEmail) throws EntityDoesNotExistException,
-			InvalidParametersException {
+	public MimeMessage sendRegistrationInviteToStudent(String courseId,	String studentEmail) 
+			throws EntityDoesNotExistException,	InvalidParametersException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
-
-		if (!coursesLogic.isCoursePresent(courseId)) {
-			throw new EntityDoesNotExistException("Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
-		}
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 		
-		if (!accountsLogic.isStudentInCourse(courseId, studentEmail)) {
-			throw new EntityDoesNotExistException("Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-		}
-
-		CourseAttributes course = coursesLogic.getCourse(courseId);
-		StudentAttributes studentData = accountsLogic.getStudentForEmail(courseId, studentEmail);
-		Emails emailMgr = new Emails();
-		try {
-			MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
-			emailMgr.sendEmail(email);
-			return email;
-		} catch (Exception e) {
-			throw new RuntimeException("Unexpected error while sending email", e);
-		}
-
+		return coursesLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
 	}
 
-	/**
-	 * Access: student who owns the googleId, admin
-	 * 
-	 * @return Returns Courses associated with the student with the given Google
-	 *         ID
-	 * @throws EntityDoesNotExistException
-	 *             Thrown if no such student.
-	 */
-	public List<CourseAttributes> getCourseListForStudent(String googleId)
-			throws EntityDoesNotExistException, InvalidParametersException {
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-
-		gateKeeper.verifySameStudentOrAdmin(googleId);
-
-		if (getStudentsForGoogleId(googleId).size() == 0) {
-			throw new EntityDoesNotExistException("Student with Google ID "
-					+ googleId + " does not exist");
-		}
-
-		return coursesLogic.getCoursesForGoogleId(googleId);
-	}
-
+	
 	/**
 	 * Access: any logged in user (to minimize cost of checking)
 	 */
@@ -980,7 +940,7 @@ public class Logic {
 		gateKeeper.verifySameStudentOrAdmin(googleId);
 
 		// Get the list of courses that this student is in
-		List<CourseAttributes> courseList = getCourseListForStudent(googleId);
+		List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
 		List<CourseDetailsBundle> courseDetailsList = new ArrayList<CourseDetailsBundle>();
 
 		// For each course the student is in
@@ -1045,40 +1005,33 @@ public class Logic {
 	}
 
 	/**
-	 * Access: course owner and above
-	 * 
-	 * @throws InvalidParametersException
-	 *             is thrown if any of the parameters puts the evaluation in an
-	 *             invalid state (e.g., endTime is set before startTime).
-	 *             However, setting start time to a past time is allowed.
+	 * Access: admin, an instructor of the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
 	public void createEvaluation(EvaluationAttributes evaluation)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
 
-		gateKeeper.verifyCourseOwnerOrAbove(evaluation.course);
-
-		if (!evaluation.isValid()) {
-			throw new InvalidParametersException(
-					evaluation.getInvalidStateInfo());
-		}
+		gateKeeper.verifyCourseInstructorOrAbove(evaluation.course);
 
 		evaluationsLogic.createEvaluation(evaluation);
 	}
 
 	/**
-	 * Access: all registered users
-	 * 
+	 * Access: all registered users. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
 	 */
 	public EvaluationAttributes getEvaluation(String courseId, String evaluationName) {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
 		gateKeeper.verifyRegisteredUserOrAbove();
 
-		EvaluationAttributes e = evaluationsLogic.getEvaluation(courseId, evaluationName);
-
-		return e;
+		return evaluationsLogic.getEvaluation(courseId, evaluationName);
 	}
 
 	/**
@@ -1101,7 +1054,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, gracePeriod);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, p2pEnabled);
 
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
 		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
@@ -1133,7 +1086,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
 		evaluationsLogic.deleteEvaluation(courseId, evaluationName);
 	}
@@ -1149,7 +1102,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
 		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
@@ -1177,7 +1130,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
 		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
@@ -1202,7 +1155,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
 		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
@@ -1245,7 +1198,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
 		//TODO: The datatype below is not a good fit for the data. ArralyList<TeamDetailsBundle>?
 		List<TeamDetailsBundle> teams = getTeamsForCourse(courseId).teams;
@@ -1395,7 +1348,7 @@ public class Logic {
 
 		CourseAttributes c = getCourse(courseId);
 		EvaluationAttributes e = getEvaluation(courseId, evaluationName);
-		List<StudentAttributes> students = getStudentListForCourse(courseId);
+		List<StudentAttributes> students = getStudentsForCourse(courseId);
 
 		Emails emailMgr = new Emails();
 		try {
@@ -1706,7 +1659,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evalName);
 		
-		gateKeeper.verifyCourseOwnerOrAbove(courseId);
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 		
 		EvaluationResultsBundle evaluationResults = getEvaluationResult(courseId, evalName);
 		

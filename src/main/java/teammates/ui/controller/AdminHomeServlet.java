@@ -164,7 +164,7 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 			} else if (obj instanceof CourseAttributes) {
 				type = "CourseData";
 				CourseAttributes courseData = (CourseAttributes) obj;
-				helper.server.createCourse(helper.instructorId, courseData.id,
+				helper.server.createCourseAndInstructor(helper.instructorId, courseData.id,
 						courseData.name);
 
 			} else if (obj instanceof StudentAttributes) {

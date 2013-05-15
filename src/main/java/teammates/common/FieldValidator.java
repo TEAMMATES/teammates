@@ -210,7 +210,7 @@ public class FieldValidator {
 	 */
 	public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
 		
-		Assumption.assertTrue("Non-null value expected", value != null);
+		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.isEmpty()) {
@@ -237,7 +237,7 @@ public class FieldValidator {
 	 */
 	public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
 		
-		Assumption.assertTrue("Non-null value expected", value != null);
+		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.length()>maxLength){

@@ -47,7 +47,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		}
 		
 		HashMap<String, CourseDetailsBundle> courses = helper.server
-				.getCourseListForInstructor(helper.userId);
+				.getCourseSummariesForInstructor(helper.userId);
 		helper.courses = new ArrayList<CourseDetailsBundle>(courses.values());
 		
 		sortDetailedCourses(helper.courses);	
@@ -65,7 +65,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		String courseId = helper.courseID;
 		String courseInstitute = helper.account.institute;
 		try {
-			helper.server.createCourse(helper.userId, helper.courseID,
+			helper.server.createCourseAndInstructor(helper.userId, helper.courseID,
 					helper.courseName);
 			helper.courseID = null;
 			helper.courseName = null;

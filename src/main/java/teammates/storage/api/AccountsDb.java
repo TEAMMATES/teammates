@@ -53,7 +53,7 @@ public class AccountsDb {
 		Assumption.assertNotNull(
 				Common.ERROR_DBLEVEL_NULL_INPUT, accountToAdd);
 		Assumption.assertTrue(
-				"Invalid object received as a parameter :" + accountToAdd.getInvalidStateInfo().toString(),
+				"Invalid object received as a parameter :" + Common.toString(accountToAdd.getInvalidStateInfo()) + accountToAdd.toString(),
 				accountToAdd.isValid());
 		
 		Account newAccount = accountToAdd.toEntity();

@@ -80,12 +80,12 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 	private void populateEvaluationList(InstructorEvalHelper helper)
 			throws EntityDoesNotExistException {
 		HashMap<String, CourseDetailsBundle> summary = helper.server
-				.getCourseListForInstructor(helper.userId);
+				.getCourseSummariesForInstructor(helper.userId);
 		helper.courses = new ArrayList<CourseDetailsBundle>(summary.values());
 		sortDetailedCourses(helper.courses);
 
 		helper.evaluations = helper.server
-				.getEvaluationsListForInstructor(helper.userId);
+				.getEvaluationsDetailsForInstructor(helper.userId);
 		sortEvaluationsByDeadline(helper.evaluations);
 	}
 

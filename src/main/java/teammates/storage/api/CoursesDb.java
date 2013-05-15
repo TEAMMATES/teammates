@@ -12,7 +12,9 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 
@@ -79,6 +81,7 @@ public class CoursesDb {
 
 		return new CourseAttributes(c);
 	}
+	
 	
 	/**
 	 * @deprecated Not scalable. Use only in admin features. 

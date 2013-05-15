@@ -1,11 +1,11 @@
 package teammates.logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
+
+import javax.mail.internet.MimeMessage;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
@@ -14,11 +14,14 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.SubmissionsDb;
 
 /**
  * Handles  operations related to courses.
@@ -38,6 +41,8 @@ public class CoursesLogic {
 
 	private static final CoursesDb coursesDb = new CoursesDb();
 	private static final AccountsDb accountsDb = new AccountsDb();
+	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
+	private static final SubmissionsDb submissionsDb = new SubmissionsDb();
 
 	
 	public static CoursesLogic inst() {
@@ -55,6 +60,26 @@ public class CoursesLogic {
 		}
 	
 		coursesDb.createCourse(courseToAdd);
+	}
+	
+	public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		createCourse(courseId, courseName);
+		
+		AccountAttributes courseCreator = accountsDb.getAccount(instructorGoogleId);
+
+		Assumption.assertNotNull(
+				"Trying to create a course for a person who doesn't have instructor privileges :"+ instructorGoogleId, 
+				courseCreator);
+		
+		InstructorAttributes instructor = new InstructorAttributes();
+		instructor.googleId = instructorGoogleId;
+		instructor.courseId = courseId;
+		instructor.email = courseCreator.email;
+		instructor.name = courseCreator.name;
+		
+		accountsDb.createInstructor(instructor);
+		//TODO: Handle the orphan course in case instructor cannot be created
 	}
 
 	public CourseAttributes getCourse(String courseId) {
@@ -117,8 +142,15 @@ public class CoursesLogic {
 		return cdd;
 	}
 	
-	public List<CourseAttributes> getCoursesForGoogleId(String googleId) {
+	public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
+		
 		List<StudentAttributes> studentDataList = accountsDb.getStudentsForGoogleId(googleId);
+		
+		if (studentDataList.size() == 0) {
+			throw new EntityDoesNotExistException("Student with Google ID "
+					+ googleId + " does not exist");
+		}
+		
 		ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
 
 		for (StudentAttributes s : studentDataList) {
@@ -134,8 +166,15 @@ public class CoursesLogic {
 		return courseList;
 	}
 	
-	public HashMap<String, CourseDetailsBundle> getCourseSummaryListForInstructor(String instructorId) {
-		List<InstructorAttributes> instructorAttributesList = accountsDb.getInstructorsForGoogleId(instructorId);
+	public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) 
+			throws EntityDoesNotExistException {
+		
+		List<InstructorAttributes> instructorAttributesList = accountsDb.getInstructorsForGoogleId(googleId);
+		
+		if (!isInstructorAccount(googleId)) {
+			throw new EntityDoesNotExistException(
+					"Instructor does not exist or account does not have instructor privileges:" + googleId);
+		}
 		
 		HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
 		
@@ -152,7 +191,55 @@ public class CoursesLogic {
 		
 		return courseSummaryList;
 	}
+
+	public CourseDetailsBundle getTeamsForCourse(String courseId) 
+			throws EntityDoesNotExistException {
+		
+		List<StudentAttributes> students = accountsDb.getStudentsForCourse(courseId);
+		StudentAttributes.sortByTeamName(students);
 	
+		CourseAttributes course = getCourse(courseId);
+	
+		if (course == null) {
+			throw new EntityDoesNotExistException("The course " + courseId
+					+ " does not exist");
+		}
+		
+		CourseDetailsBundle cdd = new CourseDetailsBundle(course);
+	
+		TeamDetailsBundle team = null;
+		for (int i = 0; i < students.size(); i++) {
+	
+			StudentAttributes s = students.get(i);
+	
+			// if loner
+			if (s.team.equals("")) {
+				cdd.loners.add(s);
+				// first student of first team
+			} else if (team == null) {
+				team = new TeamDetailsBundle();
+				team.name = s.team;
+				team.students.add(s);
+				// student in the same team as the previous student
+			} else if (s.team.equals(team.name)) {
+				team.students.add(s);
+				// first student of subsequent teams (not the first team)
+			} else {
+				cdd.teams.add(team);
+				team = new TeamDetailsBundle();
+				team.name = s.team;
+				team.students.add(s);
+			}
+	
+			// if last iteration
+			if (i == (students.size() - 1)) {
+				cdd.teams.add(team);
+			}
+		}
+	
+		return cdd;
+	}
+
 	public void updateCourse(CourseAttributes course) 
 			throws InvalidParametersException, EntityDoesNotExistException {
 		if (!course.isValid()) {
@@ -163,10 +250,42 @@ public class CoursesLogic {
 	
 
 	public void deleteCourseCascade(String courseId) {
+		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
+		submissionsDb.deleteAllSubmissionsForCourse(courseId);
 		accountsDb.deleteStudentsForCourse(courseId);
 		accountsDb.deleteInstructorsForCourse(courseId);
 		coursesDb.deleteCourse(courseId);
-		//TODO: cascade to evaluations too.
+	}
+
+	private boolean isInstructorAccount(String googleId) {
+		AccountAttributes account = accountsDb.getAccount(googleId);
+		return (account != null) && (account.isInstructor);
+	}
+
+	public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail) 
+			throws EntityDoesNotExistException {
+		
+		CourseAttributes course = coursesDb.getCourse(courseId);
+		if (course == null) {
+			throw new EntityDoesNotExistException(
+					"Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
+		}
+		
+		StudentAttributes studentData = accountsDb.getStudentForEmail(courseId, studentEmail);
+		if (studentData == null) {
+			throw new EntityDoesNotExistException(
+					"Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
+		}
+		
+		Emails emailMgr = new Emails();
+		try {
+			MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
+			emailMgr.sendEmail(email);
+			return email;
+		} catch (Exception e) {
+			throw new RuntimeException("Unexpected error while sending email", e);
+		}
+		
 	}
 
 

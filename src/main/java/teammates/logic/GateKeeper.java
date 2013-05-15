@@ -157,7 +157,7 @@ public class GateKeeper {
 		throw new UnauthorizedAccessException();
 	}
 
-	public void verifyCourseOwnerOrAbove(String courseId) {
+	public void verifyCourseInstructorOrAbove(String courseId) {
 		if (isInternalCall())
 			return;
 		if (isAdministrator())

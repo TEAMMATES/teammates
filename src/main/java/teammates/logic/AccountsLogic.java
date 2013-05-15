@@ -5,8 +5,10 @@ import java.util.List;
 
 import java.util.logging.Logger;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -14,6 +16,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.CoursesDb;
+import teammates.storage.api.SubmissionsDb;
 
 /**
  * Handles  operations related to accounts and Role classes (i.e. Student and Instructor).
@@ -30,6 +34,9 @@ public class AccountsLogic {
 	
 	private static AccountsLogic instance = null;
 	private static final AccountsDb accountsDb = new AccountsDb();
+	private static final CoursesDb coursesDb = new CoursesDb();
+	private static final SubmissionsDb submissionsDb = new SubmissionsDb();
+	
 	private static Logger log = Common.getLogger();
 	
 	public static AccountsLogic inst() {
@@ -133,8 +140,17 @@ public class AccountsLogic {
 		return accountsDb.getStudentsForGoogleId(googleId);
 	}
 
-	public List<StudentAttributes> getStudentsForCourse(String courseId) {
-		return accountsDb.getStudentsForCourse(courseId);
+	public List<StudentAttributes> getStudentsForCourse(String courseId) 
+			throws EntityDoesNotExistException {
+		
+		List<StudentAttributes> studentsForCourse = accountsDb.getStudentsForCourse(courseId);
+		
+		if ((studentsForCourse.size() == 0) && (coursesDb.getCourse(courseId) == null)) {
+			throw new EntityDoesNotExistException("Course does not exist :"
+					+ courseId);
+		}
+		
+		return studentsForCourse;
 	}
 
 	public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
@@ -199,17 +215,24 @@ public class AccountsLogic {
 						Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
 						registrationKey + " belongs to a different user");
 			}
-		} else { //register the student
-			student.id = googleId;
-			accountsDb.updateStudent(student.course, student.email,
-					student.name,
-					student.team, student.email, student.id, student.comments);
-			return student;
+		} 
+		
+		//register the student
+		student.id = googleId;
+		accountsDb.updateStudent(student.course, student.email,
+				student.name,
+				student.team, student.email, student.id, student.comments);
+		
+		if (accountsDb.getAccount(googleId) == null) {
+			createStudentAccount(student);
 		}
+		
+		return student;
 	}
 
-	public void deleteStudent(String courseId, String studentEmail) {
+	public void deleteStudentCascade(String courseId, String studentEmail) {
 		accountsDb.deleteStudent(courseId, studentEmail);
+		submissionsDb.deleteAllSubmissionsForStudent(courseId, studentEmail);
 	}
 	
 	//TODO: have a deleteStudentCascade here?
@@ -290,6 +313,28 @@ public class AccountsLogic {
 
 	@SuppressWarnings("unused")
 	private void ____PRIVATE_methods____________________________________() {
+	}
+
+	private void createStudentAccount(StudentAttributes student) {
+		AccountAttributes account = new AccountAttributes();
+		account.googleId = student.id;
+		account.email = student.email;
+		account.name = student.name;
+		account.isInstructor = false;
+		account.institute = getCourseInstitute(student.course);
+		accountsDb.createAccount(account);
+	}
+
+	private String getCourseInstitute(String courseId) {
+		CourseAttributes cd = coursesDb.getCourse(courseId);
+		List<InstructorAttributes> instructorList = accountsDb.getInstructorsForCourse(cd.id);
+		
+		Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
+		// Retrieve institute field from the first instructor of the course
+		AccountAttributes instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
+		
+		Assumption.assertNotNull("Instructor has no account: " + instructorList.get(0).googleId, instructorAcc);
+		return instructorAcc.institute;
 	}
 
 	//TODO: move to a proper *Sanitizer class

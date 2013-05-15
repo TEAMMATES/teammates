@@ -28,7 +28,7 @@ public class InstructorCourseDetailsServlet extends ActionServlet<InstructorCour
 		
 		if(courseID!=null){
 			helper.courseDetails = helper.server.getCourseDetails(courseID);
-			helper.students = helper.server.getStudentListForCourse(courseID);
+			helper.students = helper.server.getStudentsForCourse(courseID);
 			helper.instructors = helper.server.getInstructorsForCourse(courseID);
 			
 			ArrayList<Object> data = new ArrayList<Object>();
