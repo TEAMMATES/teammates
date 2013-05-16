@@ -212,7 +212,7 @@ public class BackDoorLogic extends Logic {
 				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
 
 				for (StudentAttributes sd : studentDataList) {
-					if (!evaluationsLogic.isEvaluationSubmitted(ed, sd.email)) {
+					if (!evaluationsLogic.isEvaluationCompletedByStudent(ed, sd.email)) {
 						studentToRemindList.add(sd);
 					}
 				}

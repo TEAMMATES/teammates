@@ -1016,7 +1016,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseInstructorOrAbove(evaluation.course);
 
-		evaluationsLogic.createEvaluation(evaluation);
+		evaluationsLogic.createEvaluationCascade(evaluation);
 	}
 
 	/**
@@ -1088,7 +1088,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
-		evaluationsLogic.deleteEvaluation(courseId, evaluationName);
+		evaluationsLogic.deleteEvaluationCascade(courseId, evaluationName);
 	}
 
 	/**
@@ -1168,7 +1168,7 @@ public class Logic {
 
 		List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
 		for (StudentAttributes sd : studentDataList) {
-			if (!evaluationsLogic.isEvaluationSubmitted(evaluation,
+			if (!evaluationsLogic.isEvaluationCompletedByStudent(evaluation,
 					sd.email)) {
 				studentsToRemindList.add(sd);
 			}
