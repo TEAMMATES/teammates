@@ -51,11 +51,12 @@ public class BackDoorLogic extends Logic {
 	 *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
 	 * @throws EntityAlreadyExistsException
 	 * @throws InvalidParametersException
+	 * @throws EntityDoesNotExistException 
 	 * @throws Exception
 	 */
 
 	public String persistNewDataBundle(DataBundle dataBundle)
-			throws InvalidParametersException, EntityAlreadyExistsException {
+			throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
 
 		if (dataBundle == null) {
 			throw new InvalidParametersException(

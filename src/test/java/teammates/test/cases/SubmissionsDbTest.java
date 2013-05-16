@@ -15,6 +15,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
 
@@ -138,7 +139,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testEditSubmission() {
+	public void testEditSubmission() throws Exception {
 		SubmissionAttributes s = createNewSubmission();
 		
 		// Edit existent
@@ -150,8 +151,8 @@ public class SubmissionsDbTest extends BaseTestCase {
 		try {
 			submissionsDb.updateSubmission(s);
 			Assert.fail();
-		} catch (AssertionError a) {
-			assertContains(SubmissionsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
+		} catch (EntityDoesNotExistException e) {
+			assertContains(SubmissionsDb.ERROR_UPDATE_NON_EXISTENT, e.getMessage());
 		}
 		
 		// Null params check:

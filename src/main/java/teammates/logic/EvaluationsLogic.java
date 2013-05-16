@@ -13,6 +13,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EvaluationsDb;
@@ -43,13 +44,11 @@ public class EvaluationsLogic {
 			String studentEmail, String originalTeam, String newTeam) {
 		List<EvaluationAttributes> evaluationDataList = evaluationsDb
 				.getEvaluationsForCourse(courseId);
+		
+		submissionsDb.deleteAllSubmissionsForStudent(courseId, studentEmail);
+		
 		for (EvaluationAttributes ed : evaluationDataList) {
-
-			submissionsDb.deleteSubmissionsForOutgoingMember(courseId, ed.name,
-					studentEmail, originalTeam);
-
-			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail,
-					newTeam);
+			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, newTeam);
 		}
 	}
 
@@ -102,7 +101,7 @@ public class EvaluationsLogic {
 			listOfSubmissionsToAdd.add(submissionToAdd);
 		}
 		
-		submissionsDb.createListOfSubmissions(listOfSubmissionsToAdd);
+		submissionsDb.createSubmissions(listOfSubmissionsToAdd);
 	}
 	
 	/**
@@ -122,7 +121,7 @@ public class EvaluationsLogic {
 	 */
 	public boolean isEvaluationSubmitted(EvaluationAttributes evaluation, String email) {
 		List<SubmissionAttributes> submissionList = submissionsDb
-				.getSubmissionsFromEvaluationFromStudent(evaluation.course,
+				.getSubmissionsForEvaluationFromStudent(evaluation.course,
 						evaluation.name, email);
 
 		for (SubmissionAttributes sd : submissionList) {
@@ -182,7 +181,7 @@ public class EvaluationsLogic {
 			}
 		}
 
-		submissionsDb.createListOfSubmissions(listOfSubmissionsToAdd);
+		submissionsDb.createSubmissions(listOfSubmissionsToAdd);
 	}
 	
 	//==========================================================================
@@ -209,7 +208,7 @@ public class EvaluationsLogic {
 	}
 	
 	public List<SubmissionAttributes> getSubmissionsFromEvaluationFromStudent(String courseId, String evaluationName, String reviewerEmail) {
-		return submissionsDb.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
+		return submissionsDb.getSubmissionsForEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
 	}
 	
 	public List<SubmissionAttributes> getSubmissionsForCourse(String courseId) {
@@ -234,17 +233,19 @@ public class EvaluationsLogic {
 
 	public void updateStudentEmailForSubmissionsInCourse(String course,
 			String originalEmail, String email) {
-		submissionsDb.editStudentEmailForSubmissionsInCourse(course, originalEmail, email);
+		submissionsDb.updateStudentEmailForSubmissionsInCourse(course, originalEmail, email);
 	}
 	
-	public void updateSubmission(SubmissionAttributes submission) throws InvalidParametersException {
+	public void updateSubmission(SubmissionAttributes submission) 
+			throws InvalidParametersException, EntityDoesNotExistException {
 		if (!submission.isValid()) {
 			throw new InvalidParametersException(submission.getInvalidStateInfo());
 		}
 		submissionsDb.updateSubmission(submission);
 	}
 	
-	public void updateSubmissions(List<SubmissionAttributes> submissionsDataList) {
+	public void updateSubmissions(List<SubmissionAttributes> submissionsDataList) 
+			throws EntityDoesNotExistException {
 		submissionsDb.updateSubmissions(submissionsDataList);
 	}
 	
@@ -282,9 +283,6 @@ public class EvaluationsLogic {
 		submissionsDb.deleteAllSubmissionsForCourse(courseId);
 	}
 	
-	public void deleteSubmissionsForOutgoingMember(String courseId, String name, String email, String team) {
-		submissionsDb.deleteSubmissionsForOutgoingMember(courseId, name, email, team);
-	}
 	
 	public void deleteAllSubmissionsForStudent(String courseId, String studentEmail) {
 		submissionsDb.deleteAllSubmissionsForStudent(courseId, studentEmail);

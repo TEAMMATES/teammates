@@ -12,16 +12,13 @@ import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 
 /**
  * Handles CRUD Operations for course entities.
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
- * 
  */
 public class CoursesDb {
 
@@ -107,7 +104,6 @@ public class CoursesDb {
 	 * Does not follow the 'Keep existing' policy. <br>
 	 * Preconditions: <br> 
 	 * * {@code courseToUpdate} is not null and has valid data.
-	 * @throws EntityDoesNotExistException 
 	 */
 	public void updateCourse(CourseAttributes courseToUpdate) 
 			throws EntityDoesNotExistException {
@@ -130,7 +126,7 @@ public class CoursesDb {
 
 	/**
 	 * Note: This is a non-cascade delete.<br>
-	 *   <br> Fails silently if there is no such account.
+	 *   <br> Fails silently if there is no such object.
 	 * <br> Preconditions: 
 	 * <br> * {@code courseId} is not null.
 	 */

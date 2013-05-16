@@ -135,60 +135,6 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		// Evaluation level
 	}
 	
-	@Test
-	public void testDeleteSubmissionsForOutgoingMember() throws Exception {
-		loginAsAdmin("admin.user");
-
-		______TS("typical case");
-
-		restoreTypicalDataInDatastore();
-		DataBundle dataBundle = getTypicalDataBundle();
-
-		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-		EvaluationAttributes evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1");
-		EvaluationAttributes evaluation2 = dataBundle.evaluations
-				.get("evaluation2InCourse1");
-		StudentAttributes student = dataBundle.students.get("student1InCourse1");
-
-		// We have a 4-member team and a 1-member team.
-		// Therefore, we expect (4*4)+(1*1)=17 submissions.
-		List<SubmissionAttributes> submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
-		assertEquals(17, submissions.size());
-
-		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, student.email, student.team);
-		
-		// We have a 3-member team and a 1-member team.
-		// Therefore, we expect (3*3)+(1*1)=10 submissions.
-		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
-		assertEquals(10, submissions.size());
-
-		// check the same for the other evaluation, to detect state leakage
-		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation2.name, student.email, student.team);
-		
-		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
-		assertEquals(10, submissions.size());
-
-		// verify the student is no longer included in submissions
-		for (SubmissionAttributes s : submissions) {
-			assertTrue(!s.reviewee.equals(student.email));
-			assertTrue(!s.reviewer.equals(student.email));
-		}
-
-		______TS("only one student in team");
-
-		StudentAttributes loneStudent = dataBundle.students.get("student5InCourse1");
-		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation1.name, loneStudent.email, loneStudent.team);
-		// We expect one fewer submissions than before.
-		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
-		assertEquals(9, submissions.size());
-
-		evaluationsLogic.deleteSubmissionsForOutgoingMember(course.id, evaluation2.name, loneStudent.email, loneStudent.team);
-		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
-		assertEquals(9, submissions.size());
-
-		// TODO: test for invalid inputs
-	}
 	
 	@Test
 	public void testAddSubmissionsForIncomingMember() throws Exception {
