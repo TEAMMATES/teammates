@@ -42,6 +42,7 @@ import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.GateKeeper;
+import teammates.logic.SubmissionsLogic;
 import teammates.logic.TeamEvalResult;
 
 import com.google.appengine.api.datastore.Text; //TODO: remove this dependency
@@ -65,6 +66,7 @@ public class Logic {
 	protected static AccountsLogic accountsLogic = AccountsLogic.inst();
 	protected static CoursesLogic coursesLogic = CoursesLogic.inst();
 	protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -721,7 +723,7 @@ public class Logic {
 		gateKeeper.verifyCourseInstructorOrAbove(student.course);
 
 		accountsLogic.createStudent(student);
-		evaluationsLogic.adjustSubmissionsForNewStudent(student.course, student.email, student.team);
+		submissionsLogic.adjustSubmissionsForNewStudent(student.course, student.email, student.team);
 	}
 
 	/**
@@ -840,7 +842,7 @@ public class Logic {
 
 		// adjust submissions if moving to a different team
 		if (isTeamChanged(originalTeam, student.team)) {
-			evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, student.email, originalTeam, student.team);
+			submissionsLogic.adjustSubmissionsForChangingTeam(student.course, student.email, originalTeam, student.team);
 		}
 	}
 
@@ -1010,7 +1012,7 @@ public class Logic {
 	 * * All parameters are non-null.
 	 */
 	public void createEvaluation(EvaluationAttributes evaluation)
-			throws EntityAlreadyExistsException, InvalidParametersException {
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
 
@@ -1240,7 +1242,7 @@ public class Logic {
 
 		gateKeeper.verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
 
-		List<SubmissionAttributes> submissions = evaluationsLogic.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
+		List<SubmissionAttributes> submissions = submissionsLogic.getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
 
 		boolean isSubmissionsExist = (submissions.size() > 0
 				&& coursesLogic.isCoursePresent(courseId)
@@ -1366,7 +1368,7 @@ public class Logic {
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, submission);
 
-		SubmissionAttributes original = evaluationsLogic.getSubmission(submission.course, submission.evaluation,submission.reviewee, submission.reviewer);
+		SubmissionAttributes original = submissionsLogic.getSubmission(submission.course, submission.evaluation,submission.reviewee, submission.reviewer);
 
 		if (original == null) {
 			throw new EntityDoesNotExistException("The submission: "
@@ -1377,7 +1379,7 @@ public class Logic {
 
 		gateKeeper.verifySubmissionEditableForUser(submission);
 
-		evaluationsLogic.updateSubmission(submission);
+		submissionsLogic.updateSubmission(submission);
 	}
 
 	private StudentAttributes enrollStudent(StudentAttributes student) {
@@ -1431,7 +1433,7 @@ public class Logic {
 							+ "] under the course [" + courseId + "]");
 		}
 
-		List<SubmissionAttributes> submissionsList = evaluationsLogic.getSubmissionsForEvaluation(courseId, evaluationName);
+		List<SubmissionAttributes> submissionsList = submissionsLogic.getSubmissionsForEvaluation(courseId, evaluationName);
 
 		HashMap<String, SubmissionAttributes> submissionDataList = new HashMap<String, SubmissionAttributes>();
 		for (SubmissionAttributes sd : submissionsList) {
@@ -1567,7 +1569,7 @@ public class Logic {
 
 	protected SubmissionAttributes getSubmission(String courseId,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
-		SubmissionAttributes sd = evaluationsLogic.getSubmission(courseId, evaluationName, revieweeEmail, reviewerEmail);
+		SubmissionAttributes sd = submissionsLogic.getSubmission(courseId, evaluationName, revieweeEmail, reviewerEmail);
 		return sd;
 	}
 

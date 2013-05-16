@@ -25,8 +25,10 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -180,16 +182,24 @@ public class BackDoorLogicTest extends BaseTestCase {
 				true, 
 				backdoor.getEvaluation(evaluation2.course, evaluation2.name).isReadyToActivate());
 		
+		//Create a course to hold the orphan evaluation.
+		String IdOftemporaryCourse = "non-existent-course-BDLT-causes-EDNEE";
+		backdoor.createCourse(IdOftemporaryCourse, "Course to be deleted soon");
+		
 		// Create an orphan evaluation (this should be ignored by SUT)
 		EvaluationAttributes orphan = new EvaluationAttributes();
 		orphan.name = "Orphan Evaluation";
-		orphan.course = "non-existent-course-BDLT-causes-EDNEE";
+		orphan.course = IdOftemporaryCourse;
 		orphan.timeZone = evaluation2.timeZone;
 		orphan.startTime = evaluation2.startTime;
 		orphan.endTime = evaluation2.endTime;
 		orphan.activated = evaluation2.activated;
 		orphan.published = evaluation2.published;
 		backdoor.createEvaluation(orphan);
+		
+		//make the evaluation an orphan by deleting the course
+		new CoursesDb().deleteCourse(IdOftemporaryCourse);
+		
 		assertEquals("This evaluation is not ready to activate as expected "+ orphan.toString(),
 				true, 
 				backdoor.getEvaluation(orphan.course, orphan.name).isReadyToActivate());
@@ -249,16 +259,23 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 		backdoor.createEvaluation(evaluation2);
 		
+		//Create a course to hold the orphan evaluation.
+		String IdOftemporaryCourse = "non-existent-course-BDLT-causes-EDNEE";
+		backdoor.createCourse(IdOftemporaryCourse, "Course to be deleted soon");
+		
 		// Create an orphan evaluation (this should be ignored by SUT)
 		EvaluationAttributes orphan = new EvaluationAttributes();
 		orphan.name = "Orphan Evaluation";
-		orphan.course = "non-existent-course-BDLT-causes-EDNEE";
+		orphan.course = IdOftemporaryCourse;
 		orphan.timeZone = evaluation2.timeZone;
 		orphan.startTime = evaluation2.startTime;
 		orphan.endTime = evaluation2.endTime;
 		orphan.activated = evaluation2.activated;
 		orphan.published = evaluation2.published;
 		backdoor.createEvaluation(orphan);
+		
+		//make the evaluation an orphan by deleting the course
+		new CoursesDb().deleteCourse(IdOftemporaryCourse);
 		
 		emailsSent = backdoor.sendRemindersForClosingEvaluations();
 

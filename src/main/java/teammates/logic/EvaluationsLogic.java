@@ -35,9 +35,7 @@ public class EvaluationsLogic {
 	private static EvaluationsLogic instance = null;
 	private static final Logger log = Common.getLogger();
 
-	private static final AccountsDb accountsDb = new AccountsDb();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
-	private static final SubmissionsDb submissionsDb = new SubmissionsDb();
 
 	public static EvaluationsLogic inst() {
 		if (instance == null){
@@ -46,81 +44,11 @@ public class EvaluationsLogic {
 		return instance;
 	}
 
-	public SubmissionAttributes getSubmission(String course, String evaluation, String reviewee, String reviewer) {
-		return submissionsDb.getSubmission(course, evaluation, reviewee, reviewer);
-	}
-
-	public List<SubmissionAttributes> getSubmissionsForCourse(String courseId) {
-		return submissionsDb.getSubmissionsForCourse(courseId);
-	}
-
-	public List<SubmissionAttributes> getSubmissionsForEvaluation(String courseId,String evaluationName) {
-		return submissionsDb.getSubmissionsForEvaluation(courseId, evaluationName);
-	}
-
-	public List<SubmissionAttributes> getSubmissionsFromEvaluationFromStudent(String courseId, String evaluationName, String reviewerEmail) {
-		return submissionsDb.getSubmissionsForEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
-	}
-
-	public void updateSubmission(SubmissionAttributes submission) 
-			throws InvalidParametersException, EntityDoesNotExistException {
-		if (!submission.isValid()) {
-			throw new InvalidParametersException(submission.getInvalidStateInfo());
-		}
-		submissionsDb.updateSubmission(submission);
-	}
-
-	public void updateSubmissions(List<SubmissionAttributes> submissionsDataList) 
-			throws EntityDoesNotExistException {
-		submissionsDb.updateSubmissions(submissionsDataList);
-	}
-
-	/**
-	 * Adjusts submissions for a student moving from one team to another.
-	 * Deletes existing submissions for original team and creates empty
-	 * submissions for the new team, in all existing submissions, including
-	 * CLOSED and PUBLISHED ones.
-	 */
-	public void adjustSubmissionsForChangingTeam(String courseId,
-			String studentEmail, String originalTeam, String newTeam) {
-		
-		List<EvaluationAttributes> evaluationDataList = evaluationsDb
-				.getEvaluationsForCourse(courseId);
-		
-		submissionsDb.deleteAllSubmissionsForStudent(courseId, studentEmail);
-		
-		for (EvaluationAttributes ed : evaluationDataList) {
-			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, newTeam);
-		}
-	}
-
-	/**
-	 * Adjusts submissions for a student adding a new student to a course.
-	 * Creates empty submissions for the new team, in all existing submissions,
-	 * including CLOSED and PUBLISHED ones.
-	 * 
-	 */
-	public void adjustSubmissionsForNewStudent(String courseId,
-			String studentEmail, String team) {
-		
-		List<EvaluationAttributes> evaluationDataList = 
-				evaluationsDb.getEvaluationsForCourse(courseId);
-		
-		for (EvaluationAttributes ed : evaluationDataList) {
-			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, team);
-		}
-	}
-
-	public void deleteAllSubmissionsForStudent(String courseId, String studentEmail) {
-		submissionsDb.deleteAllSubmissionsForStudent(courseId, studentEmail);
-	}
-
-	
 	/**
 	 * Creates an evaluation and empty submissions for it.
 	 */
 	public void createEvaluationCascade(EvaluationAttributes e)
-			throws EntityAlreadyExistsException, InvalidParametersException {
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 	
 		if (!e.isValid()) {
 			throw new InvalidParametersException(e.getInvalidStateInfo());
@@ -128,7 +56,7 @@ public class EvaluationsLogic {
 		
 		evaluationsDb.createEvaluation(e);
 	
-		List<StudentAttributes> studentDataList = accountsDb.getStudentsForCourse(e.course);
+		List<StudentAttributes> studentDataList = AccountsLogic.inst().getStudentsForCourse(e.course);
 		
 		List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
 	
@@ -146,7 +74,7 @@ public class EvaluationsLogic {
 			}
 		}
 	
-		submissionsDb.createSubmissions(listOfSubmissionsToAdd);
+		SubmissionsLogic.inst().createSubmissions(listOfSubmissionsToAdd);
 	}
 
 	public EvaluationAttributes getEvaluation(String courseId, String evaluationName) {
@@ -195,7 +123,7 @@ public class EvaluationsLogic {
 	public boolean isEvaluationCompletedByStudent(EvaluationAttributes evaluation, String email) {
 		
 		List<SubmissionAttributes> submissionList = 
-				submissionsDb.getSubmissionsForEvaluationFromStudent(
+				SubmissionsLogic.inst().getSubmissionsForEvaluationFromStudent(
 						evaluation.course, evaluation.name, email);
 
 		for (SubmissionAttributes sd : submissionList) {
@@ -222,7 +150,7 @@ public class EvaluationsLogic {
 	
 	public void updateStudentEmailForSubmissionsInCourse(String course,
 			String originalEmail, String email) {
-		submissionsDb.updateStudentEmailForSubmissionsInCourse(course, originalEmail, email);
+		SubmissionsLogic.inst().updateStudentEmailForSubmissionsInCourse(course, originalEmail, email);
 	}
 
 	public void setEvaluationPublishedStatus(String courseId, String evaluationName, boolean b) 
@@ -243,13 +171,13 @@ public class EvaluationsLogic {
 	public void deleteEvaluationCascade(String courseId, String evaluationName) {
 
 		evaluationsDb.deleteEvaluation(courseId, evaluationName);
-		submissionsDb.deleteAllSubmissionsForEvaluation(courseId, evaluationName);
+		SubmissionsLogic.inst().deleteAllSubmissionsForEvaluation(courseId, evaluationName);
 	}
 
 	
 	public void deleteEvaluationsForCourse(String courseId) {
 		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
-		submissionsDb.deleteAllSubmissionsForCourse(courseId);
+		SubmissionsLogic.inst().deleteAllSubmissionsForCourse(courseId);
 	}
 	
 	
@@ -288,7 +216,7 @@ public class EvaluationsLogic {
 			listOfSubmissionsToAdd.add(submissionToAdd);
 		}
 		
-		submissionsDb.createSubmissions(listOfSubmissionsToAdd);
+		SubmissionsLogic.inst().createSubmissions(listOfSubmissionsToAdd);
 	}
 
 	private List<String> getExistingStudentsInTeam(String courseId, String team) {
@@ -296,7 +224,7 @@ public class EvaluationsLogic {
 		Set<String> students = new HashSet<String>();
 		
 		List<SubmissionAttributes> submissionsDataList = 
-				submissionsDb.getSubmissionsForCourse(courseId);
+				SubmissionsLogic.inst().getSubmissionsForCourse(courseId);
 		
 		for (SubmissionAttributes s : submissionsDataList) {
 			if (s.team.equals(team)) {

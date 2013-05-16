@@ -22,6 +22,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.logic.EvaluationsLogic;
+import teammates.logic.SubmissionsLogic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.datastore.Datastore;
@@ -33,6 +34,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 public class EvaluationsLogicTest extends BaseTestCase{
 	
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -157,13 +159,13 @@ public class EvaluationsLogicTest extends BaseTestCase{
 
 		// We have a 5-member team and a 1-member team.
 		// Therefore, we expect (5*5)+(1*1)=26 submissions.
-		List<SubmissionAttributes> submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
+		List<SubmissionAttributes> submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(26, submissions.size());
 		
 		// Check the same for the other evaluation, to detect any state leakage
 		invokeAddSubmissionsForIncomingMember(course.id,
 				evaluation2.name, "incoming@student.com", student.team);
-		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
+		submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
 		assertEquals(26, submissions.size());
 		
 		______TS("moving to new team");
@@ -171,14 +173,14 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		invokeAddSubmissionsForIncomingMember(course.id,
 				evaluation1.name, "incoming@student.com", "new team");
 		//There should be one more submission now.
-		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
+		submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
 		assertEquals(27, submissions.size());
 		
 		// Check the same for the other evaluation
 		invokeAddSubmissionsForIncomingMember(course.id,
 				evaluation2.name, "incoming@student.com", "new team");
 		//There should be one more submission now.
-		submissions = evaluationsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
+		submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
 		assertEquals(27, submissions.size());
 
 		//TODO: test invalid inputs

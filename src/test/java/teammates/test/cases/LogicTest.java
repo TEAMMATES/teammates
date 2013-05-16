@@ -52,6 +52,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.AccountsLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
+import teammates.logic.SubmissionsLogic;
 import teammates.logic.TeamEvalResult;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
@@ -71,6 +72,7 @@ public class LogicTest extends BaseTestCase {
 
 	private static final Logic logic = new Logic();
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
 
 	// these are used for access control checking for different types of users
 	private static final int USER_TYPE_NOT_LOGGED_IN = -1;
@@ -1612,12 +1614,12 @@ public class LogicTest extends BaseTestCase {
 		newStudent.email = "new@student.com";
 		verifyAbsentInDatastore(newStudent);
 		
-		List<SubmissionAttributes> submissionsBeforeAdding = evaluationsLogic.getSubmissionsForCourse(newStudent.course);
+		List<SubmissionAttributes> submissionsBeforeAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
 		
 		logic.createStudent(newStudent);
 		verifyPresentInDatastore(newStudent);
 		
-		List<SubmissionAttributes> submissionsAfterAdding = evaluationsLogic.getSubmissionsForCourse(newStudent.course);
+		List<SubmissionAttributes> submissionsAfterAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
 		
 		//expected increase in submissions = 2*(1+4+4)
 		//2 is the number of evaluations in the course
@@ -1751,14 +1753,14 @@ public class LogicTest extends BaseTestCase {
 		student1InCourse1.team = "Team 1.2"; // move to a different team
 
 		// take a snapshot of submissions before
-		List<SubmissionAttributes> submissionsBeforeEdit = evaluationsLogic.getSubmissionsForCourse(student1InCourse1.course);
+		List<SubmissionAttributes> submissionsBeforeEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);
 
 		//verify student details changed correctly
 		logic.updateStudent(originalEmail, student1InCourse1);
 		verifyPresentInDatastore(student1InCourse1);
 
 		// take a snapshot of submissions after the edit
-		List<SubmissionAttributes> submissionsAfterEdit = evaluationsLogic.getSubmissionsForCourse(student1InCourse1.course);
+		List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);
 		
 		// We moved a student from a 4-person team to an existing 1-person team.
 		// We have 2 evaluations in the course.

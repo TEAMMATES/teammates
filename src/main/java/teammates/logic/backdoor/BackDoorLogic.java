@@ -107,7 +107,7 @@ public class BackDoorLogic extends Logic {
 					+ " to " + submission.reviewee);
 			submissionsList.add(submission);
 		}
-		evaluationsLogic.updateSubmissions(submissionsList);
+		submissionsLogic.updateSubmissions(submissionsList);
 		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
 		return Common.BACKEND_STATUS_SUCCESS;
