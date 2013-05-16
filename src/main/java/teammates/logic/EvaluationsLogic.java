@@ -1,13 +1,17 @@
 package teammates.logic;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOHelper;
+
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -18,6 +22,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.SubmissionsDb;
+import teammates.storage.entity.Evaluation;
 
 public class EvaluationsLogic {
 	private static EvaluationsLogic instance = null;
@@ -193,14 +198,33 @@ public class EvaluationsLogic {
 		return evaluationsDb.getEvaluationsForCourse(courseId);
 	}
 	
-	// Used in BackdoorLogic
 	public List<EvaluationAttributes> getReadyEvaluations() {
-		return evaluationsDb.getReadyEvaluations();
+		
+		List<EvaluationAttributes> evaluationList = evaluationsDb.getAllEvaluations();
+		List<EvaluationAttributes> readyEvaluations = new ArrayList<EvaluationAttributes>();
+
+		for (EvaluationAttributes e : evaluationList) {
+			if (e.isReadyToActivate()) {
+				readyEvaluations.add(e);
+			}
+		}
+		return readyEvaluations;
 	}
 
-	// Used in BackdoorLogic
 	public List<EvaluationAttributes> getEvaluationsClosingWithinTimeLimit(int hoursWithinLimit) {
-		return evaluationsDb.getEvaluationsClosingWithinTimeLimit(hoursWithinLimit);
+		List<EvaluationAttributes> evaluationList = evaluationsDb.getAllEvaluations();
+		
+		List<EvaluationAttributes> dueEvaluationList = new ArrayList<EvaluationAttributes>();
+
+		for (EvaluationAttributes e : evaluationList) {
+			
+			if (e.isClosingWithinTimeLimit(hoursWithinLimit)) {
+				dueEvaluationList.add(e);
+			}
+
+		}
+
+		return dueEvaluationList;
 	}
 
 	public SubmissionAttributes getSubmission(String course, String evaluation, String reviewee, String reviewer) {
@@ -220,15 +244,25 @@ public class EvaluationsLogic {
 	}
 
 	//==========================================================================
-	public void updateEvaluation(EvaluationAttributes evaluation) throws InvalidParametersException {
+	public void updateEvaluation(EvaluationAttributes evaluation) 
+			throws InvalidParametersException, EntityDoesNotExistException {
 		if (!evaluation.isValid()) {
 			throw new InvalidParametersException(evaluation.getInvalidStateInfo());
 		}
-		evaluationsDb.editEvaluation(evaluation);
+		evaluationsDb.updateEvaluation(evaluation);
 	}
 	
-	public void setEvaluationPublishedStatus(String courseId, String evaluationName, boolean b) {
-		evaluationsDb.setEvaluationPublishedStatus(courseId, evaluationName, b);
+	public void setEvaluationPublishedStatus(String courseId, String evaluationName, boolean b) 
+			throws EntityDoesNotExistException {
+
+		EvaluationAttributes e = evaluationsDb.getEvaluation(courseId, evaluationName);
+
+		if (e == null) {
+			throw new EntityDoesNotExistException("Trying to update non-existent Evaluation: "
+					+ courseId + " | " + evaluationName );
+		}
+		e.published = b;
+		evaluationsDb.updateEvaluation(e);
 	}	
 
 	public void updateStudentEmailForSubmissionsInCourse(String course,

@@ -1,14 +1,13 @@
 package teammates.storage.entity;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-import javax.jdo.annotations.Extension;
 
 import teammates.common.Common;
 
@@ -175,29 +174,6 @@ public class Evaluation {
 
 	public void setTimeZone(double timeZone) {
 		this.timeZone = timeZone;
-	}
-
-	//TODO: move this method to EvaluationAttributes class?
-	/**
-	 * @return True if the current time is between start time and deadline, but
-	 *         the evaluation has not been activated yet.
-	 */
-	public boolean isReadyToActivate() {
-		Calendar currentTimeInUserTimeZone = Common.convertToUserTimeZone(
-				Calendar.getInstance(), timeZone);
-
-		Calendar evalStartTime = Calendar.getInstance();
-		evalStartTime.setTime(startTime);
-
-		log.fine("current:"
-				+ Common.calendarToString(currentTimeInUserTimeZone)
-				+ "|start:" + Common.calendarToString(evalStartTime));
-
-		if (currentTimeInUserTimeZone.before(evalStartTime)) {
-			return false;
-		} else {
-			return (!activated);
-		}
 	}
 
 	@Override

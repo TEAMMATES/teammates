@@ -1,25 +1,24 @@
 package teammates.storage.api;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
-import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Evaluation;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.Evaluation;
 
 /**
- * Manager for handling basic CRUD Operations only
- * 
+ * Handles CRUD Operations for submission entities.
+ * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  */
 public class EvaluationsDb {
 
@@ -28,22 +27,14 @@ public class EvaluationsDb {
 	
 	private static final Logger log = Common.getLogger();
 
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
-
 	/**
-	 * CREATE Evaluation
-	 * 
-	 * Adds an evaluation to the specified course.
-	 * 
-	 * @throws EntityAlreadyExistsException
-	 * 
+	 * Preconditions: <br>
+	 * * {@code evaluationToAdd} is not null and has valid data.
 	 */
 	public void createEvaluation(EvaluationAttributes evaluationToAdd)
 			throws EntityAlreadyExistsException {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationToAdd);
-
 		Assumption.assertTrue(evaluationToAdd.getInvalidStateInfo().toString(),
 				evaluationToAdd.isValid());
 		
@@ -59,7 +50,7 @@ public class EvaluationsDb {
 		getPM().makePersistent(evaluation);
 		getPM().flush();
 
-		// Check insert operation persisted
+		// Wait for the operation to persist
 		int elapsedTime = 0;
 		Evaluation evaluationCheck = getEvaluationEntity(
 				evaluationToAdd.course, evaluationToAdd.name);
@@ -78,302 +69,98 @@ public class EvaluationsDb {
 	
 
 	/**
-	 * RETRIEVE Boolean
-	 * 
-	 * Check if Evaluation is Open and ready for submission
-	 * 
-	 * @param courseDetails
-	 * @param evaluationDetails
-	 * @return
-	 */
-	public boolean isEvaluationOpen(String courseId, String evaluationName) {
-		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
-		return evaluation != null && evaluation.getStatus() == EvalStatus.OPEN;
-	}
-	
-	public boolean isEvaluationPublished(String courseId, String evaluationName) {
-		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
-		return evaluation != null && evaluation.getStatus() == EvalStatus.PUBLISHED;
-	}
-
-	/**
-	 * RETRIEVE Evaluation
-	 * 
-	 * Returns an EvaluationData object.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must not be null)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: Must not be null)
-	 * 
-	 * @return the EvaluationData of the specified course and name
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Null if not found.
 	 */
 	public EvaluationAttributes getEvaluation(String courseId, String name) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 
 		if (e == null) {
-			log.warning("Trying to get non-existent Evaluation : " + courseId);
 			return null;
+		} else {
+			return new EvaluationAttributes(e);
 		}
-
-		return new EvaluationAttributes(e);
 	}
 
 	/**
-	 * RETRIEVE List<Evaluation>
-	 * 
-	 * Returns the Evaluation objects belonging to a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must not be null)
-	 * 
-	 * @return the list of evaluations belonging to the specified course
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Empty list if no matching objects found.
 	 */
 	public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
-		String query = "select from " + Evaluation.class.getName()
-				+ " where courseID == '" + courseId + "'";
+		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute();
-
-		List<EvaluationAttributes> evaluationDataList = new ArrayList<EvaluationAttributes>();
-
-		for (Evaluation e : evaluationList) {
-			if (!JDOHelper.isDeleted(e)) {
-				evaluationDataList.add(new EvaluationAttributes(e));
-			}
-		}
-
-		return evaluationDataList;
+		return EvaluationAttributes.toAttributes(evaluationList);
 	}
 
-	/**
-	 * RETRIEVE List<Evaluation>
-	 * 
-	 * Returns the EvaluationData that are ready.
-	 * 
-	 * @param courseID
-	 * 
-	 * 
-	 * @return List<EvaluationData> of ready evaluations
-	 */
-	public List<EvaluationAttributes> getReadyEvaluations() {
-		// TODO: very inefficient to go through all evaluations
-		// There doesn't seem to be another alternative.
-		// The readiness must be evaluated from a Calendar instance, not able to
-		// select at query time
-		List<Evaluation> evaluationList = getAllEvaluations();
-		List<EvaluationAttributes> readyEvaluations = new ArrayList<EvaluationAttributes>();
 
-		for (Evaluation e : evaluationList) {
-			if (!JDOHelper.isDeleted(e) && e.isReadyToActivate()) {
-				readyEvaluations.add(new EvaluationAttributes(e));
-			}
-		}
-		return readyEvaluations;
+	/**
+	 * @return empty list if none found.
+	 * @deprecated Not scalable. 
+	 */
+	@Deprecated
+	public List<EvaluationAttributes> getAllEvaluations() {
+		List<Evaluation> allEvaluations = getAllEvaluationEntities();
+		return EvaluationAttributes.toAttributes(allEvaluations);
 	}
 
-	/**
-	 * Returns all Evaluation objects that are due in the specified number of
-	 * hours.
-	 * 
-	 * @param hours
-	 *            the number of hours in which the evaluations are due
-	 * 
-	 * @return the list of all existing evaluations
-	 */
-	public List<EvaluationAttributes> getEvaluationsClosingWithinTimeLimit(int hours) {
-		String query = "select from " + Evaluation.class.getName();
-
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute();
-		Calendar now = Calendar.getInstance();
-		Calendar start = Calendar.getInstance();
-		Calendar deadline = Calendar.getInstance();
-
-		long nowMillis;
-		long deadlineMillis;
-
-		long differenceBetweenDeadlineAndNow;
-
-		List<Evaluation> dueEvaluationList = new ArrayList<Evaluation>();
-
-		for (Evaluation e : evaluationList) {
-			//TODO some of this should be pushed to Evaluation::isClosingSoon()
-			// Fix the time zone accordingly
-			now.add(Calendar.MILLISECOND,
-					(int) (60 * 60 * 1000 * e.getTimeZone()));
-			start.setTime(e.getStart());
-			deadline.setTime(e.getDeadline());
-
-			nowMillis = now.getTimeInMillis();
-			deadlineMillis = deadline.getTimeInMillis();
-
-			differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis)
-					/ (60 * 60 * 1000);
-
-			// If now and start are almost similar, it means the evaluation is
-			// open
-			// for only 24 hours
-			// hence we do not send a reminder e-mail for the evaluation
-			if (now.after(start)
-					&& (differenceBetweenDeadlineAndNow >= hours - 1 && differenceBetweenDeadlineAndNow < hours)) {
-				dueEvaluationList.add(e);
-			}
-
-			now.add(Calendar.MILLISECOND,
-					(int) (-60 * 60 * 1000 * e.getTimeZone()));
-		}
-
-		List<EvaluationAttributes> evalDataList = new ArrayList<EvaluationAttributes>();
-
-		for (Evaluation e : dueEvaluationList) {
-			if (!JDOHelper.isDeleted(e)) {
-				evalDataList.add(new EvaluationAttributes(e));
-			}
-		}
-
-		return evalDataList;
-	}
 
 	/**
-	 * UPDATE Evaluation
-	 * 
-	 * Edits an Evaluation object with the new values and returns true if there
-	 * are changes, false otherwise.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 * 
-	 * @param newInstructions
-	 *            new instructions for the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @param newCommentsEnabled
-	 *            new status for comments (Pre-condition: Must not be null)
-	 * 
-	 * @param newStart
-	 *            new start date for the evaluation (Pre-condition: Must not be
-	 *            null)
-	 * 
-	 * @param newDeadline
-	 *            new deadline for the evaluation (Pre-condition: Must not be
-	 *            null)
-	 * 
-	 * @param newGracePeriod
-	 *            new grace period for the evaluation (Pre-condition: Must not
-	 *            be null)
-	 * 
-	 * @return <code>true</code> if there are changes, <code>false</code>
-	 *         otherwise
+	 * Course ID, evaluation name will not be changed. <br>
+	 * Does not follow the 'Keep existing' policy. <br>
+	 * Preconditions: <br> 
+	 * * The given list is not null and contains valid {@link SubmissionAttributes} objects. <br>
 	 */
-	public void editEvaluation(String courseId, String name,
-			String newInstructions, boolean newCommentsEnabled, Date newStart,
-			Date newDeadline, int newGracePeriod, boolean newIsActive,
-			boolean newIsPublished, double newTimeZone) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newInstructions);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newStart);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newDeadline);
-
-		Evaluation evaluation = getEvaluationEntity(courseId, name);
-
-		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT
-				+ courseId + " | " + name + Common.getCurrentThreadStack(),
-				evaluation);
-
-		evaluation.setInstructions(newInstructions);
-		evaluation.setStart(newStart);
-		evaluation.setDeadline(newDeadline);
-		evaluation.setGracePeriod(newGracePeriod);
-		evaluation.setCommentsEnabled(newCommentsEnabled);
-		evaluation.setActivated(newIsActive);
-		evaluation.setPublished(newIsPublished);
-		evaluation.setTimeZone(newTimeZone);
-
+	public void updateEvaluation(EvaluationAttributes newEvaluationAttributes) 
+			throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(
+				Common.ERROR_DBLEVEL_NULL_INPUT, 
+				newEvaluationAttributes);
+		Assumption.assertTrue(
+				newEvaluationAttributes.getInvalidStateInfo().toString(), 
+				newEvaluationAttributes.isValid());
+		
+		Evaluation e = getEvaluationEntity(newEvaluationAttributes.course, newEvaluationAttributes.name);
+		if (e == null) {
+			throw new EntityDoesNotExistException(
+					ERROR_UPDATE_NON_EXISTENT + newEvaluationAttributes.toString());
+		}
+		
+		e.setInstructions(newEvaluationAttributes.instructions);
+		e.setStart(newEvaluationAttributes.startTime);
+		e.setDeadline(newEvaluationAttributes.endTime);
+		e.setGracePeriod(newEvaluationAttributes.gracePeriod);
+		e.setCommentsEnabled(newEvaluationAttributes.p2pEnabled);
+		e.setActivated(newEvaluationAttributes.activated);
+		e.setPublished(newEvaluationAttributes.published);
+		e.setTimeZone(newEvaluationAttributes.timeZone);
+		
 		getPM().close();
-	}
-
-	/**
-	 * UPDATE Evaluation
-	 * 
-	 * Edits an Evaluation object with the new values and returns true if there
-	 * are changes, false otherwise.
-	 * 
-	 * @param EvaluationAttributes
-	 * 
-	 * @return <code>true</code> if there are changes, <code>false</code>
-	 *         otherwise
-	 * 
-	 */
-	public void editEvaluation(EvaluationAttributes ed) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, ed);
-
-		editEvaluation(ed.course, ed.name, ed.instructions,
-				ed.p2pEnabled, ed.startTime, ed.endTime, ed.gracePeriod,
-				ed.activated, ed.published, ed.timeZone);
 
 	}
 
-	/**
-	 * UPDATE Evaluation
-	 * 
-	 * Publishes an Evaluation.
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and name pair must
-	 *            be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and name pair
-	 *            must be valid)
-	 */
-	public void setEvaluationPublishedStatus(String courseId, String name,
-			boolean status) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
-
-		Evaluation evaluation = getEvaluationEntity(courseId, name);
-
-		Assumption.assertNotNull("Trying to update non-existent Evaluation: "
-				+ courseId + " | " + name + Common.getCurrentThreadStack(),
-				evaluation);
-
-		evaluation.setPublished(status);
-		getPM().close();
-	}
 
 	/**
-	 * Deletes an Evaluation
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param name
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
+	 * Note: This is a non-cascade delete.<br>
+	 * Fails silently if no matching objects. <br>
+	 * Preconditions: <br> 
+	 * * all parameters are non-null.
 	 */
 	public void deleteEvaluation(String courseId, String name) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
-
 		if (e == null) {
 			return;
 		}
@@ -381,7 +168,7 @@ public class EvaluationsDb {
 		getPM().deletePersistent(e);
 		getPM().flush();
 
-		// Check delete operation persisteed
+		// wait for the operation to persist.
 		int elapsedTime = 0;
 		Evaluation evaluationCheck = getEvaluationEntity(courseId, name);
 		while ((evaluationCheck != null)
@@ -398,46 +185,33 @@ public class EvaluationsDb {
 	}
 
 	/**
-	 * Deletes all Evaluations belonging to the specified course ID
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
+	 * Note: This is a non-cascade delete.<br>
+	 * Fails silently if no matching objects. <br>
+	 * Preconditions: <br> 
+	 * * all parameters are non-null.
 	 */
 	public void deleteAllEvaluationsForCourse(String courseId) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 
-		String query = "select from " + Evaluation.class.getName()
-				+ " where courseID == '" + courseId + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute();
+		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 
 		getPM().deletePersistentAll(evaluationList);
 		getPM().flush();
 	}
 
-	/**
-	 * Returns the actual Evaluation Entity
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param email
-	 *            the email of the student (Precondition: Must not be null)
-	 * 
-	 * @return the student who has the specified email in the specified course
-	 */
-	private Evaluation getEvaluationEntity(String courseId, String evalName) {
-		String query = "select from " + Evaluation.class.getName()
-				+ " where name == nameParam && courseID == courseIDParam" 
-				+ " parameters String nameParam, String courseIDParam";
+	private PersistenceManager getPM() {
+		return Datastore.getPersistenceManager();
+	}
 
+	private Evaluation getEvaluationEntity(String courseId, String evaluationName) {
+		
+		Query q = getPM().newQuery(Evaluation.class);
+		q.declareParameters("String courseIdParam, String EvaluationNameParam");
+		q.setFilter("name == EvaluationNameParam && courseID == courseIdParam");
+		
 		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute(evalName, courseId);
+		List<Evaluation> evaluationList = (List<Evaluation>) q.execute(courseId, evaluationName);
 
 		if (evaluationList.isEmpty()
 				|| JDOHelper.isDeleted(evaluationList.get(0))) {
@@ -447,27 +221,24 @@ public class EvaluationsDb {
 		return evaluationList.get(0);
 	}
 
-	/**
-	 * Returns all Evaluation Entities.
-	 * 
-	 * @return the list of all Evaluations
-	 */
-	private List<Evaluation> getAllEvaluations() {
-		String query = "select from " + Evaluation.class.getName();
+	private List<Evaluation> getEvaluationEntitiesForCourse(String courseId) {
+		Query q = getPM().newQuery(Evaluation.class);
+		q.declareParameters("String courseIdParam");
+		q.setFilter("courseID == courseIdParam");
+		
+		@SuppressWarnings("unchecked")
+		List<Evaluation> evaluationList = (List<Evaluation>) q.execute(courseId);
+		return evaluationList;
+	}
+
+	private List<Evaluation> getAllEvaluationEntities() {
+		
+		Query q = getPM().newQuery(Evaluation.class);
 
 		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) getPM().newQuery(
-				query).execute();
+		List<Evaluation> evaluationList = (List<Evaluation>) q.execute();
 
-		List<Evaluation> cleanList = new ArrayList<Evaluation>();
-
-		for (Evaluation e : evaluationList) {
-			if (!JDOHelper.isDeleted(e)) {
-				cleanList.add(e);
-			}
-		}
-
-		return cleanList;
+		return evaluationList;
 	}
 	
 }

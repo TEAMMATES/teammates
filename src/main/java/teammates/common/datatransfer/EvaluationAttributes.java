@@ -93,6 +93,55 @@ public class EvaluationAttributes extends EntityAttributes {
 			return EvalStatus.AWAITING;
 		}
 	}
+	
+	/**
+	 * @return True if the current time is between start time and deadline, but
+	 *         the evaluation has not been activated yet.
+	 */
+	public boolean isReadyToActivate() {
+		Calendar currentTimeInUserTimeZone = Common.convertToUserTimeZone(
+				Calendar.getInstance(), timeZone);
+
+		Calendar evalStartTime = Calendar.getInstance();
+		evalStartTime.setTime(startTime);
+
+		log.fine("current:"
+				+ Common.calendarToString(currentTimeInUserTimeZone)
+				+ "|start:" + Common.calendarToString(evalStartTime));
+
+		if (currentTimeInUserTimeZone.before(evalStartTime)) {
+			return false;
+		} else {
+			return (!activated);
+		}
+	}
+	
+	//TODO: unit test this
+	public boolean isClosingWithinTimeLimit(int hours) {
+
+		Calendar now = Calendar.getInstance();
+		// Fix the time zone accordingly
+		now.add(Calendar.MILLISECOND,
+				(int) (60 * 60 * 1000 * timeZone));
+		
+		Calendar start = Calendar.getInstance();
+		start.setTime(startTime);
+		
+		Calendar deadline = Calendar.getInstance();
+		deadline.setTime(endTime);
+
+		long nowMillis = now.getTimeInMillis();
+		long deadlineMillis = deadline.getTimeInMillis();
+		long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis)
+				/ (60 * 60 * 1000);
+
+		// If now and start are almost similar, it means the evaluation 
+		// is open for only 24 hours.
+		// Hence we do not send a reminder e-mail for the evaluation.
+		return now.after(start)
+				&& (differenceBetweenDeadlineAndNow >= hours - 1 
+				&& differenceBetweenDeadlineAndNow < hours);
+	}
 
 	@Override
 	public boolean isValid() {
@@ -137,6 +186,16 @@ public class EvaluationAttributes extends EntityAttributes {
 	public String toString() {
 		return Common.getTeammatesGson()
 				.toJson(this, EvaluationAttributes.class);
+	}
+
+	public static List<EvaluationAttributes> toAttributes(
+			List<Evaluation> evaluationEntities) {
+		
+		List<EvaluationAttributes> attributesList = new ArrayList<EvaluationAttributes>();
+		for(Evaluation e: evaluationEntities){
+			attributesList.add(new EvaluationAttributes(e));
+		}
+		return attributesList;
 	}
 
 }

@@ -13,6 +13,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.datastore.Datastore;
 
@@ -101,25 +102,25 @@ public class EvaluationsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testEditEvaluation() {
+	public void testEditEvaluation() throws EntityDoesNotExistException {
 		EvaluationAttributes e = createNewEvaluation();
 				
 		// Edit existent
 		e.instructions = "Foo Bar";
-		evaluationsDb.editEvaluation(e);
+		evaluationsDb.updateEvaluation(e);
 				
 		// Edit non-existent
 		e.name = "Non existent Evaluation";
 		try {
-			evaluationsDb.editEvaluation(e);
+			evaluationsDb.updateEvaluation(e);
 			Assert.fail();
-		} catch (AssertionError a) {
+		} catch (EntityDoesNotExistException a) {
 			assertContains(EvaluationsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
 		}
 		
 		// Null params check:
 		try {
-			evaluationsDb.editEvaluation(null);
+			evaluationsDb.updateEvaluation(null);
 			Assert.fail();
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());

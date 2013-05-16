@@ -157,7 +157,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		backdoor.createEvaluation(evaluation1);
 		assertEquals("This evaluation is not ready to activate as expected "+ evaluation1.toString(),
 				true, 
-				backdoor.getEvaluation(evaluation1.course, evaluation1.name).toEntity().isReadyToActivate());
+				backdoor.getEvaluation(evaluation1.course, evaluation1.name).isReadyToActivate());
 
 		// Create another evaluation in another course in similar fashion.
 		// Put this evaluation in a positive time zone.
@@ -178,7 +178,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		backdoor.createEvaluation(evaluation2);
 		assertEquals("This evaluation is not ready to activate as expected "+ evaluation2.toString(),
 				true, 
-				backdoor.getEvaluation(evaluation2.course, evaluation2.name).toEntity().isReadyToActivate());
+				backdoor.getEvaluation(evaluation2.course, evaluation2.name).isReadyToActivate());
 		
 		// Create an orphan evaluation (this should be ignored by SUT)
 		EvaluationAttributes orphan = new EvaluationAttributes();
@@ -192,7 +192,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		backdoor.createEvaluation(orphan);
 		assertEquals("This evaluation is not ready to activate as expected "+ orphan.toString(),
 				true, 
-				backdoor.getEvaluation(orphan.course, orphan.name).toEntity().isReadyToActivate());
+				backdoor.getEvaluation(orphan.course, orphan.name).isReadyToActivate());
 
 		emailsSent = backdoor.activateReadyEvaluations();
 		int course1StudentCount = backdoor.getStudentsForCourse(

@@ -239,7 +239,7 @@ public class GateKeeper {
 		if (isInstructorOfCourse(submission.course))
 			return;
 		if (isOwnEmail(submission.course, submission.reviewer)
-				&& evaluationsDb.isEvaluationOpen(submission.course, submission.evaluation))
+				&& isEvaluationOpen(submission.course, submission.evaluation))
 			return;
 		throw new UnauthorizedAccessException();
 	}
@@ -253,9 +253,19 @@ public class GateKeeper {
 		if (isInstructorOfCourse(courseId))
 			return;
 		if (isOwnEmail(courseId, studentEmail)
-				&& evaluationsDb.isEvaluationPublished(courseId, evaluationName)) 
+				&& isEvaluationPublished(courseId, evaluationName)) 
 			return;
 		throw new UnauthorizedAccessException();
+	}
+
+	private boolean isEvaluationOpen(String course, String evaluation) {
+		EvaluationAttributes e = evaluationsDb.getEvaluation(course, evaluation);
+		return (e != null) && (e.getStatus() == EvalStatus.OPEN);
+	}
+
+	private boolean isEvaluationPublished(String courseId, String evaluationName) {
+		EvaluationAttributes evaluation = evaluationsDb.getEvaluation(courseId, evaluationName);
+		return evaluation != null && evaluation.getStatus() == EvalStatus.PUBLISHED;
 	}
 
 	// @formatter:on

@@ -4,6 +4,8 @@ import static org.testng.AssertJUnit.*;
 import static teammates.common.Common.EOL;
 import static teammates.common.FieldValidator.*;
 
+import java.util.Calendar;
+
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
@@ -12,6 +14,8 @@ import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.exception.InvalidParametersException;
+import teammates.storage.entity.Evaluation;
 
 public class EvaluationAttributesTest extends BaseTestCase {
 
@@ -219,6 +223,87 @@ public class EvaluationAttributesTest extends BaseTestCase {
 	@Test
 	public void testIsValid(){
 		//already tested in testValidate() above
+	}
+	
+	@Test
+	public void testIsReady() throws InvalidParametersException {
+
+		// Create evaluation object to use as the test object
+		Calendar start = Calendar.getInstance();
+		Calendar end = Calendar.getInstance();
+		EvaluationAttributes e = new EvaluationAttributes(
+				new Evaluation("course1", "evalution 1", "instructions",
+				true, start.getTime(), end.getTime(), 0.0, 0));
+		int oneSecInMilliSeconds = 1 * 1000;
+		double timeZone = 0.0;
+		
+		______TS("ready, just after start time");
+
+		// start time set to 1 sec before current time
+		e.startTime = Common.getMsOffsetToCurrentTime(-oneSecInMilliSeconds);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.activated = false;
+		e.timeZone = 0.0;
+		assertEquals(true, e.isReadyToActivate());
+		
+		// negative time zone, starting just before current time
+		timeZone = -2.0;
+		e.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-oneSecInMilliSeconds,timeZone);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.activated = false;
+		e.timeZone = timeZone;
+		assertEquals(true, e.isReadyToActivate());
+		
+		
+		// positive time zone, starting just before current time
+		timeZone = 2.0;
+		e.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-oneSecInMilliSeconds, timeZone);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.activated = false;
+		e.timeZone = timeZone;
+		assertEquals(true, e.isReadyToActivate());
+		
+		______TS("not ready, just before start time");
+		//start time set to 1 sec after current time
+		oneSecInMilliSeconds = 1 * 1000;
+		e.startTime = Common.getMsOffsetToCurrentTime(+oneSecInMilliSeconds);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.activated = false;
+		e.timeZone = 0.0;
+		assertEquals(false, e.isReadyToActivate());
+
+		// negative time zone, starting just after current time
+		timeZone = -2.0;
+		e.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(oneSecInMilliSeconds, timeZone);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.activated = false;
+		e.timeZone = timeZone;
+		assertEquals(false, e.isReadyToActivate());
+		
+		// positive time zone, starting just after current time
+		timeZone = 2.0;
+		e.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(oneSecInMilliSeconds, timeZone);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.activated = false;
+		e.timeZone = timeZone;
+		assertEquals(false, e.isReadyToActivate());
+		
+		______TS("not ready, already activated");
+		
+		// start time set to 1 sec before current time
+		e.startTime = Common.getMsOffsetToCurrentTime(-oneSecInMilliSeconds);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.activated = true;
+		e.timeZone = 0.0;
+		assertEquals(false, e.isReadyToActivate());
+
+		// start time set to 1 sec after current time
+		e.startTime = Common.getMsOffsetToCurrentTime(+oneSecInMilliSeconds);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.activated = true;
+		e.timeZone = 0.0;
+		assertEquals(false, e.isReadyToActivate());
+
 	}
 	
 	@Test

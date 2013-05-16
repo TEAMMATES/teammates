@@ -274,7 +274,6 @@ public class SubmissionsDb {
 	}
 
 	/**
-	 * Note: This is a non-cascade delete.<br>
 	 * Fails silently if no matching objects. <br>
 	 * Preconditions: <br> 
 	 * * all parameters are non-null.
@@ -291,7 +290,6 @@ public class SubmissionsDb {
 	}
 
 	/**
-	 * Note: This is a non-cascade delete.<br>
 	 * Fails silently if no matching objects. <br>
 	 * Preconditions: <br> 
 	 * * all parameters are non-null.
@@ -309,7 +307,6 @@ public class SubmissionsDb {
 	}
 
 	/**
-	 * Note: This is a non-cascade delete.<br>
 	 * Fails silently if no matching objects. <br>
 	 * Preconditions: <br> 
 	 * * all parameters are non-null.
