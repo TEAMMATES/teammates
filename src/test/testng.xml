@@ -40,6 +40,7 @@
 			<class name="teammates.test.cases.SubmissionAttributesTest" />
 			<class name="teammates.test.cases.StudentResultBundleTest" />
 			<class name="teammates.test.cases.TeamResultBundleTest" />
+			<class name="teammates.test.cases.SubmissionsLogicTest" />
 			<class name="teammates.test.cases.EvaluationsLogicTest" />
 			<class name="teammates.test.cases.AccountsDbTest" />
 			<class name="teammates.test.cases.CoursesDbTest" />
