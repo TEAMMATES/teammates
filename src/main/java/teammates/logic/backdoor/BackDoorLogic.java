@@ -182,7 +182,7 @@ public class BackDoorLogic extends Logic {
 			try {
 				CourseAttributes course = getCourse(ed.course);
 				
-				List<StudentAttributes> students = accountsLogic.getStudentsForCourse(ed.course);
+				List<StudentAttributes> students = studentsLogic.getStudentsForCourse(ed.course);
 				
 				Emails emails = new Emails();
 				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
@@ -207,7 +207,7 @@ public class BackDoorLogic extends Logic {
 		for (EvaluationAttributes ed : evaluationDataList) {
 			try {
 
-				List<StudentAttributes> studentDataList = accountsLogic.getStudentsForCourse(ed.course);
+				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.course);
 				
 				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
 

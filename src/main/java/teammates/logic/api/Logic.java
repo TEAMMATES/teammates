@@ -42,6 +42,7 @@ import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.GateKeeper;
+import teammates.logic.StudentsLogic;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.TeamEvalResult;
 
@@ -64,6 +65,7 @@ public class Logic {
 	
 	protected static GateKeeper gateKeeper = GateKeeper.inst();
 	protected static AccountsLogic accountsLogic = AccountsLogic.inst();
+	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
 	protected static CoursesLogic coursesLogic = CoursesLogic.inst();
 	protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
@@ -406,7 +408,7 @@ public class Logic {
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
 		List<EvaluationAttributes> evaluationsSummaryForCourse = evaluationsLogic.getEvaluationsForCourse(courseId);
-		List<StudentAttributes> students = accountsLogic.getStudentsForCourse(courseId);
+		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
 
 		for (EvaluationAttributes evaluation : evaluationsSummaryForCourse) {
 			EvaluationDetailsBundle edd = getEvaluationDetails(students, evaluation);
@@ -490,7 +492,7 @@ public class Logic {
 	
 		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 		
-		return accountsLogic.getStudentsForCourse(courseId);
+		return studentsLogic.getStudentsForCourse(courseId);
 	
 	}
 
@@ -667,7 +669,7 @@ public class Logic {
 	
 		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 	
-		List<StudentAttributes> studentDataList = accountsLogic.getUnregisteredStudentsForCourse(courseId);
+		List<StudentAttributes> studentDataList = studentsLogic.getUnregisteredStudentsForCourse(courseId);
 	
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 	
@@ -722,7 +724,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseInstructorOrAbove(student.course);
 
-		accountsLogic.createStudent(student);
+		studentsLogic.createStudent(student);
 		submissionsLogic.adjustSubmissionsForNewStudent(student.course, student.email, student.team);
 	}
 
@@ -740,7 +742,7 @@ public class Logic {
 
 		gateKeeper.verifyRegisteredUserOrAbove();
 
-		return accountsLogic.getStudentForEmail(courseId, email);
+		return studentsLogic.getStudentForEmail(courseId, email);
 	}
 
 	
@@ -757,7 +759,7 @@ public class Logic {
 	
 		gateKeeper.verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
 		
-		return accountsLogic.getStudentForGoogleId(courseId, googleId);
+		return studentsLogic.getStudentForGoogleId(courseId, googleId);
 	}
 
 	/**
@@ -773,7 +775,7 @@ public class Logic {
 		
 		gateKeeper.verifySameStudentOrAdmin(googleId);
 		
-		return accountsLogic.getStudentsForGoogleId(googleId);
+		return studentsLogic.getStudentsForGoogleId(googleId);
 	}
 
 	
@@ -806,7 +808,7 @@ public class Logic {
 	
 		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 	
-		return accountsLogic.getKeyForStudent(courseId, email);
+		return studentsLogic.getKeyForStudent(courseId, email);
 	}
 
 	/**
@@ -828,12 +830,12 @@ public class Logic {
 
 		gateKeeper.verifyCourseInstructorOrAbove(student.course);
 
-		accountsLogic.confirmStudentExists(student.course, originalEmail);
+		studentsLogic.confirmStudentExists(student.course, originalEmail);
 
-		StudentAttributes originalStudent = accountsLogic.getStudentForEmail(student.course, originalEmail);
+		StudentAttributes originalStudent = studentsLogic.getStudentForEmail(student.course, originalEmail);
 		String originalTeam = originalStudent.team;
 
-		accountsLogic.updateStudent(originalEmail, student);
+		studentsLogic.updateStudent(originalEmail, student);
 
 		// cascade email change, if any
 		if (!originalEmail.equals(student.email)) {
@@ -860,7 +862,7 @@ public class Logic {
 	
 		gateKeeper.verifyOwnerOfId(googleId);
 	
-		accountsLogic.joinCourse(key, googleId);
+		studentsLogic.joinCourse(key, googleId);
 	
 	}
 
@@ -876,7 +878,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
-		accountsLogic.deleteStudentCascade(courseId, studentEmail);
+		studentsLogic.deleteStudentCascade(courseId, studentEmail);
 	}
 
 	/**
@@ -1166,7 +1168,7 @@ public class Logic {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 
 		// Filter out students who have submitted the evaluation
-		List<StudentAttributes> studentDataList = accountsLogic.getStudentsForCourse(courseId);
+		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
 
 		List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
 		for (StudentAttributes sd : studentDataList) {
@@ -1247,7 +1249,7 @@ public class Logic {
 		boolean isSubmissionsExist = (submissions.size() > 0
 				&& coursesLogic.isCoursePresent(courseId)
 				&& evaluationsLogic.isEvaluationExists(courseId,
-						evaluationName) && accountsLogic.isStudentInCourse(courseId, reviewerEmail));
+						evaluationName) && studentsLogic.isStudentInCourse(courseId, reviewerEmail));
 
 		if (!isSubmissionsExist) {
 			throw new EntityDoesNotExistException(
@@ -1590,7 +1592,7 @@ public class Logic {
 	}
 
 	private boolean isModificationToExistingStudent(StudentAttributes student) {
-		return accountsLogic.isStudentInCourse(student.course, student.email);
+		return studentsLogic.isStudentInCourse(student.course, student.email);
 	}
 
 	/**

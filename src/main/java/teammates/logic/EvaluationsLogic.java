@@ -56,7 +56,7 @@ public class EvaluationsLogic {
 		
 		evaluationsDb.createEvaluation(e);
 	
-		List<StudentAttributes> studentDataList = AccountsLogic.inst().getStudentsForCourse(e.course);
+		List<StudentAttributes> studentDataList = StudentsLogic.inst().getStudentsForCourse(e.course);
 		
 		List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
 	
