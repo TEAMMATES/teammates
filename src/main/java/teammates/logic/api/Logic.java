@@ -42,6 +42,7 @@ import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.GateKeeper;
+import teammates.logic.InstructorsLogic;
 import teammates.logic.StudentsLogic;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.TeamEvalResult;
@@ -66,6 +67,7 @@ public class Logic {
 	protected static GateKeeper gateKeeper = GateKeeper.inst();
 	protected static AccountsLogic accountsLogic = AccountsLogic.inst();
 	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
+	protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	protected static CoursesLogic coursesLogic = CoursesLogic.inst();
 	protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
@@ -112,11 +114,11 @@ public class Logic {
 	 * @return true if this user has instructor privileges.
 	 */
 	public boolean isInstructor(String googleId) {
-		return accountsLogic.isInstructor(googleId);
+		return accountsLogic.isAccountAnInstructor(googleId);
 	}
 	
 	public boolean isInstructorOfCourse(String googleId, String courseId) {
-		return accountsLogic.isInstructorOfCourse(googleId, courseId);
+		return instructorsLogic.isInstructorOfCourse(googleId, courseId);
 	}
 
 	@SuppressWarnings("unused")
@@ -211,7 +213,7 @@ public class Logic {
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
-	public void createInstructor(String googleId, String courseId, String name, String email, String institute)
+	public void createInstructorAccount(String googleId, String courseId, String name, String email, String institute)
 			throws EntityAlreadyExistsException, InvalidParametersException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -222,7 +224,7 @@ public class Logic {
 
 		gateKeeper.verifyAdminLoggedIn();
 		
-		accountsLogic.createInstructor(googleId, courseId, name, email, institute);
+		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
 	}
 
 	/**
@@ -238,7 +240,7 @@ public class Logic {
 
 		gateKeeper.verifyLoggedInUserAndAbove();
 		
-		return accountsLogic.getInstructorForGoogleId(courseId, googleId);
+		return instructorsLogic.getInstructorForGoogleId(courseId, googleId);
 	}
 	
 	/**
@@ -250,7 +252,7 @@ public class Logic {
 		
 		gateKeeper.verifyAdminLoggedIn();
 		
-		return accountsLogic.getAllInstructors();
+		return instructorsLogic.getAllInstructors();
 	}
 	
 	/**
@@ -265,7 +267,7 @@ public class Logic {
 		
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
 		
-		return accountsLogic.getInstructorsForGoogleId(googleId);
+		return instructorsLogic.getInstructorsForGoogleId(googleId);
 	}
 
 	/**
@@ -280,7 +282,7 @@ public class Logic {
 		
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 		
-		return accountsLogic.getInstructorsForCourse(courseId);
+		return instructorsLogic.getInstructorsForCourse(courseId);
 	}
 
 	/**
@@ -295,7 +297,7 @@ public class Logic {
 		
 		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructor.googleId);
 		
-		accountsLogic.updateInstructor(instructor);
+		instructorsLogic.updateInstructor(instructor);
 	}
 
 	/**
@@ -311,7 +313,7 @@ public class Logic {
 
 		gateKeeper.verifyAdminLoggedIn();
 		
-		accountsLogic.deleteInstructor(courseId, googleId);
+		instructorsLogic.deleteInstructor(courseId, googleId);
 	}
 
 	/**
@@ -320,13 +322,13 @@ public class Logic {
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 */
-	public void deleteInstructorsForGoogleId(String googleId) {
+	public void downgradeInstructorToStudentCascade(String googleId) {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		
 		gateKeeper.verifyAdminLoggedIn();
 		
-		accountsLogic.deleteInstructorsForGoogleId(googleId);
+		accountsLogic.downgradeInstructorToStudentCascade(googleId);
 	}
 
 	/**
@@ -386,7 +388,7 @@ public class Logic {
 
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
-		List<InstructorAttributes> instructorList = accountsLogic.getInstructorsForGoogleId(instructorId);
+		List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId);
 		for (InstructorAttributes id : instructorList) {
 			evaluationSummaryList.addAll(getEvaluationDetailsForCourse(id.courseId));
 		}
@@ -544,7 +546,7 @@ public class Logic {
 		// Retrieve the current list of instructors
 		// Remove those that are not in the list and persist the new ones
 		// Edit the ones that are found in both lists
-		List<InstructorAttributes> currentInstructors = accountsLogic.getInstructorsForCourse(courseId);
+		List<InstructorAttributes> currentInstructors = instructorsLogic.getInstructorsForCourse(courseId);
 		
 		List<InstructorAttributes> toAdd = new ArrayList<InstructorAttributes>();
 		List<InstructorAttributes> toRemove = new ArrayList<InstructorAttributes>();
@@ -580,17 +582,17 @@ public class Logic {
 		// Operate on each of the lists respectively
 		for (InstructorAttributes add : toAdd) {
 			try {
-				accountsLogic.createInstructor(add.googleId, courseId, add.name, add.email, courseInstitute);  
+				accountsLogic.createInstructorAccount(add.googleId, courseId, add.name, add.email, courseInstitute);  
 			} catch (EntityAlreadyExistsException e) {
 				// This should happens when a row was accidentally entered twice
 				// When that happens we continue silently
 			}
 		}
 		for (InstructorAttributes remove : toRemove) {
-			accountsLogic.deleteInstructor(remove.courseId, remove.googleId);
+			instructorsLogic.deleteInstructor(remove.courseId, remove.googleId);
 		}
 		for (InstructorAttributes edit : toEdit) {
-			accountsLogic.updateInstructor(edit);
+			instructorsLogic.updateInstructor(edit);
 		}
 	}
 
@@ -852,6 +854,7 @@ public class Logic {
 	 * Access: admin, owner of id. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
+	 * @throws EntityDoesNotExistException 
 	 * 
 	 */
 	public void joinCourse(String googleId, String key)
@@ -862,7 +865,7 @@ public class Logic {
 	
 		gateKeeper.verifyOwnerOfId(googleId);
 	
-		studentsLogic.joinCourse(key, googleId);
+		accountsLogic.joinCourse(key, googleId);
 	
 	}
 
@@ -1324,7 +1327,7 @@ public class Logic {
 
 	private void verifyInstructorExists(String instructorId)
 			throws EntityDoesNotExistException {
-		if (!accountsLogic.isInstructor(instructorId)) {
+		if (!accountsLogic.isAccountAnInstructor(instructorId)) {
 			throw new EntityDoesNotExistException("Instructor does not exist :"
 					+ instructorId);
 		}

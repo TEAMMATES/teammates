@@ -255,7 +255,7 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("unauthorized access");
 
-		String methodName = "createInstructor";
+		String methodName = "createInstructorAccount";
 		Class<?>[] paramTypes = new Class[] { String.class, String.class, String.class, String.class, String.class };
 		Object[] params = new Object[] { "googleId", "courseId", "Instructor Name", "instructor@email.com", "National University of Singapore" };
 
@@ -289,14 +289,14 @@ public class LogicTest extends BaseTestCase {
 		// Create fresh
 		logic.createCourseAndInstructor(instructor.googleId, cd.id, cd.name);
 		try {
-			logic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email, "National University of Singapore");
+			logic.createInstructorAccount(instructor.googleId, instructor.courseId, instructor.name, instructor.email, "National University of Singapore");
 			Assert.fail();
 		} catch (EntityAlreadyExistsException eaee) {
 			// Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
 		}
 		// Here we create another INSTRUCTOR for testing our createInstructor() method
 		String googleIdWithGmailDomain = instructor2.googleId+"@GMAIL.COM"; //to check if "@GMAIL.COM" is stripped out correctly
-		logic.createInstructor(googleIdWithGmailDomain, instructor2.courseId, instructor2.name, instructor2.email, "National University of Singapore");
+		logic.createInstructorAccount(googleIdWithGmailDomain, instructor2.courseId, instructor2.name, instructor2.email, "National University of Singapore");
 		
 		// `instructor` here is created with NAME and EMAIL field obtain from his AccountData
 		AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
@@ -328,7 +328,7 @@ public class LogicTest extends BaseTestCase {
 		
 		// Ensure the exception is thrown at logic level
 		try {
-			logic.createInstructor(googleId, "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
+			logic.createInstructorAccount(googleId, "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(
@@ -342,14 +342,14 @@ public class LogicTest extends BaseTestCase {
 		______TS("null parameters");
 		
 		try {
-			logic.createInstructor(null, "valid.courseId", "Valid Name", "valid@email.com", "National University of Singapore");
+			logic.createInstructorAccount(null, "valid.courseId", "Valid Name", "valid@email.com", "National University of Singapore");
 			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 		
 		try {
-			logic.createInstructor("valid.id", null, "Valid Name", "valid@email.com", "National University of Singapore");
+			logic.createInstructorAccount("valid.id", null, "Valid Name", "valid@email.com", "National University of Singapore");
 			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -406,7 +406,7 @@ public class LogicTest extends BaseTestCase {
 
 		Class<?>[] paramTypes = new Class[] { String.class };
 		Object[] params = new Object[] { "id" };
-		String methodName = "deleteInstructorsForGoogleId";
+		String methodName = "downgradeInstructorToStudentCascade";
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
 				paramTypes, params);
@@ -1292,8 +1292,9 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent course");
 
-		verifyEntityDoesNotExistException(methodName, paramTypes,
-				new Object[] { "non-existent" });
+		studentList = logic.getStudentsForCourse("non-existent");
+		assertEquals(0, studentList.size());
+		
 	}
 
 	@Test
@@ -2064,7 +2065,7 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 		logic.createAccount(instructorId, instructorName, true, instructorEmail, instructorInstitute);
 		logic.deleteInstructor(instructorCourse, instructorId);
-		logic.createInstructor(instructorId, instructorCourse, instructorName, instructorEmail, instructorInstitute);
+		logic.createInstructorAccount(instructorId, instructorCourse, instructorName, instructorEmail, instructorInstitute);
 		String courseId = "courseForEnrollTest";
 		logic.createCourseAndInstructor(instructorId, courseId, "Course for Enroll Testing");
 

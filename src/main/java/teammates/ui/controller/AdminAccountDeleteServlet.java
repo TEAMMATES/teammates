@@ -68,7 +68,7 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 	}
 
 	private void deleteInstructorStatus(Helper helper, String instructorId){
-		helper.server.deleteInstructorsForGoogleId(instructorId);
+		helper.server.downgradeInstructorToStudentCascade(instructorId);
 		helper.statusMessage = Common.MESSAGE_INSTRUCTOR_STATUS_DELETED;
 		helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;	
 	}

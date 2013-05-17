@@ -3,11 +3,16 @@ package teammates.logic;
 import java.util.List;
 import java.util.logging.Logger;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -34,10 +39,6 @@ public class AccountsLogic {
 		return instance;
 	}
 	
-	@SuppressWarnings("unused")
-	private void ____ACCOUNT_related_______________________________________() {
-	}
-	
 	public void createAccount(String googleId, String name, 
 			boolean isInstructor, String email, String institute) 
 					throws InvalidParametersException, EntityAlreadyExistsException {
@@ -55,6 +56,22 @@ public class AccountsLogic {
 		}
 		accountsDb.createAccount(accountToAdd);
 	}
+	
+	public void createInstructorAccount(String googleId, String courseId,
+			String name, String email, String institute) 
+					throws InvalidParametersException,	EntityAlreadyExistsException {
+		
+		googleId = sanitizeGoogleId(googleId);
+		
+		InstructorsLogic.inst().createInstructor(googleId, courseId, name, email);
+		
+		// Create the Account if it does not exist
+		if (accountsDb.getAccount(googleId) == null) {
+			createAccount(googleId, name, true, email, institute);
+		} else {
+			makeAccountInstructor(googleId);
+		}
+	}
 
 	public AccountAttributes getAccount(String googleId) {
 		return accountsDb.getAccount(googleId);
@@ -62,6 +79,11 @@ public class AccountsLogic {
 	
 	public boolean isAccountPresent(String googleId) {
 		return accountsDb.getAccount(googleId) != null;
+	}
+	
+	public boolean isAccountAnInstructor(String googleId) {
+		AccountAttributes a = accountsDb.getAccount(googleId);
+		return a == null ? false : a.isInstructor;
 	}
 
 	public List<AccountAttributes> getInstructorAccounts() {
@@ -73,6 +95,46 @@ public class AccountsLogic {
 			throw new InvalidParametersException(account.getInvalidStateInfo());
 		}
 		accountsDb.updateAccount(account);
+	}
+	
+	public StudentAttributes joinCourse(String registrationKey, String googleId) 
+			throws JoinCourseException {
+		
+		StudentAttributes student = StudentsLogic.inst().getStudentForRegistrationKey(registrationKey);
+		googleId = googleId.trim();
+		
+		if(student==null){
+			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
+					"You have entered an invalid key: " + registrationKey);
+		} else if (student.isRegistered()) {
+			if (student.id.equals(googleId)) {
+				throw new JoinCourseException(Common.ERRORCODE_ALREADY_JOINED,
+						googleId + " has already joined this course");
+			} else {
+				throw new JoinCourseException(
+						Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
+						registrationKey + " belongs to a different user");
+			}
+		} 
+		
+		//register the student
+		student.id = googleId;
+		try {
+			StudentsLogic.inst().updateStudent(student.email, student);
+		} catch (EntityDoesNotExistException e) {
+			Assumption.fail("Student disappered while trying to register " + Common.stackTraceToString(e));
+		}
+		
+		if (accountsDb.getAccount(googleId) == null) {
+			createStudentAccount(student);
+		}
+		
+		return student;
+	}
+	
+	public void downgradeInstructorToStudentCascade(String googleId) {
+		InstructorsLogic.inst().deleteInstructorsForGoogleId(googleId);
+		makeAccountNonInstructor(googleId);
 	}
 
 	public void makeAccountNonInstructor(String googleId) {
@@ -96,96 +158,15 @@ public class AccountsLogic {
 	}
 
 	public void deleteAccountCascade(String googleId) {
-		accountsDb.deleteInstructorsForGoogleId(googleId);
-		accountsDb.deleteStudentsForGoogleId(googleId);
-		accountsDb.deleteAccount(googleId);
-		//TODO: deal with orphan courses
-	}
-
-	
-	
-	//TODO: have a deleteStudentCascade here?
-
-	@SuppressWarnings("unused")
-	private void ____INSTRUCTOR_related____________________________________() {
+		InstructorsLogic.inst().deleteInstructorsForGoogleId(googleId);
+		StudentsLogic.inst().deleteStudentsForGoogleId(googleId);
+		accountsDb.deleteAccount(googleId); //TODO: shouldn't we use deleteAccountCascade here?
+		//TODO: deal with orphan courses, submissions etc.
 	}
 	
-	public void createInstructor(String googleId, String courseId, String name,
-			String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException {
-		
-		googleId = sanitizeGoogleId(googleId);
-		
-		InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
-		if (!instructorToAdd.isValid()) {
-			throw new InvalidParametersException(instructorToAdd.getInvalidStateInfo());
-		}
 	
-		// Create the Account if it does not exist
-		if (accountsDb.getAccount(googleId)==null) {
-			createAccount(googleId, name, true, email, institute);
-		} else {
-			makeAccountInstructor(googleId);
-		}
-	
-		accountsDb.createInstructor(instructorToAdd);
-	}
-
-	public InstructorAttributes getInstructorForEmail(String courseId, String email) {
-		return accountsDb.getInstructorForEmail(courseId, email);
-	}
-
-	public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
-		return accountsDb.getInstructorForGoogleId(courseId, googleId);
-	}
-
-	public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
-		return accountsDb.getInstructorsForCourse(courseId);
-	}
-
-	public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
-		return accountsDb.getInstructorsForGoogleId(googleId);
-	}
-
-	/**
-	 * @deprecated Not scalable. Use only for admin features.
-	 */
-	@Deprecated 
-	public List<InstructorAttributes> getAllInstructors() {
-		return accountsDb.getAllInstructors();
-	}
-
-	public boolean isInstructor(String googleId) {
-		AccountAttributes a = accountsDb.getAccount(googleId);
-		return a == null ? false : a.isInstructor;
-	}
-
-	public boolean isInstructorOfCourse(String instructorId, String courseId) {
-		return accountsDb.getInstructorForGoogleId(courseId, instructorId)!=null;
-	}
-
-	public void updateInstructor(InstructorAttributes instructor) 
-			throws InvalidParametersException {
-		if (!instructor.isValid()) {
-			throw new InvalidParametersException(instructor.getInvalidStateInfo());
-		}
-		accountsDb.updateInstructor(instructor);
-	}
-
-	public void deleteInstructor(String courseId, String googleId) {
-		accountsDb.deleteInstructor(courseId, googleId);
-	}
-
-	public void deleteInstructorsForGoogleId(String googleId) {
-		accountsDb.deleteInstructorsForGoogleId(googleId);
-		makeAccountNonInstructor(googleId);
-	}
-
-	@SuppressWarnings("unused")
-	private void ____PRIVATE_methods____________________________________() {
-	}
-
 	//TODO: move to a proper *Sanitizer class
-	private String sanitizeGoogleId(String rawGoogleId) {
+	public static String sanitizeGoogleId(String rawGoogleId) {
 		String sanitized = rawGoogleId.trim();
 		// trim @gmail.com in ID field
 		if (sanitized.toLowerCase().endsWith("@gmail.com")) {
@@ -193,5 +174,28 @@ public class AccountsLogic {
 		}
 		return sanitized;
 	}
+	
+	private void createStudentAccount(StudentAttributes student) {
+		AccountAttributes account = new AccountAttributes();
+		account.googleId = student.id;
+		account.email = student.email;
+		account.name = student.name;
+		account.isInstructor = false;
+		account.institute = getCourseInstitute(student.course);
+		accountsDb.createAccount(account);
+	}
+	
+	private String getCourseInstitute(String courseId) {
+		CourseAttributes cd = new CoursesLogic().getCourse(courseId);
+		List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.id);
+		
+		Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
+		// Retrieve institute field from the first instructor of the course
+		AccountAttributes instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
+		
+		Assumption.assertNotNull("Instructor has no account: " + instructorList.get(0).googleId, instructorAcc);
+		return instructorAcc.institute;
+	}
+
 
 }

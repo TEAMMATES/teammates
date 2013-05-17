@@ -13,6 +13,8 @@ import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -57,8 +59,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		/**
 		 * Insert instructors
 		 */
-		AccountsDb accounts = new AccountsDb();
-		List<InstructorAttributes> instructors = accounts.getAllInstructors();
+		List<InstructorAttributes> instructors = new InstructorsDb().getAllInstructors();
 		
 		Iterator<InstructorAttributes> it = instructors.iterator();
 		while (it.hasNext()) {
@@ -69,7 +70,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		/**
 		 * Insert students
 		 */
-		List<StudentAttributes> students = accounts.getAllStudents();
+		List<StudentAttributes> students = new StudentsDb().getAllStudents();
 		Iterator<StudentAttributes> it2 = students.iterator();
 		while (it2.hasNext()) {
 			StudentAttributes stu = it2.next();

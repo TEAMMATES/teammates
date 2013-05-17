@@ -109,7 +109,7 @@ public class BackDoorServlet extends HttpServlet {
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-			backDoorLogic.deleteInstructorsForGoogleId(instructorID);
+			backDoorLogic.downgradeInstructorToStudentCascade(instructorID);
 		} else if (action.equals(OPERATION_DELETE_ACCOUNT)) {
 			String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
 			backDoorLogic.deleteAccount(googleId);

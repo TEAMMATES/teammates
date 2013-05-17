@@ -40,20 +40,22 @@
 			<class name="teammates.test.cases.SubmissionAttributesTest" />
 			<class name="teammates.test.cases.StudentResultBundleTest" />
 			<class name="teammates.test.cases.TeamResultBundleTest" />
+			<class name="teammates.test.cases.ActivityLogTest" />
+			<class name="teammates.test.cases.LogicTest" />
+			<class name="teammates.test.cases.BackDoorLogicTest"/>
+			<class name="teammates.test.cases.AccountsDbTest" />
+			<class name="teammates.test.cases.StudentsDbTest" />
+			<class name="teammates.test.cases.InstructorsDbTest" />
+			<class name="teammates.test.cases.CoursesDbTest" />
+			<class name="teammates.test.cases.SubmissionsDbTest" />
+			<class name="teammates.test.cases.EvaluationsDbTest" />
 			<class name="teammates.test.cases.SubmissionsLogicTest" />
 			<class name="teammates.test.cases.EvaluationsLogicTest" />
-			<class name="teammates.test.cases.AccountsDbTest" />
-			<class name="teammates.test.cases.CoursesDbTest" />
-			<class name="teammates.test.cases.EvaluationsDbTest" />
-			<class name="teammates.test.cases.SubmissionsDbTest" />
 			<class name="teammates.test.cases.HelperTest" />
 			<class name="teammates.test.cases.InstructorEvalHelperTest" />
-			<class name="teammates.test.cases.ActivityLogTest" />
 			<class name="teammates.test.cases.EmailsTest" />
 			<class name="teammates.test.cases.HtmlHelperTest" />
 			<class name="teammates.test.cases.TeamEvalResultTest" />
-			<class name="teammates.test.cases.LogicTest" />
-			<class name="teammates.test.cases.BackDoorLogicTest"/>
 		</classes>
 	</test>
 	<test name="occasional-tests">

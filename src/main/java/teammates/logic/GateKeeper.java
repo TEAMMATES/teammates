@@ -10,6 +10,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -21,6 +22,7 @@ public class GateKeeper {
 	
 	private static AccountsDb accountsDb = new AccountsDb();
 	private static CoursesDb coursesDb = new CoursesDb();
+	private static final StudentsDb studentsDb = new StudentsDb();
 	private static EvaluationsDb evaluationsDb = new EvaluationsDb();
 
 	/**
@@ -287,7 +289,7 @@ public class GateKeeper {
 		if (course == null) {
 			return false;
 		}
-		StudentAttributes student = accountsDb.getStudentForEmail(courseId, studentEmail);
+		StudentAttributes student = studentsDb.getStudentForEmail(courseId, studentEmail);
 		return student == null ? false : user.id.equals(student.id);
 	}
 
@@ -304,23 +306,23 @@ public class GateKeeper {
 	//===========================================================================
 	private boolean isInstructor() {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() &&  AccountsLogic.inst().isInstructor(user.getNickname());
+		return isLoggedOn() &&  AccountsLogic.inst().isAccountAnInstructor(user.getNickname());
 	}
 	
 	private boolean isInstructorOfCourse(String courseId) {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && AccountsLogic.inst().isInstructorOfCourse(user.getNickname(), courseId);
+		return isLoggedOn() && InstructorsLogic.inst().isInstructorOfCourse(user.getNickname(), courseId);
 	}
 
 	//===========================================================================
 	private boolean isStudent() {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.getStudentsForGoogleId(user.getNickname()).size()!=0;
+		return isLoggedOn() && studentsDb.getStudentsForGoogleId(user.getNickname()).size()!=0;
 	}
 	
 	private boolean isStudentOfCourse(String courseId) {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.getStudentForGoogleId(courseId, user.getNickname()) != null;
+		return isLoggedOn() && studentsDb.getStudentForGoogleId(courseId, user.getNickname()) != null;
 	}
 	
 
