@@ -183,6 +183,9 @@ public class Logic {
 	}
 	
 	/**
+	 * Deletes both instructor and student privileges.
+	 * Does not delete courses. Can result in orphan courses 
+	 * (to be rectified in future).
 	 * Fails silently if no such account. <br>
 	 * Access: Admin only. <br>
 	 * Preconditions: <br>
@@ -311,7 +314,9 @@ public class Logic {
 	}
 
 	/**
-	 * Fails silently if no match found.
+	 * Removes instructor access but does not delete the account. 
+	 * The account will continue to have student access. <br>
+	 * Fails silently if no match found.<br>
 	 * Access: admin. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
@@ -566,7 +571,8 @@ public class Logic {
 	}
 
 	/**
-	 * Deletes the course and all data related to the course.
+	 * Deletes the course and all data related to the course 
+	 * (instructors, students, evaluations).
 	 * Fails silently if no such account. <br>
 	 * Access: admin, instructors of the course. <br>
 	 * Preconditions: <br>
@@ -726,6 +732,8 @@ public class Logic {
 	}
 
 	/**
+	 * Deletes the student from the course including any submissions to/from
+	 * for this student in this course.
 	 * Fails silently if no match found. <br>
 	 * Access: admin, an instructor of the course. <br>
 	 * Preconditions: <br>
@@ -894,6 +902,7 @@ public class Logic {
 	}
 
 	/**
+	 * Deletes the evaluation and all its submissions.
 	 * Access: admin, instructors of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.

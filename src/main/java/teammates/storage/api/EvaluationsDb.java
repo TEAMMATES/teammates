@@ -130,6 +130,7 @@ public class EvaluationsDb {
 				newEvaluationAttributes.isValid());
 		
 		Evaluation e = getEvaluationEntity(newEvaluationAttributes.course, newEvaluationAttributes.name);
+		
 		if (e == null) {
 			throw new EntityDoesNotExistException(
 					ERROR_UPDATE_NON_EXISTENT + newEvaluationAttributes.toString());

@@ -246,7 +246,8 @@ public class StudentsDb {
 		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_STUDENT + courseId
 				+ "/ + email " + Common.getCurrentThreadStack(), student);
 	
-		//TODO: Enhance to ensure the updated entity is valid.
+		//TODO: Enhance to ensure the updated entity is valid. 
+		//  e.g. disable keep existing policy here (let the layer above manage it).
 		
 		student.setEmail(newEmail);
 		if (newName != null) {

@@ -1,9 +1,10 @@
-package teammates.client.remoteapi;
+package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;

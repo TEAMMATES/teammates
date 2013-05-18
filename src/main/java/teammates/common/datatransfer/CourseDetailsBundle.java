@@ -20,6 +20,7 @@ public class CourseDetailsBundle {
 	}
 
 	public CourseAttributes course;
+	//TODO: These three stats can be extracted into a CourseStats class.
 	public int teamsTotal = Common.UNINITIALIZED_INT;
 	public int studentsTotal = Common.UNINITIALIZED_INT;
 	public int unregisteredTotal = Common.UNINITIALIZED_INT;
