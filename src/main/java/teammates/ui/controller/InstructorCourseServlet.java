@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -86,6 +87,8 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
+		} catch (EntityDoesNotExistException e) {
+			Assumption.fail("The course created did not persist properly :"+ courseId);
 		}
 	}
 

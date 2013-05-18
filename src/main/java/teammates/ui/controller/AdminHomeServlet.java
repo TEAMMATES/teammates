@@ -181,7 +181,7 @@ public class AdminHomeServlet extends ActionServlet<AdminHomeHelper> {
 				submissionDataList.add(submissionData);
 			}
 			itr.remove();
-			helper.server.editSubmissions(submissionDataList);
+			helper.server.updateSubmissions(submissionDataList);
 		}
 	}
 

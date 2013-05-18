@@ -36,7 +36,7 @@ public class InstructorCourseStudentEditServlet extends
 		String teamName = req.getParameter(Common.PARAM_TEAM_NAME);
 		String comments = req.getParameter(Common.PARAM_COMMENTS);
 
-		helper.student = helper.server.getStudent(courseID, studentEmail);
+		helper.student = helper.server.getStudentForEmail(courseID, studentEmail);
 		helper.regKey = helper.server.getKeyForStudent(courseID, studentEmail);
 
 		if (submit) {

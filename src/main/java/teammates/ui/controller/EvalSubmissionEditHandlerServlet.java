@@ -78,7 +78,7 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 		}
 		
 		try{
-			helper.server.editSubmissions(submissionData);
+			helper.server.updateSubmissions(submissionData);
 			helper.statusMessage = getSuccessMessage(req,helper);
 			helper.redirectUrl = getSuccessUrl();
 			

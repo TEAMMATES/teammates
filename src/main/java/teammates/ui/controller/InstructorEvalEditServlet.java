@@ -43,7 +43,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 		if (isSubmit) {
 			helper.newEvaluationToBeCreated = newEval;
 			try {
-				helper.server.editEvaluation(newEval.course, newEval.name, newEval.instructions, newEval.startTime,
+				helper.server.updateEvaluation(newEval.course, newEval.name, newEval.instructions, newEval.startTime,
 						newEval.endTime, newEval.timeZone, newEval.gracePeriod, newEval.p2pEnabled);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_EDITED;
 				helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;

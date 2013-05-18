@@ -86,5 +86,7 @@ public class InstructorAttributes extends EntityAttributes {
 		return errors;
 	}
 	
-	//TODO: implement toString()
+	public String toString(){
+		return Common.getTeammatesGson().toJson(this,InstructorAttributes.class);
+	}
 }

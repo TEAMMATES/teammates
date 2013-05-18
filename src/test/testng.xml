@@ -51,6 +51,8 @@
 			<class name="teammates.test.cases.EvaluationsDbTest" />
 			<class name="teammates.test.cases.SubmissionsLogicTest" />
 			<class name="teammates.test.cases.EvaluationsLogicTest" />
+			<class name="teammates.test.cases.StudentsLogicTest" />
+			<class name="teammates.test.cases.InstructorsLogicTest" />
 			<class name="teammates.test.cases.HelperTest" />
 			<class name="teammates.test.cases.InstructorEvalHelperTest" />
 			<class name="teammates.test.cases.EmailsTest" />

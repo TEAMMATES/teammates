@@ -85,7 +85,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 		helper.eval = helper.server.getEvaluation(courseID, evalName);
 		
 		try{
-			helper.submissions = helper.server.getSubmissionsFromStudent(courseID, evalName, helper.student.email);
+			helper.submissions = helper.server.getSubmissionsForEvaluationFromStudent(courseID, evalName, helper.student.email);
 			
 			ArrayList<Object> data = new ArrayList<Object>();
 			data.add(courseID);

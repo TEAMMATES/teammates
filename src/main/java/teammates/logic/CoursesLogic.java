@@ -12,18 +12,18 @@ import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.api.EvaluationsDb;
-import teammates.storage.api.InstructorsDb;
-import teammates.storage.api.StudentsDb;
-import teammates.storage.api.SubmissionsDb;
 
 /**
  * Handles  operations related to courses.
@@ -42,11 +42,13 @@ public class CoursesLogic {
 	private static final Logger log = Common.getLogger();
 
 	private static final CoursesDb coursesDb = new CoursesDb();
-	private static final AccountsDb accountsDb = new AccountsDb();
-	private static final StudentsDb studentsDb = new StudentsDb();
-	private static final InstructorsDb instructorsDb = new InstructorsDb();
-	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
-	private static final SubmissionsDb submissionsDb = new SubmissionsDb();
+	
+	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+	private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+	
+	//TODO: remove this dependency to AccountsLogic
+	private static final AccountsLogic accountsLogic = AccountsLogic.inst();
 
 	
 	public static CoursesLogic inst() {
@@ -70,7 +72,8 @@ public class CoursesLogic {
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		createCourse(courseId, courseName);
 		
-		AccountAttributes courseCreator = accountsDb.getAccount(instructorGoogleId);
+		
+		AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
 
 		Assumption.assertNotNull(
 				"Trying to create a course for a person who doesn't have instructor privileges :"+ instructorGoogleId, 
@@ -82,7 +85,7 @@ public class CoursesLogic {
 		instructor.email = courseCreator.email;
 		instructor.name = courseCreator.name;
 		
-		instructorsDb.createInstructor(instructor);
+		instructorsLogic.createInstructor(instructor);
 		//TODO: Handle the orphan course in case instructor cannot be created
 	}
 
@@ -93,11 +96,56 @@ public class CoursesLogic {
 	public boolean isCoursePresent(String courseId) {
 		return coursesDb.getCourse(courseId) != null;
 	}
+	
+	public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
+		if (coursesDb.getCourse(courseId) == null){
+			throw new EntityDoesNotExistException("Course does not exist :"+courseId);
+		}
+	}
 
-	public int getNumberOfTeams(String courseID) {
+	public CourseDetailsBundle getCourseDetails(String courseId) 
+			throws EntityDoesNotExistException {
+		CourseDetailsBundle courseSummary = getCourseSummary(courseId);
 
-		List<StudentAttributes> studentDataList = studentsDb
-				.getStudentsForCourse(courseID);
+		ArrayList<EvaluationDetailsBundle> evaluationList = 
+				evaluationsLogic.getEvaluationDetailsForCourse(courseSummary.course.id);
+		
+		for (EvaluationDetailsBundle edd : evaluationList) {
+			courseSummary.evaluations.add(edd);
+		}
+
+		return courseSummary;
+	}
+
+	public List<CourseDetailsBundle> getCourseDetailsListForStudent(
+			String googleId) throws EntityDoesNotExistException {
+		
+		List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
+		List<CourseDetailsBundle> courseDetailsList = new ArrayList<CourseDetailsBundle>();
+	
+		for (CourseAttributes c : courseList) {
+
+			List<EvaluationAttributes> evaluationDataList = evaluationsLogic
+					.getEvaluationsForCourse(c.id);
+	
+			CourseDetailsBundle cdd = new CourseDetailsBundle(c);
+			
+			for (EvaluationAttributes ed : evaluationDataList) {
+				EvaluationDetailsBundle edd = new EvaluationDetailsBundle(ed);
+				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
+				if (ed.getStatus() != EvalStatus.AWAITING) {
+					cdd.evaluations.add(edd);
+				}
+			}
+			courseDetailsList.add(cdd);
+		}
+		return courseDetailsList;
+	}
+
+	public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
+
+		List<StudentAttributes> studentDataList = 
+				studentsLogic.getStudentsForCourse(courseID);
 
 		List<String> teamNameList = new ArrayList<String>();
 
@@ -110,25 +158,15 @@ public class CoursesLogic {
 		return teamNameList.size();
 	}
 
-	public int getTotalEnrolledInCourse(String courseId) {
-		return studentsDb.getStudentsForCourse(courseId).size();
+	public int getTotalEnrolledInCourse(String courseId) throws EntityDoesNotExistException {
+		return studentsLogic.getStudentsForCourse(courseId).size();
 	}
 
 	public int getTotalUnregisteredInCourse(String courseID) {
-		return studentsDb.getUnregisteredStudentsForCourse(courseID).size();
+		return studentsLogic.getUnregisteredStudentsForCourse(courseID).size();
 	}
 
-	public String getCourseInstitute(String courseId) {
-		CourseAttributes cd = coursesDb.getCourse(courseId);
-		List<InstructorAttributes> instructorList = instructorsDb.getInstructorsForCourse(cd.id);
-		if (instructorList.isEmpty()) {
-			Assumption.fail("Course has no instructors: " + cd.id);
-		} 
-		// Retrieve institute field from the first instructor of the course
-		AccountAttributes instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
-		return instructorAcc.institute;
 	
-	}
 
 	public CourseDetailsBundle getCourseSummary(String courseId)
 			throws EntityDoesNotExistException {
@@ -148,7 +186,7 @@ public class CoursesLogic {
 	
 	public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
 		
-		List<StudentAttributes> studentDataList = studentsDb.getStudentsForGoogleId(googleId);
+		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
 		
 		if (studentDataList.size() == 0) {
 			throw new EntityDoesNotExistException("Student with Google ID "
@@ -170,15 +208,9 @@ public class CoursesLogic {
 		return courseList;
 	}
 	
-	public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) 
-			throws EntityDoesNotExistException {
+	public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) {
 		
-		List<InstructorAttributes> instructorAttributesList = instructorsDb.getInstructorsForGoogleId(googleId);
-		
-		if (!isInstructorAccount(googleId)) {
-			throw new EntityDoesNotExistException(
-					"Instructor does not exist or account does not have instructor privileges:" + googleId);
-		}
+		List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
 		
 		HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
 		
@@ -196,10 +228,26 @@ public class CoursesLogic {
 		return courseSummaryList;
 	}
 
+	public HashMap<String, CourseDetailsBundle> getCourseDetailsListForInstructor(
+			String instructorId) throws EntityDoesNotExistException {
+		
+		HashMap<String, CourseDetailsBundle> courseList = 
+				getCourseSummariesForInstructor(instructorId);
+		
+		ArrayList<EvaluationDetailsBundle> evaluationList = 
+				evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
+		
+		for (EvaluationDetailsBundle edd : evaluationList) {
+			CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.course);
+			courseSummary.evaluations.add(edd);
+		}
+		return courseList;
+	}
+
 	public CourseDetailsBundle getTeamsForCourse(String courseId) 
 			throws EntityDoesNotExistException {
 		
-		List<StudentAttributes> students = studentsDb.getStudentsForCourse(courseId);
+		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
 		StudentAttributes.sortByTeamName(students);
 	
 		CourseAttributes course = getCourse(courseId);
@@ -252,46 +300,14 @@ public class CoursesLogic {
 		coursesDb.updateCourse(course);
 	}
 	
-
-	public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail) 
-			throws EntityDoesNotExistException {
-		
-		CourseAttributes course = coursesDb.getCourse(courseId);
-		if (course == null) {
-			throw new EntityDoesNotExistException(
-					"Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
-		}
-		
-		StudentAttributes studentData = studentsDb.getStudentForEmail(courseId, studentEmail);
-		if (studentData == null) {
-			throw new EntityDoesNotExistException(
-					"Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
-		}
-		
-		Emails emailMgr = new Emails();
-		try {
-			MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
-			emailMgr.sendEmail(email);
-			return email;
-		} catch (Exception e) {
-			throw new RuntimeException("Unexpected error while sending email", e);
-		}
-		
-	}
+	
 
 	public void deleteCourseCascade(String courseId) {
-		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
-		submissionsDb.deleteAllSubmissionsForCourse(courseId);
-		studentsDb.deleteStudentsForCourse(courseId);
-		instructorsDb.deleteInstructorsForCourse(courseId);
+		evaluationsLogic.deleteEvaluationsForCourse(courseId);
+		studentsLogic.deleteStudentsForCourse(courseId);
+		instructorsLogic.deleteInstructorsForCourse(courseId);
 		coursesDb.deleteCourse(courseId);
 	}
-
-	private boolean isInstructorAccount(String googleId) {
-		AccountAttributes account = accountsDb.getAccount(googleId);
-		return (account != null) && (account.isInstructor);
-	}
-
-
+	
 
 }

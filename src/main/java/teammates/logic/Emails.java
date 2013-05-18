@@ -203,6 +203,51 @@ public class Emails {
 		return message;
 	}
 
+	/**
+	 * Generate Email of system error the parameter "version" can be
+	 * encapsulated in side this function it's kept as a parameter for testing
+	 * purpose
+	 * 
+	 * @throws UnsupportedEncodingException
+	 */
+	public MimeMessage generateSystemErrorEmail(Throwable error,
+			String requestPath, String requestParam, String version)
+			throws AddressException, MessagingException,
+			UnsupportedEncodingException {
+		Session session = Session.getDefaultInstance(new Properties(), null);
+		MimeMessage message = new MimeMessage(session);
+		String errorMessage = error.getMessage();
+		String stackTrace = Common.stackTraceToString(error);
+	
+		// if the error doesn't contain a short description,
+		// retrieve the first line of stack trace.
+		// truncate stack trace at first "at" string
+		if (errorMessage == null) {
+			int msgTruncateIndex = stackTrace.indexOf("at");
+			if (msgTruncateIndex > 0) {
+				errorMessage = stackTrace.substring(0, msgTruncateIndex);
+			} else {
+				errorMessage = "";
+			}
+		}
+		String recipient = BuildProperties.inst().getAppCrashReportEmail();
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+				recipient));
+		message.setFrom(new InternetAddress(senderEmail, senderName));
+		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR,
+				version, errorMessage));
+	
+		String emailBody = Common.SYSTEM_ERROR_EMAIL_TEMPLATE;
+	
+		emailBody = emailBody.replace("${requestPath}", requestPath);
+		emailBody = emailBody.replace("${requestParameters}", requestParam);
+		emailBody = emailBody.replace("${errorMessage}", errorMessage);
+		emailBody = emailBody.replace("${stackTrace}", stackTrace);
+		message.setContent(emailBody, "text/html");
+	
+		return message;
+	}
+
 	public void sendEmails(List<MimeMessage> messages)
 			throws MessagingException {
 		for (MimeMessage m : messages) {
@@ -213,6 +258,22 @@ public class Emails {
 	public void sendEmail(MimeMessage message) throws MessagingException {
 		log.info(getEmailInfo(message));
 		Transport.send(message);
+	}
+
+	public MimeMessage sendErrorReport(String path, String params,
+			Throwable error) {
+		MimeMessage email = null;
+		try {
+			email = generateSystemErrorEmail(error, path, params,
+					BuildProperties.getAppVersion());
+			sendEmail(email);
+			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
+		} catch (Exception e) {
+			log.severe("Error in sending crash report: "
+					+ (email == null ? "" : email.toString()));
+		}
+	
+		return email;
 	}
 
 	private String fillUpJoinFragment(StudentAttributes s, String emailBody) {
@@ -242,51 +303,6 @@ public class Emails {
 				s.email));
 		message.setFrom(new InternetAddress(senderEmail, senderName));
 		message.setReplyTo(new Address[] { new InternetAddress(replyTo) });
-		return message;
-	}
-
-	/**
-	 * Generate Email of system error the parameter "version" can be
-	 * encapsulated in side this function it's kept as a parameter for testing
-	 * purpose
-	 * 
-	 * @throws UnsupportedEncodingException
-	 */
-	public MimeMessage generateSystemErrorEmail(Throwable error,
-			String requestPath, String requestParam, String version)
-			throws AddressException, MessagingException,
-			UnsupportedEncodingException {
-		Session session = Session.getDefaultInstance(new Properties(), null);
-		MimeMessage message = new MimeMessage(session);
-		String errorMessage = error.getMessage();
-		String stackTrace = Common.stackTraceToString(error);
-
-		// if the error doesn't contain a short description,
-		// retrieve the first line of stack trace.
-		// truncate stack trace at first "at" string
-		if (errorMessage == null) {
-			int msgTruncateIndex = stackTrace.indexOf("at");
-			if (msgTruncateIndex > 0) {
-				errorMessage = stackTrace.substring(0, msgTruncateIndex);
-			} else {
-				errorMessage = "";
-			}
-		}
-		String recipient = BuildProperties.inst().getAppCrashReportEmail();
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-				recipient));
-		message.setFrom(new InternetAddress(senderEmail, senderName));
-		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR,
-				version, errorMessage));
-
-		String emailBody = Common.SYSTEM_ERROR_EMAIL_TEMPLATE;
-
-		emailBody = emailBody.replace("${requestPath}", requestPath);
-		emailBody = emailBody.replace("${requestParameters}", requestParam);
-		emailBody = emailBody.replace("${errorMessage}", errorMessage);
-		emailBody = emailBody.replace("${stackTrace}", stackTrace);
-		message.setContent(emailBody, "text/html");
-
 		return message;
 	}
 

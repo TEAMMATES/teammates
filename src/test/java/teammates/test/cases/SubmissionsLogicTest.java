@@ -4,24 +4,32 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
 
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.SubmissionsLogic;
+import teammates.logic.api.Logic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.datastore.Datastore;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -30,6 +38,8 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 public class SubmissionsLogicTest extends BaseTestCase{
 	
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
+	
+	private static DataBundle dataBundle = getTypicalDataBundle();
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -46,65 +56,152 @@ public class SubmissionsLogicTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testAddSubmissionsForIncomingMember() throws Exception {
+	public void testGetSubmissionsForEvaluation() throws Exception {
+
+		DataBundle dataBundle = getTypicalDataBundle();
+		Logic logic = new Logic();
+		
+		restoreTypicalDataInDatastore();
+
+		______TS("typical case");
+
 		loginAsAdmin("admin.user");
+
+		EvaluationAttributes evaluation = dataBundle.evaluations
+				.get("evaluation1InCourse1");
+		// reuse this evaluation data to create a new one
+		evaluation.name = "new evaluation";
+		logic.createEvaluation(evaluation);
+
+		HashMap<String, SubmissionAttributes> submissions = invokeGetSubmissionsForEvaluation(
+				evaluation.course, evaluation.name);
+		// Team 1.1 has 4 students, Team 1.2 has only 1 student.
+		// There should be 4*4+1=17 submissions.
+		assertEquals(17, submissions.keySet().size());
+		// verify they all belong to this evaluation
+		for (String key : submissions.keySet()) {
+			assertEquals(evaluation.course, submissions.get(key).course);
+			assertEquals(evaluation.name, submissions.get(key).evaluation);
+		}
+		
+		______TS("orphan submissions");
+		
+		// move student from Team 1.1 to Team 1.2
+		StudentAttributes student = dataBundle.students.get("student1InCourse1");
+		student.team = "Team 1.2";
+		logic.updateStudent(student.email, student);
+
+		// Now, team 1.1 has 3 students, team 1.2 has 2 student.
+		// There should be 3*3+2*2=13 submissions if no orphans are returned.
+		submissions = invokeGetSubmissionsForEvaluation(evaluation.course,
+				evaluation.name);
+		assertEquals(13, submissions.keySet().size());
+		
+		// Check if the returned submissions match the current team structure
+		List<StudentAttributes> students = logic
+				.getStudentsForCourse(evaluation.course);
+		LogicTest.verifySubmissionsExistForCurrentTeamStructureInEvaluation(
+				evaluation.name, students, new ArrayList<SubmissionAttributes>(
+						submissions.values()));
+
+		______TS("evaluation in empty class");
+		
+		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
+		logic.createCourseAndInstructor("instructor1", "course1", "Course 1");
+		evaluation.course = "course1";
+		logic.createEvaluation(evaluation);
+
+		submissions = invokeGetSubmissionsForEvaluation(evaluation.course,
+				evaluation.name);
+		assertEquals(0, submissions.keySet().size());
+
+		______TS("non-existent course/evaluation");
+
+		String methodName = "getSubmissionsForEvaluation";
+		Class<?>[] paramTypes = new Class[] { String.class, String.class };
+		
+		assertEquals(0, invokeGetSubmissionsForEvaluation(evaluation.course, "non-existent").size());
+		assertEquals(0, invokeGetSubmissionsForEvaluation("non-existent", evaluation.name).size());
+
+		// no need to check for invalid parameters as it is a private method
+	}
+	
+	@Test
+	public void testEditSubmission() throws Exception {
+
+		restoreTypicalDataInDatastore();
+		Logic logic = new Logic();
+
+		String methodName = "editSubmission";
+		Class<?>[] paramTypes = new Class<?>[] { SubmissionAttributes.class };
+		SubmissionAttributes s = new SubmissionAttributes();
+		s.course = "idOfTypicalCourse1";
+		s.evaluation = "evaluation1 In Course1";
+		s.reviewee = "student1InCourse1@gmail.com";
+		s.reviewer = "student1InCourse1@gmail.com";
+		Object[] params = new Object[] { s };
+
+		// ensure the evaluation is open
+		loginAsAdmin("admin.user");
+		EvaluationAttributes evaluation = logic.getEvaluation(s.course, s.evaluation);
+//		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
+//		logoutUser();
+
+
+
+		// close the evaluation
+//		loginAsAdmin("admin.user");
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		backDoorLogic.editEvaluation(evaluation);
+		logoutUser();
+
+		// verify reviewer cannot edit anymore but instructor can
+
 
 		______TS("typical case");
 
 		restoreTypicalDataInDatastore();
-		DataBundle dataBundle = getTypicalDataBundle();
 
-		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-		EvaluationAttributes evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1");
-		EvaluationAttributes evaluation2 = dataBundle.evaluations
-				.get("evaluation2InCourse1");
-		StudentAttributes student = dataBundle.students.get("student1InCourse1");
+		SubmissionAttributes sub1 = dataBundle.submissions
+				.get("submissionFromS1C1ToS2C1");
 
-		invokeAddSubmissionsForIncomingMember(course.id,
-				evaluation1.name, "incoming@student.com", student.team);
+		LogicTest.alterSubmission(sub1);
 
-		// We have a 5-member team and a 1-member team.
-		// Therefore, we expect (5*5)+(1*1)=26 submissions.
-		List<SubmissionAttributes> submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
-		assertEquals(26, submissions.size());
-		
-		// Check the same for the other evaluation, to detect any state leakage
-		invokeAddSubmissionsForIncomingMember(course.id,
-				evaluation2.name, "incoming@student.com", student.team);
-		submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
-		assertEquals(26, submissions.size());
-		
-		______TS("moving to new team");
-		
-		invokeAddSubmissionsForIncomingMember(course.id,
-				evaluation1.name, "incoming@student.com", "new team");
-		//There should be one more submission now.
-		submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
-		assertEquals(27, submissions.size());
-		
-		// Check the same for the other evaluation
-		invokeAddSubmissionsForIncomingMember(course.id,
-				evaluation2.name, "incoming@student.com", "new team");
-		//There should be one more submission now.
-		submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
-		assertEquals(27, submissions.size());
+		submissionsLogic.updateSubmission(sub1);
 
-		//TODO: test invalid inputs
+		LogicTest.verifyPresentInDatastore(sub1);
+
+		______TS("null parameter");
+		
+		// private method, not tested.
+
+		______TS("non-existent evaluation");
+
+		sub1.evaluation = "non-existent";
+		
+		try {
+			submissionsLogic.updateSubmission(sub1);
+			Assert.fail();
+		} catch (EntityDoesNotExistException e) {
+			//expected.
+		}
 
 	}
+
 	
-	private void invokeAddSubmissionsForIncomingMember(String courseId,
-			String evaluationName, String studentEmail, String newTeam)throws Exception {
-		Method privateMethod = EvaluationsLogic.class.getDeclaredMethod(
-				"addSubmissionsForIncomingMember", new Class[] { String.class,
-						String.class, String.class, String.class });
+	@SuppressWarnings("unchecked")
+	private static HashMap<String, SubmissionAttributes> invokeGetSubmissionsForEvaluation(
+			String courseId, String evaluationName) throws Exception {
+		Method privateMethod = SubmissionsLogic.class.getDeclaredMethod(
+				"getSubmissionsForEvaluationAsMap", new Class[] { String.class,
+						String.class });
 		privateMethod.setAccessible(true);
-		Object[] params = new Object[] {courseId,
-				 evaluationName,  studentEmail, newTeam };
-		privateMethod.invoke(EvaluationsLogic.inst(), params);
+		Object[] params = new Object[] { courseId, evaluationName };
+		return (HashMap<String, SubmissionAttributes>) privateMethod.invoke(SubmissionsLogic.inst(),
+				params);
 	}
-	
 	
 	
 	@AfterClass()

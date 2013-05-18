@@ -74,6 +74,8 @@ public class AccountAttributes extends EntityAttributes {
 		return new Account(googleId, name, isInstructor, email, institute);
 	}
 	
-	//TODO: implement toString method
+	public String toString(){
+		return Common.getTeammatesGson().toJson(this, AccountAttributes.class);
+	}
 	
 }

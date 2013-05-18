@@ -1,5 +1,7 @@
 package teammates.logic;
 
+import java.util.List;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -244,6 +246,23 @@ public class GateKeeper {
 				&& isEvaluationOpen(submission.course, submission.evaluation))
 			return;
 		throw new UnauthorizedAccessException();
+	}
+
+	public void verifySubmissionsEditableForUser(List<SubmissionAttributes> submissions) {
+		for(SubmissionAttributes s: submissions){
+			//repeating the code below (from verifySubmissionEditableForUser).
+			// Otherwise, it will be considered an internal call.
+			if (isInternalCall())
+				return;
+			if (isAdministrator())
+				return;
+			if (isInstructorOfCourse(s.course))
+				return;
+			if (isOwnEmail(s.course, s.reviewer)
+					&& isEvaluationOpen(s.course, s.evaluation))
+				return;
+			throw new UnauthorizedAccessException();
+		}
 	}
 
 	public void verfyCourseOwner_OR_EmailOwnerAndPublished(String courseId,

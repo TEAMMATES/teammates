@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
+
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -27,6 +29,7 @@ public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 		String url = getRequestedURL(req); 
         
 		HashMap<String, CourseDetailsBundle> courses = helper.server.getCourseDetailsListForInstructor(helper.userId);
+		
 		helper.courses = new ArrayList<CourseDetailsBundle>(courses.values());
 		sortDetailedCourses(helper.courses);
 		for(CourseDetailsBundle course: helper.courses){

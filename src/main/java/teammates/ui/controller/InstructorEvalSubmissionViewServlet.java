@@ -42,7 +42,7 @@ public class InstructorEvalSubmissionViewServlet extends ActionServlet<Instructo
 		}
 		
 		try {
-			helper.student = helper.server.getStudent(courseID, studentEmail);
+			helper.student = helper.server.getStudentForEmail(courseID, studentEmail);
 			helper.evaluationResults = new EvaluationResultsBundle();
 			helper.evaluationResults.evaluation = helper.server.getEvaluation(courseID, evalName);
 			helper.result = helper.server.getEvaluationResultForStudent(courseID, evalName, studentEmail);

@@ -1,6 +1,7 @@
 package teammates.logic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,11 +11,8 @@ import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.api.AccountsDb;
-import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.SubmissionsDb;
 
 import com.google.appengine.api.datastore.Text;
@@ -36,6 +34,7 @@ public class SubmissionsLogic {
 	private static final Logger log = Common.getLogger();
 
 	private static final SubmissionsDb submissionsDb = new SubmissionsDb();
+	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
 	public static SubmissionsLogic inst() {
 		if (instance == null){
@@ -61,14 +60,55 @@ public class SubmissionsLogic {
 	public List<SubmissionAttributes> getSubmissionsForEvaluation(String courseId,String evaluationName) {
 		return submissionsDb.getSubmissionsForEvaluation(courseId, evaluationName);
 	}
+	
+	public HashMap<String, SubmissionAttributes> getSubmissionsForEvaluationAsMap(
+			String courseId, String evaluationName){
+
+		List<SubmissionAttributes> submissionsList = getSubmissionsForEvaluation(courseId, evaluationName);
+
+		HashMap<String, SubmissionAttributes> submissionDataList = new HashMap<String, SubmissionAttributes>();
+		for (SubmissionAttributes sd : submissionsList) {
+			submissionDataList.put(sd.reviewer + "->" + sd.reviewee, sd);
+		}
+		return submissionDataList;
+	}
 
 	public List<SubmissionAttributes> getSubmissionsFromEvaluationFromStudent(String courseId, String evaluationName, String reviewerEmail) {
 		return submissionsDb.getSubmissionsForEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
 	}
 
 	public List<SubmissionAttributes> getSubmissionsForEvaluationFromStudent(
-			String course, String name, String email) {
-		return submissionsDb.getSubmissionsForEvaluationFromStudent(course, name, email);
+			String courseId, String evaluationName, String reviewerEmail) {
+		
+		List<SubmissionAttributes> submissions = getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
+
+		StudentAttributes student = studentsLogic.getStudentForEmail(courseId, reviewerEmail);
+		ArrayList<SubmissionAttributes> returnList = new ArrayList<SubmissionAttributes>();
+		for (SubmissionAttributes sd : submissions) {
+			StudentAttributes reviewee = studentsLogic.getStudentForEmail(courseId, sd.reviewee);
+			if (!isOrphanSubmission(student, reviewee, sd)) {
+				sd.reviewerName = student.name;
+				sd.revieweeName = reviewee.name;
+				returnList.add(sd);
+			}
+		}
+		return returnList;
+	}
+
+	public boolean hasStudentSubmittedEvaluation(
+			String courseId, String evaluationName, String studentEmail) {
+		List<SubmissionAttributes> submissions = null;
+		
+		submissions = getSubmissionsForEvaluationFromStudent(
+				courseId, evaluationName, studentEmail);
+	
+		for (SubmissionAttributes sd : submissions) {
+			if (sd.points != Common.POINTS_NOT_SUBMITTED) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	public void updateSubmission(SubmissionAttributes submission) 
@@ -90,41 +130,6 @@ public class SubmissionsLogic {
 		
 	}
 
-	/**
-	 * Adjusts submissions for a student moving from one team to another.
-	 * Deletes existing submissions for original team and creates empty
-	 * submissions for the new team, in all existing submissions, including
-	 * CLOSED and PUBLISHED ones.
-	 */
-	public void adjustSubmissionsForChangingTeam(String courseId,
-			String studentEmail, String originalTeam, String newTeam) {
-		
-		List<EvaluationAttributes> evaluationDataList = 
-				EvaluationsLogic.inst().getEvaluationsForCourse(courseId);
-		
-		submissionsDb.deleteAllSubmissionsForStudent(courseId, studentEmail);
-		
-		for (EvaluationAttributes ed : evaluationDataList) {
-			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, newTeam);
-		}
-	}
-
-	/**
-	 * Adjusts submissions for a student adding a new student to a course.
-	 * Creates empty submissions for the new team, in all existing submissions,
-	 * including CLOSED and PUBLISHED ones.
-	 * 
-	 */
-	public void adjustSubmissionsForNewStudent(String courseId,
-			String studentEmail, String team) {
-		
-		List<EvaluationAttributes> evaluationDataList = 
-				EvaluationsLogic.inst().getEvaluationsForCourse(courseId);
-		
-		for (EvaluationAttributes ed : evaluationDataList) {
-			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, team);
-		}
-	}
 
 	public void deleteAllSubmissionsForStudent(String courseId, String studentEmail) {
 		submissionsDb.deleteAllSubmissionsForStudent(courseId, studentEmail);
@@ -141,59 +146,24 @@ public class SubmissionsLogic {
 		submissionsDb.deleteAllSubmissionsForEvaluation(courseId, evaluationName);
 		
 	}
-
-	private void addSubmissionsForIncomingMember(
-			String courseId, String evaluationName, String studentEmail, String newTeam) {
 	
-		List<String> students = getExistingStudentsInTeam(courseId, newTeam);
-	
-		// add self evaluation 
-		List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
-		
-		SubmissionAttributes submissionToAdd = new SubmissionAttributes(courseId,
-				evaluationName, newTeam, studentEmail, studentEmail);
-		submissionToAdd.p2pFeedback = new Text("");
-		submissionToAdd.justification = new Text("");
-		listOfSubmissionsToAdd.add(submissionToAdd);
-		
-		//remove self from list
-		students.remove(studentEmail);
-	
-		// add submission to/from peers
-		for (String peer : students) {
-	
-			// To
-			submissionToAdd = new SubmissionAttributes(courseId, evaluationName,
-					newTeam, peer, studentEmail);
-			submissionToAdd.p2pFeedback = new Text("");
-			submissionToAdd.justification = new Text("");
-			listOfSubmissionsToAdd.add(submissionToAdd);
-	
-			// From
-			submissionToAdd = new SubmissionAttributes(courseId, evaluationName,
-					newTeam, studentEmail, peer);
-			submissionToAdd.p2pFeedback = new Text("");
-			submissionToAdd.justification = new Text("");
-			listOfSubmissionsToAdd.add(submissionToAdd);
+	/**
+	 * Returns true if either of the three objects is null or if the team in
+	 * submission is different from those in two students.
+	 */
+	private boolean isOrphanSubmission(StudentAttributes reviewer,
+			StudentAttributes reviewee, SubmissionAttributes submission) {
+		if ((reviewer == null) || (reviewee == null) || (submission == null)) {
+			return true;
 		}
-		
-		submissionsDb.createSubmissions(listOfSubmissionsToAdd);
+		if (!submission.team.equals(reviewer.team)) {
+			return true;
+		}
+		if (!submission.team.equals(reviewee.team)) {
+			return true;
+		}
+		return false;
 	}
 
-	private List<String> getExistingStudentsInTeam(String courseId, String team) {
-		
-		Set<String> students = new HashSet<String>();
-		
-		List<SubmissionAttributes> submissionsDataList = 
-				submissionsDb.getSubmissionsForCourse(courseId);
-		
-		for (SubmissionAttributes s : submissionsDataList) {
-			if (s.team.equals(team)) {
-				students.add(s.reviewer);
-			}
-		}
-		
-		return new ArrayList<String>(students);
-	}
 
 }

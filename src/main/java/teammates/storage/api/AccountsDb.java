@@ -128,7 +128,9 @@ public class AccountsDb {
 	public void updateAccount(AccountAttributes a) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, a);
 		Assumption.assertTrue(
-				"Invalid object received as a parameter" + a.getInvalidStateInfo().toString(),
+				"Invalid object received as a parameter when updating account: " 
+						+ a.getInvalidStateInfo().toString() 
+						+ "\n" + "values received :\n"+ a.toString(),
 				a.isValid());
 		
 		Account accountToUpdate = getAccountEntity(a.googleId);

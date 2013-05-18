@@ -1,11 +1,13 @@
 package teammates.logic;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.InstructorsDb;
 
@@ -22,12 +24,15 @@ public class InstructorsLogic {
 	
 	//TODO: add sanitization to this class.
 	
-	private static InstructorsLogic instance = null;
+	public static final String ERROR_NO_INSTRUCTOR_LINES = "Course must have at lease one instructor\n";
+	
 	private static final InstructorsDb instructorsDb = new InstructorsDb();
+	private static final AccountsLogic accountsLogic = AccountsLogic.inst();
 	
 	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();
 	
+	private static InstructorsLogic instance = null;
 	public static InstructorsLogic inst() {
 		if (instance == null)
 			instance = new InstructorsLogic();
@@ -42,8 +47,19 @@ public class InstructorsLogic {
 		googleId = AccountsLogic.sanitizeGoogleId(googleId);
 		
 		InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
+		
+		createInstructor(instructorToAdd);
+	}
+
+	public void createInstructor(InstructorAttributes instructorToAdd) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		
+		log.info("going to create instructor :\n"+instructorToAdd.toString());
+		
 		if (!instructorToAdd.isValid()) {
-			throw new InvalidParametersException(instructorToAdd.getInvalidStateInfo());
+			throw new InvalidParametersException("Invalid parameter detected while adding instructor :"
+														+instructorToAdd.getInvalidStateInfo()
+														+ "values received :\n"+ instructorToAdd.toString());
 		}
 	
 		instructorsDb.createInstructor(instructorToAdd);
@@ -77,6 +93,14 @@ public class InstructorsLogic {
 	public boolean isInstructorOfCourse(String instructorId, String courseId) {
 		return instructorsDb.getInstructorForGoogleId(courseId, instructorId)!=null;
 	}
+	
+	public void verifyInstructorExists(String instructorId)
+			throws EntityDoesNotExistException {
+		if (!accountsLogic.isAccountAnInstructor(instructorId)) {
+			throw new EntityDoesNotExistException("Instructor does not exist :"
+					+ instructorId);
+		}
+	}
 
 	public void updateInstructor(InstructorAttributes instructor) 
 			throws InvalidParametersException {
@@ -84,6 +108,69 @@ public class InstructorsLogic {
 			throw new InvalidParametersException(instructor.getInvalidStateInfo());
 		}
 		instructorsDb.updateInstructor(instructor);
+	}
+
+	public void updateCourseInstructors(
+			String courseId, String instructorLines, String courseInstitute) 
+					throws InvalidParametersException {
+		
+		// Prepare the list to be updated
+		List<InstructorAttributes> instructorsList = 
+				parseInstructorLines(courseId, instructorLines);
+	
+		// Retrieve the current list of instructors
+		// Remove those that are not in the list and persist the new ones
+		// Edit the ones that are found in both lists
+		List<InstructorAttributes> currentInstructors = getInstructorsForCourse(courseId);
+	
+		List<InstructorAttributes> toAdd = new ArrayList<InstructorAttributes>();
+		List<InstructorAttributes> toRemove = new ArrayList<InstructorAttributes>();
+		List<InstructorAttributes> toEdit = new ArrayList<InstructorAttributes>();
+	
+		// Find new names
+		for (InstructorAttributes id : instructorsList) {
+			boolean found = false;
+			for (InstructorAttributes currentInstructor : currentInstructors) {
+				if (id.googleId.equals(currentInstructor.googleId)) {
+					toEdit.add(id);
+					found = true;
+				}
+			}
+			if (!found) {
+				toAdd.add(id);
+			}
+		}
+	
+		// Find lost names
+		for (InstructorAttributes currentInstructor : currentInstructors) {
+			boolean found = false;
+			for (InstructorAttributes id : instructorsList) {
+				if (id.googleId.equals(currentInstructor.googleId)) {
+					found = true;
+				}
+			}
+			if (!found) {
+				toRemove.add(currentInstructor);
+			}
+		}
+	
+		// Operate on each of the lists respectively
+		for (InstructorAttributes add : toAdd) {
+			try {
+				accountsLogic.createInstructorAccount(add.googleId, courseId,
+						add.name, add.email, courseInstitute);
+			} catch (EntityAlreadyExistsException e) {
+				// This should happens when a row was accidentally entered twice
+				// When that happens we continue silently
+			}
+		}
+		for (InstructorAttributes remove : toRemove) {
+			deleteInstructor(remove.courseId, remove.googleId);
+		}
+		for (InstructorAttributes edit : toEdit) {
+			updateInstructor(edit);
+		}
+	
 	}
 
 	public void deleteInstructor(String courseId, String googleId) {
@@ -94,6 +181,30 @@ public class InstructorsLogic {
 		instructorsDb.deleteInstructorsForGoogleId(googleId);
 	}
 
+	public void deleteInstructorsForCourse(String courseId) {
+		instructorsDb.deleteInstructorsForCourse(courseId);
+	}
 
+
+	private List<InstructorAttributes> parseInstructorLines(String courseId, String instructorLines) 
+			throws InvalidParametersException {
+		String[] linesArray = instructorLines.split(Common.EOL);
+		
+		// check if all non-empty lines are formatted correctly
+		List<InstructorAttributes> instructorsList = new ArrayList<InstructorAttributes>();
+		for (int i = 0; i < linesArray.length; i++) {
+			String information = linesArray[i];
+			if (Common.isWhiteSpace(information)) {
+				continue;
+			}
+			instructorsList.add(new InstructorAttributes(courseId, information));
+		}
+		
+		if (instructorsList.size() < 1) {
+			throw new InvalidParametersException(ERROR_NO_INSTRUCTOR_LINES);
+		}
+		
+		return instructorsList;
+	}
 
 }

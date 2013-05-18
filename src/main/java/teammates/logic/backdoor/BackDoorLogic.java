@@ -129,7 +129,7 @@ public class BackDoorLogic extends Logic {
 	}
 
 	public String getStudentAsJson(String courseId, String email) {
-		StudentAttributes student = getStudent(courseId, email);
+		StudentAttributes student = getStudentForEmail(courseId, email);
 		return Common.getTeammatesGson().toJson(student);
 	}
 
@@ -171,7 +171,7 @@ public class BackDoorLogic extends Logic {
 				submissionJson, SubmissionAttributes.class);
 		ArrayList<SubmissionAttributes> submissionList = new ArrayList<SubmissionAttributes>();
 		submissionList.add(submission);
-		editSubmissions(submissionList);
+		updateSubmissions(submissionList);
 	}
 	
 	public ArrayList<MimeMessage> activateReadyEvaluations() {
@@ -250,5 +250,12 @@ public class BackDoorLogic extends Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
 		coursesLogic.createCourse(courseId, courseName);
+	}
+
+	protected SubmissionAttributes getSubmission(
+			String courseId, String evaluationName, String reviewerEmail, String revieweeEmail) {
+				
+		return submissionsLogic.getSubmission(
+				courseId, evaluationName, revieweeEmail, reviewerEmail);
 	}
 }

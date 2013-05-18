@@ -51,8 +51,12 @@ public class AccountsLogic {
 		accountToAdd.email = email;
 		accountToAdd.institute = institute;
 		
+		log.info("going to create account :\n"+accountToAdd.toString());
+		
 		if (!accountToAdd.isValid()) {
-			throw new InvalidParametersException(accountToAdd.getInvalidStateInfo());
+			throw new InvalidParametersException("Invalid parameter detected while adding account :" 
+						+ accountToAdd.getInvalidStateInfo() + "\n" 
+						+ "values received :\n"+ accountToAdd.toString());
 		}
 		accountsDb.createAccount(accountToAdd);
 	}
@@ -88,6 +92,18 @@ public class AccountsLogic {
 
 	public List<AccountAttributes> getInstructorAccounts() {
 		return accountsDb.getInstructorAccounts();
+	}
+	
+	public String getCourseInstitute(String courseId) {
+		CourseAttributes cd = new CoursesLogic().getCourse(courseId);
+		List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.id);
+		
+		Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
+		// Retrieve institute field from the first instructor of the course
+		AccountAttributes instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
+		
+		Assumption.assertNotNull("Instructor has no account: " + instructorList.get(0).googleId, instructorAcc);
+		return instructorAcc.institute;
 	}
 
 	public void updateAccount(AccountAttributes account) throws InvalidParametersException {
@@ -148,10 +164,12 @@ public class AccountsLogic {
 	}
 
 	public void makeAccountInstructor(String googleId) {
+		
 		AccountAttributes account = accountsDb.getAccount(googleId);
+		
 		if (account != null) {
-		account.isInstructor = true;
-		accountsDb.updateAccount(account);
+			account.isInstructor = true;
+			accountsDb.updateAccount(account);
 		} else {
 			log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId );
 		}
@@ -183,18 +201,6 @@ public class AccountsLogic {
 		account.isInstructor = false;
 		account.institute = getCourseInstitute(student.course);
 		accountsDb.createAccount(account);
-	}
-	
-	private String getCourseInstitute(String courseId) {
-		CourseAttributes cd = new CoursesLogic().getCourse(courseId);
-		List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.id);
-		
-		Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
-		// Retrieve institute field from the first instructor of the course
-		AccountAttributes instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
-		
-		Assumption.assertNotNull("Instructor has no account: " + instructorList.get(0).googleId, instructorAcc);
-		return instructorAcc.institute;
 	}
 
 
