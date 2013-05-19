@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -24,8 +25,8 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
         
 		try{
 			helper.courses = helper.server.getCourseDetailsListForStudent(helper.userId);
-			sortCourses(helper.courses);
-			for(CourseData course: helper.courses){
+			sortDetailedCourses(helper.courses);
+			for(CourseDetailsBundle course: helper.courses){
 				sortEvaluationsByDeadline(course.evaluations);
 			}
 			
@@ -44,7 +45,7 @@ public class StudentHomeServlet extends ActionServlet<StudentHomeHelper> {
 					true, helper, url, data);
 			
 		} catch (EntityDoesNotExistException e){
-			helper.courses = new ArrayList<CourseData>();
+			helper.courses = new ArrayList<CourseDetailsBundle>();
 			if (helper.statusMessage == null){
 				helper.statusMessage = Common.MESSAGE_STUDENT_FIRST_TIME;
 			}

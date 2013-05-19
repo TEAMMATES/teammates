@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -36,7 +36,7 @@ public class InstructorCourseStudentEditServlet extends
 		String teamName = req.getParameter(Common.PARAM_TEAM_NAME);
 		String comments = req.getParameter(Common.PARAM_COMMENTS);
 
-		helper.student = helper.server.getStudent(courseID, studentEmail);
+		helper.student = helper.server.getStudentForEmail(courseID, studentEmail);
 		helper.regKey = helper.server.getKeyForStudent(courseID, studentEmail);
 
 		if (submit) {
@@ -45,7 +45,7 @@ public class InstructorCourseStudentEditServlet extends
 			helper.student.team = teamName;
 			helper.student.comments = comments;
 			try {
-				helper.server.editStudent(studentEmail, helper.student);
+				helper.server.updateStudent(studentEmail, helper.student);
 				helper.statusMessage = Common.MESSAGE_STUDENT_EDITED;
 				helper.redirectUrl = helper.getInstructorCourseDetailsLink(courseID);
 				
@@ -111,7 +111,7 @@ public class InstructorCourseStudentEditServlet extends
 		String message;
 		
 		try {
-			StudentData student = (StudentData)data.get(1);
+			StudentAttributes student = (StudentAttributes)data.get(1);
 			message = "Student <span class=\"bold\">" + student.name + "'s</span> details in Course <span class=\"bold\">[" + (String)data.get(0) + "]</span> edited.<br>";
 			message += "New Email: " + student.email + "<br>New Team: " + student.team + "<br>Comments: " + student.comments;
 		} catch (NullPointerException e){

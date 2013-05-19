@@ -3,14 +3,15 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 
 public class InstructorCourseDetailsHelper extends Helper{
-	public CourseData course;
-	public List<StudentData> students;
-	public List<InstructorData> instructors;
+	public CourseDetailsBundle courseDetails;
+	public List<StudentAttributes> students;
+	public List<InstructorAttributes> instructors;
 	
 	/**
 	 * Returns the status of the student, whether he has joined the course.
@@ -19,7 +20,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 * @param student
 	 * @return
 	 */
-	public String status(StudentData student){
+	public String status(StudentAttributes student){
 		if(student.id == null || student.id.equals("")){
 			return Common.STUDENT_STATUS_YET_TO_JOIN;
 		} else {
@@ -35,7 +36,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 */
 	public String getInstructorCourseRemindLink(){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = processMasquerade(link);
 		return link;
 	}
@@ -46,9 +47,9 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 * @param student
 	 * @return
 	 */
-	public String getCourseStudentDetailsLink(StudentData student){
+	public String getCourseStudentDetailsLink(StudentAttributes student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
@@ -60,9 +61,9 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 * @param student
 	 * @return
 	 */
-	public String getCourseStudentEditLink(StudentData student){
+	public String getCourseStudentEditLink(StudentAttributes student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
@@ -74,9 +75,9 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 * @param student
 	 * @return
 	 */
-	public String getCourseStudentRemindLink(StudentData student){
+	public String getCourseStudentRemindLink(StudentAttributes student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;
@@ -88,9 +89,9 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 * @param student
 	 * @return
 	 */
-	public String getCourseStudentDeleteLink(StudentData student){
+	public String getCourseStudentDeleteLink(StudentAttributes student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,course.id);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = processMasquerade(link);
 		return link;

@@ -5,12 +5,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvalResultData;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.EvaluationResultsBundle;
+import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.SubmissionAttributes;
 
 public class InstructorEvalResultsHelper extends Helper{
-	public EvaluationData evaluation;
+	public EvaluationResultsBundle evaluationResults;
 	
 	/**
 	 * Returns the forward URL, which will be current page
@@ -18,8 +18,8 @@ public class InstructorEvalResultsHelper extends Helper{
 	 */
 	public String getForwardURL(){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,evaluation.course);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME, evaluation.name);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,evaluationResults.evaluation.course);
+		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME, evaluationResults.evaluation.name);
 		if(isMasqueradeMode()){
 			link = Common.addParamToUrl(link,Common.PARAM_USER_ID,requestedUser);
 		}
@@ -107,9 +107,9 @@ public class InstructorEvalResultsHelper extends Helper{
 	 * @param sub
 	 * @return
 	 */
-	public static String printDiff(EvalResultData sub){
-		int claimed = sub.claimedToInstructor;
-		int perceived = sub.perceivedToInstructor;
+	public static String printDiff(StudentResultBundle sub){
+		int claimed = sub.summary.claimedToInstructor;
+		int perceived = sub.summary.perceivedToInstructor;
 		int diff = perceived - claimed;
 		if(perceived==Common.POINTS_NOT_SUBMITTED || perceived==Common.UNINITIALIZED_INT
 				|| claimed==Common.POINTS_NOT_SUBMITTED || claimed==Common.UNINITIALIZED_INT){
@@ -131,7 +131,7 @@ public class InstructorEvalResultsHelper extends Helper{
 	 * @param sub
 	 * @return
 	 */
-	public static String printJustification(SubmissionData sub){
+	public static String printJustification(SubmissionAttributes sub){
 		if(sub.justification==null || sub.justification.getValue()==null
 				|| sub.justification.getValue().equals(""))
 			return "N/A";
@@ -145,19 +145,19 @@ public class InstructorEvalResultsHelper extends Helper{
 	 * @param subs
 	 * @return
 	 */
-	public static String getPointsList(List<SubmissionData> subs, final boolean normalized){
+	public static String getPointsList(List<SubmissionAttributes> subs, final boolean normalized){
 		//TODO: remove boolean variable and have two different variations of the method?
 		String result = "";
-		Collections.sort(subs, new Comparator<SubmissionData>(){
+		Collections.sort(subs, new Comparator<SubmissionAttributes>(){
 			@Override
-			public int compare(SubmissionData s1, SubmissionData s2){
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
 				if(normalized)
 					return Integer.valueOf(s2.normalizedToInstructor).compareTo(s1.normalizedToInstructor);
 				else
 					return Integer.valueOf(s2.points).compareTo(s1.points);
 			}
 		});
-		for(SubmissionData sub: subs){
+		for(SubmissionAttributes sub: subs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
 			if(normalized){

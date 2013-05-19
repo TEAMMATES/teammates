@@ -8,7 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 
@@ -65,11 +65,11 @@ public class InstructorCourseEnrollServlet extends
 			throws EnrollException, EntityDoesNotExistException {
 		if (studentsInfo == null)
 			return;
-		List<StudentData> students = helper.server.enrollStudents(studentsInfo,
+		List<StudentAttributes> students = helper.server.enrollStudents(studentsInfo,
 				helper.courseID);
-		Collections.sort(students, new Comparator<StudentData>() {
+		Collections.sort(students, new Comparator<StudentAttributes>() {
 			@Override
-			public int compare(StudentData o1, StudentData o2) {
+			public int compare(StudentAttributes o1, StudentAttributes o2) {
 				return (o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation);
 			}
 		});
@@ -80,14 +80,14 @@ public class InstructorCourseEnrollServlet extends
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<StudentData>[] separateStudents(List<StudentData> students) {
+	private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
 		if (students == null)
-			return (List<StudentData>[]) new List[6];
-		List<StudentData>[] lists = (List<StudentData>[]) new List[6];
+			return (List<StudentAttributes>[]) new List[6];
+		List<StudentAttributes>[] lists = (List<StudentAttributes>[]) new List[6];
 		int prevIdx = 0;
 		int nextIdx = 0;
 		int id = 0;
-		for (StudentData student : students) {
+		for (StudentAttributes student : students) {
 			if (student.comments == null)
 				student.comments = "";
 			if (student.team == null)

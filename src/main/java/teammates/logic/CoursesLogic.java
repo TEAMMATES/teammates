@@ -1,164 +1,195 @@
 package teammates.logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.mail.internet.MimeMessage;
+
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.StudentData;
-import teammates.storage.api.AccountsDb;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.CoursesDb;
 
 /**
- * Courses handles all operations related to a Teammates course. This is a
- * static class (singleton).
- * 
+ * Handles  operations related to courses.
  */
 public class CoursesLogic {
+	//The API of this class doesn't have header comments because it sits behind
+	//  the API of the logic class. Those who use this class is expected to be
+	//  familiar with the its code and Logic's code. Hence, no need for header 
+	//  comments.
+	
 	private static CoursesLogic instance = null;
 	private static final Logger log = Common.getLogger();
 
 	private static final CoursesDb coursesDb = new CoursesDb();
-	private static final AccountsDb accountsDb = new AccountsDb();
+	
+	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+	private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+	
+	//TODO: remove this dependency to AccountsLogic
+	private static final AccountsLogic accountsLogic = AccountsLogic.inst();
 
-	/**
-	 * Retrieve singleton instance of CoursesStorage
-	 * 
-	 * @return CoursesStorage
-	 */
+	
 	public static CoursesLogic inst() {
 		if (instance == null)
 			instance = new CoursesLogic();
 		return instance;
 	}
 
-	/**
-	 * Atomically deletes a Course object, along with all the Student objects
-	 * that belong to the course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 */
-	public void deleteCourse(String courseId) {
+	public void createCourse(String courseId, String courseName) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName);
+	
+		coursesDb.createCourse(courseToAdd);
+	}
+	
+	public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		createCourse(courseId, courseName);
+		
+		
+		AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
 
-		accountsDb.deleteAllStudentsInCourse(courseId);
-		accountsDb.deleteInstructorsByCourseId(courseId);
-		coursesDb.deleteCourse(courseId);
-
+		Assumption.assertNotNull(
+				"Trying to create a course for a person who doesn't have instructor privileges :"+ instructorGoogleId, 
+				courseCreator);
+		
+		InstructorAttributes instructor = new InstructorAttributes();
+		instructor.googleId = instructorGoogleId;
+		instructor.courseId = courseId;
+		instructor.email = courseCreator.email;
+		instructor.name = courseCreator.name;
+		
+		instructorsLogic.createInstructor(instructor);
+		//TODO: Handle the orphan course in case instructor cannot be created
 	}
 
-	public HashMap<String, CourseData> getCourseSummaryListForInstructor(String instructorId) {
-		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
+	public CourseAttributes getCourse(String courseId) {
+		return coursesDb.getCourse(courseId);
+	}
+
+	public boolean isCoursePresent(String courseId) {
+		return coursesDb.getCourse(courseId) != null;
+	}
+	
+	public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
+		if (!isCoursePresent(courseId)){
+			throw new EntityDoesNotExistException("Course does not exist :"+courseId);
+		}
+	}
+
+	public CourseDetailsBundle getCourseDetails(String courseId) 
+			throws EntityDoesNotExistException {
+		CourseDetailsBundle courseSummary = getCourseSummary(courseId);
+
+		ArrayList<EvaluationDetailsBundle> evaluationList = 
+				evaluationsLogic.getEvaluationsDetailsForCourse(courseSummary.course.id);
 		
-		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
-		for (InstructorData id : instructorDataList) {
-			CourseData cd = coursesDb.getCourse(id.courseId);
+		for (EvaluationDetailsBundle edd : evaluationList) {
+			courseSummary.evaluations.add(edd);
+		}
+
+		return courseSummary;
+	}
+
+	public List<CourseDetailsBundle> getCourseDetailsListForStudent(
+			String googleId) throws EntityDoesNotExistException {
+		
+		List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
+		List<CourseDetailsBundle> courseDetailsList = new ArrayList<CourseDetailsBundle>();
+	
+		for (CourseAttributes c : courseList) {
+
+			List<EvaluationAttributes> evaluationDataList = evaluationsLogic
+					.getEvaluationsForCourse(c.id);
+	
+			CourseDetailsBundle cdd = new CourseDetailsBundle(c);
 			
-			if (cd == null) {
-				Assumption.fail("INSTRUCTOR RELATION EXISTED, BUT COURSE WAS NOT FOUND: " + instructorId + ", " + id.courseId);
+			for (EvaluationAttributes ed : evaluationDataList) {
+				EvaluationDetailsBundle edd = new EvaluationDetailsBundle(ed);
+				log.fine("Adding evaluation " + ed.name + " to course " + c.id);
+				if (ed.getStatus() != EvalStatus.AWAITING) {
+					cdd.evaluations.add(edd);
+				}
 			}
-			
-			cd.teamsTotal = getNumberOfTeams(cd.id);
-			cd.studentsTotal = getTotalStudents(cd.id);
-			cd.unregisteredTotal = getUnregistered(cd.id);
-			courseSummaryList.put(cd.id, cd);
+			courseDetailsList.add(cdd);
+		}
+		return courseDetailsList;
+	}
+
+	public CourseDetailsBundle getTeamsForCourse(String courseId) 
+			throws EntityDoesNotExistException {
+		
+		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+		StudentAttributes.sortByTeamName(students);
+	
+		CourseAttributes course = getCourse(courseId);
+	
+		if (course == null) {
+			throw new EntityDoesNotExistException("The course " + courseId
+					+ " does not exist");
 		}
 		
-		return courseSummaryList;
-	}
+		CourseDetailsBundle cdd = new CourseDetailsBundle(course);
 	
-	// TODO: To be modified to handle API for retrieve paginated results of Courses
-	public HashMap<String, CourseData> getCourseSummaryListForInstructor(String instructorId, long lastRetrievedTime, int numberToRetrieve) {
-		List<InstructorData> instructorDataList = accountsDb.getInstructorsByGoogleId(instructorId);
-		
-		int count = 0;
-		HashMap<String, CourseData> courseSummaryList = new HashMap<String, CourseData>();
-		for (InstructorData id : instructorDataList) {
-			CourseData cd = coursesDb.getCourse(id.courseId);
-
-			if (cd == null) {
-				Assumption.fail("INSTRUCTOR RELATION EXISTED, BUT COURSE WAS NOT FOUND: " + instructorId + ", " + id.courseId);
+		TeamDetailsBundle team = null;
+		for (int i = 0; i < students.size(); i++) {
+	
+			StudentAttributes s = students.get(i);
+	
+			// if loner
+			if (s.team.equals("")) {
+				cdd.loners.add(s);
+				// first student of first team
+			} else if (team == null) {
+				team = new TeamDetailsBundle();
+				team.name = s.team;
+				team.students.add(s);
+				// student in the same team as the previous student
+			} else if (s.team.equals(team.name)) {
+				team.students.add(s);
+				// first student of subsequent teams (not the first team)
+			} else {
+				cdd.teams.add(team);
+				team = new TeamDetailsBundle();
+				team.name = s.team;
+				team.students.add(s);
 			}
-			//System.out.println(cd.createdAt + ", " + (new Date(lastRetrievedTime)));
-			if (cd.createdAt.before(new Date(lastRetrievedTime))) {
-				// Discard
-				continue;
-			}
-			
-			cd.teamsTotal = getNumberOfTeams(cd.id);
-			cd.studentsTotal = getTotalStudents(cd.id);
-			cd.unregisteredTotal = getUnregistered(cd.id);
-			courseSummaryList.put(cd.id, cd);
-			
-			if (++count >= numberToRetrieve) {
-				break;
+	
+			// if last iteration
+			if (i == (students.size() - 1)) {
+				cdd.teams.add(team);
 			}
 		}
-		
-		return courseSummaryList;
-	}
 	
-	// New function for schema which makes course higher in heirarchy over instructor
-	public CourseData getCourseSummary(String courseId) {
-		CourseData cd = coursesDb.getCourse(courseId);
-		
-		if (cd == null)
-			return null;
-		
-		cd.teamsTotal = getNumberOfTeams(cd.id);
-		cd.studentsTotal = getTotalStudents(cd.id);
-		cd.unregisteredTotal = getUnregistered(cd.id);
-		return cd;
-	}
-	
-	/**
-	 * Returns the Institue string which the specified Course belongs to
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must be valid)
-	 * 
-	 * @return String institute
-	 */
-	public String getCourseInstitute(String courseId) {
-		CourseData cd = coursesDb.getCourse(courseId);
-		List<InstructorData> instructorList = accountsDb.getInstructorsByCourseId(cd.id);
-		if (instructorList.isEmpty()) {
-			Assumption.fail("Course has no instructors: " + cd.id);
-		} 
-		// Retrieve institute field from the first instructor of the course
-		AccountData instructorAcc = accountsDb.getAccount(instructorList.get(0).googleId);
-		return instructorAcc.institute;
-
+		return cdd;
 	}
 
-	/**
-	 * Returns the number of teams in a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must be valid)
-	 * 
-	 * @return the number of teams in the course
-	 */
-	public int getNumberOfTeams(String courseID) {
-		// Get all students in the course
+	public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
 
-		List<StudentData> studentDataList = accountsDb
-				.getStudentListForCourse(courseID);
+		List<StudentAttributes> studentDataList = 
+				studentsLogic.getStudentsForCourse(courseID);
 
-		// The list of teams
 		List<String> teamNameList = new ArrayList<String>();
 
-		// Filter out unique team names
-		for (StudentData sd : studentDataList) {
+		for (StudentAttributes sd : studentDataList) {
 			if (!teamNameList.contains(sd.team)) {
 				teamNameList.add(sd.team);
 			}
@@ -167,87 +198,105 @@ public class CoursesLogic {
 		return teamNameList.size();
 	}
 
-	/**
-	 * Returns the team name of a Student in a particular Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must not be null)
-	 * 
-	 * @param email
-	 *            the email of the student (Precondition: Must not be null)
-	 * 
-	 * @return the team name of the student in the course
-	 */
-	public String getTeamName(String courseId, String email) {
-
-		return accountsDb.getStudent(courseId, email).team;
+	public int getTotalEnrolledInCourse(String courseId) throws EntityDoesNotExistException {
+		return studentsLogic.getStudentsForCourse(courseId).size();
 	}
 
-	/**
-	 * Returns the number of students in a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must be valid)
-	 * 
-	 * @return the number of students in the course
-	 */
-	public int getTotalStudents(String courseID) {
-
-		return accountsDb.getStudentListForCourse(courseID).size();
+	public int getTotalUnregisteredInCourse(String courseID) {
+		return studentsLogic.getUnregisteredStudentsForCourse(courseID).size();
 	}
 
-	/**
-	 * Returns the number of unregistered students in a Course.
-	 * 
-	 * @param courseID
-	 *            the course ID (Precondition: Must be valid)
-	 * 
-	 * @return the number of unregistered students in the course
-	 */
-	public int getUnregistered(String courseID) {
+	
 
-		return accountsDb.getUnregisteredStudentListForCourse(courseID).size();
+	public CourseDetailsBundle getCourseSummary(String courseId)
+			throws EntityDoesNotExistException {
+		CourseAttributes cd = coursesDb.getCourse(courseId);
+
+		if (cd == null) {
+			throw new EntityDoesNotExistException("The course does not exist: "
+					+ courseId);
+		}
+
+		CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
+		cdd.teamsTotal = getNumberOfTeams(cd.id);
+		cdd.studentsTotal = getTotalEnrolledInCourse(cd.id);
+		cdd.unregisteredTotal = getTotalUnregisteredInCourse(cd.id);
+		return cdd;
 	}
+	
+	public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
+		
+		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
+		
+		if (studentDataList.size() == 0) {
+			throw new EntityDoesNotExistException("Student with Google ID "
+					+ googleId + " does not exist");
+		}
+		
+		ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
 
-	public static void sortByTeamName(List<StudentData> students) {
-		Collections.sort(students, new Comparator<StudentData>() {
-			public int compare(StudentData s1, StudentData s2) {
-				String t1 = s1.team;
-				String t2 = s2.team;
-				if ((t1 == null) && (t2 == null)) {
-					return 0;
-				} else if (t1 == null) {
-					return 1;
-				} else if (t2 == null) {
-					return -1;
-				}
-				return t1.compareTo(t2);
+		for (StudentAttributes s : studentDataList) {
+			CourseAttributes course = coursesDb.getCourse(s.course);
+			if(course==null){
+				log.warning(
+						"Course was deleted but the Student still exists :"+Common.EOL 
+						+ s.toString());
+			}else{
+				courseList.add(course);
 			}
-		});
+		}
+		return courseList;
+	}
+	
+	public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) {
+		
+		List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
+		
+		HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
+		
+		for (InstructorAttributes ia : instructorAttributesList) {
+			CourseAttributes course = coursesDb.getCourse(ia.courseId);
+			
+			try {
+				courseSummaryList.put(course.id, getCourseSummary(course.id));
+			} catch (EntityDoesNotExistException e) {
+				log.warning("Course was deleted but the Instructor still exists: "+Common.EOL 
+						+ ia.toString());
+			}
+		}
+		
+		return courseSummaryList;
 	}
 
-	public List<CourseData> getCourseListForStudent(String googleId) {
-
-		// Get all Student entries with this googleId
-		List<StudentData> studentDataList = accountsDb
-				.getStudentsWithGoogleId(googleId);
-		ArrayList<CourseData> courseList = new ArrayList<CourseData>();
-
-		// Verify that the course in each entry is existent
-		for (StudentData s : studentDataList) {
-			CourseData course = coursesDb.getCourse(s.course);
-			Assumption.assertNotNull("Course was deleted but Student entry still exists", course);
-			courseList.add(course);
+	public HashMap<String, CourseDetailsBundle> getCoursesDetailsForInstructor(
+			String instructorId) throws EntityDoesNotExistException {
+		
+		HashMap<String, CourseDetailsBundle> courseList = 
+				getCourseSummariesForInstructor(instructorId);
+		
+		ArrayList<EvaluationDetailsBundle> evaluationList = 
+				evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
+		
+		for (EvaluationDetailsBundle edd : evaluationList) {
+			CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.course);
+			courseSummary.evaluations.add(edd);
 		}
 		return courseList;
 	}
 
-	public boolean isCourseExists(String courseId) {
-		return coursesDb.getCourse(courseId) != null;
+	public void updateCourse(CourseAttributes course) 
+			throws InvalidParametersException, EntityDoesNotExistException {
+		
+		coursesDb.updateCourse(course);
 	}
+	
 
-	public CoursesDb getDb() {
-		return coursesDb;
+	public void deleteCourseCascade(String courseId) {
+		evaluationsLogic.deleteEvaluationsForCourse(courseId);
+		studentsLogic.deleteStudentsForCourse(courseId);
+		instructorsLogic.deleteInstructorsForCourse(courseId);
+		coursesDb.deleteCourse(courseId);
 	}
+	
 
 }

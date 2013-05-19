@@ -1,17 +1,16 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -25,9 +24,9 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 	private static BrowserInstance bi;
 	private static DataBundle scn;
 	
-	private static EvaluationData firstEval;
-	private static EvaluationData secondEval;
-	private static EvaluationData thirdEval;
+	private static EvaluationAttributes firstEval;
+	private static EvaluationAttributes secondEval;
+	private static EvaluationAttributes thirdEval;
 	
 	private static Boolean helpWindowClosed;
 	
@@ -52,7 +51,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginInstructor(scn.instructors.get("teammates.test.CS2104").googleId, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
+		bi.loginInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
 	}
 	
 	@AfterClass
@@ -68,7 +67,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		BackDoor.deleteCourses(jsonString);
 	}
 	
-	@Before
+	@BeforeMethod
 	public void testSetup() {
 		if (!helpWindowClosed){
 			bi.closeSelectedWindow();
@@ -105,7 +104,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(remindLinkLocator);
 		} catch (NoAlertException e){
-			fail("Remind link unavailable on OPEN evaluation, or it is available but no confirmation box");
+			Assert.fail("Remind link unavailable on OPEN evaluation, or it is available but no confirmation box");
 		}
 	}
 
@@ -119,7 +118,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 		} catch (NoAlertException e){
-			fail("Publish link unavailable on CLOSED evaluation, or it is available but no confirmation box");
+			Assert.fail("Publish link unavailable on CLOSED evaluation, or it is available but no confirmation box");
 		}
 		
 		______TS("publish link of OPEN evaluation");
@@ -128,7 +127,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		publishLinkLocator = bi.getInstructorHomeEvaluationPublishLinkLocator(firstEval.course, firstEval.name);
 		try{
 			bi.clickAndCancel(publishLinkLocator);
-			fail("Publish link available on OPEN evaluation");
+			Assert.fail("Publish link available on OPEN evaluation");
 		} catch (NoAlertException e){}
 		
 		______TS("unpublish link of PUBLISHED evaluation");
@@ -138,7 +137,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(unpublishLinkLocator);
 		} catch (NoAlertException e){
-			fail("Unpublish link unavailable on PUBLISHED evaluation");
+			Assert.fail("Unpublish link unavailable on PUBLISHED evaluation");
 		}
 	}
 
@@ -151,9 +150,9 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 			String evaluation = BackDoor.getEvaluationAsJson(firstEval.course, firstEval.name);
-			if(isNullJSON(evaluation)) fail("Evaluation was deleted when it's not supposed to be");
+			if(isNullJSON(evaluation)) Assert.fail("Evaluation was deleted when it's not supposed to be");
 		} catch (NoAlertException e){
-			fail("Delete link is unavailable or it is available but no confirmation box");
+			Assert.fail("Delete link is unavailable or it is available but no confirmation box");
 		}
 		
 		______TS("click and confirm");
@@ -162,7 +161,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 			bi.clickAndConfirm(deleteLinkLocator);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeEvalDeleteSuccessful.html");
 		} catch (NoAlertException e){
-			fail("Delete link is unavailable or it is available but no confirmation box");
+			Assert.fail("Delete link is unavailable or it is available but no confirmation box");
 		}
 	}
 
@@ -175,9 +174,9 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 			String course = BackDoor.getCourseAsJson(scn.courses.get("CHomeUiT.CS2104").id);
-			if(isNullJSON(course)) fail("Course was deleted when it's not supposed to be");
+			if(isNullJSON(course)) Assert.fail("Course was deleted when it's not supposed to be");
 		} catch (NoAlertException e){
-			fail("Delete course button unavailable, or it is available but no confirmation box");
+			Assert.fail("Delete course button unavailable, or it is available but no confirmation box");
 		}
 		
 		______TS("click and confirm");
@@ -186,7 +185,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 			bi.clickAndConfirm(deleteLinkLocator);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeCourseDeleteSuccessful.html");
 		} catch (NoAlertException e){
-			fail("Delete course button unavailable, or it is available but no confirmation box");
+			Assert.fail("Delete course button unavailable, or it is available but no confirmation box");
 		}
 	}
 	

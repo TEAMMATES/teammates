@@ -12,10 +12,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -31,8 +31,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * Class that stores variables and methods that are widely used across classes
- * 
+ * Stores variables and methods that are widely used across classes
  */
 
 // TODO: create a subclass (e.g., InternalUtil) and move all internal utility
@@ -256,52 +255,44 @@ public class Common {
 	 * JSP pages links. These links are here to provide ease of moving the JSP
 	 * folder or renaming.
 	 */
-	public static final String JSP_INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_COURSE = "/jsp/instructorCourse.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/jsp/instructorCourseStudentDetails.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_TFS = "/jsp/instructorTFS.jsp"; // Pending
-	public static final String JSP_INSTRUCTOR_TFS_MANAGE = "/jsp/instructorTFSManage.jsp"; // Pending
-	public static final String JSP_INSTRUCTOR_TFS_CHANGE_TEAM = "/jsp/instructorTFSChangeTeam.jsp"; // Pending
-	public static final String JSP_INSTRUCTOR_TFS_LOGS = "/jsp/instructorTFSLogs.jsp"; // Pending
-	public static final String JSP_INSTRUCTOR_EVAL = "/jsp/instructorEval.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_EVAL_EDIT = "/jsp/instructorEvalEdit.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/jsp/instructorEvalSubmissionView.jsp"; // Done
-	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/jsp/instructorEvalSubmissionEdit.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; 
+	public static final String JSP_INSTRUCTOR_COURSE = "/jsp/instructorCourse.jsp"; 
+	public static final String JSP_INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp"; 
+	public static final String JSP_INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp"; 
+	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/jsp/instructorCourseStudentDetails.jsp"; 
+	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp"; 
+	public static final String JSP_INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp"; 
+	public static final String JSP_INSTRUCTOR_EVAL = "/jsp/instructorEval.jsp"; 
+	public static final String JSP_INSTRUCTOR_EVAL_EDIT = "/jsp/instructorEvalEdit.jsp"; 
+	public static final String JSP_INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; 
+	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/jsp/instructorEvalSubmissionView.jsp"; 
+	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/jsp/instructorEvalSubmissionEdit.jsp"; 
 
-	public static final String JSP_STUDENT_HOME = "/jsp/studentHome.jsp"; // Done
-	public static final String JSP_STUDENT_COURSE_PROFILE = "/jsp/studentCourseProfile.jsp"; // Pending
-	public static final String JSP_STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; // Done
+	public static final String JSP_STUDENT_HOME = "/jsp/studentHome.jsp"; 
+	public static final String JSP_STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
 	/** To submit evaluation and also to edit */
-	public static final String JSP_STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; // Done
-	public static final String JSP_STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; // Done
+	public static final String JSP_STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
+	public static final String JSP_STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
 
-	public static final String JSP_INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; // Done
-	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; // Done
-	public static final String JSP_ADMIN_HEADER = "/jsp/adminHeader.jsp"; // Done
-	public static final String JSP_FOOTER = "/jsp/footer.jsp"; // Done
-	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; // Done
-	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; // Done
+	public static final String JSP_INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; 
+	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; 
+	public static final String JSP_ADMIN_HEADER = "/jsp/adminHeader.jsp"; 
+	public static final String JSP_FOOTER = "/jsp/footer.jsp"; 
+	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; 
+	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; 
 
 	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
 	public static final String JSP_ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
 	public static final String JSP_ADMIN_SEARCH = "/jsp/adminSearch.jsp";
 	public static final String JSP_ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
 	public static final String JSP_ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
-	public static final String JSP_LOGOUT = "/logout.jsp"; // Done
-	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; // Done
-	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; // Done
-	public static final String JSP_ERROR_PAGE = "/errorPage.jsp"; // Done
-	public static final String JSP_DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; // Done
-	public static final String JSP_ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; // Done
-	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; // Done
-
-	// data field sizes
-	public static final int COURSE_ID_MAX_LENGTH = 40;
+	public static final String JSP_LOGOUT = "/logout.jsp"; 
+	public static final String JSP_SHOW_MESSAGE = "/showMessage.jsp"; 
+	public static final String JSP_UNAUTHORIZED = "/unauthorized.jsp"; 
+	public static final String JSP_ERROR_PAGE = "/errorPage.jsp"; 
+	public static final String JSP_DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
+	public static final String JSP_ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; 
+	public static final String JSP_PAGE_NOT_FOUND_PAGE = "/pageNotFound.jsp"; 
 
 	// status messages
 	public static final String MESSAGE_LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
@@ -558,15 +549,7 @@ public class Common {
 			
 	
 	@SuppressWarnings("unused")
-	private void ____VALIDATE_parameters___________________________________() {
-	}
-
-	// Check for '@'
-	public static boolean isValidEmail(String email) {
-		return (isValidString(email) && 
-				hasNoSpace(email) &&
-				email.contains("@"));
-				// check contains period?
+	private void ____SANITIZE_parameters___________________________________() {
 	}
 
 	public static String sanitizeGoogleId(String googleId) {
@@ -579,44 +562,32 @@ public class Common {
 		return googleId.trim();
 	}
 
-	// GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
-	public static boolean isValidGoogleId(String googleId) {
-		boolean isValidNonEmailGoogleId = googleId.trim().matches("^([\\w-]+(?:\\.[\\w-]+)*)");
-		boolean isValidEmailGoogleId = isValidEmail(googleId.trim());
-		
-		if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
-			isValidEmailGoogleId = false;
-		}
-		
-		return isValidNonEmailGoogleId || isValidEmailGoogleId;
-	}
-
-	// Name can have spaces
-	public static boolean isValidName(String name) {
-		return isValidString(name);
-	}
-
-	// Special constraints for courseId
-	public static boolean isValidCourseId(String courseId) {
-		return (isValidString(courseId) && 
-				hasNoSpace(courseId) &&
-				courseId.matches("^[a-zA-Z_$0-9.-]+$") &&
-				courseId.length() <= COURSE_ID_MAX_LENGTH);
+	/**
+	 * Trims the string if it is not null. 
+	 * 
+	 * @param string
+	 * @return the trimmed string or null (if the parameter was null).
+	 */
+	public static String trimIfNotNull(String string) {
+		return ((string == null) ? "" : string.trim());
 	}
 	
-	public static boolean isValidString(String string) {
-		return (string != null	&& 
-				string != "" && 
-				string.length() != 0);
-	}
-	
-	public static boolean hasNoSpace(String string) {
-		return string.split(" ").length == 1;
-	}
-
 	@SuppressWarnings("unused")
 	private void ____MISC_utility_methods___________________________________() {
 	}
+	
+	/**
+	 * Concatenates a list of strings to a single string, separated by line breaks.
+	 * @return Concatenated string.
+	 */
+	public static String toString(List<String> strings) {
+		String returnValue = "";
+		for(String s: strings){
+			returnValue += s + EOL;
+		}
+		return returnValue.trim();	
+	}
+	
 
 	/**
 	 * This creates a Gson object that can handle the Date format we use in the
@@ -780,6 +751,12 @@ public class Common {
 	public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
 		time.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
 		return time; // for chaining
+	}
+	
+	public static boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {
+		Date nowInUserTimeZone = Common.convertToUserTimeZone(
+				Calendar.getInstance(), timeZone).getTime();
+		return nowInUserTimeZone.before(time);
 	}
 
 

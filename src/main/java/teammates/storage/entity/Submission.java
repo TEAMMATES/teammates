@@ -6,131 +6,124 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.Extension;
 
+import teammates.common.Common;
 
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Submission is a persistent data class that contains an evaluation submission
- * from a student to another student.
+ * Represents an evaluation/feedback submission from one student to
+ * another student.
  */
 @PersistenceCapable
 public class Submission {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	public Long id;
+	private Long id;
 
 	@Persistent
-	String fromStudent;
+	private String courseID;
 
 	@Persistent
-	String toStudent;
+	private String evaluationName;
 
 	@Persistent
-	String courseID;
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+	private String teamName;
 
 	@Persistent
-	String evaluationName;
+	private String fromStudent;
 
 	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-	int points;
+	private String toStudent;
 
 	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-	Text justification;
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+	private int points;
 
 	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-	Text commentsToStudent;
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+	private Text justification;
 
 	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-	String teamName;
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+	private Text commentsToStudent;
 
-	/**
-	 * Constructs a Submission object.
-	 * 
-	 * @param fromStudent
-	 * @param toStudent
-	 * @param courseID
-	 * @param evaluationName
-	 * @param teamName
-	 */
-	public Submission(String fromStudent, String toStudent, String courseID,
-			String evaluationName, String teamName) {
-		this.setFromStudent(fromStudent);
-		this.setToStudent(toStudent);
-		this.setCourseID(courseID);
+	
+	public Submission(String reviewerEmail, String revieweeEmail,
+			String courseId, String evaluationName, String teamName) {
+		// TODO: why do we need the team name here?
+		this.setReviewerEmail(reviewerEmail);
+		this.setRevieweeEmail(revieweeEmail);
+		this.setCourseId(courseId);
 		this.setEvaluationName(evaluationName);
 		this.setTeamName(teamName);
-
 		this.setJustification(new Text(""));
 		this.setCommentsToStudent(new Text(""));
-		this.points = -999;
+		this.points = Common.POINTS_NOT_SUBMITTED;
 	}
 
-	public void setFromStudent(String fromStudent) {
-		this.fromStudent = fromStudent.trim();
-	}
-
-	public String getFromStudent() {
-		return fromStudent;
-	}
-
-	public void setToStudent(String toStudent) {
-		this.toStudent = toStudent.trim();
-	}
-
-	public String getToStudent() {
-		return toStudent;
-	}
-
-	public void setCourseID(String courseID) {
-		this.courseID = courseID.trim();
-	}
-
-	public String getCourseID() {
+	public String getCourseId() {
 		return courseID;
 	}
 
-	public void setEvaluationName(String evaluationName) {
-		this.evaluationName = evaluationName.trim();
+	public void setCourseId(String courseId) {
+		this.courseID = courseId.trim();
 	}
 
 	public String getEvaluationName() {
 		return evaluationName;
 	}
 
-	public void setPoints(int points) {
-		this.points = points;
+	public void setEvaluationName(String evaluationName) {
+		this.evaluationName = evaluationName.trim();
 	}
 
-	public int getPoints() {
-		return points;
-	}
-
-	public void setJustification(Text justification) {
-		this.justification = justification;
-	}
-
-	public Text getJustification() {
-		return justification;
-	}
-
-	public void setCommentsToStudent(Text commentsToStudent) {
-		this.commentsToStudent = commentsToStudent;
-	}
-
-	public Text getCommentsToStudent() {
-		return commentsToStudent;
+	public String getTeamName() {
+		return teamName;
 	}
 
 	public void setTeamName(String teamName) {
 		this.teamName = teamName.trim();
 	}
 
-	public String getTeamName() {
-		return teamName;
+	public String getReviewerEmail() {
+		return fromStudent;
+	}
+
+	public void setReviewerEmail(String reviewerEmail) {
+		this.fromStudent = reviewerEmail.trim();
+	}
+
+	public String getRevieweeEmail() {
+		return toStudent;
+	}
+
+	public void setRevieweeEmail(String revieweeEmail) {
+		this.toStudent = revieweeEmail.trim();
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+	public Text getJustification() {
+		return justification;
+	}
+
+	public void setJustification(Text justification) {
+		this.justification = justification;
+	}
+
+	public Text getCommentsToStudent() {
+		return commentsToStudent;
+	}
+
+	public void setCommentsToStudent(Text commentsToStudent) {
+		this.commentsToStudent = commentsToStudent;
 	}
 
 	public String toString() {

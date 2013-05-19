@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -57,22 +59,21 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		/**
 		 * Insert instructors
 		 */
-		AccountsDb accounts = new AccountsDb();
-		List<InstructorData> instructors = accounts.getInstructors();
+		List<InstructorAttributes> instructors = new InstructorsDb().getAllInstructors();
 		
-		Iterator<InstructorData> it = instructors.iterator();
+		Iterator<InstructorAttributes> it = instructors.iterator();
 		while (it.hasNext()) {
-			InstructorData instructor = it.next();
+			InstructorAttributes instructor = it.next();
 			addDocument(instructor.name, instructor.email, instructor.googleId, Common.PAGE_INSTRUCTOR_HOME);
 		}
 		
 		/**
 		 * Insert students
 		 */
-		List<StudentData> students = accounts.getStudents();
-		Iterator<StudentData> it2 = students.iterator();
+		List<StudentAttributes> students = new StudentsDb().getAllStudents();
+		Iterator<StudentAttributes> it2 = students.iterator();
 		while (it2.hasNext()) {
-			StudentData stu = it2.next();
+			StudentAttributes stu = it2.next();
 			addDocument(stu.name, stu.email, stu.id, Common.PAGE_STUDENT_HOME);
 		}
 
@@ -82,6 +83,8 @@ public class AdminSearchTaskServlet extends HttpServlet {
 	 * Add student/instructor data to search index
 	 */
 	private void addDocument(String name, String email, String id, String url) {
+		//TODO: fix this to match new sdk
+		/*
 		Document.Builder docBuilder = Document
 				.newBuilder()
 				.addField(
@@ -105,6 +108,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		} catch (RuntimeException e) {
 			log.warning("Failed to add " + doc + e.getLocalizedMessage());
 		}
+		*/
 	}
 
 
@@ -112,6 +116,8 @@ public class AdminSearchTaskServlet extends HttpServlet {
 	 * Clean up existing search indexes 
 	 */
 	private void cleanupExistingSearchIndexes() {
+		//TODO: fix this to match new sdk
+		/*
 		try {
 		    while (true) {
 		        ArrayList<String> docIds = new ArrayList<String>();
@@ -133,6 +139,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		} catch (RuntimeException e) {
 		    log.warning("Failed to remove documents" +e.getLocalizedMessage());
 		}
+		*/
 		
 	}
 

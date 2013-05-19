@@ -1,19 +1,20 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
+import org.testng.AssertJUnit;
 import java.util.Date;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.datastore.Datastore;
 
@@ -36,9 +37,9 @@ public class EvaluationsDbTest extends BaseTestCase {
 	private void ____COURSE_________________________________________() {
 	}
 	@Test
-	public void testCreateEvaluation() throws EntityAlreadyExistsException {
+	public void testCreateEvaluation() throws EntityAlreadyExistsException, InvalidParametersException {
 		// SUCCESS
-		EvaluationData e = new EvaluationData();
+		EvaluationAttributes e = new EvaluationAttributes();
 		e.course = "Computing101";
 		e.name = "Very First Evaluation";
 		e.startTime = new Date();
@@ -46,7 +47,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		evaluationsDb.createEvaluation(e);
 		
 		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380)
-		e = new EvaluationData();
+		e = new EvaluationAttributes();
 		e.course = "Computing102";
 		e.name = "text group text";
 		e.startTime = new Date();
@@ -56,7 +57,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		// FAIL : duplicate
 		try {
 			evaluationsDb.createEvaluation(e);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException ex) {
 			assertContains(EvaluationsDb.ERROR_CREATE_EVALUATION_ALREADY_EXISTS, ex.getMessage());
 		}
@@ -65,78 +66,77 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.startTime = null;
 		try {
 			evaluationsDb.createEvaluation(e);
-			fail();
-		} catch (AssertionError a) {
-			assertEquals(a.getMessage(), EvaluationData.ERROR_FIELD_STARTTIME);
-		} catch (EntityAlreadyExistsException ex) {
-			fail();
+			signalFailureToDetectAssumptionViolation();
+		} catch (AssertionError e1) {
+			ignoreExpectedException();
 		}
+	
 		
 		// Null params check:
 		try {
 			evaluationsDb.createEvaluation(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
-	public void testGetEvaluation() {
-		EvaluationData e = createNewEvaluation();
+	public void testGetEvaluation() throws InvalidParametersException {
+		EvaluationAttributes e = createNewEvaluation();
 		
 		// Get existent
-		EvaluationData retrieved = evaluationsDb.getEvaluation(e.course, e.name);
-		assertNotNull(retrieved);
+		EvaluationAttributes retrieved = evaluationsDb.getEvaluation(e.course, e.name);
+		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
 		retrieved = evaluationsDb.getEvaluation("non-existent-course", "Non existent Evaluation");
-		assertNull(retrieved);
+		AssertJUnit.assertNull(retrieved);
 		
 		// Null params check:
 		try {
 			evaluationsDb.getEvaluation(e.course, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
-	public void testEditEvaluation() {
-		EvaluationData e = createNewEvaluation();
+	public void testEditEvaluation() throws EntityDoesNotExistException, InvalidParametersException {
+		EvaluationAttributes e = createNewEvaluation();
 				
 		// Edit existent
 		e.instructions = "Foo Bar";
-		evaluationsDb.editEvaluation(e);
+		evaluationsDb.updateEvaluation(e);
 				
 		// Edit non-existent
 		e.name = "Non existent Evaluation";
 		try {
-			evaluationsDb.editEvaluation(e);
-			fail();
-		} catch (AssertionError a) {
+			evaluationsDb.updateEvaluation(e);
+			Assert.fail();
+		} catch (EntityDoesNotExistException a) {
 			assertContains(EvaluationsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
 		}
 		
 		// Null params check:
 		try {
-			evaluationsDb.editEvaluation(null);
-			fail();
+			evaluationsDb.updateEvaluation(null);
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
-	public void testDeleteEvaluation() {
-		EvaluationData e = createNewEvaluation();
+	public void testDeleteEvaluation() throws InvalidParametersException {
+		EvaluationAttributes e = createNewEvaluation();
 		
 		// Delete
 		evaluationsDb.deleteEvaluation(e.course, e.name);
 		
-		EvaluationData deleted = evaluationsDb.getEvaluation(e.course, e.name);
-		assertNull(deleted);
+		EvaluationAttributes deleted = evaluationsDb.getEvaluation(e.course, e.name);
+		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
 		evaluationsDb.deleteEvaluation(e.course, e.name);
@@ -144,16 +144,16 @@ public class EvaluationsDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			evaluationsDb.deleteEvaluation(null, e.name);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			evaluationsDb.deleteEvaluation(e.course, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 
@@ -163,8 +163,8 @@ public class EvaluationsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private EvaluationData createNewEvaluation() {
-		EvaluationData e = new EvaluationData();
+	private EvaluationAttributes createNewEvaluation() throws InvalidParametersException {
+		EvaluationAttributes e = new EvaluationAttributes();
 		e.course = "Computing101";
 		e.name = "Basic Computing Evaluation1";
 		e.startTime = new Date();

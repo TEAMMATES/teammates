@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 
 @SuppressWarnings("serial")
 public class InstructorEvalSubmissionEditHandlerServlet extends EvalSubmissionEditHandlerServlet {
@@ -15,7 +15,7 @@ public class InstructorEvalSubmissionEditHandlerServlet extends EvalSubmissionEd
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String evalName = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		String fromEmail = req.getParameter(Common.PARAM_FROM_EMAIL);
-		StudentData student = helper.server.getStudent(courseID, fromEmail);
+		StudentAttributes student = helper.server.getStudentForEmail(courseID, fromEmail);
 		String fromName;
 		if(student==null) fromName = fromEmail;
 		else fromName = student.name;

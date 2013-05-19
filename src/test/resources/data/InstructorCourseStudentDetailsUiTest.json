@@ -1,10 +1,10 @@
 {
   "accounts": {
-    "teammates.test": {
-      "googleId": "teammates.test",
+    "CCSDetailsUiT.instr": {
+      "googleId": "CCSDetailsUiT.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "teammates.test@gmail.com",
+      "email": "CCSDetailsUiT.instr@gmail.com",
       "institute": "National University of Singapore"
     }
   },
@@ -17,18 +17,18 @@
   },
 
   "instructors": {
-    "teammates.test": {
-      "googleId": "teammates.test",
+    "CCSDetailsUiT.instr": {
+      "googleId": "CCSDetailsUiT.instr",
       "courseId": "CCSDetailsUiT.CS2104",
       "name": "Teammates Test",
-      "email": "teammates.test@gmail.com"
+      "email": "CCSDetailsUiT.instr@gmail.com"
     }
   },
   
   "students": {
     "registeredStudent": {
-      "id": "alice.tmms",
-      "email": "alice.tmms@gmail.com",
+      "id": "CCSDetailsUiT.alice.tmms",
+      "email": "CCSDetailsUiT.alice.tmms@gmail.com",
       "course": "CCSDetailsUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",

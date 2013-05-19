@@ -1,6 +1,6 @@
 { 
   "account": {
-    "googleId": "teammates.test",
+    "googleId": "CEvEditUiTest.teammates.test",
     "name": "Teammates Test",
     "isInstructor": true,
     "email": "teammates.test@gmail.com",
@@ -13,10 +13,10 @@
   },
 
   "instructor": {
-  	"googleId": "teammates.demo.instructor",
+  	"googleId": "CEvEditUiTest.instr",
   	"courseId": "CEvEditUiTest.CS1101",
     "name": "Teammates Demo Instr",
-    "email": "teammates.demo.instructor@gmail.com"
+    "email": "CEvEditUiTest.instr@gmail.com"
   },
   
   "evaluation": {

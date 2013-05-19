@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.StudentData.UpdateStatus;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 
 public class InstructorCourseEnrollHelper extends Helper {
 	public String courseID;
@@ -15,7 +15,7 @@ public class InstructorCourseEnrollHelper extends Helper {
 	 */
 	public boolean isResult = false;
 	
-	public List<StudentData>[] students;
+	public List<StudentAttributes>[] students;
 	Logger log = Common.getLogger();
 
 	public String getMessageForStudentsListID(int enrollmentStatus) {

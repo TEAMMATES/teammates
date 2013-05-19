@@ -30,7 +30,7 @@ public class InstructorEvalExportServlet extends HttpServlet {
 		
 		Logic server = new Logic();
 		try {
-			String evalExport = server.getEvaluationExport(courseID, evalName);
+			String evalExport = server.getEvaluationResultSummaryAsCsv(courseID, evalName);
 			
 			// Set headers for Download
 			String filename = courseID + "_" + evalName;

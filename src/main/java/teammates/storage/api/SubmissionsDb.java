@@ -6,19 +6,22 @@ import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
-import com.google.appengine.api.datastore.Text;
-
-import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Submission;
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.FieldValidator;
+import teammates.common.FieldValidator.FieldType;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.Submission;
 
 /**
- * Manager for handling basic CRUD Operations only
- * 
+ * Handles CRUD Operations for submission entities.
+ * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  */
 public class SubmissionsDb {
 
@@ -27,24 +30,24 @@ public class SubmissionsDb {
 	
 	private static final Logger log = Common.getLogger();
 
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
-
 	/**
-	 * Creates new Submission Entities for a particular Evaluation.
-	 * 
-	 * @throws EntityAlreadyExistsException 
-	 * 
+	 * Preconditions: <br>
+	 * * {@code submissionToAdd} is not null and has valid data.
 	 */
-	public void createSubmission(SubmissionData submissionToAdd) throws EntityAlreadyExistsException {
+	public void createSubmission(SubmissionAttributes submissionToAdd) throws EntityAlreadyExistsException, InvalidParametersException {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionToAdd);
+
+		if (!submissionToAdd.isValid()) {
+			throw new InvalidParametersException(submissionToAdd.getInvalidStateInfo());
+		}
 		
-		Assumption.assertTrue(submissionToAdd.getInvalidStateInfo(), submissionToAdd.isValid());
-		
-		if (getSubmissionEntity(submissionToAdd.course,
-				submissionToAdd.evaluation, submissionToAdd.reviewee,
+		if (getSubmissionEntity(
+				submissionToAdd.course,
+				submissionToAdd.evaluation, 
+				submissionToAdd.reviewee,
 				submissionToAdd.reviewer) != null) {
+			
 			String error = ERROR_CREATE_SUBMISSION_ALREADY_EXISTS
 					+ "course: " + submissionToAdd.course + ", evaluation: "
 					+ submissionToAdd.evaluation + ", toStudent: "
@@ -58,14 +61,10 @@ public class SubmissionsDb {
 
 		Submission newSubmission = submissionToAdd.toEntity();
 
-		try {
-			getPM().makePersistent(newSubmission);
-			getPM().flush();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		getPM().makePersistent(newSubmission);
+		getPM().flush();
 
-		// check if insert operation persisted
+		// wait for the operation to persist
 		int elapsedTime = 0;
 		Submission submissionCheck = getSubmissionEntity(
 				submissionToAdd.course, submissionToAdd.evaluation,
@@ -87,99 +86,68 @@ public class SubmissionsDb {
 	}
 	
 	/**
-	 * CREATE List<Submission>
-	 * 
-	 * Creates a List of submissions
-	 * 
-	 * Use this method to persist list of submissions much faster
-	 * 
-	 * @param List<SubmissionData>
-	 * 
+	 * Preconditions: <br>
+	 * * {@code submissionToAdd} is not null and contains valid submission objects.
 	 */
-	public void createListOfSubmissions(List<SubmissionData> newList) {
+	public void createSubmissions(List<SubmissionAttributes> newList) throws InvalidParametersException {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newList);
 		
 		List<Submission> newEntityList = new ArrayList<Submission>();
 		
-		for (SubmissionData sd : newList) {
-			Assumption.assertTrue(sd.getInvalidStateInfo(), sd.isValid());
+		for (SubmissionAttributes sd : newList) {
+			if (!sd.isValid()) {
+				throw new InvalidParametersException(sd.getInvalidStateInfo());
+			}
+			//Existence check omitted to save time
 			newEntityList.add(sd.toEntity());
 		}
 		
 		getPM().makePersistentAll(newEntityList);
 		getPM().flush();
+		
+		//Persistence check omitted to save time
 	}
 
 	/**
-	 * RETRIEVE Submission
-	 * 
-	 * Returns a specific SubmissionData object with the supplied params
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The parameters must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The parameters must be
-	 *            valid)
-	 * 
-	 * @param teamName
-	 *            the team name (Pre-condition: The parameters must be valid)
-	 * 
-	 * @param toStudent
-	 *            the email of the target student (Pre-condition: The parameters
-	 *            must be valid)
-	 * 
-	 * @param fromStudent
-	 *            the email of the sending student (Pre-condition: The
-	 *            parameters must be valid)
-	 * 
-	 * @return the submission entry of the specified fromStudent to the
-	 *         specified toStudent
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Null if not found.
 	 */
-	public SubmissionData getSubmission(String courseId, String evaluationName,
+	public SubmissionAttributes getSubmission(String courseId, String evaluationName,
 			String toStudent, String fromStudent) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, toStudent);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, fromStudent);
 
-		Submission s = getSubmissionEntity(courseId, evaluationName, toStudent,
-				fromStudent);
+		Submission s = getSubmissionEntity(courseId, evaluationName, toStudent, fromStudent);
 
 		if (s == null) {
-			log.warning("Trying to get non-existent Submission : " + courseId
+			log.info("Trying to get non-existent Submission : " + courseId
 					+ "/" + evaluationName + "| from " + fromStudent + " to "
 					+ toStudent);
 			return null;
 		}
-		return new SubmissionData(s);
+		return new SubmissionAttributes(s);
 	}
 
 	/**
-	 * RETRIEVE List<Submission>
-	 * 
-	 * Returns all submissions in a course
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
-	 * @return the submissions pertaining to the specified course
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Empty list if no matching objects found.
 	 */
-	public List<SubmissionData> getSubmissionsForCourse(String courseId) {
+	public List<SubmissionAttributes> getSubmissionsForCourse(String courseId) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId + "'";
+		List<Submission> submissionList = getSubmissionEntitiesForCourse(courseId);
 
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
-
-		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
-
+		List<SubmissionAttributes> submissionDataList = new ArrayList<SubmissionAttributes>();
 		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
-				submissionDataList.add(new SubmissionData(s));
+				submissionDataList.add(new SubmissionAttributes(s));
 			}
 		}
 
@@ -187,37 +155,23 @@ public class SubmissionsDb {
 	}
 
 	/**
-	 * RETRIEVE List<Submission>
-	 * 
-	 * Returns the Submissions from an Evaluation object.
-	 * 
-	 * @param courseId
-	 *            the course ID (Pre-condition: The courseID and evaluationName
-	 *            pair must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The courseID and
-	 *            evaluationName pair must be valid)
-	 * 
-	 * @return List<SubmissionData>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Empty list if no matching objects found.
 	 */
-	public List<SubmissionData> getSubmissionsForEvaluation(String courseId,
-			String evaluationName) {
+	public List<SubmissionAttributes> getSubmissionsForEvaluation(
+			String courseId, String evaluationName) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
-
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == courseIDParam && evaluationName == evalNameParam"
-				+ " parameters String courseIDParam, String evalNameParam";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute(courseId, evaluationName);
-		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
-
+		
+		List<Submission> submissionList = getSubmissionEntititesForEvaluation(
+				courseId, evaluationName);
+		
+		List<SubmissionAttributes> submissionDataList = new ArrayList<SubmissionAttributes>();
 		for (Submission s : submissionList) {
 			if (!JDOHelper.isDeleted(s)) {
-				submissionDataList.add(new SubmissionData(s));
+				submissionDataList.add(new SubmissionAttributes(s));
 			}
 		}
 
@@ -225,202 +179,117 @@ public class SubmissionsDb {
 	}
 
 	/**
-	 * RETRIEVE List<Submission>
-	 * 
-	 * Returns the Submissions of an Evaluation directed at a Student.
-	 * 
-	 * @param courseId
-	 *            the course ID (Pre-condition: The parameters must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The parameters must be
-	 *            valid)
-	 * 
-	 * @param toStudent
-	 *            the email of the target student (Pre-condition: The parameters
-	 *            must be valid)
-	 * 
-	 * @return the submissions to the target student
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Empty list if no matching objects found.
 	 */
-	public List<SubmissionData> getSubmissionsFromEvaluationToStudent(
-			String courseId, String evaluationName, String revieweeEmail) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, revieweeEmail);
-		
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == courseIDParam"
-				+ " && evaluationName == evalNameParam"
-				+ " && toStudent == toStudentParam"
-				+ " parameters String courseIDParam, String evalNameParam, String toStudentParam";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute(courseId, evaluationName, revieweeEmail);
-
-		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
-
-		for (Submission s : submissionList) {
-			submissionDataList.add(new SubmissionData(s));
-		}
-		return submissionDataList;
-	}
-
-	/**
-	 * Returns the Submission of an Evaluation from a specific Student.
-	 * 
-	 * @param courseId
-	 *            the course ID (Pre-condition: The parameters must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The parameters must be
-	 *            valid)
-	 * 
-	 * @param reviewerEmail
-	 *            the email of the sending student (Pre-condition: The
-	 *            parameters must be valid)
-	 * 
-	 * @return the submissions of the specified student pertaining to the
-	 *         specified evaluation
-	 */
-	public List<SubmissionData> getSubmissionsFromEvaluationFromStudent(
+	public List<SubmissionAttributes> getSubmissionsForEvaluationFromStudent(
 			String courseId, String evaluationName, String reviewerEmail) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, reviewerEmail);
 
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == courseIDParam"
-				+ " && evaluationName == evalNameParam"
-				+ " && fromStudent == fromStudentParam"
-				+ " parameters String courseIDParam, String evalNameParam, String fromStudentParam";
+		List<Submission> submissionList = getSubmissionEntitiesForEvaluationFromStudent(
+				courseId, evaluationName, reviewerEmail);
 
-		log.info(query);
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute(courseId, evaluationName, reviewerEmail);
-
-		List<SubmissionData> submissionDataList = new ArrayList<SubmissionData>();
-
+		List<SubmissionAttributes> submissionDataList = new ArrayList<SubmissionAttributes>();
 		for (Submission s : submissionList) {
-			submissionDataList.add(new SubmissionData(s));
+			submissionDataList.add(new SubmissionAttributes(s));
 		}
 		return submissionDataList;
 	}
 
 	/**
-	 * UPDATE List<Submission>
-	 * 
-	 * Update the email address of Submission objects from a particular course
-	 * when a student changes his email
-	 * 
-	 * @param email
-	 *            the email of the student (Pre-condition: The courseID and
-	 *            email pair must be valid)
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The courseID and email pair must
-	 *            be valid)
-	 * 
-	 * @param newEmail
-	 *            the new email of the student (Pre-condition: Must not be null)
+	 * Course ID, evaluation name, reviewer/reviewee emails will not be changed. <br>
+	 * Does not follow the 'Keep existing' policy. <br>
+	 * Preconditions: <br> 
+	 * * {@code newSubmissionAttributes} is not null and has valid data. <br>
+	 * @throws InvalidParametersException 
 	 */
-	public void editStudentEmailForSubmissionsInCourse(String courseId,
-			String email, String newEmail) {
+	public void updateSubmission(SubmissionAttributes newSubmissionAttributes) 
+			throws EntityDoesNotExistException, InvalidParametersException {
+		
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newSubmissionAttributes);
+
+		if (!newSubmissionAttributes.isValid()) {
+			throw new InvalidParametersException(newSubmissionAttributes.getInvalidStateInfo());
+		}
+
+		Submission submission = getSubmissionEntity(newSubmissionAttributes.course, newSubmissionAttributes.evaluation,
+				newSubmissionAttributes.reviewee, newSubmissionAttributes.reviewer);
+
+		if (submission == null) {
+			throw new EntityDoesNotExistException(
+					ERROR_UPDATE_NON_EXISTENT + Common.EOL
+					+ newSubmissionAttributes.toString());
+		}
+
+		submission.setPoints(newSubmissionAttributes.points);
+		submission.setJustification(newSubmissionAttributes.justification);
+		submission.setCommentsToStudent(newSubmissionAttributes.p2pFeedback);
+
+		// closing PM because otherwise the data is not updated during dev server testing
+		getPM().close();
+
+	}
+
+	/**
+	 * Course ID, evaluation name, reviewer/reviewee emails will not be changed. <br>
+	 * Does not follow the 'Keep existing' policy. <br>
+	 * Preconditions: <br> 
+	 * * The given list is not null and contains valid {@link SubmissionAttributes} objects. <br>
+	 */
+	public void updateSubmissions(List<SubmissionAttributes> submissionsList) 
+			throws EntityDoesNotExistException, InvalidParametersException {
+		
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionsList);
+
+		for (SubmissionAttributes sd : submissionsList) {
+			updateSubmission(sd);
+		}
+
+		getPM().close();
+
+	}
+
+	/**
+	 * Preconditions: <br> 
+	 * * All parameters are non-null. <br>
+	 * * {@code newEmail} is a valid email.
+	 */
+	public void updateStudentEmailForSubmissionsInCourse(String courseId,
+			String originalEmail, String newEmail) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, originalEmail);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newEmail);
-
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
-
-		for (Submission s : submissionList) {
-			// From student is changing email
-			if (s.getFromStudent().equals(email)) {
-				s.setFromStudent(newEmail);
-			}
-			// To student is changing email
-			if (s.getToStudent().equals(email)) {
-				s.setToStudent(newEmail);
-			}
+		Assumption.assertTrue(new FieldValidator().getValidityInfo(FieldType.EMAIL, newEmail).isEmpty());
+	
+		List<Submission> submissionsFromStudent = 
+				getSubmissionEntitiesForCourseFromStudent(courseId, originalEmail);
+		for (Submission s : submissionsFromStudent) {
+			s.setReviewerEmail(newEmail);
 		}
-		getPM().close();
-	}
-
-	/**
-	 * UPDATE Submission
-	 * 
-	 * Edits a single Submission Entity.
-	 * 
-	 * @param A
-	 *            SubmissionData copied from a Submission Entity, containing
-	 *            modified values.
-	 * 
-	 */
-	public void editSubmission(SubmissionData sd) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, sd);
-
-		Submission submission = getSubmissionEntity(sd.course, sd.evaluation,
-				sd.reviewee, sd.reviewer);
-
-		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT + sd.course
-					+ "/" + sd.evaluation + "| from " + sd.reviewer + " to "
-					+ sd.reviewee + Common.getCurrentThreadStack(), submission);
-
-		submission.setPoints(sd.points);
-		submission.setJustification(sd.justification);
-		submission.setCommentsToStudent(sd.p2pFeedback);
-
-		// closing PM because otherwise the data is not updated during offline
-		// unit testing
-		getPM().close();
-
-	}
-
-	/**
-	 * UPDATE List<Submission>
-	 * 
-	 * Edits a list of Submission objects.
-	 * 
-	 * @param submissionList
-	 *            the list of submissions to be edited (Pre-condition: The
-	 *            submission list must be valid)
-	 * 
-	 */
-	public void editSubmissions(List<SubmissionData> submissionDataList) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionDataList);
-
-		for (SubmissionData sd : submissionDataList) {
-			editSubmission(sd);
+		
+		List<Submission> submissionsToStudent = 
+				getSubmissionEntitiesForCourseToStudent(courseId, originalEmail);
+		for (Submission s : submissionsToStudent) {
+			s.setRevieweeEmail(newEmail);
 		}
-		// closing PM because otherwise the data is not updated during offline
-		// unit testing
+	
 		getPM().close();
-
 	}
 
 	/**
-	 * DELETE List<Submission>
-	 * 
-	 * Deletes all submissions in a Course
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
+	 * Fails silently if no matching objects. <br>
+	 * Preconditions: <br> 
+	 * * all parameters are non-null.
 	 */
 	public void deleteAllSubmissionsForCourse(String courseId) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId + "'";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute();
+		List<Submission> submissionList = getSubmissionEntitiesForCourse(courseId);
 
 		getPM().deletePersistentAll(submissionList);
 		getPM().flush();
@@ -429,172 +298,65 @@ public class SubmissionsDb {
 	}
 
 	/**
-	 * DELETE List<Submission>
-	 * 
-	 * Deletes all submissions in a Evaluation
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
+	 * Fails silently if no matching objects. <br>
+	 * Preconditions: <br> 
+	 * * all parameters are non-null.
 	 */
 	public void deleteAllSubmissionsForEvaluation(String courseId,
 			String evaluationName) {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
 		
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == courseIDParam"
-				+ " && evaluationName == evalNameParam"
-				+ " parameters String courseIDParam, String evalNameParam";
-		
-		
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).execute(courseId, evaluationName);
+		List<Submission> submissionList = getSubmissionEntititesForEvaluation(courseId, evaluationName);
 
 		getPM().deletePersistentAll(submissionList);
 		getPM().flush();
 	}
 
 	/**
-	 * DELETE List<Submission>
-	 * 
-	 * Deletes all submissions related to a student (to and from)
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
-	 * @param studentEmail
-	 *            used to identify the student pending deletion
-	 * 
+	 * Fails silently if no matching objects. <br>
+	 * Preconditions: <br> 
+	 * * all parameters are non-null.
 	 */
 	public void deleteAllSubmissionsForStudent(String courseId,
 			String studentEmail) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentEmail);
 		
-		String query1 = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId + "' && toStudent=='"
-				+ studentEmail + "'";
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList1 = (List<Submission>) getPM().newQuery(
-				query1).execute();
-		getPM().deletePersistentAll(submissionList1);
-
-		String query2 = "select from " + Submission.class.getName()
-				+ " where courseID == '" + courseId + "' && fromStudent=='"
-				+ studentEmail + "'";
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionList2 = (List<Submission>) getPM().newQuery(
-				query2).execute();
-		getPM().deletePersistentAll(submissionList2);
-		getPM().flush();
-	}
-
-	/**
-	 * DELETE List<Submission>
-	 * 
-	 * Deletes all submissions in a Evaluation related to a Student
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: Must be valid)
-	 * 
-	 * @param evaluationName
-	 * 
-	 * @param studentEmail
-	 *            Used to identify the student
-	 * 
-	 * @param originalTeam
-	 *            Used to identify the student's team before move to delete old
-	 *            submissions
-	 * 
-	 */
-	public void deleteSubmissionsForOutgoingMember(String courseId,
-			String evaluationName, String studentEmail, String originalTeam) {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentEmail);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, originalTeam);
 
-		// Google App Engine prevents OR filter on multiple properties
-		// Only alternative -> split the query. (zzzz)
-		String query = "select from " + Submission.class.getName()
-					+ " where courseID == courseIDParam"
-					+ " && evaluationName == evalNameParam"
-					+ " && toStudent == toStudentParam"
-					+ " parameters String courseIDParam, String evalNameParam, String toStudentParam";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionListTo = (List<Submission>) getPM()
-				.newQuery(query).execute(courseId, evaluationName, studentEmail);
-
-		for (Submission s : submissionListTo) {
-			if (s.getTeamName().equals(originalTeam)) {
-				getPM().deletePersistent(s);
-			} else {
-				log.severe("Unexpected submission found when deleting outgoing submissions for "
-						+ s.toString());
-			}
-		}
-
-		// Merging the list will probably be less efficient
-
-		query = "select from " + Submission.class.getName()
-				+ " where courseID == courseIDParam"
-				+ " && evaluationName == evalNameParam"
-				+ " && fromStudent == fromStudentParam"
-				+ " parameters String courseIDParam, String evalNameParam, String fromStudentParam";
-
-		@SuppressWarnings("unchecked")
-		List<Submission> submissionListFrom = (List<Submission>) getPM()
-				.newQuery(query).execute(courseId, evaluationName, studentEmail);
-
-		for (Submission s : submissionListFrom) {
-			if (s.getTeamName().equals(originalTeam)) {
-				getPM().deletePersistent(s);
-			} else {
-				log.severe("Unexpected submission found when deleting outgoing submissions for "
-						+ s.toString());
-			}
-		}
+		List<Submission> submissionsFromStudent = 
+				getSubmissionEntitiesForCourseFromStudent(courseId, studentEmail);
+		getPM().deletePersistentAll(submissionsFromStudent);
+		
+		List<Submission> submissionsToStudent = 
+				getSubmissionEntitiesForCourseToStudent(courseId, studentEmail);
+		getPM().deletePersistentAll(submissionsToStudent);
 		
 		getPM().flush();
 	}
 
-	/**
-	 * Returns the actual Submission Entity
-	 * 
-	 * @param courseID
-	 *            the course ID (Pre-condition: The parameters must be valid)
-	 * 
-	 * @param evaluationName
-	 *            the evaluation name (Pre-condition: The parameters must be
-	 *            valid)
-	 * 
-	 * @param teamName
-	 *            the team name (Pre-condition: The parameters must be valid)
-	 * 
-	 * @param toStudent
-	 *            the email of the target student (Pre-condition: The parameters
-	 *            must be valid)
-	 * 
-	 * @param fromStudent
-	 *            the email of the sending student (Pre-condition: The
-	 *            parameters must be valid)
-	 * 
-	 * @return the submission entry of the specified fromStudent to the
-	 *         specified toStudent
-	 */
+
+
+	private PersistenceManager getPM() {
+		return Datastore.getPersistenceManager();
+	}
+
+	
 	private Submission getSubmissionEntity(String courseId,
 			String evaluationName, String toStudent, String fromStudent) {
 
-		String query = "select from " + Submission.class.getName()
-				+ " where courseID == courseIDParam"
-				+ " && evaluationName == evalNameParam"
+		Query q = getPM().newQuery(Submission.class);
+		q.declareParameters(
+				"String courseIdParam, " +
+				"String evluationNameParam, " +
+				"String fromStudentParam, " +
+				"String toStudentParam");
+		
+		q.setFilter("courseID == courseIdParam"
+				+ " && evaluationName == evluationNameParam"
 				+ " && fromStudent == fromStudentParam"
-				+ " && toStudent == toStudentParam"
-				+ " parameters String courseIDParam, String evalNameParam, String fromStudentParam, String toStudentParam";
+				+ " && toStudent == toStudentParam");
 		
 		// To pass in more than 3 parameters, an object array is needed. 
 		Object[] parameters = {courseId, evaluationName, fromStudent, toStudent};
@@ -602,15 +364,81 @@ public class SubmissionsDb {
 		// jdo.Query.execute() method only support up to 3 parameter.
 		// executeWithArray() is used when more than 3 parameters are used in a query.
 		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) getPM().newQuery(
-				query).executeWithArray(parameters);
+		List<Submission> submissionList = (List<Submission>) q.executeWithArray(parameters);
 
-		if (submissionList.isEmpty()
-				|| JDOHelper.isDeleted(submissionList.get(0))) {
+		if (submissionList.isEmpty() || JDOHelper.isDeleted(submissionList.get(0))) {
 			return null;
 		}
 
 		return submissionList.get(0);
+	}
+
+	private List<Submission> getSubmissionEntitiesForCourse(String courseId) {
+		Query q = getPM().newQuery(Submission.class);
+		q.declareParameters("String courseIdParam");
+		q.setFilter("courseID == courseIdParam");
+		
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) q.execute(courseId);
+		return submissionList;
+	}
+
+private List<Submission> getSubmissionEntititesForEvaluation(
+			String courseId, String evaluationName) {
+		Query q = getPM().newQuery(Submission.class);
+		q.declareParameters("String courseIdParam, String evaluationNameParam");
+		q.setFilter("courseID == courseIdParam && evaluationName == evaluationNameParam");
+	
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) q.execute(courseId, evaluationName);
+		return submissionList;
+	}
+
+	private List<Submission> getSubmissionEntitiesForCourseFromStudent(
+			String courseId, String reviewerEmail) {
+		
+		Query q = getPM().newQuery(Submission.class);
+		q.declareParameters(
+				"String courseIdParam, " +
+				"String reviewerEmailParam");
+		q.setFilter("courseID == courseIdParam " +
+				"&& fromStudent == reviewerEmailParam");
+		
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) q.execute(courseId, reviewerEmail);
+		return submissionList;
+	}
+	
+	private List<Submission> getSubmissionEntitiesForCourseToStudent(
+			String courseId, String revieweeEmail) {
+		
+		Query q = getPM().newQuery(Submission.class);
+		q.declareParameters(
+				"String courseIdParam, " +
+				"String revieweeEmailParam");
+		q.setFilter("courseID == courseIdParam " +
+				"&& toStudent == revieweeEmailParam");
+		
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) q.execute(courseId, revieweeEmail);
+		return submissionList;
+	}
+	
+	private List<Submission> getSubmissionEntitiesForEvaluationFromStudent(
+			String courseId, String evaluationName, String reviewerEmail) {
+		
+		Query q = getPM().newQuery(Submission.class);
+		q.declareParameters(
+				"String courseIdParam, " +
+				"String evaluationNameParam, " +
+				"String reviewerEmailParam");
+		q.setFilter("courseID == courseIdParam " +
+				"&& evaluationName == evaluationNameParam" +
+				"&& fromStudent == reviewerEmailParam");
+		
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) q.execute(courseId, evaluationName, reviewerEmail);
+		return submissionList;
 	}
 
 }

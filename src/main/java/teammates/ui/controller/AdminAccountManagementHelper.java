@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 
 public class AdminAccountManagementHelper extends Helper{
-	public HashMap<String, ArrayList<InstructorData>> instructorCoursesTable;
-	public HashMap<String, AccountData> instructorAccountsTable;
+	public HashMap<String, ArrayList<InstructorAttributes>> instructorCoursesTable;
+	public HashMap<String, AccountAttributes> instructorAccountsTable;
 	
 	public String getAccountDetailsLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DETAILS;

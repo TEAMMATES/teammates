@@ -6,18 +6,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
 
 public class InstructorEvalHelper extends Helper{
-	public List<CourseData> courses;
+	public List<CourseDetailsBundle> courses;
 	// This is the ID of the course the evaluation page should display, 
 	//   when it loads for the user to fill in data for a new evaluation.
 	public String courseIdForNewEvaluation;
 	// This stores the evaluation details when a user submits a new evaluation
 	//   to be stored.
-	public EvaluationData newEvaluationToBeCreated;
-	public List<EvaluationData> evaluations;
+	public EvaluationAttributes newEvaluationToBeCreated;
+	public List<EvaluationDetailsBundle> evaluations;
 	
 	/**
 	 * Returns the timezone options as HTML code.
@@ -85,24 +87,24 @@ public class InstructorEvalHelper extends Helper{
 	public ArrayList<String> getCourseIdOptions() {
 		ArrayList<String> result = new ArrayList<String>();
 
-		for (CourseData course : courses) {
+		for (CourseDetailsBundle courseDetails : courses) {
 
 			// True if this is a submission of the filled 'new evaluation' form
 			// for this course:
 			boolean isFilledFormForEvaluationInThisCourse = (newEvaluationToBeCreated != null)
-					&& course.id.equals(newEvaluationToBeCreated.course);
+					&& courseDetails.course.id.equals(newEvaluationToBeCreated.course);
 
 			// True if this is for displaying an empty form for creating an
 			// evaluation for this course:
 			boolean isEmptyFormForEvaluationInThisCourse = (courseIdForNewEvaluation != null)
-					&& course.id.equals(courseIdForNewEvaluation);
+					&& courseDetails.course.id.equals(courseIdForNewEvaluation);
 
 			String selectedAttribute = isFilledFormForEvaluationInThisCourse
 					|| isEmptyFormForEvaluationInThisCourse ? " selected=\"selected\""
 					: "";
 
-			result.add("<option value=\"" + course.id + "\""
-					+ selectedAttribute + ">" + course.id + "</option>");
+			result.add("<option value=\"" + courseDetails.course.id + "\""
+					+ selectedAttribute + ">" + courseDetails.course.id + "</option>");
 		}
 		return result;
 	}

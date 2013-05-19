@@ -1,15 +1,18 @@
 package teammates.logic;
 
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import java.util.List;
+
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.UserType;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -21,6 +24,7 @@ public class GateKeeper {
 	
 	private static AccountsDb accountsDb = new AccountsDb();
 	private static CoursesDb coursesDb = new CoursesDb();
+	private static final StudentsDb studentsDb = new StudentsDb();
 	private static EvaluationsDb evaluationsDb = new EvaluationsDb();
 
 	/**
@@ -157,7 +161,7 @@ public class GateKeeper {
 		throw new UnauthorizedAccessException();
 	}
 
-	public void verifyCourseOwnerOrAbove(String courseId) {
+	public void verifyCourseInstructorOrAbove(String courseId) {
 		if (isInternalCall())
 			return;
 		if (isAdministrator())
@@ -231,7 +235,7 @@ public class GateKeeper {
 		throw new UnauthorizedAccessException();
 	}
 
-	public void verifySubmissionEditableForUser(SubmissionData submission) {
+	public void verifySubmissionEditableForUser(SubmissionAttributes submission) {
 		if (isInternalCall())
 			return;
 		if (isAdministrator())
@@ -239,9 +243,26 @@ public class GateKeeper {
 		if (isInstructorOfCourse(submission.course))
 			return;
 		if (isOwnEmail(submission.course, submission.reviewer)
-				&& evaluationsDb.isEvaluationOpen(submission.course, submission.evaluation))
+				&& isEvaluationOpen(submission.course, submission.evaluation))
 			return;
 		throw new UnauthorizedAccessException();
+	}
+
+	public void verifySubmissionsEditableForUser(List<SubmissionAttributes> submissions) {
+		for(SubmissionAttributes s: submissions){
+			//repeating the code below (from verifySubmissionEditableForUser).
+			// Otherwise, it will be considered an internal call.
+			if (isInternalCall())
+				return;
+			if (isAdministrator())
+				return;
+			if (isInstructorOfCourse(s.course))
+				return;
+			if (isOwnEmail(s.course, s.reviewer)
+					&& isEvaluationOpen(s.course, s.evaluation))
+				return;
+			throw new UnauthorizedAccessException();
+		}
 	}
 
 	public void verfyCourseOwner_OR_EmailOwnerAndPublished(String courseId,
@@ -253,9 +274,19 @@ public class GateKeeper {
 		if (isInstructorOfCourse(courseId))
 			return;
 		if (isOwnEmail(courseId, studentEmail)
-				&& evaluationsDb.isEvaluationPublished(courseId, evaluationName)) 
+				&& isEvaluationPublished(courseId, evaluationName)) 
 			return;
 		throw new UnauthorizedAccessException();
+	}
+
+	private boolean isEvaluationOpen(String course, String evaluation) {
+		EvaluationAttributes e = evaluationsDb.getEvaluation(course, evaluation);
+		return (e != null) && (e.getStatus() == EvalStatus.OPEN);
+	}
+
+	private boolean isEvaluationPublished(String courseId, String evaluationName) {
+		EvaluationAttributes evaluation = evaluationsDb.getEvaluation(courseId, evaluationName);
+		return evaluation != null && evaluation.getStatus() == EvalStatus.PUBLISHED;
 	}
 
 	// @formatter:on
@@ -273,11 +304,11 @@ public class GateKeeper {
 		if (user == null) {
 			return false;
 		}
-		CourseData course = coursesDb.getCourse(courseId);
+		CourseAttributes course = coursesDb.getCourse(courseId);
 		if (course == null) {
 			return false;
 		}
-		StudentData student = accountsDb.getStudent(courseId, studentEmail);
+		StudentAttributes student = studentsDb.getStudentForEmail(courseId, studentEmail);
 		return student == null ? false : user.id.equals(student.id);
 	}
 
@@ -294,23 +325,23 @@ public class GateKeeper {
 	//===========================================================================
 	private boolean isInstructor() {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.isInstructor(user.getNickname());
+		return isLoggedOn() &&  AccountsLogic.inst().isAccountAnInstructor(user.getNickname());
 	}
 	
 	private boolean isInstructorOfCourse(String courseId) {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.isInstructorOfCourse(user.getNickname(), courseId);
+		return isLoggedOn() && InstructorsLogic.inst().isInstructorOfCourse(user.getNickname(), courseId);
 	}
 
 	//===========================================================================
 	private boolean isStudent() {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.getStudentsWithGoogleId(user.getNickname()).size()!=0;
+		return isLoggedOn() && studentsDb.getStudentsForGoogleId(user.getNickname()).size()!=0;
 	}
 	
 	private boolean isStudentOfCourse(String courseId) {
 		User user = userService.getCurrentUser();
-		return isLoggedOn() && accountsDb.isStudentOfCourse(user.getNickname(), courseId);
+		return isLoggedOn() && studentsDb.getStudentForGoogleId(courseId, user.getNickname()) != null;
 	}
 	
 

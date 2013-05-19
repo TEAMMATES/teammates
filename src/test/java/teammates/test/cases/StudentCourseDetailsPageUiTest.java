@@ -1,13 +1,11 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
@@ -56,10 +54,10 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 		
 		______TS("with teammates");
 		
-		String studentId = scn.students.get("alice.tmms").id;
+		String studentId = scn.students.get("SCDetailsUiT.alice").id;
 		
 		//create the student account if it doesn't exist 
-		AccountData testStudentAccount = new AccountData(studentId, "Alice Tmms", false, "alice.tmms@gmail.com", "National University of Singapore");
+		AccountAttributes testStudentAccount = new AccountAttributes(studentId, "Alice Tmms", false, "SCDetailsUiT.alice@gmail.com", "National University of Singapore");
 		String backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
@@ -71,10 +69,10 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 
 		______TS("without teammates"); //TODO: to be removed if team is compulsory
 		
-		studentId = scn.students.get("charlie.tmms").id;
+		studentId = scn.students.get("SCDetailsUiT.charlie").id;
 		
 		//recreate student account if it doesn't exist
-		testStudentAccount = new AccountData(studentId, "Charlie Tmms", false, "charlie.tmms@gmail.com", "National University of Singapore");
+		testStudentAccount = new AccountAttributes(studentId, "Charlie Tmms", false, "SCDetailsUiT.charlie@gmail.com", "National University of Singapore");
 		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
@@ -86,10 +84,10 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 		
 		______TS("no team"); //TODO: to be removed if team is compulsory
 		
-		studentId = scn.students.get("danny.tmms").id;
+		studentId = scn.students.get("SCDetailsUiT.danny").id;
 		
 		//recreate student account if it doesn't exist
-		testStudentAccount = new AccountData(studentId, "Danny Tmms", false, "danny.tmms@gmail.com", "National University of Singapore");
+		testStudentAccount = new AccountAttributes(studentId, "Danny Tmms", false, "SCDetailsUiT.danny@gmail.com", "National University of Singapore");
 		backDoorOperationStatus = BackDoor.createAccount(testStudentAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		

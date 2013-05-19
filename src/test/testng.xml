@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
+
+	<test name="frequent-ui-tests" parallel="classes">
+		<classes>
+			<class name="teammates.test.cases.InstructorLoginPageUiTest" />
+			<class name="teammates.test.cases.InstructorCourseEnrollPageUiTest" />
+			<class name="teammates.test.cases.InstructorCourseAddPageUiTest" />
+			<class name="teammates.test.cases.InstructorEvalPageUiTest" />
+			<class name="teammates.test.cases.InstructorCourseEditPageUiTest" />
+			<class name="teammates.test.cases.InstructorHomePageUiTest" />
+			<class name="teammates.test.cases.InstructorCourseStudentDetailsPageUiTest" />
+			<class name="teammates.test.cases.InstructorEvalSubmissionPageUiTest" />
+			<class name="teammates.test.cases.InstructorEvalEditPageUiTest" />
+			<class name="teammates.test.cases.InstructorEvalResultsPageUiTest" />
+			<class name="teammates.test.cases.InstructorCourseDetailsPageUiTest" />
+			<class name="teammates.test.cases.AdminAccountManagementUiTest" />
+			<class name="teammates.test.cases.AdminHomePageUiTest" />
+			<class name="teammates.test.cases.StudentLoginPageUiTest" />
+			<class name="teammates.test.cases.StudentCourseDetailsPageUiTest" />
+			<class name="teammates.test.cases.StudentHomePageUiTest" />
+			<class name="teammates.test.cases.StudentEvalEditPageUiTest" />
+			<class name="teammates.test.cases.StudentEvalResultsPageUiTest" />
+		</classes>
+	</test>
+		<test name="component-tests">
+		<classes>
+			<class name="teammates.test.cases.FieldValidatorTest" />
+			<class name="teammates.test.cases.TestPropertiesTest" />
+			<class name="teammates.test.cases.BuildPropertiesTest" />
+			<class name="teammates.test.cases.CommonTest" />
+			<class name="teammates.test.cases.StudentTest" />
+			<class name="teammates.test.cases.EvaluationTest" />
+			<class name="teammates.test.cases.AccountAttributesTest" />
+			<class name="teammates.test.cases.CourseAttributesTest" />
+			<class name="teammates.test.cases.StudentAttributesTest" />
+			<class name="teammates.test.cases.InstructorAttributesTest" />
+			<class name="teammates.test.cases.EvaluationAttributesTest" />
+			<class name="teammates.test.cases.SubmissionAttributesTest" />
+			<class name="teammates.test.cases.StudentResultBundleTest" />
+			<class name="teammates.test.cases.TeamResultBundleTest" />
+			<class name="teammates.test.cases.ActivityLogTest" />
+			<class name="teammates.test.cases.LogicTest" />
+			<class name="teammates.test.cases.BackDoorLogicTest"/>
+			<class name="teammates.test.cases.AccountsDbTest" />
+			<class name="teammates.test.cases.StudentsDbTest" />
+			<class name="teammates.test.cases.InstructorsDbTest" />
+			<class name="teammates.test.cases.CoursesDbTest" />
+			<class name="teammates.test.cases.SubmissionsDbTest" />
+			<class name="teammates.test.cases.EvaluationsDbTest" />
+			<class name="teammates.test.cases.SubmissionsLogicTest" />
+			<class name="teammates.test.cases.EvaluationsLogicTest" />
+			<class name="teammates.test.cases.StudentsLogicTest" />
+			<class name="teammates.test.cases.InstructorsLogicTest" />
+			<class name="teammates.test.cases.HelperTest" />
+			<class name="teammates.test.cases.InstructorEvalHelperTest" />
+			<class name="teammates.test.cases.EmailsTest" />
+			<class name="teammates.test.cases.HtmlHelperTest" />
+			<class name="teammates.test.cases.TeamEvalResultTest" />
+		</classes>
+	</test>
+	<test name="occasional-tests">
+		<classes>
+			<class name="teammates.test.cases.BackDoorTest" />
+			<class name="teammates.test.cases.SystemErrorEmailReportTest" />
+			<class name="teammates.test.cases.TableSortTest" />
+			<class name="teammates.test.cases.AllAccessControlUiTests" />
+			<class name="teammates.test.cases.AllJsTests" />
+			<class name="teammates.test.cases.WebpageCompilationUiTest" />
+		</classes>
+	</test>
+</suite> 

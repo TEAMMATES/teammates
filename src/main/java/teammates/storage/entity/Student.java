@@ -1,138 +1,142 @@
 package teammates.storage.entity;
 
-import java.util.logging.Logger;
-
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-import javax.jdo.annotations.Extension;
-import teammates.common.Common;
 
-import com.google.gson.annotations.SerializedName;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
+import com.google.gson.annotations.SerializedName;
 
 /**
- * Student is a persistent data class that holds information pertaining to a
- * student on Teammates.
- * This represents a student per course.
- * 
+ * An association class that represents the association Account -->
+ * [enrolled in] --> Course.
  */
 @PersistenceCapable
 public class Student {
 
-	@SuppressWarnings("unused")
-	private static Logger log = Common.getLogger();
-	/**
-	 * The student's Google ID
-	 */
+	// TODO: some of the serialized names are not correct.
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private transient Long registrationKey = null;
-	
+
+	/**
+	 * The student's Google ID. Used as the foreign key for the Account object.
+	 * This can be null/empty if the student's hasn't joined the course yet.
+	 */
 	@Persistent
 	@SerializedName("google_id")
 	private String ID = null;
 
+	/**
+	 * The email used to contact the student regarding this course.
+	 */
 	@Persistent
 	@SerializedName("email")
 	private String email;
 
+	/**
+	 * The student's Google ID. Used as the foreign key for the Course object.
+	 */
 	@Persistent
 	@SerializedName("coursename")
 	private String courseID;
 
 	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	@SerializedName("name")
 	private String name = null;
 
 	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private String comments = null;
 
 	@Persistent
-	@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	@SerializedName("teamname")
 	private String teamName = null;
-
 
 	/**
 	 * Constructs a Student object.
 	 * 
 	 * @param email
+	 *            Student's email used for this course.
 	 * @param name
-	 * @param googleID
+	 *            Student name.
+	 * @param googleId
+	 *            Student's Google Id. Can be null/empty if the student hasn't
+	 *            registered yet.
 	 * @param comments
-	 * @param courseID
+	 *            Comments about the student.
+	 * @param courseId
 	 * @param teamName
 	 */
-	public Student(String email, String name, String googleID, String comments,
-			String courseID, String teamName) {
+	public Student(String email, String name, String googleId, String comments,
+			String courseId, String teamName) {
 		this.setEmail(email);
 		this.setName(name);
-		this.setID(googleID);
+		this.setGoogleId(googleId);
 		this.setComments(comments);
-		this.setCourseID(courseID);
+		this.setCourseId(courseId);
 		this.setTeamName(teamName);
-	}
-
-	public void setEmail(String email) {
-		this.email = email.trim();
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setID(String ID) {
-		this.ID = (ID == null ? null : ID.trim());
+	public void setEmail(String email) {
+		this.email = email.trim();
 	}
 
-	public String getID() {
+	public String getGoogleId() {
 		return ID;
 	}
 
-	public void setName(String name) {
-		this.name = name.trim();
+	public void setGoogleId(String googleId) {
+		this.ID = (googleId == null ? null : googleId.trim());
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setComments(String comments) {
-		this.comments = (comments == null ? null : comments.trim());
+	public void setName(String name) {
+		this.name = name.trim();
 	}
 
 	public String getComments() {
 		return comments;
 	}
 
+	public void setComments(String comments) {
+		this.comments = (comments == null ? null : comments.trim());
+	}
+
+	public Long getRegistrationKey() {
+		return registrationKey;
+	}
+
 	public void setRegistrationKey(Long registrationKey) {
 		this.registrationKey = registrationKey;
 	}
 
-	public Long getRegistrationKey() {
-
-		return registrationKey;
-	}
-
-	public void setCourseID(String courseID) {
-		this.courseID = courseID.trim();
-	}
-
-	public String getCourseID() {
+	public String getCourseId() {
 		return courseID;
 	}
 
-	public void setTeamName(String teamName) {
-		this.teamName = (teamName == null ? null : teamName.trim());
+	public void setCourseId(String courseId) {
+		this.courseID = courseId.trim();
 	}
 
 	public String getTeamName() {
 		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = (teamName == null ? null : teamName.trim());
 	}
 
 	public boolean isRegistered() {

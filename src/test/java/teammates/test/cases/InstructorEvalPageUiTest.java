@@ -1,18 +1,18 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -41,7 +41,8 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		BackDoor.deleteInstructors(jsonString);
 		
 		// Create fresh account relation
-		String backDoorOperationStatus = BackDoor.createAccount(scn.accounts.get("teammates.test"));
+		AccountAttributes instructorAccount = scn.accounts.get("CEvalUiT.instructor");
+		String backDoorOperationStatus = BackDoor.createAccount(instructorAccount);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		reportTimeForDataImport();
 
@@ -49,7 +50,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("teammates.test").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,instructorAccount.googleId);
 		bi.goToUrl(link);
 	}
 	
@@ -77,8 +78,8 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		______TS("no evaluations");
 		BackDoor.createCourse(scn.courses.get("course"));
 		BackDoor.createCourse(scn.courses.get("anotherCourse"));
-		BackDoor.createInstructor(scn.instructors.get("teammates.test.course"));
-		BackDoor.createInstructor(scn.instructors.get("teammates.test.anotherCourse"));
+		BackDoor.createInstructor(scn.instructors.get("teammates.test.instructor"));
+		BackDoor.createInstructor(scn.instructors.get("teammates.test.anotherInstructor"));
 		BackDoor.createStudent(scn.students.get("alice.tmms@CEvalUiT.CS2104"));
 		BackDoor.createStudent(scn.students.get("benny.tmms@CEvalUiT.CS2104"));
 		BackDoor.createStudent(scn.students.get("charlie.tmms@CEvalUiT.CS1101"));
@@ -123,12 +124,12 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		
 		______TS("typical success case");
-		EvaluationData eval = scn.evaluations.get("awaitingEval");
+		EvaluationAttributes eval = scn.evaluations.get("awaitingEval");
 		bi.addEvaluation(eval.course, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("teammates.test").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("CEvalUiT.instructor").googleId);
 		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/instructorEvalAddSuccess.html",link);
 
 		______TS("client-side input validation");
@@ -182,14 +183,14 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 		} catch (NoAlertException e){
-			fail("Publish link not clickable on closed evaluation");
+			Assert.fail("Publish link not clickable on closed evaluation");
 		}
 		try{
 			bi.clickAndConfirm(publishLinkLocator);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_PUBLISHED);
 			//TODO: check for email?
 		} catch (NoAlertException e){
-			fail("Publish link not clickable on closed evaluation");
+			Assert.fail("Publish link not clickable on closed evaluation");
 		}
 		
 		______TS("PUBLISHED: unpublish link clickable");
@@ -201,13 +202,13 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 		} catch (NoAlertException e){
-			fail("Unpublish link not clickable on published evaluation");
+			Assert.fail("Unpublish link not clickable on published evaluation");
 		}
 		try{
 			bi.clickAndConfirm(publishLinkLocator);
 			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_UNPUBLISHED);
 		} catch (NoAlertException e){
-			fail("Unpublish link not clickable on published evaluation");
+			Assert.fail("Unpublish link not clickable on published evaluation");
 		}
 	}
 	
@@ -222,7 +223,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		By remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-			fail("Remind link clickable on closed evaluation");
+			Assert.fail("Remind link clickable on closed evaluation");
 		} catch (NoAlertException e){}
 
 		______TS("PUBLISHED: remind link unclickable");
@@ -233,7 +234,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-			fail("Remind link clickable on published evaluation");
+			Assert.fail("Remind link clickable on published evaluation");
 		} catch (NoAlertException e){}
 
 		______TS("AWAITING: remind link unclickable");
@@ -244,7 +245,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
 		try{
 			bi.clickAndCancel(remindLinkLocator);
-			fail("Remind link clickable on awaiting evaluation");
+			Assert.fail("Remind link clickable on awaiting evaluation");
 		} catch (NoAlertException e){}
 
 		______TS("OPEN: remind link clickable, click and cancel");
@@ -256,7 +257,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(remindLinkLocator);
 		} catch (NoAlertException e){
-			fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
+			Assert.fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
 		}
 		
 		______TS("OPEN: click and confirm");
@@ -264,7 +265,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndConfirm(remindLinkLocator);
 		} catch (NoAlertException e){
-			fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
+			Assert.fail("Remind link not clickable on OPEN evaluation, or it is clickable but no confirmation box");
 		}
 
 		// Check email
@@ -285,9 +286,9 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
 			String evaluation = BackDoor.getEvaluationAsJson(courseID, evalName);
-			if(isNullJSON(evaluation)) fail("Evaluation was deleted when it's not supposed to be");
+			if(isNullJSON(evaluation)) Assert.fail("Evaluation was deleted when it's not supposed to be");
 		} catch (NoAlertException e){
-			fail("Delete link not clickable or it is clickable but no confirmation box");
+			Assert.fail("Delete link not clickable or it is clickable but no confirmation box");
 		}
 
 		______TS("click and confirm");
@@ -296,15 +297,15 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 			// Regex test due to the date in the evaluation form
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalDeleteSuccessful.html");
 		} catch (NoAlertException e){
-			fail("Delete link not clickable or it is clickable but no confirmation box");
+			Assert.fail("Delete link not clickable or it is clickable but no confirmation box");
 		}
 	}
 
 	@SuppressWarnings("unused")
 	private class TestScenario{
-		public InstructorData instructor;
-		public CourseData course;
-		public EvaluationData evaluation;
-		public EvaluationData evaluationInCourseWithNoTeams;
+		public InstructorAttributes instructor;
+		public CourseAttributes course;
+		public EvaluationAttributes evaluation;
+		public EvaluationAttributes evaluationInCourseWithNoTeams;
 	}
 }

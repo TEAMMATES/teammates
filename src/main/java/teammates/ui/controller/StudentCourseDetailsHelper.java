@@ -2,14 +2,14 @@ package teammates.ui.controller;
 
 import java.util.List;
 
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.TeamData;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.TeamDetailsBundle;
 
 public class StudentCourseDetailsHelper extends Helper {
-	public CourseData course;
-	public StudentData student;
-	public TeamData team;
-	public List<InstructorData> instructors;
+	public CourseDetailsBundle courseDetails;
+	public StudentAttributes student;
+	public TeamDetailsBundle team;
+	public List<InstructorAttributes> instructors;
 }

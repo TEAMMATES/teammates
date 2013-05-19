@@ -5,8 +5,11 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
+
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
@@ -25,10 +28,11 @@ public class InstructorHomeServlet extends ActionServlet<InstructorHomeHelper> {
 	protected void doAction(HttpServletRequest req, InstructorHomeHelper helper) throws EntityDoesNotExistException{
 		String url = getRequestedURL(req); 
         
-		HashMap<String, CourseData> courses = helper.server.getCourseDetailsListForInstructor(helper.userId);
-		helper.courses = new ArrayList<CourseData>(courses.values());
-		sortCourses(helper.courses);
-		for(CourseData course: helper.courses){
+		HashMap<String, CourseDetailsBundle> courses = helper.server.getCourseDetailsListForInstructor(helper.userId);
+		
+		helper.courses = new ArrayList<CourseDetailsBundle>(courses.values());
+		sortDetailedCourses(helper.courses);
+		for(CourseDetailsBundle course: helper.courses){
 			sortEvaluationsByDeadline(course.evaluations);
 		}
 		   

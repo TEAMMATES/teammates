@@ -38,13 +38,13 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=teammates.demo.instructor" class='nav home' data-link="instructorHome">Home</a></li>
-					<li class="current"><a href="/page/instructorCourse?user=teammates.demo.instructor" class='nav courses' data-link="instructorCourse">Courses</a></li>
-					<li><a href="/page/instructorEval?user=teammates.demo.instructor" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a href="/page/instructorHome?user=CCAddUiTest.instructor" class='nav home' data-link="instructorHome">Home</a></li>
+					<li class="current"><a href="/page/instructorCourse?user=CCAddUiTest.instructor" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li><a href="/page/instructorEval?user=CCAddUiTest.instructor" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <b><span onmouseover="ddrivetip('teammates.demo.instructor')" onmouseout="hideddrivetip()">
-                                         (teammates.demo.instr...)</span></b></li>
+					 <b>(CCAddUiTest.instructor)</b>
+					 </li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -62,7 +62,7 @@
 			</div>
 
 			<form name="form_addcourse" action="/page/instructorCourse" method="get">
-				<input type="hidden" value="teammates.demo.instructor" name="instructorid" id="instructorid" />
+				<input type="hidden" value="CCAddUiTest.instructor" name="instructorid" id="instructorid" />
 				<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
@@ -90,7 +90,7 @@
 					<tr>
 						<td colspan="2">
 							<span class="bold" id="instructorformat">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">teammates.demo.instructor|Teammates Demo Instr|teammates.demo.instructor@gmail.com</textarea>
+							<textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">CCAddUiTest.instructor|Teammates Demo Instr|CCAddUiTest.instructor@gmail.com</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -99,7 +99,7 @@
 					</tr>
 				</table>
 				
-					<input type="hidden" value="teammates.demo.instructor" name="user" />
+					<input type="hidden" value="CCAddUiTest.instructor" name="user" />
 				
 			</form>
 			<br />
@@ -129,10 +129,10 @@
 						<td class="centeralign">0</td>
 						<td class="centeralign">0</td>
 						<td class="centeralign no-print">
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnroll?courseid=CCAddUiTest.CS1101&amp;user=teammates.demo.instructor" class="color_black t_course_enroll0">Enroll</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetails?courseid=CCAddUiTest.CS1101&amp;user=teammates.demo.instructor" class="color_black t_course_view0">View</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEdit?courseid=CCAddUiTest.CS1101&amp;user=teammates.demo.instructor" class="color_black t_course_edit0">Edit</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS1101');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&amp;next=%2Fpage%2FinstructorCourse%3Fuser%3Dteammates.demo.instructor&amp;user=teammates.demo.instructor" class="color_black t_course_delete0">Delete</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnroll?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_enroll0">Enroll</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetails?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_view0">View</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEdit?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit0">Edit</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS1101');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&amp;next=%2Fpage%2FinstructorCourse%3Fuser%3DCCAddUiTest.instructor&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete0">Delete</a>
 						</td>
 					</tr>
 				
@@ -143,10 +143,10 @@
 						<td class="centeralign">0</td>
 						<td class="centeralign">0</td>
 						<td class="centeralign no-print">
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnroll?courseid=CCAddUiTest.CS2104&amp;user=teammates.demo.instructor" class="color_black t_course_enroll1">Enroll</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetails?courseid=CCAddUiTest.CS2104&amp;user=teammates.demo.instructor" class="color_black t_course_view1">View</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEdit?courseid=CCAddUiTest.CS2104&amp;user=teammates.demo.instructor" class="color_black t_course_edit1">Edit</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS2104');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&amp;next=%2Fpage%2FinstructorCourse%3Fuser%3Dteammates.demo.instructor&amp;user=teammates.demo.instructor" class="color_black t_course_delete1">Delete</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnroll?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_enroll1">Enroll</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetails?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_view1">View</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEdit?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit1">Edit</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS2104');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&amp;next=%2Fpage%2FinstructorCourse%3Fuser%3DCCAddUiTest.instructor&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete1">Delete</a>
 						</td>
 					</tr>
 				

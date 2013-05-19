@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -34,7 +34,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 	 * 		Contains additional information that might be required
 	 * @return
 	 */
-	protected abstract StudentData getStudentObject(HttpServletRequest req, EvalSubmissionEditHelper helper);
+	protected abstract StudentAttributes getStudentObject(HttpServletRequest req, EvalSubmissionEditHelper helper);
 	
 	/**
 	 * The message to be displayed in case the {@link #getStudentObject) returns null
@@ -85,7 +85,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 		helper.eval = helper.server.getEvaluation(courseID, evalName);
 		
 		try{
-			helper.submissions = helper.server.getSubmissionsFromStudent(courseID, evalName, helper.student.email);
+			helper.submissions = helper.server.getSubmissionsForEvaluationFromStudent(courseID, evalName, helper.student.email);
 			
 			ArrayList<Object> data = new ArrayList<Object>();
 			data.add(courseID);
@@ -107,7 +107,7 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 		
 		// Put self submission at first
 		for(int i=0; i<helper.submissions.size(); i++){
-			SubmissionData sub = helper.submissions.get(i);
+			SubmissionAttributes sub = helper.submissions.get(i);
 			if(sub.reviewee.equals(sub.reviewer)){
 				helper.submissions.remove(sub);
 				helper.submissions.add(0,sub);

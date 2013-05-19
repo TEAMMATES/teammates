@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -57,11 +57,11 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 		String[] justifications = req.getParameterValues(Common.PARAM_JUSTIFICATION);
 		String[] comments = req.getParameterValues(Common.PARAM_COMMENTS);
 		
-		EvaluationData eval = helper.server.getEvaluation(courseID, evalName);
+		EvaluationAttributes eval = helper.server.getEvaluation(courseID, evalName);
 		
-		ArrayList<SubmissionData> submissionData = new ArrayList<SubmissionData>();
+		ArrayList<SubmissionAttributes> submissionData = new ArrayList<SubmissionAttributes>();
 		for(int i=0; i<toEmails.length; i++){
-			SubmissionData sub = new SubmissionData();
+			SubmissionAttributes sub = new SubmissionAttributes();
 			sub.course = courseID;
 			sub.evaluation = evalName;
 			sub.justification = new Text(justifications[i]);
@@ -78,7 +78,7 @@ public abstract class EvalSubmissionEditHandlerServlet extends ActionServlet<Hel
 		}
 		
 		try{
-			helper.server.editSubmissions(submissionData);
+			helper.server.updateSubmissions(submissionData);
 			helper.statusMessage = getSuccessMessage(req,helper);
 			helper.redirectUrl = getSuccessUrl();
 			

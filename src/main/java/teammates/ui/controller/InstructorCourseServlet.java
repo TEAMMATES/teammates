@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -45,11 +47,11 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 			createCourse = true;
 		}
 		
-		HashMap<String, CourseData> courses = helper.server
-				.getCourseListForInstructor(helper.userId);
-		helper.courses = new ArrayList<CourseData>(courses.values());
+		HashMap<String, CourseDetailsBundle> courses = helper.server
+				.getCourseSummariesForInstructor(helper.userId);
+		helper.courses = new ArrayList<CourseDetailsBundle>(courses.values());
 		
-		sortCourses(helper.courses);	
+		sortDetailedCourses(helper.courses);	
 		setStatus(helper);
 		
 		if (!createCourse) {
@@ -64,7 +66,7 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		String courseId = helper.courseID;
 		String courseInstitute = helper.account.institute;
 		try {
-			helper.server.createCourse(helper.userId, helper.courseID,
+			helper.server.createCourseAndInstructor(helper.userId, helper.courseID,
 					helper.courseName);
 			helper.courseID = null;
 			helper.courseName = null;
@@ -85,6 +87,8 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 		} catch (InvalidParametersException e){
 			helper.statusMessage = e.getMessage();
 			helper.error = true;
+		} catch (EntityDoesNotExistException e) {
+			Assumption.fail("The course created did not persist properly :"+ courseId);
 		}
 	}
 

@@ -9,8 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -26,20 +26,20 @@ public class AdminAccountManagementServlet extends ActionServlet<AdminAccountMan
 	protected void doAction(HttpServletRequest req,
 			AdminAccountManagementHelper helper)
 			throws EntityDoesNotExistException, InvalidParametersException {
-		List<InstructorData> allInstructorsList = helper.server.getAllInstructors();
-		List<AccountData> allInstructorAccountsList = helper.server.getInstructorAccounts();
+		List<InstructorAttributes> allInstructorsList = helper.server.getAllInstructors();
+		List<AccountAttributes> allInstructorAccountsList = helper.server.getInstructorAccounts();
 		
-		helper.instructorCoursesTable = new HashMap<String, ArrayList<InstructorData>>();
-		helper.instructorAccountsTable = new HashMap<String, AccountData>();
+		helper.instructorCoursesTable = new HashMap<String, ArrayList<InstructorAttributes>>();
+		helper.instructorAccountsTable = new HashMap<String, AccountAttributes>();
 		
-		for(AccountData acc : allInstructorAccountsList){
+		for(AccountAttributes acc : allInstructorAccountsList){
 			helper.instructorAccountsTable.put(acc.googleId, acc);
 		}
 		
-		for(InstructorData instructor : allInstructorsList){
-			ArrayList<InstructorData> courseList = helper.instructorCoursesTable.get(instructor.googleId);
+		for(InstructorAttributes instructor : allInstructorsList){
+			ArrayList<InstructorAttributes> courseList = helper.instructorCoursesTable.get(instructor.googleId);
 			if (courseList == null){
-				courseList = new ArrayList<InstructorData>();
+				courseList = new ArrayList<InstructorAttributes>();
 				helper.instructorCoursesTable.put(instructor.googleId, courseList);
 			}
 			courseList.add(instructor);

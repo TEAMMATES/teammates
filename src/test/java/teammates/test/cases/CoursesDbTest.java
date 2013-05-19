@@ -1,17 +1,19 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
+import static teammates.common.FieldValidator.*;
+import static org.testng.AssertJUnit.*;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
 
@@ -34,9 +36,9 @@ public class CoursesDbTest extends BaseTestCase {
 	private void ____COURSE_________________________________________() {
 	}
 	@Test
-	public void testCreateCourse() throws EntityAlreadyExistsException {
+	public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {
 		// SUCCESS
-		CourseData c = new CourseData();
+		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101-fresh";
 		c.name = "Basic Computing";
 		coursesDb.createCourse(c);
@@ -44,7 +46,7 @@ public class CoursesDbTest extends BaseTestCase {
 		// FAIL : duplicate
 		try {
 			coursesDb.createCourse(c);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 			assertContains(CoursesDb.ERROR_CREATE_COURSE_ALREADY_EXISTS, e.getMessage());
 		}
@@ -53,28 +55,30 @@ public class CoursesDbTest extends BaseTestCase {
 		c.id = "invalid id spaces";
 		try {
 			coursesDb.createCourse(c);
-			fail();
-		} catch (AssertionError a) {
-			assertEquals(CourseData.ERROR_ID_INVALIDCHARS, a.getMessage());
+			Assert.fail();
+		} catch (InvalidParametersException e) {
+			assertContains(
+					String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
+					e.getMessage());
 		} catch (EntityAlreadyExistsException e) {
-			fail();
+			Assert.fail();
 		}
 		
 		// Null params check:
 		try {
 			coursesDb.createCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
-	public void testGetCourse() {
-		CourseData c = createNewCourse();
+	public void testGetCourse() throws InvalidParametersException {
+		CourseAttributes c = createNewCourse();
 		
 		// Get existent
-		CourseData retrieved = coursesDb.getCourse(c.id);
+		CourseAttributes retrieved = coursesDb.getCourse(c.id);
 		assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
@@ -84,7 +88,7 @@ public class CoursesDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			coursesDb.getCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
@@ -96,13 +100,13 @@ public class CoursesDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testDeleteCourse() {
-		CourseData c = createNewCourse();
+	public void testDeleteCourse() throws InvalidParametersException {
+		CourseAttributes c = createNewCourse();
 		
 		// Delete
 		coursesDb.deleteCourse(c.id);
 		
-		CourseData deleted = coursesDb.getCourse(c.id);
+		CourseAttributes deleted = coursesDb.getCourse(c.id);
 		assertNull(deleted);
 		
 		// delete again - should fail silently
@@ -111,7 +115,7 @@ public class CoursesDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			coursesDb.deleteCourse(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
@@ -123,8 +127,8 @@ public class CoursesDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private CourseData createNewCourse() {
-		CourseData c = new CourseData();
+	private CourseAttributes createNewCourse() throws InvalidParametersException {
+		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101";
 		c.name = "Basic Computing";
 		

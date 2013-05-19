@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -26,13 +27,13 @@ public class AdminAccountDetailsServlet extends ActionServlet<AdminAccountDetail
 		
 		helper.accountInformation = helper.server.getAccount(googleId);
 		try{
-			helper.instructorCourseList = new ArrayList<CourseData>(helper.server.getCourseListForInstructor(googleId).values());
+			helper.instructorCourseList = new ArrayList<CourseDetailsBundle>(helper.server.getCourseSummariesForInstructor(googleId).values());
 		} catch (EntityDoesNotExistException e){
 			//Not an instructor of any course
 			helper.instructorCourseList = null;
 		}
 		try{
-			helper.studentCourseList = helper.server.getCourseListForStudent(googleId);
+			helper.studentCourseList = helper.server.getCoursesForStudentAccount(googleId);
 		} catch(EntityDoesNotExistException e){
 			//Not a student of any course
 			helper.studentCourseList = null;

@@ -1,8 +1,10 @@
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.common.datatransfer.SubmissionData" %>
+<%@ page import="teammates.common.datatransfer.SubmissionAttributes" %>
 <%@ page import="teammates.ui.controller.StudentEvalResultsHelper"%>
 <%@ page import="teammates.ui.controller.InstructorEvalResultsHelper"%>
-<% StudentEvalResultsHelper helper = (StudentEvalResultsHelper)request.getAttribute("helper"); %>
+<%
+	StudentEvalResultsHelper helper = (StudentEvalResultsHelper)request.getAttribute("helper");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +29,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_STUDENT_HEADER %>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -37,7 +39,7 @@
 				<h1>Evaluation Results</h1>
 			</div>
 			
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			
 			<div id="studentEvaluationResults">
 				<div id="equalShareTag">E = Equal Share</div>
@@ -86,7 +88,7 @@
 						<td>
 							<ul>
 								<%
-									for(SubmissionData sub: helper.incoming) {
+									for(SubmissionAttributes sub: helper.incoming) {
 								%>
 									<li><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.eval.p2pEnabled)%></li>
 								<%
@@ -100,7 +102,7 @@
 						<td>
 							<ul>
 								<%
-									for(SubmissionData sub: helper.selfEvaluations){
+									for(SubmissionAttributes sub: helper.selfEvaluations){
 								%>
 									<li><span class="bold"><%=StudentEvalResultsHelper.escapeForHTML(sub.reviewerName)%>:</span> 
 										<%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></li>
@@ -138,7 +140,7 @@
 						<th class="bold centeralign color_white">Feedback to teammate</th>
 					</tr>
 					<%
-						for(SubmissionData sub: helper.outgoing){
+						for(SubmissionAttributes sub: helper.outgoing){
 					%>
 						<tr>
 							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.revieweeName)%></td>

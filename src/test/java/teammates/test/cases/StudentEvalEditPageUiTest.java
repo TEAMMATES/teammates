@@ -1,17 +1,16 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -46,11 +45,11 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		// after creating evaluations.
 
 		// move one student out of Team 2
-		StudentData extraGuy = scn.students.get("ExtraGuy");
+		StudentAttributes extraGuy = scn.students.get("ExtraGuy");
 		moveToTeam(extraGuy, "New Team");
 
 		// delete one student
-		StudentData dropOutGuy = scn.students.get("DropOut");
+		StudentAttributes dropOutGuy = scn.students.get("DropOut");
 		backDoorOperationStatus = BackDoor.deleteStudent(dropOutGuy.course,
 				dropOutGuy.email);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -58,7 +57,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		
 		// add a new student to Team 2, and change his email
 		String newGuyOriginalEmail = "old@guy.com";
-		StudentData newGuy = new StudentData("Team 2|New Guy|"
+		StudentAttributes newGuy = new StudentAttributes("Team 2|New Guy|"
 				+ newGuyOriginalEmail, course);
 		backDoorOperationStatus = BackDoor.createStudent(newGuy);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -114,9 +113,9 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		
 		______TS("submitting edited evaluation");
 		
-		EvaluationData eval = scn.evaluations.get("First Eval");
+		EvaluationAttributes eval = scn.evaluations.get("First Eval");
 		
-		SubmissionData[] subs = new SubmissionData[3];
+		SubmissionAttributes[] subs = new SubmissionAttributes[3];
 		subs[0] = scn.submissions.get("DannyCharlie");
 		subs[1] = scn.submissions.get("DannyDanny");
 		subs[2] = scn.submissions.get("DannyEmily");
@@ -162,19 +161,19 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		print("Checking modified data");
 		String json = "";
 		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, dannyEmail, charlieEmail);
-		SubmissionData charlieModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);
+		SubmissionAttributes charlieModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[0].points+"",charlieModified.points+"");
 		assertEquals(subs[0].justification.getValue(),charlieModified.justification.getValue());
 		assertEquals(subs[0].p2pFeedback.getValue(),charlieModified.p2pFeedback.getValue());
 
 		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, dannyEmail, dannyEmail);
-		SubmissionData dannyModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);
+		SubmissionAttributes dannyModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[1].points+"",dannyModified.points+"");
 		assertEquals(subs[1].justification.getValue(),dannyModified.justification.getValue());
 		assertEquals(subs[1].p2pFeedback.getValue(),dannyModified.p2pFeedback.getValue());
 
 		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, dannyEmail, emilyEmail);
-		SubmissionData emilyModified = Common.getTeammatesGson().fromJson(json, SubmissionData.class);
+		SubmissionAttributes emilyModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[2].points+"",emilyModified.points+"");
 		assertEquals(subs[2].justification.getValue(),emilyModified.justification.getValue());
 		assertEquals(subs[2].p2pFeedback.getValue(),emilyModified.p2pFeedback.getValue());
@@ -182,7 +181,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testStudentEvalEditPageWithP2PDisabled() throws Exception{
-		EvaluationData eval = scn.evaluations.get("Second Eval");
+		EvaluationAttributes eval = scn.evaluations.get("Second Eval");
 		
 		______TS("verify page functional with p2p feedback field disabled");
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
@@ -198,7 +197,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 	
 	@Test
 	public void testStudentEvalEditPageWithAllFieldsDisabled() throws Exception{
-			EvaluationData eval = scn.evaluations.get("Closed Unpublished Eval");
+			EvaluationAttributes eval = scn.evaluations.get("Closed Unpublished Eval");
 			
 			______TS("verify page functional with all fields disabled");
 			String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
@@ -212,7 +211,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 			bi.waitForStatusMessage(String.format(Common.MESSAGE_EVALUATION_EXPIRED,eval.name,eval.course).replace("<br />", "\n"));
 	}
 	
-	private static void moveToTeam(StudentData student, String newTeam) {
+	private static void moveToTeam(StudentAttributes student, String newTeam) {
 		String backDoorOperationStatus;
 		student.team = newTeam;
 		backDoorOperationStatus = BackDoor.editStudent(student.email, student);

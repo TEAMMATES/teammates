@@ -3,10 +3,11 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
 
 public class InstructorHomeHelper extends Helper {
-	public List<CourseData> courses;
+	public List<CourseDetailsBundle> courses;
 	
 	public String getInstructorEvaluationLink(String courseID) {
 		String link = super.getInstructorEvaluationLink();

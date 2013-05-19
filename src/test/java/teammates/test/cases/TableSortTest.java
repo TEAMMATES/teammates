@@ -1,12 +1,11 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import java.io.File;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.openqa.selenium.By;
 
 import teammates.test.driver.BrowserInstance;
@@ -46,6 +45,7 @@ public class TableSortTest extends BaseTestCase {
 		testTableSortingDiff();
 	}
 	
+	@Test
 	public void testTableSortingID() throws Exception{
 		bi.clickTableSortByIdButton();
 		int column = 0;
@@ -89,6 +89,7 @@ public class TableSortTest extends BaseTestCase {
 		
 	}
 	
+	@Test
 	public void testTableSortingName() throws Exception{
 		bi.clickTableSortByNameButton();
 		
@@ -132,6 +133,7 @@ public class TableSortTest extends BaseTestCase {
 		assertStringWithRowColumn("Zhang HaoQiang",1,column);
 	}
 	
+	@Test
 	public void testTableSortingDate() throws Exception{
 		bi.clickTableSortByDateButton();
 		
@@ -174,6 +176,7 @@ public class TableSortTest extends BaseTestCase {
 		assertStringWithRowColumn("05/06/13",1,column);
 	}
 	
+	@Test
 	public void testTableSortingDiff() throws Exception{
 		bi.click(By.id("button_sortDiff"));
 		
@@ -216,6 +219,7 @@ public class TableSortTest extends BaseTestCase {
 		assertStringWithRowColumn("N/A",1,column);
 	}
 	
+	@Test
 	public void testTableSortingPoint() throws Exception{
 		bi.click(By.id("button_sortPoint"));
 		

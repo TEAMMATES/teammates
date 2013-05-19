@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -68,7 +68,7 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 	}
 
 	private void deleteInstructorStatus(Helper helper, String instructorId){
-		helper.server.deleteInstructor(instructorId);
+		helper.server.downgradeInstructorToStudentCascade(instructorId);
 		helper.statusMessage = Common.MESSAGE_INSTRUCTOR_STATUS_DELETED;
 		helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_MANAGEMENT;	
 	}
@@ -80,13 +80,13 @@ public class AdminAccountDeleteServlet extends ActionServlet<AdminAccountDeleteH
 	}
 	
 	private void removeInstructorFromCourse(Helper helper, String instructorId, String courseId){
-		helper.server.deleteInstructor(instructorId, courseId);
+		helper.server.deleteInstructor(courseId, instructorId);
 		helper.statusMessage = Common.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE;
 		helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_DETAILS + "?instructorid=" + instructorId;
 	}
 	
 	private void removeStudentFromCourse(Helper helper, String studentId, String courseId){
-		StudentData student = helper.server.getStudentInCourseForGoogleId(courseId, studentId);
+		StudentAttributes student = helper.server.getStudentForGoogleId(courseId, studentId);
 		helper.server.deleteStudent(courseId, student.email);
 		helper.statusMessage = Common.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE;
 		helper.redirectUrl = Common.PAGE_ADMIN_ACCOUNT_DETAILS + "?instructorid=" + studentId;

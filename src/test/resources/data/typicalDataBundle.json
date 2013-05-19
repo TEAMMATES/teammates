@@ -30,7 +30,7 @@
 		},
 		"instructor3": {
 			"googleId": "idOfInstructor3",
-			"name": "Instructor 3 of Course 1 & 2",
+			"name": "Instructor 3 of Course 1 and 2",
 			"isInstructor": true,
 			"email": "instr3@course1n2.com",
 			"institute": "National University of Singapore"
@@ -118,6 +118,7 @@
       "name": "student2 In Course1",
       "id": "student2InCourse1",
       "team": "Team 1.1",
+      "comments" : "",
  	  "course" : "idOfTypicalCourse1"
     },
     "student3InCourse1":{
@@ -125,6 +126,7 @@
       "name": "student3 In Course1",
       "id": "student3InCourse1",
       "team": "Team 1.1",
+      "comments" : "",
       "course" : "idOfTypicalCourse1"
     },
     "student4InCourse1":{
@@ -132,6 +134,7 @@
       "name": "student4 In Course1",
       "id": "student4InCourse1",
       "team": "Team 1.1",
+      "comments" : "",
  	  "course" : "idOfTypicalCourse1"
     },
     "student5InCourse1":{
@@ -139,6 +142,7 @@
       "name": "student5 In Course1",
       "id": "student5InCourse1",
       "team": "Team 1.2",
+      "comments" : "",
       "course" : "idOfTypicalCourse1"
     },
     "student1InCourse2":{
@@ -146,6 +150,7 @@
       "name": "student1 In Course2",
       "id": "student1InCourse2",
       "team": "Team 2.1",
+      "comments" : "",
       "course" : "idOfTypicalCourse2"
     },
     "student2InCourse2":{
@@ -154,6 +159,7 @@
       "id": "student2InCourse1",
       "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
       "team": "Team 2.1",
+      "comments" : "",
       "course" : "idOfTypicalCourse2"
     }
   },
@@ -167,7 +173,7 @@
       "gracePeriod": 10,
       "p2pEnabled" : true,
       "startTime" : "2012-04-01 11:59 PM",
-      "endTime" : "2013-04-30 11:59 PM",
+      "endTime" : "2015-04-30 11:59 PM",
       "timeZone" : 2.0,
       "activated" : true,
       "published" : false
@@ -175,7 +181,7 @@
     "evaluation2InCourse1": {
       "course" : "idOfTypicalCourse1",
       "startTime" : "2012-04-01 11:59 PM",
-      "endTime" : "2013-04-30 11:59 PM",
+      "endTime" : "2015-04-30 11:59 PM",
       "gracePeriod": 20,
       "instructions": "Please please fill in the second evaluation in Course1",
       "name": "evaluation2 In Course1",
@@ -185,7 +191,7 @@
     "evaluation1InCourse2": {
       "course" : "idOfTypicalCourse2",
       "startTime" : "2012-04-01 11:59 PM",
-      "endTime" : "2013-04-30 11:59 PM",
+      "endTime" : "2015-04-30 11:59 PM",
       "gracePeriod": 20,
       "instructions": "Please please fill in the first evaluation in Course2",
       "name": "evaluation1 In Course2",

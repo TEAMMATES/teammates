@@ -1,8 +1,10 @@
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.common.datatransfer.StudentData" %>
-<%@ page import="teammates.common.datatransfer.InstructorData" %>
+<%@ page import="teammates.common.datatransfer.StudentAttributes" %>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.ui.controller.StudentCourseDetailsHelper"%>
-<% StudentCourseDetailsHelper helper = (StudentCourseDetailsHelper)request.getAttribute("helper"); %>
+<%
+	StudentCourseDetailsHelper helper = (StudentCourseDetailsHelper)request.getAttribute("helper");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,37 +29,37 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_STUDENT_HEADER %>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>Team Details for <%= helper.course.id %></h1>
+				<h1>Team Details for <%=helper.courseDetails.course.id%></h1>
 			</div>
 			<br>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<br>
 				
 			<table class="inputTable" id="studentCourseInformation">
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course ID:</td>
-	 				<td id="<%= Common.PARAM_COURSE_ID %>"><%= helper.course.id %></td>
+	 				<td id="<%=Common.PARAM_COURSE_ID%>"><%=helper.courseDetails.course.id%></td>
 	 			</tr>
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course name:</td>
-	 				<td id="<%= Common.PARAM_COURSE_NAME %>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.course.name)%></td>
+	 				<td id="<%=Common.PARAM_COURSE_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.courseDetails.course.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Instructors:</td>
 	 				<td id="<%=Common.PARAM_INSTRUCTOR_NAME%>">
 	 				<%
-		 				for (int i = 0; i < helper.instructors.size(); i++){
-		 					InstructorData instructor = helper.instructors.get(i);
-		 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
-		 			%>
-		 				<a href = "mailto:<%=instructor.email%>"><%=instructorInfo %></a><br><br>
+	 					for (int i = 0; i < helper.instructors.size(); i++){
+	 					 						 					InstructorAttributes instructor = helper.instructors.get(i);
+	 					 						 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+	 				%>
+		 				<a href = "mailto:<%=instructor.email%>"><%=instructorInfo%></a><br><br>
 		 			<%
 		 				}
 		 			%>
@@ -87,7 +89,7 @@
 	 					%>
 	 						<ul>
 									<%
-										for(StudentData student: helper.team.students){
+										for(StudentAttributes student: helper.team.students){
 									%>
 										<%
 											if(!student.email.equals(helper.student.email)) {

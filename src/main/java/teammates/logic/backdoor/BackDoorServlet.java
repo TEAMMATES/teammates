@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 
@@ -108,7 +109,7 @@ public class BackDoorServlet extends HttpServlet {
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-			backDoorLogic.deleteInstructor(instructorID);
+			backDoorLogic.downgradeInstructorToStudentCascade(instructorID);
 		} else if (action.equals(OPERATION_DELETE_ACCOUNT)) {
 			String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
 			backDoorLogic.deleteAccount(googleId);
@@ -185,8 +186,8 @@ public class BackDoorServlet extends HttpServlet {
 		String courseIDs = "";
 
 		try {
-			HashMap<String, CourseData> courseList = backDoorLogic
-					.getCourseListForInstructor(instructorID);
+			HashMap<String, CourseDetailsBundle> courseList = backDoorLogic
+					.getCourseSummariesForInstructor(instructorID);
 			for (String courseId : courseList.keySet()) {
 				courseIDs = courseIDs + courseId + " ";
 			}

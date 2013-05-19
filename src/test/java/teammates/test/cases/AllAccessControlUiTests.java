@@ -1,22 +1,21 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import java.io.FileNotFoundException;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.openqa.selenium.By;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.EvaluationData.EvalStatus;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -42,18 +41,18 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	private static String backDoorOperationStatus;
 	private static String link;
 
-	private static InstructorData otherInstructor;
+	private static InstructorAttributes otherInstructor;
 
 	// both TEST_INSTRUCTOR and TEST_STUDENT are from this course
-	private static CourseData ownCourse;
+	private static CourseAttributes ownCourse;
 
-	private static CourseData otherCourse;
+	private static CourseAttributes otherCourse;
 
-	private static StudentData ownStudent;
-	private static StudentData otherStudent;
+	private static StudentAttributes ownStudent;
+	private static StudentAttributes otherStudent;
 
-	private static EvaluationData ownEvaluation;
-	private static EvaluationData otherEvaluation;
+	private static EvaluationAttributes ownEvaluation;
+	private static EvaluationAttributes otherEvaluation;
 	
 	@BeforeClass
 	public static void classSetup() {
@@ -346,6 +345,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		verifyCannotAccessAdminPages();
 	}
 
+	@Test
 	public void testMultipleInstructorForSameCourse() {
 		// TODO Auto-generated method stub
 		// login as instructor1OfCourse1
@@ -383,11 +383,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("student can view own evaluation result after publishing");
 
-		ownEvaluation.published = true;
-		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}"
-				+ ownEvaluation.name + "{*}" + ownCourse.id);
+		//*can access* cases are assumed as being tested elsewhere
 	}
 
 	public void testStudentEvalSubmission() {
@@ -397,7 +393,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		EvaluationData ownEvaluation = dataBundle.evaluations
+		EvaluationAttributes ownEvaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
@@ -442,22 +438,19 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		bi.loginStudent(studentUsername, studentPassword);
 		
 		______TS("student can view details of a student's own course");
-
-		link = Common.PAGE_STUDENT_COURSE_DETAILS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		verifyPageContains(link, studentUsername + "{*}Team Details for "
-				+ ownCourse.id);
+		
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("student cannot view details of a course she is not registered for");
-
+		
 		link = Common.PAGE_STUDENT_COURSE_DETAILS;
-		CourseData otherCourse = dataBundle.courses.get("typicalCourse2");
+		CourseAttributes otherCourse = dataBundle.courses.get("typicalCourse2");
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 
 		______TS("student cannot view course details while masquerading as a student in that course");
 
-		StudentData otherStudent = dataBundle.students.get("student1InCourse2");
+		StudentAttributes otherStudent = dataBundle.students.get("student1InCourse2");
 		// ensure other student belong to other course
 		assertEquals(otherStudent.course, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherStudent.id);
@@ -469,11 +462,8 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		bi.loginInstructor(instructorUsername, instructorPassword);
 
 		______TS("can delete own course");
-
-		link = Common.PAGE_INSTRUCTOR_COURSE_DELETE;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		verifyPageContains(link, instructorUsername + "{*}Add New Course{*}"
-				+ Common.MESSAGE_COURSE_DELETED);
+		
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot delete not-own course");
 
@@ -493,12 +483,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can delete own student");
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
-		verifyPageContains(link, instructorUsername + "{*}Course Details{*}"
-				+ Common.MESSAGE_STUDENT_DELETED);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot delete of not-own student");
 
@@ -519,12 +504,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can delete own evaluation");
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_DELETE;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		verifyPageContains(link, instructorUsername + "{*}Add New Evaluation{*}"
-				+ Common.MESSAGE_EVALUATION_DELETED);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot delete not-own evaluation");
 
@@ -545,14 +525,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can view submission of own student");
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
-		verifyPageContains(link, instructorUsername
-				+ "{*}View Student's Evaluation{*}" + ownStudent.name);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot view submission of  not-own evaluation");
 
@@ -575,23 +548,11 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can unpublish result of own evaluation");
 		
-		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
-		ownEvaluation.published = true;
-		assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
-		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		
-		link = Common.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		link = Common.addParamToUrl(link, Common.PARAM_NEXT_URL,
-				Common.PAGE_INSTRUCTOR_HOME);
-		verifyPageContains(link, instructorUsername + "{*}Instructor Home{*}"
-				+ Common.MESSAGE_EVALUATION_UNPUBLISHED);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot unpublish result of not-own evaluation");
 
+		//TODO: can this case pass for wrong reasons? (e.g., the eval is not unpublishable)
 		link = Common.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
@@ -611,22 +572,11 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		
 		______TS("can publish result of own evaluation");
 		
-		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
-		ownEvaluation.published = false;
-		assertEquals(EvalStatus.CLOSED, ownEvaluation.getStatus());
-		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-
-		link = Common.PAGE_INSTRUCTOR_EVAL_PUBLISH;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		link = Common.addParamToUrl(link, Common.PARAM_NEXT_URL,
-				Common.PAGE_INSTRUCTOR_HOME);
-		verifyPageContains(link, instructorUsername + "{*}Instructor Home{*}"
-				+ Common.MESSAGE_EVALUATION_PUBLISHED);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot publish result of not-own evaluation");
+		
+		//TODO: can this pass for the wrong reasons? e.g., the eval is not publishable
 
 		link = Common.PAGE_INSTRUCTOR_EVAL_PUBLISH;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
@@ -647,12 +597,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can view result of own evaluation");
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		verifyPageContains(link, instructorUsername + "{*}Evaluation Result{*}"
-				+ ownEvaluation.name);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot view result of not-own evaluation");
 
@@ -673,12 +618,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can send reminders to own evaluation");
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_REMIND;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		verifyPageContains(link, instructorUsername + "{*}Add New Evaluation{*}"
-				+ Common.MESSAGE_EVALUATION_REMINDERSSENT);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot send reminders to not-own evaluation");
 
@@ -699,12 +639,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can view details of own student");
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
-		verifyPageContains(link, instructorUsername + "{*}Student Details{*}"
-				+ ownStudent.email);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot view details of not-own student");
 
@@ -726,12 +661,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can send reminders to own student");
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
-		verifyPageContains(link, instructorUsername + "{*}Course Details{*}"
-				+ ownCourse.id);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot send reminders to not-own student");
 
@@ -747,10 +677,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can send reminders to own course");
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		verifyPageContains(link, instructorUsername + "{*}Course Details{*}"
-				+ ownCourse.id);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot send reminders to not-own course");
 
@@ -769,11 +696,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can view own course details");
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-
-		verifyPageContains(link, instructorUsername + "{*}Course Details{*}"
-				+ ownCourse.id);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot view others course details");
 
@@ -792,15 +715,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		
 		______TS("can edit own course details");
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		
-		bi.goToUrl(link);
-		bi.clickAndConfirm(By.id("button_submit"));
-		
-		assertContains(
-				"The course has been edited",
-				bi.getCurrentPageSource());
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot edit other course details");
 
@@ -808,7 +723,6 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		
 		bi.goToUrl(link);
-		bi.clickAndConfirm(By.id("button_submit"));
 		
 		verifyRedirectToNotAuthorized();
 	}
@@ -819,12 +733,12 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can view own course page");
 
-		link = Common.PAGE_INSTRUCTOR_COURSE;
-		verifyPageContains(link, instructorUsername + "{*}Add New Course{*}"
-				+ ownCourse.id);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("can add course");
 
+		link = Common.PAGE_INSTRUCTOR_COURSE;
+		bi.goToUrl(link);
 		bi.addCourse("new-course-tCCA", "New Course");
 		assertContainsRegex(instructorUsername + "{*}Add New Course{*}"
 				+ Common.MESSAGE_COURSE_ADDED, bi.getCurrentPageSource());
@@ -840,12 +754,11 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can view own homepage");
 
-		link = Common.PAGE_INSTRUCTOR_HOME;
-		verifyPageContains(link, instructorUsername + "{*}Instructor Home{*}"
-				+ ownCourse.id);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot view other homepage");
 
+		link = Common.PAGE_INSTRUCTOR_HOME;
 		verifyCannotMasquerade(link, otherInstructor.googleId);
 
 	}
@@ -856,12 +769,12 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can view own evals page");
 
-		link = Common.PAGE_INSTRUCTOR_EVAL;
-		verifyPageContains(link, instructorUsername + "{*}Add New Evaluation{*}"
-				+ ownCourse.id);
-
+		//*can access* cases are assumed as being tested elsewhere
+		
 		______TS("can add eval");
 
+		link = Common.PAGE_INSTRUCTOR_EVAL;
+		bi.goToUrl(link);
 		bi.addEvaluation(ownCourse.id, "new eval",
 				Common.getDateOffsetToCurrentTime(1),
 				Common.getDateOffsetToCurrentTime(2), true, "ins", 0);
@@ -879,20 +792,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can edit submission of own student");
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
-		verifyPageContains(link, instructorUsername
-				+ "{*}Edit Student's Submission{*}" + ownStudent.name);
-		bi.click(By.id("button_submit"));
-		// We check for this message because there is no parent window for
-		// the browser to switch back as done in normal user operation.
-		assertContains(
-				"This browser window is expected to close automatically",
-				bi.getCurrentPageSource());
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot edit submission of  not-own evaluation");
 
@@ -915,12 +815,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can edit own evaluation");
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		verifyPageContains(link, instructorUsername + "{*}Edit Evaluation{*}"
-				+ ownEvaluation.name);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot edit other evaluation");
 
@@ -951,15 +846,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can edit details of own student");
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
-		verifyPageContains(link, instructorUsername + "{*}Edit Student Details{*}"
-				+ ownStudent.email);
-		bi.click(bi.instructorCourseDetailsStudentEditSaveButton);
-		assertContainsRegex(instructorUsername + "{*}Course Details{*}"
-				+ Common.MESSAGE_STUDENT_EDITED, bi.getCurrentPageSource());
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot edit details of not-own student");
 
@@ -980,11 +867,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("can view own ourse enroll page");
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_ENROLL;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-
-		verifyPageContains(link, instructorUsername + "{*}Enroll Students for{*}"
-				+ ownCourse.id);
+		//*can access* cases are assumed as being tested elsewhere
 
 		______TS("cannot view others course enroll page");
 

@@ -1,10 +1,9 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import org.openqa.selenium.By;
 
 
@@ -59,7 +58,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE_ENROLL;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CCEnrollUiT.teammates.test").googleId);
 		bi.goToUrl(link);
 	}
 	
@@ -110,7 +109,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		
 		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("teammates.test").googleId);
+		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CCEnrollUiT.teammates.test").googleId);
 		bi.goToUrl(link);
 		assertEquals("CCEnrollUiT.CS2104 Programming Language Concepts 4 7 3 Enroll View Edit Delete",
 						bi.getElementText(By.className("courses_row")));

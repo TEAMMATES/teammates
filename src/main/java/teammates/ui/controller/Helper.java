@@ -6,8 +6,8 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
 
@@ -25,7 +25,7 @@ public class Helper {
 	/**
 	 * AccountData which contains user's information
 	 */
-	public AccountData account;
+	public AccountAttributes account;
 	
 	/**
 	 * The userID that the admin wants to masquerade
@@ -395,7 +395,7 @@ public class Helper {
 	 * @param eval
 	 * @return
 	 */
-	public static String getInstructorStatusForEval(EvaluationData eval){
+	public static String getInstructorStatusForEval(EvaluationAttributes eval){
 		switch(eval.getStatus()){
 		case AWAITING: return Common.EVALUATION_STATUS_AWAITING;
 		case OPEN: return Common.EVALUATION_STATUS_OPEN;
@@ -409,7 +409,7 @@ public class Helper {
 	 * @param eval
 	 * @return
 	 */
-	public static String getInstructorHoverMessageForEval(EvaluationData eval){
+	public static String getInstructorHoverMessageForEval(EvaluationAttributes eval){
 		switch(eval.getStatus()){
 		case AWAITING: return Common.HOVER_MESSAGE_EVALUATION_STATUS_AWAITING;
 		case OPEN: return Common.HOVER_MESSAGE_EVALUATION_STATUS_OPEN;
@@ -428,7 +428,7 @@ public class Helper {
 	 * 		Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
 	 * @return
 	 */
-	public String getInstructorEvaluationActions(EvaluationData eval, int position, boolean isHome){
+	public String getInstructorEvaluationActions(EvaluationAttributes eval, int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
 		
 		boolean hasView = false;

@@ -1,13 +1,17 @@
 package teammates.test.cases;
 
 import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import static teammates.common.Common.EOL;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.ConsoleHandler;
@@ -22,9 +26,9 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
@@ -33,20 +37,6 @@ import teammates.logic.backdoor.BackDoorLogic;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class BaseTestCase {
-
-	// Find the un-deprecated way of doing the below
-
-	@Rule
-	public MethodRule methodRule = new MethodRule() {
-
-		@Override
-		public Statement apply(Statement statement, FrameworkMethod method,
-				Object target) {
-			String methodName = method.getName();
-			printTestCaseHeader(methodName);
-			return statement;
-		}
-	};
 
 	/*
 	 * Here, we initialize the Config object using Config.inst(Properties)
@@ -265,19 +255,19 @@ public class BaseTestCase {
 
 		DataBundle dataBundle = getTypicalDataBundle();
 		
-		for (AccountData account : dataBundle.accounts.values()) {
+		for (AccountAttributes account : dataBundle.accounts.values()) {
 			backDoorLogic.deleteAccount(account.googleId);
 		}
 
 		// delete courses first in case there are existing courses with same id
 		// but under different instructors.
-		for (CourseData course : dataBundle.courses.values()) {
+		for (CourseAttributes course : dataBundle.courses.values()) {
 			backDoorLogic.deleteCourse(course.id);
 		}
 
-		HashMap<String, InstructorData> instructors = dataBundle.instructors;
-		for (InstructorData instructor : instructors.values()) {
-			backDoorLogic.deleteInstructor(instructor.googleId);
+		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
+		for (InstructorAttributes instructor : instructors.values()) {
+			backDoorLogic.downgradeInstructorToStudentCascade(instructor.googleId);
 		}
 		backDoorLogic.persistNewDataBundle(dataBundle);
 
@@ -360,6 +350,14 @@ public class BaseTestCase {
 		assertEquals(true, logic.getLoggedInUser().isStudent);
 		assertEquals(false, logic.getLoggedInUser().isInstructor);
 		assertEquals(false, logic.getLoggedInUser().isAdmin);
+	}
+
+	protected void signalFailureToDetectAssumptionViolation(String... messages) {
+		throw new RuntimeException("Assumption Violation not detected."+ Arrays.toString(messages));
+	}
+
+	protected void ignoreExpectedException() {
+		assertTrue(true);
 	}
 
 	protected static void print(String message) {

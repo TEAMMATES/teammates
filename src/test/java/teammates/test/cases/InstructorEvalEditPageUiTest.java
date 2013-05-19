@@ -1,19 +1,17 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import java.io.FileNotFoundException;
 
 import org.json.JSONException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -91,7 +89,7 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		
 		// Verify data
 		String json = BackDoor.getEvaluationAsJson(ts.newEvaluation.course, ts.newEvaluation.name);
-		EvaluationData newEval = Common.getTeammatesGson().fromJson(json, EvaluationData.class);
+		EvaluationAttributes newEval = Common.getTeammatesGson().fromJson(json, EvaluationAttributes.class);
 		assertEquals(ts.newEvaluation.startTime,newEval.startTime);
 		assertEquals(ts.newEvaluation.endTime,newEval.endTime);
 		assertEquals(ts.newEvaluation.instructions,newEval.instructions);
@@ -108,10 +106,10 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 	}
 
 	private class TestScenario{
-		public AccountData account;
-		public InstructorData instructor;
-		public CourseData course;
-		public EvaluationData evaluation;
-		public EvaluationData newEvaluation;
+		public AccountAttributes account;
+		public InstructorAttributes instructor;
+		public CourseAttributes course;
+		public EvaluationAttributes evaluation;
+		public EvaluationAttributes newEvaluation;
 	}
 }

@@ -1,18 +1,22 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.*;
+import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+import static org.testng.AssertJUnit.*;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
 
@@ -35,29 +39,34 @@ public class SubmissionsDbTest extends BaseTestCase {
 	private void ____COURSE_________________________________________() {
 	}
 	@Test
-	public void testCreateSubmission() throws EntityAlreadyExistsException {
+	public void testCreateSubmission() throws EntityAlreadyExistsException, InvalidParametersException {
 		// SUCCESS
-		SubmissionData s = new SubmissionData();
+		SubmissionAttributes s = new SubmissionAttributes();
 		s.course = "Computing101";
 		s.evaluation = "Very First Evaluation";
 		s.team = "team1";
 		s.reviewee = "student1@gmail.com";
 		s.reviewer = "student2@gmail.com";
+		s.p2pFeedback = new Text("");
+		s.justification = new Text("");
+		
 		submissionsDb.createSubmission(s);
 		
 		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380) 
-		s = new SubmissionData();
+		s = new SubmissionAttributes();
 		s.course = "Computing102";
 		s.evaluation = "text group text";
 		s.team = "team2";
 		s.reviewee = "student1@gmail.com";
 		s.reviewer = "student2@gmail.com";
+		s.p2pFeedback = new Text("");
+		s.justification = new Text("");
 		submissionsDb.createSubmission(s);
 			
 		// FAIL : duplicate
 		try {
 			submissionsDb.createSubmission(s);
-			fail();
+			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 			assertContains(SubmissionsDb.ERROR_CREATE_SUBMISSION_ALREADY_EXISTS, e.getMessage());
 		}
@@ -66,28 +75,28 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.reviewer = "invalid.email";
 		try {
 			submissionsDb.createSubmission(s);
-			fail();
-		} catch (AssertionError a) {
-			assertEquals(a.getMessage(), SubmissionData.ERROR_FIELD_REVIEWER);
-		} catch (EntityAlreadyExistsException e) {
-			fail();
-		}
+			Assert.fail();
+		} catch (InvalidParametersException a) {
+			assertContains(
+					String.format("Invalid email address for the student giving the evaluation: "+ EMAIL_ERROR_MESSAGE, s.reviewer, REASON_INCORRECT_FORMAT),
+					a.getMessage());
+		} 
 		
 		// Null params check:
 		try {
 			submissionsDb.createSubmission(null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
-	public void testGetSubmission() {
-		SubmissionData s = createNewSubmission();
+	public void testGetSubmission() throws InvalidParametersException {
+		SubmissionAttributes s = createNewSubmission();
 		
 		// Get existent
-		SubmissionData retrieved = submissionsDb.getSubmission(s.course,
+		SubmissionAttributes retrieved = submissionsDb.getSubmission(s.course,
 																s.evaluation,
 																s.reviewee,
 																s.reviewer);
@@ -103,67 +112,67 @@ public class SubmissionsDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			submissionsDb.getSubmission(null, s.evaluation, s.reviewee, s.reviewer);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, null, s.reviewee, s.reviewer);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, s.evaluation, null, s.reviewer);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, s.evaluation, s.reviewee, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
-	public void testEditSubmission() {
-		SubmissionData s = createNewSubmission();
+	public void testEditSubmission() throws Exception {
+		SubmissionAttributes s = createNewSubmission();
 		
 		// Edit existent
 		s.justification = new Text("Hello World");
-		submissionsDb.editSubmission(s);
+		submissionsDb.updateSubmission(s);
 		
 		// Edit non-existent
 		s.reviewer = "non@existent.email";
 		try {
-			submissionsDb.editSubmission(s);
-			fail();
-		} catch (AssertionError a) {
-			assertContains(SubmissionsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
+			submissionsDb.updateSubmission(s);
+			Assert.fail();
+		} catch (EntityDoesNotExistException e) {
+			assertContains(SubmissionsDb.ERROR_UPDATE_NON_EXISTENT, e.getMessage());
 		}
 		
 		// Null params check:
 		try {
-			submissionsDb.editSubmission(null);
-			fail();
+			submissionsDb.updateSubmission(null);
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
-	public void testDeleteSubmission() {
-		SubmissionData s = createNewSubmission();
+	public void testDeleteSubmission() throws InvalidParametersException {
+		SubmissionAttributes s = createNewSubmission();
 		
 		// Delete
 		submissionsDb.deleteAllSubmissionsForCourse(s.course);
 		
-		SubmissionData deleted = submissionsDb.getSubmission(s.course,
+		SubmissionAttributes deleted = submissionsDb.getSubmission(s.course,
 																s.evaluation,
 																s.reviewee,
 																s.reviewer);
@@ -175,14 +184,14 @@ public class SubmissionsDbTest extends BaseTestCase {
 		// Null params check:
 		try {
 			submissionsDb.deleteAllSubmissionsForEvaluation(null, s.evaluation);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.deleteAllSubmissionsForEvaluation(s.course, null);
-			fail();
+			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
@@ -194,13 +203,15 @@ public class SubmissionsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private SubmissionData createNewSubmission() {
-		SubmissionData s = new SubmissionData();
+	private SubmissionAttributes createNewSubmission() throws InvalidParametersException {
+		SubmissionAttributes s = new SubmissionAttributes();
 		s.course = "Computing101";
 		s.evaluation = "Basic Computing Evaluation1";
 		s.team = "team1";
 		s.reviewee = "student1@gmail.com";
 		s.reviewer = "student2@gmail.com";
+		s.p2pFeedback = new Text("");
+		s.justification = new Text("");
 		
 		try {
 			submissionsDb.createSubmission(s);

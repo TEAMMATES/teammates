@@ -1,10 +1,31 @@
 {
   "accounts": {
-    "teammates.test": {
-      "googleId": "teammates.test",
+    "SEvalEditUiT.instr": {
+      "googleId": "SEvalEditUiT.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "teammates.test@gmail.com",
+      "email": "SEvalEditUiT.instr@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "SEvalEditUiT.charlie.d": {
+      "googleId": "SEvalEditUiT.charlie.d",
+      "name": "Charlie D.",
+      "isInstructor": false,
+      "email": "SEvalEditUiT.charlie.d@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "SEvalEditUiT.danny.e": {
+      "googleId": "SEvalEditUiT.danny.e",
+      "name": "Danny E.",
+      "isInstructor": false,
+      "email": "SEvalEditUiT.danny.e@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "SEvalEditUiT.emily.f": {
+      "googleId": "SEvalEditUiT.emily.f",
+      "name": "Emily F.",
+      "isInstructor": false,
+      "email": "SEvalEditUiT.emily.f@gmail.com",
       "institute": "National University of Singapore"
     }
   }, 
@@ -17,18 +38,18 @@
   },
   
   "instructors": {
-    "teammates.test": {
-      "googleId": "teammates.test",
+    "SEvalEditUiT.instr": {
+      "googleId": "SEvalEditUiT.instr",
       "courseId": "SEvalEditUiT.CS2104",
       "name": "Teammates Test",
-      "email": "teammates.test@gmail.com"
+      "email": "SEvalEditUiT.instr@gmail.com"
     }
   },
   
   "students": {
     "Alice": {
-      "id": "alice.tmms",
-      "email": "alice.tmms@gmail.com",
+      "id": "SEvalEditUiT.alice.b",
+      "email": "SEvalEditUiT.alice.b@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -36,8 +57,8 @@
       "team": "Team 1"
     },
     "Benny": {
-      "id": "benny.tmms",
-      "email": "benny.tmms@gmail.com",
+      "id": "SEvalEditUiT.benny.c",
+      "email": "SEvalEditUiT.benny.c@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
@@ -61,8 +82,8 @@
       "team": "Team 2"
     },
     "Charlie": {
-      "id": "charlie.tmms",
-      "email": "charlie.tmms@gmail.com",
+      "id": "SEvalEditUiT.charlie.d",
+      "email": "SEvalEditUiT.charlie.d@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
@@ -70,8 +91,8 @@
       "team": "Team 2"
     },
     "Danny": {
-      "id": "danny.tmms",
-      "email": "danny.tmms@gmail.com",
+      "id": "SEvalEditUiT.danny.e",
+      "email": "SEvalEditUiT.danny.e@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
@@ -79,8 +100,8 @@
       "team": "Team 2"
     },
     "Emily": {
-      "id": "emily.tmms",
-      "email": "emily.tmms@gmail.com",
+      "id": "SEvalEditUiT.emily.f",
+      "email": "SEvalEditUiT.emily.f@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Emily",
       "comments": "This student's name is Emily",
@@ -130,83 +151,83 @@
   
   "submissions" : {
     "BennyBenny": {
-      "reviewer" : "benny.tmms@gmail.com",
-      "reviewee" : "benny.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.benny.c@gmail.com",
+      "reviewee" : "SEvalEditUiT.benny.c@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from benny.tmms@gmail.com to benny.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from benny.tmms@gmail.com to benny.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.benny.c@gmail.com to SEvalEditUiT.benny.c@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.benny.c@gmail.com to SEvalEditUiT.benny.c@gmail.com"},
       "team" : "Team 1"
     },
     "BennyAlice": {
-      "reviewer" : "benny.tmms@gmail.com",
-      "reviewee" : "alice.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.benny.c@gmail.com",
+      "reviewee" : "SEvalEditUiT.alice.b@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 150,
-      "justification" : {"value" : "This is a justification from benny.tmms@gmail.com to alice.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from benny.tmms@gmail.com to alice.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.benny.c@gmail.com to SEvalEditUiT.alice.b@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.benny.c@gmail.com to SEvalEditUiT.alice.b@gmail.com"},
       "team" : "Team 1"
     },
     "DannyDanny": {
-      "reviewer" : "danny.tmms@gmail.com",
-      "reviewee" : "danny.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.danny.e@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to danny.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from danny.tmms@gmail.com to danny.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
       "team" : "Team 2"
     },
     "DannyCharlie": {
-      "reviewer" : "danny.tmms@gmail.com",
-      "reviewee" : "charlie.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.charlie.d@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 110,
-      "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to charlie.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from danny.tmms@gmail.com to charlie.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
       "team" : "Team 2"
     },
     "DannyEmily": {
-      "reviewer" : "danny.tmms@gmail.com",
-      "reviewee" : "emily.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.emily.f@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to emily.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from danny.tmms@gmail.com to emily.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
       "team" : "Team 2"
     },
     "EmilyEmily": {
-      "reviewer" : "emily.tmms@gmail.com",
-      "reviewee" : "emily.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.emily.f@gmail.com",
+      "reviewee" : "SEvalEditUiT.emily.f@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to emily.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from emily.tmms@gmail.com to emily.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
       "team" : "Team 2"
     },
     "EmilyCharlie": {
-      "reviewer" : "emily.tmms@gmail.com",
-      "reviewee" : "charlie.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.emily.f@gmail.com",
+      "reviewee" : "SEvalEditUiT.charlie.d@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to charlie.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from emily.tmms@gmail.com to charlie.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
       "team" : "Team 2"
     },
     "EmilyDanny": {
-      "reviewer" : "emily.tmms@gmail.com",
-      "reviewee" : "danny.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.emily.f@gmail.com",
+      "reviewee" : "SEvalEditUiT.danny.e@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to danny.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from emily.tmms@gmail.com to danny.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
       "team" : "Team 2"
     },
 
@@ -214,105 +235,105 @@
 
     
     "Benny2Benny": {
-      "reviewer" : "benny.tmms@gmail.com",
-      "reviewee" : "benny.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.benny.c@gmail.com",
+      "reviewee" : "SEvalEditUiT.benny.c@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Second Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from benny.tmms@gmail.com to benny.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.benny.c@gmail.com to SEvalEditUiT.benny.c@gmail.com"},
       "team" : "Team 1"
     },
     "Benny2Alice": {
-      "reviewer" : "benny.tmms@gmail.com",
-      "reviewee" : "alice.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.benny.c@gmail.com",
+      "reviewee" : "SEvalEditUiT.alice.b@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Second Eval",
       "points" : 150,
-      "justification" : {"value" : "This is a justification from benny.tmms@gmail.com to alice.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.benny.c@gmail.com to SEvalEditUiT.alice.b@gmail.com"},
       "team" : "Team 1"
     },
     "Danny2Danny": {
-      "reviewer" : "danny.tmms@gmail.com",
-      "reviewee" : "danny.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.danny.e@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Second Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to danny.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
       "team" : "Team 2"
     },
     "Danny2Charlie": {
-      "reviewer" : "danny.tmms@gmail.com",
-      "reviewee" : "charlie.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.charlie.d@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Second Eval",
       "points" : 110,
-      "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to charlie.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
       "team" : "Team 2"
     },
     "Danny2Emily": {
-      "reviewer" : "danny.tmms@gmail.com",
-      "reviewee" : "emily.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.emily.f@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Second Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to emily.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
       "team" : "Team 2"
     },
     "Emily2Emily": {
-      "reviewer" : "emily.tmms@gmail.com",
-      "reviewee" : "emily.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.emily.f@gmail.com",
+      "reviewee" : "SEvalEditUiT.emily.f@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Second Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to emily.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
       "team" : "Team 2"
     },
     "Emily2Charlie": {
-      "reviewer" : "emily.tmms@gmail.com",
-      "reviewee" : "charlie.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.emily.f@gmail.com",
+      "reviewee" : "SEvalEditUiT.charlie.d@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Second Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to charlie.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
       "team" : "Team 2"
     },
     "Emily2Danny": {
-      "reviewer" : "emily.tmms@gmail.com",
-      "reviewee" : "danny.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.emily.f@gmail.com",
+      "reviewee" : "SEvalEditUiT.danny.e@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Second Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from emily.tmms@gmail.com to danny.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
       "team" : "Team 2"
     },
     
     
     
     "ClosedUnpulishedEval-fromDanny-toDanny": {
-      "reviewer" : "danny.tmms@gmail.com",
-      "reviewee" : "danny.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.danny.e@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Closed Unpublished Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to danny.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
       "team" : "Team 2"
     },
     "ClosedUnpulishedEval-fromDanny-toCharlie": {
-      "reviewer" : "danny.tmms@gmail.com",
-      "reviewee" : "charlie.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.charlie.d@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Closed Unpublished Eval",
       "points" : 110,
-      "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to charlie.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
       "team" : "Team 2"
     },
     "ClosedUnpulishedEval-fromDanny-toEmily": {
-      "reviewer" : "danny.tmms@gmail.com",
-      "reviewee" : "emily.tmms@gmail.com",
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.emily.f@gmail.com",
       "course" : "SEvalEditUiT.CS2104",
       "evaluation" : "Closed Unpublished Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from danny.tmms@gmail.com to emily.tmms@gmail.com"},
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
       "team" : "Team 2"
 	}
   }

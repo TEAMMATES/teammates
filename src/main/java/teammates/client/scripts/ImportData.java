@@ -6,13 +6,13 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountData;
-import teammates.common.datatransfer.InstructorData;
-import teammates.common.datatransfer.CourseData;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.driver.BackDoor;
 
 /**
@@ -96,35 +96,35 @@ public class ImportData {
 	    	String key = (String) itr.next();
 	    	Object obj = map.get(key);
 	    	
-	    	if (obj instanceof AccountData)
+	    	if (obj instanceof AccountAttributes)
 	    	{
 	    		type = "AccountData";
-	    		AccountData accountData = (AccountData)obj;
+	    		AccountAttributes accountData = (AccountAttributes)obj;
 	    		bundle.accounts.put(key, accountData);
-	    	} else if(obj instanceof InstructorData)
+	    	} else if(obj instanceof InstructorAttributes)
 			{
 	    		type = "InstructorData";
-				InstructorData instructorData = (InstructorData)obj;
+				InstructorAttributes instructorData = (InstructorAttributes)obj;
 				bundle.instructors.put(key, instructorData);
-			} else if(obj instanceof CourseData)
+			} else if(obj instanceof CourseAttributes)
 			{
 				type = "CourseData";
-				CourseData courseData = (CourseData)obj;
+				CourseAttributes courseData = (CourseAttributes)obj;
 				bundle.courses.put(key, courseData);
-			} else if(obj instanceof StudentData)
+			} else if(obj instanceof StudentAttributes)
 			{
 				type = "StudentData";
-				StudentData studentData = (StudentData)obj;
+				StudentAttributes studentData = (StudentAttributes)obj;
 				bundle.students.put(key, studentData);
-			} else if (obj instanceof EvaluationData)
+			} else if (obj instanceof EvaluationAttributes)
 			{
 				type = "EvaluationData";
-				EvaluationData evaluationData = (EvaluationData)obj;
+				EvaluationAttributes evaluationData = (EvaluationAttributes)obj;
 				bundle.evaluations.put(key, evaluationData);
-			} else if (obj instanceof SubmissionData)
+			} else if (obj instanceof SubmissionAttributes)
 			{
 				type = "SubmissionData";
-				SubmissionData submissionData = (SubmissionData)obj;
+				SubmissionAttributes submissionData = (SubmissionAttributes)obj;
 				bundle.submissions.put(key, submissionData);
 			}
 			count ++;

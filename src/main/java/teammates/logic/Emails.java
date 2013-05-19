@@ -18,9 +18,9 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 
 /**
  * Email handles all operations with regards to sending e-mails.
@@ -58,8 +58,8 @@ public class Emails {
 		return messageInfo.toString();
 	}
 
-	public List<MimeMessage> generateEvaluationOpeningEmails(CourseData course,
-			EvaluationData evaluation, List<StudentData> students)
+	public List<MimeMessage> generateEvaluationOpeningEmails(CourseAttributes course,
+			EvaluationAttributes evaluation, List<StudentAttributes> students)
 			throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
@@ -76,8 +76,8 @@ public class Emails {
 	}
 
 	public List<MimeMessage> generateEvaluationReminderEmails(
-			CourseData course, EvaluationData evaluation,
-			List<StudentData> students) throws MessagingException, IOException {
+			CourseAttributes course, EvaluationAttributes evaluation,
+			List<StudentAttributes> students) throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
@@ -95,8 +95,8 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationClosingEmails(CourseData c,
-			EvaluationData e, List<StudentData> students)
+	public List<MimeMessage> generateEvaluationClosingEmails(CourseAttributes c,
+			EvaluationAttributes e, List<StudentAttributes> students)
 			throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
@@ -113,8 +113,8 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationPublishedEmails(CourseData c,
-			EvaluationData e, List<StudentData> students)
+	public List<MimeMessage> generateEvaluationPublishedEmails(CourseAttributes c,
+			EvaluationAttributes e, List<StudentAttributes> students)
 			throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
@@ -127,12 +127,12 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationEmailBases(CourseData course,
-			EvaluationData evaluation, List<StudentData> students,
+	public List<MimeMessage> generateEvaluationEmailBases(CourseAttributes course,
+			EvaluationAttributes evaluation, List<StudentAttributes> students,
 			String template) throws MessagingException,
 			UnsupportedEncodingException {
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
-		for (StudentData s : students) {
+		for (StudentAttributes s : students) {
 
 			emails.add(generateEvaluationEmailBase(course, evaluation, s,
 					template));
@@ -140,8 +140,8 @@ public class Emails {
 		return emails;
 	}
 
-	public MimeMessage generateEvaluationEmailBase(CourseData c,
-			EvaluationData e, StudentData s, String template)
+	public MimeMessage generateEvaluationEmailBase(CourseAttributes c,
+			EvaluationAttributes e, StudentAttributes s, String template)
 			throws MessagingException, UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
@@ -186,8 +186,8 @@ public class Emails {
 		return message;
 	}
 
-	public MimeMessage generateStudentCourseJoinEmail(CourseData c,
-			StudentData s) throws AddressException, MessagingException,
+	public MimeMessage generateStudentCourseJoinEmail(CourseAttributes c,
+			StudentAttributes s) throws AddressException, MessagingException,
 			UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
@@ -200,48 +200,6 @@ public class Emails {
 		emailBody = emailBody.replace("${courseName}", c.name);
 
 		message.setContent(emailBody, "text/html");
-		return message;
-	}
-
-	public void sendEmails(List<MimeMessage> messages)
-			throws MessagingException {
-		for (MimeMessage m : messages) {
-			sendEmail(m);
-		}
-	}
-
-	public void sendEmail(MimeMessage message) throws MessagingException {
-		log.info(getEmailInfo(message));
-		Transport.send(message);
-	}
-
-	private String fillUpJoinFragment(StudentData s, String emailBody) {
-		emailBody = emailBody.replace("${joinFragment}",
-				Common.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
-
-		// Try both way
-		String key;
-		key = Common.encrypt(s.key);
-		emailBody = emailBody.replace("${key}", key);
-
-		String joinUrl = Common.TEAMMATES_APP_URL
-				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, key);
-
-		emailBody = emailBody.replace("${joinUrl}", joinUrl);
-		return emailBody;
-	}
-
-	private MimeMessage getEmptyEmailAddressedToStudent(StudentData s)
-			throws MessagingException, AddressException,
-			UnsupportedEncodingException {
-		Session session = Session.getDefaultInstance(new Properties(), null);
-		MimeMessage message = new MimeMessage(session);
-
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-				s.email));
-		message.setFrom(new InternetAddress(senderEmail, senderName));
-		message.setReplyTo(new Address[] { new InternetAddress(replyTo) });
 		return message;
 	}
 
@@ -260,7 +218,7 @@ public class Emails {
 		MimeMessage message = new MimeMessage(session);
 		String errorMessage = error.getMessage();
 		String stackTrace = Common.stackTraceToString(error);
-
+	
 		// if the error doesn't contain a short description,
 		// retrieve the first line of stack trace.
 		// truncate stack trace at first "at" string
@@ -278,19 +236,77 @@ public class Emails {
 		message.setFrom(new InternetAddress(senderEmail, senderName));
 		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR,
 				version, errorMessage));
-
+	
 		String emailBody = Common.SYSTEM_ERROR_EMAIL_TEMPLATE;
-
+	
 		emailBody = emailBody.replace("${requestPath}", requestPath);
 		emailBody = emailBody.replace("${requestParameters}", requestParam);
 		emailBody = emailBody.replace("${errorMessage}", errorMessage);
 		emailBody = emailBody.replace("${stackTrace}", stackTrace);
 		message.setContent(emailBody, "text/html");
-
+	
 		return message;
 	}
 
-	private boolean isYetToJoinCourse(StudentData s) {
+	public void sendEmails(List<MimeMessage> messages)
+			throws MessagingException {
+		for (MimeMessage m : messages) {
+			sendEmail(m);
+		}
+	}
+
+	public void sendEmail(MimeMessage message) throws MessagingException {
+		log.info(getEmailInfo(message));
+		Transport.send(message);
+	}
+
+	public MimeMessage sendErrorReport(String path, String params,
+			Throwable error) {
+		MimeMessage email = null;
+		try {
+			email = generateSystemErrorEmail(error, path, params,
+					BuildProperties.getAppVersion());
+			sendEmail(email);
+			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
+		} catch (Exception e) {
+			log.severe("Error in sending crash report: "
+					+ (email == null ? "" : email.toString()));
+		}
+	
+		return email;
+	}
+
+	private String fillUpJoinFragment(StudentAttributes s, String emailBody) {
+		emailBody = emailBody.replace("${joinFragment}",
+				Common.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
+
+		// Try both way
+		String key;
+		key = Common.encrypt(s.key);
+		emailBody = emailBody.replace("${key}", key);
+
+		String joinUrl = Common.TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_JOIN_COURSE;
+		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, key);
+
+		emailBody = emailBody.replace("${joinUrl}", joinUrl);
+		return emailBody;
+	}
+
+	private MimeMessage getEmptyEmailAddressedToStudent(StudentAttributes s)
+			throws MessagingException, AddressException,
+			UnsupportedEncodingException {
+		Session session = Session.getDefaultInstance(new Properties(), null);
+		MimeMessage message = new MimeMessage(session);
+
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+				s.email));
+		message.setFrom(new InternetAddress(senderEmail, senderName));
+		message.setReplyTo(new Address[] { new InternetAddress(replyTo) });
+		return message;
+	}
+
+	private boolean isYetToJoinCourse(StudentAttributes s) {
 		return s.id == null || s.id.isEmpty();
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
 @SuppressWarnings("serial")
@@ -21,7 +22,7 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 
 
 	@Override
-	protected void doAction(HttpServletRequest req, InstructorCourseEditHelper helper){
+	protected void doAction(HttpServletRequest req, InstructorCourseEditHelper helper) throws EntityDoesNotExistException{
 		boolean isSubmit = isPost;
 		
 		String url = getRequestedURL(req);
@@ -56,7 +57,7 @@ public class InstructorCourseEditServlet extends ActionServlet<InstructorCourseE
 			
 			if(courseID!=null){
 				helper.course = helper.server.getCourse(courseID);
-				helper.instructorList = helper.server.getInstructorsByCourseId(courseID);
+				helper.instructorList = helper.server.getInstructorsForCourse(courseID);
 				if(helper.course == null || helper.instructorList == null){
 					helper.statusMessage = "Invalid Course " + courseID + " specified";
 					helper.error = true;

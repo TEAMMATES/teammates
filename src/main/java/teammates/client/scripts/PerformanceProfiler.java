@@ -24,12 +24,12 @@ import org.openqa.selenium.By;
 import com.google.gson.Gson;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.InstructorData;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.SubmissionData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -446,7 +446,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.instructors.keySet();
     	for (String instructorKey : set)
     	{
-    		InstructorData instructor = data.instructors.get(instructorKey);
+    		InstructorAttributes instructor = data.instructors.get(instructorKey);
     		status += BackDoor.createInstructor(instructor);
     	}
     	return status;
@@ -458,7 +458,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.instructors.keySet();
     	for (String instructorKey : set)
     	{
-    		InstructorData instructor = data.instructors.get(instructorKey);
+    		InstructorAttributes instructor = data.instructors.get(instructorKey);
     		status += BackDoor.getInstructorAsJson(instructor.googleId, instructor.courseId);
     	}
     	return status;
@@ -473,7 +473,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.instructors.keySet();
     	for (String instructorKey : set)
     	{
-    		InstructorData instructor = data.instructors.get(instructorKey);
+    		InstructorAttributes instructor = data.instructors.get(instructorKey);
     		String[] courses = BackDoor.getCoursesByInstructorId(instructor.googleId);
     		for (String courseName : courses) {
 				status += " " + courseName;
@@ -488,7 +488,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.courses.keySet();
     	for (String courseKey : set)
     	{
-    		CourseData course = data.courses.get(courseKey);
+    		CourseAttributes course = data.courses.get(courseKey);
     		status += " " + BackDoor.createCourse(course);
     	}
     	return status;
@@ -501,7 +501,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.courses.keySet();
     	for (String courseKey : set)
     	{
-    		CourseData course = data.courses.get(courseKey);
+    		CourseAttributes course = data.courses.get(courseKey);
     		status += " " +BackDoor.getCourseAsJson(course.id);
     	}
     	return status;
@@ -515,7 +515,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.createStudent(student);
     	}
     	return status;
@@ -545,7 +545,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.getStudentAsJson(student.course, student.email);
     	}
     	return status;
@@ -558,7 +558,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.getKeyForStudent(student.course, student.email);
     	}
     	return status;
@@ -571,7 +571,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.editStudent(student.email, student);
     	}
     	return status;
@@ -584,7 +584,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.evaluations.keySet();
     	for (String evaluationKey : set)
     	{
-    		EvaluationData eval = data.evaluations.get(evaluationKey);
+    		EvaluationAttributes eval = data.evaluations.get(evaluationKey);
     		status += " " + BackDoor.createEvaluation(eval);
     	}
     	return status;
@@ -597,7 +597,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.evaluations.keySet();
     	for (String evaluationKey : set)
     	{
-    		EvaluationData eval = data.evaluations.get(evaluationKey);
+    		EvaluationAttributes eval = data.evaluations.get(evaluationKey);
     		status += " " + BackDoor.editEvaluation(eval);
     	}
     	return status;
@@ -610,7 +610,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.evaluations.keySet();
     	for (String evaluationKey : set)
     	{
-    		EvaluationData eval = data.evaluations.get(evaluationKey);
+    		EvaluationAttributes eval = data.evaluations.get(evaluationKey);
     		status += " " + BackDoor.getEvaluationAsJson(eval.course, eval.name);
     	}
     	return status;
@@ -624,7 +624,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.submissions.keySet();
     	for (String submissionKey : set)
     	{
-    		SubmissionData submission = data.submissions.get(submissionKey);
+    		SubmissionAttributes submission = data.submissions.get(submissionKey);
     		status += " " + BackDoor.getSubmissionAsJson(submission.course, submission.evaluation, submission.reviewer, submission.reviewee);
     	}
     	return status;
@@ -637,7 +637,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.submissions.keySet();
     	for (String submissionKey : set)
     	{
-    		SubmissionData submission = data.submissions.get(submissionKey);
+    		SubmissionAttributes submission = data.submissions.get(submissionKey);
     		status += " " + BackDoor.editSubmission(submission);
     	}
     	return status;
@@ -667,7 +667,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.students.keySet();
     	for (String studentKey : set)
     	{
-    		StudentData student = data.students.get(studentKey);
+    		StudentAttributes student = data.students.get(studentKey);
     		status += " " + BackDoor.deleteStudent(student.course, student.email);
     	}
     	return status;
@@ -680,7 +680,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.evaluations.keySet();
     	for (String evaluationKey : set)
     	{
-    		EvaluationData eval = data.evaluations.get(evaluationKey);
+    		EvaluationAttributes eval = data.evaluations.get(evaluationKey);
     		status += " " + BackDoor.deleteEvaluation(eval.course, eval.name);
     	}
     	return status;
@@ -694,7 +694,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.courses.keySet();
     	for (String courseKey : set)
     	{
-    		CourseData course = data.courses.get(courseKey);
+    		CourseAttributes course = data.courses.get(courseKey);
     		status += " " +BackDoor.deleteCourse(course.id);
     	}
     	return status;
@@ -707,7 +707,7 @@ public class PerformanceProfiler extends Thread{
 		Set<String> set = data.instructors.keySet();
     	for (String instructorKey : set)
     	{
-    		InstructorData instructor = data.instructors.get(instructorKey);
+    		InstructorAttributes instructor = data.instructors.get(instructorKey);
     		status += BackDoor.deleteInstructor(instructor.googleId);
     	}
     	return status;

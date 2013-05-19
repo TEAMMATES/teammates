@@ -1,8 +1,13 @@
 <%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.datatransfer.CourseData"%>
-<%@ page import="teammates.common.datatransfer.EvaluationData"%>
+<%@ page import="teammates.common.datatransfer.CourseAttributes"%>
+<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
+<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
+<%@ page import="teammates.common.datatransfer.EvaluationStats"%>
+<%@ page import="teammates.common.FieldValidator"%>
 <%@ page import="teammates.ui.controller.InstructorEvalHelper"%>
-<%	InstructorEvalHelper helper = (InstructorEvalHelper)request.getAttribute("helper"); %>
+<%
+	InstructorEvalHelper helper = (InstructorEvalHelper)request.getAttribute("helper");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,7 +90,7 @@
 						<td><input  type="text"
 									name="<%=Common.PARAM_EVALUATION_NAME%>" id="<%=Common.PARAM_EVALUATION_NAME%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_NAME%>')"
-									onmouseout="hideddrivetip()" maxlength =<%=EvaluationData.EVALUATION_NAME_MAX_LENGTH%>
+									onmouseout="hideddrivetip()" maxlength =<%=FieldValidator.EVALUATION_NAME_MAX_LENGTH%>
 									value="<%if(helper.newEvaluationToBeCreated!=null) out.print(InstructorEvalHelper.escapeForHTML(helper.newEvaluationToBeCreated.name));%>"
 									tabindex="2" placeholder="e.g. Midterm Evaluation"></td>
 						<td class="label bold" >Closing time:</td>
@@ -198,18 +203,18 @@
 				</tr>
 				<%
 					int evalIdx = -1;
-								if (helper.evaluations.size() > 0) {
-									for(EvaluationData eval: helper.evaluations){ evalIdx++;
+										if (helper.evaluations.size() > 0) {
+											for(EvaluationDetailsBundle edd: helper.evaluations){ evalIdx++;
 				%>
 							<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
-								<td class="t_eval_coursecode"><%=eval.course%></td>
-								<td class="t_eval_name"><%=InstructorEvalHelper.escapeForHTML(eval.name)%></td>
+								<td class="t_eval_coursecode"><%=edd.evaluation.course%></td>
+								<td class="t_eval_name"><%=InstructorEvalHelper.escapeForHTML(edd.evaluation.name)%></td>
 								<td class="t_eval_status centeralign"><span
-									onmouseover="ddrivetip(' <%=InstructorEvalHelper.getInstructorHoverMessageForEval(eval)%>')"
-									onmouseout="hideddrivetip()"><%=InstructorEvalHelper.getInstructorStatusForEval(eval)%></span></td>
-								<td class="t_eval_response centeralign"><%= eval.submittedTotal %>
-									/ <%= eval.expectedTotal %></td>
-								<td class="centeralign no-print"><%=helper.getInstructorEvaluationActions(eval,evalIdx, false)%>
+									onmouseover="ddrivetip(' <%=InstructorEvalHelper.getInstructorHoverMessageForEval(edd.evaluation)%>')"
+									onmouseout="hideddrivetip()"><%=InstructorEvalHelper.getInstructorStatusForEval(edd.evaluation)%></span></td>
+								<td class="t_eval_response centeralign"><%= edd.stats.submittedTotal %>
+									/ <%= edd.stats.expectedTotal %></td>
+								<td class="centeralign no-print"><%=helper.getInstructorEvaluationActions(edd.evaluation,evalIdx, false)%>
 								</td>
 							</tr>
 						<%	} %>

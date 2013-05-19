@@ -1,9 +1,9 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.EvalResultData;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.StudentAttributes;
 
 public class InstructorEvalSubmissionViewHelper extends InstructorEvalResultsHelper{
-	public StudentData student;
-	public EvalResultData result;
+	public StudentAttributes student;
+	public StudentResultBundle result;
 }

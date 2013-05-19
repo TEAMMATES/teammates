@@ -32,6 +32,7 @@
 			<li><a href="#design-storage">Storage</a></li>
 			<li><a href="#design-common">Common</a></li>
 			<li><a href="#design-testdriver">TestDriver</a></li>
+			<li><a href="#design-client">Client</a></li>
 		</ul>
 
 		<li><a href="#infrastructure">Infrastructure</a>
@@ -146,15 +147,15 @@
 			testing automation level of this project is probably higher than 99%
 			of the projects out there.</li>
 		<li><span class="bold">We are 'Gods' of the few tools we
-				use</span>: We stick to a Minimal toolset. adding third-party tools and
+				use</span>: We stick to a minimal toolset. Adding third-party tools and
 			libraries to the project is done only if there is a STRONG
 			justification. Only mature, stable, and well-supported tools should
 			be considered. Once selected, we should know the tool very well to
 			get the best out of it.</li>
 		<li><span class="bold">We value quality more than
-				functionality</span>: i.e., our job is not to 'anyhow get it to work'. The
+				functionality</span>: Our job is not to 'anyhow get it to work'. The
 			system should be good enough to be considered a 'model' software. Our
-			code is of 'unusually' high quality: All code is reviewed before
+			code should be of 'unusually' high quality: All code is reviewed before
 			accepting.</li>
 		<li><span class="bold">We know what we are doing</span>: For us,
 			it is not enough to know something is broken, we should also know why
@@ -201,11 +202,14 @@
 			datastore is a noSQL database, we use it in SQL fashion via a JDO
 			wrapper and GQL (a datastore-specific SQL variant).</li>
 		<li><span class="bold">Test Driver</span>: TEAMMATES makes heavy
-			use of automated regression testing. JUnit is used for Java unit
+			use of automated regression testing. TestNG is used for Java unit
 			testing and QUnit for JavaScript unit testing. We use Selenium Web
 			Driver to automate UI testing. Test Driver can access the application
 			directly to set up test data. We use JSON format to transmit such
 			data to the application.</li>
+		<li><span class="bold">Client</span>: The Client component can
+			connect to the back end directly without using a Browser. It is used
+			for administrative purposes. e.g., migrating data to a new schema</li>
 		<li><span class="bold">Common</span>: The Common component
 			contains utility code used across the application.</li>
 	</ul>
@@ -239,7 +243,7 @@
 
 	<ol>
 		<li>Request received by the GAE server</li>
-		<li>Forwarded to our custom filters in according to the order as
+		<li>Forwarded to our custom filters according to the order
 			specified in <span class="code">web.xml</span>. In our case this
 			would be <span class="code">DatastoreFilter</span> and <span
 			class="code">LoginFilter</span>. For example, the <span class="code">LoginFilter</span>
@@ -249,14 +253,14 @@
 		</li>
 		<li>Depending on the URL, it will be handled by its respective
 			Servlet (e.g., <span class="code">InstructorHomeServlet</span>, <span
-			class="code">InstructorCourseDeleteServlet</span>, etc)
+			class="code">InstructorCourseDeleteServlet</span>, etc).
 		</li>
 		<li>The servlet will communicate with the <span class="code">Logic</span>
 			to carry out the business logic part of the requst (e.g., accessing
 			datastore, modifying datastore, etc). After that, it will create
 			respective <span class="code">Helper</span> object and store inside
 			that object relevant data retrieved from the <span class="code">Logic</span>
-			(e.g., student list, course list, evaluation data, etc)
+			(e.g., student list, course list, evaluation data, etc).
 		</li>
 		<li>The respective Helper object then will be passed to the
 			respective JSP page.</li>
@@ -296,13 +300,14 @@
 			for each servlet. This is the place for highest-level error handling
 			before the response is returned to the Browser.
 		</li>
-		<li>Within the doAction method, each servlet has to create an Activity Log Entry.
-		    This Activity Log Entry is used to capture the user activities within the 
-		    system. The servlet has to call the <span class="code">instantiateActivityLogEntry
-		    </span> method found in <span class="code">ActionServlet</span> to create
-		    the Activity Log Entry. The servlet also has to implement the abstract
-		    <span class="code">generateActivityLogEntryMessage</span> method which is called
-		    within <span class="code">instantiateActivityLogEntry</span>.
+		<li>Within the <span class="code">doAction</span> method, each
+			servlet has to create an Activity Log Entry. This Activity Log Entry
+			is used to capture the user activities within the system. The servlet
+			has to call the <span class="code">instantiateActivityLogEntry
+			</span> method found in <span class="code">ActionServlet</span> to create the
+			Activity Log Entry. The servlet also has to implement the abstract <span
+			class="code">generateActivityLogEntryMessage</span> method which is
+			called within <span class="code">instantiateActivityLogEntry</span>.
 		</li>
 		<li>It will finally call <span class="code">doCreateResponse</span>
 			method, which redirects the request with appropriate method: either
@@ -324,38 +329,41 @@
 
 	<h3>Functional pages</h3>
 	These pages represent the core functionality of the system.
-	<ul>
-		<li>logout.jsp : Used for users to log out of the system.</li>
+	<ol>
+		<li><span class="code">logout.jsp</span> : Used for users to log out of the system.</li>
 		<br>
-		<li>adminHome : Page for administrative activities such as
-			creating Instructors, monitoring user activities etc.</li>
+		<li><span class="code">adminHome</span> : Home page for admin. Also used for creating instructors.</li>
+		<li><span class="code">adminAccountManagement</span> : Page for managing accounts etc.</li>
+		<li><span class="code">adminAccountDetails</span> : Page for viewing account details etc.</li>
+		<li><span class="code">adminActivityLog</span> : Page for monitoring user activities.</li>
+		<li><span class="code">adminSearch</span> : Page for searching for entity in the system.</li>
 		<br>
-		<li>instructorHome : Landing page for instructors. Lists course
+		<li><span class="code">instructorHome</span> : Landing page for instructors. Lists course
 			and evaluations that the instructor is part of</li>
-		<li>instructorCourse : Page for Course-related actions.</li>
-		<li>instructorCourseEdit : Page to edit course information and
+		<li><span class="code">instructorCourse</span> : Page for Course-related actions.</li>
+		<li><span class="code">instructorCourseEdit</span> : Page to edit course information and
 			Instructor list</li>
-		<li>instructorCourseEnroll : Page for enrolling students in a
+		<li><span class="code">instructorCourseEnroll</span> : Page for enrolling students in a
 			course</li>
-		<li>instructorCourseView : Page for listing students in a course.</li>
-		<li>instructorCourseStudentDetails : Page for viewing details of
+		<li><span class="code">instructorCourseView</span> : Page for listing students in a course.</li>
+		<li><span class="code">instructorCourseStudentDetails</span> : Page for viewing details of
 			an individual student.</li>
-		<li>instructorCourseStudentEdit: Page for editing details of a
+		<li><span class="code">instructorCourseStudentEdit</span> : Page for editing details of a
 			student.</li>
-		<li>instructorEval : Page for listing and creating Evaluations.</li>
-		<li>instructorEvalEdit : Page for editing an Evaluation.</li>
-		<li>instructorEvalResults : Page for viewing evaluation results.</li>
-		<li>instructorEvalSubmissionView : Page for viewing submissions
+		<li><span class="code">instructorEval</span> : Page for listing and creating Evaluations.</li>
+		<li><span class="code">instructorEvalEdit</span> : Page for editing an Evaluation.</li>
+		<li><span class="code">instructorEvalResults</span> : Page for viewing evaluation results.</li>
+		<li><span class="code">instructorEvalSubmissionView</span> : Page for viewing submissions
 			from and to a student for a given evaluation.</li>
-		<li>instructorEvalSubmissionEdit : Page for editing a submission
+		<li><span class="code">instructorEvalSubmissionEdit</span> : Page for editing a submission
 			by a student.</li>
 		<br>
-		<li>studentHome : Landing page for students.</li>
-		<li>studentCourseDetails : Page for the student to see details of
+		<li><span class="code">studentHome</span> : Landing page for students.</li>
+		<li><span class="code">studentCourseDetails</span> : Page for the student to see details of
 			his/her team in a Course.</li>
-		<li>studentEvalEdit : Page for submitting a peer evaluation.</li>
-		<li>studentEvalResults : Page for viewing evaluation results.</li>
-	</ul>
+		<li><span class="code">studentEvalEdit</span> : Page for submitting a peer evaluation.</li>
+		<li><span class="code">studentEvalResults</span> : Page for viewing evaluation results.</li>
+	</ol>
 
 	These pages can be accessed via the
 	<span class="code">[TEAMMATES URL]/page/pagename</span>, handled by a
@@ -395,11 +403,21 @@
 	The
 	<span class="code">Logic</span> component handles the business logic of
 	TEAMMATES.
-	<br> It is accessible via a thin facade class called
-	<span class="code">Logic</span> which makes use of 3
+	<br> It is accessible via a thin 
+	<a href="http://en.wikipedia.org/wiki/Facade_pattern">facade class</a> called
+	<span class="code">Logic</span> which makes use of several
 	<span class="code">*Logic</span> classes to handle the logic related to
 	various types of data and to access data from the
-	<span class="code">Storage</span> component.
+	<span class="code">Storage</span> component. In particular, Logic is 
+	responsible for these: <br>
+	<ul>
+		<li>Managing relationships between entities. e.g., cascade logic
+			for create/update/delete</li>
+		<li>Managing transactions. e.g., to ensure atomicity of a
+			transaction</li>
+		<li>Sanitizing input values recevied from the UI component</li>
+		<li>Access control (to be moved to the UI component soon)</li>
+	</ul>
 
 	<div class="image-holder">
 		<img src="images/LogicComponent.png" width="90%" />
@@ -428,10 +446,11 @@
 		</li>
 	</ul>
 
-	<br>Authentication:
+	<br>Access control:
 	<ul>
 		<li>Calls received by <span class="code">Logic</span> are
-			authenticated against logged in user's privileges.<br>
+			checked against logged in user's privileges
+			(to be moved to UI layer).<br>
 		</li>
 		<li>Calls received by <span class="code">BackDoorServlet</span>
 			are authenticated using the 'backdoor key'. Backdoor key is a string
@@ -441,7 +460,8 @@
 	</ul>
 	<br>API for creating entities:
 	<ul>
-		<li>Null parameters: Throws an assertion error.</li>
+		<li>Null parameters: Causes an assertion failure.</li>
+		<li>Invalid parameters: Throws <span class="code">InvalidParametersException</span>.</li>
 		<li>Entity already exists: Throws <span class="code">EntityAlreadyExists</span>
 			exception (escalated from <span class="code">Storage</span> level).
 		</li>
@@ -454,12 +474,12 @@
 	<br>API for retrieving entities:
 	<ul>
 		<li>Attempting to retrieve objects using <span class="code">null</span>
-			parameters: Not expected. Results in assertion failure.
+			parameters: Causes an assertion failure.
 		</li>
 		<li>Entity not found: <br> -Returns <span class="code">null</span>
 			if the target entity not found. This way, read operations can be used
 			easily for checking the existence of an entity.<br> -Throws <span
-			class="code">EntityDoesNotExists</span> exception if a parent entity
+			class="code">EntityDoesNotExistsExeption</span> if a parent entity
 			of a target entity is not found e.g., trying to list students of a
 			non-existent course.
 		</li>
@@ -489,21 +509,11 @@
 			Results in assertion failure.</li>
 		<li>FailDeleteSilentlyPolicy: In general, delete operation do not
 			throw exceptions if the target entity does not exist. Instead, it
-			logs a warning. This is because an entity could get deleted by one
-			user while another user is trying to delete it at the same time. In
-			any case, if it does not exist, it is as good as deleted.</li>
+			logs a warning. This is because if it does not exist, 
+			it is as good as deleted.</li>
 		<li>Cascade policy: When a parent entity is deleted, entities
 			that have referential integrity with the deleted entity should also
-			be deleted. <br> Cascade logic:
-			<ul>
-				<li>Instructor : delete all courses and cascade onwards.</li>
-				<li>Course : delete all students, evaluations and cascade
-					onwards.</li>
-				<li>Student : delete all submissions to/from the student.</li>
-				<li>Evaluation: delete all submissions.</li>
-				<li>Submission : no cascade (this entity can only be deleted by
-					cascades).</li>
-			</ul>
+			be deleted. <br> Refer to the API for the cascade logic.
 		</li>
 	</ul>
 	<h2 id="design-storage">Storage</h2>
@@ -513,44 +523,47 @@
 	Read, Update, Delete) operations on data entities individually. It is
 	accessible via the
 	<span class="code">*Db</span> classes in the
-	<span class="code">storage::api</span> package. It hides complexities
-	of datastore from the
-	<span class="code">Logic</span> component. All GQL queries are to be
-	contained inside the
-	<span class="code">Storage</span> component.
+	<span class="code">storage::api</span> package. 
 	<br>It contains minimal logic beyond what is directly relevant to
-	CRUD operations.
-	<br>The
-	<span class="code">Storage</span> component will not perform any
+	CRUD operations. <br> In particular, it handles these:
+	<ul>
+		<li>Validating data inside entities before creating/updating
+			them, to ensure they are in a valid state.</li>
+		<li>Hiding the complexities of datastore from the <span
+			class="code">Logic</span> component. All GQL queries are to be
+			contained inside the <span class="code">Storage</span> component.
+		</li>
+		<li>Protecting persitable objects: Classes in the <span
+			class="code">storage::entity</span> package are not visible outside
+			this component to prevent accidental modification to the entity's
+			attributes (Since these classes have been marked as 'persistence
+			capable', and changes to their attributes are automatically persisted
+			to the datastore by default). <br> Instead, a corresponding
+			non-persistent <a
+			href="http://en.wikipedia.org/wiki/Data_transfer_object">data
+				transfer object</a> named <span class="code">*Attributes</span> (e.g., <span
+			class="code">CourseAttributes</span> is the data transfer object for
+			<span class="code">Course</span> entities) object is returned, where
+			values can be get and set easily without any impact on the persistent
+			data copy. These datatransfer classes are in <span class="code">common::datatransfer</span>
+			package explained later. Note: This decision was taken before GAE
+			started supporting <a
+			href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
+				the ability to 'detach' entities </a> to prevent accidental
+			modifications to persistable data. The decision to use data transfer
+			objects is to be reconsidered in the future.
+		</li>
+	</ul>
+	The <span class="code">Storage</span> component will not perform any
 	cascade delete/create operations.Cascade logic is currently handled by
-	the
-	<span class="code">Logic</span> component.
-	<br>
+	the <span class="code">Logic</span> component.
+	<br>  
 
 	<div class="image-holder">
 		<img src="images/StorageComponent.png" width=80% />
 	</div>
 
-	<br>Classes in the
-	<span class="code">storage::entity</span> package are not visible
-	outside this component to prevent accidental modification to the
-	entity's attributes (Since these classes have been marked as
-	'persistence capable', and changes to their attributes are by default
-	automatically persisted to the datastore).
-	<br> Instead, a corresponding non-persistent data transfer object
-	named
-	<span class="code">*EntityData</span> (e.g.,
-	<span class="code">CourseData</span> is the data transfer object for
-	<span class="code">Course</span> entities) object is returned, where
-	values can be get and set easily without any impact on the persistent
-	data copy. These datatransfer classes are in
-	<span class="code">common::datatransfer</span> package explained later.
-	Note: This decision was taken before GAE started supporting
-	<a
-		href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
-		the ability to 'detach' entities </a> to prevent accidental modifications
-	to persistable data. The decision to use data transfer objects is to be
-	reconsidered in the future.
+	
 	<br> Note that the navigability of the association links between
 	entity objects appear to be in the reverse direction of what we see in
 	a normal OOP design. This is because we want to keep the data scheme
@@ -566,7 +579,7 @@
 	datastore before returning. This is not enough to compensate for
 	eventual consistency involving multiple servers in the GAE production
 	enviornment. However, it is expected to avoid test failures caused by
-	eventual consistency in dev server.
+	eventual consistency in dev server and reduce such problems in the live server.
 	<br> Note: 'Eventual consistency' here means it takes some time
 	for a database operation to propagate across all serves of the Google's
 	distributed datastore. As a result, the data may be in an inconsistent
@@ -591,11 +604,11 @@
 	</ul>
 	<br> API for creating:
 	<ul>
-		<li>Attempt to create an entity that already exists: Throw <span
+		<li>Attempt to create an entity that already exists: Throws <span
 			class="code">EntityAlreadyExists</span> exception.
 		</li>
-		<li>Attempt to create an entity with invalid data: assertion
-			thrown (should not occur at this level).</li>
+		<li>Attempt to create an entity with invalid data: Throws <span
+			class="code">InvalidParametersException</span></li>
 	</ul>
 	<br> API for retrieving:
 	<ul>
@@ -605,14 +618,15 @@
 	</ul>
 	<br> API for updating:
 	<ul>
-		<li>Attempt to update an entity that does not exist: Not
-			expected. Results in assertion failure.</li>
-		<li>Attempt to update an entity with invalid data: Not expected.
-			Results in assertion failure.</li>
+		<li>Attempt to update an entity that does not exist: Throws <span
+			class="code">EntityDoesNotExistException</span>.
+		</li>
+		<li>Attempt to update an entity with invalid data: Throws <span
+			class="code">InvalidParametersException</span></li>
 	</ul>
 	<br> API for deleting:
 	<ul>
-		<li>Attempt to delete an entity that does not exist: No action.</li>
+		<li>Attempt to delete an entity that does not exist: Fails silently.</li>
 	</ul>
 
 
@@ -630,8 +644,8 @@
 	<br>
 	<br>
 	<span class="code">common::datatransfer</span> package contains
-	lightweight classes for transferring data among components. They can be
-	combined in various ways to transfer structured data between
+	lightweight 'data transfer object' classes for transferring data among components. 
+	They can be combined in various ways to transfer structured data between
 	components. Given below are three examples.
 	<br>
 	<div class="image-holder">
@@ -641,11 +655,11 @@
 	<span class="code">Test Driver</span> can use the
 	<span class="code">DataBundle</span> in this manner to send an
 	arbitrary number of objects to be persisted in the database.
-	<br> (b) This structure can be used to send results of an
-	evaluation (e.g., when showing an evaluation report to an instructor)
-	<br> (c) This structure can be used to transfer data belonging to
-	an instructor (e.g., when constructing the home page for an
+	<br> (b) This structure can be used to transfer data of a course
+	 (e.g., when constructing the home page for an
 	instructor).
+	<br> (c) This structure can be used to send results of an
+	evaluation (e.g., when showing an evaluation report to an instructor)
 	<br>
 	<br> For convenience, these classes use public variables for data.
 	This is not a good practice as it contravenes OO principle of
@@ -685,11 +699,10 @@
 		tests----|---automated component tests ---|</span>
 	<br>
 	<br>
-	<br> Notable classes:
+	<br> Notable classes/files:
 	<ul>
-		<li><span class="code"><span class="bold">*Suite.java</span></span>
-			classes are containers for test cases, used to run test cases in
-			batch mode.</li>
+		<li><span class="code"><span class="bold">testing.xml</span></span>
+			contains the testNG test configuration.</li>
 		<li><span class="code"><span class="bold">BrowserInstance.java</span></span>
 			represents the UI of the application. It is a wrapper around Selenium
 			Web Driver. It allows the test driver to simulate user actions on the
@@ -741,6 +754,18 @@
 			appengine-web.xml that are useful for testing. e.g., the app version
 			number that we expect to see in the UI footer.
 	</ul>
+	
+	<h2 id="design-client">Client</h2>
+
+	<br> The Client component contains scripts that can connect to the application
+	backend for things such as migrating data and calculating statistics.
+	<br>
+	<span class="code">client::remoteapi</span> package contains the classes need to 
+	connect to the backend directly.
+	<br>
+	<span class="code">client::scripts</span> package contains
+	scripts that does things with the back end data.
+	<br>
 
 	<hr>
 	<!-- =============================================================== -->
@@ -760,7 +785,7 @@
 		environment</h2>
 	<ul>
 		<li><span class="bold">Google App Engine (GAE)</span></li>
-		<li><span class="bold">Java</span> [version 1.6, this is the
+		<li><span class="bold">Java</span> [version 1.7, this is the
 			highest version supported by GAE]</li>
 		<li><span class="bold">Live site</span>: <a
 			href="http://teammatesv4.appspot.com/">http://teammatesv4.appspot.com</a></li>
@@ -774,10 +799,13 @@
 		<li><span class="bold">Google App Engine Plugin for
 				Eclipse</span> [version 4.2]</li>
 		<li><span class="bold">Google App Engine SDK</span> [version
-			1.7.3]</li>
+			1.7.7.1]</li>
 		<li><span class="bold">TortoiseHg</span> or Mac OS equivalent
 			[version: latest stable]</li>
-		<li><span class="bold">Google Code</span> project hosting</li>
+		<li><span class="bold">Google Code</span> project hosting.</li>
+		<li><span class="bold"><a
+				href="https://codereview.appspot.com">Rietveld</a></span> Code Review
+			System.</li>
 	</ul>
 
 	<h2 id="infrastructure-toolsandtechnologies-implementation">Tools
@@ -847,8 +875,8 @@
 			and messaging applications. <br> Usage: For accessing test
 			users' email accounts to examine emails sent from TEAMMATES.</li>
 		<li><span class="bold"><a
-				href="https://github.com/kentbeck/junit/wiki">JUnit</a></span> [version
-			4.11] <br>JUnit is a Java test automation framework.</li>
+				href="http://testng.org/">TestNG</a></span> [version
+			6.8.1] <br>TestNG is a Java test automation framework.</li>
 		<li><span class="bold"><a href="http://qunitjs.com/">QUnit</a></span>
 			[version 1.10.0] <br>QUnit is a JavaScript unit test suite.</li>
 		<li><span class="bold">NekoHtml</span> [version 1.9.16] <br>NekoHTML
@@ -919,17 +947,23 @@
 			does not work. In which case, follow the instructions at <a
 			href="https://developers.google.com/eclipse/docs/install-from-zip">https://developers.google.com/eclipse/docs/install-from-zip</a>.
 		</li>
-		<li>Install <i>Google App Engine SDK</i> version 1.7.3. <br>Instructions
+		<li>Install <i>Google App Engine SDK</i> version 1.7.7.1 <br>Instructions
 			are at <a
 			href="https://developers.google.com/eclipse/docs/using_sdks">https://developers.google.com/eclipse/docs/using_sdks</a>.
 			<br>Download link to the SDK is <a
-			href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.3.zip</a>.
+			href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip</a>.
 		</li>
-		<li>If your Firefox is higher than version 12, downgrade to
+		<li>Install the latest <a
+			href="http://testng.org/doc/eclipse.html"><i>TestNG Eclipse
+					plugin</i></a>.
+		</li>
+		<li>If you plan to contribute code, also install Python 2.5+  (not version 3.x). 
+		{Python is used by the patch uploader script}</li>
+		<li>If you plan to use Firefox for testing TEAMMATES (alternatively, you may use
+		Chrome or IE, but FF is the most convenient of the three), downgrade to
 			Firefox 12.0 from <a
 			href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a>
-			{The web driver for later Firefox is significantly slower than the
-			one used for FF12}
+			{The web driver for later Firefox doesn't work for our test cases.}
 		</li>
 	</ul>
 
@@ -941,8 +975,26 @@
 			<br /> Note: If you are using TortoiseHg to clone, simply copy the
 			URL above and paste it in the Source field. Alternatively, you can
 			use the command line to do the cloning.
-		<li>Create config files (these are not under revision control
-			because their content vary from developer to developer).
+		</li>
+		<li>Add the following section to the <span class="code">hgrc</span>
+			file inside your project repo folder. {reason: to configure Mercurial
+			Queue extension and EOL extension that we use for TEAMMATES.} <br>
+			<span class="code">
+				[extensions]<br> 
+				#enable mercurial queue extension<br> 
+				hgext.mq =<br> 
+				#enable end-of-line extension<br> 
+				eol =<br>
+				[diff]<br> 
+				# prevent qrefresh
+				from updating timestamps<br> nodates=1<br> 
+				# force all
+				patches to always be in git format<br> 
+				git=1<br>
+			</span>
+		</li>
+		<li>Create config files {these are not under revision control
+			because their content vary from developer to developer}.
 			<ol type="a">
 				<li><span class="code"><span class="blue">src/main/resources/</span><span
 						class="bold">build.properties</span></span> <br> Use <span
@@ -1002,7 +1054,8 @@
 			console “The server is running at http://localhost:8888/”.<br>
 			The dev server is now ready to start requests at the given URL. You
 			can verify by visiting the URL in your Browser. <br>You can
-			login to the system, you need to add yourself as an instructor first.
+			login to the system, you need to add yourself as an instructor first
+			 (described below).
 		</li>
 	</ol>
 
@@ -1016,21 +1069,23 @@
 		<li>Enter credentials for an instructor. e.g., <br> Google
 			id: teammates.instructor<br> Name: Dr. John Adams <br>
 			Email: teammates.instructor@gmail.com<br>
+			Institute: National University of Singapore <br>
 		</li>
 	</ol>
 
 	<h3>Running the test suite</h3>
-	Run
-	<span class="bold code">src/test/java/teammates.test.cases.AllTestsSuite.java</span>
-	to confirm the app works as expected. This can be done using the "TM -
-	Run all tests" option under the green "Run" button in the toolbar. Most
-	of the tests should pass. If a few cases fail (this can happen due to
-	timing issues), run the failed cases individually (right click and
-	choose 'Run as → Junit Test') and ensure they pass. The default browser
-	used for testing is the Firefox browser. Testing on the Firefox browser
-	is relatively faster as compared to the other browsers, and it can be
-	run in the background. Nevertheless, it is still necessary to test with
-	the other supported browsers as well.
+	This can be done using the "All tests" option under the
+	green "Run" button in the toolbar. If this option is not available
+	(sometimes, Eclipse does not show this option immediately after you set
+	up the project. In will appear in subsequent runs. 
+	'Refreshing' will make it appear too.), run
+	<span class="bold code">src/test/testing.xml</span> (right click and
+	choose 'Run as → TestNG Suite'). Most of the tests should pass. <br> 
+	If a few cases fail (this can happen due to timing issues), run the failed
+	cases using the "Run Failed Test" icon in the TestNG tab in Eclipse until
+	they pass. The default browser used for testing is the Firefox browser.
+	Testing on the Firefox browser is relatively faster as compared to the
+	other browsers, and it can be run in the background. 
 	<br>
 	<br> To change the browser that is used in the UI tests, go to the
 	<span class="code">test.properties</span> file and change the
@@ -1080,7 +1135,8 @@
 	Explorer, the chromedriver process and the IEDriverServer process will
 	not automatically get killed after the tests have finished executing.
 	You will need to manually kill these processes after the tests are
-	done.
+	done. On Windows, you can do this using the Task Manager or 'tskill' DOS
+	command.
 
 	<h2 id="settingup-deployingtostagingserver">Deploying to staging
 		server</h2>
@@ -1099,8 +1155,7 @@
 					in the file itself.</li>
 				<li><span class="code"><span class="blue">src/test/resources/</span><span
 						class="bold">test.properties </span></span><br> Get from a project
-					member details of Gmail accounts used for testing. Alternatively,
-					create a few Gmail accounts yourself for testing the app. Edit the
+					member details of Gmail accounts used for testing. Edit the
 					file as instructed in its comments.</li>
 				<li><span class="code"><span class="blue">src/main/webapp/WEB-INF/</span><span
 						class="bold">appengine-web.xml </span></span><br> Modify to match
@@ -1149,8 +1204,17 @@
 			Window→Preferences→Java→Installed JREs. You will note that a JRE path
 			is the one selected, not a JDK path. To fix this, Click add→Standard
 			VM, then for the JRE Path enter the path of the <span class="code">jre</span>
-			folder inside your jdk installation folder. e.g., <span class="code">C:\jdk1.6\jre</span>
+			folder inside your jdk installation folder. e.g., <span class="code">C:\jdk1.7\jre</span>
 			Now you should see all of the JARs added to the library section.
+		</li>
+		<br>
+		<li>ERROR: When trying to deoply, Eclipse complains <span
+			class="code">"...Unable to update app: Cannot get the System
+				Java Compiler. Please use a JDK, not a JRE."</span>. <br> SOLUTION:
+			You can force Eclipse to use the JDK (instead of JRE) by modifiying
+			the <span class="code">eclipse.ini</span> file. See <a
+			href="http://stackoverflow.com/questions/13913019/changing-jdk-in-eclipse">here</a>
+			for more details.
 		</li>
 		<br>
 		<li>ERROR (on Windows): Dev server launched by Eclipse keeps
@@ -1206,24 +1270,12 @@
 			field
 		</li>
 		<br>
-		<li>ERROR: Unusually large number of test cases indicated.<br>
-			SOLUTION: If you right-click the project and choose 'run as Junit
-			test', it will erroneously pick up 500+ test cases. This is because
-			Eclipse runs individual JUnit classes as well as JUnit Suite classes
-			resulting in some test cases being run more than once. <br>
-			Instead, use the 'TM Run all tests' menu item or right-click on the <span
-			class="code">src/test/java/teammates.test.cases.AllTestsSuite.java</span>
-			and choose 'run as Junit test'.<br> Please note that Eclipse may
-			need a restart before the menu item <span class="code">'TM Run
-				all tests'</span> appear.
-		</li>
-		<br>
 		<li>ERROR: A handful of failed test cases (<10)<br>
 			SOLUTION: Ensure compatible version of Firefox is installed as
 			specified under <a href="#settingup-prerequisites">Prerequisites</a>.
 		</li>
-		<br / >
-		<li>ERROR: Browser prompt for invalid ssl certificate.<br/>
+		<br>
+		<li>ERROR: Browser alert about invalid ssl certificate.<br/>
 			SOLUTION: Ensure that your url uses -dot- instead of '.' when using secondary subdomains.<br/>
 			Eg. http\://4-30-dot-teammates-john.appspot.com <br/>
 		</li>
@@ -1243,7 +1295,7 @@
 		<li><span class="bold">Reviewer</span> - Assigned per issue.
 			Usually, a core team member.</li>
 		<li><span class="bold">Team lead</span> - Responsible for keeping
-			all tests green, merging branches.</li>
+			all tests green, applying patches.</li>
 		<li><span class="bold">PM</span> (Project Manager) - General
 			project coordination and deploying to live server</li>
 	</ul>
@@ -1275,22 +1327,6 @@
 		<li>Mark the issue as <span class="code">Started</span>.
 		</li>
 		<br>
-		<li>If this is your first issue, go to the <a
-			href="http://code.google.com/p/teammatespes/source/checkout">committer
-				repo</a>, and create <a
-			href="http://googlecode.blogspot.sg/2009/10/mercurial-server-side-clone-support-for.html">a
-				server-side clone</a>. This clone will be your 'contributor repo' that
-			you will use for pushing your fixes. Once the Issue is <span
-			class="code">ReadyToMerge</span>, project lead will pull the branch
-			to the committer repo.<br> Recommended name for the clone is <span
-			class="code">{your name}-teammates</span>. e.g., <span class="code">john-teammates</span>
-			<br> Remember to include your full name under the 'Clone
-			summary' field. This is because sometimes the clone name is not
-			enough to identify the clone owner. <br>Remember to <span
-			class="bold">enable 'non-member code reviews'</span> in your clone
-			(Administer --> Source --> check 'Allow non-members to review code').
-		</li>
-		<br>
 		<li>Update your local repo (the one you created when setting up
 			the project on your computer) with the latest version of the code
 			from the committer repo. <br> <span class="code"> hg pull
@@ -1308,93 +1344,52 @@
 		</span>
 		</li>
 		<br>
-		<li>Fix the issue. <br> Select the code segments you
-			modified and apply the code formatting function of Eclipse (Source
-			--> Format). This is to ensure that the code is properly formatted.<br>
-			<br>Commit the fix. <br>Format of the commit comment <span
-			class="bold">(for contributors)</span>: <br>
-			<ol type="a">
-				<li>The first line should be in the format: <br> <br>
-					(if this is the first commit of the branch)<br> <span
-					class="code"><span class="bold">Starting</span> {issue
-						number} [{Issue title as given in issue tracker}]</span> <br>OR (if
-					this is not the first commit of the branch)<br> <span
-					class="code"><span class="bold">Continuing</span> {issue
-						number} [{Issue title as given in issue tracker}] </span> <br> <br>Note:
-					Using labels such as 'Starting' and 'Continuing' helps to locate
-					the start of the branch easily (this is useful when reviewing code)
-					and identify what the issue is about without having to refer to
-					issue tracker.<br> <br>
-				</li>
-
-				<li>The Remaining lines can be used to describe the changes you
-					are committing.</li>
-				<li>Here's a sample commit message:<br> <span class="code">
-						Starting Issue 234 [Adding commit comment format to DevMan]<br>
-						Clarified the exact format for commit comments.
-				</span>
-				</li>
-			</ol> <br> Format of the commit comment <span class="bold">(for
-				committers)</span>: <br>
-			<ol type="a">
-				<li>The format is similar to the one used by contributors
-					except, the 2nd line should be <span class="code">Update
-						Issue {issue number}</span> This line tells Google Code to automatically
-					update the corresponding issue in the Issue tracker with a link to
-					the revision being committed. Do not put a fullstop at the end of
-					this line.
-				</li>
-
-				<li>Here's a sample commit message:<br> <span class="code">
-						Starting Issue 234 [Adding commit comment format to DevMan]<br>
-						Update Issue 234<br> Clarified the exact format for commit
-						comments.
-				</span>
-				</li>
-			</ol> <br> Tip: Try to minimize the number of commits per issue. This
-			will ease the review process. Define issues to be of small size so
-			that you don't need more than one commit to fix it. For bigger
-			issues, you can use <a
-			href="http://mercurial.selenic.com/wiki/MqTutorial">Mercurial
-				Queues</a> to accumulate your work as patches and combine them into one
-			commit. (Note: Do not attempt to use Queues unless you are already
-			familiar with Hg basics).
+		<li>Fix the issue. <br>You may commit as many times as you
+			wish while you are fixing the code. These commits are for your own
+			use and will not be visible to others. Once you are done with fixing
+			the issue, we package the commits as a single patch before uploading
+			to Rietveld (our code review system).
 		</li>
 		<br>
 		<li>When the work is ready for review:
 			<ol type="a">
-				<li>While you were fixing the issue, others might have pushed
-					new code to the committer repo. In that case, update your repo with
-					any new changes from committer repo and merge those updates to your
-					branch<br> <span class="code"> hg pull
-						https://code.google.com/p/teammatespes/<br> hg update<br>
-						hg merge default<br> hg commit -m "Syncing Issue {nnn}
-						[{Issue title}]" <br># e.g. hg commit -m "Syncing Issue 453
-						[Add sitemap to website]" <br> #'Syncing' is used to indicate
-						that this changeset is simply merging the trunk to this branch.<br>
+				<li>Sync with the committer repo: While you were fixing the
+					issue, others might have pushed new code to the committer repo. In
+					that case, update your repo with any new changes from committer
+					repo and merge those updates to your branch<br> <span
+					class="code"> hg pull
+						https://code.google.com/p/teammatespes/<br> 
+						hg update<br>
+						hg merge default<br> 
+						hg commit -m "your commit message"
 				</span>
 				</li>
+				<li>Format the code: Select the code segments you modified and apply
+					the code formatting function of Eclipse (Source --> Format). This
+					is to ensure that the code is properly formatted. You may tweak the
+					code further to improve readability as auto-format doesn't always
+					result in a good layout.<br></li>
 				<li>Ensure dev green (i.e., all tests are passing on dev
 					server).</li>
-				<li>If your new code might behave differently on a production
+				<li>If your new code might behave differently on a remote
 					server than how it behaves on the dev server, ensure staging green
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
-				<li>Push to your contributor repo (this will create a new
-					branch in the repo).<br> <span class="code">hg push
-						https://{your name}@code.google.com/p/{clone name}/ --new-branch
-						-b {branch name}<br> #e.g., hg push
-						https://john@code.google.com/p/teammates-john/ --new-branch -b
-						Issue234
-				</span><br>
+				<li>Upload the changes as a patch to code review system. <br>
+					<span class="code">upload.py --rev=default -t Issue "{issue
+						number} : {branch description as given in Issue tracker}"<br>
+						#e.g., upload.py --rev=default -t "Issue 829 : Remoe unused
+						constants from Attributes classes"
+				</span><br> See <a
+					href="https://code.google.com/p/rietveld/wiki/UploadPyUsage">here</a>
+					for more about <span class="code">upload.py</span> usage.<br>
 				</li>
 				<li>Change Issue status to <span class="code">ReadyForReview</span>.
 					In the 'comments' text box, specify the direct URL (here is <a
-					href=http://code.google.com/r/freddusya111-teammates2/source/detail?r=22394d4380ccd25dedbbf636d0e3cd13739f258b">an
-						example URL</a>) to the relevant changeset. This way, the reviewer can
-					reach your new code in one click. (Note: Committers need not
-					specify the URL because you are pushing to the commiter repo
-					directly and GoogleCode will inser the URL automatically).
+					href=https://codereview.appspot.com/9045043/">an example URL</a>)
+					to the issure created on the <a
+					href="https://codereview.appspot.com">code review system</a>. This
+					way, the reviewer can reach your new code in one click. 
 				</li>
 			</ol>
 		</li>
@@ -1402,8 +1397,16 @@
 		<li>Repeat above two steps until the Issue is marked as <span
 			class="code">ReadyToMerge</span> by the reviewer. If the Issue is
 			marked as <span class="code">ChangesRequired</span>, you need to do
-			further changes based on comments reviewer added in the issue tracker
-			or in the repo.
+			further changes based on comments reviewer added in the code review 
+			system. When uploading another patch to an existing issue, you need 
+			to add the following option to the upload command in order to add the
+			new patch to the existing issue in the code review system.
+			<br><span class="code">-i {issue number from the code review system 
+			(not from our issue tracker)} <br>
+			#example
+			<br>upload.py --rev=default -t "Issue 829 : Remoe unused constants from Attributes classes" 
+			<span class="bold">-i 9045043 </span>
+			</span>                   
 		</li>
 	</ol>
 	<br>
@@ -1431,58 +1434,39 @@
 	the branch.
 	<br>If the code is not ready for release, change the status to
 	<span class="code">ChangesRequested</span>.
-	<br> Give either 'positive' or 'negative' rating to each review
-	(avoid 'neutral'). This helps us to detect which revisions were
-	reviewed (when browsing repo in Google Code)
-	<br>
-	<br> Tip: You can use keyboard shortcuts to navigate code changes
-	(see
-	<a href="http://code.google.com/p/support/wiki/CodeReviews">here</a>).
-	<br>
 
 	<h2 id="process-applyingafix">Applying a fix</h2>
 	Role: team lead
 	<ol>
 		<li>Pull the latest code from the committer repo</li>
-		<br> If this is a fix done by a contributor, pull the branch from
-		the contributor's repo.
-		<br>
-		<span class="code"> hg pull {repo url} -b {branch name}<br>
-			hg update
-		</span>
-		<br>
-		</li>
-		<br>
-		<li>Switch to branch<br> <span class="code">hg update
-				{branch name}</span>
-		</li>
-		<br>
-		<li>Merge default to branch (if default has more new stuff not in
-			branch)<br> <span class="code">hg merge default</span>
+		<li> Download the patch from Rietveld@GoogleCode to the project root folder.</li>
+		<li>Apply the patch.<br> <span class="code">hg import patch_file_name --no-commit</span>
 		</li>
 		<br>
 		<li>Verify 'dev green'. If the change does not involve automated
 			tests, do a manual test. e.g., changes to documentation.</li>
 		<br>
 		<li>Verify 'staging green' (i.e. use your own app on appengine as
-			the 'staging site')</li>
+			the 'staging site') if the changed code could potentially behave
+			differently on a remote server.</li>
 		<br>
 		<li>If not green: <br>
 			<ul>
-				<li>Inform Developer of any broken code.</li>
-				<li>Undo the merge.The command is (<a
-					href="http://mercurial.selenic.com/wiki/TutorialMerge">source</a>)
-					<br> <span class="code">hg update -C -r.</span>
+				<li>Inform Developer of any broken code by changing the Issue status.</li>
+				<li>Remove the patch from your local repo.
+					<br> <span class="code">hg -revert --all</span>
 				</li>
 			</ul> <br> If green:
 			<ul>
-				<li>Merge branch to default<br> <span class="code">
-						hg update default <br> hg merge {branch name}<br> hg
-						commit -m “Merging {branch name} [{branch description}]”
-				</span>
+				<li>Commit the patch. The commit message should be<br> 
+				<span class="code">Issue {issue number} : {branch description as given in Issue tracker} <br>
+				Update Issue {issue number}	</span><br>
+				Example:<br>
+				<span class="code">Issue 829 : Remoe unused constants from *Attributes classes <br>
+				Update Issue 829	</span>
 				</li>
 				<li>Push the merged branch to the committer repo. <br> <span
-					class="code">hg push {committer repo URL} --new-branch -b
+					class="code">hg push {committer repo URL} -b
 						defalut </span>
 				</li>
 			</ul>

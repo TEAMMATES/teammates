@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 
 @SuppressWarnings("serial")
 public class StudentEvalEditServlet extends EvalSubmissionEditServlet {
 
 	@Override
-	protected StudentData getStudentObject(HttpServletRequest req,
+	protected StudentAttributes getStudentObject(HttpServletRequest req,
 			EvalSubmissionEditHelper helper) {
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);
-		return helper.server.getStudentInCourseForGoogleId(courseID, helper.userId);
+		return helper.server.getStudentForGoogleId(courseID, helper.userId);
 	}
 	
 	@Override

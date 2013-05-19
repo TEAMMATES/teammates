@@ -1,15 +1,13 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import static org.testng.AssertJUnit.assertEquals;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.BrowserInstance;
 import teammates.test.driver.BrowserInstancePool;
@@ -59,7 +57,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		BackDoor.deleteCourses(jsonString);
 	}
 	
-	@Before
+	@BeforeMethod
 	public void testSetup() {
 		if (!helpWindowClosed){
 			bi.closeSelectedWindow();
@@ -87,9 +85,9 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		______TS("invalid key");
 		
 		BackDoor.createCourse(scn.courses.get("SHomeUiT.CS2104"));
-		BackDoor.createInstructor(scn.instructors.get("teammates.test.CS2104"));
-		BackDoor.createAccount(scn.accounts.get("teammates.test"));
-		StudentData alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
+		BackDoor.createInstructor(scn.instructors.get("SHomeUiT.instr.CS2104"));
+		BackDoor.createAccount(scn.accounts.get("SHomeUiT.instr"));
+		StudentAttributes alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
 		alice.id = null;
 		BackDoor.createStudent(alice);
 		bi.fillString(bi.studentInputRegKey, "ThisIsAnInvalidKey");

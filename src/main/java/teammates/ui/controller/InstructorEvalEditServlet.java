@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationData;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -26,7 +26,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 			throws EntityDoesNotExistException {
 		String url = getRequestedURL(req);
         
-		EvaluationData newEval = InstructorEvalServlet.extractEvaluationData(req);
+		EvaluationAttributes newEval = InstructorEvalServlet.extractEvaluationData(req);
 
 		if (newEval.course == null && newEval.name == null) {
 			helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
@@ -43,7 +43,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 		if (isSubmit) {
 			helper.newEvaluationToBeCreated = newEval;
 			try {
-				helper.server.editEvaluation(newEval.course, newEval.name, newEval.instructions, newEval.startTime,
+				helper.server.updateEvaluation(newEval.course, newEval.name, newEval.instructions, newEval.startTime,
 						newEval.endTime, newEval.timeZone, newEval.gracePeriod, newEval.p2pEnabled);
 				helper.statusMessage = Common.MESSAGE_EVALUATION_EDITED;
 				helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
@@ -108,7 +108,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 		String message;
 		
 		try {
-			EvaluationData eval = (EvaluationData)data.get(0);
+			EvaluationAttributes eval = (EvaluationAttributes)data.get(0);
 			message = "Editing Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span>.<br>" +
 					"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
 					"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
@@ -124,7 +124,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 		String message;
 		
 		try {
-			EvaluationData eval = (EvaluationData)data.get(0);
+			EvaluationAttributes eval = (EvaluationAttributes)data.get(0);
 			message = "Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span> edited.<br>" +
 					"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
 					"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 

@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.StudentData;
-import teammates.common.datatransfer.TeamData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
@@ -41,15 +43,15 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 			return;
 		}
 		
-		helper.course = helper.server.getCourseDetails(courseId);
-		helper.instructors = helper.server.getInstructorsByCourseId(courseId);
+		helper.courseDetails = helper.server.getCourseDetails(courseId);
+		helper.instructors = helper.server.getInstructorsForCourse(courseId);
 		
-		helper.student = helper.server.getStudentInCourseForGoogleId(courseId, helper.userId);
+		helper.student = helper.server.getStudentForGoogleId(courseId, helper.userId);
 		helper.team = getTeam(helper.server.getTeamsForCourse(courseId),helper.student);
 		
 		ArrayList<Object> data = new ArrayList<Object>();
-		data.add(helper.course.id);
-		data.add(helper.course.name);
+		data.add(helper.courseDetails.course.id);
+		data.add(helper.courseDetails.course.name);
 		activityLogEntry = instantiateActivityLogEntry(Common.STUDENT_COURSE_DETAILS_SERVLET, Common.STUDENT_COURSE_DETAILS_SERVLET_PAGE_LOAD,
 				true, helper, url, data);
 	}
@@ -60,8 +62,8 @@ public class StudentCourseDetailsServlet extends ActionServlet<StudentCourseDeta
 	 * @param student
 	 * @return
 	 */
-	private TeamData getTeam(CourseData course, StudentData student){
-		for(TeamData team: course.teams){
+	private TeamDetailsBundle getTeam(CourseDetailsBundle course, StudentAttributes student){
+		for(TeamDetailsBundle team: course.teams){
 			if(team.name.equals(student.team)){
 				return team;
 			}

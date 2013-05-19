@@ -1,5 +1,7 @@
 <%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.datatransfer.CourseData"%>
+<%@ page import="teammates.common.datatransfer.CourseAttributes"%>
+<%@ page import="teammates.common.FieldValidator"%>
+<%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorCourseHelper"%>
 <%
 	InstructorCourseHelper helper = (InstructorCourseHelper)request.getAttribute("helper");
@@ -31,7 +33,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -41,27 +43,27 @@
 				<h1>Add New Course</h1>
 			</div>
 
-			<form method="get" action="<%= Common.PAGE_INSTRUCTOR_COURSE %>" name="form_addcourse">
-				<input type="hidden" id="<%= Common.PARAM_INSTRUCTOR_ID %>" name="<%= Common.PARAM_INSTRUCTOR_ID %>" value="<%= helper.account.googleId%>">
+			<form method="get" action="<%=Common.PAGE_INSTRUCTOR_COURSE%>" name="form_addcourse">
+				<input type="hidden" id="<%=Common.PARAM_INSTRUCTOR_ID%>" name="<%=Common.PARAM_INSTRUCTOR_ID%>" value="<%=helper.account.googleId%>">
 				<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
 						<td><input class="addinput" type="text"
-							name="<%= Common.PARAM_COURSE_ID %>" id="<%= Common.PARAM_COURSE_ID %>"
-							value="<%= (helper.courseID==null ? "" : helper.courseID) %>"
+							name="<%=Common.PARAM_COURSE_ID%>" id="<%=Common.PARAM_COURSE_ID%>"
+							value="<%=(helper.courseID==null ? "" : helper.courseID)%>"
 							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
 							onmouseout="hideddrivetip()"
-							maxlength=<%= Common.COURSE_ID_MAX_LENGTH %> tabindex="1"
+							maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
 							placeholder="e.g. CS3215-2013Semester1" /></td>
 					</tr>
 					<tr>
 						<td class="label bold">Course Name:</td>
 						<td><input class="addinput" type="text"
-							name="<%= Common.PARAM_COURSE_NAME %>" id="<%= Common.PARAM_COURSE_NAME %>"
+							name="<%=Common.PARAM_COURSE_NAME%>" id="<%=Common.PARAM_COURSE_NAME%>"
 							value="<%=(helper.courseName==null ? "" : InstructorCourseHelper.escapeForHTML(helper.courseName))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
-							maxlength=<%=CourseData.COURSE_NAME_MAX_LENGTH%> tabindex=2
+							maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
 							placeholder="e.g. Software Engineering" /></td>
 					</tr>
 					<tr>
@@ -70,7 +72,7 @@
 					<tr>
 						<td colspan=2>
 							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>" id="<%= Common.PARAM_COURSE_INSTRUCTOR_LIST %>"><%=helper.account.googleId + "|" + helper.account.name + "|" + helper.account.email %></textarea>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>" id="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=helper.account.googleId + "|" + helper.account.name + "|" + helper.account.email%></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -106,30 +108,30 @@
 				</tr>
 				<%
 					int idx = -1;
-								for(CourseData course: helper.courses){ idx++;
+														for(CourseDetailsBundle courseDetails: helper.courses){ idx++;
 				%>
 					<tr class="courses_row">
-						<td id="courseid<%=idx%>"><%=course.id%></td>
-						<td id="coursename<%=idx%>"><%=InstructorCourseHelper.escapeForHTML(course.name)%></td>
-						<td class="t_course_teams centeralign"><%= course.teamsTotal %></td>
-						<td class="centeralign"><%= course.studentsTotal %></td>
-						<td class="centeralign"><%= course.unregisteredTotal %></td>
+						<td id="courseid<%=idx%>"><%=courseDetails.course.id%></td>
+						<td id="coursename<%=idx%>"><%=InstructorCourseHelper.escapeForHTML(courseDetails.course.name)%></td>
+						<td class="t_course_teams centeralign"><%= courseDetails.teamsTotal %></td>
+						<td class="centeralign"><%= courseDetails.studentsTotal %></td>
+						<td class="centeralign"><%= courseDetails.unregisteredTotal %></td>
 						<td class="centeralign no-print">
 							<a class="color_black t_course_enroll<%= idx %>"
-								href="<%= helper.getInstructorCourseEnrollLink(course.id) %>"
+								href="<%= helper.getInstructorCourseEnrollLink(courseDetails.course.id) %>"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
 								onmouseout="hideddrivetip()">Enroll</a>
 							<a class="color_black t_course_view<%= idx %>"
-								href="<%=helper.getInstructorCourseDetailsLink(course.id)%>"
+								href="<%=helper.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
 								onmouseout="hideddrivetip()">View</a>
 							<a class="color_black t_course_edit<%= idx %>"
-								href="<%=helper.getInstructorCourseEditLink(course.id)%>"
+								href="<%=helper.getInstructorCourseEditLink(courseDetails.course.id)%>"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_EDIT %>')"
 								onmouseout="hideddrivetip()">Edit</a>
 							<a class="color_black t_course_delete<%= idx %>"
-								href="<%=helper.getInstructorCourseDeleteLink(course.id,false)%>"
-								onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= course.id %>');"
+								href="<%=helper.getInstructorCourseDeleteLink(courseDetails.course.id,false)%>"
+								onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= courseDetails.course.id %>');"
 								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DELETE %>')"
 								onmouseout="hideddrivetip()">Delete</a>
 						</td>

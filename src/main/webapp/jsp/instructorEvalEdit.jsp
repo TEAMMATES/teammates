@@ -1,6 +1,6 @@
 <%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.datatransfer.CourseData"%>
-<%@ page import="teammates.common.datatransfer.EvaluationData"%>
+<%@ page import="teammates.common.datatransfer.CourseAttributes"%>
+<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorEvalEditHelper"%>
 <%	InstructorEvalEditHelper helper = (InstructorEvalEditHelper)request.getAttribute("helper"); %>
 <!DOCTYPE html>

@@ -25,7 +25,7 @@ public class InstructorCourseStudentDetailsServlet extends ActionServlet<Instruc
         String courseID = req.getParameter(Common.PARAM_COURSE_ID);
 		String studentEmail = req.getParameter(Common.PARAM_STUDENT_EMAIL);
 		
-		helper.student = helper.server.getStudent(courseID, studentEmail);
+		helper.student = helper.server.getStudentForEmail(courseID, studentEmail);
 		helper.regKey = helper.server.getKeyForStudent(courseID, studentEmail);
 		
 		ArrayList<Object> data = new ArrayList<Object>();

@@ -20,8 +20,9 @@ public class EvaluationClosingRemindersServlet extends HttpServlet {
 	private ActivityLogEntry activityLogEntry;
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+		BackDoorLogic backdoorlogic = new BackDoorLogic();
 		try {
-			ArrayList<MimeMessage> emails = new BackDoorLogic().sendRemindersForClosingEvaluations();
+			ArrayList<MimeMessage> emails = backdoorlogic.sendRemindersForClosingEvaluations();
 			ArrayList<Object> data = Common.generateEmailRecipientListForAutomatedReminders(req, emails);
 
 			String url = req.getRequestURI();
@@ -32,8 +33,10 @@ public class EvaluationClosingRemindersServlet extends HttpServlet {
 					true, null, url, data);
 			log.log(Level.INFO, activityLogEntry.generateLogMessage());
 
-		} catch (Exception e) {
-			throw new RuntimeException("Unexpected exception while sending reminders for closing evaluations", e);
+		}  catch (Throwable e) {
+			String reqParam = Common.printRequestParameters(req);
+			MimeMessage email = backdoorlogic.emailErrorReport(req.getServletPath(), reqParam, e);
+			log.severe(e.getMessage());	
 		}
 	}
 
@@ -49,13 +52,13 @@ public class EvaluationClosingRemindersServlet extends HttpServlet {
 			try {
 				message = "<span class=\"bold\">Emails sent to:</span><br>";
 				for (int i = 0; i < data.size(); i++){
-					message += (String)data.get(i) + "<br>";
+					message += data.get(i).toString() + "<br>";
 				}
 			} catch (NullPointerException e) {
 				message = "<span class=\"color_red\">Unable to retrieve email targets in " + servletName + ": " + action + ".</span>";
 			}
 		} else if (action.equals(Common.LOG_SERVLET_ACTION_FAILURE)) {
-            String e = (String)data.get(0);
+            String e = data.get(0).toString();
             message = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
             message += e + "</span>";
         } else {

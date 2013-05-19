@@ -1,8 +1,12 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -17,17 +21,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import teammates.common.BuildProperties;
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseData;
-import teammates.common.datatransfer.EvaluationData;
-import teammates.common.datatransfer.StudentData;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.Emails;
+import teammates.test.driver.TestProperties;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -46,7 +46,7 @@ public class EmailsTest extends BaseTestCase {
 		setConsoleLoggingLevel(Level.FINE);
 	}
 
-	@Before
+	@BeforeMethod
 	public void caseSetUp() throws ServletException, IOException {
 		localMailService = new LocalMailServiceTestConfig();
 		helper = new LocalServiceTestHelper(localMailService);
@@ -84,15 +84,15 @@ public class EmailsTest extends BaseTestCase {
 	public void testGenerateEvaluationEmailBase() throws IOException,
 			MessagingException, GeneralSecurityException {
 
-		EvaluationData e = new EvaluationData();
+		EvaluationAttributes e = new EvaluationAttributes();
 		e.name = "Evaluation Name";
 		e.endTime = Common.getDateOffsetToCurrentTime(0);
 
-		CourseData c = new CourseData();
+		CourseAttributes c = new CourseAttributes();
 		c.id = "course-id";
 		c.name = "Course Name";
 
-		StudentData s = new StudentData();
+		StudentAttributes s = new StudentAttributes();
 		s.name = "Student Name";
 		s.key = "skxxxxxxxxxks";
 		s.email = "student@email.com";
@@ -203,11 +203,11 @@ public class EmailsTest extends BaseTestCase {
 	public void testGenerateStudentCourseJoinEmail() throws IOException,
 			MessagingException, GeneralSecurityException {
 
-		CourseData c = new CourseData();
+		CourseAttributes c = new CourseAttributes();
 		c.id = "course-id";
 		c.name = "Course Name";
 
-		StudentData s = new StudentData();
+		StudentAttributes s = new StudentAttributes();
 		s.name = "Student Name";
 		s.key = "skxxxxxxxxxks";
 		s.email = "student@email.com";
@@ -259,23 +259,23 @@ public class EmailsTest extends BaseTestCase {
 	@Test
 	public void testGenerateEvaluationEmails() throws MessagingException,
 			IOException {
-		List<StudentData> students = new ArrayList<StudentData>();
+		List<StudentAttributes> students = new ArrayList<StudentAttributes>();
 
-		EvaluationData e = new EvaluationData();
+		EvaluationAttributes e = new EvaluationAttributes();
 		e.name = "Evaluation Name";
 		e.endTime = Common.getDateOffsetToCurrentTime(0);
 
-		CourseData c = new CourseData();
+		CourseAttributes c = new CourseAttributes();
 		c.id = "course-id";
 		c.name = "Course Name";
 
-		StudentData s1 = new StudentData();
+		StudentAttributes s1 = new StudentAttributes();
 		s1.name = "Student1 Name";
 		s1.key = "skxxxxxxxxxks1";
 		s1.email = "student1@email.com";
 		students.add(s1);
 
-		StudentData s2 = new StudentData();
+		StudentAttributes s2 = new StudentAttributes();
 		s2.name = "Student2 Name";
 		s2.key = "skxxxxxxxxxks2";
 		s2.email = "student2@email.com";
@@ -313,8 +313,48 @@ public class EmailsTest extends BaseTestCase {
 		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
 
 	}
+	
+	@Test
+	public void testSystemCrashReportEmailContent() throws IOException,
+			MessagingException {
 
-	private void verifyEvaluationEmail(StudentData s, MimeMessage email,
+		
+		AssertionError error = new AssertionError("invalid parameter");
+		StackTraceElement s1 = new StackTraceElement(
+				SystemErrorEmailReportTest.class.getName(), 
+				"testSystemCrashReportEmailContent", 
+				"SystemErrorEmailReportTest.java", 
+				89);
+		error.setStackTrace(new StackTraceElement[] {s1});
+		String stackTrace = Common.stackTraceToString(error);
+		String requestPath = "/page/studentHome";
+		String requestParam = "{}";
+
+		MimeMessage email = new Emails().generateSystemErrorEmail(
+				error, 
+				requestPath, requestParam,
+				TestProperties.inst().TEAMMATES_VERSION);
+
+		// check receiver
+		String recipient = BuildProperties.inst().getAppCrashReportEmail();
+		assertEquals(recipient, email.getAllRecipients()[0].toString());
+
+		// check sender
+		assertEquals(from, email.getFrom()[0].toString());
+		
+			
+		// check email body
+		String emailBody = email.getContent().toString();
+		assertContainsRegex(
+				"<b>Error Message</b><br/><pre><code>" + error.getMessage()
+				+ "</code></pre><br/><b>Request Path</b>" + requestPath 
+				+ "<br/><b>Request Parameters</b>" + requestParam
+				+ "<br/><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>",
+				emailBody);
+	}
+
+
+	private void verifyEvaluationEmail(StudentAttributes s, MimeMessage email,
 			String prefix, String status) throws MessagingException,
 			IOException {
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
@@ -324,7 +364,7 @@ public class EmailsTest extends BaseTestCase {
 		assertTrue(!emailBody.contains("$"));
 	}
 
-	@After
+	@AfterMethod
 	public void caseTearDown() {
 		helper.tearDown();
 	}
