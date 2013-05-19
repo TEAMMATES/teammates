@@ -1,5 +1,7 @@
 package teammates.logic;
 
+import static teammates.common.Common.EOL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +55,7 @@ public class CoursesLogic {
 
 	public void createCourse(String courseId, String courseName) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
+		
 		CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName);
 	
 		coursesDb.createCourse(courseToAdd);
@@ -60,14 +63,16 @@ public class CoursesLogic {
 	
 	public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
-		createCourse(courseId, courseName);
-		
 		
 		AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
-
 		Assumption.assertNotNull(
-				"Trying to create a course for a person who doesn't have instructor privileges :"+ instructorGoogleId, 
+				"Trying to create a course for a non-existent instructor :"+ instructorGoogleId, 
 				courseCreator);
+		Assumption.assertTrue(
+				"Trying to create a course for a person who doesn't have instructor privileges :"+ instructorGoogleId, 
+				courseCreator.isInstructor);
+		
+		createCourse(courseId, courseName);
 		
 		InstructorAttributes instructor = new InstructorAttributes();
 		instructor.googleId = instructorGoogleId;
@@ -75,8 +80,16 @@ public class CoursesLogic {
 		instructor.email = courseCreator.email;
 		instructor.name = courseCreator.name;
 		
-		instructorsLogic.createInstructor(instructor);
-		//TODO: Handle the orphan course in case instructor cannot be created
+		try {
+			instructorsLogic.createInstructor(instructor);
+		} catch (Exception e) {
+			//roll back the transaction
+			coursesDb.deleteCourse(courseId);
+			String errorMessage = "Unexpected exception while trying to create instructor for a new course "+ EOL 
+					+ instructor.toString() + EOL
+					+ Common.stackTraceToString(e);
+			Assumption.fail(errorMessage);
+		}
 	}
 
 	public CourseAttributes getCourse(String courseId) {

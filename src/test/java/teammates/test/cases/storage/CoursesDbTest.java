@@ -1,4 +1,4 @@
-package teammates.test.cases;
+package teammates.test.cases.storage;
 
 import static teammates.common.FieldValidator.*;
 import static org.testng.AssertJUnit.*;
@@ -16,6 +16,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
+import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.logic.LogicTest;
 
 public class CoursesDbTest extends BaseTestCase {
 
@@ -37,37 +39,42 @@ public class CoursesDbTest extends BaseTestCase {
 	}
 	@Test
 	public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {
-		// SUCCESS
+		
+		/*Explanation:
+		 * The SUT (i.e. CoursesDb::createCourse) has 4 paths. Therefore, we
+		 * have 4 test cases here, one for each path.
+		 */
+
+		______TS("success: typical case");
 		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101-fresh";
 		c.name = "Basic Computing";
 		coursesDb.createCourse(c);
+		LogicTest.verifyPresentInDatastore(c);
 		
-		// FAIL : duplicate
+		______TS("fails: entity already exists");
 		try {
 			coursesDb.createCourse(c);
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (EntityAlreadyExistsException e) {
 			assertContains(CoursesDb.ERROR_CREATE_COURSE_ALREADY_EXISTS, e.getMessage());
 		}
 		
-		// FAIL : invalid params
+		______TS("fails: invalid parameters");
 		c.id = "invalid id spaces";
 		try {
 			coursesDb.createCourse(c);
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
 			assertContains(
 					String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
 					e.getMessage());
-		} catch (EntityAlreadyExistsException e) {
-			Assert.fail();
-		}
+		} 
 		
-		// Null params check:
+		______TS("fails: null parameter");
 		try {
 			coursesDb.createCourse(null);
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
@@ -95,7 +102,7 @@ public class CoursesDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testEditCourse() {
+	public void testUpdateCourse() {
 		// Not implemented
 	}
 	

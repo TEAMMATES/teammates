@@ -35,6 +35,7 @@ public class CoursesDb {
 	 */
 	public void createCourse(CourseAttributes courseToAdd)
 			throws EntityAlreadyExistsException, InvalidParametersException {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToAdd);
 
 		if (!courseToAdd.isValid()) {

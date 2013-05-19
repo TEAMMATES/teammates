@@ -46,7 +46,7 @@
 			<class name="teammates.test.cases.AccountsDbTest" />
 			<class name="teammates.test.cases.StudentsDbTest" />
 			<class name="teammates.test.cases.InstructorsDbTest" />
-			<class name="teammates.test.cases.CoursesDbTest" />
+			<class name="teammates.test.cases.storage.CoursesDbTest" />
 			<class name="teammates.test.cases.SubmissionsDbTest" />
 			<class name="teammates.test.cases.EvaluationsDbTest" />
 			<class name="teammates.test.cases.logic.SubmissionsLogicTest" />

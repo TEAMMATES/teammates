@@ -55,6 +55,8 @@ import teammates.logic.Emails;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.api.CoursesDb;
+import teammates.storage.api.InstructorsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
 
@@ -76,6 +78,9 @@ public class LogicTest extends BaseTestCase {
 	private static final int USER_TYPE_UNREGISTERED = 0;
 	private static final int USER_TYPE_STUDENT = 1;
 	private static final int USER_TYPE_INSTRUCTOR = 2;
+	
+	private static final CoursesDb coursesDb = new CoursesDb();
+	private static final InstructorsDb instructorsDb = new InstructorsDb();
 
 	private static Gson gson = Common.getTeammatesGson();
 
@@ -369,7 +374,7 @@ public class LogicTest extends BaseTestCase {
 
 		restoreTypicalDataInDatastore();
 
-		______TS("authentication");
+		______TS("access control");
 
 		Class<?>[] paramTypes = new Class[] { String.class, String.class };
 		Object[] params = new Object[] {"courseId", "googleId" };
@@ -405,7 +410,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testUpdateCourseInstructors() throws Exception {
 		
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -605,11 +610,23 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testCreateCourseAndInstructor() throws Exception {
+		
+		/* Explanation: The SUT has 5 paths. They are,
+		 * path 1 - exit due to access control failure.
+		 * path 2 - success.
+		 * path 3,4,5 - exit due to a null parameter (there are three parameter).
+		 * 
+		 */
 
 		restoreTypicalDataInDatastore();
 
-		______TS("authentication");
+		______TS("access control");
 
+		/* Here, we test path 1. 
+		 * We have multiple test cases here because we want to make sure the right
+		 * access control rule is being applied.
+		 */
+		
 		String methodName = "createCourseAndInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
 				String.class };
@@ -635,58 +652,49 @@ public class LogicTest extends BaseTestCase {
 				paramTypes, params);
 
 		______TS("typical case");
+		
+		/* here we test path 2 */
 
 		loginAsInstructor("idOfInstructor1OfCourse1");
 		
 		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
 		AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
 		InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-		// Note the creator INSTRUCTOR relation always contains NAME and EMAIL from his ACCOUNT
+		// Note the instructor created will get the name and email from the existing account
 		instructor.name = creator.name;
 		instructor.email = creator.email;
 
-		// Delete, to avoid clashes with existing data
-		// Delete only Course 1
+		// Delete to avoid clashes with existing data
 		logic.deleteCourse(instructor.courseId);
 
-		loginAsAdmin("admin.user"); 	// This is because the current instructor will already be deleted.
 		verifyAbsentInDatastore(course);
 		verifyAbsentInDatastore(instructor);
 
-		// Create fresh
 		logic.createCourseAndInstructor(instructor.googleId , course.id, course.name);
 		verifyPresentInDatastore(course);
 		verifyPresentInDatastore(instructor);
 
-		______TS("duplicate course id");
-
-		// The INSTRUCTOR would be recreated when the course was recreated above.
-		loginAsInstructor("idOfInstructor1OfCourse1");
-		
-		// Attempt to create again
-		try {
-			logic.createCourseAndInstructor(instructor.googleId, course.id, course.name);
-			Assert.fail();
-		} catch (EntityAlreadyExistsException e) {
-		}
-		______TS("invalid parameters");
-		
-		// Only checking that exception is thrown at logic level
-		course.id = "invalid id";
-		try {
-			logic.createCourseAndInstructor(instructor.googleId, course.id, course.name);
-			Assert.fail();
-		} catch (InvalidParametersException e) {
-			assertEquals(
-					String.format(COURSE_ID_ERROR_MESSAGE, course.id, REASON_INCORRECT_FORMAT),
-					e.getMessage());
-		}
-
 		______TS("null parameters");
+		
+		/* Here we test paths 3, 4, 5 */
+		
+		try {
+			logic.createCourseAndInstructor(null, course.id, course.name);
+			signalFailureToDetectException();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
 		
 		try {
 			logic.createCourseAndInstructor(instructor.googleId, null, course.name);
-			Assert.fail();
+			signalFailureToDetectException();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+		try {
+			logic.createCourseAndInstructor(instructor.googleId, course.id, null);
+			signalFailureToDetectException();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
@@ -695,7 +703,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourse() throws Exception {
 		// mostly tested in testCreateCourse
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -728,7 +736,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseDetails() throws Exception {
 
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -798,7 +806,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCoursesForStudentAccount() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -873,7 +881,7 @@ public class LogicTest extends BaseTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		String methodName = "getCourseSummariesForInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
@@ -939,7 +947,7 @@ public class LogicTest extends BaseTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		String methodName = "getCourseDetailsListForInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
@@ -1042,7 +1050,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetCourseDetailsListForStudent() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1171,7 +1179,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testDeleteCourse() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1251,7 +1259,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testCreateStudent() throws Exception {
 
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -1344,7 +1352,7 @@ public class LogicTest extends BaseTestCase {
 	public void testGetStudentForEmail() throws Exception {
 		// mostly tested in testCreateStudent
 
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -1382,7 +1390,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetStudentsForGoogleId() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1481,7 +1489,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetStudentForGoogleId() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1545,7 +1553,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetStudentsForCourse() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1608,7 +1616,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetTeamsForCourse() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1698,7 +1706,7 @@ public class LogicTest extends BaseTestCase {
 	public void testGetKeyForStudent() throws Exception {
 		// mostly tested in testJoinCourse()
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1742,7 +1750,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testUpdateStudent() throws Exception {
 
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -1844,7 +1852,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testJoinCourse() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1994,7 +2002,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testEnrollStudents() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -2115,7 +2123,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testSendRegistrationInviteForCourse() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -2180,7 +2188,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testSendRegistrationInviteToStudent() throws Exception {
 	
-		// Authentication testing is moved to the bottom of this method
+		// access control testing is moved to the bottom of this method
 		// to avoid interfering the email queue.
 	
 		______TS("send to existing student");
@@ -2196,7 +2204,7 @@ public class LogicTest extends BaseTestCase {
 	
 		verifyJoinInviteToStudent(student1, email);
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -2240,7 +2248,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testSendReminderForEvaluation() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -2356,7 +2364,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testDeleteStudent() throws Exception {
 
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -2445,7 +2453,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testCreateEvaluation() throws Exception {
 
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -2523,7 +2531,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetEvaluation() throws Exception {
 
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -2574,7 +2582,7 @@ public class LogicTest extends BaseTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		String methodName = "getEvaluationsDetailsForInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
@@ -2676,7 +2684,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetEvaluationResult() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -2876,7 +2884,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetEvaluationResultSummaryAsCsv() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -2966,7 +2974,7 @@ public class LogicTest extends BaseTestCase {
 				.get("evaluation1InCourse1");
 		String student1email = "student1InCourse1@gmail.com";
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -3136,7 +3144,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testUpdateEvaluation() throws Exception {
 
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -3226,7 +3234,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testPublishAndUnpublishEvaluation() throws Exception {
 
-		______TS("authentication");
+		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -3342,7 +3350,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testDeleteEvaluation() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -3421,7 +3429,7 @@ public class LogicTest extends BaseTestCase {
 	@Test
 	public void testGetSubmissionsForEvaluationFromStudent() throws Exception {
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -3529,7 +3537,7 @@ public class LogicTest extends BaseTestCase {
 				.get("evaluation1InCourse1");
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 	
-		______TS("authentication");
+		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
@@ -3624,7 +3632,7 @@ public class LogicTest extends BaseTestCase {
 
 		// already tested under testEditSubmission()
 
-		______TS("authentication");
+		______TS("access control");
 
 		// mostly done in testEditSubmission(), we test only one case here
 
@@ -3809,12 +3817,12 @@ public class LogicTest extends BaseTestCase {
 						submission.reviewer, submission.reviewee));
 	}
 
-	private void verifyAbsentInDatastore(InstructorAttributes expectedInstructor) {
-		assertEquals(null, logic.getInstructorForGoogleId(expectedInstructor.courseId, expectedInstructor.googleId));
+	public static void verifyAbsentInDatastore(InstructorAttributes expectedInstructor) {
+		assertEquals(null, instructorsDb.getInstructorForGoogleId(expectedInstructor.courseId, expectedInstructor.googleId));
 	}
 
-	private void verifyAbsentInDatastore(CourseAttributes course) {
-		assertEquals(null, logic.getCourse(course.id));
+	public static void verifyAbsentInDatastore(CourseAttributes course) {
+		assertEquals(null, coursesDb.getCourse(course.id));
 	}
 
 	private void verifyAbsentInDatastore(StudentAttributes student) {
@@ -3825,6 +3833,8 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(null,
 				logic.getEvaluation(evaluation.course, evaluation.name));
 	}
+	
+	//TODO: move these verify methods to a utility class
 	
 	public static void verifyPresentInDatastore(AccountAttributes expectedAccount) {
 		AccountAttributes actualAccount = logic.getAccount(expectedAccount.googleId);
@@ -3855,14 +3865,15 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	public static void verifyPresentInDatastore(CourseAttributes expected) {
-		CourseAttributes actual = logic.getCourse(expected.id);
+		CourseAttributes actual = coursesDb.getCourse(expected.id);
 		// Ignore time field as it is stamped at the time of creation in testing
 		actual.createdAt = expected.createdAt;
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
 	public static void verifyPresentInDatastore(InstructorAttributes expected) {
-		InstructorAttributes actual = logic.getInstructorForGoogleId(expected.courseId, expected.googleId);
+		InstructorAttributes actual = instructorsDb.getInstructorForGoogleId(
+				expected.courseId, expected.googleId);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
