@@ -16,6 +16,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
+	
+	/*
+	 * This class is tested by the BackDoorTest class.
+	 */
 
 	public static final String OPERATION_CREATE_INSTRUCTOR = "OPERATION_CREATE_INSTRUCTOR";
 	public static final String OPERATION_DELETE_INSTRUCTOR = "OPERATION_DELETE_INSTRUCTOR";
@@ -80,8 +84,8 @@ public class BackDoorServlet extends HttpServlet {
 
 		String returnValue;
 
-		String auth = req.getParameter(PARAMETER_BACKDOOR_KEY);
-		if (!auth.equals(Common.BACKDOOR_KEY)) {
+		String keyReceived = req.getParameter(PARAMETER_BACKDOOR_KEY);
+		if (!keyReceived.equals(Common.BACKDOOR_KEY)) {
 			returnValue = "Not authorized to access Backdoor Services";
 
 		} else {
@@ -96,7 +100,6 @@ public class BackDoorServlet extends HttpServlet {
 			}
 		}
 
-		// TODO: Change to JSON/XML
 		resp.setContentType("text/plain");
 		resp.getWriter().write(returnValue);
 		resp.flushBuffer();

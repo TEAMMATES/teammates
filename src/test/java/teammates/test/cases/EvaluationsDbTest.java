@@ -66,7 +66,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.startTime = null;
 		try {
 			evaluationsDb.createEvaluation(e);
-			signalFailureToDetectAssumptionViolation();
+			signalFailureToDetectException();
 		} catch (AssertionError e1) {
 			ignoreExpectedException();
 		}

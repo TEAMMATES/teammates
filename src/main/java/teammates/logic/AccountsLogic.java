@@ -24,6 +24,8 @@ public class AccountsLogic {
 	//  familiar with the its code and Logic's code. Hence, no need for header 
 	//  comments.
 	
+	//TODO: add a test class for this class. Some of the test content can be transferred from LogicTest.
+	
 	private static AccountsLogic instance = null;
 	private static final AccountsDb accountsDb = new AccountsDb();
 	

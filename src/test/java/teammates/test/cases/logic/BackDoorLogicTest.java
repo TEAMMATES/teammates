@@ -1,35 +1,37 @@
-package teammates.test.cases;
+package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.Assert;
+
 import java.util.HashMap;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
+import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.CourseAttributesTest;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
@@ -60,7 +62,6 @@ public class BackDoorLogicTest extends BaseTestCase {
 				new LocalMailServiceTestConfig(), lustc, ltqtc);
 		setHelperTimeZone(helper);
 		helper.setUp();
-		System.out.println("case set up");
 	}
 
 	@Test
@@ -68,13 +69,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 		BackDoorLogic logic = new BackDoorLogic();
 		String jsonString = "";
-		try {
-			jsonString = Common.readFile(Common.TEST_DATA_FOLDER
-					+ "/typicalDataBundle.json");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/typicalDataBundle.json");
 		loginAsAdmin("admin.user");
 		
 		DataBundle dataBundle = gson.fromJson(jsonString, DataBundle.class);
@@ -83,23 +78,22 @@ public class BackDoorLogicTest extends BaseTestCase {
 		for (InstructorAttributes instructor : instructors.values()) {
 			logic.deleteInstructor(instructor.courseId, instructor.googleId);
 		}
-
-		// try with empty dataBundle
+		______TS("empty data bundle");
 		String status = logic.persistNewDataBundle(new DataBundle());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
-		// try with typical dataBundle
 		logic.persistNewDataBundle(dataBundle);
 		verifyPresentInDatastore(jsonString);
 
-		// try again, should throw exception
+		______TS("try to persist while entities exist");
 		try {
 			logic.persistNewDataBundle(dataBundle);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
+			ignoreExpectedException();
 		}
 
-		// try with null
+		______TS("null parameter");
 		DataBundle nullDataBundle = null;
 		try {
 			logic.persistNewDataBundle(nullDataBundle);
@@ -108,7 +102,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
 
-		// try with invalid parameters in an entity
+		______TS("invalid parameters in an entity");
 		CourseAttributes invalidCourse = CourseAttributesTest.generateValidCourseAttributesObject();
 		invalidCourse.id = "invalid id";
 		dataBundle = new DataBundle();
@@ -126,20 +120,22 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 	@Test
 	public void testActivateReadyEvaluations() throws Exception {
+		
 		BackDoorLogic backdoor = new BackDoorLogic();
 		loginAsAdmin("admin.user");
 		restoreTypicalDataInDatastore();
+		
+		______TS("0 evaluations activated");
 		// ensure all existing evaluations are already activated.
 		for (EvaluationAttributes e : dataBundle.evaluations.values()) {
 			e.activated = true;
-			backdoor.editEvaluation(e);
+			backdoor.updateEvaluation(e);
 			assertTrue(backdoor.getEvaluation(e.course, e.name).getStatus() != EvalStatus.AWAITING);
 		}
 		List<MimeMessage> emailsSent = backdoor.activateReadyEvaluations();
 		assertEquals(0, emailsSent.size());
 		
 		______TS("typical case, two evaluations activated");
-
 		// Reuse an existing evaluation to create a new one that is ready to
 		// activate. Put this evaluation in a negative time zone.
 		EvaluationAttributes evaluation1 = dataBundle.evaluations
@@ -213,8 +209,7 @@ public class BackDoorLogicTest extends BaseTestCase {
 		assertEquals(course1StudentCount + course2StudentCount,
 				emailsSent.size());
 
-		// verify the two evaluations are marked as activated
-
+		//ensure both evaluations are activated now
 		emailsSent = backdoor.activateReadyEvaluations();
 		assertEquals(0, emailsSent.size());
 
@@ -225,10 +220,13 @@ public class BackDoorLogicTest extends BaseTestCase {
 		BackDoorLogic backdoor = new BackDoorLogic();
 		loginAsAdmin("admin.user");
 		restoreTypicalDataInDatastore();
+		
+		______TS("typical case, 0 evaluations closing soon");
 		List<MimeMessage> emailsSent = backdoor
 				.sendRemindersForClosingEvaluations();
 		assertEquals(0, emailsSent.size());
-
+		
+		______TS("typical case, two evaluations closing soon");
 		// Reuse an existing evaluation to create a new one that is
 		// closing in 24 hours.
 		EvaluationAttributes evaluation1 = dataBundle.evaluations
@@ -296,36 +294,87 @@ public class BackDoorLogicTest extends BaseTestCase {
 
 	}
 
+	@Test
+	public void testGetSubmission() throws Exception {
+
+		restoreTypicalDataInDatastore();
+
+		______TS("typical case");
+		SubmissionAttributes expected = dataBundle.submissions
+				.get("submissionFromS1C1ToS1C1");
+		LogicTest.verifyPresentInDatastore(expected);
+
+		______TS("null parameters");
+		// no need to check for null as this is a private method
+
+		______TS("non-existent");
+
+		assertEquals(
+				null,
+				LogicTest.invokeGetSubmission("non-existent", expected.evaluation,
+						expected.reviewer, expected.reviewee));
+		assertEquals(
+				null,
+				LogicTest.invokeGetSubmission(expected.course, "non-existent",
+						expected.reviewer, expected.reviewee));
+		assertEquals(
+				null,
+				LogicTest.invokeGetSubmission(expected.course, expected.evaluation,
+						"non-existent", expected.reviewee));
+		assertEquals(
+				null,
+				LogicTest.invokeGetSubmission(expected.course, expected.evaluation,
+						expected.reviewer, "non-existent"));
+	}
+	
 	private void verifyPresentInDatastore(String dataBundleJsonString)
 			throws Exception {
-
+	
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
 		HashMap<String, InstructorAttributes> instructors = data.instructors;
 		for (InstructorAttributes expectedInstructor : instructors.values()) {
 			LogicTest.verifyPresentInDatastore(expectedInstructor);
 		}
-
+	
 		HashMap<String, CourseAttributes> courses = data.courses;
 		for (CourseAttributes expectedCourse : courses.values()) {
 			LogicTest.verifyPresentInDatastore(expectedCourse);
 		}
-
+	
 		HashMap<String, StudentAttributes> students = data.students;
 		for (StudentAttributes expectedStudent : students.values()) {
 			LogicTest.verifyPresentInDatastore(expectedStudent);
 		}
-
+	
 		HashMap<String, EvaluationAttributes> evaluations = data.evaluations;
 		for (EvaluationAttributes expectedEvaluation : evaluations.values()) {
 			LogicTest.verifyPresentInDatastore(expectedEvaluation);
 		}
-
+	
 		HashMap<String, SubmissionAttributes> submissions = data.submissions;
 		for (SubmissionAttributes expectedSubmission : submissions.values()) {
 			LogicTest.verifyPresentInDatastore(expectedSubmission);
 		}
-
+	
 	}
+
+	/*
+	 * Following methods are tested by the testPersistDataBundle method
+		getAccountAsJson(String)
+		getInstructorAsJson(String, String)
+		getCourseAsJson(String)
+		getStudentAsJson(String, String)
+		getEvaluationAsJson(String, String)
+		getSubmissionAsJson(String, String, String, String)
+		editAccountAsJson(String)
+		editStudentAsJson(String, String)
+		editEvaluationAsJson(String)
+		editSubmissionAsJson(String)
+		editEvaluation(EvaluationAttributes)
+		createCourse(String, String)
+	*/
+	
+
 
 	@AfterClass
 	public static void classTearDown() throws Exception {
@@ -336,7 +385,6 @@ public class BackDoorLogicTest extends BaseTestCase {
 	@AfterMethod
 	public void caseTearDown() {
 		helper.tearDown();
-		System.out.println("case torn down");
 	}
 
 }

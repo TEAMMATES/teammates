@@ -17,20 +17,18 @@ import teammates.ui.controller.Helper;
 @SuppressWarnings("serial")
 public class EvaluationClosingRemindersServlet extends HttpServlet {
 	private static Logger log = Common.getLogger();
-	private ActivityLogEntry activityLogEntry;
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
 		doGet(req, resp);
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+		
 		BackDoorLogic backdoorlogic = new BackDoorLogic();
+		
 		try {
-			
 			ArrayList<MimeMessage> emails = backdoorlogic.sendRemindersForClosingEvaluations();
-			
 			logActivity(req, emails);
-
 		}  catch (Throwable e) {
 			String reqParam = Common.printRequestParameters(req);
 			backdoorlogic.emailErrorReport(req.getServletPath(), reqParam, e);
@@ -40,19 +38,22 @@ public class EvaluationClosingRemindersServlet extends HttpServlet {
 
 	private void logActivity(HttpServletRequest req,
 			ArrayList<MimeMessage> emails) {
-		ArrayList<Object> data = Common.generateEmailRecipientListForAutomatedReminders(req, emails);
+		ArrayList<Object> data = Common.extractRecipientsList(emails);
 		String url = req.getRequestURI();
 		if (req.getQueryString() != null){
 		    url += "?" + req.getQueryString();
 		}    
-		activityLogEntry = instantiateActivityLogEntry(
+		ActivityLogEntry activityLogEntry = instantiateActivityLogEntry(
 				Common.EVALUATION_CLOSING_REMINDERS_SERVLET, 
 				Common.EVALUATION_CLOSING_REMINDERS_SERVLET_EVALUATION_CLOSE_REMINDER,
 				true, null, url, data);
 		log.log(Level.INFO, activityLogEntry.generateLogMessage());
 	}
 
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data) {
+	protected ActivityLogEntry instantiateActivityLogEntry(
+			String servletName, String action, boolean toShow, 
+			Helper helper, String url, ArrayList<Object> data) {
+		
 		String message;
 
 		if(action.equals(Common.EVALUATION_CLOSING_REMINDERS_SERVLET_EVALUATION_CLOSE_REMINDER)){
@@ -61,7 +62,7 @@ public class EvaluationClosingRemindersServlet extends HttpServlet {
 				for (int i = 0; i < data.size(); i++){
 					message += data.get(i).toString() + "<br>";
 				}
-			} catch (NullPointerException e) {
+			} catch (Exception e) {
 				message = "<span class=\"color_red\">Unable to retrieve email targets in " + servletName + ": " + action + ".</span>";
 			}
 		} else if (action.equals(Common.LOG_SERVLET_ACTION_FAILURE)) {

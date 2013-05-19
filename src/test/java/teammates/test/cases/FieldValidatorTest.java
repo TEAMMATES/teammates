@@ -28,14 +28,14 @@ public class FieldValidatorTest extends BaseTestCase{
 		
 		try {
 			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null);
-			signalFailureToDetectAssumptionViolation("not expected to be null");
+			signalFailureToDetectException("not expected to be null");
 		} catch (AssertionError e) {
 			ignoreExpectedException(); 
 		}
 		
 		try {
 			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, " abc ");
-			signalFailureToDetectAssumptionViolation("not expected to be untrimmed");
+			signalFailureToDetectException("not expected to be untrimmed");
 		} catch (AssertionError e) {
 			ignoreExpectedException();
 		}
@@ -85,14 +85,14 @@ public class FieldValidatorTest extends BaseTestCase{
 		
 		try {
 			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, null);
-			signalFailureToDetectAssumptionViolation("not expected to be null");
+			signalFailureToDetectException("not expected to be null");
 		} catch (AssertionError e) {
 			ignoreExpectedException(); 
 		}
 		
 		try {
 			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, " abc ");
-			signalFailureToDetectAssumptionViolation("not expected to be untrimmed");
+			signalFailureToDetectException("not expected to be untrimmed");
 		} catch (AssertionError e) {
 			ignoreExpectedException();
 		}
@@ -430,7 +430,7 @@ public class FieldValidatorTest extends BaseTestCase{
 		String errorMessage = "Did not throw the expected AssertionError for "+ description;
 		try {
 			validator.getValidityInfo(fieldType, value);
-			signalFailureToDetectAssumptionViolation(errorMessage);
+			signalFailureToDetectException(errorMessage);
 		} catch (AssertionError e) {
 			ignoreExpectedException();
 		}

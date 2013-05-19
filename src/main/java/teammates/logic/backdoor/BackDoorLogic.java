@@ -51,7 +51,7 @@ public class BackDoorLogic extends Logic {
 				
 				//mark evaluation as activated
 				ed.activated=true;
-				editEvaluation(ed);
+				updateEvaluation(ed);
 			} catch (Exception e) {
 				log.severe("Unexpected error "+ Common.stackTraceToString(e));
 			} 
@@ -216,7 +216,7 @@ public class BackDoorLogic extends Logic {
 			throws InvalidParametersException, EntityDoesNotExistException {
 		EvaluationAttributes evaluation = Common.getTeammatesGson().fromJson(
 				evaluationJson, EvaluationAttributes.class);
-		editEvaluation(evaluation);
+		updateEvaluation(evaluation);
 	}
 
 	public void editSubmissionAsJson(String submissionJson) throws InvalidParametersException, EntityDoesNotExistException {
@@ -227,7 +227,7 @@ public class BackDoorLogic extends Logic {
 		updateSubmissions(submissionList);
 	}
 	
-	public void editEvaluation(EvaluationAttributes evaluation) 
+	public void updateEvaluation(EvaluationAttributes evaluation) 
 			throws InvalidParametersException, EntityDoesNotExistException{
 		
 		evaluationsLogic.updateEvaluation(evaluation);

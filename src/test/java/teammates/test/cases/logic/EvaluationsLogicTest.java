@@ -1,4 +1,4 @@
-package teammates.test.cases;
+package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -22,14 +22,12 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentResultBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.TeamResultBundle;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.SubmissionsLogic;
@@ -38,11 +36,14 @@ import teammates.logic.api.Logic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.datastore.Datastore;
+import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class EvaluationsLogicTest extends BaseTestCase{
+	
+	//TODO: add a test class for this class. Some of the test content can be transferred from LogicTest.
 	
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private static final SubmissionsLogic submissionsLogic = new SubmissionsLogic();
@@ -74,7 +75,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		BackDoorLogic backdoor = new BackDoorLogic();
 		for (EvaluationAttributes e : dataBundle.evaluations.values()) {
 			e.activated = true;
-			backdoor.editEvaluation(e);
+			backdoor.updateEvaluation(e);
 			assertTrue(backdoor.getEvaluation(e.course, e.name).getStatus() != EvalStatus.AWAITING);
 		}
 		assertEquals(0, evaluationsLogic.getReadyEvaluations().size());

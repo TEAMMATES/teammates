@@ -1,4 +1,4 @@
-package teammates.test.cases;
+package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -6,8 +6,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,27 +18,19 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.InstructorsLogic;
-import teammates.logic.StudentsLogic;
-import teammates.logic.SubmissionsLogic;
-import teammates.logic.api.Logic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.datastore.Datastore;
+import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class InstructorsLogicTest extends BaseTestCase{
+	
+	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	
 	protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	
@@ -61,7 +51,6 @@ public class InstructorsLogicTest extends BaseTestCase{
 	
 	@Test
 	public void testParseInstructorLines() throws Exception {
-		// Private method no need authentication
 		
 		Method method = InstructorsLogic.class.getDeclaredMethod("parseInstructorLines",
 				new Class[] { String.class, String.class });
@@ -75,7 +64,8 @@ public class InstructorsLogicTest extends BaseTestCase{
 		};
 		
 		@SuppressWarnings("unchecked")
-		List<InstructorAttributes> result1 = (List<InstructorAttributes>) method.invoke(instructorsLogic, params);
+		List<InstructorAttributes> result1 = 
+			(List<InstructorAttributes>) method.invoke(instructorsLogic, params);
 		assertEquals(result1.size(), 2);
 		assertEquals(result1.get(0).googleId, "test1.googleId");	// only check first and last fields
 		assertEquals(result1.get(1).email, "test2.email");
@@ -89,7 +79,8 @@ public class InstructorsLogicTest extends BaseTestCase{
 		};
 		
 		@SuppressWarnings("unchecked")
-		List<InstructorAttributes> result2 = (List<InstructorAttributes>) method.invoke(instructorsLogic, params);
+		List<InstructorAttributes> result2 = 
+			(List<InstructorAttributes>) method.invoke(instructorsLogic, params);
 		assertEquals(result2.size(), 2);
 		assertEquals(result2.get(0).googleId, "test1.googleId");	// only check first and last fields
 		assertEquals(result2.get(1).email, "test2.email");
@@ -104,7 +95,8 @@ public class InstructorsLogicTest extends BaseTestCase{
 		};
 		
 		@SuppressWarnings("unchecked")
-		List<InstructorAttributes> result3 = (List<InstructorAttributes>) method.invoke(instructorsLogic, params);
+		List<InstructorAttributes> result3 = 
+			(List<InstructorAttributes>) method.invoke(instructorsLogic, params);
 		assertEquals(result3.size(), 2);
 		assertEquals(result3.get(0).googleId, "test1.googleId");	// only check first and last fields
 		assertEquals(result3.get(1).email, "test2.email");
@@ -120,7 +112,8 @@ public class InstructorsLogicTest extends BaseTestCase{
 		};
 		
 		@SuppressWarnings("unchecked")
-		List<InstructorAttributes> result4 = (List<InstructorAttributes>) method.invoke(instructorsLogic, params);
+		List<InstructorAttributes> result4 = 
+			(List<InstructorAttributes>) method.invoke(instructorsLogic, params);
 		assertEquals(result4.size(), 2);
 		assertEquals(result4.get(0).googleId, "test1.googleId");	// only check first and last fields
 		assertEquals(result4.get(1).email, "test2.email");
@@ -135,7 +128,8 @@ public class InstructorsLogicTest extends BaseTestCase{
 			method.invoke(instructorsLogic,  params);
 			Assert.fail();
 		} catch (InvocationTargetException e) {
-			assertTrue(e.getTargetException().toString().contains(InstructorAttributes.ERROR_INFORMATION_INCORRECT));
+			assertTrue(e.getTargetException().toString().contains(
+					InstructorAttributes.ERROR_INFORMATION_INCORRECT));
 		}
 		
 		// Too few
@@ -146,7 +140,8 @@ public class InstructorsLogicTest extends BaseTestCase{
 				method.invoke(instructorsLogic,  params);
 			Assert.fail();
 		} catch (InvocationTargetException e) {
-			assertTrue(e.getTargetException().toString().contains(InstructorAttributes.ERROR_INFORMATION_INCORRECT));
+			assertTrue(e.getTargetException().toString().contains(
+					InstructorAttributes.ERROR_INFORMATION_INCORRECT));
 		}
 		
 		______TS("lines is empty");
@@ -158,7 +153,8 @@ public class InstructorsLogicTest extends BaseTestCase{
 				method.invoke(instructorsLogic,  params);
 			Assert.fail();
 		} catch (InvocationTargetException e) {
-			assertTrue(e.getTargetException().toString().contains(InstructorsLogic.ERROR_NO_INSTRUCTOR_LINES));
+			assertTrue(e.getTargetException().toString().contains(
+					InstructorsLogic.ERROR_NO_INSTRUCTOR_LINES));
 		}
 	}
 	

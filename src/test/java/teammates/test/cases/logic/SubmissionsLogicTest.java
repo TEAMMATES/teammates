@@ -1,4 +1,4 @@
-package teammates.test.cases;
+package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -10,35 +10,32 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.datastore.Datastore;
+import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class SubmissionsLogicTest extends BaseTestCase{
 	
-	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
+	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	
+	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
 	private static DataBundle dataBundle = getTypicalDataBundle();
 	
 	@BeforeClass
@@ -117,9 +114,6 @@ public class SubmissionsLogicTest extends BaseTestCase{
 
 		______TS("non-existent course/evaluation");
 
-		String methodName = "getSubmissionsForEvaluation";
-		Class<?>[] paramTypes = new Class[] { String.class, String.class };
-		
 		assertEquals(0, invokeGetSubmissionsForEvaluation(evaluation.course, "non-existent").size());
 		assertEquals(0, invokeGetSubmissionsForEvaluation("non-existent", evaluation.name).size());
 
@@ -127,39 +121,17 @@ public class SubmissionsLogicTest extends BaseTestCase{
 	}
 	
 	@Test
-	public void testEditSubmission() throws Exception {
+	public void testUpdateSubmission() throws Exception {
 
 		restoreTypicalDataInDatastore();
-		Logic logic = new Logic();
 
-		String methodName = "editSubmission";
-		Class<?>[] paramTypes = new Class<?>[] { SubmissionAttributes.class };
 		SubmissionAttributes s = new SubmissionAttributes();
 		s.course = "idOfTypicalCourse1";
 		s.evaluation = "evaluation1 In Course1";
 		s.reviewee = "student1InCourse1@gmail.com";
 		s.reviewer = "student1InCourse1@gmail.com";
-		Object[] params = new Object[] { s };
 
-		// ensure the evaluation is open
-		loginAsAdmin("admin.user");
-		EvaluationAttributes evaluation = logic.getEvaluation(s.course, s.evaluation);
-//		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
-//		logoutUser();
-
-
-
-		// close the evaluation
-//		loginAsAdmin("admin.user");
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
-		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
-		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		backDoorLogic.editEvaluation(evaluation);
-		logoutUser();
-
-		// verify reviewer cannot edit anymore but instructor can
-
-
+		
 		______TS("typical case");
 
 		restoreTypicalDataInDatastore();
@@ -168,9 +140,7 @@ public class SubmissionsLogicTest extends BaseTestCase{
 				.get("submissionFromS1C1ToS2C1");
 
 		LogicTest.alterSubmission(sub1);
-
 		submissionsLogic.updateSubmission(sub1);
-
 		LogicTest.verifyPresentInDatastore(sub1);
 
 		______TS("null parameter");
@@ -183,9 +153,9 @@ public class SubmissionsLogicTest extends BaseTestCase{
 		
 		try {
 			submissionsLogic.updateSubmission(sub1);
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (EntityDoesNotExistException e) {
-			//expected.
+			ignoreExpectedException();
 		}
 
 	}

@@ -312,7 +312,7 @@ public class BackDoorTest extends BaseTestCase {
 		String instructor1Id = "AST.TGCBCI.instructor1";
 		String instructor1name = "AST TGCBCI Instructor";
 		String instructor1email = "instructor1@ast.tgcbi";
-		BackDoor.deleteInstructor(instructor1Id);
+		BackDoor.deleteAccount(instructor1Id);
 		status = BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course1, instructor1name, instructor1email));
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		status = BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course2, instructor1name, instructor1email));

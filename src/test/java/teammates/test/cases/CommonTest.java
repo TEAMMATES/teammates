@@ -118,6 +118,16 @@ public class CommonTest extends BaseTestCase {
 		assertEquals("abc.com", Common.trimTrailingSlash("abc.com/ "));
 		assertEquals("abc.com", Common.trimTrailingSlash("abc.com"));
 	}
+	
+	
+	@Test
+	public void testKeyEncryption() {
+		String msg = "Test decryption";
+		String decrptedMsg;
+		
+		decrptedMsg = Common.decrypt(Common.encrypt(msg));
+		assertEquals(msg, decrptedMsg);
+	}
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {

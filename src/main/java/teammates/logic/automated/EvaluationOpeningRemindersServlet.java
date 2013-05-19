@@ -18,18 +18,18 @@ import teammates.ui.controller.Helper;
 public class EvaluationOpeningRemindersServlet extends HttpServlet {
 	
 	private static Logger log = Common.getLogger();
-	private ActivityLogEntry activityLogEntry;
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
 		doGet(req, resp);
 	}	
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+		
 		BackDoorLogic backdoorlogic = new BackDoorLogic();
+		
 		try {
 			ArrayList<MimeMessage> emails = backdoorlogic.activateReadyEvaluations();
 			logActivity(req, emails);
-
 		}  catch (Throwable e) {
 			String reqParam = Common.printRequestParameters(req);
 			backdoorlogic.emailErrorReport(req.getServletPath(), reqParam, e);
@@ -39,18 +39,23 @@ public class EvaluationOpeningRemindersServlet extends HttpServlet {
 
 	private void logActivity(HttpServletRequest req,
 			ArrayList<MimeMessage> emails) {
-		ArrayList<Object> data = Common.generateEmailRecipientListForAutomatedReminders(req, emails);
+		ArrayList<Object> data = Common.extractRecipientsList(emails);
 
 		String url = req.getRequestURI();
 		if (req.getQueryString() != null){
 		    url += "?" + req.getQueryString();
 		}    
-		activityLogEntry = instantiateActivityLogEntry(Common.EVALUATION_OPENING_REMINDERS_SERVLET, Common.EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER,
+		ActivityLogEntry activityLogEntry = instantiateActivityLogEntry(
+				Common.EVALUATION_OPENING_REMINDERS_SERVLET, 
+				Common.EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER,
 				true, null, url, data);
 		log.log(Level.INFO, activityLogEntry.generateLogMessage());
 	}
 	
-	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data) {
+	protected ActivityLogEntry instantiateActivityLogEntry(
+			String servletName, String action, boolean toShow, Helper helper, 
+			String url, ArrayList<Object> data) {
+		
 		String message;
 
 		if(action.equals(Common.EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER)){

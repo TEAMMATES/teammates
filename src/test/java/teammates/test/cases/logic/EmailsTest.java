@@ -1,4 +1,4 @@
-package teammates.test.cases;
+package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -27,6 +27,8 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.Emails;
+import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.SystemErrorEmailReportTest;
 import teammates.test.driver.TestProperties;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;

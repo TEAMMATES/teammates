@@ -164,7 +164,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.startTime = null;
 		try {
 			e.getInvalidStateInfo();
-			signalFailureToDetectAssumptionViolation("null start time not detected");
+			signalFailureToDetectException("null start time not detected");
 		} catch (AssertionError e1) {
 			ignoreExpectedException();
 		}
@@ -173,7 +173,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.endTime = null;
 		try {
 			e.getInvalidStateInfo();
-			signalFailureToDetectAssumptionViolation("null end time not detected");
+			signalFailureToDetectException("null end time not detected");
 		} catch (AssertionError e1) {
 			ignoreExpectedException();
 		}

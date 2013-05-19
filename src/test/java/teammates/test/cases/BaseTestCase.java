@@ -2,7 +2,6 @@ package teammates.test.cases;
 
 import static org.junit.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.Common.EOL;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +10,6 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.ConsoleHandler;
@@ -20,16 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import org.junit.Rule;
-import org.junit.rules.MethodRule;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.Statement;
-
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
@@ -38,13 +31,6 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class BaseTestCase {
 
-	/*
-	 * Here, we initialize the Config object using Config.inst(Properties)
-	 * because Config.inst() that is usually used cannot find the
-	 * build.properties files when called from test suite. An alternative
-	 * approach may be to add the build.properties location to the test suit's
-	 * classpath.
-	 */
 	static {
 		String buildFile = System.getProperty("user.dir")
 				+ "/src/main/resources/"
@@ -63,7 +49,7 @@ public class BaseTestCase {
 		Common.readProperties(buildProperties);
 	}
 
-	LocalServiceTestHelper helper;
+	protected LocalServiceTestHelper helper;
 
 	protected static long start;
 
@@ -352,8 +338,8 @@ public class BaseTestCase {
 		assertEquals(false, logic.getCurrentUser().isAdmin);
 	}
 
-	protected void signalFailureToDetectAssumptionViolation(String... messages) {
-		throw new RuntimeException("Assumption Violation not detected."+ Arrays.toString(messages));
+	protected void signalFailureToDetectException(String... messages) {
+		throw new RuntimeException("Expected exception not detected."+ Arrays.toString(messages));
 	}
 
 	protected void ignoreExpectedException() {

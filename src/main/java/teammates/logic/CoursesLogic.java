@@ -30,6 +30,8 @@ public class CoursesLogic {
 	//  familiar with the its code and Logic's code. Hence, no need for header 
 	//  comments.
 	
+	//TODO: add a test class for this class. Some of the test content can be transferred from LogicTest.
+	
 	private static CoursesLogic instance = null;
 	private static final Logger log = Common.getLogger();
 
@@ -132,6 +134,7 @@ public class CoursesLogic {
 
 	public CourseDetailsBundle getTeamsForCourse(String courseId) 
 			throws EntityDoesNotExistException {
+		//TODO: change the return value to List<TeamDetailsBundle>
 		
 		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
 		StudentAttributes.sortByTeamName(students);

@@ -956,7 +956,7 @@ public class Common {
 	 * Generate email recipient list for the automated reminders sent.
 	 * Used for AdminActivityLog
 	 */
-	public static ArrayList<Object> generateEmailRecipientListForAutomatedReminders(HttpServletRequest req, ArrayList<MimeMessage> emails){
+	public static ArrayList<Object> extractRecipientsList(ArrayList<MimeMessage> emails){
 
 		ArrayList<Object> data = new ArrayList<Object>();
 		

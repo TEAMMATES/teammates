@@ -1,45 +1,37 @@
-package teammates.test.cases;
+package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.ServletException;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.StudentsLogic;
-import teammates.logic.SubmissionsLogic;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.Student;
+import teammates.test.cases.BaseTestCase;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class StudentsLogicTest extends BaseTestCase{
 	
-	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
+	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	
+	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
 	private static DataBundle dataBundle = getTypicalDataBundle();
 	
 	@BeforeClass
@@ -126,6 +118,16 @@ public class StudentsLogicTest extends BaseTestCase{
 		assertEquals(3, logic.getStudentsForCourse(courseId).size());
 		LogicTest.verifyEnrollmentResultForStudent(student4, enrollmentResult,
 				StudentAttributes.UpdateStatus.NEW);
+	}
+	
+	@Test
+	public void testKeyGeneration() {
+		long key = 5;
+		String longKey = KeyFactory.createKeyString(
+				Student.class.getSimpleName(), key);
+		long reverseKey = KeyFactory.stringToKey(longKey).getId();
+		assertEquals(key, reverseKey);
+		assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
 	}
 
 	private static StudentAttributes invokeEnrollStudent(StudentAttributes student)

@@ -1,4 +1,4 @@
-package teammates.test.cases;
+package teammates.test.cases.logic;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 
 import teammates.logic.TeamEvalResult;
+import teammates.test.cases.BaseTestCase;
 import static teammates.common.Common.EOL;
 import static teammates.logic.TeamEvalResult.NA;
 import static teammates.logic.TeamEvalResult.NSB;
@@ -487,6 +488,11 @@ public class TeamEvalResultTest extends BaseTestCase{
 				Arrays.toString(TeamEvalResult.normalizeValues(input)));
 	}
 	
+	private static void showCalculationSteps(int[][] input) {
+		TeamEvalResult t = new TeamEvalResult(input);
+		print(t.toString());
+	}
+
 	@AfterClass
 	public static void tearDownClass() throws Exception{
 		setLogLevelOfClass(TeamEvalResult.class, Level.WARNING);
@@ -524,11 +530,6 @@ public class TeamEvalResultTest extends BaseTestCase{
 			
 		showCalculationSteps(input4);
 		
-	}
-
-	private static void showCalculationSteps(int[][] input) {
-		TeamEvalResult t = new TeamEvalResult(input);
-		print(t.toString());
 	}
 	
 
