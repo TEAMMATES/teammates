@@ -34,9 +34,6 @@ public class CoursesDbTest extends BaseTestCase {
 		helper.setUp();
 	}
 
-	@SuppressWarnings("unused")
-	private void ____COURSE_________________________________________() {
-	}
 	@Test
 	public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {
 		

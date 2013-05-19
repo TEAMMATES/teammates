@@ -59,7 +59,6 @@ public class Student {
 	private String teamName = null;
 
 	/**
-	 * Constructs a Student object.
 	 * 
 	 * @param email
 	 *            Student's email used for this course.

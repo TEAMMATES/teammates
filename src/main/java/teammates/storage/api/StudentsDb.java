@@ -38,7 +38,6 @@ public class StudentsDb {
 	/**
 	  * Preconditions: 
 	 * <br> * {@code studentToAdd} is not null and has valid data.
-	 * @throws InvalidParametersException 
 	 */
 	public void createStudent(StudentAttributes studentToAdd)
 			throws EntityAlreadyExistsException, InvalidParametersException {

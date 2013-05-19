@@ -30,8 +30,6 @@
 			<class name="teammates.test.cases.testdriver.TestPropertiesTest" />
 			<class name="teammates.test.cases.common.BuildPropertiesTest" />
 			<class name="teammates.test.cases.common.CommonTest" />
-			<class name="teammates.test.cases.storage.StudentTest" />
-			<class name="teammates.test.cases.storage.EvaluationTest" />
 			<class name="teammates.test.cases.common.AccountAttributesTest" />
 			<class name="teammates.test.cases.common.CourseAttributesTest" />
 			<class name="teammates.test.cases.common.StudentAttributesTest" />

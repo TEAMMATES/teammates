@@ -29,6 +29,7 @@ public class SubmissionAttributes extends EntityAttributes {
 	public Text justification;
 	public Text p2pFeedback;
 	
+	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();
 	
 	//TODO: these should be extracted into a *Bundle class as they are not attributes of a Student entity

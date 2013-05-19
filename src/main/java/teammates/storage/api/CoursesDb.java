@@ -31,7 +31,6 @@ public class CoursesDb {
 	/**
 	 * Preconditions: <br>
 	 * * {@code courseToAdd} is not null and has valid data.
-	 * @throws InvalidParametersException 
 	 */
 	public void createCourse(CourseAttributes courseToAdd)
 			throws EntityAlreadyExistsException, InvalidParametersException {
@@ -109,7 +108,6 @@ public class CoursesDb {
 	 * Does not follow the 'Keep existing' policy. <br>
 	 * Preconditions: <br> 
 	 * * {@code courseToUpdate} is not null and has valid data.
-	 * @throws InvalidParametersException 
 	 */
 	public void updateCourse(CourseAttributes courseToUpdate) 
 			throws EntityDoesNotExistException, InvalidParametersException {

@@ -22,6 +22,9 @@ import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
 
 public class SubmissionsDbTest extends BaseTestCase {
+	
+	//TODO: add missing test cases, refine existing ones. Follow the example
+	//  of CoursesDbTest::testCreateCourse().
 
 	private SubmissionsDb submissionsDb = new SubmissionsDb();
 	private static LocalServiceTestHelper helper;
@@ -36,9 +39,6 @@ public class SubmissionsDbTest extends BaseTestCase {
 		helper.setUp();
 	}
 
-	@SuppressWarnings("unused")
-	private void ____COURSE_________________________________________() {
-	}
 	@Test
 	public void testCreateSubmission() throws EntityAlreadyExistsException, InvalidParametersException {
 		// SUCCESS

@@ -205,7 +205,6 @@ public class SubmissionsDb {
 	 * Does not follow the 'Keep existing' policy. <br>
 	 * Preconditions: <br> 
 	 * * {@code newSubmissionAttributes} is not null and has valid data. <br>
-	 * @throws InvalidParametersException 
 	 */
 	public void updateSubmission(SubmissionAttributes newSubmissionAttributes) 
 			throws EntityDoesNotExistException, InvalidParametersException {
@@ -383,14 +382,15 @@ public class SubmissionsDb {
 		return submissionList;
 	}
 
-private List<Submission> getSubmissionEntititesForEvaluation(
+	private List<Submission> getSubmissionEntititesForEvaluation(
 			String courseId, String evaluationName) {
 		Query q = getPM().newQuery(Submission.class);
 		q.declareParameters("String courseIdParam, String evaluationNameParam");
 		q.setFilter("courseID == courseIdParam && evaluationName == evaluationNameParam");
-	
+
 		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) q.execute(courseId, evaluationName);
+		List<Submission> submissionList = (List<Submission>) q.execute(
+				courseId, evaluationName);
 		return submissionList;
 	}
 

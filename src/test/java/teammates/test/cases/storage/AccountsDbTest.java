@@ -17,6 +17,9 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class AccountsDbTest extends BaseTestCase {
+	
+	//TODO: add missing test cases, refine existing ones. Follow the example
+	//  of CoursesDbTest::testCreateCourse().
 
 	private AccountsDb accountsDb = new AccountsDb();
 	private static LocalServiceTestHelper helper;

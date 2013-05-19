@@ -10,7 +10,8 @@ import javax.servlet.ServletResponse;
 
 //TODO: Do we really need this filter? To be reconsidered.
 /**
- * Servlet Filter to support Datastore class
+ * Servlet Filter to ensure that the datastore is initialized before a request
+ * is processed.
  */
 public final class DatastoreFilter implements javax.servlet.Filter {
 

@@ -19,6 +19,7 @@ import com.google.gson.annotations.SerializedName;
 @PersistenceCapable
 public class Evaluation {
 
+	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();
 
 	@PrimaryKey

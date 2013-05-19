@@ -31,7 +31,6 @@ public class EvaluationsDb {
 	/**
 	 * Preconditions: <br>
 	 * * {@code evaluationToAdd} is not null and has valid data.
-	 * @throws InvalidParametersException 
 	 */
 	public void createEvaluation(EvaluationAttributes evaluationToAdd)
 			throws EntityAlreadyExistsException, InvalidParametersException {
@@ -122,7 +121,6 @@ public class EvaluationsDb {
 	 * Does not follow the 'Keep existing' policy. <br>
 	 * Preconditions: <br> 
 	 * * The given list is not null and contains valid {@link SubmissionAttributes} objects. <br>
-	 * @throws InvalidParametersException 
 	 */
 	public void updateEvaluation(EvaluationAttributes newEvaluationAttributes) 
 			throws EntityDoesNotExistException, InvalidParametersException {
