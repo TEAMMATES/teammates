@@ -28,7 +28,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.Emails;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.cases.SystemErrorEmailReportTest;
+import teammates.test.cases.ui.SystemErrorEmailReportTest;
 import teammates.test.driver.TestProperties;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;

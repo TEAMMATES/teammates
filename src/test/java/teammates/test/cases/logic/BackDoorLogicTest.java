@@ -31,7 +31,7 @@ import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.cases.CourseAttributesTest;
+import teammates.test.cases.common.CourseAttributesTest;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
