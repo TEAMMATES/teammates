@@ -13,16 +13,12 @@ import teammates.storage.api.InstructorsDb;
 
 /**
  * Handles  operations related to insturctor roles.
- * This class does the field validation and sanitization before 
- * passing values to the Storage layer.
  */
 public class InstructorsLogic {
 	//The API of this class doesn't have header comments because it sits behind
 	//  the API of the logic class. Those who use this class is expected to be
 	//  familiar with the its code and Logic's code. Hence, no need for header 
 	//  comments.
-	
-	//TODO: add sanitization to this class.
 	
 	public static final String ERROR_NO_INSTRUCTOR_LINES = "Course must have at lease one instructor\n";
 	
@@ -56,12 +52,6 @@ public class InstructorsLogic {
 		
 		log.info("going to create instructor :\n"+instructorToAdd.toString());
 		
-		if (!instructorToAdd.isValid()) {
-			throw new InvalidParametersException("Invalid parameter detected while adding instructor :"
-														+instructorToAdd.getInvalidStateInfo()
-														+ "values received :\n"+ instructorToAdd.toString());
-		}
-	
 		instructorsDb.createInstructor(instructorToAdd);
 	}
 
@@ -104,9 +94,6 @@ public class InstructorsLogic {
 
 	public void updateInstructor(InstructorAttributes instructor) 
 			throws InvalidParametersException {
-		if (!instructor.isValid()) {
-			throw new InvalidParametersException(instructor.getInvalidStateInfo());
-		}
 		instructorsDb.updateInstructor(instructor);
 	}
 

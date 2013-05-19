@@ -27,16 +27,12 @@ import teammates.storage.api.CoursesDb;
 
 /**
  * Handles  operations related to courses.
- * This class does the field validation and sanitization before 
- * passing values to the Storage layer.
  */
 public class CoursesLogic {
 	//The API of this class doesn't have header comments because it sits behind
 	//  the API of the logic class. Those who use this class is expected to be
 	//  familiar with the its code and Logic's code. Hence, no need for header 
 	//  comments.
-	
-	//TODO: add sanitization to this class.
 	
 	private static CoursesLogic instance = null;
 	private static final Logger log = Common.getLogger();
@@ -60,10 +56,6 @@ public class CoursesLogic {
 	public void createCourse(String courseId, String courseName) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName);
-	
-		if (!courseToAdd.isValid()) {
-			throw new InvalidParametersException(Common.toString(courseToAdd.getInvalidStateInfo()));
-		}
 	
 		coursesDb.createCourse(courseToAdd);
 	}
@@ -98,7 +90,7 @@ public class CoursesLogic {
 	}
 	
 	public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
-		if (coursesDb.getCourse(courseId) == null){
+		if (!isCoursePresent(courseId)){
 			throw new EntityDoesNotExistException("Course does not exist :"+courseId);
 		}
 	}
@@ -108,7 +100,7 @@ public class CoursesLogic {
 		CourseDetailsBundle courseSummary = getCourseSummary(courseId);
 
 		ArrayList<EvaluationDetailsBundle> evaluationList = 
-				evaluationsLogic.getEvaluationDetailsForCourse(courseSummary.course.id);
+				evaluationsLogic.getEvaluationsDetailsForCourse(courseSummary.course.id);
 		
 		for (EvaluationDetailsBundle edd : evaluationList) {
 			courseSummary.evaluations.add(edd);
@@ -140,6 +132,54 @@ public class CoursesLogic {
 			courseDetailsList.add(cdd);
 		}
 		return courseDetailsList;
+	}
+
+	public CourseDetailsBundle getTeamsForCourse(String courseId) 
+			throws EntityDoesNotExistException {
+		
+		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+		StudentAttributes.sortByTeamName(students);
+	
+		CourseAttributes course = getCourse(courseId);
+	
+		if (course == null) {
+			throw new EntityDoesNotExistException("The course " + courseId
+					+ " does not exist");
+		}
+		
+		CourseDetailsBundle cdd = new CourseDetailsBundle(course);
+	
+		TeamDetailsBundle team = null;
+		for (int i = 0; i < students.size(); i++) {
+	
+			StudentAttributes s = students.get(i);
+	
+			// if loner
+			if (s.team.equals("")) {
+				cdd.loners.add(s);
+				// first student of first team
+			} else if (team == null) {
+				team = new TeamDetailsBundle();
+				team.name = s.team;
+				team.students.add(s);
+				// student in the same team as the previous student
+			} else if (s.team.equals(team.name)) {
+				team.students.add(s);
+				// first student of subsequent teams (not the first team)
+			} else {
+				cdd.teams.add(team);
+				team = new TeamDetailsBundle();
+				team.name = s.team;
+				team.students.add(s);
+			}
+	
+			// if last iteration
+			if (i == (students.size() - 1)) {
+				cdd.teams.add(team);
+			}
+		}
+	
+		return cdd;
 	}
 
 	public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
@@ -228,7 +268,7 @@ public class CoursesLogic {
 		return courseSummaryList;
 	}
 
-	public HashMap<String, CourseDetailsBundle> getCourseDetailsListForInstructor(
+	public HashMap<String, CourseDetailsBundle> getCoursesDetailsForInstructor(
 			String instructorId) throws EntityDoesNotExistException {
 		
 		HashMap<String, CourseDetailsBundle> courseList = 
@@ -244,62 +284,11 @@ public class CoursesLogic {
 		return courseList;
 	}
 
-	public CourseDetailsBundle getTeamsForCourse(String courseId) 
-			throws EntityDoesNotExistException {
-		
-		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
-		StudentAttributes.sortByTeamName(students);
-	
-		CourseAttributes course = getCourse(courseId);
-	
-		if (course == null) {
-			throw new EntityDoesNotExistException("The course " + courseId
-					+ " does not exist");
-		}
-		
-		CourseDetailsBundle cdd = new CourseDetailsBundle(course);
-	
-		TeamDetailsBundle team = null;
-		for (int i = 0; i < students.size(); i++) {
-	
-			StudentAttributes s = students.get(i);
-	
-			// if loner
-			if (s.team.equals("")) {
-				cdd.loners.add(s);
-				// first student of first team
-			} else if (team == null) {
-				team = new TeamDetailsBundle();
-				team.name = s.team;
-				team.students.add(s);
-				// student in the same team as the previous student
-			} else if (s.team.equals(team.name)) {
-				team.students.add(s);
-				// first student of subsequent teams (not the first team)
-			} else {
-				cdd.teams.add(team);
-				team = new TeamDetailsBundle();
-				team.name = s.team;
-				team.students.add(s);
-			}
-	
-			// if last iteration
-			if (i == (students.size() - 1)) {
-				cdd.teams.add(team);
-			}
-		}
-	
-		return cdd;
-	}
-
 	public void updateCourse(CourseAttributes course) 
 			throws InvalidParametersException, EntityDoesNotExistException {
-		if (!course.isValid()) {
-			throw new InvalidParametersException(course.getInvalidStateInfo());
-		}
+		
 		coursesDb.updateCourse(course);
 	}
-	
 	
 
 	public void deleteCourseCascade(String courseId) {

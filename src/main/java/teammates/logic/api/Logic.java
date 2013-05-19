@@ -45,6 +45,8 @@ import teammates.logic.SubmissionsLogic;
  * Logic class is a Facade class. It simply forwards the method to internal classes.
  */
 public class Logic {
+	
+	//TODO: sanitizes values received from outside.
 
 	private static Logger log = Common.getLogger();
 
@@ -367,7 +369,7 @@ public class Logic {
 		
 		instructorsLogic.verifyInstructorExists(instructorId);
 		
-		return coursesLogic.getCourseDetailsListForInstructor(instructorId);
+		return coursesLogic.getCoursesDetailsForInstructor(instructorId);
 
 	}
 
@@ -405,7 +407,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 
-		return evaluationsLogic.getEvaluationDetailsForCourse(courseId);
+		return evaluationsLogic.getEvaluationsDetailsForCourse(courseId);
 	}
 
 	@SuppressWarnings("unused")
@@ -711,7 +713,7 @@ public class Logic {
 
 		gateKeeper.verifyCourseInstructorOrAbove(student.course);
 
-		studentsLogic.updateStudent(originalEmail, student);
+		studentsLogic.updateStudentCascade(originalEmail, student);
 	}
 
 	/**

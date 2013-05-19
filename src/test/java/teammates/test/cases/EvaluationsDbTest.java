@@ -14,6 +14,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.datastore.Datastore;
 
@@ -36,7 +37,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	private void ____COURSE_________________________________________() {
 	}
 	@Test
-	public void testCreateEvaluation() throws EntityAlreadyExistsException {
+	public void testCreateEvaluation() throws EntityAlreadyExistsException, InvalidParametersException {
 		// SUCCESS
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.course = "Computing101";
@@ -81,7 +82,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testGetEvaluation() {
+	public void testGetEvaluation() throws InvalidParametersException {
 		EvaluationAttributes e = createNewEvaluation();
 		
 		// Get existent
@@ -102,7 +103,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testEditEvaluation() throws EntityDoesNotExistException {
+	public void testEditEvaluation() throws EntityDoesNotExistException, InvalidParametersException {
 		EvaluationAttributes e = createNewEvaluation();
 				
 		// Edit existent
@@ -128,7 +129,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testDeleteEvaluation() {
+	public void testDeleteEvaluation() throws InvalidParametersException {
 		EvaluationAttributes e = createNewEvaluation();
 		
 		// Delete
@@ -162,7 +163,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private EvaluationAttributes createNewEvaluation() {
+	private EvaluationAttributes createNewEvaluation() throws InvalidParametersException {
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.course = "Computing101";
 		e.name = "Basic Computing Evaluation1";

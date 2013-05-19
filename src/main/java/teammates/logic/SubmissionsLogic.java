@@ -19,16 +19,12 @@ import com.google.appengine.api.datastore.Text;
 
 /**
  * Handles  operations related to submission entities.
- * This class does the field validation and sanitization before 
- * passing values to the Storage layer.
  */
 public class SubmissionsLogic {
 	//The API of this class doesn't have header comments because it sits behind
 	//  the API of the logic class. Those who use this class is expected to be
 	//  familiar with the its code and Logic's code. Hence, we have minimal
 	//  header comments in this class.
-	
-	//TODO: add sanitization to this class.
 	
 	private static SubmissionsLogic instance = null;
 	private static final Logger log = Common.getLogger();
@@ -44,7 +40,7 @@ public class SubmissionsLogic {
 	}
 
 	public void createSubmissions(
-			List<SubmissionAttributes> listOfSubmissionsToAdd) {
+			List<SubmissionAttributes> listOfSubmissionsToAdd) throws InvalidParametersException {
 		submissionsDb.createSubmissions(listOfSubmissionsToAdd);
 		
 	}
@@ -73,14 +69,10 @@ public class SubmissionsLogic {
 		return submissionDataList;
 	}
 
-	public List<SubmissionAttributes> getSubmissionsFromEvaluationFromStudent(String courseId, String evaluationName, String reviewerEmail) {
-		return submissionsDb.getSubmissionsForEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
-	}
-
 	public List<SubmissionAttributes> getSubmissionsForEvaluationFromStudent(
 			String courseId, String evaluationName, String reviewerEmail) {
 		
-		List<SubmissionAttributes> submissions = getSubmissionsFromEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
+		List<SubmissionAttributes> submissions = submissionsDb.getSubmissionsForEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
 
 		StudentAttributes student = studentsLogic.getStudentForEmail(courseId, reviewerEmail);
 		ArrayList<SubmissionAttributes> returnList = new ArrayList<SubmissionAttributes>();
@@ -113,14 +105,12 @@ public class SubmissionsLogic {
 
 	public void updateSubmission(SubmissionAttributes submission) 
 			throws InvalidParametersException, EntityDoesNotExistException {
-		if (!submission.isValid()) {
-			throw new InvalidParametersException(submission.getInvalidStateInfo());
-		}
+		
 		submissionsDb.updateSubmission(submission);
 	}
 
 	public void updateSubmissions(List<SubmissionAttributes> submissionsDataList) 
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
 		submissionsDb.updateSubmissions(submissionsDataList);
 	}
 

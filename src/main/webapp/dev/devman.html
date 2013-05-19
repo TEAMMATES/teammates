@@ -408,7 +408,16 @@
 	<span class="code">Logic</span> which makes use of several
 	<span class="code">*Logic</span> classes to handle the logic related to
 	various types of data and to access data from the
-	<span class="code">Storage</span> component.
+	<span class="code">Storage</span> component. In particular, Logic is 
+	responsible for these: <br>
+	<ul>
+		<li>Managing relationships between entities. e.g., cascade logic
+			for create/update/delete</li>
+		<li>Managing transactions. e.g., to ensure atomicity of a
+			transaction</li>
+		<li>Sanitizing input values recevied from the UI component</li>
+		<li>Access control (to be moved to the UI component soon)</li>
+	</ul>
 
 	<div class="image-holder">
 		<img src="images/LogicComponent.png" width="90%" />
@@ -437,10 +446,10 @@
 		</li>
 	</ul>
 
-	<br>Authentication:
+	<br>Access control:
 	<ul>
 		<li>Calls received by <span class="code">Logic</span> are
-			authenticated against logged in user's privileges
+			checked against logged in user's privileges
 			(to be moved to UI layer).<br>
 		</li>
 		<li>Calls received by <span class="code">BackDoorServlet</span>
@@ -514,14 +523,38 @@
 	Read, Update, Delete) operations on data entities individually. It is
 	accessible via the
 	<span class="code">*Db</span> classes in the
-	<span class="code">storage::api</span> package. It hides complexities
-	of datastore from the
-	<span class="code">Logic</span> component. All GQL queries are to be
-	contained inside the
-	<span class="code">Storage</span> component.
+	<span class="code">storage::api</span> package. 
 	<br>It contains minimal logic beyond what is directly relevant to
-	CRUD operations.
-	<br>The <span class="code">Storage</span> component will not perform any
+	CRUD operations. <br> In particular, it handles these:
+	<ul>
+		<li>Validating data inside entities before creating/updating
+			them, to ensure they are in a valid state.</li>
+		<li>Hiding the complexities of datastore from the <span
+			class="code">Logic</span> component. All GQL queries are to be
+			contained inside the <span class="code">Storage</span> component.
+		</li>
+		<li>Protecting persitable objects: Classes in the <span
+			class="code">storage::entity</span> package are not visible outside
+			this component to prevent accidental modification to the entity's
+			attributes (Since these classes have been marked as 'persistence
+			capable', and changes to their attributes are automatically persisted
+			to the datastore by default). <br> Instead, a corresponding
+			non-persistent <a
+			href="http://en.wikipedia.org/wiki/Data_transfer_object">data
+				transfer object</a> named <span class="code">*Attributes</span> (e.g., <span
+			class="code">CourseAttributes</span> is the data transfer object for
+			<span class="code">Course</span> entities) object is returned, where
+			values can be get and set easily without any impact on the persistent
+			data copy. These datatransfer classes are in <span class="code">common::datatransfer</span>
+			package explained later. Note: This decision was taken before GAE
+			started supporting <a
+			href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
+				the ability to 'detach' entities </a> to prevent accidental
+			modifications to persistable data. The decision to use data transfer
+			objects is to be reconsidered in the future.
+		</li>
+	</ul>
+	The <span class="code">Storage</span> component will not perform any
 	cascade delete/create operations.Cascade logic is currently handled by
 	the <span class="code">Logic</span> component.
 	<br>  
@@ -530,26 +563,7 @@
 		<img src="images/StorageComponent.png" width=80% />
 	</div>
 
-	<br>Classes in the
-	<span class="code">storage::entity</span> package are not visible
-	outside this component to prevent accidental modification to the
-	entity's attributes (Since these classes have been marked as
-	'persistence capable', and changes to their attributes are
-	automatically persisted to the datastore by default).
-	<br> Instead, a corresponding non-persistent 
-	<a href="http://en.wikipedia.org/wiki/Data_transfer_object">data transfer 
-	object</a> named <span class="code">*Attributes</span> (e.g.,
-	<span class="code">CourseAttributes</span> is the data transfer object for
-	<span class="code">Course</span> entities) object is returned, where
-	values can be get and set easily without any impact on the persistent
-	data copy. These datatransfer classes are in
-	<span class="code">common::datatransfer</span> package explained later.
-	Note: This decision was taken before GAE started supporting
-	<a
-		href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
-		the ability to 'detach' entities </a> to prevent accidental modifications
-	to persistable data. The decision to use data transfer objects is to be
-	reconsidered in the future.
+	
 	<br> Note that the navigability of the association links between
 	entity objects appear to be in the reverse direction of what we see in
 	a normal OOP design. This is because we want to keep the data scheme
@@ -593,8 +607,8 @@
 		<li>Attempt to create an entity that already exists: Throws <span
 			class="code">EntityAlreadyExists</span> exception.
 		</li>
-		<li>Attempt to create an entity with invalid data: Causes assertion
-			failure.</li>
+		<li>Attempt to create an entity with invalid data: Throws <span
+			class="code">InvalidParametersException</span></li>
 	</ul>
 	<br> API for retrieving:
 	<ul>
@@ -604,10 +618,11 @@
 	</ul>
 	<br> API for updating:
 	<ul>
-		<li>Attempt to update an entity that does not exist: Throws 
-		<span class="code">EntityDoesNotExistException</span>.</li>
-		<li>Attempt to update an entity with invalid data: Not expected.
-			Results in assertion failure.</li>
+		<li>Attempt to update an entity that does not exist: Throws <span
+			class="code">EntityDoesNotExistException</span>.
+		</li>
+		<li>Attempt to update an entity with invalid data: Throws <span
+			class="code">InvalidParametersException</span></li>
 	</ul>
 	<br> API for deleting:
 	<ul>

@@ -14,6 +14,7 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Instructor;
 
@@ -37,14 +38,19 @@ public class InstructorsDb {
 	/**
 	  * Preconditions: 
 	 * <br> * {@code instructorToAdd} is not null and has valid data.
+	 * @throws InvalidParametersException 
 	 */
 	public void createInstructor(InstructorAttributes instructorToAdd)
-			throws EntityAlreadyExistsException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorToAdd);
 
-		Assumption.assertTrue(
-				"Invalid object received as a parameter :" + Common.toString(instructorToAdd.getInvalidStateInfo()),
-				instructorToAdd.isValid());
+		if (!instructorToAdd.isValid()) {
+			throw new InvalidParametersException(
+					"Invalid parameter detected while adding instructor :"
+					+instructorToAdd.getInvalidStateInfo() 
+					+ "values received :\n"+ instructorToAdd.toString());
+		}
 
 		if (getInstructorEntityForGoogleId(instructorToAdd.courseId, instructorToAdd.googleId) != null) {
 			String error = ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS
@@ -169,15 +175,18 @@ public class InstructorsDb {
 	 * Does not follow the 'keep existing' policy <br> 
 	 * Preconditions: <br>
 	 * * {@code courseId} and {@code email} are non-null and correspond to an existing student. <br>
+	 * @throws InvalidParametersException 
 	 */
-	public void updateInstructor(InstructorAttributes instructorAttributesToUpdate) {
+	public void updateInstructor(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
 		
-		Assumption.assertTrue(
-				"Invalid object received as a parameter :" + Common.toString(instructorAttributesToUpdate.getInvalidStateInfo()), 
-				instructorAttributesToUpdate.isValid());
+		if (!instructorAttributesToUpdate.isValid()) {
+			throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidStateInfo());
+		}
 		
-		Instructor instructorToUpdate = getInstructorEntityForGoogleId(instructorAttributesToUpdate.courseId, instructorAttributesToUpdate.googleId);
+		Instructor instructorToUpdate = getInstructorEntityForGoogleId(
+				instructorAttributesToUpdate.courseId, 
+				instructorAttributesToUpdate.googleId);
 		
 		//TODO: this should be an exception instead?
 		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.googleId

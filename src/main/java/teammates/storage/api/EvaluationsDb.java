@@ -13,6 +13,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Evaluation;
 
@@ -30,13 +31,16 @@ public class EvaluationsDb {
 	/**
 	 * Preconditions: <br>
 	 * * {@code evaluationToAdd} is not null and has valid data.
+	 * @throws InvalidParametersException 
 	 */
 	public void createEvaluation(EvaluationAttributes evaluationToAdd)
-			throws EntityAlreadyExistsException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationToAdd);
-		Assumption.assertTrue(evaluationToAdd.getInvalidStateInfo().toString(),
-				evaluationToAdd.isValid());
+		
+		if (!evaluationToAdd.isValid()) {
+			throw new InvalidParametersException(evaluationToAdd.getInvalidStateInfo());
+		}
 		
 		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {
 			String error = ERROR_CREATE_EVALUATION_ALREADY_EXISTS
@@ -118,16 +122,18 @@ public class EvaluationsDb {
 	 * Does not follow the 'Keep existing' policy. <br>
 	 * Preconditions: <br> 
 	 * * The given list is not null and contains valid {@link SubmissionAttributes} objects. <br>
+	 * @throws InvalidParametersException 
 	 */
 	public void updateEvaluation(EvaluationAttributes newEvaluationAttributes) 
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
 		
 		Assumption.assertNotNull(
 				Common.ERROR_DBLEVEL_NULL_INPUT, 
 				newEvaluationAttributes);
-		Assumption.assertTrue(
-				newEvaluationAttributes.getInvalidStateInfo().toString(), 
-				newEvaluationAttributes.isValid());
+		
+		if (!newEvaluationAttributes.isValid()) {
+			throw new InvalidParametersException(newEvaluationAttributes.getInvalidStateInfo());
+		}
 		
 		Evaluation e = getEvaluationEntity(newEvaluationAttributes.course, newEvaluationAttributes.name);
 		

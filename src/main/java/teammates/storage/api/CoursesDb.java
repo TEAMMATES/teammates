@@ -15,6 +15,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 
 /**
  * Handles CRUD Operations for course entities.
@@ -30,12 +31,15 @@ public class CoursesDb {
 	/**
 	 * Preconditions: <br>
 	 * * {@code courseToAdd} is not null and has valid data.
+	 * @throws InvalidParametersException 
 	 */
 	public void createCourse(CourseAttributes courseToAdd)
-			throws EntityAlreadyExistsException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToAdd);
-		Assumption.assertTrue(Common.toString(courseToAdd.getInvalidStateInfo()),
-				courseToAdd.isValid());
+
+		if (!courseToAdd.isValid()) {
+			throw new InvalidParametersException(Common.toString(courseToAdd.getInvalidStateInfo()));
+		}
 		
 		if (getCourseEntity(courseToAdd.id) != null) {
 			String error = ERROR_CREATE_COURSE_ALREADY_EXISTS + courseToAdd.id;
@@ -104,10 +108,16 @@ public class CoursesDb {
 	 * Does not follow the 'Keep existing' policy. <br>
 	 * Preconditions: <br> 
 	 * * {@code courseToUpdate} is not null and has valid data.
+	 * @throws InvalidParametersException 
 	 */
 	public void updateCourse(CourseAttributes courseToUpdate) 
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
+		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToUpdate);
+		
+		if (!courseToUpdate.isValid()) {
+			throw new InvalidParametersException(courseToUpdate.getInvalidStateInfo());
+		}
 		
 		Course c = getCourseEntity(courseToUpdate.id);
 

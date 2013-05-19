@@ -11,6 +11,7 @@ import javax.jdo.Query;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Account;
 
@@ -33,15 +34,18 @@ public class AccountsDb {
 	 * Preconditions: 
 	 * <br> * {@code accountToAdd} is not null and has valid data.
 	 */
-	public void createAccount(AccountAttributes accountToAdd) {
+	public void createAccount(AccountAttributes accountToAdd) throws InvalidParametersException {
 		
 		//TODO: why doesn't this throw EntityAlreadyExistsException?
 		
 		Assumption.assertNotNull(
 				Common.ERROR_DBLEVEL_NULL_INPUT, accountToAdd);
-		Assumption.assertTrue(
-				"Invalid object received as a parameter :" + Common.toString(accountToAdd.getInvalidStateInfo()) + accountToAdd.toString(),
-				accountToAdd.isValid());
+		
+		if (!accountToAdd.isValid()) {
+			throw new InvalidParametersException("Invalid parameter detected while adding account :" 
+						+ accountToAdd.getInvalidStateInfo() + "\n" 
+						+ "values received :\n"+ accountToAdd.toString());
+		}
 		
 		Account newAccount = accountToAdd.toEntity();
 		getPM().makePersistent(newAccount);
@@ -64,26 +68,6 @@ public class AccountsDb {
 	
 	/**
 	 * Preconditions: 
-	 * <br> * {@code accountsToAdd} is not null and 
-	 * contains {@link AccountAttributes} objects with valid data.
-	 */
-	public void createAccounts(List<AccountAttributes> accountsToAdd) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, accountsToAdd);
-		
-		List<Account> accounts = new ArrayList<Account>();
-		for (AccountAttributes ad : accountsToAdd) {
-			Assumption.assertTrue(
-					"Invalid object received as a parameter" + ad.getInvalidStateInfo().toString(),
-					ad.isValid());
-			accounts.add(ad.toEntity());
-		}
-		
-		getPM().makePersistentAll(accounts);
-		getPM().flush();
-	}
-	
-	/**
-	 * Preconditions: 
 	 * <br> * All parameters are non-null. 
 	 * @return Null if not found.
 	 */
@@ -93,7 +77,6 @@ public class AccountsDb {
 		Account a = getAccountEntity(googleId);
 	
 		if (a == null) {
-			log.info("Trying to get non-existent Account: " + googleId);
 			return null;
 		}
 	
@@ -125,13 +108,12 @@ public class AccountsDb {
 	 * Preconditions: 
 	 * <br> * {@code accountToAdd} is not null and has valid data.
 	 */
-	public void updateAccount(AccountAttributes a) {
+	public void updateAccount(AccountAttributes a) throws InvalidParametersException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, a);
-		Assumption.assertTrue(
-				"Invalid object received as a parameter when updating account: " 
-						+ a.getInvalidStateInfo().toString() 
-						+ "\n" + "values received :\n"+ a.toString(),
-				a.isValid());
+		
+		if (!a.isValid()) {
+			throw new InvalidParametersException(a.getInvalidStateInfo());
+		}
 		
 		Account accountToUpdate = getAccountEntity(a.googleId);
 		//TODO: this should be an exception instead?

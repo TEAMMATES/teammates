@@ -16,17 +16,13 @@ import teammates.common.exception.JoinCourseException;
 import teammates.storage.api.AccountsDb;
 
 /**
- * Handles  operations related to accounts.
- * This class does the field validation and sanitization before 
- * passing values to the Storage layer.
+ * Handles the logic related to accounts.
  */
 public class AccountsLogic {
 	//The API of this class doesn't have header comments because it sits behind
 	//  the API of the logic class. Those who use this class is expected to be
 	//  familiar with the its code and Logic's code. Hence, no need for header 
 	//  comments.
-	
-	//TODO: add sanitization to this class.
 	
 	private static AccountsLogic instance = null;
 	private static final AccountsDb accountsDb = new AccountsDb();
@@ -53,11 +49,6 @@ public class AccountsLogic {
 		
 		log.info("going to create account :\n"+accountToAdd.toString());
 		
-		if (!accountToAdd.isValid()) {
-			throw new InvalidParametersException("Invalid parameter detected while adding account :" 
-						+ accountToAdd.getInvalidStateInfo() + "\n" 
-						+ "values received :\n"+ accountToAdd.toString());
-		}
 		accountsDb.createAccount(accountToAdd);
 	}
 	
@@ -107,9 +98,6 @@ public class AccountsLogic {
 	}
 
 	public void updateAccount(AccountAttributes account) throws InvalidParametersException {
-		if (!account.isValid()) {
-			throw new InvalidParametersException(account.getInvalidStateInfo());
-		}
 		accountsDb.updateAccount(account);
 	}
 	
@@ -136,13 +124,19 @@ public class AccountsLogic {
 		//register the student
 		student.id = googleId;
 		try {
-			StudentsLogic.inst().updateStudent(student.email, student);
+			StudentsLogic.inst().updateStudentCascade(student.email, student);
 		} catch (EntityDoesNotExistException e) {
 			Assumption.fail("Student disappered while trying to register " + Common.stackTraceToString(e));
-		}
+		} catch (InvalidParametersException e) {
+			throw new JoinCourseException(e.getMessage());
+		} 
 		
 		if (accountsDb.getAccount(googleId) == null) {
-			createStudentAccount(student);
+			try {
+				createStudentAccount(student);
+			} catch (InvalidParametersException e) {
+				throw new JoinCourseException(e.getLocalizedMessage());
+			}
 		}
 		
 		return student;
@@ -157,7 +151,12 @@ public class AccountsLogic {
 		AccountAttributes account = accountsDb.getAccount(googleId);
 		if (account != null) {
 			account.isInstructor = false;
-			accountsDb.updateAccount(account);
+			try {
+				accountsDb.updateAccount(account);
+			} catch (InvalidParametersException e) {
+				Assumption.fail("Invalid account data detected unexpectedly " +
+						"while removing instruction privileges from account :"+account.toString());
+			}
 		}else {
 			log.warning("Accounts logic trying to modify non-existent account a non-instructor :" + googleId );
 		}
@@ -169,7 +168,12 @@ public class AccountsLogic {
 		
 		if (account != null) {
 			account.isInstructor = true;
-			accountsDb.updateAccount(account);
+			try {
+				accountsDb.updateAccount(account);
+			} catch (InvalidParametersException e) {
+				Assumption.fail("Invalid account data detected unexpectedly " +
+						"while adding instruction privileges to account :"+account.toString());
+			}
 		} else {
 			log.warning("Accounts logic trying to modify non-existent account an instructor:" + googleId );
 		}
@@ -193,7 +197,7 @@ public class AccountsLogic {
 		return sanitized;
 	}
 	
-	private void createStudentAccount(StudentAttributes student) {
+	private void createStudentAccount(StudentAttributes student) throws InvalidParametersException {
 		AccountAttributes account = new AccountAttributes();
 		account.googleId = student.id;
 		account.email = student.email;

@@ -14,6 +14,7 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
 
@@ -37,14 +38,15 @@ public class StudentsDb {
 	/**
 	  * Preconditions: 
 	 * <br> * {@code studentToAdd} is not null and has valid data.
+	 * @throws InvalidParametersException 
 	 */
 	public void createStudent(StudentAttributes studentToAdd)
-			throws EntityAlreadyExistsException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentToAdd);
 	
-		Assumption.assertTrue(
-				"Invalid object received as a parameter :" + studentToAdd.getInvalidStateInfo().toString(),
-				studentToAdd.isValid());
+		if (!studentToAdd.isValid()) {
+			throw new InvalidParametersException(studentToAdd.getInvalidStateInfo());
+		}
 		
 		if (getStudentEntityForEmail(studentToAdd.course, studentToAdd.email) != null) {
 			String error = ERROR_CREATE_STUDENT_ALREADY_EXISTS

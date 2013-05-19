@@ -19,16 +19,12 @@ import teammates.storage.api.StudentsDb;
 
 /**
  * Handles  operations related to student roles.
- * This class does the field validation and sanitization before 
- * passing values to the Storage layer.
  */
 public class StudentsLogic {
 	//The API of this class doesn't have header comments because it sits behind
 	//  the API of the logic class. Those who use this class is expected to be
 	//  familiar with the its code and Logic's code. Hence, no need for header 
 	//  comments.
-	
-	//TODO: add sanitization to this class.
 	
 	private static StudentsLogic instance = null;
 	private StudentsDb studentsDb = new StudentsDb();
@@ -48,10 +44,6 @@ public class StudentsLogic {
 	public void createStudent(StudentAttributes studentData) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		
-		if (!studentData.isValid()) {
-			throw new InvalidParametersException(studentData.getInvalidStateInfo());
-		}
-	
 		studentsDb.createStudent(studentData);
 	}
 
@@ -89,7 +81,7 @@ public class StudentsLogic {
 		StudentAttributes studentData = getStudentForEmail(courseId, email);
 	
 		if (studentData == null) {
-			return null; //TODO: throw EntityDoesNotExistException here
+			return null; //TODO: throw EntityDoesNotExistException?
 		}
 	
 		return studentData.key;
@@ -103,8 +95,9 @@ public class StudentsLogic {
 		return studentsDb.getStudentForEmail(courseId, studentEmail) != null;
 	}
 
-	public void confirmStudentExists(String courseId, String email) 
+	public void verifyStudentExists(String courseId, String email) 
 			throws EntityDoesNotExistException {
+		
 		if (!isStudentInCourse(courseId, email)) {
 			throw new EntityDoesNotExistException(
 					"Non-existent student " + courseId + "/" + email);
@@ -112,13 +105,13 @@ public class StudentsLogic {
 		
 	}
 	
-	public void updateStudent(String originalEmail, StudentAttributes student) 
-			throws EntityDoesNotExistException {
+	public void updateStudentCascade(String originalEmail, StudentAttributes student) 
+			throws EntityDoesNotExistException, InvalidParametersException {
 		// Edit student uses KeepOriginal policy, where unchanged fields are set
 		// as null. Hence, we can't do isValid() here.
 	
 		// TODO: make the implementation more defensive, e.g. duplicate email
-		confirmStudentExists(student.course, originalEmail);
+		verifyStudentExists(student.course, originalEmail);
 		
 		StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
 		String originalTeam = originalStudent.team;
@@ -254,7 +247,7 @@ public class StudentsLogic {
 			if (isSameAsExistingStudent(student)) {
 				updateStatus = UpdateStatus.UNMODIFIED;
 			} else if (isModificationToExistingStudent(student)) {
-				updateStudent(student.email, student);
+				updateStudentCascade(student.email, student);
 				updateStatus = UpdateStatus.MODIFIED;
 			} else {
 				createStudent(student);

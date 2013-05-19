@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -34,8 +35,6 @@ import com.google.appengine.api.datastore.Text;
 
 /**
  * Handles  operations related to evaluation entities.
- * This class does the field validation and sanitization before 
- * passing values to the Storage layer.
  */
 public class EvaluationsLogic {
 	//The API of this class doesn't have header comments because it sits behind
@@ -43,14 +42,12 @@ public class EvaluationsLogic {
 	//  familiar with the its code and Logic's code. Hence, we have minimal
 	//  header comments in this class.
 	
-	//TODO: add sanitization to this class.
 	
 	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();
 
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	
-	//TODO: remove this dependency
 	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 	private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 	private static final SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
@@ -70,10 +67,6 @@ public class EvaluationsLogic {
 	public void createEvaluationCascade(EvaluationAttributes e)
 			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 	
-		if (!e.isValid()) {
-			throw new InvalidParametersException(e.getInvalidStateInfo());
-		}
-		
 		evaluationsDb.createEvaluation(e);
 	
 		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(e.course);
@@ -143,12 +136,12 @@ public class EvaluationsLogic {
 
 		List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId);
 		for (InstructorAttributes id : instructorList) {
-			evaluationSummaryList.addAll(getEvaluationDetailsForCourse(id.courseId));
+			evaluationSummaryList.addAll(getEvaluationsDetailsForCourse(id.courseId));
 		}
 		return evaluationSummaryList;
 	}
 	
-	public ArrayList<EvaluationDetailsBundle> getEvaluationDetailsForCourse(String courseId) throws EntityDoesNotExistException{
+	public ArrayList<EvaluationDetailsBundle> getEvaluationsDetailsForCourse(String courseId) throws EntityDoesNotExistException{
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
 		List<EvaluationAttributes> evaluationsSummaryForCourse = getEvaluationsForCourse(courseId);
@@ -285,10 +278,6 @@ public class EvaluationsLogic {
 	public void updateEvaluation(EvaluationAttributes evaluation) 
 			throws InvalidParametersException, EntityDoesNotExistException {
 		
-		if (!evaluation.isValid()) {
-			throw new InvalidParametersException(evaluation.getInvalidStateInfo());
-		}
-		
 		evaluationsDb.updateEvaluation(evaluation);
 	}
 	
@@ -385,7 +374,13 @@ public class EvaluationsLogic {
 		}
 		
 		e.published = b;
-		evaluationsDb.updateEvaluation(e);
+		
+		try {
+			evaluationsDb.updateEvaluation(e);
+		} catch (InvalidParametersException e1) {
+			Assumption.fail("Invalid parameters detected while setting the " +
+					"published status of evaluation :"+e.toString());
+		}
 	}	
 	
 	/**
@@ -393,9 +388,10 @@ public class EvaluationsLogic {
 	 * Deletes existing submissions for original team and creates empty
 	 * submissions for the new team, in all existing submissions, including
 	 * CLOSED and PUBLISHED ones.
+	 * @throws InvalidParametersException 
 	 */
 	public void adjustSubmissionsForChangingTeam(String courseId,
-			String studentEmail, String originalTeam, String newTeam) {
+			String studentEmail, String originalTeam, String newTeam) throws InvalidParametersException {
 		
 		List<EvaluationAttributes> evaluationDataList = 
 				EvaluationsLogic.inst().getEvaluationsForCourse(courseId);
@@ -414,7 +410,7 @@ public class EvaluationsLogic {
 	 * 
 	 */
 	public void adjustSubmissionsForNewStudent(String courseId,
-			String studentEmail, String team) {
+			String studentEmail, String team) throws InvalidParametersException {
 		
 		List<EvaluationAttributes> evaluationDataList = 
 				EvaluationsLogic.inst().getEvaluationsForCourse(courseId);
@@ -438,7 +434,7 @@ public class EvaluationsLogic {
 	}
 	
 	private void addSubmissionsForIncomingMember(
-			String courseId, String evaluationName, String studentEmail, String newTeam) {
+			String courseId, String evaluationName, String studentEmail, String newTeam) throws InvalidParametersException {
 	
 		List<String> students = getExistingStudentsInTeam(courseId, newTeam);
 	

@@ -13,6 +13,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
 
@@ -35,7 +36,7 @@ public class CoursesDbTest extends BaseTestCase {
 	private void ____COURSE_________________________________________() {
 	}
 	@Test
-	public void testCreateCourse() throws EntityAlreadyExistsException {
+	public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {
 		// SUCCESS
 		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101-fresh";
@@ -55,10 +56,10 @@ public class CoursesDbTest extends BaseTestCase {
 		try {
 			coursesDb.createCourse(c);
 			Assert.fail();
-		} catch (AssertionError a) {
-			assertEquals(
+		} catch (InvalidParametersException e) {
+			assertContains(
 					String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
-					a.getMessage());
+					e.getMessage());
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}
@@ -73,7 +74,7 @@ public class CoursesDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testGetCourse() {
+	public void testGetCourse() throws InvalidParametersException {
 		CourseAttributes c = createNewCourse();
 		
 		// Get existent
@@ -99,7 +100,7 @@ public class CoursesDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testDeleteCourse() {
+	public void testDeleteCourse() throws InvalidParametersException {
 		CourseAttributes c = createNewCourse();
 		
 		// Delete
@@ -126,7 +127,7 @@ public class CoursesDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private CourseAttributes createNewCourse() {
+	private CourseAttributes createNewCourse() throws InvalidParametersException {
 		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101";
 		c.name = "Basic Computing";

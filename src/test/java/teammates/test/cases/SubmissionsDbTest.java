@@ -2,12 +2,12 @@ package teammates.test.cases;
 
 import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+import static org.testng.AssertJUnit.*;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
-import org.testng.AssertJUnit;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -16,6 +16,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
 
@@ -38,7 +39,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 	private void ____COURSE_________________________________________() {
 	}
 	@Test
-	public void testCreateSubmission() throws EntityAlreadyExistsException {
+	public void testCreateSubmission() throws EntityAlreadyExistsException, InvalidParametersException {
 		// SUCCESS
 		SubmissionAttributes s = new SubmissionAttributes();
 		s.course = "Computing101";
@@ -75,8 +76,8 @@ public class SubmissionsDbTest extends BaseTestCase {
 		try {
 			submissionsDb.createSubmission(s);
 			Assert.fail();
-		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(
+		} catch (InvalidParametersException a) {
+			assertContains(
 					String.format("Invalid email address for the student giving the evaluation: "+ EMAIL_ERROR_MESSAGE, s.reviewer, REASON_INCORRECT_FORMAT),
 					a.getMessage());
 		} 
@@ -86,12 +87,12 @@ public class SubmissionsDbTest extends BaseTestCase {
 			submissionsDb.createSubmission(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
-	public void testGetSubmission() {
+	public void testGetSubmission() throws InvalidParametersException {
 		SubmissionAttributes s = createNewSubmission();
 		
 		// Get existent
@@ -99,42 +100,42 @@ public class SubmissionsDbTest extends BaseTestCase {
 																s.evaluation,
 																s.reviewee,
 																s.reviewer);
-		AssertJUnit.assertNotNull(retrieved);
+		assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
 		retrieved = submissionsDb.getSubmission(s.course,
 												s.evaluation,
 												"dovahkiin@skyrim.com",
 												s.reviewer);
-		AssertJUnit.assertNull(retrieved);
+		assertNull(retrieved);
 		
 		// Null params check:
 		try {
 			submissionsDb.getSubmission(null, s.evaluation, s.reviewee, s.reviewer);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, null, s.reviewee, s.reviewer);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, s.evaluation, null, s.reviewer);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, s.evaluation, s.reviewee, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -160,12 +161,12 @@ public class SubmissionsDbTest extends BaseTestCase {
 			submissionsDb.updateSubmission(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
 	@Test
-	public void testDeleteSubmission() {
+	public void testDeleteSubmission() throws InvalidParametersException {
 		SubmissionAttributes s = createNewSubmission();
 		
 		// Delete
@@ -175,7 +176,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 																s.evaluation,
 																s.reviewee,
 																s.reviewer);
-		AssertJUnit.assertNull(deleted);
+		assertNull(deleted);
 		
 		// delete again - should fail silently
 		submissionsDb.deleteAllSubmissionsForEvaluation(s.course, s.evaluation);
@@ -185,14 +186,14 @@ public class SubmissionsDbTest extends BaseTestCase {
 			submissionsDb.deleteAllSubmissionsForEvaluation(null, s.evaluation);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.deleteAllSubmissionsForEvaluation(s.course, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 
@@ -202,7 +203,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private SubmissionAttributes createNewSubmission() {
+	private SubmissionAttributes createNewSubmission() throws InvalidParametersException {
 		SubmissionAttributes s = new SubmissionAttributes();
 		s.course = "Computing101";
 		s.evaluation = "Basic Computing Evaluation1";

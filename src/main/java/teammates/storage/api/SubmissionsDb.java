@@ -15,6 +15,7 @@ import teammates.common.FieldValidator.FieldType;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
 
@@ -33,10 +34,13 @@ public class SubmissionsDb {
 	 * Preconditions: <br>
 	 * * {@code submissionToAdd} is not null and has valid data.
 	 */
-	public void createSubmission(SubmissionAttributes submissionToAdd) throws EntityAlreadyExistsException {
+	public void createSubmission(SubmissionAttributes submissionToAdd) throws EntityAlreadyExistsException, InvalidParametersException {
 		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionToAdd);
-		Assumption.assertTrue(Common.toString(submissionToAdd.getInvalidStateInfo()), submissionToAdd.isValid());
+
+		if (!submissionToAdd.isValid()) {
+			throw new InvalidParametersException(submissionToAdd.getInvalidStateInfo());
+		}
 		
 		if (getSubmissionEntity(
 				submissionToAdd.course,
@@ -85,14 +89,16 @@ public class SubmissionsDb {
 	 * Preconditions: <br>
 	 * * {@code submissionToAdd} is not null and contains valid submission objects.
 	 */
-	public void createSubmissions(List<SubmissionAttributes> newList) {
+	public void createSubmissions(List<SubmissionAttributes> newList) throws InvalidParametersException {
 		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newList);
 		
 		List<Submission> newEntityList = new ArrayList<Submission>();
 		
 		for (SubmissionAttributes sd : newList) {
-			Assumption.assertTrue(sd.getInvalidStateInfo().toString(), sd.isValid());
+			if (!sd.isValid()) {
+				throw new InvalidParametersException(sd.getInvalidStateInfo());
+			}
 			//Existence check omitted to save time
 			newEntityList.add(sd.toEntity());
 		}
@@ -199,14 +205,16 @@ public class SubmissionsDb {
 	 * Does not follow the 'Keep existing' policy. <br>
 	 * Preconditions: <br> 
 	 * * {@code newSubmissionAttributes} is not null and has valid data. <br>
+	 * @throws InvalidParametersException 
 	 */
 	public void updateSubmission(SubmissionAttributes newSubmissionAttributes) 
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
 		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newSubmissionAttributes);
-		Assumption.assertTrue(
-				"Valid submission object expected :" + Common.toString(newSubmissionAttributes.getInvalidStateInfo()), 
-				newSubmissionAttributes.isValid());
+
+		if (!newSubmissionAttributes.isValid()) {
+			throw new InvalidParametersException(newSubmissionAttributes.getInvalidStateInfo());
+		}
 
 		Submission submission = getSubmissionEntity(newSubmissionAttributes.course, newSubmissionAttributes.evaluation,
 				newSubmissionAttributes.reviewee, newSubmissionAttributes.reviewer);
@@ -233,7 +241,7 @@ public class SubmissionsDb {
 	 * * The given list is not null and contains valid {@link SubmissionAttributes} objects. <br>
 	 */
 	public void updateSubmissions(List<SubmissionAttributes> submissionsList) 
-			throws EntityDoesNotExistException {
+			throws EntityDoesNotExistException, InvalidParametersException {
 		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionsList);
 

@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.datastore.Datastore;
 
@@ -30,7 +31,7 @@ public class AccountsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testCreateAccount() {
+	public void testCreateAccount() throws InvalidParametersException {
 		// SUCCESS
 		AccountAttributes a = new AccountAttributes();
 		a.googleId = "test.account";
@@ -77,7 +78,7 @@ public class AccountsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testGetAccount() {
+	public void testGetAccount() throws InvalidParametersException {
 		AccountAttributes a = createNewAccount();
 		
 		// Get existent
@@ -98,7 +99,7 @@ public class AccountsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testEditAccount() {
+	public void testEditAccount() throws InvalidParametersException {
 		AccountAttributes a = createNewAccount();
 		
 		// Edit existent
@@ -125,7 +126,7 @@ public class AccountsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testDeleteAccount() {
+	public void testDeleteAccount() throws InvalidParametersException {
 		AccountAttributes a = createNewAccount();
 		
 		// Delete
@@ -152,7 +153,7 @@ public class AccountsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
-	private AccountAttributes createNewAccount() {
+	private AccountAttributes createNewAccount() throws InvalidParametersException {
 		AccountAttributes a = new AccountAttributes();
 		a.googleId = "valid.googleId";
 		a.name = "Valid Fresh Account";

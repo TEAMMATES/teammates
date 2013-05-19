@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
@@ -33,7 +34,7 @@ public class StudentsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testCreateStudent() throws EntityAlreadyExistsException {
+	public void testCreateStudent() throws EntityAlreadyExistsException, InvalidParametersException {
 		// SUCCESS
 		StudentAttributes s = new StudentAttributes();
 		s.name = "valid student";
@@ -57,7 +58,7 @@ public class StudentsDbTest extends BaseTestCase {
 		try {
 			studentsDb.createStudent(s);
 			Assert.fail();
-		} catch (AssertionError a) {
+		} catch (InvalidParametersException e) {
 			assertTrue(true); //expected
 		} 
 		
@@ -71,7 +72,7 @@ public class StudentsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testGetStudent() {
+	public void testGetStudent() throws InvalidParametersException {
 		StudentAttributes s = createNewStudent();
 		
 		// Get existent
@@ -99,7 +100,7 @@ public class StudentsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testEditStudent() {
+	public void testEditStudent() throws InvalidParametersException {
 		StudentAttributes s = createNewStudent();
 		
 		// Edit existent
@@ -130,7 +131,7 @@ public class StudentsDbTest extends BaseTestCase {
 	}
 	
 	@Test
-	public void testDeleteStudent() {
+	public void testDeleteStudent() throws InvalidParametersException {
 		StudentAttributes s = createNewStudent();
 		
 		// Delete
@@ -158,7 +159,7 @@ public class StudentsDbTest extends BaseTestCase {
 		}
 	}
 	
-	private StudentAttributes createNewStudent() {
+	private StudentAttributes createNewStudent() throws InvalidParametersException {
 		StudentAttributes s = new StudentAttributes();
 		s.name = "valid student";
 		s.course = "valid-course";
