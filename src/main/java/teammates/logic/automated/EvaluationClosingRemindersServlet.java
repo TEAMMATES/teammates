@@ -19,32 +19,39 @@ public class EvaluationClosingRemindersServlet extends HttpServlet {
 	private static Logger log = Common.getLogger();
 	private ActivityLogEntry activityLogEntry;
 	
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+		doGet(req, resp);
+	}
+
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		BackDoorLogic backdoorlogic = new BackDoorLogic();
 		try {
+			
 			ArrayList<MimeMessage> emails = backdoorlogic.sendRemindersForClosingEvaluations();
-			ArrayList<Object> data = Common.generateEmailRecipientListForAutomatedReminders(req, emails);
-
-			String url = req.getRequestURI();
-	        if (req.getQueryString() != null){
-	            url += "?" + req.getQueryString();
-	        }    
-			activityLogEntry = instantiateActivityLogEntry(Common.EVALUATION_CLOSING_REMINDERS_SERVLET, Common.EVALUATION_CLOSING_REMINDERS_SERVLET_EVALUATION_CLOSE_REMINDER,
-					true, null, url, data);
-			log.log(Level.INFO, activityLogEntry.generateLogMessage());
+			
+			logActivity(req, emails);
 
 		}  catch (Throwable e) {
 			String reqParam = Common.printRequestParameters(req);
-			MimeMessage email = backdoorlogic.emailErrorReport(req.getServletPath(), reqParam, e);
+			backdoorlogic.emailErrorReport(req.getServletPath(), reqParam, e);
 			log.severe(e.getMessage());	
 		}
 	}
 
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
-		doGet(req, resp);
+	private void logActivity(HttpServletRequest req,
+			ArrayList<MimeMessage> emails) {
+		ArrayList<Object> data = Common.generateEmailRecipientListForAutomatedReminders(req, emails);
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+		    url += "?" + req.getQueryString();
+		}    
+		activityLogEntry = instantiateActivityLogEntry(
+				Common.EVALUATION_CLOSING_REMINDERS_SERVLET, 
+				Common.EVALUATION_CLOSING_REMINDERS_SERVLET_EVALUATION_CLOSE_REMINDER,
+				true, null, url, data);
+		log.log(Level.INFO, activityLogEntry.generateLogMessage());
 	}
-	
-	
+
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data) {
 		String message;
 

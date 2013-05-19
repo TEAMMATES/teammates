@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
-import teammates.common.exception.TeammatesException;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.ui.controller.ActivityLogEntry;
 import teammates.ui.controller.Helper;
@@ -29,21 +28,26 @@ public class EvaluationOpeningRemindersServlet extends HttpServlet {
 		BackDoorLogic backdoorlogic = new BackDoorLogic();
 		try {
 			ArrayList<MimeMessage> emails = backdoorlogic.activateReadyEvaluations();
-			ArrayList<Object> data = Common.generateEmailRecipientListForAutomatedReminders(req, emails);
-
-			String url = req.getRequestURI();
-	        if (req.getQueryString() != null){
-	            url += "?" + req.getQueryString();
-	        }    
-			activityLogEntry = instantiateActivityLogEntry(Common.EVALUATION_OPENING_REMINDERS_SERVLET, Common.EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER,
-					true, null, url, data);
-			log.log(Level.INFO, activityLogEntry.generateLogMessage());
+			logActivity(req, emails);
 
 		}  catch (Throwable e) {
 			String reqParam = Common.printRequestParameters(req);
-			MimeMessage email = backdoorlogic.emailErrorReport(req.getServletPath(), reqParam, e);
+			backdoorlogic.emailErrorReport(req.getServletPath(), reqParam, e);
 			log.severe(e.getMessage());	
 		} 
+	}
+
+	private void logActivity(HttpServletRequest req,
+			ArrayList<MimeMessage> emails) {
+		ArrayList<Object> data = Common.generateEmailRecipientListForAutomatedReminders(req, emails);
+
+		String url = req.getRequestURI();
+		if (req.getQueryString() != null){
+		    url += "?" + req.getQueryString();
+		}    
+		activityLogEntry = instantiateActivityLogEntry(Common.EVALUATION_OPENING_REMINDERS_SERVLET, Common.EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER,
+				true, null, url, data);
+		log.log(Level.INFO, activityLogEntry.generateLogMessage());
 	}
 	
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data) {

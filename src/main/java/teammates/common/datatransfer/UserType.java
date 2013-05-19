@@ -6,6 +6,8 @@ package teammates.common.datatransfer;
  *  is an admin, instructor, student.
  */
 public class UserType {
+	
+	//TODO: add a com.google.appengine.api.users.User object here 
 	public String id = null;
 	
 	public boolean isAdmin = false;

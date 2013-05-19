@@ -32,7 +32,6 @@ public class StudentsLogic {
 	private CoursesLogic coursesLogic = CoursesLogic.inst();
 	private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	
-	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();
 	
 	public static StudentsLogic inst() {

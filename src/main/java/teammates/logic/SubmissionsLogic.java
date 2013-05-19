@@ -2,20 +2,15 @@ package teammates.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.SubmissionsDb;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Handles  operations related to submission entities.
@@ -27,6 +22,7 @@ public class SubmissionsLogic {
 	//  header comments in this class.
 	
 	private static SubmissionsLogic instance = null;
+	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();
 
 	private static final SubmissionsDb submissionsDb = new SubmissionsDb();

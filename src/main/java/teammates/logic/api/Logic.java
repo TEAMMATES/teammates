@@ -10,32 +10,17 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
-import teammates.common.datatransfer.EvaluationResultsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentResultBundle;
-import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.datatransfer.UserType;
-import teammates.common.exception.EnrollException;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.JoinCourseException;
-import teammates.common.exception.NotImplementedException;
+import teammates.common.datatransfer.*;
+import teammates.common.exception.*;
+
+import teammates.logic.Emails;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
-import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.GateKeeper;
 import teammates.logic.InstructorsLogic;
 import teammates.logic.StudentsLogic;
 import teammates.logic.SubmissionsLogic;
-//TODO: remove this dependency
 
 /**
  * This class represents the API to the business logic of the system. Please
@@ -48,6 +33,7 @@ public class Logic {
 	
 	//TODO: sanitizes values received from outside.
 
+	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();
 
 	public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
@@ -95,14 +81,14 @@ public class Logic {
 	 * Verifies if the user is logged into his/her Google account
 	 */
 	public static boolean isUserLoggedIn() {
-		return gateKeeper.isLoggedOn();
+		return gateKeeper.isUserLoggedOn();
 	}
 
 	/**
 	 * @return Returns null if the user is not logged in.
 	 */
-	public UserType getLoggedInUser() {
-		return gateKeeper.getLoggedInUser();
+	public UserType getCurrentUser() {
+		return gateKeeper.getCurrentUser();
 	}
 	
 	/**

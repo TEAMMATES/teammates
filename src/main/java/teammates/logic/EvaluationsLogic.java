@@ -43,7 +43,6 @@ public class EvaluationsLogic {
 	//  header comments in this class.
 	
 	
-	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();
 
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();

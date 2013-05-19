@@ -31,6 +31,9 @@ public class TeamEvalResult {
 	public int[][] normalizedPeerContributionRatio;
 
 	public TeamEvalResult(int[][] submissionValues) {
+		/*This is the only method that should be public. However, many of the 
+		 * other methods are set as public for the ease of testing.
+		 */
 
 		log.fine("==================\n" + "starting result calculation for\n"
 				+ pointsToString(submissionValues));
@@ -79,6 +82,7 @@ public class TeamEvalResult {
 
 		log.fine("==================");
 	}
+	
 
 	/**
 	 * Replaces all missing points (for various reasons such as 'not sure' or

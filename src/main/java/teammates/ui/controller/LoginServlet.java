@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 	public final void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException{
 		Logic server = new Logic();
-		UserType user = server.getLoggedInUser();
+		UserType user = server.getCurrentUser();
 		if(req.getParameter(Common.PARAM_LOGIN_INSTRUCTOR)!=null){
 			if(isMasqueradeMode(user)){
 				resp.sendRedirect(Common.PAGE_INSTRUCTOR_HOME);

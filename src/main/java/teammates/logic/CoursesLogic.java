@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
@@ -18,8 +16,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
-import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;

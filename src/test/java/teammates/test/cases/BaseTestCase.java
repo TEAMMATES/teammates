@@ -244,7 +244,7 @@ public class BaseTestCase {
 
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		// memorize the logged in user
-		UserType loggedInUser = backDoorLogic.getLoggedInUser();
+		UserType loggedInUser = backDoorLogic.getCurrentUser();
 
 		// switch to admin (writing operations require admin access)
 		loginAsAdmin("admin.user");
@@ -338,8 +338,8 @@ public class BaseTestCase {
 	protected void loginAsInstructor(String userId) {
 		loginUser(userId);
 		Logic logic = new Logic();
-		assertEquals(true, logic.getLoggedInUser().isInstructor);
-		assertEquals(false, logic.getLoggedInUser().isAdmin);
+		assertEquals(true, logic.getCurrentUser().isInstructor);
+		assertEquals(false, logic.getCurrentUser().isAdmin);
 	}
 
 	/**Logs in the user to the local test environment as a student 
@@ -347,9 +347,9 @@ public class BaseTestCase {
 	protected void loginAsStudent(String userId) {
 		loginUser(userId);
 		Logic logic = new Logic();
-		assertEquals(true, logic.getLoggedInUser().isStudent);
-		assertEquals(false, logic.getLoggedInUser().isInstructor);
-		assertEquals(false, logic.getLoggedInUser().isAdmin);
+		assertEquals(true, logic.getCurrentUser().isStudent);
+		assertEquals(false, logic.getCurrentUser().isInstructor);
+		assertEquals(false, logic.getCurrentUser().isAdmin);
 	}
 
 	protected void signalFailureToDetectAssumptionViolation(String... messages) {

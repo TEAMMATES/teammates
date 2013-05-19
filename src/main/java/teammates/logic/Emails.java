@@ -23,9 +23,10 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 
 /**
- * Email handles all operations with regards to sending e-mails.
+ * Handles operations related to sending e-mails.
  */
 public class Emails {
+	//TODO: methods in this class throw too many exceptions. Reduce using a wrapper exception?
 	private static Logger log = Common.getLogger();
 
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING = "TEAMMATES: Peer evaluation now open";
@@ -58,9 +59,11 @@ public class Emails {
 		return messageInfo.toString();
 	}
 
-	public List<MimeMessage> generateEvaluationOpeningEmails(CourseAttributes course,
-			EvaluationAttributes evaluation, List<StudentAttributes> students)
-			throws MessagingException, IOException {
+	public List<MimeMessage> generateEvaluationOpeningEmails(
+			CourseAttributes course,
+			EvaluationAttributes evaluation, 
+			List<StudentAttributes> students)
+					throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
@@ -76,8 +79,10 @@ public class Emails {
 	}
 
 	public List<MimeMessage> generateEvaluationReminderEmails(
-			CourseAttributes course, EvaluationAttributes evaluation,
-			List<StudentAttributes> students) throws MessagingException, IOException {
+			CourseAttributes course, 
+			EvaluationAttributes evaluation,
+			List<StudentAttributes> students) 
+					throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
@@ -95,9 +100,11 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationClosingEmails(CourseAttributes c,
-			EvaluationAttributes e, List<StudentAttributes> students)
-			throws MessagingException, IOException {
+	public List<MimeMessage> generateEvaluationClosingEmails(
+			CourseAttributes c,
+			EvaluationAttributes e, 
+			List<StudentAttributes> students)
+					throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
@@ -113,9 +120,11 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationPublishedEmails(CourseAttributes c,
-			EvaluationAttributes e, List<StudentAttributes> students)
-			throws MessagingException, IOException {
+	public List<MimeMessage> generateEvaluationPublishedEmails(
+			CourseAttributes c,
+			EvaluationAttributes e, 
+			List<StudentAttributes> students)
+					throws MessagingException, IOException {
 
 		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
@@ -127,10 +136,13 @@ public class Emails {
 		return emails;
 	}
 
-	public List<MimeMessage> generateEvaluationEmailBases(CourseAttributes course,
-			EvaluationAttributes evaluation, List<StudentAttributes> students,
-			String template) throws MessagingException,
-			UnsupportedEncodingException {
+	public List<MimeMessage> generateEvaluationEmailBases(
+			CourseAttributes course,
+			EvaluationAttributes evaluation, 
+			List<StudentAttributes> students,
+			String template) 
+					throws MessagingException, UnsupportedEncodingException {
+		
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
 		for (StudentAttributes s : students) {
 
@@ -140,9 +152,12 @@ public class Emails {
 		return emails;
 	}
 
-	public MimeMessage generateEvaluationEmailBase(CourseAttributes c,
-			EvaluationAttributes e, StudentAttributes s, String template)
-			throws MessagingException, UnsupportedEncodingException {
+	public MimeMessage generateEvaluationEmailBase(
+			CourseAttributes c,
+			EvaluationAttributes e, 
+			StudentAttributes s, 
+			String template)
+					throws MessagingException, UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
 
@@ -186,9 +201,9 @@ public class Emails {
 		return message;
 	}
 
-	public MimeMessage generateStudentCourseJoinEmail(CourseAttributes c,
-			StudentAttributes s) throws AddressException, MessagingException,
-			UnsupportedEncodingException {
+	public MimeMessage generateStudentCourseJoinEmail(
+			CourseAttributes c,	StudentAttributes s) 
+					throws AddressException, MessagingException, UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToStudent(s);
 		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
@@ -203,17 +218,16 @@ public class Emails {
 		return message;
 	}
 
-	/**
-	 * Generate Email of system error the parameter "version" can be
-	 * encapsulated in side this function it's kept as a parameter for testing
-	 * purpose
-	 * 
-	 * @throws UnsupportedEncodingException
-	 */
-	public MimeMessage generateSystemErrorEmail(Throwable error,
-			String requestPath, String requestParam, String version)
-			throws AddressException, MessagingException,
-			UnsupportedEncodingException {
+	
+	public MimeMessage generateSystemErrorEmail(
+			Throwable error,
+			String requestPath, 
+			String requestParam, 
+			String version)
+			throws AddressException, MessagingException, UnsupportedEncodingException {
+		
+		//TODO: remove version parameter?
+		
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
 		String errorMessage = error.getMessage();
@@ -248,8 +262,7 @@ public class Emails {
 		return message;
 	}
 
-	public void sendEmails(List<MimeMessage> messages)
-			throws MessagingException {
+	public void sendEmails(List<MimeMessage> messages) throws MessagingException {
 		for (MimeMessage m : messages) {
 			sendEmail(m);
 		}
@@ -260,8 +273,7 @@ public class Emails {
 		Transport.send(message);
 	}
 
-	public MimeMessage sendErrorReport(String path, String params,
-			Throwable error) {
+	public MimeMessage sendErrorReport(String path, String params, Throwable error) {
 		MimeMessage email = null;
 		try {
 			email = generateSystemErrorEmail(error, path, params,
@@ -280,7 +292,6 @@ public class Emails {
 		emailBody = emailBody.replace("${joinFragment}",
 				Common.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
 
-		// Try both way
 		String key;
 		key = Common.encrypt(s.key);
 		emailBody = emailBody.replace("${key}", key);

@@ -12,7 +12,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.InstructorsDb;
 
 /**
- * Handles  operations related to insturctor roles.
+ * Handles  operations related to instructor roles.
  */
 public class InstructorsLogic {
 	//The API of this class doesn't have header comments because it sits behind
@@ -25,7 +25,6 @@ public class InstructorsLogic {
 	private static final InstructorsDb instructorsDb = new InstructorsDb();
 	private static final AccountsLogic accountsLogic = AccountsLogic.inst();
 	
-	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();
 	
 	private static InstructorsLogic instance = null;

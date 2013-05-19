@@ -139,7 +139,7 @@ public class LogicTest extends BaseTestCase {
 		instructorAsStudent.id = instructor.googleId;
 		logic.createStudent(instructorAsStudent);
 
-		UserType user = logic.getLoggedInUser();
+		UserType user = logic.getCurrentUser();
 		assertEquals(instructor.googleId, user.id);
 		assertEquals(true, user.isAdmin);
 		assertEquals(true, user.isInstructor);
@@ -150,7 +150,7 @@ public class LogicTest extends BaseTestCase {
 		// this user is no longer a student
 		logic.deleteStudent(instructorAsStudent.course, instructorAsStudent.email);
 
-		user = logic.getLoggedInUser();
+		user = logic.getCurrentUser();
 		assertEquals(instructor.googleId, user.id);
 		assertEquals(true, user.isAdmin);
 		assertEquals(true, user.isInstructor);
@@ -160,7 +160,7 @@ public class LogicTest extends BaseTestCase {
 		// this user is no longer an admin
 		helper.setEnvIsAdmin(false);
 
-		user = logic.getLoggedInUser();
+		user = logic.getCurrentUser();
 		assertEquals(instructor.googleId, user.id);
 		assertEquals(false, user.isAdmin);
 		assertEquals(true, user.isInstructor);
@@ -170,7 +170,7 @@ public class LogicTest extends BaseTestCase {
 
 		loginUser("unknown");
 
-		user = logic.getLoggedInUser();
+		user = logic.getCurrentUser();
 		assertEquals("unknown", user.id);
 		assertEquals(false, user.isAdmin);
 		assertEquals(false, user.isInstructor);
@@ -181,7 +181,7 @@ public class LogicTest extends BaseTestCase {
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 		loginAsStudent(student.id);
 
-		user = logic.getLoggedInUser();
+		user = logic.getCurrentUser();
 		assertEquals(student.id, user.id);
 		assertEquals(false, user.isAdmin);
 		assertEquals(false, user.isInstructor);
@@ -191,7 +191,7 @@ public class LogicTest extends BaseTestCase {
 
 		loginAsAdmin("any.user");
 
-		user = logic.getLoggedInUser();
+		user = logic.getCurrentUser();
 		assertEquals("any.user", user.id);
 		assertEquals(true, user.isAdmin);
 		assertEquals(false, user.isInstructor);
@@ -201,7 +201,7 @@ public class LogicTest extends BaseTestCase {
 
 		// check for user not logged in
 		logoutUser();
-		assertEquals(null, logic.getLoggedInUser());
+		assertEquals(null, logic.getCurrentUser());
 	}
 	
 	@SuppressWarnings("unused")

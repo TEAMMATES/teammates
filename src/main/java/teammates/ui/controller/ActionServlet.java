@@ -171,7 +171,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 */
 	private void prepareHelper(HttpServletRequest req, T helper) {
 		helper.server = new Logic();
-		helper.user = helper.server.getLoggedInUser();
+		helper.user = helper.server.getCurrentUser();
 
 		helper.requestedUser = req.getParameter(Common.PARAM_USER_ID);
 		helper.redirectUrl = req.getParameter(Common.PARAM_NEXT_URL);
@@ -254,7 +254,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * @paran data Additional data required for generating the Activity Log Entry, if needed
 	 */
 	protected ActivityLogEntry instantiateActivityLogEntry(String servletName, String action, boolean toShow, Helper helper, String url, ArrayList<Object> data){
-		UserType user = helper.server.getLoggedInUser();
+		UserType user = helper.server.getCurrentUser();
 		AccountAttributes account = helper.server.getAccount(user.id);
 		String message = generateActivityLogEntryMessage(servletName, action, data);
 			

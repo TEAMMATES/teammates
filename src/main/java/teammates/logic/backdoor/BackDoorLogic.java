@@ -2,57 +2,109 @@ package teammates.logic.backdoor;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.jdo.JDOHelper;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
-import teammates.logic.AccountsLogic;
-import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
-import teammates.logic.EvaluationsLogic;
 import teammates.logic.api.Logic;
-import teammates.storage.entity.Account;
-import teammates.storage.entity.Course;
-import teammates.storage.entity.Evaluation;
-import teammates.storage.entity.Instructor;
 
 public class BackDoorLogic extends Logic {
 	
 	private static Logger log = Common.getLogger();
+	
+	@SuppressWarnings("unused")
+	private void ____methods_used_in_PRODUCTION____________________________() {
+	}
+	
+	//TODO: consider moving methods in this section to a new class so that this
+	//  class can be 'only for testing'
+	public ArrayList<MimeMessage> activateReadyEvaluations() {
+		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
+		List<EvaluationAttributes> evaluations = evaluationsLogic.getReadyEvaluations(); 
+		
+		for (EvaluationAttributes ed: evaluations) {
+			try {
+				CourseAttributes course = getCourse(ed.course);
+				
+				List<StudentAttributes> students = studentsLogic.getStudentsForCourse(ed.course);
+				
+				Emails emails = new Emails();
+				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
+				emails.sendEmails(messages);
+				messagesSent.addAll(messages);
+				
+				//mark evaluation as activated
+				ed.activated=true;
+				editEvaluation(ed);
+			} catch (Exception e) {
+				log.severe("Unexpected error "+ Common.stackTraceToString(e));
+			} 
+		}
+		return messagesSent;
+	}
+
+	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() 
+			throws MessagingException, IOException {
+		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+		
+		List<EvaluationAttributes> evaluationDataList = 
+				evaluationsLogic.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+	
+		for (EvaluationAttributes ed : evaluationDataList) {
+			try {
+	
+				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.course);
+				
+				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
+	
+				for (StudentAttributes sd : studentDataList) {
+					if (!evaluationsLogic.isEvaluationCompletedByStudent(ed, sd.email)) {
+						studentToRemindList.add(sd);
+					}
+				}
+	
+				CourseAttributes c = getCourse(ed.course);
+	
+				Emails emailMgr = new Emails();
+				List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
+				emailMgr.sendEmails(emails);
+				emailsSent.addAll(emails);
+				
+			} catch (Exception e) {
+				log.severe("Unexpected error " + Common.stackTraceToString(e));
+			}
+		}
+		return emailsSent;
+	}
+
+	@SuppressWarnings("unused")
+	private void ____methods_used_for_TESTING______________________________() {
+	}
 	
 	/**
 	 * Persists given data in the datastore Works ONLY if the data is correct
 	 * and new (i.e. these entities do not already exist in the datastore). The
 	 * behavior is undefined if incorrect or not new.
 	 * 
-	 * @param dataBundleJsonString
 	 * @return status of the request in the form 'status meassage'+'additional
 	 *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
 	 *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
-	 * @throws EntityAlreadyExistsException
-	 * @throws InvalidParametersException
-	 * @throws EntityDoesNotExistException 
-	 * @throws Exception
 	 */
 
 	public String persistNewDataBundle(DataBundle dataBundle)
@@ -80,7 +132,8 @@ public class BackDoorLogic extends Logic {
 		for (InstructorAttributes instructor : instructors.values()) {
 			log.fine("API Servlet adding instructor :" + instructor.googleId);
 			// This method is only used in test cases, so it should be fine to hard code a value for Institute
-			super.createInstructorAccount(instructor.googleId, instructor.courseId, instructor.name, instructor.email, "National University of Singapore");
+			super.createInstructorAccount(instructor.googleId, instructor.courseId, 
+					instructor.name, instructor.email, "National University of Singapore");
 		}
 
 		HashMap<String, StudentAttributes> students = dataBundle.students;
@@ -174,75 +227,15 @@ public class BackDoorLogic extends Logic {
 		updateSubmissions(submissionList);
 	}
 	
-	public ArrayList<MimeMessage> activateReadyEvaluations() {
-		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<EvaluationAttributes> evaluations = evaluationsLogic.getReadyEvaluations(); 
+	public void editEvaluation(EvaluationAttributes evaluation) 
+			throws InvalidParametersException, EntityDoesNotExistException{
 		
-		for (EvaluationAttributes ed: evaluations) {
-			try {
-				CourseAttributes course = getCourse(ed.course);
-				
-				List<StudentAttributes> students = studentsLogic.getStudentsForCourse(ed.course);
-				
-				Emails emails = new Emails();
-				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
-				emails.sendEmails(messages);
-				messagesSent.addAll(messages);
-				
-				//mark evaluation as activated
-				ed.activated=true;
-				editEvaluation(ed);
-			} catch (Exception e) {
-				log.severe("Unexpected error "+ Common.stackTraceToString(e));
-			} 
-		}
-		return messagesSent;
-	}
-
-	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() throws MessagingException, IOException {
-		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
-		
-		List<EvaluationAttributes> evaluationDataList = evaluationsLogic.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
-
-		for (EvaluationAttributes ed : evaluationDataList) {
-			try {
-
-				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.course);
-				
-				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
-
-				for (StudentAttributes sd : studentDataList) {
-					if (!evaluationsLogic.isEvaluationCompletedByStudent(ed, sd.email)) {
-						studentToRemindList.add(sd);
-					}
-				}
-
-				CourseAttributes c = getCourse(ed.course);
-
-				Emails emailMgr = new Emails();
-				List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
-				emailMgr.sendEmails(emails);
-				emailsSent.addAll(emails);
-				
-			} catch (Exception e) {
-				log.severe("Unexpected error " + Common.stackTraceToString(e));
-			}
-		}
-		return emailsSent;
-	}
-	
-	public void editEvaluation(EvaluationAttributes evaluation) throws InvalidParametersException, EntityDoesNotExistException{
 		evaluationsLogic.updateEvaluation(evaluation);
 	}
 
 	/**
 	 * Creates a COURSE without an INSTRUCTOR relation
 	 * Used in persisting DataBundles for Test cases
-	 * 
-	 * @param courseId
-	 * @param courseName
-	 * @throws EntityAlreadyExistsException
-	 * @throws InvalidParametersException
 	 */
 	public void createCourse(String courseId, String courseName) 
 			throws EntityAlreadyExistsException, InvalidParametersException {
@@ -252,7 +245,7 @@ public class BackDoorLogic extends Logic {
 		coursesLogic.createCourse(courseId, courseName);
 	}
 
-	protected SubmissionAttributes getSubmission(
+	private SubmissionAttributes getSubmission(
 			String courseId, String evaluationName, String reviewerEmail, String revieweeEmail) {
 				
 		return submissionsLogic.getSubmission(
