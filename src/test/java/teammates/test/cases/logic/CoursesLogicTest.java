@@ -1,5 +1,7 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.*;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,6 +23,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 public class CoursesLogicTest extends BaseTestCase {
 
 	private CoursesLogic coursesLogic = new CoursesLogic();
+	private CoursesDb coursesDb = new CoursesDb();
 	private AccountsDb accountsDb = new AccountsDb();
 	private InstructorsDb instructorsDb = new InstructorsDb();
 	private static LocalServiceTestHelper helper;
@@ -147,6 +150,25 @@ public class CoursesLogicTest extends BaseTestCase {
 		
 	}
 	
+	@Test
+	public void testGetCourse() throws Exception {
+
+		______TS("failure: course doesn't exist");
+
+		assertNull(coursesLogic.getCourse("nonexistant-course"));
+
+		______TS("success: typical case");
+
+		CourseAttributes c = new CourseAttributes();
+		c.id = "Computing101-getthis";
+		c.name = "Basic Computing Getting";
+		coursesDb.createCourse(c);
+
+		assertEquals(c.id, coursesLogic.getCourse(c.id).id);
+		assertEquals(c.name, coursesLogic.getCourse(c.id).name);
+
+	}
+			
 	//TODO: add missing test cases
 	
 	@AfterClass
