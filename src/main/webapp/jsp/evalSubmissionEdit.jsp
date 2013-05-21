@@ -10,7 +10,7 @@
 	boolean isStudent = Boolean.parseBoolean(request.getParameter("isStudent"));
 	String disableAttributeValue = "";
 	
-	if (helper.eval.getStatus() == EvalStatus.CLOSED && isStudent){
+	if (helper.eval.getStatus() != EvalStatus.OPEN && isStudent){
 		disableAttributeValue = "disabled=\"disabled\"";
 	}
 %>

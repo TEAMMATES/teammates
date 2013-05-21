@@ -209,7 +209,7 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 			bi.goToUrl(appUrl+link);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditEntryFieldsDisabled.html");
 			bi.click(By.id("button_submit"));
-			bi.waitForStatusMessage(String.format(Common.MESSAGE_EVALUATION_EXPIRED,eval.name,eval.course).replace("<br />", "\n"));
+			bi.waitForStatusMessage(String.format(Common.MESSAGE_EVALUATION_NOT_OPEN,eval.name,eval.course).replace("<br />", "\n"));
 	}
 	
 	private static void moveToTeam(StudentAttributes student, String newTeam) {

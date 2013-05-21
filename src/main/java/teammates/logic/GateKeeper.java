@@ -205,7 +205,14 @@ public class GateKeeper {
 		if (isInternalCall())
 			return;
 		for(SubmissionAttributes s: submissions){
-			verifySubmissionEditableForUserRules(s.course, s.evaluation, s.reviewer);
+			if (isAdministrator())
+				return;
+			if (isInstructorOfCourse(s.course))
+				return;
+			if (isOwnEmail(s.course, s.reviewer)
+					&& isEvaluationOpen(s.course, s.evaluation)) 
+				return;
+			throw new UnauthorizedAccessException();
 		}
 	}
 
@@ -213,17 +220,6 @@ public class GateKeeper {
 			String evaluationName, String studentEmail) {
 		if (isInternalCall())
 			return;
-		verifySubmissionEditableForUserRules(courseId, evaluationName,	studentEmail);
-	}
-
-	// @formatter:on
-	
-	@SuppressWarnings("unused")
-	private void ____PRIVATE_methods________________________________() {
-	}
-
-	private void verifySubmissionEditableForUserRules(String courseId,
-			String evaluationName, String studentEmail) {
 		if (isAdministrator())
 			return;
 		if (isInstructorOfCourse(courseId))
@@ -232,6 +228,12 @@ public class GateKeeper {
 				&& isEvaluationPublished(courseId, evaluationName)) 
 			return;
 		throw new UnauthorizedAccessException();
+	}
+
+	// @formatter:on
+	
+	@SuppressWarnings("unused")
+	private void ____PRIVATE_methods________________________________() {
 	}
 
 	private User getCurrentGoogleUser() {		

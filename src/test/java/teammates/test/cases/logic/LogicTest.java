@@ -56,6 +56,7 @@ import teammates.logic.SubmissionsLogic;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
@@ -81,6 +82,7 @@ public class LogicTest extends BaseTestCase {
 	
 	private static final CoursesDb coursesDb = new CoursesDb();
 	private static final InstructorsDb instructorsDb = new InstructorsDb();
+	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 
 	private static Gson gson = Common.getTeammatesGson();
 
@@ -2974,48 +2976,142 @@ public class LogicTest extends BaseTestCase {
 				.get("evaluation1InCourse1");
 		String student1email = "student1InCourse1@gmail.com";
 	
-		______TS("access control");
+		______TS("access control: AWAITING");
 	
 		restoreTypicalDataInDatastore();
-	
+		
 		String methodName = "getEvaluationResultForStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
 				String.class };
 		Object[] params = new Object[] { course.id, evaluation.name,
 				student1email };
 	
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(1);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		evaluation.activated = false;
+		evaluation.published = false;
+		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
+		evaluationsDb.updateEvaluation(evaluation);
+		
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
-	
+		
 		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
 				paramTypes, params);
+		
+		// not the owner of the result
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
 	
-		// student cannot access because evaluation is not published
+		// owner of the result
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
 				paramTypes, params);
 	
-		// course belongs to a different instructor
+		// not an instructor of the course
 		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, new Object[] { "idOfTypicalCourse1", evaluation.name,
 						student1email });
 	
+		// an instructor of the course
 		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
-	
-		// publish the evaluation
-		loginAsAdmin("admin.user");
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
-		evaluation.published = true;
-		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		backDoorLogic.updateEvaluation(evaluation);
-		logoutUser();
-	
-		// other students still cannot access this student's result
+		
+		______TS("access control: OPEN");
+		
+		restoreTypicalDataInDatastore();
+		
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(-1);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		evaluation.activated = true;
+		evaluation.published = false;
+		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
+		evaluationsDb.updateEvaluation(evaluation);
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+		
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+		
+		// not the owner of the result
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
 				paramTypes, params);
 	
-		// but this student can now access his own result
+		// owner of the result
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+	
+		// not an instructor of the course
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, new Object[] { "idOfTypicalCourse1", evaluation.name,
+						student1email });
+	
+		// an instructor of the course
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+		
+		______TS("access control: CLOSED");
+		
+		restoreTypicalDataInDatastore();
+		
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		evaluation.activated = true;
+		evaluation.published = false;
+		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
+		evaluationsDb.updateEvaluation(evaluation);
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+		
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+		
+		// not the owner of the result
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+	
+		// owner of the result
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+	
+		// not an instructor of the course
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, new Object[] { "idOfTypicalCourse1", evaluation.name,
+						student1email });
+	
+		// an instructor of the course
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+		
+		______TS("access control: PUBLISHED evaluation");
+		
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		evaluation.published = true;
+		evaluationsDb.updateEvaluation(evaluation);
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+		
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+		
+		// not the owner of the result
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+	
+		// owner of the result
 		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+				paramTypes, params);
+	
+		// not an instructor of the course
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, new Object[] { "idOfTypicalCourse1", evaluation.name,
+						student1email });
+	
+		// an instructor of the course
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
 	
 		______TS("typical case");
@@ -3630,11 +3726,11 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("non-existent evaluation");
 
-		// already tested under testEditSubmission()
+		// already tested under testUpdateSubmission()
 
-		______TS("access control");
+		______TS("access control: AWAITING evaluation");
 
-		// mostly done in testEditSubmission(), we test only one case here
+		// mostly done in testUpdateSubmission(), we test only one case here
 
 		restoreTypicalDataInDatastore();
 
@@ -3649,15 +3745,12 @@ public class LogicTest extends BaseTestCase {
 		Object[] params = new Object[] { submissions };
 
 		// ensure the evaluation is closed
-		loginAsAdmin("admin.user");
 		EvaluationAttributes evaluation = logic.getEvaluation(s.course, s.evaluation);
 		evaluation.startTime = Common.getDateOffsetToCurrentTime(1);
 		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
 		evaluation.activated = false;
 		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
-		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		backDoorLogic.updateEvaluation(evaluation);
-		logoutUser();
+		evaluationsDb.updateEvaluation(evaluation);
 
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
 				paramTypes, params);
@@ -3669,15 +3762,107 @@ public class LogicTest extends BaseTestCase {
 		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
 				paramTypes, params);
 
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
+		// reviewer, but cannot access
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, s.reviewer,
 				paramTypes, params);
 
-		// course belongs to a different instructor
+		// not an instructor of the course
 		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
 				paramTypes, params);
 
+		// an instructor of the course
 		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
+		
+		______TS("access control: OPEN evaluation");
+		
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(-1);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		evaluation.activated = true;
+		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
+		evaluationsDb.updateEvaluation(evaluation);
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		// not the reviewer
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+
+		// reviewer, can access
+		verifyCanAccess(USER_TYPE_STUDENT, methodName, s.reviewer,
+				paramTypes, params);
+
+		// not an instructor of the course
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, params);
+
+		// an instructor of the course
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+		
+		______TS("access control: CLOSED evaluation");
+		
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
+		evaluationsDb.updateEvaluation(evaluation);
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		// not the reviewer
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+
+		// reviewer, can access
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, s.reviewer,
+				paramTypes, params);
+
+		// not an instructor of the course
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, params);
+		
+		// an instructor of the course
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+		
+		______TS("access control: PUBLISHED evaluation");
+		
+		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
+		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		evaluation.published = true;
+		assertEquals(EvalStatus.PUBLISHED, evaluation.getStatus());
+		evaluationsDb.updateEvaluation(evaluation);
+		
+		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
+				paramTypes, params);
+
+		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
+				paramTypes, params);
+
+		// not the reviewer
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
+				paramTypes, params);
+
+		// reviewer, can access
+		verifyCannotAccess(USER_TYPE_STUDENT, methodName, s.reviewer,
+				paramTypes, params);
+
+		// not an instructor of the course
+		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
+				paramTypes, params);
+
+		// an instructor of the course
+		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
+				paramTypes, params);
+		
 
 		______TS("null parameter");
 

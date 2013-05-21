@@ -13,6 +13,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationStats;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -375,6 +376,11 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	public void testStudentEvalResult() {
 		bi.loginStudent(studentUsername, studentPassword);
 		______TS("student cannot view own evaluation result before publishing");
+		
+		ownEvaluation.published = false;
+		assertTrue(EvalStatus.PUBLISHED != ownEvaluation.getStatus());
+		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 
 		link = Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
@@ -388,33 +394,47 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	}
 
 	public void testStudentEvalSubmission() {
+		
 		bi.loginStudent(studentUsername, studentPassword);
 		
-		______TS("student can view own evaluation submission page");
-
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		EvaluationAttributes ownEvaluation = dataBundle.evaluations
-				.get("evaluation1InCourse1");
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				ownEvaluation.name);
-		verifyPageContains(link, studentUsername
-				+ "{*}Evaluation Submission{*}" + ownCourse.id + "{*}"
-				+ ownEvaluation.name);
+		EvaluationAttributes ownEvaluation = dataBundle.evaluations.get("evaluation1InCourse1");
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,	ownEvaluation.name);
+		
+		______TS("student cannot submit evaluation in AWAITING state");
 
-		______TS("student cannot submit evaluation after closing");
-
-		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		ownEvaluation.startTime = Common.getDateOffsetToCurrentTime(1);
+		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		ownEvaluation.activated = false;
+		assertEquals(EvalStatus.AWAITING, ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		bi.goToUrl(link);
-		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EXPIRED);
+		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_NOT_OPEN);
 		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
 		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
 		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
 		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
 		
-		______TS("student cannot submit evaluation after closing (evaluation with different timezone)");
+		______TS("student can view own evaluation submission page");
+
+		//*can access* cases are assumed as being tested elsewhere
+
+		______TS("student cannot submit evaluation in CLOSED state");
+		
+		ownEvaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
+		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		bi.goToUrl(link);
+		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
+		
+		______TS("student cannot submit evaluation in CLOSED state (evaluation with different timezone)");
 		//Set the end time to the next hour, but push the timezone ahead 2 hours, so the evaluation has expired by 1 hour
 		//Then we verify that the evaluation is disabled
 		ownEvaluation.endTime = Common.getNextHour();
@@ -426,7 +446,22 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		bi.goToUrl(link);
-		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EXPIRED);
+		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
+		
+		______TS("student cannot submit evaluation in PUBLISHED state");
+
+		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		ownEvaluation.timeZone = 0.0;
+		ownEvaluation.published = true;
+		assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
+		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
+		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		bi.goToUrl(link);
+		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_NOT_OPEN);
 		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
 		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
 		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));

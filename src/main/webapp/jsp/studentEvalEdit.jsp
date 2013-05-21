@@ -8,8 +8,8 @@
 <% StudentEvalEditHelper helper = (StudentEvalEditHelper)request.getAttribute("helper"); %>
 <%
 	String disableAttributeValue = "";
-	if(helper.eval.getStatus() == EvalStatus.CLOSED){
-		helper.statusMessage = Common.MESSAGE_EVALUATION_EXPIRED;
+	if(helper.eval.getStatus() != EvalStatus.OPEN){
+		helper.statusMessage = Common.MESSAGE_EVALUATION_NOT_OPEN;
 		disableAttributeValue = "disabled=\"disabled\"";
 	}
 %>
