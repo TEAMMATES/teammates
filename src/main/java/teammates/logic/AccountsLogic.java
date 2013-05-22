@@ -23,9 +23,7 @@ public class AccountsLogic {
 	//  the API of the logic class. Those who use this class is expected to be
 	//  familiar with the its code and Logic's code. Hence, no need for header 
 	//  comments.
-	
-	//TODO: add a test class for this class. Some of the test content can be transferred from LogicTest.
-	
+		
 	private static AccountsLogic instance = null;
 	private static final AccountsDb accountsDb = new AccountsDb();
 	
@@ -37,34 +35,28 @@ public class AccountsLogic {
 		return instance;
 	}
 	
-	public void createAccount(String googleId, String name, 
-			boolean isInstructor, String email, String institute) 
+	//TODO: add missing validity checks to this class
+	
+	public void createAccount(AccountAttributes accountData) 
 					throws InvalidParametersException, EntityAlreadyExistsException {
+	
+		log.info("going to create account :\n"+accountData.toString());
 		
-		//TODO: make this take AccountAttributes as the parameter
-		AccountAttributes accountToAdd = new AccountAttributes();
-		accountToAdd.googleId = googleId;
-		accountToAdd.name = name;
-		accountToAdd.isInstructor = isInstructor;
-		accountToAdd.email = email;
-		accountToAdd.institute = institute;
-		
-		log.info("going to create account :\n"+accountToAdd.toString());
-		
-		accountsDb.createAccount(accountToAdd);
+		accountsDb.createAccount(accountData);
 	}
 	
 	public void createInstructorAccount(String googleId, String courseId,
 			String name, String email, String institute) 
 					throws InvalidParametersException,	EntityAlreadyExistsException {
 		
-		googleId = sanitizeGoogleId(googleId);
+		googleId = Common.sanitizeGoogleId(googleId);
 		
 		InstructorsLogic.inst().createInstructor(googleId, courseId, name, email);
 		
 		// Create the Account if it does not exist
 		if (accountsDb.getAccount(googleId) == null) {
-			createAccount(googleId, name, true, email, institute);
+			AccountAttributes accountToAdd = new AccountAttributes(googleId, name, true, email, institute);
+			createAccount(accountToAdd);
 		} else {
 			makeAccountInstructor(googleId);
 		}
@@ -107,7 +99,7 @@ public class AccountsLogic {
 			throws JoinCourseException {
 		
 		StudentAttributes student = StudentsLogic.inst().getStudentForRegistrationKey(registrationKey);
-		googleId = googleId.trim();
+		googleId = Common.sanitizeGoogleId(googleId);
 		
 		if(student==null){
 			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
@@ -186,17 +178,6 @@ public class AccountsLogic {
 		StudentsLogic.inst().deleteStudentsForGoogleId(googleId);
 		accountsDb.deleteAccount(googleId); //TODO: shouldn't we use deleteAccountCascade here?
 		//TODO: deal with orphan courses, submissions etc.
-	}
-	
-	
-	//TODO: move to a proper *Sanitizer class
-	public static String sanitizeGoogleId(String rawGoogleId) {
-		String sanitized = rawGoogleId.trim();
-		// trim @gmail.com in ID field
-		if (sanitized.toLowerCase().endsWith("@gmail.com")) {
-			sanitized = sanitized.split("@")[0];
-		}
-		return sanitized;
 	}
 	
 	private void createStudentAccount(StudentAttributes student) throws InvalidParametersException {

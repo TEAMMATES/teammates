@@ -552,14 +552,13 @@ public class Common {
 	private void ____SANITIZE_parameters___________________________________() {
 	}
 
-	public static String sanitizeGoogleId(String googleId) {
-		googleId = googleId.trim();
-		
-		int loc = googleId.toLowerCase().indexOf("@gmail.com");
-		if (loc > -1) {
-			googleId = googleId.substring(0, loc);
+	public static String sanitizeGoogleId(String rawGoogleId) {
+		String sanitized = rawGoogleId.trim();
+		// trim @gmail.com in ID field
+		if (sanitized.toLowerCase().endsWith("@gmail.com")) {
+			sanitized = sanitized.split("@")[0];
 		}
-		return googleId.trim();
+		return sanitized.trim();
 	}
 
 	/**

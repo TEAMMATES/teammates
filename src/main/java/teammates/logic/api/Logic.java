@@ -112,7 +112,9 @@ public class Logic {
 		
 		gateKeeper.verifyAdminLoggedIn();
 		
-		accountsLogic.createAccount(googleId, name, isInstructor, email, institute);
+		AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute);
+		
+		accountsLogic.createAccount(accountToAdd);
 	}
 	
 	/**

@@ -42,6 +42,7 @@ public class AccountAttributes extends EntityAttributes {
 			// (when we have one).
 				String email, String institute) {
 		this.googleId = Common.trimIfNotNull(googleId);
+		this.googleId = Common.sanitizeGoogleId(googleId);
 		this.name = Common.trimIfNotNull(name);
 		this.isInstructor = isInstructor;
 		this.email = Common.trimIfNotNull(email);

@@ -1901,67 +1901,18 @@ public class LogicTest extends BaseTestCase {
 		verifyPresentInDatastore(studentAccount); 
 		AccountAttributes accountOfInstructorOfCourse = dataBundle.accounts.get("instructor1OfCourse1");
 		assertEquals(accountOfInstructorOfCourse.institute, studentAccount.institute);// Test that student account was appended with the correct Institute
-		
-	
-		______TS("try to register again with a valid key");
-	
-		try {
-			logic.joinCourse(googleId, key);
-			Assert.fail();
-		} catch (JoinCourseException e) {
-			assertEquals(Common.ERRORCODE_ALREADY_JOINED, e.errorCode);
-		}
-		assertEquals(googleId,
-				logic.getStudentForEmail(student.course, student.email).id);
-	
-		______TS("use a valid key belonging to a different user");
-	
-		helper.setEnvEmail("student2InCourse1");
-		helper.setEnvAuthDomain("gmail.com");
-		try {
-			logic.joinCourse("student2InCourse1", key);
-			Assert.fail();
-		} catch (JoinCourseException e) {
-			assertEquals(Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
-					e.errorCode);
-		}
-		assertEquals(googleId,
-				logic.getStudentForEmail(student.course, student.email).id);
-	
-		______TS("try to register with invalid key");
-	
-		// make a student 'unregistered'
-		student.id = "";
-		logic.updateStudent(student.email, student);
-	
-		try {
-			logic.joinCourse(googleId, "invalidkey");
-			Assert.fail();
-		} catch (JoinCourseException e) {
-			assertEquals(Common.ERRORCODE_INVALID_KEY, e.errorCode);
-		}
-	
-		assertEquals("", logic.getStudentForEmail(student.course, student.email).id);
-	
-		______TS("Join course as student does not revoke Instructor status");
-	
-		loginAsAdmin("admin.user");
-	
-		
-		// make the student 'unregistered' again
-		student.id = "";
-		logic.updateStudent(student.email, student);
-		assertEquals("", logic.getStudentForEmail(student.course, student.email).id);
-	
-		// rejoin
-		logic.joinCourse(googleId, key);
-		assertEquals(googleId,
-				logic.getStudentForEmail(student.course, student.email).id);
-		
+				
 		______TS("null parameters");
 	
 		try {
 			logic.joinCourse("valid.user", null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+		try {
+			logic.joinCourse(null, key);
 			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -3956,13 +3907,13 @@ public class LogicTest extends BaseTestCase {
 				enrollmentResult.isEnrollmentInfoMatchingTo(expectedStudent));
 	}
 
-	private void verifyAbsentInDatastore(AccountAttributes account)
+	public static void verifyAbsentInDatastore(AccountAttributes account)
 			throws Exception {
 		assertEquals(null, logic.getAccount(account.googleId));
 	}
 
 	
-	private void verifyAbsentInDatastore(SubmissionAttributes submission)
+	public static void verifyAbsentInDatastore(SubmissionAttributes submission)
 			throws Exception {
 		assertEquals(
 				null,
@@ -3978,7 +3929,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(null, coursesDb.getCourse(course.id));
 	}
 
-	private void verifyAbsentInDatastore(StudentAttributes student) {
+	public static void verifyAbsentInDatastore(StudentAttributes student) {
 		assertEquals(null, logic.getStudentForEmail(student.course, student.email));
 	}
 
