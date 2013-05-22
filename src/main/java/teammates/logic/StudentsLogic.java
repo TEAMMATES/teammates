@@ -94,26 +94,36 @@ public class StudentsLogic {
 		return studentsDb.getStudentForEmail(courseId, studentEmail) != null;
 	}
 
-	public void verifyStudentExists(String courseId, String email) 
-			throws EntityDoesNotExistException {
-		
-		if (!isStudentInCourse(courseId, email)) {
-			throw new EntityDoesNotExistException(
-					"Non-existent student " + courseId + "/" + email);
-		}
-		
-	}
-	
 	public void updateStudentCascade(String originalEmail, StudentAttributes student) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		// Edit student uses KeepOriginal policy, where unchanged fields are set
 		// as null. Hence, we can't do isValid() here.
 	
-		// TODO: make the implementation more defensive, e.g. duplicate email
-		verifyStudentExists(student.course, originalEmail);
+		studentsDb.verifyStudentExists(student.course, originalEmail);
 		
 		StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
-		String originalTeam = originalStudent.team;
+		
+		// prepare new student
+		
+		if(student.email == null){
+			student.email = originalStudent.email;
+		}
+		if(student.name == null){
+			student.name = originalStudent.name;
+		}
+		if(student.id == null){
+			student.id = originalStudent.id;
+		}
+		if(student.team == null){
+			student.team = originalStudent.team;
+		}
+		if(student.comments == null){
+			student.comments = originalStudent.comments;
+		}
+		
+		if(!student.isValid()) {
+			throw new InvalidParametersException(student.getInvalidStateInfo());
+		}
 		
 		studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.email, student.id, student.comments);	
 		
@@ -123,8 +133,8 @@ public class StudentsLogic {
 		}
 
 		// adjust submissions if moving to a different team
-		if (isTeamChanged(originalTeam, student.team)) {
-			evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, student.email, originalTeam, student.team);
+		if (isTeamChanged(originalStudent.team, student.team)) {
+			evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, student.email, originalStudent.team, student.team);
 		}
 	}
 	

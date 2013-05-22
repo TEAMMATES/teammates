@@ -14,6 +14,7 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
@@ -22,12 +23,13 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 /**
  * Handles CRUD Operations for student entities.
- * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
+ * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
  * 
  */
 public class StudentsDb {
 	public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
 	public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
+	public static final String ERROR_UPDATE_EMAIL_ALREADY_USED = "Trying to update to an email that is already used by: ";
 	public static final String ERROR_CREATE_ACCOUNT_ALREADY_EXISTS = "Trying to create an Account that exists: ";
 	public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
 	public static final String ERROR_CREATE_STUDENT_ALREADY_EXISTS = "Trying to create a Student that exists: ";
@@ -86,7 +88,7 @@ public class StudentsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
 	
 		Student s = getStudentEntityForEmail(courseId, email);
-	
+
 		if (s == null) {
 			log.info("Trying to get non-existent Student: " + courseId + "/" + email);
 			return null;
@@ -237,34 +239,28 @@ public class StudentsDb {
 	 */
 	public void updateStudent(String courseId, String email, String newName,
 			String newTeamName, String newEmail, String newGoogleID,
-			String newComments) {
+			String newComments)
+			throws InvalidParametersException, EntityDoesNotExistException {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
-	
+		
+		verifyStudentExists(courseId, email);
+		
 		Student student = getStudentEntityForEmail(courseId, email);
-	
-		//TODO: this should be an exception instead?
-		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_STUDENT + courseId
-				+ "/ + email " + Common.getCurrentThreadStack(), student);
-	
-		//TODO: Enhance to ensure the updated entity is valid. 
-		//  e.g. disable keep existing policy here (let the layer above manage it).
+		Student studentWithNewEmail = getStudentEntityForEmail(courseId, newEmail);
 		
+		if (studentWithNewEmail != null && !studentWithNewEmail.equals(student)) {
+			String error = ERROR_UPDATE_EMAIL_ALREADY_USED
+					+ studentWithNewEmail.getName() + "/" + studentWithNewEmail.getEmail();
+			throw new InvalidParametersException(error);
+		}
+
 		student.setEmail(newEmail);
-		if (newName != null) {
-			student.setName(newName);
-		}
-	
-		if (newComments != null) {
-			student.setComments(newComments);
-		}
-		if (newGoogleID != null) {
-			student.setGoogleId(newGoogleID);
-		}
-		if (newTeamName != null) {
-			student.setTeamName(newTeamName);
-		}
-		
+		student.setName(newName);
+		student.setComments(newComments);
+		student.setGoogleId(newGoogleID);
+		student.setTeamName(newTeamName);
+
 		getPM().close();
 	}
 
@@ -334,10 +330,20 @@ public class StudentsDb {
 		getPM().flush();
 	}
 
+	public void verifyStudentExists(String courseId, String email) 
+			throws EntityDoesNotExistException {
+		
+		if (getStudentForEmail(courseId, email) == null) {
+			String error = ERROR_UPDATE_NON_EXISTENT_STUDENT +
+					courseId + "/" + email;
+			throw new EntityDoesNotExistException(error);
+		}
+		
+	}
+	
 	private PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
 	}
-
 
 	private Student getStudentEntityForEmail(String courseId, String email) {
 		

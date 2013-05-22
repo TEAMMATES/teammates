@@ -1289,6 +1289,8 @@ public class LogicTest extends BaseTestCase {
 
 		______TS("typical case");
 
+		// TODO: Move following to StudentsLogicTest (together with SUT -> StudentsLogic)
+		
 		loginAsAdmin("admin.user");
 		
 		restoreTypicalDataInDatastore();
@@ -1777,78 +1779,43 @@ public class LogicTest extends BaseTestCase {
 
 		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
 				paramTypes, params);
-
-		______TS("typical edit");
-
+		
 		restoreTypicalDataInDatastore();
-
+		
 		loginAsAdmin("admin.user");
 
-		StudentAttributes student1InCourse1 = dataBundle.students
-				.get("student1InCourse1");
-		verifyPresentInDatastore(student1InCourse1);
+		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 		String originalEmail = student1InCourse1.email;
+		 		
+		______TS("typical success case");
 		student1InCourse1.name = student1InCourse1.name + "x";
 		student1InCourse1.id = student1InCourse1.id + "x";
 		student1InCourse1.comments = student1InCourse1.comments + "x";
-		String newEmail = student1InCourse1.email + "x";
-		student1InCourse1.email = newEmail;
-		student1InCourse1.team = "Team 1.2"; // move to a different team
-
-		// take a snapshot of submissions before
-		List<SubmissionAttributes> submissionsBeforeEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);
-
-		//verify student details changed correctly
-		logic.updateStudent(originalEmail, student1InCourse1);
+		student1InCourse1.email = student1InCourse1.email + "x";
+		student1InCourse1.team = "Team 1.2";
+		logic.updateStudent(originalEmail, student1InCourse1);		
 		verifyPresentInDatastore(student1InCourse1);
-
-		// take a snapshot of submissions after the edit
-		List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);
 		
-		// We moved a student from a 4-person team to an existing 1-person team.
-		// We have 2 evaluations in the course.
-		// Therefore, submissions that will be deleted = 7*2 = 14
-		//              submissions that will be added = 3*2
-		assertEquals(submissionsBeforeEdit.size() - 14  + 6,
-				submissionsAfterEdit.size()); 
-		
-		// verify new submissions were created to match new team structure
+		// check for cascade
+		List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);		
 		verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
 				student1InCourse1.course);
-
-		______TS("check for KeepExistingPolicy");
-
-		// try changing email only
-		StudentAttributes copyOfStudent1 = new StudentAttributes();
-		copyOfStudent1.course = student1InCourse1.course;
-		originalEmail = student1InCourse1.email;
-
-		newEmail = student1InCourse1.email + "y";
-		student1InCourse1.email = newEmail;
-		copyOfStudent1.email = newEmail;
-
-		logic.updateStudent(originalEmail, copyOfStudent1);
-		verifyPresentInDatastore(student1InCourse1);
-
-		______TS("non-existent student");
-
-		student1InCourse1.course = "new-course";
-		verifyAbsentInDatastore(student1InCourse1);
-
-		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
-				originalEmail, student1InCourse1 });
-
+		
 		______TS("null parameters");
 
 		try {
-			logic.updateStudent(null, new StudentAttributes());
-			Assert.fail();
+			logic.updateStudent(null, student1InCourse1);
+			signalFailureToDetectException();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}		
+		try {
+			logic.updateStudent("test@email.com", null);
+			signalFailureToDetectException();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 		
-		// no need to check for cascade delete/creates due to LazyCreationPolicy
-		// and TolerateOrphansPolicy.
 	}
 
 	@Test
@@ -3900,8 +3867,10 @@ public class LogicTest extends BaseTestCase {
 	 *    However, there could also be orphaned submissions in the database. 
 	 *    This method does not care about those.
 	 */
-	private void verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(
+	
+	public static void verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(
 			List<SubmissionAttributes> submissionList, String courseId) throws EntityDoesNotExistException {
+		Logic logic = new Logic(); 
 		CourseDetailsBundle course = logic.getCourseDetails(courseId);
 		List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
 
@@ -3909,7 +3878,6 @@ public class LogicTest extends BaseTestCase {
 			verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.evaluation.name, students, submissionList);
 		}
 	}
-	
 	
 	public static void verifySubmissionsExistForCurrentTeamStructureInEvaluation(String evaluationName,
 			List<StudentAttributes> students, List<SubmissionAttributes> submissions) {

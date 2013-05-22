@@ -4,21 +4,29 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import javax.servlet.ServletException;
 
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.FieldValidator;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.logic.EvaluationsLogic;
+import teammates.logic.SubmissionsLogic;
 import teammates.logic.StudentsLogic;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
+import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
@@ -32,6 +40,7 @@ public class StudentsLogicTest extends BaseTestCase{
 	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	
 	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
+	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
 	private static DataBundle dataBundle = getTypicalDataBundle();
 	
 	@BeforeClass
@@ -121,6 +130,87 @@ public class StudentsLogicTest extends BaseTestCase{
 	}
 	
 	@Test
+	public void testUpdateStudentCascade() throws Exception {
+				
+		______TS("typical edit");
+
+		restoreTypicalDataInDatastore();
+		loginAsAdmin("admin.user");
+
+		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		LogicTest.verifyPresentInDatastore(student1InCourse1);
+		String originalEmail = student1InCourse1.email;
+		student1InCourse1.name = student1InCourse1.name + "x";
+		student1InCourse1.id = student1InCourse1.id + "x";
+		student1InCourse1.comments = student1InCourse1.comments + "x";
+		student1InCourse1.email = student1InCourse1.email + "x";
+		student1InCourse1.team = "Team 1.2"; // move to a different team
+
+		// take a snapshot of submissions before
+		List<SubmissionAttributes> submissionsBeforeEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);
+
+		// verify student details changed correctly
+		studentsLogic.updateStudentCascade(originalEmail, student1InCourse1);
+		LogicTest.verifyPresentInDatastore(student1InCourse1);
+
+		// take a snapshot of submissions after the edit
+		List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);
+		
+		// We moved a student from a 4-person team to an existing 1-person team.
+		// We have 2 evaluations in the course.
+		// Therefore, submissions that will be deleted = 7*2 = 14
+		//              submissions that will be added = 3*2
+		assertEquals(submissionsBeforeEdit.size() - 14  + 6,
+				submissionsAfterEdit.size()); 
+		
+		// verify new submissions were created to match new team structure
+		LogicTest.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
+				student1InCourse1.course);
+
+		______TS("check for KeepExistingPolicy : change email only");
+		
+		// create an empty student and then copy course and email attributes
+		StudentAttributes copyOfStudent1 = new StudentAttributes();
+		copyOfStudent1.course = student1InCourse1.course;
+		originalEmail = student1InCourse1.email;
+
+		String newEmail = student1InCourse1.email + "y";
+		student1InCourse1.email = newEmail;
+		copyOfStudent1.email = newEmail;
+
+		studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+		LogicTest.verifyPresentInDatastore(student1InCourse1);
+
+		______TS("check for KeepExistingPolicy : change nothing");	
+		
+		originalEmail = student1InCourse1.email;
+		copyOfStudent1.email = null;
+		studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+		LogicTest.verifyPresentInDatastore(copyOfStudent1);
+		
+		______TS("non-existent student");
+		
+		try {
+			studentsLogic.updateStudentCascade("non-existent@email", student1InCourse1);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT
+					+ student1InCourse1.course + "/" + "non-existent@email",
+					e.getMessage());
+		}
+
+		______TS("check for InvalidParameters");
+		try {
+			copyOfStudent1.email = "invalid email";
+			studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+			signalFailureToDetectException();
+		} catch (InvalidParametersException e) {
+			assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
+					e.getMessage());
+		}
+	}
+	
+	@Test
 	public void testKeyGeneration() {
 		long key = 5;
 		String longKey = KeyFactory.createKeyString(
@@ -138,7 +228,7 @@ public class StudentsLogicTest extends BaseTestCase{
 		Object[] params = new Object[] { student };
 		return (StudentAttributes) privateMethod.invoke(StudentsLogic.inst(), params);
 	}
-	
+		
 	@AfterClass()
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
