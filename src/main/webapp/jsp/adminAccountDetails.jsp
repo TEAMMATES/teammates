@@ -89,7 +89,7 @@
                 	if(helper.studentCourseList != null){
                                         for(CourseAttributes course : helper.studentCourseList){
                                             out.print("<tr>");
-                                            out.print("<td>[]" + course.id + "] " + course.name + "</td>");
+                                            out.print("<td>[" + course.id + "] " + course.name + "</td>");
                                             out.print("<td><a id=\"student_" + course.id + "\" href=\"" + helper.getStudentCourseDeleteLink(helper.accountInformation.googleId, course.id)+ "\">Remove From Course</a></td>");
                                             out.print("</tr>");
                                         }
