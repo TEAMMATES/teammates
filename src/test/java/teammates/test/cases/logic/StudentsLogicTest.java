@@ -131,10 +131,11 @@ public class StudentsLogicTest extends BaseTestCase{
 	
 	@Test
 	public void testUpdateStudentCascade() throws Exception {
-				
+			
 		______TS("typical edit");
 
 		restoreTypicalDataInDatastore();
+		dataBundle = getTypicalDataBundle();
 		loginAsAdmin("admin.user");
 
 		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
