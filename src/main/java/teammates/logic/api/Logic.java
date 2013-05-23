@@ -514,8 +514,8 @@ public class Logic {
 		gateKeeper.verifyCourseInstructorOrAbove(student.course);
 
 		//TODO: push the cascade logic to studentLogic.createStudent
-		studentsLogic.createStudent(student);
-		evaluationsLogic.adjustSubmissionsForNewStudent(student.course, student.email, student.team);
+		studentsLogic.createStudentCascade(student);
+
 	}
 
 	/**

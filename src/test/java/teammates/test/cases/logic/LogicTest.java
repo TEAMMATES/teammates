@@ -50,8 +50,8 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.api.Logic;
@@ -59,6 +59,7 @@ import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
 
@@ -84,6 +85,7 @@ public class LogicTest extends BaseTestCase {
 	private static final CoursesDb coursesDb = new CoursesDb();
 	private static final InstructorsDb instructorsDb = new InstructorsDb();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
+	private static final StudentsDb studentsDb = new StudentsDb();
 
 	private static Gson gson = Common.getTeammatesGson();
 
@@ -3822,9 +3824,8 @@ public class LogicTest extends BaseTestCase {
 	
 	public static void verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(
 			List<SubmissionAttributes> submissionList, String courseId) throws EntityDoesNotExistException {
-		Logic logic = new Logic(); 
-		CourseDetailsBundle course = logic.getCourseDetails(courseId);
-		List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+		CourseDetailsBundle course = CoursesLogic.inst().getCourseDetails(courseId);
+		List<StudentAttributes> students = studentsDb.getStudentsForCourse(courseId);
 
 		for(EvaluationDetailsBundle e: course.evaluations){
 			verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.evaluation.name, students, submissionList);
@@ -3949,7 +3950,7 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	public static void verifyPresentInDatastore(StudentAttributes expectedStudent) {
-		StudentAttributes actualStudent = logic.getStudentForEmail(expectedStudent.course,
+		StudentAttributes actualStudent = studentsDb.getStudentForEmail(expectedStudent.course,
 				expectedStudent.email);
 		expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
 		equalizeIrrelevantData(expectedStudent, actualStudent);

@@ -35,7 +35,6 @@ public class AccountsLogic {
 		return instance;
 	}
 	
-	//TODO: add missing validity checks to this class
 	
 	public void createAccount(AccountAttributes accountData) 
 					throws InvalidParametersException, EntityAlreadyExistsException {

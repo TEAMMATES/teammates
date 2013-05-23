@@ -15,20 +15,24 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.FieldValidator;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.logic.AccountsLogic;
+import teammates.logic.CoursesLogic;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.StudentsLogic;
-import teammates.logic.api.Logic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.storage.EvaluationsDbTest;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -40,6 +44,9 @@ public class StudentsLogicTest extends BaseTestCase{
 	
 	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
+	protected static AccountsLogic accountsLogic = AccountsLogic.inst();
+	protected static CoursesLogic coursesLogic = CoursesLogic.inst();
+	protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private static DataBundle dataBundle = getTypicalDataBundle();
 	
 	@BeforeClass
@@ -59,32 +66,29 @@ public class StudentsLogicTest extends BaseTestCase{
 	@Test
 	public void testEnrollStudent() throws Exception {
 
-		Logic logic = new Logic();
-
-		restoreTypicalDataInDatastore();
-
 		String instructorId = "instructorForEnrollTesting";
 		String instructorCourse = "courseForEnrollTesting";
-		String instructorName = "ICET Name";
-		String instructorEmail = "instructor@icet.com";
-		String instructorInstitute = "National University of Singapore";
-		loginAsAdmin("admin.user");
-		logic.createAccount(instructorId, instructorName, true, instructorEmail, instructorInstitute);
-		logic.deleteInstructor(instructorCourse, instructorId);
-		logic.createInstructorAccount(instructorId, instructorCourse, instructorName, instructorEmail, instructorInstitute);
-		String courseId = "courseForEnrollTest";
-		logic.createCourseAndInstructor(instructorId, courseId, "Course for Enroll Testing");
+		
+		//delete leftover data, if any
+		accountsLogic.deleteAccountCascade(instructorId);
+		coursesLogic.deleteCourseCascade(instructorCourse);
+		
+		//create fresh test data
+		accountsLogic.createAccount(
+				new AccountAttributes(instructorId, "ICET Instr Name", true,
+						"instructor@icet.com", "National University of Singapore"));
+		coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing");
 
 		______TS("add student into empty course");
 
-		StudentAttributes student1 = new StudentAttributes("t|n|e@g|c", courseId);
+		StudentAttributes student1 = new StudentAttributes("t1|n|e@g|c", instructorCourse);
 
 		// check if the course is empty
-		assertEquals(0, logic.getStudentsForCourse(courseId).size());
+		assertEquals(0, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
 		// add a new student and verify it is added and treated as a new student
 		StudentAttributes enrollmentResult = invokeEnrollStudent(student1);
-		assertEquals(1, logic.getStudentsForCourse(courseId).size());
+		assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 		LogicTest.verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentAttributes.UpdateStatus.NEW);
 		LogicTest.verifyPresentInDatastore(student1);
@@ -95,39 +99,60 @@ public class StudentsLogicTest extends BaseTestCase{
 		enrollmentResult = invokeEnrollStudent(student1);
 		LogicTest.verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentAttributes.UpdateStatus.UNMODIFIED);
-
-		______TS("modify info of existing student");
-
-		// verify it was treated as modified
-		StudentAttributes student2 = dataBundle.students.get("student1InCourse1");
-		student2.name = student2.name + "y";
-		StudentAttributes studentToEnroll = new StudentAttributes(student2.googleId, student2.email,
-				student2.name, student2.comments, student2.course,
-				student2.team);
-		enrollmentResult = invokeEnrollStudent(studentToEnroll);
-		LogicTest.verifyEnrollmentResultForStudent(studentToEnroll, enrollmentResult,
-				StudentAttributes.UpdateStatus.MODIFIED);
-		// check if the student is actually modified in datastore and existing
-		// values not specified in enroll action (e.g, id) prevail
-		LogicTest.verifyPresentInDatastore(student2);
+		assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
 		______TS("add student into non-empty course");
-
-		StudentAttributes student3 = new StudentAttributes("t3|n3|e3@g|c3", courseId);
-		enrollmentResult = invokeEnrollStudent(student3);
-		assertEquals(2, logic.getStudentsForCourse(courseId).size());
-		LogicTest.verifyEnrollmentResultForStudent(student3, enrollmentResult,
+		StudentAttributes student2 = new StudentAttributes("t1|n2|e2@g|c", instructorCourse);
+		enrollmentResult = invokeEnrollStudent(student2);
+		LogicTest.verifyEnrollmentResultForStudent(student2, enrollmentResult,
 				StudentAttributes.UpdateStatus.NEW);
+		
+		//add some more students to the same course (we add more than one 
+		//  because we can use them for testing cascade logic later in this test case)
+		invokeEnrollStudent(new StudentAttributes("t2|n3|e3@g|c", instructorCourse));
+		invokeEnrollStudent(new StudentAttributes("t2|n4|e4@g|c", instructorCourse));
+		assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
+		
+		______TS("modify info of existing student");
+		//add some more details to the student
+		student1.googleId = "googleId";
+		studentsLogic.updateStudentCascade(student1.email, student1);
+		
+		//add a new evaluations (to check the cascade logic of the SUT)
+		EvaluationAttributes e = EvaluationsDbTest.generateTypicalEvaluation();
+		e.courseId = instructorCourse;
+		evaluationsLogic.createEvaluationCascade(e);
+
+		// verify it was treated as modified in datastore and existing
+		// values not specified in enroll action (e.g, id) prevail
+		student1.name = student1.name+"y";
+		enrollmentResult = invokeEnrollStudent(student1);
+		LogicTest.verifyEnrollmentResultForStudent(student1, enrollmentResult,
+				StudentAttributes.UpdateStatus.MODIFIED);
+		LogicTest.verifyPresentInDatastore(student1);
+		
+		//verify cascade logic
+		verifyCascasedToSubmissions(instructorCourse);
 
 		______TS("add student without team");
 
-		StudentAttributes student4 = new StudentAttributes("|n4|e4@g", courseId);
+		StudentAttributes student4 = new StudentAttributes("|n6|e6@g", instructorCourse);
 		enrollmentResult = invokeEnrollStudent(student4);
-		assertEquals(3, logic.getStudentsForCourse(courseId).size());
+		assertEquals(5, studentsLogic.getStudentsForCourse(instructorCourse).size());
 		LogicTest.verifyEnrollmentResultForStudent(student4, enrollmentResult,
 				StudentAttributes.UpdateStatus.NEW);
+		
+		verifyCascasedToSubmissions(instructorCourse);
+		
+		______TS("error during enrollment");
+
+		StudentAttributes student5 = new StudentAttributes("|n6|e6@g@", instructorCourse);
+		enrollmentResult = invokeEnrollStudent(student5);
+		assertEquals (StudentAttributes.UpdateStatus.ERROR, enrollmentResult.updateStatus);
+		assertEquals(5, studentsLogic.getStudentsForCourse(instructorCourse).size());
+		
 	}
-	
+
 	@Test
 	public void testUpdateStudentCascade() throws Exception {
 			
@@ -229,6 +254,13 @@ public class StudentsLogicTest extends BaseTestCase{
 		return (StudentAttributes) privateMethod.invoke(StudentsLogic.inst(), params);
 	}
 		
+	private void verifyCascasedToSubmissions(String instructorCourse)
+			throws EntityDoesNotExistException {
+		LogicTest.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(
+				submissionsLogic.getSubmissionsForCourse(instructorCourse),
+				instructorCourse);
+	}
+
 	@AfterClass()
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();

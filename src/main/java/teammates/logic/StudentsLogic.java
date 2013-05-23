@@ -40,10 +40,12 @@ public class StudentsLogic {
 		return instance;
 	}
 	
-	public void createStudent(StudentAttributes studentData) 
+	public void createStudentCascade(StudentAttributes studentData) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		
 		studentsDb.createStudent(studentData);
+		evaluationsLogic.adjustSubmissionsForNewStudent(
+				studentData.course, studentData.email, studentData.team);
 	}
 
 	public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -138,6 +140,7 @@ public class StudentsLogic {
 		}
 	}
 	
+	//TODO: add better error reporting and validity checks
 	public List<StudentAttributes> enrollStudents(String enrollLines,
 			String courseId)
 			throws EntityDoesNotExistException, EnrollException {
@@ -248,27 +251,27 @@ public class StudentsLogic {
 	}
 	
 	
-	//TODO: have a deleteStudentCascade here?
-	
-	private StudentAttributes enrollStudent(StudentAttributes student) {
+	private StudentAttributes enrollStudent(StudentAttributes validStudentAttributes) {
 		StudentAttributes.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
 		try {
-			if (isSameAsExistingStudent(student)) {
+			if (isSameAsExistingStudent(validStudentAttributes)) {
 				updateStatus = UpdateStatus.UNMODIFIED;
-			} else if (isModificationToExistingStudent(student)) {
-				updateStudentCascade(student.email, student);
+			} else if (isModificationToExistingStudent(validStudentAttributes)) {
+				updateStudentCascade(validStudentAttributes.email, validStudentAttributes);
 				updateStatus = UpdateStatus.MODIFIED;
 			} else {
-				createStudent(student);
+				createStudentCascade(validStudentAttributes);
 				updateStatus = UpdateStatus.NEW;
 			}
 		} catch (Exception e) {
+			//TODO: need better error handling here. This error is not 'unexpected'. e.g., invalid student data
 			updateStatus = UpdateStatus.ERROR;
-			log.severe("Exception thrown unexpectedly" + "\n"
-					+ Common.stackTraceToString(e));
+			String errorMessage = "Exception thrown unexpectedly while enrolling student: " 
+					+ validStudentAttributes.toString() + Common.EOL + Common.stackTraceToString(e);
+			log.severe(errorMessage);
 		}
-		student.updateStatus = updateStatus;
-		return student;
+		validStudentAttributes.updateStatus = updateStatus;
+		return validStudentAttributes;
 	}
 	
 	private boolean isInEnrollList(StudentAttributes student,

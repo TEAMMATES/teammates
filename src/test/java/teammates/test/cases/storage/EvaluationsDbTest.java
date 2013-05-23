@@ -164,6 +164,24 @@ public class EvaluationsDbTest extends BaseTestCase {
 		helper.tearDown();
 	}
 	
+	/**
+	 * @return An evaluation with typical data, in OPEN state.
+	 */
+	public static EvaluationAttributes generateTypicalEvaluation(){
+		EvaluationAttributes e = new EvaluationAttributes();
+		e.courseId = "typical-course-id";
+		e.name = "Typical Evaluation Name";
+		e.timeZone = 0.0;
+		e.gracePeriod = 0;
+		e.instructions = "typical instructions";
+		e.startTime = Common.getDateOffsetToCurrentTime(-1);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.p2pEnabled = true;
+		e.activated = true;
+		e.published = false;
+		return e;
+	}
+
 	private EvaluationAttributes createNewEvaluation() throws InvalidParametersException {
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.courseId = "Computing101";
