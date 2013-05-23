@@ -10,6 +10,7 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
+import teammates.common.Sanitizer;
 import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text;
@@ -32,24 +33,19 @@ public class SubmissionAttributes extends EntityAttributes {
 	@SuppressWarnings("unused")
 	private static Logger log = Common.getLogger();
 	
-	//TODO: these should be extracted into a *Bundle class as they are not attributes of a Student entity
-	public transient String reviewerName = null;
-	public transient String revieweeName = null;
-	public transient int normalizedToStudent = Common.UNINITIALIZED_INT;
-	public transient int normalizedToInstructor = Common.UNINITIALIZED_INT;
-	
+	public SubmissionDetailsBundle details = new SubmissionDetailsBundle();
+
 	public SubmissionAttributes() {
 
 	}
 
 	public SubmissionAttributes(String courseId, String evalName, String teamName,
 			String toStudent, String fromStudent) {
-		//TODO: Need proper sanitization
-		this.course = Common.trimIfNotNull(courseId);
-		this.evaluation = Common.trimIfNotNull(evalName);
-		this.team = Common.trimIfNotNull(teamName);
-		this.reviewee = Common.trimIfNotNull(toStudent);
-		this.reviewer = Common.trimIfNotNull(fromStudent);
+		this.course = Sanitizer.sanitizeTitle(courseId);
+		this.evaluation = Sanitizer.sanitizeTitle(evalName);
+		this.team = Sanitizer.sanitizeTitle(teamName);
+		this.reviewee = Sanitizer.sanitizeName(toStudent);
+		this.reviewer = Sanitizer.sanitizeName(fromStudent);
 	}
 
 	public SubmissionAttributes(Submission s) {
@@ -80,16 +76,16 @@ public class SubmissionAttributes extends EntityAttributes {
 		copy.evaluation = this.evaluation;
 		copy.team = this.team;
 		copy.reviewer = this.reviewer;
-		copy.reviewerName = this.reviewerName;
+		copy.details.reviewerName = this.details.reviewerName;
 		copy.reviewee = this.reviewee;
-		copy.revieweeName = this.revieweeName;
+		copy.details.revieweeName = this.details.revieweeName;
 		copy.points = this.points;
 		copy.justification = new Text(justification == null ? null
 				: justification.getValue());
 		copy.p2pFeedback = new Text(p2pFeedback == null ? null
 				: p2pFeedback.getValue());
-		copy.normalizedToStudent = this.normalizedToStudent;
-		copy.normalizedToInstructor = this.normalizedToInstructor;
+		copy.details.normalizedToStudent = this.details.normalizedToStudent;
+		copy.details.normalizedToInstructor = this.details.normalizedToInstructor;
 		return copy;
 	}
 
@@ -97,7 +93,7 @@ public class SubmissionAttributes extends EntityAttributes {
 		return reviewee.equals(reviewer);
 	}
 
-	public List<String> getInvalidStateInfo() {
+	public List<String> getInvalidityInfo() {
 		
 		Assumption.assertTrue(justification != null);
 		//p2pFeedback can be null if p2p feedback is not enabled;
@@ -106,20 +102,20 @@ public class SubmissionAttributes extends EntityAttributes {
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
-		error= validator.getValidityInfo(FieldType.COURSE_ID, course);
+		error= validator.getInvalidityInfo(FieldType.COURSE_ID, course);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error = validator.getValidityInfo(FieldType.EVALUATION_NAME, evaluation);
+		error = validator.getInvalidityInfo(FieldType.EVALUATION_NAME, evaluation);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error = validator.getValidityInfo(FieldType.TEAM_NAME, team);
+		error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error = validator.getValidityInfo(FieldType.EMAIL, 
+		error = validator.getInvalidityInfo(FieldType.EMAIL, 
 				"email address for the student receiving the evaluation", reviewee);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error = validator.getValidityInfo(FieldType.EMAIL, 
+		error = validator.getInvalidityInfo(FieldType.EMAIL, 
 						"email address for the student giving the evaluation", reviewer);
 		if(!error.isEmpty()) { errors.add(error); }
 	
@@ -136,8 +132,8 @@ public class SubmissionAttributes extends EntityAttributes {
 		sb.append(indentString + "[eval:" + evaluation + "] " + reviewer + "->"
 				+ reviewee + EOL);
 		sb.append(indentString + " points:" + points);
-		sb.append(" [normalized-to-student:" + normalizedToStudent + "]");
-		sb.append(" [normalized-to-instructor:" + normalizedToStudent + "]");
+		sb.append(" [normalized-to-student:" + details.normalizedToStudent + "]");
+		sb.append(" [normalized-to-instructor:" + details.normalizedToStudent + "]");
 		sb.append(EOL + indentString + " justificatoin:"
 				+ justification.getValue());
 		sb.append(EOL + indentString + " p2pFeedback:" + p2pFeedback.getValue());

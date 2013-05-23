@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -102,7 +101,7 @@ public class StudentsLogicTest extends BaseTestCase{
 		// verify it was treated as modified
 		StudentAttributes student2 = dataBundle.students.get("student1InCourse1");
 		student2.name = student2.name + "y";
-		StudentAttributes studentToEnroll = new StudentAttributes(student2.id, student2.email,
+		StudentAttributes studentToEnroll = new StudentAttributes(student2.googleId, student2.email,
 				student2.name, student2.comments, student2.course,
 				student2.team);
 		enrollmentResult = invokeEnrollStudent(studentToEnroll);
@@ -142,7 +141,7 @@ public class StudentsLogicTest extends BaseTestCase{
 		LogicTest.verifyPresentInDatastore(student1InCourse1);
 		String originalEmail = student1InCourse1.email;
 		student1InCourse1.name = student1InCourse1.name + "x";
-		student1InCourse1.id = student1InCourse1.id + "x";
+		student1InCourse1.googleId = student1InCourse1.googleId + "x";
 		student1InCourse1.comments = student1InCourse1.comments + "x";
 		student1InCourse1.email = student1InCourse1.email + "x";
 		student1InCourse1.team = "Team 1.2"; // move to a different team

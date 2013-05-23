@@ -4,10 +4,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -19,6 +17,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
@@ -136,7 +135,7 @@ public class BackDoorTest extends BaseTestCase {
 		EvaluationAttributes evaluation1InCourse1 = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 		verifyPresentInDatastore(evaluation1InCourse1);
-		status = BackDoor.deleteEvaluation(evaluation1InCourse1.course,
+		status = BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
 				evaluation1InCourse1.name);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(evaluation1InCourse1);
@@ -145,7 +144,7 @@ public class BackDoorTest extends BaseTestCase {
 		verifyAbsentInDatastore(subInDeletedEvaluation);
 
 		// try to delete the evaluation again, should succeed
-		status = BackDoor.deleteEvaluation(evaluation1InCourse1.course,
+		status = BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
 				evaluation1InCourse1.name);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
@@ -382,7 +381,7 @@ public class BackDoorTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testCreateStudent() throws InvalidParametersException {
+	public void testCreateStudent() throws EnrollException {
 		// only minimal testing because this is a wrapper method for
 		// another well-tested method.
 
@@ -398,7 +397,7 @@ public class BackDoorTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetKeyForStudent() throws InvalidParametersException {
+	public void testGetKeyForStudent() throws EnrollException {
 
 		StudentAttributes student = new StudentAttributes("t1|name of tgsr student|tgsr@gmail.com|", "course1");
 		BackDoor.createStudent(student);
@@ -467,7 +466,7 @@ public class BackDoorTest extends BaseTestCase {
 		// another well-tested method.
 
 		EvaluationAttributes e = new EvaluationAttributes();
-		e.course = "tmapit.tce.course";
+		e.courseId = "tmapit.tce.course";
 		e.name = "Eval for tmapit.tce.course";
 		e.instructions = "inst.";
 		e.p2pEnabled = true;
@@ -475,11 +474,11 @@ public class BackDoorTest extends BaseTestCase {
 		e.endTime = Common.getDateOffsetToCurrentTime(2);
 		e.timeZone = 8.0;
 		e.gracePeriod = 5;
-		BackDoor.deleteEvaluation(e.course, e.name);
+		BackDoor.deleteEvaluation(e.courseId, e.name);
 		verifyAbsentInDatastore(e);
 		BackDoor.createEvaluation(e);
 		verifyPresentInDatastore(e);
-		BackDoor.deleteEvaluation(e.course, e.name);
+		BackDoor.deleteEvaluation(e.courseId, e.name);
 		verifyAbsentInDatastore(e);
 	}
 
@@ -614,7 +613,7 @@ public class BackDoorTest extends BaseTestCase {
 
 		// STUDENTS
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
-		assertEquals("student1InCourse1", student1InCourse1.id);
+		assertEquals("student1InCourse1", student1InCourse1.googleId);
 		assertEquals("student1 In Course1", student1InCourse1.name);
 		assertEquals("Team 1.1", student1InCourse1.team);
 		assertEquals("comment for student1InCourse1",
@@ -622,7 +621,7 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals("idOfTypicalCourse1", student1InCourse1.course);
 		
 		StudentAttributes student2InCourse2 = data.students.get("student2InCourse2");
-		assertEquals("student2InCourse1", student2InCourse2.id);
+		assertEquals("student2InCourse1", student2InCourse2.googleId);
 		assertEquals("student2 In Course2", student2InCourse2.name);
 		assertEquals("Team 2.1", student2InCourse2.team);
 
@@ -630,7 +629,7 @@ public class BackDoorTest extends BaseTestCase {
 		EvaluationAttributes evaluation1 = data.evaluations
 				.get("evaluation1InCourse1");
 		assertEquals("evaluation1 In Course1", evaluation1.name);
-		assertEquals("idOfTypicalCourse1", evaluation1.course);
+		assertEquals("idOfTypicalCourse1", evaluation1.courseId);
 		assertEquals("instructions for evaluation1InCourse1",
 				evaluation1.instructions);
 		assertEquals(10, evaluation1.gracePeriod);
@@ -646,7 +645,7 @@ public class BackDoorTest extends BaseTestCase {
 		EvaluationAttributes evaluation2 = data.evaluations
 				.get("evaluation2InCourse1");
 		assertEquals("evaluation2 In Course1", evaluation2.name);
-		assertEquals("idOfTypicalCourse1", evaluation2.course);
+		assertEquals("idOfTypicalCourse1", evaluation2.courseId);
 
 		// SUBMISSIONS
 		SubmissionAttributes submissionFromS1C1ToS2C1 = data.submissions
@@ -703,7 +702,7 @@ public class BackDoorTest extends BaseTestCase {
 
 	private void verifyAbsentInDatastore(EvaluationAttributes evaluation1InCourse1) {
 		assertEquals("null", BackDoor.getEvaluationAsJson(
-				evaluation1InCourse1.course, evaluation1InCourse1.name));
+				evaluation1InCourse1.courseId, evaluation1InCourse1.name));
 	}
 
 	private void verifyAbsentInDatastore(SubmissionAttributes subInDeletedEvaluation) {
@@ -762,7 +761,7 @@ public class BackDoorTest extends BaseTestCase {
 
 	private void verifyPresentInDatastore(EvaluationAttributes expectedEvaluation) {
 		String evaluationJsonString = BackDoor.getEvaluationAsJson(
-				expectedEvaluation.course, expectedEvaluation.name);
+				expectedEvaluation.courseId, expectedEvaluation.name);
 		EvaluationAttributes actualEvaluation = gson.fromJson(evaluationJsonString,
 				EvaluationAttributes.class);
 		// equalize id field before comparing (because id field is
@@ -776,7 +775,7 @@ public class BackDoorTest extends BaseTestCase {
 				expectedStudent.course, expectedStudent.email);
 		StudentAttributes actualStudent = gson.fromJson(studentJsonString,
 				StudentAttributes.class);
-		StudentAttributes.equalizeIrrelevantData(expectedStudent, actualStudent);
+		equalizeIrrelevantData(expectedStudent, actualStudent);
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 
@@ -801,5 +800,28 @@ public class BackDoorTest extends BaseTestCase {
 		// Ignore time field as it is stamped at the time of creation in testing
 		actualAccount.createdAt = expectedAccount.createdAt;
 		assertEquals(gson.toJson(expectedAccount), gson.toJson(actualAccount));
+	}
+	
+	private void equalizeIrrelevantData(
+			StudentAttributes expectedStudent,
+			StudentAttributes actualStudent) {
+		
+		// For these fields, we consider null and "" equivalent.
+		if ((expectedStudent.googleId == null) && (actualStudent.googleId.equals(""))) {
+			actualStudent.googleId = null;
+		}
+		if ((expectedStudent.team == null) && (actualStudent.team.equals(""))) {
+			actualStudent.team = null;
+		}
+		if ((expectedStudent.comments == null)
+				&& (actualStudent.comments.equals(""))) {
+			actualStudent.comments = null;
+		}
+
+		// pretend keys match because the key is generated on the server side
+		// and cannot be anticipated
+		if ((actualStudent.key != null)) {
+			expectedStudent.key = actualStudent.key;
+		}
 	}
 }

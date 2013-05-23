@@ -126,7 +126,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		______TS("typical success case");
 		EvaluationAttributes eval = scn.evaluations.get("awaitingEval");
-		bi.addEvaluation(eval.course, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		bi.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
@@ -145,24 +145,24 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage(Common.MESSAGE_FIELDS_EMPTY);
 		
 		// Empty name
-		bi.addEvaluation(eval.course, "", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		bi.addEvaluation(eval.courseId, "", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		bi.waitForStatusMessage(Common.MESSAGE_FIELDS_EMPTY);
 		
 		// Empty instructions
-		bi.addEvaluation(eval.course, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, "", eval.gracePeriod);
+		bi.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, "", eval.gracePeriod);
 		bi.waitForStatusMessage(Common.MESSAGE_FIELDS_EMPTY);
 
 		// Invalid name
-		bi.addEvaluation(eval.course, eval.name+"!@#$%^&*()_+", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		bi.addEvaluation(eval.courseId, eval.name+"!@#$%^&*()_+", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_NAMEINVALID);
 		
 		// Invalid schedule
-		bi.addEvaluation(eval.course, eval.name, eval.endTime, eval.startTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		bi.addEvaluation(eval.courseId, eval.name, eval.endTime, eval.startTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_SCHEDULEINVALID.replace("<br />", "\n"));
 
 		______TS("duplicate evalution name");
 		// Evaluation exists
-		bi.addEvaluation(eval.course, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		bi.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EXISTS);
 	}
 
@@ -177,7 +177,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 		______TS("CLOSED: publish link clickable");
 
-		String courseID = scn.evaluations.get("closedEval").course;
+		String courseID = scn.evaluations.get("closedEval").courseId;
 		String evalName = scn.evaluations.get("closedEval").name;
 		int evalRowID = bi.getEvaluationRowID(courseID, evalName);
 		By publishLinkLocator = bi.getInstructorEvaluationPublishLinkLocator(evalRowID);
@@ -196,7 +196,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		______TS("PUBLISHED: unpublish link clickable");
 		
-		courseID = scn.evaluations.get("publishedEval").course;
+		courseID = scn.evaluations.get("publishedEval").courseId;
 		evalName = scn.evaluations.get("publishedEval").name;
 		evalRowID = bi.getEvaluationRowID(courseID, evalName);
 		publishLinkLocator = bi.getInstructorEvaluationUnpublishLinkLocator(evalRowID);
@@ -218,7 +218,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		______TS("CLOSED: remind link unclickable");
 		
-		String courseID = scn.evaluations.get("closedEval").course;
+		String courseID = scn.evaluations.get("closedEval").courseId;
 		String evalName = scn.evaluations.get("closedEval").name;
 		int evalRowID = bi.getEvaluationRowID(courseID, evalName);
 		By remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
@@ -229,7 +229,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 		______TS("PUBLISHED: remind link unclickable");
 		
-		courseID = scn.evaluations.get("publishedEval").course;
+		courseID = scn.evaluations.get("publishedEval").courseId;
 		evalName = scn.evaluations.get("publishedEval").name;
 		evalRowID = bi.getEvaluationRowID(courseID, evalName);
 		remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
@@ -240,7 +240,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 		______TS("AWAITING: remind link unclickable");
 		
-		courseID = scn.evaluations.get("awaitingEval").course;
+		courseID = scn.evaluations.get("awaitingEval").courseId;
 		evalName = scn.evaluations.get("awaitingEval").name;
 		evalRowID = bi.getEvaluationRowID(courseID, evalName);
 		remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
@@ -251,7 +251,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 
 		______TS("OPEN: remind link clickable, click and cancel");
 
-		courseID = scn.evaluations.get("openEval").course;
+		courseID = scn.evaluations.get("openEval").courseId;
 		evalName = scn.evaluations.get("openEval").name;
 		evalRowID = bi.getEvaluationRowID(courseID, evalName);
 		remindLinkLocator = bi.getInstructorEvaluationRemindLinkLocator(evalRowID);
@@ -280,7 +280,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		
 		______TS("click and cancel");
 		
-		String courseID = scn.evaluations.get("awaitingEval").course;
+		String courseID = scn.evaluations.get("awaitingEval").courseId;
 		String evalName = scn.evaluations.get("awaitingEval").name;
 		int evalRowID = bi.getEvaluationRowID(courseID, evalName);
 		By deleteLinkLocator = bi.getInstructorEvaluationDeleteLinkLocator(evalRowID);

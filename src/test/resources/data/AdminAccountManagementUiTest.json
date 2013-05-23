@@ -73,7 +73,7 @@
 
   "students": {
     "AAMgtUiT.instr2-student": {
-      "id": "AAMgtUiT.instr2",
+      "googleId": "AAMgtUiT.instr2",
       "email": "AAMgtUiT.instr2@gmail.com",
       "course": "AAMgtUiT.CS1101",
       "name": "Teammates Instr2",

@@ -41,7 +41,7 @@ public class EvalSubmissionEditHelper extends Helper {
 		if(sub.reviewee.equals(sub.reviewer)){
 			return "Self evaluation in Team [" + student.team + "]";
 		} else {
-			return "Evaluation for " + sub.revieweeName;
+			return "Evaluation for " + sub.details.revieweeName;
 		}
 	}
 	

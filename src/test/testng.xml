@@ -27,6 +27,7 @@
 		<test name="component-tests">
 		<classes>
 			<class name="teammates.test.cases.common.FieldValidatorTest" />
+			<class name="teammates.test.cases.common.SanitizerTest" />
 			<class name="teammates.test.cases.testdriver.TestPropertiesTest" />
 			<class name="teammates.test.cases.common.BuildPropertiesTest" />
 			<class name="teammates.test.cases.common.CommonTest" />

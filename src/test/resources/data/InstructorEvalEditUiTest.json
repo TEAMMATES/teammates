@@ -20,7 +20,7 @@
   },
   
   "evaluation": {
-    "course": "CEvEditUiTest.CS1101",
+    "courseId": "CEvEditUiTest.CS1101",
     "name": "Testing Evaluation",
     "instructions": "This is the instructions, please follow",
     "startTime": "2012-04-20 11:59 PM",
@@ -32,7 +32,7 @@
   },
   
   "newEvaluation": {
-    "course": "CEvEditUiTest.CS1101",
+    "courseId": "CEvEditUiTest.CS1101",
     "name": "Testing Evaluation",
     "instructions": "This is the new instructions",
     "startTime": "2012-04-20 11:59 PM",

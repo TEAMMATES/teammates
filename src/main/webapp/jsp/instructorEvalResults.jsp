@@ -4,6 +4,7 @@
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
+<%@ page import="teammates.common.datatransfer.SubmissionDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorEvalResultsHelper"%>
 <%@ page import="teammates.ui.controller.InstructorEvalExportServlet"%>
 
@@ -56,7 +57,7 @@
 			<table class="inputTable" id="instructorEvaluationInformation">
 				<tr>
 					<td class="label rightalign bold" width="50%">Course ID:</td>
-					<td><%=helper.evaluationResults.evaluation.course%></td>
+					<td><%=helper.evaluationResults.evaluation.courseId%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold">Evaluation name:</td>
@@ -93,18 +94,18 @@
 							%>
 							<input type="button" class="button" id="button_publish"
 								value="Publish"
-								onclick="if(togglePublishEvaluation('<%=helper.evaluationResults.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationPublishLink(helper.evaluationResults.evaluation.course,helper.evaluationResults.evaluation.name,false)%>';">
+								onclick="if(togglePublishEvaluation('<%=helper.evaluationResults.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationPublishLink(helper.evaluationResults.evaluation.courseId,helper.evaluationResults.evaluation.name,false)%>';">
 							<%
 								} else if (InstructorEvalResultsHelper.getInstructorStatusForEval(helper.evaluationResults.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
 							%>
 							<input type="button" class="button" id="button_unpublish"
 								value="Unpublish"
-								onclick="if(toggleUnpublishEvaluation('<%=helper.evaluationResults.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationUnpublishLink(helper.evaluationResults.evaluation.course,helper.evaluationResults.evaluation.name,false)%>';">
+								onclick="if(toggleUnpublishEvaluation('<%=helper.evaluationResults.evaluation.name%>')) window.location.href='<%=helper.getInstructorEvaluationUnpublishLink(helper.evaluationResults.evaluation.courseId,helper.evaluationResults.evaluation.name,false)%>';">
 							<%
 								}
 							%>
 							<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>"
-								value="<%=helper.evaluationResults.evaluation.course%>">
+								value="<%=helper.evaluationResults.evaluation.courseId%>">
 							<input type="hidden" name="<%=Common.PARAM_EVALUATION_NAME%>"
 								value="<%=InstructorEvalResultsHelper.escapeForHTML(helper.evaluationResults.evaluation.name)%>">
 							<input type="submit" value="Download Report" class="button">
@@ -148,9 +149,9 @@
 					</tr>
 					<%
 						int idx = 0;
-																																	for(TeamResultBundle teamResultBundle: helper.evaluationResults.teamResults.values()){
-																																		for(StudentResultBundle studentResult: teamResultBundle.studentResults){
-																																			StudentAttributes student = studentResult.student;
+																																				for(TeamResultBundle teamResultBundle: helper.evaluationResults.teamResults.values()){
+																																					for(StudentResultBundle studentResult: teamResultBundle.studentResults){
+																																						StudentAttributes student = studentResult.student;
 					%>
 					<tr class="student_row" id="student<%=idx%>">
 						<td><%=InstructorEvalResultsHelper.escapeForHTML(student.team)%></td>
@@ -165,12 +166,12 @@
 						<td class="centeralign no-print"><a class="color_black"
 							name="viewEvaluationResults<%=idx%>"
 							id="viewEvaluationResults<%=idx%>" target="_blank"
-							href="<%=helper.getInstructorEvaluationSubmissionViewLink(helper.evaluationResults.evaluation.course, helper.evaluationResults.evaluation.name, student.email)%>"
+							href="<%=helper.getInstructorEvaluationSubmissionViewLink(helper.evaluationResults.evaluation.courseId, helper.evaluationResults.evaluation.name, student.email)%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER%>')"
 							onmouseout="hideddrivetip()"> View</a> <a class="color_black"
 							name="editEvaluationResults<%=idx%>"
 							id="editEvaluationResults<%=idx%>" target="_blank"
-							href="<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationResults.evaluation.course, helper.evaluationResults.evaluation.name, student.email)%>"
+							href="<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationResults.evaluation.courseId, helper.evaluationResults.evaluation.name, student.email)%>"
 							onclick="return openChildWindow(this.href)"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT%>')"
 							onmouseout="hideddrivetip()">Edit</a></td>
@@ -257,8 +258,8 @@
 							for(SubmissionAttributes sub: (byReviewer ? studentResult.outgoing : studentResult.incoming)){ if(sub.reviewer.equals(sub.reviewee)) continue;
 						%>
 						<tr>
-							<td><b><%=InstructorEvalResultsHelper.escapeForHTML(byReviewer ? sub.revieweeName : sub.reviewerName)%></b></td>
-							<td><%=InstructorEvalResultsHelper.printSharePoints(sub.normalizedToInstructor,false)%></td>
+							<td><b><%=InstructorEvalResultsHelper.escapeForHTML(byReviewer ? sub.details.revieweeName : sub.details.reviewerName)%></b></td>
+							<td><%=InstructorEvalResultsHelper.printSharePoints(sub.details.normalizedToInstructor,false)%></td>
 							<td><%=InstructorEvalResultsHelper.printJustification(sub)%></td>
 							<td colspan="2"><%=InstructorEvalResultsHelper.formatP2PFeedback(InstructorEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluationResults.evaluation.p2pEnabled)%></td>
 						</tr>

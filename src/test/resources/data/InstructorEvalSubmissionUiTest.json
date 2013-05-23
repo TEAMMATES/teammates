@@ -17,7 +17,7 @@
   
   "students": {
     "Charlie": {
-      "id": "CESubEditUiT.charlie.d.tmms",
+      "googleId": "CESubEditUiT.charlie.d.tmms",
       "email": "CESubEditUiT.charlie.d.tmms@gmail.com",
       "course": "CESubEditUiT.CS1101",
       "name": "Charlie Davis",
@@ -26,7 +26,7 @@
       "team": "Team 2"
     },
     "Danny": {
-      "id": "CESubEditUiT.danny.e.tmms",
+      "googleId": "CESubEditUiT.danny.e.tmms",
       "email": "CESubEditUiT.danny.e.tmms@gmail.com",
       "course": "CESubEditUiT.CS1101",
       "name": "Danny Engrid",
@@ -35,7 +35,7 @@
       "team": "Team 2"
     },
     "Emily": {
-      "id": "CESubEditUiT.emily.tmms",
+      "googleId": "CESubEditUiT.emily.tmms",
       "email": "CESubEditUiT.emily.tmms@gmail.com",
       "course": "CESubEditUiT.CS1101",
       "name": "Emily",
@@ -47,7 +47,7 @@
   
   "evaluations": {
     "First Eval": {
-      "course": "CESubEditUiT.CS1101",
+      "courseId": "CESubEditUiT.CS1101",
       "name": "First Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",
@@ -59,7 +59,7 @@
       "activated": true
     },
     "Second Eval": {
-      "course": "CESubEditUiT.CS1101",
+      "courseId": "CESubEditUiT.CS1101",
       "name": "Second Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",

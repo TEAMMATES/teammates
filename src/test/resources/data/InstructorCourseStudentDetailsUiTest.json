@@ -27,7 +27,7 @@
   
   "students": {
     "registeredStudent": {
-      "id": "CCSDetailsUiT.alice.tmms",
+      "googleId": "CCSDetailsUiT.alice.tmms",
       "email": "CCSDetailsUiT.alice.tmms@gmail.com",
       "course": "CCSDetailsUiT.CS2104",
       "name": "Alice Betsy",
@@ -36,7 +36,7 @@
       "team": "Team 1"
     },
     "unregisteredStudent": {
-      "id": "",
+      "googleId": "",
       "email": "benny.c.tmms@gmail.com",
       "course": "CCSDetailsUiT.CS2104",
       "name": "Benny Charles",

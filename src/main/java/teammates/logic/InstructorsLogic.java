@@ -38,9 +38,7 @@ public class InstructorsLogic {
 
 	public void createInstructor(String googleId, String courseId, String name, String email) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
-		
-		googleId = Common.sanitizeGoogleId(googleId);
-		
+				
 		InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
 		
 		createInstructor(instructorToAdd);

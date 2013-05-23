@@ -46,7 +46,7 @@ public class StudentsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentToAdd);
 	
 		if (!studentToAdd.isValid()) {
-			throw new InvalidParametersException(studentToAdd.getInvalidStateInfo());
+			throw new InvalidParametersException(studentToAdd.getInvalidityInfo());
 		}
 		
 		if (getStudentEntityForEmail(studentToAdd.course, studentToAdd.email) != null) {
@@ -208,7 +208,7 @@ public class StudentsDb {
 		ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
 		
 		for(StudentAttributes s: allStudents){
-			if(s.id==null || s.id.trim().isEmpty()){
+			if(s.googleId==null || s.googleId.trim().isEmpty()){
 				unregistered.add(s);
 			}
 		}

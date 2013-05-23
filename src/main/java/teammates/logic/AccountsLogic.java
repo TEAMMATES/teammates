@@ -48,9 +48,7 @@ public class AccountsLogic {
 	public void createInstructorAccount(String googleId, String courseId,
 			String name, String email, String institute) 
 					throws InvalidParametersException,	EntityAlreadyExistsException {
-		
-		googleId = Common.sanitizeGoogleId(googleId);
-		
+			
 		InstructorsLogic.inst().createInstructor(googleId, courseId, name, email);
 		
 		// Create the Account if it does not exist
@@ -99,13 +97,12 @@ public class AccountsLogic {
 			throws JoinCourseException {
 		
 		StudentAttributes student = StudentsLogic.inst().getStudentForRegistrationKey(registrationKey);
-		googleId = Common.sanitizeGoogleId(googleId);
 		
 		if(student==null){
 			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
 					"You have entered an invalid key: " + registrationKey);
 		} else if (student.isRegistered()) {
-			if (student.id.equals(googleId)) {
+			if (student.googleId.equals(googleId)) {
 				throw new JoinCourseException(Common.ERRORCODE_ALREADY_JOINED,
 						googleId + " has already joined this course");
 			} else {
@@ -116,7 +113,7 @@ public class AccountsLogic {
 		} 
 		
 		//register the student
-		student.id = googleId;
+		student.googleId = googleId;
 		try {
 			StudentsLogic.inst().updateStudentCascade(student.email, student);
 		} catch (EntityDoesNotExistException e) {
@@ -182,7 +179,7 @@ public class AccountsLogic {
 	
 	private void createStudentAccount(StudentAttributes student) throws InvalidParametersException {
 		AccountAttributes account = new AccountAttributes();
-		account.googleId = student.id;
+		account.googleId = student.googleId;
 		account.email = student.email;
 		account.name = student.name;
 		account.isInstructor = false;

@@ -55,7 +55,7 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 		
 		______TS("with teammates");
 		
-		String studentId = scn.students.get("SCDetailsUiT.alice").id;
+		String studentId = scn.students.get("SCDetailsUiT.alice").googleId;
 		
 		//create the student account if it doesn't exist 
 		AccountAttributes testStudentAccount = new AccountAttributes(studentId, "Alice Tmms", false, "SCDetailsUiT.alice@gmail.com", "National University of Singapore");
@@ -70,7 +70,7 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 
 		______TS("without teammates"); //TODO: to be removed if team is compulsory
 		
-		studentId = scn.students.get("SCDetailsUiT.charlie").id;
+		studentId = scn.students.get("SCDetailsUiT.charlie").googleId;
 		
 		//recreate student account if it doesn't exist
 		testStudentAccount = new AccountAttributes(studentId, "Charlie Tmms", false, "SCDetailsUiT.charlie@gmail.com", "National University of Singapore");
@@ -85,7 +85,7 @@ public class StudentCourseDetailsPageUiTest extends BaseTestCase {
 		
 		______TS("no team"); //TODO: to be removed if team is compulsory
 		
-		studentId = scn.students.get("SCDetailsUiT.danny").id;
+		studentId = scn.students.get("SCDetailsUiT.danny").googleId;
 		
 		//recreate student account if it doesn't exist
 		testStudentAccount = new AccountAttributes(studentId, "Danny Tmms", false, "SCDetailsUiT.danny@gmail.com", "National University of Singapore");

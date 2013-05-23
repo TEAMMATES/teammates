@@ -10,6 +10,7 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
+import teammates.common.Sanitizer;
 import teammates.storage.entity.Evaluation;
 
 /**
@@ -22,7 +23,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	}
 		
 	//Note: be careful when changing these variables as their names are used in *.json files.
-	public String course; //TODO: rename to courseId
+	public String courseId;
 	public String name;
 	public String instructions = "";
 	public Date startTime;
@@ -35,20 +36,27 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	private static Logger log = Common.getLogger();
 
-	//TODO: move these to FieldValidator. All filed validation error messages should be in that class.
-	public static final String ERROR_END_BEFORE_START = "Evaluation end time cannot be earlier than start time";
-	public static final String ERROR_PUBLISHED_BEFORE_END = "Evaluation cannot be published before end time";
-	public static final String ERROR_ACTIVATED_BEFORE_START = "Evaluation cannot be activated before start time";
-
-
-	//TODO: add a constructor that takes all parameters. Provide sanitization.
-	
 	public EvaluationAttributes() {
 
 	}
+	
+	public EvaluationAttributes(String courseId, String name, String instructions,
+			Date startTime, Date endTime, double timeZone, int gracePeriod,
+			boolean p2pEnabled, boolean published, boolean activated) {
+		this.courseId = Sanitizer.sanitizeTitle(courseId);
+		this.name = Sanitizer.sanitizeName(name);
+		this.instructions = Sanitizer.sanitizeTextField(instructions);
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.timeZone = timeZone;
+		this.gracePeriod = gracePeriod;
+		this.p2pEnabled = p2pEnabled;
+		this.published = published;
+		this.activated = activated;
+	}
 
 	public EvaluationAttributes(Evaluation e) {
-		this.course = e.getCourseId();
+		this.courseId = e.getCourseId();
 		this.name = e.getName();
 		this.instructions = e.getInstructions();
 		this.startTime = e.getStart();
@@ -61,7 +69,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	}
 
 	public Evaluation toEntity() {
-		Evaluation evaluation = new Evaluation(course, name, instructions,
+		Evaluation evaluation = new Evaluation(courseId, name, instructions,
 				p2pEnabled, startTime, endTime, timeZone, gracePeriod);
 		evaluation.setActivated(activated);
 		evaluation.setPublished(published);
@@ -145,10 +153,10 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	@Override
 	public boolean isValid() {
-		return getInvalidStateInfo().isEmpty();
+		return getInvalidityInfo().isEmpty();
 	}
 
-	public List<String> getInvalidStateInfo() {
+	public List<String> getInvalidityInfo() {
 		
 		Assumption.assertTrue(startTime!=null);
 		Assumption.assertTrue(endTime!=null);
@@ -157,27 +165,23 @@ public class EvaluationAttributes extends EntityAttributes {
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
-		error= validator.getValidityInfo(FieldType.COURSE_ID, course);
+		error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.EVALUATION_NAME, name);
+		error= validator.getInvalidityInfo(FieldType.EVALUATION_NAME, name);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions);
-		if(!error.isEmpty()) { errors.add(error); }
+		error= validator.getInvalidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions);
+		if(!error.isEmpty()) { errors.add(error); }		
 		
+		error= validator.getValidityInfoForTimeFrame(startTime, endTime);
+		if(!error.isEmpty()) { errors.add(error); }	
 		
-		if (endTime.before(startTime)) {
-			errors.add(ERROR_END_BEFORE_START);
-		}
-
-		if (Common.isCurrentTimeInUsersTimezoneEarlierThan(endTime,	timeZone) && published) {
-			errors.add(ERROR_PUBLISHED_BEFORE_END);
-		}
-
-		if (Common.isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
-			errors.add(ERROR_ACTIVATED_BEFORE_START);
-		}
+		error= validator.getValidityInfoForStartTime(startTime, timeZone, activated);
+		if(!error.isEmpty()) { errors.add(error); }	
+		
+		error= validator.getValidityInfoForEndTime(endTime, timeZone, published);
+		if(!error.isEmpty()) { errors.add(error); }	
 
 		return errors;
 	}

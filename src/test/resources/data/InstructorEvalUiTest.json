@@ -37,7 +37,7 @@
   
   "students": {
     "alice.tmms@CEvalUiT.CS2104": {
-      "id": "CEvalUiT.alice.tmms",
+      "googleId": "CEvalUiT.alice.tmms",
       "email": "alice.tmms@gmail.com",
       "course": "CEvalUiT.CS2104",
       "name": "Alice Betsy",
@@ -46,7 +46,7 @@
       "team": "Team 1"
     },
     "benny.tmms@CEvalUiT.CS2104": {
-      "id": "CEvalUiT.benny.tmms",
+      "googleId": "CEvalUiT.benny.tmms",
       "email": "benny.tmms@gmail.com",
       "course": "CEvalUiT.CS2104",
       "name": "Benny Charles",
@@ -55,7 +55,7 @@
       "team": "Team 1"
     },
     "charlie.tmms@CEvalUiT.CS1101": {
-      "id": "charlie.tmms",
+      "googleId": "charlie.tmms",
       "email": "CEvalUiT.charlie.tmms@gmail.com",
       "course": "CEvalUiT.CS1101",
       "name": "Charlie Davis",
@@ -64,7 +64,7 @@
       "team": "Team 2"
     },
     "danny.tmms@CEvalUiT.CS1101": {
-      "id": "danny.tmms",
+      "googleId": "danny.tmms",
       "email": "CEvalUiT.danny.tmms@gmail.com",
       "course": "CEvalUiT.CS1101",
       "name": "Danny Engrid",
@@ -77,7 +77,7 @@
   "evaluations" : {
   
     "openEval": {
-      "course" : "CEvalUiT.CS2104",
+      "courseId" : "CEvalUiT.CS2104",
       "name" : "First Eval",
       "startTime" : "2012-04-01 11:59 PM",
       "endTime" : "2014-04-30 11:59 PM",
@@ -89,7 +89,7 @@
       "activated" : true
     },
     "publishedEval": {
-      "course" : "CEvalUiT.CS2104",
+      "courseId" : "CEvalUiT.CS2104",
       "name": "Second Eval",
       "startTime" : "2012-04-01 11:59 PM",
       "endTime" : "2012-04-02 11:59 PM",
@@ -102,7 +102,7 @@
       "activated": true
     },
     "closedEval": {
-      "course" : "CEvalUiT.CS1101",
+      "courseId" : "CEvalUiT.CS1101",
       "name": "Third Eval",
       "startTime" : "2012-04-01 11:59 PM",
       "endTime" : "2012-04-30 11:59 PM",
@@ -113,7 +113,7 @@
       "activated": false
     },
     "awaitingEval": {
-      "course" : "CEvalUiT.CS1101",
+      "courseId" : "CEvalUiT.CS1101",
       "name": "New Evaluation",
       "startTime" : "2014-04-01 11:59 PM",
       "endTime" : "2014-04-30 11:59 PM",

@@ -40,9 +40,9 @@ public class BackDoorLogic extends Logic {
 		
 		for (EvaluationAttributes ed: evaluations) {
 			try {
-				CourseAttributes course = getCourse(ed.course);
+				CourseAttributes course = getCourse(ed.courseId);
 				
-				List<StudentAttributes> students = studentsLogic.getStudentsForCourse(ed.course);
+				List<StudentAttributes> students = studentsLogic.getStudentsForCourse(ed.courseId);
 				
 				Emails emails = new Emails();
 				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
@@ -69,7 +69,7 @@ public class BackDoorLogic extends Logic {
 		for (EvaluationAttributes ed : evaluationDataList) {
 			try {
 	
-				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.course);
+				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.courseId);
 				
 				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
 	
@@ -79,7 +79,7 @@ public class BackDoorLogic extends Logic {
 					}
 				}
 	
-				CourseAttributes c = getCourse(ed.course);
+				CourseAttributes c = getCourse(ed.courseId);
 	
 				Emails emailMgr = new Emails();
 				List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
@@ -146,7 +146,7 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, EvaluationAttributes> evaluations = dataBundle.evaluations;
 		for (EvaluationAttributes evaluation : evaluations.values()) {
 			log.fine("API Servlet adding evaluation :" + evaluation.name
-					+ " to course " + evaluation.course);
+					+ " to course " + evaluation.courseId);
 			createEvaluation(evaluation);
 		}
 

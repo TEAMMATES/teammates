@@ -27,7 +27,7 @@
   
   "students": {
     "CEvalRUiT.alice.b@CS1101": {
-      "id": "CEvalRUiT.alice.b",
+      "googleId": "CEvalRUiT.alice.b",
       "email": "CEvalRUiT.alice.b@gmail.com",
       "course": "CEvalRUiT.CS1101",
       "name": "Alice Betsy",
@@ -36,7 +36,7 @@
       "team": "Team 1"
     },
     "CEvalRUiT.benny.c@CEvalRUiT.CS1101": {
-      "id": "CEvalRUiT.benny.c",
+      "googleId": "CEvalRUiT.benny.c",
       "email": "CEvalRUiT.benny.c@gmail.com",
       "course": "CEvalRUiT.CS1101",
       "name": "Benny Charles",
@@ -45,7 +45,7 @@
       "team": "Team 1"
     },
     "CEvalRUiT.charlie.d@CEvalRUiT.CS1101": {
-      "id": "CEvalRUiT.charlie.d",
+      "googleId": "CEvalRUiT.charlie.d",
       "email": "CEvalRUiT.charlie.d@gmail.com",
       "course": "CEvalRUiT.CS1101",
       "name": "Charlie Davis",
@@ -54,7 +54,7 @@
       "team": "Team 2"
     },
     "CEvalRUiT.danny.e@CEvalRUiT.CS1101": {
-      "id": "CEvalRUiT.danny.e",
+      "googleId": "CEvalRUiT.danny.e",
       "email": "CEvalRUiT.danny.e@gmail.com",
       "course": "CEvalRUiT.CS1101",
       "name": "Danny Engrid",
@@ -63,7 +63,7 @@
       "team": "Team 2"
     },
     "CEvalRUiT.emily.f@CEvalRUiT.CS1101": {
-      "id": "CEvalRUiT.emily.f",
+      "googleId": "CEvalRUiT.emily.f",
       "email": "CEvalRUiT.emily.f@gmail.com",
       "course": "CEvalRUiT.CS1101",
       "name": "Emily",
@@ -75,7 +75,7 @@
   
   "evaluations": {
     "First Eval": {
-      "course": "CEvalRUiT.CS1101",
+      "courseId": "CEvalRUiT.CS1101",
       "name": "First Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",
@@ -87,7 +87,7 @@
       "activated": true
     },
     "Second Eval": {
-      "course": "CEvalRUiT.CS1101",
+      "courseId": "CEvalRUiT.CS1101",
       "name": "Second Eval",
       "instructions": "Please please fill in the second evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -99,7 +99,7 @@
       "activated": true
     },
     "Third Eval": {
-      "course": "CEvalRUiT.CS1101",
+      "courseId": "CEvalRUiT.CS1101",
       "name": "Third Eval",
       "instructions": "Please please fill in the third evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -111,7 +111,7 @@
       "activated": true
     },
     "Fourth Eval": {
-      "course": "CEvalRUiT.CS1101",
+      "courseId": "CEvalRUiT.CS1101",
       "name": "Fourth Eval",
       "instructions": "Please please fill in the fourth evaluation",
       "startTime": "2015-04-01 11:59 PM",
@@ -122,7 +122,7 @@
       "published": false
     },
     "Fifth Eval": {
-      "course": "CEvalRUiT.CS1101",
+      "courseId": "CEvalRUiT.CS1101",
       "name": "Fifth Eval",
       "instructions": "Please please fill in the fifth evaluation",
       "startTime": "2012-04-01 11:59 PM",

@@ -230,9 +230,9 @@ public class CoursesLogic {
 		}
 
 		CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-		cdd.teamsTotal = getNumberOfTeams(cd.id);
-		cdd.studentsTotal = getTotalEnrolledInCourse(cd.id);
-		cdd.unregisteredTotal = getTotalUnregisteredInCourse(cd.id);
+		cdd.stats.teamsTotal = getNumberOfTeams(cd.id);
+		cdd.stats.studentsTotal = getTotalEnrolledInCourse(cd.id);
+		cdd.stats.unregisteredTotal = getTotalUnregisteredInCourse(cd.id);
 		return cdd;
 	}
 	
@@ -290,7 +290,7 @@ public class CoursesLogic {
 				evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
 		
 		for (EvaluationDetailsBundle edd : evaluationList) {
-			CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.course);
+			CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.courseId);
 			courseSummary.evaluations.add(edd);
 		}
 		return courseList;

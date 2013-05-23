@@ -35,21 +35,13 @@ public class CommonTest extends BaseTestCase {
 		assertEquals(true, Common.isWhiteSpace(Common.EOL));
 		assertEquals(true, Common.isWhiteSpace(Common.EOL + "   "));
 	}
-	
-	@Test
-	public void testSanitizeGoogleId() {
-
-		assertEquals("big-small.20_12", Common.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
-		assertEquals("user@hotmail.com", Common.sanitizeGoogleId(" user@hotmail.com \t\n"));
-	}
-	
 
 	@Test
 	public void testAssertContains() {
 		
-		BaseTestCase.assertContains("404 Page Not Found",
+		assertContains("404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
-		BaseTestCase.assertContains("Fails on checking assert contains",
+		assertContains("Fails on checking assert contains",
 				"404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 	}
@@ -57,9 +49,9 @@ public class CommonTest extends BaseTestCase {
 	@Test
 	public void testAssertContainsRegex() throws Exception {
 		
-		BaseTestCase.assertContainsRegex("404 Page Not Found",
+		assertContainsRegex("404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
-		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",
+		assertContainsRegex("Fails on checking assert contains regex",
 				"404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 
@@ -69,21 +61,21 @@ public class CommonTest extends BaseTestCase {
 		String inputStr = Common.readFile(Common.TEST_PAGES_FOLDER
 				+ "/commonAssertRegexTestPart.html");
 
-		BaseTestCase.assertContainsRegex(inputStr, pageStr);
-		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",
+		assertContainsRegex(inputStr, pageStr);
+		assertContainsRegex("Fails on checking assert contains regex",
 				inputStr, pageStr);
 
-		BaseTestCase.assertContainsRegex(
+		assertContainsRegex(
 				"<div>{*}</div><p>!@#$%^&*(){}_+[]</p>",
 				"<html><body><div>Testing</div><p>!@#$%^&*(){}_+[]</p><a href='index.html'>HOME</a></body></html>");
-		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",
+		assertContainsRegex("Fails on checking assert contains regex",
 				"<div>{*}</div>",
 				"<html><body><div>Testing</div><a href='index.html'>HOME</a></body></html>");
 		
-		BaseTestCase.assertContainsRegex(
+		assertContainsRegex(
 				"<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",
 				"<html><body><div style=\"display:none\">Hello world!</div></body></html>");
-		BaseTestCase.assertContainsRegex("Fails on checking assert contains regex",
+		assertContainsRegex("Fails on checking assert contains regex",
 				"<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",
 				"<html><body><div style=\"display:none\">Hello world!</div></body></html>");
 	}

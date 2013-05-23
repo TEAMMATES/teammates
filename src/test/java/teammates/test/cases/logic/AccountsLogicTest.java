@@ -105,11 +105,11 @@ public class AccountsLogicTest extends BaseTestCase {
 		accountsLogic.createAccount(accountData);
 		accountsLogic.joinCourse(studentData.key, correctStudentId);
 
-		studentData.id = accountData.googleId;
+		studentData.googleId = accountData.googleId;
 		LogicTest.verifyPresentInDatastore(studentData);
 		assertEquals(
 				correctStudentId,
-				logic.getStudentForEmail(studentData.course, studentData.email).id);
+				logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
 		______TS("failure: already joined");
 
@@ -142,10 +142,10 @@ public class AccountsLogicTest extends BaseTestCase {
 
 		String encryptedKey = Common.encrypt(studentData.key);
 		accountsLogic.joinCourse(encryptedKey, correctStudentId);
-		studentData.id = correctStudentId;
+		studentData.googleId = correctStudentId;
 		LogicTest.verifyPresentInDatastore(studentData);
 		assertEquals(correctStudentId,
-				logic.getStudentForEmail(studentData.course, studentData.email).id);
+				logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
 		// check that we have the corresponding new account created.
 		accountData.googleId = correctStudentId;
@@ -161,15 +161,15 @@ public class AccountsLogicTest extends BaseTestCase {
 				studentData.name, studentData.email, "nus");
 
 		// make the student 'unregistered' again
-		studentData.id = "";
+		studentData.googleId = "";
 		logic.updateStudent(studentData.email, studentData);
 		assertEquals("",
-				logic.getStudentForEmail(studentData.course, studentData.email).id);
+				logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
 		// rejoin
 		logic.joinCourse(correctStudentId, encryptedKey);
 		assertEquals(correctStudentId,
-				logic.getStudentForEmail(studentData.course, studentData.email).id);
+				logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
 		// check if still instructor
 		assertTrue(logic.isInstructor(correctStudentId));

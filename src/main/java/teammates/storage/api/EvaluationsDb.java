@@ -38,12 +38,12 @@ public class EvaluationsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationToAdd);
 		
 		if (!evaluationToAdd.isValid()) {
-			throw new InvalidParametersException(evaluationToAdd.getInvalidStateInfo());
+			throw new InvalidParametersException(evaluationToAdd.getInvalidityInfo());
 		}
 		
-		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {
+		if (getEvaluationEntity(evaluationToAdd.courseId, evaluationToAdd.name) != null) {
 			String error = ERROR_CREATE_EVALUATION_ALREADY_EXISTS
-					+ evaluationToAdd.course + " | " + evaluationToAdd.name;
+					+ evaluationToAdd.courseId + " | " + evaluationToAdd.name;
 			log.warning(error);
 			throw new EntityAlreadyExistsException(error);
 		}
@@ -56,17 +56,17 @@ public class EvaluationsDb {
 		// Wait for the operation to persist
 		int elapsedTime = 0;
 		Evaluation evaluationCheck = getEvaluationEntity(
-				evaluationToAdd.course, evaluationToAdd.name);
+				evaluationToAdd.courseId, evaluationToAdd.name);
 		while ((evaluationCheck == null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
 			Common.waitBriefly();
-			evaluationCheck = getEvaluationEntity(evaluationToAdd.course,
+			evaluationCheck = getEvaluationEntity(evaluationToAdd.courseId,
 					evaluationToAdd.name);
 			elapsedTime += Common.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: createEvaluation->"
-					+ evaluationToAdd.course + "/" + evaluationToAdd.name);
+					+ evaluationToAdd.courseId + "/" + evaluationToAdd.name);
 		}
 	}
 	
@@ -130,10 +130,10 @@ public class EvaluationsDb {
 				newEvaluationAttributes);
 		
 		if (!newEvaluationAttributes.isValid()) {
-			throw new InvalidParametersException(newEvaluationAttributes.getInvalidStateInfo());
+			throw new InvalidParametersException(newEvaluationAttributes.getInvalidityInfo());
 		}
 		
-		Evaluation e = getEvaluationEntity(newEvaluationAttributes.course, newEvaluationAttributes.name);
+		Evaluation e = getEvaluationEntity(newEvaluationAttributes.courseId, newEvaluationAttributes.name);
 		
 		if (e == null) {
 			throw new EntityDoesNotExistException(

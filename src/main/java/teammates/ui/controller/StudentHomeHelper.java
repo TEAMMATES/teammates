@@ -45,7 +45,7 @@ public class StudentHomeHelper extends Helper {
 	 */
 	public String getStudentStatusForEval(EvaluationAttributes eval){
 		String studentEmail = null;
-		StudentAttributes student = server.getStudentForGoogleId(eval.course, userId);
+		StudentAttributes student = server.getStudentForGoogleId(eval.courseId, userId);
 		if(student!=null) studentEmail = student.email;
 		switch(eval.getStatus()){
 		case PUBLISHED: return Common.STUDENT_EVALUATION_STATUS_PUBLISHED;
@@ -53,7 +53,7 @@ public class StudentHomeHelper extends Helper {
 		}
 		boolean submitted = false;
 		try {
-			submitted = server.hasStudentSubmittedEvaluation(eval.course, eval.name, studentEmail);
+			submitted = server.hasStudentSubmittedEvaluation(eval.courseId, eval.name, studentEmail);
 		} catch (InvalidParametersException e) {
 			System.err.println(e.getMessage());
 			return Common.STUDENT_EVALUATION_STATUS_ERROR;
@@ -143,7 +143,7 @@ public class StudentHomeHelper extends Helper {
 					+ idx
 					+ "\" "
 					+ "href=\""
-					+ getStudentEvaluationSubmissionEditLink(eval.course,
+					+ getStudentEvaluationSubmissionEditLink(eval.courseId,
 							eval.name) + "\" " + "onmouseover=\"ddrivetip('"
 					+ Common.HOVER_MESSAGE_STUDENT_EVALUATION_SUBMIT + "')\" "
 					+ "onmouseout=\"hideddrivetip()\">Submit</a>";
@@ -163,13 +163,13 @@ public class StudentHomeHelper extends Helper {
 		}
 		// @formatter:off
 		String result = "<a class=\"color_black\" href=\""
-				+ getStudentEvaluationResultsLink(eval.course, eval.name)
+				+ getStudentEvaluationResultsLink(eval.courseId, eval.name)
 				+ "\" " + "name=\"viewEvaluationResults"
 				+ idx + "\" " + " id=\"viewEvaluationResults" + idx + "\" "
 				+ "onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_EVALUATION_RESULTS
 				+ "')\" " + "onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED)
 				+ ">" + "View Results</a>" + "<a class=\"color_black\" href=\""
-				+ getStudentEvaluationSubmissionEditLink(eval.course, eval.name)
+				+ getStudentEvaluationSubmissionEditLink(eval.courseId, eval.name)
 				+ "\" " + "name=\"editEvaluationSubmission" + idx
 				+ "\" id=\"editEvaluationSubmission" + idx + "\" "
 				+ "onmouseover=\"ddrivetip('"

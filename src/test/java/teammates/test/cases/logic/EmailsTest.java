@@ -169,7 +169,7 @@ public class EmailsTest extends BaseTestCase {
 
 		______TS("generic template, student joined");
 
-		s.id = "student1id"; // set student id to make him "joined"
+		s.googleId = "student1id"; // set student id to make him "joined"
 		template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);

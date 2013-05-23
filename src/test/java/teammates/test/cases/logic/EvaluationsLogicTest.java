@@ -76,7 +76,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		for (EvaluationAttributes e : dataBundle.evaluations.values()) {
 			e.activated = true;
 			backdoor.updateEvaluation(e);
-			assertTrue(backdoor.getEvaluation(e.course, e.name).getStatus() != EvalStatus.AWAITING);
+			assertTrue(backdoor.getEvaluation(e.courseId, e.name).getStatus() != EvalStatus.AWAITING);
 		}
 		assertEquals(0, evaluationsLogic.getReadyEvaluations().size());
 
@@ -102,8 +102,8 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		// Verify that there are no unregistered students.
 		// TODO: this should be removed after absorbing registration reminder
 		// into the evaluation opening alert.
-		CourseDetailsBundle course1 = backdoor.getCourseDetails(evaluation.course);
-		assertEquals(0, course1.unregisteredTotal);
+		CourseDetailsBundle course1 = backdoor.getCourseDetails(evaluation.courseId);
+		assertEquals(0, course1.stats.unregisteredTotal);
 
 		// Create another evaluation in another course in similar fashion.
 		// Put this evaluation in a positive time zone.
@@ -125,8 +125,8 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		// Verify that there are no unregistered students
 		// TODO: this should be removed after absorbing registration reminder
 		// into the evaluation opening alert.
-		CourseDetailsBundle course2 = backdoor.getCourseDetails(evaluation.course);
-		assertEquals(0, course2.unregisteredTotal);
+		CourseDetailsBundle course2 = backdoor.getCourseDetails(evaluation.courseId);
+		assertEquals(0, course2.stats.unregisteredTotal);
 
 		// Create another evaluation not ready to be activated yet.
 		// Put this evaluation in same time zone.
@@ -212,10 +212,10 @@ public class EvaluationsLogicTest extends BaseTestCase{
 				.get("evaluation1InCourse1");
 
 		List<MimeMessage> emailsSent = invokeSendEvaluationPublishedEmails(
-				e.course, e.name);
+				e.courseId, e.name);
 		assertEquals(5, emailsSent.size());
 
-		List<StudentAttributes> studentList = logic.getStudentsForCourse(e.course);
+		List<StudentAttributes> studentList = logic.getStudentsForCourse(e.courseId);
 
 		for (StudentAttributes s : studentList) {
 			String errorMessage = "No email sent to " + s.email;
@@ -318,10 +318,10 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		// verify incoming and outgoing do not refer to same copy of submissions
 		srb1.sortIncomingByStudentNameAscending();
 		srb1.sortOutgoingByStudentNameAscending();
-		srb1.incoming.get(S1_POS).normalizedToStudent = 0;
-		srb1.outgoing.get(S1_POS).normalizedToStudent = 1;
-		assertEquals(0, srb1.incoming.get(S1_POS).normalizedToStudent);
-		assertEquals(1, srb1.outgoing.get(S1_POS).normalizedToStudent);
+		srb1.incoming.get(S1_POS).details.normalizedToStudent = 0;
+		srb1.outgoing.get(S1_POS).details.normalizedToStudent = 1;
+		assertEquals(0, srb1.incoming.get(S1_POS).details.normalizedToStudent);
+		assertEquals(1, srb1.outgoing.get(S1_POS).details.normalizedToStudent);
 
 		invokePopulateTeamResult(teamEvalResultBundle, teamResult);
 		
@@ -330,47 +330,47 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		assertEquals(92, srb1.summary.claimedToInstructor);
 		assertEquals(116, srb1.summary.perceivedToStudent);
 		assertEquals(97, srb1.summary.perceivedToInstructor);
-		assertEquals(92, srb1.outgoing.get(S1_POS).normalizedToInstructor);
-		assertEquals(100, srb1.outgoing.get(S2_POS).normalizedToInstructor);
-		assertEquals(108, srb1.outgoing.get(S3_POS).normalizedToInstructor);
-		assertEquals(s1.name, srb1.incoming.get(S1_POS).revieweeName);
-		assertEquals(s1.name, srb1.incoming.get(S1_POS).reviewerName);
-		assertEquals(116, srb1.incoming.get(S1_POS).normalizedToStudent);
-		assertEquals(119, srb1.incoming.get(S2_POS).normalizedToStudent);
-		assertEquals(125, srb1.incoming.get(S3_POS).normalizedToStudent);
-		assertEquals(NA, srb1.incoming.get(S1_POS).normalizedToInstructor);
-		assertEquals(95, srb1.incoming.get(S2_POS).normalizedToInstructor);
-		assertEquals(98, srb1.incoming.get(S3_POS).normalizedToInstructor);
+		assertEquals(92, srb1.outgoing.get(S1_POS).details.normalizedToInstructor);
+		assertEquals(100, srb1.outgoing.get(S2_POS).details.normalizedToInstructor);
+		assertEquals(108, srb1.outgoing.get(S3_POS).details.normalizedToInstructor);
+		assertEquals(s1.name, srb1.incoming.get(S1_POS).details.revieweeName);
+		assertEquals(s1.name, srb1.incoming.get(S1_POS).details.reviewerName);
+		assertEquals(116, srb1.incoming.get(S1_POS).details.normalizedToStudent);
+		assertEquals(119, srb1.incoming.get(S2_POS).details.normalizedToStudent);
+		assertEquals(125, srb1.incoming.get(S3_POS).details.normalizedToStudent);
+		assertEquals(NA, srb1.incoming.get(S1_POS).details.normalizedToInstructor);
+		assertEquals(95, srb1.incoming.get(S2_POS).details.normalizedToInstructor);
+		assertEquals(98, srb1.incoming.get(S3_POS).details.normalizedToInstructor);
 
 		s2 = teamEvalResultBundle.studentResults.get(S2_POS).student;
 		assertEquals(220, srb2.summary.claimedFromStudent);
 		assertEquals(100, srb2.summary.claimedToInstructor);
 		assertEquals(217, srb2.summary.perceivedToStudent);
 		assertEquals(99, srb2.summary.perceivedToInstructor);
-		assertEquals(95, srb2.outgoing.get(S1_POS).normalizedToInstructor);
-		assertEquals(100, srb2.outgoing.get(S2_POS).normalizedToInstructor);
-		assertEquals(105, srb2.outgoing.get(S3_POS).normalizedToInstructor);
-		assertEquals(213, srb2.incoming.get(S1_POS).normalizedToStudent);
-		assertEquals(217, srb2.incoming.get(S2_POS).normalizedToStudent);
-		assertEquals(229, srb2.incoming.get(S3_POS).normalizedToStudent);
-		assertEquals(96, srb2.incoming.get(S1_POS).normalizedToInstructor);
-		assertEquals(NA, srb2.incoming.get(S2_POS).normalizedToInstructor);
-		assertEquals(102, srb2.incoming.get(S3_POS).normalizedToInstructor);
+		assertEquals(95, srb2.outgoing.get(S1_POS).details.normalizedToInstructor);
+		assertEquals(100, srb2.outgoing.get(S2_POS).details.normalizedToInstructor);
+		assertEquals(105, srb2.outgoing.get(S3_POS).details.normalizedToInstructor);
+		assertEquals(213, srb2.incoming.get(S1_POS).details.normalizedToStudent);
+		assertEquals(217, srb2.incoming.get(S2_POS).details.normalizedToStudent);
+		assertEquals(229, srb2.incoming.get(S3_POS).details.normalizedToStudent);
+		assertEquals(96, srb2.incoming.get(S1_POS).details.normalizedToInstructor);
+		assertEquals(NA, srb2.incoming.get(S2_POS).details.normalizedToInstructor);
+		assertEquals(102, srb2.incoming.get(S3_POS).details.normalizedToInstructor);
 
 		s3 = teamEvalResultBundle.studentResults.get(S3_POS).student;
 		assertEquals(330, srb3.summary.claimedFromStudent);
 		assertEquals(103, srb3.summary.claimedToInstructor);
 		assertEquals(334, srb3.summary.perceivedToStudent);
 		assertEquals(104, srb3.summary.perceivedToInstructor);
-		assertEquals(97, srb3.outgoing.get(S1_POS).normalizedToInstructor);
-		assertEquals(100, srb3.outgoing.get(S2_POS).normalizedToInstructor);
-		assertEquals(103, srb3.outgoing.get(S3_POS).normalizedToInstructor);
-		assertEquals(310, srb3.incoming.get(S1_POS).normalizedToStudent);
-		assertEquals(316, srb3.incoming.get(S2_POS).normalizedToStudent);
-		assertEquals(334, srb3.incoming.get(S3_POS).normalizedToStudent);
-		assertEquals(104, srb3.incoming.get(S1_POS).normalizedToInstructor);
-		assertEquals(105, srb3.incoming.get(S2_POS).normalizedToInstructor);
-		assertEquals(NA, srb3.incoming.get(S3_POS).normalizedToInstructor);
+		assertEquals(97, srb3.outgoing.get(S1_POS).details.normalizedToInstructor);
+		assertEquals(100, srb3.outgoing.get(S2_POS).details.normalizedToInstructor);
+		assertEquals(103, srb3.outgoing.get(S3_POS).details.normalizedToInstructor);
+		assertEquals(310, srb3.incoming.get(S1_POS).details.normalizedToStudent);
+		assertEquals(316, srb3.incoming.get(S2_POS).details.normalizedToStudent);
+		assertEquals(334, srb3.incoming.get(S3_POS).details.normalizedToStudent);
+		assertEquals(104, srb3.incoming.get(S1_POS).details.normalizedToInstructor);
+		assertEquals(105, srb3.incoming.get(S2_POS).details.normalizedToInstructor);
+		assertEquals(NA, srb3.incoming.get(S3_POS).details.normalizedToInstructor);
 
 	}
 	
@@ -391,9 +391,9 @@ public class EvaluationsLogicTest extends BaseTestCase{
 		submission.evaluation = "eval1";
 		submission.points = from * 100 + to * 10;
 		submission.reviewer = "e" + from + "@c";
-		submission.reviewerName = "s" + from;
+		submission.details.reviewerName = "s" + from;
 		submission.reviewee = "e" + to + "@c";
-		submission.revieweeName = "s" + to;
+		submission.details.revieweeName = "s" + to;
 		return submission;
 	}
 	

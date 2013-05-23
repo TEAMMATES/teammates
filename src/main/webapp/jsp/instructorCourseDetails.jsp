@@ -56,11 +56,11 @@
 				</tr>
 				<tr>
 		 			<td class="label rightalign bold" width="30%">Teams:</td>
-		 			<td id="total_teams"><%=helper.courseDetails.teamsTotal%></td>
+		 			<td id="total_teams"><%=helper.courseDetails.stats.teamsTotal%></td>
 		 		</tr>
 		 		<tr>
 		 			<td class="label rightalign bold" width="30%">Total students:</td>
-		 			<td id="total_students"><%=helper.courseDetails.studentsTotal%></td>
+		 			<td id="total_students"><%=helper.courseDetails.stats.studentsTotal%></td>
 		 		</tr>
 		 		<tr>
 		 			<td class="label rightalign bold" width="30%">Instructors:</td>
@@ -77,7 +77,7 @@
 					</td>
 		 		</tr>
 		 		<%
-		 			if(helper.courseDetails.studentsTotal>1){
+		 			if(helper.courseDetails.stats.studentsTotal>1){
 		 		%>
 		 		<tr>
 		 			<td class="centeralign" colspan="2">

@@ -6,6 +6,7 @@ import java.util.List;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.Sanitizer;
 import teammates.common.FieldValidator.FieldType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Instructor;
@@ -25,12 +26,11 @@ public class InstructorAttributes extends EntityAttributes {
 	public static final String ERROR_INSTRUCTOR_LINE_NULL = "Instructor line was null";
 	public static final String ERROR_INFORMATION_INCORRECT = "Please enter information in the format: GoogleID | Name | Email\n";
 
-	public InstructorAttributes(String id, String courseId, String name, String email) {
-		//TODO: user proper sanitization
-		this.googleId = id;
-		this.courseId = courseId;
-		this.name = name;
-		this.email = email;
+	public InstructorAttributes(String id, String courseId, String name, String email) {		
+		this.googleId = Sanitizer.sanitizeGoogleId(id);
+		this.courseId = Sanitizer.sanitizeTitle(courseId);
+		this.name = Sanitizer.sanitizeName(name);
+		this.email = Sanitizer.sanitizeEmail(email);
 	}
 	
 	public InstructorAttributes(Instructor instructor) {
@@ -54,8 +54,8 @@ public class InstructorAttributes extends EntityAttributes {
 			throw new InvalidParametersException(ERROR_INFORMATION_INCORRECT);
 		}
 		
-		this.googleId = Common.sanitizeGoogleId(parts[0]);
-		Assumption.assertTrue(new FieldValidator().getValidityInfo(FieldType.GOOGLE_ID, googleId).isEmpty());
+		this.googleId = Sanitizer.sanitizeGoogleId(parts[0]);
+		Assumption.assertTrue(new FieldValidator().getInvalidityInfo(FieldType.GOOGLE_ID, googleId).isEmpty());
 
 		this.courseId = courseId;
 		this.name = parts[1].trim();
@@ -66,21 +66,21 @@ public class InstructorAttributes extends EntityAttributes {
 		return new Instructor(googleId, courseId, name, email);
 	}
 
-	public List<String> getInvalidStateInfo() {
+	public List<String> getInvalidityInfo() {
 		FieldValidator validator = new FieldValidator();
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
-		error= validator.getValidityInfo(FieldType.GOOGLE_ID, googleId);
+		error= validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.COURSE_ID, courseId);
+		error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.PERSON_NAME, name);
+		error= validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.EMAIL, email);
+		error= validator.getInvalidityInfo(FieldType.EMAIL, email);
 		if(!error.isEmpty()) { errors.add(error); }
 		
 		return errors;

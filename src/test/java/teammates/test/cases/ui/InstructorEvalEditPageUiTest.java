@@ -54,7 +54,7 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		
 		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_EDIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,ts.evaluation.course);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,ts.evaluation.courseId);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,ts.evaluation.name);
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.googleId);
 		bi.goToUrl(link);
@@ -89,7 +89,7 @@ public class InstructorEvalEditPageUiTest extends BaseTestCase {
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EDITED);
 		
 		// Verify data
-		String json = BackDoor.getEvaluationAsJson(ts.newEvaluation.course, ts.newEvaluation.name);
+		String json = BackDoor.getEvaluationAsJson(ts.newEvaluation.courseId, ts.newEvaluation.name);
 		EvaluationAttributes newEval = Common.getTeammatesGson().fromJson(json, EvaluationAttributes.class);
 		assertEquals(ts.newEvaluation.startTime,newEval.startTime);
 		assertEquals(ts.newEvaluation.endTime,newEval.endTime);

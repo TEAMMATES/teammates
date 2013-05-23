@@ -7,35 +7,35 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.EnrollException;
 
 public class StudentResultBundleTest {
 
 	@Test
 	public void testSortOutgoingByStudentNameAscending()
-			throws InvalidParametersException {
+			throws EnrollException {
 
 		StudentResultBundle result = new StudentResultBundle(new StudentAttributes(
 				"t1|adam|a@b", "dummy-course"));
 
 		SubmissionAttributes s1 = new SubmissionAttributes();
-		s1.revieweeName = "Benny";
+		s1.details.revieweeName = "Benny";
 		result.outgoing.add(s1);
 
 		SubmissionAttributes s2 = new SubmissionAttributes();
-		s2.revieweeName = "Alice";
+		s2.details.revieweeName = "Alice";
 		result.outgoing.add(s2);
 
 		SubmissionAttributes s3 = new SubmissionAttributes();
-		s3.revieweeName = "Charlie";
+		s3.details.revieweeName = "Charlie";
 		result.outgoing.add(s3);
 
 		result.sortOutgoingByStudentNameAscending();
 
-		AssertJUnit.assertEquals("Alice", result.outgoing.get(0).revieweeName);
-		AssertJUnit.assertEquals("Benny", result.outgoing.get(1).revieweeName);
+		AssertJUnit.assertEquals("Alice", result.outgoing.get(0).details.revieweeName);
+		AssertJUnit.assertEquals("Benny", result.outgoing.get(1).details.revieweeName);
 		AssertJUnit
-				.assertEquals("Charlie", result.outgoing.get(2).revieweeName);
+				.assertEquals("Charlie", result.outgoing.get(2).details.revieweeName);
 	}
 
 	@Test
@@ -44,23 +44,23 @@ public class StudentResultBundleTest {
 				"t1|adam|a@b", "dummy-course"));
 
 		SubmissionAttributes s1 = new SubmissionAttributes();
-		s1.reviewerName = "Benny";
+		s1.details.reviewerName = "Benny";
 		result.incoming.add(s1);
 
 		SubmissionAttributes s2 = new SubmissionAttributes();
-		s2.reviewerName = "Alice";
+		s2.details.reviewerName = "Alice";
 		result.incoming.add(s2);
 
 		SubmissionAttributes s3 = new SubmissionAttributes();
-		s3.reviewerName = "Charlie";
+		s3.details.reviewerName = "Charlie";
 		result.incoming.add(s3);
 
 		result.sortIncomingByStudentNameAscending();
 
-		AssertJUnit.assertEquals("Alice", result.incoming.get(0).reviewerName);
-		AssertJUnit.assertEquals("Benny", result.incoming.get(1).reviewerName);
+		AssertJUnit.assertEquals("Alice", result.incoming.get(0).details.reviewerName);
+		AssertJUnit.assertEquals("Benny", result.incoming.get(1).details.reviewerName);
 		AssertJUnit
-				.assertEquals("Charlie", result.incoming.get(2).reviewerName);
+				.assertEquals("Charlie", result.incoming.get(2).details.reviewerName);
 	}
 
 	@Test

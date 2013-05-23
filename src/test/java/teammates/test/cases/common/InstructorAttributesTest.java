@@ -9,9 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 
 public class InstructorAttributesTest extends BaseTestCase {
@@ -43,7 +41,7 @@ public class InstructorAttributesTest extends BaseTestCase {
 				+ String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
 				+ String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
 				+ String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
-		assertEquals("invalid value", errorMessage, Common.toString(i.getInvalidStateInfo()));
+		assertEquals("invalid value", errorMessage, Common.toString(i.getInvalidityInfo()));
 	}
 
 	@Test

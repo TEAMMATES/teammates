@@ -18,7 +18,7 @@ public class InstructorEvalResultsHelper extends Helper{
 	 */
 	public String getForwardURL(){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,evaluationResults.evaluation.course);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,evaluationResults.evaluation.courseId);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME, evaluationResults.evaluation.name);
 		if(isMasqueradeMode()){
 			link = Common.addParamToUrl(link,Common.PARAM_USER_ID,requestedUser);
@@ -152,7 +152,7 @@ public class InstructorEvalResultsHelper extends Helper{
 			@Override
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
 				if(normalized)
-					return Integer.valueOf(s2.normalizedToInstructor).compareTo(s1.normalizedToInstructor);
+					return Integer.valueOf(s2.details.normalizedToInstructor).compareTo(s1.details.normalizedToInstructor);
 				else
 					return Integer.valueOf(s2.points).compareTo(s1.points);
 			}
@@ -161,7 +161,7 @@ public class InstructorEvalResultsHelper extends Helper{
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
 			if(normalized){
-				result+=colorizePoints(sub.normalizedToInstructor);
+				result+=colorizePoints(sub.details.normalizedToInstructor);
 			} else{
 				result+=colorizePoints(sub.points);
 			}

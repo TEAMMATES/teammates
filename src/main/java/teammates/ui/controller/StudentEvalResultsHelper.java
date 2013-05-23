@@ -44,13 +44,13 @@ public class StudentEvalResultsHelper extends Helper {
 		Collections.sort(tempSubs, new Comparator<SubmissionAttributes>(){
 			@Override
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
-				return Integer.valueOf(s2.normalizedToStudent).compareTo(s1.normalizedToStudent);
+				return Integer.valueOf(s2.details.normalizedToStudent).compareTo(s1.details.normalizedToStudent);
 			}
 		});
 		for(SubmissionAttributes sub: tempSubs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
-			result+=InstructorEvalResultsHelper.colorizePoints(sub.normalizedToStudent);
+			result+=InstructorEvalResultsHelper.colorizePoints(sub.details.normalizedToStudent);
 		}
 		return result;
 	}

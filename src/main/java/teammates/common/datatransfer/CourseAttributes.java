@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
+import teammates.common.Sanitizer;
 import teammates.storage.entity.Course;
 
 /**
@@ -24,11 +24,9 @@ public class CourseAttributes extends EntityAttributes {
 
 	}
 
-	public CourseAttributes(String id, String name) {
-		//TODO: this method should follow our normal sanitization policy
-		// (when we have one).
-		this.id = Common.trimIfNotNull(id);
-		this.name = Common.trimIfNotNull(name);
+	public CourseAttributes(String courseId, String name) {
+		this.id = Sanitizer.sanitizeTitle(courseId);
+		this.name = Sanitizer.sanitizeTitle(name);
 	}
 
 	public CourseAttributes(Course course) {
@@ -37,16 +35,16 @@ public class CourseAttributes extends EntityAttributes {
 		this.createdAt = course.getCreatedAt();
 	}
 	
-	public List<String> getInvalidStateInfo() {
+	public List<String> getInvalidityInfo() {
 		
 		FieldValidator validator = new FieldValidator();
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
-		error= validator.getValidityInfo(FieldType.COURSE_ID, id);
+		error= validator.getInvalidityInfo(FieldType.COURSE_ID, id);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.COURSE_NAME, name);
+		error= validator.getInvalidityInfo(FieldType.COURSE_NAME, name);
 		if(!error.isEmpty()) { errors.add(error); }
 		
 		return errors;

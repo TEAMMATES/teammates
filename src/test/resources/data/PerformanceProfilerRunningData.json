@@ -8,11 +8,11 @@
 },
 
 "students":{
-	"Z3_Stu273Team1_in_Cou0_of_Coo0":{"email":"Z3_Stu273Email@gmail.com","name":"Student 273 in Z3_Cou0_of_Coo0","team":"Team 1","id":"Z3_Stu273Email","comments":"aaaa","course":"idOf_Z3_Cou0_of_Coo0","profile":{"value": "Student 273 in Z3_Cou0_of_Coo0"}}
+	"Z3_Stu273Team1_in_Cou0_of_Coo0":{"email":"Z3_Stu273Email@gmail.com","name":"Student 273 in Z3_Cou0_of_Coo0","team":"Team 1","googleId":"Z3_Stu273Email","comments":"aaaa","course":"idOf_Z3_Cou0_of_Coo0","profile":{"value": "Student 273 in Z3_Cou0_of_Coo0"}}
 },
 
 "evaluations":{
-	"idOf_Z3_Eval0_in_Cou0_of_Coo0":{"course":"idOf_Z3_Cou0_of_Coo0","name":"Z3_Eval0_in_Cou0_of_Coo0","instructions":"instructions for Z3_Eval0_in_Cou0_of_Coo0","gracePeriod":10,"p2pEnabled":true,"startTime":"2012-04-01 11:59 PM","endTime":"2012-012-30 11:59 PM","startTime":"2012-04-01 11:59 PM","timeZone":8.0,"activated":true,"published":false}
+	"idOf_Z3_Eval0_in_Cou0_of_Coo0":{"courseId":"idOf_Z3_Cou0_of_Coo0","name":"Z3_Eval0_in_Cou0_of_Coo0","instructions":"instructions for Z3_Eval0_in_Cou0_of_Coo0","gracePeriod":10,"p2pEnabled":true,"startTime":"2012-04-01 11:59 PM","endTime":"2012-012-30 11:59 PM","startTime":"2012-04-01 11:59 PM","timeZone":8.0,"activated":true,"published":false}
 },
 
 "submissions":{

@@ -64,7 +64,7 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		______TS("view submissions for open evaluation, from results page");
 		
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("CESubEditUiT.instructor").googleId);
 		bi.goToUrl(link);
@@ -85,7 +85,7 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		______TS("view submission for closed evaluation, using direct URL");
 		
 		link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, scn.students.get("Charlie").email);
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("CESubEditUiT.instructor").googleId);
@@ -132,23 +132,23 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		print("Checking status message");
 		bi.dismissCloseWindowAlertIfAny();
 		bi.getSelenium().selectWindow("null");
-		bi.waitForStatusMessage(String.format(Common.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,scn.students.get("Charlie").name,eval.name,eval.course).replace("<br />", "\n").replace("<span class='color_red bold'>", "").replace("</span>", ""));
+		bi.waitForStatusMessage(String.format(Common.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,scn.students.get("Charlie").name,eval.name,eval.courseId).replace("<br />", "\n").replace("<span class='color_red bold'>", "").replace("</span>", ""));
 		
 		print("Checking modified data");
 		String json = "";
-		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, charlieEmail, charlieEmail);
+		json = BackDoor.getSubmissionAsJson(eval.courseId, eval.name, charlieEmail, charlieEmail);
 		SubmissionAttributes charlieModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[0].points+"",charlieModified.points+"");
 		assertEquals(subs[0].justification.getValue(),charlieModified.justification.getValue());
 		assertEquals(subs[0].p2pFeedback.getValue(),charlieModified.p2pFeedback.getValue());
 
-		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, charlieEmail, dannyEmail);
+		json = BackDoor.getSubmissionAsJson(eval.courseId, eval.name, charlieEmail, dannyEmail);
 		SubmissionAttributes dannyModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[1].points+"",dannyModified.points+"");
 		assertEquals(subs[1].justification.getValue(),dannyModified.justification.getValue());
 		assertEquals(subs[1].p2pFeedback.getValue(),dannyModified.p2pFeedback.getValue());
 
-		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, charlieEmail, emilyEmail);
+		json = BackDoor.getSubmissionAsJson(eval.courseId, eval.name, charlieEmail, emilyEmail);
 		SubmissionAttributes emilyModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[2].points+"",emilyModified.points+"");
 		assertEquals(subs[2].justification.getValue(),emilyModified.justification.getValue());
@@ -162,7 +162,7 @@ public class InstructorEvalSubmissionPageUiTest extends BaseTestCase {
 		
 		______TS("verify p2p fields are disabled");
 		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, scn.students.get("Charlie").email);
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.instructors.get("CESubEditUiT.instructor").googleId);

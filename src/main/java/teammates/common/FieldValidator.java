@@ -1,9 +1,14 @@
 package teammates.common;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
 public class FieldValidator {
+	
+	//TODO: change 'validityStateInfo' to 'invalidityStateInfo' in method names, for consistency
 	
 	public enum FieldType {
 		COURSE_ID,  
@@ -101,7 +106,10 @@ public class FieldValidator {
 			"\"%s\" is not acceptable to TEAMMATES as "+TEAM_NAME_FIELD_NAME+" because it %s. " +
 					"The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
 					TEAM_NAME_MAX_LENGTH+" characters.";
-
+	
+	public static final String EVALUATION_TIMEFRAME_ERROR_MESSAGE = "Evaluation end time cannot be earlier than start time";
+	public static final String EVALUATION_START_TIME_ERROR_MESSAGE = "Evaluation cannot be published before end time";
+	public static final String EVALUATION_END_TIME_ERROR_MESSAGE = "Evaluation cannot be activated before start time";
 	
 	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
 	private static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
@@ -128,12 +136,12 @@ public class FieldValidator {
 	 *         what are the acceptable values. Returns an empty string "" if the
 	 *         value is acceptable
 	 */
-	public String getValidityInfo(FieldType fieldType, Object value) {
-		return getValidityInfo(fieldType, "", value);
+	public String getInvalidityInfo(FieldType fieldType, Object value) {
+		return getInvalidityInfo(fieldType, "", value);
 	}
 	
 	/**
-	 * Similar to {@link #getValidityInfo(FieldType, Object)} except this takes
+	 * Similar to {@link #getInvalidityInfo(FieldType, Object)} except this takes
 	 * an extra parameter fieldName
 	 * 
 	 * @param fieldType
@@ -143,7 +151,8 @@ public class FieldValidator {
 	 * @param value
 	 * @return
 	 */
-	public String getValidityInfo(FieldType fieldType, String fieldName, Object value) {
+	public String getInvalidityInfo(FieldType fieldType, String fieldName, Object value) {
+		//TODO: should be break this into individual methods? We already have some methods like that in this class.
 		String returnValue = null;
 		switch (fieldType) {
 		case PERSON_NAME:
@@ -245,6 +254,35 @@ public class FieldValidator {
 		} 
 		return "";
 	}
+	
+	public String getValidityInfoForTimeFrame(Date startTime, Date endTime){
+		if (endTime.before(startTime)) {
+			return EVALUATION_TIMEFRAME_ERROR_MESSAGE;
+		}
+		return "";
+	}
+	
+	public String getValidityInfoForStartTime(Date startTime, double timeZone,
+			boolean activated) {
+		if (isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
+			return EVALUATION_START_TIME_ERROR_MESSAGE;
+		}
+		return "";
+	}
+
+	public String getValidityInfoForEndTime(Date endTime, double timeZone,
+			boolean published) {
+		if (isCurrentTimeInUsersTimezoneEarlierThan(endTime, timeZone) && published) {
+			return EVALUATION_END_TIME_ERROR_MESSAGE;
+		}
+		return "";
+	}
+	
+	private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {
+		Date nowInUserTimeZone = Common.convertToUserTimeZone(
+				Calendar.getInstance(), timeZone).getTime();
+		return nowInUserTimeZone.before(time);
+	}
 
 	private String getInvalidStateInfo_GOOGLE_ID(String value) {
 		
@@ -304,5 +342,4 @@ public class FieldValidator {
 	private boolean isTrimmed(String value) {
 		return value.length() == value.trim().length();
 	}
-
 }

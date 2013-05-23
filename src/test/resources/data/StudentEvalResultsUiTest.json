@@ -62,7 +62,7 @@
   
   "students": {
     "SEvalRUiT.alice.b": {
-      "id": "SEvalRUiT.alice.b",
+      "googleId": "SEvalRUiT.alice.b",
       "email": "SEvalRUiT.alice.b@gmail.com",
       "course": "SEvalRUiT.CS1101",
       "name": "Alice Betsy",
@@ -71,7 +71,7 @@
       "team": "Team 1"
     },
     "SEvalRUiT.benny.c": {
-      "id": "SEvalRUiT.benny.c",
+      "googleId": "SEvalRUiT.benny.c",
       "email": "SEvalRUiT.benny.c@gmail.com",
       "course": "SEvalRUiT.CS1101",
       "name": "Benny Charles",
@@ -80,7 +80,7 @@
       "team": "Team 1"
     },
     "SEvalRUiT.charlie.d": {
-      "id": "SEvalRUiT.charlie.d",
+      "googleId": "SEvalRUiT.charlie.d",
       "email": "SEvalRUiT.charlie.d@gmail.com",
       "course": "SEvalRUiT.CS1101",
       "name": "Charlie Davis",
@@ -89,7 +89,7 @@
       "team": "Team 2"
     },
     "SEvalRUiT.danny.e": {
-      "id": "SEvalRUiT.danny.e",
+      "googleId": "SEvalRUiT.danny.e",
       "email": "SEvalRUiT.danny.e@gmail.com",
       "course": "SEvalRUiT.CS1101",
       "name": "Danny Engrid",
@@ -98,7 +98,7 @@
       "team": "Team 2"
     },
     "SEvalRUiT.emily.f": {
-      "id": "SEvalRUiT.emily.f",
+      "googleId": "SEvalRUiT.emily.f",
       "email": "SEvalRUiT.emily.f@gmail.com",
       "course": "SEvalRUiT.CS1101",
       "name": "Emily",
@@ -110,7 +110,7 @@
   
   "evaluations": {
     "Second Eval": {
-      "course": "SEvalRUiT.CS1101",
+      "courseId": "SEvalRUiT.CS1101",
       "name": "Second Eval",
       "instructions": "Please please fill in the second evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -122,7 +122,7 @@
       "activated": true
     },
     "Third Eval": {
-      "course": "SEvalRUiT.CS1101",
+      "courseId": "SEvalRUiT.CS1101",
       "name": "Third Eval",
       "instructions": "Please please fill in the third evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -134,7 +134,7 @@
       "activated": true
     },
     "P2P Disabled Eval": {
-      "course": "SEvalRUiT.CS1101",
+      "courseId": "SEvalRUiT.CS1101",
       "name": "P2P Disabled Eval",
       "instructions": "Please please fill in the P2P Disabled Evaluation",
       "startTime": "2012-04-01 11:59 PM",

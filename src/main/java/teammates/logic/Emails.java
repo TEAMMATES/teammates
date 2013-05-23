@@ -318,6 +318,6 @@ public class Emails {
 	}
 
 	private boolean isYetToJoinCourse(StudentAttributes s) {
-		return s.id == null || s.id.isEmpty();
+		return s.googleId == null || s.googleId.isEmpty();
 	}
 }

@@ -100,7 +100,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 	public void testInstructorHomeEvalRemindLink(){
 		
 		// Check the remind link on Open Evaluation: Evaluation 1 at Course 1
-		By remindLinkLocator = bi.getInstructorHomeEvaluationRemindLinkLocator(firstEval.course, firstEval.name);
+		By remindLinkLocator = bi.getInstructorHomeEvaluationRemindLinkLocator(firstEval.courseId, firstEval.name);
 		
 		try{
 			bi.clickAndCancel(remindLinkLocator);
@@ -114,7 +114,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		______TS("publish link of CLOSED evaluation");
 		
 		// Check the publish link on Closed Evaluation: Evaluation 3 at Course 2
-		By publishLinkLocator = bi.getInstructorHomeEvaluationPublishLinkLocator(thirdEval.course, thirdEval.name);
+		By publishLinkLocator = bi.getInstructorHomeEvaluationPublishLinkLocator(thirdEval.courseId, thirdEval.name);
 		
 		try{
 			bi.clickAndCancel(publishLinkLocator);
@@ -125,7 +125,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		______TS("publish link of OPEN evaluation");
 		
 		// Check the publish link on Open Evaluation: Evaluation 1 at Course 1
-		publishLinkLocator = bi.getInstructorHomeEvaluationPublishLinkLocator(firstEval.course, firstEval.name);
+		publishLinkLocator = bi.getInstructorHomeEvaluationPublishLinkLocator(firstEval.courseId, firstEval.name);
 		try{
 			bi.clickAndCancel(publishLinkLocator);
 			Assert.fail("Publish link available on OPEN evaluation");
@@ -134,7 +134,7 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		______TS("unpublish link of PUBLISHED evaluation");
 
 		// Check the unpublish link on Published Evaluation: Evaluation 2 at Course 1
-		By unpublishLinkLocator = bi.getInstructorHomeEvaluationUnpublishLinkLocator(secondEval.course, secondEval.name);
+		By unpublishLinkLocator = bi.getInstructorHomeEvaluationUnpublishLinkLocator(secondEval.courseId, secondEval.name);
 		try{
 			bi.clickAndCancel(unpublishLinkLocator);
 		} catch (NoAlertException e){
@@ -146,11 +146,11 @@ public class InstructorHomePageUiTest extends BaseTestCase {
 		
 		______TS("click and cancel");
 		
-		By deleteLinkLocator = bi.getInstructorHomeEvaluationDeleteLinkLocator(firstEval.course, firstEval.name);
+		By deleteLinkLocator = bi.getInstructorHomeEvaluationDeleteLinkLocator(firstEval.courseId, firstEval.name);
 		
 		try{
 			bi.clickAndCancel(deleteLinkLocator);
-			String evaluation = BackDoor.getEvaluationAsJson(firstEval.course, firstEval.name);
+			String evaluation = BackDoor.getEvaluationAsJson(firstEval.courseId, firstEval.name);
 			if(isNullJSON(evaluation)) Assert.fail("Evaluation was deleted when it's not supposed to be");
 		} catch (NoAlertException e){
 			Assert.fail("Delete link is unavailable or it is available but no confirmation box");

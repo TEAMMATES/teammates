@@ -41,7 +41,7 @@ public class SubmissionAttributesTest extends BaseTestCase {
 		
 		s.justification = null;
 		try {
-			s.getInvalidStateInfo();
+			s.getInvalidityInfo();
 			throw new RuntimeException("Assumption violation not detected");
 		} catch (AssertionError e1) {
 			assertTrue(true);
@@ -61,7 +61,7 @@ public class SubmissionAttributesTest extends BaseTestCase {
 				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, s.evaluation, REASON_EMPTY) + EOL 
 				+ "Invalid email address for the student receiving the evaluation: "+ String.format(EMAIL_ERROR_MESSAGE, s.reviewer, REASON_EMPTY) + EOL
 				+ "Invalid email address for the student giving the evaluation: "+ String.format(EMAIL_ERROR_MESSAGE, s.reviewee, REASON_EMPTY);
-		assertEquals("valid values", errorMessage, Common.toString(s.getInvalidStateInfo()));
+		assertEquals("valid values", errorMessage, Common.toString(s.getInvalidityInfo()));
 
 	}
 	

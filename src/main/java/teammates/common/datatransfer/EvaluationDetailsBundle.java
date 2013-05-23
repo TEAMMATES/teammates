@@ -20,9 +20,9 @@ public class EvaluationDetailsBundle {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("course:" + evaluation.course + ", name:" + evaluation.name
+		sb.append("course:" + evaluation.courseId + ", name:" + evaluation.name
 				+ Common.EOL);
-		//TODO: add statistics
+		sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
 		return sb.toString();
 	}
 

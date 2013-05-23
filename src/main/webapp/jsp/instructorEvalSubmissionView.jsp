@@ -45,7 +45,7 @@
 			<table class="inputTable" id="studentEvaluationInfo">
 				<tr>
 					<td class="label rightalign bold" width="30%">Course ID:</td>
-					<td class="leftalign"><%=helper.evaluationResults.evaluation.course%></td>
+					<td class="leftalign"><%=helper.evaluationResults.evaluation.courseId%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
@@ -89,8 +89,8 @@
 					for(SubmissionAttributes sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue;
 				%>
 					<tr>
-						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.reviewerName : sub.revieweeName)%></b></td>
-						<td><%=InstructorEvalSubmissionViewHelper.printSharePoints(sub.normalizedToInstructor,false)%></td>
+						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
+						<td><%=InstructorEvalSubmissionViewHelper.printSharePoints(sub.details.normalizedToInstructor,false)%></td>
 						<td><%=InstructorEvalSubmissionViewHelper.printJustification(sub)%></td>
 						<td><%=InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluationResults.evaluation.p2pEnabled)%></td>
 					</tr>
@@ -106,7 +106,7 @@
 				<input type="button" class="button" id="button_back" value="Close"
 						onclick="window.close()">
 				<input type="button" class="button" id="button_edit" value="Edit Submission"
-						onclick="window.location.href='<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationResults.evaluation.course, helper.evaluationResults.evaluation.name, helper.student.email)%>'">
+						onclick="window.location.href='<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationResults.evaluation.courseId, helper.evaluationResults.evaluation.name, helper.student.email)%>'">
 			</div>
 			<br>
 			<br>

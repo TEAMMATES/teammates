@@ -51,7 +51,7 @@
 			<table class="inputTable" id="studentEvaluationInformation">
 				<tr>
 					<td class="label rightalign bold" width="30%">Course ID:</td>
-					<td id="<%= Common.PARAM_COURSE_ID %>"><%= helper.eval.course %></td>
+					<td id="<%= Common.PARAM_COURSE_ID %>"><%=helper.eval.courseId%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation name:</td>

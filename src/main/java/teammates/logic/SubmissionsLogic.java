@@ -75,8 +75,8 @@ public class SubmissionsLogic {
 		for (SubmissionAttributes sd : submissions) {
 			StudentAttributes reviewee = studentsLogic.getStudentForEmail(courseId, sd.reviewee);
 			if (!isOrphanSubmission(student, reviewee, sd)) {
-				sd.reviewerName = student.name;
-				sd.revieweeName = reviewee.name;
+				sd.details.reviewerName = student.name;
+				sd.details.revieweeName = reviewee.name;
 				returnList.add(sd);
 			}
 		}

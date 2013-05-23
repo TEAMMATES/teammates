@@ -48,7 +48,7 @@
   
   "students": {
     "Alice": {
-      "id": "SEvalEditUiT.alice.b",
+      "googleId": "SEvalEditUiT.alice.b",
       "email": "SEvalEditUiT.alice.b@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Alice Betsy",
@@ -57,7 +57,7 @@
       "team": "Team 1"
     },
     "Benny": {
-      "id": "SEvalEditUiT.benny.c",
+      "googleId": "SEvalEditUiT.benny.c",
       "email": "SEvalEditUiT.benny.c@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Benny Charles",
@@ -66,7 +66,7 @@
       "team": "Team 1"
     },
     "ExtraGuy": {
-      "id": "extra.guy",
+      "googleId": "extra.guy",
       "email": "extra.guy@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Extra guy",
@@ -74,7 +74,7 @@
       "team": "Team 2"
     },
     "DropOut": {
-      "id": "drop.out",
+      "googleId": "drop.out",
       "email": "drop.out@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Drop out",
@@ -82,7 +82,7 @@
       "team": "Team 2"
     },
     "Charlie": {
-      "id": "SEvalEditUiT.charlie.d",
+      "googleId": "SEvalEditUiT.charlie.d",
       "email": "SEvalEditUiT.charlie.d@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Charlie Davis",
@@ -91,7 +91,7 @@
       "team": "Team 2"
     },
     "Danny": {
-      "id": "SEvalEditUiT.danny.e",
+      "googleId": "SEvalEditUiT.danny.e",
       "email": "SEvalEditUiT.danny.e@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Danny Engrid",
@@ -100,7 +100,7 @@
       "team": "Team 2"
     },
     "Emily": {
-      "id": "SEvalEditUiT.emily.f",
+      "googleId": "SEvalEditUiT.emily.f",
       "email": "SEvalEditUiT.emily.f@gmail.com",
       "course": "SEvalEditUiT.CS2104",
       "name": "Emily",
@@ -112,7 +112,7 @@
   
   "evaluations": {
     "First Eval": {
-      "course": "SEvalEditUiT.CS2104",
+      "courseId": "SEvalEditUiT.CS2104",
       "name": "First Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",
@@ -124,7 +124,7 @@
       "activated": true
     },
     "Second Eval": {
-      "course": "SEvalEditUiT.CS2104",
+      "courseId": "SEvalEditUiT.CS2104",
       "name": "Second Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",
@@ -136,7 +136,7 @@
       "activated": true
     },
     "Closed Unpublished Eval": {
-      "course": "SEvalEditUiT.CS2104",
+      "courseId": "SEvalEditUiT.CS2104",
       "name": "Closed Unpublished Eval",
       "instructions": "Please please fill it in",
       "startTime": "2011-04-01 11:59 PM",

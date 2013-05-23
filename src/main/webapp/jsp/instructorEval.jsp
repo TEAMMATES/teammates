@@ -207,7 +207,7 @@
 											for(EvaluationDetailsBundle edd: helper.evaluations){ evalIdx++;
 				%>
 							<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
-								<td class="t_eval_coursecode"><%=edd.evaluation.course%></td>
+								<td class="t_eval_coursecode"><%=edd.evaluation.courseId%></td>
 								<td class="t_eval_name"><%=InstructorEvalHelper.escapeForHTML(edd.evaluation.name)%></td>
 								<td class="t_eval_status centeralign"><span
 									onmouseover="ddrivetip(' <%=InstructorEvalHelper.getInstructorHoverMessageForEval(edd.evaluation)%>')"

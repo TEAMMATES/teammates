@@ -92,7 +92,7 @@ public class InstructorEvalHelper extends Helper{
 			// True if this is a submission of the filled 'new evaluation' form
 			// for this course:
 			boolean isFilledFormForEvaluationInThisCourse = (newEvaluationToBeCreated != null)
-					&& courseDetails.course.id.equals(newEvaluationToBeCreated.course);
+					&& courseDetails.course.id.equals(newEvaluationToBeCreated.courseId);
 
 			// True if this is for displaying an empty form for creating an
 			// evaluation for this course:

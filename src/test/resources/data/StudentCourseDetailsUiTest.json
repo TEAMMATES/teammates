@@ -40,7 +40,7 @@
   
   "students": {
     "SCDetailsUiT.alice": {
-      "id": "SCDetailsUiT.alice",
+      "googleId": "SCDetailsUiT.alice",
       "email": "SCDetailsUiT.alice@gmail.com",
       "course": "SCDetailsUiT.CS2104",
       "name": "Alice Betsy",
@@ -49,7 +49,7 @@
       "team": "Team 1"
     },
     "SCDetailsUiT.benny": {
-      "id": "SCDetailsUiT.benny",
+      "googleId": "SCDetailsUiT.benny",
       "email": "SCDetailsUiT.benny@gmail.com",
       "course": "SCDetailsUiT.CS2104",
       "name": "Benny Charles",
@@ -58,7 +58,7 @@
       "team": "Team 1"
     },
     "SCDetailsUiT.charlie": {
-      "id": "SCDetailsUiT.charlie",
+      "googleId": "SCDetailsUiT.charlie",
       "email": "SCDetailsUiT.charlie@gmail.com",
       "course": "SCDetailsUiT.CS2104",
       "name": "Charlie Davis",
@@ -67,7 +67,7 @@
       "team": "Team 2"
     },
     "SCDetailsUiT.danny": {
-      "id": "SCDetailsUiT.danny",
+      "googleId": "SCDetailsUiT.danny",
       "email": "SCDetailsUiT.danny@gmail.com",
       "course": "SCDetailsUiT.CS2104",
       "name": "Danny Engrid",

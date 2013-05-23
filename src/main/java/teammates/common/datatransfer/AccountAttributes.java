@@ -7,6 +7,7 @@ import java.util.List;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.Sanitizer;
 import teammates.storage.entity.Account;
 
 /**
@@ -38,33 +39,30 @@ public class AccountAttributes extends EntityAttributes {
 	}
 	
 	public AccountAttributes(String googleId, String name, boolean isInstructor,
-			//TODO: this method should follow our normal sanitization policy
-			// (when we have one).
 				String email, String institute) {
-		this.googleId = Common.trimIfNotNull(googleId);
-		this.googleId = Common.sanitizeGoogleId(googleId);
-		this.name = Common.trimIfNotNull(name);
+		this.googleId = Sanitizer.sanitizeGoogleId(googleId);
+		this.name = Sanitizer.sanitizeName(name);
 		this.isInstructor = isInstructor;
-		this.email = Common.trimIfNotNull(email);
-		this.institute = Common.trimIfNotNull(institute);
+		this.email = Sanitizer.sanitizeEmail(email);
+		this.institute = Sanitizer.sanitizeTitle(institute);
 	}
 	
-	public List<String> getInvalidStateInfo() {
+	public List<String> getInvalidityInfo() {
 		
 		FieldValidator validator = new FieldValidator();
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
-		error= validator.getValidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
+		error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
+		error= validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldValidator.FieldType.EMAIL, email);
+		error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+		error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
 		if(!error.isEmpty()) { errors.add(error); }
 		
 		//No validation for isInstructor and createdAt fields.

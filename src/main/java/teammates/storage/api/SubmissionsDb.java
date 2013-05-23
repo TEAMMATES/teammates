@@ -39,7 +39,7 @@ public class SubmissionsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionToAdd);
 
 		if (!submissionToAdd.isValid()) {
-			throw new InvalidParametersException(submissionToAdd.getInvalidStateInfo());
+			throw new InvalidParametersException(submissionToAdd.getInvalidityInfo());
 		}
 		
 		if (getSubmissionEntity(
@@ -97,7 +97,7 @@ public class SubmissionsDb {
 		
 		for (SubmissionAttributes sd : newList) {
 			if (!sd.isValid()) {
-				throw new InvalidParametersException(sd.getInvalidStateInfo());
+				throw new InvalidParametersException(sd.getInvalidityInfo());
 			}
 			//Existence check omitted to save time
 			newEntityList.add(sd.toEntity());
@@ -212,7 +212,7 @@ public class SubmissionsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newSubmissionAttributes);
 
 		if (!newSubmissionAttributes.isValid()) {
-			throw new InvalidParametersException(newSubmissionAttributes.getInvalidStateInfo());
+			throw new InvalidParametersException(newSubmissionAttributes.getInvalidityInfo());
 		}
 
 		Submission submission = getSubmissionEntity(newSubmissionAttributes.course, newSubmissionAttributes.evaluation,
@@ -263,7 +263,7 @@ public class SubmissionsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, originalEmail);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newEmail);
-		Assumption.assertTrue(new FieldValidator().getValidityInfo(FieldType.EMAIL, newEmail).isEmpty());
+		Assumption.assertTrue(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, newEmail).isEmpty());
 	
 		List<Submission> submissionsFromStudent = 
 				getSubmissionEntitiesForCourseFromStudent(courseId, originalEmail);

@@ -147,7 +147,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseTestCase {
 		StudentAttributes student = Common.getTeammatesGson().fromJson(json, StudentAttributes.class);
 		assertEquals("New name",student.name);
 		assertEquals("New team",student.team);
-		assertEquals(scn.students.get("registeredStudent").id,student.id);
+		assertEquals(scn.students.get("registeredStudent").googleId,student.googleId);
 		assertEquals("newemail@gmail.com",student.email);
 		assertEquals("New comments",student.comments);
 	}

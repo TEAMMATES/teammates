@@ -43,7 +43,7 @@ public class AccountsDb {
 		
 		if (!accountToAdd.isValid()) {
 			throw new InvalidParametersException("Invalid parameter detected while adding account :" 
-						+ accountToAdd.getInvalidStateInfo() + "\n" 
+						+ accountToAdd.getInvalidityInfo() + "\n" 
 						+ "values received :\n"+ accountToAdd.toString());
 		}
 		
@@ -112,7 +112,7 @@ public class AccountsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, a);
 		
 		if (!a.isValid()) {
-			throw new InvalidParametersException(a.getInvalidStateInfo());
+			throw new InvalidParametersException(a.getInvalidityInfo());
 		}
 		
 		Account accountToUpdate = getAccountEntity(a.googleId);

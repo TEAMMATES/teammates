@@ -400,7 +400,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 					result = eval1.startTime.after(eval2.startTime) ? 1
 							: (eval1.startTime.before(eval2.startTime) ? -1 : 0);
 				if (result == 0)
-					result = eval1.course.compareTo(eval2.course);
+					result = eval1.courseId.compareTo(eval2.courseId);
 				if (result == 0)
 					result = eval1.name.compareTo(eval2.name);
 				return result;
@@ -461,7 +461,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	protected void sortSubmissionsByReviewer(List<SubmissionAttributes> submissions) {
 		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
-				int result = s1.reviewerName.compareTo(s2.reviewerName);
+				int result = s1.details.reviewerName.compareTo(s2.details.reviewerName);
 				if (result == 0)
 					s1.reviewer.compareTo(s2.reviewer);
 				return result;
@@ -477,7 +477,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	protected void sortSubmissionsByReviewee(List<SubmissionAttributes> submissions) {
 		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
-				int result = s1.revieweeName.compareTo(s2.revieweeName);
+				int result = s1.details.revieweeName.compareTo(s2.details.revieweeName);
 				if (result == 0)
 					s1.reviewee.compareTo(s2.reviewee);
 				return result;

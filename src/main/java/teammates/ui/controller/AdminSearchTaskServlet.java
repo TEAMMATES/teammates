@@ -74,7 +74,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		Iterator<StudentAttributes> it2 = students.iterator();
 		while (it2.hasNext()) {
 			StudentAttributes stu = it2.next();
-			addDocument(stu.name, stu.email, stu.id, Common.PAGE_STUDENT_HOME);
+			addDocument(stu.name, stu.email, stu.googleId, Common.PAGE_STUDENT_HOME);
 		}
 
 	}

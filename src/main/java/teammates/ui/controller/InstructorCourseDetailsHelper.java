@@ -21,7 +21,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 	 * @return
 	 */
 	public String status(StudentAttributes student){
-		if(student.id == null || student.id.equals("")){
+		if(student.googleId == null || student.googleId.equals("")){
 			return Common.STUDENT_STATUS_YET_TO_JOIN;
 		} else {
 			return Common.STUDENT_STATUS_JOINED;

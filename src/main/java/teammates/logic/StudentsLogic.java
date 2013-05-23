@@ -111,8 +111,8 @@ public class StudentsLogic {
 		if(student.name == null){
 			student.name = originalStudent.name;
 		}
-		if(student.id == null){
-			student.id = originalStudent.id;
+		if(student.googleId == null){
+			student.googleId = originalStudent.googleId;
 		}
 		if(student.team == null){
 			student.team = originalStudent.team;
@@ -122,10 +122,10 @@ public class StudentsLogic {
 		}
 		
 		if(!student.isValid()) {
-			throw new InvalidParametersException(student.getInvalidStateInfo());
+			throw new InvalidParametersException(student.getInvalidityInfo());
 		}
 		
-		studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.email, student.id, student.comments);	
+		studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.email, student.googleId, student.comments);	
 		
 		// cascade email change, if any
 		if (!originalEmail.equals(student.email)) {
@@ -161,7 +161,7 @@ public class StudentsLogic {
 				if (Common.isWhiteSpace(line))
 					continue;
 				studentList.add(new StudentAttributes(line, courseId));
-			} catch (InvalidParametersException e) {
+			} catch (EnrollException e) {
 				throw new EnrollException(e.errorCode, "Problem in line : "
 						+ line + Common.EOL + e.getMessage());
 			}

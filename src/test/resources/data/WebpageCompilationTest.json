@@ -50,7 +50,7 @@
   
    "students": {
 	"teammates.test@CS2104": {
-      "id": "teammates.test",
+      "googleId": "teammates.test",
       "email": "teammates.test@gmail.com",
       "course": "CS2104",
       "name": "Teammates Test",
@@ -59,7 +59,7 @@
       "team": "Team 1"
     },
     "benny.c.tmms@CS2104": {
-      "id": "benny.c.tmms",
+      "googleId": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
       "course": "CS2104",
       "name": "Benny Charles",
@@ -68,7 +68,7 @@
       "team": "Team 1"
     },
     "charlie.d.tmms@CS2104": {
-      "id": "charlie.d.tmms",
+      "googleId": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
       "course": "CS2104",
       "name": "Charlie Davis",
@@ -77,7 +77,7 @@
       "team": "Team 1"
     },
     "alice.b.tmms@CS2104": {
-      "id": "alice.b.tmms",
+      "googleId": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
       "course": "CS2104",
       "name": "Alice Betsy",
@@ -86,7 +86,7 @@
       "team": "Team 2"
     },
 	"danny.e.tmms@CS2104": {
-      "id": "danny.e.tmms",
+      "googleId": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
       "course": "CS2104",
       "name": "Danny Engrid",
@@ -95,7 +95,7 @@
       "team": "Team 2"
     },
     "teammates.test@CS1101": {
-      "id": "teammates.test",
+      "googleId": "teammates.test",
       "email": "teammates.test@gmail.com",
       "course": "CS1101",
       "name": "Teammates Test",
@@ -104,7 +104,7 @@
       "team": "Team 1"
     },
     "benny.c.tmms@CS1101": {
-      "id": "benny.c.tmms",
+      "googleId": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
       "course": "CS1101",
       "name": "Benny Charles",
@@ -113,7 +113,7 @@
       "team": "Team 1"
     },
     "charlie.d.tmms@CS1101": {
-      "id": "charlie.d.tmms",
+      "googleId": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
       "course": "CS1101",
       "name": "Charlie Davis",
@@ -122,7 +122,7 @@
       "team": "Team 2"
     },
     "danny.e.tmms@CS1101": {
-      "id": "danny.e.tmms",
+      "googleId": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
       "course": "CS1101",
       "name": "Danny Engrid",
@@ -134,7 +134,7 @@
   
   "evaluations": {
     "First Eval": {
-      "course": "CS2104",
+      "courseId": "CS2104",
       "name": "First Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",
@@ -146,7 +146,7 @@
       "activated": true
     },
     "Second Eval": {
-      "course": "CS2104",
+      "courseId": "CS2104",
       "name": "Second Eval",
       "instructions": "Please please fill in the second evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -158,7 +158,7 @@
       "activated": true
     },
     "Third Eval": {
-      "course": "CS1101",
+      "courseId": "CS1101",
       "name": "Third Eval",
       "instructions": "Please please fill in the third evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -170,7 +170,7 @@
       "activated": true
     },
   "Fourth Eval": {
-      "course": "CS1101",
+      "courseId": "CS1101",
       "name": "Fourth Eval",
       "instructions": "Please please fill in the fourth evaluation",
       "startTime": "2015-04-01 11:59 PM",
@@ -181,7 +181,7 @@
       "published": false
     },
     "Fifth Eval": {
-      "course": "CS1101",
+      "courseId": "CS1101",
       "name": "Fifth Eval",
       "instructions": "Please please fill in the fifth evaluation",
       "startTime": "2012-04-01 11:59 PM",

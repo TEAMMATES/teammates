@@ -46,8 +46,8 @@
 					<tr>
 						<td class="label bold" >Course ID:</td>
 						<td style="vertical-align: middle;">
-							<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%=helper.newEvaluationToBeCreated.course%>">
-							<%=helper.newEvaluationToBeCreated.course%>
+							<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%=helper.newEvaluationToBeCreated.courseId%>">
+							<%=helper.newEvaluationToBeCreated.courseId%>
 						</td>
 						<td class="label bold" >Opening time:</td>
 						<td><input style="width: 100px;" type="text"

@@ -51,8 +51,8 @@ public class StudentResultBundle {
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				// email is appended to avoid mix ups due to two students with
 				// same name.
-				return (s1.revieweeName + s1.reviewee)
-						.compareTo(s2.revieweeName + s2.reviewee);
+				return (s1.details.revieweeName + s1.reviewee)
+						.compareTo(s2.details.revieweeName + s2.reviewee);
 			}
 		});
 	}
@@ -62,8 +62,8 @@ public class StudentResultBundle {
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				// email is appended to avoid mix ups due to two students with
 				// same name.
-				return (s1.reviewerName + s1.reviewer)
-						.compareTo(s2.reviewerName + s2.reviewer);
+				return (s1.details.reviewerName + s1.reviewer)
+						.compareTo(s2.details.reviewerName + s2.reviewer);
 			}
 		});
 	}

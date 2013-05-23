@@ -416,7 +416,7 @@ public class FieldValidatorTest extends BaseTestCase{
 
 	private void testOnce(String description, FieldType fieldType, String value, String expected) {
 		assertEquals(description,expected, 
-				validator.getValidityInfo(fieldType, value));
+				validator.getInvalidityInfo(fieldType, value));
 	}
 	
 	private void testOnce(String description, FieldType fieldType, String fieldName, String value, String expected) {
@@ -424,13 +424,13 @@ public class FieldValidatorTest extends BaseTestCase{
 			expected = "Invalid "+ fieldName + ": " + expected;
 		}
 		assertEquals(description,expected, 
-				validator.getValidityInfo(fieldType, fieldName, value));
+				validator.getInvalidityInfo(fieldType, fieldName, value));
 	}
 
 	private void verifyAssertError(String description, FieldType fieldType, String value) {
 		String errorMessage = "Did not throw the expected AssertionError for "+ description;
 		try {
-			validator.getValidityInfo(fieldType, value);
+			validator.getInvalidityInfo(fieldType, value);
 			signalFailureToDetectException(errorMessage);
 		} catch (AssertionError e) {
 			ignoreExpectedException();

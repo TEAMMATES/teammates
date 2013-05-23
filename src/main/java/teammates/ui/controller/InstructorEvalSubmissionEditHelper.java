@@ -8,7 +8,7 @@ public class InstructorEvalSubmissionEditHelper extends EvalSubmissionEditHelper
 		if(sub.reviewee.equals(sub.reviewer)){
 			return escapeForHTML(student.name) + "'s evaluation submission";
 		} else {
-			return "Evaluation for " + sub.revieweeName;
+			return "Evaluation for " + sub.details.revieweeName;
 		}
 	}
 }

@@ -117,7 +117,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 
 	public static EvaluationAttributes extractEvaluationData(HttpServletRequest req) {
 		EvaluationAttributes newEval = new EvaluationAttributes();
-		newEval.course = req.getParameter(Common.PARAM_COURSE_ID);
+		newEval.courseId = req.getParameter(Common.PARAM_COURSE_ID);
 		newEval.name = req.getParameter(Common.PARAM_EVALUATION_NAME);
 		newEval.p2pEnabled = Boolean.parseBoolean(req
 				.getParameter(Common.PARAM_EVALUATION_COMMENTSENABLED));
@@ -198,7 +198,7 @@ public class InstructorEvalServlet extends ActionServlet<InstructorEvalHelper> {
 		
 		try {
 			EvaluationAttributes eval = (EvaluationAttributes)data.get(0);
-			message = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.course + "]</span> created.<br>" +
+			message = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.courseId + "]</span> created.<br>" +
 					"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
 					"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
 					"<span class=\"bold\">Instructions:</span> " + eval.instructions;

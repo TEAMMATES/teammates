@@ -38,7 +38,7 @@ public class CoursesDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToAdd);
 
 		if (!courseToAdd.isValid()) {
-			throw new InvalidParametersException(Common.toString(courseToAdd.getInvalidStateInfo()));
+			throw new InvalidParametersException(Common.toString(courseToAdd.getInvalidityInfo()));
 		}
 		
 		if (getCourseEntity(courseToAdd.id) != null) {
@@ -115,7 +115,7 @@ public class CoursesDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToUpdate);
 		
 		if (!courseToUpdate.isValid()) {
-			throw new InvalidParametersException(courseToUpdate.getInvalidStateInfo());
+			throw new InvalidParametersException(courseToUpdate.getInvalidityInfo());
 		}
 		
 		Course c = getCourseEntity(courseToUpdate.id);

@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.TeammatesException;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
@@ -59,12 +59,11 @@ public class StudentAttributesTest extends BaseTestCase {
 		
 		// FAIL : courseId is null
 		line = "team|name|e@e.com|c";
-		invalidStudent = new StudentAttributes(line, null);
 		try {
-			invalidStudent.getInvalidStateInfo();
-			throw new RuntimeException("Assumption violation not detected");
+			invalidStudent = new StudentAttributes(line, null);
+			signalFailureToDetectException("Assumption violation not detected");
 		} catch (AssertionError e) {
-			assertTrue(true);
+			assertContains(StudentAttributes.ERROR_COURSE_ID_NULL, e.getMessage());
 		}
 		
 		// FAIL : empty courseId
@@ -72,20 +71,20 @@ public class StudentAttributesTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_EMPTY), 
-				invalidStudent.getInvalidStateInfo().get(0));
+				invalidStudent.getInvalidityInfo().get(0));
 	
 		// FAIL : invalid courseId
 		invalidStudent = new StudentAttributes(line, "Course Id with space");
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_INCORRECT_FORMAT),
-				invalidStudent.getInvalidStateInfo().get(0));
+				invalidStudent.getInvalidityInfo().get(0));
 		
 		// FAIL : enroll line is null
 		line = null;
 		try {
 			invalidStudent = new StudentAttributes(line, courseId);
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (AssertionError ae) {
 			assertEquals(ae.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_NULL);
 		}
@@ -94,43 +93,43 @@ public class StudentAttributesTest extends BaseTestCase {
 		line = "";
 		try {
 			invalidStudent = new StudentAttributes(line, courseId);
-			Assert.fail();
-		} catch (InvalidParametersException ipe) {
-			assertEquals(ipe.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_EMPTY);
+			signalFailureToDetectException();
+		} catch (EnrollException ee) {
+			assertEquals(ee.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_EMPTY);
 		}
 		
 		// FAIL : too few inputs in enroll line
 		line = "a";
 		try {
 			invalidStudent = new StudentAttributes(line, courseId);
-			Assert.fail();
-		} catch (InvalidParametersException ipe) {
-			assertEquals(ipe.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS);
+			signalFailureToDetectException();
+		} catch (EnrollException ee) {
+			assertEquals(ee.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS);
 		}
 		
 		// FAIL : too few inputs in enroll line
 		line = "a|b";
 		try {
 			invalidStudent = new StudentAttributes(line, courseId);
-			Assert.fail();
-		} catch (InvalidParametersException ipe) {
-			assertEquals(ipe.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS);
+			signalFailureToDetectException();
+		} catch (EnrollException ee) {
+			assertEquals(ee.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS);
 		}
 		
 		// FAIL : too many inputs in enroll line
 		line = "p1|p2|p3|p4|p5";
 		try {
 			invalidStudent = new StudentAttributes(line, courseId);
-			Assert.fail();
-		} catch (InvalidParametersException ipe) {
-			assertEquals(ipe.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOMANYPARTS);
+			signalFailureToDetectException();
+		} catch (EnrollException ee) {
+			assertEquals(ee.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOMANYPARTS);
 		}
 	
 		// FAIL : empty name
 		line = "t1| |e@e.com|c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
-		assertEquals(invalidStudent.getInvalidStateInfo().get(0), 
+		assertEquals(invalidStudent.getInvalidityInfo().get(0), 
 				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "",	FieldValidator.REASON_EMPTY));
 		
 		// FAIL : empty email
@@ -139,7 +138,7 @@ public class StudentAttributesTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals( 
 				String.format(EMAIL_ERROR_MESSAGE, "", REASON_EMPTY), 
-				invalidStudent.getInvalidStateInfo().get(0));
+				invalidStudent.getInvalidityInfo().get(0));
 	
 		// FAIL : team name too long
 		String longTeamName = Common.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
@@ -148,7 +147,7 @@ public class StudentAttributesTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(TEAM_NAME_ERROR_MESSAGE, longTeamName, REASON_TOO_LONG),
-				invalidStudent.getInvalidStateInfo().get(0));
+				invalidStudent.getInvalidityInfo().get(0));
 		
 		// FAIL : student name too long
 		String longStudentName = Common.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
@@ -157,7 +156,7 @@ public class StudentAttributesTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, longStudentName,	FieldValidator.REASON_TOO_LONG),
-				invalidStudent.getInvalidStateInfo().get(0));
+				invalidStudent.getInvalidityInfo().get(0));
 		
 		// FAIL : invalid email
 		line = "t1|name|ee.com|c";
@@ -165,7 +164,7 @@ public class StudentAttributesTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(EMAIL_ERROR_MESSAGE, "ee.com", REASON_INCORRECT_FORMAT), 
-				invalidStudent.getInvalidStateInfo().get(0));
+				invalidStudent.getInvalidityInfo().get(0));
 		
 		// FAIL : comment too long
 		String longComment = Common.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
@@ -174,7 +173,7 @@ public class StudentAttributesTest extends BaseTestCase {
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, longComment, REASON_TOO_LONG),
-				invalidStudent.getInvalidStateInfo().get(0));
+				invalidStudent.getInvalidityInfo().get(0));
 	
 		// Other invalid parameters cases are omitted because they are already
 		// unit-tested in validate*() methods in Common.java
@@ -208,7 +207,7 @@ public class StudentAttributesTest extends BaseTestCase {
 		
 		assertEquals("valid value", true, s.isValid());
 		
-		s.id = "invalid@google@id";
+		s.googleId = "invalid@google@id";
 		s.name = "";
 		s.email = "invalid email";
 		s.course = "";
@@ -223,7 +222,7 @@ public class StudentAttributesTest extends BaseTestCase {
 				+"\"aaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a team name because it is too long. The value of a team name should be no longer than 25 characters."+EOL
 				+"\""+s.comments+"\" is not acceptable to TEAMMATES as comments about a student enrolled in a course because it is too long. The value of comments about a student enrolled in a course should be no longer than 500 characters."+EOL
 				+"\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person name should be no longer than 40 characters. It should not be empty.";
-		assertEquals("invalid value", errorMessage, Common.toString(s.getInvalidStateInfo()));
+		assertEquals("invalid value", errorMessage, Common.toString(s.getInvalidityInfo()));
 	}
 
 	@Test
@@ -272,14 +271,14 @@ public class StudentAttributesTest extends BaseTestCase {
 	private StudentAttributes generateValidStudentAttributesObject() {
 		StudentAttributes s;
 		s = new StudentAttributes();
-		s.id = "valid.google.id";
+		s.googleId = "valid.google.id";
 		s.name = "valid name";
 		s.email = "valid@email.com";
 		s.course = "valid-course-id";
 		s.comments = "";
 		s.team = "valid team";
 		return s;
-	}
+	}	
 
 	@AfterClass
 	public static void tearDown() {

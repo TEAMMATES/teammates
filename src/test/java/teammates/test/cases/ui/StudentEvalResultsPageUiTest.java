@@ -57,42 +57,42 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		______TS("typical case: more than two members");
 		
 		String link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.charlie.d").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.charlie.d").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTypicalHTML.html");
 
 		______TS("typical case: two members");
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Third Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Third Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.alice.b").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.alice.b").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTwoMembersTypicalHTML.html");
 
 		______TS("extreme case: 1");
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.charlie.d").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.charlie.d").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme1HTML.html");
 
 		______TS("extreme case: 2");
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.danny.e").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.danny.e").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme2HTML.html");
 
 		______TS("extreme case: 3");
 		
-		String studentId = scn.students.get("SEvalRUiT.emily.f").id;
+		String studentId = scn.students.get("SEvalRUiT.emily.f").googleId;
 		
 		//recreate student account if it doesn't exist
 		AccountAttributes testStudentAccount = new AccountAttributes(studentId, "Danny Tmms", false, "SEvalRUiT.emily.f@gmail.com", "National University of Singapore");
@@ -100,15 +100,15 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.emily.f").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.emily.f").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsExtreme3HTML.html");
 
 		______TS("student did not submitt");
 		
-		studentId = scn.students.get("SEvalRUiT.alice.b").id;
+		studentId = scn.students.get("SEvalRUiT.alice.b").googleId;
 		
 		//recreate student account if it doesn't exist
 		testStudentAccount = new AccountAttributes(studentId, "Alice Tmms", false, "SEvalRUiT.alice.b@gmail.com", "National University of Singapore");
@@ -116,15 +116,15 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 				
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.alice.b").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.alice.b").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsNotSubmittedHTML.html");
 
 		______TS("teammates did not submit");
 		
-		studentId = scn.students.get("SEvalRUiT.benny.c").id;
+		studentId = scn.students.get("SEvalRUiT.benny.c").googleId;
 		
 		//recreate student account if it doesn't exist
 		testStudentAccount = new AccountAttributes(studentId, "Benny Tmms", false, "SEvalRUiT.benny.c@gmail.com", "National University of Singapore");
@@ -132,17 +132,17 @@ public class StudentEvalResultsPageUiTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.benny.c").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.benny.c").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsTheOtherDidn'tSubmitHTML.html");
 		
 		______TS("with p2pFeedback disabled");
 		link = appUrl + Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("P2P Disabled Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("P2P Disabled Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("P2P Disabled Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.benny.c").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("SEvalRUiT.benny.c").googleId);
 		bi.goToUrl(link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/studentEvalResultsP2PDisabled.html");
 	}

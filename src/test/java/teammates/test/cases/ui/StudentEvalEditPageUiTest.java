@@ -92,9 +92,9 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		
 		// Pending evaluation
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("First Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Charlie").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Charlie").googleId);
 		bi.goToUrl(appUrl+link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditPendingHTML.html");
 	}
@@ -106,9 +106,9 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		______TS("load evauation for editing");
 		
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("First Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("First Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").googleId);
 		bi.goToUrl(appUrl+link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditSubmittedHTML.html");
 		
@@ -157,23 +157,23 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		
 		print("Checking status message");
 		bi.getSelenium().selectWindow("null");
-		bi.waitForStatusMessage(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.course).replace("<br />", "\n"));
+		bi.waitForStatusMessage(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.courseId).replace("<br />", "\n"));
 
 		print("Checking modified data");
 		String json = "";
-		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, dannyEmail, charlieEmail);
+		json = BackDoor.getSubmissionAsJson(eval.courseId, eval.name, dannyEmail, charlieEmail);
 		SubmissionAttributes charlieModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[0].points+"",charlieModified.points+"");
 		assertEquals(subs[0].justification.getValue(),charlieModified.justification.getValue());
 		assertEquals(subs[0].p2pFeedback.getValue(),charlieModified.p2pFeedback.getValue());
 
-		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, dannyEmail, dannyEmail);
+		json = BackDoor.getSubmissionAsJson(eval.courseId, eval.name, dannyEmail, dannyEmail);
 		SubmissionAttributes dannyModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[1].points+"",dannyModified.points+"");
 		assertEquals(subs[1].justification.getValue(),dannyModified.justification.getValue());
 		assertEquals(subs[1].p2pFeedback.getValue(),dannyModified.p2pFeedback.getValue());
 
-		json = BackDoor.getSubmissionAsJson(eval.course, eval.name, dannyEmail, emilyEmail);
+		json = BackDoor.getSubmissionAsJson(eval.courseId, eval.name, dannyEmail, emilyEmail);
 		SubmissionAttributes emilyModified = Common.getTeammatesGson().fromJson(json, SubmissionAttributes.class);
 		assertEquals(subs[2].points+"",emilyModified.points+"");
 		assertEquals(subs[2].justification.getValue(),emilyModified.justification.getValue());
@@ -186,14 +186,14 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 		
 		______TS("verify page functional with p2p feedback field disabled");
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").course);
+		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, scn.evaluations.get("Second Eval").courseId);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, scn.evaluations.get("Second Eval").name);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").googleId);
 		bi.goToUrl(appUrl+link);
 		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditP2PDisabled.html");
 		
 		bi.click(By.id("button_submit"));
-		bi.waitForStatusMessage(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.course).replace("<br />", "\n"));
+		bi.waitForStatusMessage(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.courseId).replace("<br />", "\n"));
 	}
 	
 	@Test
@@ -202,14 +202,14 @@ public class StudentEvalEditPageUiTest extends BaseTestCase {
 			
 			______TS("verify page functional with all fields disabled");
 			String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-			link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.course);
+			link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, eval.courseId);
 			link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME, eval.name);
-			link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").id);
+			link = Common.addParamToUrl(link, Common.PARAM_USER_ID, scn.students.get("Danny").googleId);
 			
 			bi.goToUrl(appUrl+link);
 			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/StudentEvalEditEntryFieldsDisabled.html");
 			bi.click(By.id("button_submit"));
-			bi.waitForStatusMessage(String.format(Common.MESSAGE_EVALUATION_NOT_OPEN,eval.name,eval.course).replace("<br />", "\n"));
+			bi.waitForStatusMessage(String.format(Common.MESSAGE_EVALUATION_NOT_OPEN,eval.name,eval.courseId).replace("<br />", "\n"));
 	}
 	
 	private static void moveToTeam(StudentAttributes student, String newTeam) {

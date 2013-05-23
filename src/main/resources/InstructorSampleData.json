@@ -16,7 +16,7 @@
   },  
   "students": {
     "alice.b.tmms@demo.course": {
-      "id": "alice.b.tmms",
+      "googleId": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.com",
       "course": "demo.course",
       "name": "Alice Betsy",
@@ -25,7 +25,7 @@
       "team": "Team 1"
     },
     "benny.c.tmms@demo.course": {
-      "id": "benny.c.tmms",
+      "googleId": "benny.c.tmms",
       "email": "benny.c.tmms@gmail.com",
       "course": "demo.course",
       "name": "Benny Charles",
@@ -34,7 +34,7 @@
       "team": "Team 1"
     },
      "danny.e.tmms@demo.course": {
-      "id": "danny.e.tmms",
+      "googleId": "danny.e.tmms",
       "email": "danny.e.tmms@gmail.com",
       "course": "demo.course",
       "name": "Danny Engrid",
@@ -44,7 +44,7 @@
     },
     
     "charlie.d.tmms@demo.course": {
-      "id": "charlie.d.tmms",
+      "googleId": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",
       "course": "demo.course",
       "name": "Charlie Davis",
@@ -54,7 +54,7 @@
     },
    
     "teammates.demo.instructor@demo.course": {
-      "id": "teammates.demo.instructor",
+      "googleId": "teammates.demo.instructor",
       "email": "teammates.demo.instructor@demo.course",
       "course": "demo.course",
       "name": "Demo_Instructor",
@@ -63,7 +63,7 @@
       "team": "Team 2"
     },
     "emily.f.tmms@demo.course": {
-      "id": "emily.f.tmms",
+      "googleId": "emily.f.tmms",
       "email": "emily.f.tmms@gmail.com",
       "course": "demo.course",
       "name": "Emily Fowler",
@@ -75,7 +75,7 @@
   
   "evaluations": {
     "demo.course:Second Evaluation": {
-      "course": "demo.course",
+      "courseId": "demo.course",
       "name": "Second Evaluation",
       "instructions": "Please please fill in the first evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -87,7 +87,7 @@
       "activated": true
     },
     "demo.course:First Evaluation": {
-      "course": "demo.course",
+      "courseId": "demo.course",
       "name": "First Evaluation",
       "instructions": "Please please fill in the second evaluation",
       "startTime": "2012-04-01 11:59 PM",

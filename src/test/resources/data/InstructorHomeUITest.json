@@ -27,7 +27,7 @@
   
   "students": {
     "CHomeUiT.alice.b.tmms@CHomeUiT.CS2104": {
-      "id": "CHomeUiT.alice.b.tmms",
+      "googleId": "CHomeUiT.alice.b.tmms",
       "email": "CHomeUiT.alice.b.tmms@gmail.com",
       "course": "CHomeUiT.CS2104",
       "name": "Alice Betsy",
@@ -36,7 +36,7 @@
       "team": "Team 1"
     },
     "CHomeUiT.benny.c.tmms@CHomeUiT.CS2104": {
-      "id": "CHomeUiT.benny.c.tmms",
+      "googleId": "CHomeUiT.benny.c.tmms",
       "email": "CHomeUiT.benny.c.tmms@gmail.com",
       "course": "CHomeUiT.CS2104",
       "name": "Benny Charles",
@@ -45,7 +45,7 @@
       "team": "Team 1"
     },
     "CHomeUiT.charlie.d.tmms@CHomeUiT.CS2104": {
-      "id": "CHomeUiT.charlie.d.tmms",
+      "googleId": "CHomeUiT.charlie.d.tmms",
       "email": "CHomeUiT.charlie.d.tmms@gmail.com",
       "course": "CHomeUiT.CS2104",
       "name": "Charlie Davis",
@@ -54,7 +54,7 @@
       "team": "Team 2"
     },
     "CHomeUiT.danny.e.tmms@CHomeUiT.CS2104": {
-      "id": "CHomeUiT.danny.e.tmms",
+      "googleId": "CHomeUiT.danny.e.tmms",
       "email": "CHomeUiT.danny.e.tmms@gmail.com",
       "course": "CHomeUiT.CS2104",
       "name": "Danny Engrid",
@@ -63,7 +63,7 @@
       "team": "Team 2"
     },
     "CHomeUiT.alice.b.tmms@CHomeUiT.CS1101": {
-      "id": "CHomeUiT.alice.b.tmms",
+      "googleId": "CHomeUiT.alice.b.tmms",
       "email": "CHomeUiT.alice.b.tmms@gmail.com",
       "course": "CHomeUiT.CS1101",
       "name": "Alice Betsy",
@@ -72,7 +72,7 @@
       "team": "Team 1"
     },
     "CHomeUiT.benny.c.tmms@CHomeUiT.CS1101": {
-      "id": "CHomeUiT.benny.c.tmms",
+      "googleId": "CHomeUiT.benny.c.tmms",
       "email": "CHomeUiT.benny.c.tmms@gmail.com",
       "course": "CHomeUiT.CS1101",
       "name": "Benny Charles",
@@ -81,7 +81,7 @@
       "team": "Team 1"
     },
     "CHomeUiT.charlie.d.tmms@CHomeUiT.CS1101": {
-      "id": "CHomeUiT.charlie.d.tmms",
+      "googleId": "CHomeUiT.charlie.d.tmms",
       "email": "CHomeUiT.charlie.d.tmms@gmail.com",
       "course": "CHomeUiT.CS1101",
       "name": "Charlie Davis",
@@ -90,7 +90,7 @@
       "team": "Team 2"
     },
     "CHomeUiT.danny.e.tmms@CHomeUiT.CS1101": {
-      "id": "CHomeUiT.danny.e.tmms",
+      "googleId": "CHomeUiT.danny.e.tmms",
       "email": "CHomeUiT.danny.e.tmms@gmail.com",
       "course": "CHomeUiT.CS1101",
       "name": "Danny Engrid",
@@ -102,7 +102,7 @@
   
   "evaluations": {
     "First Eval": {
-      "course": "CHomeUiT.CS2104",
+      "courseId": "CHomeUiT.CS2104",
       "name": "First Eval",
       "instructions": "Please please fill it in",
       "startTime": "2012-04-01 11:59 PM",
@@ -114,7 +114,7 @@
       "activated": true
     },
     "Second Eval": {
-      "course": "CHomeUiT.CS2104",
+      "courseId": "CHomeUiT.CS2104",
       "name": "Second Eval",
       "instructions": "Please please fill in the second evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -126,7 +126,7 @@
       "activated": true
     },
     "Third Eval": {
-      "course": "CHomeUiT.CS1101",
+      "courseId": "CHomeUiT.CS1101",
       "name": "Third Eval",
       "instructions": "Please please fill in the third evaluation",
       "startTime": "2012-04-01 11:59 PM",
@@ -138,7 +138,7 @@
       "activated": true
     },
     "Fourth Eval": {
-      "course": "CHomeUiT.CS1101",
+      "courseId": "CHomeUiT.CS1101",
       "name": "Fourth Eval",
       "instructions": "Please please fill in the fourth evaluation",
       "startTime": "2015-04-01 11:59 PM",
@@ -149,7 +149,7 @@
       "published": false
     },
     "Fifth Eval": {
-      "course": "CHomeUiT.CS1101",
+      "courseId": "CHomeUiT.CS1101",
       "name": "Fifth Eval",
       "instructions": "Please please fill in the fifth evaluation",
       "startTime": "2012-04-01 11:59 PM",

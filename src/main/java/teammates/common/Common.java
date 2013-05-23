@@ -546,31 +546,6 @@ public class Common {
 	public static String LOG_SYSTEM_ERROR_REPORT = "System Error Report";
 	public static String LOG_SERVLET_ACTION_FAILURE = "Servlet Action Failure";
 	
-			
-	
-	@SuppressWarnings("unused")
-	private void ____SANITIZE_parameters___________________________________() {
-	}
-
-	public static String sanitizeGoogleId(String rawGoogleId) {
-		String sanitized = rawGoogleId.trim();
-		// trim @gmail.com in ID field
-		if (sanitized.toLowerCase().endsWith("@gmail.com")) {
-			sanitized = sanitized.split("@")[0];
-		}
-		return sanitized.trim();
-	}
-
-	/**
-	 * Trims the string if it is not null. 
-	 * 
-	 * @param string
-	 * @return the trimmed string or null (if the parameter was null).
-	 */
-	public static String trimIfNotNull(String string) {
-		return ((string == null) ? "" : string.trim());
-	}
-	
 	@SuppressWarnings("unused")
 	private void ____MISC_utility_methods___________________________________() {
 	}
@@ -752,11 +727,7 @@ public class Common {
 		return time; // for chaining
 	}
 	
-	public static boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {
-		Date nowInUserTimeZone = Common.convertToUserTimeZone(
-				Calendar.getInstance(), timeZone).getTime();
-		return nowInUserTimeZone.before(time);
-	}
+
 
 
 	/**

@@ -30,6 +30,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -141,7 +142,7 @@ public class LogicTest extends BaseTestCase {
 		// also make this user a student
 		StudentAttributes instructorAsStudent = new StudentAttributes(
 				"|Instructor As Student|instructorasstudent@yahoo.com|", "some-course");
-		instructorAsStudent.id = instructor.googleId;
+		instructorAsStudent.googleId = instructor.googleId;
 		logic.createStudent(instructorAsStudent);
 
 		UserType user = logic.getCurrentUser();
@@ -184,10 +185,10 @@ public class LogicTest extends BaseTestCase {
 		______TS("student only");
 
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
-		loginAsStudent(student.id);
+		loginAsStudent(student.googleId);
 
 		user = logic.getCurrentUser();
-		assertEquals(student.id, user.id);
+		assertEquals(student.googleId, user.id);
 		assertEquals(false, user.isAdmin);
 		assertEquals(false, user.isInstructor);
 		assertEquals(true, user.isStudent);
@@ -775,9 +776,9 @@ public class LogicTest extends BaseTestCase {
 		CourseDetailsBundle courseDetials = logic.getCourseDetails(course.id);
 		assertEquals(course.id, courseDetials.course.id);
 		assertEquals(course.name, courseDetials.course.name);
-		assertEquals(2, courseDetials.teamsTotal);
-		assertEquals(5, courseDetials.studentsTotal);
-		assertEquals(0, courseDetials.unregisteredTotal);
+		assertEquals(2, courseDetials.stats.teamsTotal);
+		assertEquals(5, courseDetials.stats.studentsTotal);
+		assertEquals(0, courseDetials.stats.unregisteredTotal);
 
 		______TS("course without students");
 
@@ -786,9 +787,9 @@ public class LogicTest extends BaseTestCase {
 		courseDetials = logic.getCourseDetails("course1");
 		assertEquals("course1", courseDetials.course.id);
 		assertEquals("course 1", courseDetials.course.name);
-		assertEquals(0, courseDetials.teamsTotal);
-		assertEquals(0, courseDetials.studentsTotal);
-		assertEquals(0, courseDetials.unregisteredTotal);
+		assertEquals(0, courseDetials.stats.teamsTotal);
+		assertEquals(0, courseDetials.stats.studentsTotal);
+		assertEquals(0, courseDetials.stats.unregisteredTotal);
 
 		______TS("non-existent");
 
@@ -838,7 +839,7 @@ public class LogicTest extends BaseTestCase {
 		StudentAttributes studentInTwoCourses = dataBundle.students
 				.get("student2InCourse1");
 		List<CourseAttributes> courseList = logic
-				.getCoursesForStudentAccount(studentInTwoCourses.id);
+				.getCoursesForStudentAccount(studentInTwoCourses.googleId);
 		assertEquals(2, courseList.size());
 		// For some reason, index 0 is Course2 and index 1 is Course1
 		// Anyway in DataStore which follows a HashMap structure,
@@ -855,7 +856,7 @@ public class LogicTest extends BaseTestCase {
 	
 		StudentAttributes studentInOneCourse = dataBundle.students
 				.get("student1InCourse1");
-		courseList = logic.getCoursesForStudentAccount(studentInOneCourse.id);
+		courseList = logic.getCoursesForStudentAccount(studentInOneCourse.googleId);
 		assertEquals(1, courseList.size());
 		course1 = dataBundle.courses.get("typicalCourse1");
 		assertEquals(course1.id, courseList.get(0).id);
@@ -991,7 +992,7 @@ public class LogicTest extends BaseTestCase {
 		}
 		int numberOfEvalsInCourse1 = course1Evals.size();
 		assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
-		assertEquals(course1Id, course1Evals.get(0).evaluation.course);
+		assertEquals(course1Id, course1Evals.get(0).evaluation.courseId);
 		verifyEvaluationInfoExistsInList(
 				dataBundle.evaluations.get("evaluation1InCourse1"),
 				course1Evals);
@@ -1000,7 +1001,7 @@ public class LogicTest extends BaseTestCase {
 				course1Evals);
 	
 		// course with 1 evaluation
-		assertEquals(course1Id, course1Evals.get(1).evaluation.course);
+		assertEquals(course1Id, course1Evals.get(1).evaluation.courseId);
 		ArrayList<EvaluationDetailsBundle> course2Evals = courseListForInstructor
 				.get("idOfTypicalCourse2").evaluations;
 		assertEquals(1, course2Evals.size());
@@ -1121,7 +1122,7 @@ public class LogicTest extends BaseTestCase {
 	
 		// Get course details for student
 		List<CourseDetailsBundle> courseList = logic
-				.getCourseDetailsListForStudent(studentInTwoCourses.id);
+				.getCourseDetailsListForStudent(studentInTwoCourses.googleId);
 	
 		// verify number of courses received
 		assertEquals(2, courseList.size());
@@ -1152,7 +1153,7 @@ public class LogicTest extends BaseTestCase {
 		StudentAttributes studentWithNoEvaluations = dataBundle.students
 				.get("student1InCourse2");
 		courseList = logic
-				.getCourseDetailsListForStudent(studentWithNoEvaluations.id);
+				.getCourseDetailsListForStudent(studentWithNoEvaluations.googleId);
 		assertEquals(1, courseList.size());
 		assertEquals(0, courseList.get(0).evaluations.size());
 	
@@ -1427,13 +1428,13 @@ public class LogicTest extends BaseTestCase {
 		restoreTypicalDataInDatastore();
 		StudentAttributes studentInOneCourse = dataBundle.students
 				.get("student1InCourse1");
-		assertEquals(1, logic.getStudentsForGoogleId(studentInOneCourse.id).size());
+		assertEquals(1, logic.getStudentsForGoogleId(studentInOneCourse.googleId).size());
 		assertEquals(studentInOneCourse.email,
-				logic.getStudentsForGoogleId(studentInOneCourse.id).get(0).email);
+				logic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).email);
 		assertEquals(studentInOneCourse.name,
-				logic.getStudentsForGoogleId(studentInOneCourse.id).get(0).name);
+				logic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).name);
 		assertEquals(studentInOneCourse.course,
-				logic.getStudentsForGoogleId(studentInOneCourse.id).get(0).course);
+				logic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).course);
 	
 		______TS("student in two courses");
 	
@@ -1443,14 +1444,14 @@ public class LogicTest extends BaseTestCase {
 		StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
 		List<StudentAttributes> listReceivedUsingStudentInCourse1 = logic
-				.getStudentsForGoogleId(studentInTwoCoursesInCourse1.id);
+				.getStudentsForGoogleId(studentInTwoCoursesInCourse1.googleId);
 		assertEquals(2, listReceivedUsingStudentInCourse1.size());
 	
 		// get list using student data from course 2
 		StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
 				.get("student2InCourse2");
 		List<StudentAttributes> listReceivedUsingStudentInCourse2 = logic
-				.getStudentsForGoogleId(studentInTwoCoursesInCourse2.id);
+				.getStudentsForGoogleId(studentInTwoCoursesInCourse2.googleId);
 		assertEquals(2, listReceivedUsingStudentInCourse2.size());
 	
 		// check the content from first list (we assume the content of the
@@ -1526,7 +1527,7 @@ public class LogicTest extends BaseTestCase {
 		StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
 	
-		String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.id;
+		String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.googleId;
 		assertEquals(studentInTwoCoursesInCourse1.email,
 				logic.getStudentForGoogleId(
 						studentInTwoCoursesInCourse1.course,
@@ -1789,7 +1790,7 @@ public class LogicTest extends BaseTestCase {
 		 		
 		______TS("typical success case");
 		student1InCourse1.name = student1InCourse1.name + "x";
-		student1InCourse1.id = student1InCourse1.id + "x";
+		student1InCourse1.googleId = student1InCourse1.googleId + "x";
 		student1InCourse1.comments = student1InCourse1.comments + "x";
 		student1InCourse1.email = student1InCourse1.email + "x";
 		student1InCourse1.team = "Team 1.2";
@@ -1830,9 +1831,9 @@ public class LogicTest extends BaseTestCase {
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 		String googleId = "student1InCourse1";
 		String key = logic.getKeyForStudent(student.course, student.email);
-		student.id = "";
+		student.googleId = "";
 		logic.updateStudent(student.email, student);
-		assertEquals("", logic.getStudentForEmail(student.course, student.email).id);
+		assertEquals("", logic.getStudentForEmail(student.course, student.email).googleId);
 	
 		String methodName = "joinCourse";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
@@ -1859,9 +1860,9 @@ public class LogicTest extends BaseTestCase {
 		student = dataBundle.students.get("student1InCourse1");
 		googleId = "student1InCourse1";
 		key = logic.getKeyForStudent(student.course, student.email);
-		student.id = "";
+		student.googleId = "";
 		logic.updateStudent(student.email, student);
-		assertEquals("", logic.getStudentForEmail(student.course, student.email).id);
+		assertEquals("", logic.getStudentForEmail(student.course, student.email).googleId);
 	
 		helper.setEnvIsLoggedIn(true);
 		helper.setEnvEmail(googleId);
@@ -1871,7 +1872,7 @@ public class LogicTest extends BaseTestCase {
 		//Test if unencrypted key used
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
-				logic.getStudentForEmail(student.course, student.email).id);
+				logic.getStudentForEmail(student.course, student.email).googleId);
 		
 		
 		
@@ -1879,9 +1880,9 @@ public class LogicTest extends BaseTestCase {
 		student = dataBundle.students.get("student1InCourse1");
 		googleId = "student1InCourse1";
 		key = logic.getKeyForStudent(student.course, student.email);
-		student.id = "";
+		student.googleId = "";
 		logic.updateStudent(student.email, student);
-		assertEquals("", logic.getStudentForEmail(student.course, student.email).id);
+		assertEquals("", logic.getStudentForEmail(student.course, student.email).googleId);
 		logic.deleteAccount(googleId);	// for testing account creation
 		AccountAttributes studentAccount = logic.getAccount(googleId); // this is because student accounts are not in typical data bundle
 		assertNull(studentAccount);
@@ -1894,7 +1895,7 @@ public class LogicTest extends BaseTestCase {
 		key = Common.encrypt(key);
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
-				logic.getStudentForEmail(student.course, student.email).id);
+				logic.getStudentForEmail(student.course, student.email).googleId);
 		
 		// Check that an account with the student's google ID was created
 		studentAccount = logic.getAccount(googleId);
@@ -1977,7 +1978,7 @@ public class LogicTest extends BaseTestCase {
 				enrollResults.get(4), StudentAttributes.UpdateStatus.NEW);
 		
 		CourseDetailsBundle cd = logic.getCourseDetails(courseId);
-		assertEquals(5, cd.unregisteredTotal);
+		assertEquals(5, cd.stats.unregisteredTotal);
 	
 		______TS("includes a mix of unmodified, modified, and new");
 	
@@ -2084,11 +2085,11 @@ public class LogicTest extends BaseTestCase {
 		// modify two students to make them 'unregistered' and send again
 		StudentAttributes student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
-		student1InCourse1.id = "";
+		student1InCourse1.googleId = "";
 		logic.updateStudent(student1InCourse1.email, student1InCourse1);
 		StudentAttributes student2InCourse1 = dataBundle.students
 				.get("student2InCourse1");
-		student2InCourse1.id = "";
+		student2InCourse1.googleId = "";
 		logic.updateStudent(student2InCourse1.email, student2InCourse1);
 		emailsSent = logic.sendRegistrationInviteForCourse(course1.id);
 		assertEquals(2, emailsSent.size());
@@ -2202,7 +2203,7 @@ public class LogicTest extends BaseTestCase {
 		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor("instructor1", "course1", "course 1");
 		EvaluationAttributes newEval = new EvaluationAttributes();
-		newEval.course = "course1";
+		newEval.courseId = "course1";
 		newEval.name = "new eval";
 		newEval.startTime = Common.getDateOffsetToCurrentTime(1);
 		newEval.endTime = Common.getDateOffsetToCurrentTime(2);
@@ -2216,11 +2217,11 @@ public class LogicTest extends BaseTestCase {
 	
 		EvaluationAttributes eval = dataBundle.evaluations
 				.get("evaluation1InCourse1");
-		emailsSent = logic.sendReminderForEvaluation(eval.course, eval.name);
+		emailsSent = logic.sendReminderForEvaluation(eval.courseId, eval.name);
 	
 		assertEquals(4, emailsSent.size());
 		List<StudentAttributes> studentList = logic
-				.getStudentsForCourse(eval.course);
+				.getStudentsForCourse(eval.courseId);
 	
 		//student 1 would not recieve email 
 		for (StudentAttributes s : studentList) {
@@ -2251,11 +2252,11 @@ public class LogicTest extends BaseTestCase {
 		ArrayList<SubmissionAttributes> submissions = new ArrayList<SubmissionAttributes>();
 		submissions.add(sub);
 		logic.updateSubmissions(submissions);
-		emailsSent = logic.sendReminderForEvaluation(eval.course, eval.name);
+		emailsSent = logic.sendReminderForEvaluation(eval.courseId, eval.name);
 	
 		assertEquals(3, emailsSent.size());
 	
-		studentList = logic.getStudentsForCourse(eval.course);
+		studentList = logic.getStudentsForCourse(eval.courseId);
 	
 		// verify 3 students in Team 1.1 received emails.
 		for (StudentAttributes s : studentList) {
@@ -2380,7 +2381,7 @@ public class LogicTest extends BaseTestCase {
 		String methodName = "createEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { EvaluationAttributes.class };
 		EvaluationAttributes evaluation = new EvaluationAttributes();
-		evaluation.course = "idOfTypicalCourse1";
+		evaluation.courseId = "idOfTypicalCourse1";
 		evaluation.name = "new evaluation";
 		Object[] params = new Object[] { evaluation };
 
@@ -2408,7 +2409,7 @@ public class LogicTest extends BaseTestCase {
 
 		evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
 		verifyPresentInDatastore(evaluation);
-		logic.deleteEvaluation(evaluation.course, evaluation.name);
+		logic.deleteEvaluation(evaluation.courseId, evaluation.name);
 		verifyAbsentInDatastore(evaluation);
 		logic.createEvaluation(evaluation);
 		verifyPresentInDatastore(evaluation);
@@ -2434,13 +2435,13 @@ public class LogicTest extends BaseTestCase {
 		______TS("invalid parameters");
 
 		// Only checking that exception is thrown at logic level
-		evaluation.course = "invalid course";
+		evaluation.courseId = "invalid course";
 		try {
 			logic.createEvaluation(evaluation);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(
-					String.format(COURSE_ID_ERROR_MESSAGE, evaluation.course, REASON_INCORRECT_FORMAT),
+					String.format(COURSE_ID_ERROR_MESSAGE, evaluation.courseId, REASON_INCORRECT_FORMAT),
 					e.getMessage());
 		}
 		// invalid values to other parameters should be checked against
@@ -2477,7 +2478,7 @@ public class LogicTest extends BaseTestCase {
 
 		EvaluationAttributes expected = dataBundle.evaluations
 				.get("evaluation1InCourse1");
-		EvaluationAttributes actual = logic.getEvaluation(expected.course,
+		EvaluationAttributes actual = logic.getEvaluation(expected.courseId,
 				expected.name);
 		verifySameEvaluationData(expected, actual);
 
@@ -2493,7 +2494,7 @@ public class LogicTest extends BaseTestCase {
 		______TS("non-existent");
 
 		assertNull(logic.getEvaluation("non-existent", expected.name));
-		assertNull(logic.getEvaluation(expected.course, "non-existent"));
+		assertNull(logic.getEvaluation(expected.courseId, "non-existent"));
 
 	}
 
@@ -2573,7 +2574,7 @@ public class LogicTest extends BaseTestCase {
 		evalList = logic.getEvaluationsDetailsForInstructor(instructor2.googleId);
 		assertEquals(1, evalList.size());
 		for (EvaluationDetailsBundle edd : evalList) {
-			assertTrue(logic.isInstructorOfCourse(instructor2.googleId, edd.evaluation.course));
+			assertTrue(logic.isInstructorOfCourse(instructor2.googleId, edd.evaluation.courseId));
 		}
 	
 		______TS("instructor has 0 evaluations");
@@ -2655,7 +2656,7 @@ public class LogicTest extends BaseTestCase {
 		// no need to sort, the result should be sorted by default
 	
 		// check for evaluation details
-		assertEquals(evaluation.course, result.evaluation.course);
+		assertEquals(evaluation.courseId, result.evaluation.courseId);
 		assertEquals(evaluation.name, result.evaluation.name);
 		assertEquals(evaluation.startTime, result.evaluation.startTime);
 		assertEquals(evaluation.endTime, result.evaluation.endTime);
@@ -2688,16 +2689,16 @@ public class LogicTest extends BaseTestCase {
 		StudentAttributes s3 = srb3.student;
 		StudentAttributes s4 = srb4.student;
 	
-		assertEquals("student1InCourse1", s1.id);
-		assertEquals("student2InCourse1", s2.id);
-		assertEquals("student3InCourse1", s3.id);
-		assertEquals("student4InCourse1", s4.id);
+		assertEquals("student1InCourse1", s1.googleId);
+		assertEquals("student2InCourse1", s2.googleId);
+		assertEquals("student3InCourse1", s3.googleId);
+		assertEquals("student4InCourse1", s4.googleId);
 	
 		// check self-evaluations of some students
-		assertEquals(s1.name, srb1.getSelfEvaluation().revieweeName);
-		assertEquals(s1.name, srb1.getSelfEvaluation().reviewerName);
-		assertEquals(s3.name, srb3.getSelfEvaluation().revieweeName);
-		assertEquals(s3.name, srb3.getSelfEvaluation().reviewerName);
+		assertEquals(s1.name, srb1.getSelfEvaluation().details.revieweeName);
+		assertEquals(s1.name, srb1.getSelfEvaluation().details.reviewerName);
+		assertEquals(s3.name, srb3.getSelfEvaluation().details.revieweeName);
+		assertEquals(s3.name, srb3.getSelfEvaluation().details.reviewerName);
 	
 		// check individual values for s1
 		assertEquals(100, srb1.summary.claimedFromStudent);
@@ -2715,48 +2716,48 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(4, srb1.outgoing.size());
 	
 		SubmissionAttributes s1_s1 = srb1.outgoing.get(S1_POS);
-		assertEquals(100, s1_s1.normalizedToInstructor);
+		assertEquals(100, s1_s1.details.normalizedToInstructor);
 		String expected = "justification of student1InCourse1 rating to student1InCourse1";
 		assertEquals(expected, s1_s1.justification.getValue());
 		expected = "student1InCourse1 view of team dynamics";
 		assertEquals(expected, s1_s1.p2pFeedback.getValue());
 	
 		SubmissionAttributes s1_s2 = srb1.outgoing.get(S2_POS);
-		assertEquals(100, s1_s2.normalizedToInstructor);
+		assertEquals(100, s1_s2.details.normalizedToInstructor);
 		expected = "justification of student1InCourse1 rating to student2InCourse1";
 		assertEquals(expected, s1_s2.justification.getValue());
 		expected = "comments from student1InCourse1 to student2InCourse1";
 		assertEquals(expected, s1_s2.p2pFeedback.getValue());
 	
-		assertEquals(100, srb1.outgoing.get(S3_POS).normalizedToInstructor);
-		assertEquals(100, srb1.outgoing.get(S4_POS).normalizedToInstructor);
+		assertEquals(100, srb1.outgoing.get(S3_POS).details.normalizedToInstructor);
+		assertEquals(100, srb1.outgoing.get(S4_POS).details.normalizedToInstructor);
 	
-		assertEquals(NSU, srb2.outgoing.get(S3_POS).normalizedToInstructor);
-		assertEquals(100, srb2.outgoing.get(S4_POS).normalizedToInstructor);
-		assertEquals(NSB, srb3.outgoing.get(S2_POS).normalizedToInstructor);
-		assertEquals(84, srb4.outgoing.get(S2_POS).normalizedToInstructor);
+		assertEquals(NSU, srb2.outgoing.get(S3_POS).details.normalizedToInstructor);
+		assertEquals(100, srb2.outgoing.get(S4_POS).details.normalizedToInstructor);
+		assertEquals(NSB, srb3.outgoing.get(S2_POS).details.normalizedToInstructor);
+		assertEquals(84, srb4.outgoing.get(S2_POS).details.normalizedToInstructor);
 	
 		// check incoming submissions (s2 more intensely than others)
 	
 		assertEquals(4, srb1.incoming.size());
-		assertEquals(90, srb1.incoming.get(S1_POS).normalizedToStudent);
-		assertEquals(100, srb1.incoming.get(S4_POS).normalizedToStudent);
+		assertEquals(90, srb1.incoming.get(S1_POS).details.normalizedToStudent);
+		assertEquals(100, srb1.incoming.get(S4_POS).details.normalizedToStudent);
 	
 		SubmissionAttributes s2_s1 = srb1.incoming.get(S2_POS);
-		assertEquals(96, s2_s1.normalizedToStudent);
+		assertEquals(96, s2_s1.details.normalizedToStudent);
 		expected = "justification of student2InCourse1 rating to student1InCourse1";
 		assertEquals(expected, s2_s1.justification.getValue());
 		expected = "comments from student2InCourse1 to student1InCourse1";
 		assertEquals(expected, s2_s1.p2pFeedback.getValue());
-		assertEquals(115, srb2.incoming.get(S4_POS).normalizedToStudent);
+		assertEquals(115, srb2.incoming.get(S4_POS).details.normalizedToStudent);
 	
 		SubmissionAttributes s3_s1 = srb1.incoming.get(S3_POS);
-		assertEquals(113, s3_s1.normalizedToStudent);
+		assertEquals(113, s3_s1.details.normalizedToStudent);
 		assertEquals("", s3_s1.justification.getValue());
 		assertEquals("", s3_s1.p2pFeedback.getValue());
-		assertEquals(113, srb3.incoming.get(S3_POS).normalizedToStudent);
+		assertEquals(113, srb3.incoming.get(S3_POS).details.normalizedToStudent);
 	
-		assertEquals(108, srb4.incoming.get(S3_POS).normalizedToStudent);
+		assertEquals(108, srb4.incoming.get(S3_POS).details.normalizedToStudent);
 	
 		// check team 1.2
 		TeamResultBundle team1_2 = result.teamResults.get("Team 1.2");
@@ -2766,7 +2767,7 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(1, team1_2studentResult.outgoing.size());
 		assertEquals(NSB, team1_2studentResult.summary.claimedToInstructor);
 		assertEquals(NSB, team1_2studentResult.outgoing.get(0).points);
-		assertEquals(NA, team1_2studentResult.incoming.get(0).normalizedToStudent);
+		assertEquals(NA, team1_2studentResult.incoming.get(0).details.normalizedToStudent);
 	
 		______TS("null parameters");
 	
@@ -2837,7 +2838,7 @@ public class LogicTest extends BaseTestCase {
 		
 		EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
 		
-		String export = logic.getEvaluationResultSummaryAsCsv(eval.course, eval.name);
+		String export = logic.getEvaluationResultSummaryAsCsv(eval.courseId, eval.name);
 		
 		// This is what export should look like:
 		// ==================================
@@ -2852,7 +2853,7 @@ public class LogicTest extends BaseTestCase {
 		//Team 1.2,,student5 In Course1,,-999,,-9999,,
 		
 		String[] exportLines = export.split(Common.EOL);
-		assertEquals("Course,," + eval.course, exportLines[0]);
+		assertEquals("Course,," + eval.courseId, exportLines[0]);
 		assertEquals("Evaluation Name,," + eval.name, exportLines[1]);
 		assertEquals("", exportLines[2]);
 		assertEquals("Team,,Student,,Claimed,,Perceived,,Received", exportLines[3]);
@@ -2877,7 +2878,7 @@ public class LogicTest extends BaseTestCase {
 		}
 		
 		try {
-			logic.getEvaluationResultSummaryAsCsv(eval.course, null);
+			logic.getEvaluationResultSummaryAsCsv(eval.courseId, null);
 			Assert.fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
@@ -3113,7 +3114,7 @@ public class LogicTest extends BaseTestCase {
 		// check some random values from submission lists
 		assertEquals(100, result.outgoing.get(1).points); // reviewee=student2
 		assertEquals(NSB, result.incoming.get(0).points); // reviewer=student3
-		assertEquals(113, result.incoming.get(0).normalizedToStudent); // reviewer=student3
+		assertEquals(113, result.incoming.get(0).details.normalizedToStudent); // reviewer=student3
 		assertEquals(
 				"justification of student1InCourse1 rating to student1InCourse1",
 				result.selfEvaluations.get(0).justification.getValue()); // student2
@@ -3167,14 +3168,14 @@ public class LogicTest extends BaseTestCase {
 				String.class, Date.class, Date.class, Double.TYPE,
 				Integer.TYPE, Boolean.TYPE };
 		EvaluationAttributes eval = new EvaluationAttributes();
-		eval.course = "idOfTypicalCourse1";
+		eval.courseId = "idOfTypicalCourse1";
 		eval.name = "new evaluation";
 		eval.instructions = "inst";
 		Date dummyTime = Calendar.getInstance().getTime();
 		eval.startTime = dummyTime;
 		eval.endTime = dummyTime;
 
-		Object[] params = new Object[] { eval.course, eval.name,
+		Object[] params = new Object[] { eval.courseId, eval.name,
 				eval.instructions, eval.startTime, eval.endTime, eval.timeZone,
 				eval.gracePeriod, eval.p2pEnabled };
 
@@ -3236,8 +3237,8 @@ public class LogicTest extends BaseTestCase {
 			invokeEditEvaluation(eval);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(EvaluationAttributes.ERROR_END_BEFORE_START + EOL+
-							EvaluationAttributes.ERROR_ACTIVATED_BEFORE_START, e.getMessage());
+			assertEquals(FieldValidator.EVALUATION_TIMEFRAME_ERROR_MESSAGE + EOL+
+					FieldValidator.EVALUATION_START_TIME_ERROR_MESSAGE, e.getMessage());
 		}
 
 		// Checking for other type of invalid parameter situations
@@ -3287,20 +3288,20 @@ public class LogicTest extends BaseTestCase {
 				.get("evaluation1InCourse1");
 		// ensure not published yet
 		assertEquals(false,
-				logic.getEvaluation(eval1.course, eval1.name).published);
+				logic.getEvaluation(eval1.courseId, eval1.name).published);
 		// ensure CLOSED
 		eval1.endTime = Common.getDateOffsetToCurrentTime(-1);
 		assertEquals(EvalStatus.CLOSED, eval1.getStatus());
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		backDoorLogic.updateEvaluation(eval1);
 
-		logic.publishEvaluation(eval1.course, eval1.name);
+		logic.publishEvaluation(eval1.courseId, eval1.name);
 		assertEquals(true,
-				logic.getEvaluation(eval1.course, eval1.name).published);
+				logic.getEvaluation(eval1.courseId, eval1.name).published);
 
-		logic.unpublishEvaluation(eval1.course, eval1.name);
+		logic.unpublishEvaluation(eval1.courseId, eval1.name);
 		assertEquals(false,
-				logic.getEvaluation(eval1.course, eval1.name).published);
+				logic.getEvaluation(eval1.courseId, eval1.name).published);
 
 		______TS("not ready for publishing");
 
@@ -3310,7 +3311,7 @@ public class LogicTest extends BaseTestCase {
 		backDoorLogic.updateEvaluation(eval1);
 
 		try {
-			logic.publishEvaluation(eval1.course, eval1.name);
+			logic.publishEvaluation(eval1.courseId, eval1.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertContains(Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
@@ -3319,12 +3320,12 @@ public class LogicTest extends BaseTestCase {
 
 		// ensure evaluation stays in the same state
 		assertEquals(EvalStatus.OPEN,
-				logic.getEvaluation(eval1.course, eval1.name).getStatus());
+				logic.getEvaluation(eval1.courseId, eval1.name).getStatus());
 
 		______TS("not ready for unpublishing");
 
 		try {
-			logic.unpublishEvaluation(eval1.course, eval1.name);
+			logic.unpublishEvaluation(eval1.courseId, eval1.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertContains(Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
@@ -3333,7 +3334,7 @@ public class LogicTest extends BaseTestCase {
 
 		// ensure evaluation stays in the same state
 		assertEquals(EvalStatus.OPEN,
-				logic.getEvaluation(eval1.course, eval1.name).getStatus());
+				logic.getEvaluation(eval1.courseId, eval1.name).getStatus());
 
 		______TS("non-existent");
 
@@ -3351,7 +3352,7 @@ public class LogicTest extends BaseTestCase {
 		}
 		
 		try {
-			logic.unpublishEvaluation(eval1.course, null);
+			logic.unpublishEvaluation(eval1.courseId, null);
 			Assert.fail();
 		} catch (AssertionError a) {
 		}
@@ -3402,7 +3403,7 @@ public class LogicTest extends BaseTestCase {
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(submission);
 	
-		logic.deleteEvaluation(eval.course, eval.name);
+		logic.deleteEvaluation(eval.courseId, eval.name);
 		verifyAbsentInDatastore(eval);
 		// verify submissions are deleted too
 		ArrayList<SubmissionAttributes> submissionsOfEvaluation = new ArrayList<SubmissionAttributes>(dataBundle.submissions.values());
@@ -3425,7 +3426,7 @@ public class LogicTest extends BaseTestCase {
 	
 		// should fail silently
 		logic.deleteEvaluation("non-existent", eval.name);
-		logic.deleteEvaluation(eval.course, "non-existent");
+		logic.deleteEvaluation(eval.courseId, "non-existent");
 	
 	}
 
@@ -3488,17 +3489,17 @@ public class LogicTest extends BaseTestCase {
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 	
 		List<SubmissionAttributes> submissions = logic.getSubmissionsForEvaluationFromStudent(
-				evaluation.course, evaluation.name, student.email);
+				evaluation.courseId, evaluation.name, student.email);
 		// there should be 4 submissions as this student is in a 4-person team
 		assertEquals(4, submissions.size());
 		// verify they all belong to this student
 		for (SubmissionAttributes s : submissions) {
-			assertEquals(evaluation.course, s.course);
+			assertEquals(evaluation.courseId, s.course);
 			assertEquals(evaluation.name, s.evaluation);
 			assertEquals(student.email, s.reviewer);
-			assertEquals(student.name, s.reviewerName);
-			assertEquals(logic.getStudentForEmail(evaluation.course, s.reviewee).name,
-					s.revieweeName);
+			assertEquals(student.name, s.details.reviewerName);
+			assertEquals(logic.getStudentForEmail(evaluation.courseId, s.reviewee).name,
+					s.details.revieweeName);
 		}
 	
 		______TS("orphan submissions");
@@ -3508,7 +3509,7 @@ public class LogicTest extends BaseTestCase {
 		logic.updateStudent(student.email, student);
 		
 		submissions = logic.getSubmissionsForEvaluationFromStudent(
-				evaluation.course, evaluation.name, student.email);
+				evaluation.courseId, evaluation.name, student.email);
 		//There should be 1 submission as he is now in a 1-person team.
 		//   Orphaned submissions from previous team should not be returned.
 				assertEquals(1, submissions.size());
@@ -3518,7 +3519,7 @@ public class LogicTest extends BaseTestCase {
 		logic.updateStudent(student.email, student);
 		student.team = "Team 1.3";
 		logic.updateStudent(student.email, student);
-		submissions = logic.getSubmissionsForEvaluationFromStudent(evaluation.course,
+		submissions = logic.getSubmissionsForEvaluationFromStudent(evaluation.courseId,
 				evaluation.name, student.email);
 		assertEquals(1, submissions.size());
 	
@@ -3538,10 +3539,10 @@ public class LogicTest extends BaseTestCase {
 				"non-existent", evaluation.name, student.email ).size());
 	
 		assertEquals(0, logic.getSubmissionsForEvaluationFromStudent(
-				evaluation.course, "non-existent", student.email ).size());
+				evaluation.courseId, "non-existent", student.email ).size());
 	
 		assertEquals(0, logic.getSubmissionsForEvaluationFromStudent(
-				evaluation.course, evaluation.name, "non-existent" ).size());
+				evaluation.courseId, evaluation.name, "non-existent" ).size());
 	}
 
 	@Test
@@ -3558,7 +3559,7 @@ public class LogicTest extends BaseTestCase {
 		String methodName = "hasStudentSubmittedEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
 				String.class };
-		Object[] params = new Object[] { evaluation.course, evaluation.name,
+		Object[] params = new Object[] { evaluation.courseId, evaluation.name,
 				student.email };
 	
 		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
@@ -3572,7 +3573,7 @@ public class LogicTest extends BaseTestCase {
 		loginAsAdmin("admin.user");
 	
 		assertEquals(true, logic.hasStudentSubmittedEvaluation(
-				evaluation.course, evaluation.name, student.email));
+				evaluation.courseId, evaluation.name, student.email));
 	
 		______TS("student has not submitted");
 	
@@ -3580,7 +3581,7 @@ public class LogicTest extends BaseTestCase {
 		evaluation.name = "New evaluation";
 		logic.createEvaluation(evaluation);
 		assertEquals(false, logic.hasStudentSubmittedEvaluation(
-				evaluation.course, evaluation.name, student.email));
+				evaluation.courseId, evaluation.name, student.email));
 	
 		______TS("null parameters");
 	
@@ -3596,9 +3597,9 @@ public class LogicTest extends BaseTestCase {
 		assertEquals(false, logic.hasStudentSubmittedEvaluation(
 				"non-existent-course", evaluation.name, student.email));
 		assertEquals(false, logic.hasStudentSubmittedEvaluation(
-				evaluation.course, "non-existent-eval", student.email));
+				evaluation.courseId, "non-existent-eval", student.email));
 		assertEquals(false, logic.hasStudentSubmittedEvaluation(
-				evaluation.course, evaluation.name, "non-existent@student"));
+				evaluation.courseId, evaluation.name, "non-existent@student"));
 	
 	}
 
@@ -3902,9 +3903,9 @@ public class LogicTest extends BaseTestCase {
 				+ Common.getTeammatesGson().toJson(expectedStudent)
 				+ "\n actual \n"
 				+ Common.getTeammatesGson().toJson(enrollmentResult);
-		expectedStudent.updateStatus = status;
 		assertEquals(errorMessage, true,
-				enrollmentResult.isEnrollmentInfoMatchingTo(expectedStudent));
+				enrollmentResult.isEnrollInfoSameAs(expectedStudent) &&
+				enrollmentResult.updateStatus == status);
 	}
 
 	public static void verifyAbsentInDatastore(AccountAttributes account)
@@ -3935,7 +3936,7 @@ public class LogicTest extends BaseTestCase {
 
 	private void verifyAbsentInDatastore(EvaluationAttributes evaluation) {
 		assertEquals(null,
-				logic.getEvaluation(evaluation.course, evaluation.name));
+				logic.getEvaluation(evaluation.courseId, evaluation.name));
 	}
 	
 	//TODO: move these verify methods to a utility class
@@ -3951,7 +3952,7 @@ public class LogicTest extends BaseTestCase {
 		StudentAttributes actualStudent = logic.getStudentForEmail(expectedStudent.course,
 				expectedStudent.email);
 		expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
-		StudentAttributes.equalizeIrrelevantData(expectedStudent, actualStudent);
+		equalizeIrrelevantData(expectedStudent, actualStudent);
 		assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
 	}
 
@@ -3963,7 +3964,7 @@ public class LogicTest extends BaseTestCase {
 	}
 
 	public static void verifyPresentInDatastore(EvaluationAttributes expected) {
-		EvaluationAttributes actual = logic.getEvaluation(expected.course,
+		EvaluationAttributes actual = logic.getEvaluation(expected.courseId,
 				expected.name);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
@@ -3983,7 +3984,7 @@ public class LogicTest extends BaseTestCase {
 
 	public static void verifySameEvaluationData(EvaluationAttributes expected,
 			EvaluationAttributes actual) {
-		assertEquals(expected.course, actual.course);
+		assertEquals(expected.courseId, actual.courseId);
 		assertEquals(expected.name, actual.name);
 		assertSameDates(expected.startTime, actual.startTime);
 		assertSameDates(expected.endTime, actual.endTime);
@@ -4067,6 +4068,29 @@ public class LogicTest extends BaseTestCase {
 					.getClass());
 		}
 	}
+	
+	private static void equalizeIrrelevantData(
+			StudentAttributes expectedStudent,
+			StudentAttributes actualStudent) {
+		
+		// For these fields, we consider null and "" equivalent.
+		if ((expectedStudent.googleId == null) && (actualStudent.googleId.equals(""))) {
+			actualStudent.googleId = null;
+		}
+		if ((expectedStudent.team == null) && (actualStudent.team.equals(""))) {
+			actualStudent.team = null;
+		}
+		if ((expectedStudent.comments == null)
+				&& (actualStudent.comments.equals(""))) {
+			actualStudent.comments = null;
+		}
+
+		// pretend keys match because the key is generated on the server side
+		// and cannot be anticipated
+		if ((actualStudent.key != null)) {
+			expectedStudent.key = actualStudent.key;
+		}
+	}
 
 	@SuppressWarnings("unused")
 	private void ____invoking_private_methods__() {
@@ -4075,7 +4099,7 @@ public class LogicTest extends BaseTestCase {
 
 	private void invokeEditEvaluation(EvaluationAttributes e)
 			throws InvalidParametersException, EntityDoesNotExistException {
-		logic.updateEvaluation(e.course, e.name, e.instructions, e.startTime,
+		logic.updateEvaluation(e.courseId, e.name, e.instructions, e.startTime,
 				e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
 	}
 
@@ -4116,12 +4140,12 @@ public class LogicTest extends BaseTestCase {
 			student.team = teamName;
 			student.course = courseId;
 			student.comments = "";
-			student.id="";
+			student.googleId="";
 			logic.createStudent(student);
 		}
 		// create evaluation
 		EvaluationAttributes e = new EvaluationAttributes();
-		e.course = courseId;
+		e.courseId = courseId;
 		e.name = evaluationName;
 		e.startTime = Common.getDateOffsetToCurrentTime(-1);
 		e.endTime = Common.getDateOffsetToCurrentTime(1);

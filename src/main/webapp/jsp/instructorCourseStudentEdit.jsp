@@ -68,7 +68,7 @@
 				 	</tr>
 				 	<tr>
 						<td class="label bold">Google ID:</td>
-						<td id="<%=Common.PARAM_USER_ID%>"><%=(helper.student.id!= null ? InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.id) : "")%></td>
+						<td id="<%=Common.PARAM_USER_ID%>"><%=(helper.student.googleId!= null ? InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.googleId) : "")%></td>
 					</tr>
 					<tr>
 						<td class="label bold">Registration Key:</td>

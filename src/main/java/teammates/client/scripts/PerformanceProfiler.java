@@ -611,7 +611,7 @@ public class PerformanceProfiler extends Thread{
     	for (String evaluationKey : set)
     	{
     		EvaluationAttributes eval = data.evaluations.get(evaluationKey);
-    		status += " " + BackDoor.getEvaluationAsJson(eval.course, eval.name);
+    		status += " " + BackDoor.getEvaluationAsJson(eval.courseId, eval.name);
     	}
     	return status;
     }
@@ -681,7 +681,7 @@ public class PerformanceProfiler extends Thread{
     	for (String evaluationKey : set)
     	{
     		EvaluationAttributes eval = data.evaluations.get(evaluationKey);
-    		status += " " + BackDoor.deleteEvaluation(eval.course, eval.name);
+    		status += " " + BackDoor.deleteEvaluation(eval.courseId, eval.name);
     	}
     	return status;
     }

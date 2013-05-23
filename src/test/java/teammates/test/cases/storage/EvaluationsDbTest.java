@@ -41,7 +41,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	public void testCreateEvaluation() throws EntityAlreadyExistsException, InvalidParametersException {
 		// SUCCESS
 		EvaluationAttributes e = new EvaluationAttributes();
-		e.course = "Computing101";
+		e.courseId = "Computing101";
 		e.name = "Very First Evaluation";
 		e.startTime = new Date();
 		e.endTime = new Date();
@@ -49,7 +49,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		
 		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380)
 		e = new EvaluationAttributes();
-		e.course = "Computing102";
+		e.courseId = "Computing102";
 		e.name = "text group text";
 		e.startTime = new Date();
 		e.endTime = new Date();
@@ -87,7 +87,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		EvaluationAttributes e = createNewEvaluation();
 		
 		// Get existent
-		EvaluationAttributes retrieved = evaluationsDb.getEvaluation(e.course, e.name);
+		EvaluationAttributes retrieved = evaluationsDb.getEvaluation(e.courseId, e.name);
 		AssertJUnit.assertNotNull(retrieved);
 		
 		// Get non-existent - just return null
@@ -96,7 +96,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		
 		// Null params check:
 		try {
-			evaluationsDb.getEvaluation(e.course, null);
+			evaluationsDb.getEvaluation(e.courseId, null);
 			Assert.fail();
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -134,13 +134,13 @@ public class EvaluationsDbTest extends BaseTestCase {
 		EvaluationAttributes e = createNewEvaluation();
 		
 		// Delete
-		evaluationsDb.deleteEvaluation(e.course, e.name);
+		evaluationsDb.deleteEvaluation(e.courseId, e.name);
 		
-		EvaluationAttributes deleted = evaluationsDb.getEvaluation(e.course, e.name);
+		EvaluationAttributes deleted = evaluationsDb.getEvaluation(e.courseId, e.name);
 		AssertJUnit.assertNull(deleted);
 		
 		// delete again - should fail silently
-		evaluationsDb.deleteEvaluation(e.course, e.name);
+		evaluationsDb.deleteEvaluation(e.courseId, e.name);
 		
 		// Null params check:
 		try {
@@ -151,7 +151,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		}
 		
 		try {
-			evaluationsDb.deleteEvaluation(e.course, null);
+			evaluationsDb.deleteEvaluation(e.courseId, null);
 			Assert.fail();
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -166,7 +166,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 	
 	private EvaluationAttributes createNewEvaluation() throws InvalidParametersException {
 		EvaluationAttributes e = new EvaluationAttributes();
-		e.course = "Computing101";
+		e.courseId = "Computing101";
 		e.name = "Basic Computing Evaluation1";
 		e.startTime = new Date();
 		e.endTime = new Date();

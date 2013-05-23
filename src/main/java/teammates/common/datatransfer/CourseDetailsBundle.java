@@ -2,8 +2,6 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 
-import teammates.common.Common;
-
 /**
  * Represents details of a course, including its students and evaluations.
  * <br> Contains:
@@ -20,10 +18,7 @@ public class CourseDetailsBundle {
 	}
 
 	public CourseAttributes course;
-	//TODO: These three stats can be extracted into a CourseStats class.
-	public int teamsTotal = Common.UNINITIALIZED_INT;
-	public int studentsTotal = Common.UNINITIALIZED_INT;
-	public int unregisteredTotal = Common.UNINITIALIZED_INT;
+	public CourseStats stats = new CourseStats();
 	public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
 	public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
 	public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();

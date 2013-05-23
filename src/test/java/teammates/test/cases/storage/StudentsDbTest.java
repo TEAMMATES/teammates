@@ -46,7 +46,7 @@ public class StudentsDbTest extends BaseTestCase {
 		s.email = "valid-fresh@email.com";
 		s.team = "";
 		s.comments="";
-		s.id="";
+		s.googleId="";
 		studentsDb.createStudent(s);
 			
 		// FAIL : duplicate
@@ -151,9 +151,9 @@ public class StudentsDbTest extends BaseTestCase {
 		s.name = "new-name-2";
 		s.team = "new-team-2";
 		s.email = "new-email-2";
-		s.id = "new-id-2";
+		s.googleId = "new-id-2";
 		s.comments = "this are new comments";
-		studentsDb.updateStudent(s.course, originalEmail, s.name, s.team, s.email, s.id, s.comments);
+		studentsDb.updateStudent(s.course, originalEmail, s.name, s.team, s.email, s.googleId, s.comments);
 		
 		StudentAttributes updatedStudent = studentsDb.getStudentForEmail(s.course, s.email);
 		assertTrue(updatedStudent.isEnrollInfoSameAs(s));
@@ -195,7 +195,7 @@ public class StudentsDbTest extends BaseTestCase {
 		s.email = "valid@email.com";
 		s.team = "";
 		s.comments = "";
-		s.id="";
+		s.googleId="";
 		try {
 			studentsDb.createStudent(s);
 		} catch (EntityAlreadyExistsException e) {
@@ -212,7 +212,7 @@ public class StudentsDbTest extends BaseTestCase {
 		s.email = email;
 		s.team = "";
 		s.comments = "";
-		s.id="";
+		s.googleId="";
 		try {
 			studentsDb.createStudent(s);
 		} catch (EntityAlreadyExistsException e) {

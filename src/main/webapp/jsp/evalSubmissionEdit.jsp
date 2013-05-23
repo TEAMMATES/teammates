@@ -14,7 +14,7 @@
 		disableAttributeValue = "disabled=\"disabled\"";
 	}
 %>
-<input type="hidden" value="<%=helper.eval.course%>"
+<input type="hidden" value="<%=helper.eval.courseId%>"
 		name="<%=Common.PARAM_COURSE_ID%>"
 		id="<%=Common.PARAM_COURSE_ID%>">
 <input type="hidden" value="<%=EvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%>"

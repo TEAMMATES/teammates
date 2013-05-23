@@ -71,13 +71,13 @@ public class SubmissionsLogicTest extends BaseTestCase{
 		logic.createEvaluation(evaluation);
 
 		HashMap<String, SubmissionAttributes> submissions = invokeGetSubmissionsForEvaluation(
-				evaluation.course, evaluation.name);
+				evaluation.courseId, evaluation.name);
 		// Team 1.1 has 4 students, Team 1.2 has only 1 student.
 		// There should be 4*4+1=17 submissions.
 		assertEquals(17, submissions.keySet().size());
 		// verify they all belong to this evaluation
 		for (String key : submissions.keySet()) {
-			assertEquals(evaluation.course, submissions.get(key).course);
+			assertEquals(evaluation.courseId, submissions.get(key).course);
 			assertEquals(evaluation.name, submissions.get(key).evaluation);
 		}
 		
@@ -90,13 +90,13 @@ public class SubmissionsLogicTest extends BaseTestCase{
 
 		// Now, team 1.1 has 3 students, team 1.2 has 2 student.
 		// There should be 3*3+2*2=13 submissions if no orphans are returned.
-		submissions = invokeGetSubmissionsForEvaluation(evaluation.course,
+		submissions = invokeGetSubmissionsForEvaluation(evaluation.courseId,
 				evaluation.name);
 		assertEquals(13, submissions.keySet().size());
 		
 		// Check if the returned submissions match the current team structure
 		List<StudentAttributes> students = logic
-				.getStudentsForCourse(evaluation.course);
+				.getStudentsForCourse(evaluation.courseId);
 		LogicTest.verifySubmissionsExistForCurrentTeamStructureInEvaluation(
 				evaluation.name, students, new ArrayList<SubmissionAttributes>(
 						submissions.values()));
@@ -105,16 +105,16 @@ public class SubmissionsLogicTest extends BaseTestCase{
 		
 		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor("instructor1", "course1", "Course 1");
-		evaluation.course = "course1";
+		evaluation.courseId = "course1";
 		logic.createEvaluation(evaluation);
 
-		submissions = invokeGetSubmissionsForEvaluation(evaluation.course,
+		submissions = invokeGetSubmissionsForEvaluation(evaluation.courseId,
 				evaluation.name);
 		assertEquals(0, submissions.keySet().size());
 
 		______TS("non-existent course/evaluation");
 
-		assertEquals(0, invokeGetSubmissionsForEvaluation(evaluation.course, "non-existent").size());
+		assertEquals(0, invokeGetSubmissionsForEvaluation(evaluation.courseId, "non-existent").size());
 		assertEquals(0, invokeGetSubmissionsForEvaluation("non-existent", evaluation.name).size());
 
 		// no need to check for invalid parameters as it is a private method

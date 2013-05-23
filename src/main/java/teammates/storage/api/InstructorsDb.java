@@ -47,7 +47,7 @@ public class InstructorsDb {
 		if (!instructorToAdd.isValid()) {
 			throw new InvalidParametersException(
 					"Invalid parameter detected while adding instructor :"
-					+instructorToAdd.getInvalidStateInfo() 
+					+instructorToAdd.getInvalidityInfo() 
 					+ "values received :\n"+ instructorToAdd.toString());
 		}
 
@@ -180,7 +180,7 @@ public class InstructorsDb {
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
 		
 		if (!instructorAttributesToUpdate.isValid()) {
-			throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidStateInfo());
+			throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidityInfo());
 		}
 		
 		Instructor instructorToUpdate = getInstructorEntityForGoogleId(

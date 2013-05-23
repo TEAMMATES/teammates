@@ -271,7 +271,7 @@ public class GateKeeper {
 			return false;
 		}
 		StudentAttributes student = studentsDb.getStudentForEmail(courseId, studentEmail);
-		return student == null ? false : user.id.equals(student.id);
+		return student == null ? false : user.id.equals(student.googleId);
 	}
 
 	private boolean isOwnId(String userId) {

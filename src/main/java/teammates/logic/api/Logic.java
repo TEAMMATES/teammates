@@ -769,7 +769,7 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
 
-		gateKeeper.verifyCourseInstructorOrAbove(evaluation.course);
+		gateKeeper.verifyCourseInstructorOrAbove(evaluation.courseId);
 
 		evaluationsLogic.createEvaluationCascade(evaluation);
 	}
@@ -907,7 +907,7 @@ public class Logic {
 		EvaluationAttributes original = getEvaluation(courseId, evaluationName);
 	
 		EvaluationAttributes evaluation = new EvaluationAttributes();
-		evaluation.course = courseId;
+		evaluation.courseId = courseId;
 		evaluation.name = evaluationName;
 		evaluation.instructions = instructions;
 		evaluation.p2pEnabled = p2pEnabled;

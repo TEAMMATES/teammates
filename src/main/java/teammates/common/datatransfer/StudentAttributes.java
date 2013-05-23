@@ -11,7 +11,8 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.Sanitizer;
+import teammates.common.exception.EnrollException;
 import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {
@@ -56,7 +57,7 @@ public class StudentAttributes extends EntityAttributes {
 	//=========================================================================
 	
 	//Note: be careful when changing these variables as their names are used in *.json files.
-	public String id; //TODO: rename to googleId
+	public String googleId;
 	public String name;
 	public String email;
 	public String course = null;
@@ -66,7 +67,7 @@ public class StudentAttributes extends EntityAttributes {
 
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
 
-	//TODO: move these constants into FieldValidator	
+	public static final String ERROR_COURSE_ID_NULL = "Course ID was null\n";
 	public static final String ERROR_ENROLL_LINE_NULL = "Enroll line was null\n";
 	public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
 	public static final String ERROR_ENROLL_LINE_TOOFEWPARTS = "Enroll line had too few parts\n";
@@ -74,25 +75,21 @@ public class StudentAttributes extends EntityAttributes {
 		
 	public StudentAttributes(String id, String email, String name, String comments,
 			String courseId, String team) {
-		//TODO: this method should follow our normal sanitization policy
-		// (when we have one).
 		this();
-		this.id = Common.trimIfNotNull(id);
-		this.email = Common.trimIfNotNull(email);
-		this.course = Common.trimIfNotNull(courseId);
-		this.name = Common.trimIfNotNull(name);
-		this.comments = Common.trimIfNotNull(comments);
-		this.team = Common.trimIfNotNull(team);
+		this.googleId = Sanitizer.sanitizeGoogleId(id);
+		this.email = Sanitizer.sanitizeEmail(email);
+		this.course = Sanitizer.sanitizeTitle(courseId);
+		this.name = Sanitizer.sanitizeName(name);
+		this.comments = Sanitizer.sanitizeTextField(comments);
+		this.team = Sanitizer.sanitizeTitle(team);
 	}
 
 	public StudentAttributes() {
 		
 	}
 
-	//TODO: Replace InvalidParametersException with field validation? 
-	//   i.e. let the caller use getValidiyInfo to check correctness instead of throwing IPE
 	public StudentAttributes(String enrollLine, String courseId)
-			throws InvalidParametersException {
+			throws EnrollException {
 
 		this();
 		int TEAM_POS = 0;
@@ -100,33 +97,32 @@ public class StudentAttributes extends EntityAttributes {
 		int EMAIL_POS = 2;
 		int COMMENT_POS = 3;
 
-		//TODO: move enroll line validation to FieldValidator
 		Assumption.assertNotNull(ERROR_ENROLL_LINE_NULL, enrollLine);
+		Assumption.assertNotNull(ERROR_COURSE_ID_NULL, courseId);
 			
 		if (enrollLine.equals("")) {
-			throw new InvalidParametersException(ERROR_ENROLL_LINE_EMPTY);
+			throw new EnrollException(ERROR_ENROLL_LINE_EMPTY);
 		}
 
 		String[] parts = enrollLine.replace("|", "\t").split("\t");
 
 		if (parts.length < 3) {
-			throw new InvalidParametersException(ERROR_ENROLL_LINE_TOOFEWPARTS);
+			throw new EnrollException(ERROR_ENROLL_LINE_TOOFEWPARTS);
 		} else if (parts.length > 4) {
-			throw new InvalidParametersException(ERROR_ENROLL_LINE_TOOMANYPARTS);
+			throw new EnrollException(ERROR_ENROLL_LINE_TOOMANYPARTS);
 		}
 
-		//TODO: apply proper sanitization
-		String paramCourseId = courseId == null ? null : courseId.trim();
-		String paramTeam = parts[TEAM_POS].trim();
-		String paramName = parts[NAME_POS].trim();
-		String paramEmail = parts[EMAIL_POS].trim();
-		String paramComment = ((parts.length == 4) ? parts[COMMENT_POS].trim() : "");
+		String paramCourseId = courseId;
+		String paramTeam = parts[TEAM_POS];
+		String paramName = parts[NAME_POS];
+		String paramEmail = parts[EMAIL_POS];
+		String paramComment = ((parts.length == 4) ? parts[COMMENT_POS] : "");
 
-		this.team = paramTeam;
-		this.name = paramName;
-		this.email = paramEmail;
-		this.course = paramCourseId;
-		this.comments = paramComment;
+		this.name = Sanitizer.sanitizeName(paramName);
+		this.email = Sanitizer.sanitizeEmail(paramEmail);
+		this.course = Sanitizer.sanitizeTitle(paramCourseId);
+		this.team = Sanitizer.sanitizeTitle(paramTeam);
+		this.comments = Sanitizer.sanitizeTextField(paramComment);
 	}
 
 	public StudentAttributes(Student student) {
@@ -134,20 +130,21 @@ public class StudentAttributes extends EntityAttributes {
 		this.email = student.getEmail();
 		this.course = student.getCourseId();
 		this.name = student.getName();
-		this.comments = ((student.getComments() == null) ? "" : student.getComments());
-		this.team = ((student.getTeamName() == null) ? "" : student.getTeamName());
-		this.id = ((student.getGoogleId() == null) ? "" : student.getGoogleId());
+		this.comments = Sanitizer.sanitizeTextField(student.getComments());
+		this.team = Sanitizer.sanitizeTitle(student.getTeamName());
+		// TODO: Is this supposed to be null or "" ?? Find out and standardize.
+		this.googleId = ((student.getGoogleId() == null) ? "" : student.getGoogleId());
 		Long keyAsLong = student.getRegistrationKey();
 		this.key = (keyAsLong == null ? null : Student
 				.getStringKeyForLongKey(keyAsLong));
 
-		// TODO: this if for backward compatibility with old system. Old system
+		// TODO: this is for backward compatibility with old system. Old system
 		// considers "" as unregistered. It should be changed to consider
 		// null as unregistered.
 	}
 
 	public boolean isRegistered() {
-		return id != null && !id.equals("");
+		return googleId != null && !googleId.equals("");
 	}
 
 	public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
@@ -158,44 +155,7 @@ public class StudentAttributes extends EntityAttributes {
 				&& otherStudent.team.equals(this.team);
 	}
 
-	//TODO: this method is very similar to  isEnrollInfoSameAs above. 
-	//  It is also used in testing only. eliminate?
-	public boolean isEnrollmentInfoMatchingTo(StudentAttributes other) {
-		return (this.email.equals(other.email))
-				&& (this.course.equals(other.course))
-				&& (this.name.equals(other.name))
-				&& (this.comments.equals(other.comments))
-				&& (this.team.equals(other.team))
-				&& (this.updateStatus == other.updateStatus);
-	}
-
-	//TODO: consider moving out of here. It is used only in testing.
-	public static void equalizeIrrelevantData(
-			StudentAttributes expectedStudent,
-			StudentAttributes actualStudent) {
-		
-		// For these fields, we consider null and "" equivalent.
-		if ((expectedStudent.id == null) && (actualStudent.id.equals(""))) {
-			actualStudent.id = null;
-		}
-		if ((expectedStudent.team == null) && (actualStudent.team.equals(""))) {
-			actualStudent.team = null;
-		}
-		if ((expectedStudent.comments == null)
-				&& (actualStudent.comments.equals(""))) {
-			actualStudent.comments = null;
-		}
-
-		// prentend keys match because the key is generated on the server side
-		// and cannot be anticipated
-		if ((actualStudent.key != null)) {
-			expectedStudent.key = actualStudent.key;
-		}
-
-	}
-
-	//TODO: rename to getInvalidityInfo(), in other similar classes too, and in FieldValidator as well
-	public List<String> getInvalidStateInfo() {
+	public List<String> getInvalidityInfo() {
 		
 		//id is allowed to be null when the student is not registered
 		Assumption.assertTrue(team!=null);
@@ -205,24 +165,24 @@ public class StudentAttributes extends EntityAttributes {
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
-		if (id != null && !id.isEmpty()) {
-			error = validator.getValidityInfo(FieldType.GOOGLE_ID, id);
+		if (googleId != null && !googleId.isEmpty()) {
+			error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
 			if (!error.isEmpty()) {	errors.add(error);}
 		}
 		
-		error= validator.getValidityInfo(FieldType.COURSE_ID, course);
+		error= validator.getInvalidityInfo(FieldType.COURSE_ID, course);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.EMAIL, email);
+		error= validator.getInvalidityInfo(FieldType.EMAIL, email);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.TEAM_NAME, team);
+		error= validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
+		error= validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.PERSON_NAME, name);
+		error= validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
 		if(!error.isEmpty()) { errors.add(error); }
 		
 		return errors;
@@ -246,7 +206,7 @@ public class StudentAttributes extends EntityAttributes {
 	}
 
 	public Student toEntity() {
-		return new Student(email, name, id, comments, course, team);
+		return new Student(email, name, googleId, comments, course, team);
 	}
 
 	public String toString() {

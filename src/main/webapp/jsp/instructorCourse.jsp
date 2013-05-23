@@ -113,9 +113,9 @@
 					<tr class="courses_row">
 						<td id="courseid<%=idx%>"><%=courseDetails.course.id%></td>
 						<td id="coursename<%=idx%>"><%=InstructorCourseHelper.escapeForHTML(courseDetails.course.name)%></td>
-						<td class="t_course_teams centeralign"><%= courseDetails.teamsTotal %></td>
-						<td class="centeralign"><%= courseDetails.studentsTotal %></td>
-						<td class="centeralign"><%= courseDetails.unregisteredTotal %></td>
+						<td class="t_course_teams centeralign"><%= courseDetails.stats.teamsTotal %></td>
+						<td class="centeralign"><%= courseDetails.stats.studentsTotal %></td>
+						<td class="centeralign"><%= courseDetails.stats.unregisteredTotal %></td>
 						<td class="centeralign no-print">
 							<a class="color_black t_course_enroll<%= idx %>"
 								href="<%= helper.getInstructorCourseEnrollLink(courseDetails.course.id) %>"

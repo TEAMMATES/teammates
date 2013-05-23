@@ -9,9 +9,8 @@ import java.util.Calendar;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
-
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.InvalidParametersException;
@@ -136,7 +135,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 	public void testValidate() {
 		EvaluationAttributes e = new EvaluationAttributes();
 
-		e.course = "";
+		e.courseId = "";
 		e.name = "";
 		e.instructions = Common.generateStringOfLength(EVALUATION_INSTRUCTIONS_MAX_LENGTH+1);
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
@@ -149,12 +148,12 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		
 		assertEquals("invalid values", false, e.isValid());
 		String errorMessage = 
-				String.format(COURSE_ID_ERROR_MESSAGE, e.course, REASON_EMPTY) + EOL 
+				String.format(COURSE_ID_ERROR_MESSAGE, e.courseId, REASON_EMPTY) + EOL 
 				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, e.name, REASON_EMPTY) + EOL 
 				+ String.format(EVALUATION_INSTRUCTIONS_ERROR_MESSAGE, e.instructions, REASON_TOO_LONG);
-		assertEquals("valid values", errorMessage, Common.toString(e.getInvalidStateInfo()));
+		assertEquals("valid values", errorMessage, Common.toString(e.getInvalidityInfo()));
 
-		e.course = "valid-course";
+		e.courseId = "valid-course";
 		e.name = "valid name";
 		e.instructions = "valid instructions";
 		assertTrue("valid, minimal properties", e.isValid());
@@ -164,7 +163,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		
 		e.startTime = null;
 		try {
-			e.getInvalidStateInfo();
+			e.getInvalidityInfo();
 			signalFailureToDetectException("null start time not detected");
 		} catch (AssertionError e1) {
 			ignoreExpectedException();
@@ -173,7 +172,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.startTime = Common.getDateOffsetToCurrentTime(1);
 		e.endTime = null;
 		try {
-			e.getInvalidStateInfo();
+			e.getInvalidityInfo();
 			signalFailureToDetectException("null end time not detected");
 		} catch (AssertionError e1) {
 			ignoreExpectedException();
@@ -189,16 +188,16 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
 		e.startTime = Common.getDateOffsetToCurrentTime(2);
 		assertFalse(e.isValid());
-		assertEquals(EvaluationAttributes.ERROR_END_BEFORE_START, 
-				Common.toString(e.getInvalidStateInfo()));
+		assertEquals(FieldValidator.EVALUATION_TIMEFRAME_ERROR_MESSAGE, 
+				Common.toString(e.getInvalidityInfo()));
 
 		// FAIL : published before endtime: invalid
 		e.published = true;
 		e.startTime = Common.getDateOffsetToCurrentTime(0);
 		e.endTime = Common.getMsOffsetToCurrentTime(5);
 		assertFalse(e.isValid());
-		assertEquals(EvaluationAttributes.ERROR_PUBLISHED_BEFORE_END,
-				Common.toString(e.getInvalidStateInfo()));
+		assertEquals(FieldValidator.EVALUATION_END_TIME_ERROR_MESSAGE,
+				Common.toString(e.getInvalidityInfo()));
 
 		// SUCCESS : just after endtime and published: valid
 		e.startTime = Common.getDateOffsetToCurrentTime(-1);
@@ -212,8 +211,8 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.published = false;
 		e.activated = true;
 		assertFalse(e.isValid());
-		assertEquals(EvaluationAttributes.ERROR_ACTIVATED_BEFORE_START,
-			Common.toString(e.getInvalidStateInfo()));
+		assertEquals(FieldValidator.EVALUATION_START_TIME_ERROR_MESSAGE,
+			Common.toString(e.getInvalidityInfo()));
 	}
 	
 	@Test
@@ -322,7 +321,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		EvaluationAttributes e;
 		e = new EvaluationAttributes();
 
-		e.course = "valid-course";
+		e.courseId = "valid-course";
 		e.name = "valid name";
 		e.instructions = "1st line of instructions \n 2nd line of instructions";
 		e.startTime = Common.getDateOffsetToCurrentTime(1);

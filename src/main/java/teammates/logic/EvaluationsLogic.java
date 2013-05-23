@@ -68,7 +68,7 @@ public class EvaluationsLogic {
 	
 		evaluationsDb.createEvaluation(e);
 	
-		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(e.course);
+		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(e.courseId);
 		
 		List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
 	
@@ -78,7 +78,7 @@ public class EvaluationsLogic {
 			for (StudentAttributes sy : studentDataList) {
 				if (sx.team.equals(sy.team)) {
 					SubmissionAttributes submissionToAdd = 
-							new SubmissionAttributes(e.course, e.name, sx.team, sx.email, sy.email);
+							new SubmissionAttributes(e.courseId, e.name, sx.team, sx.email, sy.email);
 					submissionToAdd.p2pFeedback = new Text("");
 					submissionToAdd.justification = new Text("");
 					listOfSubmissionsToAdd.add(submissionToAdd);
@@ -220,7 +220,7 @@ public class EvaluationsLogic {
 		
 		String export = "";
 		
-		export += "Course" + ",," + evaluationResults.evaluation.course + Common.EOL
+		export += "Course" + ",," + evaluationResults.evaluation.courseId + Common.EOL
 				+ "Evaluation Name" + ",," + evaluationResults.evaluation.name + Common.EOL
 				+ Common.EOL;
 		
@@ -232,13 +232,13 @@ public class EvaluationsLogic {
 				Collections.sort(srb.incoming, new Comparator<SubmissionAttributes>(){
 					@Override
 					public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
-							return Integer.valueOf(s2.normalizedToInstructor).compareTo(s1.normalizedToInstructor);
+							return Integer.valueOf(s2.details.normalizedToInstructor).compareTo(s1.details.normalizedToInstructor);
 					}
 				});
 				for(SubmissionAttributes sub: srb.incoming){
 					if(sub.reviewee.equals(sub.reviewer)) continue;
 					if(result!="") result+=",";
-					result += sub.normalizedToInstructor;
+					result += sub.details.normalizedToInstructor;
 				}
 				
 				export += srb.student.team + ",," + srb.student.name + ",," + srb.summary.claimedToInstructor + ",," + srb.summary.perceivedToInstructor + ",," + result + Common.EOL;
@@ -260,7 +260,7 @@ public class EvaluationsLogic {
 		
 		List<SubmissionAttributes> submissionList = 
 				SubmissionsLogic.inst().getSubmissionsForEvaluationFromStudent(
-						evaluation.course, evaluation.name, email);
+						evaluation.courseId, evaluation.name, email);
 
 		for (SubmissionAttributes sd : submissionList) {
 			if (sd.points == Common.POINTS_NOT_SUBMITTED) {
@@ -491,7 +491,7 @@ public class EvaluationsLogic {
 		EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
 		edd.stats.expectedTotal = students.size();
 		HashMap<String, SubmissionAttributes> submissions = 
-				submissionsLogic.getSubmissionsForEvaluationAsMap(evaluation.course, evaluation.name);
+				submissionsLogic.getSubmissionsForEvaluationAsMap(evaluation.courseId, evaluation.name);
 		edd.stats.submittedTotal = countSubmittedStudents(submissions.values());
 		return edd;
 	}
@@ -583,18 +583,18 @@ public class EvaluationsLogic {
 			for (int j = 0; j < teamSize; j++) {
 				SubmissionAttributes incomingSub = studentResult.incoming.get(j);
 				int normalizedIncoming = teamResult.denormalizedAveragePerceived[i][j];
-				incomingSub.normalizedToStudent = normalizedIncoming;
-				incomingSub.normalizedToInstructor = teamResult.normalizedPeerContributionRatio[j][i];
+				incomingSub.details.normalizedToStudent = normalizedIncoming;
+				incomingSub.details.normalizedToInstructor = teamResult.normalizedPeerContributionRatio[j][i];
 				log.finer("Setting normalized incoming of " + studentResult.student.name + " from "
-						+ incomingSub.reviewerName + " to "
+						+ incomingSub.details.reviewerName + " to "
 						+ normalizedIncoming);
 
 				SubmissionAttributes outgoingSub = studentResult.outgoing.get(j);
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
-				outgoingSub.normalizedToStudent = Common.UNINITIALIZED_INT;
-				outgoingSub.normalizedToInstructor = normalizedOutgoing;
+				outgoingSub.details.normalizedToStudent = Common.UNINITIALIZED_INT;
+				outgoingSub.details.normalizedToInstructor = normalizedOutgoing;
 				log.finer("Setting normalized outgoing of " + studentResult.student.name + " to "
-						+ outgoingSub.revieweeName + " to "
+						+ outgoingSub.details.revieweeName + " to "
 						+ normalizedOutgoing);
 			}
 			i++;
@@ -627,8 +627,8 @@ public class EvaluationsLogic {
 			}
 
 			// set names in incoming submission
-			submissionFromPeer.revieweeName = studentResultBundle.student.name;
-			submissionFromPeer.reviewerName = peer.name;
+			submissionFromPeer.details.revieweeName = studentResultBundle.student.name;
+			submissionFromPeer.details.reviewerName = peer.name;
 
 			// add incoming submission
 			studentResultBundle.incoming.add(submissionFromPeer);
@@ -649,8 +649,8 @@ public class EvaluationsLogic {
 			}
 
 			// set names in outgoing submission
-			submissionToPeer.reviewerName = studentResultBundle.student.name;
-			submissionToPeer.revieweeName = peer.name;
+			submissionToPeer.details.reviewerName = studentResultBundle.student.name;
+			submissionToPeer.details.revieweeName = peer.name;
 
 			// add outgoing submission
 			studentResultBundle.outgoing.add(submissionToPeer);

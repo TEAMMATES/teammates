@@ -42,7 +42,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		
 		bi = BrowserInstancePool.getBrowserInstance();
 		
-		bi.loginStudent(scn.students.get("alice.tmms@SHomeUiT.CS2104").id, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
+		bi.loginStudent(scn.students.get("alice.tmms@SHomeUiT.CS2104").googleId, TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
 	}
 	
 	@AfterClass
@@ -89,7 +89,7 @@ public class StudentHomePageUiTest extends BaseTestCase {
 		BackDoor.createInstructor(scn.instructors.get("SHomeUiT.instr.CS2104"));
 		BackDoor.createAccount(scn.accounts.get("SHomeUiT.instr"));
 		StudentAttributes alice = scn.students.get("alice.tmms@SHomeUiT.CS2104");
-		alice.id = null;
+		alice.googleId = null;
 		BackDoor.createStudent(alice);
 		bi.fillString(bi.studentInputRegKey, "ThisIsAnInvalidKey");
 		bi.click(bi.studentJoinCourseButton);

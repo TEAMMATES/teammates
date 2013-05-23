@@ -489,7 +489,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		StudentAttributes otherStudent = dataBundle.students.get("student1InCourse2");
 		// ensure other student belong to other course
 		assertEquals(otherStudent.course, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherStudent.id);
+		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherStudent.googleId);
 		verifyRedirectToNotAuthorized(link);
 	}
 
@@ -943,7 +943,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 			//	- so we will replace the entry "instructor1OfCourse1" to have the id TEST_INSTRUCTOR_ACCOUNT
 			
 			DataBundle db = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class); // Get the objects to replace
-			db.students.get("student1InCourse1").id = TestProperties.inst().TEST_STUDENT_ACCOUNT;
+			db.students.get("student1InCourse1").googleId = TestProperties.inst().TEST_STUDENT_ACCOUNT;
 			db.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
 			jsonString = Common.getTeammatesGson().toJson(db); // Reconvert back to string.
 			
