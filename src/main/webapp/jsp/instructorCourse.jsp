@@ -43,7 +43,7 @@
 				<h1>Add New Course</h1>
 			</div>
 
-			<form method="get" action="<%=Common.PAGE_INSTRUCTOR_COURSE%>" name="form_addcourse">
+			<form method="get" action="<%=Common.PAGE_INSTRUCTOR_COURSE_ADD%>" name="form_addcourse">
 				<input type="hidden" id="<%=Common.PARAM_INSTRUCTOR_ID%>" name="<%=Common.PARAM_INSTRUCTOR_ID%>" value="<%=helper.account.googleId%>">
 				<table id="addform" class="inputTable">
 					<tr>

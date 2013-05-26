@@ -269,6 +269,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * @paran data Additional data required for generating the Activity Log Entry, if needed
 	 * @return
 	 */
+	//TODO: remove parameters from this method. They don't seem to be necessary.
 	protected abstract String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data);
 
 	
@@ -276,7 +277,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * Helper method to generate the error messages within the activity log
 	 * Used within generateActivityLogEntryMessage for each servlet
 	 */
-	protected String generateActivityLogEntryErrorMessage(String servletName, String action, ArrayList<Object> data){
+	//TODO: move this to the Helper class?
+	public static String generateActivityLogEntryErrorMessage(String servletName, String action, ArrayList<Object> data){
 		String message;
 		if (action.equals(Common.LOG_SERVLET_ACTION_FAILURE)) {
             String e = data.get(0).toString();
@@ -362,8 +364,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * Sorts courses based on course ID
 	 * 
 	 * @param courses
-	 */
-	protected void sortDetailedCourses(List<CourseDetailsBundle> courses) {
+	 */ //TODO: move this method to Helper class
+	public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
 		Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
 			public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
 				return obj1.course.id.compareTo(obj2.course.id);

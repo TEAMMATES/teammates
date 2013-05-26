@@ -214,6 +214,7 @@ public class Common {
 	public static final String WEBPAGE_COMPILATION = "/dev/webpageCompilation.jsp";
 	public static final String PAGE_INSTRUCTOR_HOME = "/page/instructorHome";
 	public static final String PAGE_INSTRUCTOR_COURSE = "/page/instructorCourse";
+	public static final String PAGE_INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
 	public static final String PAGE_INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
 	public static final String PAGE_INSTRUCTOR_COURSE_DETAILS = "/page/instructorCourseDetails";
 	public static final String PAGE_INSTRUCTOR_COURSE_EDIT = "/page/instructorCourseEdit";

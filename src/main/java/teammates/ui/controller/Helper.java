@@ -15,6 +15,7 @@ public class Helper {
 	/**
 	 * The Logic object. Used to access the API.
 	 */
+	//TODO: rename this to logic
 	public Logic server;
 	
 	/**

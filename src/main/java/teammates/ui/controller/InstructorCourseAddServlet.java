@@ -9,9 +9,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 
 @SuppressWarnings("serial")
 /**
- * Servlet to display the course list page for instructors
+ * Servlet to handle the 'add course' action for instructors.
  */
-public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelper> {
+public class InstructorCourseAddServlet extends ActionServlet<InstructorCourseHelper> {
 
 	@Override
 	protected InstructorCourseHelper instantiateHelper() {
@@ -20,24 +20,25 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 
 
 	@Override
-	protected void doAction(HttpServletRequest req,
-			InstructorCourseHelper helper)
+	protected void doAction(HttpServletRequest req, InstructorCourseHelper helper)
 			throws EntityDoesNotExistException {
-		
+
+		helper.createCourse(req);
 		helper.loadCourseList();
 		helper.setStatus();
 		generateLogEntry(req, helper);
 		
 	}
 
-	//TODO: implement a smoother mechanism for generating the log message
 	private void generateLogEntry(HttpServletRequest req,
 			InstructorCourseHelper helper) {
 		ArrayList<Object> data = new ArrayList<Object>();
-		data.add(helper.courses.size());
+		data.add(helper.courseID);
+		data.add(helper.courseName);
+		data.add(helper.instructorList);
 		activityLogEntry = instantiateActivityLogEntry(
 				Common.INSTRUCTOR_COURSE_SERVLET,
-				Common.INSTRUCTOR_COURSE_SERVLET_PAGE_LOAD,
+				Common.INSTRUCTOR_COURSE_SERVLET_ADD_COURSE,
 				true, helper, getRequestedURL(req), data);
 	}
 
@@ -51,8 +52,8 @@ public class InstructorCourseServlet extends ActionServlet<InstructorCourseHelpe
 	@Override
 	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
 		return InstructorCourseHelper
-				.generateActivityLogEntryMessageForCourseList(servletName, action, data);
+				.generateActivityLogEntryMessageForCourseAdd(servletName, action, data);
+
 	}
-	
 	
 }
