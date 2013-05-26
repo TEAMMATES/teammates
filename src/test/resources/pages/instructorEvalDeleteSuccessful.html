@@ -63,7 +63,7 @@
 				<h1>Add New Evaluation</h1>
 			</div>
 			
-			<form name="form_addevaluation" action="" method="post">
+			<form name="form_addevaluation" action="/page/instructorEvalAdd" method="post">
 				<table id="instructorEvaluationManagement" class="inputTable">
 					<tbody><tr>
 						<td class="label bold">Course ID:</td>
@@ -212,6 +212,7 @@
 							<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="button_submit" /></td>
 					</tr>
 				</tbody></table>
+				<input name="user" type="hidden" value="CEvalUiT.instructor">
 			</form>
 			
 			<br />

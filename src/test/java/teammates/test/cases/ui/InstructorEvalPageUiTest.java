@@ -129,7 +129,7 @@ public class InstructorEvalPageUiTest extends BaseTestCase {
 		bi.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		
 		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
-		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL;
+		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_ADD;
 		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.accounts.get("CEvalUiT.instructor").googleId);
 		bi.verifyCurrentPageHTMLWithRetry(Common.TEST_PAGES_FOLDER+"/instructorEvalAddSuccess.html",link);
 

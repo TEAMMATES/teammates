@@ -81,27 +81,27 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 
 		} catch (EntityDoesNotExistException e) {
 			logLevel = Level.WARNING;
-			log.log(logLevel, generateServletActionFailureLogMessage(req, e));
+			log.log(logLevel, generateServletActionFailureLogMessage(req, e) + Common.stackTraceToString(e));
 			
 			resp.sendRedirect(Common.JSP_ENTITY_NOT_FOUND_PAGE);
 
 		} catch (UnauthorizedAccessException e) {
 			logLevel = Level.WARNING;
-			log.log(logLevel, generateServletActionFailureLogMessage(req, e));
+			log.log(logLevel, generateServletActionFailureLogMessage(req, e)+ Common.stackTraceToString(e));
 			
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 
 		}  catch (DeadlineExceededException e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, (Throwable) e);
 			
-			log.severe(generateSystemErrorReportLogMessage(req, email));	
+			log.severe(generateSystemErrorReportLogMessage(req, email) + Common.stackTraceToString(e));	
 			
 			resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
 
 		}  catch (Throwable e) {
 			MimeMessage email = helper.server.emailErrorReport(req.getServletPath(), reqParam, e);
 
-			log.severe(generateSystemErrorReportLogMessage(req, email));	
+			log.severe(generateSystemErrorReportLogMessage(req, email) + Common.stackTraceToString(e));	
 						
 		    resp.sendRedirect(Common.JSP_ERROR_PAGE);
 
@@ -352,7 +352,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * @param req
 	 * @return
 	 */
-	protected String getRequestedURL(HttpServletRequest req) {
+	//TODO: move this to Helper
+	public static String getRequestedURL(HttpServletRequest req) {
 		String link = req.getRequestURI();
 		String query = req.getQueryString();
 		if (query != null)
@@ -389,7 +390,8 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 * 
 	 * @param evals
 	 */
-	protected void sortEvaluationsByDeadline(List<EvaluationDetailsBundle> evals) {
+	//TODO: move this to Helper
+	public static void sortEvaluationsByDeadline(List<EvaluationDetailsBundle> evals) {
 		Collections.sort(evals, new Comparator<EvaluationDetailsBundle>() {
 			public int compare(EvaluationDetailsBundle edd1, EvaluationDetailsBundle edd2) {
 				EvaluationAttributes eval1 = edd1.evaluation;

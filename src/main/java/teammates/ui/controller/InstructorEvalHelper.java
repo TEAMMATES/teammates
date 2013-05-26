@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseAttributes;
+import javax.servlet.http.HttpServletRequest;
+
+import teammates.common.Common;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 
 public class InstructorEvalHelper extends Helper{
 	public List<CourseDetailsBundle> courses;
@@ -109,6 +115,109 @@ public class InstructorEvalHelper extends Helper{
 		return result;
 	}
 	
+	public EvaluationAttributes createEvaluation(HttpServletRequest req) 
+			throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
+		
+		try {
+			newEvaluationToBeCreated = extractEvaluationData(req);
+			server.createEvaluation(newEvaluationToBeCreated);
+			statusMessage = Common.MESSAGE_EVALUATION_ADDED;
+
+			EvaluationAttributes newEvaluationCreated = newEvaluationToBeCreated;
+			newEvaluationToBeCreated = null;
+			return newEvaluationCreated;
+		
+		} catch (EntityAlreadyExistsException e) {
+			statusMessage = Common.MESSAGE_EVALUATION_EXISTS;
+			error = true;
+			throw e;
+		
+		} catch (InvalidParametersException e) {
+			// This will cover conditions such as start/end date is invalid
+			statusMessage = e.getMessage();
+			error = true;
+			throw e;
+		}
+		
+	}
+	
+	public static EvaluationAttributes extractEvaluationData(HttpServletRequest req) {
+		EvaluationAttributes newEval = new EvaluationAttributes();
+		newEval.courseId = req.getParameter(Common.PARAM_COURSE_ID);
+		newEval.name = req.getParameter(Common.PARAM_EVALUATION_NAME);
+		newEval.p2pEnabled = Boolean.parseBoolean(req
+				.getParameter(Common.PARAM_EVALUATION_COMMENTSENABLED));
+
+		newEval.startTime = combineDateTime(
+				req.getParameter(Common.PARAM_EVALUATION_START),
+				req.getParameter(Common.PARAM_EVALUATION_STARTTIME));
+
+		newEval.endTime = combineDateTime(
+				req.getParameter(Common.PARAM_EVALUATION_DEADLINE),
+				req.getParameter(Common.PARAM_EVALUATION_DEADLINETIME));
+
+		String paramTimeZone = req
+				.getParameter(Common.PARAM_EVALUATION_TIMEZONE);
+		if (paramTimeZone != null) {
+			newEval.timeZone = Double.parseDouble(paramTimeZone);
+		}
+
+		String paramGracePeriod = req
+				.getParameter(Common.PARAM_EVALUATION_GRACEPERIOD);
+		if (paramGracePeriod != null) {
+			newEval.gracePeriod = Integer.parseInt(paramGracePeriod);
+		}
+
+		newEval.instructions = req
+				.getParameter(Common.PARAM_EVALUATION_INSTRUCTIONS);
+
+		return newEval;
+	}
+	
+	public static Date combineDateTime(String inputDate, String inputTime) {
+		if (inputDate == null || inputTime == null) {
+			return null;
+		}
+
+		int inputTimeInt = 0;
+		if (inputTime != null) {
+			inputTimeInt = Integer.parseInt(inputTime) * 100;
+		}
+		return Common.convertToDate(inputDate, inputTimeInt);
+	}
+
+	public void loadEvaluationsList() 
+				throws EntityDoesNotExistException {
+			HashMap<String, CourseDetailsBundle> summary = 
+					server.getCourseSummariesForInstructor(userId);
+			courses = new ArrayList<CourseDetailsBundle>(summary.values());
+			ActionServlet.sortDetailedCourses(courses);
+
+			evaluations = server
+					.getEvaluationsDetailsForInstructor(userId);
+			ActionServlet.sortEvaluationsByDeadline(evaluations);
+		
+	}
+
+	public void setStatusMessage() {
+		String additionalMessage = null;
+		if (courses.size() == 0 && !error) {
+			additionalMessage = Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+userId);
+		} else	if (evaluations.size() == 0 && !error
+				&& !noEvaluationsVisibleDueToEventualConsistency()) {
+			additionalMessage = Common.MESSAGE_EVALUATION_EMPTY;
+		}
+		
+		if (additionalMessage != null) {
+			if (statusMessage == null) {
+				statusMessage = "";
+			} else {
+				statusMessage += "<br />";
+			}
+			statusMessage += additionalMessage;
+		}
+	}
+	
 	/**
 	 * Helper to print the value of timezone the same as what javascript would
 	 * produce.
@@ -122,7 +231,7 @@ public class InstructorEvalHelper extends Helper{
 			return ""+num;
 		}
 	}
-	
+
 	private boolean isTimeToBeSelected(int hour, boolean isStart){
 		boolean isEditingExistingEvaluation = (newEvaluationToBeCreated!=null);
 		if(isEditingExistingEvaluation){
@@ -139,7 +248,7 @@ public class InstructorEvalHelper extends Helper{
 		}
 		return false;
 	}
-	
+
 	private boolean isGracePeriodToBeSelected(int gracePeriodOptionValue){
 		int defaultGracePeriod = 15;
 		boolean isEditingExistingEvaluation = (newEvaluationToBeCreated!=null);
@@ -149,4 +258,11 @@ public class InstructorEvalHelper extends Helper{
 			return gracePeriodOptionValue==defaultGracePeriod;
 		}
 	}
+
+	private boolean noEvaluationsVisibleDueToEventualConsistency() {
+		return statusMessage != null
+				&& statusMessage.equals(Common.MESSAGE_EVALUATION_ADDED)
+				&& evaluations.size()==0;
+	}
+
 }

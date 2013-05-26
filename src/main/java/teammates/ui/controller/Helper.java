@@ -74,7 +74,10 @@ public class Helper {
 	}
 
 	public boolean isMasqueradeMode() {
-		return (user!=null) && (requestedUser!=null);
+		return (user != null) 
+				&& (requestedUser != null)
+				&& (!requestedUser.equals("null"))
+				&& (!user.equals(requestedUser));
 	}
 	
 	/**

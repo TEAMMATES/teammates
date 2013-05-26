@@ -241,13 +241,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/instructorCourseStudentDelete</url-pattern>
 	</servlet-mapping>
 	<servlet>
-	    <description>Servlet that handles evaluation page (includes evaluation add)</description>
+	    <description>Servlet that handles evaluation page</description>
 	    <servlet-name>InstructorEval</servlet-name>
 	    <servlet-class>teammates.ui.controller.InstructorEvalServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>InstructorEval</servlet-name>
 	    <url-pattern>/page/instructorEval</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <description>Servlet that handles 'evaluation add' action for instructors</description>
+	    <servlet-name>InstructorEvalAdd</servlet-name>
+	    <servlet-class>teammates.ui.controller.InstructorEvalAddServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>InstructorEvalAdd</servlet-name>
+	    <url-pattern>/page/instructorEvalAdd</url-pattern>
 	</servlet-mapping>
 	<servlet>
 	    <description>Servlet that handles evaluation edit page</description>

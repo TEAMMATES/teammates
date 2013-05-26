@@ -54,7 +54,7 @@
 				<h1>Add New Evaluation</h1>
 			</div>
 			
-			<form method="post" action="" name="form_addevaluation">
+			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_EVAL_ADD%>" name="form_addevaluation">
 				<table class="inputTable" id="instructorEvaluationManagement">
 					<tr>
 						<td class="label bold" >Course ID:</td>
@@ -180,6 +180,7 @@
 									value="Create Evaluation" tabindex="9"></td>
 					</tr>
 				</table>
+				<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=helper.requestedUser%>">
 			</form>
 			
 			<br>

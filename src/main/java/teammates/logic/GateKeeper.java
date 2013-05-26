@@ -89,7 +89,8 @@ public class GateKeeper {
 			return;
 		if (isOwnId(instructorId))
 			return;
-		throw new UnauthorizedAccessException();
+		throw new UnauthorizedAccessException(
+				"NOT  InstructorUsingOwnIdOrAbove: "+ instructorId);
 	}
 
 	public void verifyOwnerOfId(String googleId) {

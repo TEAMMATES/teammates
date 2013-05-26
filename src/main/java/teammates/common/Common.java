@@ -224,6 +224,7 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_COURSE_ENROLL = "/page/instructorCourseEnroll";
 	public static final String PAGE_INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
 	public static final String PAGE_INSTRUCTOR_EVAL = "/page/instructorEval";
+	public static final String PAGE_INSTRUCTOR_EVAL_ADD = "/page/instructorEvalAdd";
 	public static final String PAGE_INSTRUCTOR_EVAL_DELETE = "/page/instructorEvalDelete";
 	public static final String PAGE_INSTRUCTOR_EVAL_EDIT = "/page/instructorEvalEdit";
 	public static final String PAGE_INSTRUCTOR_EVAL_RESULTS = "/page/instructorEvalResults";

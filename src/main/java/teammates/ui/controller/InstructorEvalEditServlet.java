@@ -26,7 +26,7 @@ public class InstructorEvalEditServlet extends ActionServlet<InstructorEvalEditH
 			throws EntityDoesNotExistException {
 		String url = getRequestedURL(req);
         
-		EvaluationAttributes newEval = InstructorEvalServlet.extractEvaluationData(req);
+		EvaluationAttributes newEval = InstructorEvalHelper.extractEvaluationData(req);
 
 		if (newEval.courseId == null && newEval.name == null) {
 			helper.redirectUrl = Common.PAGE_INSTRUCTOR_EVAL;
