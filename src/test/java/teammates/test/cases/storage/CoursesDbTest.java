@@ -46,21 +46,22 @@ public class CoursesDbTest extends BaseTestCase {
 		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101-fresh";
 		c.name = "Basic Computing";
-		coursesDb.createCourse(c);
+		coursesDb.createEntity(c);
 		LogicTest.verifyPresentInDatastore(c);
 		
 		______TS("fails: entity already exists");
 		try {
-			coursesDb.createCourse(c);
+			coursesDb.createEntity(c);
 			signalFailureToDetectException();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(CoursesDb.ERROR_CREATE_COURSE_ALREADY_EXISTS, e.getMessage());
+			assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.getEntityTypeAsString())
+					+ c.getIdentificationString(), e.getMessage());
 		}
 		
 		______TS("fails: invalid parameters");
 		c.id = "invalid id spaces";
 		try {
-			coursesDb.createCourse(c);
+			coursesDb.createEntity(c);
 			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
 			assertContains(
@@ -70,7 +71,7 @@ public class CoursesDbTest extends BaseTestCase {
 		
 		______TS("fails: null parameter");
 		try {
-			coursesDb.createCourse(null);
+			coursesDb.createEntity(null);
 			signalFailureToDetectException();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -137,7 +138,7 @@ public class CoursesDbTest extends BaseTestCase {
 		c.name = "Basic Computing";
 		
 		try {
-			coursesDb.createCourse(c);
+			coursesDb.createEntity(c);
 		} catch (EntityAlreadyExistsException e) {
 			// Okay if it's already inside
 		}

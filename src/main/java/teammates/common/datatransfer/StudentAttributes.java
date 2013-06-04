@@ -219,4 +219,14 @@ public class StudentAttributes extends EntityAttributes {
 		sb.append(indentString + "Student:" + name + "[" + email + "]" + EOL);
 		return sb.toString();
 	}
+
+	@Override
+	public String getIdentificationString() {
+		return this.course + "/" + this.email;
+	}
+
+	@Override
+	public String getEntityTypeAsString() {
+		return "Student";
+	}
 }

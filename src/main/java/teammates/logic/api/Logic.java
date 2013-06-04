@@ -17,6 +17,9 @@ import teammates.logic.Emails;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.EvaluationsLogic;
+import teammates.logic.FeedbackQuestionsLogic;
+import teammates.logic.FeedbackResponsesLogic;
+import teammates.logic.FeedbackSessionsLogic;
 import teammates.logic.GateKeeper;
 import teammates.logic.InstructorsLogic;
 import teammates.logic.StudentsLogic;
@@ -45,13 +48,15 @@ public class Logic {
 	
 	protected static Emails emailManager = new Emails();
 	
-	//
 	protected static AccountsLogic accountsLogic = AccountsLogic.inst();
 	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
 	protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	protected static CoursesLogic coursesLogic = CoursesLogic.inst();
 	protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
+	protected static FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+	protected static FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+	protected static FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -1050,6 +1055,94 @@ public class Logic {
 	}
 	
 	@SuppressWarnings("unused")
+	private void ____FEEDBACK_SESSION_level_methods_____________________________() {
+	}
+	
+	/**
+	 * Access: admin, an instructor of the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void createFeedbackSession(FeedbackSessionAttributes feedbackSession)
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSession);
+
+		gateKeeper.verifyCourseInstructorOrAbove(feedbackSession.courseId);
+
+		feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+	}
+	
+	/**
+	 * Access: admin only. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		
+		return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
+	}
+	
+	/**
+	 * Deletes the feedback session but not the questions and
+	 * responses associated to it.
+	 * Fails silently if no such feedback session. <br>
+	 * Access: admin, instructors of the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+
+		feedbackSessionsLogic.deleteFeedbackSession(feedbackSessionName, courseId);
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____FEEDBACK_QUESTION_level_methods_____________________________() {
+	}
+	
+	/**
+	 * Access: admin, an instructor of the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
+
+		gateKeeper.verifyCourseInstructorOrAbove(feedbackQuestion.courseId);
+
+		feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
+	}
+	
+	/**
+	 * Deletes the feedback session but not the questions and
+	 * responses associated to it.
+	 * Fails silently if no such feedback session. <br>
+	 * Access: admin, instructors of the course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void deleteFeedbackQuestion(String feedbackSessionName, String courseId, int questionNumber) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionNumber);
+
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+
+		feedbackQuestionsLogic.deleteFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
+	}
+	
+	@SuppressWarnings("unused")
 	private void ____MISC_methods__________________________________________() {
 	}
 
@@ -1060,7 +1153,4 @@ public class Logic {
 	@SuppressWarnings("unused")
 	private void ____helper_methods________________________________________() {
 	}
-
-
-	
 }

@@ -1,5 +1,7 @@
 package teammates.common;
 
+import com.google.appengine.api.datastore.Text;
+
 /**
  * Class contains methods to sanitize user provided
  * parameters so that they conform to our data format
@@ -66,6 +68,18 @@ public class Sanitizer {
 	 */
 	public static String sanitizeTextField(String rawText) {
 		return trimIfNotNull(rawText);
+	}
+	
+	/**
+	 * Sanitizes a user input text field.
+	 * i.e. comments, instructions, etc.
+	 * 
+	 * @param string
+	 * @return the sanitized string or null (if the parameter was null).
+	 */
+	public static Text sanitizeTextField(Text rawText) {
+		// TODO: Trim text field?
+		return rawText;
 	}
 
 	/**

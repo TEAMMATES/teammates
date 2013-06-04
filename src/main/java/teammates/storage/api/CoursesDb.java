@@ -5,15 +5,13 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -21,50 +19,11 @@ import teammates.common.exception.InvalidParametersException;
  * Handles CRUD Operations for course entities.
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  */
-public class CoursesDb {
+public class CoursesDb extends EntitiesDb {
 
-	public static final String ERROR_CREATE_COURSE_ALREADY_EXISTS = "Trying to create a Course that exists: ";
 	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update a Course that doesn't exist: ";
 	
 	private static final Logger log = Common.getLogger();
-
-	/**
-	 * Preconditions: <br>
-	 * * {@code courseToAdd} is not null and has valid data.
-	 */
-	public void createCourse(CourseAttributes courseToAdd)
-			throws EntityAlreadyExistsException, InvalidParametersException {
-		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToAdd);
-
-		if (!courseToAdd.isValid()) {
-			throw new InvalidParametersException(Common.toString(courseToAdd.getInvalidityInfo()));
-		}
-		
-		if (getCourseEntity(courseToAdd.id) != null) {
-			String error = ERROR_CREATE_COURSE_ALREADY_EXISTS + courseToAdd.id;
-			log.warning(error);
-			throw new EntityAlreadyExistsException(error);
-		}
-
-		Course newCourse = courseToAdd.toEntity();
-		getPM().makePersistent(newCourse);
-		getPM().flush();
-
-		// Wait for the operation to persist
-		int elapsedTime = 0;
-		Course courseCheck = getCourseEntity(courseToAdd.id);
-		while ((courseCheck == null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			courseCheck = getCourseEntity(courseToAdd.id);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createCourse->"
-					+ courseToAdd.id);
-		}
-	}
 
 	/**
 	 * Preconditions: <br>
@@ -166,10 +125,6 @@ public class CoursesDb {
 		}
 
 	}
-
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
 	
 	private Course getCourseEntity(String courseId) {
 		
@@ -185,5 +140,11 @@ public class CoursesDb {
 		}
 	
 		return courseList.get(0);
+	}
+
+	@Override
+	protected Object getEntity(EntityAttributes attributes) {
+			
+		return getCourseEntity( ((CourseAttributes) attributes).id );
 	}
 }

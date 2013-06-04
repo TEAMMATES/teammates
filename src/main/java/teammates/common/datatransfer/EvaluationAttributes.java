@@ -25,7 +25,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	//Note: be careful when changing these variables as their names are used in *.json files.
 	public String courseId;
 	public String name;
-	public String instructions = "";
+	public String instructions = ""; // TODO: Change to Text?
 	public Date startTime;
 	public Date endTime;
 	public double timeZone;
@@ -174,13 +174,14 @@ public class EvaluationAttributes extends EntityAttributes {
 		error= validator.getInvalidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions);
 		if(!error.isEmpty()) { errors.add(error); }		
 		
-		error= validator.getValidityInfoForTimeFrame(startTime, endTime);
+		error= validator.getValidityInfoForTimeFrame(FieldType.EVALUATION_TIME_FRAME,
+				FieldType.START_TIME, FieldType.END_TIME, startTime, endTime);
 		if(!error.isEmpty()) { errors.add(error); }	
 		
-		error= validator.getValidityInfoForStartTime(startTime, timeZone, activated);
+		error= validator.getValidityInfoForEvalStartTime(startTime, timeZone, activated);
 		if(!error.isEmpty()) { errors.add(error); }	
 		
-		error= validator.getValidityInfoForEndTime(endTime, timeZone, published);
+		error= validator.getValidityInfoForEvalEndTime(endTime, timeZone, published);
 		if(!error.isEmpty()) { errors.add(error); }	
 
 		return errors;
@@ -200,6 +201,16 @@ public class EvaluationAttributes extends EntityAttributes {
 			attributesList.add(new EvaluationAttributes(e));
 		}
 		return attributesList;
+	}
+
+	@Override
+	public String getIdentificationString() {
+		return this.courseId + " | " + this.name;
+	}
+
+	@Override
+	public String getEntityTypeAsString() {
+		return "Evaluation";
 	}
 
 }

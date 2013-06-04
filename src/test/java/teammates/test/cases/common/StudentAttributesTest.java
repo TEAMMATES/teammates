@@ -12,7 +12,6 @@ import static teammates.common.FieldValidator.REASON_TOO_LONG;
 import static teammates.common.FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.TEAM_NAME_ERROR_MESSAGE;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

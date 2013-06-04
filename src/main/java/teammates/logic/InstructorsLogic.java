@@ -49,7 +49,7 @@ public class InstructorsLogic {
 		
 		log.info("going to create instructor :\n"+instructorToAdd.toString());
 		
-		instructorsDb.createInstructor(instructorToAdd);
+		instructorsDb.createEntity(instructorToAdd);
 	}
 
 	public InstructorAttributes getInstructorForEmail(String courseId, String email) {

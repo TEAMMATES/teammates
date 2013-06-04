@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -57,6 +58,10 @@ public class BackDoorTest extends BaseTestCase {
 		// different instructor not listed in our databundle.
 		// check if deleteInstructors worked
 
+		// Feedback sessions currently do not cascade from deleting a course or
+		// instructor to preserve past feedback (for future repo implementation).
+		BackDoor.deleteFeedbackSessions(jsonString);
+		
 		for (CourseAttributes course : dataBundle.courses.values()) {
 			BackDoor.deleteCourse(course.id);
 		}
@@ -64,6 +69,9 @@ public class BackDoorTest extends BaseTestCase {
 		BackDoor.deleteInstructors(jsonString);
 
 		// ensure clean up worked
+		for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
+			verifyAbsentInDatastore(fs);
+		}		
 		for (InstructorAttributes instructor : dataBundle.instructors.values()) {
 			verifyAbsentInDatastore(instructor);
 		}
@@ -194,6 +202,10 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(courseNoEvals);
 		
+		// ----------deleting Feedback Session entities-------------------------
+		// TODO: do proper deletion test
+		BackDoor.deleteFeedbackSessions(jsonString);
+
 		//-------------------------------------------------------------------------
 		// RECREATE ALL DATA. this should succeed if all previous data were deleted
 		status = BackDoor.persistNewDataBundle(jsonString);
@@ -679,6 +691,7 @@ public class BackDoorTest extends BaseTestCase {
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
 		BackDoor.deleteInstructors(jsonString);
 		BackDoor.deleteCourses(jsonString);
+		BackDoor.deleteFeedbackSessions(jsonString);
 		String status = BackDoor.persistNewDataBundle(jsonString);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 	}
@@ -714,6 +727,12 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals("null", submissionAsJson);
 	}
 
+	private void verifyAbsentInDatastore(FeedbackSessionAttributes fs) {
+		assertEquals("null", BackDoor.getFeedbackSessionAsJson(
+				fs.feedbackSessionName,
+				fs.courseId));
+	}
+	
 	private void verifyPresentInDatastore(String dataBundleJsonString) {
 		Gson gson = Common.getTeammatesGson();
 

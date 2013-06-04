@@ -57,4 +57,14 @@ public class CourseAttributes extends EntityAttributes {
 	public String toString() {
 		return "["+CourseAttributes.class.getSimpleName() +"] id: " + id +" name: "+ name;
 	}
+
+	@Override
+	public String getIdentificationString() {
+		return this.id;
+	}
+
+	@Override
+	public String getEntityTypeAsString() {
+		return "Course";
+	}
 }

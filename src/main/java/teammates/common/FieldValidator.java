@@ -7,15 +7,14 @@ import java.util.Date;
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
 public class FieldValidator {
-	
-	//TODO: change 'validityStateInfo' to 'invalidityStateInfo' in method names, for consistency
-	
+		
 	public enum FieldType {
 		COURSE_ID,  
 		COURSE_NAME, 
 		EMAIL, 
 		EVALUATION_INSTRUCTIONS, 
 		EVALUATION_NAME, 
+		FEEDBACK_SESSION_NAME, 
 		/** This can be a Google username e.g. david.lo 
 		 * or an email address e.g. david.lo@yahoo.com
 		 */
@@ -24,7 +23,16 @@ public class FieldValidator {
 		PERSON_NAME, 
 		/** Comments entered when enrolling a student in a course */
 		STUDENT_ROLE_COMMENTS,
-		TEAM_NAME 
+		TEAM_NAME,
+		START_TIME,
+		END_TIME,
+		SESSION_VISIBLE_TIME,
+		RESULTS_VISIBLE_TIME,
+		EVALUATION_TIME_FRAME,
+		FEEDBACK_SESSION_TIME_FRAME,
+		FEEDBACK_QUESTION_TEXT,
+		GIVER_TYPE,
+		RECIPIENT_TYPE;
 	}
 
 	
@@ -55,6 +63,22 @@ public class FieldValidator {
 			"\"%s\" is not acceptable to TEAMMATES as "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" because it %s. " +
 					"The value of "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" should be no longer than "+
 					EVALUATION_INSTRUCTIONS_MAX_LENGTH+" characters.";	
+	
+	private static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "a feedback session name";
+	public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
+	public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE = 
+			"\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
+					"The value of "+FEEDBACK_SESSION_NAME_FIELD_NAME+" should be no longer than "+
+					FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. It should not be empty.";
+	
+	private static final String FEEDBACK_QUESTION_TEXT_FIELD_NAME = "a feedback question";
+	public static final int FEEDBACK_QUESTION_TEXT_MAX_LENGTH = 38;
+	public static final String FEEDBACK_QUESTION_TEXT_ERROR_MESSAGE = 
+			"\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
+					"The value of "+FEEDBACK_SESSION_NAME_FIELD_NAME+" should be no longer than "+
+					FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. It should not be empty. " +
+							"If you require more characters for your question, " +
+							"please use the instructions box below.";
 	
 	private static final String EVALUATION_NAME_FIELD_NAME = "an evaluation name";
 	public static final int EVALUATION_NAME_MAX_LENGTH = 38;
@@ -107,9 +131,21 @@ public class FieldValidator {
 					"The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
 					TEAM_NAME_MAX_LENGTH+" characters.";
 	
-	public static final String EVALUATION_TIMEFRAME_ERROR_MESSAGE = "Evaluation end time cannot be earlier than start time";
+
+	public static final String EVALUATION_NAME = "evaluation";
+	public static final String FEEDBACK_SESSION_NAME = "feedback session";
+	public static final String START_TIME_FIELD_NAME = "start time";
+	public static final String END_TIME_FIELD_NAME = "end time";
+	public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
+	public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
+	
+	public static final String TIME_FRAME_ERROR_MESSAGE = "The %s for this %s cannot be earlier than the %s";
 	public static final String EVALUATION_START_TIME_ERROR_MESSAGE = "Evaluation cannot be published before end time";
 	public static final String EVALUATION_END_TIME_ERROR_MESSAGE = "Evaluation cannot be activated before start time";
+	
+	public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
+	public static final String GIVER_TYPE_NAME = "feedback giver.";
+	public static final String RECIPIENT_TYPE_NAME = "feedback recipient.";
 	
 	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
 	private static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
@@ -174,6 +210,14 @@ public class FieldValidator {
 		case EVALUATION_INSTRUCTIONS:
 			returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
 					EVALUATION_INSTRUCTIONS_FIELD_NAME, EVALUATION_INSTRUCTIONS_MAX_LENGTH, (String)value);
+			break;
+		case FEEDBACK_SESSION_NAME:
+			returnValue = getValidityInfoForSizeCappedNonEmptyString(
+					FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
+			break;
+		case FEEDBACK_QUESTION_TEXT:
+			returnValue = getValidityInfoForSizeCappedNonEmptyString(
+					FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String)value);
 			break;
 		case STUDENT_ROLE_COMMENTS:
 			returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
@@ -255,14 +299,68 @@ public class FieldValidator {
 		return "";
 	}
 	
-	public String getValidityInfoForTimeFrame(Date startTime, Date endTime){
-		if (endTime.before(startTime)) {
-			return EVALUATION_TIMEFRAME_ERROR_MESSAGE;
+	public String getValidityInfoForTimeFrame(FieldType mainFieldType, FieldType earlierFieldType,
+			FieldType laterFieldType, Date earlierTime, Date laterTime){
+		
+		Assumption.assertTrue("Non-null value expected", laterFieldType != null);
+		Assumption.assertTrue("Non-null value expected", earlierTime != null);
+		Assumption.assertTrue("Non-null value expected", laterTime != null);
+		
+		String mainFieldName, earlierFieldName, laterFieldName;
+		
+		switch (mainFieldType) {
+		case EVALUATION_TIME_FRAME:
+			mainFieldName = EVALUATION_NAME;
+			break;
+		case FEEDBACK_SESSION_TIME_FRAME:
+			mainFieldName = FEEDBACK_SESSION_NAME; 
+			break;
+		default:
+			throw new AssertionError("Unrecognized field type for time frame validity check : " + mainFieldType);
 		}
+		
+		switch (earlierFieldType) {
+		case START_TIME:
+			earlierFieldName = START_TIME_FIELD_NAME;
+			break;
+		case END_TIME:
+			earlierFieldName = END_TIME_FIELD_NAME; 
+			break;
+		case SESSION_VISIBLE_TIME:
+			earlierFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
+			break;
+		case RESULTS_VISIBLE_TIME:
+			earlierFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
+			break;
+		default:
+			throw new AssertionError("Unrecognized field type for time frame validity check : " + earlierFieldType);
+		}
+		
+		switch (laterFieldType) {
+		case START_TIME:
+			laterFieldName = START_TIME_FIELD_NAME;
+			break;
+		case END_TIME:
+			laterFieldName = END_TIME_FIELD_NAME; 
+			break;
+		case SESSION_VISIBLE_TIME:
+			laterFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
+			break;
+		case RESULTS_VISIBLE_TIME:
+			laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
+			break;
+		default:
+			throw new AssertionError("Unrecognized field type for time frame validity check : " + laterFieldType);
+		}
+		
+		if (laterTime.before(earlierTime)) {
+			return String.format(TIME_FRAME_ERROR_MESSAGE, earlierFieldName, mainFieldName, laterFieldName);
+		}
+		
 		return "";
 	}
 	
-	public String getValidityInfoForStartTime(Date startTime, double timeZone,
+	public String getValidityInfoForEvalStartTime(Date startTime, double timeZone,
 			boolean activated) {
 		if (isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
 			return EVALUATION_START_TIME_ERROR_MESSAGE;
@@ -270,10 +368,32 @@ public class FieldValidator {
 		return "";
 	}
 
-	public String getValidityInfoForEndTime(Date endTime, double timeZone,
+	public String getValidityInfoForEvalEndTime(Date endTime, double timeZone,
 			boolean published) {
 		if (isCurrentTimeInUsersTimezoneEarlierThan(endTime, timeZone) && published) {
 			return EVALUATION_END_TIME_ERROR_MESSAGE;
+		}
+		return "";
+	}
+	
+	public String getValidityInfoForFeedbackParticipantType(
+			FieldType fieldType, FeedbackParticipantType pType) {
+		
+		Assumption.assertTrue("Non-null value expected", pType != null);
+		
+		switch (fieldType) {
+		case GIVER_TYPE:
+			if (pType.isValidGiver() == false) {
+				return String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, pType.toString(), GIVER_TYPE_NAME);
+			}
+			break;
+		case RECIPIENT_TYPE:
+			if (pType.isValidRecipient() == false) {
+				return String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, pType.toString(), RECIPIENT_TYPE_NAME);
+			}
+			break;
+		default:
+			throw new AssertionError("Unrecognized field type for time frame validity check : " + fieldType);
 		}
 		return "";
 	}

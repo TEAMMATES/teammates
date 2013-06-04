@@ -22,6 +22,8 @@ import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
@@ -255,6 +257,19 @@ public class BaseTestCase {
 		for (InstructorAttributes instructor : instructors.values()) {
 			backDoorLogic.downgradeInstructorToStudentCascade(instructor.googleId);
 		}
+		
+		for (FeedbackSessionAttributes feedbackSession : dataBundle.feedbackSessions.values()) {
+			backDoorLogic.deleteFeedbackSession(
+					feedbackSession.feedbackSessionName, feedbackSession.courseId);
+		}
+		
+		// TODO: add responses too.
+		for (FeedbackQuestionAttributes feedbackQuestion : dataBundle.feedbackQuestions.values()) {
+			backDoorLogic.deleteFeedbackQuestion(
+					feedbackQuestion.feedbackSessionName, feedbackQuestion.courseId,
+					feedbackQuestion.questionNumber);
+		}
+		
 		backDoorLogic.persistNewDataBundle(dataBundle);
 
 		// restore logging levels to normal

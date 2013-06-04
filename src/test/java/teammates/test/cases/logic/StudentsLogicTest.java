@@ -27,7 +27,6 @@ import teammates.logic.CoursesLogic;
 import teammates.logic.EvaluationsLogic;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.StudentsLogic;
-import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
@@ -52,7 +51,7 @@ public class StudentsLogicTest extends BaseTestCase{
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(EvaluationsLogic.class);
+		turnLoggingUp(StudentsLogic.class);
 		Datastore.initialize();
 	}
 	
@@ -264,7 +263,7 @@ public class StudentsLogicTest extends BaseTestCase{
 	@AfterClass()
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
-		turnLoggingDown(EvaluationOpeningRemindersServlet.class);
+		turnLoggingDown(StudentsLogic.class);
 	}
 
 	@AfterMethod

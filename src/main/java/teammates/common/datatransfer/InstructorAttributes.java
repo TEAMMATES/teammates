@@ -89,4 +89,14 @@ public class InstructorAttributes extends EntityAttributes {
 	public String toString(){
 		return Common.getTeammatesGson().toJson(this,InstructorAttributes.class);
 	}
+
+	@Override
+	public String getIdentificationString() {
+		return this.googleId + ", " + this.courseId;
+	}
+
+	@Override
+	public String getEntityTypeAsString() {
+		return "Instructor";
+	}
 }

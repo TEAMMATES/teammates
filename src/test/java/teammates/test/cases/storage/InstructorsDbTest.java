@@ -2,6 +2,7 @@ package teammates.test.cases.storage;
 
 import static teammates.common.Common.EOL;
 import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.REASON_EMPTY;
 import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
@@ -16,7 +17,6 @@ import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.api.AccountsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
@@ -35,7 +35,7 @@ public class InstructorsDbTest extends BaseTestCase {
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(AccountsDb.class);
+		turnLoggingUp(InstructorsDb.class);
 		Datastore.initialize();
 		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
 		helper = new LocalServiceTestHelper(localDatastore);
@@ -51,32 +51,32 @@ public class InstructorsDbTest extends BaseTestCase {
 		i.courseId = "valid.course.Id";
 		i.name = "valid.name";
 		i.email = "valid@email.com";
-		instructorsDb.createInstructor(i);
+		instructorsDb.createEntity(i);
 		
 		// FAIL : duplicate
 		try {
-			instructorsDb.createInstructor(i);
+			instructorsDb.createEntity(i);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(AccountsDb.ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS, e.getMessage());
+			assertContains(InstructorsDb.ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS, e.getMessage());
 		}
 		
 		// FAIL : invalid params
 		i.googleId = "invalid id with spaces";
 		try {
-			instructorsDb.createInstructor(i);
+			instructorsDb.createEntity(i);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertContains(
-				"Invalid parameter detected while adding instructor :[\"invalid id with spaces\"",
-				e.getMessage()); 
+					String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT),
+					e.getMessage());
 		} catch (EntityAlreadyExistsException e) {
 			Assert.fail();
 		}
 		
 		// Null params check:
 		try {
-			instructorsDb.createInstructor(null);
+			instructorsDb.createEntity(null);
 			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -168,7 +168,7 @@ public class InstructorsDbTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		turnLoggingDown(AccountsDb.class);
+		turnLoggingDown(InstructorsDb.class);
 		helper.tearDown();
 	}
 	
@@ -180,7 +180,7 @@ public class InstructorsDbTest extends BaseTestCase {
 		c.email = "valid@email.com";
 				
 		try {
-			instructorsDb.createInstructor(c);
+			instructorsDb.createEntity(c);
 		} catch (EntityAlreadyExistsException e) {
 			// Okay if it's already inside
 		}

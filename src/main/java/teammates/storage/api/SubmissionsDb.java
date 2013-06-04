@@ -5,85 +5,26 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
+import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Submission;
 
 /**
  * Handles CRUD Operations for submission entities.
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  */
-public class SubmissionsDb {
+public class SubmissionsDb extends EntitiesDb {
 
-	public static final String ERROR_CREATE_SUBMISSION_ALREADY_EXISTS = "Trying to create a Submission that exists: ";
-	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Submission: ";
-	
+	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Submission: ";	
 	private static final Logger log = Common.getLogger();
-
-	/**
-	 * Preconditions: <br>
-	 * * {@code submissionToAdd} is not null and has valid data.
-	 */
-	public void createSubmission(SubmissionAttributes submissionToAdd) throws EntityAlreadyExistsException, InvalidParametersException {
-		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionToAdd);
-
-		if (!submissionToAdd.isValid()) {
-			throw new InvalidParametersException(submissionToAdd.getInvalidityInfo());
-		}
-		
-		if (getSubmissionEntity(
-				submissionToAdd.course,
-				submissionToAdd.evaluation, 
-				submissionToAdd.reviewee,
-				submissionToAdd.reviewer) != null) {
-			
-			String error = ERROR_CREATE_SUBMISSION_ALREADY_EXISTS
-					+ "course: " + submissionToAdd.course + ", evaluation: "
-					+ submissionToAdd.evaluation + ", toStudent: "
-					+ submissionToAdd.reviewee + ", fromStudent: "
-					+ submissionToAdd.reviewer;
-			
-			log.warning(error);
-
-			throw new EntityAlreadyExistsException(error);
-		}
-
-		Submission newSubmission = submissionToAdd.toEntity();
-
-		getPM().makePersistent(newSubmission);
-		getPM().flush();
-
-		// wait for the operation to persist
-		int elapsedTime = 0;
-		Submission submissionCheck = getSubmissionEntity(
-				submissionToAdd.course, submissionToAdd.evaluation,
-				submissionToAdd.reviewee, submissionToAdd.reviewer);
-		while ((submissionCheck == null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			submissionCheck = getSubmissionEntity(submissionToAdd.course,
-					submissionToAdd.evaluation, submissionToAdd.reviewee,
-					submissionToAdd.reviewer);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createSubmission->"
-					+ submissionToAdd.course + "/" + submissionToAdd.evaluation
-					+ " | to: " + submissionToAdd.reviewee + " | from: "
-					+ submissionToAdd.reviewer);
-		}
-	}
 	
 	/**
 	 * Preconditions: <br>
@@ -334,13 +275,6 @@ public class SubmissionsDb {
 		
 		getPM().flush();
 	}
-
-
-
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
-
 	
 	private Submission getSubmissionEntity(String courseId,
 			String evaluationName, String toStudent, String fromStudent) {
@@ -439,6 +373,16 @@ public class SubmissionsDb {
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) q.execute(courseId, evaluationName, reviewerEmail);
 		return submissionList;
+	}
+
+	@Override
+	protected Object getEntity(EntityAttributes attributes) {
+		SubmissionAttributes submissionToAdd = (SubmissionAttributes)attributes;
+		return getSubmissionEntity(
+				submissionToAdd.course,
+				submissionToAdd.evaluation, 
+				submissionToAdd.reviewee,
+				submissionToAdd.reviewer);
 	}
 
 }

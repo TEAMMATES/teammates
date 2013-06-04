@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -21,7 +22,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.JoinCourseException;
 import teammates.logic.AccountsLogic;
-import teammates.logic.EvaluationsLogic;
 import teammates.logic.StudentsLogic;
 import teammates.logic.api.Logic;
 import teammates.storage.datastore.Datastore;
@@ -35,7 +35,7 @@ public class AccountsLogicTest extends BaseTestCase {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(EvaluationsLogic.class);
+		turnLoggingUp(AccountsLogic.class);
 		Datastore.initialize();
 	}
 
@@ -204,6 +204,11 @@ public class AccountsLogicTest extends BaseTestCase {
 		LogicTest.verifyAbsentInDatastore(instructor);
 		LogicTest.verifyAbsentInDatastore(student);
 
+	}
+	
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		turnLoggingDown(AccountsLogic.class);
 	}
 	
 	//TODO: add missing test cases

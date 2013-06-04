@@ -13,4 +13,7 @@ public class DataBundle {
 	public HashMap<String, StudentAttributes> students = new HashMap<String, StudentAttributes>();
 	public HashMap<String, EvaluationAttributes> evaluations = new HashMap<String, EvaluationAttributes>();
 	public HashMap<String, SubmissionAttributes> submissions = new HashMap<String, SubmissionAttributes>();
+	public HashMap<String, FeedbackSessionAttributes> feedbackSessions = new HashMap<String, FeedbackSessionAttributes>();
+	public HashMap<String, FeedbackQuestionAttributes> feedbackQuestions = new HashMap<String, FeedbackQuestionAttributes>();
+	public HashMap<String, FeedbackResponseAttributes> feedbackResponses = new HashMap<String, FeedbackResponseAttributes>();
 }

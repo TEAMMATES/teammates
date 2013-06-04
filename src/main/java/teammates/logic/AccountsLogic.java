@@ -37,7 +37,7 @@ public class AccountsLogic {
 	
 	
 	public void createAccount(AccountAttributes accountData) 
-					throws InvalidParametersException, EntityAlreadyExistsException {
+					throws InvalidParametersException {
 	
 		log.info("going to create account :\n"+accountData.toString());
 		

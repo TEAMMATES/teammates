@@ -1,8 +1,11 @@
 package teammates.test.cases.storage;
 
 import static org.testng.AssertJUnit.*;
+import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -11,7 +14,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.api.AccountsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
@@ -30,7 +32,7 @@ public class StudentsDbTest extends BaseTestCase {
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(AccountsDb.class);
+		turnLoggingUp(StudentsDb.class);
 		Datastore.initialize();
 		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
 		helper = new LocalServiceTestHelper(localDatastore);
@@ -47,28 +49,32 @@ public class StudentsDbTest extends BaseTestCase {
 		s.team = "";
 		s.comments="";
 		s.googleId="";
-		studentsDb.createStudent(s);
+		studentsDb.createEntity(s);
 			
 		// FAIL : duplicate
 		try {
-			studentsDb.createStudent(s);
+			studentsDb.createEntity(s);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(AccountsDb.ERROR_CREATE_STUDENT_ALREADY_EXISTS, e.getMessage());
+			assertContains(String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
+			+ s.getIdentificationString(), e.getMessage());
 		}
 		
 		// FAIL : invalid params
 		s.course = "invalid id space";
 		try {
-			studentsDb.createStudent(s);
+			studentsDb.createEntity(s);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertTrue(true); //expected
+			assertContains(
+					String.format(COURSE_ID_ERROR_MESSAGE, s.course, REASON_INCORRECT_FORMAT),
+					e.getMessage());
+			
 		} 
 		
 		// Null params check:
 		try {
-			studentsDb.createStudent(null);
+			studentsDb.createEntity(null);
 			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -188,6 +194,12 @@ public class StudentsDbTest extends BaseTestCase {
 		}
 	}
 	
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+		turnLoggingDown(StudentsDb.class);
+		helper.tearDown();
+	}
+	
 	private StudentAttributes createNewStudent() throws InvalidParametersException {
 		StudentAttributes s = new StudentAttributes();
 		s.name = "valid student";
@@ -197,7 +209,7 @@ public class StudentsDbTest extends BaseTestCase {
 		s.comments = "";
 		s.googleId="";
 		try {
-			studentsDb.createStudent(s);
+			studentsDb.createEntity(s);
 		} catch (EntityAlreadyExistsException e) {
 			// Okay if it's already inside
 		}
@@ -214,7 +226,7 @@ public class StudentsDbTest extends BaseTestCase {
 		s.comments = "";
 		s.googleId="";
 		try {
-			studentsDb.createStudent(s);
+			studentsDb.createEntity(s);
 		} catch (EntityAlreadyExistsException e) {
 			// Okay if it's already inside
 		}

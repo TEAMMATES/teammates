@@ -32,6 +32,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_DELETE_TEAM_FORMING_LOG = "OPERATION_DELETE_TEAM_FORMING_LOG";
 	public static final String OPERATION_DELETE_TEAM_PROFILE = "OPERATION_DELETE_TEAM_PROFILE";
 	public static final String OPERATION_DELETE_TFS = "OPERATION_DELETE_TFS";
+	public static final String OPERATION_DELETE_FEEDBACK_SESSION = "OPERATION_DELETE_FEEDBACK_SESSION";
 	public static final String OPERATION_EDIT_ACCOUNT = "OPERATION_EDIT_ACCOUNT";
 	public static final String OPERATION_EDIT_EVALUATION = "OPERATION_EDIT_EVALUATION";
 	public static final String OPERATION_EDIT_STUDENT = "OPERATION_EDIT_STUDENT";
@@ -49,6 +50,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_GET_TEAM_FORMING_LOG_AS_JSON = "OPERATION_GET_TEAM_FORMING_LOG_AS_JSON";
 	public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
+	public static final String OPERATION_GET_FEEDBACK_SESSION_AS_JSON = "OPERATION_GET_FEEDBACK_SESSION_AS_JSON";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
 	
@@ -67,6 +69,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
 	public static final String PARAMETER_STUDENT_ID = "PARAMETER_STUDENT_ID";
 	public static final String PARAMETER_TEAM_NAME = "PARAMETER_TEAM_NAME";
+	public static final String PARAMETER_FEEDBACK_SESSION_NAME = "PARAMETER_FEEDBACK_SESSION_NAME";
 
 	private static final Logger log = Common.getLogger();
 
@@ -177,6 +180,14 @@ public class BackDoorServlet extends HttpServlet {
 			String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editStudentAsJson(originalEmail, newValues);
+		} else if (action.equals(OPERATION_DELETE_FEEDBACK_SESSION)) {
+			String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			backDoorLogic.deleteFeedbackSession(feedbackSessionName, courseId);
+		} else if (action.equals(OPERATION_GET_FEEDBACK_SESSION_AS_JSON)) { 
+			String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			return backDoorLogic.getFeedbackSessionAsJson(feedbackSessionName, courseId);
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

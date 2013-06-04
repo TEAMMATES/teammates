@@ -19,9 +19,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.logic.EvaluationsLogic;
 import teammates.logic.InstructorsLogic;
-import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
 
@@ -38,7 +36,7 @@ public class InstructorsLogicTest extends BaseTestCase{
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(EvaluationsLogic.class);
+		turnLoggingUp(InstructorsLogic.class);
 		Datastore.initialize();
 	}
 	
@@ -162,7 +160,7 @@ public class InstructorsLogicTest extends BaseTestCase{
 	@AfterClass()
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
-		turnLoggingDown(EvaluationOpeningRemindersServlet.class);
+		turnLoggingDown(InstructorsLogic.class);
 	}
 
 	@AfterMethod

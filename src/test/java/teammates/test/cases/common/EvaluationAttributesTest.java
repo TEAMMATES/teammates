@@ -188,7 +188,9 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.endTime = Common.getDateOffsetToCurrentTime(1);
 		e.startTime = Common.getDateOffsetToCurrentTime(2);
 		assertFalse(e.isValid());
-		assertEquals(FieldValidator.EVALUATION_TIMEFRAME_ERROR_MESSAGE, 
+		errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE, 
+				START_TIME_FIELD_NAME, EVALUATION_NAME, END_TIME_FIELD_NAME);
+		assertEquals(errorMessage, 
 				Common.toString(e.getInvalidityInfo()));
 
 		// FAIL : published before endtime: invalid

@@ -4,72 +4,26 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Evaluation;
 
 /**
  * Handles CRUD Operations for submission entities.
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  */
-public class EvaluationsDb {
+public class EvaluationsDb extends EntitiesDb {
 
-	public static final String ERROR_CREATE_EVALUATION_ALREADY_EXISTS = "Trying to create an Evaluation that exists: ";
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Evaluation: ";
 	
 	private static final Logger log = Common.getLogger();
-
-	/**
-	 * Preconditions: <br>
-	 * * {@code evaluationToAdd} is not null and has valid data.
-	 */
-	public void createEvaluation(EvaluationAttributes evaluationToAdd)
-			throws EntityAlreadyExistsException, InvalidParametersException {
-		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationToAdd);
-		
-		if (!evaluationToAdd.isValid()) {
-			throw new InvalidParametersException(evaluationToAdd.getInvalidityInfo());
-		}
-		
-		if (getEvaluationEntity(evaluationToAdd.courseId, evaluationToAdd.name) != null) {
-			String error = ERROR_CREATE_EVALUATION_ALREADY_EXISTS
-					+ evaluationToAdd.courseId + " | " + evaluationToAdd.name;
-			log.warning(error);
-			throw new EntityAlreadyExistsException(error);
-		}
-
-		Evaluation evaluation = evaluationToAdd.toEntity();
-
-		getPM().makePersistent(evaluation);
-		getPM().flush();
-
-		// Wait for the operation to persist
-		int elapsedTime = 0;
-		Evaluation evaluationCheck = getEvaluationEntity(
-				evaluationToAdd.courseId, evaluationToAdd.name);
-		while ((evaluationCheck == null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			evaluationCheck = getEvaluationEntity(evaluationToAdd.courseId,
-					evaluationToAdd.name);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createEvaluation->"
-					+ evaluationToAdd.courseId + "/" + evaluationToAdd.name);
-		}
-	}
-	
 
 	/**
 	 * Preconditions: <br>
@@ -205,10 +159,6 @@ public class EvaluationsDb {
 		getPM().flush();
 	}
 
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
-
 	private Evaluation getEvaluationEntity(String courseId, String evaluationName) {
 		
 		Query q = getPM().newQuery(Evaluation.class);
@@ -244,6 +194,12 @@ public class EvaluationsDb {
 		List<Evaluation> evaluationList = (List<Evaluation>) q.execute();
 
 		return evaluationList;
+	}
+
+	@Override
+	protected Object getEntity(EntityAttributes attributes) {
+		EvaluationAttributes evaluationToAdd = (EvaluationAttributes) attributes;
+		return getEvaluationEntity(evaluationToAdd.courseId, evaluationToAdd.name);
 	}
 	
 }

@@ -51,7 +51,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.p2pFeedback = new Text("");
 		s.justification = new Text("");
 		
-		submissionsDb.createSubmission(s);
+		submissionsDb.createEntity(s);
 		
 		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380) 
 		s = new SubmissionAttributes();
@@ -62,20 +62,21 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.reviewer = "student2@gmail.com";
 		s.p2pFeedback = new Text("");
 		s.justification = new Text("");
-		submissionsDb.createSubmission(s);
+		submissionsDb.createEntity(s);
 			
 		// FAIL : duplicate
 		try {
-			submissionsDb.createSubmission(s);
+			submissionsDb.createEntity(s);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(SubmissionsDb.ERROR_CREATE_SUBMISSION_ALREADY_EXISTS, e.getMessage());
+			assertContains(String.format(SubmissionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
+					+ s.getIdentificationString(), e.getMessage());
 		}
 		
 		// FAIL : invalid params
 		s.reviewer = "invalid.email";
 		try {
-			submissionsDb.createSubmission(s);
+			submissionsDb.createEntity(s);
 			Assert.fail();
 		} catch (InvalidParametersException a) {
 			assertContains(
@@ -85,7 +86,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		
 		// Null params check:
 		try {
-			submissionsDb.createSubmission(null);
+			submissionsDb.createEntity(null);
 			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
@@ -215,7 +216,7 @@ public class SubmissionsDbTest extends BaseTestCase {
 		s.justification = new Text("");
 		
 		try {
-			submissionsDb.createSubmission(s);
+			submissionsDb.createEntity(s);
 		} catch (EntityAlreadyExistsException e) {
 			// Okay if it's already inside
 		}

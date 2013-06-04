@@ -43,7 +43,7 @@ public class StudentsLogic {
 	public void createStudentCascade(StudentAttributes studentData) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		
-		studentsDb.createStudent(studentData);
+		studentsDb.createEntity(studentData);
 		evaluationsLogic.adjustSubmissionsForNewStudent(
 				studentData.course, studentData.email, studentData.team);
 	}
@@ -66,10 +66,11 @@ public class StudentsLogic {
 
 	public List<StudentAttributes> getStudentsForCourse(String courseId) 
 			throws EntityDoesNotExistException {
-		
-		List<StudentAttributes> studentsForCourse = studentsDb.getStudentsForCourse(courseId);
-		
-		return studentsForCourse;
+		return studentsDb.getStudentsForCourse(courseId);
+	}
+	
+	public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
+		return studentsDb.getStudentsForTeam(teamName, courseId);
 	}
 
 	public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
@@ -95,7 +96,7 @@ public class StudentsLogic {
 	public boolean isStudentInCourse(String courseId, String studentEmail) {
 		return studentsDb.getStudentForEmail(courseId, studentEmail) != null;
 	}
-
+	
 	public void updateStudentCascade(String originalEmail, StudentAttributes student) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		// Edit student uses KeepOriginal policy, where unchanged fields are set
@@ -299,6 +300,4 @@ public class StudentsLogic {
 		return (newTeam != null) && (originalTeam != null)
 				&& (!originalTeam.equals(newTeam));
 	}
-
-
 }

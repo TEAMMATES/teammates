@@ -76,5 +76,15 @@ public class AccountAttributes extends EntityAttributes {
 	public String toString(){
 		return Common.getTeammatesGson().toJson(this, AccountAttributes.class);
 	}
+
+	@Override
+	public String getIdentificationString() {
+		return this.googleId;
+	}
+
+	@Override
+	public String getEntityTypeAsString() {
+		return "Account";
+	}
 	
 }

@@ -7,15 +7,13 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Instructor;
 
 /**
@@ -23,59 +21,12 @@ import teammates.storage.entity.Instructor;
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  * 
  */
-public class InstructorsDb {
-	public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
-	public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
-	public static final String ERROR_CREATE_ACCOUNT_ALREADY_EXISTS = "Trying to create an Account that exists: ";
-	public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
-	public static final String ERROR_CREATE_STUDENT_ALREADY_EXISTS = "Trying to create a Student that exists: ";
+public class InstructorsDb extends EntitiesDb{
+	
 	public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 	
 	private static final Logger log = Common.getLogger();
-
-	//TODO: add an updateStudent(StudentAttributes) version and make the above private
-	
-	/**
-	  * Preconditions: 
-	 * <br> * {@code instructorToAdd} is not null and has valid data.
-	 */
-	public void createInstructor(InstructorAttributes instructorToAdd)
-			throws EntityAlreadyExistsException, InvalidParametersException {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorToAdd);
-
-		if (!instructorToAdd.isValid()) {
-			throw new InvalidParametersException(
-					"Invalid parameter detected while adding instructor :"
-					+instructorToAdd.getInvalidityInfo() 
-					+ "values received :\n"+ instructorToAdd.toString());
-		}
-
-		if (getInstructorEntityForGoogleId(instructorToAdd.courseId, instructorToAdd.googleId) != null) {
-			String error = ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS
-					+ instructorToAdd.googleId + ", " + instructorToAdd.courseId;
-			throw new EntityAlreadyExistsException(error);
-		}
-
-		Instructor newInstructor = instructorToAdd.toEntity();
-		getPM().makePersistent(newInstructor);
-		getPM().flush();
-
-		// Wait for the operation to persist
-		int elapsedTime = 0;
-		Instructor instructorCheck = getInstructorEntityForGoogleId(instructorToAdd.courseId, instructorToAdd.googleId);
-		while ((instructorCheck == null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			instructorCheck = getInstructorEntityForGoogleId(instructorToAdd.courseId, instructorToAdd.googleId);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createInstructor->"
-					+ instructorToAdd.googleId);
-		}
-	}
-	
 	/**
 	 * Preconditions: <br>
 	 *  * All parameters are non-null.
@@ -263,11 +214,6 @@ public class InstructorsDb {
 		getPM().flush();
 	}
 	
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
-
-
 	private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
 		
 		Query q = getPM().newQuery(Instructor.class);
@@ -334,6 +280,14 @@ public class InstructorsDb {
 				.newQuery(query).execute();
 	
 		return instructorList;
+	}
+
+	@Override
+	protected Object getEntity(EntityAttributes attributes) {
+		
+		InstructorAttributes instructorToGet = (InstructorAttributes) attributes;	
+			
+		return getInstructorForGoogleId(instructorToGet.courseId, instructorToGet.googleId);
 	}
 	
 

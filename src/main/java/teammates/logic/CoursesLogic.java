@@ -58,7 +58,7 @@ public class CoursesLogic {
 		
 		CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName);
 	
-		coursesDb.createCourse(courseToAdd);
+		coursesDb.createEntity(courseToAdd);
 	}
 	
 	public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName) 

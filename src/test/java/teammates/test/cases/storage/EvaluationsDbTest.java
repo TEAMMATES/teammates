@@ -45,7 +45,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.name = "Very First Evaluation";
 		e.startTime = new Date();
 		e.endTime = new Date();
-		evaluationsDb.createEvaluation(e);
+		evaluationsDb.createEntity(e);
 		
 		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380)
 		e = new EvaluationAttributes();
@@ -53,20 +53,21 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.name = "text group text";
 		e.startTime = new Date();
 		e.endTime = new Date();
-		evaluationsDb.createEvaluation(e);
+		evaluationsDb.createEntity(e);
 		
 		// FAIL : duplicate
 		try {
-			evaluationsDb.createEvaluation(e);
-			Assert.fail();
+			evaluationsDb.createEntity(e);
+			signalFailureToDetectException();
 		} catch (EntityAlreadyExistsException ex) {
-			assertContains(EvaluationsDb.ERROR_CREATE_EVALUATION_ALREADY_EXISTS, ex.getMessage());
+			assertContains(String.format(EvaluationsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, e.getEntityTypeAsString())
+					+ e.getIdentificationString(), ex.getMessage());
 		}
 		
 		// FAIL : invalid params
 		e.startTime = null;
 		try {
-			evaluationsDb.createEvaluation(e);
+			evaluationsDb.createEntity(e);
 			signalFailureToDetectException();
 		} catch (AssertionError e1) {
 			ignoreExpectedException();
@@ -75,8 +76,8 @@ public class EvaluationsDbTest extends BaseTestCase {
 		
 		// Null params check:
 		try {
-			evaluationsDb.createEvaluation(null);
-			Assert.fail();
+			evaluationsDb.createEntity(null);
+			signalFailureToDetectException();
 		} catch (AssertionError a) {
 			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
@@ -190,7 +191,7 @@ public class EvaluationsDbTest extends BaseTestCase {
 		e.endTime = new Date();
 		
 		try {
-			evaluationsDb.createEvaluation(e);
+			evaluationsDb.createEntity(e);
 		} catch (EntityAlreadyExistsException ex) {
 			// Okay if it's already inside
 		}

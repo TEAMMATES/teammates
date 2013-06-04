@@ -6,7 +6,11 @@ import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.Common.EOL;
 import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.EVALUATION_NAME;
 import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+import static teammates.common.FieldValidator.START_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 import static teammates.logic.TeamEvalResult.NA;
 import static teammates.logic.TeamEvalResult.NSB;
 import static teammates.logic.TeamEvalResult.NSU;
@@ -39,6 +43,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.EvaluationResultsBundle;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
@@ -58,6 +63,7 @@ import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
@@ -86,6 +92,7 @@ public class LogicTest extends BaseTestCase {
 	private static final InstructorsDb instructorsDb = new InstructorsDb();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	private static final StudentsDb studentsDb = new StudentsDb();
+	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 
 	private static Gson gson = Common.getTeammatesGson();
 
@@ -3239,8 +3246,10 @@ public class LogicTest extends BaseTestCase {
 			invokeEditEvaluation(eval);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(FieldValidator.EVALUATION_TIMEFRAME_ERROR_MESSAGE + EOL+
-					FieldValidator.EVALUATION_START_TIME_ERROR_MESSAGE, e.getMessage());
+			String errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE,
+					START_TIME_FIELD_NAME, EVALUATION_NAME, END_TIME_FIELD_NAME) + EOL + 
+					FieldValidator.EVALUATION_START_TIME_ERROR_MESSAGE;
+			assertEquals(errorMessage, e.getMessage());
 		}
 
 		// Checking for other type of invalid parameter situations
@@ -3940,6 +3949,11 @@ public class LogicTest extends BaseTestCase {
 				logic.getEvaluation(evaluation.courseId, evaluation.name));
 	}
 	
+	public static void verifyAbsentInDatastore(FeedbackSessionAttributes fsa) {
+		assertEquals(null,
+				logic.getFeedbackSession(fsa.feedbackSessionName, fsa.courseId));	
+	}
+	
 	//TODO: move these verify methods to a utility class
 	
 	public static void verifyPresentInDatastore(AccountAttributes expectedAccount) {
@@ -3980,6 +3994,11 @@ public class LogicTest extends BaseTestCase {
 	public static void verifyPresentInDatastore(InstructorAttributes expected) {
 		InstructorAttributes actual = instructorsDb.getInstructorForGoogleId(
 				expected.courseId, expected.googleId);
+		assertEquals(gson.toJson(expected), gson.toJson(actual));
+	}
+	
+	public static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
+		FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.feedbackSessionName, expected.courseId);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
@@ -4210,5 +4229,4 @@ public class LogicTest extends BaseTestCase {
 	public void caseTearDown() {
 		helper.tearDown();
 	}
-
 }

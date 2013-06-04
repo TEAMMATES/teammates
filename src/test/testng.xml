@@ -48,10 +48,12 @@
 			<class name="teammates.test.cases.storage.CoursesDbTest" />
 			<class name="teammates.test.cases.storage.SubmissionsDbTest" />
 			<class name="teammates.test.cases.storage.EvaluationsDbTest" />
+			<class name="teammates.test.cases.storage.FeedbackSessionsDbTest" />
 			<class name="teammates.test.cases.logic.SubmissionsLogicTest" />
 			<class name="teammates.test.cases.logic.EvaluationsLogicTest" />
 			<class name="teammates.test.cases.logic.StudentsLogicTest" />
 			<class name="teammates.test.cases.logic.InstructorsLogicTest" />
+			<class name="teammates.test.cases.logic.FeedbackSessionsLogicTest" />
 			<class name="teammates.test.cases.ui.HelperTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalHelperTest" />
 			<class name="teammates.test.cases.logic.EmailsTest" />

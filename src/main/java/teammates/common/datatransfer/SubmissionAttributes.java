@@ -45,7 +45,9 @@ public class SubmissionAttributes extends EntityAttributes {
 		this.evaluation = Sanitizer.sanitizeTitle(evalName);
 		this.team = Sanitizer.sanitizeTitle(teamName);
 		this.reviewee = Sanitizer.sanitizeName(toStudent);
-		this.reviewer = Sanitizer.sanitizeName(fromStudent);
+		this.reviewer = Sanitizer.sanitizeName(fromStudent);;
+		this.justification = Sanitizer.sanitizeTextField(justification);
+		this.p2pFeedback = Sanitizer.sanitizeTextField(p2pFeedback);
 	}
 
 	public SubmissionAttributes(Submission s) {
@@ -138,6 +140,18 @@ public class SubmissionAttributes extends EntityAttributes {
 				+ justification.getValue());
 		sb.append(EOL + indentString + " p2pFeedback:" + p2pFeedback.getValue());
 		return sb.toString();
+	}
+
+	@Override
+	public String getIdentificationString() {
+		return this.course + "/" + this.evaluation
+				+ " | to: " + this.reviewee + " | from: "
+				+ this.reviewer;
+	}
+
+	@Override
+	public String getEntityTypeAsString() {
+		return "Submission";
 	}
 
 }

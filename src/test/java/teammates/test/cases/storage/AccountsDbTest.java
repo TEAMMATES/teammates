@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
@@ -60,17 +61,19 @@ public class AccountsDbTest extends BaseTestCase {
 		
 		// FAIL : invalid parameters
 		// Should we not allow empty fields?
-		/*
+		
 		a.email = "invalid email";
 		try {
 			accountsDb.createAccount(a);
-			fail();
-		} catch (AssertionError a) {
-			assertEquals(a.getMessage(), AccountData.ERROR_FIELD_EMAIL);
-		} catch (EntityAlreadyExistsException e) {
-			fail();
+			signalFailureToDetectException();
+		} catch (InvalidParametersException e) {
+			assertContains(
+					String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
+					"invalid email",
+					FieldValidator.REASON_INCORRECT_FORMAT),
+					e.getMessage());
 		}
-		*/
+		
 		
 		// Null parameters check:
 		try {

@@ -31,7 +31,7 @@ public class CoursesLogicTest extends BaseTestCase {
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(CoursesDb.class);
+		turnLoggingUp(CoursesLogic.class);
 		Datastore.initialize();
 		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
 		helper = new LocalServiceTestHelper(localDatastore);
@@ -129,7 +129,7 @@ public class CoursesLogicTest extends BaseTestCase {
 		______TS("fails: error during instructor creation");
 		
 		c.id = "fresh-course-tccai";
-		instructorsDb.createInstructor(i); //create a duplicate instructor
+		instructorsDb.createEntity(i); //create a duplicate instructor
 		
 		try {
 			coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
@@ -162,7 +162,7 @@ public class CoursesLogicTest extends BaseTestCase {
 		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101-getthis";
 		c.name = "Basic Computing Getting";
-		coursesDb.createCourse(c);
+		coursesDb.createEntity(c);
 
 		assertEquals(c.id, coursesLogic.getCourse(c.id).id);
 		assertEquals(c.name, coursesLogic.getCourse(c.id).name);
@@ -173,7 +173,7 @@ public class CoursesLogicTest extends BaseTestCase {
 	
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		turnLoggingDown(CoursesDb.class);
+		turnLoggingDown(CoursesLogic.class);
 		helper.tearDown();
 	}
 

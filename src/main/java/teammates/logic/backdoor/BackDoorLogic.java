@@ -15,6 +15,8 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -163,6 +165,20 @@ public class BackDoorLogic extends Logic {
 		submissionsLogic.updateSubmissions(submissionsList);
 		log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
+		HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
+		for (FeedbackSessionAttributes session : sessions.values()) {
+			log.fine("API Servlet adding feedback session :" + session.feedbackSessionName
+					+ " to course " + session.courseId);
+			super.createFeedbackSession(session);
+		}
+		
+		HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
+		for (FeedbackQuestionAttributes question : questions.values()) {
+			log.fine("API Servlet adding feedback question :" + question.getId()
+					+ " to session " + question.feedbackSessionName);
+			super.createFeedbackQuestion(question);
+		}
+		
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 	
@@ -197,7 +213,12 @@ public class BackDoorLogic extends Logic {
 				reviewerEmail, revieweeEmail);
 		return Common.getTeammatesGson().toJson(target);
 	}
-
+	
+	public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
+		FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
+		return Common.getTeammatesGson().toJson(fs);
+	}
+	
 	public void editAccountAsJson(String newValues)
 			throws InvalidParametersException, EntityDoesNotExistException {
 		AccountAttributes account = Common.getTeammatesGson().fromJson(newValues,
@@ -231,6 +252,24 @@ public class BackDoorLogic extends Logic {
 			throws InvalidParametersException, EntityDoesNotExistException{
 		
 		evaluationsLogic.updateEvaluation(evaluation);
+	}
+	
+	// This cascades deleting feedbackQuestion and feedbackResponses for testing purposes.
+	// We do not do it in production to preserve question/responses for future repo.
+	@Override
+	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+		List<FeedbackQuestionAttributes> questionsToCascadeDelete;
+		try {
+			questionsToCascadeDelete = feedbackQuestionsLogic
+					.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+		} catch (EntityDoesNotExistException e) {
+			// Silently fail
+			return;
+		}
+		for (FeedbackQuestionAttributes question : questionsToCascadeDelete) {
+			feedbackQuestionsLogic.deleteFeedbackQuestion(feedbackSessionName, courseId, question.questionNumber);
+		}
+		super.deleteFeedbackSession(feedbackSessionName, courseId);
 	}
 
 	/**

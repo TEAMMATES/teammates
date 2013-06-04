@@ -1064,6 +1064,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		try {
 			String jsonString = Common.readFile(Common.TEST_DATA_FOLDER
 					+ "/typicalDataBundle.json");
+			BackDoor.deleteFeedbackSessions(jsonString);
 			BackDoor.deleteCourses(jsonString);
 			BackDoor.deleteCourse("new-course-tCCA"); // Another course added during testing, not in DataBundle
 			BackDoor.deleteInstructors(jsonString);

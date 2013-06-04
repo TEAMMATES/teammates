@@ -15,13 +15,13 @@ import java.util.Map;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NotImplementedException;
 import teammates.logic.backdoor.BackDoorServlet;
 
@@ -95,6 +95,24 @@ public class BackDoor {
 		HashMap<String, CourseAttributes> courses = data.courses;
 		for (CourseAttributes course : courses.values()) {
 			deleteCourse(course.id);
+		}
+	}
+	
+	/**
+	 * Deletes FEEDBACK SESSIONS contained in the jsonString
+	 * 
+	 * This should recursively delete all FEEDBACK QUESIONS AND RESPONSES related to the session.
+	 * 
+	 * @param jsonString
+	 */
+	public static void deleteFeedbackSessions(String jsonString) {
+		Gson gson = Common.getTeammatesGson();
+		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		HashMap<String, FeedbackSessionAttributes> feedbackSessions = data.feedbackSessions;
+		for (FeedbackSessionAttributes feedbackSession : feedbackSessions.values()) {
+			deleteFeedbackSession(
+					feedbackSession.feedbackSessionName,
+					feedbackSession.courseId);
 		}
 	}
 	
@@ -328,6 +346,28 @@ public class BackDoor {
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"not implemented yet because submissions do not need to be deleted via the API");
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____FEEDBACK_SESSION_level_methods______________________________() {
+	}
+
+	public static String getFeedbackSessionAsJson(String feedbackSessionName,
+			String courseId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_SESSION_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		String feedbackSessionJson = makePOSTRequest(params);
+		return feedbackSessionJson;
+	}
+	
+	public static String deleteFeedbackSession(String feedbackSessionName,
+			String courseId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_FEEDBACK_SESSION);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		String status = makePOSTRequest(params);
+		return status;
 	}
 	
 	@SuppressWarnings("unused")

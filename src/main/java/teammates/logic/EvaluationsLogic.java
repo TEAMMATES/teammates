@@ -66,7 +66,7 @@ public class EvaluationsLogic {
 	public void createEvaluationCascade(EvaluationAttributes e)
 			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 	
-		evaluationsDb.createEvaluation(e);
+		evaluationsDb.createEntity(e);
 	
 		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(e.courseId);
 		

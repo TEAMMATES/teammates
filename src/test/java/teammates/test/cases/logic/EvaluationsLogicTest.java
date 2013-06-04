@@ -429,7 +429,7 @@ public class EvaluationsLogicTest extends BaseTestCase{
 	}
 	
 	
-	@AfterClass()
+	@AfterClass
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 		turnLoggingDown(EvaluationOpeningRemindersServlet.class);
