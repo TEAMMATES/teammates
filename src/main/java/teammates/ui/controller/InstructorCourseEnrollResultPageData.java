@@ -4,24 +4,26 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 
-public class InstructorCourseEnrollHelper extends Helper {
-	public String courseID;
-
-	/**
-	 * Flag whether this page should show the result or the enrollment input
-	 */
-	public boolean isResult = false;
+public class InstructorCourseEnrollResultPageData extends PageData {
 	
-	public List<StudentAttributes>[] students;
-	Logger log = Common.getLogger();
+	public InstructorCourseEnrollResultPageData(AccountAttributes account) {
+		super(account);
+	}
 
+	protected static final Logger log = Common.getLogger();
+	
+	public String courseId;
+
+	public List<StudentAttributes>[] students;
+	
 	public String getMessageForStudentsListID(int enrollmentStatus) {
-		
+
 		UpdateStatus status = UpdateStatus.enumRepresentation(enrollmentStatus);
-		
+
 		switch (status) {
 		case ERROR:
 			return String.format("There were errors on %d student(s):",
@@ -52,4 +54,5 @@ public class InstructorCourseEnrollHelper extends Helper {
 			return "There are students:";
 		}
 	}
+
 }

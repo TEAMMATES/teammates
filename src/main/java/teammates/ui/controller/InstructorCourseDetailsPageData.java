@@ -3,30 +3,20 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 
-public class InstructorCourseDetailsHelper extends Helper{
+public class InstructorCourseDetailsPageData extends PageData {
+	
+	public InstructorCourseDetailsPageData(AccountAttributes account) {
+		super(account);
+	}
+
 	public CourseDetailsBundle courseDetails;
 	public List<StudentAttributes> students;
 	public List<InstructorAttributes> instructors;
-	
-	/**
-	 * Returns the status of the student, whether he has joined the course.
-	 * This is based on googleID, if it's null or empty, then we assume he
-	 * has not joined the course yet.
-	 * @param student
-	 * @return
-	 */
-	public String status(StudentAttributes student){
-		if(student.googleId == null || student.googleId.equals("")){
-			return Common.STUDENT_STATUS_YET_TO_JOIN;
-		} else {
-			return Common.STUDENT_STATUS_JOINED;
-		}
-	}
 	
 	/**
 	 * Returns the link to send registration key to all students<br />
@@ -37,7 +27,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 	public String getInstructorCourseRemindLink(){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
-		link = processMasquerade(link);
+		link = addUserIdToUrl(link);
 		return link;
 	}
 	
@@ -51,7 +41,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
-		link = processMasquerade(link);
+		link = addUserIdToUrl(link);
 		return link;
 	}
 	
@@ -65,7 +55,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
-		link = processMasquerade(link);
+		link = addUserIdToUrl(link);
 		return link;
 	}
 	
@@ -79,7 +69,7 @@ public class InstructorCourseDetailsHelper extends Helper{
 		String link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
-		link = processMasquerade(link);
+		link = addUserIdToUrl(link);
 		return link;
 	}
 	
@@ -93,7 +83,8 @@ public class InstructorCourseDetailsHelper extends Helper{
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
-		link = processMasquerade(link);
+		link = addUserIdToUrl(link);
 		return link;
 	}
+	
 }

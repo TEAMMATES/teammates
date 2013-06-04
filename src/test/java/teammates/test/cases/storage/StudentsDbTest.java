@@ -1,8 +1,11 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.assertEquals;
 import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -27,16 +30,11 @@ public class StudentsDbTest extends BaseTestCase {
 	//  of CoursesDbTest::testCreateCourse().
 
 	private StudentsDb studentsDb = new StudentsDb();
-	private static LocalServiceTestHelper helper;
 	
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(StudentsDb.class);
-		Datastore.initialize();
-		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-		helper = new LocalServiceTestHelper(localDatastore);
-		helper.setUp();
 	}
 	
 	@Test
@@ -197,7 +195,6 @@ public class StudentsDbTest extends BaseTestCase {
 	@AfterClass
 	public static void tearDownClass() throws Exception {
 		turnLoggingDown(StudentsDb.class);
-		helper.tearDown();
 	}
 	
 	private StudentAttributes createNewStudent() throws InvalidParametersException {

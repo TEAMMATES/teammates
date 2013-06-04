@@ -28,7 +28,6 @@ import javax.servlet.ServletException;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -56,6 +55,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.SubmissionsLogic;
@@ -66,18 +66,13 @@ import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.datastore.Datastore;
+import teammates.test.cases.BaseComponentTest;
 import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
-import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import com.google.gson.Gson;
 
-public class LogicTest extends BaseTestCase {
+public class LogicTest extends BaseComponentTest {
 
 	private static final Logic logic = new Logic();
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
@@ -102,21 +97,11 @@ public class LogicTest extends BaseTestCase {
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(Logic.class);
-		Datastore.initialize();
 	}
 
 	@BeforeMethod
 	public void caseSetUp() throws ServletException {
 		dataBundle = getTypicalDataBundle();
-
-		LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
-		LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
-		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-		LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
-		helper = new LocalServiceTestHelper(localDatastore, localMail,
-				localUserServices, localTasks);
-		setHelperTimeZone(helper);
-		helper.setUp();
 	}
 
 	@SuppressWarnings("unused")
@@ -125,14 +110,14 @@ public class LogicTest extends BaseTestCase {
 
 	@Test
 	public void testGetLoginUrl() {
-
+		logoutUser();
 		assertEquals("/_ah/login?continue=www.abc.com",
 				Logic.getLoginUrl("www.abc.com"));
 	}
 
 	@Test
 	public void testGetLogoutUrl() {
-
+		loginUser("any.user");
 		assertEquals("/_ah/logout?continue=www.def.com",
 				Logic.getLogoutUrl("www.def.com"));
 	}
@@ -1706,6 +1691,7 @@ public class LogicTest extends BaseTestCase {
 	
 		______TS("course without teams");
 	
+		logic.deleteCourse("course1");
 		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor("instructor1", "course1", "Course 1");
 		assertEquals(0, logic.getTeamsForCourse("course1").teams.size());
@@ -2209,6 +2195,8 @@ public class LogicTest extends BaseTestCase {
 	
 		loginAsAdmin("admin.user");
 		
+		AccountsLogic.inst().deleteAccountCascade("instructor1");
+		CoursesLogic.inst().deleteCourseCascade("course1");
 		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor("instructor1", "course1", "course 1");
 		EvaluationAttributes newEval = new EvaluationAttributes();
@@ -4219,14 +4207,10 @@ public class LogicTest extends BaseTestCase {
 		logic.updateSubmissions(submissions);
 	}
 
-	@AfterClass()
+	@AfterClass
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 		turnLoggingDown(Logic.class);
 	}
 
-	@AfterMethod
-	public void caseTearDown() {
-		helper.tearDown();
-	}
 }

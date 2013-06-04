@@ -646,9 +646,9 @@ public class BackDoorTest extends BaseTestCase {
 				evaluation1.instructions);
 		assertEquals(10, evaluation1.gracePeriod);
 		assertEquals(true, evaluation1.p2pEnabled);
-		assertEquals("Sun Apr 01 23:59:00 SGT 2012",
+		assertEquals("Sun Apr 01 23:59:00 GMT+08:00 2012",
 				evaluation1.startTime.toString());
-		assertEquals("Thu Apr 30 23:59:00 SGT 2015",
+		assertEquals("Thu Apr 30 23:59:00 GMT+08:00 2015",
 				evaluation1.endTime.toString());
 		assertEquals(true, evaluation1.activated);
 		assertEquals(false, evaluation1.published);

@@ -1,37 +1,31 @@
 package teammates.test.cases.storage;
 
-import static teammates.common.FieldValidator.*;
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.cases.logic.LogicTest;
 
 public class CoursesDbTest extends BaseTestCase {
 
 	private CoursesDb coursesDb = new CoursesDb();
-	private static LocalServiceTestHelper helper;
 	
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(CoursesDb.class);
-		Datastore.initialize();
-		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-		helper = new LocalServiceTestHelper(localDatastore);
-		helper.setUp();
 	}
 
 	@Test
@@ -126,12 +120,6 @@ public class CoursesDbTest extends BaseTestCase {
 		}
 	}
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		turnLoggingDown(CoursesDb.class);
-		helper.tearDown();
-	}
-	
 	private CourseAttributes createNewCourse() throws InvalidParametersException {
 		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101";

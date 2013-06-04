@@ -1,22 +1,14 @@
 package teammates.test.cases.logic;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.ServletException;
-
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
@@ -25,11 +17,13 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.FeedbackSessionsLogic;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
+import teammates.test.cases.BaseComponentTest;
 import teammates.test.cases.BaseTestCase;
 
-public class FeedbackSessionsLogicTest extends BaseTestCase {
+import com.google.appengine.api.datastore.Text;
+
+public class FeedbackSessionsLogicTest extends BaseComponentTest {
 	
 	private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 	
@@ -37,16 +31,8 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(FeedbackSessionsLogic.class);
-		Datastore.initialize();
 	}
 	
-	@BeforeMethod
-	public void caseSetUp() throws ServletException, IOException {
-		helper = new LocalServiceTestHelper(
-				new LocalDatastoreServiceTestConfig());
-		setHelperTimeZone(helper);
-		helper.setUp();
-	}
 	
 	@Test
 	public void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {		
@@ -180,12 +166,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 		fsa.instructions = new Text("Give feedback.");
 		return fsa;
 	}
-	
-	@AfterMethod
-	public void caseTearDown() {
-		helper.tearDown();
-	}
-	
+
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();

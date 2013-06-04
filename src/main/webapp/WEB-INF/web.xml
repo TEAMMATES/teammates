@@ -142,6 +142,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/admin/adminActivityLog</url-pattern>
 	</servlet-mapping>
 	<servlet>
+	    <description>Servlet that handles all incoming requests</description>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
+	</servlet>
+	<servlet>
 	    <description>Servlet that handles Instructor homepage</description>
 	    <servlet-name>InstructorHome</servlet-name>
 	    <servlet-class>teammates.ui.controller.InstructorHomeServlet</servlet-class>
@@ -150,67 +155,40 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>InstructorHome</servlet-name>
 	    <url-pattern>/page/instructorHome</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles Instructor Courses action </description>
-	    <servlet-name>InstructorCourse</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorCourse</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourse</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles Instructor Course Add action </description>
-	    <servlet-name>InstructorCourseAdd</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseAddServlet</servlet-class>
-	</servlet>
-		<servlet-mapping>
-	    <servlet-name>InstructorCourseAdd</servlet-name>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourseAdd</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles Instructor Course Edit page</description>
-	    <servlet-name>InstructorCourseEdit</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseEditServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorCourseEdit</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourseEdit</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles course deletion action</description>
-	    <servlet-name>InstructorCourseDelete</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseDeleteServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorCourseDelete</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorCourseEditSave</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourseDelete</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles instructor remind students to join course action</description>
-	    <servlet-name>InstructorCourseRemind</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseRemindServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorCourseRemind</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourseRemind</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles course enroll page (includes enroll result page)</description>
-	    <servlet-name>InstructorCourseEnroll</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseEnrollServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorCourseEnroll</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourseEnroll</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles course details page</description>
-	    <servlet-name>InstructorCourseDetails</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseDetailsServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorCourseDetails</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorCourseEnrollSave</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourseDetails</url-pattern>
 	</servlet-mapping>
 	<servlet>
@@ -240,22 +218,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>InstructorCourseStudentDelete</servlet-name>
 	    <url-pattern>/page/instructorCourseStudentDelete</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles evaluation page</description>
-	    <servlet-name>InstructorEval</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEval</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEval</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles 'evaluation add' action for instructors</description>
-	    <servlet-name>InstructorEvalAdd</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalAddServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEvalAdd</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalAdd</url-pattern>
 	</servlet-mapping>
 	<servlet>

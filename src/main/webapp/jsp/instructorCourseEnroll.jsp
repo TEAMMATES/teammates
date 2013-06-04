@@ -1,9 +1,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorCourseEnrollHelper"%>
+<%@ page import="teammates.ui.controller.InstructorCourseEnrollPageData"%>
 <%
-	InstructorCourseEnrollHelper helper = (InstructorCourseEnrollHelper)request.getAttribute("helper");
+InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -32,60 +32,17 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
 	</div>
 
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
-			<%
-				if(helper.isResult){
-			%>
+			
 				<div id="headerOperation">
-					<h1>Enrollment Results for <%=helper.courseID%></h1>
+					<h1>Enroll Students for <%= data.courseId %></h1>
 				</div>
-				<div style="display: block;" id="statusMessage">Enrollment Successful. Summary given below. Click <a href="javascript:history.go(-1)" id="edit_enroll">here</a> to modify values and re-do the enrollment.</div>
-				<%
-					for(int i=0; i<5; i++){
-								List<StudentAttributes> students = helper.students[i];
-				%>
-					<%
-						if(students.size()>0){
-					%>
-						<p class="bold centeralign"><%=helper.getMessageForStudentsListID(i)%></p>
-						<br>
-						<table class="dataTable" class="enroll_result<%=i%>">
-						<tr>
-							<th class="bold color_white">Student Name</th>
-							<th class="bold color_white centeralign">E-mail address</th>
-							<th class="bold color_white centeralign">Team</th>
-							<th class="bold color_white centeralign" width="40%">Comments</th>
-						</tr>
-						<%
-							for(StudentAttributes student: students){
-						%>
-							<tr>
-								<td><%= student.name %></td>
-								<td><%= student.email %></td>
-								<td><%= student.team %></td>
-								<td><%= student.comments %></td>
-							</tr>
-						<% 	} %>
-						</table>
-						<br>
-						<br>
-						<br>
-					<%	} %>
-				<%	} %>
-				
-				<div id="instructorCourseEnrollmentButtons">
-				</div>
-			<% } else { %>
-				<div id="headerOperation">
-					<h1>Enroll Students for <%= helper.courseID %></h1>
-				</div>
-				
-				<form action="<%= helper.getInstructorCourseEnrollLink(helper.courseID) %>" method="post">
+				<form action="<%= data.getInstructorCourseEnrollSaveLink(data.courseId) %>" method="post">
 					<p class ="bold rightalign spreadsheetLink">		
 						[ <a id ="spreadsheet_download" 
 							class="color_black t_course_enroll"
@@ -102,7 +59,7 @@
 							<td><textarea rows="6" cols="120" class ="textvalue" name="enrollstudents" id="enrollstudents" placeholder="This box can be used for enrolling new students and editing details (except email address) of students already enrolled. To EDIT, simply enroll students using the updated data and existing data will be updated accordingly. To DELETE students or to UPDATE EMAIL address of a student,please use the 'view' page of the course."></textarea></td>
 						</tr>
 					</table>
-					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
 					<br>
 					<div id="instructorCourseEnrollmentButtons" class="centeralign">
 						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
@@ -112,12 +69,11 @@
 				<br>
 				<br>
 				<br>
-			<% } %>
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

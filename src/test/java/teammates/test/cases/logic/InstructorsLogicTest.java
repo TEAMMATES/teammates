@@ -3,30 +3,22 @@ package teammates.test.cases.logic;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import javax.servlet.ServletException;
-
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.logic.InstructorsLogic;
 import teammates.storage.datastore.Datastore;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTest;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-
-public class InstructorsLogicTest extends BaseTestCase{
+public class InstructorsLogicTest extends BaseComponentTest{
 	
 	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	
@@ -40,12 +32,6 @@ public class InstructorsLogicTest extends BaseTestCase{
 		Datastore.initialize();
 	}
 	
-	@BeforeMethod
-	public void caseSetUp() throws ServletException, IOException {
-		helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-		setHelperTimeZone(helper);
-		helper.setUp();
-	}
 	
 	@Test
 	public void testParseInstructorLines() throws Exception {
@@ -161,11 +147,6 @@ public class InstructorsLogicTest extends BaseTestCase{
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 		turnLoggingDown(InstructorsLogic.class);
-	}
-
-	@AfterMethod
-	public void caseTearDown() {
-		helper.tearDown();
 	}
 
 }

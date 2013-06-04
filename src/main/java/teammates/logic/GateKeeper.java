@@ -87,7 +87,7 @@ public class GateKeeper {
 			return;
 		if (isAdministrator())
 			return;
-		if (isOwnId(instructorId))
+		if (isOwnId(instructorId) && isInstructor(instructorId))
 			return;
 		throw new UnauthorizedAccessException(
 				"NOT  InstructorUsingOwnIdOrAbove: "+ instructorId);
@@ -289,6 +289,10 @@ public class GateKeeper {
 	private boolean isInstructor() {
 		User user = userService.getCurrentUser();
 		return isUserLoggedOn() &&  AccountsLogic.inst().isAccountAnInstructor(user.getNickname());
+	}
+	
+	private boolean isInstructor(String googleId) {
+		return AccountsLogic.inst().isAccountAnInstructor(googleId);
 	}
 	
 	private boolean isInstructorOfCourse(String courseId) {

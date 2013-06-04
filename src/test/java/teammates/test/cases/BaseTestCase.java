@@ -26,6 +26,8 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.UserType;
+import teammates.logic.AccountsLogic;
+import teammates.logic.CoursesLogic;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -51,7 +53,7 @@ public class BaseTestCase {
 		Common.readProperties(buildProperties);
 	}
 
-	protected LocalServiceTestHelper helper;
+	protected static LocalServiceTestHelper helper;
 
 	protected static long start;
 
@@ -244,18 +246,18 @@ public class BaseTestCase {
 		DataBundle dataBundle = getTypicalDataBundle();
 		
 		for (AccountAttributes account : dataBundle.accounts.values()) {
-			backDoorLogic.deleteAccount(account.googleId);
+			AccountsLogic.inst().deleteAccountCascade(account.googleId);
 		}
 
 		// delete courses first in case there are existing courses with same id
 		// but under different instructors.
 		for (CourseAttributes course : dataBundle.courses.values()) {
-			backDoorLogic.deleteCourse(course.id);
+			CoursesLogic.inst().deleteCourseCascade(course.id);
 		}
 
 		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
 		for (InstructorAttributes instructor : instructors.values()) {
-			backDoorLogic.downgradeInstructorToStudentCascade(instructor.googleId);
+			AccountsLogic.inst().downgradeInstructorToStudentCascade(instructor.googleId);
 		}
 		
 		for (FeedbackSessionAttributes feedbackSession : dataBundle.feedbackSessions.values()) {
@@ -300,7 +302,7 @@ public class BaseTestCase {
 	 * "GMT+8:00" (Possibly, a bug). Therefore, we are changing timeZone of
 	 * LocalServiceTestHelper to match the Dev server. 
 	 */
-	protected void setHelperTimeZone(LocalServiceTestHelper localTestHelper) {
+	protected static void setHelperTimeZone(LocalServiceTestHelper localTestHelper) {
 		// TODO: check if this bug is fixed in new SDK 
 		//    update: not fixed in 1.7.0
 		localTestHelper.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));

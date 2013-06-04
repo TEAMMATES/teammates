@@ -1,8 +1,8 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -14,28 +14,19 @@ import teammates.logic.CoursesLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
-import teammates.storage.datastore.Datastore;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTest;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-
-public class CoursesLogicTest extends BaseTestCase {
+public class CoursesLogicTest extends BaseComponentTest {
 
 	private CoursesLogic coursesLogic = new CoursesLogic();
 	private CoursesDb coursesDb = new CoursesDb();
 	private AccountsDb accountsDb = new AccountsDb();
 	private InstructorsDb instructorsDb = new InstructorsDb();
-	private static LocalServiceTestHelper helper;
 	
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(CoursesLogic.class);
-		Datastore.initialize();
-		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-		helper = new LocalServiceTestHelper(localDatastore);
-		helper.setUp();
 	}
 
 	@SuppressWarnings("unused")
@@ -171,10 +162,6 @@ public class CoursesLogicTest extends BaseTestCase {
 			
 	//TODO: add missing test cases
 	
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		turnLoggingDown(CoursesLogic.class);
-		helper.tearDown();
-	}
+
 
 }

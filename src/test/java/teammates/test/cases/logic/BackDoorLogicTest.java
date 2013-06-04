@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -30,17 +29,12 @@ import teammates.logic.Emails;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTest;
 import teammates.test.cases.common.CourseAttributesTest;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
-import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import com.google.gson.Gson;
 
-public class BackDoorLogicTest extends BaseTestCase {
+public class BackDoorLogicTest extends BaseComponentTest {
 	Gson gson = Common.getTeammatesGson();
 	private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -48,20 +42,12 @@ public class BackDoorLogicTest extends BaseTestCase {
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(BackDoorLogic.class);
-		Datastore.initialize();
 	}
 
 	@BeforeMethod
 	public void caseSetUp() throws ServletException {
 		dataBundle = getTypicalDataBundle();
-
-		LocalTaskQueueTestConfig ltqtc = new LocalTaskQueueTestConfig();
-		LocalUserServiceTestConfig lustc = new LocalUserServiceTestConfig();
-		helper = new LocalServiceTestHelper(
-				new LocalDatastoreServiceTestConfig(),
-				new LocalMailServiceTestConfig(), lustc, ltqtc);
-		setHelperTimeZone(helper);
-		helper.setUp();
+		resetDatastore();
 	}
 
 	@Test
@@ -380,11 +366,6 @@ public class BackDoorLogicTest extends BaseTestCase {
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 		turnLoggingDown(BackDoorLogic.class);
-	}
-
-	@AfterMethod
-	public void caseTearDown() {
-		helper.tearDown();
 	}
 
 }

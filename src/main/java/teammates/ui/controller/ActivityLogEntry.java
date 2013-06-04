@@ -1,10 +1,15 @@
 package teammates.ui.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -79,15 +84,15 @@ public class ActivityLogEntry {
 	 * Constructor that creates an ActivityLog object from scratch
 	 * Used in the various servlets in the application
 	 * @param servlet
-	 * @param response
 	 * @param params
+	 * @param response
 	 * @param toShow
 	 */
-	public ActivityLogEntry(String servlet, String act, boolean show, AccountAttributes acc,  String params, String link){
+	public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params,  String link){
 		time = System.currentTimeMillis();
 		servletName = servlet;
 		action = act;
-		toShow = show;
+		toShow = true;
 		message = params;
 		url = link;
 		
@@ -104,6 +109,42 @@ public class ActivityLogEntry {
 		}
 	}
 	
+	public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage,  String requestUrl){
+		time = System.currentTimeMillis();
+		servletName = getActionName(requestUrl);
+		action = servletName; //TODO: remove this?
+		toShow = true;
+		message = logMessage;
+		url = requestUrl;
+		
+		if (userAccount == null){
+			role = "Unknown";
+			name = "Unknown";
+			googleId = "Unknown";
+			email = "Unknown";
+		} else {
+			role = userAccount.isInstructor ? "Instructor" : "Student"; 
+			role = role + (isMasquerade? "(M)" : "");
+			name = userAccount.name;
+			googleId = userAccount.googleId;
+			email = userAccount.email;
+		}
+	}
+	
+	/**
+	 * Assumption: the {@code requestUrl} is in the format "/something/actionName" 
+	 *   possibly followed by "?something" e.g., "/page/studentHome?user=abc"
+	 * @return action name in the URL e.g., "studentHome" in the above example.
+	 */
+	public static String getActionName(String requestUrl) {
+		try {
+			return requestUrl.split("/")[2].split("\\?")[0];
+		} catch (Throwable e) {
+			return "error in getActionName for requestUrl : "+ requestUrl;
+		}
+	}
+
+
 	/**
 	 * Generates a log message that will be logged in the server
 	 * @return
@@ -186,5 +227,65 @@ public class ActivityLogEntry {
 	
 	public String getEmail(){
 		return email;
+	}
+
+
+	public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e){
+		String[] actionTaken = req.getServletPath().split("/");
+		String action = req.getServletPath();
+		if(actionTaken.length > 0) {
+			action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+		}
+		String url = Common.getRequestedURL(req);
+        
+        String message = "<span class=\"color_red\">Servlet Action failure in " + action + "<br>";
+        message += e.getClass() + ": " + Common.stackTraceToString(e) + "<br>";
+        message += Common.printRequestParameters(req) + "</span>";
+        
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Common.LOG_SERVLET_ACTION_FAILURE, null, message, url);
+        
+        return exceptionLog.generateLogMessage();
+	}
+
+
+	public static String generateSystemErrorReportLogMessage(HttpServletRequest req, MimeMessage errorEmail) {
+		String[] actionTaken = req.getServletPath().split("/");
+		String action = req.getServletPath();
+		if(actionTaken.length > 0) {
+			action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+		}
+		String url = Common.getRequestedURL(req);
+        
+        String message = "";
+        if(errorEmail != null){
+        	try {
+      			message += "<span class=\"color_red\">" + errorEmail.getSubject() + "</span><br>";
+      			message += "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() +"');\">Show/Hide Details >></a>";
+      			message += "<br>";
+      			message += "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">";
+      			message += errorEmail.getContent().toString();
+      			message += "</span>";
+      		} catch (Exception e) {
+      			message = "System Error. Unable to retrieve Email Report";
+      		}
+      	}
+		
+		ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Common.LOG_SYSTEM_ERROR_REPORT, null, message, url);
+		
+		return emailReportLog.generateLogMessage();
+	}
+	
+	//TODO: remove if not used
+	public static String generateActivityLogEntryErrorMessage(
+			String servletName, String action, ArrayList<Object> data){
+		String message;
+		if (action.equals(Common.LOG_SERVLET_ACTION_FAILURE)) {
+            String e = data.get(0).toString();
+            message = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
+            message += e + "</span>";
+        } else {
+        	message = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
+		}
+		return message;
 	}
 }

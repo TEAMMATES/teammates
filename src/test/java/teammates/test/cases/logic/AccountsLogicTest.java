@@ -1,19 +1,11 @@
 package teammates.test.cases.logic;
 
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.Assert.*;
-
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
@@ -24,10 +16,9 @@ import teammates.common.exception.JoinCourseException;
 import teammates.logic.AccountsLogic;
 import teammates.logic.StudentsLogic;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTest;
 
-public class AccountsLogicTest extends BaseTestCase {
+public class AccountsLogicTest extends BaseComponentTest {
 
 	private AccountsLogic accountsLogic = AccountsLogic.inst();
 	private Logic logic = new Logic();
@@ -36,16 +27,8 @@ public class AccountsLogicTest extends BaseTestCase {
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(AccountsLogic.class);
-		Datastore.initialize();
 	}
 
-	@BeforeMethod
-	public void caseSetUp() throws ServletException, IOException {
-		helper = new LocalServiceTestHelper(
-				new LocalDatastoreServiceTestConfig());
-		setHelperTimeZone(helper);
-		helper.setUp();
-	}
 
 	@Test
 	public void testCreateAccount() throws Exception {

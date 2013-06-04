@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -218,10 +219,12 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
 	public static final String PAGE_INSTRUCTOR_COURSE_DETAILS = "/page/instructorCourseDetails";
 	public static final String PAGE_INSTRUCTOR_COURSE_EDIT = "/page/instructorCourseEdit";
+	public static final String PAGE_INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/page/instructorCourseStudentDetails";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT = "/page/instructorCourseStudentEdit";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
 	public static final String PAGE_INSTRUCTOR_COURSE_ENROLL = "/page/instructorCourseEnroll";
+	public static final String PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
 	public static final String PAGE_INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
 	public static final String PAGE_INSTRUCTOR_EVAL = "/page/instructorEval";
 	public static final String PAGE_INSTRUCTOR_EVAL_ADD = "/page/instructorEvalAdd";
@@ -264,6 +267,7 @@ public class Common {
 	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/jsp/instructorCourseStudentDetails.jsp"; 
 	public static final String JSP_INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp"; 
 	public static final String JSP_INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp"; 
+	public static final String JSP_INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp"; 
 	public static final String JSP_INSTRUCTOR_EVAL = "/jsp/instructorEval.jsp"; 
 	public static final String JSP_INSTRUCTOR_EVAL_EDIT = "/jsp/instructorEvalEdit.jsp"; 
 	public static final String JSP_INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; 
@@ -277,10 +281,13 @@ public class Common {
 	public static final String JSP_STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
 
 	public static final String JSP_INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; 
+	public static final String JSP_INSTRUCTOR_HEADER_NEW = "/jsp/instructorHeaderNew.jsp"; //TODO: rename this after all pages are migrated to new header
 	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; 
 	public static final String JSP_ADMIN_HEADER = "/jsp/adminHeader.jsp"; 
 	public static final String JSP_FOOTER = "/jsp/footer.jsp"; 
+	public static final String JSP_FOOTER_NEW = "/jsp/footerNew.jsp"; //TODO: rename this after all pages are migrated to new footer
 	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; 
+	public static final String JSP_STATUS_MESSAGE_NEW = "/jsp/statusMessageNew.jsp"; //TODO: rename this after all pages are migrated to new status message
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; 
 
 	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
@@ -306,7 +313,7 @@ public class Common {
 			+ "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? That can happen if you changed the primary email from a non-Gmail address to a Gmail address recently. " 
 			+ "<br/>In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address. ";
 	
-	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course.";
+	public static final String MESSAGE_COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course. If you don't see the course in the list below, please refresh the page after a few moments.";
 	public static final String MESSAGE_COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
 	public static final String MESSAGE_COURSE_EDITED = "The course has been edited.";
 	public static final String MESSAGE_COURSE_DELETED = "The course has been deleted.";
@@ -319,7 +326,7 @@ public class Common {
 	public static final String MESSAGE_STUDENT_EDITED = "The student has been edited successfully";
 	public static final String MESSAGE_STUDENT_DELETED = "The student has been removed from the course";
 
-	public static final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added.";
+	public static final String MESSAGE_EVALUATION_ADDED = "The evaluation has been added. If you don't see that evaluation in the list below, please refresh the page after a few moments.";
 	public static final String MESSAGE_EVALUATION_DELETED = "The evaluation has been deleted.";
 	public static final String MESSAGE_EVALUATION_EDITED = "The evaluation has been edited.";
 	public static final String MESSAGE_EVALUATION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the evaluation.";
@@ -428,6 +435,7 @@ public class Common {
 	public static String INSTRUCTOR_HOME_SERVLET = "instructorHome";
 	public static String INSTRUCTOR_COURSE_SERVLET = "instructorCourse";
 	public static String INSTRUCTOR_COURSE_ENROLL_SERVLET = "instructorCourseEnroll";
+	public static String INSTRUCTOR_COURSE_ENROLL_SAVE_SERVLET = "instructorCourseEnrollSave";
 	public static String INSTRUCTOR_COURSE_EDIT_SERVLET = "instructorCourseEdit";
 	public static String INSTRUCTOR_COURSE_DETAILS_SERVLET = "instructorCourseDetails";
 	public static String INSTRUCTOR_COURSE_DELETE_SERVLET = "instructorCourseDelete";
@@ -557,11 +565,39 @@ public class Common {
 	 * @return Concatenated string.
 	 */
 	public static String toString(List<String> strings) {
+		return toString(strings, EOL);	
+	}
+	
+	/**
+	 * Concatenates a list of strings to a single string, separated by the given delimiter.
+	 * @return Concatenated string.
+	 */
+	public static String toString(List<String> strings, String delimiter) {
 		String returnValue = "";
-		for(String s: strings){
-			returnValue += s + EOL;
+		
+		if(strings.size()==0){
+			return returnValue;
 		}
-		return returnValue.trim();	
+		
+		for(int i=0; i < strings.size()-1; i++){
+			String s = strings.get(i);
+			returnValue += s + delimiter;
+		}
+		//append the last item
+		returnValue += strings.get(strings.size()-1);
+		
+		return returnValue;		
+	}
+	
+	/**
+	 * 
+	 * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
+	 * @param key
+	 * @return the first value for the key. Returns null if key not found.
+	 */
+	public static String getValueFromParamMap(Map<String, String[]> paramMap, String key) {
+		String[] values = paramMap.get(key);
+		return values == null ? null : values[0];
 	}
 	
 
@@ -868,6 +904,20 @@ public class Common {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	/**
+	 * @return  the URL used for the HTTP request but without the domain.
+	 * e.g. "/page/studentHome?user=james" 
+	 */
+	public static String getRequestedURL(HttpServletRequest req) {
+		String link = req.getRequestURI();
+		String query = req.getQueryString();
+		if (query != null && !query.trim().isEmpty()){
+			link += "?" + query;
+		}
+		return link;
+	}
+
 
 	private static String byteArrayToHexString(byte[] b) {
 		StringBuffer sb = new StringBuffer(b.length * 2);

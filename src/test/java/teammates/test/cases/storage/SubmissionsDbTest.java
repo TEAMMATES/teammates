@@ -1,16 +1,14 @@
 package teammates.test.cases.storage;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
-import static org.testng.AssertJUnit.*;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
-import com.google.appengine.api.datastore.Text;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -18,25 +16,21 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.SubmissionsDb;
-import teammates.storage.datastore.Datastore;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTest;
 
-public class SubmissionsDbTest extends BaseTestCase {
+import com.google.appengine.api.datastore.Text;
+
+public class SubmissionsDbTest extends BaseComponentTest {
 	
 	//TODO: add missing test cases, refine existing ones. Follow the example
 	//  of CoursesDbTest::testCreateCourse().
 
 	private SubmissionsDb submissionsDb = new SubmissionsDb();
-	private static LocalServiceTestHelper helper;
 	
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(SubmissionsDb.class);
-		Datastore.initialize();
-		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-		helper = new LocalServiceTestHelper(localDatastore);
-		helper.setUp();
 	}
 
 	@Test
@@ -199,11 +193,6 @@ public class SubmissionsDbTest extends BaseTestCase {
 		}
 	}
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		turnLoggingDown(SubmissionsDb.class);
-		helper.tearDown();
-	}
 	
 	private SubmissionAttributes createNewSubmission() throws InvalidParametersException {
 		SubmissionAttributes s = new SubmissionAttributes();

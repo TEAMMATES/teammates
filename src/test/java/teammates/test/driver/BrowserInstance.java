@@ -2422,9 +2422,7 @@ public class BrowserInstance {
 			System.err.println("But found  :" + locator + ": "
 					+ getElementText(locator));
 			if (counter++ > RETRY)
-				fail("Timeout while waiting for " + getElementText(locator)
-						+ " [i.e. actual] to become same as [i.e. expected] "
-						+ value);
+				assertEquals("Timeout while waiting for status message", value, getElementText(locator));
 			waitAWhile(RETRY_TIME);
 		}
 	}

@@ -462,4 +462,9 @@ public class FieldValidator {
 	private boolean isTrimmed(String value) {
 		return value.length() == value.trim().length();
 	}
+
+	public boolean isLegitimateRedirectUrl(String redirectUrl) {
+		// TODO do better validation
+		return redirectUrl.startsWith("/page/");
+	}
 }

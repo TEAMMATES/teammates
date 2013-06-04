@@ -121,7 +121,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
         message += e.getClass() + ": " + e.getMessage() + "<br>";
         message += Common.printRequestParameters(req) + "</span>";
         
-        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Common.LOG_SERVLET_ACTION_FAILURE, true, null, message, url);
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Common.LOG_SERVLET_ACTION_FAILURE, null, message, url);
         
         return exceptionLog.generateLogMessage();
 	}
@@ -149,7 +149,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
       		}
       	}
 		
-		ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Common.LOG_SYSTEM_ERROR_REPORT, true, null, message, url);
+		ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Common.LOG_SYSTEM_ERROR_REPORT, null, message, url);
 		
 		return emailReportLog.generateLogMessage();
 	}
@@ -258,7 +258,7 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 		AccountAttributes account = helper.server.getAccount(user.id);
 		String message = generateActivityLogEntryMessage(servletName, action, data);
 			
-		return new ActivityLogEntry(servletName, action, toShow, account, message, url);
+		return new ActivityLogEntry(servletName, action, account, message, url);
 	}
 
 	/**
@@ -354,18 +354,14 @@ public abstract class ActionServlet<T extends Helper> extends HttpServlet {
 	 */
 	//TODO: move this to Helper
 	public static String getRequestedURL(HttpServletRequest req) {
-		String link = req.getRequestURI();
-		String query = req.getQueryString();
-		if (query != null)
-			link += "?" + query;
-		return link;
+		return Common.getRequestedURL(req);
 	}
 
 	/**
 	 * Sorts courses based on course ID
 	 * 
 	 * @param courses
-	 */ //TODO: move this method to Helper class
+	 */ 
 	public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
 		Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
 			public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {

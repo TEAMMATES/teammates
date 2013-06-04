@@ -2,6 +2,7 @@ package teammates.test.cases.common;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.testng.annotations.AfterClass;
@@ -110,6 +111,23 @@ public class CommonTest extends BaseTestCase {
 		assertEquals("abc.com", Common.trimTrailingSlash("abc.com/"));
 		assertEquals("abc.com", Common.trimTrailingSlash("abc.com/ "));
 		assertEquals("abc.com", Common.trimTrailingSlash("abc.com"));
+	}
+	
+	@Test 
+	public void testToStringForStringLists(){
+		ArrayList<String> strings = new ArrayList<String>();
+		assertEquals("", Common.toString(strings, ""));
+		assertEquals("", Common.toString(strings, "<br>"));
+		
+		strings.add("aaa");
+		assertEquals("aaa", Common.toString(strings, ""));
+		assertEquals("aaa", Common.toString(strings, "\n"));
+		assertEquals("aaa", Common.toString(strings, "<br>"));
+		
+		strings.add("bbb");
+		assertEquals("aaabbb", Common.toString(strings, ""));
+		assertEquals("aaa\nbbb", Common.toString(strings, "\n"));
+		assertEquals("aaa<br>bbb", Common.toString(strings, "<br>"));
 	}
 	
 	

@@ -1,14 +1,16 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.*;
-import static teammates.common.FieldValidator.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
+import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.FEEDBACK_SESSION_NAME;
+import static teammates.common.FieldValidator.START_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.ServletException;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -17,10 +19,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -28,12 +26,14 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
+import teammates.test.cases.BaseComponentTest;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.cases.logic.LogicTest;
 
-public class FeedbackSessionsDbTest extends BaseTestCase {
+import com.google.appengine.api.datastore.Text;
+
+public class FeedbackSessionsDbTest extends BaseComponentTest {
 	
 	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 	
@@ -41,16 +41,8 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(FeedbackSessionsDb.class);
-		Datastore.initialize();
 	}
 	
-	@BeforeMethod
-	public void caseSetUp() throws ServletException, IOException {
-		helper = new LocalServiceTestHelper(
-				new LocalDatastoreServiceTestConfig());
-		setHelperTimeZone(helper);
-		helper.setUp();
-	}
 	
 	@Test
 	public void testCreateDeleteFeedbackSession() 
@@ -231,7 +223,6 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
 	
 	@AfterMethod
 	public void caseTearDown() throws Exception {
-		helper.tearDown();
 		turnLoggingDown(FeedbackSessionsDb.class);
 	}
 	

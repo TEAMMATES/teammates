@@ -2,7 +2,6 @@ package teammates.test.cases.storage;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -11,28 +10,19 @@ import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
-import teammates.storage.datastore.Datastore;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTest;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-
-public class AccountsDbTest extends BaseTestCase {
+public class AccountsDbTest extends BaseComponentTest {
 	
 	//TODO: add missing test cases, refine existing ones. Follow the example
 	//  of CoursesDbTest::testCreateCourse().
 
 	private AccountsDb accountsDb = new AccountsDb();
-	private static LocalServiceTestHelper helper;
 	
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(AccountsDb.class);
-		Datastore.initialize();
-		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-		helper = new LocalServiceTestHelper(localDatastore);
-		helper.setUp();
 	}
 	
 	@Test
@@ -154,12 +144,7 @@ public class AccountsDbTest extends BaseTestCase {
 		}
 	}
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		turnLoggingDown(AccountsDb.class);
-		helper.tearDown();
-	}
-	
+
 	private AccountAttributes createNewAccount() throws InvalidParametersException {
 		AccountAttributes a = new AccountAttributes();
 		a.googleId = "valid.googleId";

@@ -2,16 +2,11 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import javax.servlet.ServletException;
-
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.FieldValidator;
@@ -25,19 +20,16 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.EvaluationsLogic;
-import teammates.logic.SubmissionsLogic;
 import teammates.logic.StudentsLogic;
+import teammates.logic.SubmissionsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTest;
 import teammates.test.cases.storage.EvaluationsDbTest;
 
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public class StudentsLogicTest extends BaseTestCase{
+public class StudentsLogicTest extends BaseComponentTest{
 	
 	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	
@@ -52,15 +44,8 @@ public class StudentsLogicTest extends BaseTestCase{
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(StudentsLogic.class);
-		Datastore.initialize();
 	}
 	
-	@BeforeMethod
-	public void caseSetUp() throws ServletException, IOException {
-		helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-		setHelperTimeZone(helper);
-		helper.setUp();
-	}
 	
 	@Test
 	public void testEnrollStudent() throws Exception {
@@ -264,11 +249,6 @@ public class StudentsLogicTest extends BaseTestCase{
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 		turnLoggingDown(StudentsLogic.class);
-	}
-
-	@AfterMethod
-	public void caseTearDown() {
-		helper.tearDown();
 	}
 
 }

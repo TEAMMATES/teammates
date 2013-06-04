@@ -1,14 +1,11 @@
 package teammates.test.cases.storage;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import org.testng.Assert;
-import org.testng.AssertJUnit;
 import java.util.Date;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import org.testng.Assert;
+import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -16,25 +13,19 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.EvaluationsDb;
-import teammates.storage.datastore.Datastore;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTest;
 
-public class EvaluationsDbTest extends BaseTestCase {
+public class EvaluationsDbTest extends BaseComponentTest {
 	
 	//TODO: add missing test cases, refine existing ones. Follow the example
 	//  of CoursesDbTest::testCreateCourse().
 
 	private EvaluationsDb evaluationsDb = new EvaluationsDb();
-	private static LocalServiceTestHelper helper;
 	
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(EvaluationsDb.class);
-		Datastore.initialize();
-		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-		helper = new LocalServiceTestHelper(localDatastore);
-		helper.setUp();
 	}
 
 	@Test
@@ -159,11 +150,6 @@ public class EvaluationsDbTest extends BaseTestCase {
 		}
 	}
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		turnLoggingDown(EvaluationsDb.class);
-		helper.tearDown();
-	}
 	
 	/**
 	 * @return An evaluation with typical data, in OPEN state.

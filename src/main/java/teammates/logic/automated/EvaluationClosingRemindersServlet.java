@@ -73,6 +73,6 @@ public class EvaluationClosingRemindersServlet extends HttpServlet {
 			message = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
 		}
 				
-		return new ActivityLogEntry(servletName, action, toShow, null, message, url);
+		return new ActivityLogEntry(servletName, action, null, message, url);
 	}
 }

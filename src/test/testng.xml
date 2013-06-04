@@ -24,7 +24,7 @@
 			<class name="teammates.test.cases.ui.StudentEvalResultsPageUiTest" />
 		</classes>
 	</test>
-		<test name="component-tests">
+	<test name="component-tests">
 		<classes>
 			<class name="teammates.test.cases.common.FieldValidatorTest" />
 			<class name="teammates.test.cases.common.SanitizerTest" />
@@ -56,6 +56,12 @@
 			<class name="teammates.test.cases.logic.FeedbackSessionsLogicTest" />
 			<class name="teammates.test.cases.ui.HelperTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalHelperTest" />
+			<class name="teammates.test.cases.ui.ActionResultTest" />
+			<class name="teammates.test.cases.ui.InstructorCoursePageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseAddActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseDeleteActionTest" />
+			<class name="teammates.test.cases.ui.InstructorEvalPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorEvalAddActionTest" />
 			<class name="teammates.test.cases.logic.EmailsTest" />
 			<class name="teammates.test.cases.testdriver.HtmlHelperTest" />
 			<class name="teammates.test.cases.logic.TeamEvalResultTest" />

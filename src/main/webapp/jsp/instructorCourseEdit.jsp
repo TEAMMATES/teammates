@@ -2,9 +2,9 @@
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorCourseEditHelper"%>
+<%@ page import="teammates.ui.controller.InstructorCourseEditPageData"%>
 <%
-	InstructorCourseEditHelper helper = (InstructorCourseEditHelper)request.getAttribute("helper");
+InstructorCourseEditPageData data = (InstructorCourseEditPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -33,7 +33,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
 	</div>
 
 	<div id="frameBody">
@@ -43,9 +43,9 @@
 				<h1>Edit Course Details</h1>
 			</div>
 				
-			<form action="<%=Common.PAGE_INSTRUCTOR_COURSE_EDIT%>" method="post">
-				<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=helper.course.id%>">
-				<input type="hidden" id="<%=Common.PARAM_INSTRUCTOR_ID%>" name="<%=Common.PARAM_INSTRUCTOR_ID%>" value="<%=helper.account.googleId%>">
+			<form action="<%=Common.PAGE_INSTRUCTOR_COURSE_EDIT_SAVE%>" method="post">
+				<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=data.course.id%>">
+				<input type="hidden" id="<%=Common.PARAM_INSTRUCTOR_ID%>" name="<%=Common.PARAM_INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
 				<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold">Course ID:</td>
@@ -53,7 +53,7 @@
 					<tr>
 						<td><input class="addinput" type="text"
 							name="<%=Common.PARAM_COURSE_ID%>" id="<%=Common.PARAM_COURSE_ID%>"
-							value="<%=(helper.course.id==null ? "" : helper.course.id)%>"
+							value="<%=(data.course.id==null ? "" : data.course.id)%>"
 							onmouseover="ddrivetip('Identifier of the course, e.g.CS3215-Sem1.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1" disabled="disabled"></td>
@@ -64,7 +64,7 @@
 					<tr>
 						<td><input class="addinput" type="text"
 							name="<%=Common.PARAM_COURSE_NAME%>" id="<%=Common.PARAM_COURSE_NAME%>"
-							value="<%=(helper.course.name==null ? "" : helper.course.name)%>"
+							value="<%=(data.course.name==null ? "" : data.course.name)%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2 disabled="disabled"/></td>
@@ -76,8 +76,8 @@
 						<td colspan=2>
 							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
 							<textarea rows="6" cols="110" class ="textvalue" name="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>" id="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>"><%
-								for (int i = 0; i < helper.instructorList.size(); i++){
-														InstructorAttributes instructor = helper.instructorList.get(i);
+								for (int i = 0; i < data.instructorList.size(); i++){
+														InstructorAttributes instructor = data.instructorList.get(i);
 														String instructorInfo = instructor.googleId + "|" + instructor.name + "|" + instructor.email + "\n";
 							%><%= instructorInfo %><%
 								}
@@ -91,21 +91,19 @@
 					</tr>
 				</table>
 				
-				<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+				<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
 				<br>
 				
 				<br>
 				<br>
-				<% if(helper.isMasqueradeMode()){ %>
-					<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">
-				<% } %>
+				<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= data.account.googleId %>">
 			</form>
 			
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

@@ -1,15 +1,16 @@
 package teammates.test.cases.storage;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static teammates.common.Common.EOL;
 import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.REASON_EMPTY;
 import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
-import static org.testng.AssertJUnit.*;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -18,28 +19,19 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.InstructorsDb;
-import teammates.storage.datastore.Datastore;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTest;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-
-public class InstructorsDbTest extends BaseTestCase {
+public class InstructorsDbTest extends BaseComponentTest {
 	
 	//TODO: add missing test cases, refine existing ones. Follow the example
 	//  of CoursesDbTest::testCreateCourse().
 
 	private InstructorsDb instructorsDb = new InstructorsDb();
-	private static LocalServiceTestHelper helper;
 	
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(InstructorsDb.class);
-		Datastore.initialize();
-		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-		helper = new LocalServiceTestHelper(localDatastore);
-		helper.setUp();
 	}
 	
 	@Test
@@ -166,12 +158,7 @@ public class InstructorsDbTest extends BaseTestCase {
 		}
 	}
 	
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		turnLoggingDown(InstructorsDb.class);
-		helper.tearDown();
-	}
-	
+
 	private InstructorAttributes createNewInstructor() throws InvalidParametersException {
 		InstructorAttributes c = new InstructorAttributes();
 		c.googleId = "valid.id";

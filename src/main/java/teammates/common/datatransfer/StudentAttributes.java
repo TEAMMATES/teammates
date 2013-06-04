@@ -204,6 +204,17 @@ public class StudentAttributes extends EntityAttributes {
 			}
 		});
 	}
+	
+	public static void sortByNameAndThenByEmail(List<StudentAttributes> students) {
+		Collections.sort(students, new Comparator<StudentAttributes>() {
+			public int compare(StudentAttributes s1, StudentAttributes s2) {
+				int result = s1.name.compareTo(s2.name);
+				if (result == 0)
+					result = s1.email.compareTo(s2.email);
+				return result;
+			}
+		});
+	}
 
 	public Student toEntity() {
 		return new Student(email, name, googleId, comments, course, team);
