@@ -28,7 +28,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.SeleneseCommandExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
@@ -37,7 +36,6 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -45,8 +43,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.Common;
-import teammates.test.cases.BaseTestCase; //TODO: remove this dependency
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.SeleniumException;
 
@@ -2229,7 +2227,7 @@ public class BrowserInstance {
 	 */
 	private ChromeDriverService startChromeDriverService() {
 		chromeService = new ChromeDriverService.Builder()
-				.usingChromeDriverExecutable(
+				.usingDriverExecutable(
 						new File(TestProperties.getChromeDriverPath()))
 				.usingAnyFreePort().build();
 		try {
@@ -2251,7 +2249,9 @@ public class BrowserInstance {
 		if (TestProperties.inst().BROWSER.equals("htmlunit")) {
 			System.out.println("Using HTMLUnit.");
 
-			setDriver(new HtmlUnitDriver());
+			HtmlUnitDriver htmlUnitDriver = new HtmlUnitDriver(BrowserVersion.FIREFOX_17);
+			htmlUnitDriver.setJavascriptEnabled(true);
+			setDriver(htmlUnitDriver);
 			selenium = new WebDriverBackedSelenium(driver,
 					TestProperties.inst().TEAMMATES_URL);
 
@@ -2285,23 +2285,13 @@ public class BrowserInstance {
 					TestProperties.inst().TEAMMATES_URL);
 		}else {
 
-			System.out.println("Using " + TestProperties.inst().BROWSER);
-
-			// iexplore, opera, safari. For some not-supported-yet browsers, we
-			// use legacy methods: Going through the RC server.
-			String selBrowserIdentifierString = "*" + TestProperties.inst().BROWSER;
-
-			selenium = new DefaultSelenium(TestProperties.inst().SELENIUMRC_HOST,
-					TestProperties.inst().SELENIUMRC_PORT, selBrowserIdentifierString,
-					TestProperties.inst().TEAMMATES_URL);
-			CommandExecutor executor = new SeleneseCommandExecutor(selenium);
-			DesiredCapabilities dc = new DesiredCapabilities();
-			setDriver(new RemoteWebDriver(executor, dc));
+			System.out.println("Using " + TestProperties.inst().BROWSER 
+					+ " is not supported!");
 
 		}
 
-		selenium.windowMaximize();
 		selenium.open("/");
+		selenium.windowMaximize();
 	}
 
 	/**
@@ -2783,7 +2773,7 @@ public class BrowserInstance {
 			}
 			driver.get(TestProperties.inst().TEAMMATES_URL + url);
 		}
-		if (!TestProperties.inst().isLocalHost()) {
+		if (!TestProperties.inst().isDevServer()) {
 			waitForPageLoad();
 		}
 	}

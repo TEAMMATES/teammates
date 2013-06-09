@@ -67,6 +67,21 @@ public class BackDoor {
 		deleteInstructors(dataBundleJason);
 		return persistNewDataBundle(dataBundleJason);
 	}
+	
+	/**
+	 * Persists given data. If given entities already exist in the data store,
+	 * they will be overwritten.
+	 */
+	public static String restoreDataBundle(DataBundle dataBundle) {
+		String json = Common.getTeammatesGson().toJson(dataBundle);
+		for(String googleId: dataBundle.accounts.keySet()){
+			deleteAccount(googleId);
+		}
+		deleteCourses(json);
+		deleteInstructors(json);
+		//TODO: implement a more efficient way to delete a dataBundle
+		return persistNewDataBundle(json);
+	}
 
 	/**
 	 * Deletes instructors contained in the jsonString
@@ -76,6 +91,10 @@ public class BackDoor {
 	public static void deleteInstructors(String jsonString) {
 		Gson gson = Common.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		deleteInstructors(data);
+	}
+
+	private static void deleteInstructors(DataBundle data) {
 		HashMap<String, InstructorAttributes> instructors = data.instructors;
 		for (InstructorAttributes instructor : instructors.values()) {
 			deleteInstructor(instructor.googleId);
@@ -169,6 +188,11 @@ public class BackDoor {
 		String instructorJsonString = makePOSTRequest(params);
 		return instructorJsonString;
 	}
+	
+	public static InstructorAttributes getInstructor(String instructorId, String courseId) {
+		String json = getInstructorAsJson(instructorId, courseId);
+		return Common.getTeammatesGson().fromJson(json, InstructorAttributes.class);
+	}
 
 	public static String editInstructor(InstructorAttributes instructor)
 			throws NotImplementedException {
@@ -216,6 +240,10 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String courseJsonString = makePOSTRequest(params);
 		return courseJsonString;
+	}
+	
+	public static CourseAttributes getCourse(String courseId) {
+		return Common.getTeammatesGson().fromJson(getCourseAsJson(courseId), CourseAttributes.class);
 	}
 
 	public static String editCourse(CourseAttributes course)
@@ -294,6 +322,12 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_EVALUATION_NAME, evaluationName);
 		String evaluationJson = makePOSTRequest(params);
 		return evaluationJson;
+	}
+	
+	public static EvaluationAttributes getEvaluation(String courseID,
+			String evaluationName) {
+		String jsonString = getEvaluationAsJson(courseID, evaluationName);
+		return Common.getTeammatesGson().fromJson(jsonString, EvaluationAttributes.class);
 	}
 
 	public static String editEvaluation(EvaluationAttributes evaluation) {

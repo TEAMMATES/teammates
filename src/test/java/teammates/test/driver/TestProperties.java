@@ -111,7 +111,7 @@ public class TestProperties {
 			return "./src/test/resources/lib/selenium/IEDriverServer.exe";
 	}
 	
-	public boolean isLocalHost(){
+	public boolean isDevServer(){
 		return TEAMMATES_URL.contains("localhost");
 	}
 

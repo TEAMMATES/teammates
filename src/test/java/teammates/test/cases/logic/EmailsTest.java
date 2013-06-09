@@ -29,7 +29,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.Emails;
 import teammates.test.cases.BaseComponentTest;
-import teammates.test.cases.ui.SystemErrorEmailReportTest;
+import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
 import teammates.test.driver.TestProperties;
 
 public class EmailsTest extends BaseComponentTest {

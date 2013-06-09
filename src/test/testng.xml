@@ -4,24 +4,24 @@
 
 	<test name="frequent-ui-tests" parallel="classes">
 		<classes>
-			<class name="teammates.test.cases.ui.InstructorLoginPageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorCourseEnrollPageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorCourseAddPageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorEvalPageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorCourseEditPageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorHomePageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorCourseStudentDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorEvalSubmissionPageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorEvalEditPageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorEvalResultsPageUiTest" />
-			<class name="teammates.test.cases.ui.InstructorCourseDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.AdminAccountManagementUiTest" />
-			<class name="teammates.test.cases.ui.AdminHomePageUiTest" />
-			<class name="teammates.test.cases.ui.StudentLoginPageUiTest" />
-			<class name="teammates.test.cases.ui.StudentCourseDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.StudentHomePageUiTest" />
-			<class name="teammates.test.cases.ui.StudentEvalEditPageUiTest" />
-			<class name="teammates.test.cases.ui.StudentEvalResultsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorLoginPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentLoginPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentEvalEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
 		</classes>
 	</test>
 	<test name="component-tests">
@@ -70,11 +70,11 @@
 	<test name="occasional-tests">
 		<classes>
 			<class name="teammates.test.cases.testdriver.BackDoorTest" />
-			<class name="teammates.test.cases.ui.SystemErrorEmailReportTest" />
-			<class name="teammates.test.cases.ui.TableSortTest" />
-			<class name="teammates.test.cases.ui.AllAccessControlUiTests" />
-			<class name="teammates.test.cases.ui.AllJsTests" />
-			<class name="teammates.test.cases.ui.WebpageCompilationUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
+			<class name="teammates.test.cases.ui.browsertests.TableSortTest" />
+			<class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
+			<class name="teammates.test.cases.ui.browsertests.AllJsTests" />
+			<class name="teammates.test.cases.ui.browsertests.WebpageCompilationUiTest" />
 		</classes>
 	</test>
 </suite> 

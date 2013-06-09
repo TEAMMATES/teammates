@@ -78,7 +78,9 @@ public class InstructorsDb extends EntitiesDb{
 		
 		List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
 		for (Instructor i : instructorList) {
-			instructorDataList.add(new InstructorAttributes(i));
+			if(!JDOHelper.isDeleted(i)){
+				instructorDataList.add(new InstructorAttributes(i));
+			}
 		}
 		
 		return instructorDataList;
@@ -96,7 +98,9 @@ public class InstructorsDb extends EntitiesDb{
 		
 		List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
 		for (Instructor i : instructorList) {
-			instructorDataList.add(new InstructorAttributes(i));
+			if(!JDOHelper.isDeleted(i)){
+				instructorDataList.add(new InstructorAttributes(i));
+			}
 		}
 		
 		return instructorDataList;

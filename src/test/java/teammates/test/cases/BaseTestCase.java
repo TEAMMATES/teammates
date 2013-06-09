@@ -375,5 +375,13 @@ public class BaseTestCase {
 		print("Data import finished in " + (System.currentTimeMillis() - start)
 				+ " ms");
 	}
+	
+	protected void waitFor(long miliseconds) {
+		try {
+			Thread.sleep(miliseconds);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

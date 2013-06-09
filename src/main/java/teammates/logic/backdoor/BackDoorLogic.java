@@ -133,9 +133,10 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
 		for (InstructorAttributes instructor : instructors.values()) {
 			log.fine("API Servlet adding instructor :" + instructor.googleId);
-			// This method is only used in test cases, so it should be fine to hard code a value for Institute
+			AccountAttributes existingAccount = getAccount(instructor.googleId);
+			//Hardcoding institute value because this is used for testing only
 			super.createInstructorAccount(instructor.googleId, instructor.courseId, 
-					instructor.name, instructor.email, "National University of Singapore");
+					instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
 		}
 
 		HashMap<String, StudentAttributes> students = dataBundle.students;
