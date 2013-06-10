@@ -12,7 +12,6 @@ import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Url;
-import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -20,22 +19,15 @@ import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
 public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
-	private static DataBundle dataBundle;
-	private static String jsonString;
+	private static DataBundle testData;
 	private static Browser browser;
-	
 	private static InstructorCourseEditPage courseEditPage;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-
-		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseEditUiTest.json");
-		dataBundle = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCourses(jsonString);
-		BackDoor.deleteInstructors(jsonString);
-		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		testData = loadTestData("/InstructorCourseEditPageUiTest.json");
+		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
 	}
 	
@@ -48,8 +40,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testContent() throws Exception{
-		String instructorId = dataBundle.instructors.get("CCDetailsUiT.test").googleId;
-		String courseId = dataBundle.courses.get("CCDetailsUiT.CS2104").id;
+		String instructorId = testData.instructors.get("CCDetailsUiT.test").googleId;
+		String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
 		
 		______TS("page load");
 		
@@ -57,7 +49,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 			.withUserId(instructorId)
 			.withCourseId(courseId);
 		
-		courseEditPage = loginAdminToPageAsInstructor(browser, courseEditPageUrl, InstructorCourseEditPage.class);
+		courseEditPage = loginAdminToPage(browser, courseEditPageUrl, InstructorCourseEditPage.class);
 		
 		courseEditPage.verifyHtml("/instructorCourseEdit.html" );
 		
@@ -70,20 +62,20 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		String originalInformation = courseEditPage.getInstructorList();
 		courseEditPage.verifyStatus("");
 		courseEditPage.fillInstructorList("");
-		courseEditPage.submitUnsuccessfully();
-		assertEquals("You must add at least 1 instructor in the course.", courseEditPage.getStatus());
+		courseEditPage.submitUnsuccessfully()
+			.verifyStatus("You must add at least 1 instructor in the course.");
 		
 		______TS("invalid info");
 		
 		courseEditPage.fillInstructorList(originalInformation + "GoogleID|NAME|InvalidEmail\n");
-		courseEditPage.submitUnsuccessfully();
-		assertEquals("The e-mail address is invalid. (at line: 3): GoogleID|NAME|InvalidEmail", courseEditPage.getStatus());
+		courseEditPage.submitUnsuccessfully()
+			.verifyStatus("The e-mail address is invalid. (at line: 3): GoogleID|NAME|InvalidEmail");
 	}
 	
 	public void testEditAction() throws Exception{
 		
-		String instructorId = dataBundle.instructors.get("CCDetailsUiT.test").googleId;
-		String courseId = dataBundle.courses.get("CCDetailsUiT.CS2104").id;
+		String instructorId = testData.instructors.get("CCDetailsUiT.test").googleId;
+		String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
 		Url courseEditPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_EDIT)
 			.withUserId(instructorId)
 			.withCourseId(courseId);
@@ -93,20 +85,20 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("success: add an instructor");
 		
-		InstructorCoursesPage coursesPage = courseEditPage.submitUpdateToCourseInfo(originalInformation + "CCDetailsUiT.instructor|Teammates Instructor|CCDetailsUiT.instructor@gmail.com");
+		InstructorCoursesPage coursesPage = courseEditPage.editCourse(originalInformation + "CCDetailsUiT.instructor|Teammates Instructor|CCDetailsUiT.instructor@gmail.com");
 		courseEditPage.verifyStatus(Common.MESSAGE_COURSE_EDITED);
 		
 		Url courseDetailsLink = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
 			.withCourseId(courseId)
-			.withUserId(dataBundle.instructors.get("CCDetailsUiT.test").googleId);
+			.withUserId(testData.instructors.get("CCDetailsUiT.test").googleId);
 		
 		InstructorCourseDetailsPage courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
 		courseDetailsPage.verifyHtml("/instructorCourseDetailsAddInstructor.html" );
 		
-		______TS("success: test edit existing instructor"); //TODO: this case should be covered by a lower level test
+		______TS("success: test edit existing instructor"); //TODO: this case should be removed. It should be covered by a lower level test
 		
 		courseEditPage = courseDetailsPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
-		coursesPage = courseEditPage.submitUpdateToCourseInfo(originalInformation + "CCDetailsUiT.instructor|Teammates Instructor New|CCDetailsUiT.instructor.new@gmail.com");
+		coursesPage = courseEditPage.editCourse(originalInformation + "CCDetailsUiT.instructor|Teammates Instructor New|CCDetailsUiT.instructor.new@gmail.com");
 		assertEquals("The course has been edited.", coursesPage.getStatus());
 		
 		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
@@ -115,7 +107,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		______TS("success: delete existing instructor"); //TODO: this case should be covered by a lower level test
 		
 		courseEditPage = courseDetailsPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
-		coursesPage = courseEditPage.submitUpdateToCourseInfo(originalInformation);
+		coursesPage = courseEditPage.editCourse(originalInformation);
 		assertEquals("The course has been edited.", coursesPage.getStatus());
 		
 		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
@@ -135,7 +127,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		courseDetailsLink = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
 			.withCourseId(courseId)
-			.withUserId(dataBundle.accounts.get("CCDetailsUiT.instructor").googleId);
+			.withUserId(testData.accounts.get("CCDetailsUiT.instructor").googleId);
 		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
 		courseDetailsPage.verifyHtml("/instructorCourseDetailsOmitLoggedInInstructor.html");
 		
@@ -144,6 +136,5 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserPool.release(browser);
-		BackDoor.deleteCourses(jsonString);
 	}
 }

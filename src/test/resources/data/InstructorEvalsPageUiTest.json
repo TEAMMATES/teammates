@@ -1,8 +1,22 @@
 {
   "accounts": {
-  	"CEvalUiT.instructor": {
+  	"instructorWithEvals": {
   	  "googleId": "CEvalUiT.instructor",
   	  "name": "Teammates Test",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.com",
+  	  "institute": "National University of Singapore"
+  	},
+  	"instructorWithoutCourses": {
+  	  "googleId": "CEvalUiT.nocourses",
+  	  "name": "instructor Without Courses",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.com",
+  	  "institute": "National University of Singapore"
+  	},
+  	"instructorWithoutEvals": {
+  	  "googleId": "CEvalUiT.noevals",
+  	  "name": "Instructor Without Evals",
   	  "isInstructor": true,
   	  "email": "tmms.test@gmail.com",
   	  "institute": "National University of Singapore"
@@ -13,6 +27,10 @@
     "course": {
       "id": "CEvalUiT.CS2104",
       "name": "Programming Language Concepts"
+    },
+    "courseWithoutEvals": {
+      "id": "CEvalUiT.coursewithoutevals",
+      "name": "Course Without Evals"
     },
     "anotherCourse": {
       "id": "CEvalUiT.CS1101",
@@ -25,6 +43,12 @@
       "googleId": "CEvalUiT.instructor",
       "courseId": "CEvalUiT.CS2104",
       "name": "Teammates Test",
+      "email": "teammates.test@gmail.com"
+    },
+    "Ins.for.course.without.evals": {
+      "googleId": "CEvalUiT.noevals",
+      "courseId": "CEvalUiT.coursewithoutevals",
+      "name": "Instructor Without Evals",
       "email": "teammates.test@gmail.com"
     },
     "teammates.test.anotherInstructor": {
@@ -108,17 +132,6 @@
       "endTime" : "2012-04-30 11:59 PM",
       "gracePeriod": 10,
       "instructions": "Please please fill in the third evaluation",
-      "p2pEnabled": true,
-      "published": false,
-      "activated": false
-    },
-    "awaitingEval": {
-      "courseId" : "CEvalUiT.CS1101",
-      "name": "New Evaluation",
-      "startTime" : "2014-04-01 11:59 PM",
-      "endTime" : "2014-04-30 11:59 PM",
-      "gracePeriod": 10,
-      "instructions": "Please fill in the new evaluation",
       "p2pEnabled": true,
       "published": false,
       "activated": false

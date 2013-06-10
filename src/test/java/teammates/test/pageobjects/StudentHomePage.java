@@ -58,9 +58,10 @@ public class StudentHomePage extends AppPage {
 		
 	}
 
-	public void clickJoinButton() {
+	public StudentHomePage clickJoinButton() {
 		joinButton.click();
 		waitForPageToLoad();
+		return this;
 	}
 
 }

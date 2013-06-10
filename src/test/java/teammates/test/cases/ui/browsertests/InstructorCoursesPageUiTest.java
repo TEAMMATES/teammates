@@ -42,8 +42,18 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		printTestClassHeader();
 		
 		/* Explanation: These two lines persist the test data on the server. */
-		testData = loadTestData("/instructorCourseAddUiTest.json");
+		testData = loadTestData("/instructorCoursesPageUiTest.json");
 		restoreTestDataOnServer(testData);
+		
+		/* Explanation: Ideally, there should not be 'state leaks' between 
+		 * tests. i.e. Changes to data done by one test should not affect 
+		 * another test. To that end, we should make the dataset in the .json 
+		 * file independent from other tests. Our approach is to add a unique
+		 * prefix to identifiers in the json file. e.g., Google IDs, course IDs,
+		 * etc. This identifer can be based on the name of the test class.
+		 * e.g., "ICPUiT.inst.withnocourses" can be a Google ID unique to this
+		 * class.
+		 */
 		
 		/* Explanation: Gets a browser instance to be used for this class. */
 		browser = BrowserPool.getBrowser();
@@ -91,14 +101,14 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		Url coursesUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE)
 			.withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
-		coursesPage = loginAdminToPageAsInstructor(browser, coursesUrl, InstructorCoursesPage.class);
+		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		coursesPage.verifyHtml("/instructorCourseEmpty.html");
 		
 		______TS("multiple course");
 		
 		coursesUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId);
-		coursesPage = loginAdminToPageAsInstructor(browser, coursesUrl, InstructorCoursesPage.class);
+		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		
 		//this is sorted by Id (default sorting)
 		coursesPage.loadCoursesTab().verifyHtml("/instructorCourseById.html");
@@ -223,11 +233,14 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		Url coursesUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId);
-		coursesPage = loginAdminToPageAsInstructor(browser, coursesUrl, InstructorCoursesPage.class);
+		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		
 		______TS("add action success: add valid course");
 		
 		CourseAttributes validCourse =  new CourseAttributes("CCAddUiTest.course1","Software Engineering $%^&*()");
+		/* Before creating an entity, we should delete it (in may have been
+		 * created in a previous test run).
+		 */
 		BackDoor.deleteCourse(validCourse.id); //delete if it exists
 		coursesPage.addCourse(validCourse.id, validCourse.name, null)
 			.verifyStatus(Common.MESSAGE_COURSE_ADDED);
@@ -292,7 +305,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		Url coursesUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId);
-		coursesPage = loginAdminToPageAsInstructor(browser, coursesUrl, InstructorCoursesPage.class);
+		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 	
 		String courseId = "CCAddUiTest.course1";
 		coursesPage.clickAndCancel(coursesPage.getDeleteLink(courseId));
@@ -307,6 +320,14 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 	public static void classTearDown() throws Exception {
 		//Explanation: release the Browser back to be reused by other tests.
 		BrowserPool.release(browser);
+		
+		/* Explanation: We don't delete leftover data at the end of a test. 
+		 * Instead, we delete such data at the beginning or at the point that
+		 * data are accessed. This means there will be leftover data in the 
+		 * datastore at the end of a test run. Not deleting data at the end
+		 * saves time and helps in debugging if a test failed.
+		 * 
+		 */
 	}
 
 }

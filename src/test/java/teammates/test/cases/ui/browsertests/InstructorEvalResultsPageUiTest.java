@@ -1,213 +1,219 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
+
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
-import org.testng.Assert;
-import org.openqa.selenium.By;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.ui.pageobjects.InstructorEvalResultsPage;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.BrowserInstance;
-import teammates.test.driver.BrowserInstancePool;
-import teammates.test.driver.NoAlertException;
-import teammates.test.driver.TestProperties;
+import teammates.test.driver.Url;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorEvalsPage;
 
 /**
- * Tests instructorEvalResults.jsp from UI functionality and HTML test
+ * Tests 'Evaluation Results' view of Instructors.
+ * SUT: {@link InstructorEvalResultsPage}.
  */
-public class InstructorEvalResultsPageUiTest extends BaseTestCase {
-	private static BrowserInstance bi;
-	private static DataBundle scn;
+public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
+	private static DataBundle testData;
+	private static Browser browser;
+	private InstructorEvalResultsPage resultsPage;
 	
-	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
-	private static String jsonString;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-
-		startRecordingTimeForDataImport();
-		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorEvalResultsUiTest.json");
-		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCourses(jsonString);
-		BackDoor.deleteInstructors(jsonString);
-		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		reportTimeForDataImport();
-
-		bi = BrowserInstancePool.getBrowserInstance();
-
-		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
+		testData = loadTestData("/InstructorEvalResultsPageUiTest.json");
+		restoreTestDataOnServer(testData);
+		browser = BrowserPool.getBrowser();
 	}
 	
+	
+	@Test
+	public void testOpenEval() throws Exception{
+		
+		______TS("contents: summary view");
+		
+		String instructorId = testData.instructors.get("CEvalRUiT.instr").googleId;
+		String courseId = testData.courses.get("CEvalRUiT.CS1101").id;
+		String evalName = testData.evaluations.get("First Eval").name;
+		resultsPage = loginToResultsPage(instructorId, courseId, evalName);
+		
+		resultsPage.verifyHtml("/instructorEvalResultsOpenEval.html");
+		
+		//sort by name"
+		
+		resultsPage.sortByName()
+			.verifyTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
+		resultsPage.sortByName()
+			.verifyTablePattern(1,"{*}Emily{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
+		
+		//sort by claimed
+		
+		resultsPage.sortByClaimed()
+			.verifyTablePattern(2, "{*}E -5%{*}E +3%{*}E +5%{*}E +10%{*}E +10%");
+		resultsPage.sortByClaimed()
+			.verifyTablePattern(2, "{*}E +10%{*}E +10%{*}E +5%{*}E +3%{*}E -5%");
+		
+		//sort by perceived
+
+		resultsPage.sortByPerceived()
+			.verifyTablePattern(3, "{*}E -3%{*}E -1%{*}E{*}E{*}E +4%");
+		resultsPage.sortByPerceived()
+		.verifyTablePattern(3, "{*}E +4%{*}E{*}E{*}E -1%{*}E -3%");
+		
+		//sort by diff
+		
+		resultsPage.sortByDiff()
+			.verifyTablePattern(4, "{*}-11%{*}-6%{*}-6%{*}-5%{*}+5%");
+		resultsPage.sortByDiff()
+			.verifyTablePattern(4, "{*}+5%{*}-5%{*}-6%{*}-6%{*}-11%");
+		
+		//sort by team name
+		
+		resultsPage.sortByTeam()
+			.verifyTablePattern(0, "{*}Team 1{*}Team 1{*}Team 2{*}Team 2{*}Team 2");
+		resultsPage.sortByTeam()
+			.verifyTablePattern(0, "{*}Team 2{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
+		resultsPage.sortByTeam(); //set back to ascending
+		
+		______TS("contents: detailed views");
+		
+		resultsPage.showDetailsByReviewer()
+			.verifyHtml("/instructorEvalResultsOpenEvalByReviewer.html");
+		
+		resultsPage.showDetailsByReviewee()
+				.verifyHtml("/instructorEvalResultsOpenEvalByReviewee.html");
+		
+		//TODO: check 'To Top' link
+		
+		//ensure we can go back to the summary view
+		resultsPage.showSummary()
+			.sortByName()
+			.verifyTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
+		
+		______TS("link: edit submissions");
+		
+		//TODO:
+		
+		______TS("link: view submissions");
+		
+		//TODO:
+		
+		______TS("action: download report");
+		
+		Url reportUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_EXPORT)
+			.withUserId(instructorId)
+			.withCourseId(courseId)
+			.withEvalName(evalName);
+		
+		resultsPage.verifyDownloadLink(reportUrl);
+
+	}
+	
+	@Test 
+	public void testPublishedEval() throws Exception{
+		
+		String courseId = testData.courses.get("CEvalRUiT.CS1101").id;
+		String evalName = testData.evaluations.get("Second Eval").name;
+		String instructorId = testData.instructors.get("CEvalRUiT.instr").googleId;
+		resultsPage = loginToResultsPage(instructorId, courseId, evalName);
+		
+		______TS("contents: summary view");
+		
+		resultsPage.verifyHtml("/instructorEvalResultsPublishedEval.html");
+		
+		______TS("action: download report");
+		
+		Url reportUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_EXPORT)
+			.withUserId(instructorId)
+			.withCourseId(courseId)
+			.withEvalName(evalName);
+		
+		resultsPage.verifyDownloadLink(reportUrl);
+		
+		______TS("action: unpublish");
+		
+		resultsPage.unpublishAndCancel()
+			.verifyHtml("/instructorEvalResultsPublishedEval.html");
+		assertEquals(true, BackDoor.getEvaluation(courseId, evalName).published);
+		
+		InstructorEvalsPage evalsPage = resultsPage.unpublishAndConfirm();
+		evalsPage.verifyStatus(Common.MESSAGE_EVALUATION_UNPUBLISHED);
+		assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
+		
+		//Other content checking, link checking and action checking were 
+		//  omitted because they were checked previously.
+
+	}
+	
+	@Test
+	public void testClosedEval() throws Exception{
+		
+		String instructorId = testData.instructors.get("CEvalRUiT.instr").googleId;
+		String courseId = testData.courses.get("CEvalRUiT.CS1101").id;
+		String evalName = testData.evaluations.get("Third Eval").name;
+		resultsPage = loginToResultsPage(instructorId, courseId, evalName);
+		
+		______TS("contents: summary view");
+		
+		resultsPage.verifyHtml("/instructorEvalResultsClosedEval.html");
+		
+		______TS("action: publishing");
+		
+		resultsPage.publishAndCancel()
+			.verifyHtml("/instructorEvalResultsClosedEval.html");
+		assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
+		
+		InstructorEvalsPage evalsPage = resultsPage.publishAndConfirm();
+		evalsPage.verifyStatus(Common.MESSAGE_EVALUATION_PUBLISHED);
+		assertEquals(true, BackDoor.getEvaluation(courseId, evalName).published);
+		
+		//other content checking, link checking and action checking were 
+		//  omitted because they were checked previously.
+
+	}
+	
+	@Test
+	public void testP2PDisabledEval() throws Exception{
+		
+		String instructorId = testData.instructors.get("CEvalRUiT.instr").googleId;
+		String courseId = testData.courses.get("CEvalRUiT.CS1101").id;
+		String evalName = testData.evaluations.get("Fifth Eval").name;
+		resultsPage = loginToResultsPage(instructorId, courseId, evalName);
+		
+		______TS("contents: summary view");
+		
+		resultsPage.verifyHtml("/instructorEvalResultsP2PDisabled.html");
+		
+		______TS("contents: detailed views");
+		
+		resultsPage.showDetailsByReviewer()
+			.verifyHtml("/instructorEvalResultsP2PDisabledByReviewer.html");
+		
+		resultsPage.showDetailsByReviewee()
+				.verifyHtml("/instructorEvalResultsP2PDisabledByReviewee.html");
+		
+		//other content checking, link checking and action checking were 
+		//  omitted because they were checked previously.
+		
+	}
+
 	@AfterClass
 	public static void classTearDown() throws Exception {
-		BrowserInstancePool.release(bi);
-		printTestClassFooter();
-
-		// Always cleanup
-		BackDoor.deleteCourses(jsonString);
+		BrowserPool.release(browser);
 	}
 
-	@Test
-	public void testInstructorEvalResultsOpenEval() throws Exception{
-
-		______TS("summary view");
-		
-		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CEvalRUiT.instr").googleId);
-		bi.goToUrl(link);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsOpenEval.html");
-		
-		______TS("sort by name");
-		bi.click(By.id("button_sortname"));
-		bi.assertDataTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
-		bi.click(By.id("button_sortname"));
-		bi.assertDataTablePattern(1,"{*}Emily{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
-		
-		______TS("sort by claimed");
-		bi.click(By.id("button_sortclaimed"));
-		bi.assertDataTablePattern(2,"{*}E -5%{*}E +3%{*}E +5%{*}E +10%{*}E +10%");
-		bi.click(By.id("button_sortclaimed"));
-		bi.assertDataTablePattern(2,"{*}E +10%{*}E +10%{*}E +5%{*}E +3%{*}E -5%");
-		
-		______TS("sort by perceived");
-		//removed the "E" only for testing else will cause infinite loop
-		bi.click(By.id("button_sortperceived"));
-		bi.assertDataTablePattern(3,"{*}E -3%{*}E -1%{*}E{*}E{*}E +4%");
-		bi.click(By.id("button_sortperceived"));
-		bi.assertDataTablePattern(3,"{*}E +4%{*}E{*}E{*}E -1%{*}E -3%");
-		
-		______TS("sort by diff");
-		bi.click(By.id("button_sortdiff"));
-		bi.assertDataTablePattern(4,"{*}-11%{*}-6%{*}-6%{*}-5%{*}+5%");
-		bi.click(By.id("button_sortdiff"));
-		bi.assertDataTablePattern(4,"{*}+5%{*}-5%{*}-6%{*}-6%{*}-11%");
-		
-		______TS("sort by team name");
-		bi.click(By.id("button_sortteamname"));
-		bi.assertDataTablePattern(0,"{*}Team 1{*}Team 1{*}Team 2{*}Team 2{*}Team 2");
-		bi.click(By.id("button_sortteamname"));
-		bi.assertDataTablePattern(0,"{*}Team 2{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
-		
-		//set back to ascending
-		bi.click(By.id("button_sortteamname"));
-
-		______TS("details by reviewer");
-		
-		bi.getSelenium().check("id=radio_reviewer");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsOpenEvalByReviewer.html");
-		
-		______TS("details by reviewee");
-		
-		bi.getSelenium().check("id=radio_reviewee");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsOpenEvalByReviewee.html");
-	}
-	
-	@Test
-	public void testInstructorEvalResultsPublishedEval() throws Exception{
-		
-		______TS("summary view");
-		
-		String link = appUrl + Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Second Eval").name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CEvalRUiT.instr").googleId);
-		bi.goToUrl(link);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsPublishedEval.html");
-		
-		______TS("Check download evaluation report link");
-
-		String evaluationReportLink = appUrl + Common.PAGE_INSTRUCTOR_EVAL_EXPORT;
-		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
-		evaluationReportLink = Common.addParamToUrl(evaluationReportLink,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("First Eval").name); //First Evaluation is the published evaluation in the sample data for instructor
-		String beforeReportDownloadUrl = bi.getCurrentUrl();
-		bi.goToUrl(evaluationReportLink);
-		String afterReportDownloadUrl = bi.getCurrentUrl();
-		assertEquals(beforeReportDownloadUrl, afterReportDownloadUrl);
-
-		______TS("unpublishing: click and cancel");
-		
-		By unpublishButton = By.id("button_unpublish");
-		try{
-			bi.clickAndCancel(unpublishButton);
-			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsPublishedEval.html");
-		} catch (NoAlertException e){
-			Assert.fail("No confirmation box when clicking unpublish button");
-		}
-		
-		______TS("unpublishing: click and confirm");
-		
-		try{
-			bi.clickAndConfirm(unpublishButton);
-			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_UNPUBLISHED);
-		} catch (NoAlertException e){
-			Assert.fail("No confirmation box when clicking unpublish button");
-		}
-		//TODO: check for the full html?
-	}
-	
-	@Test
-	public void testInstructorEvalResultsClosedEval() throws Exception{
-		
-		
-		______TS("summary view");
-		
-		String link = appUrl + Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Third Eval").name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CEvalRUiT.instr").googleId);
-		bi.goToUrl(link);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsClosedEval.html");
-
-		______TS("publishing: click and cancel");
-		
-		By publishButton = By.id("button_publish");
-		try{
-			bi.clickAndCancel(publishButton);
-			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsClosedEval.html");
-		} catch (NoAlertException e){
-			Assert.fail("No confirmation box when clicking publish button");
-		}
-		
-		______TS("publishing: click and confirm");
-		
-		try{
-			bi.clickAndConfirm(publishButton);
-			bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_PUBLISHED);
-			//TODO: verify emails were sent to students
-		} catch (NoAlertException e){
-			Assert.fail("No confirmation box when clicking publish button");
-		}
-	}
-	
-	@Test
-	public void testInstructorEvalResultsP2PDisabled() throws Exception{
-		______TS("summary view");
-		
-		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CEvalRUiT.CS1101").id);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,scn.evaluations.get("Fifth Eval").name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CEvalRUiT.instr").googleId);
-		bi.goToUrl(link);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsP2PDisabled.html");
-		
-		//TODO: check for sorting?
-
-		______TS("details by reviewer");
-		
-		bi.getSelenium().check("id=radio_reviewer");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsP2PDisabledByReviewer.html");
-		
-		______TS("details by reviewee");
-		
-		bi.getSelenium().check("id=radio_reviewee");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalResultsP2PDisabledByReviewee.html");
+	private InstructorEvalResultsPage loginToResultsPage(String instructorId, String courseId, String evalName){
+		Url resultsUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_RESULTS)
+			.withUserId(instructorId)
+			.withCourseId(courseId)
+			.withEvalName(evalName);
+		return loginAdminToPage(browser, resultsUrl , InstructorEvalResultsPage.class);
 	}
 }

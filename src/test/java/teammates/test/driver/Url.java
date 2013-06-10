@@ -48,6 +48,11 @@ public class Url {
 		return this;
 	}
 
+	public Url withEvalName(String evaluationName) {
+		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_EVALUATION_NAME, evaluationName);
+		return this;
+	}
+
 	@Override
 	public String toString(){
 		return urlString;

@@ -8,7 +8,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.test.driver.BackDoor;
@@ -20,74 +19,66 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalsPage;
 
 /**
- * Covers the 'Evaluations' page for instructors
+ * Covers the 'Evaluations' page for instructors. SUT is {@link InstructorEvalsPage}.
  */
 public class InstructorEvalsPageUiTest extends BaseUiTestCase {
-	private static String jsonString;
 	private static Browser b;
 	private static InstructorEvalsPage evalsPage;
 	private static DataBundle testData;
+	/** This contains data for the new evaluation to be created during testing */
+	private static EvaluationAttributes newEval;
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
-		
 		printTestClassHeader();
+		testData = loadTestData("/InstructorEvalsPageUiTest.json");
+		restoreTestDataOnServer(testData);
 		
-		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorEvalUiTest.json");
-		testData = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCourses(jsonString);
-		BackDoor.deleteInstructors(jsonString);
-		
-		// Create fresh account relation
-		AccountAttributes instructorAccount = testData.accounts.get("CEvalUiT.instructor");
-		String backDoorOperationStatus = BackDoor.createAccount(instructorAccount);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-
+		newEval = new EvaluationAttributes();
+		newEval.courseId = "CEvalUiT.CS1101";
+	    newEval.name = "New Evaluation";
+	    newEval.startTime = Common.convertToDate("2014-04-01 11:59 PM");
+	    newEval.endTime = Common.convertToDate("2014-04-30 11:59 PM");
+	    newEval.gracePeriod = 10;
+	    newEval.instructions = "Please fill in the new evaluation";
+	    newEval.p2pEnabled = true;
+	    newEval.published = false;
+	    newEval.activated = false;
+	    
 		b = BrowserPool.getBrowser();
-		
-		Url evalPageLink = new Url(Common.PAGE_INSTRUCTOR_EVAL)
-			.withUserId(instructorAccount.googleId);
-		evalsPage = loginAdminToPageAsInstructor(b, evalPageLink, InstructorEvalsPage.class);
 		
 	}
 	
 	@Test
-	public void testInstructorEvalPage() throws Exception{
+	public void allTests() throws Exception{
 		testContent();
+		
+		testEditLink();
+		testViewResultsLink();
+		
+		testInputValidation();
+		
 		testAddAction();
-		testPublishLink();
-		testRemindLink();
-		testDeleteAction(); //TODO: move near to testAddAction();
-		//TODO: what about edit links?
+		testPublishAction();
+		testRemindAction();
+		testDeleteAction(); 
 	}
 
 	public void testContent() throws Exception{
 		
 		______TS("no courses");
 		
+		evalsPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
 		evalsPage.verifyHtml("/instructorEvalEmptyAll.html");
 		
 		______TS("no evaluations");
 		
-		BackDoor.createCourse(testData.courses.get("course"));
-		BackDoor.createCourse(testData.courses.get("anotherCourse"));
-		BackDoor.createInstructor(testData.instructors.get("teammates.test.instructor"));
-		BackDoor.createInstructor(testData.instructors.get("teammates.test.anotherInstructor"));
-		BackDoor.createStudent(testData.students.get("alice.tmms@CEvalUiT.CS2104"));
-		BackDoor.createStudent(testData.students.get("benny.tmms@CEvalUiT.CS2104"));
-		BackDoor.createStudent(testData.students.get("charlie.tmms@CEvalUiT.CS1101"));
-		BackDoor.createStudent(testData.students.get("danny.tmms@CEvalUiT.CS1101"));
-		evalsPage.loadEvaluationsTab();
-		
+		evalsPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithoutEvals").googleId);
 		evalsPage.verifyHtml("/instructorEvalEmptyEval.html");
-		
+
 		______TS("typical view, sort by deadline (default)");
 		
-		BackDoor.createEvaluation(testData.evaluations.get("openEval"));
-		BackDoor.createEvaluation(testData.evaluations.get("publishedEval"));
-		BackDoor.createEvaluation(testData.evaluations.get("closedEval"));
-		evalsPage.loadEvaluationsTab();
-		
+		evalsPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithEvals").googleId);
 		evalsPage.verifyHtml("/instructorEvalByDeadline.html");
 
 		______TS("sort by name");
@@ -110,23 +101,26 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	
 	}
 
-	public void testAddAction() throws Exception{
-		
-		
-		______TS("typical success case");
-		
-		EvaluationAttributes eval = testData.evaluations.get("awaitingEval");
-		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
-		evalsPage.verifyStatus(Common.MESSAGE_EVALUATION_ADDED);
-		evalsPage.verifyHtml("/instructorEvalAddSuccess.html");
+	public void testEditLink(){
+		//TODO: implement this (also check for disabling of the link at right times)
+	}
 
+	public void testViewResultsLink(){
+		//TODO: implement this (also check for disabling of the link at right times)
+	}
+
+	public void testInputValidation() {
+		
 		______TS("client-side input validation");
+		
+		EvaluationAttributes eval = newEval;
 		
 		// Empty name, closing date
 		evalsPage.clickSubmitButton();
 		assertEquals(Common.MESSAGE_FIELDS_EMPTY, evalsPage.getStatus());
 		
-		//TODO: The client-side validation tests below should be covered in JS tests, not as UI tests
+		//TODO: The client-side validation tests below should be covered in JS tests, not as UI tests.
+		// They are to be removed after confirming coverage by JS tests.
 		
 		// Empty closing date
 		evalsPage.fillEvalName("Some value");
@@ -148,6 +142,17 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		// Invalid schedule
 		evalsPage.addEvaluation(eval.courseId, eval.name, eval.endTime, eval.startTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		assertEquals(Common.MESSAGE_EVALUATION_SCHEDULEINVALID.replace("<br />", "\n"), evalsPage.getStatus());
+		
+	}
+
+	public void testAddAction() throws Exception{
+		
+		______TS("typical success case");
+		
+		EvaluationAttributes eval = newEval;
+		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		evalsPage.verifyStatus(Common.MESSAGE_EVALUATION_ADDED);
+		evalsPage.verifyHtml("/instructorEvalAddSuccess.html");
 
 		______TS("duplicate evalution name");
 
@@ -156,26 +161,12 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	}
 
 	
-	public void testDeleteAction() throws Exception{
-		
-		String courseId = testData.evaluations.get("awaitingEval").courseId;
-		String evalName = testData.evaluations.get("awaitingEval").name;
-		
-		evalsPage.loadEvaluationsTab(); //refresh the page
-		evalsPage.clickAndCancel(evalsPage.getDeleteLink(courseId, evalName));
-		assertNotNull(null, BackDoor.getEvaluation(courseId, evalName));
-	
-		evalsPage.clickAndConfirm(evalsPage.getDeleteLink(courseId, evalName));
-		evalsPage.verifyHtml("/instructorEvalDeleteSuccessful.html");
-		
-	}
-
-	public void testPublishLink(){
+	public void testPublishAction(){
 		
 		evalsPage.loadEvaluationsTab(); //refresh the page
 		
 		______TS("CLOSED: publish link clickable");
-
+	
 		String courseId = testData.evaluations.get("closedEval").courseId;
 		String evalName = testData.evaluations.get("closedEval").name;
 		
@@ -199,9 +190,11 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		assertEquals(Common.MESSAGE_EVALUATION_UNPUBLISHED, evalsPage.getStatus());
 		assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
 		
+		//TODO: ensure that publish link is unclickable in AWAITING, OPEN states
+		
 	}
-	
-	public void testRemindLink() throws Exception{
+
+	public void testRemindAction() throws Exception{
 		
 		evalsPage.loadEvaluationsTab();
 		
@@ -212,7 +205,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		
 		evalsPage.verifyUnclickable(evalsPage.getRemindLink(courseId, evalName));
 		
-
+	
 		______TS("PUBLISHED: remind link unclickable");
 		
 		courseId = testData.evaluations.get("publishedEval").courseId;
@@ -222,13 +215,13 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		
 		______TS("AWAITING: remind link unclickable");
 		
-		courseId = testData.evaluations.get("awaitingEval").courseId;
-		evalName = testData.evaluations.get("awaitingEval").name;
+		courseId = newEval.courseId;
+	    evalName = newEval.name;
 		
 		evalsPage.verifyUnclickable(evalsPage.getRemindLink(courseId, evalName));
 		
 		______TS("OPEN: remind link clickable");
-
+	
 		courseId = testData.evaluations.get("openEval").courseId;
 		evalName = testData.evaluations.get("openEval").name;
 		
@@ -246,13 +239,30 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 							courseId, 
 							evalName));
 		}
-	
 	}
+
+	public void testDeleteAction() throws Exception{
+		
+		String courseId = newEval.courseId;
+	    String evalName = newEval.name;
+		
+		evalsPage.loadEvaluationsTab(); //refresh the page
+		evalsPage.clickAndCancel(evalsPage.getDeleteLink(courseId, evalName));
+		assertNotNull(null, BackDoor.getEvaluation(courseId, evalName));
 	
+		evalsPage.clickAndConfirm(evalsPage.getDeleteLink(courseId, evalName));
+		evalsPage.verifyHtml("/instructorEvalDeleteSuccessful.html");
+		
+	}
+
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserPool.release(b);
-		BackDoor.deleteCourses(jsonString);
+	}
+
+	private InstructorEvalsPage getEvalsPageForInstructor(String instructorId) {
+		Url evalPageLink = new Url(Common.PAGE_INSTRUCTOR_EVAL).withUserId(instructorId);
+		return loginAdminToPage(b, evalPageLink, InstructorEvalsPage.class);
 	}
 
 }

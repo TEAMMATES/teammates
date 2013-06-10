@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.Common;
 
@@ -57,16 +56,26 @@ public class InstructorEvalsPage extends AppPage {
 		return getPageSource().contains("<h1>Add New Evaluation</h1>");
 	}
 
-	public InstructorEvalsPage sortByName() {
+	public AppPage sortByName() {
 		sortByNameIcon.click();
 		waitForPageToLoad();
 		return this;
 	}
 	
-	public InstructorEvalsPage sortById() {
+	public AppPage sortById() {
 		sortByIdIcon.click();
 		waitForPageToLoad();
 		return this;
+	}
+
+	public void fillEvalName(String name) {
+		evalNameTextBox.clear();
+		evalNameTextBox.sendKeys(name);
+	}
+
+	public void clickSubmitButton(){
+		submitButton.click();
+		waitForPageToLoad();
 	}
 
 	public void addEvaluation(
@@ -79,7 +88,7 @@ public class InstructorEvalsPage extends AppPage {
 			int gracePeriod) {
 		
 		fillTextBox(evalNameTextBox, evalName);
-
+	
 		selectDropdownByValue(courseIdDropdown, courseId);
 		
 		// Select start date
@@ -88,43 +97,27 @@ public class InstructorEvalsPage extends AppPage {
 				+ "')[0].value='" + Common.formatDate(startTime) + "';");
 		selectDropdownByValue(startTimeDropdown,
 				Common.convertToOptionValueInTimeDropDown(startTime));
-
+	
 		// Select deadline date
 		js.executeScript("$('#" + Common.PARAM_EVALUATION_DEADLINE
 				+ "')[0].value='" + Common.formatDate(endTime) + "';");
 		selectDropdownByValue(endTimeDropdown,
 				Common.convertToOptionValueInTimeDropDown(endTime));
-
+	
 		// Allow P2P comment
 		if (p2pEnabled) {
 			p2pEnabledOption.click();
 		} else {
 			p2pDisabledOption.click();
 		}
-
+	
 		// Fill in instructions
 		fillTextBox(instructionsTextBox, instructions);
-
+	
 		// Select grace period
 		selectDropdownByValue(gracePeriodDropdown, Integer.toString(gracePeriod));
-
+	
 		clickSubmitButton();
-	}
-	
-	public void selectDropdownByValue(WebElement element, String value) {
-		element.click();
-		Select select = new Select(element);
-		select.selectByValue(value);
-	}
-	
-	public void clickSubmitButton(){
-		submitButton.click();
-		waitForPageToLoad();
-	}
-
-	public void fillEvalName(String name) {
-		evalNameTextBox.clear();
-		evalNameTextBox.sendKeys(name);
 	}
 
 	public WebElement getPublishLink(String courseId, String evalName) {

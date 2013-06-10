@@ -43,12 +43,12 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=CEvalUiT.instructor" class='nav home' data-link="instructorHome">Home</a></li>
-					<li><a href="/page/instructorCourse?user=CEvalUiT.instructor" class='nav courses' data-link="instructorCourse">Courses</a></li>
-					<li class="current"><a href="/page/instructorEval?user=CEvalUiT.instructor" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a href="/page/instructorHome?user=CEvalUiT.noevals" class='nav home' data-link="instructorHome">Home</a></li>
+					<li><a href="/page/instructorCourse?user=CEvalUiT.noevals" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li class="current"><a href="/page/instructorEval?user=CEvalUiT.noevals" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <b>(CEvalUiT.instructor)</b></li>
+					 <b>(CEvalUiT.noevals)</b></li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -69,8 +69,7 @@
 					<tbody><tr>
 						<td class="label bold">Course ID:</td>
 						<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the evaluation is to be created.')" id="courseid" name="courseid">
-							<option value="CEvalUiT.CS1101">CEvalUiT.CS1101</option>
-<option value="CEvalUiT.CS2104">CEvalUiT.CS2104</option>
+							<option value="CEvalUiT.coursewithoutevals">CEvalUiT.coursewithoutevals</option>
 
 							</select></td>
 						<td class="label bold">Opening time:</td>
@@ -213,7 +212,7 @@
 							<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="button_submit" /></td>
 					</tr>
 				</tbody></table>
-				<input name="user" type="hidden" value="CEvalUiT.instructor">
+				<input name="user" type="hidden" value="CEvalUiT.noevals">
 			</form>
 			
 			<br />

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -652,6 +653,15 @@ public class Common {
 			return null;
 		}
 
+	}
+
+	/**
+	 * @param dateInStringFormat should be in the format "yyyy-MM-dd HH:mm a"
+	 * e.g. "2014-04-01 11:59 PM"
+	 */
+	public static Date convertToDate(String dateInStringFormat) throws ParseException {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
+		return df.parse(dateInStringFormat);
 	}
 
 	/**

@@ -35,20 +35,16 @@ public class InstructorCourseEditPage extends AppPage {
 		fillTextBox(instructorListTextBox, value);
 	}
 
-	public void submitUnsuccessfully(){
-		submitButton.click();
-		waitForPageToLoad();
-	}
-
 	public InstructorCoursesPage submit() {
 		submitButton.click();
 		waitForPageToLoad();
 		return changePageType(InstructorCoursesPage.class);
 	}
 
-	public InstructorCoursesPage submitUpdateToCourseInfo(String instructorList) {
-		fillInstructorList(instructorList);
-		return submit();
+	public InstructorCourseEditPage submitUnsuccessfully(){
+		submitButton.click();
+		waitForPageToLoad();
+		return this;
 	}
 
 	public InstructorCoursesPage clickSubmitButtonAndConfirm() {
@@ -59,6 +55,11 @@ public class InstructorCourseEditPage extends AppPage {
 
 	public void clickSubmitButtonAndCancel() {
 		clickAndCancel(submitButton);
+	}
+
+	public InstructorCoursesPage editCourse(String instructorList) {
+		fillInstructorList(instructorList);
+		return submit();
 	}
 
 }

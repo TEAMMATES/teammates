@@ -9,6 +9,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import teammates.common.Common;
@@ -197,6 +198,12 @@ public abstract class AppPage {
 		return textBox.getAttribute("value");
 	}
 
+	public void selectDropdownByValue(WebElement element, String value) {
+		element.click();
+		Select select = new Select(element);
+		select.selectByValue(value);
+	}
+
 	/**
 	 * @return the status message in the page. Returns "" if there is no 
 	 * status message in the page.
@@ -309,6 +316,20 @@ public abstract class AppPage {
 		assertEquals(expectedStatus, this.getStatus());
 		return this;
 	}
+
+	/**
+	 * As of now, this simply verifies that the link is not broken. It does
+	 * not verify whether the file content is as expected. To be improved.
+	 */
+	public void verifyDownloadLink(Url url) {
+		//TODO: implement a better way to download a file and check content 
+		// (may be using HtmlUnit as the Webdriver?)
+		String beforeReportDownloadUrl = browser.driver.getCurrentUrl();
+		browser.driver.get(url.toString());
+		String afterReportDownloadUrl = browser.driver.getCurrentUrl();
+		assertEquals(beforeReportDownloadUrl, afterReportDownloadUrl);
+	}
+
 	@SuppressWarnings("unused")
 	private void ____private_utility_methods________________________________() {
 	}

@@ -5,7 +5,6 @@ import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.driver.Url;
 import teammates.test.pageobjects.AppPage;
@@ -17,7 +16,7 @@ public class BaseUiTestCase extends BaseTestCase {
 
 	protected static final String appUrl = TestProperties.inst().TEAMMATES_URL;
 
-	protected static <T extends AppPage> T loginAdminToPageAsInstructor(Browser browser, Url url, Class<T> typeOfPage) {
+	protected static <T extends AppPage> T loginAdminToPage(Browser browser, Url url, Class<T> typeOfPage) {
 		
 		String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT; 
 		String adminPassword = TestProperties.inst().TEST_ADMIN_PASSWORD;

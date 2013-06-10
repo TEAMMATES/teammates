@@ -355,6 +355,14 @@ public class BackDoor {
 		throw new NotImplementedException(
 				"Not implemented because creating submissions is automatically done");
 	}
+	
+	public static SubmissionAttributes getSubmission(String courseID,
+			String evaluationName, String reviewerEmail, String revieweeEmail) {
+		return Common.getTeammatesGson()
+				.fromJson(
+						getSubmissionAsJson(courseID, evaluationName, reviewerEmail, revieweeEmail),
+						SubmissionAttributes.class);
+	}
 
 	public static String getSubmissionAsJson(String courseID,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
