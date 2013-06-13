@@ -103,8 +103,6 @@
 				}
 			%>
 			<div class="centeralign">
-				<input type="button" class="button" id="button_back" value="Close"
-						onclick="window.close()">
 				<input type="button" class="button" id="button_edit" value="Edit Submission"
 						onclick="window.location.href='<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationResults.evaluation.courseId, helper.evaluationResults.evaluation.name, helper.student.email)%>'">
 			</div>

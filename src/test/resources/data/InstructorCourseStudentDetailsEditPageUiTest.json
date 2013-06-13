@@ -1,0 +1,48 @@
+{
+  "accounts": {
+    "CCSDEditUiT.instr": {
+      "googleId": "CCSDEditUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "CCSDEditUiT.instr@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "courses": {
+    "CCSDEditUiT.CS2104": {
+      "id": "CCSDEditUiT.CS2104",
+      "name": "Programming Language Concepts"
+    }
+  },
+
+  "instructors": {
+    "CCSDEditUiT.instr": {
+      "googleId": "CCSDEditUiT.instr",
+      "courseId": "CCSDEditUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "CCSDEditUiT.instr@gmail.com"
+    }
+  },
+  
+  "students": {
+    "registeredStudent": {
+      "googleId": "CCSDEditUiT.alice.tmms",
+      "email": "CCSDEditUiT.alice.tmms@gmail.com",
+      "course": "CCSDEditUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "profile": {"value": "My name is Alice Betsy, and I'm a student in CCSDEditUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "unregisteredStudent": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.com",
+      "course": "CCSDEditUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in CCSDEditUiT.CS2104"},
+      "team": "Team 1"
+    }
+  }
+}

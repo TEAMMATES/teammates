@@ -116,12 +116,12 @@ public class InstructorCoursesPage extends AppPage {
 		return -1;
 	}
 
-	private WebElement getCourseIdCell(int rowNumber) {
-		return browser.driver.findElement(By.id("courseid" + rowNumber));
+	private WebElement getCourseIdCell(int rowId) {
+		return browser.driver.findElement(By.id("courseid" + rowId));
 	}
 
-	private WebElement getDeleteLinkInRow(int rowNumber) {
-		By deleteLink =  By.className("t_course_delete" + rowNumber);
+	private WebElement getDeleteLinkInRow(int rowId) {
+		By deleteLink =  By.className("t_course_delete" + rowId);
 		return browser.driver.findElement(deleteLink);
 	}
 
@@ -130,5 +130,5 @@ public class InstructorCoursesPage extends AppPage {
 		waitForPageToLoad();
 		return changePageType(destinationPageType);
 	}
-	
+
 }

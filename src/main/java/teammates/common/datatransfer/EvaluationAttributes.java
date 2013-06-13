@@ -213,4 +213,20 @@ public class EvaluationAttributes extends EntityAttributes {
 		return "Evaluation";
 	}
 
+	public boolean isSimilar(EvaluationAttributes e) {
+		if(e==null){
+			return false;
+		}
+		return this.courseId.equals(e.courseId)
+				&& this.name.equals(e.name)
+				&& this.instructions.equals(e.instructions)
+				&& this.activated == e.activated
+				&& this.published == e.published
+				&& this.p2pEnabled == e.p2pEnabled
+				&& this.gracePeriod == e.gracePeriod
+				&& this.timeZone == e.timeZone
+				&& this.startTime.equals(e.startTime)
+				&& this.endTime.equals(e.endTime);
+	}
+
 }

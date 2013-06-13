@@ -1,11 +1,28 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.net.URL;
+import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -14,7 +31,6 @@ import org.testng.Assert;
 
 import teammates.common.Common;
 import teammates.test.driver.HtmlHelper;
-import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
 import teammates.test.driver.Url;
 
@@ -41,19 +57,28 @@ public abstract class AppPage {
 	protected WebElement statusMessage;
 	
 	@FindBy(xpath = "//*[@id=\"navbar\"]/li[1]/a")
-	protected WebElement homeTab;
+	protected WebElement instructorHomeTab;
 	
 	@FindBy(xpath = "//*[@id=\"navbar\"]/li[2]/a")
-	protected WebElement coursesTab;
+	protected WebElement instructorCoursesTab;
 	
 	@FindBy(xpath = "//*[@id=\"navbar\"]/li[3]/a")
-	protected WebElement evaluationsTab;
+	protected WebElement instructorEvaluationsTab;
 	
 	@FindBy(xpath = "//*[@id=\"navbar\"]/li[4]/a")
-	protected WebElement helpTab;
+	protected WebElement instructorHelpTab;
 	
 	@FindBy(xpath = "//*[@id=\"navbar\"]/li[5]/a")
-	protected WebElement logoutLink;
+	protected WebElement instructorLogoutLink;
+	
+	@FindBy(xpath = "//*[@id=\"navbar\"]/li[1]/a")
+	protected WebElement studentHomeTab;
+	
+	@FindBy(xpath = "//*[@id=\"navbar\"]/li[2]/a")
+	protected WebElement studentHelpTab;
+	
+	@FindBy(xpath = "//*[@id=\"navbar\"]/li[3]/a")
+	protected WebElement studentLogoutLink;
 	
 	@SuppressWarnings("unused")
 	private void ____creation_and_navigation_______________________________() {
@@ -112,7 +137,7 @@ public abstract class AppPage {
 	 * Fails if the new page content does not match content expected in a page of
 	 * the type indicated by the parameter {@code newPageType}.
 	 */
-	protected <T extends AppPage> T changePageType(Class<T> newPageType) {
+	public <T extends AppPage> T changePageType(Class<T> newPageType) {
 		return createNewPage(browser, newPageType);
 	}
 
@@ -121,6 +146,30 @@ public abstract class AppPage {
 	 */
 	protected void waitForPageToLoad() {
 		browser.selenium.waitForPageToLoad("15000");
+	}
+
+	/**
+	 * Switches to the new browser window just opened.
+	 */
+	protected void switchToNewWindow() {
+		String curWin = browser.driver.getWindowHandle();
+		for (String handle : browser.driver.getWindowHandles()) {
+			if (handle.equals(curWin))
+				continue;
+			browser.selenium.selectWindow(handle);
+			browser.selenium.windowFocus();
+		}
+	}
+	
+	public void closeCurrentWindowAndSwitchToParentWindow() {
+		browser.selenium.close();
+		browser.selenium.selectWindow("null");
+		browser.selenium.windowFocus();
+	}
+	
+	public void switchToParentWindow() {
+		browser.selenium.selectWindow("null");
+		browser.selenium.windowFocus();
 	}
 
 	public void reloadCurrentUrl() {
@@ -142,7 +191,7 @@ public abstract class AppPage {
 	 * @return the loaded page.
 	 */
 	public AppPage loadCoursesTab() {
-		coursesTab.click();
+		instructorCoursesTab.click();
 		waitForPageToLoad();
 		return this;
 	}
@@ -152,7 +201,7 @@ public abstract class AppPage {
 	 * @return the loaded page.
 	 */
 	public AppPage loadEvaluationsTab() {
-		evaluationsTab.click();
+		instructorEvaluationsTab.click();
 		waitForPageToLoad();
 		return this;
 	}
@@ -202,6 +251,24 @@ public abstract class AppPage {
 		element.click();
 		Select select = new Select(element);
 		select.selectByValue(value);
+		WebElement selected = select.getFirstSelectedOption();
+		assertEquals(value, selected.getAttribute("value"));
+	}
+	
+	/** 
+	 * Selection is based on the value shown to the user. 
+	 * Since selecting an option by clicking on the option doesn't work sometimes
+	 * in Firefox, we simulate a user typing the value to select the option
+	 * instead (i.e., we use the {@code sendKeys()} method). <br>
+	 * <br>
+	 * The method will fail with an AssertionError if the selected value is
+	 * not the one we wanted to select.
+	 */
+	public void selectDropdownByVisibleValue(WebElement element, String value) {
+		Select select = new Select(element);
+		element.sendKeys(value);
+		String selectedVisibleValue = select.getFirstSelectedOption().getText();
+		assertEquals(value, selectedVisibleValue);
 	}
 
 	/**
@@ -227,6 +294,7 @@ public abstract class AppPage {
 	 */
 	public AppPage clickAndConfirm(WebElement elementToClick) {
 		respondToAlert(elementToClick, true);
+		waitForPageToLoad();
 		return this;
 	}
 	
@@ -260,7 +328,7 @@ public abstract class AppPage {
 		try {
 			respondToAlert(element, false);
 			Assert.fail("This should not give an alert when clicked");
-		} catch (NoAlertException e) {
+		} catch (NoAlertPresentException e) {
 			return;
 		}
 	}
@@ -308,6 +376,11 @@ public abstract class AppPage {
 		return this;
 	}
 	
+	public AppPage verifyContains(String searchString) {
+		assertTrue(getPageSource().contains(searchString));
+		return this;
+	}
+	
 	/**
 	 * Verifies the status message in the page is same as the one specified.
 	 * @return The page (for chaining method calls).
@@ -329,9 +402,78 @@ public abstract class AppPage {
 		String afterReportDownloadUrl = browser.driver.getCurrentUrl();
 		assertEquals(beforeReportDownloadUrl, afterReportDownloadUrl);
 	}
+	
+	/**
+	 * Verify if a file is downloadable based on the given url. If its downloadable,
+	 * download the file and get the SHA-1 hex of it and verify the hex with the given 
+	 * expected hash.
+	 * 
+	 * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1) 
+	 */
+	public void verifyDownloadableFile(String url,String expectedHash) throws Exception {
+		
+		if (!url.startsWith("http") ){
+			url = HOMEPAGE + url;
+		}
+		
+		URL fileToDownload = new URL(url);
+	    
+        String localDownloadPath = System.getProperty("java.io.tmpdir");
+        File downloadedFile = new File(localDownloadPath + fileToDownload.getFile().replaceFirst("/|\\\\", ""));
+        
+        if (downloadedFile.exists()){ 
+        	downloadedFile.delete();
+        }
+        if (downloadedFile.canWrite() == false){ 
+        	downloadedFile.setWritable(true);
+        }
+        
+        HttpClient client = new DefaultHttpClient();
+        
+        HttpGet httpget = new HttpGet(fileToDownload.toURI());
+        HttpParams httpRequestParameters = httpget.getParams();
+        httpRequestParameters.setParameter(ClientPNames.HANDLE_REDIRECTS, false);
+        httpget.setParams(httpRequestParameters);
+ 
+        HttpResponse response = client.execute(httpget);
+        FileUtils.copyInputStreamToFile(response.getEntity().getContent(), downloadedFile);
+        response.getEntity().getContent().close();
+ 
+        String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
+		assertEquals(new File(downloadedFileAbsolutePath).exists(), true);
+		
+		String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
+    	assertEquals(actualHash.toLowerCase(),expectedHash.toLowerCase());
 
+	}
+	
 	@SuppressWarnings("unused")
 	private void ____private_utility_methods________________________________() {
+	}
+
+	/**
+	 * This can be used to save pages which can later be used as the 'expected'
+	 * in UI test cases. After saving the file, remember to edit it manually and
+	 *  replace the version number in the page footer with the string 
+	 * "{version}". so that the test can insert the correct version number 
+	 * before comparing the 'expected' with the 'actual.
+	 *  e.g., replace "V4.55" in the page footer by "V{version}".
+	 *  @param filePath If the full path is not given, it will be saved in the
+	 *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
+	 *  value should start with "/". e.g., "/instructorHomePage.html".
+	 */
+	public void saveCurrentPage(String filePath) {
+		if(filePath.startsWith("/")){
+			filePath = Common.TEST_PAGES_FOLDER + filePath;
+		}
+		try {
+		String pageSource = getPageSource();
+		FileWriter output = new FileWriter(new File(filePath));
+		output.write(pageSource);
+			output.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private static <T extends AppPage> T createNewPage(Browser currentBrowser,	Class<T> typeOfPage) {
@@ -348,18 +490,12 @@ public abstract class AppPage {
 
 
 	private void respondToAlert(WebElement elementToClick, boolean isConfirm) {
-		JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-		js.executeScript("window.confirm = function(msg){ delete(window.confirm); return "+isConfirm+";};");
-		elementToClick.click();
-	
-		if ((Boolean) js
-				.executeScript("return eval(window.confirm).toString()==" +
-						"eval(function(msg){" +
-							"delete(window.confirm); return "+isConfirm+";" +
-						"}).toString()")) {
-			// This means the click does not generate alert box
-			js.executeScript("delete(window.confirm)");
-			throw new NoAlertException(elementToClick.toString());
+		elementToClick.click();	
+		Alert alert = browser.driver.switchTo().alert();
+		if(isConfirm){
+			alert.accept();
+		}else {
+			alert.dismiss();
 		}
 	}
 	

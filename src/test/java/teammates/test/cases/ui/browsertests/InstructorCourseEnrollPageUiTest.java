@@ -1,46 +1,39 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import org.openqa.selenium.By;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.BrowserInstance;
-import teammates.test.driver.BrowserInstancePool;
-import teammates.test.driver.TestProperties;
+import teammates.test.driver.Url;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorCourseEnrollPage;
+import teammates.test.pageobjects.InstructorCourseEnrollResultPage;
+import teammates.test.pageobjects.InstructorCoursesDetailsPage;
 
- 
 
 /**
- * Tests Instructor Course Enroll UI
+ * Covers 'enroll' view for instructors.
+ * SUT: {@link InstructorCourseEnrollPage}.
  */
-public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
-	private static BrowserInstance bi;
-	private static DataBundle scn;
+public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
+	private static DataBundle testData;
+	private static Browser browser;
+	private InstructorCourseEnrollPage enrollPage;
 	
 	private static String enrollString = "";
-	
-	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
-	private static String jsonString;
+	private Url enrollUrl;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		
-		startRecordingTimeForDataImport();
-		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseEnrollUiTest.json");
-		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCourses(jsonString);
-		BackDoor.deleteInstructors(jsonString);
-		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		reportTimeForDataImport();
+		testData = loadTestData("/InstructorCourseEnrollPageUiTest.json");
+		restoreTestDataOnServer(testData);
 		
 		// NEW
 		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
@@ -53,66 +46,84 @@ public class InstructorCourseEnrollPageUiTest extends BaseTestCase {
 		// UNMODIFIED
 		enrollString += "Team 1 | Benny Charles | benny.c.tmms@gmail.com | This student's name is Benny Charles";
 		
+		browser = BrowserPool.getBrowser();
 		
-		bi = BrowserInstancePool.getBrowserInstance();
-		
-		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
-		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE_ENROLL;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CCEnrollUiT.teammates.test").googleId);
-		bi.goToUrl(link);
-	}
-	
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		BrowserInstancePool.release(bi);
-		printTestClassFooter();
-		
-		// Always cleanup
-		BackDoor.deleteCourses(jsonString);
 	}
 	
 	@Test
 	public void testInstructorCourseEnrollPage() throws Exception{
-		
-		______TS("Check sample spreadsheet link");
-		
-		String spreadSheetLink = bi.getElementRelativeHref(By.id("spreadsheet_download"));
-		bi.downloadAndVerifyFile(spreadSheetLink,"B2F8A93F24ACAC5713BCBC42DAF1FDA59F7AE04B");
-		
-		______TS("failure case - no students data");
-		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPage.html");
-		
-		String errorString = "  \t  \n  \r";
-		bi.click(By.id("button_enroll"));
-		bi.waitForStatusMessage("Please input at least one student detail.");
-		
-		______TS("failure case - errors in enroll data");
-		
-		errorString = "a|b|c|d";
-		bi.fillString(By.id("enrollstudents"), errorString); //invalid email address
-		bi.click(By.id("button_enroll"));
-		assertContains(bi.getElementText(By.id("enrollstudents")), errorString);
-		
-		bi.fillString(By.id("enrollstudents"), "");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollError.html");
-
-		______TS("success case");
-		
-		bi.fillString(By.id("enrollstudents"), enrollString);
-		bi.click(By.id("button_enroll"));
-		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseEnrollPageResult.html");
-		
-		bi.click(By.id("edit_enroll"));	
-		assertContainsRegex("{*}Enroll Students for CCEnrollUiT.CS2104{*}",bi.getCurrentPageSource());
-		
-		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCEnrollUiT.CS2104").id);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CCEnrollUiT.teammates.test").googleId);
-		bi.goToUrl(link);
-		assertEquals("CCEnrollUiT.CS2104 Programming Language Concepts 4 7 3 Enroll View Edit Delete",
-						bi.getElementText(By.className("courses_row")));
+		testContent();
+		testSampleLink();
+		testInputValidation();
+		testEnrollAction();
 	}
+
+	private void testContent() {
+		
+		______TS("typical enroll page");
+		
+		enrollUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_ENROLL)
+		.withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+		.withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+		
+		enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
+		enrollPage.verifyHtml("/instructorCourseEnrollPage.html");
+	}
+
+	private void testSampleLink() throws Exception {
+		
+		______TS("link for the sample spreadsheet");
+		
+		enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),"B2F8A93F24ACAC5713BCBC42DAF1FDA59F7AE04B");
+	}
+
+	private void testInputValidation() {
+		
+		______TS("input validation");
+		
+		enrollPage.enrollUnsuccessfully("a|b|c|d")
+			.verifyHtml("/instructorCourseEnrollError.html");
+		
+		/* We test only one invalid case here. The rest should be covered
+		 * by JS tests.
+		 */
+	}
+
+	private void testEnrollAction() throws Exception {
+		/* We test both empty and non-empty courses because the generated
+		 * enroll result page is slightly different for the two cases.
+		 */
+		______TS("enroll action: non-empty course");
+		
+		InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
+		resultsPage.verifyHtml("/instructorCourseEnrollPageResult.html");
+		
+		//check 'edit' link
+		enrollPage = resultsPage.clickEditLink();
+		enrollPage.verifyContains("Enroll Students for CCEnrollUiT.CS2104");
+		assertEquals(enrollString, enrollPage.getEnrollText());
+		
+		//ensure students were actually enrolled
+		String courseId = testData.courses.get("CCEnrollUiT.CS2104").id;
+		Url coursesPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
+			.withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+			.withCourseId(courseId);
+		InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
+		assertEquals(7, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
+		
+		______TS("enroll action: empty course");
+		
+		//make the course empty
+		BackDoor.deleteCourse(courseId);
+		BackDoor.createCourse(testData.courses.get("CCEnrollUiT.CS2104"));
+		
+		enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
+		enrollPage.enroll(enrollString)
+			.verifyHtml("/instructorCourseEnrollPageResultForEmptyCourse.html");
+	}
+
+	@AfterClass
+		public static void classTearDown() throws Exception {
+			BrowserPool.release(browser);
+		}
 }

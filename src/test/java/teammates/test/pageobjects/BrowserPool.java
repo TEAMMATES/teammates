@@ -44,12 +44,12 @@ public class BrowserPool {
 	/**
 	 * Releases a Browser instance back to the pool, ready to be reused.
 	 */
-	public static void release(Browser b) {
-		BrowserPool r = getInstance();
+	public static void release(Browser browser) {
+		BrowserPool pool = getInstance();
 		//synchronized to ensure thread-safety
-		synchronized (r) {
-			b.isInUse = false;
-			r.notify();
+		synchronized (pool) {
+			browser.isInUse = false;
+			pool.notify();
 		}
 	}
 

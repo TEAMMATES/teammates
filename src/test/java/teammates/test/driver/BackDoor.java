@@ -277,6 +277,11 @@ public class BackDoor {
 		String studentJson = makePOSTRequest(params);
 		return studentJson;
 	}
+	
+	public static StudentAttributes getStudent(String courseId, String studentEmail) {
+		String studentJson = getStudentAsJson(courseId, studentEmail);
+		return Common.getTeammatesGson().fromJson(studentJson, StudentAttributes.class);
+	}
 
 	public static String getKeyForStudent(String courseId, String studentEmail) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_KEY_FOR_STUDENT);

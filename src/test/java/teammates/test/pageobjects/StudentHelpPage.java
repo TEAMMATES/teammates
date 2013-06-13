@@ -12,10 +12,4 @@ public class StudentHelpPage extends AppPage {
 				"TEAMMATES Online Peer Feedback System for Student Team Projects - Student Help");
 	}
 
-	public void close() {
-		browser.selenium.close();
-		browser.selenium.selectWindow("null");
-		browser.selenium.windowFocus();
-	}
-
 }

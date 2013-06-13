@@ -18,6 +18,10 @@ import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
+/**
+ * Tests 'Edit Course Details' functionality for Instructors.
+ * SUT {@link InstructorCourseEditPage}. <br>
+ */
 public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 	private static DataBundle testData;
 	private static Browser browser;

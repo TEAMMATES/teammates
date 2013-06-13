@@ -4,14 +4,15 @@
 
 	<test name="frequent-ui-tests" parallel="classes">
 		<classes>
-			<class name="teammates.test.cases.ui.browsertests.InstructorLoginPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsViewPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionViewPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
@@ -19,7 +20,7 @@
 			<class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.StudentEvalEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
 		</classes>
 	</test>

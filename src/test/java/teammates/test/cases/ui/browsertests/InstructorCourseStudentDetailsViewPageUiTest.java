@@ -1,0 +1,67 @@
+package teammates.test.cases.ui.browsertests;
+
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import teammates.common.Common;
+import teammates.common.datatransfer.DataBundle;
+import teammates.test.driver.Url;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
+
+/**
+ * Covers the 'student details' view for instructors.
+ * SUT: {@link InstructorCourseStudentDetailsViewPage}.
+ */
+public class InstructorCourseStudentDetailsViewPageUiTest extends BaseUiTestCase {
+	private static Browser browser;
+	private static InstructorCourseStudentDetailsViewPage viewPage;
+	private static DataBundle testData;
+	
+
+	@BeforeClass
+	public static void classSetup() throws Exception {
+		printTestClassHeader();
+		testData = loadTestData("/InstructorCourseStudentDetailsViewPageUiTest.json");
+		restoreTestDataOnServer(testData);
+		browser = BrowserPool.getBrowser();
+	}
+	
+	
+	@Test
+	public void testContent() throws Exception{
+		
+		String instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
+		String courseId = testData.courses.get("CCSDetailsUiT.CS2104").id;
+		
+		______TS("content: registered student");
+		
+		Url viewPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS)
+			.withUserId(instructorId)
+			.withCourseId(courseId)
+			.withStudentEmail(testData.students.get("registeredStudent").email);
+		
+		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
+		viewPage.verifyHtml("/instructorCourseStudentDetailsPage.html");
+
+		______TS("content: unregistered student");
+		
+		
+		viewPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS)
+			.withUserId(instructorId)
+			.withCourseId(courseId)
+			.withStudentEmail(testData.students.get("unregisteredStudent").email);
+		
+		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
+		viewPage.verifyHtml("/instructorCourseStudentDetailsUnregisteredPage.html");
+		
+	}
+	
+
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		BrowserPool.release(browser);
+	}
+}

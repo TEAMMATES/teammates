@@ -38,10 +38,10 @@ public class StudentEvalEditPage extends AppPage {
 	}
 
 	private void fillSubmissionValues(String receiverName, int points, String justification, String p2pComments){
-		int rowNumber = getStudentRowIdInEditSubmission(receiverName);
-		setPoints(rowNumber, points);
-		setJustification(rowNumber, justification);
-		setComments(rowNumber, p2pComments);
+		int rowId = getStudentRowIdInEditSubmission(receiverName);
+		setPoints(rowId, points);
+		setJustification(rowId, justification);
+		setComments(rowId, p2pComments);
 	}
 	
 	private void setPoints(int rowId, int points) {

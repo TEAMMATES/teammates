@@ -656,11 +656,11 @@ public class Common {
 	}
 
 	/**
-	 * @param dateInStringFormat should be in the format "yyyy-MM-dd HH:mm a"
+	 * @param dateInStringFormat should be in the format "yyyy-MM-dd h:mm a"
 	 * e.g. "2014-04-01 11:59 PM"
 	 */
 	public static Date convertToDate(String dateInStringFormat) throws ParseException {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd h:mm a");
 		return df.parse(dateInStringFormat);
 	}
 
@@ -719,7 +719,8 @@ public class Common {
 	 * @param date
 	 * @return
 	 */
-	public static String convertToOptionValueInTimeDropDown(Date date) {
+	public static String convertToOptionValueInTimeDropDown(Date date) { 
+		//TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -727,6 +728,23 @@ public class Common {
 		hour = (hour == 0 ? 24 : hour);
 		hour = ((hour == 23) && (minutes == 59)) ? 24 : hour;
 		return hour + "";
+	}
+	
+	/**
+	 * @return one of these : 0100H, 0200H, ..., 0900H, 1000H, ... 2300H, 2359H.
+	 * Note the last one is different from the others.
+	 */
+	public static String convertToDisplayValueInTimeDropDown(Date date) {
+		String optionValue = convertToOptionValueInTimeDropDown(date);
+		if (optionValue.equals("24")) {
+			return "2359H";
+		}else if (optionValue.length() == 1) {
+			return "0" + optionValue + "00H";
+		} else if (optionValue.length() == 2) {
+			return optionValue + "00H";
+		} else {
+			throw new RuntimeException("Unrecognized time option: "+optionValue);
+		}
 	}
 
 	/**

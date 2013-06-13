@@ -66,6 +66,11 @@ public class EmailAccount {
 				// .compile("^TEAMMATES: Registration Invitation: Register in the course (\\w+)$");
 				// Matcher m = pattern.matcher(message.getSubject());
 				String subject = message.getSubject();
+				
+				if(subject == null){ //in case there are subject-less messages
+					continue;
+				}
+				
 				boolean isCorrectEmail = subject
 						.contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
 						&& (subject.contains(courseId));

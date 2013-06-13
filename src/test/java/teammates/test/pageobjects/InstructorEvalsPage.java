@@ -95,14 +95,14 @@ public class InstructorEvalsPage extends AppPage {
 		JavascriptExecutor js = (JavascriptExecutor) browser.driver;
 		js.executeScript("$('#" + Common.PARAM_EVALUATION_START
 				+ "')[0].value='" + Common.formatDate(startTime) + "';");
-		selectDropdownByValue(startTimeDropdown,
-				Common.convertToOptionValueInTimeDropDown(startTime));
+		selectDropdownByVisibleValue(startTimeDropdown,
+				Common.convertToDisplayValueInTimeDropDown(startTime));
 	
 		// Select deadline date
 		js.executeScript("$('#" + Common.PARAM_EVALUATION_DEADLINE
 				+ "')[0].value='" + Common.formatDate(endTime) + "';");
-		selectDropdownByValue(endTimeDropdown,
-				Common.convertToOptionValueInTimeDropDown(endTime));
+		selectDropdownByVisibleValue(endTimeDropdown,
+				Common.convertToDisplayValueInTimeDropDown(endTime));
 	
 		// Allow P2P comment
 		if (p2pEnabled) {
@@ -115,7 +115,8 @@ public class InstructorEvalsPage extends AppPage {
 		fillTextBox(instructionsTextBox, instructions);
 	
 		// Select grace period
-		selectDropdownByValue(gracePeriodDropdown, Integer.toString(gracePeriod));
+		selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod)+ " mins");
+		
 	
 		clickSubmitButton();
 	}

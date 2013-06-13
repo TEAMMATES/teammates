@@ -1,116 +1,99 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import java.io.FileNotFoundException;
 
-import org.json.JSONException;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import teammates.common.Common;
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.BrowserInstance;
-import teammates.test.driver.BrowserInstancePool;
-import teammates.test.driver.TestProperties;
+import teammates.test.driver.Url;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorEvalEditPage;
 
 /**
- * Tests instructorEvalEdit.jsp from functionality and UI
+ * Tests 'Edit evaluation' functionality for instructors.
+ * SUT: {@link InstructorEvalEditPage}.
  */
-public class InstructorEvalEditPageUiTest extends BaseTestCase {
-	private static BrowserInstance bi;
-	private static TestScenario ts;
+public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 	
-	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
+	private static DataBundle testData;
+	private static Browser browser;
+	private static InstructorEvalEditPage editPage;
+	
+	private static EvaluationAttributes existingEval;
+	
 	
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
+		testData = loadTestData("/InstructorEvalEditPageUiTest.json");
+		restoreTestDataOnServer(testData);
+		browser = BrowserPool.getBrowser();
 		
-		startRecordingTimeForDataImport();
-		ts = loadTestScenario();
-		BackDoor.deleteCourse(ts.course.id);
-		BackDoor.deleteAccount(ts.instructor.googleId);
-		BackDoor.deleteAccount(ts.account.googleId);
+		existingEval = testData.evaluations.get("evaluation");
+		String instructorId = testData.instructors.get("instructor").googleId;
 		
-		String backDoorOperationStatus = BackDoor.createAccount(ts.account);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		
-		backDoorOperationStatus = BackDoor.createCourse(ts.course);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		
-		backDoorOperationStatus = BackDoor.createInstructor(ts.instructor);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		
-		backDoorOperationStatus = BackDoor.createEvaluation(ts.evaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		reportTimeForDataImport();
+		Url editPageUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_EDIT)
+			.withUserId(instructorId)
+			.withCourseId(existingEval.courseId)
+			.withEvalName(existingEval.name);
 
-		bi = BrowserInstancePool.getBrowserInstance();
-		
-		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
-		String link = appUrl+Common.PAGE_INSTRUCTOR_EVAL_EDIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,ts.evaluation.courseId);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,ts.evaluation.name);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,ts.instructor.googleId);
-		bi.goToUrl(link);
+		editPage = loginAdminToPage(browser, editPageUrl, InstructorEvalEditPage.class);
 	}
 	
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		BrowserInstancePool.release(bi);
-		printTestClassFooter();
-		
-		// Always cleanup
-		BackDoor.deleteCourse(ts.course.id);
-	}
-
 	@Test
 	public void runTestsInOrder() throws Exception{
-		testInstructorEvalEditHTML();
-		//This test has to be run last because it edits the information used in the previous test. Previous test will fail if it gets edited first
-		testInstructorEvalEditUiPaths();
+		testContent();
+		testInputValidation();
+		testCancelAction();
+		testEditAction();
 	}
 	
-	public void testInstructorEvalEditHTML() throws Exception{
+	public void testContent() throws Exception{
 		
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorEvalEdit.html");
+		editPage.verifyHtml("/instructorEvalEdit.html");
 	}
 	
-	public void testInstructorEvalEditUiPaths() throws Exception{
+	public void testEditAction() throws Exception{
 		
-		bi.editEvaluation(ts.newEvaluation.startTime, ts.newEvaluation.endTime, ts.newEvaluation.p2pEnabled, ts.newEvaluation.instructions, ts.newEvaluation.gracePeriod);
+		//these will be the updated values
+		//TODO: make the start time a future time (after Issue 897 is fixed)
+		existingEval.startTime = Common.convertToDate("2012-04-01 11:59 PM"); 
+		existingEval.endTime = Common.convertToDate("2015-04-01 10:00 PM"); 
+		existingEval.p2pEnabled = !existingEval.p2pEnabled; 
+		existingEval.instructions = existingEval.instructions+"(edited)"; 
+		existingEval.gracePeriod = existingEval.gracePeriod + 5;
 		
-		// Verify status message
-		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_EDITED);
+		editPage.submitUpdate(
+				existingEval.startTime, 
+				existingEval.endTime, 
+				existingEval.p2pEnabled, 
+				existingEval.instructions, 
+				existingEval.gracePeriod).verifyStatus(Common.MESSAGE_EVALUATION_EDITED);
 		
-		// Verify data
-		String json = BackDoor.getEvaluationAsJson(ts.newEvaluation.courseId, ts.newEvaluation.name);
-		EvaluationAttributes newEval = Common.getTeammatesGson().fromJson(json, EvaluationAttributes.class);
-		assertEquals(ts.newEvaluation.startTime,newEval.startTime);
-		assertEquals(ts.newEvaluation.endTime,newEval.endTime);
-		assertEquals(ts.newEvaluation.instructions,newEval.instructions);
-		assertEquals(ts.newEvaluation.timeZone+"",newEval.timeZone+"");
-		assertEquals(ts.newEvaluation.gracePeriod,newEval.gracePeriod);
-		assertEquals(ts.newEvaluation.p2pEnabled,newEval.p2pEnabled);
+		EvaluationAttributes updated = BackDoor.getEvaluation(existingEval.courseId, existingEval.name);
+		assertEquals(existingEval.toString(), updated.toString());
 	}
 	
-	private static TestScenario loadTestScenario() throws JSONException, FileNotFoundException {
-		String testScenarioJsonFile = Common.TEST_DATA_FOLDER + "/InstructorEvalEditUiTest.json";
-		String jsonString = Common.readFile(testScenarioJsonFile);
-		TestScenario scn = Common.getTeammatesGson().fromJson(jsonString, TestScenario.class);
-		return scn;
+	public void testCancelAction(){
+		//TODO: implement this
 	}
 
-	private class TestScenario{
-		public AccountAttributes account;
-		public InstructorAttributes instructor;
-		public CourseAttributes course;
-		public EvaluationAttributes evaluation;
-		public EvaluationAttributes newEvaluation;
+	private void testInputValidation() {
+		// TODO: implement this
 	}
+
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		BrowserPool.release(browser);
+	}
+	
+
+
+
 }

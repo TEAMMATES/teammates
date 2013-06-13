@@ -19,10 +19,11 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalsPage;
 
 /**
- * Covers the 'Evaluations' page for instructors. SUT is {@link InstructorEvalsPage}.
+ * Covers the 'Evaluations' page for instructors. 
+ * SUT is {@link InstructorEvalsPage}.
  */
 public class InstructorEvalsPageUiTest extends BaseUiTestCase {
-	private static Browser b;
+	private static Browser browser;
 	private static InstructorEvalsPage evalsPage;
 	private static DataBundle testData;
 	/** This contains data for the new evaluation to be created during testing */
@@ -44,8 +45,8 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	    newEval.p2pEnabled = true;
 	    newEval.published = false;
 	    newEval.activated = false;
-	    
-		b = BrowserPool.getBrowser();
+	    newEval.timeZone = 8.0;
+		browser = BrowserPool.getBrowser();
 		
 	}
 	
@@ -152,7 +153,12 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		EvaluationAttributes eval = newEval;
 		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
 		evalsPage.verifyStatus(Common.MESSAGE_EVALUATION_ADDED);
-		evalsPage.verifyHtml("/instructorEvalAddSuccess.html");
+		EvaluationAttributes savedEvaluation = BackDoor.getEvaluation(eval.courseId, eval.name);
+		//Note: This can fail at times because Firefox fails to choose the correct value from the dropdown.
+		//  in that case, rerun in Chrome.
+		assertEquals(eval.toString(), savedEvaluation.toString());
+		evalsPage.sortByName()
+			.verifyHtml("/instructorEvalAddSuccess.html");
 
 		______TS("duplicate evalution name");
 
@@ -257,12 +263,12 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 
 	@AfterClass
 	public static void classTearDown() throws Exception {
-		BrowserPool.release(b);
+		BrowserPool.release(browser);
 	}
 
 	private InstructorEvalsPage getEvalsPageForInstructor(String instructorId) {
 		Url evalPageLink = new Url(Common.PAGE_INSTRUCTOR_EVAL).withUserId(instructorId);
-		return loginAdminToPage(b, evalPageLink, InstructorEvalsPage.class);
+		return loginAdminToPage(browser, evalPageLink, InstructorEvalsPage.class);
 	}
 
 }

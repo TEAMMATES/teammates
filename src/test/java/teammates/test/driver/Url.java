@@ -53,6 +53,11 @@ public class Url {
 		return this;
 	}
 
+	public Url withStudentEmail(String email) {
+		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_STUDENT_EMAIL, email);
+		return this;
+	}
+
 	@Override
 	public String toString(){
 		return urlString;

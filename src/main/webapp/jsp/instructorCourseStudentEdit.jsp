@@ -85,8 +85,6 @@
 				<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
 				<br>
 				<div class="centeralign">
-					<input type="button" class="button centeralign" id="button_back" value="Cancel"
-						onclick="window.location.href='<%= helper.getInstructorCourseDetailsLink(helper.student.course) %>'">
 					<input type="submit" class="button centeralign" id="button_submit" name="submit" value="Save Changes"
 						onclick="return isStudentInputValid(this.form.<%= Common.PARAM_STUDENT_NAME %>.value,this.form.<%= Common.PARAM_TEAM_NAME %>.value,this.form.<%= Common.PARAM_NEW_STUDENT_EMAIL %>.value)">
 				</div>

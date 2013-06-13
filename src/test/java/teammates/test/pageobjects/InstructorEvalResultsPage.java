@@ -1,11 +1,11 @@
-package teammates.test.cases.ui.pageobjects;
+package teammates.test.pageobjects;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.InstructorEvalsPage;
 
 public class InstructorEvalResultsPage extends AppPage {
 	
@@ -107,6 +107,34 @@ public class InstructorEvalResultsPage extends AppPage {
 	public InstructorEvalsPage publishAndConfirm() {
 		clickAndConfirm(publishButton);
 		return changePageType(InstructorEvalsPage.class);
+	}
+
+	public InstructorEvalSubmissionEditPage clickEditLinkForStudent(String studentName) {
+		int rowId = getRowIdForReviewee(studentName);
+		browser.driver.findElement(By.id("editEvaluationResults" + rowId)).click();
+		waitForPageToLoad();
+		switchToNewWindow();
+		return changePageType(InstructorEvalSubmissionEditPage.class);
+	}
+	
+	public InstructorEvalSubmissionViewPage clickViewLinkForStudent(String studentName) {
+		int rowId = getRowIdForReviewee(studentName);
+		browser.driver.findElement(By.id("viewEvaluationResults" + rowId)).click();
+		waitForPageToLoad();
+		switchToNewWindow();
+		return changePageType(InstructorEvalSubmissionViewPage.class);
+	}
+
+	private int getRowIdForReviewee(String studentName) {
+		int studentCount =  browser.driver.findElements(By.className("student_row")).size();
+		
+		for (int i = 0; i < studentCount; i++) {
+			if (browser.driver.findElement(By.id("student" + i)).getText()
+					.contains(studentName)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 }

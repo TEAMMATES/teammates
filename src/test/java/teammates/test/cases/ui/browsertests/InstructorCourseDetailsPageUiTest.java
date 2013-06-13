@@ -1,201 +1,178 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
+
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
-import org.testng.Assert;
-import org.testng.AssertJUnit;
+import org.testng.annotations.Test;
+
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.test.cases.BaseTestCase;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.BrowserInstance;
-import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.EmailAccount;
-import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
+import teammates.test.driver.Url;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorCourseDetailsPage;
+import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
+import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 
 /**
- * Tests Instructor Course Details UI
+ * Tests 'Course Details' view for Instructors.
+ * SUT {@link InstructorCourseDetailsPage}. <br>
+ * This class uses real user accounts alice.tmms, benny.tmms and charlier.tmms.
  */
-public class InstructorCourseDetailsPageUiTest extends BaseTestCase {
-	private static BrowserInstance bi;
-	private static DataBundle scn;
+//TODO: change to use a single real user account (alice.tmms?)
+public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
+	private static Browser browser;
+	private static InstructorCourseDetailsPage detailsPage;
+	private static DataBundle testData;
 	
-	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
-	private static String jsonString;
-
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		
-		startRecordingTimeForDataImport();
-		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorCourseDetailsUiTest.json");
-		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteCourses(jsonString);
-		BackDoor.deleteInstructors(jsonString);
-		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
-		AssertJUnit.assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		reportTimeForDataImport();
-		
-		bi = BrowserInstancePool.getBrowserInstance();
-
-		bi.loginAdmin(TestProperties.inst().TEST_ADMIN_ACCOUNT, TestProperties.inst().TEST_ADMIN_PASSWORD);
-		String link = appUrl+Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,scn.courses.get("CCDetailsUiT.CS2104").id);
-		link = Common.addParamToUrl(link,Common.PARAM_USER_ID,scn.instructors.get("CCDetailsUiT.instr").googleId);
-		bi.goToUrl(link);
-	}
-	
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		BrowserInstancePool.release(bi);
-		printTestClassFooter();
-		
-		// Always cleanup
-		BackDoor.deleteCourses(jsonString);
+		testData = loadTestData("/InstructorCourseDetailsPageUiTest.json");
+		restoreTestDataOnServer(testData);
+		browser = BrowserPool.getBrowser();
 	}
 	
 	@Test 
-	public void runTestsInOrder() throws Exception{
-		testInstructorCourseDetailsPageHTML();
-		testInstructorCourseDetailsRemindStudent();
-		//we put all tests here because we want this test to run last
-		testInstructorCourseDetailsDeleteStudent();
+	public void allTests() throws Exception{
+		testConent();
+		//No input validation required
+		testLinks();
+		testRemindAction();
+		testDeleteAction();
 	}
 	
-	public void testInstructorCourseDetailsPageHTML() throws Exception{
-		______TS("default view");
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsPage.html");
+	public void testConent() throws Exception{
 		
-		______TS("sort by status");
-		bi.click(bi.instructorCourseDetailSortByStatus);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByStatus.html");
+		______TS("content: no students");
 		
-		bi.assertDataTablePattern(2,"{*}Joined{*}Joined{*}Yet to join{*}Yet to join");
-		bi.click(bi.instructorCourseDetailSortByStatus);
-		bi.assertDataTablePattern(2,"{*}Yet to join{*}Yet to join{*}Joined{*}Joined");
+		//TODO: implement this
 		
-		______TS("sort by student name");
-		bi.click(bi.instructorCourseDetailSortByStudentName);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsPage.html");
+		______TS("content: multiple students");
 		
-		bi.assertDataTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid");
-		bi.click(bi.instructorCourseDetailSortByStudentName);
-		bi.assertDataTablePattern(1,"{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
+		Url detailsPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
+		.withUserId(testData.instructors.get("CCDetailsUiT.instr").googleId)
+		.withCourseId(testData.courses.get("CCDetailsUiT.CS2104").id);
 		
-		______TS("sort by team name");
-		bi.click(bi.instructorCourseDetailSortByTeamName);
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsByTeam.html");
+		detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
 		
-		bi.assertDataTablePattern(0,"{*}Team 1{*}Team 1{*}Team 2{*}Team 2");
-		bi.click(bi.instructorCourseDetailSortByTeamName);
-		bi.assertDataTablePattern(0,"{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
+		detailsPage.verifyHtml("/instructorCourseDetailsPage.html");
+		
+		______TS("content: sorting");
+		
+		detailsPage.sortByStatus()
+			.verifyTablePattern(2, "{*}Joined{*}Joined{*}Yet to join{*}Yet to join");
+		detailsPage.sortByStatus()
+			.verifyTablePattern(2, "{*}Yet to join{*}Yet to join{*}Joined{*}Joined");
+		
+		
+		detailsPage.sortByName()
+			.verifyTablePattern(1, "{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid");
+		detailsPage.sortByName()
+			.verifyTablePattern(1, "{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
+		
+		
+		detailsPage.sortByTeam()
+			.verifyTablePattern(0, "{*}Team 1{*}Team 1{*}Team 2{*}Team 2");
+		detailsPage.sortByTeam()
+			.verifyTablePattern(0, "{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
+		
 	}
 	
-	public void testInstructorCourseDetailsRemindStudent() {
+	public void testLinks(){
+		
+		______TS("link: view");
+		
+		StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+		InstructorCourseStudentDetailsViewPage studentDetailsPage = detailsPage.clickViewStudent(alice.name);
+		studentDetailsPage.verifyIsCorrectPage(alice.email);
+		detailsPage = studentDetailsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+		
+		______TS("link: edit");
+		
+		StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
+		InstructorCourseStudentDetailsEditPage studentEditPage = detailsPage.clickEditStudent(charlie.name);
+		studentEditPage.verifyIsCorrectPage(charlie.email);
+		detailsPage = studentEditPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+	}
 
-		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
-		String studentEmail = scn.students
+	public void testRemindAction() {
+
+		String studentName = testData.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
+		String studentEmail = testData.students
 				.get("benny.tmms@CCDetailsUiT.CS2104").email;
-		String otherStudentEmail = scn.students
+		String otherStudentEmail = testData.students
 				.get("charlie.tmms@CCDetailsUiT.CS2104").email;
-		String registeredStudentEmail = scn.students
+		String registeredStudentEmail = testData.students
 				.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").email;
-
-		int studentRowId = bi.getStudentRowId(studentName);
-
-		______TS("sending reminder to a single student to join course: click and cancel");
-
-		try {
-			bi.clickInstructorCourseDetailStudentRemindAndCancel(studentRowId);
-		} catch (NoAlertException e) {
-			Assert.fail("No alert box when clicking send invite button at course details page.");
-		}
-
-		String courseId = scn.courses.get("CCDetailsUiT.CS2104").id;
-		String studentPassword = TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS;
-		String keyToSend = Common.encrypt(BackDoor.getKeyForStudent(courseId,
-				studentEmail));
-		String keyReceivedInEmail = null;
+		String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
 		boolean isEmailEnabled = !TestProperties.inst().isDevServer();
 
+
+		______TS("action: remind single student");
+
+		detailsPage.clickRemindStudentAndCancel(studentName);
 		if (isEmailEnabled) {
-			bi.waitForEmail();
-			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
-					studentEmail, studentPassword, courseId);
-			String errorMessage = "cancel clicked, but key was sent :"
-					+ keyReceivedInEmail + " to " + studentEmail;
-			AssertJUnit.assertFalse(errorMessage, keyToSend.equals(keyReceivedInEmail));
+			assertFalse(didStudentReceiveReminder(courseId, studentEmail));
 		}
+		
 
-		______TS("sending reminder to a single student to join course: click and confirm");
-
-		try {
-			bi.clickInstructorCourseDetailStudentRemindAndConfirm(studentRowId);
-		} catch (NoAlertException e) {
-			Assert.fail("No alert box when clicking send button invite at course details page.");
-		}
-
+		detailsPage.clickRemindStudentAndConfirm(studentName);
 		if (isEmailEnabled) {
-			bi.waitForEmail();
-			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
-					studentEmail, studentPassword, courseId);
-			AssertJUnit.assertEquals(keyToSend, keyReceivedInEmail);
+			assertTrue(didStudentReceiveReminder(courseId, studentEmail));
 		}
+		
+		// Hiding of the 'Send invite' link is already covered by content test.
+		//  (i.e., they contain cases of both hidden and visible 'Send invite' links.
 
-		______TS("sending reminder to all unregistered students to join course");
+		______TS("action: remind all");
 
-		bi.clickAndConfirm(bi.instructorCourseDetailRemindButton);
-
+		//TODO: also check for click and cancel
+		
+		detailsPage.clickRemindAllAndConfirm();
+		
 		if (isEmailEnabled) {
-			bi.waitForEmail();
-
-			keyToSend = Common.encrypt(BackDoor.getKeyForStudent(courseId,
-					otherStudentEmail));
-
 			// verify an unregistered student received reminder
-			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
-					otherStudentEmail, studentPassword, courseId);
-			AssertJUnit.assertEquals(keyToSend, keyReceivedInEmail);
-
+			assertTrue(didStudentReceiveReminder(courseId, otherStudentEmail));
 			// verify a registered student did not receive a reminder
-			keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
-					registeredStudentEmail, studentPassword, courseId);
-			String errorMessage = "Registered student was sent key :"
-					+ keyReceivedInEmail + " to " + studentEmail;
-			AssertJUnit.assertFalse(errorMessage, keyToSend.equals(keyReceivedInEmail));
+			assertFalse(didStudentReceiveReminder(courseId, registeredStudentEmail));
 		}
 	}
 
-	public void testInstructorCourseDetailsDeleteStudent() throws Exception{
+	public void testDeleteAction() throws Exception{
 		
+		______TS("action: delete");
 		
-		String studentName = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
-		String studentEmail = scn.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
+		String studentName = testData.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
+		String studentEmail = testData.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
+		String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
 		
-		int studentRowId = bi.getStudentRowId(studentName);
-		AssertJUnit.assertTrue(studentRowId!=-1);
-		
-		______TS("click and cancel");
-		
-		try{
-			bi.clickInstructorCourseDetailStudentDeleteAndCancel(studentRowId);
-			String student = BackDoor.getStudentAsJson(scn.courses.get("CCDetailsUiT.CS2104").id, studentEmail);
-			if(isNullJSON(student)) {
-				Assert.fail("Student was deleted when it's not supposed to be");
-			}
-		} catch (NoAlertException e){
-			Assert.fail("No alert box when clicking delete button at course details page.");
-		}
+		detailsPage.clickDeleteAndCancel(studentName);
+		assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
-		______TS("click and confirm");
-		
-		try{
-			bi.clickInstructorCourseDetailStudentDeleteAndConfirm(studentRowId);
-			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorCourseDetailsStudentDeleteSuccessful.html");
-		} catch (NoAlertException e){
-			Assert.fail("No alert box when clicking delete button at course details page.");
-		}
+		detailsPage.clickDeleteAndConfirm(studentName)
+			.verifyHtml("/instructorCourseDetailsStudentDeleteSuccessful.html");
 	}
+	
+	private boolean didStudentReceiveReminder(String courseId, String studentEmail) {
+		String studentPassword = TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS;
+		String keyToSend = Common.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
+	
+		waitFor(5000); //TODO: replace this with a more efficient check
+		String keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
+				studentEmail, studentPassword, courseId);
+		return (keyToSend.equals(keyReceivedInEmail));
+	}
+
+	@AfterClass
+		public static void classTearDown() throws Exception {
+			BrowserPool.release(browser);
+		}
 }

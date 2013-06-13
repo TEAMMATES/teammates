@@ -37,12 +37,12 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=CCSDetailsUiT.instr" class='nav home' data-link="instructorHome">Home</a></li>
-					<li class="current"><a href="/page/instructorCourse?user=CCSDetailsUiT.instr" class='nav courses' data-link="instructorCourse">Courses</a></li>
-					<li><a href="/page/instructorEval?user=CCSDetailsUiT.instr" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a href="/page/instructorHome?user=CCSDEditUiT.instr" class='nav home' data-link="instructorHome">Home</a></li>
+					<li class="current"><a href="/page/instructorCourse?user=CCSDEditUiT.instr" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li><a href="/page/instructorEval?user=CCSDEditUiT.instr" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <b>(CCSDetailsUiT.instr)</b></li>
+					 <b>(CCSDEditUiT.instr)</b></li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -60,7 +60,7 @@
 			</div>
 				
 			<form method="post" action="/page/instructorCourseStudentEdit">
-				<input type="hidden" value="CCSDetailsUiT.CS2104" name="courseid" />
+				<input type="hidden" value="CCSDEditUiT.CS2104" name="courseid" />
 				<table id="studentEditForm" class="inputTable">
 					<tbody><tr>
 			 			<td class="label bold">Student Name:</td>
@@ -76,15 +76,15 @@
 				 	</tr>
 				 	<tr>
 				 		<td class="label bold">E-mail Address:
-				 			<input type="hidden" value="CCSDetailsUiT.alice.tmms@gmail.com" id="studentemail" name="studentemail" />
+				 			<input type="hidden" value="CCSDEditUiT.alice.tmms@gmail.com" id="studentemail" name="studentemail" />
 				 		</td>
 				 		<td>
-				 			<input value="CCSDetailsUiT.alice.tmms@gmail.com" id="newstudentemail" name="newstudentemail" class="fieldvalue" />
+				 			<input value="CCSDEditUiT.alice.tmms@gmail.com" id="newstudentemail" name="newstudentemail" class="fieldvalue" />
 				 		</td>
 				 	</tr>
 				 	<tr>
 						<td class="label bold">Google ID:</td>
-						<td id="user">CCSDetailsUiT.alice.tmms</td>
+						<td id="user">CCSDEditUiT.alice.tmms</td>
 					</tr>
 					<tr>
 						<td class="label bold">Registration Key:</td>
@@ -105,13 +105,12 @@
 
 				<br />
 				<div class="centeralign">
-					<input type="button" onclick="window.location.href='/page/instructorCourseDetails?courseid=CCSDetailsUiT.CS2104&amp;user=CCSDetailsUiT.instr'" value="Cancel" id="button_back" class="button centeralign" />
 					<input type="submit" onclick="return isStudentInputValid(this.form.studentname.value,this.form.teamname.value,this.form.newstudentemail.value)" value="Save Changes" name="submit" id="button_submit" class="button centeralign" />
 				</div>
 				<br />
 				<br />
 				
-					<input type="hidden" value="CCSDetailsUiT.instr" name="user" />
+					<input type="hidden" value="CCSDEditUiT.instr" name="user" />
 				
 			</form>
 			

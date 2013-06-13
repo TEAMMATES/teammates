@@ -37,7 +37,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
 	@Test	
 	public void allTests() throws Exception{
-		testContent();
+		testContentAndLogin();
 		
 		testHelpLink();
 		testViewTeamLinks();
@@ -51,15 +51,15 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 	}
 
 
-	private void testContent() throws Exception {
+	private void testContentAndLogin() throws Exception {
 		
-		______TS("no courses, 'welcome stranger' message");
+		______TS("content: no courses, 'welcome stranger' message");
 		
 		Url studentHomeUrl = new Url(Common.PAGE_STUDENT_HOME).withUserId("SHPUiT.stranger");
 		studentHome = loginAdminToPage(browser, studentHomeUrl, StudentHomePage.class);
 		studentHome.verifyHtml("/studentHomeHTMLEmpty.html");
 		
-		______TS("typical case");
+		______TS("login");
 		
 		studentHome = HomePage.getNewInstance(browser)
 	    		.clickStudentLogin()
@@ -67,6 +67,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 	    				"alice.tmms", 
 	    				TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
 			
+		______TS("content: multiple courses");
 		
 		studentHome.verifyHtml("/studentHomeHTML.html");
 	}
@@ -74,10 +75,10 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
 	private void testHelpLink() {
 		
-		______TS("help page");
+		______TS("link: help page");
 		
 		StudentHelpPage helpPage = studentHome.clickHelpLink();
-		helpPage.close();
+		helpPage.closeCurrentWindowAndSwitchToParentWindow();
 	}
 
 

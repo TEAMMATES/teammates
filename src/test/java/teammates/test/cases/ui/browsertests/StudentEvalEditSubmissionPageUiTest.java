@@ -24,7 +24,7 @@ import com.google.appengine.api.datastore.Text;
  * Tests 'Edit Evaluation' view of students.
  * SUT: {@link StudentEvalEditPage}.
  */
-public class StudentEvalEditPageUiTest extends BaseUiTestCase {
+public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 
 	private static DataBundle testData;
 	private static Browser browser;
@@ -34,7 +34,7 @@ public class StudentEvalEditPageUiTest extends BaseUiTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/StudentEvalEditPageUiTest.json");
+		testData = loadTestData("/StudentEvalEditSubmissionPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		
 		

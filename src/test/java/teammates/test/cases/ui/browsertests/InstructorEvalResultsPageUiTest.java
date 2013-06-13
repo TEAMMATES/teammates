@@ -8,11 +8,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
-import teammates.test.cases.ui.pageobjects.InstructorEvalResultsPage;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorEvalResultsPage;
+import teammates.test.pageobjects.InstructorEvalSubmissionViewPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
 
 /**
@@ -99,11 +100,13 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 		
 		______TS("link: edit submissions");
 		
-		//TODO:
+		/*this is tested in {@link InstructorEvalSubmissionEditPageUiTest} */
 		
 		______TS("link: view submissions");
 		
-		//TODO:
+		InstructorEvalSubmissionViewPage viewPage = resultsPage.clickViewLinkForStudent("Alice Betsy");
+		viewPage.verifyIsCorrectPage("Alice Betsy");
+		viewPage.closeCurrentWindowAndSwitchToParentWindow();
 		
 		______TS("action: download report");
 		

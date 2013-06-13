@@ -30,6 +30,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 	/* Comments given as 'Explanation:' are extra comments added to train 
 	 * developers. They are not meant to be repeated when you write similar 
 	 * classes. 
+	 * This class is used for training developers. Hence, the high percentage
+	 * of explanatory comments, which is contrary to our usual policy of 
+	 * 'minimal comments'. 
 	 */
 	
 	/* Explanation: This is made a static variable for convenience 
@@ -88,6 +91,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		// Explanation: Checks 'actions' that can be performed using the page.
 		testAddAction();
 		testDeleteAction();
+		
+		/* Explanation: The above categorization of test cases is useful in
+		 * identifying test cases. However, do not follow it blindly. 
+		 * Some SUTs might require additional test cases. Examining the
+		 * relevant JSP pages to check if all Java code paths are covered
+		 *  might help you identify further test cases.
+		 */
 	}
 
 	public void testContent() throws Exception{
@@ -139,7 +149,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		______TS("view link");
 		
 		InstructorCourseDetailsPage detailsPage = coursesPage.loadViewLink(courseId)
-				.verifyContents(courseId);
+				.verifyIsCorrectPage(courseId);
 		
 		coursesPage = detailsPage.goToPreviousPage(InstructorCoursesPage.class);
 		

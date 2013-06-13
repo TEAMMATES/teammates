@@ -1,202 +1,201 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.Assert;
-import org.openqa.selenium.By;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.test.cases.BaseTestCase;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.BrowserInstance;
-import teammates.test.driver.BrowserInstancePool;
-import teammates.test.driver.NoAlertException;
 import teammates.test.driver.TestProperties;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.HomePage;
+import teammates.test.pageobjects.InstructorHelpPage;
+import teammates.test.pageobjects.InstructorHomePage;
 
 /**
- * Tests Instructor Homepage UI
+ * Tests Homepage and login page for instructors. 
+ * SUT: {@link InstructorHomePage}.<br>
+ * Uses a real account.
+ * 
  */
-public class InstructorHomePageUiTest extends BaseTestCase {
-	private static BrowserInstance bi;
-	private static DataBundle scn;
+public class InstructorHomePageUiTest extends BaseUiTestCase {
+	private static DataBundle testData;
+	private static Browser browser;
+	private static InstructorHomePage homePage;
 	
-	private static EvaluationAttributes firstEval;
-	private static EvaluationAttributes secondEval;
-	private static EvaluationAttributes thirdEval;
-	
-	private static Boolean helpWindowClosed;
-	
-	private static String jsonString;
+	private static EvaluationAttributes firstEval_OPEN;
+	private static EvaluationAttributes secondEval_PUBLISHED;
+	private static EvaluationAttributes thirdEval_CLOSED;
+	private static EvaluationAttributes fourthEval_AWAITING;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
+		testData = loadTestData("/InstructorHomePageUiTest.json");
+		restoreTestDataOnServer(testData);
+		browser = BrowserPool.getBrowser();
 		
-		startRecordingTimeForDataImport();
-		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+"/InstructorHomeUiTest.json");
-		scn = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-		firstEval = scn.evaluations.get("First Eval");
-		secondEval = scn.evaluations.get("Second Eval");
-		thirdEval = scn.evaluations.get("Third Eval");
-		BackDoor.deleteCourses(jsonString);
-		BackDoor.deleteInstructors(jsonString);
-		String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		reportTimeForDataImport();
-		helpWindowClosed = true;
-		
-		bi = BrowserInstancePool.getBrowserInstance();
-		
-		bi.loginInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+		firstEval_OPEN = testData.evaluations.get("First Eval");
+		secondEval_PUBLISHED = testData.evaluations.get("Second Eval");
+		thirdEval_CLOSED = testData.evaluations.get("Third Eval");
+		fourthEval_AWAITING = testData.evaluations.get("Fourth Eval");
 	}
 	
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		if (!helpWindowClosed){
-			bi.closeSelectedWindow();
-			helpWindowClosed = true;
-		}
-		BrowserInstancePool.release(bi);
-		printTestClassFooter();
-
-		// Always cleanup
-		BackDoor.deleteCourses(jsonString);
-	}
-	
-	@BeforeMethod
-	public void testSetup() {
-		if (!helpWindowClosed){
-			bi.closeSelectedWindow();
-			helpWindowClosed = true;
-		}
-	}
 
 	@Test
-	public void testInstructorHomePage() throws Exception{
-		testInstructorHomeHTML();
-		testInstructorHomeEvalRemindLink();
-		testInstructorHomeEvalPublishLink();
-		testInstructorHomeEvalDeleteLink();
-		testInstructorHomeCourseDeleteLink();
-		testInstructorHomeEmptyHTML();
+	public void allTests() throws Exception{
+		testLogin();
+		testContent();
 		testHelpLink();
+		testCourseLinks();
+		testEvaluationLinks();
+		testRemindAction();
+		testPublishUnpublishActions();
+		testDeleteEvalAction();
+		testDeleteCourseAction();
+	}
+	
+	public void testLogin(){
+		______TS("login");
+		
+		homePage = HomePage.getNewInstance(browser)
+				.clickInstructorLogin()
+				.loginAsInstructor(
+						TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+						TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+	}
+	
+	public void testContent(){
+		
+		______TS("content: no courses");
+		
+		//this case is implicitly tested when testing for 'delete course' action
+			
+		______TS("content: multiple courses");
+		
+		//already logged in
+		homePage.verifyHtml("/instructorHomeHTML.html");
+		
 	}
 	
 	public void testHelpLink() throws Exception{
-		helpWindowClosed = false;
-		bi.clickAndSwitchToNewWindow(bi.helpTab);
-		assertContains("<title>Teammates Online Peer Feedback System for Student Team Projects - Instructor Help</title>", bi.getCurrentPageSource());
+		
+		______TS("link: help page");
+		
+		InstructorHelpPage helpPage = homePage.clickHelpLink();
+		helpPage.closeCurrentWindowAndSwitchToParentWindow();
+		
 	}
 	
-	public void testInstructorHomeHTML() throws Exception{
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeHTML.html");
-	}
-
-	public void testInstructorHomeEvalRemindLink(){
-		
-		// Check the remind link on Open Evaluation: Evaluation 1 at Course 1
-		By remindLinkLocator = bi.getInstructorHomeEvaluationRemindLinkLocator(firstEval.courseId, firstEval.name);
-		
-		try{
-			bi.clickAndCancel(remindLinkLocator);
-		} catch (NoAlertException e){
-			Assert.fail("Remind link unavailable on OPEN evaluation, or it is available but no confirmation box");
-		}
-	}
-
-	public void testInstructorHomeEvalPublishLink(){
-		
-		______TS("publish link of CLOSED evaluation");
-		
-		// Check the publish link on Closed Evaluation: Evaluation 3 at Course 2
-		By publishLinkLocator = bi.getInstructorHomeEvaluationPublishLinkLocator(thirdEval.courseId, thirdEval.name);
-		
-		try{
-			bi.clickAndCancel(publishLinkLocator);
-		} catch (NoAlertException e){
-			Assert.fail("Publish link unavailable on CLOSED evaluation, or it is available but no confirmation box");
-		}
-		
-		______TS("publish link of OPEN evaluation");
-		
-		// Check the publish link on Open Evaluation: Evaluation 1 at Course 1
-		publishLinkLocator = bi.getInstructorHomeEvaluationPublishLinkLocator(firstEval.courseId, firstEval.name);
-		try{
-			bi.clickAndCancel(publishLinkLocator);
-			Assert.fail("Publish link available on OPEN evaluation");
-		} catch (NoAlertException e){}
-		
-		______TS("unpublish link of PUBLISHED evaluation");
-
-		// Check the unpublish link on Published Evaluation: Evaluation 2 at Course 1
-		By unpublishLinkLocator = bi.getInstructorHomeEvaluationUnpublishLinkLocator(secondEval.courseId, secondEval.name);
-		try{
-			bi.clickAndCancel(unpublishLinkLocator);
-		} catch (NoAlertException e){
-			Assert.fail("Unpublish link unavailable on PUBLISHED evaluation");
-		}
-	}
-
-	public void testInstructorHomeEvalDeleteLink() throws Exception{
-		
-		______TS("click and cancel");
-		
-		By deleteLinkLocator = bi.getInstructorHomeEvaluationDeleteLinkLocator(firstEval.courseId, firstEval.name);
-		
-		try{
-			bi.clickAndCancel(deleteLinkLocator);
-			String evaluation = BackDoor.getEvaluationAsJson(firstEval.courseId, firstEval.name);
-			if(isNullJSON(evaluation)) Assert.fail("Evaluation was deleted when it's not supposed to be");
-		} catch (NoAlertException e){
-			Assert.fail("Delete link is unavailable or it is available but no confirmation box");
-		}
-		
-		______TS("click and confirm");
-		
-		try{
-			bi.clickAndConfirm(deleteLinkLocator);
-			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeEvalDeleteSuccessful.html");
-		} catch (NoAlertException e){
-			Assert.fail("Delete link is unavailable or it is available but no confirmation box");
-		}
-	}
-
-	public void testInstructorHomeCourseDeleteLink() throws Exception{
-		
-		______TS("click and cancel");
-		
-		By deleteLinkLocator = bi.getInstructorHomeCourseDeleteLinkLocator(scn.courses.get("CHomeUiT.CS2104").id);
-		
-		try{
-			bi.clickAndCancel(deleteLinkLocator);
-			String course = BackDoor.getCourseAsJson(scn.courses.get("CHomeUiT.CS2104").id);
-			if(isNullJSON(course)) Assert.fail("Course was deleted when it's not supposed to be");
-		} catch (NoAlertException e){
-			Assert.fail("Delete course button unavailable, or it is available but no confirmation box");
-		}
-		
-		______TS("click and confirm");
-		
-		try{
-			bi.clickAndConfirm(deleteLinkLocator);
-			bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeCourseDeleteSuccessful.html");
-		} catch (NoAlertException e){
-			Assert.fail("Delete course button unavailable, or it is available but no confirmation box");
-		}
+	public void testCourseLinks(){
+		//TODO: check Enroll, View, Edit, Add Evaluation links
 	}
 	
-	public void testInstructorHomeEmptyHTML() throws Exception{
+	public void testEvaluationLinks(){
+		//TODO: check View results, Edit links
+	}
+	
+	public void testRemindAction(){
 		
-		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS2104").id);
-		BackDoor.deleteCourse(scn.courses.get("CHomeUiT.CS1101").id);
+		______TS("remind action: AWAITING evaluation");
 		
-		bi.clickHomeTab();
-		// TODO: Implement with Account (Instructor with no Course)
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER+"/instructorHomeHTMLEmpty.html");
+		homePage.verifyUnclickable(homePage.getRemindLink(fourthEval_AWAITING.courseId, fourthEval_AWAITING.name));
+		
+		______TS("remind action: OPEN evaluation");
+		
+		homePage.clickAndCancel(homePage.getRemindLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
+		homePage.clickAndConfirm(homePage.getRemindLink(firstEval_OPEN.courseId, firstEval_OPEN.name))
+			.verifyStatus(Common.MESSAGE_EVALUATION_REMINDERSSENT);
+		
+		//go back to previous page because 'send reminder' redirects to the 'Evaluations' page.
+		homePage.goToPreviousPage(InstructorHomePage.class);
+		
+		______TS("remind action: CLOSED evaluation");
+		
+		homePage.verifyUnclickable(homePage.getRemindLink(thirdEval_CLOSED.courseId, thirdEval_CLOSED.name));
+		
+		______TS("remind action: PUBLISHED evaluation");
+		
+		homePage.verifyUnclickable(homePage.getRemindLink(secondEval_PUBLISHED.courseId, secondEval_PUBLISHED.name));
+
+	}
+
+	public void testPublishUnpublishActions(){
+		
+		______TS("publish action: AWAITING evaluation");
+		
+		homePage.verifyUnclickable(homePage.getPublishLink(fourthEval_AWAITING.courseId, fourthEval_AWAITING.name));
+		
+		______TS("publish action: OPEN evaluation");
+		
+		homePage.verifyUnclickable(homePage.getPublishLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
+		
+		______TS("publish action: CLOSED evaluation");
+		
+		String courseId = thirdEval_CLOSED.courseId;
+		String evalName = thirdEval_CLOSED.name;
+		
+		homePage.clickAndCancel(homePage.getPublishLink(courseId, evalName));
+		assertEquals(EvalStatus.CLOSED, BackDoor.getEvaluation(courseId, evalName).getStatus());
+		
+		homePage.clickAndConfirm(homePage.getPublishLink(courseId, evalName))
+			.verifyStatus(Common.MESSAGE_EVALUATION_PUBLISHED);
+		assertEquals(EvalStatus.PUBLISHED, BackDoor.getEvaluation(courseId, evalName).getStatus());
+		
+		______TS("unpublish action: PUBLISHED evaluation");
+		
+		homePage.clickAndCancel(homePage.getUnpublishLink(courseId, evalName));
+		assertEquals(EvalStatus.PUBLISHED, BackDoor.getEvaluation(courseId, evalName).getStatus());
+		
+		homePage.clickAndConfirm(homePage.getUnpublishLink(courseId, evalName))
+			.verifyStatus(Common.MESSAGE_EVALUATION_UNPUBLISHED);
+		assertEquals(EvalStatus.CLOSED, BackDoor.getEvaluation(courseId, evalName).getStatus());
+	}
+
+	public void testDeleteEvalAction() throws Exception{
+		
+		______TS("delete evaluation action");
+		
+		homePage.clickAndCancel(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
+		assertNotNull(BackDoor.getEvaluation(firstEval_OPEN.courseId, firstEval_OPEN.name));
+		
+		homePage.clickAndConfirm(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name))
+			.verifyHtml("/instructorHomeEvalDeleteSuccessful.html");
+		assertNull(BackDoor.getEvaluation(firstEval_OPEN.courseId, firstEval_OPEN.name));
+		
+	}
+
+	public void testDeleteCourseAction() throws Exception{
+		
+		______TS("delete course action");
+		
+		String courseId = testData.courses.get("CHomeUiT.CS2104").id;
+		homePage.clickAndCancel(homePage.getDeleteCourseLink(courseId));
+		assertNotNull(BackDoor.getCourse(courseId));
+		
+		homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
+		homePage.verifyHtml("/instructorHomeCourseDeleteSuccessful.html");
+		assertNull(BackDoor.getCourse(courseId));
+		
+		//delete the other course as well
+		homePage.clickAndConfirm(homePage.getDeleteCourseLink(testData.courses.get("CHomeUiT.CS1101").id));
+		
+		homePage.clickHomeTab();
+		homePage.verifyHtml("/instructorHomeHTMLEmpty.html");
+		
+	}
+
+
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		BrowserPool.release(browser);
 	}
 }
