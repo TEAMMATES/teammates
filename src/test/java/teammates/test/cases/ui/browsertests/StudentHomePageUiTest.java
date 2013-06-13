@@ -18,7 +18,7 @@ import teammates.test.pageobjects.StudentHomePage;
 /**
  * Covers Homepage and Login page for students. Some part of it is using a 
  * real Google account alice.tmms. <br> 
- * SUT: {@link StudentHelpPage}.
+ * SUT: {@link StudentHelpPage} and {@link LoginPage} for students.
  */
 public class StudentHomePageUiTest extends BaseUiTestCase {
 	private static Browser browser;
