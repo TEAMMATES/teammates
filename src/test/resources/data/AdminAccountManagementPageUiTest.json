@@ -1,0 +1,41 @@
+{
+  "accounts": {
+    "AAMgtUiT.instr1": {
+      "googleId": "AAMgtUiT.instr1",
+      "name": "Teammates Instr1",
+      "isInstructor": true,
+      "email": "AAMgtUiT.instr1@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "AAMgtUiT.instr3": {
+      "googleId": "AAMgtUiT.instr3",
+      "name": "Teammates Instr3",
+      "isInstructor": true,
+      "email": "AAMgtUiT.instr3@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "instructors": {
+    "AAMgtUiT.instr1": {
+      "googleId": "AAMgtUiT.instr1",
+      "courseId": "AAMgtUiT.CS2104",
+      "name": "Teammates Instr1",
+      "email": "AAMgtUiT.instr1@gmail.com"
+    },
+    "AAMgtUiT.instr3": {
+      "googleId": "AAMgtUiT.instr3",
+      "courseId": "AAMgtUiT.CS2104",
+      "name": "Teammates Instr3",
+      "email": "AAMgtUiT.instr2@gmail.com"
+    }
+  },
+
+  "courses": {
+    "AAMgtUiT.CS2104": {
+      "id": "AAMgtUiT.CS2104",
+      "name": "Programming Language Concepts"
+    }
+  }
+  
+}

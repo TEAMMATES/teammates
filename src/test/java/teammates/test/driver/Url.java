@@ -58,6 +58,11 @@ public class Url {
 		return this;
 	}
 
+	public Url withInstructorId(String instructorId) {
+		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_INSTRUCTOR_ID, instructorId);
+		return this;
+	}
+
 	@Override
 	public String toString(){
 		return urlString;

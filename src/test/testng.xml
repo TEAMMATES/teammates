@@ -16,7 +16,8 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />

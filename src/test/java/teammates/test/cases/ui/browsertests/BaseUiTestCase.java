@@ -23,6 +23,10 @@ public class BaseUiTestCase extends BaseTestCase {
 		
 		String instructorId = url.get(Common.PARAM_USER_ID);
 		
+		if(instructorId==null){ //admin using system as admin
+			instructorId = "defaultAdmin";
+		}
+		
 		if(browser.isAdminLoggedIn){
 			browser.driver.get(url.toString());
 		} else {

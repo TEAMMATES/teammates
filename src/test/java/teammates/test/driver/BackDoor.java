@@ -148,6 +148,10 @@ public class BackDoor {
 				.toJson(dataBundle));
 	}
 	
+	public static AccountAttributes getAccount(String googleId) {
+		return Common.getTeammatesGson().fromJson(getAccountAsJson(googleId), AccountAttributes.class);
+	}
+	
 	public static String getAccountAsJson(String googleId) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_ACCOUNT_AS_JSON);
 		params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);

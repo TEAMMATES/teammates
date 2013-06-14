@@ -247,6 +247,24 @@ public abstract class AppPage {
 		return textBox.getAttribute("value");
 	}
 
+	/** 'check' the check box, if it is not already 'checked'.
+	 * No action taken if it is already 'checked'.
+	 */
+	protected void markCheckBoxAsChecked(WebElement checkBox) {
+		if(!checkBox.isSelected()){
+			checkBox.click();
+		}
+	}
+
+	/** 'uncheck' the check box, if it is already 'checked'.
+	 * No action taken if it is not already 'checked'.
+	 */
+	protected void markCheckBoxAsUnchecked(WebElement checkBox) {
+		if(checkBox.isSelected()){
+			checkBox.click();
+		}
+	}
+
 	public void selectDropdownByValue(WebElement element, String value) {
 		element.click();
 		Select select = new Select(element);
