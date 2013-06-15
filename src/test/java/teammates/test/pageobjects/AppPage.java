@@ -1,16 +1,13 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.junit.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
-import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -114,6 +111,13 @@ public abstract class AppPage {
 	public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage){
 		return createNewPage(currentBrowser, typeOfPage);
 	}
+	
+	/**
+	 * Gives an AppPage instance based on the given Browser.
+	 */
+	public static AppPage getNewPageInstance(Browser currentBrowser){
+		return getNewPageInstance(currentBrowser, GenericAppPage.class);
+	}
 
 	/**
 	 * Fails if the new page content does not match content expected in a page of
@@ -131,6 +135,14 @@ public abstract class AppPage {
 	 */
 	public <T extends AppPage> T navigateTo(Url url, Class<T> typeOfDestinationPage){
 		return getNewPageInstance(browser, url, typeOfDestinationPage);
+	}
+	
+	/**
+	 * Simply loads the given URL. 
+	 */
+	public AppPage navigateTo(Url url){
+		browser.driver.get(url.toString());
+		return this;
 	}
 
 	/**
@@ -163,8 +175,7 @@ public abstract class AppPage {
 	
 	public void closeCurrentWindowAndSwitchToParentWindow() {
 		browser.selenium.close();
-		browser.selenium.selectWindow("null");
-		browser.selenium.windowFocus();
+		switchToParentWindow();
 	}
 	
 	public void switchToParentWindow() {
@@ -172,7 +183,7 @@ public abstract class AppPage {
 		browser.selenium.windowFocus();
 	}
 
-	public void reloadCurrentUrl() {
+	public void reloadPage() {
 		browser.driver.get(browser.driver.getCurrentUrl());
 	}
 
@@ -208,9 +219,11 @@ public abstract class AppPage {
 
 	/**
 	 * Equivalent to clicking the 'logout' link in the top menu of the page.
+	 * @return 
 	 */
-	public void logout(){
+	public AppPage logout(){
 		logout(browser);
+		return this;
 	}
 	
 	/**
@@ -236,6 +249,10 @@ public abstract class AppPage {
 	public void click(By by) {
 		WebElement element = browser.driver.findElement(by);
 		element.click();
+	}
+	
+	public String getElementAttribute(By locator, String attrName) {
+		return browser.driver.findElement(locator).getAttribute(attrName);
 	}
 	
 	protected void fillTextBox(WebElement textBoxElement, String value) {
@@ -265,14 +282,6 @@ public abstract class AppPage {
 		}
 	}
 
-	public void selectDropdownByValue(WebElement element, String value) {
-		element.click();
-		Select select = new Select(element);
-		select.selectByValue(value);
-		WebElement selected = select.getFirstSelectedOption();
-		assertEquals(value, selected.getAttribute("value"));
-	}
-	
 	/** 
 	 * Selection is based on the value shown to the user. 
 	 * Since selecting an option by clicking on the option doesn't work sometimes
@@ -321,8 +330,8 @@ public abstract class AppPage {
 	 * Fails if there is no dialog box.
 	 * @return the resulting page.
 	 */
-	public void clickAndCancel(WebElement element){
-		respondToAlert(element, false);
+	public void clickAndCancel(WebElement elementToClick){
+		respondToAlert(elementToClick, false);
 		waitForPageToLoad();
 	}
 	

@@ -5,7 +5,9 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.test.driver.Url;
 
-
+/**
+ * Represents the home page of the website (i.e., index.html)
+ */
 public class HomePage extends AppPage {
 	
 	@FindBy(id = "btnInstructorLogin")

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * This class is thread-safe.  
  */
 public class BrowserPool {
-	/* This classs is implemented as a Singleton class.
+	/* This class is implemented as a Singleton class.
 	 * The reason we're not implementing this class as static because we want to
 	 * use wait() and notify().
 	 */

@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=8"></link>
 		<title>Teammates - Webpage Compilation</title>
 		
-		<link rel=stylesheet href="webpageCompilation.css" type="text/css"></link>
+		<link rel=stylesheet href="mashup.css" type="text/css"></link>
 		<script language="JavaScript" src="/js/jquery-minified.js"></script>
 		<script language="JavaScript" src="/js/tooltip.js"></script>
 		<script src="/js/common.js" type="text/javascript"></script>

@@ -36,7 +36,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 	 */
 	
 	/* Explanation: This is made a static variable for convenience 
-	 * (no need to declare it multiple times in multiple methods) */
+	 * (i.e. no need to declare it multiple times in multiple methods) */
 	private static InstructorCoursesPage coursesPage;
 	private static DataBundle testData;
 	
@@ -53,7 +53,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		 * another test. To that end, we should make the dataset in the .json 
 		 * file independent from other tests. Our approach is to add a unique
 		 * prefix to identifiers in the json file. e.g., Google IDs, course IDs,
-		 * etc. This identifer can be based on the name of the test class.
+		 * etc. This identifier can be based on the name of the test class.
 		 * e.g., "ICPUiT.inst.withnocourses" can be a Google ID unique to this
 		 * class.
 		 */
@@ -148,6 +148,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		______TS("view link");
 		
+		/* Explanation: When checking links, we check the destination page
+		 * for some keywords rather than do a full content match.
+		 */
 		InstructorCourseDetailsPage detailsPage = coursesPage.loadViewLink(courseId)
 				.verifyIsCorrectPage(courseId);
 		
@@ -156,7 +159,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		______TS("enroll link");
 		
 		InstructorCourseEnrollPage enrollPage = coursesPage.loadEnrollLink(courseId)
-				.verifyContents(courseId);
+				.verifyIsCorrectPage(courseId);
 		
 		coursesPage = enrollPage.goToPreviousPage(InstructorCoursesPage.class);
 		
@@ -304,6 +307,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		detailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
 		detailsPage.verifyHtml("/instructorCourseDetailsVerifyInstructorList.html");
+		
+		______TS("add action input sanitizatin");
+		
+		/* Explanation: Here, we check for things such as trimming of input
+		 * values done on the client-side. This should be rare since sanitizing
+		 * is mostly done on the server-side.
+		 */
 		
 	}
 

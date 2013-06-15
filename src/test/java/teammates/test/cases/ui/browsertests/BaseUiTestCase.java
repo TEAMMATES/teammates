@@ -7,6 +7,7 @@ import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.driver.Url;
+import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.DevServerLoginPage;
@@ -16,6 +17,9 @@ public class BaseUiTestCase extends BaseTestCase {
 
 	protected static final String appUrl = TestProperties.inst().TEAMMATES_URL;
 
+	/**
+	 * Logs in a page using admin credentials (i.e. in masquerade mode).
+	 */
 	protected static <T extends AppPage> T loginAdminToPage(Browser browser, Url url, Class<T> typeOfPage) {
 		
 		String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT; 
@@ -55,6 +59,9 @@ public class BaseUiTestCase extends BaseTestCase {
 		return AppPage.getNewPageInstance(browser, typeOfPage);
 	}
 	
+	/**
+	 * Deletes are recreates the given data on the datastore.
+	 */
 	protected static void restoreTestDataOnServer(DataBundle testData) {
 		String backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
@@ -66,6 +73,10 @@ public class BaseUiTestCase extends BaseTestCase {
 		}
 		String jsonString = Common.readFile(pathToJsonFile);
 		return Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+	}
+
+	protected static AdminHomePage loginAdmin(Browser currentBrowser) {
+		return loginAdminToPage(currentBrowser, new Url(Common.PAGE_ADMIN_HOME), AdminHomePage.class);
 	}
 
 

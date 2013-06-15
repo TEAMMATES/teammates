@@ -36,14 +36,7 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 		browser = BrowserPool.getBrowser();
 		
 		existingEval = testData.evaluations.get("evaluation");
-		String instructorId = testData.instructors.get("instructor").googleId;
 		
-		Url editPageUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_EDIT)
-			.withUserId(instructorId)
-			.withCourseId(existingEval.courseId)
-			.withEvalName(existingEval.name);
-
-		editPage = loginAdminToPage(browser, editPageUrl, InstructorEvalEditPage.class);
 	}
 	
 	@Test
@@ -56,6 +49,13 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 	
 	public void testContent() throws Exception{
 		
+		String instructorId = testData.instructors.get("instructor").googleId;
+		Url editPageUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_EDIT)
+		.withUserId(instructorId)
+		.withCourseId(existingEval.courseId)
+		.withEvalName(existingEval.name);
+		
+		editPage = loginAdminToPage(browser, editPageUrl, InstructorEvalEditPage.class);
 		editPage.verifyHtml("/instructorEvalEdit.html");
 	}
 	
@@ -81,7 +81,7 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testCancelAction(){
-		//TODO: implement this
+		//TODO: implement this, or remove the 'Cancel' button (preferred).
 	}
 
 	private void testInputValidation() {
@@ -92,8 +92,5 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 	public static void classTearDown() throws Exception {
 		BrowserPool.release(browser);
 	}
-	
-
-
 
 }

@@ -2,13 +2,14 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
+
 import java.io.FileNotFoundException;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
@@ -17,16 +18,23 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.BrowserInstance;
-import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
+import teammates.test.driver.Url;
+import teammates.test.pageobjects.AppPage;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.DevServerLoginPage;
+import teammates.test.pageobjects.GoogleLoginPage;
+import teammates.test.pageobjects.HomePage;
+import teammates.test.pageobjects.InstructorCourseEditPage;
+import teammates.test.pageobjects.InstructorCourseEnrollPage;
+import teammates.test.pageobjects.InstructorCoursesPage;
+import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.LoginPage;
 
-public class AllAccessControlUiTests extends BaseTestCase {
+public class AllAccessControlUiTests extends BaseUiTestCase {
 	
-	private static String appUrl = TestProperties.inst().TEAMMATES_URL;
-
 	private static String unregUsername = TestProperties.inst().TEST_UNREG_ACCOUNT;
 	private static String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
 
@@ -38,9 +46,10 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	static String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT;
 
-	private static BrowserInstance bi;
-	private static DataBundle dataBundle;
+	private static Browser browser;
+	private static DataBundle testData;
 	private static String backDoorOperationStatus;
+	private static AppPage currentPage;
 	private static String link;
 
 	private static InstructorAttributes otherInstructor;
@@ -61,21 +70,22 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		printTestClassHeader();
 
-		dataBundle = getTypicalDataBundle();
+		testData = getTypicalDataBundle();
 		
-		otherInstructor = dataBundle.instructors.get("instructor1OfCourse2");
+		otherInstructor = testData.instructors.get("instructor1OfCourse2");
 
-		ownCourse = dataBundle.courses.get("typicalCourse1");
-		otherCourse = dataBundle.courses.get("typicalCourse2");
+		ownCourse = testData.courses.get("typicalCourse1");
+		otherCourse = testData.courses.get("typicalCourse2");
 
-		ownStudent = dataBundle.students.get("student1InCourse1");
-		otherStudent = dataBundle.students.get("student1InCourse2");
+		ownStudent = testData.students.get("student1InCourse1");
+		otherStudent = testData.students.get("student1InCourse2");
 
-		ownEvaluation = dataBundle.evaluations.get("evaluation1InCourse1");
-		otherEvaluation = dataBundle.evaluations.get("evaluation1InCourse2");
+		ownEvaluation = testData.evaluations.get("evaluation1InCourse1");
+		otherEvaluation = testData.evaluations.get("evaluation1InCourse2");
 
-		bi = BrowserInstancePool.getBrowserInstance();
-		bi.logout(); // in case already logged in
+		browser = BrowserPool.getBrowser();
+		
+		currentPage = HomePage.getNewInstance(browser);
 	}
 	
 	@BeforeMethod
@@ -84,17 +94,11 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		restoreTestData();
 	}
 
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		BrowserInstancePool.release(bi);
-		printTestClassFooter();
-	}
-
 	@Test
 	public void testUserNotLoggedIn() throws Exception {
-
-		bi.logout();
-		bi.verifyCurrentPageHTML(Common.TEST_PAGES_FOLDER + "/login.html");
+		
+		currentPage.logout()
+			.verifyHtml("/login.html");
 
 		______TS("student pages");
 
@@ -131,10 +135,10 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("admin pages");
 
-		link = Common.PAGE_ADMIN_HOME;
-		verifyRedirectToLogin(link);
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, adminUsername);
-		verifyRedirectToLogin(link);
+		verifyRedirectToLogin(Common.PAGE_ADMIN_HOME);
+		verifyRedirectToLogin(new Url(Common.PAGE_ADMIN_HOME).withUserId(adminUsername).toString());
+		
+		//TODO: add other admin pages?
 	}
 
 	@Test
@@ -142,175 +146,151 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 		______TS("student pages");
 
-		bi.logout();
-		bi.loginStudent(unregUsername, unregPassword);
+		loginStudent(unregUsername, unregPassword);
 
-		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_HOME,
-				unregUsername);
-		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_JOIN_COURSE,
-				unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_HOME, unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_JOIN_COURSE, unregUsername);
 
-		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_COURSE_DETAILS,
-				unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_COURSE_DETAILS, unregUsername);
 
-		verifyRedirectToWelcomeStrangerPage(
-				Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT, unregUsername);
-		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_RESULTS,
-				unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT, unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_RESULTS, unregUsername);
 
 		______TS("instructor pages");
 
-		bi.logout();
-		bi.loginInstructor(unregUsername, unregPassword);
+		loginInstructorUnsuccessfully(unregUsername, unregPassword);
 
-		link = Common.PAGE_INSTRUCTOR_HOME;
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		Url url = new Url(Common.PAGE_INSTRUCTOR_HOME);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_COURSE;
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 		
-		link = Common.PAGE_INSTRUCTOR_COURSE_ADD;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, "id");
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_NAME, "name");
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_INSTRUCTOR_LIST, "g1|n1|e@b.com");
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_ADD)
+			.withCourseId("id")
+			.withCourseName("name")
+			.withParam(Common.PARAM_COURSE_INSTRUCTOR_LIST, "g1|n1|e@b.com");
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_DELETE;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_DELETE)
+			.withCourseId(otherCourse.id);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
+			.withCourseId(otherCourse.id);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 		
-		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_EDIT)
+			.withCourseId(otherCourse.id);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 		
-		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT_SAVE;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_INSTRUCTOR_LIST, "g1|n1|e@b.com");
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_EDIT_SAVE)
+			.withCourseId(otherCourse.id)
+			.withParam(Common.PARAM_COURSE_INSTRUCTOR_LIST, "g1|n1|e@b.com");
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_ENROLL;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		bi.goToUrl(link);
-		verifyRedirectToNotAuthorized();
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructor.googleId);
-		bi.goToUrl(link);
-		verifyRedirectToNotAuthorized();
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_ENROLL)
+			.withCourseId(otherCourse.id);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
+
 		
-		link = Common.PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENTS_ENROLLMENT_INFO, "t1|n1|e@b.com");
-		bi.goToUrl(link);
-		verifyRedirectToNotAuthorized();
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE)
+			.withCourseId(otherCourse.id)
+			.withParam(Common.PARAM_STUDENTS_ENROLLMENT_INFO, "t1|n1|e@b.com");
+		verifyRedirectToNotAuthorized(url);
 		
 		// remind whole course
-		link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_REMIND)
+			.withCourseId(otherCourse.id);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
 		// remind one student
-		link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_REMIND)
+			.withCourseId(otherCourse.id)
+			.withStudentEmail(otherStudent.email);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE)
+			.withCourseId(otherCourse.id)
+			.withStudentEmail(otherStudent.email);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS)
+			.withCourseId(otherCourse.id)
+			.withStudentEmail(otherStudent.email);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT)
+			.withCourseId(otherCourse.id)
+			.withStudentEmail(otherStudent.email);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_EVAL;
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_EVAL);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_EVAL_EDIT)
+			.withCourseId(otherCourse.id)
+			.withEvalName(otherEvaluation.name);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_DELETE;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_EVAL_DELETE)
+			.withCourseId(otherCourse.id)
+			.withEvalName(otherEvaluation.name);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_REMIND;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_EVAL_REMIND)
+			.withCourseId(otherCourse.id)
+			.withEvalName(otherEvaluation.name);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_EVAL_RESULTS)
+			.withCourseId(otherCourse.id)
+			.withEvalName(otherEvaluation.name);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_PUBLISH;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_EVAL_PUBLISH)
+			.withCourseId(otherCourse.id)
+			.withEvalName(otherEvaluation.name);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_EVAL_UNPUBLISH)
+			.withCourseId(otherCourse.id)
+			.withEvalName(otherEvaluation.name);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW)
+			.withCourseId(otherCourse.id)
+			.withEvalName(otherEvaluation.name)
+			.withStudentEmail(otherStudent.email);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
-		verifyRedirectToNotAuthorized(link);
-		verifyCannotMasquerade(link, otherInstructor.googleId);
+		url = new Url(Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT)
+			.withCourseId(otherCourse.id)
+			.withEvalName(otherEvaluation.name)
+			.withStudentEmail(otherStudent.email);
+		verifyRedirectToNotAuthorized(url);
+		verifyCannotMasquerade(url, otherInstructor.googleId);
 
 		______TS("admin pages");
 		
@@ -318,27 +298,26 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		verifyCannotAccessAdminPages();
 		
 		//cannot access admin while logged in as student
-		bi.logout();
-		bi.loginStudent(unregUsername, unregPassword);
+		loginStudent(unregUsername, unregPassword);
 		verifyCannotAccessAdminPages();
 	}
 
 	@Test
 	public void testStudentAccessToAdminPages() throws Exception {
-		bi.loginStudent(studentUsername, studentPassword);
+		loginStudent(studentUsername, studentPassword);
 		verifyCannotAccessAdminPages();
 	}
 
 	@Test
 	public void testStudentHome() {
-		bi.loginStudent(studentUsername, studentPassword);
+		loginStudent(studentUsername, studentPassword);
 		verifyPageContains(Common.PAGE_STUDENT_HOME, studentUsername
 				+ "{*}Student Home{*}View Team");
 	}
 
 	@Test
 	public void testStudentJoinCourse() {
-		bi.loginStudent(studentUsername, studentPassword);
+		loginStudent(studentUsername, studentPassword);
 		verifyPageContains(Common.PAGE_STUDENT_JOIN_COURSE, studentUsername
 				+ "{*}Student Home{*}View Team");
 	}
@@ -346,7 +325,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	@Test
 	public void testStudentCourseDetails() {
 		
-		bi.loginStudent(studentUsername, studentPassword);
+		loginStudent(studentUsername, studentPassword);
 		
 		______TS("student can view details of a student's own course");
 		
@@ -358,13 +337,13 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		______TS("student cannot view details of a course she is not registered for");
 		
 		link = Common.PAGE_STUDENT_COURSE_DETAILS;
-		CourseAttributes otherCourse = dataBundle.courses.get("typicalCourse2");
+		CourseAttributes otherCourse = testData.courses.get("typicalCourse2");
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		verifyRedirectToNotAuthorized(link);
 	
 		______TS("student cannot view course details while masquerading as a student in that course");
 	
-		StudentAttributes otherStudent = dataBundle.students.get("student1InCourse2");
+		StudentAttributes otherStudent = testData.students.get("student1InCourse2");
 		// ensure other student belong to other course
 		assertEquals(otherStudent.course, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherStudent.googleId);
@@ -374,11 +353,11 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	@Test
 	public void testStudentEvalSubmission() {
 		
-		bi.loginStudent(studentUsername, studentPassword);
+		loginStudent(studentUsername, studentPassword);
 		
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		EvaluationAttributes ownEvaluation = dataBundle.evaluations.get("evaluation1InCourse1");
+		EvaluationAttributes ownEvaluation = testData.evaluations.get("evaluation1InCourse1");
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,	ownEvaluation.name);
 		
 		______TS("student cannot submit evaluation in AWAITING state");
@@ -389,12 +368,12 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		assertEquals(EvalStatus.AWAITING, ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		bi.goToUrl(link);
-		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_NOT_OPEN);
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
+		currentPage.navigateTo(new Url(link))
+			.verifyStatus(Common.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
 		
 		______TS("student can view own evaluation submission page");
 	
@@ -412,12 +391,12 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		bi.goToUrl(link);
-		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_NOT_OPEN);
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
+		currentPage.navigateTo(new Url(link))
+			.verifyStatus(Common.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
 		
 		______TS("student cannot submit evaluation in CLOSED state (evaluation with different timezone)");
 		//Set the end time to the next hour, but push the timezone ahead 2 hours, so the evaluation has expired by 1 hour
@@ -430,12 +409,12 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		//  case only checks if editing is disabled when timezone is ahead.
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		bi.goToUrl(link);
-		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_NOT_OPEN);
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
+		currentPage.navigateTo(new Url(link))
+			.verifyStatus(Common.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
 		
 		______TS("student cannot submit evaluation in PUBLISHED state");
 	
@@ -445,18 +424,18 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		bi.goToUrl(link);
-		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_NOT_OPEN);
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
-		assertEquals("true", bi.getElementAttribute(bi.studentSubmitEvaluationButton, "disabled"));
+		currentPage.navigateTo(new Url(link))
+			.verifyStatus(Common.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
 		
 	}
 
 	@Test
 	public void testStudentEvalResult() {
-		bi.loginStudent(studentUsername, studentPassword);
+		loginStudent(studentUsername, studentPassword);
 		______TS("student cannot view own evaluation result before publishing");
 		
 		ownEvaluation.published = false;
@@ -509,15 +488,14 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	}
 
 	public void testInstructorAccessToAdminPages() throws Exception {
-		
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 		
 		verifyCannotAccessAdminPages();
 	}
 
 	public void testInstructorHome() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can view own homepage");
 	
@@ -534,7 +512,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorCourseAdd() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can view own course page");
 	
@@ -545,10 +523,11 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		______TS("can add course");
 	
 		link = Common.PAGE_INSTRUCTOR_COURSE;
-		bi.goToUrl(link);
-		bi.addCourse("new-course-tCCA", "New Course");
+		
+		InstructorCoursesPage coursesPage = currentPage.navigateTo(new Url(link), InstructorCoursesPage.class);
+		coursesPage.addCourse("new-course-tCCA", "New Course", null);
 		assertContainsRegex(instructorUsername + "{*}Add New Course{*}"
-				+ Common.MESSAGE_COURSE_ADDED, bi.getCurrentPageSource());
+				+ Common.MESSAGE_COURSE_ADDED, coursesPage.getPageSource());
 	
 		______TS("cannot add course while masquerading");
 	
@@ -557,7 +536,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorCourseDetails() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can view own course details");
 	
@@ -594,7 +573,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorEnroll() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can view own course enroll page");
 	
@@ -603,9 +582,9 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	
 		verifyPageContains(link, instructorUsername + "{*}Enroll Students for{*}"
 				+ ownCourse.id);
-		bi.fillString(By.id("enrollstudents"), "t1|name1|email1@gmail.com");
-		bi.click(By.id("button_enroll"));
-		assertContains("Enrollment Results for " + ownCourse.id, bi.getCurrentPageSource());
+		InstructorCourseEnrollPage enrollPage = currentPage.changePageType(InstructorCourseEnrollPage.class);
+		enrollPage.enroll("t1|name1|email1@gmail.com");
+		assertContains("Enrollment Results for " + ownCourse.id, enrollPage.getPageSource());
 	
 		______TS("cannot view others course enroll page");
 	
@@ -633,26 +612,24 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorStudentEdit() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can edit details of own student");
 	
 		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, ownStudent.email);
 		verifyPageContains(link, instructorUsername + "{*}Edit Student Details{*}"
 				+ ownStudent.email);
-		bi.click(bi.instructorCourseDetailsStudentEditSaveButton);
+		currentPage.click(By.id("button_submit"));
 		assertContainsRegex(instructorUsername + "{*}Course Details{*}"
-				+ Common.MESSAGE_STUDENT_EDITED, bi.getCurrentPageSource());
+				+ Common.MESSAGE_STUDENT_EDITED, currentPage.getPageSource());
 		
 		______TS("cannot edit details of not-own student");
 	
 		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 	
 		______TS("cannot edit details of not-own student by masquerading");
@@ -662,14 +639,13 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorCourseRemind() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can send reminders to own student");
 	
 		link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, ownStudent.email);
 		verifyPageContains(link, instructorUsername + "{*}Course Details{*}"
 				+ ownCourse.id);
 	
@@ -677,8 +653,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	
 		link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 	
 		______TS("cannot send reminders to not-own student by masquerading");
@@ -704,40 +679,36 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	}
 
 	public void testInstructorCourseEdit() {
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		
+		loginInstructor(instructorUsername, instructorPassword);
 		
 		______TS("can edit own course details");
 	
 		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		
-		bi.goToUrl(link);
-		bi.clickAndConfirm(By.id("button_submit"));
+		InstructorCourseEditPage editPage = currentPage.navigateTo(new Url(link),InstructorCourseEditPage.class);
+		editPage.submit();
 		
-		assertContains(
-				"The course has been edited",
-				bi.getCurrentPageSource());
+		assertContains("The course has been edited", editPage.getPageSource());
 	
 		______TS("cannot edit other course details");
 	
 		link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		
-		bi.goToUrl(link);
-		
-		verifyRedirectToNotAuthorized();
+		verifyRedirectToNotAuthorized(link);
 	}
 
 	public void testInstructorCourseStudentDetails() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can view details of own student");
 	
 		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				ownStudent.email);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, ownStudent.email);
 		verifyPageContains(link, instructorUsername + "{*}Student Details{*}"
 				+ ownStudent.email);
 	
@@ -745,8 +716,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	
 		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL,
-				otherStudent.email);
+		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
 	
 		______TS("cannot view details of not-own student by masquerading");
@@ -757,7 +727,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorEval() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can view own evals page");
 	
@@ -768,14 +738,12 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		______TS("can add eval");
 	
 		link = Common.PAGE_INSTRUCTOR_EVAL;
-		bi.goToUrl(link);
-		bi.addEvaluation(ownCourse.id, "new eval",
+		InstructorEvalsPage evalsPage = currentPage.navigateTo(new Url(link), InstructorEvalsPage.class);
+		evalsPage.addEvaluation(ownCourse.id, "new eval",
 				Common.getDateOffsetToCurrentTime(1),
 				Common.getDateOffsetToCurrentTime(2), true, "ins", 0);
-		//This test might fail on Firefox because Selenium doesn't select the right
-		//  value from the the 'course id' combo box. In that case, run the test in chrome.
 		assertContainsRegex(instructorUsername + "{*}Add New Evaluation{*}"
-				+ Common.MESSAGE_EVALUATION_ADDED, bi.getCurrentPageSource());
+				+ Common.MESSAGE_EVALUATION_ADDED, currentPage.getPageSource());
 	
 		______TS("cannot view others eval page by masquerading");
 	
@@ -784,7 +752,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorEvalEdit() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can edit own evaluation");
 	
@@ -804,8 +772,8 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				otherEvaluation.name);
-		bi.goToUrl(link);
-		bi.click(By.id("button_submit"));
+		currentPage.navigateTo(new Url(link));
+		currentPage.click(By.id("button_submit"));
 		verifyRedirectToNotAuthorized();
 	
 		______TS("cannot edit other evaluation by masquerading");
@@ -813,14 +781,14 @@ public class AllAccessControlUiTests extends BaseTestCase {
 		// note: see note in previous section.
 	
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructor.googleId);
-		bi.goToUrl(link);
-		bi.click(By.id("button_submit"));
+		currentPage.navigateTo(new Url(link));
+		currentPage.click(By.id("button_submit"));
 		verifyRedirectToNotAuthorized();
 	}
 
 	public void testInstructorEvalRemind() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can send reminders to own evaluation");
 	
@@ -846,7 +814,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorEvalResults() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can view result of own evaluation");
 	
@@ -873,7 +841,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorEvalPublish() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 		
 		______TS("can publish result of own evaluation");
 		
@@ -911,7 +879,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorEvalUnpublish() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can unpublish result of own evaluation");
 		
@@ -948,7 +916,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorEvalSubmissionView() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can view submission of own student");
 	
@@ -978,7 +946,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorEvalSubmissionEdit() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can edit submission of own student");
 	
@@ -990,12 +958,12 @@ public class AllAccessControlUiTests extends BaseTestCase {
 				ownStudent.email);
 		verifyPageContains(link, instructorUsername
 				+ "{*}Edit Student's Submission{*}" + ownStudent.name);
-		bi.click(By.id("button_submit"));
+		currentPage.click(By.id("button_submit"));
 		// We check for this message because there is no parent window for
 		// the browser to switch back as done in normal user operation.
 		assertContains(
 				"This browser window is expected to close automatically",
-				bi.getCurrentPageSource());
+				currentPage.getPageSource());
 	
 		______TS("cannot edit submission of  not-own evaluation");
 	
@@ -1014,7 +982,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorEvalDelete() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can delete own evaluation");
 	
@@ -1040,7 +1008,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorCourseStudentDelete() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can delete own student");
 	
@@ -1066,7 +1034,7 @@ public class AllAccessControlUiTests extends BaseTestCase {
 
 	public void testInstructorCourseDelete() {
 	
-		bi.loginInstructor(instructorUsername, instructorPassword);
+		loginInstructor(instructorUsername, instructorPassword);
 	
 		______TS("can delete own course");
 	
@@ -1087,10 +1055,26 @@ public class AllAccessControlUiTests extends BaseTestCase {
 	
 	}
 
+	private void loginStudent(String userName, String password) {
+		currentPage.logout();
+		LoginPage loginPage = HomePage.getNewInstance(browser).clickStudentLogin();
+		currentPage = loginPage.loginAsStudent(userName, password);
+	}
+	
+	private void loginInstructorUnsuccessfully(String userName, String password) {
+		currentPage.logout();
+		LoginPage loginPage = HomePage.getNewInstance(browser).clickInstructorLogin();
+		currentPage = loginPage.loginAsInstructorUnsuccessfully(userName, password);
+	}
+	
+	private void loginInstructor(String userName, String password) {
+		currentPage.logout();
+		LoginPage loginPage = HomePage.getNewInstance(browser).clickInstructorLogin();
+		currentPage = loginPage.loginAsInstructor(userName, password);
+	}
+
 	private static void restoreTestData() {
-		startRecordingTimeForDataImport();
-		dataBundle = getTypicalDataBundle();
-		
+		testData = getTypicalDataBundle();
 		try {
 			String jsonString = Common.readFile(Common.TEST_DATA_FOLDER
 					+ "/typicalDataBundle.json");
@@ -1113,63 +1097,79 @@ public class AllAccessControlUiTests extends BaseTestCase {
             String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString); // Persist as usual
             assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		reportTimeForDataImport();
 	}
 
 	private void verifyCannotAccessAdminPages() {
 		//cannot access directly
-		link = Common.PAGE_ADMIN_HOME;
-		verifyRedirectToNotAuthorized(link);
+		Url url = new Url(Common.PAGE_ADMIN_HOME);
+		verifyRedirectToNotAuthorized(url);
 		//cannot access by masquerading either
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, adminUsername);
-		verifyRedirectToNotAuthorized(link);
+		url = url.withUserId(adminUsername);
+		verifyRedirectToNotAuthorized(url);
 	}
 
 	private void verifyCannotMasquerade(String link, String otherInstructorId) {
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructorId);
 		verifyRedirectToNotAuthorized(link);
 	}
+	
+	private void verifyCannotMasquerade(Url url, String otherInstructorId) {
+		verifyRedirectToNotAuthorized(url.withUserId(otherInstructorId));
+	}
 
-	private void verifyRedirectToWelcomeStrangerPage(String path,
-			String unregUsername) {
+	private void verifyRedirectToWelcomeStrangerPage(String path, String unregUsername) {
 		printUrl(appUrl + path);
-		bi.goToUrl(appUrl + path);
+		currentPage.navigateTo(new Url(path));
 		// A simple regex check is enough because we do full HTML tests
 		// elsewhere
 		assertContainsRegex("{*}" + unregUsername + "{*}Welcome stranger{*}",
-				bi.getCurrentPageSource());
+				currentPage.getPageSource());
 	}
 
 	private void verifyRedirectToNotAuthorized() {
-		String pageSource = bi.getCurrentPageSource();
+		String pageSource = currentPage.getPageSource();
 		assertTrue(pageSource.contains("You are not authorized to view this page.")||
 				pageSource.contains("Your client does not have permission"));
 	}
 
 	private void verifyRedirectToNotAuthorized(String path) {
 		printUrl(appUrl + path);
-		bi.goToUrl(appUrl + path);
+		currentPage.navigateTo(new Url(path));
+		verifyRedirectToNotAuthorized();
+	}
+	
+	private void verifyRedirectToNotAuthorized(Url url) {
+		printUrl(url.toString());
+		currentPage.navigateTo(url);
 		verifyRedirectToNotAuthorized();
 	}
 
 	private void verifyPageContains(String path, String targetText) {
 		printUrl(appUrl + path);
-		bi.goToUrl(appUrl + path);
-		assertContainsRegex(targetText, bi.getCurrentPageSource());
+		currentPage.navigateTo(new Url(path));
+		assertContainsRegex(targetText, currentPage.getPageSource());
 	}
 
 	private void verifyRedirectToLogin(String path) {
 		printUrl(appUrl + path);
-		bi.goToUrl(appUrl + path);
-		assertTrue(bi.isLocalLoginPage() || bi.isGoogleLoginPage());
+		currentPage.navigateTo(new Url(path));
+		assertTrue(isLoginPage(currentPage));
+	}
+
+	private boolean isLoginPage(AppPage currentPage) {
+		return GoogleLoginPage.containsExpectedPageContents(currentPage.getPageSource())
+				|| DevServerLoginPage.containsExpectedPageContents(currentPage.getPageSource());
 	}
 
 	private void printUrl(String url) {
 		print("   " + url);
+	}
+
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		BrowserPool.release(browser);
 	}
 
 }

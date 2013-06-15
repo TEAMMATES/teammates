@@ -38,6 +38,14 @@ public class GoogleLoginPage extends LoginPage {
 	}
 
 	@Override
+	public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
+		submitCredentials(userName, password);
+		handleApprovalPageIfAny();
+		browser.isAdminLoggedIn = false;
+		return this;
+	}
+
+	@Override
 	public void loginAdminAsInstructor(
 			String adminUsername, String adminPassword, String instructorUsername) {
 		submitCredentials(adminUsername, adminPassword);

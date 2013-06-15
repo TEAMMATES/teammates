@@ -2,29 +2,30 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertTrue;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
 import java.io.File;
 import java.io.IOException;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.BrowserInstance;
-import teammates.test.driver.BrowserInstancePool;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
 
-public class AllJsTests extends BaseTestCase{
+/**
+ * Loads all JavaScript unit tests (done in QUnit) into a browser window and
+ * ensures all tests passed. This class is not using the PageObject pattern
+ * because it is not a regular UI test.
+ */
+public class AllJsTests extends BaseUiTestCase{
 	
-	//private static WebDriver driver;
-	private static BrowserInstance bi;
+	private static Browser browser;
 	
 	@BeforeClass
 	public static void setUp() {
 		printTestClassHeader();
-		bi = BrowserInstancePool.getBrowserInstance();
+		browser = BrowserPool.getBrowser();
 	}
 
 	@Test
@@ -41,11 +42,10 @@ public class AllJsTests extends BaseTestCase{
 		print("Going to execute "+totalCasesExpectedToPass+" JavaScript Unit tests...");
 		
 		String workingDirectory = new File(".").getCanonicalPath();
-		bi.goToUrl("file:///"+workingDirectory+"/src/test/javascript/AllJsUnitTests.html");
+		browser.driver.get("file:///"+workingDirectory+"/src/test/javascript/AllJsUnitTests.html");
 
-		bi.waitForElementPresent(By.id("qunit-testresult"));
 		String expectedResultString = totalCasesExpectedToPass+" tests of "+totalCases+" passed";
-		assertTrue(bi.getElementText(By.id("qunit-testresult")).contains(expectedResultString));
+		assertTrue(browser.driver.findElement(By.id("qunit-testresult")).getText().contains(expectedResultString));
 		
 		print("As expected, "+expectedResultString);
 
@@ -53,7 +53,6 @@ public class AllJsTests extends BaseTestCase{
 
 	@AfterClass
 	public static void tearDown() {
-		BrowserInstancePool.release(bi);
-		printTestClassFooter();
+		BrowserPool.release(browser);
 	}
 }

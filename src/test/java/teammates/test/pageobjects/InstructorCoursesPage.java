@@ -34,6 +34,9 @@ public class InstructorCoursesPage extends AppPage {
 		return getPageSource().contains("<h1>Add New Course</h1>");
 	}
 
+	/**
+	 * If instructorsList is null, the current value in the page will be used instead.
+	 */
 	public InstructorCoursesPage addCourse(String courseId, String courseName, String instructorsList) {
 		fillTextBox(courseIdTextBox, courseId);
 		fillTextBox(courseNameTextBox, courseName);

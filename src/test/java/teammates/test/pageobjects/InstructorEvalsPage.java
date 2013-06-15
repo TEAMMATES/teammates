@@ -89,7 +89,7 @@ public class InstructorEvalsPage extends AppPage {
 		
 		fillTextBox(evalNameTextBox, evalName);
 	
-		selectDropdownByValue(courseIdDropdown, courseId);
+		selectDropdownByVisibleValue(courseIdDropdown, courseId);
 		
 		// Select start date
 		JavascriptExecutor js = (JavascriptExecutor) browser.driver;

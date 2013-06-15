@@ -63,6 +63,16 @@ public class Url {
 		return this;
 	}
 
+	public Url withCourseName(String courseName) {
+		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_COURSE_NAME, courseName);
+		return this;
+	}
+	
+	public Url withParam(String paramName, String paramValue) {
+		this.urlString = Common.addParamToUrl(this.urlString, paramName, paramValue);
+		return this;
+	}
+
 	@Override
 	public String toString(){
 		return urlString;

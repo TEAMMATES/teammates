@@ -21,7 +21,6 @@ import org.xml.sax.SAXException;
 /**
  * This class is used to compare two html files to see if they are logically 
  * equivalent e.g., ignore differences in whitespace and attribute order.
- * @author dcsdcr
  *
  */
 public class HtmlHelper {
@@ -51,7 +50,7 @@ public class HtmlHelper {
 		boolean isLogicalMatch = compare(actualPage, expectedPage, "", actualHTML, expectedHTML);
 		if (!isLogicalMatch) {
 			// If they are not a logical match, we force a literal comparison
-			// just so that JUnit gives us a side-by-side comparison.
+			// just so that TestNG gives us a side-by-side comparison.
 			String outputDivider =
 					"\n\n######################################################################\n"
 							+

@@ -2,10 +2,7 @@ package teammates.test.pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.seleniumemulation.WaitForPageToLoad;
 import org.openqa.selenium.support.FindBy;
-
-import teammates.ui.controller.InstructorCourseEnrollResultPageData;
 
 
 public class InstructorCourseEnrollPage extends AppPage {
@@ -28,7 +25,7 @@ public class InstructorCourseEnrollPage extends AppPage {
 		return getPageSource().contains("<h1>Enroll Students for");
 	}
 
-	public InstructorCourseEnrollPage verifyContents(String courseId){
+	public InstructorCourseEnrollPage verifyIsCorrectPage(String courseId){
 		getPageSource().contains("Enroll Students for "+courseId);
 		return this;
 	}

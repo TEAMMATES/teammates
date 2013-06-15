@@ -38,6 +38,15 @@ public class DevServerLoginPage extends LoginPage {
 	}
 
 	@Override
+	public AppPage loginAsInstructorUnsuccessfully(String userName, String password) {
+			fillTextBox(emailTextBox, userName);
+			loginButton.click();
+			waitForPageToLoad();
+			browser.isAdminLoggedIn = false;
+			return this;
+	}
+
+	@Override
 	public void loginAdminAsInstructor(
 			String adminUsername, String adminPassword, String instructorUsername) {
 		fillTextBox(emailTextBox, instructorUsername);
@@ -55,7 +64,5 @@ public class DevServerLoginPage extends LoginPage {
 		browser.isAdminLoggedIn = false;
 		return changePageType(StudentHomePage.class);
 	}
-	
-	
 
 }

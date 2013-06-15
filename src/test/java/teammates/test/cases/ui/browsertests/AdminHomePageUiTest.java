@@ -118,6 +118,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 
 	private void testInputSanitization() {
 		
+		//TODO: remove this. Input sanitization should be done/tested on the server-side
+		
 		______TS("input sanitization : extra spaces around values");
 		
 		account.googleId = "AHPUiT.instr3";

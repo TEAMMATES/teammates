@@ -40,7 +40,6 @@ public class StudentHomePage extends AppPage {
 
 	public void fillKey(String key) {
 		fillTextBox(keyTextBox, key);
-		
 	}
 
 	public StudentHomePage clickJoinButton() {

@@ -213,7 +213,7 @@ public class Common {
 	 */
 
 	public static final String PAGE_BACKDOOR = "/backdoor";
-	public static final String WEBPAGE_COMPILATION = "/dev/webpageCompilation.jsp";
+	public static final String PAGE_MASHUP = "/dev/mashup.jsp";
 	public static final String PAGE_INSTRUCTOR_HOME = "/page/instructorHome";
 	public static final String PAGE_INSTRUCTOR_COURSE = "/page/instructorCourse";
 	public static final String PAGE_INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";

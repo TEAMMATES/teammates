@@ -31,8 +31,6 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.BrowserInstance;
-import teammates.test.driver.BrowserInstancePool;
 import teammates.test.driver.TestProperties;
 /**
  * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
@@ -43,6 +41,8 @@ import teammates.test.driver.TestProperties;
  * -Edit name of the report file, the result will be written to a file in src/test/resources/data folder
  * -Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
  */
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
 
 
 /**
@@ -73,7 +73,7 @@ public class PerformanceProfiler extends Thread{
 	private DataBundle data;
 	private Gson gson = Common.getTeammatesGson();
 	private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>> ();
-	private BrowserInstance bi;
+	private Browser browser;
 	
 	public PerformanceProfiler (String path) {
 		reportFilePath = path;
@@ -98,7 +98,7 @@ public class PerformanceProfiler extends Thread{
 		}
 		for (int i =0; i< NUM_OF_RUNS ; i++)
 		{
-			bi = BrowserInstancePool.getBrowserInstance();
+			browser = BrowserPool.getBrowser();
 			//overcome initial loading time with the below line
 			//getInstructorAsJson();
 
@@ -109,7 +109,7 @@ public class PerformanceProfiler extends Thread{
 			}
 
 			// Wait between runs
-			BrowserInstancePool.release(bi);
+			BrowserPool.release(browser);
 			try {
 				Thread.sleep(WAIT_TIME_RUN);
 			} catch (InterruptedException e) {
@@ -256,26 +256,29 @@ public class PerformanceProfiler extends Thread{
     	out.close();
     }
     
+    //TODO: this class needs to be tweaked to work with the new Browser class
     
     /* Performance Tests , the order of these tests is also the order they will run */
     
+    /*
+    
     @PerformanceTest(name = "Instructor login",customTimer = true)
     public Long instructorLogin() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL);
-    	bi.click(bi.instructorLoginButton);
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL);
+    	browser.click(browser.instructorLoginButton);
     	long startTime = System.nanoTime();
-    	bi.login("testingforteammates@gmail.com", "testingforteammates", false);
+    	browser.login("testingforteammates@gmail.com", "testingforteammates", false);
     	return System.nanoTime()-startTime;
     }
 
     @PerformanceTest(name = "Instructor home page")
     String instructorHomePage() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorHome");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorHome");    	
     	return "";
     }
     @PerformanceTest(name = "Instructor eval page")
     public String instructorEval() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEval");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEval");    	
     	return "";
     }
     
@@ -287,53 +290,53 @@ public class PerformanceProfiler extends Thread{
     	cal.add(Calendar.DATE, +2);
     	Date date2 = cal.getTime();
 		long startTime = System.nanoTime();
-		bi.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1,date2,true, "This is the instructions, please follow", 5);
-		bi.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
+		browser.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1,date2,true, "This is the instructions, please follow", 5);
+		browser.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
     	return System.nanoTime() - startTime;
     }
     
     @PerformanceTest(name = "Instructor eval page")
     public String instructorEval2() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEval");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEval");    	
     	return "";
     }
     
     @PerformanceTest(name = "Instructor delete eval*",customTimer = true)
     public Long instructorDeleteEval() {
-		int evalRowID = bi.getEvaluationRowID("idOf_Z2_Cou0_of_Coo0", "test");
-		By deleteLinkLocator = bi.getInstructorEvaluationDeleteLinkLocator(evalRowID);
+		int evalRowID = browser.getEvaluationRowID("idOf_Z2_Cou0_of_Coo0", "test");
+		By deleteLinkLocator = browser.getInstructorEvaluationDeleteLinkLocator(evalRowID);
 		long startTime =System.nanoTime();
-		bi.clickAndConfirm(deleteLinkLocator);
+		browser.clickAndConfirm(deleteLinkLocator);
     	return System.nanoTime() - startTime;
     }
     
     @PerformanceTest(name = "Instructor course page")
     public String instructorCourse() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourse");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourse");    	
     	return "";
     }
     
     @PerformanceTest(name = "Instructor add course",customTimer = true)
     public Long instructorAddCourse() {
     	long startTime = System.nanoTime();
-    	bi.addCourse("testcourse", "testcourse");
-    	bi.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
+    	browser.addCourse("testcourse", "testcourse");
+    	browser.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
     	return System.nanoTime() - startTime;
     }
     
     @PerformanceTest(name = "Instructor course page")
     public String instructorCourse2() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourse");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourse");    	
     	return "";
     }
     
     @PerformanceTest(name = "Instructor delete course*",customTimer = true)
     public Long instructorDeleteCourse() throws Exception {
 		String courseId = "testcourse";
-		int courseRowId = bi.getCourseRowID(courseId);
-    	By deleteLinkLocator = bi.getInstructorCourseDeleteLinkLocator(courseRowId);
+		int courseRowId = browser.getCourseRowID(courseId);
+    	By deleteLinkLocator = browser.getInstructorCourseDeleteLinkLocator(courseRowId);
     	long startTime = System.nanoTime();
-    	bi.clickAndConfirm(deleteLinkLocator);
+    	browser.clickAndConfirm(deleteLinkLocator);
     	return System.nanoTime() - startTime;
     }
     
@@ -341,101 +344,101 @@ public class PerformanceProfiler extends Thread{
     
     @PerformanceTest(name = "Instructor course student detail page")
     public String instructorCourseStudentDetails() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseStudentDetails?courseid=idOf_Z2_Cou0_of_Coo0&studentemail=testingforteammates%40gmail.com");    	
     	return "";
     }
     
     @PerformanceTest(name = "Instructor course enroll page")
     public String instructorCourseEnroll() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseEnroll?courseid=idOf_Z2_Cou0_of_Coo0");    	
     	return "";
     }
     
     @PerformanceTest(name = "Instructor course enroll student*",customTimer = true)
     public Long instructorCourseEnrollStudent() {
     	String enrollString = "Team 1 | teststudent | alice.b.tmms@gmail.com | This comment has been changed\n";
-		bi.fillString(By.id("enrollstudents"), enrollString);
+		browser.fillString(By.id("enrollstudents"), enrollString);
 		long startTime = System.nanoTime();
-		bi.click(By.id("button_enroll"));
+		browser.click(By.id("button_enroll"));
     	return System.nanoTime() - startTime;
     }
     
     @PerformanceTest(name = "Instructor course enroll page")
     public String instructorCourseDetails() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");    	
     	return "";
     }
     
     @PerformanceTest(name = "Instructor course delete student *",customTimer = true)
     public Long instructorCourseDeleteStudent() {
-    	int studentRowId = bi.getStudentRowId("teststudent");
+    	int studentRowId = browser.getStudentRowId("teststudent");
     	long startTime = System.nanoTime();
-		bi.clickInstructorCourseDetailStudentDeleteAndConfirm(studentRowId);
+		browser.clickInstructorCourseDetailStudentDeleteAndConfirm(studentRowId);
     	return System.nanoTime() - startTime;
     }
     
     @PerformanceTest(name = "Instructor eval results")
     public String instructorEvalResults() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");    	
     	return "";
     }
     
     @PerformanceTest(name = "Instructor view student eval ")
     public String instructorViewStuEval() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");    	
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/instructorEvalSubmissionView?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0&studentemail=Z2_Stu59Email%40gmail.com");    	
     	return "";
     }
     
     @PerformanceTest(name = "Instructor help page ")
     public String instructorHelp() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/instructorHelp.html");
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/instructorHelp.html");
     	return "";
     }
     
     @PerformanceTest(name = "Instructor log out")
     public String instructorLogout() {
     	
-    	bi.logout();
+    	browser.logout();
     	return "";
     }
     
     @PerformanceTest(name = "Student login")
     public String stuLogin() {
-    	bi.loginStudent("testingforteammates@gmail.com","testingforteammates");
+    	browser.loginStudent("testingforteammates@gmail.com","testingforteammates");
     	return "";
     }
     @PerformanceTest(name = "Student homepage")
     public String stuHomepage() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentHome");
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentHome");
     	return "";
     }
     
     @PerformanceTest(name = "Student course detail page")
     public String stuCoursepage() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
     	return "";
     }
     
     @PerformanceTest(name = "Student edit submission page")
     public String stuEditSubmissionPage() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentEvalEdit?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentEvalEdit?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
     	return "";
     }
     @PerformanceTest(name = "Student edit submission ")
     public String stuEditSubmission() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentCourseDetails?courseid=idOf_Z2_Cou0_of_Coo0");
     	return "";
     }
     @PerformanceTest(name = "Student eval result ")
     public String stuEvalResultPage() {
-    	bi.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
+    	browser.goToUrl(TestProperties.inst().TEAMMATES_URL+"/page/studentEvalResults?courseid=idOf_Z2_Cou0_of_Coo0&evaluationname=Z2_Eval0_in_Cou0_of_Coo0");
     	return "";
     }
     
     @PerformanceTest(name = "Student log out")
     public String stuLogout() {
     	
-    	bi.logout();
+    	browser.logout();
     	return "";
     }
     
@@ -537,6 +540,7 @@ public class PerformanceProfiler extends Thread{
 //    	}
 //    	return status;
 //    }
+    
     
     @PerformanceTest(name = "BD get student")
     public String getStudent()

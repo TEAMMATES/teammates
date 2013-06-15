@@ -25,7 +25,7 @@ public class BaseComponentTest extends BaseTestCase {
 		setupGaeSimulation();
 	}
 
-	protected static void setupGaeSimulation() {
+	protected static synchronized void setupGaeSimulation() {
 		System.out.println("Setting up GAE simulation");
 		LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
 		LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();

@@ -1,43 +1,38 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
+
 import java.io.File;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.BrowserInstance;
-import teammates.test.driver.BrowserInstancePool;
+import teammates.test.driver.Url;
+import teammates.test.pageobjects.AppPage;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
 
-public class TableSortTest extends BaseTestCase {
-	private static BrowserInstance bi;
+/** Covers the table sorting functionality
+ */
+public class TableSortTest extends BaseUiTestCase {
+	private static Browser browser;
+	private static AppPage page;
+	
+	//TODO: make this class more efficient. It takes too much time to execute.
+	// In fact, this testing should be done as JS unit tests.
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-	
-		bi = BrowserInstancePool.getBrowserInstance();		
-	}
-	
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		printTestClassFooter();
-		BrowserInstancePool.release(bi);
-
-	}
-	
-	private String getPath() throws Exception{
-		String workingDirectory = new File(".").getCanonicalPath();
-		return "file:///"+workingDirectory+"/src/test/resources/pages/tableSort.html";
+		browser = BrowserPool.getBrowser();		
 	}
 	
 	@Test
 	public void testTableSorting() throws Exception{
 		//Sort testing Functions	
-		bi.goToUrl(getPath());
+		page = AppPage.getNewPageInstance(browser).navigateTo(new Url(getPath()));
 		
 		testTableSortingName();
 		testTableSortingDate();
@@ -48,7 +43,7 @@ public class TableSortTest extends BaseTestCase {
 	
 	@Test
 	public void testTableSortingID() throws Exception{
-		bi.clickTableSortByIdButton();
+		page.click(By.id("button_sortid"));
 		int column = 0;
 
 		//Ascending
@@ -69,7 +64,7 @@ public class TableSortTest extends BaseTestCase {
 		assertStringWithRowColumn("33",15,column);
 
 		
-		bi.clickTableSortByIdButton();
+		page.click(By.id("button_sortid"));
 		
 		//Descending
 		assertStringWithRowColumn("-13.5",15,column);
@@ -92,7 +87,7 @@ public class TableSortTest extends BaseTestCase {
 	
 	@Test
 	public void testTableSortingName() throws Exception{
-		bi.clickTableSortByNameButton();
+		page.click(By.id("button_sortname"));
 		
 		int column = 1;
 		
@@ -115,7 +110,7 @@ public class TableSortTest extends BaseTestCase {
 		
 		
 		
-		bi.clickTableSortByNameButton();
+		page.click(By.id("button_sortname"));
 		//Descending
 		assertStringWithRowColumn("Ang Ji Kai",15,column);
 		assertStringWithRowColumn("Chin Yong Wei",14,column);
@@ -136,7 +131,7 @@ public class TableSortTest extends BaseTestCase {
 	
 	@Test
 	public void testTableSortingDate() throws Exception{
-		bi.clickTableSortByDateButton();
+		page.click(By.id("button_sortdate"));
 		
 		int column = 2;
 		
@@ -157,7 +152,7 @@ public class TableSortTest extends BaseTestCase {
 		assertStringWithRowColumn("01/01/13",14,column);
 		assertStringWithRowColumn("05/06/13",15,column);
 		
-		bi.clickTableSortByDateButton();
+		page.click(By.id("button_sortdate"));
 		
 		//Descending
 		assertStringWithRowColumn("04/05/10",15,column);
@@ -179,7 +174,7 @@ public class TableSortTest extends BaseTestCase {
 	
 	@Test
 	public void testTableSortingDiff() throws Exception{
-		bi.click(By.id("button_sortDiff"));
+		page.click(By.id("button_sortDiff"));
 		
 		int column = 4;
 		
@@ -200,7 +195,7 @@ public class TableSortTest extends BaseTestCase {
 		assertStringWithRowColumn("N/A",14,column);
 		assertStringWithRowColumn("N/A",15,column);
 		
-		bi.click(By.id("button_sortDiff"));
+		page.click(By.id("button_sortDiff"));
 	
 		//Descending
 		assertStringWithRowColumn("-99%",15,column);
@@ -222,7 +217,7 @@ public class TableSortTest extends BaseTestCase {
 	
 	@Test
 	public void testTableSortingPoint() throws Exception{
-		bi.click(By.id("button_sortPoint"));
+		page.click(By.id("button_sortPoint"));
 		
 		int column = 3;
 		
@@ -243,7 +238,7 @@ public class TableSortTest extends BaseTestCase {
 		assertStringWithRowColumn("N/S",14,column);
 		assertStringWithRowColumn("N/A",15,column);
 		
-		bi.click(By.id("button_sortPoint"));
+		page.click(By.id("button_sortPoint"));
 		
 		//Descending
 		assertStringWithRowColumn("E -99%",15,column);
@@ -263,7 +258,18 @@ public class TableSortTest extends BaseTestCase {
 		assertStringWithRowColumn("N/A",1,column);
 	}
 	
+	private String getPath() throws Exception{
+		String workingDirectory = new File(".").getCanonicalPath();
+		return "file:///"+workingDirectory+"/src/test/resources/pages/tableSort.html";
+	}
+
 	private void assertStringWithRowColumn(String text,int row,int column){
-		assertEquals(text,bi.getCellFromDataTable(row,column));
+		assertEquals(text, page.getCellValueFromDataTable(row,column));
+	}
+
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		printTestClassFooter();
+		BrowserPool.release(browser);
 	}
 }

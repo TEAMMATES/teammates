@@ -31,7 +31,7 @@ public class InstructorCourseStudentDetailsViewPageUiTest extends BaseUiTestCase
 	
 	
 	@Test
-	public void testContent() throws Exception{
+	public void testAll() throws Exception{
 		
 		String instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
 		String courseId = testData.courses.get("CCSDetailsUiT.CS2104").id;
@@ -56,6 +56,8 @@ public class InstructorCourseStudentDetailsViewPageUiTest extends BaseUiTestCase
 		
 		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
 		viewPage.verifyHtml("/instructorCourseStudentDetailsUnregisteredPage.html");
+		
+		//No links, input validation, or actions to test.
 		
 	}
 	
