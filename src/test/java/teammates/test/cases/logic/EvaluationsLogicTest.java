@@ -212,6 +212,32 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 	}
 	
 	@Test
+	public void testUpdateEvaluation() throws Exception {
+
+		______TS("postpone evaluation starting time to future date.");
+		restoreTypicalDataInDatastore();
+		DataBundle dataBundle = getTypicalDataBundle();
+		
+		EvaluationAttributes evaluation1 = dataBundle.evaluations
+				.get("evaluation1InCourse1");
+		evaluation1.startTime = Common.getDateOffsetToCurrentTime(1);
+		evaluation1.endTime = Common.getDateOffsetToCurrentTime(2);
+		evaluation1.activated = true;
+		evaluation1.published = true;
+		evaluationsLogic.updateEvaluation(evaluation1);
+		
+		// Check that the updated evaluation is automatically deactivated and unpublished.
+		LogicTest.verifyPresentInDatastore(evaluation1);
+		assertEquals(evaluation1.activated, false);
+		assertEquals(evaluation1.published, false);
+		
+		//TODO: Test other conditions such as setting start time from a 
+		//  future time to a past time.
+		
+	}
+	
+	
+	@Test
 	public void testCalculateTeamResult() throws Exception {
 
 		TeamDetailsBundle teamDetails = new TeamDetailsBundle();

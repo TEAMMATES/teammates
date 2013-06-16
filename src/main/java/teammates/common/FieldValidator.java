@@ -140,8 +140,8 @@ public class FieldValidator {
 	public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
 	
 	public static final String TIME_FRAME_ERROR_MESSAGE = "The %s for this %s cannot be earlier than the %s";
-	public static final String EVALUATION_START_TIME_ERROR_MESSAGE = "Evaluation cannot be published before end time";
-	public static final String EVALUATION_END_TIME_ERROR_MESSAGE = "Evaluation cannot be activated before start time";
+	public static final String EVALUATION_START_TIME_ERROR_MESSAGE = "Evaluation cannot be activated before start time";
+	public static final String EVALUATION_END_TIME_ERROR_MESSAGE = "Evaluation cannot be published before end time";
 	
 	public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
 	public static final String GIVER_TYPE_NAME = "feedback giver.";

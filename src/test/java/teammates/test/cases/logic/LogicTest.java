@@ -3235,8 +3235,7 @@ public class LogicTest extends BaseComponentTest {
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			String errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE,
-					START_TIME_FIELD_NAME, EVALUATION_NAME, END_TIME_FIELD_NAME) + EOL + 
-					FieldValidator.EVALUATION_START_TIME_ERROR_MESSAGE;
+					START_TIME_FIELD_NAME, EVALUATION_NAME, END_TIME_FIELD_NAME) ;
 			assertEquals(errorMessage, e.getMessage());
 		}
 
@@ -3967,7 +3966,7 @@ public class LogicTest extends BaseComponentTest {
 	}
 
 	public static void verifyPresentInDatastore(EvaluationAttributes expected) {
-		EvaluationAttributes actual = logic.getEvaluation(expected.courseId,
+		EvaluationAttributes actual = evaluationsDb.getEvaluation(expected.courseId,
 				expected.name);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}

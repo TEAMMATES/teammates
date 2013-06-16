@@ -134,8 +134,7 @@ public class BackDoorLogicTest extends BaseComponentTest {
 		double timeZone = -1.0;
 		evaluation1.timeZone = timeZone;
 
-		evaluation1.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
-				0, timeZone);
+		evaluation1.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(0, timeZone);
 		evaluation1.endTime = Common.getDateOffsetToCurrentTime(2);
 
 		backdoor.createEvaluation(evaluation1);
@@ -192,8 +191,7 @@ public class BackDoorLogicTest extends BaseComponentTest {
 		int course2StudentCount = backdoor.getStudentsForCourse(
 				evaluation2.courseId).size();
 
-		assertEquals(course1StudentCount + course2StudentCount,
-				emailsSent.size());
+		assertEquals(course1StudentCount + course2StudentCount,	emailsSent.size());
 
 		//ensure both evaluations are activated now
 		emailsSent = backdoor.activateReadyEvaluations();

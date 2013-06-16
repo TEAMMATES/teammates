@@ -1,9 +1,11 @@
 package teammates.logic;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -277,6 +279,16 @@ public class EvaluationsLogic {
 	public void updateEvaluation(EvaluationAttributes evaluation) 
 			throws InvalidParametersException, EntityDoesNotExistException {
 		
+		Date timeNow = new Date();
+				
+		// Reset hidden parameters.
+		if(evaluation.startTime.after(timeNow)) {
+			evaluation.activated = false;
+		}		
+		if(evaluation.endTime.after(timeNow)) {
+			evaluation.published = false;
+		}
+		
 		evaluationsDb.updateEvaluation(evaluation);
 	}
 	
@@ -382,6 +394,25 @@ public class EvaluationsLogic {
 		}
 	}	
 	
+	public void setEvaluationActivationStatus(String courseId, String evaluationName, boolean isActivated) throws EntityDoesNotExistException {
+		EvaluationAttributes e = evaluationsDb.getEvaluation(courseId, evaluationName);
+
+		if (e == null) {
+			throw new EntityDoesNotExistException("Trying to update non-existent Evaluation: "
+					+ courseId + " | " + evaluationName );
+		}
+		
+		e.activated = isActivated;
+		
+		try {
+			evaluationsDb.updateEvaluation(e);
+		} catch (InvalidParametersException e1) {
+			Assumption.fail("Invalid parameters detected while setting the " +
+					"published status of evaluation :"+e.toString());
+		}
+		
+	}
+
 	/**
 	 * Adjusts submissions for a student moving from one team to another.
 	 * Deletes existing submissions for original team and creates empty

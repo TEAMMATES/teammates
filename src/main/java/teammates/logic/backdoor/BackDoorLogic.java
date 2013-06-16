@@ -54,8 +54,7 @@ public class BackDoorLogic extends Logic {
 				messagesSent.addAll(messages);
 				
 				//mark evaluation as activated
-				ed.activated=true;
-				updateEvaluation(ed);
+				evaluationsLogic.setEvaluationActivationStatus(ed.courseId, ed.name, true);
 			} catch (Exception e) {
 				log.severe("Unexpected error "+ Common.stackTraceToString(e));
 			} 
