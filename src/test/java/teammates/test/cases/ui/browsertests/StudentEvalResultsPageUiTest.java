@@ -24,7 +24,6 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		printTestClassHeader();
 		testData = loadTestData("/StudentEvalResultsPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
@@ -73,6 +72,7 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
 	}
 
 	private void verifyResultContent(String evalObjectId, String studentObjectId, String filePath) {
+		
 		Url resultsUrl = new Url(Common.PAGE_STUDENT_EVAL_RESULTS)
 			.withUserId(testData.students.get(studentObjectId).googleId)
 			.withCourseId(testData.evaluations.get(evalObjectId).courseId)

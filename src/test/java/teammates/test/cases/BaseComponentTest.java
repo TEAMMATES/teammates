@@ -41,7 +41,11 @@ public class BaseComponentTest extends BaseTestCase {
 
 	@AfterTest
 	public void suiteTearDown() throws Exception {
-		helper.tearDown();
+		try {
+			helper.tearDown();
+		} catch (Exception e) {
+			System.out.println("LocalServiceTestHelper already torndown");
+		}
 	}
 	
 	public static void resetDatastore(){

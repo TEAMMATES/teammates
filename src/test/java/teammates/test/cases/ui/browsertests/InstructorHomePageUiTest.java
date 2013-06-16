@@ -1,8 +1,8 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -14,6 +14,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
@@ -64,8 +65,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testLogin(){
+		
 		______TS("login");
 		
+		AppPage.logout(browser);
 		homePage = HomePage.getNewInstance(browser)
 				.clickInstructorLogin()
 				.loginAsInstructor(
@@ -167,9 +170,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		homePage.clickAndCancel(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
 		assertNotNull(BackDoor.getEvaluation(firstEval_OPEN.courseId, firstEval_OPEN.name));
 		
-		homePage.clickAndConfirm(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name))
-			.verifyHtml("/instructorHomeEvalDeleteSuccessful.html");
-		assertNull(BackDoor.getEvaluation(firstEval_OPEN.courseId, firstEval_OPEN.name));
+		homePage.clickAndConfirm(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
+		assertTrue(BackDoor.isEvaluationNonExistent(firstEval_OPEN.courseId, firstEval_OPEN.name));
+		homePage.verifyHtml("/instructorHomeEvalDeleteSuccessful.html");
 		
 	}
 
@@ -182,8 +185,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		assertNotNull(BackDoor.getCourse(courseId));
 		
 		homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
+		assertTrue(BackDoor.isCourseNonExistent(courseId));
 		homePage.verifyHtml("/instructorHomeCourseDeleteSuccessful.html");
-		assertNull(BackDoor.getCourse(courseId));
 		
 		//delete the other course as well
 		homePage.clickAndConfirm(homePage.getDeleteCourseLink(testData.courses.get("CHomeUiT.CS1101").id));

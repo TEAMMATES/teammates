@@ -65,15 +65,15 @@ public class BackDoorLogicTest extends BaseComponentTest {
 			logic.deleteInstructor(instructor.courseId, instructor.googleId);
 		}
 		______TS("empty data bundle");
-		String status = logic.persistNewDataBundle(new DataBundle());
+		String status = logic.persistDataBundle(new DataBundle());
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
-		logic.persistNewDataBundle(dataBundle);
+		logic.persistDataBundle(dataBundle);
 		verifyPresentInDatastore(jsonString);
 
 		______TS("try to persist while entities exist");
 		try {
-			logic.persistNewDataBundle(dataBundle);
+			logic.persistDataBundle(dataBundle);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
 			ignoreExpectedException();
@@ -82,7 +82,7 @@ public class BackDoorLogicTest extends BaseComponentTest {
 		______TS("null parameter");
 		DataBundle nullDataBundle = null;
 		try {
-			logic.persistNewDataBundle(nullDataBundle);
+			logic.persistDataBundle(nullDataBundle);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertEquals(Common.ERRORCODE_NULL_PARAMETER, e.errorCode);
@@ -94,7 +94,7 @@ public class BackDoorLogicTest extends BaseComponentTest {
 		dataBundle = new DataBundle();
 		dataBundle.courses.put("invalid", invalidCourse);
 		try {
-			logic.persistNewDataBundle(dataBundle);
+			logic.persistDataBundle(dataBundle);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			assertTrue(e.getMessage().contains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format"));

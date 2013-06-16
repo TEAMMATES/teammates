@@ -29,7 +29,6 @@ public class InstructorsLogicTest extends BaseComponentTest{
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(InstructorsLogic.class);
-		Datastore.initialize();
 	}
 	
 	
@@ -145,7 +144,6 @@ public class InstructorsLogicTest extends BaseComponentTest{
 	
 	@AfterClass()
 	public static void classTearDown() throws Exception {
-		printTestClassFooter();
 		turnLoggingDown(InstructorsLogic.class);
 	}
 

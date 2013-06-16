@@ -88,10 +88,23 @@ public abstract class AppPage {
 	 */
 	public AppPage(Browser browser) {
 		this.browser = browser;
-		if(!containsExpectedPageContents()){
-			System.out.println("######### Not in the correct page! ##########");
-			throw new IllegalStateException("Not in the correct page!");
-		}
+		boolean isCorrectPageType = containsExpectedPageContents();
+		
+		if (isCorrectPageType) { return; }
+		
+		// To minimize test failures due to eventual consistency, we try to
+		//  reload the page and compare once more.
+		System.out.println("#### Incorrect page type: going to try reloading the page.");
+		
+		Common.waitFor(2000);
+		
+		this.reloadPage();
+		isCorrectPageType = containsExpectedPageContents();
+		
+		if (isCorrectPageType) { return; }
+		
+		System.out.println("######### Not in the correct page! ##########");
+		throw new IllegalStateException("Not in the correct page!");
 	}
 	
 
@@ -320,7 +333,7 @@ public abstract class AppPage {
 	 * @return the resulting page.
 	 */
 	public AppPage clickAndConfirm(WebElement elementToClick) {
-		respondToAlert(elementToClick, true);
+		respondToAlertWithRetry(elementToClick, true);
 		waitForPageToLoad();
 		return this;
 	}
@@ -331,7 +344,7 @@ public abstract class AppPage {
 	 * @return the resulting page.
 	 */
 	public void clickAndCancel(WebElement elementToClick){
-		respondToAlert(elementToClick, false);
+		respondToAlertWithRetry(elementToClick, false);
 		waitForPageToLoad();
 	}
 	
@@ -353,7 +366,7 @@ public abstract class AppPage {
 
 	public void verifyUnclickable(WebElement element){
 		try {
-			respondToAlert(element, false);
+			respondToAlertWithRetry(element, false);
 			Assert.fail("This should not give an alert when clicked");
 		} catch (NoAlertPresentException e) {
 			return;
@@ -397,6 +410,7 @@ public abstract class AppPage {
 			String expected = Common.readFile(filePath).replace("{version}",
 					TestProperties.inst().TEAMMATES_VERSION);
 			HtmlHelper.assertSameHtml(actual, expected);
+			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -413,7 +427,12 @@ public abstract class AppPage {
 	 * @return The page (for chaining method calls).
 	 */
 	public AppPage verifyStatus(String expectedStatus){
-		assertEquals(expectedStatus, this.getStatus());
+		boolean isSameStatus = expectedStatus.equals(this.getStatus());
+		if(!isSameStatus){
+			//try one more time (to account for delays in displaying the status message).
+			Common.waitFor(2000);
+			assertEquals(expectedStatus, this.getStatus());
+		}
 		return this;
 	}
 
@@ -516,8 +535,12 @@ public abstract class AppPage {
 	}
 
 
-	private void respondToAlert(WebElement elementToClick, boolean isConfirm) {
+	private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
 		elementToClick.click();	
+		//This method might fail at times due to a Selenium bug
+		//  See https://code.google.com/p/selenium/issues/detail?id=3544
+		//  The delay below is a temporary workaround to minimize the failure rate.
+		Common.waitFor(250);
 		Alert alert = browser.driver.switchTo().alert();
 		if(isConfirm){
 			alert.accept();
@@ -525,6 +548,5 @@ public abstract class AppPage {
 			alert.dismiss();
 		}
 	}
-	
 
 }

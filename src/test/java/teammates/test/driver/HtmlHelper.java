@@ -28,11 +28,6 @@ public class HtmlHelper {
 	/**
 	 * Assert whether two HTML strings are the same in the DOM representation.
 	 * This ignores the order of attributes, and ignores unnecessary whitespaces as well.
-	 * @param html1
-	 * @param html2
-	 * @throws SAXException
-	 * @throws IOException
-	 * @throws TransformerException
 	 */
 	public static boolean assertSameHtml(String actualString, String expectedString)
 			throws SAXException, IOException, TransformerException {

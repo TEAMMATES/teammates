@@ -4,21 +4,21 @@
 
 	<test name="occasional-tests">
 		<classes>
-			<class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
 			<class name="teammates.test.cases.testdriver.BackDoorTest" />
 			<class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
 			<class name="teammates.test.cases.ui.browsertests.TableSortTest" />
 			<class name="teammates.test.cases.ui.browsertests.AllJsTests" />
+			<class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
 			<class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
 		</classes>
 	</test>
 	<test name="frequent-ui-tests" parallel="classes">
 		<classes>
+			<class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsViewPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionViewPageUiTest" />

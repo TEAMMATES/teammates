@@ -166,7 +166,7 @@ public class BackDoorServlet extends HttpServlet {
 					.getParameter(PARAMETER_DATABUNDLE_JSON);
 			DataBundle dataBundle = Common.getTeammatesGson().fromJson(
 					dataBundleJsonString, DataBundle.class);
-			backDoorLogic.persistNewDataBundle(dataBundle);
+			backDoorLogic.persistDataBundle(dataBundle);
 		} else if (action.equals(OPERATION_EDIT_ACCOUNT)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editAccountAsJson(newValues);

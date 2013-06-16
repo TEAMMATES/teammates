@@ -38,6 +38,8 @@ import com.google.gson.Gson;
  */
 public class BackDoor {
 
+	private static final int RETRY_DELAY_IN_MILLISECONDS = 5000;
+
 	@SuppressWarnings("unused")
 	private void ____SYSTEM_level_methods______________________________() {
 	}
@@ -74,12 +76,6 @@ public class BackDoor {
 	 */
 	public static String restoreDataBundle(DataBundle dataBundle) {
 		String json = Common.getTeammatesGson().toJson(dataBundle);
-		for(String googleId: dataBundle.accounts.keySet()){
-			deleteAccount(googleId);
-		}
-		deleteCourses(json);
-		deleteInstructors(json);
-		//TODO: implement a more efficient way to delete a dataBundle
 		return persistNewDataBundle(json);
 	}
 
@@ -150,6 +146,18 @@ public class BackDoor {
 	
 	public static AccountAttributes getAccount(String googleId) {
 		return Common.getTeammatesGson().fromJson(getAccountAsJson(googleId), AccountAttributes.class);
+	}
+	
+	/**
+	 * If object not found in the first try, it will retry once more after a delay.
+	 */
+	public static AccountAttributes getAccountWithRetry(String googleId) {
+		AccountAttributes a = getAccount(googleId);
+		if(a == null){
+			Common.waitFor(RETRY_DELAY_IN_MILLISECONDS);
+			a = getAccount(googleId);
+		}
+		return a;
 	}
 	
 	public static String getAccountAsJson(String googleId) {
@@ -249,6 +257,19 @@ public class BackDoor {
 	public static CourseAttributes getCourse(String courseId) {
 		return Common.getTeammatesGson().fromJson(getCourseAsJson(courseId), CourseAttributes.class);
 	}
+	
+	/**
+	 * Checks existence with a bias for non existence. If object found in the
+	 * first try, it will retry once more after a delay.
+	 */
+	public static boolean isCourseNonExistent(String courseId) {
+		CourseAttributes c = getCourse(courseId);
+		if(c != null){
+			Common.waitFor(RETRY_DELAY_IN_MILLISECONDS);
+			c = getCourse(courseId);
+		}
+		return c == null;
+	}
 
 	public static String editCourse(CourseAttributes course)
 			throws NotImplementedException {
@@ -331,6 +352,19 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_EVALUATION_NAME, evaluationName);
 		String evaluationJson = makePOSTRequest(params);
 		return evaluationJson;
+	}
+	
+	/**
+	 * Checks existence with a bias for non existence. If object found in the
+	 * first try, it will retry once more after a delay.
+	 */
+	public static boolean isEvaluationNonExistent(String courseID, String evaluationName) {
+		EvaluationAttributes e = getEvaluation(courseID, evaluationName);
+		if(e != null){
+			Common.waitFor(RETRY_DELAY_IN_MILLISECONDS);
+			e = getEvaluation(courseID, evaluationName);
+		}
+		return (e == null) ;
 	}
 	
 	public static EvaluationAttributes getEvaluation(String courseID,

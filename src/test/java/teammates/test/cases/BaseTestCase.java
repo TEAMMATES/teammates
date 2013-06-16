@@ -272,7 +272,7 @@ public class BaseTestCase {
 					feedbackQuestion.questionNumber);
 		}
 		
-		backDoorLogic.persistNewDataBundle(dataBundle);
+		backDoorLogic.persistDataBundle(dataBundle);
 
 		// restore logging levels to normal
 		// TODO: restore to previous levels

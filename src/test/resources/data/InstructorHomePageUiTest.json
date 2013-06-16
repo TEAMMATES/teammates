@@ -1,4 +1,13 @@
 {
+ "accounts": {
+	  "account": {
+	    "googleId":  "teammates.coord",
+	    "name": "Teammates Test",
+	    "isInstructor": true,
+	    "email": "teammates.coord@gmail.com",
+	    "institute": "National University of Singapore"
+	  }
+  },
   "courses": {
     "CHomeUiT.CS2104": {
       "id": "CHomeUiT.CS2104",

@@ -906,6 +906,17 @@ public class Common {
 			log.severe(Common.stackTraceToString(e));
 		}
 	}
+	
+	/**
+	 * Makes the thread sleep for the specified time. 
+	 */
+	public static void waitFor(int timeInMilliSeconds) {
+		try {
+			Thread.sleep(timeInMilliSeconds);
+		} catch (InterruptedException e) {
+			log.severe(Common.stackTraceToString(e));
+		}
+	}
 
 	public static String encrypt(String value) {
 		try {

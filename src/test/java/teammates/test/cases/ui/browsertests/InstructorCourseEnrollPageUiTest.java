@@ -101,6 +101,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		//check 'edit' link
 		enrollPage = resultsPage.clickEditLink();
 		enrollPage.verifyContains("Enroll Students for CCEnrollUiT.CS2104");
+		//TODO: At times, this assertion doesn't work for remoter server + Firefox testing,
+		//  but works for Chrome.
 		assertEquals(enrollString, enrollPage.getEnrollText());
 		
 		//ensure students were actually enrolled

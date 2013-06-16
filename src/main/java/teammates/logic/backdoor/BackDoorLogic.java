@@ -27,8 +27,10 @@ import teammates.logic.Emails;
 import teammates.logic.api.Logic;
 
 public class BackDoorLogic extends Logic {
-	
 	private static Logger log = Common.getLogger();
+	
+	private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 500;
+	private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
 	
 	@SuppressWarnings("unused")
 	private void ____methods_used_in_PRODUCTION____________________________() {
@@ -100,22 +102,23 @@ public class BackDoorLogic extends Logic {
 	}
 	
 	/**
-	 * Persists given data in the datastore Works ONLY if the data is correct
-	 * and new (i.e. these entities do not already exist in the datastore). The
-	 * behavior is undefined if incorrect or not new.
+	 * Persists given data in the datastore Works ONLY if the data is correct.
+	 * Any existing copies of the data in the datastore will be overwritten.
 	 * 
 	 * @return status of the request in the form 'status meassage'+'additional
 	 *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
 	 *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
 	 */
 
-	public String persistNewDataBundle(DataBundle dataBundle)
+	public String persistDataBundle(DataBundle dataBundle)
 			throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
 
 		if (dataBundle == null) {
 			throw new InvalidParametersException(
 					Common.ERRORCODE_NULL_PARAMETER, "Null data bundle");
 		}
+		
+		deleteExistingData(dataBundle);
 		
 		HashMap<String, AccountAttributes> accounts = dataBundle.accounts;
 		for (AccountAttributes account : accounts.values()) {
@@ -283,6 +286,169 @@ public class BackDoorLogic extends Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
 		coursesLogic.createCourse(courseId, courseName);
+	}
+
+	private void deleteExistingData(DataBundle dataBundle) {
+		
+		//Deleting submissions is not supported at Logic level. However, they
+		//  will be deleted automatically when we delete evaluations.
+		
+		for (StudentAttributes s : dataBundle.students.values()) {
+			deleteStudent(s.course, s.email);
+		}
+		
+		for (InstructorAttributes i : dataBundle.instructors.values()) {
+			deleteInstructor(i.courseId, i.email);
+		}
+		
+		for (EvaluationAttributes e : dataBundle.evaluations.values()) {
+			deleteEvaluation(e.courseId, e.name);
+		}
+		
+		for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
+			deleteEvaluation(f.courseId, f.feedbackSessionName);
+		}
+		
+		//TODO: questions and responses will be deleted automatically.
+		//  We don't attempt to delete them again, to save time.
+		
+		for (CourseAttributes c : dataBundle.courses.values()) {
+			this.deleteCourse(c.id);
+		}
+		
+		for (AccountAttributes a : dataBundle.accounts.values()) {
+			deleteAccount(a.googleId);
+		}
+		
+		waitUntilDeletePersists(dataBundle);
+	}
+
+	private void waitUntilDeletePersists(DataBundle dataBundle) {
+		
+		//TODO: this method has too much duplication. Remove using anonymous classes?
+		for (AccountAttributes a : dataBundle.accounts.values()) {
+			Object retreived = null;
+			int retryCount = 0;
+			while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+				retreived = this.getAccount(a.googleId);
+				if(retreived == null){
+					break;
+				}else {
+					retryCount++;
+					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+				}
+			}
+			if(retreived != null) {
+				log.warning("Object did not get deleted in time \n"+ a.toString());
+			}
+		}
+		
+		for (CourseAttributes c : dataBundle.courses.values()) {
+			Object retreived = null;
+			int retryCount = 0;
+			while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+				retreived = this.getCourse(c.id);
+				if(retreived == null){
+					break;
+				}else {
+					retryCount++;
+					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+				}
+			}
+			if(retreived != null) {
+				log.warning("Object did not get deleted in time \n"+ c.toString());
+			}
+		}
+		
+		for (EvaluationAttributes e : dataBundle.evaluations.values()) {
+			Object retreived = null;
+			int retryCount = 0;
+			while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+				retreived = this.getEvaluation(e.courseId, e.name);
+				if(retreived == null){
+					break;
+				}else {
+					retryCount++;
+					if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); };
+					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+				}
+			}
+			if(retreived != null) {
+				log.warning("Object did not get deleted in time \n"+ e.toString());
+			}
+		}
+		
+		for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
+			Object retreived = null;
+			int retryCount = 0;
+			while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+				retreived = this.getFeedbackSession(f.courseId, f.feedbackSessionName);
+				if(retreived == null){
+					break;
+				}else {
+					retryCount++;
+					if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); };
+					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+				}
+			}
+			if(retreived != null) {
+				log.warning("Object did not get deleted in time \n"+ f.toString());
+			}
+		}
+		
+		//TODO: add missing entity types here
+		
+		for (SubmissionAttributes s : dataBundle.submissions.values()) {
+			Object retreived = null;
+			int retryCount = 0;
+			while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+				retreived = this.getSubmission(s.course, s.evaluation, s.reviewer, s.reviewee);
+				if(retreived == null){
+					break;
+				}else {
+					retryCount++;
+					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+				}
+			}
+			if(retreived != null) {
+				log.warning("Object did not get deleted in time \n"+ Common.getTeammatesGson().toJson(s));
+			}
+		}
+		
+		for (StudentAttributes s : dataBundle.students.values()) {
+			Object retreived = null;
+			int retryCount = 0;
+			while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+				retreived = this.getStudentForEmail(s.course, s.email);
+				if(retreived == null){
+					break;
+				}else {
+					retryCount++;
+					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+				}
+			}
+			if(retreived != null) {
+				log.warning("Object did not get deleted in time \n"+ s.toString());
+			}
+		}
+		
+		for (InstructorAttributes i : dataBundle.instructors.values()) {
+			Object retreived = null;
+			int retryCount = 0;
+			while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
+				retreived = this.getInstructorForGoogleId(i.courseId, i.googleId);
+				if(retreived == null){
+					break;
+				}else {
+					retryCount++;
+					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+				}
+			}
+			if(retreived != null) {
+				log.warning("Object did not get deleted in time \n"+ i.toString());
+			}
+		}
+		
 	}
 
 	private SubmissionAttributes getSubmission(
