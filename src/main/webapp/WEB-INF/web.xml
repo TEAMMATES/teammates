@@ -371,6 +371,46 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>StudentEvalResults</servlet-name>
 	    <url-pattern>/page/studentEvalResults</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorFeedback</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorFeedbackAdd</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorFeedbackEdit</url-pattern>
+	</servlet-mapping>
+		<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorFeedbackEditSave</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorFeedbackDelete</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorFeedbackQuestionAdd</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorFeedbackQuestionEdit</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/studentFeedbackSubmit</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/studentFeedbackSubmitSave</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/studentFeedbackResults</url-pattern>
+	</servlet-mapping>
 	
 	<security-constraint>
 	  <web-resource-collection>

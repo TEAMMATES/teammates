@@ -1,5 +1,4 @@
 <%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.ui.controller.Helper"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <% PageData data = (PageData)request.getAttribute("data"); %>
 		<div id="frameTopWrapper">
@@ -19,8 +18,8 @@
 					<li><a class='nav logout' href="<%= Common.JSP_LOGOUT %>">Logout</a>
 					<b><%if(data.account.googleId.length()>=Common.USER_ID_MAX_DISPLAY_LENGTH){ %>
 					<span onmouseover="ddrivetip('<%=data.account.googleId %>')" onmouseout="hideddrivetip()">
-							(<%=Helper.truncate(data.account.googleId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%}else{%>
-							(<%=Helper.truncate(data.account.googleId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %></b>
+							(<%=PageData.truncate(data.account.googleId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%}else{%>
+							(<%=PageData.truncate(data.account.googleId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %></b>
 					</li>
 				</ul>
 			</div>

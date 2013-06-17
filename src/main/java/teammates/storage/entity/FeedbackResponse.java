@@ -88,11 +88,11 @@ public class FeedbackResponse {
 		this.giverEmail = giverEmail;
 	}
 
-	public String getReceiver() {
+	public String getRecipient() {
 		return receiver;
 	}
 
-	public void setReceiver(String receiver) {
+	public void setRecipient(String receiver) {
 		this.receiver = receiver;
 	}
 
@@ -106,13 +106,13 @@ public class FeedbackResponse {
 
 	public FeedbackResponse(String feedbackSessionName, String courseId,
 			String feedbackQuestionId, QuestionType feedbackQuestionType,
-			String giverEmail, String receiver,	Text answer) {
+			String giverEmail, String recipient, Text answer) {
 		this.feedbackSessionName = feedbackSessionName;
 		this.courseId = courseId;
 		this.feedbackQuestionId = feedbackQuestionId;
 		this.feedbackQuestionType = feedbackQuestionType;
 		this.giverEmail = giverEmail;
-		this.receiver = receiver;
+		this.receiver = recipient;
 		this.answer = answer;
 				
 		this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;								

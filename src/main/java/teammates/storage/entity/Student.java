@@ -54,7 +54,6 @@ public class Student {
 	private String comments = null;
 
 	@Persistent
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	@SerializedName("teamname")
 	private String teamName = null;
 

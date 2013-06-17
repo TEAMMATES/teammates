@@ -2,6 +2,7 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -33,27 +34,35 @@ public class FeedbackSession {
 	private String creatorEmail;
 	
 	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Text instructions;
 	
 	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Date createdTime;
 	
 	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Date startTime;
 	
 	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Date endTime;
 	
 	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Date sessionVisibleFromTime;
 	
 	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Date resultsVisibleFromTime;
 	
 	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private int timeZone;
 	
 	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private int gracePeriod;
 	
 	@Persistent

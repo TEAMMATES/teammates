@@ -128,32 +128,64 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		return "Feedback Session";
 	}
 
+	/**
+	 * @return {@code true} if it is after the closing time of this feedback session; {@code false} if not.
+	 */
 	public boolean isClosed() {
 		Calendar now = Calendar.getInstance();
 		Common.convertToUserTimeZone(now, timeZone);
 
-		Calendar start = Calendar.getInstance();
-		start.setTime(startTime);
-
-		Calendar end = Calendar.getInstance();
-		end.setTime(endTime);
+		Calendar end = Common.dateToCalendar(endTime);
 		end.add(Calendar.MINUTE, gracePeriod);
 
-		return (now.after(end) || now.before(start));
+		return (now.after(end));
 	}
 	
-	public boolean isStarted() {
+	public boolean isOpened() {
 		Calendar now = Calendar.getInstance();
 		Common.convertToUserTimeZone(now, timeZone);
 
-		Calendar start = Calendar.getInstance();
-		start.setTime(startTime);
+		Calendar start = Common.dateToCalendar(startTime);
 
-		return (start.after(now));
+		return (start.after(now) && !isClosed());
 	}
 	
+	/**
+	 * @return {@code true} has not opened before. {@code false} if session has not opened before.
+	 */
+	public boolean isWaitingToOpen() {
+		return (!isOpened() && !isClosed());
+	}
+	
+	/**
+	 * @return {@code true} if the session is visible; {@code false} if not.
+	 * Does not care if the session has started or not.
+	 */
+	public boolean isVisible() {
+		Date visibleTime = this.sessionVisibleFromTime;
+		if (visibleTime.equals(Common.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+			return isPublished();
+		} else if (visibleTime.equals(Common.TIME_REPRESENTS_NEVER)) {
+			return false;
+		} else {
+			return (visibleTime.before(new Date()));
+		}
+	}
+	
+	/**
+	 * @return {@code true} if the results of the feedback session is visible; {@code false} if not.
+	 * Does not care if the session has ended or not.
+	 */
 	public boolean isPublished() {
-		return (this.resultsVisibleFromTime.before(new Date()));
+		Date publishTime = this.resultsVisibleFromTime;
+		if (publishTime.equals(Common.TIME_REPRESENTS_FOLLOW_OPENING)) {
+			publishTime = this.startTime;
+		} else if (publishTime.equals(Common.TIME_REPRESENTS_LATER)) {
+			return false;
+		} else if (publishTime.equals(Common.TIME_REPRESENTS_NEVER)) {
+			return false;
+		} 
+		return (publishTime.before(new Date()));
 	}
 	
 	@Override

@@ -1053,7 +1053,6 @@ public class Logic {
 	}
 	
 	/**
-	 * Access: admin, an instructor of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -1062,13 +1061,41 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSession);
 
-		gateKeeper.verifyCourseInstructorOrAbove(feedbackSession.courseId);
-
 		feedbackSessionsLogic.createFeedbackSession(feedbackSession);
 	}
 	
 	/**
-	 * Access: admin only. <br>
+	 * Updates the details of a feedback session <br>
+	 * Does not affect the questions and responses associated with it.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @throws EntityDoesNotExistException 
+	 * @throws InvalidParametersException 
+	 */
+	public void updateFeedbackSession(FeedbackSessionAttributes updatedSession) 
+			throws InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedSession);
+
+		feedbackSessionsLogic.updateFeedbackSession(updatedSession);
+	}
+	
+	/**
+	 * Deletes the feedback session but not the questions and
+	 * responses associated to it.
+	 * Fails silently if no such feedback session. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+		feedbackSessionsLogic.deleteFeedbackSession(feedbackSessionName, courseId);
+	}
+	
+	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -1079,23 +1106,38 @@ public class Logic {
 		
 		return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
 	}
+		
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * 
+	 * @return Details of Instructor's feedback sessions. <br>
+	 * Returns an empty list if none found.
+	 */
+	public List<FeedbackSessionDetailsBundle>
+		getFeedbackSessionDetailsForInstructor(String googleId) throws EntityDoesNotExistException{
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
+		return feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(googleId);
+	}
 	
 	/**
-	 * Deletes the feedback session but not the questions and
-	 * responses associated to it.
-	 * Fails silently if no such feedback session. <br>
-	 * Access: admin, instructors of the course. <br>
 	 * Preconditions: <br>
-	 * * All parameters are non-null.
+	 * * All parameters are non-null. <br>
+	 * 
+	 * @return Feedback session information, question + responses bundle for user <br>
+	 * Returns an empty list if none found.
 	 */
-	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+	public FeedbackSessionQuestionsBundle
+		getFeedbackSessionQuestionsBundle(String feedbackSessionName, String courseId, String userEmail)
+				throws EntityDoesNotExistException{
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-		gateKeeper.verifyCourseInstructorOrAbove(courseId);
-
-		feedbackSessionsLogic.deleteFeedbackSession(feedbackSessionName, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+		
+		return feedbackSessionsLogic.getFeedbackSessionBundleForUser(feedbackSessionName, courseId, userEmail);
 	}
 	
 	@SuppressWarnings("unused")
@@ -1103,7 +1145,6 @@ public class Logic {
 	}
 	
 	/**
-	 * Access: admin, an instructor of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -1112,16 +1153,32 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
 
-		gateKeeper.verifyCourseInstructorOrAbove(feedbackQuestion.courseId);
-
 		feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
+	}
+	
+	/**
+	 * Updates the details of a Feedback Question.<br>
+	 * The FeedbackQuestionAttributes should have the updated attributes
+	 * together with the original ID of the question. Preserves null
+	 * attributes.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @throws EntityAlreadyExistsException 
+	 * @throws EntityDoesNotExistException 
+	 * @throws InvalidParametersException 
+	 */
+	public void updateFeedbackQuestion(FeedbackQuestionAttributes updatedQuestion)
+			throws InvalidParametersException, EntityDoesNotExistException {
+
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
+
+		feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
 	}
 	
 	/**
 	 * Deletes the feedback session but not the questions and
 	 * responses associated to it.
 	 * Fails silently if no such feedback session. <br>
-	 * Access: admin, instructors of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -1131,9 +1188,83 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionNumber);
 
-		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		feedbackQuestionsLogic.deleteFeedbackQuestionCascade(feedbackSessionName, courseId, questionNumber);
+	}
+	
+	/**
+	 * Gets all questions for a feedback session.<br>
+	 * Returns an empty list if they are no questions
+	 * for the session.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
+			String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		
+		return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+	}
+	
+	/**
+	 * Gets all questions for a feedback session that a user can respond to.<br>
+	 * Returns an empty list if they are no such questions for the session.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForUser(
+			String feedbackSessionName, String courseId, String userEmail) throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+		
+		return feedbackQuestionsLogic.getFeedbackQuestionsForUser(feedbackSessionName, courseId, userEmail);
+	}
+	
+	/**
+	 * Gets a question+response bundle for questions with responses that
+	 * is visible to the student for a feedback session.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @throws EntityDoesNotExistException 
+	 * @throws UnauthorizedAccessException 
+	 */
+	public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
+			String feedbackSessionName, String courseId, String userEmail)
+					throws UnauthorizedAccessException, EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+		
+		return feedbackSessionsLogic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail);
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____FEEDBACK_RESPONSE_level_methods_____________________________() {
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void createFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
 
-		feedbackQuestionsLogic.deleteFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
+		feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void updateFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
+
+		feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);
 	}
 	
 	@SuppressWarnings("unused")

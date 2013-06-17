@@ -3,7 +3,6 @@ package teammates.test.cases.logic;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.Common.EOL;
 import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
@@ -3236,7 +3235,7 @@ public class LogicTest extends BaseComponentTest {
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			String errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE,
-					START_TIME_FIELD_NAME, EVALUATION_NAME, END_TIME_FIELD_NAME) ;
+					END_TIME_FIELD_NAME, EVALUATION_NAME, START_TIME_FIELD_NAME) ;
 			assertEquals(errorMessage, e.getMessage());
 		}
 

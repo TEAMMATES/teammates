@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -19,7 +20,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.logic.FeedbackSessionsLogic;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 import teammates.test.cases.BaseComponentTest;
-import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -129,7 +129,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTest {
 		
 		// There should be 2 question for students to do in session 1.
 		// The final question is set for SELF (creator) only.
-		assertTrue(actual.questions.size() == 2);
+		assertTrue(actual.questionResponseBundle.size() == 2);
 		
 		String expected =
 				dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").toString() + Common.EOL +
@@ -137,9 +137,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTest {
 		
 		assertEquals(actual.feedbackSession.toString(), 
 				dataBundle.feedbackSessions.get("session1InCourse1").toString());
-		assertContains(actual.questions.get(0).toString(), expected);
-		assertContains(actual.questions.get(1).toString(), expected);
 		
+		for (FeedbackQuestionAttributes key : actual.questionResponseBundle.keySet()) {
+		    assertContains(key.toString(), expected);
+		}
+		
+		// TODO: test responses (valueSet)
 	}
 	
 	public void testGetFeedbackSessionResultsForUser() {

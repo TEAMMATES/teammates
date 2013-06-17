@@ -1,7 +1,9 @@
 var COURSE_ID_MAX_LENGTH = 40;
 var COURSE_NAME_MAX_LENGTH = 64;
 var EVAL_NAME_MAX_LENGTH = 38;
-var EVAL_INSTRUCTIONS_MAX_LENGTH = 500; 
+var EVAL_INSTRUCTIONS_MAX_LENGTH = 500;
+var FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
+var FEEDBACK_SESSION_INSTRUCTIONS_MAX_LENGTH = 500;
 
 // Field names
 var COURSE_ID = "courseid"; // Used in instructorCourse.js
@@ -12,6 +14,23 @@ var COURSE_INSTRUCTOR_ID = "instructorid"; // Used in instructorCourse.js
 var EVALUATION_START = "start"; // Used in instructorEval.js
 var EVALUATION_STARTTIME = "starttime"; // Used in instructorEval.js
 var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
+
+var FEEDBACK_SESSION_STARTDATE = "startdate";
+var FEEDBACK_SESSION_STARTTIME = "starttime"; 
+var FEEDBACK_SESSION_TIMEZONE = "timezone";
+
+var FEEDBACK_QUESTION_GIVERTYPE ="givertype";
+var FEEDBACK_QUESTION_RECIPIENTTYPE ="recipienttype";
+var FEEDBACK_QUESTION_NUMBEROFENTITIES ="numofrecipients";
+var FEEDBACK_QUESTION_TYPE ="questiontype";
+var FEEDBACK_QUESTION_NUMBER ="questionnum";
+var FEEDBACK_QUESTION_TEXT ="questiontext";
+var FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
+var FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
+var FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
+var FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
+var FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
+var FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
 
 // Display messages
 // Used for validating input
@@ -43,6 +62,12 @@ var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadlin
 var DISPLAY_EVALUATION_INSTRUCTIONS_LENGTHINVALID = "Instructions to students should not exceed 500 characters.";
 var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
+
+//Used in instructorFeedback.js only
+var DISPLAY_FEEDBACK_SESSION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in feedback session name.";
+var DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
+var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
+		+ "The start time should be in the future, and the end time should be after start time.";
 
 // Max length for input
 var TEAMNAME_MAX_LENGTH = 24;
@@ -312,6 +337,7 @@ function setStatusMessage(message, error) {
 		$(DIV_STATUS_MESSAGE).attr("style",
 				"display: block; ");
 	}
+	document.getElementById( 'statusMessage' ).scrollIntoView();
 }
 
 /**

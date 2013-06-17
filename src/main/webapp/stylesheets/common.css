@@ -115,6 +115,10 @@ h2 {
 	vertical-align: middle;
 }
 
+.nowrap{
+	white-space: nowrap;
+}
+
 .bold {
 	font-weight: bold;
 }
@@ -415,7 +419,6 @@ div#statusMessage {
 }*/
 
 
-
 /*---------------------  Result Table  --------------------------------------------------- */
 .resultTable {
 	background: #036;
@@ -446,9 +449,6 @@ div#statusMessage {
 .resultTable .resultSubheader td{
 	background-color: #D0D8E8;
 }
-
-
-
 
 /*---------------------  Button  --------------------------------------------------- */
 .button {

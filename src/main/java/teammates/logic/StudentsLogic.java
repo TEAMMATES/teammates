@@ -97,6 +97,12 @@ public class StudentsLogic {
 		return studentsDb.getStudentForEmail(courseId, studentEmail) != null;
 	}
 	
+	public boolean isStudentInTeam(String courseId, String teamName, String studentEmail) {
+		StudentAttributes student = getStudentForEmail(courseId, studentEmail);
+		List<StudentAttributes> teammates = getStudentsForTeam(teamName, courseId);	
+		return teammates.contains(student) ? true : false;
+	}
+	
 	public void updateStudentCascade(String originalEmail, StudentAttributes student) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		// Edit student uses KeepOriginal policy, where unchanged fields are set

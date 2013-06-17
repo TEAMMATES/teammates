@@ -34,7 +34,6 @@ public class FeedbackQuestion {
 	@Persistent
 	private String creatorEmail;
 	
-	@Persistent
 	private Text questionText;
 	
 	@Persistent
@@ -55,7 +54,9 @@ public class FeedbackQuestion {
 	private int numberOfEntitiesToGiveFeedbackTo;
 	
 	// We can actually query the list in JDOQL if needed.
-	// We can derive whether to show answer based on the following two variables.
+	@Persistent
+	private List<FeedbackParticipantType> showResponsesTo;
+	
 	@Persistent
 	private List<FeedbackParticipantType> showGiverNameTo;
 	
@@ -69,6 +70,7 @@ public class FeedbackQuestion {
 			FeedbackParticipantType giverType,
 			FeedbackParticipantType recipientType,
 			int numberOfEntitiesToGiveFeedbackTo,
+			List<FeedbackParticipantType> showResponsesTo,
 			List<FeedbackParticipantType> showGiverNameTo,
 			List<FeedbackParticipantType> showRecipientNameTo) {
 		
@@ -82,6 +84,7 @@ public class FeedbackQuestion {
 		this.giverType = giverType;
 		this.recipientType = recipientType;
 		this.numberOfEntitiesToGiveFeedbackTo =	numberOfEntitiesToGiveFeedbackTo;
+		this.showResponsesTo = showResponsesTo;
 		this.showGiverNameTo = showGiverNameTo;
 		this.showRecipientNameTo = showRecipientNameTo;
 	}
@@ -155,8 +158,8 @@ public class FeedbackQuestion {
 		return recipientType;
 	}
 
-	public void setReceiverType(FeedbackParticipantType receiverType) {
-		this.recipientType = receiverType;
+	public void setRecipientType(FeedbackParticipantType recipientType) {
+		this.recipientType = recipientType;
 	}
 	
 	public int getNumberOfEntitiesToGiveFeedbackTo() {
@@ -166,6 +169,14 @@ public class FeedbackQuestion {
 	public void setNumberOfEntitiesToGiveFeedbackTo(
 			int numberOfEntitiesToGiveFeedbackTo) {
 		this.numberOfEntitiesToGiveFeedbackTo = numberOfEntitiesToGiveFeedbackTo;
+	}
+
+	public List<FeedbackParticipantType> getShowResponsesTo() {
+		return showResponsesTo;
+	}
+
+	public void setShowResponsesTo(List<FeedbackParticipantType> showResponsesTo) {
+		this.showResponsesTo = showResponsesTo;
 	}
 
 	public List<FeedbackParticipantType> getShowGiverNameTo() {
@@ -183,9 +194,5 @@ public class FeedbackQuestion {
 	public void setShowRecipientNameTo(
 			List<FeedbackParticipantType> showRecipientNameTo) {
 		this.showRecipientNameTo = showRecipientNameTo;
-	}
-
-	public void setRecipientType(FeedbackParticipantType recipientType) {
-		this.recipientType = recipientType;
 	}
 }

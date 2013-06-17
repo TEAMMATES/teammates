@@ -120,11 +120,11 @@ public class InstructorEvalPageData extends PageData {
 		newEval.p2pEnabled = Boolean.parseBoolean(req
 				.getParameter(Common.PARAM_EVALUATION_COMMENTSENABLED));
 
-		newEval.startTime = combineDateTime(
+		newEval.startTime = Common.combineDateTime(
 				req.getParameter(Common.PARAM_EVALUATION_START),
 				req.getParameter(Common.PARAM_EVALUATION_STARTTIME));
 
-		newEval.endTime = combineDateTime(
+		newEval.endTime = Common.combineDateTime(
 				req.getParameter(Common.PARAM_EVALUATION_DEADLINE),
 				req.getParameter(Common.PARAM_EVALUATION_DEADLINETIME));
 
@@ -145,19 +145,6 @@ public class InstructorEvalPageData extends PageData {
 
 		return newEval;
 	}
-	
-	public static Date combineDateTime(String inputDate, String inputTime) {
-		if (inputDate == null || inputTime == null) {
-			return null;
-		}
-
-		int inputTimeInt = 0;
-		if (inputTime != null) {
-			inputTimeInt = Integer.parseInt(inputTime) * 100;
-		}
-		return Common.convertToDate(inputDate, inputTimeInt);
-	}
-
 	
 	/**
 	 * Helper to print the value of timezone the same as what javascript would

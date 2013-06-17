@@ -53,7 +53,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
 		List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
 		
 		for (FeedbackSession fs : fsList) {
-			log.info("Putting " + fs.getFeedbackSessionName() + " into list.");
 			fsaList.add(new FeedbackSessionAttributes(fs));
 		}
 		return fsaList;

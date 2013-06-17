@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.FieldValidator;
+import teammates.common.Sanitizer;
 import teammates.common.FieldValidator.FieldType;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 import teammates.storage.entity.FeedbackResponse;
@@ -17,20 +18,24 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public String feedbackQuestionId;
 	public QuestionType feedbackQuestionType;
 	public String giverEmail;
-	public String receiver;
+	public String recipient;
 	public Text answer;
+	
+	public FeedbackResponseAttributes() {
+		
+	}
 	
 	public FeedbackResponseAttributes(String feedbackSessionName,
 			String courseId, String feedbackQuestionId,
 			QuestionType feedbackQuestionType, String giverEmail,
-			String receiver, Text answer) {
-		this.feedbackSessionName = feedbackSessionName;
-		this.courseId = courseId;
+			String recipient, String giverName, String recipientName, Text answer) {
+		this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
+		this.courseId = Sanitizer.sanitizeTitle(courseId);
 		this.feedbackQuestionId = feedbackQuestionId;
 		this.feedbackQuestionType = feedbackQuestionType;
-		this.giverEmail = giverEmail;
-		this.receiver = receiver;
-		this.answer = answer;
+		this.giverEmail = Sanitizer.sanitizeEmail(giverEmail);
+		this.recipient = recipient;
+		this.answer = Sanitizer.sanitizeTextField(answer);
 	}
 
 	public FeedbackResponseAttributes(FeedbackResponse fr) {
@@ -40,13 +45,18 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		this.feedbackQuestionId = fr.getFeedbackQuestionId();
 		this.feedbackQuestionType = fr.getFeedbackQuestionType();
 		this.giverEmail = fr.getGiverEmail();
-		this.receiver = fr.getReceiver();
+		this.recipient = fr.getRecipient();
 		this.answer = fr.getAnswer();
 	}
 
 	public String getId() {
 		return feedbackResponseId;
 	}
+	
+	public void setId(String feedbackResponseId) {
+		this.feedbackResponseId = feedbackResponseId;
+	}
+	
 	@Override
 	public List<String> getInvalidityInfo() {
 		
@@ -63,7 +73,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		error= validator.getInvalidityInfo(FieldType.EMAIL, "answerer's email", giverEmail);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		return null;
+		return errors;
 	}
 	
 	@Override
@@ -75,12 +85,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public Object toEntity() {
 		return new FeedbackResponse(feedbackSessionName, courseId,
 				feedbackQuestionId, feedbackQuestionType,
-				giverEmail, receiver,answer);
+				giverEmail, recipient, answer);
 	}
 	
 	@Override
 	public String getIdentificationString() {
-		return feedbackQuestionId + "/" + giverEmail + ":" + "receiver";
+		return feedbackQuestionId + "/" + giverEmail + ":" + recipient;
 	}
 	
 	@Override
@@ -94,7 +104,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 				+ feedbackSessionName + ", courseId=" + courseId
 				+ ", feedbackQuestionId=" + feedbackQuestionId
 				+ ", feedbackQuestionType=" + feedbackQuestionType
-				+ ", giverEmail=" + giverEmail + ", receiver=" + receiver
+				+ ", giverEmail=" + giverEmail + ", recipient=" + recipient
 				+ ", answer=" + answer + "]";
 	}
 }

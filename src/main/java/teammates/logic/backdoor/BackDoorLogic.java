@@ -104,7 +104,7 @@ public class BackDoorLogic extends Logic {
 
 		HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
 		for (FeedbackSessionAttributes session : sessions.values()) {
-			log.fine("API Servlet adding feedback session :" + session.feedbackSessionName
+			log.info("API Servlet adding feedback session :" + session.feedbackSessionName
 					+ " to course " + session.courseId);
 			super.createFeedbackSession(session);
 		}
@@ -196,15 +196,19 @@ public class BackDoorLogic extends Logic {
 	@Override
 	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
 		List<FeedbackQuestionAttributes> questionsToCascadeDelete;
-		try {
+		try {			
 			questionsToCascadeDelete = feedbackQuestionsLogic
 					.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+			while(questionsToCascadeDelete.isEmpty() == false) {
+				feedbackQuestionsLogic.deleteFeedbackQuestionCascade(
+						feedbackSessionName, courseId, questionsToCascadeDelete.get(0).questionNumber);
+				// Have to keep getting as question number will change and json file does not have qn id.
+				questionsToCascadeDelete = feedbackQuestionsLogic
+						.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+			}
 		} catch (EntityDoesNotExistException e) {
-			// Silently fail
+			log.info(e.getMessage());
 			return;
-		}
-		for (FeedbackQuestionAttributes question : questionsToCascadeDelete) {
-			feedbackQuestionsLogic.deleteFeedbackQuestion(feedbackSessionName, courseId, question.questionNumber);
 		}
 		super.deleteFeedbackSession(feedbackSessionName, courseId);
 	}

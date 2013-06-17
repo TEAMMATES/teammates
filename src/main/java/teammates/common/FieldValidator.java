@@ -30,9 +30,7 @@ public class FieldValidator {
 		RESULTS_VISIBLE_TIME,
 		EVALUATION_TIME_FRAME,
 		FEEDBACK_SESSION_TIME_FRAME,
-		FEEDBACK_QUESTION_TEXT,
-		GIVER_TYPE,
-		RECIPIENT_TYPE;
+		FEEDBACK_QUESTION_TEXT
 	}
 
 	
@@ -139,13 +137,14 @@ public class FieldValidator {
 	public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
 	public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
 	
-	public static final String TIME_FRAME_ERROR_MESSAGE = "The %s for this %s cannot be earlier than the %s";
+	public static final String TIME_FRAME_ERROR_MESSAGE = "The %s for this %s cannot be earlier than the %s.";
 	public static final String EVALUATION_START_TIME_ERROR_MESSAGE = "Evaluation cannot be activated before start time";
 	public static final String EVALUATION_END_TIME_ERROR_MESSAGE = "Evaluation cannot be published before end time";
 	
 	public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
 	public static final String GIVER_TYPE_NAME = "feedback giver.";
 	public static final String RECIPIENT_TYPE_NAME = "feedback recipient.";
+	public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE = "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". Did you mean to use \"Self\" instead?";
 	
 	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
 	private static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
@@ -306,6 +305,10 @@ public class FieldValidator {
 		Assumption.assertTrue("Non-null value expected", earlierTime != null);
 		Assumption.assertTrue("Non-null value expected", laterTime != null);
 		
+		if(Common.isSpecialTime(earlierTime) || Common.isSpecialTime(laterTime)) {
+			return "";
+		}
+		
 		String mainFieldName, earlierFieldName, laterFieldName;
 		
 		switch (mainFieldType) {
@@ -345,7 +348,7 @@ public class FieldValidator {
 			break;
 		case SESSION_VISIBLE_TIME:
 			laterFieldName = SESSION_VISIBLE_TIME_FIELD_NAME;
-			break;
+			break;	
 		case RESULTS_VISIBLE_TIME:
 			laterFieldName = RESULTS_VISIBLE_TIME_FIELD_NAME; 
 			break;
@@ -354,12 +357,12 @@ public class FieldValidator {
 		}
 		
 		if (laterTime.before(earlierTime)) {
-			return String.format(TIME_FRAME_ERROR_MESSAGE, earlierFieldName, mainFieldName, laterFieldName);
+			return String.format(TIME_FRAME_ERROR_MESSAGE, laterFieldName, mainFieldName, earlierFieldName);
 		}
 		
 		return "";
 	}
-	
+
 	public String getValidityInfoForEvalStartTime(Date startTime, double timeZone,
 			boolean activated) {
 		if (isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
@@ -377,25 +380,28 @@ public class FieldValidator {
 	}
 	
 	public String getValidityInfoForFeedbackParticipantType(
-			FieldType fieldType, FeedbackParticipantType pType) {
+			FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
 		
-		Assumption.assertTrue("Non-null value expected", pType != null);
+		Assumption.assertTrue("Non-null value expected", giverType != null);
+		Assumption.assertTrue("Non-null value expected", recipientType != null);
 		
-		switch (fieldType) {
-		case GIVER_TYPE:
-			if (pType.isValidGiver() == false) {
-				return String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, pType.toString(), GIVER_TYPE_NAME);
-			}
-			break;
-		case RECIPIENT_TYPE:
-			if (pType.isValidRecipient() == false) {
-				return String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, pType.toString(), RECIPIENT_TYPE_NAME);
-			}
-			break;
-		default:
-			throw new AssertionError("Unrecognized field type for time frame validity check : " + fieldType);
+		String error = "";
+		if (giverType.isValidGiver() == false) {
+			error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME);
 		}
-		return "";
+		if (recipientType.isValidRecipient() == false) {
+			error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME);
+		}
+		if (giverType == FeedbackParticipantType.TEAMS) {
+			if (recipientType == FeedbackParticipantType.OWN_TEAM ||
+				recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+				error += String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+						recipientType.toDisplayRecipientName(),
+						giverType.toDisplayGiverName());
+			}
+		}
+		
+		return error;
 	}
 	
 	private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {

@@ -169,17 +169,19 @@ public class FeedbackSessionsDbTest extends BaseComponentTest {
 		}
 		______TS("invalid feedback sesion attributes");
 		FeedbackSessionAttributes invalidFs = getNewFeedbackSession();
-		Calendar calendar = Calendar.getInstance();
-		invalidFs.endTime = calendar.getTime();
+		fsDb.deleteEntity(invalidFs);
+		fsDb.createEntity(invalidFs);
+		Calendar calendar = Common.dateToCalendar(invalidFs.endTime);
 		calendar.add(Calendar.MONTH, 1);
 		invalidFs.startTime = calendar.getTime();
+		invalidFs.resultsVisibleFromTime = calendar.getTime();
 		try {
 			fsDb.updateFeedbackSession(invalidFs);
 			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
-			assertContains(
-					String.format(TIME_FRAME_ERROR_MESSAGE, START_TIME_FIELD_NAME,
-							FEEDBACK_SESSION_NAME, END_TIME_FIELD_NAME),
+			assertEquals(
+					String.format(TIME_FRAME_ERROR_MESSAGE, END_TIME_FIELD_NAME,
+							FEEDBACK_SESSION_NAME, START_TIME_FIELD_NAME),
 							e.getLocalizedMessage());
 		}
 		______TS("feedback session does not exist");
@@ -194,6 +196,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTest {
 		}
 		______TS("standard success case");
 		FeedbackSessionAttributes modifiedSession = getNewFeedbackSession();
+		fsDb.deleteEntity(modifiedSession);
 		fsDb.createEntity(modifiedSession);
 		LogicTest.verifyPresentInDatastore(modifiedSession);
 		modifiedSession.instructions = new Text("new instructions");

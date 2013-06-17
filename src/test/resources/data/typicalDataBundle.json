@@ -366,6 +366,7 @@
 		"giverType" : "STUDENTS",
 		"recipientType" : "SELF",
 		"numberOfEntitiesToGiveFeedbackTo" : 1,
+		"showResponsesTo" : [ "INSTRUCTORS" ],
 		"showGiverNameTo" : [ "INSTRUCTORS" ],
 		"showRecipientNameTo" : [ "INSTRUCTORS" ]
     },
@@ -379,6 +380,7 @@
 		"giverType" : "STUDENTS",
 		"recipientType" : "STUDENTS",
 		"numberOfEntitiesToGiveFeedbackTo" : 5,
+		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
 		"showGiverNameTo" : [ "INSTRUCTORS" ],
 		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
     },
@@ -391,6 +393,7 @@
 		"giverType" : "SELF",
 		"recipientType" : "NONE",
 		"numberOfEntitiesToGiveFeedbackTo" : 0,
+		"showResponsesTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
 		"showGiverNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
 		"showRecipientNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ]
     },
@@ -403,6 +406,7 @@
 		"giverType" : "TEAMS",
 		"recipientType" : "TEAMS",
 		"numberOfEntitiesToGiveFeedbackTo" : 2,
+		"showResponsesTo" : [ "RECEIVER" ],
 		"showGiverNameTo" : [ "RECEIVER" ],
 		"showRecipientNameTo" : [ "RECEIVER" ]
     },
@@ -415,6 +419,7 @@
 		"giverType" : "STUDENTS",
 		"recipientType" : "OWN_TEAM_MEMBERS",
 		"numberOfEntitiesToGiveFeedbackTo" : 1,
+		"showResponsesTo" : [ "RECEIVER" ],
 		"showGiverNameTo" : [ "RECEIVER" ],
 		"showRecipientNameTo" : [ "RECEIVER" ]
     },
@@ -427,6 +432,7 @@
 		"giverType" : "SELF",
 		"recipientType" : "STUDENTS",
 		"numberOfEntitiesToGiveFeedbackTo" : 10,
+		"showResponsesTo" : [ ],
 		"showGiverNameTo" : [ ],
 		"showRecipientNameTo" : [ ]
     },
@@ -439,6 +445,7 @@
 		"giverType" : "INSTRUCTORS",
 		"recipientType" : "TEAMS",
 		"numberOfEntitiesToGiveFeedbackTo" : 2,
+		"showResponsesTo" : [ ],
 		"showGiverNameTo" : [ ],
 		"showRecipientNameTo" : [ ]
     }

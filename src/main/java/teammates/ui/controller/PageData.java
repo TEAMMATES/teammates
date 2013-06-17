@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 
 /**
@@ -27,6 +28,18 @@ public class PageData {
 	//====================== Utility Methods ===================================
 	
 	//TODO: move these helper method up/down the class hierarchy based on where they are used
+	
+	/**
+	 * Returns the link to the student home link<br />
+	 * This includes masquerade mode as well.
+	 * @param courseID
+	 * @return
+	 */
+	public String getStudentHomeLink(){
+		String link = Common.PAGE_STUDENT_HOME;
+		link = addUserIdToUrl(link);
+		return link;
+	}
 	
 	public String getInstructorCourseLink(){
 		String link = Common.PAGE_INSTRUCTOR_COURSE;
@@ -157,6 +170,25 @@ public class PageData {
 				.replace("'", "&#39;");
 	}
 	
+	/**
+	 * Checks whether a name is longer than a specified length
+	 * if so returns the truncated name appended by ellipsis,
+	 * otherwise returns the original nickname.
+	 * @param inputString
+	 * @param truncateLength the maximum length of the truncated string
+	 * @return
+	 */
+	public static String truncate(String inputString, int truncateLength){
+		if(!(inputString.length()>truncateLength)){
+			return inputString;
+		}
+		String result = inputString;
+		if(inputString.length()>truncateLength){
+			result = inputString.substring(0,truncateLength-3)+"...";
+		}
+		return result;
+	}
+		
 	/**
 	 * Returns the status of the student, whether he has joined the course.
 	 * This is based on googleID, if it's null or empty, then we assume he
@@ -309,7 +341,54 @@ public class PageData {
 		return link;
 	}
 	
+	/**
+	 * Returns the link to delete a feedback sessio as specified and redirects to the nextURL after deletion<br />
+	 * The nextURL is usually used to refresh the page after deletion<br />
+	 * This includes masquerade mode as well.
+	 * @param courseId
+	 * @param evalName
+	 * @param nextURL
+	 * @return
+	 */
+	public String getInstructorFeedbackSessionDeleteLink(String courseId, String feedbackSessionName, String nextURL){
+		String link = Common.PAGE_INSTRUCTOR_FEEDBACK_DELETE;
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,addUserIdToUrl(nextURL));
+		link = addUserIdToUrl(link);
+		return link;
+	}
 	
+	/**
+	 * Returns the link to edit \ a feedback sessio as specified<br />
+	 * This includes masquerade mode as well.
+	 * @param courseId
+	 * @param feedbackSessionName
+	 * @return
+	 */
+	public String getInstructorFeedbackSessionEditLink(String courseId, String feedbackSessionName){
+		String link = Common.PAGE_INSTRUCTOR_FEEDBACK_EDIT;
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = addUserIdToUrl(link);
+		return link;
+	}
+	
+	/**
+	 * Returns the link to see the result of a feedback session as specified<br />
+	 * This includes masquerade mode as well.
+	 * @param courseId
+	 * @param feedbackSessionName
+	 * @return
+	 */
+	public String getInstructorFeedbackSessionResultsLink(String courseId, String feedbackSessionName){
+		String link = Common.PAGE_INSTRUCTOR_FEEDBACK_RESULTS;
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = addUserIdToUrl(link);
+		return link;
+	}
+		
 	/**
 	 * Returns the evaluaton status. Can be any one of these:
 	 * <ul>
@@ -427,6 +506,99 @@ public class PageData {
 		return result.toString();
 	}
 	
+	public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session){
+		if (session.isOpened()) {
+			return "Open";
+		} else if (session.isWaitingToOpen()) {
+			if (session.isVisible()) {
+				return "Visible";
+			} else {
+				return "Awaiting";
+			}
+		} else if (session.isPublished()) {
+			return "Published";
+		} else {
+			return "Closed";
+		}
+	}
+	
+	public static String getInstructorHoverMessageForFeedbackSession(FeedbackSessionAttributes session){
+		
+		String msg = "The feedback session has been created";
+		
+		if (session.isVisible()) {
+			msg += Common.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_VISIBLE;
+		}
+		
+		if (session.isOpened()) {
+			msg += Common.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_OPEN;
+		} else if (session.isWaitingToOpen()) {
+			msg += Common.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_AWAITING;
+		} else if(session.isClosed()) {
+			msg += Common.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_CLOSED;
+		}
+		
+		if (session.isPublished()) {
+			msg += Common.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_PUBLISHED;
+		}
+		
+		msg += ".";
+		
+		return msg;
+	}
+	
+	/**
+	 * Returns the links of actions available for a specific evaluation
+	 * @param session
+	 * 		The Evaluation details
+	 * @param position
+	 * 		The position of the evaluation in the table (to be used for rowID)
+	 * @param isHome
+	 * 		Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+	 * @return
+	 */
+	public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session, int position, boolean isHome){
+		StringBuffer result = new StringBuffer();
+		
+		boolean hasView = false;
+		
+		if(session.isPublished()) {
+			hasView = true;
+		}
+		
+		result.append(
+			"<a class=\"color_green t_eval_view"+ position + "\" " +
+			"href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
+			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTS+"')\" "+
+			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
+		);
+		result.append(
+			"<a class=\"color_brown t_eval_edit" + position + "\" " +
+			"href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
+			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " 
+			+ ">Edit</a>"
+		);
+		result.append(
+			"<a class=\"color_red t_eval_delete" + position + "\" " +
+			"href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Common.PAGE_INSTRUCTOR_HOME : Common.PAGE_INSTRUCTOR_FEEDBACK)) + "\" " +
+			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
+			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SESSION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
+		);
+		return result.toString();
+	}
 
-
+	/**
+	 * Returns the link for a student to view/edit his responses for a feedback session<br/>
+	 * This includes masquerade mode as well.
+	 * @param courseId
+	 * @param feedbackSessionName
+	 * @return
+	 */
+	public String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
+		String link = Common.PAGE_STUDENT_FEEDBACK_SUBMIT;
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = addUserIdToUrl(link);
+		return link;
+	}
 }

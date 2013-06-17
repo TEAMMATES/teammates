@@ -7,7 +7,7 @@ import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.GateKeeper;
 
-public class InstructorCourseEditPageAcation extends Action {
+public class InstructorCourseEditPageAction extends Action {
 	protected static final Logger log = Common.getLogger();
 	
 

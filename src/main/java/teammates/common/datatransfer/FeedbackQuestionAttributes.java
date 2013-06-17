@@ -12,7 +12,8 @@ import teammates.common.FieldValidator.FieldType;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
-public class FeedbackQuestionAttributes extends EntityAttributes {
+public class FeedbackQuestionAttributes extends EntityAttributes
+	implements Comparable<FeedbackQuestionAttributes>{
 	private String feedbackQuestionId = null;
 	public String feedbackSessionName;
 	public String courseId;
@@ -23,6 +24,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes {
 	public FeedbackParticipantType giverType;
 	public FeedbackParticipantType recipientType;
 	public int numberOfEntitiesToGiveFeedbackTo;
+	public List<FeedbackParticipantType> showResponsesTo;
 	public List<FeedbackParticipantType> showGiverNameTo;
 	public List<FeedbackParticipantType> showRecipientNameTo;
 	
@@ -41,6 +43,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes {
 		this.giverType = fq.getGiverType();
 		this.recipientType = fq.getRecipientType();
 		this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
+		this.showResponsesTo = fq.getShowResponsesTo();
 		this.showGiverNameTo = fq.getShowGiverNameTo();
 		this.showRecipientNameTo = fq.getShowRecipientNameTo();
 	}
@@ -52,6 +55,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes {
 			QuestionType questionType, FeedbackParticipantType giverType,
 			FeedbackParticipantType recipientType,
 			int numberOfEntitiesToGiveFeedbackTo,
+			List<FeedbackParticipantType> showResponsesTo,
 			List<FeedbackParticipantType> showGiverNameTo,
 			List<FeedbackParticipantType> showRecipientNameTo) {
 		
@@ -64,12 +68,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes {
 		this.giverType = giverType;
 		this.recipientType = recipientType;
 		this.numberOfEntitiesToGiveFeedbackTo = numberOfEntitiesToGiveFeedbackTo;
+		this.showResponsesTo = showResponsesTo;
 		this.showGiverNameTo = showGiverNameTo;
 		this.showRecipientNameTo = showRecipientNameTo;
 	}
 	
 	public String getId() {
 		return feedbackQuestionId;
+	}
+	
+	// NOTE: Only use this to match and search for the ID of a known existing question entity.
+	public void setId(String id) {
+		this.feedbackQuestionId = id;
 	}
 	
 	public List<String> getInvalidityInfo() {
@@ -87,10 +97,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes {
 		error= validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfoForFeedbackParticipantType(FieldType.GIVER_TYPE, giverType);
-		if(!error.isEmpty()) { errors.add(error); }
-		
-		error= validator.getValidityInfoForFeedbackParticipantType(FieldType.RECIPIENT_TYPE, recipientType);
+		error= validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType);
 		if(!error.isEmpty()) { errors.add(error); }
 		
 		return errors;
@@ -101,7 +108,46 @@ public class FeedbackQuestionAttributes extends EntityAttributes {
 				feedbackSessionName, courseId, creatorEmail,
 				questionText, questionNumber, questionType, giverType,
 				recipientType, numberOfEntitiesToGiveFeedbackTo,
-				showGiverNameTo, showRecipientNameTo);
+				showResponsesTo, showGiverNameTo, showRecipientNameTo);
+	}
+	
+	public List<String> getVisibilityMessage(){
+		
+		List<String> message = new ArrayList<String>();
+		
+		for(FeedbackParticipantType participant : showResponsesTo) {
+			String line = "";
+			line += participant.toDisplayNameVisibility() + " ";
+			if(participant == FeedbackParticipantType.RECEIVER) {
+				line += (giverType.toString().toLowerCase());
+				if(numberOfEntitiesToGiveFeedbackTo < 2) {
+					// remove letter 's'.
+					line = line.substring(0, line.length()-1);
+				}
+				line += " ";
+			}
+			line += "can see your feedback";
+			if(showRecipientNameTo.contains(participant) == false && participant != FeedbackParticipantType.RECEIVER) {
+				if(showRecipientNameTo.contains(participant) == true) {
+					line += ", and your name";
+				} 
+				line += ", but <span class=\"bold color_red\">not</span> the name of the recipient";
+				if(showRecipientNameTo.contains(participant) == false) {
+					line += ", or your name";
+				}
+			} else if (showRecipientNameTo.contains(participant) == true && participant != FeedbackParticipantType.RECEIVER) {
+				line += ", the name of the recipient";
+				if(showRecipientNameTo.contains(participant)) {
+					line += ", and your name";
+				} else {
+					line += ", but <span class=\"bold color_red\">not</span> your name";
+				}
+			}
+			line += ".";
+			message.add(line);
+		}
+		
+		return message;
 	}
 	
 	@Override
@@ -118,18 +164,28 @@ public class FeedbackQuestionAttributes extends EntityAttributes {
 				+ ", questionType=" + questionType + ", giverType=" + giverType
 				+ ", recipientType=" + recipientType
 				+ ", numberOfEntitiesToGiveFeedbackTo="
-				+ numberOfEntitiesToGiveFeedbackTo + ", showGiverNameTo="
-				+ showGiverNameTo + ", showRecipientNameTo="
-				+ showRecipientNameTo + "]";
+				+ numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
+				+ showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
+				+ ", showRecipientNameTo=" + showRecipientNameTo + "]";
 	}
 
 	@Override
 	public String getIdentificationString() {
-		return this.questionNumber + ". " + this.questionText + "/" + this.feedbackSessionName;
+		return this.questionNumber + ". " + this.questionText.toString() + "/" + this.feedbackSessionName + "/" + this.courseId;
 	}
 
 	@Override
 	public String getEntityTypeAsString() {
 		return "Feedback Question";
 	}
+	
+	@Override
+	public int compareTo(FeedbackQuestionAttributes o) {
+		if (o == null) {
+			return 1;
+		} else {
+			return Integer.compare(this.questionNumber, o.questionNumber);
+		}
+	}
+	
 }

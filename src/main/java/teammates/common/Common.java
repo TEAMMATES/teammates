@@ -39,7 +39,7 @@ import com.google.gson.GsonBuilder;
 // TODO: create a subclass (e.g., InternalUtil) and move all internal utility
 // functions to that sub class. It should be in util package.
 public class Common {
-
+	
 	private static Logger log = Logger.getLogger(Common.class.getName());
 
 	public static final String EOL = System.getProperty("line.separator");
@@ -50,6 +50,7 @@ public class Common {
 	public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 	public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
 
+	public static final int MAX_POSSIBLE_RECIPIENTS = -100;
 	public static final int POINTS_NOT_SURE = -101;
 	public static final int POINTS_NOT_SUBMITTED = -999;
 
@@ -57,6 +58,27 @@ public class Common {
 
 	// Number to trigger the header file to truncate the user googleId and show hover message
 	public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
+	
+	public static Date TIME_REPRESENTS_FOLLOW_OPENING;
+	public static Date TIME_REPRESENTS_FOLLOW_VISIBLE;
+	public static Date TIME_REPRESENTS_NEVER;
+	public static Date TIME_REPRESENTS_LATER;
+
+	static {
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(1970, 11, 31);
+		TIME_REPRESENTS_FOLLOW_OPENING = calendar.getTime();
+		calendar.set(1970, 05, 22);
+		TIME_REPRESENTS_FOLLOW_VISIBLE = calendar.getTime();
+		calendar.set(1970, 10, 27);
+		TIME_REPRESENTS_NEVER = calendar.getTime();
+		calendar.set(1970, 00, 01);
+		TIME_REPRESENTS_LATER = calendar.getTime();
+	}
 	
 	// Hover messages
 	
@@ -126,6 +148,32 @@ public class Common {
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and you can check the results";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_ERROR = "There were some errors in retrieving this evaluation.";
 
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";	
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STARTDATE = "Please select the starting date and time for the feedback session. Users can only start responding after this time.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE = "Please select the closing date and time for the feedback session.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_VISIBLEDATE = "Please select the date and time for which the feedback session will become visible to users who need to participate in the session.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_PUBLISHDATE = "Please select the date and time for which the results of the feedback session will become visible.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLECUSTOM = "Select this option to use a custom time for when the session will be visible to users. You can make a session visible before it is open for users to start responding.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN = "Select this option to have the session become visible at the opening time.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLENEVER = "Select this option if you want the feedback session to never be visible. Use this option you want to use this as a private feedback session.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLECUSTOM = "Select this option to use a custom time for when the responses of the session will be visible to users.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE = "Select this option to have the feedback responses be immediately visible when the session is open.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to make the results visible at a later time.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend to never publish the results.";
+	
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_PUBLISHED = ". The responses for this session are visible";
+	
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTS = "View the current submitted responses of the feedback session";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_EDIT = "Edit feedback session details and questions";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_DELETE = "Delete the feedback session";
+	
+	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
+	
 	// Evaluation status
 	public static final String EVALUATION_STATUS_AWAITING = "Awaiting";
 	public static final String EVALUATION_STATUS_OPEN = "Open";
@@ -168,7 +216,47 @@ public class Common {
 	public static final String PARAM_EVALUATION_NUMBEROFEVALUATIONS = "numberofcompletedevaluations";
 	public static final String PARAM_EVALUATION_PUBLISHED = "published";
 	public static final String PARAM_EVALUATION_TYPE = "evaluationtype";
+	
+	public static final String PARAM_FEEDBACK_SESSION_NAME = "fsname";
+	public static final String PARAM_FEEDBACK_SESSION_CREATOR = "fscreator";
+	public static final String PARAM_FEEDBACK_SESSION_CREATEDATE = "createdate";
+	public static final String PARAM_FEEDBACK_SESSION_CREATETIME = "createtime";
+	public static final String PARAM_FEEDBACK_SESSION_STARTDATE = "startdate";
+	public static final String PARAM_FEEDBACK_SESSION_STARTTIME = "starttime";
+	public static final String PARAM_FEEDBACK_SESSION_ENDDATE = "enddate";
+	public static final String PARAM_FEEDBACK_SESSION_ENDTIME = "endtime";
+	public static final String PARAM_FEEDBACK_SESSION_VISIBLEDATE = "visibledate";
+	public static final String PARAM_FEEDBACK_SESSION_VISIBLETIME = "visibletime";
+	public static final String PARAM_FEEDBACK_SESSION_PUBLISHDATE = "publishdate";
+	public static final String PARAM_FEEDBACK_SESSION_PUBLISHTIME = "publishtime";
+	public static final String PARAM_FEEDBACK_SESSION_TIMEZONE = "timezone";
+	public static final String PARAM_FEEDBACK_SESSION_GRACEPERIOD = "graceperiod";
+	public static final String PARAM_FEEDBACK_SESSION_TYPE = "fstype";
+	public static final String PARAM_FEEDBACK_SESSION_OPENEMAILSENT = "fsopenemailsent";
+	public static final String PARAM_FEEDBACK_SESSION_PUBLISHEDEMAILSENT = "fspublishedemailsent";
+	public static final String PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
+	public static final String PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
+	public static final String PARAM_FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
+	
+	public static final String PARAM_FEEDBACK_QUESTION_ID = "questionid";
+	public static final String PARAM_FEEDBACK_QUESTION_NUMBER = "questionnum";
+	public static final String PARAM_FEEDBACK_QUESTION_TEXT = "questiontext";
+	public static final String PARAM_FEEDBACK_QUESTION_TYPE = "questiontype";
+	public static final String PARAM_FEEDBACK_QUESTION_GIVERTYPE = "givertype";
+	public static final String PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";
+	public static final String PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";
+	public static final String PARAM_FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
+	public static final String PARAM_FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
+	public static final String PARAM_FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
+	public static final String PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
+	public static final String PARAM_FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
+	public static final String PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
 
+	public static final String PARAM_FEEDBACK_RESPONSE_ID = "";
+	public static final String PARAM_FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
+	public static final String PARAM_FEEDBACK_RESPONSE_TEXT = "responsetext";
+	public static final String PARAM_FEEDBACK_RESPONSES_TOTAL = "responsestotal";
+	
 	public static final String PARAM_STUDENT_ID = "googleid";
 
 	public static final String PARAM_REGKEY = "regkey";
@@ -240,6 +328,18 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
 	public static final String PAGE_INSTRUCTOR_EVAL_EXPORT = "/page/instructorEvalExport";
 	
+	public static final String PAGE_INSTRUCTOR_FEEDBACK = "/page/instructorFeedback";
+	public static final String PAGE_INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
+	public static final String PAGE_INSTRUCTOR_FEEDBACK_CHANGE_TYPE = "/page/instructorFeedbackChangeType"; 
+	public static final String PAGE_INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
+	public static final String PAGE_INSTRUCTOR_FEEDBACK_EDIT = "/page/instructorFeedbackEdit";
+	public static final String PAGE_INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
+	public static final String PAGE_INSTRUCTOR_FEEDBACK_RESULTS = "/page/instructorFeedbackResults";
+	
+	public static final String PAGE_INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
+	public static final String PAGE_INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
+
+	
 	public static final String PAGE_STUDENT_HOME = "/page/studentHome";
 	public static final String PAGE_STUDENT_JOIN_COURSE = "/page/studentCourseJoin";
 	public static final String PAGE_STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
@@ -247,6 +347,8 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT = "/page/studentEvalEdit";
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler";
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
+	public static final String PAGE_STUDENT_FEEDBACK_SUBMIT = "/page/studentFeedbackSubmit";
+	public static final String PAGE_STUDENT_FEEDBACK_SUBMIT_SAVE = "/page/studentFeedbackSubmitSave";
 
 	public static final String PAGE_ADMIN_HOME = "/admin/adminHome";
 	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/admin/adminAccountManagement";
@@ -274,16 +376,21 @@ public class Common {
 	public static final String JSP_INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; 
 	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/jsp/instructorEvalSubmissionView.jsp"; 
 	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/jsp/instructorEvalSubmissionEdit.jsp"; 
-
+	public static final String JSP_INSTRUCTOR_FEEDBACK = "/jsp/instructorFeedback.jsp";
+	public static final String JSP_INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
+	
 	public static final String JSP_STUDENT_HOME = "/jsp/studentHome.jsp"; 
 	public static final String JSP_STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
 	/** To submit evaluation and also to edit */
 	public static final String JSP_STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
 	public static final String JSP_STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
+	public static final String JSP_STUDENT_FEEDBACK_SUBMIT = "/jsp/studentFeedbackSubmit.jsp"; 
+	public static final String JSP_STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp"; 
 
 	public static final String JSP_INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; 
 	public static final String JSP_INSTRUCTOR_HEADER_NEW = "/jsp/instructorHeaderNew.jsp"; //TODO: rename this after all pages are migrated to new header
-	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; 
+	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp";
+	public static final String JSP_STUDENT_HEADER_NEW = "/jsp/studentHeaderNew.jsp"; 
 	public static final String JSP_ADMIN_HEADER = "/jsp/adminHeader.jsp"; 
 	public static final String JSP_FOOTER = "/jsp/footer.jsp"; 
 	public static final String JSP_FOOTER_NEW = "/jsp/footerNew.jsp"; //TODO: rename this after all pages are migrated to new footer
@@ -337,9 +444,20 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
 	public static final String MESSAGE_EVALUATION_EMPTY = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
 	public static final String MESSAGE_EVALUATION_NOT_OPEN = "This evaluation is not open at this time. You are not allowed to edit your submission.";
-
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	
+	public static final String MESSAGE_FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click on Edit next to your feedback session below to start adding questions. If you don't see that feedback session in the list below, please refresh the page after a few moments.";
+	public static final String MESSAGE_FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
+	public static final String MESSAGE_FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
+	public static final String MESSAGE_FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";
+	public static final String MESSAGE_FEEDBACK_SESSION_EMPTY = "You have not created any feedback sessions yet. Use the form above to create a new feedback session.";
+
+	public static final String MESSAGE_FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
+	public static final String MESSAGE_FEEDBACK_QUESTION_EDITED = "The changes to the question has been updated.";
+	public static final String MESSAGE_FEEDBACK_QUESTION_DELETED = "The question has been deleted.";
+	public static final String MESSAGE_FEEDBACK_QUESTION_EXISTS = "The requested question has already been created.";
+	public static final String MESSAGE_FEEDBACK_QUESTION_EMPTY = "You have not created any questions for this feedback session yet. Click the button below to add a feedback question.";
+
 	// Status messages from Javascript
 	
 	public static final String MESSAGE_COURSE_INPUT_FIELDS_EXTRA = "There are too many fields.";
@@ -619,9 +737,9 @@ public class Common {
 		log.fine(String.format("[%d - %s] %s", Thread.currentThread().getId(),
 				Thread.currentThread().getName(), message));
 	}
-
+	
 	/**
-	 * Convert a date string and time into a Date object. Returns null on error.
+	 * Convert a date string and time string into a Date object. Returns null on error.
 	 * 
 	 * @param date
 	 *            The date in format dd/MM/yyyy
@@ -629,7 +747,19 @@ public class Common {
 	 *            The time in format HHMM
 	 * @return
 	 */
-	public static Date convertToDate(String date, int time) {
+	public static Date combineDateTime(String inputDate, String inputTime) {
+		if (inputDate == null || inputTime == null) {
+			return null;
+		}
+
+		int inputTimeInt = 0;
+		if (inputTime != null) {
+			inputTimeInt = Integer.parseInt(inputTime) * 100;
+		}
+		return convertToDate(inputDate, inputTimeInt);
+	}
+
+	private static Date convertToDate(String date, int time) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar calendar = Calendar.getInstance();
 
@@ -792,7 +922,30 @@ public class Common {
 		return time; // for chaining
 	}
 	
-
+	/**
+	 * Returns whether the given date is being used as a special representation,
+	 * signifying it's face value should not be used without proper processing.
+	 * A null date is not a special time.
+	 * 
+	 * @param date
+	 * @return {@code Boolean}
+	 */
+	public static boolean isSpecialTime(Date date) {
+		
+		if (date == null) {
+			return false;
+		}
+		
+		if (date.equals(Common.TIME_REPRESENTS_FOLLOW_OPENING) ||
+			date.equals(Common.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
+			date.equals(Common.TIME_REPRESENTS_LATER) ||
+			date.equals(Common.TIME_REPRESENTS_NEVER)) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
 
 
 	/**

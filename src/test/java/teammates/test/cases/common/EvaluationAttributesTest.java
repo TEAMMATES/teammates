@@ -190,7 +190,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.startTime = Common.getDateOffsetToCurrentTime(2);
 		assertFalse(e.isValid());
 		errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE, 
-				START_TIME_FIELD_NAME, EVALUATION_NAME, END_TIME_FIELD_NAME);
+				END_TIME_FIELD_NAME, EVALUATION_NAME, START_TIME_FIELD_NAME);
 		assertEquals(errorMessage, 
 				Common.toString(e.getInvalidityInfo()));
 

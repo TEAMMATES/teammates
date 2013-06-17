@@ -1,14 +1,75 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
+import teammates.common.Common;
 
 public class FeedbackSessionQuestionsBundle {
+	private static final Logger log = Common.getLogger();
+
 	public FeedbackSessionAttributes feedbackSession = null;
-	public List<FeedbackQuestionAttributes> questions = null;;
+	public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
+		questionResponseBundle = null;
+	public Map<String, Map<String, String>> recipientList = null;
 	
 	public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession,
-			List<FeedbackQuestionAttributes> questions) {
+			Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle,
+			Map<String, Map<String, String>> recipientList) {
 		this.feedbackSession = feedbackSession;
-		this.questions = questions;
+		this.questionResponseBundle = questionResponseBundle;
+		this.recipientList = recipientList;
 	}
+	
+	/**
+	 * Gets the list of questions in this bundle, sorted by question number. 
+	 * @param
+	 * @return A {@code List} of {@code FeedackQuestionAttributes}.
+	 */
+	public List<FeedbackQuestionAttributes> getSortedQuestions() {
+		
+		List<FeedbackQuestionAttributes> sortedQuestions =
+				new ArrayList<FeedbackQuestionAttributes>(this.questionResponseBundle.keySet());
+		
+		Collections.sort(sortedQuestions);
+		
+		return sortedQuestions;
+	}
+	
+	/**
+	 * Gets the recipient list for a question, sorted by the recipient's name. 
+	 * @param feedbackQuestionId of the question
+	 * @return A {@code Map<String key, String value>} where {@code key} is the recipient's email
+	 * and {@code value} is the recipients name.
+	 */
+	public Map<String, String> getSortedRecipientList(String feedbackQuestionId) {
+
+		List<Map.Entry<String, String>> sortedList =
+				new ArrayList<Map.Entry<String, String>>(this.recipientList
+						.get(feedbackQuestionId).entrySet());
+
+		Collections.sort(sortedList, new Comparator<Map.Entry<String, String>>() {
+			public int compare(
+					Map.Entry<String, String> o1,
+					Map.Entry<String, String> o2) {
+				// Sort by value (name).
+				int compare = o1.getValue().compareTo(o2.getValue());
+				// Sort by key (email) if name is same.
+				return compare == 0 ? o1.getKey().compareTo(o2.getKey()) : compare;
+			}
+		});
+
+		Map<String, String> result = new LinkedHashMap<String, String>();
+
+		for (Map.Entry<String, String> entry : sortedList) {
+			result.put(entry.getKey(), entry.getValue());
+		}
+		return result;
+	}
+	
 }

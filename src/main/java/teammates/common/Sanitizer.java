@@ -78,8 +78,7 @@ public class Sanitizer {
 	 * @return the sanitized string or null (if the parameter was null).
 	 */
 	public static Text sanitizeTextField(Text rawText) {
-		// TODO: Trim text field?
-		return rawText;
+		return (rawText==null) ? new Text("") :  new Text(trimIfNotNull(rawText.getValue()));
 	}
 
 	/**

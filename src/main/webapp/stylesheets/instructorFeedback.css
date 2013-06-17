@@ -1,0 +1,30 @@
+.sessionTable {
+	width: 900px;
+}
+
+.questionTable {
+	width: 900px;
+}
+
+.participantTable {
+	width: 880px;
+}
+
+.participantSelect {
+	width: 200px;
+}
+
+.visibilityCheckbox {
+}
+
+#fsname {
+	width: 620px;
+}
+
+#courseid {
+	width: 260px;
+}
+
+#timezone {
+	width: 100px;
+}

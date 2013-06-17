@@ -22,14 +22,25 @@ public class ActionFactory {
 		actionMappings.put("/page/instructorCourseDelete", InstructorCourseDeleteAction.class);
 		actionMappings.put("/page/instructorCourseDetails", InstructorCourseDetailsPageAction.class);
 		actionMappings.put("/page/instructorCourseRemind", InstructorCourseRemindAction.class);
-		actionMappings.put("/page/instructorCourseEdit", InstructorCourseEditPageAcation.class);
+		actionMappings.put("/page/instructorCourseEdit", InstructorCourseEditPageAction.class);
 		actionMappings.put("/page/instructorCourseEditSave", InstructorCourseEditSaveAction.class);
 		actionMappings.put("/page/instructorCourseEnroll", InstructorCourseEnrollPageAction.class);
 		actionMappings.put("/page/instructorCourseEnrollSave", InstructorCourseEnrollSaveAction.class);
 		actionMappings.put("/page/instructorEval", InstructorEvalPageAction.class);
 		actionMappings.put("/page/instructorEvalAdd", InstructorEvalAddAction.class);
+		actionMappings.put("/page/instructorFeedback", InstructorFeedbackPageAction.class);
+		actionMappings.put("/page/instructorFeedbackAdd", InstructorFeedbackAddAction.class);
+		actionMappings.put("/page/instructorFeedbackDelete", InstructorFeedbackDeleteAction.class);
+		actionMappings.put("/page/instructorFeedbackEdit", InstructorFeedbackEditPageAction.class);
+		actionMappings.put("/page/instructorFeedbackEditSave", InstructorFeedbackEditSaveAction.class);
+		actionMappings.put("/page/instructorFeedbackQuestionAdd", InstructorFeedbackQuestionAddAction.class);
+		actionMappings.put("/page/instructorFeedbackQuestionEdit", InstructorFeedbackQuestionEditAction.class);
+		actionMappings.put("/page/studentFeedbackSubmit", StudentFeedbackSubmitPageAction.class);
+		actionMappings.put("/page/studentFeedbackSubmitSave", StudentFeedbackSubmitSaveAction.class);
+		actionMappings.put("/page/studentFeedbackResults", StudentFeedbackResultsPageAction.class);
+
 	}
-	
+		
 	/**
 	 * 
 	 * @param req

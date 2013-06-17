@@ -11,11 +11,34 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponsesDb extends EntitiesDb {
 
 	private static final Logger log = Common.getLogger();
+
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Null if not found.
+	 */
+	public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
+		
+		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, feedbackResponseId);
+		
+		FeedbackResponse fr = 
+				getFeedbackResponseEntity(feedbackResponseId);
+		
+		if (fr == null) {
+			log.info("Trying to get non-existent response: " +
+					feedbackResponseId + ".");
+			return null;
+		}
+		
+		return new FeedbackResponseAttributes(fr);	
+	}
 
 	/**
 	 * Preconditions: <br>
@@ -132,6 +155,55 @@ public class FeedbackResponsesDb extends EntitiesDb {
 		
 		return fraList;
 	}
+	
+	/**
+	 * Updates the feedback response identified by {@code newAttributes.getId()} 
+	 * For the remaining parameters, the existing value is preserved 
+	 *   if the parameter is null (due to 'keep existing' policy).<br> 
+	 * Preconditions: <br>
+	 * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
+	 */
+	public void updateFeedbackResponse(FeedbackResponseAttributes newAttributes) 
+		throws InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(
+				Common.ERROR_DBLEVEL_NULL_INPUT, 
+				newAttributes);
+		
+		if (!newAttributes.isValid()) {
+			throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+		}
+		
+		FeedbackResponse fr = (FeedbackResponse) getEntity(newAttributes);
+		
+		if (fr == null) {
+			throw new EntityDoesNotExistException(
+					ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
+		}
+		
+		fr.setAnswer(newAttributes.answer);
+		fr.setRecipient(newAttributes.recipient);
+				
+		getPM().close();
+	}
+	
+	
+	private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
+		Query q = getPM().newQuery(FeedbackResponse.class);
+		q.declareParameters("String feedbackResponseIdParam");
+		q.setFilter("feedbackResponseId == feedbackResponseIdParam");
+		
+		@SuppressWarnings("unchecked")
+		List<FeedbackResponse> FeedbackResponseList =
+			(List<FeedbackResponse>) q.execute(feedbackResponseId);
+		
+		if (FeedbackResponseList.isEmpty() || JDOHelper.isDeleted(FeedbackResponseList.get(0))) {
+			return null;
+		}
+	
+		return FeedbackResponseList.get(0);
+	}
+
 		
 	private FeedbackResponse getFeedbackResponseEntity(
 			String feedbackQuestionId, String giverEmail, String receiver) {
@@ -165,10 +237,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
 		List<FeedbackResponse> FeedbackResponseList =
 			(List<FeedbackResponse>) q.execute(feedbackQuestionId);
 		
-		if (FeedbackResponseList.isEmpty() || JDOHelper.isDeleted(FeedbackResponseList.get(0))) {
-			return null;
-		}
-		
 		return FeedbackResponseList;
 	}
 	
@@ -182,10 +250,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
 		@SuppressWarnings("unchecked")
 		List<FeedbackResponse> FeedbackResponseList =
 			(List<FeedbackResponse>) q.execute(feedbackSessionName, courseId);
-		
-		if (FeedbackResponseList.isEmpty() || JDOHelper.isDeleted(FeedbackResponseList.get(0))) {
-			return null;
-		}
 		
 		return FeedbackResponseList;
 	}
@@ -201,10 +265,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
 		List<FeedbackResponse> FeedbackResponseList =
 			(List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver);
 		
-		if (FeedbackResponseList.isEmpty() || JDOHelper.isDeleted(FeedbackResponseList.get(0))) {
-			return null;
-		}
-		
 		return FeedbackResponseList;
 	}
 	
@@ -219,10 +279,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
 		List<FeedbackResponse> FeedbackResponseList =
 			(List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail);
 		
-		if (FeedbackResponseList.isEmpty() || JDOHelper.isDeleted(FeedbackResponseList.get(0))) {
-			return null;
-		}
-		
 		return FeedbackResponseList;
 	}
 	
@@ -232,10 +288,13 @@ public class FeedbackResponsesDb extends EntitiesDb {
 		FeedbackResponseAttributes FeedbackResponseToGet =
 				(FeedbackResponseAttributes) attributes;
 		
-		return getFeedbackResponseEntity(
+		if (FeedbackResponseToGet.getId() != null) {
+			return getFeedbackResponseEntity(FeedbackResponseToGet.getId());
+		} else { 
+			return getFeedbackResponseEntity(
 				FeedbackResponseToGet.feedbackQuestionId,
 				FeedbackResponseToGet.giverEmail,
-				FeedbackResponseToGet.receiver);		
+				FeedbackResponseToGet.recipient);
+		}
 	}
-
 }

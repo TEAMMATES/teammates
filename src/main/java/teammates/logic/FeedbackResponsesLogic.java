@@ -3,11 +3,13 @@ package teammates.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.Assumption;
 import teammates.common.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackResponsesDb;
 
@@ -29,6 +31,33 @@ public class FeedbackResponsesLogic {
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		frDb.createEntity(fra);
 	}
+	
+	public void updateFeedbackResponse(FeedbackResponseAttributes newResponse)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		
+		FeedbackResponseAttributes oldResponse = frDb.getFeedbackResponse(newResponse.getId());
+		
+		if (oldResponse == null) {
+			throw new EntityDoesNotExistException(
+					"Trying to update a feedback response that does not exist.");
+		}
+		
+		// Copy values that cannot be changed to defensively avoid invalid parameters.
+		newResponse.courseId = oldResponse.courseId;
+		newResponse.feedbackSessionName = oldResponse.feedbackSessionName;
+		newResponse.feedbackQuestionId = oldResponse.feedbackQuestionId;
+		newResponse.feedbackQuestionType = oldResponse.feedbackQuestionType;
+		newResponse.giverEmail = oldResponse.giverEmail;
+		
+		if (newResponse.answer == null) {
+			newResponse.answer = oldResponse.answer;
+		}
+		if (newResponse.recipient == null) {
+			newResponse.recipient = oldResponse.recipient;
+		}
+		
+		frDb.updateFeedbackResponse(newResponse);
+	}
 		
 	public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(
 			String feedbackQuestionId) {
@@ -49,7 +78,6 @@ public class FeedbackResponsesLogic {
 	public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiver(
 			String feedbackQuestionId, String userEmail) {
 		return frDb.getFeedbackResponsesFromGiver(feedbackQuestionId, userEmail);
-
 	}
 	
 	public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestion(
@@ -60,6 +88,13 @@ public class FeedbackResponsesLogic {
 
 		FeedbackQuestionAttributes question = 
 				fqLogic.getFeedbackQuestion(feedbackQuestionId);
+		
+		// Add responses that user is a receiver of when question is visible to receiver.
+		if (fqLogic.isQuestionAnswersVisibleTo(question,
+				FeedbackParticipantType.RECEIVER)) {
+			addNewResponses (viewableResponses,
+					getFeedbackResponsesForReceiver(feedbackQuestionId,	userEmail));
+		}
 
 		// Add responses for if user is a student
 		if (studentsLogic.isStudentInCourse(question.courseId, userEmail)) {
@@ -105,14 +140,7 @@ public class FeedbackResponsesLogic {
 			addNewResponses(viewableResponses,
 					getFeedbackResponsesForQuestion(feedbackQuestionId));
 		}
-
-		// Add all responses that user is a receiver of and question is visible to receiver.
-		if (fqLogic.isQuestionAnswersVisibleTo(question,
-				FeedbackParticipantType.RECEIVER)) {
-			addNewResponses (viewableResponses,
-					getFeedbackResponsesForReceiver(feedbackQuestionId,	userEmail));
-		}
-
+		
 		return viewableResponses;
 	}
 	
@@ -127,7 +155,7 @@ public class FeedbackResponsesLogic {
 		for (FeedbackResponseAttributes newResponse : newResponses) {
 			alreadyAdded = false;
 			for (FeedbackResponseAttributes existingResponse : existingResponses) {
-				if(newResponse.getId() == existingResponse.getId()) {
+				if(newResponse.getId().equals(existingResponse.getId())) {
 					alreadyAdded = true;
 					break;
 				}
@@ -137,6 +165,70 @@ public class FeedbackResponsesLogic {
 			}
 		}
 		
+	}
+	
+	public boolean isNameVisibleTo(FeedbackResponseAttributes response,
+			String userEmail, boolean nameIsGiver){
+		
+		FeedbackQuestionAttributes question = 
+				fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+		
+		if(question == null) {
+			return false;
+		} else if (question.creatorEmail.equals(userEmail)) {
+			// Always fully visible to creator.
+			return true;
+		}
+		
+		List<FeedbackParticipantType> showNameTo =
+				nameIsGiver ? question.showGiverNameTo : question.showRecipientNameTo;
+		
+		for (FeedbackParticipantType type : showNameTo) {
+			switch (type) {
+			case INSTRUCTORS:
+				if (instructorsLogic.getInstructorForEmail(response.courseId, userEmail) != null) {
+					return true;
+				} else {
+					break;
+				}
+			case OWN_TEAM_MEMBERS:
+				// Refers to Giver's Team Members
+				if (studentsLogic.isStudentInTeam(response.courseId, response.giverEmail, userEmail)) {
+					return true;
+				} else {
+					break;
+				}
+			case RECEIVER:
+				// Response to team
+				if (question.recipientType == FeedbackParticipantType.TEAMS) {
+					if (studentsLogic.isStudentInTeam(response.courseId, response.recipient, userEmail)) {
+						return true;
+					}
+				// Response to individual
+				} else if (response.recipient.equals(userEmail)) {
+					return true;
+				} else {
+					break;
+				}
+			case RECEIVER_TEAM_MEMBERS:
+				if (studentsLogic.isStudentInTeam(response.courseId, response.recipient, userEmail)) {
+					return true;
+				} else {
+					break;
+				}
+			case STUDENTS:
+				if (studentsLogic.isStudentInCourse(response.courseId, userEmail)) {
+					return true;
+				} else {
+					break;
+				}
+			default:
+				Assumption.fail("Invalid FeedbackPariticipantType for showNameTo in " +
+						"FeedbackResponseLogic.isNameVisible()");
+				break;
+			}
+		}
+		return false;
 	}
 
 	public void updateFeedbackResponsesForChangingTeam(String userEmail, String newTeam) {

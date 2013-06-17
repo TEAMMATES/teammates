@@ -62,11 +62,11 @@ public class InstructorEvalAddAction extends InstructorEvalPageAction {
 		newEval.name = getRequestParam(Common.PARAM_EVALUATION_NAME);
 		newEval.p2pEnabled = Boolean.parseBoolean(getRequestParam(Common.PARAM_EVALUATION_COMMENTSENABLED));
 
-		newEval.startTime = combineDateTime(
+		newEval.startTime = Common.combineDateTime(
 				getRequestParam(Common.PARAM_EVALUATION_START),
 				getRequestParam(Common.PARAM_EVALUATION_STARTTIME));
 
-		newEval.endTime = combineDateTime(
+		newEval.endTime = Common.combineDateTime(
 				getRequestParam(Common.PARAM_EVALUATION_DEADLINE),
 				getRequestParam(Common.PARAM_EVALUATION_DEADLINETIME));
 
@@ -85,16 +85,4 @@ public class InstructorEvalAddAction extends InstructorEvalPageAction {
 		return newEval;
 	}
 	
-	public static Date combineDateTime(String inputDate, String inputTime) {
-		if (inputDate == null || inputTime == null) {
-			return null;
-		}
-
-		int inputTimeInt = 0;
-		if (inputTime != null) {
-			inputTimeInt = Integer.parseInt(inputTime) * 100;
-		}
-		return Common.convertToDate(inputDate, inputTimeInt);
-	}
-
 }

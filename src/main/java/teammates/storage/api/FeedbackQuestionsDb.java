@@ -12,10 +12,13 @@ import teammates.common.Common;
 import teammates.common.FeedbackParticipantType;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionsDb extends EntitiesDb {
 	
+	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
 	private static final Logger log = Common.getLogger();
 
 	/**
@@ -105,15 +108,42 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 	}
 	
 	/**
-	 * Updates the feedback question identified by {@code newAttributes.getId()} 
+	 * Updates the feedback question identified by `{@code newAttributes.getId()} 
 	 * For the remaining parameters, the existing value is preserved 
 	 *   if the parameter is null (due to 'keep existing' policy).<br> 
 	 * Preconditions: <br>
 	 * * {@code newAttributes.getId()} is non-null and
 	 *  correspond to an existing feedback question. <br>
+	 * @throws InvalidParametersException 
+	 * @throws EntityDoesNotExistException 
 	 */
-	public void updateFeedbackQuestion (FeedbackQuestionAttributes newQuestion) {
-		// TODO: take care when changing questionNumber.
+	public void updateFeedbackQuestion (FeedbackQuestionAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException {
+		Assumption.assertNotNull(
+				Common.ERROR_DBLEVEL_NULL_INPUT, 
+				newAttributes);
+		
+		if (!newAttributes.isValid()) {
+			throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+		}
+		
+		FeedbackQuestion fq = (FeedbackQuestion) getEntity(newAttributes);
+		
+		if (fq == null) {
+			throw new EntityDoesNotExistException(
+					ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
+		}
+		
+		fq.setQuestionNumber(newAttributes.questionNumber);
+		fq.setQuestionText(newAttributes.questionText);
+		fq.setQuestionType(newAttributes.questionType);
+		fq.setGiverType(newAttributes.giverType);
+		fq.setRecipientType(newAttributes.recipientType);
+		fq.setShowGiverNameTo(newAttributes.showGiverNameTo);
+		fq.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+		fq.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
+		
+		getPM().close();
+		
 	}
 	
 	// Gets a question entity if it's Key (feedbackQuestionId) is known.
@@ -191,8 +221,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 		
 		if (feedbackQuestionToGet.getId() != null) {
 			return getFeedbackQuestionEntity(feedbackQuestionToGet.getId());
-		}
-		else {
+		} else {
 			return getFeedbackQuestionEntity(
 					feedbackQuestionToGet.feedbackSessionName,
 					feedbackQuestionToGet.courseId,
