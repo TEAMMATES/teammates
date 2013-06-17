@@ -2,13 +2,19 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.EVALUATION_NAME;
+import static teammates.common.FieldValidator.START_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 import static teammates.logic.TeamEvalResult.NA;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -24,21 +30,30 @@ import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.TeamResultBundle;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
+import teammates.logic.StudentsLogic;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.TeamEvalResult;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.api.CoursesDb;
+import teammates.storage.api.EvaluationsDb;
 import teammates.test.cases.BaseComponentTest;
 
 public class EvaluationsLogicTest extends BaseComponentTest{
 	
-	//TODO: add a test class for this class. Some of the test content can be transferred from LogicTest.
+	//TODO: add missing tests. Some of the test content can be transferred from LogicTest.
 	
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	private static final SubmissionsLogic submissionsLogic = new SubmissionsLogic();
+	private static final CoursesLogic coursesLogic = new CoursesLogic();
+	private static final StudentsLogic studentsLogic = new StudentsLogic();
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -213,29 +228,239 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 	
 	@Test
 	public void testUpdateEvaluation() throws Exception {
-
-		______TS("postpone evaluation starting time to future date.");
+		
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
 		
-		EvaluationAttributes evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1");
-		evaluation1.startTime = Common.getDateOffsetToCurrentTime(1);
-		evaluation1.endTime = Common.getDateOffsetToCurrentTime(2);
-		evaluation1.activated = true;
-		evaluation1.published = true;
-		evaluationsLogic.updateEvaluation(evaluation1);
+		______TS("typical case");
+
+		EvaluationAttributes eval = new EvaluationAttributes();
+		eval = dataBundle.evaluations.get("evaluation1InCourse1");
+		eval.gracePeriod = eval.gracePeriod + 1;
+		eval.instructions = eval.instructions + "x";
+		eval.p2pEnabled = (!eval.p2pEnabled);
+		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
+		eval.endTime = Common.getDateOffsetToCurrentTime(-1);
+		eval.timeZone = 0;
+		evaluationsLogic.updateEvaluation(eval);
+
+		LogicTest.verifyPresentInDatastore(eval);
 		
-		// Check that the updated evaluation is automatically deactivated and unpublished.
-		LogicTest.verifyPresentInDatastore(evaluation1);
-		assertEquals(evaluation1.activated, false);
-		assertEquals(evaluation1.published, false);
+		______TS("typicla case: derived attributes ignored");
 		
-		//TODO: Test other conditions such as setting start time from a 
-		//  future time to a past time.
+		eval.published = !eval.published;
+		eval.activated = !eval.activated;
+		
+		evaluationsLogic.updateEvaluation(eval);
+		
+		//flip values back because they are ignored by the SUT
+		eval.published = !eval.published;
+		eval.activated = !eval.activated;
+
+		LogicTest.verifyPresentInDatastore(eval);
+		
+		______TS("state change PUBLISHED --> OPEN ");
+		
+		int milliSecondsPerMinute = 60*1000;
+		
+		//first, make it PUBLISHED
+		eval.timeZone = 0;
+		eval.gracePeriod = 15;
+		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
+		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute, 0);
+		eval.published = true;
+		eval.activated = true;
+		assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
+		evaluationsDb.updateEvaluation(eval); //We use *Db object here because we want to persist derived attributes
+		LogicTest.verifyPresentInDatastore(eval);
+		
+		//then, make it OPEN
+		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod-1), 0);
+		evaluationsLogic.updateEvaluation(eval);
+		
+		//check if derived attributes are set correctly
+		eval.published = false;
+		LogicTest.verifyPresentInDatastore(eval);
+		assertEquals(EvalStatus.OPEN, eval.getStatus());
+		
+		//Other state changes are tested at lower levels
 		
 	}
 	
+	@Test
+	public void testActivateReadyEvaluations() throws Exception {
+		
+		restoreTypicalDataInDatastore();
+		DataBundle dataBundle = getTypicalDataBundle();
+		
+		______TS("0 evaluations activated");
+		// ensure all existing evaluations are already activated.
+		for (EvaluationAttributes e : dataBundle.evaluations.values()) {
+			e.activated = true;
+			evaluationsLogic.updateEvaluation(e);
+			assertTrue(evaluationsLogic.getEvaluation(e.courseId, e.name).getStatus() != EvalStatus.AWAITING);
+		}
+		List<MimeMessage> emailsSent = evaluationsLogic.activateReadyEvaluations();
+		assertEquals(0, emailsSent.size());
+		
+		______TS("typical case, two evaluations activated");
+		// Reuse an existing evaluation to create a new one that is ready to
+		// activate. Put this evaluation in a negative time zone.
+		EvaluationAttributes evaluation1 = dataBundle.evaluations
+				.get("evaluation1InCourse1");
+		String nameOfEvalInCourse1 = "new-eval-in-course-1-tARE";
+		evaluation1.name = nameOfEvalInCourse1;
+
+		evaluation1.activated = false;
+
+		double timeZone = -1.0;
+		evaluation1.timeZone = timeZone;
+
+		evaluation1.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(0, timeZone);
+		evaluation1.endTime = Common.getDateOffsetToCurrentTime(2);
+
+		evaluationsLogic.createEvaluationCascade(evaluation1);
+		assertEquals("This evaluation is not ready to activate as expected "+ evaluation1.toString(),
+				true, 
+				evaluationsLogic.getEvaluation(evaluation1.courseId, evaluation1.name).isReadyToActivate());
+
+		// Create another evaluation in another course in similar fashion.
+		// Put this evaluation in a positive time zone.
+		// This one too is ready to activate.
+		EvaluationAttributes evaluation2 = dataBundle.evaluations
+				.get("evaluation1InCourse2");
+		evaluation2.activated = false;
+		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
+		evaluation2.name = nameOfEvalInCourse2;
+
+		timeZone = 2.0;
+		evaluation2.timeZone = timeZone;
+
+		evaluation2.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+				0, timeZone);
+		evaluation2.endTime = Common.getDateOffsetToCurrentTime(2);
+
+		evaluationsLogic.createEvaluationCascade(evaluation2);
+		assertEquals("This evaluation is not ready to activate as expected "+ evaluation2.toString(),
+				true, 
+				evaluationsLogic.getEvaluation(evaluation2.courseId, evaluation2.name).isReadyToActivate());
+		
+		//Create a course to hold the orphan evaluation.
+		String IdOftemporaryCourse = "non-existent-course-BDLT-causes-EDNEE";
+		coursesLogic.createCourse(IdOftemporaryCourse, "Course to be deleted soon");
+		
+		// Create an orphan evaluation (this should be ignored by SUT)
+		EvaluationAttributes orphan = new EvaluationAttributes();
+		orphan.name = "Orphan Evaluation";
+		orphan.courseId = IdOftemporaryCourse;
+		orphan.timeZone = evaluation2.timeZone;
+		orphan.startTime = evaluation2.startTime;
+		orphan.endTime = evaluation2.endTime;
+		orphan.activated = evaluation2.activated;
+		orphan.published = evaluation2.published;
+		evaluationsLogic.createEvaluationCascade(orphan);
+		
+		//make the evaluation an orphan by deleting the course
+		new CoursesDb().deleteCourse(IdOftemporaryCourse);
+		
+		assertEquals("This evaluation is not ready to activate as expected "+ orphan.toString(),
+				true, 
+				evaluationsLogic.getEvaluation(orphan.courseId, orphan.name).isReadyToActivate());
+
+		emailsSent = evaluationsLogic.activateReadyEvaluations();
+		int course1StudentCount = studentsLogic.getStudentsForCourse(
+				evaluation1.courseId).size();
+		int course2StudentCount = studentsLogic.getStudentsForCourse(
+				evaluation2.courseId).size();
+
+		assertEquals(course1StudentCount + course2StudentCount,	emailsSent.size());
+
+		//ensure both evaluations are activated now
+		emailsSent = evaluationsLogic.activateReadyEvaluations();
+		assertEquals(0, emailsSent.size());
+
+	}
+
+	@Test
+	public void testSendRemindersForClosingEvaluations() throws Exception {
+		DataBundle dataBundle = getTypicalDataBundle();
+		restoreTypicalDataInDatastore();
+		
+		______TS("typical case, 0 evaluations closing soon");
+		List<MimeMessage> emailsSent = evaluationsLogic
+				.sendRemindersForClosingEvaluations();
+		assertEquals(0, emailsSent.size());
+		
+		______TS("typical case, two evaluations closing soon");
+		// Reuse an existing evaluation to create a new one that is
+		// closing in 24 hours.
+		EvaluationAttributes evaluation1 = dataBundle.evaluations
+				.get("evaluation1InCourse1");
+		String nameOfEvalInCourse1 = "new-eval-in-course-1-tSRFCE";
+		evaluation1.name = nameOfEvalInCourse1;
+
+		evaluation1.activated = true;
+
+		double timeZone = 0.0;
+		evaluation1.timeZone = timeZone;
+		evaluation1.startTime = Common.getDateOffsetToCurrentTime(-1);
+		evaluation1.endTime = Common.getDateOffsetToCurrentTime(1);
+		evaluationsLogic.createEvaluationCascade(evaluation1);
+
+		// Create another evaluation in another course in similar fashion.
+		// This one too is closing in 24 hours.
+		EvaluationAttributes evaluation2 = dataBundle.evaluations
+				.get("evaluation1InCourse2");
+		evaluation2.activated = true;
+		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
+		evaluation2.name = nameOfEvalInCourse2;
+
+		evaluation2.timeZone = 0.0;
+
+		evaluation2.startTime = Common.getDateOffsetToCurrentTime(-2);
+		evaluation2.endTime = Common.getDateOffsetToCurrentTime(1);
+
+		evaluationsLogic.createEvaluationCascade(evaluation2);
+		
+		//Create a course to hold the orphan evaluation.
+		String IdOftemporaryCourse = "non-existent-course-BDLT-causes-EDNEE";
+		coursesLogic.createCourse(IdOftemporaryCourse, "Course to be deleted soon");
+		
+		// Create an orphan evaluation (this should be ignored by SUT)
+		EvaluationAttributes orphan = new EvaluationAttributes();
+		orphan.name = "Orphan Evaluation";
+		orphan.courseId = IdOftemporaryCourse;
+		orphan.timeZone = evaluation2.timeZone;
+		orphan.startTime = evaluation2.startTime;
+		orphan.endTime = evaluation2.endTime;
+		orphan.activated = evaluation2.activated;
+		orphan.published = evaluation2.published;
+		evaluationsLogic.deleteEvaluationCascade(orphan.courseId, orphan.name);
+		evaluationsLogic.createEvaluationCascade(orphan);
+		
+		//make the evaluation an orphan by deleting the course
+		new CoursesDb().deleteCourse(IdOftemporaryCourse);
+		
+		emailsSent = evaluationsLogic.sendRemindersForClosingEvaluations();
+
+		int course1StudentCount = studentsLogic.getStudentsForCourse(
+				evaluation1.courseId).size();
+		int course2StudentCount = studentsLogic.getStudentsForCourse(
+				evaluation2.courseId).size();
+
+		assertEquals(course1StudentCount + course2StudentCount,
+				emailsSent.size());
+
+		for (MimeMessage m : emailsSent) {
+			String subject = m.getSubject();
+			assertTrue(subject.contains(evaluation1.name)
+					|| subject.contains(evaluation2.name));
+			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING));
+		}
+
+	}
+
+
 	
 	@Test
 	public void testCalculateTeamResult() throws Exception {

@@ -99,6 +99,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 
 		______TS("action failure : trying to create duplicate instructor account");
 		
+		homePage.navigateTo(new Url(Common.PAGE_ADMIN_HOME));
 		homePage.createInstructor(account, false)
 			.verifyStatus("The Google ID AHPUiT.instr1 is already registered as an instructor");
 		

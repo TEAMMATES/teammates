@@ -1,5 +1,11 @@
 package teammates.test.cases.storage;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.EVALUATION_NAME;
+import static teammates.common.FieldValidator.START_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
+
 import java.util.Date;
 
 import org.testng.Assert;
@@ -96,15 +102,32 @@ public class EvaluationsDbTest extends BaseComponentTest {
 	}
 	
 	@Test
-	public void testEditEvaluation() throws EntityDoesNotExistException, InvalidParametersException {
+	public void testUpdateEvaluation() throws EntityDoesNotExistException, InvalidParametersException {
 		EvaluationAttributes e = createNewEvaluation();
 				
-		// Edit existent
+		______TS("typical");
+		
 		e.instructions = "Foo Bar";
 		evaluationsDb.updateEvaluation(e);
+		
+		______TS("invalid parameters");
+		
+		e.startTime = Common.getDateOffsetToCurrentTime(1);
+		e.endTime = Common.getDateOffsetToCurrentTime(-1);
+		try {
+			evaluationsDb.updateEvaluation(e);
+			Assert.fail();
+		} catch (InvalidParametersException i) {
+			String errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE,
+					START_TIME_FIELD_NAME, EVALUATION_NAME, END_TIME_FIELD_NAME) ;
+			assertContains(errorMessage, i.getMessage());
+		}
 				
-		// Edit non-existent
+		______TS("non existent");
+		
 		e.name = "Non existent Evaluation";
+		e.startTime = Common.getDateOffsetToCurrentTime(-1);
+		e.endTime = Common.getDateOffsetToCurrentTime(1);
 		try {
 			evaluationsDb.updateEvaluation(e);
 			Assert.fail();
@@ -112,13 +135,15 @@ public class EvaluationsDbTest extends BaseComponentTest {
 			assertContains(EvaluationsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
 		}
 		
-		// Null params check:
+		______TS("null parameters");
+		
 		try {
 			evaluationsDb.updateEvaluation(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
+		
 	}
 	
 	@Test

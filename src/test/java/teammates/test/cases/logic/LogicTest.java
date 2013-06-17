@@ -3204,9 +3204,9 @@ public class LogicTest extends BaseComponentTest {
 		eval.p2pEnabled = (!eval.p2pEnabled);
 		eval.startTime = Common.getDateOffsetToCurrentTime(-1);
 		eval.endTime = Common.getDateOffsetToCurrentTime(2);
+		//we don't modify derived attributes here because they cannot be updated this way.
 		invokeEditEvaluation(eval);
 
-		// flip back these fields because it is not supposed to change
 		verifyPresentInDatastore(eval);
 
 		______TS("null parameters");
@@ -3228,6 +3228,7 @@ public class LogicTest extends BaseComponentTest {
 		______TS("invalid parameters");
 
 		// make the evaluation invalid (end time is before start time)
+		eval.timeZone = 0;
 		eval.startTime = Common.getDateOffsetToCurrentTime(1);
 		eval.endTime = Common.getDateOffsetToCurrentTime(0);
 		try {

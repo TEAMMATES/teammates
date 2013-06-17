@@ -690,8 +690,7 @@ public class Common {
 		return cal.getTime();
 	}
 
-	public static Date getMsOffsetToCurrentTimeInUserTimeZone(int offset,
-			double timeZone) {
+	public static Date getMsOffsetToCurrentTimeInUserTimeZone(int offset, double timeZone) {
 		Date d = Common.getMsOffsetToCurrentTime(offset);
 		Calendar c = Calendar.getInstance();
 		c.setTime(d);

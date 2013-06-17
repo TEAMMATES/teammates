@@ -1,5 +1,6 @@
 package teammates.logic;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.Assumption;
@@ -276,20 +278,81 @@ public class EvaluationsLogic {
 		return evaluationsDb.getEvaluation(courseId, evaluationName) != null;
 	}
 	
+	/**
+	 * Derived attributes 'activated' and 'published' may be reset if they
+	 * are not consistent with the other attributes.
+	 */
 	public void updateEvaluation(EvaluationAttributes evaluation) 
 			throws InvalidParametersException, EntityDoesNotExistException {
 		
-		Date timeNow = new Date();
-				
-		// Reset hidden parameters.
-		if(evaluation.startTime.after(timeNow)) {
-			evaluation.activated = false;
-		}		
-		if(evaluation.endTime.after(timeNow)) {
-			evaluation.published = false;
-		}
+		EvaluationAttributes original = getEvaluation(evaluation.courseId, evaluation.name);
 		
-		evaluationsDb.updateEvaluation(evaluation);
+		//We use a copy of the parameter because we modify it before passing it on.
+		EvaluationAttributes newAttributes = evaluation.getCopy();
+		//these fields cannot be changed this way
+		newAttributes.activated = original.activated;
+		newAttributes.published = original.published;
+		newAttributes.setDerivedAttributes();
+		
+		evaluationsDb.updateEvaluation(newAttributes);
+	}
+	
+	public ArrayList<MimeMessage> activateReadyEvaluations() {
+		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
+		List<EvaluationAttributes> evaluations = getReadyEvaluations(); 
+		
+		for (EvaluationAttributes ed: evaluations) {
+			try {
+				CourseAttributes course = coursesLogic.getCourse(ed.courseId);
+				
+				List<StudentAttributes> students = studentsLogic.getStudentsForCourse(ed.courseId);
+				
+				Emails emails = new Emails();
+				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
+				emails.sendEmails(messages);
+				messagesSent.addAll(messages);
+				
+				//mark evaluation as activated
+				setEvaluationActivationStatus(ed.courseId, ed.name, true);
+			} catch (Exception e) {
+				log.severe("Unexpected error "+ Common.stackTraceToString(e));
+			} 
+		}
+		return messagesSent;
+	}
+
+	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() 
+			throws MessagingException, IOException {
+		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+		
+		List<EvaluationAttributes> evaluationDataList = 
+				getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+	
+		for (EvaluationAttributes ed : evaluationDataList) {
+			try {
+	
+				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.courseId);
+				
+				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
+	
+				for (StudentAttributes sd : studentDataList) {
+					if (!isEvaluationCompletedByStudent(ed, sd.email)) {
+						studentToRemindList.add(sd);
+					}
+				}
+	
+				CourseAttributes c = coursesLogic.getCourse(ed.courseId);
+	
+				Emails emailMgr = new Emails();
+				List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
+				emailMgr.sendEmails(emails);
+				emailsSent.addAll(emails);
+				
+			} catch (Exception e) {
+				log.severe("Unexpected error " + Common.stackTraceToString(e));
+			}
+		}
+		return emailsSent;
 	}
 	
 	public void updateStudentEmailForSubmissionsInCourse(String course,
@@ -372,45 +435,6 @@ public class EvaluationsLogic {
 		}
 	
 		return emails;
-	}
-
-	public void setEvaluationPublishedStatus(String courseId, String evaluationName, boolean b) 
-			throws EntityDoesNotExistException {
-
-		EvaluationAttributes e = evaluationsDb.getEvaluation(courseId, evaluationName);
-
-		if (e == null) {
-			throw new EntityDoesNotExistException("Trying to update non-existent Evaluation: "
-					+ courseId + " | " + evaluationName );
-		}
-		
-		e.published = b;
-		
-		try {
-			evaluationsDb.updateEvaluation(e);
-		} catch (InvalidParametersException e1) {
-			Assumption.fail("Invalid parameters detected while setting the " +
-					"published status of evaluation :"+e.toString());
-		}
-	}	
-	
-	public void setEvaluationActivationStatus(String courseId, String evaluationName, boolean isActivated) throws EntityDoesNotExistException {
-		EvaluationAttributes e = evaluationsDb.getEvaluation(courseId, evaluationName);
-
-		if (e == null) {
-			throw new EntityDoesNotExistException("Trying to update non-existent Evaluation: "
-					+ courseId + " | " + evaluationName );
-		}
-		
-		e.activated = isActivated;
-		
-		try {
-			evaluationsDb.updateEvaluation(e);
-		} catch (InvalidParametersException e1) {
-			Assumption.fail("Invalid parameters detected while setting the " +
-					"published status of evaluation :"+e.toString());
-		}
-		
 	}
 
 	/**
@@ -548,6 +572,45 @@ public class EvaluationsLogic {
 		return count;
 	}
 	
+	private void setEvaluationPublishedStatus(String courseId, String evaluationName, boolean b) 
+			throws EntityDoesNotExistException {
+	
+		EvaluationAttributes e = evaluationsDb.getEvaluation(courseId, evaluationName);
+	
+		if (e == null) {
+			throw new EntityDoesNotExistException("Trying to update non-existent Evaluation: "
+					+ courseId + " | " + evaluationName );
+		}
+		
+		e.published = b;
+		
+		try {
+			evaluationsDb.updateEvaluation(e);
+		} catch (InvalidParametersException e1) {
+			Assumption.fail("Invalid parameters detected while setting the " +
+					"published status of evaluation :"+e.toString());
+		}
+	}
+
+	private void setEvaluationActivationStatus(String courseId, String evaluationName, boolean isActivated) throws EntityDoesNotExistException {
+		EvaluationAttributes e = evaluationsDb.getEvaluation(courseId, evaluationName);
+	
+		if (e == null) {
+			throw new EntityDoesNotExistException("Trying to update non-existent Evaluation: "
+					+ courseId + " | " + evaluationName );
+		}
+		
+		e.activated = isActivated;
+		
+		try {
+			evaluationsDb.updateEvaluation(e);
+		} catch (InvalidParametersException e1) {
+			Assumption.fail("Invalid parameters detected while setting the " +
+					"published status of evaluation :"+e.toString());
+		}
+		
+	}
+
 	private List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
 		List<MimeMessage> emailsSent;

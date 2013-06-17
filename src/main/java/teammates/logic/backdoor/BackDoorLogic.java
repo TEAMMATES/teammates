@@ -25,6 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.Emails;
 import teammates.logic.api.Logic;
+import teammates.storage.api.EvaluationsDb;
 
 public class BackDoorLogic extends Logic {
 	private static Logger log = Common.getLogger();
@@ -32,73 +33,6 @@ public class BackDoorLogic extends Logic {
 	private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 500;
 	private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
 	
-	@SuppressWarnings("unused")
-	private void ____methods_used_in_PRODUCTION____________________________() {
-	}
-	
-	//TODO: consider moving methods in this section to a new class so that this
-	//  class can be 'only for testing'
-	public ArrayList<MimeMessage> activateReadyEvaluations() {
-		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<EvaluationAttributes> evaluations = evaluationsLogic.getReadyEvaluations(); 
-		
-		for (EvaluationAttributes ed: evaluations) {
-			try {
-				CourseAttributes course = getCourse(ed.courseId);
-				
-				List<StudentAttributes> students = studentsLogic.getStudentsForCourse(ed.courseId);
-				
-				Emails emails = new Emails();
-				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
-				emails.sendEmails(messages);
-				messagesSent.addAll(messages);
-				
-				//mark evaluation as activated
-				evaluationsLogic.setEvaluationActivationStatus(ed.courseId, ed.name, true);
-			} catch (Exception e) {
-				log.severe("Unexpected error "+ Common.stackTraceToString(e));
-			} 
-		}
-		return messagesSent;
-	}
-
-	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() 
-			throws MessagingException, IOException {
-		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
-		
-		List<EvaluationAttributes> evaluationDataList = 
-				evaluationsLogic.getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
-	
-		for (EvaluationAttributes ed : evaluationDataList) {
-			try {
-	
-				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.courseId);
-				
-				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
-	
-				for (StudentAttributes sd : studentDataList) {
-					if (!evaluationsLogic.isEvaluationCompletedByStudent(ed, sd.email)) {
-						studentToRemindList.add(sd);
-					}
-				}
-	
-				CourseAttributes c = getCourse(ed.courseId);
-	
-				Emails emailMgr = new Emails();
-				List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
-				emailMgr.sendEmails(emails);
-				emailsSent.addAll(emails);
-				
-			} catch (Exception e) {
-				log.severe("Unexpected error " + Common.stackTraceToString(e));
-			}
-		}
-		return emailsSent;
-	}
-
-	@SuppressWarnings("unused")
-	private void ____methods_used_for_TESTING______________________________() {
-	}
 	
 	/**
 	 * Persists given data in the datastore Works ONLY if the data is correct.
@@ -253,8 +187,8 @@ public class BackDoorLogic extends Logic {
 	
 	public void updateEvaluation(EvaluationAttributes evaluation) 
 			throws InvalidParametersException, EntityDoesNotExistException{
-		
-		evaluationsLogic.updateEvaluation(evaluation);
+		//Using EvaluationsDb here because the update operations at higher levels are too restrictive.
+		new EvaluationsDb().updateEvaluation(evaluation);
 	}
 	
 	// This cascades deleting feedbackQuestion and feedbackResponses for testing purposes.

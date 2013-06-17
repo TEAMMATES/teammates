@@ -124,6 +124,20 @@ public class EvaluationAttributes extends EntityAttributes {
 		}
 	}
 	
+	/**
+	 * @return true if the evaluation start time is in the future, after accounting
+	 * for time zone differences.
+	 */
+	public boolean isOpeningInFuture() {
+		Calendar currentTimeInUserTimeZone = Common.convertToUserTimeZone(
+				Calendar.getInstance(), timeZone);
+
+		Calendar evalStartTime = Calendar.getInstance();
+		evalStartTime.setTime(startTime);
+
+		return currentTimeInUserTimeZone.before(evalStartTime);
+	}
+
 	//TODO: unit test this
 	public boolean isClosingWithinTimeLimit(int hours) {
 
@@ -149,6 +163,23 @@ public class EvaluationAttributes extends EntityAttributes {
 		return now.after(start)
 				&& (differenceBetweenDeadlineAndNow >= hours - 1 
 				&& differenceBetweenDeadlineAndNow < hours);
+	}
+
+
+	/**
+	 * @return true if the evaluation closing time is in the future, after accounting
+	 * for time zone differences and grace period.
+	 */
+	public boolean isClosingInFuture() {
+		Calendar now = Calendar.getInstance();
+		Common.convertToUserTimeZone(now, timeZone);
+
+		Calendar end = Calendar.getInstance();
+		end.setTime(endTime);
+		end.add(Calendar.MINUTE, gracePeriod);
+		
+		return now.before(end);
+	
 	}
 
 	@Override
@@ -227,6 +258,47 @@ public class EvaluationAttributes extends EntityAttributes {
 				&& this.timeZone == e.timeZone
 				&& this.startTime.equals(e.startTime)
 				&& this.endTime.equals(e.endTime);
+	}
+
+	/**
+	 * Sets derived attributes 'activated' and 'published' based on other
+	 * attributes. <br>
+	 * * If the opening time is in the future (after accounting for timezone differences),
+	 *   'activated' is set to false. <br>
+	 * * If the closing time is in the future (after accounting for timezone differences
+	 *   and the grace period), published is set to false.<br>
+	 * * If already closed, 'activated' is set to true. <br>
+	 */
+	public void setDerivedAttributes() {
+		// Set derived attributes.
+		if(isOpeningInFuture()){
+			activated = false;
+		}		
+		if(isClosingInFuture()){
+			published = false;
+		}
+		
+		//If already closed, we want to prevent any activation emails from going out.
+		// This is useful when an update changes the state from AWAITING to CLOSED.
+		if(!isClosingInFuture()){ 
+			activated = true;
+		}
+		
+	}
+
+	public EvaluationAttributes getCopy() {
+		EvaluationAttributes copy = new EvaluationAttributes();
+		copy.courseId = this.courseId;
+		copy.name = this.name;
+		copy.instructions = this.instructions; 
+		copy.startTime = this.startTime;
+		copy.endTime = this.endTime;
+		copy.timeZone = this.timeZone;
+		copy.gracePeriod = this.gracePeriod;
+		copy.p2pEnabled = this.p2pEnabled;
+		copy.published = this.published;
+		copy.activated = this.activated;
+		return copy;
 	}
 
 }

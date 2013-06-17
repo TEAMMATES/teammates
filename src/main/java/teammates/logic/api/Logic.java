@@ -908,8 +908,6 @@ public class Logic {
 		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
 		}
-		
-		EvaluationAttributes original = getEvaluation(courseId, evaluationName);
 	
 		EvaluationAttributes evaluation = new EvaluationAttributes();
 		evaluation.courseId = courseId;
@@ -920,10 +918,6 @@ public class Logic {
 		evaluation.endTime = end;
 		evaluation.gracePeriod = gracePeriod;
 		evaluation.timeZone = timeZone;
-	
-		//these fields cannot be changed this way
-		evaluation.activated = original.activated;
-		evaluation.published = original.published;
 	
 		evaluationsLogic.updateEvaluation(evaluation);
 	}

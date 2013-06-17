@@ -16,6 +16,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.logic.LogicTest;
 
 public class EvaluationAttributesTest extends BaseTestCase {
 
@@ -228,6 +229,45 @@ public class EvaluationAttributesTest extends BaseTestCase {
 	}
 	
 	@Test
+	public void testSetDerivedAttributes() throws Exception{
+
+		______TS("state change PUBLISHED --> * ");
+		
+		//We test for different timezones as the result depends on the timezone.
+		verifyEvalUpdateFromPublishedToOpen(0);
+		verifyEvalUpdateFromPublishedToOpen(5);
+		verifyEvalUpdateFromPublishedToOpen(-5);
+		
+		// PUBLISHED --> AWAITING is similar to the above.
+		// PUBLISHED --> CLOSED is not possible via the update method.
+		
+		______TS("state change CLOSED --> * ");
+		
+		verifyEvalUpdateFromClosedToAwaiting(0);
+		verifyEvalUpdateFromClosedToAwaiting(8);
+		verifyEvalUpdateFromClosedToAwaiting(-12);
+		
+		// CLOSED --> OPEN doesn't need any changes to derived attributes.
+		// ClOSED --> PUBLISHED is not possible via the update method.
+		
+		______TS("state change OPEN --> * ");
+		
+		// OPEN --> AWAITING is similar to CLOSED-->AWAITING tested above.
+		// OPEN --> CLOSED doesn't need any changes to derived attributes.
+		// OPEN --> PUBLISHED is not possible via the update method.
+		
+		______TS("state change AWAITING --> * ");
+		
+		verifyEvalUpdateFromAwaitingToClosed(0);
+		verifyEvalUpdateFromAwaitingToClosed(10);
+		verifyEvalUpdateFromAwaitingToClosed(-12);
+		
+		// AWAITING --> OPEN doesn't need any changes to derived attributes. 
+		//     The reminder servlet will set the 'activated' attribute automatically.
+		// AWAITING --> PUBLISHED is not possible via the update method.
+	}
+	
+	@Test
 	public void testIsReady() throws InvalidParametersException {
 
 		// Create evaluation object to use as the test object
@@ -334,6 +374,81 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.gracePeriod = 5;
 		e.p2pEnabled = true;
 		return e;
+	}
+	
+private void verifyEvalUpdateFromPublishedToOpen(int timeZone) throws Exception{
+		
+		EvaluationAttributes eval = getTypicalDataBundle().evaluations.get("evaluation1InCourse1");
+		int milliSecondsPerMinute = 60*1000;
+		
+		//first, make it PUBLISHED
+		eval.timeZone = timeZone;
+		eval.gracePeriod = 15;
+		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
+		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute, timeZone);
+		eval.activated = true;
+		eval.published = true;
+		assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
+		
+		//then, make it OPEN
+		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod-1), timeZone);
+		eval.setDerivedAttributes();
+		
+		//check if derived attributes are set correctly
+		assertEquals( true, eval.activated);
+		assertEquals( false, eval.published);
+		assertEquals(EvalStatus.OPEN, eval.getStatus());
+	}
+	
+	private void verifyEvalUpdateFromClosedToAwaiting(int timeZone) throws Exception{
+		
+		EvaluationAttributes eval = getTypicalDataBundle().evaluations.get("evaluation1InCourse1");
+		int milliSecondsPerMinute = 60*1000;
+		
+		//first, make it CLOSED
+		eval.timeZone = timeZone;
+		eval.gracePeriod = 15;
+		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
+		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod+1), timeZone);
+		eval.published = false;
+		eval.activated = true;
+		assertEquals(EvalStatus.CLOSED, eval.getStatus());
+		
+		//then, make it AWAITING
+		eval.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(milliSecondsPerMinute,timeZone);
+		eval.endTime = Common.getDateOffsetToCurrentTime(2);
+		eval.setDerivedAttributes();
+		
+		//check if derived attributes are set correctly
+		assertEquals( false, eval.activated);
+		assertEquals( false, eval.published);
+		assertEquals(EvalStatus.AWAITING, eval.getStatus());
+	}
+	
+	private void verifyEvalUpdateFromAwaitingToClosed(int timeZone) throws Exception{
+		
+		EvaluationAttributes eval = getTypicalDataBundle().evaluations.get("evaluation1InCourse1");
+		int milliSecondsPerMinute = 60*1000;
+		
+		//first, make it AWAITING
+		eval.timeZone = timeZone;
+		eval.gracePeriod = 15;
+		eval.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(milliSecondsPerMinute,timeZone);
+		eval.endTime = Common.getDateOffsetToCurrentTime(2);
+		eval.published = false;
+		eval.activated = false;
+		assertEquals(EvalStatus.AWAITING, eval.getStatus());
+		
+		
+		//then, make it CLOSED
+		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
+		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod+1), timeZone);
+		eval.setDerivedAttributes();
+		
+		//check if derived attributes are set correctly
+		assertEquals( true, eval.activated);
+		assertEquals( false, eval.published);
+		assertEquals(EvalStatus.CLOSED, eval.getStatus());
 	}
 	
 }

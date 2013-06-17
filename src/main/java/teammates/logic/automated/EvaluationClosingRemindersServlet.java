@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
+import teammates.logic.Emails;
+import teammates.logic.EvaluationsLogic;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.ui.controller.ActivityLogEntry;
 import teammates.ui.controller.Helper;
@@ -24,14 +26,14 @@ public class EvaluationClosingRemindersServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		
-		BackDoorLogic backdoorlogic = new BackDoorLogic();
+		EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 		
 		try {
-			ArrayList<MimeMessage> emails = backdoorlogic.sendRemindersForClosingEvaluations();
+			ArrayList<MimeMessage> emails = evaluationsLogic.sendRemindersForClosingEvaluations();
 			logActivity(req, emails);
 		}  catch (Throwable e) {
 			String reqParam = Common.printRequestParameters(req);
-			backdoorlogic.emailErrorReport(req.getServletPath(), reqParam, e);
+			new Emails().sendErrorReport(req.getServletPath(), reqParam, e);
 			log.severe(e.getMessage());	
 		}
 	}
