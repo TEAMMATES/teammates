@@ -80,6 +80,8 @@ public class Common {
 		TIME_REPRESENTS_LATER = calendar.getTime();
 	}
 	
+	public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
+	
 	// Hover messages
 	
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
@@ -174,6 +176,8 @@ public class Common {
 	
 	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 	
+	public static final String HOVER_MESSAGE_FEEDBACK_SUBMIT_CLOSED = "You can view the questions for this feedback session but cannot submit responses yet as the session is not yet opened.";
+	
 	// Evaluation status
 	public static final String EVALUATION_STATUS_AWAITING = "Awaiting";
 	public static final String EVALUATION_STATUS_OPEN = "Open";
@@ -252,10 +256,13 @@ public class Common {
 	public static final String PARAM_FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 	public static final String PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
 
-	public static final String PARAM_FEEDBACK_RESPONSE_ID = "";
+	public static final String PARAM_FEEDBACK_RESPONSE_ID = "responseid";
 	public static final String PARAM_FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 	public static final String PARAM_FEEDBACK_RESPONSE_TEXT = "responsetext";
-	public static final String PARAM_FEEDBACK_RESPONSES_TOTAL = "responsestotal";
+	public static final String PARAM_FEEDBACK_RESPONSE_TOTAL = "responsestotal";
+	
+	public static final String PARAM_FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
+	public static final String PARAM_FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
 	
 	public static final String PARAM_STUDENT_ID = "googleid";
 
@@ -335,6 +342,7 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_FEEDBACK_EDIT = "/page/instructorFeedbackEdit";
 	public static final String PAGE_INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
 	public static final String PAGE_INSTRUCTOR_FEEDBACK_RESULTS = "/page/instructorFeedbackResults";
+	public static final String PAGE_INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
 	
 	public static final String PAGE_INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
 	public static final String PAGE_INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
@@ -378,7 +386,11 @@ public class Common {
 	public static final String JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/jsp/instructorEvalSubmissionEdit.jsp"; 
 	public static final String JSP_INSTRUCTOR_FEEDBACK = "/jsp/instructorFeedback.jsp";
 	public static final String JSP_INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
-	
+	public static final String JSP_INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
+	public static final String JSP_INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER = "/jsp/instructorFeedbackResultsByGiver.jsp";
+	public static final String JSP_INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT = "/jsp/instructorFeedbackResultsByRecipient.jsp"; 
+	public static final String JSP_INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
+
 	public static final String JSP_STUDENT_HOME = "/jsp/studentHome.jsp"; 
 	public static final String JSP_STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
 	/** To submit evaluation and also to edit */

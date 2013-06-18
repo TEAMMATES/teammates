@@ -18,6 +18,7 @@ var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
 var FEEDBACK_SESSION_STARTDATE = "startdate";
 var FEEDBACK_SESSION_STARTTIME = "starttime"; 
 var FEEDBACK_SESSION_TIMEZONE = "timezone";
+var FEEDBACK_SESSION_CHANGETYPE = "feedbackchangetype";
 
 var FEEDBACK_QUESTION_GIVERTYPE ="givertype";
 var FEEDBACK_QUESTION_RECIPIENTTYPE ="recipienttype";
@@ -31,7 +32,7 @@ var FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
 var FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
 var FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 var FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
-
+ 
 // Display messages
 // Used for validating input
 var DISPLAY_INPUT_FIELDS_EXTRA = "There are too many fields.";

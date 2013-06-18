@@ -38,6 +38,9 @@ public class ActionFactory {
 		actionMappings.put("/page/studentFeedbackSubmit", StudentFeedbackSubmitPageAction.class);
 		actionMappings.put("/page/studentFeedbackSubmitSave", StudentFeedbackSubmitSaveAction.class);
 		actionMappings.put("/page/studentFeedbackResults", StudentFeedbackResultsPageAction.class);
+		actionMappings.put("/page/instructorFeedbackResults", InstructorFeedbackResultsPageAction.class);
+		actionMappings.put("/page/instructorFeedbackResultsDownload", InstructorFeedbackResultsDownloadAction.class);
+		actionMappings.put("/page/instructorFeedbackResultsSort", InstructorFeedbackResultsSortAction.class);
 
 	}
 		

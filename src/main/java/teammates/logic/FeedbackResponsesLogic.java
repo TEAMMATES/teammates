@@ -232,17 +232,18 @@ public class FeedbackResponsesLogic {
 	}
 
 	public void updateFeedbackResponsesForChangingTeam(String userEmail, String newTeam) {
-		// This method is not required.
-		// for giverEmail, a change in team will mean when we search 
-		// for userEmail again later, he will already be under a new team.
-		// he will be under the new team already.
-		// for receiver, we already track by team name
+		// TODO: 
+		// for giver:
+		// we should either delete FROM: TEAM responses and TO: TEAM_MEMBERS responses
+		// or modify them as appropriate.
+		// for recipient:
+		// we should delete TO: TEAM_MEMBERS responses which user is a team member of
 	}
 
 	public void updateFeedbackResponsesForChangingEmail(String oldEmail, String newEmail) {
 		// TODO:
 		// for giver, change needs to be cascaded.
-		// for receiver, change needs to be cascaded only if question type
-		// is not TEAMS
+		// for receiver, change needs to be cascaded if question type
+		// is not TO: TEAMS
 	}
 }

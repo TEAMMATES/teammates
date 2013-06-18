@@ -141,17 +141,21 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		return (now.after(end));
 	}
 	
+	/**
+	 * @return {@code true} is currently open and accepting responses.
+	 */
 	public boolean isOpened() {
 		Calendar now = Calendar.getInstance();
 		Common.convertToUserTimeZone(now, timeZone);
 
 		Calendar start = Common.dateToCalendar(startTime);
 
-		return (start.after(now) && !isClosed());
+		return (now.after(start) && !isClosed());
 	}
 	
 	/**
-	 * @return {@code true} has not opened before. {@code false} if session has not opened before.
+	 * @return {@code true} has not opened before and is waiting to open.<br> 
+	 * {@code false} if session has opened before.
 	 */
 	public boolean isWaitingToOpen() {
 		return (!isOpened() && !isClosed());

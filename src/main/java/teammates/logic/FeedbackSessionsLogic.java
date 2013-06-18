@@ -181,7 +181,7 @@ public class FeedbackSessionsLogic {
 					"Trying to get a feedback session that does not exist.");
 		}
 
-		if (fsa.isClosed()) {
+		if (fsa.isVisible() == false) {
 			throw new UnauthorizedAccessException(
 					"This feedback session is already closed.");
 		}
@@ -211,39 +211,47 @@ public class FeedbackSessionsLogic {
 			String feedbackSessionName, String courseId, String userEmail)
 			throws EntityDoesNotExistException, UnauthorizedAccessException {
 
-		FeedbackSessionAttributes fsa = fsDb.getFeedbackSession(
+		FeedbackSessionAttributes session = fsDb.getFeedbackSession(
 				feedbackSessionName, courseId);
 
-		if (fsa == null) {
+		if (session == null) {
 			throw new EntityDoesNotExistException(
 					"Trying to view non-existent feedback session.");
 		}
 		
 		// TODO: should we use isInstructor instead of creator?
-		if (fsa.isPublished() == false && fsa.creatorEmail.equals(userEmail) == false) {
+		if (session.isPublished() == false && session.creatorEmail.equals(userEmail) == false) {
 			throw new UnauthorizedAccessException(
 					"This feedback sesion has not been published.");
 		}
 		
 		List<FeedbackQuestionAttributes> allQuestions = 
 				fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-		List<FeedbackQuestionAttributes> relevantQuestions =
-				new ArrayList<FeedbackQuestionAttributes>();	
 		List<FeedbackResponseAttributes> responses =
 				new ArrayList<FeedbackResponseAttributes>();
+		Map<String, FeedbackQuestionAttributes> relevantQuestions =
+				new HashMap<String, FeedbackQuestionAttributes>();
 		Map<String, String> emailNameTable =
 				new HashMap<String, String>();
+		Map<String, boolean[]> visibilityTable =
+				new HashMap<String, boolean[]>();
 		
 		for (FeedbackQuestionAttributes question : allQuestions) {
 			
-			List<FeedbackResponseAttributes> responsesForThisQn =
-					frLogic.getViewableFeedbackResponsesForQuestion(
-							question.getId(), userEmail);
-										
+			List<FeedbackResponseAttributes> responsesForThisQn;
+			if (session.creatorEmail.equals(userEmail)) {
+				// Allowing session creator to see all responses regardless of visibility.
+				responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
+			} else {
+				responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestion(
+						question.getId(), userEmail);
+			}
+
 			if (responsesForThisQn.isEmpty() == false) {
-				addEmailNamePairsToTable(emailNameTable, responsesForThisQn, question);
+				relevantQuestions.put(question.getId(), question);
 				responses.addAll(responsesForThisQn);
-				relevantQuestions.add(question);
+				addEmailNamePairsToTable(emailNameTable, responsesForThisQn, question);
+				addVisibilityToTable(visibilityTable, responsesForThisQn, userEmail);
 			}
 			
 		}
@@ -255,21 +263,40 @@ public class FeedbackSessionsLogic {
 		}
 		
 		FeedbackSessionResultsBundle results = 
-			new FeedbackSessionResultsBundle(fsa, relevantQuestions, responses, emailNameTable);
+			new FeedbackSessionResultsBundle(session, responses, relevantQuestions, emailNameTable, visibilityTable);
 
 		return results;
 	}
 
+	private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
+			List<FeedbackResponseAttributes> responses,
+			String userEmail) {
+		for (FeedbackResponseAttributes response  : responses) {
+			boolean[] visibility = new boolean[2];
+			visibility[0] = frLogic.isNameVisibleTo(response, userEmail, true);
+			visibility[1] = frLogic.isNameVisibleTo(response, userEmail, false);
+			visibilityTable.put(response.getId(), visibility);
+		}
+	}
+
 	private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
 			List<FeedbackResponseAttributes> responsesForThisQn,
-			FeedbackQuestionAttributes question) {
+			FeedbackQuestionAttributes question) throws EntityDoesNotExistException {
 		
 		for (FeedbackResponseAttributes response : responsesForThisQn) {
-			if(emailNameTable.containsKey(response.giverEmail) == false) {
+			if (question.giverType == FeedbackParticipantType.TEAMS){
+				if (emailNameTable.containsKey(response.giverEmail + Common.TEAM_OF_EMAIL_OWNER) == false) {
+					emailNameTable.put(
+							response.giverEmail + Common.TEAM_OF_EMAIL_OWNER,
+							getNameForEmail(question.giverType, response.giverEmail, question.courseId));
+				}
+			}
+			else if(emailNameTable.containsKey(response.giverEmail) == false) {
 				emailNameTable.put(
 						response.giverEmail,
 						getNameForEmail(question.giverType, response.giverEmail, question.courseId));
 			}
+			
 			if(emailNameTable.containsKey(response.recipient) == false) {
 				emailNameTable.put(
 						response.recipient,
@@ -279,35 +306,34 @@ public class FeedbackSessionsLogic {
 		
 	}
 
-	private String getNameForEmail(FeedbackParticipantType type,
-			String giverEmail, String courseId) {
+	private String getNameForEmail(FeedbackParticipantType type, String email, String courseId)
+			throws EntityDoesNotExistException {
 		
-		String giverName = null;
-		String giverTeam = null;
+		String name = null;
+		String team = null;
 		
-		InstructorAttributes instructor =
-				instructorsLogic.getInstructorForEmail(courseId, giverEmail);
-		if(instructor == null) {
-			StudentAttributes student = 
-					studentsLogic.getStudentForEmail(courseId, giverEmail);
-			if (student == null) {
+		StudentAttributes student = 
+				studentsLogic.getStudentForEmail(courseId, email);
+		if(student == null) {
+			InstructorAttributes instructor =
+					instructorsLogic.getInstructorForEmail(courseId, email);
+			if (instructor == null) {
 				// Assume that the email is actually a team name.
-				// If not, the email is invalid.
-				giverName = "Could not find this user";
-				giverTeam = giverEmail;
+				name = "Unknown user";
+				team = email;
 			} else {
-				giverName = student.name;
-				giverTeam = student.team;
+				name = instructor.name;
+				team = "Instructors";
 			}
 		} else {
-			giverName = instructor.name;
-			giverTeam = "Instructor has no team";
+			name = student.name;
+			team = student.team;
 		}
 		
 		if (type == FeedbackParticipantType.TEAMS){
-			return giverTeam;
+			return team;
 		} else {
-			return giverName;
+			return name;
 		}
 	}
 

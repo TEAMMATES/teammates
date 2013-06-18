@@ -26,7 +26,7 @@
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body onload="formatRecipientLists()">
+<body onload="initializetooltip(); formatRecipientLists();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
 		<jsp:include page="<%=Common.JSP_STUDENT_HEADER_NEW%>" />
@@ -79,6 +79,11 @@
 				<tr style="border-bottom: 3px solid black;"><td colspan="2">
 					<ul>
 					<%
+						if(question.getVisibilityMessage().isEmpty()) {
+					%>
+					<li>No-one but the feedback session creator can see your responses.</li>	
+					<%
+						}
 						for(String line : question.getVisibilityMessage()) {
 					%>
 					<li><%=line%></li>
@@ -101,9 +106,11 @@
 					for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipient)) out.println(opt);
 				%>
 				</select></td>
-				<td><textarea rows="4" class="textvalue"
+				<td>
+				<textarea rows="4" cols="100%" class="textvalue" 
+				<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\" onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SUBMIT_CLOSED+"')\" onmouseout=\"hideddrivetip()\"" %>
 				name="<%=Common.PARAM_FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=existingResponse.answer.getValue()%></textarea>
-				<input class="responseText" type="hidden" name="<%=Common.PARAM_FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
+				<input type="hidden" name="<%=Common.PARAM_FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
 				</td>
 				</tr>
 				<% 
@@ -111,7 +118,7 @@
 				}
 				if (numOfResponseBoxes == 0) {
 				%>
-					<tr><td class="centeralign"><br>Unfortunately, there is nobody for you to give feedback to.</td></tr>
+					<tr><td class="centeralign color_red bold"><br>There is nobody for you to give feedback to.</td></tr>
 				<%
 				}
 				while(responseIndx < numOfResponseBoxes) {
@@ -132,7 +139,7 @@
 				} 
 				%>
 			</table>
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_RESPONSES_TOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
+			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_RESPONSE_TOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
 			<br><br>
 			<% 
 				qnIndx++;
@@ -143,12 +150,12 @@
 				if (data.bundle.questionResponseBundle.isEmpty()) {
 			%>
 			There are no questions for you to answer here!
-			<%
-				} else {
-			%>
+			<% } else if (data.bundle.feedbackSession.isOpened()) {%>
 			<input type="submit" class="button" onclick="reenableFieldsForSubmission()" value="Submit Feedback"/>
+			<% } else { %>
+			<%= Common.HOVER_MESSAGE_FEEDBACK_SUBMIT_CLOSED %>
 			<%
-				}
+			   }
 			%>
 			</div>
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>

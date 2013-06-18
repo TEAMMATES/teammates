@@ -39,7 +39,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body>
+<body onload="readyFeedbackPage(); initializetooltip();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
 		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
@@ -54,8 +54,8 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 			
 			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_CHANGE_TYPE%>" name="form_changesessiontype">
 			<p class="bold centeralign middlealign">Session Type&nbsp;&nbsp;
-			<select style="width:730px" name="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_CHANGE_TYPE%>"
-									id="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_CHANGE_TYPE%>"
+			<select style="width:730px" name="feedbackchangetype"
+									id="feedbackchangetype"
 									onmouseover="ddrivetip('Change session type')"
 									onmouseout="hideddrivetip()" tabindex="0" 
 									onclick="submit">
@@ -64,15 +64,6 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 									<option value="PRIVATE">Private Feedback Session</option>
 									<option value="EVALUATION">Peer Evaluation Session</option>			
 			</select></p>
-			<script type="text/javascript">
-			//<![CDATA[ 
-			$(document).ready(function(){
-			    $('select').change(function ()
-			    {
-			        $(this).closest('form[name="form_changesessiontype"]').submit();
-			    });
-			});//]]>  
-			</script>
 			</form>
 			<br><br>
 			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_ADD%>" name="form_addfeedbacksession">
@@ -297,7 +288,6 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 					</tr>
 				</table>
 				<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
-				<input type="hidden" name="<%=Common.PARAM_FEEDBACK_SESSION_CREATOR%>" value="<%=data.account.email%>">
 			</form>
 			
 			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />

@@ -168,24 +168,46 @@ function deleteQuestion(number){
 }
 
 /**
- * Hides the "Number of Recipients Box" of the question 
- * where participant type is not STUDENTS OR TEAMS.
- * @param value
- * @returns qnNumber
+ * Formats all questions to hide the "Number of Recipients Box" 
+ * when participant type is not STUDENTS OR TEAMS, and show
+ * it when it is. Formats the label for the number box to fit
+ * the selection as well.
  */
-function formatNumberBox(value, qnNumber){
+function formatNumberBoxes(){
+	$("select[name="+FEEDBACK_QUESTION_RECIPIENTTYPE+"]").each(function(){
+		qnNumber = $(this).prop("id").split('-')[1];
+		if(qnNumber === undefined) qnNumber = '';
+		value = $(this).val();
+		formatNumberBox(value,qnNumber);
+		tallyCheckboxes(qnNumber);
+	}).change(function() {
+		qnNumber = $(this).prop("id").split('-')[1];
+		if(qnNumber === undefined) qnNumber = '';
+		value = $(this).val();
+		formatNumberBox(value,qnNumber);
+		tallyCheckboxes(qnNumber);
+    });
+}
+
+/**
+ * Hides/shows the "Number of Recipients Box" of the question 
+ * depending on the participant type and formats the label text for it.
+ * @param value, qnNumber
+ */
+function formatNumberBox(value, qnNumber) {
 	if (value == "STUDENTS" || value == "TEAMS") {
-		document.getElementById(FEEDBACK_QUESTION_NUMBEROFENTITIES+"-"+qnNumber).style.display = '';
-		document.getElementById(FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text-"+qnNumber).style.display = '';
+		$("input#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"-"+qnNumber).show();
+		$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text-"+qnNumber).show();
 		if(value == "STUDENTS") {
-			document.getElementById(FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).innerHTML = "students";
+			$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).innerHTML = "students";
 		} else {
-			document.getElementById(FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).innerHTML = "teams";
+			$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).innerHTML = "teams";
 		}
 	} else {
-		document.getElementById(FEEDBACK_QUESTION_NUMBEROFENTITIES+"-"+qnNumber).style.display = 'none';
-		document.getElementById(FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text-"+qnNumber).style.display = 'none';
+		$("input#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"-"+qnNumber).hide();
+		$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text-"+qnNumber).hide();
 	}
+	tallyCheckboxes(qnNumber);
 }
 
 /**
@@ -251,4 +273,16 @@ function formatCheckBoxes() {
 									prop('checked', $(this).prop('checked'));
 		});
 	});
+}
+
+function readyFeedbackPage (){ 
+    $("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function ()
+    {
+        $('form[name="form_changesessiontype"]').submit();
+    });
+}
+
+function readyFeedbackEditPage(){
+	formatNumberBoxes();
+	formatCheckBoxes();
 }

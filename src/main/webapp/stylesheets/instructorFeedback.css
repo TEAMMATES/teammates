@@ -14,6 +14,11 @@
 	width: 200px;
 }
 
+.sortTypeTable {
+	width: 900px;
+	background-color: #D0D8E8;
+}
+
 .visibilityCheckbox {
 }
 

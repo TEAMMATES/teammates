@@ -37,7 +37,7 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
 		
 		for(int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-			int numOfResponsesToGet = Integer.parseInt(getRequestParam(Common.PARAM_FEEDBACK_RESPONSES_TOTAL+"-"+questionIndx));			
+			int numOfResponsesToGet = Integer.parseInt(getRequestParam(Common.PARAM_FEEDBACK_RESPONSE_TOTAL+"-"+questionIndx));			
 			for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
 				FeedbackResponseAttributes response = extractFeedbackResponseData(questionIndx,responseIndx); 
 				if (response.getId() != null) {

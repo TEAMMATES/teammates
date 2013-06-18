@@ -41,8 +41,9 @@ public class InstructorFeedbackEditSaveAction extends Action {
 			isError = true;
 		}
 		
+		// Get updated results and show same page
+		data.session = logic.getFeedbackSession(feedbackSessionName, courseId);
 		data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-		
 		return createShowPageResult(Common.JSP_INSTRUCTOR_FEEDBACK_EDIT, data);
 	}
 

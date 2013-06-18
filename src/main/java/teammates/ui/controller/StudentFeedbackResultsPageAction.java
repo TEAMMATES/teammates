@@ -4,6 +4,7 @@ import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.GateKeeper;
+import teammates.storage.entity.Student;
 
 public class StudentFeedbackResultsPageAction extends Action {
 
@@ -21,14 +22,15 @@ public class StudentFeedbackResultsPageAction extends Action {
 		new GateKeeper().verifyCourseOwnerOrStudentInCourse(courseId);
 
 		StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account);
+		data.student = logic.getStudentForGoogleId(courseId, account.googleId);
 		
-		String email;
-		if(account.isInstructor) {
+		String email;		
+		if(data.student == null) {
 			// Currently allowing the course owner to access student feedback results page.
 			email = account.email;
 		} else {
 			// Get student email instead of account email which may be different.
-			email = logic.getStudentForGoogleId(courseId, account.googleId).email;
+			email = data.student.email;
 		}
 		data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, email);
 		

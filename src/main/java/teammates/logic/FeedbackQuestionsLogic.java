@@ -23,6 +23,7 @@ import teammates.storage.api.FeedbackQuestionsDb;
 
 public class FeedbackQuestionsLogic {
 	
+	@SuppressWarnings("unused")
 	private static final Logger log = Common.getLogger();
 
 	private static FeedbackQuestionsLogic instance = null;
@@ -336,7 +337,7 @@ public class FeedbackQuestionsLogic {
 			}
 		} else {
 			giverName = instructor.name;
-			giverTeam = "Instructor has no team";
+			giverTeam = "Instructors";
 		}
 		
 		switch (recipientType) {
@@ -380,7 +381,6 @@ public class FeedbackQuestionsLogic {
 		case OWN_TEAM_MEMBERS:
 			List<StudentAttributes> students = 
 				studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
-			log.info("GiverTeam: " +giverTeam+ ", courseID: " +question.courseId+ ", size: " +students.size());
 			for (StudentAttributes student : students) {
 				if(student.email.equals(giverEmail) == false) {
 					recipients.put(student.email, student.name);

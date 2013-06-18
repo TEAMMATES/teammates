@@ -4,8 +4,10 @@ import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -18,15 +20,26 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 	protected ActionResult execute() 
 			throws EntityDoesNotExistException,	InvalidParametersException {
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(getRequestParam(Common.PARAM_COURSE_ID));
+		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		
-		FeedbackSessionAttributes fs = extractFeedbackSessionData();
+		Assumption.assertNotNull(courseId);
+		
+		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
 				
 		InstructorFeedbackPageData data = new InstructorFeedbackPageData(account);
+
+		FeedbackSessionAttributes fs = extractFeedbackSessionData();
+
+		// Set creator email as instructors' email
+		InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, data.account.googleId);		
+		if (instructor == null) {
+			Assumption.fail("Could not find instructor after passing through gatekeeper.");
+		}
+		fs.creatorEmail = instructor.email;
+		
 		data.newFeedbackSession = fs;
 		
 		try {
-			
 			logic.createFeedbackSession(fs);
 			
 			data.courseIdForNewSession = null;
@@ -64,7 +77,6 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 		FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
 		newSession.courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		newSession.feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
-		newSession.creatorEmail = getRequestParam(Common.PARAM_FEEDBACK_SESSION_CREATOR);
 		newSession.createdTime = new Date();
 		newSession.startTime = Common.combineDateTime(
 				getRequestParam(Common.PARAM_FEEDBACK_SESSION_STARTDATE),

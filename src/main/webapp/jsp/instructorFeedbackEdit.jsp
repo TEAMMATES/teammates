@@ -29,7 +29,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body>
+<body onload="readyFeedbackEditPage(); initializetooltip();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
 		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
@@ -280,8 +280,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 						%>
 					</select></td>
 					<td class="bold nowrap">Feedback Recipient:</td>
-					<td><select class="participantSelect" name="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" disabled="disabled"
-					onchange="formatNumberBox(this.value, <%=question.questionNumber%>)">
+					<td><select class="participantSelect" name="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" disabled="disabled">
 						<%
 							for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
 						%>
@@ -367,11 +366,6 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
 			</form>
-			<script type = "text/javascript">
-				formatNumberBox(document.getElementById('<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>').value,
-						<%=question.questionNumber%>);
-				tallyCheckboxes(<%=question.questionNumber%>);
-			</script>
 			<br><br>
 			<%
 				}
@@ -404,8 +398,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 						%>
 					</select></td>
 					<td class="bold nowrap">Feedback Recipient:</td>
-					<td><select class="participantSelect" id="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>"
-					onchange="formatNumberBox(this.value, '')">
+					<td><select class="participantSelect" id="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>">
 						<%
 							for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
 						%>
@@ -473,11 +466,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
-		</form>
-		<script type = "text/javascript">
-			formatNumberBox(document.getElementById('<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>').value,'');
-			formatCheckBoxes();
-		</script>					
+		</form>			
 		<br><br>
 		</div>
 	</div>
