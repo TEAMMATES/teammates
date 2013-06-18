@@ -1,4 +1,3 @@
-
 /**
  * Pre-processes and validates the user's input.
  * @returns {Boolean} True if it is OK to proceed with the form submission.
@@ -18,8 +17,10 @@ function verifyCourseData() {
 	
 	var proceedWithoutUser = true;
 	if (!doesInstructorListIncludesLoggedInUser($("#" + COURSE_INSTRUCTOR_ID).val(), instructorList)){
-		proceedWithoutUser = 	confirm(MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST);
-		if (!proceedWithoutUser) return false;
+		proceedWithoutUser = confirm(MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST);
+		if (!proceedWithoutUser) {
+			return false;
+		}
 	}
 	
 	return true;
@@ -63,7 +64,7 @@ function getCourseIdInvalidityInfo(courseId){
 	
 	courseId = courseId.trim();
 	
-	if (courseId == "") {
+	if (courseId === "") {
 		return  DISPLAY_COURSE_COURSE_ID_EMPTY + "<br>";
 	}
 
@@ -85,7 +86,7 @@ function getCourseNameInvalidityInfo(courseName){
 	
 	courseName = courseName.trim();
 	
-	if (courseName == "") {
+	if (courseName === "") {
 		return  DISPLAY_COURSE_COURSE_NAME_EMPTY + "<br>";
 	}
 
@@ -99,17 +100,17 @@ function getCourseNameInvalidityInfo(courseName){
 
 function getInstructorListInvalidityInfo(instructorList){
 	
-	invalidityInfo = "";
+	var invalidityInfo = "";
 	
 	instructorList = instructorList.trim();
 	
-	if (instructorList.trim() == ""){
+	if (instructorList.trim() === ""){
 		return  DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY + "<br>";
 	}
 	
 	var entries = instructorList.split("\n");
 	for ( var x = 0; x < entries.length ; x++) {
-			 invalidityInfo += getInstructorLineInvalidityInfo(entries[x]);
+		invalidityInfo += getInstructorLineInvalidityInfo(entries[x]);
 	}
 	
 	return invalidityInfo;
@@ -118,15 +119,15 @@ function getInstructorListInvalidityInfo(instructorList){
 
 function getInstructorLineInvalidityInfo(instructorLine) {
 	
-	invalidityInfo = "";
+	var invalidityInfo = "";
 	instructorLine = instructorLine.trim();
 	
-	if (instructorLine == "") {
+	if (instructorLine === "") {
 		return "";  // ignore empty lines
 	}
 	
 	// Separate the fields
-	fields = instructorLine.trim().split("|");
+	var fields = instructorLine.trim().split("|");
 	var fieldsLength = fields.length;
 	
 	// Make sure that all fields are present and valid
@@ -153,7 +154,7 @@ function getInstructorLineInvalidityInfo(instructorLine) {
  * @returns {Boolean} true if the courseId does not contain any unacceptable characters.
  */
 function isCourseIDValidChars(courseId) {
-	return courseId.match(/^[a-zA-Z_$0-9.-]+$/) != null;
+	return courseId.match(/^[a-zA-Z_$0-9.-]+$/) !== null;
 }
 
 
