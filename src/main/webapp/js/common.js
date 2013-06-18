@@ -42,13 +42,14 @@ var DISPLAY_NAME_INVALID = "Name should only consist of alphanumerics or hyphens
 var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
 
 // Used in instructorCourse.js only
-var DISPLAY_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed "
 		+ COURSE_ID_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed "
 		+ COURSE_NAME_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
-var DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY = "You must add at least 1 instructor in the course.";
+var DISPLAY_COURSE_COURSE_ID_EMPTY = "Course ID cannot be empty.";
+var DISPLAY_COURSE_COURSE_NAME_EMPTY = "Course name cannot be empty";
+var DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY = "Instructor list cannot be empty";
 var MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST = "You are NOT in the list of instructors for the new course. You will NOT be able to access the new course once it is created. Do you wish to continue?";
 
 // Used in instructorCourseEnroll.js only

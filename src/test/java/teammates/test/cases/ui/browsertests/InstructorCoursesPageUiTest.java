@@ -170,69 +170,33 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		/* Explanation: If the validation is done through one JS function 
 		 * (e.g., the entire form is validated in one go), we need to check only
-		 * one invalid case here, if the form validation function is 
-		 * thoroughly unit tested elsewhere. 
-		 * If each field is validated as they are typed, each field should be 
+		 * one invalid case here, provided the form validation function is 
+		 * thoroughly unit tested elsewhere {@see instructorCourseJsTest.js}. 
+		 * If each field is validated as they are keyed in, each field should be 
 		 * validated for one invalid case.
 		 */
 		
 		______TS("input validation");
 		
-		//TODO: reduce test cases here after unit testing the JS validation function.
+		//one invalid case
+		coursesPage.addCourse("", "", "")
+			.verifyStatus(Common.MESSAGE_COURSE_COURSE_ID_EMPTY + "\n"
+					+ Common.MESSAGE_COURSE_COURSE_NAME_EMPTY + "\n"
+					+ Common.MESSAGE_COURSE_INSTRUCTOR_LIST_EMPTY);
 		
-		String validCourseId = "valid.course.id";
-		String validCourseName = "Valid Course Name";
-	
-		coursesPage.addCourse("", validCourseId, null)
-			.verifyStatus(Common.MESSAGE_COURSE_MISSING_FIELD + "\n" + Common.MESSAGE_COURSE_INVALID_ID);
-		
-		// Adding course without name
-		coursesPage.addCourse(validCourseId, "", null)
-			.verifyStatus(Common.MESSAGE_COURSE_MISSING_FIELD);
-		
-		//Not-allowed characters
-		coursesPage.addCourse(validCourseId+"!*}", validCourseName + " (!*})", null)
-			.verifyStatus(Common.MESSAGE_COURSE_INVALID_ID);
-		
-	
-		//Invalid lengths
+		//Checking max-length enforcement by the text boxes
 		String maxLengthCourseId = Common.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
 		String longCourseId = Common.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH+1);
-		
-		String maxLengthCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
-		String longCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH+1);
 		
 		assertEquals(maxLengthCourseId, coursesPage.fillCourseIdTextBox(maxLengthCourseId));
 		assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH), coursesPage.fillCourseIdTextBox(longCourseId));
 		
+		String maxLengthCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
+		String longCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH+1);
+		
 		assertEquals(maxLengthCourseName, coursesPage.fillCourseNameTextBox(maxLengthCourseName));
 		assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), coursesPage.fillCourseNameTextBox(longCourseName));
 		
-		//invalid instructor list
-		
-		String instructor1Details = "Instructor1ID" + "|" + "Instructor1Name";
-		String instructor2Details = "Instructor2ID" + "|" + "Instructor2Name" + "|" + "instructor2Email@.gmailcom" + "|" + "EXTRA";
-		String instructor3Details = "Instruct@r3ID" + "|" + "Instructor3Name" + "|" + "instructor3Email@gmail.com";
-		String instructor4Details = "Instructor4ID" + "|" + "Instruct@r4Name" + "|" + "instructor4Email@gmail.com";
-		String instructor5Details = "Instructor5ID" + "|" + "Instructor5Name" + "|" + "instructor5Email@.com";
-		String originalInstructorsList = coursesPage.getInstructorList();
-		String invalidInstructorsList = originalInstructorsList 
-										+ "\n" + instructor1Details
-										+ "\n" + instructor2Details
-										+ "\n" + instructor3Details
-										+ "\n" + instructor4Details
-										+ "\n" + instructor5Details;
-		
-		String expectedStatusMessage = Common.MESSAGE_COURSE_MISSING_FIELD + "\n"
-				+ Common.MESSAGE_COURSE_INVALID_ID + "\n"
-				+ Common.MESSAGE_COURSE_INPUT_FIELDS_MISSING + " (at line: 2): " + instructor1Details + "\n"
-				+ Common.MESSAGE_COURSE_INPUT_FIELDS_EXTRA + " (at line: 3): " + instructor2Details + "\n"
-				+ Common.MESSAGE_COURSE_GOOGLEID_INVALID + " (at line: 4): " + instructor3Details + "\n"
-				+ Common.MESSAGE_COURSE_INSTRUCTORNAME_INVALID + " (at line: 5): " + instructor4Details + "\n"
-				+ Common.MESSAGE_COURSE_EMAIL_INVALID + " (at line: 6): " + instructor5Details;
-		
-		coursesPage.addCourse("invalidCourseId*%#", "", invalidInstructorsList)
-			.verifyStatus(expectedStatusMessage);
 	}
 
 

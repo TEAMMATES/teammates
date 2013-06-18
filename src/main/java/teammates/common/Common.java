@@ -465,7 +465,9 @@ public class Common {
 	public static final String MESSAGE_COURSE_GOOGLEID_INVALID = "GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.";
 	public static final String MESSAGE_COURSE_EMAIL_INVALID = "The e-mail address is invalid.";
 	public static final String MESSAGE_COURSE_INSTRUCTORNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.";
-	public static final String MESSAGE_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
+	public static final String MESSAGE_COURSE_COURSE_ID_EMPTY = "Course ID cannot be empty.";
+	public static final String MESSAGE_COURSE_COURSE_NAME_EMPTY = "Course name cannot be empty";
+	public static final String MESSAGE_COURSE_INSTRUCTOR_LIST_EMPTY = "Instructor list cannot be empty";
 	public static final String MESSAGE_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
 	
 	public static final String MESSAGE_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";

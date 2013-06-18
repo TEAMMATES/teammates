@@ -67,13 +67,13 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		courseEditPage.verifyStatus("");
 		courseEditPage.fillInstructorList("");
 		courseEditPage.submitUnsuccessfully()
-			.verifyStatus("You must add at least 1 instructor in the course.");
+			.verifyStatus(Common.MESSAGE_COURSE_INSTRUCTOR_LIST_EMPTY);
 		
 		______TS("invalid info");
 		
 		courseEditPage.fillInstructorList(originalInformation + "GoogleID|NAME|InvalidEmail\n");
 		courseEditPage.submitUnsuccessfully()
-			.verifyStatus("The e-mail address is invalid. (at line: 3): GoogleID|NAME|InvalidEmail");
+			.verifyStatus("The e-mail address is invalid. Incorrect line : GoogleID|NAME|InvalidEmail");
 	}
 	
 	public void testEditAction() throws Exception{
