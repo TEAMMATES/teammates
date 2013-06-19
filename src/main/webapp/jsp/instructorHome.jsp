@@ -2,9 +2,10 @@
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationStats"%>
-<%@ page import="teammates.ui.controller.InstructorHomeHelper"%>
+<%@ page import="teammates.ui.controller.PageData"%>
+<%@ page import="teammates.ui.controller.InstructorHomePageData"%>
 <%
-	InstructorHomeHelper helper = (InstructorHomeHelper)request.getAttribute("helper");
+InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -33,7 +34,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
 	</div>
 
 	<div id="frameBody">
@@ -43,52 +44,52 @@
 				<h1>Instructor Home</h1>
 			</div>
 			
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
 			
 			<div class="backgroundBlock">
 				<div class="blockLink rightalign">
-					<a href="<%=helper.getInstructorCourseLink()%>" name="addNewCourse" id="addNewCourse" class="color_white bold">
+					<a href="<%=data.getInstructorCourseLink()%>" name="addNewCourse" id="addNewCourse" class="color_white bold">
 						Add New Course </a>
 				</div>
 			</div>
 			
 			<%
-							int idx = -1;
-																				int evalIdx = -1;
-																				for (CourseDetailsBundle courseDetails: helper.courses) { idx++;
-						%>
+				int idx = -1;
+				int evalIdx = -1;
+				for (CourseDetailsBundle courseDetails: data.courses) { idx++;
+			%>
 			<br>
 			<br>
 			<br>
 			<div class="backgroundBlock home_courses_div" id="course<%=idx%>">
 				<div class="result_homeTitle">
 					<h2 class="color_white">[<%=courseDetails.course.id%>] :
-						<%=InstructorHomeHelper.escapeForHTML(courseDetails.course.name)%>
+						<%=PageData.escapeForHTML(courseDetails.course.name)%>
 					</h2>
 				</div>
 				<div class="result_homeLinks blockLink rightalign">
 					<a class="t_course_enroll<%=idx%> color_white bold"
-						href="<%=helper.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
+						href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ENROLL%>')"
 						onmouseout="hideddrivetip()">
 						Enroll</a>
 					<a class="t_course_view<%=idx%> color_white bold"
-						href="<%=helper.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
+						href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DETAILS%>')"
 						onmouseout="hideddrivetip()">
 						View</a>
 					<a class="t_course_edit<%=idx%> color_white bold"
-						href="<%=helper.getInstructorCourseEditLink(courseDetails.course.id)%>"
+						href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_EDIT%>')"
 						onmouseout="hideddrivetip()">
 						Edit</a>
 					<a class="t_course_add_eval<%=idx%> color_white bold"
-						href="<%=helper.getInstructorEvaluationLink(courseDetails.course.id)%>"
+						href="<%=data.getInstructorEvaluationLink(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
 						onmouseout="hideddrivetip()">
 						Add Evaluation</a>
 					<a class="t_course_delete<%=idx%> color_white bold"
-						href="<%=helper.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
+						href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
 						onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DELETE%>')"
 						onmouseout="hideddrivetip()">
@@ -112,13 +113,13 @@
 							for (EvaluationDetailsBundle edd: courseDetails.evaluations){ evalIdx++;
 						%>
 							<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
-								<td class="t_eval_name<%=idx%>"><%=InstructorHomeHelper.escapeForHTML(edd.evaluation.name)%></td>
+								<td class="t_eval_name<%=idx%>"><%=PageData.escapeForHTML(edd.evaluation.name)%></td>
 								<td class="t_eval_status<%= idx %> centeralign"><span
-									onmouseover="ddrivetip('<%= InstructorHomeHelper.getInstructorHoverMessageForEval(edd.evaluation) %>')"
-									onmouseout="hideddrivetip()"><%= InstructorHomeHelper.getInstructorStatusForEval(edd.evaluation) %></span></td>
+									onmouseover="ddrivetip('<%= PageData.getInstructorHoverMessageForEval(edd.evaluation) %>')"
+									onmouseout="hideddrivetip()"><%= PageData.getInstructorStatusForEval(edd.evaluation) %></span></td>
 								<td class="t_eval_response<%= idx %> centeralign"><%= edd.stats.submittedTotal %>
 									/ <%= edd.stats.expectedTotal %></td>
-								<td class="centeralign no-print"><%= helper.getInstructorEvaluationActions(edd.evaluation,evalIdx, true) %>
+								<td class="centeralign no-print"><%= data.getInstructorEvaluationActions(edd.evaluation,evalIdx, true) %>
 								</td>
 							</tr>
 						<%	} %>
@@ -139,7 +140,7 @@
 
 	
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

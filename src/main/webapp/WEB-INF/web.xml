@@ -146,13 +146,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>ControllerServlet</servlet-name>
 	    <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
 	</servlet>
-	<servlet>
-	    <description>Servlet that handles Instructor homepage</description>
-	    <servlet-name>InstructorHome</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorHomeServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorHome</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorHome</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -317,13 +312,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <url-pattern>/page/instructorEvalExport</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
-	    <description>Servlet that handles student home page</description>
-	    <servlet-name>StudentHome</servlet-name>
-	    <servlet-class>teammates.ui.controller.StudentHomeServlet</servlet-class>
-	</servlet>
+
 	<servlet-mapping>
-	    <servlet-name>StudentHome</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/studentHome</url-pattern>
 	</servlet-mapping>
 	<servlet>

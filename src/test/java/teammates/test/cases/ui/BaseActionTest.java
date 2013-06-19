@@ -12,10 +12,13 @@ import com.meterware.httpunit.WebRequest;
 import com.meterware.servletunit.InvocationContext;
 
 import teammates.common.Common;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.test.cases.BaseComponentTest;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
+import teammates.ui.controller.ShowPageResult;
 
 /**
  * Parent class for *ActionTest classes.
@@ -112,6 +115,11 @@ public class BaseActionTest extends BaseComponentTest {
 			list.add(s);
 		}
 		return list.toArray(new String[list.size()]);
+	}
+
+	protected ShowPageResult getShowPageResult(Action a)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		return (ShowPageResult) a.executeAndPostProcess();
 	}
 
 }

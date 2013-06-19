@@ -59,6 +59,10 @@ public abstract class Action {
 		logic = new Logic();
 		requestParameters = req.getParameterMap();
 		
+		//---- set error status forwarded from the previous action
+		
+		isError = getRequestParamAsBoolean(Common.PARAM_ERROR);
+		
 		//---- set logged in user ------------------------------------------
 
 		UserType loggedInUserType = logic.getCurrentUser();
@@ -98,7 +102,7 @@ public abstract class Action {
 	}
 
 	/**
-	 * Executes the action (as implemented by a chlid class). Before passing 
+	 * Executes the action (as implemented by a child class). Before passing 
 	 * the result to the caller, it does some post processing: <br>
 	 * 1. If the original request contained a URL to redirect after performing 
 	 *    the action, the result will be replaced with a new 'redirect' type
@@ -155,6 +159,10 @@ public abstract class Action {
 	 */
 	public String getRequestParam(String paramName) {
 		return Common.getValueFromParamMap(requestParameters, paramName);
+	}
+	
+	public boolean getRequestParamAsBoolean(String paramName) {
+		return Boolean.parseBoolean(Common.getValueFromParamMap(requestParameters, paramName));
 	}
 
 	/**

@@ -468,7 +468,7 @@ public class Logic {
 	 *         still AWAITING).
 	 */
 	public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
-			throws EntityDoesNotExistException, InvalidParametersException {
+			throws EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 	

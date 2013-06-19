@@ -41,6 +41,27 @@
 			"isInstructor": true,
 			"email": "instr4@coursenoevals.com",
 			"institute": "National University of Singapore"
+		},
+		"instructorWithoutCourses": {
+			"googleId": "instructorWithoutCourses",
+			"name": "Instructor Without Courses",
+			"isInstructor": true,
+			"email": "iwc@yahoo.com",
+			"institute": "NTU"
+		},
+		"student1InCourse1": {
+			"googleId": "student1InCourse1",
+			"name": "Student 1 in course 1",
+			"isInstructor": false,
+			"email": "sudent1inCourse1@gmail.com",
+			"institute": "National University of Singapore"
+		},
+		"student2InCourse1": {
+			"googleId": "student2InCourse1",
+			"name": "Student in two courses",
+			"isInstructor": false,
+			"email": "sudent2inCourse1@gmail.com",
+			"institute": "National University of Singapore"
 		}
 	},
 

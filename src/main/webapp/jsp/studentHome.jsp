@@ -1,9 +1,10 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle" %>
-<%@ page import="teammates.ui.controller.StudentHomeHelper"%>
+<%@ page import="teammates.ui.controller.PageData"%>
+<%@ page import="teammates.ui.controller.StudentHomePageData"%>
 <%
-	StudentHomeHelper helper = (StudentHomeHelper)request.getAttribute("helper");
+StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER_NEW%>" />
 	</div>
 
 	<div id="frameBody">
@@ -57,34 +58,28 @@
 						</td>
 					</tr>
 				 </table>
-				<%
-					if(helper.isMasqueradeMode()){
-				%>
-					<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=helper.requestedUser%>">
-				<%
-					}
-				%>
+				<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
 			<br>
 			
 			<%
-							int idx = -1;
-																				int evalIdx = -1;
-																				for (CourseDetailsBundle courseDetails: helper.courses) { idx++;
-						%>
+				int idx = -1;
+				int evalIdx = -1;
+				for (CourseDetailsBundle courseDetails: data.courses) { idx++;
+			%>
 			<div class="backgroundBlock">
 				<div class="result_team home_courses_div" id="course<%=idx%>">
 					<div class="result_homeTitle">
 						<h2 class="color_white">[<%=courseDetails.course.id%>] :
-							<%=StudentHomeHelper.escapeForHTML(courseDetails.course.name)%>
+							<%=PageData.escapeForHTML(courseDetails.course.name)%>
 						</h2>
 					</div>
 					<div class="result_homeLinks blockLink rightalign">
 						<a class="t_course_view<%=idx%> color_white"
-							href="<%=helper.getStudentCourseDetailsLink(courseDetails.course.id)%>"
+							href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_COURSE_DETAILS%>')"
 							onmouseout="hideddrivetip()">
 							View Team
@@ -103,15 +98,16 @@
 								<th class="centeralign bold color_white">Action(s)</th>
 							</tr>
 							<%
-								for (EvaluationDetailsBundle edd: courseDetails.evaluations) { evalIdx++;
+								for (EvaluationDetailsBundle edd: courseDetails.evaluations) { 
+									evalIdx++;
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
-									<td class="t_eval_name"><%=StudentHomeHelper.escapeForHTML(edd.evaluation.name)%></td>
+									<td class="t_eval_name"><%=PageData.escapeForHTML(edd.evaluation.name)%></td>
 									<td class="t_eval_deadline centeralign"><%= Common.formatTime(edd.evaluation.endTime) %></td>
 									<td class="t_eval_status centeralign"><span
-										onmouseover="ddrivetip(' <%= helper.getStudentHoverMessageForEval(edd.evaluation)%>')"
-										onmouseout="hideddrivetip()"><%= helper.getStudentStatusForEval(edd.evaluation)%></span></td>
-									<td class="centeralign"><%= helper.getStudentEvaluationActions(edd.evaluation,evalIdx) %>
+										onmouseover="ddrivetip(' <%= data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
+										onmouseout="hideddrivetip()"><%= data.getStudentStatusForEval(edd.evaluation)%></span></td>
+									<td class="centeralign"><%= data.getStudentEvaluationActions(edd.evaluation,evalIdx) %>
 									</td>
 								</tr>
 							<%	} %>
@@ -131,7 +127,7 @@
 	</div>
 	
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

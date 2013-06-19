@@ -35,7 +35,7 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li class="current"><a href="/page/studentHome" class='nav home' data-link="studentHome">Home</a></li>
+					<li class="current"><a href="/page/studentHome?user=alice.tmms" class='nav home' data-link="studentHome">Home</a></li>
 					<li><a target="_blank" href="/studentHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
 					 <b>(alice.tmms)</b></li>
@@ -65,7 +65,7 @@
 						</td>
 					</tr>
 				 </tbody></table>
-				
+				<input type="hidden" value="alice.tmms" name="user" />
 			</form>
 			
 			<br />
@@ -74,7 +74,9 @@
 
 	<div style="display: block; background-color: rgb(255, 153, 153);" id="statusMessage">
 		You have entered an invalid key: ThisIsAnInvalidKey</div>
-
+	<script type="text/javascript">
+    	document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
 			<br />
 			
 			

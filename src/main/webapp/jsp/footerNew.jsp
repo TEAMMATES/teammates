@@ -8,7 +8,7 @@
 	//Set institute only if both helper and account are available. 
 	//  helper is not available for pages such as generic error pages.
 	//  account may not be available for admin.
-	if((data!= null) && (data.account != null)){
+	if((data!= null) && (data.account != null) && (data.account.institute != null)){
 		institute = "[for <span class=\"color_white\">"+data.account.institute+"</span>]";
 	}
 %>

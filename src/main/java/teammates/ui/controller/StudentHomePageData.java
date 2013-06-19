@@ -1,37 +1,27 @@
 package teammates.ui.controller;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.InvalidParametersException;
 
-public class StudentHomeHelper extends Helper {
-	public List<CourseDetailsBundle> courses;
+public class StudentHomePageData extends PageData {
 	
-	/**
-	 * Returns the list of evaluation for a specific course.
-	 * The evaluations are sorted by evaluation name
-	 * @param course
-	 * @return
-	 */
-	public static EvaluationAttributes[] getEvaluationsForCourse(CourseDetailsBundle course){
-		EvaluationAttributes[] result = course.evaluations.toArray(new EvaluationAttributes[]{});
-		Arrays.sort(result, new Comparator<EvaluationAttributes>(){
-			public int compare(EvaluationAttributes e1, EvaluationAttributes e2){
-				return e1.name.compareTo(e2.name);
-			}
-		});
-		return result;
+	public StudentHomePageData(AccountAttributes account) {
+		super(account);
 	}
 	
+	public List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
+	public Map<String, String> evalSubmissionStatusMap = new HashMap<String, String>();
+	
+	
 	/**
-	 * Returns the student status of the given evaluation data.
+	 * Returns the submission status of the student for a given evaluation.
 	 * The possible status are:
 	 * <ul>
 	 * <li>PENDING - The student has not submitted any submission</li>
@@ -39,43 +29,25 @@ public class StudentHomeHelper extends Helper {
 	 * <li>CLOSED - The evaluation has been closed (passed the deadline), and the result has not been published</li>
 	 * <li>PUBLISHED - The evaluation is closed and the result is available for viewing</li>
 	 * </ul>
-	 * Pre-condition: The given evaluation must not be in AWAITING state. 
-	 * @param eval
-	 * @return
 	 */
-	public String getStudentStatusForEval(EvaluationAttributes eval){
-		String studentEmail = null;
-		StudentAttributes student = server.getStudentForGoogleId(eval.courseId, userId);
-		if(student!=null) studentEmail = student.email;
-		switch(eval.getStatus()){
-		case PUBLISHED: return Common.STUDENT_EVALUATION_STATUS_PUBLISHED;
-		case CLOSED: return Common.STUDENT_EVALUATION_STATUS_CLOSED;
-		}
-		boolean submitted = false;
-		try {
-			submitted = server.hasStudentSubmittedEvaluation(eval.courseId, eval.name, studentEmail);
-		} catch (InvalidParametersException e) {
-			System.err.println(e.getMessage());
-			return Common.STUDENT_EVALUATION_STATUS_ERROR;
-		}
-		if(submitted) return Common.STUDENT_EVALUATION_STATUS_SUBMITTED;
-		else return Common.STUDENT_EVALUATION_STATUS_PENDING;
+	public String getStudentStatusForEval(EvaluationAttributes evaluation){
+		return evalSubmissionStatusMap.get(evaluation.courseId+"%"+evaluation.name);
 	}
 	
 	/**
-	 * Returns the hover message to explain evaluation status
-	 * @param eval
-	 * @return
+	 * @param submissionStatus Submission status of a student for a particular evaluation. 
+	 * Can be: PENDING, SUBMITTED, ClOSED, PUBLISHED.
+	 * 
+	 * @return The hover message to explain evaluation submission status.
 	 */
-	public String getStudentHoverMessageForEval(EvaluationAttributes eval){
-		String status = getStudentStatusForEval(eval);
-		if(status.equals(Common.STUDENT_EVALUATION_STATUS_PENDING)){
+	public String getStudentHoverMessageForEval(String submissionStatus){
+		if(submissionStatus.equals(Common.STUDENT_EVALUATION_STATUS_PENDING)){
 			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PENDING;
-		} else if(status.equals(Common.STUDENT_EVALUATION_STATUS_SUBMITTED)){
+		} else if(submissionStatus.equals(Common.STUDENT_EVALUATION_STATUS_SUBMITTED)){
 			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_SUBMITTED;
-		} else if(status.equals(Common.STUDENT_EVALUATION_STATUS_CLOSED)){
+		} else if(submissionStatus.equals(Common.STUDENT_EVALUATION_STATUS_CLOSED)){
 			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_CLOSED;
-		} else if(status.equals(Common.STUDENT_EVALUATION_STATUS_PUBLISHED)){
+		} else if(submissionStatus.equals(Common.STUDENT_EVALUATION_STATUS_PUBLISHED)){
 			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PUBLISHED;
 		} else {
 			return Common.HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_ERROR;
@@ -84,56 +56,37 @@ public class StudentHomeHelper extends Helper {
 	
 	
 	/**
-	 * Returns the link to see course details, which includes the information
-	 * about current student team<br />
-	 * This includes masquerade mode as well.
-	 * @param courseID
-	 * @return
+	 * @return The link to see course details.
 	 */
-	public String getStudentCourseDetailsLink(String courseID){
+	public String getStudentCourseDetailsLink(String courseId){
 		String link = Common.PAGE_STUDENT_COURSE_DETAILS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
-		link = processMasquerade(link);
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
 		return link;
 	}
 	
 	/**
-	 * Returns the link to see evaluation result<br />
-	 * This includes masquerade mode as well.
-	 * @param courseID
-	 * @param evalName
-	 * @return
+	 * @return The link to see evaluation result.
 	 */
 	public String getStudentEvaluationResultsLink(String courseID, String evalName){
 		String link = Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
-	 * Returns the link to submit or edit a submission for a specific evaluation.
 	 * Note that the submit is essentially an edit to a blank submission.<br />
-	 * This includes masquerade mode as well.
-	 * @param courseID
-	 * @param evalName
-	 * @return
+	 * @return The link to submit or edit a submission for a specific evaluation.
 	 */
 	public String getStudentEvaluationSubmissionEditLink(String courseID, String evalName){
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
 		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = processMasquerade(link);
 		return link;
 	}
 	
 	/**
-	 * Returns the list of available actions for a specific evaluation.<br />
-	 * This includes masquerade mode as well.
-	 * @param eval
-	 * @param idx
-	 * @return
+	 * @return The list of available actions for a specific evaluation.
 	 */
 	public String getStudentEvaluationActions(EvaluationAttributes eval, int idx) {
 		String studentStatus = getStudentStatusForEval(eval);
@@ -161,6 +114,7 @@ public class StudentHomeHelper extends Helper {
 				.equals(Common.STUDENT_EVALUATION_STATUS_CLOSED)) {
 			hasEdit = true;
 		}
+		
 		// @formatter:off
 		String result = "<a class=\"color_black\" href=\""
 				+ getStudentEvaluationResultsLink(eval.courseId, eval.name)
@@ -177,6 +131,8 @@ public class StudentHomeHelper extends Helper {
 				+ "')\" onmouseout=\"hideddrivetip()\" "
 				+ (hasEdit ? "" : DISABLED) + ">Edit/View Submission</a>";
 		// @formatter:off
+		
 		return result;
 	}
+
 }

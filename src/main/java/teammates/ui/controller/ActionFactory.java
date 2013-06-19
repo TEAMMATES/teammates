@@ -35,13 +35,15 @@ public class ActionFactory {
 		actionMappings.put("/page/instructorFeedbackEditSave", InstructorFeedbackEditSaveAction.class);
 		actionMappings.put("/page/instructorFeedbackQuestionAdd", InstructorFeedbackQuestionAddAction.class);
 		actionMappings.put("/page/instructorFeedbackQuestionEdit", InstructorFeedbackQuestionEditAction.class);
-		actionMappings.put("/page/studentFeedbackSubmit", StudentFeedbackSubmitPageAction.class);
-		actionMappings.put("/page/studentFeedbackSubmitSave", StudentFeedbackSubmitSaveAction.class);
-		actionMappings.put("/page/studentFeedbackResults", StudentFeedbackResultsPageAction.class);
 		actionMappings.put("/page/instructorFeedbackResults", InstructorFeedbackResultsPageAction.class);
 		actionMappings.put("/page/instructorFeedbackResultsDownload", InstructorFeedbackResultsDownloadAction.class);
 		actionMappings.put("/page/instructorFeedbackResultsSort", InstructorFeedbackResultsSortAction.class);
+		actionMappings.put("/page/instructorHome", InstructorHomePageAction.class);
 
+		actionMappings.put("/page/studentFeedbackResults", StudentFeedbackResultsPageAction.class);
+		actionMappings.put("/page/studentFeedbackSubmit", StudentFeedbackSubmitPageAction.class);
+		actionMappings.put("/page/studentFeedbackSubmitSave", StudentFeedbackSubmitSaveAction.class);
+		actionMappings.put("/page/studentHome", StudentHomePageAction.class);
 	}
 		
 	/**

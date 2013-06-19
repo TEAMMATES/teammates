@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -27,6 +28,18 @@ public class CourseDetailsBundle {
 	public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
 	
 	public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
+		Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+			public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
+				return obj1.course.id.compareTo(obj2.course.id);
+			}
+		});
+	}
+	
+	
+	/**
+	 * Sorts courses based on course ID
+	 */ 
+	public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
 		Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
 			public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
 				return obj1.course.id.compareTo(obj2.course.id);
