@@ -1137,7 +1137,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
 		
-		return feedbackSessionsLogic.getFeedbackSessionBundleForUser(feedbackSessionName, courseId, userEmail);
+		return feedbackSessionsLogic.getFeedbackSessionQuestionsForUser(feedbackSessionName, courseId, userEmail);
 	}
 	
 	@SuppressWarnings("unused")
@@ -1223,13 +1223,13 @@ public class Logic {
 	
 	/**
 	 * Gets a question+response bundle for questions with responses that
-	 * is visible to the student for a feedback session.
+	 * is visible to the user for a feedback session.
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * @throws EntityDoesNotExistException 
 	 * @throws UnauthorizedAccessException 
 	 */
-	public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
+	public FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
 			String feedbackSessionName, String courseId, String userEmail)
 					throws UnauthorizedAccessException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);

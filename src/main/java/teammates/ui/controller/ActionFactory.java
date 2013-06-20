@@ -37,7 +37,6 @@ public class ActionFactory {
 		actionMappings.put("/page/instructorFeedbackQuestionEdit", InstructorFeedbackQuestionEditAction.class);
 		actionMappings.put("/page/instructorFeedbackResults", InstructorFeedbackResultsPageAction.class);
 		actionMappings.put("/page/instructorFeedbackResultsDownload", InstructorFeedbackResultsDownloadAction.class);
-		actionMappings.put("/page/instructorFeedbackResultsSort", InstructorFeedbackResultsSortAction.class);
 		actionMappings.put("/page/instructorHome", InstructorHomePageAction.class);
 
 		actionMappings.put("/page/studentFeedbackResults", StudentFeedbackResultsPageAction.class);

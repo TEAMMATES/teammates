@@ -138,6 +138,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 		fq.setQuestionType(newAttributes.questionType);
 		fq.setGiverType(newAttributes.giverType);
 		fq.setRecipientType(newAttributes.recipientType);
+		fq.setShowResponsesTo(newAttributes.showResponsesTo);
 		fq.setShowGiverNameTo(newAttributes.showGiverNameTo);
 		fq.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
 		fq.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);

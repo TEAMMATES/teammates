@@ -128,7 +128,6 @@ public class FeedbackQuestionsLogic {
 				try {
 					updateFeedbackQuestion(question);
 				} catch (InvalidParametersException e) {
-					// TODO: should we just throw the exception up?
 					Assumption.fail("Invalid question.");
 				} catch (EntityDoesNotExistException e) {
 					Assumption.fail("Question disappeared.");
@@ -266,7 +265,9 @@ public class FeedbackQuestionsLogic {
 			FeedbackQuestionAttributes question,
 			FeedbackParticipantType userType) {
 		
-		return question.showResponsesTo.contains(userType);
+		return (question.showResponsesTo.contains(userType) || 
+				// general feedback; everyone can see results. TODO: hide visibility options in UI.
+				question.recipientType == FeedbackParticipantType.NONE);
 	}
 	
 	public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email) 
@@ -393,6 +394,4 @@ public class FeedbackQuestionsLogic {
 		}
 		return recipients;
 	}
-
-	// TODO: isQuestionAnswerableByUser
 }

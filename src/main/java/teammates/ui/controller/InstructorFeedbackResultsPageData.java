@@ -11,7 +11,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
 	
 	public InstructorFeedbackResultsPageData(AccountAttributes account) {
 		super(account);
-		// TODO Auto-generated constructor stub
 	}
 
 }

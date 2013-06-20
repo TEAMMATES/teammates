@@ -42,12 +42,30 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				<h1>Edit Feedback Session</h1>
 			</div>
 			
-			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_EDIT_SAVE%>" name="form_editfeedbacksession">
+			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_EDIT_SAVE%>" id="form_editfeedbacksession">
 				<table class="inputTable sessionTable" id="sessionNameTable">
 					<tr>
 						<td class="label bold">Course:</td>
-						<td colspan="3"><%=data.session.courseId%></td>
-						<td class="label bold">Time zone:</td>
+						<td><%=data.session.courseId%></td>
+						<td></td>
+						<td class="rightalign" colspan="2">
+							<a href="#" class="color_blue" id="fsEditLink"
+							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT%>')" onmouseout="hideddrivetip()" 
+							onclick="enableEditFS()">Edit</a>
+							<a href="#" class="color_green" style="display:none" id="fsSaveLink"
+							onclick="document.getElementById('form_editfeedbacksession').submit()">Save Changes</a>				
+							&nbsp;&nbsp;
+							<a href="<%=data.getInstructorFeedbackSessionDeleteLink(data.session.courseId, data.session.feedbackSessionName, "") %>" 
+							onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('<%=data.session.courseId%>','<%=data.session.feedbackSessionName%>');"
+							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_DELETE%>')" onmouseout="hideddrivetip()"
+							class="color_red" id="fsDeleteLink">Delete</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="label bold" >Feedback session name:</td>
+						<td><%=data.session.feedbackSessionName%></td>
+						<td></td>
+						<td class="label bold">Time zone: </td>
 						<td><select name="<%=Common.PARAM_FEEDBACK_SESSION_TIMEZONE%>" id="<%=Common.PARAM_FEEDBACK_SESSION_TIMEZONE%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE%>')"
 									onmouseout="hideddrivetip()" tabindex="3"
@@ -55,29 +73,24 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 										<%
 											for(String opt: data.getTimeZoneOptions()) out.println(opt);
 										%>
-							</select></td>
+						</select></td>
 					</tr>
 					<tr>
-						<td class="label bold" >Feedback session name:</td>
-						<td style="width:620px" colspan="5"><%=data.session.feedbackSessionName%></td>
-					</tr>
-					<tr>
-						<td class="label bold">Session visible from:</td>
-						<td colspan="2"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+						<td class="label bold" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLELABEL%>')"
+							onmouseout="hideddrivetip()">Session visible<br> from:</td>
+						<td class="nowrap"
+							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_VISIBLEDATE%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom" value="custom"
 							<%if(Common.isSpecialTime(data.session.sessionVisibleFromTime) == false)  
 									out.print("checked=\"checked\"");
 							%>
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLECUSTOM%>')"
-							onmouseout="hideddrivetip()"
 							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='';
 							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled=''">
 							<input style="width: 100px;" type="text"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
 							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>','dd/MM/yyyy')"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_VISIBLEDATE%>')"
-							onmouseout="hideddrivetip()"
 							value="<%=Common.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : Common.formatDate(data.session.sessionVisibleFromTime)%>"
 							readonly="readonly" tabindex="3"
 							<%if(Common.isSpecialTime(data.session.sessionVisibleFromTime) == true)  
@@ -95,33 +108,32 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 									for(String opt: data.getTimeOptions(true)) out.println(opt);
 								%>
 						</select></td>
-						<td><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
+							onmouseout="hideddrivetip()" class="nowrap">
+							<input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" value="atopen"
 							<%if(data.session.sessionVisibleFromTime.equals(Common.TIME_REPRESENTS_FOLLOW_OPENING)) 
-									out.print("checked=\"checked\"");%>
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
-							onmouseout="hideddrivetip()"
+									out.print("checked=\"checked\"");%>							
 							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled';
 							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
-							 At opening time</td>
-						<td colspan="2"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+							 At submission opening time</td>
+						<td colspan="2" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never"
 							<%if(data.session.sessionVisibleFromTime.equals(Common.TIME_REPRESENTS_NEVER)) 
 									out.print("checked=\"checked\"");%>
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
-							onmouseout="hideddrivetip()"
 							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled'
 							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
-							 Never (This is a private session)</td>
+							 Never</td>
 					</tr>
 					<tr>
-						<td class="label bold">Results visible from:</td>
-						<td colspan="2"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+						<td class="label bold" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELABEL%>')"
+							onmouseout="hideddrivetip()">Responses visible from:</td>
+						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_PUBLISHDATE%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom" value="custom"
 							<%if(Common.isSpecialTime(data.session.resultsVisibleFromTime) == false) 
 									out.print("checked=\"checked\"");%>
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLECUSTOM%>')"
-							onmouseout="hideddrivetip()"
 							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled=''
 							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled=''"> 
 							<input style="width: 100px;" type="text"
@@ -129,8 +141,6 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							id="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>"
 							onclick="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>','dd/MM/yyyy');}
 							else{return false;}"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_PUBLISHDATE%>')"
-							onmouseout="hideddrivetip()"
 							value="<%=Common.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : Common.formatDate(data.session.resultsVisibleFromTime)%>"
 							readonly="readonly" tabindex="5"
 							<%if(Common.isSpecialTime(data.session.resultsVisibleFromTime) == true)  
@@ -148,43 +158,39 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 									for(String opt: data.getTimeOptions(true)) out.println(opt);
 								%>
 						</select></td>
-						<td><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
 							<%if(data.session.resultsVisibleFromTime.equals(Common.TIME_REPRESENTS_FOLLOW_VISIBLE)) 
 									out.print("checked=\"checked\"");%>
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
-							onmouseout="hideddrivetip()"
 							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
 							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
 							 Once the session is visible</td>
-						<td><input type="radio" name="resultsVisibleFromButton"
+						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
 							<%if(data.session.resultsVisibleFromTime.equals(Common.TIME_REPRESENTS_LATER)) 
 									out.print("checked=\"checked\"");%>
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_PUBLISHDATE%>')"
-							onmouseout="hideddrivetip()"
 							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
 							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
-							 Later </td>
-						<td><input type="radio"
+							 Decide later </td>
+						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
+							onmouseout="hideddrivetip()"><input type="radio"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
 							<%if(data.session.resultsVisibleFromTime.equals(Common.TIME_REPRESENTS_NEVER)) 
 									out.print("checked=\"checked\"");%>
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
-							onmouseout="hideddrivetip()"
 							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled'
 							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
 							 Never</td>
 					</tr>
 					<tr>
 						<td class="label bold">Opening time:</td>
-						<td class="nowrap"><input style="width: 100px;" type="text"
+						<td class="nowrap" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_STARTDATE%>')"
+							onmouseout="hideddrivetip()"><input style="width: 100px;" type="text"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>"
 							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>','dd/MM/yyyy')"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_STARTDATE%>')"
-							onmouseout="hideddrivetip()"
 							value="<%=Common.formatDate(data.session.startTime)%>"
 							readonly="readonly" tabindex="7"> @ <select
 							style="width: 70px;"
@@ -194,43 +200,44 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 									for(String opt: data.getTimeOptions(true)) out.println(opt);
 								%>
 						</select></td>
-						<td class="label bold rightalign nowrap">Closing Time:</td>
-						<td class="nowrap"><input style="width: 100px;" type="text"
+						<td class="nowrap" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE%>')"
+							onmouseout="hideddrivetip()">
+							<span class="label bold">Closing Time: </span> 
+							<input style="width: 100px;" type="text"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>"
-							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>','dd/MM/yyyy')"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE%>')"
-							onmouseout="hideddrivetip()"
+							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>','dd/MM/yyyy')"							
 							value="<%=Common.formatDate(data.session.endTime)%>"
 							readonly="readonly" tabindex="8"> @ <select
 							style="width: 70px;"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>" tabindex="4">
+							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>" tabindex="4">							
 								<%
 									for(String opt: data.getTimeOptions(true)) out.println(opt);
 								%>
 						</select></td>
-						<td class="label bold rightalign nowrap">Grace Period:</td>
-						<td><select style="width: 75px;" name="<%=Common.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>"
-								id="<%=Common.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>"
-								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
-								onmouseout="hideddrivetip()" tabindex="7">
+						<td class="label bold rightalign nowrap" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
+							onmouseout="hideddrivetip()">Grace Period:</td>
+						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
+							onmouseout="hideddrivetip()">
+							<select style="width: 75px;" name="<%=Common.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>"
+								id="<%=Common.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>" tabindex="7">
 									<%
 										for(String opt: data.getGracePeriodOptions()) out.println(opt);
 									%>
 						</select></td>
 					</tr>
 					<tr>
-						<td class="label bold middlealign" >Instructions to students:</td>
-						<td colspan="5">
-							<textarea rows="4" cols="120" class="textvalue" name="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
-								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
+						<td class="label bold" >Instructions to students:</td>
+						<td colspan="4" style="padding-right:15px;">
+							<textarea rows="4" style="width:100%;" class="textvalue" name="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
+								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_INSTRUCTIONS%>')"
 								onmouseout="hideddrivetip()" tabindex="8"><%=InstructorFeedbackEditPageData.escapeForHTML(data.session.instructions.getValue())%></textarea>
 							
 						</td>
 					</tr>
 					<tr>
-						<td colspan="6" class="rightalign"><input id="button_submit_edit"
+						<td colspan="5" class="rightalign"><input id="button_submit_edit"
 							type="submit" class="button"
 							value="Save Changes"></td>
 					</tr>
@@ -254,17 +261,19 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				<td class="bold">Question <%=question.questionNumber%></td>
 				<td></td>
 				<td></td>
-				<td class="rightalign color_red">
-				<a href="#" class="color_blue" id="<%=Common.PARAM_FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>" 
+				<td class="rightalign">
+				<a href="#" class="color_blue" id="<%=Common.PARAM_FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
+				onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
 				onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
 				<a href="#" class="color_green" style="display:none" id="<%=Common.PARAM_FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>"
 				onclick="document.getElementById('form_editquestion-<%=question.questionNumber%>').submit()">Save Changes</a>				
 				&nbsp;&nbsp;
-				<a href="#" class="color_red" onclick="deleteQuestion(<%=question.questionNumber%>)">Delete</a>
+				<a href="#" class="color_red" onclick="deleteQuestion(<%=question.questionNumber%>)"
+				onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete</a>
 				</td>
 			</tr>
 			<tr>
-					<td colspan="4"><textarea rows="5" cols="140"
+					<td colspan="4"><textarea rows="5" style="width:100%"
 							class="textvalue" name="<%=Common.PARAM_FEEDBACK_QUESTION_TEXT%>"
 							id="<%=Common.PARAM_FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
@@ -287,12 +296,12 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 					</select></td>
 				</tr>
 				<tr>
-					<td></td><td></td>
-					<td><span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>"class="bold">The maximum number of <span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-<%=question.questionNumber%>"class="bold"></span> <br>each respondant should give feedback to:</span></td>
+					<td class="bold nowrap"><a class="visibilityOptionsLabel color_brown" href="#" onclick="toggleVisibilityOptions(this)">[+] Show Visibility Options</a></td>
+					<td></td>
+					<td><span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="bold">The maximum number of <span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-<%=question.questionNumber%>"class="bold"></span> each<br>respondant should give feedback to:</span></td>
 					<td><input type="number" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-<%=question.questionNumber%>"  min="1" max="250" value=<%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? 1 : question.numberOfEntitiesToGiveFeedbackTo%> disabled="disabled"></td>
 				</tr>
-
-				<tr>
+				<tr class="visibilityOptions">
 					<td colspan="4">
 						<table class="dataTable participantTable">
 							<tr>
@@ -303,7 +312,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							</tr>
 							<tr>
 								<td>Recipient(s)</td>
-								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
+								<td style="text-align: center"><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
 								<%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) { %> checked="checked" <% } %>/></td>
 								<td><input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
 								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)) { %> checked="checked" <% } %>/></td>

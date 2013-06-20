@@ -4,7 +4,9 @@ import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.logic.api.Logic;
 
 /**
  * Data and utility methods needed to render a specific page.
@@ -342,7 +344,7 @@ public class PageData {
 	}
 	
 	/**
-	 * Returns the link to delete a feedback sessio as specified and redirects to the nextURL after deletion<br />
+	 * Returns the link to delete a feedback session as specified and redirects to the nextURL after deletion<br />
 	 * The nextURL is usually used to refresh the page after deletion<br />
 	 * This includes masquerade mode as well.
 	 * @param courseId
@@ -560,12 +562,10 @@ public class PageData {
 	public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session, int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
 		
-		boolean hasView = false;
-		
-		if(session.isPublished()) {
-			hasView = true;
-		}
-		
+		// Allowing ALL instructors to view results regardless of publish state.
+		// TODO: allow creator only?
+		boolean hasView = true;
+
 		result.append(
 			"<a class=\"color_green t_eval_view"+ position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
@@ -575,13 +575,12 @@ public class PageData {
 		result.append(
 			"<a class=\"color_brown t_eval_edit" + position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
-			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " 
-			+ ">Edit</a>"
+			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT+"')\" onmouseout=\"hideddrivetip()\">Edit</a>"
 		);
 		result.append(
 			"<a class=\"color_red t_eval_delete" + position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Common.PAGE_INSTRUCTOR_HOME : Common.PAGE_INSTRUCTOR_FEEDBACK)) + "\" " +
-			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
+			"onclick=\"hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SESSION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
 		);
 		return result.toString();

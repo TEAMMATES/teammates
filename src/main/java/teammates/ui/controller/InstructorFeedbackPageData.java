@@ -17,7 +17,7 @@ public class InstructorFeedbackPageData extends PageData {
 	public InstructorFeedbackPageData(AccountAttributes account) {
 		super(account);
 	}
-	
+
 	public String courseIdForNewSession;
 	public FeedbackSessionAttributes newFeedbackSession;
 	public List<CourseDetailsBundle> courses;

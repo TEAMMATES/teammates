@@ -124,7 +124,7 @@ public class Common {
 	public static final String HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE = "Please enter deadline for the evaluation.";
 	public static final String HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS = "Enable this if you want students to give anonymous feedback to team members.<br />"
 			+ "You can moderate those peer feedback before publishing it to the team.";
-	public static final String HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE = "Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />"
+	public static final String HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE = "You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />"
 			+ "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
 	public static final String HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD = "Please select the amount of time that the system will continue accepting <br />"
 			+ "submissions after the specified deadline.";
@@ -151,19 +151,28 @@ public class Common {
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_ERROR = "There were some errors in retrieving this evaluation.";
 
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";	
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STARTDATE = "Please select the starting date and time for the feedback session. Users can only start responding after this time.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE = "Please select the closing date and time for the feedback session.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_VISIBLEDATE = "Please select the date and time for which the feedback session will become visible to users who need to participate in the session.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_PUBLISHDATE = "Please select the date and time for which the results of the feedback session will become visible.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLECUSTOM = "Select this option to use a custom time for when the session will be visible to users. You can make a session visible before it is open for users to start responding.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN = "Select this option to have the session become visible at the opening time.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLENEVER = "Select this option if you want the feedback session to never be visible. Use this option you want to use this as a private feedback session.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLECUSTOM = "Select this option to use a custom time for when the responses of the session will be visible to users.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE = "Select this option to have the feedback responses be immediately visible when the session is open.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to make the results visible at a later time.";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend to never publish the results.";
-	
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STARTDATE = "Please select the date and time for which users can start submitting responses for the feedback session.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE = "Please select the date and time for which the feedback session will no longer accept submissions from users.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_VISIBLEDATE = "Select this option to enter in a custom date and time for which the feedback session will become visible.<br />"
+			+ "Note that you can make a session visible before it is open for submissions so that users can preview the questions.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_PUBLISHDATE = "Select this option to enter in a custom date and time for which</br>"
+			+ "the responses for this feedback session will become visible.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLELABEL = "Please select when you want the questions for the feedback session to be visible to users who need to participate.<br />Note that users cannot submit their responses until the submissions opening time set below.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLECUSTOM = "Select this option to use a custom time for when the session will become visible to users. ";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN = "Select this option to have the feedback session become visible<br />"
+			+ "when it is open for submissions (as selected below).";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLENEVER = "Select this option if you want the feedback session to never be visible.<br />"
+			+ "Use this option if you want to use this as a private feedback session.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELABEL = "Please select when the responses for the feedback session will be visible to the designated recipients."
+			+ "<br />You can select the response visibility for each type of user and question later.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLECUSTOM = "Select this option to use a custom time for when the responses of the feedback session<br />"
+			+ "will be visible to the designated recipients.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE = "Select this option to have the feedback responses be immediately visible<br />"
+			+ "when the session becomes visible to users.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to choose when the responses will be visible at a later time.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend never to publish the responses.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_INSTRUCTIONS = "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.";
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
@@ -171,12 +180,14 @@ public class Common {
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_PUBLISHED = ". The responses for this session are visible";
 	
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTS = "View the current submitted responses of the feedback session";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_EDIT = "Edit feedback session details and questions";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_EDIT = "Edit feedback session details";
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_DELETE = "Delete the feedback session";
 	
 	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
+	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_EDIT = "Edit this question";
+	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_DELETE = "Delete this question";
 	
-	public static final String HOVER_MESSAGE_FEEDBACK_SUBMIT_CLOSED = "You can view the questions for this feedback session but cannot submit responses yet as the session is not yet opened.";
+	public static final String HOVER_MESSAGE_FEEDBACK_SUBMIT_NOT_YET_OPEN = "You can view the questions for this feedback session but cannot submit responses yet as the session is not yet opened.";
 	
 	// Evaluation status
 	public static final String EVALUATION_STATUS_AWAITING = "Awaiting";
@@ -458,7 +469,7 @@ public class Common {
 	public static final String MESSAGE_EVALUATION_NOT_OPEN = "This evaluation is not open at this time. You are not allowed to edit your submission.";
 	public static final String MESSAGE_EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 	
-	public static final String MESSAGE_FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click on Edit next to your feedback session below to start adding questions. If you don't see that feedback session in the list below, please refresh the page after a few moments.";
+	public static final String MESSAGE_FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
 	public static final String MESSAGE_FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
 	public static final String MESSAGE_FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
 	public static final String MESSAGE_FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";

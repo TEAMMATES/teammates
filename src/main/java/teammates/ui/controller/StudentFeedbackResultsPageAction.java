@@ -4,7 +4,6 @@ import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.GateKeeper;
-import teammates.storage.entity.Student;
 
 public class StudentFeedbackResultsPageAction extends Action {
 
@@ -32,7 +31,7 @@ public class StudentFeedbackResultsPageAction extends Action {
 			// Get student email instead of account email which may be different.
 			email = data.student.email;
 		}
-		data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, email);
+		data.bundle = logic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, email);
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");

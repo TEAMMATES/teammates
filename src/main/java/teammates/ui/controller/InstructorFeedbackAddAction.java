@@ -52,6 +52,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 					"<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
 					"<span class=\"bold\">Instructions:</span> " + fs.instructions;
 			
+			return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
+			
 		} catch (EntityAlreadyExistsException e) {
 			statusToUser.add(Common.MESSAGE_FEEDBACK_SESSION_EXISTS);
 			statusToAdmin = e.getMessage();
@@ -63,6 +65,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 			isError = true;
 		} 
 		
+		// Reload same page if fail.
 		data.courses = loadCoursesList(account.googleId);
 		data.existingEvals = loadEvaluationsList(account.googleId);
 		data.existingSessions = loadFeedbackSessionsList(account.googleId);

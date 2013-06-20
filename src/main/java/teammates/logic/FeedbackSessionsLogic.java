@@ -169,7 +169,7 @@ public class FeedbackSessionsLogic {
 	
 	// This method returns a single feedback session with
 	// it's questions for the user to fill up responses.
-	public FeedbackSessionQuestionsBundle getFeedbackSessionBundleForUser(
+	public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForUser(
 			String feedbackSessionName, String courseId, String userEmail)
 			throws EntityDoesNotExistException {
 
@@ -183,7 +183,7 @@ public class FeedbackSessionsLogic {
 
 		if (fsa.isVisible() == false) {
 			throw new UnauthorizedAccessException(
-					"This feedback session is already closed.");
+					"This feedback session is not yet visible.");
 		}
 
 		List<FeedbackQuestionAttributes> questions =

@@ -166,14 +166,15 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * Does not care if the session has started or not.
 	 */
 	public boolean isVisible() {
+		Date now = Common.convertToUserTimeZone(Calendar.getInstance(), timeZone).getTime();
 		Date visibleTime = this.sessionVisibleFromTime;
-		if (visibleTime.equals(Common.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-			return isPublished();
+		
+		if (visibleTime.equals(Common.TIME_REPRESENTS_FOLLOW_OPENING)) {
+			visibleTime = this.startTime;
 		} else if (visibleTime.equals(Common.TIME_REPRESENTS_NEVER)) {
 			return false;
-		} else {
-			return (visibleTime.before(new Date()));
-		}
+		} 
+		return (visibleTime.before(now));
 	}
 	
 	/**
@@ -181,15 +182,18 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * Does not care if the session has ended or not.
 	 */
 	public boolean isPublished() {
+		Date now = Common.convertToUserTimeZone(Calendar.getInstance(), timeZone).getTime();
 		Date publishTime = this.resultsVisibleFromTime;
-		if (publishTime.equals(Common.TIME_REPRESENTS_FOLLOW_OPENING)) {
-			publishTime = this.startTime;
+		
+		if (publishTime.equals(Common.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+			return isVisible();
 		} else if (publishTime.equals(Common.TIME_REPRESENTS_LATER)) {
 			return false;
 		} else if (publishTime.equals(Common.TIME_REPRESENTS_NEVER)) {
 			return false;
-		} 
-		return (publishTime.before(new Date()));
+		}  else {
+			return (publishTime.before(now));
+		}
 	}
 	
 	@Override

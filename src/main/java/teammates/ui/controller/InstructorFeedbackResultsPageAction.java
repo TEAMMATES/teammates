@@ -22,12 +22,13 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
 		InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
 		data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-		data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.instructor.email);
+		data.bundle = logic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, data.instructor.email);
 		data.sortType = getRequestParam(Common.PARAM_FEEDBACK_RESULTS_SORTTYPE);
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
 		}
+		
 		if (data.sortType == null) {
 			// default: sort by recipients
 			return createShowPageResult(Common.JSP_INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);

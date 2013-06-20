@@ -4,9 +4,9 @@ public enum FeedbackParticipantType {
 	// booleans represent: isValidGiver?, isValidRecipient?
 	// Strings represents: option shown in giver select box, option shown in recipient select box, 
 	// text displayed during feedback submission.
-	SELF (true, true, "Me (Session creator)", "Giver (Self feedback)", "You"),
+	SELF (true, true, "Me (Session creator)", "Giver (Self feedback)", ""),
 	STUDENTS (true, true, "Students in this course", "Other students in the course", "Other students in the course"),
-	INSTRUCTORS (true, true, "Instructors in this course", "Instructors in the course", "Instructors"),
+	INSTRUCTORS (true, true, "Instructors in this course", "Instructors in the course", "Instructors in this course"),
 	// TODO: This is a special condition that needs to be taken care of somewhere (fieldValidator?),
 	// i.e. if giver is TEAMS, recipients cannot be OWN_TEAM_MEMBERS
 	TEAMS (true, true, "Teams in this course", "Other teams in the course", ""),
@@ -18,6 +18,9 @@ public enum FeedbackParticipantType {
 	RECEIVER (false, false, "", "", "The receiving"),
 	RECEIVER_TEAM_MEMBERS (false, false, "", "", "The recipient's team members"),
 	NONE (false, true, "", "Nobody specific (For general class feedback)", "");
+	
+	// This is the maximum number of visibility types there currently are.
+	public static final int MAX_VISIBILITY_ENTITIES = 5;
 	
 	private final boolean validGiver;
 	private final boolean validRecipient;

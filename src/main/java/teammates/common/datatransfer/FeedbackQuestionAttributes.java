@@ -115,29 +115,43 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		
 		List<String> message = new ArrayList<String>();
 		
+		// General feedback message.
+		if (this.recipientType == FeedbackParticipantType.NONE) {
+			message.add("Everyone can see your feedback and your name as this is a general feedback question.");
+			return message;
+		}
+		
 		for(FeedbackParticipantType participant : showResponsesTo) {
 			String line = "";
+			// Self feedback message.
+			if(participant == FeedbackParticipantType.RECEIVER && 
+					this.recipientType == FeedbackParticipantType.SELF) {
+				message.add("You can see your own feedback in the results page later on.");
+				break;
+			}
 			line += participant.toDisplayNameVisibility() + " ";
 			if(participant == FeedbackParticipantType.RECEIVER) {
-				line += (giverType.toString().toLowerCase());
+				line += (recipientType.toString().toLowerCase());
 				if(numberOfEntitiesToGiveFeedbackTo < 2) {
 					// remove letter 's'.
 					line = line.substring(0, line.length()-1);
 				}
 				line += " ";
 			}
-			line += "can see your feedback";
-			if(showRecipientNameTo.contains(participant) == false && participant != FeedbackParticipantType.RECEIVER) {
-				if(showRecipientNameTo.contains(participant) == true) {
+			line += "can see your response";
+			if(showRecipientNameTo.contains(participant) == false) {
+				if(showGiverNameTo.contains(participant) == true) {
 					line += ", and your name";
 				} 
 				line += ", but <span class=\"bold color_red\">not</span> the name of the recipient";
-				if(showRecipientNameTo.contains(participant) == false) {
+				if(showGiverNameTo.contains(participant) == false) {
 					line += ", or your name";
 				}
-			} else if (showRecipientNameTo.contains(participant) == true && participant != FeedbackParticipantType.RECEIVER) {
-				line += ", the name of the recipient";
-				if(showRecipientNameTo.contains(participant)) {
+			} else if (showRecipientNameTo.contains(participant) == true) {
+				if(participant != FeedbackParticipantType.RECEIVER) {
+					line += ", the name of the recipient";
+				}
+				if(showGiverNameTo.contains(participant)) {
 					line += ", and your name";
 				} else {
 					line += ", but <span class=\"bold color_red\">not</span> your name";
@@ -145,6 +159,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 			}
 			line += ".";
 			message.add(line);
+		}
+		
+		if (message.isEmpty()) {
+			message.add("No-one but the feedback session creator can see your responses.");
+		} else if (message.size() < FeedbackParticipantType.MAX_VISIBILITY_ENTITIES) {
+			message.add("<span class=\"bold color_brown\">No-one else can see your response.</span>");
 		}
 		
 		return message;

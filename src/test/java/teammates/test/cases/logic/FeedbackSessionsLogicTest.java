@@ -125,7 +125,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTest {
 		DataBundle dataBundle = getTypicalDataBundle();
 		
 		FeedbackSessionQuestionsBundle actual =
-				fsLogic.getFeedbackSessionBundleForUser("First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.com");
+				fsLogic.getFeedbackSessionQuestionsForUser("First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.com");
 		
 		// There should be 2 question for students to do in session 1.
 		// The final question is set for SELF (creator) only.

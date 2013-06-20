@@ -125,15 +125,13 @@ function enableEdit(qnNumber, maxQuestions) {
  * @param number
  */
 function enableQuestion(number){
-	$('input.visibilityCheckbox[class$='+number+']').not('[name="receiverFollowerCheckbox"]').each(function(){this.disabled = '';});
-	document.getElementById(FEEDBACK_QUESTION_TEXT+'-'+number).disabled = '';
-	document.getElementById(FEEDBACK_QUESTION_GIVERTYPE+'-'+number).disabled = '';
-	document.getElementById(FEEDBACK_QUESTION_RECIPIENTTYPE+'-'+number).disabled = '';
-	document.getElementById(FEEDBACK_QUESTION_NUMBEROFENTITIES+'-'+number).disabled = '';
-	document.getElementById(FEEDBACK_QUESTION_EDITTEXT+'-'+number).style.display = 'none';
-	document.getElementById(FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).style.display = '';
-	document.getElementById('button_question_submit-'+number).style.display = '';
-	document.getElementById(FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
+	$('#questionTable'+number).find('text,button,textarea,select,input').
+		not('[name="receiverFollowerCheckbox"]').removeAttr("disabled", "disabled");
+	$('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
+	$('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
+	$('#'+'button_question_submit-'+number).show();
+	$('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
+	// $('#questionTable'+number).find('.visibilityOptionsLabel').click();
 }
 
 /**
@@ -142,14 +140,10 @@ function enableQuestion(number){
  * @param number
  */
 function disableQuestion(number){
-	$('input.visibilityCheckbox[class$='+number+']').each(function(){this.disabled = 'disabled';});
-	document.getElementById(FEEDBACK_QUESTION_TEXT+'-'+number).disabled = 'disabled';
-	document.getElementById(FEEDBACK_QUESTION_GIVERTYPE+'-'+number).disabled = 'disabled';
-	document.getElementById(FEEDBACK_QUESTION_RECIPIENTTYPE+'-'+number).disabled = 'disabled';
-	document.getElementById(FEEDBACK_QUESTION_NUMBEROFENTITIES+'-'+number).disabled = 'disabled';
-	document.getElementById(FEEDBACK_QUESTION_EDITTEXT+'-'+number).style.display = '';
-	document.getElementById(FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).style.display = 'none';
-	document.getElementById('button_question_submit-'+number).style.display = 'none';
+	$('#questionTable'+number).find('text,button,textarea,select,input').attr("disabled", "disabled");
+	$('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).show();
+	$('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).hide();
+	$('#'+'button_question_submit-'+number).hide();
 }
 
 /**
@@ -280,9 +274,29 @@ function readyFeedbackPage (){
     {
         $('form[name="form_changesessiontype"]').submit();
     });
+    window.doPageSpecificOnload = selectDefaultTimeOptions();
 }
 
 function readyFeedbackEditPage(){
+	$('#form_editfeedbacksession').find("text,input,button,textarea").attr("disabled", "disabled");
+	$('.visibilityOptions').hide();
 	formatNumberBoxes();
 	formatCheckBoxes();
+}
+
+function enableEditFS(){
+	$('#form_editfeedbacksession').find("text,input,button,textarea").removeAttr("disabled");
+	$('#fsEditLink').hide();
+	$('#fsSaveLink').show();
+}
+
+function toggleVisibilityOptions(elem){
+	$options = $(elem).parent().parent().next('.visibilityOptions');
+	if($options.is(':hidden')) {
+		$options.show();
+		$(elem).html("[-] Hide Visibility Options");
+	} else {
+		$options.hide();
+		$(elem).html("[+] Show Visibility Options");
+	}
 }

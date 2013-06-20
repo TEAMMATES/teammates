@@ -2,8 +2,11 @@ package teammates.ui.controller;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.GateKeeper;
 
 public class InstructorFeedbackDeleteAction extends Action {
@@ -20,12 +23,26 @@ public class InstructorFeedbackDeleteAction extends Action {
 
 		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
 
+		FeedbackSessionAttributes sessionToDelete =
+				logic.getFeedbackSession(feedbackSessionName, courseId);
+		InstructorAttributes instructorDoingDelete = 
+				logic.getInstructorForGoogleId(courseId, account.googleId);
+		
+		if (sessionToDelete == null || instructorDoingDelete == null) {
+			throw new EntityDoesNotExistException("Missing session or instructor!");
+		}
+		
+		if (sessionToDelete.creatorEmail.equals(instructorDoingDelete.email) == false) {
+			throw new UnauthorizedAccessException("Only the creator of the feedback session is" +
+					" allowed to delete it");
+		}
+		
 		logic.deleteFeedbackSession(feedbackSessionName, courseId);
 		statusToUser.add(Common.MESSAGE_FEEDBACK_SESSION_DELETED);
 		statusToAdmin = "Feedback Session <span class=\"bold\">[" + feedbackSessionName + "]</span>" +
 				" from Course: <span class=\"bold\">[" + courseId + " deleted.";
 		
-		return createRedirectResult(Common.JSP_INSTRUCTOR_FEEDBACK);
+		return createRedirectResult(Common.PAGE_INSTRUCTOR_FEEDBACK);
 	}
 
 }

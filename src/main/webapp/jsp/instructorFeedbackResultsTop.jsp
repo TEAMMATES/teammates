@@ -66,17 +66,17 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 				name="<%=Common.PARAM_FEEDBACK_RESULTS_SORTTYPE%>" value="giver"
 				onclick="this.form.submit()"
 				<%= (data.sortType!=null) ? data.sortType.equals("giver") ? "checked=\"checked\"" : "" : ""  %>><span
-				class="label">Sort by giver (Paragraph format)</span></td>
+				class="label bold"> Sort by giver (Paragraph format)</span></td>
 			<td><input type="radio"
 				name="<%=Common.PARAM_FEEDBACK_RESULTS_SORTTYPE%>" value="recipient"
 				onclick="this.form.submit()"
 				<%= (data.sortType!=null) ? data.sortType.equals("recipient") ? "checked=\"checked\"" : "" : "checked=\"checked\""  %>><span
-				class="label">Sort by recipient (Paragraph format)</span></td>
+				class="label bold"> Sort by recipient (Paragraph format)</span></td>
 			<td><input type="radio"
 				name="<%=Common.PARAM_FEEDBACK_RESULTS_SORTTYPE%>" value="table"
 				onclick="this.form.submit()"
 				<%= (data.sortType!=null) ? data.sortType.equals("table") ? "checked=\"checked\"" : "" : ""  %>><span
-				class="label">View as table</span></td>
+				class="label bold"> View as table</span></td>
 		</tr>
 	</table>
 	<input type="hidden" name="<%=Common.PARAM_FEEDBACK_SESSION_NAME%>"

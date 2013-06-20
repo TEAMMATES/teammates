@@ -2,8 +2,16 @@
 	width: 900px;
 }
 
+.sessionTable td {
+	vertical-align: middle;
+}
+
 .questionTable {
 	width: 900px;
+}
+
+.questionTable td {
+	vertical-align: middle;
 }
 
 .participantTable {

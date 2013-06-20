@@ -1,7 +1,6 @@
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.FieldValidator"%>
-<%@ page import="teammates.common.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.StudentFeedbackSubmitPageData"%>
@@ -30,7 +29,7 @@
 <body onload="initializetooltip(); formatRecipientLists();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER_NEW%>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
 	</div>
 
 	<div id="frameBody">
@@ -70,10 +69,6 @@
 								numOfResponseBoxes > maxResponsesPossible) {
 							numOfResponseBoxes = maxResponsesPossible;
 						}
-						if (numOfResponseBoxes == 0) {
-							// Don't display question if no recipients.
-							continue;
-						}
 			%>
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="TEXT"/>
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
@@ -103,47 +98,40 @@
 				for(FeedbackResponseAttributes existingResponse : existingResponses) {
 				%>
 				<tr>
-					<td class="middlealign nowrap">
-					<% if(question.recipientType != FeedbackParticipantType.SELF) { %>
-						<span class="label bold">To: </span> 
-						<select class="participantSelect middlealign" 
-						name="<%=Common.PARAM_FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-						<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""  %>>
-						<%
-							for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipient)) out.println(opt);
-						%>
-						</select>
-					<% } %>
-					</td>					
-					<td>
-						<textarea rows="4" cols="100%" class="textvalue" 
-						<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\" onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SUBMIT_NOT_YET_OPEN+"')\" onmouseout=\"hideddrivetip()\""%>
-						name="<%=Common.PARAM_FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=existingResponse.answer.getValue()%></textarea>
-						<input type="hidden" name="<%=Common.PARAM_FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
-					</td>
+				<td class="middlealign nowrap"><span class="label bold">To: </span> 
+				<select class="participantSelect middlealign" 
+				name="<%=Common.PARAM_FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+				<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""  %>>
+				<%
+					for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipient)) out.println(opt);
+				%>
+				</select></td>
+				<td>
+				<textarea rows="4" cols="100%" class="textvalue" 
+				<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\" onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SUBMIT_NOT_YET_OPEN+"')\" onmouseout=\"hideddrivetip()\""%>
+				name="<%=Common.PARAM_FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=existingResponse.answer.getValue()%></textarea>
+				<input type="hidden" name="<%=Common.PARAM_FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
+				</td>
 				</tr>
 				<%
 					responseIndx++;
 						}
+						if (numOfResponseBoxes == 0) {
+				%>
+					<tr><td class="centeralign color_red bold"><br>There is nobody for you to give feedback to.</td></tr>
+				<%
+					}
 						while(responseIndx < numOfResponseBoxes) {
 				%>
 				<tr>
+				<td class="middlealign nowrap"><span class="label bold">To: </span> 
+				<select class="participantSelect middlealign newResponse" 
+				name="<%=Common.PARAM_FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+				<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>>
 				<%
-					if(question.recipientType != FeedbackParticipantType.SELF) {
+					for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) out.println(opt);
 				%>
-				<td class="middlealign nowrap">
-					<span class="label bold">To: </span> 
-					<select class="participantSelect middlealign newResponse" 
-					name="<%=Common.PARAM_FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-					<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>>
-					<%
-						for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) out.println(opt);
-					%>
-					</select>
-				</td>
-				<%
-					}
-				%>
+				</select></td>
 				<td class="responseText"><textarea rows="4" class="textvalue" name="<%=Common.PARAM_FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"></textarea></td>
 				</tr>
 				<%
