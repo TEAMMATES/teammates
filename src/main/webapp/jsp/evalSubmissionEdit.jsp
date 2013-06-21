@@ -1,35 +1,28 @@
 <%@page import="teammates.common.datatransfer.EvaluationAttributes.EvalStatus"%>
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes" %>
-<%@ page import="teammates.ui.controller.EvalSubmissionEditHelper" %>
+<%@ page import="teammates.ui.controller.EvalSubmissionEditPageData" %>
 
 <%
-	EvalSubmissionEditHelper helper = (EvalSubmissionEditHelper)request.getAttribute("helper");
+	EvalSubmissionEditPageData data = (EvalSubmissionEditPageData)request.getAttribute("data");
 %>
-<%
-	boolean isStudent = Boolean.parseBoolean(request.getParameter("isStudent"));
-	String disableAttributeValue = "";
-	
-	if (helper.eval.getStatus() != EvalStatus.OPEN && isStudent){
-		disableAttributeValue = "disabled=\"disabled\"";
-	}
-%>
-<input type="hidden" value="<%=helper.eval.courseId%>"
+
+<input type="hidden" value="<%=data.eval.courseId%>"
 		name="<%=Common.PARAM_COURSE_ID%>"
 		id="<%=Common.PARAM_COURSE_ID%>">
-<input type="hidden" value="<%=EvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%>"
+<input type="hidden" value="<%=EvalSubmissionEditPageData.escapeForHTML(data.eval.name)%>"
 		name="<%=Common.PARAM_EVALUATION_NAME%>"
 		id="<%=Common.PARAM_EVALUATION_NAME%>">
-<input type="hidden" value="<%=EvalSubmissionEditHelper.escapeForHTML(helper.student.team)%>"
+<input type="hidden" value="<%=EvalSubmissionEditPageData.escapeForHTML(data.student.team)%>"
 		name="<%=Common.PARAM_TEAM_NAME%>"
 		id="<%=Common.PARAM_TEAM_NAME%>">
-<input type="hidden" value="<%=helper.student.email%>"
+<input type="hidden" value="<%=data.student.email%>"
 		name="<%=Common.PARAM_FROM_EMAIL%>"
 		id="<%=Common.PARAM_FROM_EMAIL%>">
 <table class="inputTable">
 	<%
 		int idx = 0;
-					for(SubmissionAttributes sub: helper.submissions){
+			for(SubmissionAttributes sub: data.submissions){
 	%>
 		<tr style="display: none;">
 			<td>
@@ -40,7 +33,7 @@
 			</tr>
 			<tr>
 				<td class="bold centeralign reportHeader" colspan="2" id="sectiontitle<%=idx%>">
-					<%=helper.getEvaluationSectionTitle(sub)%>
+					<%=data.getEvaluationSectionTitle(sub)%>
 				</td>
 			</tr>
 			
@@ -53,85 +46,95 @@
 						<select style="width: 150px;"
 								name="<%=Common.PARAM_POINTS%>"
 								id="<%=Common.PARAM_POINTS+idx%>"
-								<%= disableAttributeValue %>>
-							<%=helper.getEvaluationOptions(sub)%>
+								<%=data.disableAttribute%>>
+							<%=data.getEvaluationOptions(sub)%>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td class="label rightalign bold middlealign"><%=helper.getJustificationInstr(sub)%></td>
+					<td class="label rightalign bold middlealign"><%=data.getJustificationInstr(sub)%></td>
 					<td>
 						<textarea class="textvalue" rows="8" cols="100" 
 								name="<%=Common.PARAM_JUSTIFICATION%>"
 								id="<%=Common.PARAM_JUSTIFICATION+idx%>"
-								<%= disableAttributeValue %>><%=EvalSubmissionEditHelper.escapeForHTML(sub.justification.getValue())%></textarea>
+								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.escapeForHTML(sub.justification.getValue())%></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td class="label rightalign bold middlealign"><%=helper.getCommentsInstr(sub)%></td>
+					<td class="label rightalign bold middlealign"><%=data.getCommentsInstr(sub)%></td>
 				<%
-					if(helper.eval.p2pEnabled){
+					if(data.eval.p2pEnabled){
 				%>
 					<td><textarea class = "textvalue"
 							rows="8" cols="100"
 							name="<%=Common.PARAM_COMMENTS%>"
 					 		id="<%=Common.PARAM_COMMENTS+idx%>"
-					 		<%= disableAttributeValue %>><%=helper.getP2PComments(sub)%></textarea>
+					 		<%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
 					</td>
-				<%	} else { %>
+				<%
+					} else {
+				%>
 					<td>
 						<font color="red">
 							<textarea class="textvalue"
 									rows="1" cols="100"
-									name="<%= Common.PARAM_COMMENTS %>"
-									id="<%= Common.PARAM_COMMENTS+idx %>"
+									name="<%=Common.PARAM_COMMENTS%>"
+									id="<%=Common.PARAM_COMMENTS+idx%>"
 									disabled="disabled">N.A.</textarea>
 						</font>
 					</td>
-				<%	} %>
+				<%
+					}
+				%>
 			</tr>
-			<%	} else { %>
+			<%
+				} else {
+			%>
 				<tr>
 					<td class="label rightalign bold">His/Her Estimated contribution:</td>
 					<td>
 						<select style="width: 150px;"
 								name="<%=Common.PARAM_POINTS%>"
 								id="<%=Common.PARAM_POINTS+idx%>"
-								<%= disableAttributeValue %>>
-							<%=helper.getEvaluationOptions(sub)%>
+								<%=data.disableAttribute%>>
+							<%=data.getEvaluationOptions(sub)%>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td class="label rightalign bold middlealign"><%=helper.getCommentsInstr(sub)%></td>
+					<td class="label rightalign bold middlealign"><%=data.getCommentsInstr(sub)%></td>
 				<%
-					if(helper.eval.p2pEnabled){
+					if(data.eval.p2pEnabled){
 				%>
 					<td><textarea class = "textvalue"
 							rows="8" cols="100"
 							name="<%=Common.PARAM_COMMENTS%>"
 					 		id="<%=Common.PARAM_COMMENTS+idx%>"
-					 		<%= disableAttributeValue %>><%=helper.getP2PComments(sub)%></textarea>
+					 		<%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
 					</td>
-				<%	} else { %>
+				<%
+					} else {
+				%>
 					<td>
 						<font color="red">
 							<textarea class="textvalue"
 									rows="1" cols="100"
-									name="<%= Common.PARAM_COMMENTS %>"
-									id="<%= Common.PARAM_COMMENTS+idx %>"
+									name="<%=Common.PARAM_COMMENTS%>"
+									id="<%=Common.PARAM_COMMENTS+idx%>"
 									disabled="disabled">N.A.</textarea>
 						</font>
 					</td>
-				<%	} %>
+				<%
+					}
+				%>
 			</tr>
 			<tr>
-					<td class="label rightalign bold middlealign"><%=helper.getJustificationInstr(sub)%></td>
+					<td class="label rightalign bold middlealign"><%=data.getJustificationInstr(sub)%></td>
 					<td>
 						<textarea class="textvalue" rows="8" cols="100" 
 								name="<%=Common.PARAM_JUSTIFICATION%>"
 								id="<%=Common.PARAM_JUSTIFICATION+idx%>"
-								<%= disableAttributeValue %>><%=EvalSubmissionEditHelper.escapeForHTML(sub.justification.getValue())%></textarea>
+								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.escapeForHTML(sub.justification.getValue())%></textarea>
 					</td>
 				</tr>
 			<%	} %>

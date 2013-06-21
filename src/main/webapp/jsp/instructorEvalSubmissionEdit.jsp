@@ -2,8 +2,8 @@
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorEvalSubmissionEditHelper"%>
-<%	InstructorEvalSubmissionEditHelper helper = (InstructorEvalSubmissionEditHelper)request.getAttribute("helper"); %>
+<%@ page import="teammates.ui.controller.InstructorEvalSubmissionEditPageData"%>
+<%	InstructorEvalSubmissionEditPageData data = (InstructorEvalSubmissionEditPageData)request.getAttribute("data"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +31,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
+		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER_NEW %>" />
 	</div>
 
 	<div id="frameBody">
@@ -44,11 +44,11 @@
 			<table class="inputTable" id="studentEvaluationInfo">
 				<tr>
 					<td class="label rightalign bold" width="30%">Course ID:</td>
-					<td class="leftalign"><%=helper.eval.courseId%></td>
+					<td class="leftalign"><%=data.eval.courseId%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
-					<td class="leftalign"><%=InstructorEvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%></td>
+					<td class="leftalign"><%=InstructorEvalSubmissionEditPageData.escapeForHTML(data.eval.name)%></td>
 				</tr>
 			</table>
 			
@@ -60,16 +60,14 @@
 					<jsp:param name="isStudent" value="false" />
 					</jsp:include>
 					<br>
-					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
 					<br>
 					<div class="centeralign">
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
 								id="button_submit" value="Save Changes">
 					</div>
-					<% if(helper.isMasqueradeMode()){ %>
-						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">
-					<% } %>
+					<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= data.account.googleId %>">
 				</form>
 		 		<br><br>
 			</div>
@@ -77,7 +75,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

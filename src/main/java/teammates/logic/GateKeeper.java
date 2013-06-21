@@ -163,6 +163,16 @@ public class GateKeeper {
 		throw new UnauthorizedAccessException();
 	}
 
+	public void verifyStudentOfCourse(String googleId, String courseId) {
+		if (isInternalCall())
+			return;
+		if (isAdministrator())
+			return;
+		if(isStudentOfCourse(courseId))
+			return;
+		throw new UnauthorizedAccessException();
+	}
+
 	public void verifySameStudentOrCourseOwnerOrAdmin(String courseId,
 			String googleId) {
 		if (isInternalCall())
@@ -226,7 +236,18 @@ public class GateKeeper {
 		if (isInstructorOfCourse(courseId))
 			return;
 		if (isOwnEmail(courseId, studentEmail)
-				&& isEvaluationPublished(courseId, evaluationName)) 
+				&& isEvaluationInState(courseId, evaluationName, EvalStatus.PUBLISHED)) 
+			return;
+		throw new UnauthorizedAccessException();
+	}
+	
+	public void verifyEmailOwnerAndEvalInState(String courseId, String evaluationName, String studentEmail, EvalStatus expectedStatus) {
+		if (isInternalCall())
+			return;
+		if (isAdministrator())
+			return;
+		if (isOwnEmail(courseId, studentEmail)
+				&& isEvaluationInState(courseId, evaluationName, expectedStatus)) 
 			return;
 		throw new UnauthorizedAccessException();
 	}
@@ -247,9 +268,9 @@ public class GateKeeper {
 		return (e != null) && (e.getStatus() == EvalStatus.OPEN);
 	}
 
-	private boolean isEvaluationPublished(String courseId, String evaluationName) {
+	private boolean isEvaluationInState(String courseId, String evaluationName, EvalStatus expectedStatus) {
 		EvaluationAttributes evaluation = evaluationsDb.getEvaluation(courseId, evaluationName);
-		return evaluation != null && evaluation.getStatus() == EvalStatus.PUBLISHED;
+		return evaluation != null && evaluation.getStatus() == expectedStatus;
 	}
 
 	// @formatter:on

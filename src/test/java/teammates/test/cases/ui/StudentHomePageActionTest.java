@@ -81,8 +81,8 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		loginAsAdmin(adminUserId);
-		verifyCanAccess(submissionParams);
-		verifyCanMasquerade(addUserIdToParams(instructorId,submissionParams));
+		//not checking for non-masquerade mode because admin may not be a student
+		verifyCanMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 	}
 	

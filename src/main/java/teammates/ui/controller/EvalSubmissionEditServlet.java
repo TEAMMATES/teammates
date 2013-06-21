@@ -50,10 +50,11 @@ public abstract class EvalSubmissionEditServlet extends ActionServlet<EvalSubmis
 		if(this instanceof InstructorEvalSubmissionEditServlet){
 			servletName = Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET;
 			action = Common.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SERVLET_PAGE_LOAD;
-		} else if (this instanceof StudentEvalEditServlet){
-			servletName = Common.STUDENT_EVAL_EDIT_SERVLET;
-			action = Common.STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD;
-		}
+		} 
+//		else if (this instanceof StudentEvalEditServlet){
+//			servletName = Common.STUDENT_EVAL_EDIT_SERVLET;
+//			action = Common.STUDENT_EVAL_EDIT_SERVLET_PAGE_LOAD;
+//		}
 		
 		// Get parameters
 		String courseID = req.getParameter(Common.PARAM_COURSE_ID);

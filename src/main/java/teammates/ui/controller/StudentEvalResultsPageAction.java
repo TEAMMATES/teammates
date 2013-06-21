@@ -1,0 +1,80 @@
+package teammates.ui.controller;
+
+import java.util.List;
+
+import teammates.common.Assumption;
+import teammates.common.Common;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.logic.GateKeeper;
+
+public class StudentEvalResultsPageAction extends Action {
+	
+	private StudentEvalResultsPageData data;
+	
+
+	@Override
+	public ActionResult execute() throws EntityDoesNotExistException {
+		
+		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		Assumption.assertNotNull(courseId);
+		
+		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
+		Assumption.assertNotNull(evalName);
+		
+		
+		data = new StudentEvalResultsPageData(account);
+		
+		if(notYetJoinedCourse(courseId, account.googleId)){
+			return createPleaseJoinCourseResponse(courseId);
+		}
+		
+		data.student = logic.getStudentForGoogleId(courseId, account.googleId);
+		
+		new GateKeeper().verifyEmailOwnerAndEvalInState(courseId, evalName, data.student.email, EvalStatus.PUBLISHED);
+		
+		data.eval = logic.getEvaluation(courseId, evalName);
+		
+		try{
+			data.evalResult = logic.getEvaluationResultForStudent(courseId, evalName, data.student.email);
+			SubmissionAttributes.sortByJustification(data.evalResult.incoming);
+			data.incoming = organizeSubmissions(data.evalResult.incoming, data);
+			SubmissionAttributes.sortByPoints(data.evalResult.outgoing);
+			data.outgoing = organizeSubmissions(data.evalResult.outgoing, data);
+			SubmissionAttributes.sortByReviewee(data.evalResult.selfEvaluations);
+			data.selfEvaluations = organizeSubmissions(data.evalResult.selfEvaluations, data);
+			
+			statusToAdmin = "studentEvalResults Page Load<br>" + 
+					"Viewing evaluation results for Evaluation <span class=\"bold\">(" + evalName + ")</span> " +
+							"of Course <span class=\"bold\">[" + courseId + "]</span>"; 
+	        
+		} catch (InvalidParametersException e) {
+			Assumption.fail("Invalid parameters are not expected at this stage");
+		}
+		
+		ShowPageResult response = createShowPageResult(Common.JSP_STUDENT_EVAL_RESULTS, data);
+		return response;
+
+	}
+	
+	/**
+	 * Puts the self submission in front and return the
+	 * list of submission excluding self submission.
+	 */
+	private List<SubmissionAttributes> organizeSubmissions(List<SubmissionAttributes> subs, StudentEvalResultsPageData data) {
+		for(int i=0; i<subs.size(); i++){
+			SubmissionAttributes sub = subs.get(i);
+			if(sub.reviewee.equals(sub.reviewer) && sub.reviewee.equals(data.student.email)){
+				subs.remove(sub);
+				subs.add(0,sub);
+				break;
+			}
+		}
+		return subs.subList(1,subs.size());
+	}
+	
+	
+	
+}

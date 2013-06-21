@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="/stylesheets/studentEvalEdit-print.css" type="text/css" media="print">
 
 	<script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-	<script src="/js/jquery-minified.js" text="text/javascript"></script>
-	<script src="/js/tooltip.js" text="text/javascript"></script>
-	<script src="/js/common.js" text="text/javascript"></script>
+	<script src="/js/jquery-minified.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
 	
-	<script src="/js/student.js" text="text/javascript"></script>
+	<script src="/js/student.js" type="text/javascript"></script>
 	
 	
 	<noscript>{*}</noscript>
@@ -83,7 +83,9 @@
 
 	<div style="display: block;" id="statusMessage">
 		This evaluation is not open at this time. You are not allowed to edit your submission.</div>
-
+	<script type="text/javascript">
+    	document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
 			<br />
 			<br />
 			

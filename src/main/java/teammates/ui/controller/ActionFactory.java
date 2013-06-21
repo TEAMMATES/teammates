@@ -28,6 +28,8 @@ public class ActionFactory {
 		actionMappings.put("/page/instructorCourseEnrollSave", InstructorCourseEnrollSaveAction.class);
 		actionMappings.put("/page/instructorEval", InstructorEvalPageAction.class);
 		actionMappings.put("/page/instructorEvalAdd", InstructorEvalAddAction.class);
+		actionMappings.put("/page/instructorEvalSubmissionEdit", InstructorEvalSubmissionEditPageAction.class);
+		actionMappings.put("/page/instructorEvalSubmissionEditHandler", InstructorEvalSubmissionEditSaveAction.class);
 		actionMappings.put("/page/instructorFeedback", InstructorFeedbackPageAction.class);
 		actionMappings.put("/page/instructorFeedbackAdd", InstructorFeedbackAddAction.class);
 		actionMappings.put("/page/instructorFeedbackDelete", InstructorFeedbackDeleteAction.class);
@@ -39,6 +41,11 @@ public class ActionFactory {
 		actionMappings.put("/page/instructorFeedbackResultsDownload", InstructorFeedbackResultsDownloadAction.class);
 		actionMappings.put("/page/instructorHome", InstructorHomePageAction.class);
 
+		actionMappings.put("/page/studentCourseDetails", StudentCourseDetailsPageAction.class);
+		actionMappings.put("/page/studentCourseJoin", StudentCourseJoinAction.class);
+		actionMappings.put("/page/studentEvalEdit", StudentEvalSubmissionEditPageAction.class);
+		actionMappings.put("/page/studentEvalResults", StudentEvalResultsPageAction.class);
+		actionMappings.put("/page/studentEvalEditHandler", StudentEvalSubmissionEditSaveAction.class);
 		actionMappings.put("/page/studentFeedbackResults", StudentFeedbackResultsPageAction.class);
 		actionMappings.put("/page/studentFeedbackSubmit", StudentFeedbackSubmitPageAction.class);
 		actionMappings.put("/page/studentFeedbackSubmitSave", StudentFeedbackSubmitSaveAction.class);

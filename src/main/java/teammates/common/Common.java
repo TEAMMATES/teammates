@@ -761,6 +761,17 @@ public class Common {
 		return values == null ? null : values[0];
 	}
 	
+	/**
+	 * 
+	 * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
+	 * @param key
+	 * @return all values for the key. Returns null if key not found.
+	 */
+	public static String[] getValuesFromParamMap(Map<String, String[]> paramMap, String key) {
+		String[] values = paramMap.get(key);
+		return values == null ? null : values;
+	}
+	
 
 	/**
 	 * This creates a Gson object that can handle the Date format we use in the

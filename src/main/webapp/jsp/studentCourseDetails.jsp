@@ -1,9 +1,10 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.StudentAttributes" %>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
-<%@ page import="teammates.ui.controller.StudentCourseDetailsHelper"%>
+<%@ page import="teammates.ui.controller.PageData"%>
+<%@ page import="teammates.ui.controller.StudentCourseDetailsPageData"%>
 <%
-	StudentCourseDetailsHelper helper = (StudentCourseDetailsHelper)request.getAttribute("helper");
+StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -29,35 +30,35 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER_NEW%>" />
 	</div>
 
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>Team Details for <%=helper.courseDetails.course.id%></h1>
+				<h1>Team Details for <%=data.courseDetails.course.id%></h1>
 			</div>
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
 			<br>
 				
 			<table class="inputTable" id="studentCourseInformation">
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course ID:</td>
-	 				<td id="<%=Common.PARAM_COURSE_ID%>"><%=helper.courseDetails.course.id%></td>
+	 				<td id="<%=Common.PARAM_COURSE_ID%>"><%=data.courseDetails.course.id%></td>
 	 			</tr>
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course name:</td>
-	 				<td id="<%=Common.PARAM_COURSE_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.courseDetails.course.name)%></td>
+	 				<td id="<%=Common.PARAM_COURSE_NAME%>"><%=PageData.escapeForHTML(data.courseDetails.course.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Instructors:</td>
 	 				<td id="<%=Common.PARAM_INSTRUCTOR_NAME%>">
 	 				<%
-	 					for (int i = 0; i < helper.instructors.size(); i++){
-	 					 						 					InstructorAttributes instructor = helper.instructors.get(i);
-	 					 						 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+	 					for (int i = 0; i < data.instructors.size(); i++){
+	 					 	InstructorAttributes instructor = data.instructors.get(i);
+	 					 	String instructorInfo = instructor.name + " (" + instructor.email + ")";
 	 				%>
 		 				<a href = "mailto:<%=instructor.email%>"><%=instructorInfo%></a><br><br>
 		 			<%
@@ -67,21 +68,21 @@
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your team:</td>
-	 				<td id="<%=Common.PARAM_TEAM_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.student.team)%></td>
+	 				<td id="<%=Common.PARAM_TEAM_NAME%>"><%=PageData.escapeForHTML(data.student.team)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your name:</td>
-	 				<td id="<%=Common.PARAM_STUDENT_NAME%>"><%=StudentCourseDetailsHelper.escapeForHTML(helper.student.name)%></td>
+	 				<td id="<%=Common.PARAM_STUDENT_NAME%>"><%=PageData.escapeForHTML(data.student.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your e-mail:</td>
-	 				<td id="<%=Common.PARAM_STUDENT_EMAIL%>"><%=helper.student.email%></td>
+	 				<td id="<%=Common.PARAM_STUDENT_EMAIL%>"><%=data.student.email%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your teammates:</td>
 	 				<td id="<%=Common.PARAM_TEAMMATES%>">
 	 					<%
-	 						if(helper.team==null || helper.team.students.size()==1){
+	 						if(data.team==null || data.team.students.size()==1){
 	 					%>
 	 						<span style="font-style: italic;">You have no team members or you are not registered in any team</span>
 	 					<%
@@ -89,12 +90,12 @@
 	 					%>
 	 						<ul>
 									<%
-										for(StudentAttributes student: helper.team.students){
+										for(StudentAttributes student: data.team.students){
 									%>
 										<%
-											if(!student.email.equals(helper.student.email)) {
+											if(!student.email.equals(data.student.email)) {
 										%>
-											<li><a href = "mailto:<%=student.email%>"><%=StudentCourseDetailsHelper.escapeForHTML(student.name)%></a></li>
+											<li><a href = "mailto:<%=student.email%>"><%=PageData.escapeForHTML(student.name)%></a></li>
 										<%	} %>
 									<%	} %>
 		 					</ul>
@@ -109,7 +110,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

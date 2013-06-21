@@ -93,7 +93,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course");
 		loginAsInstructor(instructorId);
 		InstructorCoursePageAction a = getAction(submissionParams);
-		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
+		ShowPageResult r = getShowPageResult(a);
 		
 		assertEquals(Common.JSP_INSTRUCTOR_COURSE+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
 		assertEquals(false, r.isError);
@@ -118,7 +118,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		CoursesLogic.inst().deleteCourseCascade("new-course");
 		loginAsAdmin(adminUserId);
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
-		r = (ShowPageResult) a.executeAndPostProcess();
+		r = getShowPageResult(a);
 		
 		assertEquals(
 				Common.JSP_INSTRUCTOR_COURSE+"?message=You+have+not+created+any+courses+yet.+Use+the+form+above+to+create+a+course.&error=false&user=idOfInstructor1OfCourse1", 

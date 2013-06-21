@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.apphosting.api.DeadlineExceededException;
-
 import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.api.Logic;
+
+import com.google.apphosting.api.DeadlineExceededException;
 /**
  * Receives requests from the Browser, executes the matching action and sends 
  * the result back to the Browser. The result can be page to view or a request
@@ -56,7 +56,7 @@ public class ControllerServlet extends HttpServlet {
 			log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
 			resp.sendRedirect(Common.JSP_UNAUTHORIZED);
 
-		}  catch (DeadlineExceededException e) {
+		} catch (DeadlineExceededException e) {
 			//TODO: This exception is not caught because GAE kills the request soon after throwing it.
 			MimeMessage email = new Logic().emailErrorReport(
 					req.getServletPath(), 

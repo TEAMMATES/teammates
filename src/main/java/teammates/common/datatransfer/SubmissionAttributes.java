@@ -3,6 +3,8 @@ package teammates.common.datatransfer;
 import static teammates.common.Common.EOL;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -122,6 +124,47 @@ public class SubmissionAttributes extends EntityAttributes {
 		if(!error.isEmpty()) { errors.add(error); }
 	
 		return errors;
+	}
+	
+	
+	public static void sortByJustification(List<SubmissionAttributes> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
+				return s1.justification.toString().compareTo(
+						s2.justification.toString());
+			}
+		});
+	}
+	
+	public static void sortByReviewee(List<SubmissionAttributes> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
+				int result = s1.details.revieweeName.compareTo(s2.details.revieweeName);
+				if (result == 0)
+					s1.reviewee.compareTo(s2.reviewee);
+				return result;
+			}
+		});
+	}
+
+	public static void sortByPoints(List<SubmissionAttributes> submissions) {
+		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
+				return Integer.valueOf(s1.points).compareTo(
+						Integer.valueOf(s2.points));
+			}
+		});
+	}
+	
+	public static void putSelfSubmissionFirst(List<SubmissionAttributes> submissions){
+		for(int i=0; i<submissions.size(); i++){
+			SubmissionAttributes sub = submissions.get(i);
+			if(sub.reviewee.equals(sub.reviewer)){
+				submissions.remove(sub);
+				submissions.add(0,sub);
+				break;
+			}
+		}
 	}
 
 	public String toString() {

@@ -155,10 +155,17 @@ public abstract class Action {
 	
 
 	/**
-	 * @return null if the speicified parameter was not found in the request.
+	 * @return null if the specified parameter was not found in the request.
 	 */
-	public String getRequestParam(String paramName) {
+	public String getRequestParam(String paramName) { //TODO: rename to getRequestParamValue
 		return Common.getValueFromParamMap(requestParameters, paramName);
+	}
+	
+	/**
+	 * @return null if the specified parameter was not found in the request.
+	 */
+	public String[] getRequestParamValues(String paramName) {
+		return Common.getValuesFromParamMap(requestParameters, paramName);
 	}
 	
 	public boolean getRequestParamAsBoolean(String paramName) {
@@ -177,6 +184,10 @@ public abstract class Action {
 				statusToUser);
 	}
 	
+	protected boolean notYetJoinedCourse(String courseId, String googleId) {
+		return logic.getStudentForGoogleId(courseId, account.googleId) == null;
+	}
+
 	/**
 	 * Generates a {@link RedirectResult} with the information in this object.
 	 */
@@ -186,6 +197,14 @@ public abstract class Action {
 				account,
 				requestParameters,
 				statusToUser);
+	}
+
+	protected ActionResult createPleaseJoinCourseResponse(String courseId) {
+		String errorMessage = "You are not registered in the course "+PageData.escapeForHTML(courseId);
+		statusToUser.add(errorMessage);
+		isError = true;
+		statusToAdmin = Common.LOG_SERVLET_ACTION_FAILURE + " : " + errorMessage; 
+		return createRedirectResult(Common.PAGE_STUDENT_HOME);
 	}
 
 	private boolean isInMasqueradeMode() {

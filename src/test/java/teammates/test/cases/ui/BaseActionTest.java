@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertTrue;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.test.cases.BaseComponentTest;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
+import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
 /**
@@ -59,7 +61,7 @@ public class BaseActionTest extends BaseComponentTest {
 	}
 
 	/**
-	 * Verifies that the {@link Action} matching the {@code parameters} is not
+	 * Verifies that the {@link Action} matching the {@code params} is not
 	 * accessible to the logged in user. 
 	 */
 	protected void verifyCannotAccess(String... params) throws Exception {
@@ -71,9 +73,21 @@ public class BaseActionTest extends BaseComponentTest {
 			ignoreExpectedException();
 		}
 	}
+	
+	/**
+	 * Verifies that the {@link Action} matching the {@code params} is 
+	 * redirected to {@code expectedRedirectUrl}. Note that only the base 
+	 * URI is matched and parameters are ignored. E.g. "/page/studentHome" 
+	 * matches "/page/studentHome?user=abc". 
+	 */
+	protected void verifyRedirectTo(String expectedRedirectUrl,	String... params) throws Exception {
+		Action c = getActionObject(params);
+		RedirectResult r = (RedirectResult) c.executeAndPostProcess();
+		assertContains(expectedRedirectUrl, r.destination);
+	}
 
 	/**
-	 * Verifies that the {@link Action} matching the {@code parameters} is not
+	 * Verifies that the {@link Action} matching the {@code params} is not
 	 * accessible to the logged in user masquerading as another user. 
 	 */
 	protected void verifyCannotMasquerade(String... params) throws Exception {
@@ -87,7 +101,7 @@ public class BaseActionTest extends BaseComponentTest {
 	}
 
 	/**
-	 * Verifies that the {@link Action} matching the {@code parameters} is 
+	 * Verifies that the {@link Action} matching the {@code params} is 
 	 * accessible to the logged in user. 
 	 */
 	protected void verifyCanAccess(String... params) throws Exception {
@@ -96,7 +110,7 @@ public class BaseActionTest extends BaseComponentTest {
 	}
 
 	/**
-	 * Verifies that the {@link Action} matching the {@code parameters} is
+	 * Verifies that the {@link Action} matching the {@code params} is
 	 * accessible to the logged in user masquerading as another user. 
 	 */
 	protected void verifyCanMasquerade(String... params) throws Exception {

@@ -149,12 +149,18 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		loginStudent(unregUsername, unregPassword);
 
 		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_HOME, unregUsername);
-		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_JOIN_COURSE, unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_JOIN_COURSE+"?"+Common.PARAM_REGKEY+"=sampleKey", unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_COURSE_DETAILS+
+				"?"+Common.PARAM_COURSE_ID+"=c1", unregUsername);
 
-		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_COURSE_DETAILS, unregUsername);
-
-		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT, unregUsername);
-		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_RESULTS, unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT+
+				"?"+Common.PARAM_COURSE_ID+"=c1&"
+				+Common.PARAM_EVALUATION_NAME+"=e1", 
+				unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_EVAL_RESULTS+
+				"?"+Common.PARAM_COURSE_ID+"=c1&"
+				+Common.PARAM_EVALUATION_NAME+"=e1", 
+				unregUsername);
 
 		______TS("instructor pages");
 
@@ -318,7 +324,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	@Test
 	public void testStudentJoinCourse() {
 		loginStudent(studentUsername, studentPassword);
-		verifyPageContains(Common.PAGE_STUDENT_JOIN_COURSE, studentUsername
+		verifyPageContains(Common.PAGE_STUDENT_JOIN_COURSE+"?"+Common.PARAM_REGKEY+"=samplekey", studentUsername
 				+ "{*}Student Home{*}View Team");
 	}
 
@@ -339,7 +345,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		link = Common.PAGE_STUDENT_COURSE_DETAILS;
 		CourseAttributes otherCourse = testData.courses.get("typicalCourse2");
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		verifyRedirectToNotAuthorized(link);
+		verifyRedirectToStudentHomePage(link);
 	
 		______TS("student cannot view course details while masquerading as a student in that course");
 	
@@ -1138,6 +1144,12 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		printUrl(appUrl + path);
 		currentPage.navigateTo(new Url(path));
 		verifyRedirectToNotAuthorized();
+	}
+	
+	private void verifyRedirectToStudentHomePage(String path) {
+		printUrl(appUrl + path);
+		currentPage.navigateTo(new Url(path));
+		currentPage.verifyContains("<h1>Student Home</h1>");
 	}
 	
 	private void verifyRedirectToNotAuthorized(Url url) {

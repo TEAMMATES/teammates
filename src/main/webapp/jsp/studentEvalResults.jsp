@@ -1,9 +1,10 @@
+<%@page import="teammates.ui.controller.StudentEvalResultsPageData"%>
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes" %>
-<%@ page import="teammates.ui.controller.StudentEvalResultsHelper"%>
-<%@ page import="teammates.ui.controller.InstructorEvalResultsHelper"%>
+<%@ page import="teammates.ui.controller.PageData"%>
+<%@ page import="teammates.ui.controller.StudentEvalResultsPageData"%>
 <%
-	StudentEvalResultsHelper helper = (StudentEvalResultsHelper)request.getAttribute("helper");
+	StudentEvalResultsPageData data = (StudentEvalResultsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER_NEW%>" />
 	</div>
 
 	<div id="frameBody">
@@ -39,7 +40,7 @@
 				<h1>Evaluation Results</h1>
 			</div>
 			
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
 			
 			<div id="studentEvaluationResults">
 				<div id="equalShareTag">E = Equal Share</div>
@@ -50,34 +51,34 @@
 				<table class="result_studentform">
 					<tr>
 						<td width="15%" class="bold color_white">Evaluation:</td>
-						<td colspan="2"><%=StudentEvalResultsHelper.escapeForHTML(helper.eval.name)%>
+						<td colspan="2"><%=PageData.escapeForHTML(data.eval.name)%>
 							in
-							<%=helper.eval.courseId%>
+							<%=data.eval.courseId%>
 						</td>
 					</tr>
 					<tr>
 						<td class="bold color_white">Student:</td>
-						<td colspan="2"><%=StudentEvalResultsHelper.escapeForHTML(helper.student.name)%>
+						<td colspan="2"><%=PageData.escapeForHTML(data.student.name)%>
 							in
-							<%=StudentEvalResultsHelper.escapeForHTML(helper.student.team)%>
+							<%=PageData.escapeForHTML(data.student.team)%>
 						</td>
 					</tr>
 					<tr>
 						<td class="bold color_white">My View:</td>
 						<td width="12%">
-							Of me: <%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.outgoing.get(0).points)%>
+							Of me: <%=StudentEvalResultsPageData.colorizePoints(data.evalResult.outgoing.get(0).points)%>
 						</td>
 						<td>
-							Of others: <%=StudentEvalResultsHelper.getPointsListOriginal(helper.outgoing)%>
+							Of others: <%=StudentEvalResultsPageData.getPointsListOriginal(data.outgoing)%>
 						</td>
 					</tr>
 					<tr>
 						<td class="bold color_white">Team's View:</td>
 						<td>
-							Of me: <%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.incoming.get(0).details.normalizedToStudent)%>
+							Of me: <%=StudentEvalResultsPageData.colorizePoints(data.evalResult.incoming.get(0).details.normalizedToStudent)%>
 						</td>
 						<td>
-							Of others: <%=StudentEvalResultsHelper.getNormalizedToStudentsPointsList(helper.incoming)%>
+							Of others: <%=StudentEvalResultsPageData.getNormalizedToStudentsPointsList(data.incoming)%>
 						</td>
 					</tr>
 				</table>
@@ -88,9 +89,9 @@
 						<td>
 							<ul>
 								<%
-									for(SubmissionAttributes sub: helper.incoming) {
+									for(SubmissionAttributes sub: data.incoming) {
 								%>
-									<li><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.eval.p2pEnabled)%></li>
+									<li><%=StudentEvalResultsPageData.formatP2PFeedback(PageData.escapeForHTML(sub.p2pFeedback.getValue()), data.eval.p2pEnabled)%></li>
 								<%
 									}
 								%>
@@ -102,10 +103,10 @@
 						<td>
 							<ul>
 								<%
-									for(SubmissionAttributes sub: helper.selfEvaluations){
+									for(SubmissionAttributes sub: data.selfEvaluations){
 								%>
-									<li><span class="bold"><%=StudentEvalResultsHelper.escapeForHTML(sub.details.reviewerName)%>:</span> 
-										<%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></li>
+									<li><span class="bold"><%=PageData.escapeForHTML(sub.details.reviewerName)%>:</span> 
+										<%=PageData.escapeForHTML(sub.justification.getValue())%></li>
 									<br>
 								<%
 									}
@@ -121,15 +122,15 @@
 				<table class="result_studentform">
 					<tr>
 						<td width="15%" class="bold color_white">Points to yourself:</td>
-						<td><%=StudentEvalResultsHelper.colorizePoint(helper.evalResult.getSelfEvaluation().points)%></td>
+						<td><%=StudentEvalResultsPageData.colorizePoints(data.evalResult.getSelfEvaluation().points)%></td>
 					</tr>
 					<tr>
 						<td class="bold color_white">Your contribution:</td>
-						<td><%=StudentEvalResultsHelper.escapeForHTML(helper.evalResult.getSelfEvaluation().justification.getValue())%></td>
+						<td><%=PageData.escapeForHTML(data.evalResult.getSelfEvaluation().justification.getValue())%></td>
 					</tr>
 					<tr>
 						<td class="bold color_white">Team dynamics:</td>
-						<td><%=StudentEvalResultsHelper.escapeForHTML(helper.evalResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
+						<td><%=PageData.escapeForHTML(data.evalResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				</table>
 				<table class="dataTable">
@@ -140,13 +141,13 @@
 						<th class="bold centeralign color_white">Feedback to teammate</th>
 					</tr>
 					<%
-						for(SubmissionAttributes sub: helper.outgoing){
+						for(SubmissionAttributes sub: data.outgoing){
 					%>
 						<tr>
-							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.details.revieweeName)%></td>
-							<td><%=StudentEvalResultsHelper.colorizePoint(sub.points)%></td> 
-							<td><%=StudentEvalResultsHelper.escapeForHTML(sub.justification.getValue())%></td>
-							<td><%=StudentEvalResultsHelper.formatP2PFeedback(StudentEvalResultsHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.eval.p2pEnabled)%></td>
+							<td><%=PageData.escapeForHTML(sub.details.revieweeName)%></td>
+							<td><%=StudentEvalResultsPageData.colorizePoints(sub.points)%></td> 
+							<td><%=PageData.escapeForHTML(sub.justification.getValue())%></td>
+							<td><%=StudentEvalResultsPageData.formatP2PFeedback(PageData.escapeForHTML(sub.p2pFeedback.getValue()), data.eval.p2pEnabled)%></td>
 						</tr>
 					<%	} %>
 				</table>
@@ -157,7 +158,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

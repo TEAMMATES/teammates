@@ -73,7 +73,14 @@
 			<class name="teammates.test.cases.ui.InstructorCourseDeleteActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalAddActionTest" />
+			<class name="teammates.test.cases.ui.InstructorEvalSubmissionEditPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorEvalSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorHomePageActionTest" />
+			<class name="teammates.test.cases.ui.StudentCourseDetailsPageActionTest" />
+			<class name="teammates.test.cases.ui.StudentCourseJoinActionTest" />
+			<class name="teammates.test.cases.ui.StudentEvalResultsPageActionTest" />
+			<class name="teammates.test.cases.ui.StudentEvalSubmissionEditPageActionTest" />
+			<class name="teammates.test.cases.ui.StudentEvalSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.StudentHomePageActionTest" />
 			<class name="teammates.test.cases.logic.EmailsTest" />
 			<class name="teammates.test.cases.testdriver.HtmlHelperTest" />
