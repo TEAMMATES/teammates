@@ -43,6 +43,22 @@ public class FeedbackSessionsDb extends EntitiesDb {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
+	 * @return An empty list if no sessions are found.
+	 */
+	public List<FeedbackSessionAttributes> getAllFeedbackSessions() {
+		
+		List<FeedbackSession> fsList = getAllFeedbackSessionEntities();
+		List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+		
+		for (FeedbackSession fs : fsList) {
+			fsaList.add(new FeedbackSessionAttributes(fs));
+		}
+		return fsaList;
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
 	 * @return An empty list if no sessions are found for the given course.
 	 */
 	public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
@@ -96,6 +112,15 @@ public class FeedbackSessionsDb extends EntitiesDb {
 				
 		getPM().close();
 	}
+	
+	private List<FeedbackSession> getAllFeedbackSessionEntities() {		
+		Query q = getPM().newQuery(FeedbackSession.class);
+		q.setFilter("");
+		
+		@SuppressWarnings("unchecked")
+		List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute();
+		return fsList;
+	}	
 		
 	private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {		
 		Query q = getPM().newQuery(FeedbackSession.class);
@@ -128,6 +153,5 @@ public class FeedbackSessionsDb extends EntitiesDb {
 	protected Object getEntity(EntityAttributes attributes) {
 		FeedbackSessionAttributes feedbackSessionToGet = (FeedbackSessionAttributes) attributes;
 		return getFeedbackSessionEntity(feedbackSessionToGet.feedbackSessionName, feedbackSessionToGet.courseId);
-	};
-	
+	}	
 }

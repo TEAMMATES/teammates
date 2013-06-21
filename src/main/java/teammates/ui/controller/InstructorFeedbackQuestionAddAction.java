@@ -74,12 +74,16 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 				new Text(getRequestParam(Common.PARAM_FEEDBACK_QUESTION_TEXT));
 		newQuestion.questionType = 
 				QuestionType.TEXT;
-		if((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null){
-			if (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
-				newQuestion.recipientType == FeedbackParticipantType.TEAMS) {
-				newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
-			} else {
-				newQuestion.numberOfEntitiesToGiveFeedbackTo = Common.MAX_POSSIBLE_RECIPIENTS;
+		
+		newQuestion.numberOfEntitiesToGiveFeedbackTo = Common.MAX_POSSIBLE_RECIPIENTS;
+		if ((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
+			if (param.equals("custom")) {
+				if ((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {
+					if (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
+						newQuestion.recipientType == FeedbackParticipantType.TEAMS) {
+						newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
+					}
+				}
 			}
 		}
 		newQuestion.showResponsesTo = getParticipantListFromParams(

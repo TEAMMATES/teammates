@@ -139,7 +139,7 @@
 						}
 				%>
 			</table>
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_RESPONSE_TOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
+			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
 			<br><br>
 			<%
 				qnIndx++;

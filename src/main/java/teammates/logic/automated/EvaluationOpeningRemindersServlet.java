@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.Common;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.ui.controller.ActivityLogEntry;
 import teammates.ui.controller.Helper;
 

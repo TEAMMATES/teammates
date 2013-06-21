@@ -186,9 +186,14 @@ public class Common {
 	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_EDIT = "Edit this question";
 	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_DELETE = "Delete this question";
-	
+	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_VISBILITY = "Here you can select how each question's response will be visible to the different types of users in your course.";
+
 	public static final String HOVER_MESSAGE_FEEDBACK_SUBMIT_NOT_YET_OPEN = "You can view the questions for this feedback session but cannot submit responses yet as the session is not yet opened.";
 	
+	public static final String HOVER_MESSAGE_FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" +
+			"<br />in the course once the results are published.";
+	public static final String HOVER_MESSAGE_FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
+			"before the session closes.";
 	// Evaluation status
 	public static final String EVALUATION_STATUS_AWAITING = "Awaiting";
 	public static final String EVALUATION_STATUS_OPEN = "Open";
@@ -260,17 +265,18 @@ public class Common {
 	public static final String PARAM_FEEDBACK_QUESTION_GIVERTYPE = "givertype";
 	public static final String PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";
 	public static final String PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";
+	public static final String PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
 	public static final String PARAM_FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
 	public static final String PARAM_FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
 	public static final String PARAM_FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
 	public static final String PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
 	public static final String PARAM_FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 	public static final String PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
+	public static final String PARAM_FEEDBACK_QUESTION_RESPONSETOTAL = "questionresponsetotal";
 
 	public static final String PARAM_FEEDBACK_RESPONSE_ID = "responseid";
 	public static final String PARAM_FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 	public static final String PARAM_FEEDBACK_RESPONSE_TEXT = "responsetext";
-	public static final String PARAM_FEEDBACK_RESPONSE_TOTAL = "responsestotal";
 	
 	public static final String PARAM_FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
 	public static final String PARAM_FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
@@ -366,9 +372,11 @@ public class Common {
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT = "/page/studentEvalEdit";
 	public static final String PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER = "/page/studentEvalEditHandler";
 	public static final String PAGE_STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
+	
 	public static final String PAGE_STUDENT_FEEDBACK_SUBMIT = "/page/studentFeedbackSubmit";
 	public static final String PAGE_STUDENT_FEEDBACK_SUBMIT_SAVE = "/page/studentFeedbackSubmitSave";
-
+	public static final String PAGE_STUDENT_FEEDBACK_RESULTS = "/page/studentFeedbackResults";
+	
 	public static final String PAGE_ADMIN_HOME = "/admin/adminHome";
 	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/admin/adminAccountManagement";
 	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/admin/adminAccountDetails";
@@ -571,8 +579,11 @@ public class Common {
 	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readResourseFile("studentEmailTemplate-evaluationPublished.html");
 	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readResourseFile("studentEmailTemplate-courseJoin.html");
 	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readResourseFile("studentEmailFragment-courseJoin.html");
+	public static String USER_EMAIL_TEMPLATE_FEEDBACK_SESSION = readResourseFile("userEmailTemplate-feedbackSession.html");
+	public static String USER_EMAIL_TEMPLATE_FEEDBACK_SESSION_PUBLISHED = readResourseFile("userEmailTemplate-feedbackSessionPublished.html");
 	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readResourseFile("systemErrorEmailTemplate.html");
-	
+		
+
 	/**
 	 * Instructor Servlets
 	 */
@@ -686,15 +697,21 @@ public class Common {
 	 */
 	public static String EVALUATION_CLOSING_REMINDERS_SERVLET = "evaluationclosingreminders";
 	public static String EVALUATION_OPENING_REMINDERS_SERVLET = "evaluationopeningreminders";
-	
-	
+	public static String FEEDBACK_SESSION_CLOSING_REMINDERS_SERVLET = "feedbackSessionClosingReminders";
+	public static String FEEDBACK_SESSION_OPENING_REMINDERS_SERVLET = "feedbackSessionOpeningReminders";
+	public static String FEEDBACK_SESSION_PUBLISHED_REMINDERS_SERVLET = "feedbackSessionPublishedReminders";
+
 	/**
 	 * Automated Servlet Actions
 	 */
 	public static String EVALUATION_CLOSING_REMINDERS_SERVLET_EVALUATION_CLOSE_REMINDER = "Send Evaluation Closing reminders";
 	public static String EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER = "Send Evaluation Opening reminders";
-	
+	public static String FEEDBACK_SESSION_CLOSING_REMINDERS_SERVLET_SESSION_CLOSE_REMINDER = "Send Feedback Session Closing reminders";
+	public static String FEEDBACK_SESSION_OPENING_REMINDERS_SERVLET_SESSION_OPEN_REMINDER = "Send Feedback Session Opening reminders";
+	public static String FEEDBACK_SESSION_PUBLISHED_REMINDERS_SERVLET_SESSION_PUBLISHED_REMINDER = "Send Feedback Session Published reminders";
+
 	/**
+	 * 
 	 * Other Servlet Actions
 	 */
 	public static String LOG_SYSTEM_ERROR_REPORT = "System Error Report";

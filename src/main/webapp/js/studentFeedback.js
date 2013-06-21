@@ -37,6 +37,9 @@ function formatRecipientLists(){
 	$('select.participantSelect:hidden').each(function (){
 		$(this).after('<span> '+$(this).find('option:selected').html()+'</span>');
 	});
+	
+	// Enable tooltips
+	document.onmousemove = positiontip;
 }
 
 function isCollides($select) {

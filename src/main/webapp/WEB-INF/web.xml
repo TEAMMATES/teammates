@@ -76,7 +76,35 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>EvaluationClosingReminders</servlet-name>
 		<url-pattern>/evaluationclosingreminders</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>FeedbackSessionOpeningReminders</servlet-name>
+		<servlet-class>teammates.logic.automated.FeedbackSessionOpeningRemindersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FeedbackSessionOpeningReminders</servlet-name>
+		<url-pattern>/feedbackSessionOpeningReminders</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>FeedbackSessionClosingReminders</servlet-name>
+		<servlet-class>teammates.logic.automated.FeedbackSessionClosingRemindersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FeedbackSessionClosingReminders</servlet-name>
+		<url-pattern>/feedbackSessionClosingReminders</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>FeedbackSessionPublishedReminders</servlet-name>
+		<servlet-class>teammates.logic.automated.FeedbackSessionPublishedRemindersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FeedbackSessionPublishedReminders</servlet-name>
+		<url-pattern>/feedbackSessionPublishedReminders</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>AdminSearchTask</servlet-name>
 		<servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>
@@ -425,6 +453,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AutomatedEmails</web-resource-name>
             <url-pattern>/evaluationopeningreminders</url-pattern>
             <url-pattern>/evaluationclosingreminders</url-pattern>
+            <url-pattern>/feedbackSessionOpeningReminders</url-pattern>
+            <url-pattern>/feedbackSessionClosingReminders</url-pattern>
+            <url-pattern>/feedbackSessionPublishedReminders</url-pattern>
         </web-resource-collection>
          <web-resource-collection>
             <web-resource-name>TaskQueue</web-resource-name>

@@ -15,7 +15,7 @@ function isFeedbackSessionNameValid(name) {
 }
 
 /**
- * Check whether the evaluation input (which is passed as a form) is valid
+ * Check whether the feedback session input (which is passed as a form) is valid
  * @param form
  * @returns {Boolean}
  */
@@ -50,6 +50,23 @@ function checkAddFeedbackSession(form){
 		return false;
 	} else if (!isFeedbackSessionNameLengthValid(name)) {
 		setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID, true);
+		return false;
+	}
+	return true;
+}
+
+/**
+ * Check whether the feedback session input is valid
+ * @param form
+ * @returns {Boolean}
+ */
+function checkFeedbackQuestion() {
+	if(form.numofrecipientstype.value == "custom" && form.numofrecipients.value == "") {
+		setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID,true);
+		return false;
+	}
+	if (form.questiontext.value = "") {
+		setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID,true);
 		return false;
 	}
 	return true;
@@ -168,6 +185,27 @@ function deleteQuestion(number){
  * the selection as well.
  */
 function formatNumberBoxes(){
+	
+	// Disallow non-numeric entries [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
+	$('input.numberOfEntitiesBox').keydown(function(){
+        // Allow: backspace, delete, tab, escape, and enter
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || 
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault(); 
+            }   
+        }		
+	});
+	
+	// Binds onChange of recipientType to modify numEntityBox visibility
 	$("select[name="+FEEDBACK_QUESTION_RECIPIENTTYPE+"]").each(function(){
 		qnNumber = $(this).prop("id").split('-')[1];
 		if(qnNumber === undefined) qnNumber = '';
@@ -181,6 +219,7 @@ function formatNumberBoxes(){
 		formatNumberBox(value,qnNumber);
 		tallyCheckboxes(qnNumber);
     });
+	
 }
 
 /**
@@ -190,16 +229,14 @@ function formatNumberBoxes(){
  */
 function formatNumberBox(value, qnNumber) {
 	if (value == "STUDENTS" || value == "TEAMS") {
-		$("input#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"-"+qnNumber).show();
-		$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text-"+qnNumber).show();
+		$("td.numberOfEntitiesElements"+qnNumber).show();
 		if(value == "STUDENTS") {
-			$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).innerHTML = "students";
+			$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).html("students");
 		} else {
-			$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).innerHTML = "teams";
+			$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).html("teams");
 		}
 	} else {
-		$("input#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"-"+qnNumber).hide();
-		$("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text-"+qnNumber).hide();
+		$("td.numberOfEntitiesElements"+qnNumber).hide();
 	}
 	tallyCheckboxes(qnNumber);
 }
@@ -280,8 +317,21 @@ function readyFeedbackPage (){
 function readyFeedbackEditPage(){
 	$('#form_editfeedbacksession').find("text,input,button,textarea").attr("disabled", "disabled");
 	$('.visibilityOptions').hide();
+	$('form.form_question').submit(function(){
+		if($(this).find('[name='+FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE+']').val() == "custom" &&
+				$(this).find('[name='+FEEDBACK_QUESTION_NUMBEROFENTITIES+']').val() == "") {
+			setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID,true);
+			return false;
+		}
+		if ($(this).find('[name='+FEEDBACK_QUESTION_TEXT+']').val() == "") {
+			setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID,true);
+			return false;
+		}
+		return true;		
+	});
 	formatNumberBoxes();
 	formatCheckBoxes();
+	document.onmousemove = positiontip;
 }
 
 function enableEditFS(){

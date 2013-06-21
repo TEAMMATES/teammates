@@ -275,7 +275,16 @@ public class FeedbackQuestionsLogic {
 		
 		int numberOfResponsesGiven = 
 				frLogic.getFeedbackResponsesFromGiver(question.getId(), email).size();
-		/*
+		
+		// As long as a user has responded, we count the question as answered.
+		return numberOfResponsesGiven > 0 ? true : false;
+	}
+	
+	public boolean isQuestionFullyAnsweredByUser(FeedbackQuestionAttributes question, String email) 
+			throws EntityDoesNotExistException {
+		
+		int numberOfResponsesGiven = 
+				frLogic.getFeedbackResponsesFromGiver(question.getId(), email).size();
 		int numberOfResponsesNeeded =
 				question.numberOfEntitiesToGiveFeedbackTo;
 		
@@ -284,9 +293,6 @@ public class FeedbackQuestionsLogic {
 		}
 		
 		return numberOfResponsesGiven >= numberOfResponsesNeeded ? true : false;
-		*/
-		// As long as a user has responded, we count the question as answered.
-		return numberOfResponsesGiven > 0 ? true : false;
 	}
 
 	public boolean isQuestionAnsweredByTeam(FeedbackQuestionAttributes question, 

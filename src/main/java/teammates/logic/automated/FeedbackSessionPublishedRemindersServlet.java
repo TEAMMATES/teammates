@@ -11,53 +11,55 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
 import teammates.logic.Emails;
-import teammates.logic.EvaluationsLogic;
+import teammates.logic.FeedbackSessionsLogic;
 import teammates.ui.controller.ActivityLogEntry;
 import teammates.ui.controller.Helper;
 
 @SuppressWarnings("serial")
-public class EvaluationClosingRemindersServlet extends HttpServlet {
+public class FeedbackSessionPublishedRemindersServlet extends HttpServlet {
+	
 	private static Logger log = Common.getLogger();
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
 		doGet(req, resp);
-	}
-
+	}	
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		
-		EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+		FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
 		
 		try {
-			ArrayList<MimeMessage> emails = evaluationsLogic.sendRemindersForClosingEvaluations();
+			ArrayList<MimeMessage> emails = feedbackSessionsLogic.sendFeedbackSessionPublishedEmails();
 			logActivity(req, emails);
 		}  catch (Throwable e) {
 			String reqParam = Common.printRequestParameters(req);
 			new Emails().sendErrorReport(req.getServletPath(), reqParam, e);
 			log.severe(e.getMessage());	
-		}
+		} 
 	}
 
 	private void logActivity(HttpServletRequest req,
 			ArrayList<MimeMessage> emails) {
 		ArrayList<Object> data = Common.extractRecipientsList(emails);
+
 		String url = req.getRequestURI();
 		if (req.getQueryString() != null){
 		    url += "?" + req.getQueryString();
 		}    
 		ActivityLogEntry activityLogEntry = instantiateActivityLogEntry(
-				Common.EVALUATION_CLOSING_REMINDERS_SERVLET, 
-				Common.EVALUATION_CLOSING_REMINDERS_SERVLET_EVALUATION_CLOSE_REMINDER,
+				Common.FEEDBACK_SESSION_PUBLISHED_REMINDERS_SERVLET, 
+				Common.FEEDBACK_SESSION_PUBLISHED_REMINDERS_SERVLET_SESSION_PUBLISHED_REMINDER,
 				true, null, url, data);
 		log.log(Level.INFO, activityLogEntry.generateLogMessage());
 	}
-
+	
 	protected ActivityLogEntry instantiateActivityLogEntry(
-			String servletName, String action, boolean toShow, 
-			Helper helper, String url, ArrayList<Object> data) {
+			String servletName, String action, boolean toShow, Helper helper, 
+			String url, ArrayList<Object> data) {
 		
 		String message;
 
-		if(action.equals(Common.EVALUATION_CLOSING_REMINDERS_SERVLET_EVALUATION_CLOSE_REMINDER)){
+		if(action.equals(Common.FEEDBACK_SESSION_PUBLISHED_REMINDERS_SERVLET_SESSION_PUBLISHED_REMINDER)){
 			try {
 				message = "<span class=\"bold\">Emails sent to:</span><br>";
 				for (int i = 0; i < data.size(); i++){
@@ -76,4 +78,5 @@ public class EvaluationClosingRemindersServlet extends HttpServlet {
 				
 		return new ActivityLogEntry(servletName, action, null, message, url);
 	}
+
 }

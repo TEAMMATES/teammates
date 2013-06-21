@@ -60,6 +60,12 @@
 			<br>
 			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
 			<br>
+			<%if(!data.bundle.feedbackSession.instructions.getValue().isEmpty()) { %>
+			<table class="inputTable responseTable" style="width:900px">
+			<tr><td><span class="bold" style="padding-right:10px">Instructions: </span><%=data.bundle.feedbackSession.instructions.getValue() %></td></tr>
+			</table>
+			<br>
+			<% } %>
 			<%
 				int qnIndx = 1;
 					List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
@@ -73,15 +79,16 @@
 						if (numOfResponseBoxes == 0) {
 							// Don't display question if no recipients.
 							continue;
-						}
+						}						
 			%>
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="TEXT"/>
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
+			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
 			<table class="inputTable responseTable">
 				<tr><td class="bold" colspan="2">Question <%=qnIndx%></td></tr>
 				<tr style="border-bottom: dotted 3px white;"><td colspan="2"><%=question.questionText.getValue()%></td></tr>
 				<tr><td class="bold" colspan="2">The visibility of your response:</tr>
-				<tr style="border-bottom: 3px solid black;"><td colspan="2">
+				<tr style="border-bottom: 3px solid black;"><td colspan="2" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_RESPONSE_VISIBILITY_INFO%>')" onmouseout="hideddrivetip()">
 					<ul>
 					<%
 						if(question.getVisibilityMessage().isEmpty()) {
@@ -103,8 +110,7 @@
 				for(FeedbackResponseAttributes existingResponse : existingResponses) {
 				%>
 				<tr>
-					<td class="middlealign nowrap">
-					<% if(question.recipientType != FeedbackParticipantType.SELF) { %>
+					<td class="middlealign nowrap" <%=(question.recipientType == FeedbackParticipantType.SELF) ? "style=\"display:none\"" : "" %>>
 						<span class="label bold">To: </span> 
 						<select class="participantSelect middlealign" 
 						name="<%=Common.PARAM_FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
@@ -113,7 +119,6 @@
 							for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipient)) out.println(opt);
 						%>
 						</select>
-					<% } %>
 					</td>					
 					<td>
 						<textarea rows="4" cols="100%" class="textvalue" 
@@ -151,7 +156,6 @@
 						}
 				%>
 			</table>
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_RESPONSE_TOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
 			<br><br>
 			<%
 				qnIndx++;
@@ -165,7 +169,7 @@
 			<%
 				} else if (data.bundle.feedbackSession.isOpened()) {
 			%>
-			<input type="submit" class="button" onclick="reenableFieldsForSubmission()" value="Submit Feedback"/>
+			<input type="submit" class="button" onclick="reenableFieldsForSubmission()" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
 			<%
 				} else {
 			%>

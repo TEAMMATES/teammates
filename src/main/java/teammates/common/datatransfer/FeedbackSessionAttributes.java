@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -31,6 +32,9 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	public boolean sentOpenEmail;
 	public boolean sentPublishedEmail;
 	
+	@SuppressWarnings("unused")
+	private static Logger log = Common.getLogger();
+
 	public FeedbackSessionAttributes() {
 		
 	}
@@ -74,6 +78,29 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		this.sentPublishedEmail = sentPublishedEmail;
 	}
 	
+	
+
+	@Override
+	public FeedbackSession toEntity() {
+		return new FeedbackSession(feedbackSessionName,
+				courseId, creatorEmail, instructions,
+				createdTime, startTime, endTime,
+				sessionVisibleFromTime, resultsVisibleFromTime,
+				timeZone, gracePeriod,
+				feedbackSessionType, sentOpenEmail, sentPublishedEmail);
+	}
+	
+	@Override
+	public String getIdentificationString() {
+		return this.feedbackSessionName + "/" + this.courseId;
+	}
+
+	@Override
+	public String getEntityTypeAsString() {
+		return "Feedback Session";
+	}
+	
+	@Override
 	public List<String> getInvalidityInfo() {
 		
 		FieldValidator validator = new FieldValidator();
@@ -104,30 +131,38 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		return errors;
 	}
 
-	public FeedbackSession toEntity() {
-		return new FeedbackSession(feedbackSessionName,
-				courseId, creatorEmail, instructions,
-				createdTime, startTime, endTime,
-				sessionVisibleFromTime, resultsVisibleFromTime,
-				timeZone, gracePeriod,
-				feedbackSessionType, sentOpenEmail, sentPublishedEmail);
-	}
-	
 	@Override
 	public boolean isValid() {
 		return getInvalidityInfo().isEmpty();
 	}
+	
+	// Copied from EvaluationsAttributes. To Unit Test.
+	public boolean isClosingWithinTimeLimit(int hours) {
 
-	@Override
-	public String getIdentificationString() {
-		return this.feedbackSessionName + "/" + this.courseId;
+		Calendar now = Calendar.getInstance();
+		// Fix the time zone accordingly
+		now.add(Calendar.MILLISECOND,
+				(int) (60 * 60 * 1000 * timeZone));
+		
+		Calendar start = Calendar.getInstance();
+		start.setTime(startTime);
+		
+		Calendar deadline = Calendar.getInstance();
+		deadline.setTime(endTime);
+
+		long nowMillis = now.getTimeInMillis();
+		long deadlineMillis = deadline.getTimeInMillis();
+		long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis)
+				/ (60 * 60 * 1000);
+
+		// If now and start are almost similar, it means the evaluation 
+		// is open for only 24 hours.
+		// Hence we do not send a reminder e-mail for the evaluation.
+		return now.after(start)
+				&& (differenceBetweenDeadlineAndNow >= hours - 1 
+				&& differenceBetweenDeadlineAndNow < hours);
 	}
-
-	@Override
-	public String getEntityTypeAsString() {
-		return "Feedback Session";
-	}
-
+	
 	/**
 	 * @return {@code true} if it is after the closing time of this feedback session; {@code false} if not.
 	 */

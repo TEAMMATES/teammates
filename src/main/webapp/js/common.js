@@ -23,6 +23,7 @@ var FEEDBACK_SESSION_CHANGETYPE = "feedbackchangetype";
 var FEEDBACK_QUESTION_GIVERTYPE ="givertype";
 var FEEDBACK_QUESTION_RECIPIENTTYPE ="recipienttype";
 var FEEDBACK_QUESTION_NUMBEROFENTITIES ="numofrecipients";
+var FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
 var FEEDBACK_QUESTION_TYPE ="questiontype";
 var FEEDBACK_QUESTION_NUMBER ="questionnum";
 var FEEDBACK_QUESTION_TEXT ="questiontext";
@@ -32,7 +33,7 @@ var FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
 var FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
 var FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 var FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
- 
+
 // Display messages
 // Used for validating input
 var DISPLAY_INPUT_FIELDS_EXTRA = "There are too many fields.";
@@ -70,6 +71,8 @@ var DISPLAY_FEEDBACK_SESSION_NAMEINVALID = "Please use only alphabets, numbers a
 var DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
 var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
 		+ "The start time should be in the future, and the end time should be after start time.";
+var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to."
+var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 
 // Max length for input
 var TEAMNAME_MAX_LENGTH = 24;

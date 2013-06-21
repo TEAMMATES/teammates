@@ -20,6 +20,8 @@ import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 
 /**
@@ -33,6 +35,10 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER = "TEAMMATES: Peer evaluation reminder";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING = "TEAMMATES: Peer evaluation closing soon";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED = "TEAMMATES: Peer evaluation published";
+	public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING = "TEAMMATES: Feedback session now open";
+	public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER = "TEAMMATES: Feedback session reminder";
+	public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING = "TEAMMATES: Feedback session closing soon";
+	public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED = "TEAMMATES: Feedback session results published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
 	public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
 
@@ -201,6 +207,181 @@ public class Emails {
 		return message;
 	}
 
+	public List<MimeMessage> generateFeedbackSessionOpeningEmails(
+			CourseAttributes course, FeedbackSessionAttributes session,
+			List<StudentAttributes> students, List<InstructorAttributes> instructors) 
+					throws MessagingException, IOException {
+		
+		String template = Common.USER_EMAIL_TEMPLATE_FEEDBACK_SESSION;
+		List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
+				session, students, instructors, template);
+		
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace("${subjectPrefix}",
+					SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+			email.setContent(
+					email.getContent().toString()
+							.replace("${status}", "is now open"), "text/html");
+		}
+		
+		return emails;
+	}
+	
+	public List<MimeMessage> generateFeedbackSessionClosingEmails(
+			CourseAttributes course,
+			FeedbackSessionAttributes session, 
+			List<StudentAttributes> students,
+			List<InstructorAttributes> instructors)
+					throws MessagingException, IOException {
+
+		String template = Common.USER_EMAIL_TEMPLATE_FEEDBACK_SESSION;
+		List<MimeMessage> emails = generateFeedbackSessionEmailBases(
+				course, session, students, instructors, template);
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace("${subjectPrefix}",
+					SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+			email.setContent(
+					email.getContent().toString()
+							.replace("${status}", "is closing soon"),
+					"text/html");
+		}
+		return emails;
+	}
+	
+	public List<MimeMessage> generateFeedbackSessionPublishedEmails(
+			CourseAttributes course,
+			FeedbackSessionAttributes session,
+			List<StudentAttributes> students,
+			List<InstructorAttributes> instructors) 
+					throws MessagingException, IOException {
+		
+		String template = Common.USER_EMAIL_TEMPLATE_FEEDBACK_SESSION_PUBLISHED;
+		List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
+				session, students, instructors, template);
+		
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace("${subjectPrefix}",
+					SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
+		}
+		
+		return emails;
+	}
+	
+	public List<MimeMessage> generateFeedbackSessionEmailBases(
+			CourseAttributes course,
+			FeedbackSessionAttributes session, 
+			List<StudentAttributes> students,
+			List<InstructorAttributes> instructors,
+			String template) 
+					throws MessagingException, UnsupportedEncodingException {
+		
+		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+		for (StudentAttributes s : students) {
+			emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, s,
+					template));
+		}
+		for (InstructorAttributes i : instructors) {
+			emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, i,
+					template));
+		}
+		return emails;
+	}
+
+	public MimeMessage generateFeedbackSessionEmailBaseForStudents(
+			CourseAttributes c,
+			FeedbackSessionAttributes fs, 
+			StudentAttributes s,
+			String template)
+					throws MessagingException, UnsupportedEncodingException {
+
+		MimeMessage message = getEmptyEmailAddressedToEmail(s.email);
+
+		message.setSubject(String
+				.format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
+						c.name, fs.feedbackSessionName));
+
+		String emailBody = template;
+
+		if (isYetToJoinCourse(s)) {
+			emailBody = fillUpJoinFragment(s, emailBody);
+		} else {
+			emailBody = emailBody.replace("${joinFragment}", "");
+		}
+		
+		emailBody = emailBody.replace("${userName}", s.name);
+		emailBody = emailBody.replace("${courseName}", c.name);
+		emailBody = emailBody.replace("${courseId}", c.id);
+		emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
+		emailBody = emailBody.replace("${deadline}",
+				Common.formatTime(fs.endTime));
+		emailBody = emailBody.replace("${instructorFragment}", "");
+		
+		String submitUrl = Common.TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_FEEDBACK_SUBMIT;
+		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID,
+				c.id);
+		submitUrl = Common.addParamToUrl(submitUrl,
+				Common.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+		emailBody = emailBody.replace("${submitUrl}", submitUrl);
+
+		String reportUrl = Common.TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_FEEDBACK_RESULTS;
+		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID,
+				c.id);
+		reportUrl = Common.addParamToUrl(reportUrl,
+				Common.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+		emailBody = emailBody.replace("${reportUrl}", reportUrl);
+
+		message.setContent(emailBody, "text/html");
+
+		return message;
+	}
+	
+	public MimeMessage generateFeedbackSessionEmailBaseForInstructors(
+			CourseAttributes c,
+			FeedbackSessionAttributes fs, 
+			InstructorAttributes i,
+			String template)
+					throws MessagingException, UnsupportedEncodingException {
+
+		MimeMessage message = getEmptyEmailAddressedToEmail(i.email);
+
+		message.setSubject(String
+				.format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
+						c.name, fs.feedbackSessionName));
+
+		String emailBody = template;
+
+		emailBody = emailBody.replace("${joinFragment}", "");
+		emailBody = emailBody.replace("${userName}", i.name);
+		emailBody = emailBody.replace("${courseName}", c.name);
+		emailBody = emailBody.replace("${courseId}", c.id);
+		emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
+		emailBody = emailBody.replace("${deadline}",
+				Common.formatTime(fs.endTime));
+		emailBody = emailBody.replace("${instructorFragment}", "The email below has also been sent to students of course: "+c.id+".<br/>");
+		
+		String submitUrl = Common.TEAMMATES_APP_URL
+				+ Common.PAGE_STUDENT_FEEDBACK_SUBMIT;
+		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID,
+				c.id);
+		submitUrl = Common.addParamToUrl(submitUrl,
+				Common.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+		emailBody = emailBody.replace("${submitUrl}", submitUrl);
+
+		String reportUrl = Common.TEAMMATES_APP_URL
+				+ Common.PAGE_INSTRUCTOR_FEEDBACK_RESULTS;
+		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID,
+				c.id);
+		reportUrl = Common.addParamToUrl(reportUrl,
+				Common.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+		emailBody = emailBody.replace("${reportUrl}", reportUrl);
+
+		message.setContent(emailBody, "text/html");
+
+		return message;
+	}
+	
 	public MimeMessage generateStudentCourseJoinEmail(
 			CourseAttributes c,	StudentAttributes s) 
 					throws AddressException, MessagingException, UnsupportedEncodingException {
@@ -317,6 +498,19 @@ public class Emails {
 		return message;
 	}
 
+	private MimeMessage getEmptyEmailAddressedToEmail(String email)
+			throws MessagingException, AddressException,
+			UnsupportedEncodingException {
+		Session session = Session.getDefaultInstance(new Properties(), null);
+		MimeMessage message = new MimeMessage(session);
+
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+				email));
+		message.setFrom(new InternetAddress(senderEmail, senderName));
+		message.setReplyTo(new Address[] { new InternetAddress(replyTo) });
+		return message;
+	}
+	
 	private boolean isYetToJoinCourse(StudentAttributes s) {
 		return s.googleId == null || s.googleId.isEmpty();
 	}

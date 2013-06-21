@@ -75,13 +75,21 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		if((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBER)) != null){
 			newQuestion.questionNumber = Integer.parseInt(param);
 		}
-		newQuestion.questionText = 
-				new Text(getRequestParam(Common.PARAM_FEEDBACK_QUESTION_TEXT));
-		newQuestion.questionType = 
-				QuestionType.TEXT;
-		if((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null){
-			newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
+		newQuestion.questionText = new Text(getRequestParam(Common.PARAM_FEEDBACK_QUESTION_TEXT));
+		newQuestion.questionType = QuestionType.TEXT;
+		
+		newQuestion.numberOfEntitiesToGiveFeedbackTo = Common.MAX_POSSIBLE_RECIPIENTS;
+		if ((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
+			if (param.equals("custom")) {
+				if ((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {
+					if (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
+						newQuestion.recipientType == FeedbackParticipantType.TEAMS) {
+						newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
+					}
+				}
+			}
 		}
+		
 		newQuestion.showResponsesTo = getParticipantListFromParams(
 				getRequestParam(Common.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO));				
 		newQuestion.showGiverNameTo = getParticipantListFromParams(

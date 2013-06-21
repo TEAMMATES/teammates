@@ -10,7 +10,25 @@
       <schedule>every 60 minutes synchronized</schedule>
       <timezone>Australia/Perth</timezone>
     </cron>
-      <cron>
+    <cron>
+      <url>/feedbackSessionOpeningReminders</url>
+      <description>Checks and sends out emails for feedback sessions which are about to open every hour.</description>
+      <schedule>every 60 minutes synchronized</schedule>
+      <timezone>Australia/Perth</timezone>
+    </cron>
+    <cron>
+      <url>/feedbackSessionClosingReminders</url>
+      <description>Checks for feedback sessions that are due in 24 hours and send reminders to students who have not submitted their responses in full.</description>
+      <schedule>every 60 minutes synchronized</schedule>
+      <timezone>Australia/Perth</timezone>
+    </cron>
+    <cron>
+      <url>/feedbackSessionPublishedReminders</url>
+      <description>Checks and sends out emails for feedback sessions which have just been published in the past hour.</description>
+      <schedule>every 60 minutes synchronized</schedule>
+      <timezone>Australia/Perth</timezone>
+    </cron>
+    <cron>
       <url>/_ah/datastore_admin/backup.create?name=BackupToCloud&amp;kind=Instructor&amp;kind=Course&amp;kind=Evaluation&amp;kind=Student&amp;kind=Submission&amp;filesystem=blobstore</url>
       <description>Weekly Backup</description>
       <schedule>every monday 06:00</schedule>
