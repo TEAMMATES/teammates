@@ -407,8 +407,7 @@ public abstract class AppPage {
 		}
 		try {
 			String actual = getPageSource();
-			String expected = Common.readFile(filePath).replace("{version}",
-					TestProperties.inst().TEAMMATES_VERSION);
+			String expected = Common.readFile(filePath);
 			HtmlHelper.assertSameHtml(actual, expected);
 			
 		} catch (Exception e) {

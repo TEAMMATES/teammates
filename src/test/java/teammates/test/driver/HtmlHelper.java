@@ -5,12 +5,15 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.xml.transform.TransformerException;
 
 
 import org.cyberneko.html.parsers.DOMParser;
+import org.openqa.selenium.internal.seleniumemulation.IsVisible;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -18,58 +21,55 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-/**
- * This class is used to compare two html files to see if they are logically 
- * equivalent e.g., ignore differences in whitespace and attribute order.
- *
- */
+import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.test.cases.BaseTestCase;
+
+
 public class HtmlHelper {
 
 	/**
-	 * Assert whether two HTML strings are the same in the DOM representation.
-	 * This ignores the order of attributes, and ignores unnecessary whitespaces as well.
+	 * Verifies that two HTML files are logically 
+	 * equivalent e.g., ignores differences in whitespace and attribute order.
 	 */
-	public static boolean assertSameHtml(String actualString, String expectedString)
-			throws SAXException, IOException, TransformerException {
+	public static void assertSameHtml(String actualString, String expectedString){
 		
-		actualString = preProcessHtml(actualString);
-		expectedString = preProcessHtml(expectedString);
+		String processedExpectedHtml = convertToStandardHtml(expectedString);
+		String processedActualHtml = convertToStandardHtml(actualString);
 		
-		Node actualPage = getNodeFromString(actualString);
-		Node expectedPage = getNodeFromString(expectedString);
-		eliminateEmptyTextNodes(actualPage);
-		eliminateEmptyTextNodes(expectedPage);
-		
-		StringBuilder expectedHTML= new StringBuilder();
-		StringBuilder actualHTML = new StringBuilder();
-		boolean isLogicalMatch = compare(actualPage, expectedPage, "", actualHTML, expectedHTML);
-		if (!isLogicalMatch) {
-			// If they are not a logical match, we force a literal comparison
-			// just so that TestNG gives us a side-by-side comparison.
-			String outputDivider =
-					"\n\n######################################################################\n"
-							+
-							"Given below is the normalized HTML with the difference highlighted\n"
-							+
-							"######################################################################\n\n";
-			assertEquals(
-					"The two HTML pages are not logically equivalent. Aborting comparison at the first difference encountered.",
-					expectedString + outputDivider + expectedHTML.toString(),
-					actualString + outputDivider + actualHTML.toString());
+		if(!BaseTestCase.isContainsRegex(processedExpectedHtml, processedActualHtml)){
+			assertEquals("<expected>\n"+processedExpectedHtml+"</expected>", "<actual>\n"+processedActualHtml+"</actual>");
 		}
-		return isLogicalMatch;
 	}
-	
+
+
 	/**
-	 * Modifies the html string to accommodate the differences and inconsistencies between different browsers
-	 * @param htmlString The string to process
-	 * @return The processed HTML string
+	 * Transform the HTML text to follow a standard format. 
+	 * Element attributes are reordered in alphabetical order.
+	 * Spacing and line breaks are standardized too.
+	 */
+	private static String convertToStandardHtml(String rawHtml) {
+		String preProcessedHtml = preProcessHtml(rawHtml);
+		try {
+			Node currentNode = getNodeFromString(preProcessedHtml);
+			StringBuilder currentHtml = new StringBuilder();
+			String initialIndentation = "";
+			convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml);
+			return currentHtml.toString()
+					.replace("<#document   <html   </html>", "")
+					.replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+
+	/**
+	 * Modifies the HTML to deal with wild cards (e.g., "{*}") and some other
+	 * inconsistencies in the HTML code produced by the DOM parser and the Browsers.
 	 */
 	private static String preProcessHtml(String htmlString){
-		htmlString = htmlString.replaceAll("&nbsp;", "");
+		htmlString = htmlString.replace("{version}", TestProperties.inst().TEAMMATES_VERSION);
 		htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");	
-		htmlString = htmlString.replaceAll("height=\"([0-9]+)\"", "height=\"$1px\"");
-		htmlString = htmlString.replaceAll("width=\"([0-9]+)\"", "width=\"$1px\"");
 		htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
 		htmlString = htmlString.replaceAll("src=\"https://ssl.google-analytics.com/ga.js\"", "async=\"\" src=\"https://ssl.google-analytics.com/ga.js\"");
 
@@ -80,224 +80,106 @@ public class HtmlHelper {
 	}
 
 	
-	private static Node getNodeFromString(String string) throws SAXException,
-			IOException {
+	private static Node getNodeFromString(String string) throws SAXException, IOException {
 		DOMParser parser = new DOMParser();
 		parser.parse(new InputSource(new StringReader(string)));
 		return parser.getDocument();
 	}
-	
-	/**
-	 * recursively remove all empty text nodes within the Node n 
-	 * @param n the Node
-	 */
-	private static void eliminateEmptyTextNodes(Node n){
-		NodeList childNodes = n.getChildNodes();
-		List<Node> toRemove = new ArrayList<Node>();
-		for (int i = childNodes.getLength() - 1; i >= 0; i --){
-			Node current = childNodes.item(i);
-			if (current.getNodeType() == Node.TEXT_NODE && current.getNodeValue().trim().isEmpty()){
-				toRemove.add(current);
-			}
-			else {
-				eliminateEmptyTextNodes(current);
-			}
-		}
-		
-		for (int i = 0; i < toRemove.size(); i++){
-			n.removeChild(toRemove.get(i));
-		}
-	}
 
-	/**
-	 * Parse Node n into a readable String
-	 * @param n
-	 * @return
-	 */
-	public static String printHtmlFromNode(Node n){
-		NamedNodeMap attributeList = n.getAttributes();
-		
-		String s = new String();
-		s += n.getNodeName() + " "; 
-		
-		if (attributeList != null){
-			for (int i = 0; i <attributeList.getLength(); i++ ){
-				Node attribute = attributeList.item(i);
-				s += attribute.getNodeName() + "=\"" + attribute.getNodeValue() + "\" ";
-			}
-		} else {
-			s += n.getNodeValue().trim();
-		}
-		s += "\n";
-		return s;
-	}
-	
-	public static boolean compare(Node actual, Node expected, String indentation, StringBuilder actualOutput, StringBuilder expectedOutput){
-		//Building the HTML string for display
-		if(expected.getNodeType() == Node.TEXT_NODE){
-			expectedOutput.append(indentation + expected.getNodeValue() + "\n");
-		}
-		if (expected.getNodeType() != Node.TEXT_NODE){
-			expectedOutput.append(indentation + "<" + expected.getNodeName() + ">   ");
-		}
-		if(actual.getNodeType() == Node.TEXT_NODE){
-			actualOutput.append(indentation + actual.getNodeValue() + "\n");
-		}
-		if (actual.getNodeType() != Node.TEXT_NODE){
-			actualOutput.append(indentation + "<" + actual.getNodeName() + ">   ");
-		}
-		
-		
-		Node debugNode = actual.cloneNode(false);
-		if (expected.getNodeType() == Node.ELEMENT_NODE){
-			//Verify node type is correct
-			if(actual.getNodeType() != Node.ELEMENT_NODE){
-				actualOutput.append("----------------------------------------\n");
-				actualOutput.append("Error in Element: " + printHtmlFromNode(debugNode));
-				actualOutput.append("Supposed to have element node but given " + actual.getNodeName() + "\n");
-				return false;
-			}
-			//Verify element tag is correct
-			if(!actual.getNodeName().equals(expected.getNodeName())){
-				actualOutput.append("----------------------------------------\n");
-				actualOutput.append("Error in Element: " + printHtmlFromNode(debugNode));
-				actualOutput.append("Supposed to have " + expected.getNodeName() + " tag but given " + actual.getNodeName() + " tag instead\n");
-				return false;
-			}
+	private static void convertToStandardHtmlRecursively(Node currentNode, String indentation, StringBuilder currentHtmlText){
 			
-			NamedNodeMap actualAttributeList = actual.getAttributes();
-			NamedNodeMap expectedAttributeList = expected.getAttributes();
-			boolean dhtmltooltipIgnore = false;
-			
-			//Building HTML string for display
-			for (int i = 0; i < expectedAttributeList.getLength(); i++){
-				Node expectedAttribute = expectedAttributeList.item(i);
-				expectedOutput.append(expectedAttribute.getNodeName() + "=\"" + expectedAttribute.getNodeValue() + "\" ");
+		if(currentNode.getNodeType() == Node.TEXT_NODE){
+			String text = currentNode.getNodeValue();
+			if(!text.trim().isEmpty()){
+				currentHtmlText.append(indentation + text.trim() + "\n");
 			}
-			expectedOutput.append("\n");
+			return;
+		}
+
+		//Add the start of opening tag
+		currentHtmlText.append(indentation + "<" + currentNode.getNodeName().toLowerCase());
+		
+		//Add the attributes of the tag
+		NamedNodeMap actualAttributeList = currentNode.getAttributes();
+		if(actualAttributeList!=null){
+			
+			List<Node> nodesList = getAttributesAsNodeList(actualAttributeList);
+			sortAttributes(nodesList);
+			
 			for (int i = 0; i < actualAttributeList.getLength(); i++){
 				Node actualAttribute = actualAttributeList.item(i);
-				actualOutput.append(actualAttribute.getNodeName() + "=\"" + actualAttribute.getNodeValue() + "\" ");
+				currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\" ");
 			}
-			actualOutput.append("\n");
-			
-			//Verify attributes in element tag is correct (checks number, name, value of attributes)
-			for (int i = 0; i < expectedAttributeList.getLength(); i++){
-				Node expectedAttribute = expectedAttributeList.item(i);
-				Node actualAttribute = null;				
-				try{
-					actualAttribute = actualAttributeList.removeNamedItem(expectedAttribute.getNodeName());
-					if(actualAttribute.getNodeName().equals("id") && actualAttribute.getNodeValue().equals("dhtmltooltip")){						
-						dhtmltooltipIgnore = true;
-					}
-				}
-				catch (DOMException e){
-					actualOutput.append("----------------------------------------\n");
-					actualOutput.append("Error in Element: " + printHtmlFromNode(debugNode));
-					actualOutput.append("Unable to find attribute: " + expectedAttribute.getNodeName() + "\n");
-					return false;
-				}
-				if (expectedAttribute.getNodeValue().trim().equals("{*}")){
-					//Regex should pass
-				} else if (!actualAttribute.getNodeValue().equals(expectedAttribute.getNodeValue())){
-					actualOutput.append("----------------------------------------\n");
-					actualOutput.append("Error in Element: " + printHtmlFromNode(debugNode));
-					actualOutput.append("Attribute " + expectedAttribute.getNodeName() + " has value \"" + actualAttribute.getNodeValue() + "\" instead of \"" + expectedAttribute.getNodeValue() + "\"\n");
-					return false;
-				}								
-			}
-			if(actualAttributeList.getLength() > 0){				
-				if(dhtmltooltipIgnore && actualAttributeList.getLength() == 1 && actualAttributeList.item(0).getNodeName().equals("style")){						
-					//skip if the style for the dhtmltooltip is set
-				} else {
-					actualOutput.append("----------------------------------------\n");
-					actualOutput.append("Error in Element: " + printHtmlFromNode(debugNode));
-					actualOutput.append("There are extra attributes in the element tag ");
-					for (int i = 0; i < actualAttributeList.getLength(); i++){
-						Node actualAttribute = actualAttributeList.item(i);
-						actualOutput.append("[" + actualAttribute.getNodeName() + ": " + actualAttribute.getNodeValue() + "] ");
-					}
-					return false;
-				}
-			}
-				
-			
-		} else if (expected.getNodeType() == Node.TEXT_NODE){
-			//Verify node type is correct
-			if(actual.getNodeType() != Node.TEXT_NODE){
-				actualOutput.append("----------------------------------------\n");
-				actualOutput.append("Error in Element: " + printHtmlFromNode(debugNode));
-				actualOutput.append("Supposed to have text node but given " + actual.getNodeName() + "\n");
-				return false;
-			} else if (expected.getNodeValue().trim().equals("{*}")){
-				//Regex should pass
-			} else if(!actual.getNodeValue().trim().equals(expected.getNodeValue().trim())){
-				//Verify text node value is correct
-				actualOutput.append("----------------------------------------\n");
-				actualOutput.append("Error in Element: " + printHtmlFromNode(debugNode));
-				actualOutput.append("Supposed to have value \"" + expected.getNodeValue().trim() + "\" but given \"" + actual.getNodeValue().trim() + "\" instead\n");
-				return false;
-			}	
-		}
-				
-		//Verify tree structure is correct
-		if(expected.hasChildNodes() || expected.hasChildNodes()){
-			NodeList actualChildNodes = actual.getChildNodes();
-			NodeList expectedChildNodes = expected.getChildNodes();
-			if (actualChildNodes.getLength() != expectedChildNodes.getLength()){
-				actualOutput.append("----------------------------------------\n");
-				actualOutput.append("Error: Parse tree structure is different\n");
-				actualOutput.append("Actual webpage - Parent Element: " + printHtmlFromNode(debugNode));
-				actualOutput.append("Actual webpage - child Elements: \n");
-				for (int i = 0; i < actualChildNodes.getLength(); i++){
-					actualOutput.append("    " + actualChildNodes.item(i).getNodeName() + " ");
-					NamedNodeMap actualAttributeList = actualChildNodes.item(i).getAttributes();
-					//We may be looking at a text node, which does not have attributes, so we have to check for null
-					if (actualAttributeList != null) {		
-						for (int j = 0; j < actualAttributeList.getLength(); j++){
-							actualOutput.append(actualAttributeList.item(j).getNodeName() + "=\"" + actualAttributeList.item(j).getNodeValue() + "\" ");
-						}
-					} else {
-						actualOutput.append(actualChildNodes.item(i).getNodeValue().trim());
-					}
-					actualOutput.append("\n");
-				}
-				actualOutput.append("\n");
-				actualOutput.append("Expected webpage - Parent Element: " + printHtmlFromNode(expected));
-				actualOutput.append("Expected webpage - child Elements: \n");
-				for (int i = 0; i < expectedChildNodes.getLength(); i++){
-					actualOutput.append("    " + expectedChildNodes.item(i).getNodeName() + " ");
-					NamedNodeMap expectedAttributeList = expectedChildNodes.item(i).getAttributes();
-					//We may be looking at a text node, which does not have attributes, so we have to check for null
-					if (expectedAttributeList != null){
-						for (int j = 0; j < expectedAttributeList.getLength(); j++){
-							actualOutput.append(expectedAttributeList.item(j).getNodeName() + "=\"" + expectedAttributeList.item(j).getNodeValue() + "\" ");
-						}
-					} else {
-						 actualOutput.append(expectedChildNodes.item(i).getNodeValue().trim());
-					}
-					actualOutput.append("\n");
-				}
-				actualOutput.append("\n");
-				return false;
-			} else {
-				for (int i = 0; i < actualChildNodes.getLength(); i++){
-					if(!compare(actualChildNodes.item(i), expectedChildNodes.item(i), indentation + "   ", expectedOutput, actualOutput)){
-						return false;
-					}
-				}
-			}
+			//close the tag
+			currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");
 		}
 		
-		//Building HTML string for display
-		if (expected.getNodeType() != Node.TEXT_NODE){
-			expectedOutput.append(indentation + "</" + expected.getNodeName() + ">\n");
+		// Recursively add contents of the child nodes 
+		NodeList actualChildNodes = currentNode.getChildNodes();
+		for (int i = 0; i < actualChildNodes.getLength(); i++){
+			convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText);
 		}
-		if (actual.getNodeType() != Node.TEXT_NODE){
-			actualOutput.append(indentation + "</" + actual.getNodeName() + ">\n");
+		
+		//add end tag, if any
+		if (currentNode.getNodeType() != Node.TEXT_NODE){
+			currentHtmlText.append(indentation + getEndTag(currentNode));
 		}
 	
-		return true;
+	}
+
+
+	private static List<Node> getAttributesAsNodeList(NamedNodeMap actualAttributeList) {
+		List<Node> nodesList= new ArrayList<Node>();
+		for (int i = 0; i < actualAttributeList.getLength(); i++){
+			nodesList.add(actualAttributeList.item(i));
+		}
+		return nodesList;
+	}
+
+	private static String getEndOfOpeningTag(Node node) {
+		String tagName = node.getNodeName().toLowerCase();
+		if(isVoidElement(tagName)){
+			return "/>";
+		}else {
+			return ">";
+		}
+	}
+	
+	private static String getEndTag(Node node) {
+		String tagName = node.getNodeName().toLowerCase();
+		if(isVoidElement(tagName)){
+			return "";
+		}else {
+			return "</"+tagName+">\n";
+		}
+	}
+	
+	private static boolean isVoidElement(String elementName){
+		return elementName.equals("area")
+				|| elementName.equals("base")
+				|| elementName.equals("br")
+				|| elementName.equals("col")
+				|| elementName.equals("command")
+				|| elementName.equals("embed")
+				|| elementName.equals("hr")
+				|| elementName.equals("img")
+				|| elementName.equals("input")
+				|| elementName.equals("keygen")
+				|| elementName.equals("link")
+				|| elementName.equals("meta")
+				|| elementName.equals("param")
+				|| elementName.equals("source")
+				|| elementName.equals("track")
+				|| elementName.equals("wbr");
+	}
+
+	private static void sortAttributes(List<Node> attributeList) {
+		Collections.sort(attributeList, new Comparator<Node>() {
+			public int compare(Node n1, Node n2) {
+				return n1.getNodeName().compareTo(n2.getNodeName());
+			}
+		});
+		
 	}
 
 }

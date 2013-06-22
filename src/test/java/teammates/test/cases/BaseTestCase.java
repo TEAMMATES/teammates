@@ -172,14 +172,11 @@ public class BaseTestCase {
 	 */
 	public static void assertContainsRegex(String regexExpected,
 			String stringActual) {
-		String processedActual = stringActual.replaceAll("[\t\r\n]", "");
-		String processedRegex = Pattern.quote(regexExpected)
-				.replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
-				.replaceAll("[\t\r\n]", "");
-		if (!processedActual.matches("(?s)(?m).*" + processedRegex + ".*")) {
+		if (!isContainsRegex(regexExpected, stringActual)) {
 			assertEquals(regexExpected, stringActual);
 		}
 	}
+	
 
 	/**
 	 * Asserts that the stringActual contains the occurence regexExpected.
@@ -189,11 +186,7 @@ public class BaseTestCase {
 	 */
 	public static void assertContainsRegex(String message,
 			String regexExpected, String stringActual) {
-		String processedActual = stringActual.replaceAll("[\t\r\n]", "");
-		String processedRegex = Pattern.quote(regexExpected)
-				.replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
-				.replaceAll("[\t\r\n]", "");
-		if (!processedActual.matches("(?s)(?m).*" + processedRegex + ".*")) {
+		if (!isContainsRegex(regexExpected, stringActual)) {
 			assertEquals(message, regexExpected, stringActual);
 		}
 	}
@@ -203,8 +196,7 @@ public class BaseTestCase {
 	 * Replaces occurences of {*} at regexExpected to match anything in
 	 * stringActual.
 	 */
-	public static boolean isContainsRegex(String regexExpected,
-			String stringActual) {
+	public static boolean isContainsRegex(String regexExpected,	String stringActual) {
 		String processedActual = stringActual.replaceAll("[\t\r\n]", "");
 		String processedRegex = Pattern.quote(regexExpected)
 				.replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
