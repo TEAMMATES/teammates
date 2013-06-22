@@ -157,7 +157,7 @@
 			$('#instructorEnrollPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_ENROLL %>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
 			$('#instructorCourseDetailsPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_DETAILS %>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
 			$('#instructorCourseStudentDetailsPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS %>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
-			$('#instructorCourseStudentEditPage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT %>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
+			$('#instructorCourseStudentEditPage').load("<%=Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
 			$('#instructorCourseEvalPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL %>?user=teammates.test #frameBodyWrapper");
 			$('#instructorCourseEvalEditPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
 			$('#instructorCourseEvalResultsPage1').load("<%= Common.PAGE_INSTRUCTOR_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");

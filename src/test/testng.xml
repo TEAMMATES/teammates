@@ -19,7 +19,7 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsViewPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionViewPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionEditPageUiTest" />
@@ -71,6 +71,16 @@
 			<class name="teammates.test.cases.ui.InstructorCoursePageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseDeleteActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseDetailsPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseEditPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseEditSaveActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseEnrollPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseEnrollSaveActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseRemindActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseStudentDeleteActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseStudentDetailsPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseStudentDetailsEditPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseStudentDetailsEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalSubmissionEditPageActionTest" />

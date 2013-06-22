@@ -50,7 +50,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 		
 		______TS("content: unregistered student");
 		
-		Url editPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT)
+		Url editPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
 		.withUserId(instructorId)
 		.withCourseId(courseId)
 		.withStudentEmail(testData.students.get("unregisteredStudent").email);
@@ -60,7 +60,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 		
 		______TS("content: registered student");
 		
-		editPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT)
+		editPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withStudentEmail(testData.students.get("registeredStudent").email);

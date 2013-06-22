@@ -15,7 +15,7 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
  * Covers the 'student details' view for instructors.
  * SUT: {@link InstructorCourseStudentDetailsViewPage}.
  */
-public class InstructorCourseStudentDetailsViewPageUiTest extends BaseUiTestCase {
+public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 	private static Browser browser;
 	private static InstructorCourseStudentDetailsViewPage viewPage;
 	private static DataBundle testData;
@@ -24,7 +24,7 @@ public class InstructorCourseStudentDetailsViewPageUiTest extends BaseUiTestCase
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/InstructorCourseStudentDetailsViewPageUiTest.json");
+		testData = loadTestData("/InstructorCourseStudentDetailsPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
 	}

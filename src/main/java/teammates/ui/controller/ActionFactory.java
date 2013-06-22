@@ -26,6 +26,10 @@ public class ActionFactory {
 		actionMappings.put("/page/instructorCourseEditSave", InstructorCourseEditSaveAction.class);
 		actionMappings.put("/page/instructorCourseEnroll", InstructorCourseEnrollPageAction.class);
 		actionMappings.put("/page/instructorCourseEnrollSave", InstructorCourseEnrollSaveAction.class);
+		actionMappings.put("/page/instructorCourseStudentDelete", InstructorCourseStudentDeleteAction.class);
+		actionMappings.put("/page/instructorCourseStudentDetails", InstructorCourseStudentDetailsPageAction.class);
+		actionMappings.put("/page/instructorCourseStudentDetailsEdit", InstructorCourseStudentDetailsEditPageAction.class);
+		actionMappings.put("/page/instructorCourseStudentDetailsEditSave", InstructorCourseStudentDetailsEditSaveAction.class);
 		actionMappings.put("/page/instructorEval", InstructorEvalPageAction.class);
 		actionMappings.put("/page/instructorEvalAdd", InstructorEvalAddAction.class);
 		actionMappings.put("/page/instructorEvalSubmissionEdit", InstructorEvalSubmissionEditPageAction.class);

@@ -171,7 +171,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 	}
 	
 	
-	private InstructorCoursePageAction getAction(String... params) throws Exception{
+	private InstructorCourseDeleteAction getAction(String... params) throws Exception{
 			return (InstructorCourseDeleteAction) (super.getActionObject(params));
 	}
 	

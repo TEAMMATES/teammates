@@ -334,7 +334,8 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_COURSE_EDIT = "/page/instructorCourseEdit";
 	public static final String PAGE_INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS = "/page/instructorCourseStudentDetails";
-	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT = "/page/instructorCourseStudentEdit";
+	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT = "/page/instructorCourseStudentDetailsEdit";
+	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE = "/page/instructorCourseStudentDetailsEditSave";
 	public static final String PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
 	public static final String PAGE_INSTRUCTOR_COURSE_ENROLL = "/page/instructorCourseEnroll";
 	public static final String PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";

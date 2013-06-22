@@ -52,7 +52,7 @@ public class InstructorCourseDetailsPageData extends PageData {
 	 * @return
 	 */
 	public String getCourseStudentEditLink(StudentAttributes student){
-		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
+		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,student.email);
 		link = addUserIdToUrl(link);

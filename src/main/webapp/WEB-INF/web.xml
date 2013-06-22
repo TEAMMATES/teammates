@@ -214,31 +214,20 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourseDetails</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles the details page of a student in a course</description>
-	    <servlet-name>InstructorCourseStudentDetails</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseStudentDetailsServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorCourseStudentDetails</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourseStudentDetails</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles the edit page of a student in a course</description>
-	    <servlet-name>InstructorCourseStudentEdit</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseStudentEditServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorCourseStudentEdit</servlet-name>
-	    <url-pattern>/page/instructorCourseStudentEdit</url-pattern>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorCourseStudentDetailsEdit</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles course student delete page</description>
-	    <servlet-name>InstructorCourseStudentDelete</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorCourseStudentDeleteServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorCourseStudentDelete</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorCourseStudentDetailsEditSave</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorCourseStudentDelete</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>

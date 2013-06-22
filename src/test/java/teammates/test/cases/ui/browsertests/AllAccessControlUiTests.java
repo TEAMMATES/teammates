@@ -122,7 +122,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_REMIND);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS);
-		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT);
+		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_EVAL);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_EVAL_EDIT);
 		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_EVAL_DELETE);
@@ -238,7 +238,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		verifyRedirectToNotAuthorized(url);
 		verifyCannotMasquerade(url, otherInstructor.googleId);
 
-		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT)
+		url = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
 			.withCourseId(otherCourse.id)
 			.withStudentEmail(otherStudent.email);
 		verifyRedirectToNotAuthorized(url);
@@ -622,7 +622,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	
 		______TS("can edit details of own student");
 	
-		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
+		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, ownStudent.email);
 		verifyPageContains(link, instructorUsername + "{*}Edit Student Details{*}"
@@ -633,7 +633,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		
 		______TS("cannot edit details of not-own student");
 	
-		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT;
+		link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_STUDENT_EMAIL, otherStudent.email);
 		verifyRedirectToNotAuthorized(link);
