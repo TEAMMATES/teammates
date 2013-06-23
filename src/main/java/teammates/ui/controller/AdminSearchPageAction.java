@@ -1,12 +1,12 @@
-
 package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import teammates.common.Common;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.logic.GateKeeper;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -21,51 +21,46 @@ import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 
-public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
-
-	private static final long serialVersionUID = 1L;
-
+public class AdminSearchPageAction extends Action {
+	
 	private static final Index INDEX = SearchServiceFactory.getSearchService()
 			.getIndex(IndexSpec.newBuilder().setName("instructor_search_index"));
 
 	@Override
-	protected AdminHomeHelper instantiateHelper() {
-		return new AdminHomeHelper();
-	}
-
-	@Override
-	public void doAction(HttpServletRequest req, AdminHomeHelper helper) {
+	protected ActionResult execute() throws EntityDoesNotExistException,
+			InvalidParametersException {
 		
-		String rebuildDoc = req.getParameter("build_doc");
+		new GateKeeper().verifyAdminLoggedIn();
+		
+		String rebuildDoc = getRequestParam("build_doc");
+		
+		AdminSearchPageData data = new AdminSearchPageData(account);
 		
 		if(rebuildDoc != null) {
 			//rebuild document to update search index to latest datastore records.
 			//the search indexed will not be updated when a new user is added to the system
 			Queue queue = QueueFactory.getQueue("search-document");
 			queue.add(TaskOptions.Builder.withUrl("/searchTask").method(TaskOptions.Method.GET));
-			helper.statusMessage = "Rebuild task submitted, please check again in a few minutes.";
+			statusToUser.add("Rebuild task submitted, please check again in a few minutes.");
 			Common.waitBriefly();
-			search(req);
+			String queryStr = getRequestParam("query");
+			String limitStr = getRequestParam("limit");
+			search(queryStr, limitStr);
 		}else {
-			
-			long count = search(req);
-			helper.statusMessage = "Found "+Long.toString(count) + " results.";
+			String queryStr = getRequestParam("query");
+			String limitStr = getRequestParam("limit");
+			data.results = search(queryStr, limitStr);
+			statusToUser.add("Found "+ data.results.size() + " results.");
 		}
 		
-		String url = getRequestedURL(req);
-		activityLogEntry = instantiateActivityLogEntry(Common.ADMIN_SEARCH_SERVLET, Common.ADMIN_SEARCH_SERVLET_PAGE_LOAD,
-				false, helper, url, null);
-		
-		
+		return createShowPageResult(Common.JSP_ADMIN_SEARCH, data);
 	}
-
-
-	private long search(HttpServletRequest req) {
-		String queryStr = req.getParameter("query");
+	
+	private List<Document> search(String queryStr, String limitStr) {
+		List<Document> found = new ArrayList<Document>();
 		if (queryStr == null) {
-			return 0;
+			return found;
 		}
-		String limitStr = req.getParameter("limit");
 		int limit = 50;
 		if (limitStr != null) {
 			try {
@@ -73,7 +68,6 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 			} catch (NumberFormatException e) {
 			}
 		}
-		List<Document> found = new ArrayList<Document>();
 		
 		Query query = Query.newBuilder()
 				.setOptions(QueryOptions.newBuilder().setLimit(limit).
@@ -94,35 +88,8 @@ public class AdminSearchServlet extends ActionServlet<AdminHomeHelper> {
 			            .build();
 	        found.add(derived);
 	    }
-		req.setAttribute("found", found);
-		return results.getNumberFound();
+		return found;
 	}
 
 
-	@Override
-	protected String getDefaultForwardUrl() {
-		return Common.JSP_ADMIN_SEARCH;
-	}
-
-	@Override
-	protected String generateActivityLogEntryMessage(String servletName, String action, ArrayList<Object> data) {
-		String message;
-		
-		if(action.equals(Common.ADMIN_SEARCH_SERVLET_PAGE_LOAD)){
-			message = generatePageLoadMessage(servletName, action, data);
-		} else {
-			message = generateActivityLogEntryErrorMessage(servletName, action, data);
-		}
-			
-		return message;
-	}
-
-	
-	private String generatePageLoadMessage(String servletName, String action, ArrayList<Object> data) {
-		String message;
-		
-		message = "adminSearch Page Load";
-		
-		return message;
-	}
 }

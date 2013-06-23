@@ -67,6 +67,13 @@
 			<class name="teammates.test.cases.logic.FeedbackSessionsLogicTest" />
 			<class name="teammates.test.cases.ui.HelperTest" />
 			<class name="teammates.test.cases.ui.ActionResultTest" />
+			<class name="teammates.test.cases.ui.AdminAccountDeletePageActionTest" />
+			<class name="teammates.test.cases.ui.AdminAccountDetailsPageActionTest" />
+			<class name="teammates.test.cases.ui.AdminAccountManagementPageActionTest" />
+			<class name="teammates.test.cases.ui.AdminActivityLogPageActionTest" />
+			<class name="teammates.test.cases.ui.AdminExceptionTestActionTest" />
+			<class name="teammates.test.cases.ui.AdminHomePageActionTest" />
+			<class name="teammates.test.cases.ui.AdminInstructorAccountAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCoursePageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseDeleteActionTest" />

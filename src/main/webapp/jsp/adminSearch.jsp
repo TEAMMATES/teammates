@@ -2,10 +2,11 @@
 <%@ page import="com.google.appengine.api.search.Document" %>
 <%@ page import="com.google.appengine.api.search.Field" %>
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.ui.controller.AdminHomeHelper"%>
-<% AdminHomeHelper helper = (AdminHomeHelper)request.getAttribute("helper"); %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.DateFormat" %>
+<%@ page import="teammates.ui.controller.AdminSearchPageData"%>
+
+<% AdminSearchPageData data = (AdminSearchPageData)request.getAttribute("data"); %>
 <%
   String outcome = (String) request.getAttribute("outcome");
   if (outcome == null || outcome.isEmpty()) {
@@ -61,7 +62,7 @@
     <hr/>
     <br>
     <%
-      List<Document> found = (List<Document>) request.getAttribute("found");
+      List<Document> found = data.results;
       if (found != null) {
     %>
     <form name="delete" action="" method="get">
@@ -118,11 +119,11 @@
       }
     %>
     </div>
-	<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+	<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
 </div>
 </div>
     <div id="frameBottom">
-	<jsp:include page="<%= Common.JSP_FOOTER %>" />
+	<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 </div>
 </body>
 </html>

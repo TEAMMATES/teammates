@@ -13,6 +13,10 @@ import com.meterware.httpunit.WebRequest;
 import com.meterware.servletunit.InvocationContext;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -150,6 +154,47 @@ public class BaseActionTest extends BaseComponentTest {
 				Common.PARAM_EVALUATION_GRACEPERIOD, "0",
 				Common.PARAM_EVALUATION_INSTRUCTIONS, "ins"
 		};
+	}
+	
+	protected void verifyNonAdminsCannotAccess() throws Exception {
+		
+		DataBundle dataForAccessChecking = getTypicalDataBundle();
+		String	unregUserId = "unreg.user";
+		String 	adminUserId = "admin.user";
+		
+		InstructorAttributes instructor1OfCourse1 = dataForAccessChecking.instructors.get("instructor1OfCourse1");
+		EvaluationAttributes evaluationInCourse1 = dataForAccessChecking.evaluations.get("evaluation1InCourse1");
+		StudentAttributes student1InCourse1 = dataForAccessChecking.students.get("student1InCourse1");
+		
+		String[] submissionParams = new String[]{
+				Common.PARAM_COURSE_ID, evaluationInCourse1.courseId,
+				Common.PARAM_EVALUATION_NAME, evaluationInCourse1.name
+		};
+		
+		______TS("not-logged-in users cannot access");
+		
+		logoutUser();
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+		
+		______TS("non-registered users cannot access");
+		
+		loginUser(unregUserId);
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+		
+		______TS("students cannot access");
+		
+		loginAsStudent(student1InCourse1.googleId);
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+		
+		______TS("instructors canont access");
+		
+		loginAsInstructor(instructor1OfCourse1.googleId);
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(adminUserId,submissionParams));
+		
 	}
 
 }

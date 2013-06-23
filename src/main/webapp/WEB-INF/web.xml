@@ -113,60 +113,36 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>AdminSearchTask</servlet-name>
         <url-pattern>/searchTask</url-pattern>
     </servlet-mapping>
-	<servlet>
-	    	<servlet-name>AdminHome</servlet-name>
-	    	<servlet-class>teammates.ui.controller.AdminHomeServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>AdminHome</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/admin/adminHome</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <servlet-name>AdminExceptionTest</servlet-name>
-	    <servlet-class>teammates.ui.controller.AdminExceptionTestServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>AdminExceptionTest</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/admin/adminInstructorAccountAdd</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/admin/adminExceptionTest</url-pattern>
 	</servlet-mapping>
-	<servlet>
-        <servlet-name>AdminSearch</servlet-name>
-        <servlet-class>teammates.ui.controller.AdminSearchServlet</servlet-class>
-    </servlet>
 	<servlet-mapping>
-        <servlet-name>AdminSearch</servlet-name>
+        <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/admin/adminSearch</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>AdminAccountManagement</servlet-name>
-        <servlet-class>teammates.ui.controller.AdminAccountManagementServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
-        <servlet-name>AdminAccountManagement</servlet-name>
+        <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/admin/adminAccountManagement</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>AdminAccountDetails</servlet-name>
-        <servlet-class>teammates.ui.controller.AdminAccountDetailsServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
-        <servlet-name>AdminAccountDetails</servlet-name>
+        <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/admin/adminAccountDetails</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>AdminAccountDelete</servlet-name>
-        <servlet-class>teammates.ui.controller.AdminAccountDeleteServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
-        <servlet-name>AdminAccountDelete</servlet-name>
+        <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/admin/adminAccountDelete</url-pattern>
     </servlet-mapping>
-	<servlet>
-	    <servlet-name>AdminActivityLog</servlet-name>
-	    <servlet-class>teammates.ui.controller.AdminActivityLogServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>AdminActivityLog</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/admin/adminActivityLog</url-pattern>
 	</servlet-mapping>
 	<servlet>

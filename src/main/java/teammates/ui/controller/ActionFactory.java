@@ -16,7 +16,16 @@ public class ActionFactory {
 	private static HashMap<String, Class<? extends Action>> actionMappings;
 	
 	static{
+		//TODO: replace these literals with constants uses elsewhere
 		actionMappings = new HashMap<String, Class<? extends Action>>();
+		actionMappings.put("/admin/adminHome", AdminHomePageAction.class);
+		actionMappings.put(Common.PAGE_ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
+		actionMappings.put(Common.PAGE_ADMIN_ACTIVITY_LOG, AdminActivityLogPageAction.class);
+		actionMappings.put("/admin/adminAccountDetails", AdminAccountDetailsPageAction.class);
+		actionMappings.put("/admin/adminAccountManagement", AdminAccountManagementPageAction.class);
+		actionMappings.put(Common.PAGE_ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
+		actionMappings.put("/admin/adminInstructorAccountAdd", AdminInstructorAccountAddAction.class);
+		actionMappings.put(Common.PAGE_ADMIN_SEARCH, AdminSearchPageAction.class);
 		actionMappings.put("/page/instructorCourse", InstructorCoursePageAction.class);
 		actionMappings.put("/page/instructorCourseAdd", InstructorCourseAddAction.class);
 		actionMappings.put("/page/instructorCourseDelete", InstructorCourseDeleteAction.class);

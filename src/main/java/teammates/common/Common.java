@@ -380,6 +380,7 @@ public class Common {
 	public static final String PAGE_STUDENT_FEEDBACK_RESULTS = "/page/studentFeedbackResults";
 	
 	public static final String PAGE_ADMIN_HOME = "/admin/adminHome";
+	public static final String PAGE_ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
 	public static final String PAGE_ADMIN_ACCOUNT_MANAGEMENT = "/admin/adminAccountManagement";
 	public static final String PAGE_ADMIN_ACCOUNT_DETAILS = "/admin/adminAccountDetails";
 	public static final String PAGE_ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";

@@ -7,9 +7,14 @@ import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 
-public class AdminAccountManagementHelper extends Helper{
+public class AdminAccountManagementPageData extends PageData {
+
 	public HashMap<String, ArrayList<InstructorAttributes>> instructorCoursesTable;
 	public HashMap<String, AccountAttributes> instructorAccountsTable;
+	
+	public AdminAccountManagementPageData(AccountAttributes account) {
+		super(account);
+	}
 	
 	public String getAccountDetailsLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DETAILS;
@@ -29,4 +34,5 @@ public class AdminAccountManagementHelper extends Helper{
 		link = Common.addParamToUrl(link,"account","true");
 		return link;
 	}
+
 }

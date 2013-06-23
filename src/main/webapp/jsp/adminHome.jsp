@@ -1,7 +1,7 @@
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.ui.controller.AdminHomeHelper"%>
+<%@ page import="teammates.ui.controller.AdminHomePageData"%>
 
-<% AdminHomeHelper helper = (AdminHomeHelper)request.getAttribute("helper"); %>
+<% AdminHomePageData data = (AdminHomePageData)request.getAttribute("data"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +31,7 @@
 			<h1>Add New Instructor</h1>
 			</div>
 			<div id="adminManagement">
-				<form action="">
+				<form method="post" action="<%=Common.PAGE_ADMIN_INSTRUCTORACCOUNT_ADD%>" name="form_addinstructoraccount">
 					<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold">Google ID:</td>
@@ -66,14 +66,14 @@
 				    </table>
 				</form>
 			</div>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
 			<br>
 			<br>
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

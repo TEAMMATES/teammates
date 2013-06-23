@@ -1,10 +1,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.ui.controller.AdminActivityLogHelper"%>
 <%@ page import="teammates.ui.controller.ActivityLogEntry" %>
+<%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
 
 <%
-    AdminActivityLogHelper helper = (AdminActivityLogHelper)request.getAttribute("helper");
+AdminActivityLogPageData data = (AdminActivityLogPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -38,7 +38,7 @@
 		    <table class="inputTable" id="filterForm">
 		      <tr>
 		          <td class="label bold">Filter:</td>
-		          <td><input type="text" id="filterQuery" name="filterQuery" value="<%=helper.filterQuery %>"></td>
+		          <td><input type="text" id="filterQuery" name="filterQuery" value="<%=data.filterQuery %>"></td>
 		          <td><input class="button" type="submit" name="search_submit" value="Filter"></td>
 		      </tr>
 		      <tr>
@@ -153,19 +153,19 @@
 		          </td>
 		      </tr>
 		      <%
-                if (helper.queryMessage != null){
-                    out.println("<tr><td colspan=\"3\" class=\"color_red bold\">" + helper.queryMessage + "</td></tr>");
+                if (data.queryMessage != null){
+                    out.println("<tr><td colspan=\"3\" class=\"color_red bold\">" + data.queryMessage + "</td></tr>");
                 }
             %>
 		    </table>
-		    <input type="hidden" name="offset" value="<%=helper.offset %>">
+		    <input type="hidden" name="offset" value="<%=data.offset %>">
 		    <input type="hidden" name="pageChange" value="false">
 		    
 		    </form>
 		    <br>
 		    <br>
 			<%
-			    List<ActivityLogEntry> appLogs = (List<ActivityLogEntry>) request.getAttribute("appLogs");
+			    List<ActivityLogEntry> appLogs = data.logs;
 						  if (appLogs != null) {
 			%>
 			<table class="dataTable">
@@ -202,7 +202,7 @@
 			      }
 			  %>
 			    
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
 			<br>
 			<div class="rightalign"><a href="#frameBodyWrapper">Back To Top</a></div>
 			<br>
@@ -211,7 +211,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

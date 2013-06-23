@@ -2,14 +2,23 @@ package teammates.ui.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import teammates.common.datatransfer.AccountAttributes;
 
-public class AdminActivityLogHelper extends Helper{
+public class AdminActivityLogPageData extends PageData {
+	
 	public String offset;
 	public String pageChange;
 	public String filterQuery;
 	public String queryMessage;
+	public List<ActivityLogEntry> logs;
+	
 	private QueryParameters q;
+
+	public AdminActivityLogPageData(AccountAttributes account) {
+		super(account);
+	}
 
 	/**
 	 * Checks in an array contains a specific value
@@ -123,11 +132,6 @@ public class AdminActivityLogHelper extends Helper{
 	}
 	
 	
-	
-	
-	
-	
-	
 	/**
 	 * QueryParameters inner class. Used only within this servlet, to hold the query data once it is parsed
 	 * The boolean variables determine if the specific label was within the query
@@ -194,4 +198,5 @@ public class AdminActivityLogHelper extends Helper{
 			}
 		}
 	}
+
 }
