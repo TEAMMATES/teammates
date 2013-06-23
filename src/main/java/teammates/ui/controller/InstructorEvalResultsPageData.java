@@ -5,26 +5,19 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.Common;
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 
-public class InstructorEvalResultsHelper extends Helper{
+public class InstructorEvalResultsPageData extends PageData {
 	public EvaluationResultsBundle evaluationResults;
-	
-	/**
-	 * Returns the forward URL, which will be current page
-	 * @return
-	 */
-	public String getForwardURL(){
-		String link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,evaluationResults.evaluation.courseId);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME, evaluationResults.evaluation.name);
-		if(isMasqueradeMode()){
-			link = Common.addParamToUrl(link,Common.PARAM_USER_ID,requestedUser);
-		}
-		return link;
+
+	public InstructorEvalResultsPageData(AccountAttributes account) {
+		super(account);
 	}
+	
+	//TODO: methods below may be repeated elsewhere. Need to unify.
 	
 	/**
 	 * Method to color the points by adding <code>span</code> tag with appropriate
@@ -169,4 +162,22 @@ public class InstructorEvalResultsHelper extends Helper{
 		return result;
 	}
 	
+	/**
+	 * Format P2P feedback
+	 * Make the headings bold, and covert newlines to html linebreaks
+	 * @return
+	 */
+	public static String formatP2PFeedback(String str, boolean enabled){
+		if(!enabled){
+			return "<span style=\"font-style: italic;\">Disabled</span>";
+		}
+		if(str.equals("") || str == null){
+			return "N/A";
+		}
+		return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", "<span class=\"bold\">What I appreciate about you as a team member:</span>")
+				.replace("&lt;&lt;Areas you can improve further&gt;&gt;:", "<span class=\"bold\">Areas you can improve further:</span>")
+				.replace("&lt;&lt;Other comments&gt;&gt;:", "<span class=\"bold\">Other comments:</span>")
+				.replace("\n", "<br>");
+	}
+
 }

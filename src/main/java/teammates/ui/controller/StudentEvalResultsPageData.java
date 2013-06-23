@@ -108,7 +108,7 @@ public class StudentEvalResultsPageData extends PageData {
 		for(SubmissionAttributes sub: tempSubs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
-			result+=InstructorEvalResultsHelper.colorizePoints(sub.details.normalizedToStudent);
+			result+=InstructorEvalResultsPageData.colorizePoints(sub.details.normalizedToStudent);
 		}
 		return result;
 	}

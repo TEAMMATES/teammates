@@ -4,31 +4,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
 
-public class InstructorEvalPageData extends PageData {
-	public String courseIdForNewEvaluation;
-	public EvaluationAttributes newEvaluationToBeCreated;
-	public List<EvaluationDetailsBundle> evaluations;
-	public List<CourseDetailsBundle> courses; //TODO: can we use a lighter data structure here?
+public class InstructorEvalEditPageData extends PageData {
+	public EvaluationAttributes evaluation;
 
-	public InstructorEvalPageData(AccountAttributes account) {
+	public InstructorEvalEditPageData(AccountAttributes account) {
 		super(account);
 	}
 	
-	//TODO: These methods are repeated elsewhere
+	//TODO: methods below are repeated elsewhere
+	
 	/**
 	 * Returns the timezone options as HTML code.
 	 * None is selected, since the selection should only be done in client side.
-	 * @return
 	 */
 	public ArrayList<String> getTimeZoneOptions(){
 		double[] options = new double[]{-12,-11,-10,-9,-8,-7,-6,-5,-4.5,-4,-3.5,
@@ -45,7 +36,7 @@ public class InstructorEvalPageData extends PageData {
 							(int)(Math.abs(options[i]-(int)options[i])*300/5));
 			}
 			result.add("<option value=\""+formatAsString(options[i])+"\"" +
-						(newEvaluationToBeCreated!=null && newEvaluationToBeCreated.timeZone==options[i]
+						(evaluation!=null && evaluation.timeZone==options[i]
 							? "selected=\"selected\""
 							: "") +
 						">"+temp+"</option>");
@@ -55,7 +46,6 @@ public class InstructorEvalPageData extends PageData {
 	
 	/**
 	 * Returns the grace period options as HTML code
-	 * @return
 	 */
 	public ArrayList<String> getGracePeriodOptions(){
 		ArrayList<String> result = new ArrayList<String>();
@@ -72,7 +62,6 @@ public class InstructorEvalPageData extends PageData {
 	 * Returns the time options as HTML code
 	 * By default the selected one is the last one.
 	 * @param selectCurrentTime
-	 * @return
 	 */
 	public ArrayList<String> getTimeOptions(boolean isStartTime){
 		ArrayList<String> result = new ArrayList<String>();
@@ -88,38 +77,7 @@ public class InstructorEvalPageData extends PageData {
 		return result;
 	}
 	
-	public ArrayList<String> getCourseIdOptions() {
-		ArrayList<String> result = new ArrayList<String>();
-
-		for (CourseDetailsBundle courseDetails : courses) {
-
-			// True if this is a submission of the filled 'new evaluation' form
-			// for this course:
-			boolean isFilledFormForEvaluationInThisCourse = (newEvaluationToBeCreated != null)
-					&& courseDetails.course.id.equals(newEvaluationToBeCreated.courseId);
-
-			// True if this is for displaying an empty form for creating an
-			// evaluation for this course:
-			boolean isEmptyFormForEvaluationInThisCourse = (courseIdForNewEvaluation != null)
-					&& courseDetails.course.id.equals(courseIdForNewEvaluation);
-
-			String selectedAttribute = isFilledFormForEvaluationInThisCourse
-					|| isEmptyFormForEvaluationInThisCourse ? " selected=\"selected\""
-					: "";
-
-			result.add("<option value=\"" + courseDetails.course.id + "\""
-					+ selectedAttribute + ">" + courseDetails.course.id + "</option>");
-		}
-		return result;
-	}
 	
-	
-	/**
-	 * Helper to print the value of timezone the same as what javascript would
-	 * produce.
-	 * @param num
-	 * @return
-	 */
 	private static String formatAsString(double num){
 		if((int)num==num) {
 			return ""+(int)num;
@@ -129,9 +87,9 @@ public class InstructorEvalPageData extends PageData {
 	}
 
 	private boolean isTimeToBeSelected(int hour, boolean isStart){
-		boolean isEditingExistingEvaluation = (newEvaluationToBeCreated!=null);
+		boolean isEditingExistingEvaluation = (evaluation!=null);
 		if(isEditingExistingEvaluation){
-			Date time = (isStart ? newEvaluationToBeCreated.startTime : newEvaluationToBeCreated.endTime);
+			Date time = (isStart ? evaluation.startTime : evaluation.endTime);
 			Calendar cal = GregorianCalendar.getInstance();
 			cal.setTime(time);
 			if(cal.get(Calendar.MINUTE)==0){
@@ -147,9 +105,9 @@ public class InstructorEvalPageData extends PageData {
 
 	private boolean isGracePeriodToBeSelected(int gracePeriodOptionValue){
 		int defaultGracePeriod = 15;
-		boolean isEditingExistingEvaluation = (newEvaluationToBeCreated!=null);
+		boolean isEditingExistingEvaluation = (evaluation!=null);
 		if(isEditingExistingEvaluation){
-			return gracePeriodOptionValue==newEvaluationToBeCreated.gracePeriod;
+			return gracePeriodOptionValue==evaluation.gracePeriod;
 		} else {
 			return gracePeriodOptionValue==defaultGracePeriod;
 		}

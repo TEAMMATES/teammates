@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -215,6 +216,38 @@ public abstract class Action {
 		return requestedUserId != null
 				&& !requestedUserId.trim().equals("null")
 				&& !loggedInUserId.equals(requestedUserId);
+	}
+	
+	//===================== Utility methods used by some child classes========
+	
+	protected EvaluationAttributes extractEvaluationData() {
+		//TODO: assert that values are not null
+		EvaluationAttributes newEval = new EvaluationAttributes();
+		newEval.courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		newEval.name = getRequestParam(Common.PARAM_EVALUATION_NAME);
+		newEval.p2pEnabled = getRequestParamAsBoolean(Common.PARAM_EVALUATION_COMMENTSENABLED);
+
+		newEval.startTime = Common.combineDateTime(
+				getRequestParam(Common.PARAM_EVALUATION_START),
+				getRequestParam(Common.PARAM_EVALUATION_STARTTIME));
+
+		newEval.endTime = Common.combineDateTime(
+				getRequestParam(Common.PARAM_EVALUATION_DEADLINE),
+				getRequestParam(Common.PARAM_EVALUATION_DEADLINETIME));
+
+		String paramTimeZone = getRequestParam(Common.PARAM_EVALUATION_TIMEZONE);
+		if (paramTimeZone != null) {
+			newEval.timeZone = Double.parseDouble(paramTimeZone);
+		}
+
+		String paramGracePeriod = getRequestParam(Common.PARAM_EVALUATION_GRACEPERIOD);
+		if (paramGracePeriod != null) {
+			newEval.gracePeriod = Integer.parseInt(paramGracePeriod);
+		}
+
+		newEval.instructions = getRequestParam(Common.PARAM_EVALUATION_INSTRUCTIONS);
+
+		return newEval;
 	}
 
 }

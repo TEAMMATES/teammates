@@ -1,18 +1,20 @@
 package teammates.test.cases.ui;
 
-import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
 import java.util.ArrayList;
 
-import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.InstructorEvalHelper;
+import org.testng.AssertJUnit;
+import org.testng.annotations.Test;
 
-public class InstructorEvalHelperTest extends BaseTestCase {
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.test.cases.BaseTestCase;
+import teammates.ui.controller.InstructorEvalPageData;
+
+public class InstructorEvalsPageDataTest extends BaseTestCase {
 	
 	@Test
 	public void testGetTimeOptions(){
-		InstructorEvalHelper helper = new InstructorEvalHelper();
-		ArrayList<String> timeOptions = helper.getTimeOptions(false);
+		InstructorEvalPageData data = new InstructorEvalPageData(new AccountAttributes());
+		ArrayList<String> timeOptions = data.getTimeOptions(false);
 		String retValue = "";
 		for(String option: timeOptions){
 			retValue += option + "\r\n";

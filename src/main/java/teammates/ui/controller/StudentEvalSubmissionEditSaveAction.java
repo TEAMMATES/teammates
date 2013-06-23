@@ -60,7 +60,7 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		
 		try{
 			logic.updateSubmissions(submissionData);
-			statusToUser.add(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED,EvalSubmissionEditHelper.escapeForHTML(evalName), courseId));
+			statusToUser.add(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED, PageData.escapeForHTML(evalName), courseId));
 			statusToAdmin = createLogMesage(courseId, evalName, teamName, fromEmail, toEmails, points, justifications, comments);
 			
 		} catch (InvalidParametersException e) {

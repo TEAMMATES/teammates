@@ -2,9 +2,9 @@
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorEvalSubmissionViewHelper"%>
+<%@ page import="teammates.ui.controller.InstructorEvalSubmissionViewPageData"%>
 <%
-	InstructorEvalSubmissionViewHelper helper = (InstructorEvalSubmissionViewHelper)request.getAttribute("helper");
+	InstructorEvalSubmissionViewPageData data = (InstructorEvalSubmissionViewPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -32,7 +32,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
 	</div>
 
 	<div id="frameBody">
@@ -45,39 +45,39 @@
 			<table class="inputTable" id="studentEvaluationInfo">
 				<tr>
 					<td class="label rightalign bold" width="30%">Course ID:</td>
-					<td class="leftalign"><%=helper.evaluationResults.evaluation.courseId%></td>
+					<td class="leftalign"><%=data.evaluation.courseId%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
-					<td class="leftalign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.evaluationResults.evaluation.name)%></td>
+					<td class="leftalign"><%=InstructorEvalSubmissionViewPageData.escapeForHTML(data.evaluation.name)%></td>
 				</tr>
 			</table>
 			
 
 			<%
-							for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
-						%>
-			<h2 class="centeralign"><%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
+				for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
+			%>
+			<h2 class="centeralign"><%=InstructorEvalSubmissionViewPageData.escapeForHTML(data.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
 			<table class="resultTable">
 				<thead><tr>
 					<th colspan="2" width="10%" class="bold leftalign">
-						<span class="resultHeader"><%=byReviewee ? "Reviewee" : "Reviewer"%>: </span><%=helper.student.name%></th>
+						<span class="resultHeader"><%=byReviewee ? "Reviewee" : "Reviewer"%>: </span><%=data.student.name%></th>
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
 							onmouseout="hideddrivetip()">
-						Claimed Contribution: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.summary.claimedToInstructor,true)%></th>
+						Claimed Contribution: </span><%=InstructorEvalSubmissionViewPageData.printSharePoints(data.studentResult.summary.claimedToInstructor,true)%></th>
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
 							onmouseout="hideddrivetip()">
-						Perceived Contribution: </span><%=InstructorEvalSubmissionViewHelper.printSharePoints(helper.result.summary.perceivedToInstructor,true)%></th>
+						Perceived Contribution: </span><%=InstructorEvalSubmissionViewPageData.printSharePoints(data.studentResult.summary.perceivedToInstructor,true)%></th>
 				</tr></thead>
 				<tr>
 					<td colspan="4"><span class="bold">Self evaluation:</span><br>
-							<%=InstructorEvalSubmissionViewHelper.printJustification(helper.result.getSelfEvaluation())%></td>
+							<%=InstructorEvalSubmissionViewPageData.printJustification(data.studentResult.getSelfEvaluation())%></td>
 					</tr>
 				<tr>
 					<td colspan="4"><span class="bold">Comments about team:</span><br>
-							<%=InstructorEvalSubmissionViewHelper.escapeForHTML(helper.result.getSelfEvaluation().p2pFeedback.getValue())%></td>
+							<%=InstructorEvalSubmissionViewPageData.escapeForHTML(data.studentResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				<tr class="resultSubheader">
 					<td width="15%" class="bold"><%=byReviewee ? "From" : "To"%> Student</td>
@@ -86,13 +86,14 @@
 					<td width="40%" class="bold">Feedback to peer</td>
 				</tr>
 				<%
-					for(SubmissionAttributes sub: (byReviewee ? helper.result.incoming : helper.result.outgoing)){ if(sub.reviewer.equals(sub.reviewee)) continue;
+					for(SubmissionAttributes sub: (byReviewee ? data.studentResult.incoming : data.studentResult.outgoing)){
+						if(sub.reviewer.equals(sub.reviewee)) continue;
 				%>
 					<tr>
-						<td><b><%=InstructorEvalSubmissionViewHelper.escapeForHTML(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
-						<td><%=InstructorEvalSubmissionViewHelper.printSharePoints(sub.details.normalizedToInstructor,false)%></td>
-						<td><%=InstructorEvalSubmissionViewHelper.printJustification(sub)%></td>
-						<td><%=InstructorEvalSubmissionViewHelper.formatP2PFeedback(InstructorEvalSubmissionViewHelper.escapeForHTML(sub.p2pFeedback.getValue()), helper.evaluationResults.evaluation.p2pEnabled)%></td>
+						<td><b><%=InstructorEvalSubmissionViewPageData.escapeForHTML(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
+						<td><%=InstructorEvalSubmissionViewPageData.printSharePoints(sub.details.normalizedToInstructor,false)%></td>
+						<td><%=InstructorEvalSubmissionViewPageData.printJustification(sub)%></td>
+						<td><%=InstructorEvalSubmissionViewPageData.formatP2PFeedback(InstructorEvalSubmissionViewPageData.escapeForHTML(sub.p2pFeedback.getValue()), data.evaluation.p2pEnabled)%></td>
 					</tr>
 				<%
 					}
@@ -104,7 +105,7 @@
 			%>
 			<div class="centeralign">
 				<input type="button" class="button" id="button_edit" value="Edit Submission"
-						onclick="window.location.href='<%=helper.getInstructorEvaluationSubmissionEditLink(helper.evaluationResults.evaluation.courseId, helper.evaluationResults.evaluation.name, helper.student.email)%>'">
+						onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(data.evaluation.courseId, data.evaluation.name, data.student.email)%>'">
 			</div>
 			<br>
 			<br>
@@ -114,7 +115,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
 	</div>
 </body>
 </html>

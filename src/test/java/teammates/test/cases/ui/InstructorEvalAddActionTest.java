@@ -4,7 +4,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -88,27 +87,6 @@ public class InstructorEvalAddActionTest extends BaseActionTest {
 	public void testExecuteAndPostProcess() throws Exception{
 		
 		//TODO: implement this
-	}
-	
-	
-	private InstructorEvalAddAction getAction(String... params) throws Exception{
-			return (InstructorEvalAddAction) (super.getActionObject(params));
-	}
-	
-	private String[] createParamsForTypicalEval(String courseId, String evalName){
-		
-		return new String[]{
-				Common.PARAM_COURSE_ID, courseId,
-				Common.PARAM_EVALUATION_NAME, evalName,
-				Common.PARAM_EVALUATION_COMMENTSENABLED, "true",
-				Common.PARAM_EVALUATION_START, "01/01/2015",
-				Common.PARAM_EVALUATION_STARTTIME, "0",
-				Common.PARAM_EVALUATION_DEADLINE, "01/01/2015",
-				Common.PARAM_EVALUATION_DEADLINETIME, "0",
-				Common.PARAM_EVALUATION_TIMEZONE, "0",
-				Common.PARAM_EVALUATION_GRACEPERIOD, "0",
-				Common.PARAM_EVALUATION_INSTRUCTIONS, "ins"
-		};
 	}
 	
 }

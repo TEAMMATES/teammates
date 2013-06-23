@@ -136,4 +136,20 @@ public class BaseActionTest extends BaseComponentTest {
 		return (ShowPageResult) a.executeAndPostProcess();
 	}
 
+	protected String[] createParamsForTypicalEval(String courseId, String evalName) {
+		
+		return new String[]{
+				Common.PARAM_COURSE_ID, courseId,
+				Common.PARAM_EVALUATION_NAME, evalName,
+				Common.PARAM_EVALUATION_COMMENTSENABLED, "true",
+				Common.PARAM_EVALUATION_START, "01/01/2015",
+				Common.PARAM_EVALUATION_STARTTIME, "0",
+				Common.PARAM_EVALUATION_DEADLINE, "01/01/2015",
+				Common.PARAM_EVALUATION_DEADLINETIME, "0",
+				Common.PARAM_EVALUATION_TIMEZONE, "0",
+				Common.PARAM_EVALUATION_GRACEPERIOD, "0",
+				Common.PARAM_EVALUATION_INSTRUCTIONS, "ins"
+		};
+	}
+
 }

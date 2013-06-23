@@ -344,6 +344,7 @@ public class Common {
 	public static final String PAGE_INSTRUCTOR_EVAL_ADD = "/page/instructorEvalAdd";
 	public static final String PAGE_INSTRUCTOR_EVAL_DELETE = "/page/instructorEvalDelete";
 	public static final String PAGE_INSTRUCTOR_EVAL_EDIT = "/page/instructorEvalEdit";
+	public static final String PAGE_INSTRUCTOR_EVAL_EDIT_SAVE = "/page/instructorEvalEditSave";
 	public static final String PAGE_INSTRUCTOR_EVAL_RESULTS = "/page/instructorEvalResults";
 	public static final String PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/page/instructorEvalSubmissionView";
 	public static final String PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/page/instructorEvalSubmissionEdit";

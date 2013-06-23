@@ -771,25 +771,15 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	
 		______TS("cannot edit other evaluation");
 	
-		// note: we allow loading of other's evaluation for editing because
-		// it is too expensive to prevent. However, user cannot submit edits.
-	
 		link = Common.PAGE_INSTRUCTOR_EVAL_EDIT;
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, otherCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
-				otherEvaluation.name);
-		currentPage.navigateTo(new Url(link));
-		currentPage.click(By.id("button_submit"));
-		verifyRedirectToNotAuthorized();
+		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,	otherEvaluation.name);
+		verifyRedirectToNotAuthorized(link);
 	
 		______TS("cannot edit other evaluation by masquerading");
 	
-		// note: see note in previous section.
-	
 		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructor.googleId);
-		currentPage.navigateTo(new Url(link));
-		currentPage.click(By.id("button_submit"));
-		verifyRedirectToNotAuthorized();
+		verifyRedirectToNotAuthorized(link);
 	}
 
 	public void testInstructorEvalRemind() {

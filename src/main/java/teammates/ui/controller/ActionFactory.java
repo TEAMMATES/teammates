@@ -32,8 +32,16 @@ public class ActionFactory {
 		actionMappings.put("/page/instructorCourseStudentDetailsEditSave", InstructorCourseStudentDetailsEditSaveAction.class);
 		actionMappings.put("/page/instructorEval", InstructorEvalPageAction.class);
 		actionMappings.put("/page/instructorEvalAdd", InstructorEvalAddAction.class);
+		actionMappings.put("/page/instructorEvalDelete", InstructorEvalDeleteAction.class);
+		actionMappings.put("/page/instructorEvalEdit", InstructorEvalEditPageAction.class);
+		actionMappings.put("/page/instructorEvalEditSave", InstructorEvalEditSaveAction.class);
+		actionMappings.put("/page/instructorEvalPublish", InstructorEvalPublishAction.class);
+		actionMappings.put("/page/instructorEvalRemind", InstructorEvalRemindAction.class);
+		actionMappings.put("/page/instructorEvalResults", InstructorEvalResultsPageAction.class);
 		actionMappings.put("/page/instructorEvalSubmissionEdit", InstructorEvalSubmissionEditPageAction.class);
 		actionMappings.put("/page/instructorEvalSubmissionEditHandler", InstructorEvalSubmissionEditSaveAction.class);
+		actionMappings.put("/page/instructorEvalSubmissionView", InstructorEvalSubmissionViewPageAction.class);
+		actionMappings.put("/page/instructorEvalUnpublish", InstructorEvalUnpublishAction.class);
 		actionMappings.put("/page/instructorFeedback", InstructorFeedbackPageAction.class);
 		actionMappings.put("/page/instructorFeedbackAdd", InstructorFeedbackAddAction.class);
 		actionMappings.put("/page/instructorFeedbackDelete", InstructorFeedbackDeleteAction.class);

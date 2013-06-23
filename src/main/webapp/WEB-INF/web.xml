@@ -238,49 +238,28 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalAdd</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles evaluation edit page</description>
-	    <servlet-name>InstructorEvalEdit</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalEditServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEvalEdit</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalEdit</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles evaluation deletion</description>
-	    <servlet-name>InstructorEvalDelete</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalDeleteServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEvalDelete</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <url-pattern>/page/instructorEvalEditSave</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalDelete</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles evaluation publish action</description>
-	    <servlet-name>InstructorEvalPublish</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalPublishServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEvalPublish</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalPublish</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles evaluation unpublish action</description>
-	    <servlet-name>InstructorEvalUnpublish</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalUnpublishServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEvalUnpublish</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalUnpublish</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles evaluation remind action</description>
-	    <servlet-name>InstructorEvalRemind</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalRemindServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEvalRemind</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalRemind</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -291,22 +270,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalSubmissionEditHandler</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles evaluation results page</description>
-	    <servlet-name>InstructorEvalResults</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalResultsServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEvalResults</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalResults</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles evaluation individual result page</description>
-	    <servlet-name>InstructorEvalSubmissionView</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalSubmissionViewServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEvalSubmissionView</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalSubmissionView</url-pattern>
 	</servlet-mapping>
 	<servlet>

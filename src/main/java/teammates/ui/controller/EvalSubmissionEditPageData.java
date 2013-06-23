@@ -27,7 +27,7 @@ public class EvalSubmissionEditPageData extends PageData {
 	 * @return
 	 */
 	public String getP2PComments(SubmissionAttributes sub) {
-		String commentsString = EvalSubmissionEditHelper.escapeForHTML(sub.p2pFeedback.getValue());
+		String commentsString = PageData.escapeForHTML(sub.p2pFeedback.getValue());
 		if (commentsString.trim().equals("")){
 			if(sub.reviewee.equals(sub.reviewer)) {
 				return "";

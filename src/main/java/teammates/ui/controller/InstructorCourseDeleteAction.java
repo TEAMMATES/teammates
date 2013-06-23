@@ -7,6 +7,7 @@ import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.logic.GateKeeper;
 
 public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 	
@@ -22,6 +23,8 @@ public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 
 		idOfCourseToDelete = getRequestParam(Common.PARAM_COURSE_ID);
 		Assumption.assertNotNull(idOfCourseToDelete);
+		
+		new GateKeeper().verifyCourseInstructorOrAbove(idOfCourseToDelete);
 
 		logic.deleteCourse(idOfCourseToDelete);
 		statusToUser.add(Common.MESSAGE_COURSE_DELETED);
