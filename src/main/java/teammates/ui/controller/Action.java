@@ -199,6 +199,19 @@ public abstract class Action {
 				requestParameters,
 				statusToUser);
 	}
+	
+	/**
+	 * Generates a {@link FileDownloadResult} with the information in this object.
+	 */
+	public FileDownloadResult createFileDownloadResult(String fileName, String fileContent) {
+		return new FileDownloadResult(
+				"filedownload", 
+				account,
+				requestParameters,
+				statusToUser,
+				fileName,
+				fileContent);
+	}
 
 	protected ActionResult createPleaseJoinCourseResponse(String courseId) {
 		String errorMessage = "You are not registered in the course "+PageData.escapeForHTML(courseId);

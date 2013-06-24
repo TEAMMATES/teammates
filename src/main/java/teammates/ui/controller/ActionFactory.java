@@ -42,6 +42,7 @@ public class ActionFactory {
 		actionMappings.put("/page/instructorEval", InstructorEvalPageAction.class);
 		actionMappings.put("/page/instructorEvalAdd", InstructorEvalAddAction.class);
 		actionMappings.put("/page/instructorEvalDelete", InstructorEvalDeleteAction.class);
+		actionMappings.put(Common.PAGE_INSTRUCTOR_EVAL_EXPORT, InstructorEvalResultsDownloadAction.class);
 		actionMappings.put("/page/instructorEvalEdit", InstructorEvalEditPageAction.class);
 		actionMappings.put("/page/instructorEvalEditSave", InstructorEvalEditSaveAction.class);
 		actionMappings.put("/page/instructorEvalPublish", InstructorEvalPublishAction.class);

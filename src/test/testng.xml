@@ -95,6 +95,7 @@
 			<class name="teammates.test.cases.ui.InstructorEvalEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalPublishActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalRemindActionTest" />
+			<class name="teammates.test.cases.ui.InstructorEvalResultsDownloadActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalResultsPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalSubmissionEditSaveActionTest" />

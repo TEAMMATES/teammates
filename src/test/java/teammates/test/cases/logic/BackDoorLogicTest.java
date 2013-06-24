@@ -72,12 +72,8 @@ public class BackDoorLogicTest extends BaseComponentTest {
 		verifyPresentInDatastore(jsonString);
 
 		______TS("try to persist while entities exist");
-		try {
-			logic.persistDataBundle(dataBundle);
-			Assert.fail();
-		} catch (EntityAlreadyExistsException e) {
-			ignoreExpectedException();
-		}
+		
+		logic.persistDataBundle(dataBundle);
 
 		______TS("null parameter");
 		DataBundle nullDataBundle = null;

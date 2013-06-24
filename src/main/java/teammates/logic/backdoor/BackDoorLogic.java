@@ -206,9 +206,8 @@ public class BackDoorLogic extends Logic {
 				questionsToCascadeDelete = feedbackQuestionsLogic
 						.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
 			}
-		} catch (EntityDoesNotExistException e) {
+		} catch (Exception e) {
 			log.info(e.getMessage());
-			return;
 		}
 		super.deleteFeedbackSession(feedbackSessionName, courseId);
 	}
@@ -243,7 +242,7 @@ public class BackDoorLogic extends Logic {
 		}
 		
 		for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
-			deleteEvaluation(f.courseId, f.feedbackSessionName);
+			deleteFeedbackSession(f.courseId, f.feedbackSessionName);
 		}
 		
 		//TODO: questions and responses will be deleted automatically.

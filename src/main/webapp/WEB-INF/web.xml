@@ -104,10 +104,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>FeedbackSessionPublishedReminders</servlet-name>
 		<url-pattern>/feedbackSessionPublishedReminders</url-pattern>
 	</servlet-mapping>
-	
 	<servlet>
 		<servlet-name>AdminSearchTask</servlet-name>
 		<servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+	    <description>Servlet that handles all incoming requests</description>
+	    <servlet-name>ControllerServlet</servlet-name>
+	    <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
         <servlet-name>AdminSearchTask</servlet-name>
@@ -145,11 +150,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/admin/adminActivityLog</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles all incoming requests</description>
-	    <servlet-name>ControllerServlet</servlet-name>
-	    <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
-	</servlet>
+
 	<servlet-mapping>
 	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorHome</url-pattern>
@@ -254,13 +255,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalSubmissionView</url-pattern>
 	</servlet-mapping>
-	<servlet>
-	    <description>Servlet that handles exporting of Evaluation data and it's Submissions</description>
-	    <servlet-name>InstructorEvalExport</servlet-name>
-	    <servlet-class>teammates.ui.controller.InstructorEvalExportServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
-	    <servlet-name>InstructorEvalExport</servlet-name>
+	    <servlet-name>ControllerServlet</servlet-name>
 	    <url-pattern>/page/instructorEvalExport</url-pattern>
 	</servlet-mapping>
 	
