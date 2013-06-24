@@ -26,6 +26,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 	 * @return Null if not found.
 	 */
 	public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
+		//TODO: change parameter order. Our general practice is to give courseId first 
 		
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
 		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);

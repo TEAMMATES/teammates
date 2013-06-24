@@ -195,6 +195,7 @@ public class BackDoorLogic extends Logic {
 	// We do not do it in production to preserve question/responses for future repo.
 	@Override
 	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+		//TODO: change parameter order. Our general practice is to give courseId first
 		List<FeedbackQuestionAttributes> questionsToCascadeDelete;
 		try {			
 			questionsToCascadeDelete = feedbackQuestionsLogic
@@ -242,7 +243,7 @@ public class BackDoorLogic extends Logic {
 		}
 		
 		for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
-			deleteFeedbackSession(f.courseId, f.feedbackSessionName);
+			deleteFeedbackSession(f.feedbackSessionName, f.courseId);
 		}
 		
 		//TODO: questions and responses will be deleted automatically.
