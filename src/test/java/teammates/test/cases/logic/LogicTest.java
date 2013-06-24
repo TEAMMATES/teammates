@@ -209,27 +209,11 @@ public class LogicTest extends BaseComponentTest {
 	
 	@Test
 	public void testGetInstructorAccounts() throws Exception{
+		
 		restoreTypicalDataInDatastore();
 
-		______TS("unauthorized access");
-
-		String methodName = "getInstructorAccounts";
-		Class<?>[] paramTypes = new Class[] {};
-		Object[] params = new Object[] {};
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName,
-				"student1InCourse1", paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-
 		______TS("success case");
+		
 		loginAsAdmin("admin.user");
 		
 		List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
@@ -260,27 +244,6 @@ public class LogicTest extends BaseComponentTest {
 	public void testCreateInstructorAccount() throws Exception {
 
 		restoreTypicalDataInDatastore();
-
-		______TS("unauthorized access");
-
-		String methodName = "createInstructorAccount";
-		Class<?>[] paramTypes = new Class[] { String.class, String.class, String.class, String.class, String.class };
-		Object[] params = new Object[] { "googleId", "courseId", "Instructor Name", "instructor@email.com", "National University of Singapore" };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName,
-				"student1InCourse1", paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-
-		// We don't check admin access because if it doesn't affect normal users
-		// i.e., admin is part of the development team.
 
 		______TS("success case");
 
@@ -370,24 +333,6 @@ public class LogicTest extends BaseComponentTest {
 
 		restoreTypicalDataInDatastore();
 
-		______TS("access control");
-
-		Class<?>[] paramTypes = new Class[] { String.class, String.class };
-		Object[] params = new Object[] {"courseId", "googleId" };
-		String methodName = "getInstructorForGoogleId";
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_UNREGISTERED, methodName,
-				"student1InCourse1", paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-
 		______TS("null parameter");
 
 		try {
@@ -405,30 +350,6 @@ public class LogicTest extends BaseComponentTest {
 
 	@Test
 	public void testUpdateCourseInstructors() throws Exception {
-		
-		______TS("access control");
-	
-		restoreTypicalDataInDatastore();
-	
-		String methodName = "updateCourseInstructors";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1", "a|b|c@d.e", "National University of Singapore" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "idOfTypicalCourse2", "a|b|c@d.e", "National University of Singapore" });
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 		
 		______TS("typical case");
 		
@@ -541,25 +462,6 @@ public class LogicTest extends BaseComponentTest {
 
 		// mostly tested in testCreateInstructor
 
-		______TS("unauthorized");
-
-		restoreTypicalDataInDatastore();
-
-		Class<?>[] paramTypes = new Class[] { String.class };
-		Object[] params = new Object[] { "id" };
-		String methodName = "downgradeInstructorToStudentCascade";
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, null,
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName,
-				"student1InCourse1", paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 		
 		______TS("typical case");
 		
@@ -616,36 +518,6 @@ public class LogicTest extends BaseComponentTest {
 
 		restoreTypicalDataInDatastore();
 
-		______TS("access control");
-
-		/* Here, we test path 1. 
-		 * We have multiple test cases here because we want to make sure the right
-		 * access control rule is being applied.
-		 */
-		
-		String methodName = "createCourseAndInstructor";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
-				String.class };
-		Object[] params = new Object[] { "idOfInstructor1OfCourse1", "new-course",
-				"New Course" };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		// instructor does not own the given instructorId
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "diff-id", "new-course",
-						"New Course" });
-
-		// instructor owns the given id
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 
 		______TS("typical case");
 		
@@ -699,25 +571,9 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetCourse() throws Exception {
 		// mostly tested in testCreateCourse
-		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
-		String methodName = "getCourse";
-		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1" };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 
 		______TS("null parameters");
 
@@ -732,7 +588,6 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetCourseDetails() throws Exception {
 
-		______TS("access control");
 
 		restoreTypicalDataInDatastore();
 
@@ -740,27 +595,7 @@ public class LogicTest extends BaseComponentTest {
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
 		Object[] params = new Object[] { "idOfTypicalCourse1" };
 
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		// student in different course
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse2",
-				paramTypes, params);
-
-		// student in same course
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "idOfTypicalCourse2" });
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-
+		
 		______TS("typical case");
 
 		loginAsAdmin("admin.user");
@@ -802,26 +637,12 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetCoursesForStudentAccount() throws Exception {
 	
-		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
 		String methodName = "getCoursesForStudentAccount";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "student1InCourse1" };
 	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		// not the owner of the id
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse2",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
 	
 		______TS("student having two courses");
 	
@@ -877,27 +698,9 @@ public class LogicTest extends BaseComponentTest {
 	
 		restoreTypicalDataInDatastore();
 	
-		______TS("access control");
-	
 		String methodName = "getCourseSummariesForInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfInstructor1OfCourse1" };
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// instructor does not own the given instructorId
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "diff-id" });
-	
-		// instructor owns the given id
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
+
 	
 		______TS("instructor with 2 courses");
 	
@@ -943,28 +746,9 @@ public class LogicTest extends BaseComponentTest {
 	
 		restoreTypicalDataInDatastore();
 	
-		______TS("access control");
-	
 		String methodName = "getCourseDetailsListForInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfInstructor1OfCourse1" };
 	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// instructor does not own the given instructorId
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "diff-id" });
-	
-		// instructor owns the given id
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("typical case");
 	
@@ -1046,26 +830,11 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetCourseDetailsListForStudent() throws Exception {
 	
-		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
 	
 		String methodName = "getCourseDetailsListForStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "student1InCourse1" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		// not the owner of the id
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse2",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
 	
 		______TS("student having multiple evaluations in multiple courses");
 	
@@ -1175,29 +944,7 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testDeleteCourse() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "deleteCourse";
-		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "idOfTypicalCourse2" });
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("typical case");
 	
@@ -1255,31 +1002,7 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testCreateStudent() throws Exception {
 
-		______TS("access control");
-
 		restoreTypicalDataInDatastore();
-
-		String methodName = "createStudent";
-		Class<?>[] paramTypes = new Class<?>[] { StudentAttributes.class };
-		StudentAttributes s = new StudentAttributes("t|n|e@com|c", "idOfTypicalCourse1");
-		Object[] params = new Object[] { s };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { new StudentAttributes("t|n|e@com|c",
-						"idOfTypicalCourse2") });
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 
 		______TS("typical case");
 
@@ -1350,30 +1073,8 @@ public class LogicTest extends BaseComponentTest {
 	public void testGetStudentForEmail() throws Exception {
 		// mostly tested in testCreateStudent
 
-		______TS("access control");
-
 		restoreTypicalDataInDatastore();
 
-		String methodName = "getStudentForEmail";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"student1InCourse1@gmail.com" };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		// Instructor does not instruct this course -- Do we actually allow this?
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 
 		______TS("null parameters");
 
@@ -1391,28 +1092,6 @@ public class LogicTest extends BaseComponentTest {
 		______TS("access control");
 	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "getStudentsForGoogleId";
-		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "student1InCourse1" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		// different student
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-	
-		// same student
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// Disallow an instructor from viewing the courses this student is in
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("student in one course");
 	
@@ -1487,31 +1166,7 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetStudentForGoogleId() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "getStudentForGoogleId";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"student1InCourse1" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		// different student
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-	
-		// same student
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("student in two courses");
 	
@@ -1551,30 +1206,8 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetStudentsForCourse() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "getStudentsForCourse";
-		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "idOfTypicalCourse2" });
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-	
+		
 		______TS("course with multiple students");
 	
 		restoreTypicalDataInDatastore();
@@ -1614,34 +1247,10 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetTeamsForCourse() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
 	
 		String methodName = "getTeamsForCourse";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		// student not in same course
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse2",
-				paramTypes, params);
-	
-		// student in same course
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "idOfTypicalCourse2" });
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("typical case");
 	
@@ -1705,30 +1314,7 @@ public class LogicTest extends BaseComponentTest {
 	public void testGetKeyForStudent() throws Exception {
 		// mostly tested in testJoinCourse()
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "getKeyForStudent";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"student1InCourse1@gmail.com" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("null parameters");
 	
@@ -1749,34 +1335,8 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testUpdateStudent() throws Exception {
 
-		______TS("access control");
-
 		restoreTypicalDataInDatastore();
 
-		String methodName = "updateStudent";
-		Class<?>[] paramTypes = new Class<?>[] { String.class,
-				StudentAttributes.class };
-		StudentAttributes s = new StudentAttributes("t|n|e@com|c", "idOfTypicalCourse1");
-		Object[] params = new Object[] { "student1InCourse1@gmail.com", s };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-		
-		restoreTypicalDataInDatastore();
-		
 		loginAsAdmin("admin.user");
 
 		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -1816,8 +1376,6 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testJoinCourse() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
 	
 		// make a student 'unregistered'
@@ -1829,20 +1387,6 @@ public class LogicTest extends BaseComponentTest {
 		logic.updateStudent(student.email, student);
 		assertEquals("", logic.getStudentForEmail(student.course, student.email).googleId);
 	
-		String methodName = "joinCourse";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "some.user", key };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		// not the owner of googleId
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "other.user",
-				paramTypes, params);
-	
-		// owner of googleId
-		verifyCanAccess(USER_TYPE_UNREGISTERED, methodName, "some.user",
-				paramTypes, params);
 	
 		______TS("register an unregistered student");
 	
@@ -1917,29 +1461,7 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testEnrollStudents() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "enrollStudents";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "t|n|e@c|c", "idOfTypicalCourse1" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "t|n|e@c|c", "idOfTypicalCourse2" });
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("all valid students, but contains blank lines");
 	
@@ -2038,29 +1560,7 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testSendRegistrationInviteForCourse() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "sendRegistrationInviteForCourse";
-		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "idOfTypicalCourse2" });
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("all students already registered");
 	
@@ -2103,8 +1603,6 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testSendRegistrationInviteToStudent() throws Exception {
 	
-		// access control testing is moved to the bottom of this method
-		// to avoid interfering the email queue.
 	
 		______TS("send to existing student");
 	
@@ -2119,33 +1617,13 @@ public class LogicTest extends BaseComponentTest {
 	
 		verifyJoinInviteToStudent(student1, email);
 	
-		______TS("access control");
+		______TS("send to non-existing student");
 	
 		restoreTypicalDataInDatastore();
 	
 		String methodName = "sendRegistrationInviteToStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"student1InCourse1@gmail.com" };
 	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, new Object[] { "idOfCourse1OfInstructor2",
-						"student1InCourse2@gmail.com" });
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-	
-		______TS("send to non-existing student");
 	
 		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
 				student1.course, "non@existent" });
@@ -2163,30 +1641,10 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testSendReminderForEvaluation() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
 	
 		String methodName = "sendReminderForEvaluation";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"new evaluation" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("empty class");
 	
@@ -2281,30 +1739,7 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testDeleteStudent() throws Exception {
 
-		______TS("access control");
-
 		restoreTypicalDataInDatastore();
-
-		String methodName = "deleteStudent";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"student1InCourse1@gmail.com" };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 
 		______TS("typical delete");
 
@@ -2370,32 +1805,11 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testCreateEvaluation() throws Exception {
 
-		______TS("access control");
-
 		restoreTypicalDataInDatastore();
 
-		String methodName = "createEvaluation";
-		Class<?>[] paramTypes = new Class<?>[] { EvaluationAttributes.class };
 		EvaluationAttributes evaluation = new EvaluationAttributes();
 		evaluation.courseId = "idOfTypicalCourse1";
 		evaluation.name = "new evaluation";
-		Object[] params = new Object[] { evaluation };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 
 		______TS("typical case");
 
@@ -2448,25 +1862,7 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetEvaluation() throws Exception {
 
-		______TS("access control");
-
 		restoreTypicalDataInDatastore();
-
-		String methodName = "getEvaluation";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1", "eval name" };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 
 		______TS("typical case");
 
@@ -2498,29 +1894,8 @@ public class LogicTest extends BaseComponentTest {
 	public void testGetEvaluationsDetailsForInstructor() throws Exception {
 	
 		restoreTypicalDataInDatastore();
-	
-		______TS("access control");
-	
 		String methodName = "getEvaluationsDetailsForInstructor";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfInstructor1OfCourse1" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// instructor does not own the given instructorId
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, new Object[] { "diff-id" });
-	
-		// instructor owns the given id
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("typical case, instructor has 3 evaluations");
 	
@@ -2601,30 +1976,10 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetEvaluationResult() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
 	
 		String methodName = "getEvaluationResult";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"new evaluation" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("typical case");
 	
@@ -2801,30 +2156,10 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetEvaluationResultSummaryAsCsv() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
 	
 		String methodName = "getEvaluationResultSummaryAsCsv";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"new evaluation" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("typical case");
 	
@@ -2891,143 +2226,11 @@ public class LogicTest extends BaseComponentTest {
 				.get("evaluation1InCourse1");
 		String student1email = "student1InCourse1@gmail.com";
 	
-		______TS("access control: AWAITING");
-	
 		restoreTypicalDataInDatastore();
 		
 		String methodName = "getEvaluationResultForStudent";
 		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
 				String.class };
-		Object[] params = new Object[] { course.id, evaluation.name,
-				student1email };
-	
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(1);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
-		evaluation.activated = false;
-		evaluation.published = false;
-		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
-		evaluationsDb.updateEvaluation(evaluation);
-		
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-		
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-		
-		// not the owner of the result
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-	
-		// owner of the result
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// not an instructor of the course
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, new Object[] { "idOfTypicalCourse1", evaluation.name,
-						student1email });
-	
-		// an instructor of the course
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-		
-		______TS("access control: OPEN");
-		
-		restoreTypicalDataInDatastore();
-		
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(-1);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
-		evaluation.activated = true;
-		evaluation.published = false;
-		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
-		evaluationsDb.updateEvaluation(evaluation);
-		
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-		
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-		
-		// not the owner of the result
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-	
-		// owner of the result
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// not an instructor of the course
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, new Object[] { "idOfTypicalCourse1", evaluation.name,
-						student1email });
-	
-		// an instructor of the course
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-		
-		______TS("access control: CLOSED");
-		
-		restoreTypicalDataInDatastore();
-		
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
-		evaluation.activated = true;
-		evaluation.published = false;
-		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
-		evaluationsDb.updateEvaluation(evaluation);
-		
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-		
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-		
-		// not the owner of the result
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-	
-		// owner of the result
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// not an instructor of the course
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, new Object[] { "idOfTypicalCourse1", evaluation.name,
-						student1email });
-	
-		// an instructor of the course
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-		
-		______TS("access control: PUBLISHED evaluation");
-		
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
-		evaluation.published = true;
-		evaluationsDb.updateEvaluation(evaluation);
-		
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-		
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-		
-		// not the owner of the result
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-	
-		// owner of the result
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// not an instructor of the course
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, new Object[] { "idOfTypicalCourse1", evaluation.name,
-						student1email });
-	
-		// an instructor of the course
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("typical case");
 	
@@ -3155,14 +2358,8 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testUpdateEvaluation() throws Exception {
 
-		______TS("access control");
-
 		restoreTypicalDataInDatastore();
 
-		String methodName = "updateEvaluation";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
-				String.class, Date.class, Date.class, Double.TYPE,
-				Integer.TYPE, Boolean.TYPE };
 		EvaluationAttributes eval = new EvaluationAttributes();
 		eval.courseId = "idOfTypicalCourse1";
 		eval.name = "new evaluation";
@@ -3170,26 +2367,6 @@ public class LogicTest extends BaseComponentTest {
 		Date dummyTime = Calendar.getInstance().getTime();
 		eval.startTime = dummyTime;
 		eval.endTime = dummyTime;
-
-		Object[] params = new Object[] { eval.courseId, eval.name,
-				eval.instructions, eval.startTime, eval.endTime, eval.timeZone,
-				eval.gracePeriod, eval.p2pEnabled };
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 
 		______TS("typical case");
 
@@ -3247,8 +2424,6 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testPublishAndUnpublishEvaluation() throws Exception {
 
-		______TS("access control");
-
 		restoreTypicalDataInDatastore();
 
 		String[] methodNames = new String[] { "publishEvaluation",
@@ -3257,24 +2432,6 @@ public class LogicTest extends BaseComponentTest {
 		Object[] params = new Object[] { "idOfTypicalCourse1",
 				"new evaluation" };
 
-		// check access control for both methods
-		for (int i = 0; i < methodNames.length; i++) {
-			verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodNames[i],
-					"any.user", paramTypes, params);
-
-			verifyCannotAccess(USER_TYPE_UNREGISTERED, methodNames[i],
-					"any.user", paramTypes, params);
-
-			verifyCannotAccess(USER_TYPE_STUDENT, methodNames[i],
-					"student1InCourse1", paramTypes, params);
-
-			// course belongs to a different instructor
-			verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodNames[i],
-					"idOfInstructor1OfCourse2", paramTypes, params);
-
-			verifyCanAccess(USER_TYPE_INSTRUCTOR, methodNames[i],
-					"idOfInstructor1OfCourse1", paramTypes, params);
-		}
 
 		______TS("typical cases");
 
@@ -3363,30 +2520,7 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testDeleteEvaluation() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "deleteEvaluation";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"new evaluation" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("typical delete");
 	
@@ -3442,35 +2576,7 @@ public class LogicTest extends BaseComponentTest {
 	@Test
 	public void testGetSubmissionsForEvaluationFromStudent() throws Exception {
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "getSubmissionsForEvaluationFromStudent";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
-				String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1",
-				"new evaluation", "student1InCourse1@gmail.com" };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-	
-		// not the reviewer
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, "student1InCourse1",
-				paramTypes, params);
-	
-		// course belongs to a different instructor
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
 	
 		______TS("typical case");
 	
@@ -3550,21 +2656,7 @@ public class LogicTest extends BaseComponentTest {
 				.get("evaluation1InCourse1");
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 	
-		______TS("access control");
-	
 		restoreTypicalDataInDatastore();
-	
-		String methodName = "hasStudentSubmittedEvaluation";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class,
-				String.class };
-		Object[] params = new Object[] { evaluation.courseId, evaluation.name,
-				student.email };
-	
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-	
-		verifyCanAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
 	
 		______TS("student has submitted");
 	
@@ -3644,142 +2736,6 @@ public class LogicTest extends BaseComponentTest {
 		______TS("non-existent evaluation");
 
 		// already tested under testUpdateSubmission()
-
-		______TS("access control: AWAITING evaluation");
-
-		// mostly done in testUpdateSubmission(), we test only one case here
-
-		restoreTypicalDataInDatastore();
-
-		String methodName = "updateSubmissions";
-		Class<?>[] paramTypes = new Class<?>[] { List.class };
-		List<SubmissionAttributes> submissions = new ArrayList<SubmissionAttributes>();
-		SubmissionAttributes s = new SubmissionAttributes();
-		s.course = "idOfTypicalCourse1";
-		s.evaluation = "evaluation1 In Course1";
-		s.reviewer = "student1InCourse1@gmail.com";
-		submissions.add(s);
-		Object[] params = new Object[] { submissions };
-
-		// ensure the evaluation is closed
-		EvaluationAttributes evaluation = logic.getEvaluation(s.course, s.evaluation);
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(1);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
-		evaluation.activated = false;
-		assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
-		evaluationsDb.updateEvaluation(evaluation);
-
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		// not the reviewer
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-
-		// reviewer, but cannot access
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, s.reviewer,
-				paramTypes, params);
-
-		// not an instructor of the course
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-
-		// an instructor of the course
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-		
-		______TS("access control: OPEN evaluation");
-		
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(-1);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
-		evaluation.activated = true;
-		assertEquals(EvalStatus.OPEN, evaluation.getStatus());
-		evaluationsDb.updateEvaluation(evaluation);
-		
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		// not the reviewer
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-
-		// reviewer, can access
-		verifyCanAccess(USER_TYPE_STUDENT, methodName, s.reviewer,
-				paramTypes, params);
-
-		// not an instructor of the course
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-
-		// an instructor of the course
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-		
-		______TS("access control: CLOSED evaluation");
-		
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
-		assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
-		evaluationsDb.updateEvaluation(evaluation);
-		
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		// not the reviewer
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-
-		// reviewer, can access
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, s.reviewer,
-				paramTypes, params);
-
-		// not an instructor of the course
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-		
-		// an instructor of the course
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-		
-		______TS("access control: PUBLISHED evaluation");
-		
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
-		evaluation.published = true;
-		assertEquals(EvalStatus.PUBLISHED, evaluation.getStatus());
-		evaluationsDb.updateEvaluation(evaluation);
-		
-		verifyCannotAccess(USER_TYPE_NOT_LOGGED_IN, methodName, "any.user",
-				paramTypes, params);
-
-		verifyCannotAccess(USER_TYPE_UNREGISTERED, methodName, "any.user",
-				paramTypes, params);
-
-		// not the reviewer
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, "student2InCourse1",
-				paramTypes, params);
-
-		// reviewer, can access
-		verifyCannotAccess(USER_TYPE_STUDENT, methodName, s.reviewer,
-				paramTypes, params);
-
-		// not an instructor of the course
-		verifyCannotAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse2",
-				paramTypes, params);
-
-		// an instructor of the course
-		verifyCanAccess(USER_TYPE_INSTRUCTOR, methodName, "idOfInstructor1OfCourse1",
-				paramTypes, params);
-		
 
 		______TS("null parameter");
 

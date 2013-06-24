@@ -27,7 +27,8 @@ public class AdminHomePageActionTest extends BaseActionTest {
 	
 	@Test
 	public void testAccessControl() throws Exception{
-		verifyNonAdminsCannotAccess();
+		String[] submissionParams = new String[]{};
+		verifyNonAdminsCannotAccess(submissionParams);
 	}
 
 	

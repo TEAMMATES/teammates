@@ -567,18 +567,18 @@ public class PageData {
 		boolean hasView = true;
 
 		result.append(
-			"<a class=\"color_green t_fs_view"+ position + "\" " +
+			"<a class=\"color_green t_eval_view"+ position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
-			"<a class=\"color_brown t_fs_edit" + position + "\" " +
+			"<a class=\"color_brown t_eval_edit" + position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT+"')\" onmouseout=\"hideddrivetip()\">Edit</a>"
 		);
 		result.append(
-			"<a class=\"color_red t_fs_delete" + position + "\" " +
+			"<a class=\"color_red t_eval_delete" + position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Common.PAGE_INSTRUCTOR_HOME : Common.PAGE_INSTRUCTOR_FEEDBACK)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
 			"onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_FEEDBACK_SESSION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"

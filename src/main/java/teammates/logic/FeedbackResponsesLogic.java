@@ -58,14 +58,6 @@ public class FeedbackResponsesLogic {
 		
 		frDb.updateFeedbackResponse(newResponse);
 	}
-	
-	public void deleteFeedbackResponsesForQuestion(String feedbackQuestionId) {
-		List<FeedbackResponseAttributes> responsesForQuestion =
-				getFeedbackResponsesForQuestion(feedbackQuestionId);		
-		for(FeedbackResponseAttributes response : responsesForQuestion) {
-			frDb.deleteEntity(response);
-		}
-	}
 		
 	public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(
 			String feedbackQuestionId) {

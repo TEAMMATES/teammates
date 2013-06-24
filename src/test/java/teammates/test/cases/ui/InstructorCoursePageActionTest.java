@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.CoursesLogic;
 import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.InstructorCoursePageAction;
@@ -20,37 +19,16 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 
 	DataBundle dataBundle;
 	
-	String unregUserId;
-	String instructorId;
-	String otherInstructorId;
-	String studentId;
-	String adminUserId;
-
-	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = "/page/instructorCourse";
+		URI = Common.PAGE_INSTRUCTOR_COURSE;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
 	@BeforeMethod
 	public void methodSetUp() throws Exception {
 		dataBundle = getTypicalDataBundle();
-
-		unregUserId = "unreg.user";
-		
-		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-		instructorId = instructor1OfCourse1.googleId;
-		
-		InstructorAttributes instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
-		otherInstructorId = instructor1OfCourse2.googleId;
-		
-		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-		studentId = student1InCourse1.googleId;
-		
-		adminUserId = "admin.user";
-		
 		restoreTypicalDataInDatastore();
 	}
 	
@@ -58,31 +36,15 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 	public void testAccessControl() throws Exception{
 		
 		String[] submissionParams = new String[]{};
-		
-		logoutUser();
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
-		
-		loginUser(unregUserId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
-		
-		loginAsStudent(studentId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
-		
-		loginAsInstructor(instructorId);
-		verifyCanAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(otherInstructorId,submissionParams));
-		
-		loginAsAdmin(adminUserId);
-		//not checking for non-masquerade mode because admin may not be an instructor
-		verifyCanMasquerade(addUserIdToParams(instructorId,submissionParams));
+		verifyOnlyInstructorsCanAccess(submissionParams);
 		
 	}
 	
 	@Test
 	public void testExecuteAndPostProcess() throws Exception{
+		
+		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+		String instructorId = instructor1OfCourse1.googleId;
 		
 		String[] submissionParams = new String[]{};
 		
@@ -116,7 +78,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		
 		CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
 		CoursesLogic.inst().deleteCourseCascade("new-course");
-		loginAsAdmin(adminUserId);
+		loginAsAdmin("admin.user");
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		r = getShowPageResult(a);
 		

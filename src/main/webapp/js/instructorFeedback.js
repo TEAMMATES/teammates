@@ -1,6 +1,3 @@
-//TODO: Split functions specific to instructorFeedbackEdit to another js file.
-//TODO: Move constants from Common.js into appropriate files if not shared.
-
 function isFeedbackSessionNameLengthValid(name) {
 	//Constant is kept in Common.java file, but checking is done in Javascript
 	return name.length <= FEEDBACK_SESSION_NAME_MAX_LENGTH;
@@ -29,20 +26,23 @@ function checkAddFeedbackSession(form){
 	var startTime = form.starttime.value;
 	var endDate = form.enddate.value;
 	var endTime = form.endtime.value;
+	var sessionVisibleDate = form.visibledate.value;
+	var sessionVisibleTime = form.visibletime.value;
+	var resultsVisibleDate = form.publishdate.value;
+	var resultsVisibleTime = form.publishtime.value;
+	var sessionVisibleType = form.elements.sessionVisibleFromButton.value;
+	var resultsVisibleType = form.elements.resultsVisibleFromButton.value;
 	var timeZone = form.timezone.value;
 	var gracePeriod = form.graceperiod.value;
-	var instructions = form.instructions.value;
 
 	if (courseId == "" || name == "" || startDate == "" || startTime == ""
-		|| endDate == "" || endTime == "" || timeZone == "" || gracePeriod == "" || instructions == "") {
+		|| endDate == "" || endTime == "" || timeZone == "" || gracePeriod == "") {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
-	} else if ($('input:radio[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']:checked').val() == "custom" &&
-			($('#'+FEEDBACK_SESSION_VISIBLEDATE).val() == "" || $('#'+FEEDBACK_SESSION_VISIBLETIME).val() == "")) {
+	} else if (sessionVisibleType == "custom" && (sessionVisibleDate == "" || sessionVisibleTime == "")) {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
-	} else if ($('input:radio[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']:checked').val() == "custom" &&
-			($('#'+FEEDBACK_SESSION_PUBLISHDATE).val() == "" || $('#'+FEEDBACK_SESSION_PUBLISHTIME).val() == "")) {
+	} else if (resultsVisibleType == "custom" && (resultsVisibleDate == "" || resultsVisibleTime == "")) {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
 	} else if (!isFeedbackSessionNameValid(name)) {
@@ -56,51 +56,16 @@ function checkAddFeedbackSession(form){
 }
 
 /**
- * Check whether the edited feedback session input (which is passed as a form) is valid
- * Uses jQuery instead of native JS.
- * @returns {Boolean}
- */
-function checkEditFeedbackSession(){
-	var startDate = $('#startdate').val();
-	var startTime = $('#starttime').val();
-	var endDate = $('#enddate').val();
-	var endTime = $('#endtime').val();
-	var gracePeriod = $('#graceperiod').val();
-	var instructions = $('#instructions').val();
-	var sessionCustom = $('input:radio[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']:checked').val();
-	var resultsCustom = $('input:radio[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']:checked').val();
-	var sessionDate = $('#'+FEEDBACK_SESSION_VISIBLEDATE).val();
-	var sessionTime = $('#'+FEEDBACK_SESSION_VISIBLETIME).val();
-	var resultsDate = $('#'+FEEDBACK_SESSION_PUBLISHDATE).val();
-	var resultsTime = $('#'+FEEDBACK_SESSION_PUBLISHTIME).val();
-	
-	if (startDate == "" || startTime == "" || endDate == "" || endTime == "" 
-		 || gracePeriod == "" || instructions == "") {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	} else if (sessionCustom == "custom" && (sessionDate == "" || sessionTime == "")) {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	} else if (resultsCustom == "custom" && (resultsDate == "" || resultsTime == "")) {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	}
-	return true;
-}
-
-
-/**
- * Check whether the feedback question input is valid
+ * Check whether the feedback session input is valid
  * @param form
  * @returns {Boolean}
  */
-function checkFeedbackQuestion(form) {
-	if($(form).find('[name='+FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE+']:checked').val() == "custom" &&
-			$(form).find('[name='+FEEDBACK_QUESTION_NUMBEROFENTITIES+']').val() == "") {
+function checkFeedbackQuestion() {
+	if(form.numofrecipientstype.value == "custom" && form.numofrecipients.value == "") {
 		setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID,true);
 		return false;
 	}
-	if ($(form).find('[name='+FEEDBACK_QUESTION_TEXT+']').val() == "") {
+	if (form.questiontext.value = "") {
 		setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID,true);
 		return false;
 	}
@@ -342,35 +307,28 @@ function formatCheckBoxes() {
 }
 
 function readyFeedbackPage (){ 
-    $("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
-    	document.location.href = $(this).val();
+    $("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function ()
+    {
+        $('form[name="form_changesessiontype"]').submit();
     });
     window.doPageSpecificOnload = selectDefaultTimeOptions();
 }
 
 function readyFeedbackEditPage(){
-	// Hide option tables
-	$('.visibilityOptions').hide();
-	// Disable fields
 	$('#form_editfeedbacksession').find("text,input,button,textarea").attr("disabled", "disabled");
-	
-	// Bind submit text links
-	$('#fsSaveLink').click(function(){
-		$('#form_editfeedbacksession').submit();
-	});
-	$('a[id|=questionsavechangestext]').click(function(){
-		$(this).parents('form.form_question').submit();
-	});
-	
-	// Bind submit actions
-	$('#form_editfeedbacksession').submit(function(event) {
-		return checkEditFeedbackSession();
-	});	
+	$('.visibilityOptions').hide();
 	$('form.form_question').submit(function(){
-		return checkFeedbackQuestion(this);		
+		if($(this).find('[name='+FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE+']').val() == "custom" &&
+				$(this).find('[name='+FEEDBACK_QUESTION_NUMBEROFENTITIES+']').val() == "") {
+			setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID,true);
+			return false;
+		}
+		if ($(this).find('[name='+FEEDBACK_QUESTION_TEXT+']').val() == "") {
+			setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID,true);
+			return false;
+		}
+		return true;		
 	});
-
-	// Additional formatting & bindings.
 	formatNumberBoxes();
 	formatCheckBoxes();
 	document.onmousemove = positiontip;
@@ -380,7 +338,6 @@ function enableEditFS(){
 	$('#form_editfeedbacksession').find("text,input,button,textarea").removeAttr("disabled");
 	$('#fsEditLink').hide();
 	$('#fsSaveLink').show();
-	$('#button_submit_edit').show();
 }
 
 function toggleVisibilityOptions(elem){

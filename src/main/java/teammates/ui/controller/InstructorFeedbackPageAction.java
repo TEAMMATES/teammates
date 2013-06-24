@@ -36,17 +36,16 @@ public class InstructorFeedbackPageAction extends Action {
 		if (data.courses.size() == 0) {
 			statusToUser.add(Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
 			data.existingEvals = new ArrayList<EvaluationDetailsBundle>();
-			data.existingSessions = new ArrayList<FeedbackSessionDetailsBundle>();
 		
 		} else {
 			data.existingEvals = loadEvaluationsList(account.googleId);			
 			data.existingSessions = loadFeedbackSessionsList(account.googleId);
 			if (data.existingSessions.size() == 0) {
 				statusToUser.add(Common.MESSAGE_FEEDBACK_SESSION_EMPTY);
+			} else {
+				statusToAdmin = "Number of feedback sessions :"+data.existingSessions.size();
 			}
 		}	
-		
-		statusToAdmin = "Number of feedback sessions: "+data.existingSessions.size();
 		
 		return createShowPageResult(Common.JSP_INSTRUCTOR_FEEDBACK, data);
 	}

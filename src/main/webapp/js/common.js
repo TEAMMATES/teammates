@@ -15,19 +15,11 @@ var EVALUATION_START = "start"; // Used in instructorEval.js
 var EVALUATION_STARTTIME = "starttime"; // Used in instructorEval.js
 var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
 
-// Move to instructorFeedback.js?
 var FEEDBACK_SESSION_STARTDATE = "startdate";
 var FEEDBACK_SESSION_STARTTIME = "starttime"; 
 var FEEDBACK_SESSION_TIMEZONE = "timezone";
 var FEEDBACK_SESSION_CHANGETYPE = "feedbackchangetype";
-var FEEDBACK_SESSION_VISIBLEDATE = "visibledate";
-var FEEDBACK_SESSION_VISIBLETIME = "visibletime";
-var FEEDBACK_SESSION_PUBLISHDATE = "publishdate";
-var FEEDBACK_SESSION_PUBLISHTIME = "publishtime";
-var FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
-var FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
 
-// Move to instructorFeedbackEdit.js?
 var FEEDBACK_QUESTION_GIVERTYPE ="givertype";
 var FEEDBACK_QUESTION_RECIPIENTTYPE ="recipienttype";
 var FEEDBACK_QUESTION_NUMBEROFENTITIES ="numofrecipients";
@@ -79,7 +71,7 @@ var DISPLAY_FEEDBACK_SESSION_NAMEINVALID = "Please use only alphabets, numbers a
 var DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
 var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
 		+ "The start time should be in the future, and the end time should be after start time.";
-var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to.";
+var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to."
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 
 // Max length for input

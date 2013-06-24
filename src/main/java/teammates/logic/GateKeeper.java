@@ -198,6 +198,7 @@ public class GateKeeper {
 			return;
 		throw new UnauthorizedAccessException();
 	}
+	
 
 	public void verifySubmissionEditableForUser(SubmissionAttributes submission) {
 		if (isInternalCall())

@@ -1,9 +1,13 @@
 package teammates.logic.backdoor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
@@ -12,7 +16,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -20,6 +23,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.logic.Emails;
 import teammates.logic.api.Logic;
 import teammates.storage.api.EvaluationsDb;
 
@@ -152,12 +156,6 @@ public class BackDoorLogic extends Logic {
 		return Common.getTeammatesGson().toJson(fs);
 	}
 	
-	public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
-		FeedbackQuestionAttributes fq = 
-				feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
-		return Common.getTeammatesGson().toJson(fq);
-	}
-	
 	public void editAccountAsJson(String newValues)
 			throws InvalidParametersException, EntityDoesNotExistException {
 		AccountAttributes account = Common.getTeammatesGson().fromJson(newValues,
@@ -193,28 +191,8 @@ public class BackDoorLogic extends Logic {
 		new EvaluationsDb().updateEvaluation(evaluation);
 	}
 	
-	// This method is necessary to generate the feedbackQuestionId of the
-	// question the response is for.
-	// Normally, the ID is already passed in the attributes on creation,
-	// but the json file does not contain the actual ID and so an additional step
-	// must be performed to add the correct ID.
-	@Override
-	public void createFeedbackResponse(FeedbackResponseAttributes response) 
-			throws InvalidParametersException, EntityAlreadyExistsException {
-		String params[] = response.feedbackQuestionId.split("%");
-		
-		response.feedbackQuestionId = 
-				feedbackQuestionsLogic.getFeedbackQuestion(
-						params[0], params[1], Integer.parseInt(params[2]))
-						.getId();
-
-		super.createFeedbackResponse(response);
-	}
-	
-	// Deprecated. Production delete now cascades as well.
 	// This cascades deleting feedbackQuestion and feedbackResponses for testing purposes.
 	// We do not do it in production to preserve question/responses for future repo.
-	/*
 	@Override
 	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
 		//TODO: change parameter order. Our general practice is to give courseId first
@@ -234,7 +212,6 @@ public class BackDoorLogic extends Logic {
 		}
 		super.deleteFeedbackSession(feedbackSessionName, courseId);
 	}
-	*/
 
 	/**
 	 * Creates a COURSE without an INSTRUCTOR relation

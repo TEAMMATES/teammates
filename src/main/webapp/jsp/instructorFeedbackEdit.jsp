@@ -14,6 +14,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/instructorFeedback.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorEval-print.css" type="text/css" media="print">
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -48,10 +49,12 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 						<td><%=data.session.courseId%></td>
 						<td></td>
 						<td class="rightalign" colspan="2">
-							<a href="#" class="color_blue pad_right" id="fsEditLink" 
+							<a href="#" class="color_blue" id="fsEditLink"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT%>')" onmouseout="hideddrivetip()" 
 							onclick="enableEditFS()">Edit</a>
-							<a href="#" class="color_green pad_right" style="display:none;" id="fsSaveLink"">Save Changes</a>
+							<a href="#" class="color_green" style="display:none" id="fsSaveLink"
+							onclick="document.getElementById('form_editfeedbacksession').submit()">Save Changes</a>				
+							&nbsp;&nbsp;
 							<a href="<%=data.getInstructorFeedbackSessionDeleteLink(data.session.courseId, data.session.feedbackSessionName, "") %>" 
 							onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('<%=data.session.courseId%>','<%=data.session.feedbackSessionName%>');"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_DELETE%>')" onmouseout="hideddrivetip()"
@@ -235,7 +238,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 					</tr>
 					<tr>
 						<td colspan="5" class="rightalign"><input id="button_submit_edit"
-							type="submit" class="button" style="display:none;"
+							type="submit" class="button" onclick="checkAddFeedbackSession(this.form)"
 							value="Save Changes"></td>
 					</tr>
 				</table>
@@ -252,18 +255,19 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 			<% } %>
 			
 			<% for(FeedbackQuestionAttributes question : data.questions) { %>
-			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>" id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions" class="form_question" onsubmit="tallyCheckboxes(<%=question.questionNumber%>)">
+			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>" id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions" class="form_question">
 			<table class="inputTable questionTable" id="questionTable<%=question.questionNumber%>">
 			<tr>
 				<td class="bold">Question <%=question.questionNumber%></td>
 				<td></td>
 				<td></td>
 				<td class="rightalign">
-				<a href="#" class="color_blue pad_right" id="<%=Common.PARAM_FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
+				<a href="#" class="color_blue" id="<%=Common.PARAM_FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
 				onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
 				onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
-				<a href="#" class="color_green pad_right" style="display:none"
-				 id="<%=Common.PARAM_FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
+				<a href="#" class="color_green" style="display:none" id="<%=Common.PARAM_FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>"
+				onclick="document.getElementById('form_editquestion-<%=question.questionNumber%>').submit()">Save Changes</a>				
+				&nbsp;&nbsp;
 				<a href="#" class="color_red" onclick="deleteQuestion(<%=question.questionNumber%>)"
 				onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete</a>
 				</td>
@@ -294,11 +298,12 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				<tr>
 					<td class="bold nowrap"><a class="visibilityOptionsLabel color_brown" href="#" onclick="toggleVisibilityOptions(this)">[+] Show Visibility Options</a></td>
 					<td></td>
-					<td class="numberOfEntitiesElements<%=question.questionNumber%>"><span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="bold">The maximum number of <span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-<%=question.questionNumber%>" class="bold"></span> each<br>respondant should give feedback to:</span></td>
+					<td class="numberOfEntitiesElements<%=question.questionNumber%>"><span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="bold">The maximum number of <span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-<%=question.questionNumber%>"class="bold"></span> each<br>respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements<%=question.questionNumber%>">
-					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? "" : "checked=\"checked\""%> value="custom" disabled="disabled"> 
-					<input type="number" class="numberOfEntitiesBox" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-<%=question.questionNumber%>"  min="1" max="250" value=<%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? 1 : question.numberOfEntitiesToGiveFeedbackTo%> disabled="disabled"> 
-					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? "checked=\"checked\"" : ""%> value="max" disabled="disabled"> 
+					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>" <%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? "" : "checked=\"checked\""%> value="custom" disabled="disabled">
+					<input type="number" class="numberOfEntitiesBox" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-<%=question.questionNumber%>"  min="1" max="250" value=<%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? 1 : question.numberOfEntitiesToGiveFeedbackTo%> disabled="disabled">
+					&nbsp;
+					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? "checked=\"checked\"" : ""%> value="max" disabled="disabled">
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -313,7 +318,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							</tr>
 							<tr>
 								<td>Recipient(s)</td>
-								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
+								<td style="text-align: center"><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
 								<%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) { %> checked="checked" <% } %>/></td>
 								<td><input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
 								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)) { %> checked="checked" <% } %>/></td>
@@ -363,6 +368,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				<td colspan="6" class="rightalign"><input id="button_question_submit-<%=question.questionNumber%>"
 						type="submit" class="button"
 						value="Save Changes" tabindex="0"
+						onclick="tallyCheckboxes(<%=question.questionNumber%>)"
 						style="display:none"></td>
 				</tr>
 			</table>
@@ -383,7 +389,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 			<input id="button_openframe" class="button centeralign" value="Add New Question" 
 						onclick="showNewQuestionFrame()">
 			</div>
-			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
+			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question">			
 			<table class="inputTable questionTable" id="questionTableNew" hidden="hidden">
 				<tr>
 					<td class="bold">Question <%=data.questions.size()+1%></td>
@@ -416,11 +422,12 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				</tr>
 				<tr>
 					<td></td><td></td>
-					<td class="numberOfEntitiesElements"><span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="bold">The maximum number of <span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-" class="bold"></span> <br>each respondant should give feedback to:</span></td>
+					<td class="numberOfEntitiesElements"><span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-"class="bold">The maximum number of <span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-"class="bold"></span> <br>each respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements">
-					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>" value="custom" checked="checked"> 
-					<input type="number" class="numberOfEntitiesBox" id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" min="1" max="250" value="1"> 
-					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="max"> 					
+					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>" value="custom" checked="checked">
+					<input type="number" class="numberOfEntitiesBox" id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" min="1" max="250" value="1">
+					&nbsp;
+					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="max">					
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -469,7 +476,8 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				</tr>
 				<tr>
 					<td class="centeralign" colspan="4"><input id="button_submit_add"
-						type="submit" class="button" value="Add Question" tabindex="9">
+						type="submit" class="button" value="Add Question" 
+						onclick="tallyCheckboxes('')" tabindex="9">
 					</td>					
 				</tr>
 			</table>

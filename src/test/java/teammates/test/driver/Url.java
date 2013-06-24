@@ -52,11 +52,6 @@ public class Url {
 		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_EVALUATION_NAME, evaluationName);
 		return this;
 	}
-	
-	public Url withSessionName(String feedbackSessionName) {
-		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_FEEDBACK_SESSION_NAME, feedbackSessionName);
-		return this;
-	}
 
 	public Url withStudentEmail(String email) {
 		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_STUDENT_EMAIL, email);

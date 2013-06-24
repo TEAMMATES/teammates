@@ -60,10 +60,12 @@
 			<br>
 			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
 			<br>
+			<%if(!data.bundle.feedbackSession.instructions.getValue().isEmpty()) { %>
 			<table class="inputTable responseTable" style="width:900px">
 			<tr><td><span class="bold" style="padding-right:10px">Instructions: </span><%=data.bundle.feedbackSession.instructions.getValue() %></td></tr>
 			</table>
 			<br>
+			<% } %>
 			<%
 				int qnIndx = 1;
 					List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
@@ -108,7 +110,7 @@
 				for(FeedbackResponseAttributes existingResponse : existingResponses) {
 				%>
 				<tr>
-					<td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "" %>>
+					<td class="middlealign nowrap" <%=(question.recipientType == FeedbackParticipantType.SELF) ? "style=\"display:none\"" : "" %>>
 						<span class="label bold">To: </span> 
 						<select class="participantSelect middlealign" 
 						name="<%=Common.PARAM_FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
@@ -127,11 +129,14 @@
 				</tr>
 				<%
 					responseIndx++;
-					}
-					while(responseIndx < numOfResponseBoxes) {
+						}
+						while(responseIndx < numOfResponseBoxes) {
 				%>
 				<tr>
-				<td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "" %>>
+				<%
+					if(question.recipientType != FeedbackParticipantType.SELF) {
+				%>
+				<td class="middlealign nowrap">
 					<span class="label bold">To: </span> 
 					<select class="participantSelect middlealign newResponse" 
 					name="<%=Common.PARAM_FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
@@ -141,6 +146,9 @@
 					%>
 					</select>
 				</td>
+				<%
+					}
+				%>
 				<td class="responseText"><textarea rows="4" class="textvalue" name="<%=Common.PARAM_FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"></textarea></td>
 				</tr>
 				<%

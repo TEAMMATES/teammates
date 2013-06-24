@@ -7,8 +7,6 @@ import org.testng.annotations.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.ui.controller.ControllerServlet;
 
 public class InstructorEvalEditSaveActionTest extends BaseActionTest {
@@ -19,7 +17,7 @@ public class InstructorEvalEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = "/page/instructorEvalEditSave";
+		URI = Common.PAGE_INSTRUCTOR_EVAL_EDIT_SAVE;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -32,53 +30,12 @@ public class InstructorEvalEditSaveActionTest extends BaseActionTest {
 	@Test
 	public void testAccessControl() throws Exception{
 		
-		String	unregUserId = "unreg.user";
-		String 	adminUserId = "admin.user";
-		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 		EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-		EvaluationAttributes evaluationInOtherCourse = dataBundle.evaluations.get("evaluation1InCourse2");
 		
 		String[] submissionParams = createParamsForTypicalEval(
 				evaluationInCourse1.courseId, evaluationInCourse1.name);
 		
-		______TS("not-logged-in users cannot access");
-		
-		logoutUser();
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
-		
-		______TS("non-registered users cannot access");
-		
-		loginUser(unregUserId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
-		
-		______TS("students cannot access");
-		
-		loginAsStudent(student1InCourse1.googleId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
-		
-		______TS("instructor of the course can access");
-		
-		loginAsInstructor(instructor1OfCourse1.googleId);
-		verifyCanAccess(submissionParams);
-		
-		______TS("instructor of others courses cannot access");
-		
-		InstructorAttributes instructorOfOtherCourse = dataBundle.instructors.get("instructor1OfCourse2");
-		verifyCannotMasquerade(addUserIdToParams(instructorOfOtherCourse.googleId,submissionParams));
-		
-		String[] submissionParamsForOtherCourse = createParamsForTypicalEval(
-				evaluationInOtherCourse.courseId, evaluationInOtherCourse.name);
-		verifyCannotAccess(submissionParamsForOtherCourse);
-		
-		______TS("admin can masquerade");
-		
-		loginAsAdmin(adminUserId);
-		//not checking for non-masquerade mode because admin may not be an instructor
-		verifyCanMasquerade(addUserIdToParams(instructorOfOtherCourse.googleId,submissionParamsForOtherCourse));
+		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 		
 	}
 	
