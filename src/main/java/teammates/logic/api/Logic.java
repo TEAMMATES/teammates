@@ -1092,7 +1092,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		feedbackSessionsLogic.deleteFeedbackSession(feedbackSessionName, courseId);
+		feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
 	}
 	
 	/**
@@ -1248,7 +1248,7 @@ public class Logic {
 	 * * All parameters are non-null.
 	 */
 	public void createFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
-			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
 

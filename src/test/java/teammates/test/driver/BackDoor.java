@@ -15,6 +15,7 @@ import java.util.Map;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -25,6 +26,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.NotImplementedException;
 import teammates.logic.backdoor.BackDoorServlet;
 
+import com.gargoylesoftware.htmlunit.WebConsole.Logger;
 import com.google.gson.Gson;
 
 /**
@@ -437,6 +439,12 @@ public class BackDoor {
 	private void ____FEEDBACK_SESSION_level_methods______________________________() {
 	}
 
+	public static FeedbackSessionAttributes getFeedbackSession(String courseID,
+			String feedbackSessionName) {
+		String jsonString = getFeedbackSessionAsJson(feedbackSessionName, courseID);
+		return Common.getTeammatesGson().fromJson(jsonString, FeedbackSessionAttributes.class);
+	}
+	
 	public static String getFeedbackSessionAsJson(String feedbackSessionName,
 			String courseId) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_SESSION_AS_JSON);
@@ -453,6 +461,27 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String status = makePOSTRequest(params);
 		return status;
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____FEEDBACK_QUESTION_level_methods______________________________() {
+	}
+
+	public static FeedbackQuestionAttributes getFeedbackQuestion(String courseID,
+			String feedbackSessionName, int qnNumber) {
+		String jsonString = getFeedbackQuestionAsJson(feedbackSessionName, courseID, qnNumber);
+		Common.getLogger().info(jsonString);
+		return Common.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
+	}
+	
+	public static String getFeedbackQuestionAsJson(String feedbackSessionName,
+			String courseId, int qnNumber) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_QUESTION_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_NUMBER, qnNumber);
+		String feedbackSessionJson = makePOSTRequest(params);
+		return feedbackSessionJson;
 	}
 	
 	@SuppressWarnings("unused")

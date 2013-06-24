@@ -19,6 +19,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -309,6 +310,7 @@ public abstract class AppPage {
 		element.sendKeys(value);
 		String selectedVisibleValue = select.getFirstSelectedOption().getText();
 		assertEquals(value, selectedVisibleValue);
+		element.sendKeys(Keys.RETURN);
 	}
 
 	/**
@@ -388,7 +390,7 @@ public abstract class AppPage {
 			//if a row is empty, it will not be asserted with
 			//row starts from 1 to skip the header row, this requires patternString to start with {*}
 			if(splitString[row].length()>0){
-				assertEquals(this.getCellValueFromDataTable(row,column),splitString[row]);
+				assertEquals(splitString[row],this.getCellValueFromDataTable(row,column));
 			}
 		}
 	}

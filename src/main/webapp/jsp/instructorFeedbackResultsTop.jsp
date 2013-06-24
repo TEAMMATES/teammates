@@ -39,14 +39,16 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 				Never.
 			<% } else { %>
 				<%=data.bundle.feedbackSession.resultsVisibleFromTime.toString()%>
-			<% } %>
+			<% } 
+			boolean noResponses = data.bundle.responses.isEmpty();
+			%>
 		</td>
 	</tr>
 </table>
 <br><br>
 <form method="post"
 	action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-	<div id="feedbackDataButtons" style="float: right; padding-right: 5%;">
+	<div id="feedbackDataButtons" style="float:right; padding-right: <%= noResponses ? "40%;" : "5%;"%>">
 		<input id="button_download" type="submit" class="button"
 			name="<%=Common.PARAM_FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON %>"
 			value="Download"> <input id="button_upload" type="submit"
@@ -58,6 +60,7 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 <br>
 <br>
 <br>
+<% if (noResponses == false) { %>
 <form method="post"
 	action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_RESULTS%>">
 	<table class="inputTable sortTypeTable">
@@ -84,4 +87,10 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 	<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>"
 		value="<%=data.bundle.feedbackSession.courseId%>">
 </form>
+<% } %>
 <jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
+
+<% if (noResponses) { %>
+	<br><br><br>
+	<div class="bold color_red centeralign">There are no responses for this feedback session yet.</div>
+<% } %>

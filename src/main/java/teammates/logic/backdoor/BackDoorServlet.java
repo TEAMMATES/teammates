@@ -51,6 +51,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
 	public static final String OPERATION_GET_FEEDBACK_SESSION_AS_JSON = "OPERATION_GET_FEEDBACK_SESSION_AS_JSON";
+	public static final String OPERATION_GET_FEEDBACK_QUESTION_AS_JSON = "OPERATION_GET_FEEDBACK_QUESTION_AS_JSON";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
 	
@@ -70,6 +71,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String PARAMETER_STUDENT_ID = "PARAMETER_STUDENT_ID";
 	public static final String PARAMETER_TEAM_NAME = "PARAMETER_TEAM_NAME";
 	public static final String PARAMETER_FEEDBACK_SESSION_NAME = "PARAMETER_FEEDBACK_SESSION_NAME";
+	public static final String PARAMETER_FEEDBACK_QUESTION_NUMBER = "PARAMETER_FEEDBACK_QUESTION_NUMBER";
 
 	private static final Logger log = Common.getLogger();
 
@@ -188,6 +190,11 @@ public class BackDoorServlet extends HttpServlet {
 			String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			return backDoorLogic.getFeedbackSessionAsJson(feedbackSessionName, courseId);
+		} else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_AS_JSON)) { 
+			String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			int qnNumber = Integer.parseInt(req.getParameter(PARAMETER_FEEDBACK_QUESTION_NUMBER));
+			return backDoorLogic.getFeedbackQuestionAsJson(feedbackSessionName, courseId, qnNumber);			
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

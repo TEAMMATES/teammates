@@ -236,7 +236,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		return "FeedbackSessionAttributes [feedbackSessionName="
 				+ feedbackSessionName + ", courseId=" + courseId
 				+ ", creatorEmail=" + creatorEmail + ", instructions=" + instructions
-				+ ", createdTime=" + createdTime + ", startTime=" + startTime
+				+ ", startTime=" + startTime
 				+ ", endTime=" + endTime + ", sessionVisibleFromTime="
 				+ sessionVisibleFromTime + ", resultsVisibleFromTime="
 				+ resultsVisibleFromTime + ", timeZone=" + timeZone

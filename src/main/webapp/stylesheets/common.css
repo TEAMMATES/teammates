@@ -94,7 +94,6 @@ h2 {
 	text-align: center;
 }
 
-
 .leftalign {
 	text-align: left;
 }
@@ -169,6 +168,10 @@ h2 {
 
 .color_gray {
 	color: gray;
+}
+
+.pad_right {
+	padding-right: 10px;
 }
 
 /*---------------------  Frame Top  --------------------------------------------------- */
