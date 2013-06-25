@@ -58,6 +58,8 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 			submissionData.add(sub);
 		}
 		
+		new GateKeeper().verifySubmissionsEditableForUser(submissionData);
+		
 		try{
 			logic.updateSubmissions(submissionData);
 			statusToUser.add(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED, PageData.escapeForHTML(evalName), courseId));

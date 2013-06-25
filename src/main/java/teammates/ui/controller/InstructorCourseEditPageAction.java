@@ -18,7 +18,7 @@ public class InstructorCourseEditPageAction extends Action {
 		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
+		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
 		
 		data.course = logic.getCourse(courseId);
 		data.instructorList = logic.getInstructorsForCourse(courseId);

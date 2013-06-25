@@ -6,7 +6,6 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.GateKeeper;
 
 public class StudentEvalSubmissionEditPageAction extends Action {
 	
@@ -26,10 +25,12 @@ public class StudentEvalSubmissionEditPageAction extends Action {
 			return createPleaseJoinCourseResponse(courseId);
 		}
 		
+		
 		data = new StudentEvalSubmissionEditPageData(account);
 		data.student = logic.getStudentForGoogleId(courseId, account.googleId);
 		data.eval = logic.getEvaluation(courseId, evalName);
 		Assumption.assertNotNull(data.eval);
+		
 		
 		try{
 			data.submissions = logic.getSubmissionsForEvaluationFromStudent(courseId, evalName, data.student.email);

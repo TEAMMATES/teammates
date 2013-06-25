@@ -12,9 +12,9 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.ControllerServlet;
-import teammates.ui.controller.StudentEvalSubmissionEditSaveAction;
 
 public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 
@@ -30,7 +30,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = "/page/studentEvalEditHandler";
+		URI = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -94,46 +94,36 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 		
 	}
 
-	private StudentEvalSubmissionEditSaveAction getAction(String... params) throws Exception{
-			return (StudentEvalSubmissionEditSaveAction) (super.getActionObject(params));
-	}
-
 	private void checkAccessControlForEval(EvaluationAttributes eval, boolean isEditableForStudent)
 			throws Exception {
-		//TODO: this method is repeated several times, with some differences 
 		
 		String courseId = eval.courseId;
 		String evalName = eval.name;
+		SubmissionAttributes sub = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
 		
 		String[] submissionParams = new String[]{
 				Common.PARAM_COURSE_ID, courseId,
 				Common.PARAM_EVALUATION_NAME, evalName,
-				Common.PARAM_FROM_EMAIL, dataBundle.students.get("student1InCourse1").email};
+				Common.PARAM_FROM_EMAIL, dataBundle.students.get("student1InCourse1").email,
+				Common.PARAM_TEAM_NAME, sub.team,
+				Common.PARAM_TO_EMAIL, sub.reviewee,
+				Common.PARAM_POINTS, sub.points+"",
+				Common.PARAM_JUSTIFICATION, sub.justification.toString(),
+				Common.PARAM_COMMENTS, sub.p2pFeedback.toString()
+			};
 		
-		logoutUser();
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
+		verifyUnaccessibleWithoutLogin(submissionParams);
+		verifyUnaccessibleForUnregisteredUsers(submissionParams);
 		
-		loginUser(unregUserId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-		
-		loginAsStudent(studentId);
 		if(isEditableForStudent){
-			verifyCanAccess(submissionParams);
+			verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+			verifyUnaccessibleForDifferentStudentOfTheSameCourses(submissionParams);
 		}else {
-			verifyCannotAccess(submissionParams);
+			verifyUnaccessibleForStudents(submissionParams);
 		}
 		
-		verifyCannotMasquerade(addUserIdToParams(otherStudentId,submissionParams));
-		
-		loginAsInstructor(instructorId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-		
-		loginAsAdmin(adminUserId);
-		//not checking for non-masquerade mode because admin may not be a student
-		verifyCanMasquerade(addUserIdToParams(studentId,submissionParams));
+		verifyUnaccessibleForInstructors(submissionParams);
+		verifyAdminCanMasqueradeAsStudent(submissionParams);
 	}
 	
 }
