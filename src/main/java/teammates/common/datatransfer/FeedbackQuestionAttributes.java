@@ -111,6 +111,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 				showResponsesTo, showGiverNameTo, showRecipientNameTo);
 	}
 	
+	// TODO: move following methods to PageData?
 	public List<String> getVisibilityMessage(){
 		
 		List<String> message = new ArrayList<String>();
@@ -168,6 +169,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		}
 		
 		return message;
+	}
+	
+	public boolean isRecipientNameHidden() {
+		return (recipientType == FeedbackParticipantType.NONE || recipientType == FeedbackParticipantType.SELF);
 	}
 	
 	@Override

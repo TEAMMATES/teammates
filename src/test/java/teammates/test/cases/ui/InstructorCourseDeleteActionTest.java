@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.CoursesLogic;
 import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.InstructorCourseDeleteAction;
@@ -21,11 +22,17 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 
 	DataBundle dataBundle;
 	
+	String unregUserId;
+	String instructorId;
+	String otherInstructorId;
+	String studentId;
+	String adminUserId;
+
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_INSTRUCTOR_COURSE_DELETE;
+		URI = "/page/instructorCourseDelete";
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -33,31 +40,55 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 	public void caseSetUp() throws Exception {
 		dataBundle = getTypicalDataBundle();
 
+		unregUserId = "unreg.user";
+		
+		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+		instructorId = instructor1OfCourse1.googleId;
+		
+		InstructorAttributes instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
+		otherInstructorId = instructor1OfCourse2.googleId;
+		
+		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		studentId = student1InCourse1.googleId;
+		
+		adminUserId = "admin.user";
+		
 		restoreTypicalDataInDatastore();
 	}
 	
 	@Test
 	public void testAccessControl() throws Exception{
 		
-		CoursesLogic.inst().createCourseAndInstructor(
-				dataBundle.instructors.get("instructor1OfCourse1").googleId, 
-				"icdat.owncourse", "New course");
-		
 		String[] submissionParams = new String[]{
-				Common.PARAM_COURSE_ID, "icdat.owncourse"
+				Common.PARAM_COURSE_ID, "icdtc.tac.id1"
 		};
 		
-		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+		CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdtc.tac.id1", "New course");
+		
+		logoutUser();
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
+		
+		loginUser(unregUserId);
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
+		
+		loginAsStudent(studentId);
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
+		
+		loginAsInstructor(instructorId);
+		verifyCanAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(otherInstructorId,submissionParams));
+		
+		loginAsAdmin(adminUserId);
+		//not checking for non-masquerade mode because admin may not be an instructor
+		verifyCanMasquerade(addUserIdToParams(instructorId,submissionParams));
 		
 	}
-
-
 	
 	@Test
 	public void testExecuteAndPostProcess() throws Exception{
-		
-		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-		String instructorId = instructor1OfCourse1.googleId;
 		
 		InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 		
@@ -94,7 +125,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		
 		______TS("Masquerade mode, delete last courses");
 		
-		loginAsAdmin("admin.user");
+		loginAsAdmin(adminUserId);
 		submissionParams = new String[]{
 				Common.PARAM_COURSE_ID, "icdct.tpa.id1"
 		};

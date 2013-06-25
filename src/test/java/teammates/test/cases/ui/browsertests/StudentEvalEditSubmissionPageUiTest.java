@@ -139,8 +139,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		verifyEditSaved(subs[2], BackDoor.getSubmission(eval.courseId, eval.name, dannyEmail, emilyEmail));
 		
 		//TODO: more tests are needed to cover the disabling of editing when the evaluation is CLOSED.
-		// In particular, timezone differences should be considered in such testing. Currently, these
-		// tests are done in AllAccessControlUiTest class.
+		// In particular, timezone differences should be considered in such testing.
 
 	}
 

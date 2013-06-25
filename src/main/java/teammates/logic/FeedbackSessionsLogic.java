@@ -52,16 +52,33 @@ public class FeedbackSessionsLogic {
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		fsDb.createEntity(fsa);
 	}
+	
+	public void deleteFeedbackSessionsForCourse(String courseId) {
+		List<FeedbackSessionAttributes> sessionsToDelete =
+				fsDb.getFeedbackSessionsForCourse(courseId);
+		
+		for (FeedbackSessionAttributes session : sessionsToDelete){
+			deleteFeedbackSessionCascade(
+					session.feedbackSessionName,
+					session.courseId);
+		}
+	}
 
-	// This method deletes a specific feedback session
-	// No cascade done to preserve feedback responses already made?
-	public void deleteFeedbackSession(String feedbackSessionName,
+	// This method deletes a specific feedback session, and all it's question and responses
+	public void deleteFeedbackSessionCascade(String feedbackSessionName,
 			String courseId) {
 
-		FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
-		fsa.feedbackSessionName = feedbackSessionName;
-		fsa.courseId = courseId;
-		fsDb.deleteEntity(fsa);
+		try {
+			fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName, courseId);
+		} catch (EntityDoesNotExistException e) {
+			// Silently fail if session does not exist
+		}
+		
+		FeedbackSessionAttributes sessionToDelete = new FeedbackSessionAttributes();
+		sessionToDelete.feedbackSessionName = feedbackSessionName;
+		sessionToDelete.courseId = courseId;
+		
+		fsDb.deleteEntity(sessionToDelete);
 
 	}
 
@@ -72,7 +89,7 @@ public class FeedbackSessionsLogic {
 	}
 
 	// This method returns a list of viewable feedback sessions for any user for his course.
-	public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(
+	public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourse(
 			String courseId, String userEmail) throws EntityDoesNotExistException {
 
 		if (coursesLogic.isCoursePresent(courseId) == false) {
@@ -156,14 +173,17 @@ public class FeedbackSessionsLogic {
 
 		FeedbackSessionAttributes session = fsDb.getFeedbackSession(
 				feedbackSessionName, courseId);
-
+		
 		if (session == null) {
 			throw new EntityDoesNotExistException(
 					"Trying to view non-existent feedback session.");
 		}
 		
+		boolean userIsCreator = session.creatorEmail.equals(userEmail);
+		boolean userIsInstructor = instructorsLogic.isInstructorOfCourse(userEmail, courseId);
+		
 		// TODO: should we use isInstructor instead of creator?
-		if (session.isPublished() == false && session.creatorEmail.equals(userEmail) == false) {
+		if (session.isPublished() == false && userIsCreator == false) {
 			throw new UnauthorizedAccessException(
 					"This feedback sesion has not been published.");
 		}
@@ -182,7 +202,7 @@ public class FeedbackSessionsLogic {
 		for (FeedbackQuestionAttributes question : allQuestions) {
 			
 			List<FeedbackResponseAttributes> responsesForThisQn;
-			if (session.creatorEmail.equals(userEmail)) {
+			if (userIsCreator) {
 				// Allowing session creator to see all responses regardless of visibility.
 				responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
 			} else {
@@ -199,7 +219,7 @@ public class FeedbackSessionsLogic {
 			
 		}
 		
-		if (relevantQuestions.isEmpty()) {
+		if (relevantQuestions.isEmpty() && userIsInstructor == false) {
 			throw new UnauthorizedAccessException(
 					"There are no questions that "+ userEmail +" can view the result of for feedback session:" +
 					feedbackSessionName + "/" + courseId);
@@ -261,9 +281,15 @@ public class FeedbackSessionsLogic {
 			InstructorAttributes instructor =
 					instructorsLogic.getInstructorForEmail(courseId, email);
 			if (instructor == null) {
-				// Assume that the email is actually a team name.
-				name = "Unknown user";
-				team = email;
+				if(email.equals(Common.GENERAL_QUESTION)) {
+					// Email represents that there is no specific recipient. 
+					name = "Class";
+					team = email;
+				} else {
+					// Assume that the email is actually a team name.
+					name = "Unknown user";
+					team = email;
+				}
 			} else {
 				name = instructor.name;
 				team = "Instructors";

@@ -42,7 +42,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTest {
 		fsLogic.createFeedbackSession(fs);
 		LogicTest.verifyPresentInDatastore(fs);
 		
-		fsLogic.deleteFeedbackSession(fs.feedbackSessionName, fs.courseId);
+		fsLogic.deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
 		LogicTest.verifyAbsentInDatastore(fs);
 	}
 	
@@ -65,7 +65,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTest {
 		
 		// 2 valid sessions in course 1, 0 in course 2.
 		
-		actualSessions = fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1", "student1InCourse1@gmail.com");
+		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse1", "student1InCourse1@gmail.com");
 		
 		// Student can see sessions 1 and 2. Session 3 has no questions.
 		String expected =
@@ -77,7 +77,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTest {
 		}
 		assertTrue(actualSessions.size() == 2);
 		
-		actualSessions = fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse2", "student1InCourse2@gmail.com");
+		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.com");
 		
 		assertTrue(actualSessions.isEmpty());
 		
@@ -85,7 +85,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTest {
 		
 		// 3 valid sessions in course 1, 1 in course 2.
 		
-		actualSessions = fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1", "instructor1@course1.com");
+		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse1", "instructor1@course1.com");
 		
 		// Instructors should be able to see all sessions for the course
 		expected =
@@ -99,7 +99,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTest {
 		assertTrue(actualSessions.size() == 3);
 		
 		// We should only have one session here as session 2 is private and this instructor is not the creator.
-		actualSessions = fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse2", "instructor2@course2.com");
+		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.com");
 		
 		assertEquals(actualSessions.get(0).toString(),
 				dataBundle.feedbackSessions.get("session2InCourse2").toString());
@@ -110,7 +110,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTest {
 		
 		// This is the creator for the private session.
 		// We have already tested above that other instructors cannot see it.
-		actualSessions = fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse2", "instructor1@course2.com");
+		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor1@course2.com");
 		assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
 				actualSessions.toString());
 

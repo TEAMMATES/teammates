@@ -115,6 +115,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 		
+		gateKeeper.verifyAdminLoggedIn();
+		
 		AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute);
 		
 		accountsLogic.createAccount(accountToAdd);
@@ -129,6 +131,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		
+		gateKeeper.verifyLoggedInUserAndAbove();
+		
 		return accountsLogic.getAccount(googleId);
 	}
 	
@@ -142,6 +146,8 @@ public class Logic {
 	 */
 	public List<AccountAttributes> getInstructorAccounts() {
 		
+		gateKeeper.verifyAdminLoggedIn();
+		
 		return accountsLogic.getInstructorAccounts();
 	}
 	
@@ -154,6 +160,8 @@ public class Logic {
 	public void updateAccount(AccountAttributes newAccountAttributes) throws InvalidParametersException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAccountAttributes);
+		
+		gateKeeper.verifyAdminLoggedIn();
 		
 		accountsLogic.updateAccount(newAccountAttributes);
 	}
@@ -170,6 +178,8 @@ public class Logic {
 	public void deleteAccount(String googleId) {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
+		gateKeeper.verifyAdminLoggedIn();
 		
 		accountsLogic.deleteAccountCascade(googleId);
 	}
@@ -193,6 +203,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
 
+		gateKeeper.verifyAdminLoggedIn();
+		
 		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
 	}
 
@@ -207,6 +219,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
+		gateKeeper.verifyLoggedInUserAndAbove();
+		
 		return instructorsLogic.getInstructorForGoogleId(courseId, googleId);
 	}
 	
@@ -219,6 +233,8 @@ public class Logic {
 	public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
 		
 		return instructorsLogic.getInstructorsForGoogleId(googleId);
 	}
@@ -233,6 +249,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		
+		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
+		
 		return instructorsLogic.getInstructorsForCourse(courseId);
 	}
 
@@ -242,6 +260,8 @@ public class Logic {
 	 */
 	@Deprecated
 	public List<InstructorAttributes> getAllInstructors() {
+		
+		gateKeeper.verifyAdminLoggedIn();
 		
 		return instructorsLogic.getAllInstructors();
 	}
@@ -267,6 +287,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
 		
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructor.googleId);
+		
 		instructorsLogic.updateInstructor(instructor);
 	}
 
@@ -285,6 +307,8 @@ public class Logic {
 	
 		coursesLogic.verifyCourseIsPresent(courseId);
 		
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		instructorsLogic.updateCourseInstructors(courseId, instructorLines, courseInstitute); 
 		
 	}
@@ -301,6 +325,9 @@ public class Logic {
 	
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		
+		gateKeeper.verifyAdminLoggedIn();
+		
+		
 		accountsLogic.downgradeInstructorToStudentCascade(googleId);
 	}
 
@@ -315,6 +342,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
+		gateKeeper.verifyAdminLoggedIn();
+		
 		instructorsLogic.deleteInstructor(courseId, googleId);
 	}
 
@@ -336,6 +365,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorGoogleId);
+
 		coursesLogic.createCourseAndInstructor(instructorGoogleId, courseId, courseName);
 	}
 	
@@ -349,6 +380,8 @@ public class Logic {
 	public CourseAttributes getCourse(String courseId) {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		
+		gateKeeper.verifyRegisteredUserOrAbove();
 		
 		return coursesLogic.getCourse(courseId);
 	}
@@ -365,6 +398,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
+		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
+		
 		return coursesLogic.getCourseDetails(courseId);
 
 	}
@@ -378,6 +413,8 @@ public class Logic {
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+	
+		gateKeeper.verifySameStudentOrAdmin(googleId);
 	
 		return coursesLogic.getCoursesForStudentAccount(googleId);
 	}
@@ -394,6 +431,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 	
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(googleId);
+		
 		instructorsLogic.verifyInstructorExists(googleId);
 	
 		return coursesLogic.getCourseSummariesForInstructor(googleId);
@@ -410,6 +449,8 @@ public class Logic {
 			String instructorId) throws EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+		
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 		
 		instructorsLogic.verifyInstructorExists(instructorId);
 		
@@ -431,6 +472,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 	
+		gateKeeper.verifySameStudentOrAdmin(googleId);
+		
 		return coursesLogic.getCourseDetailsListForStudent(googleId);
 	
 	}
@@ -453,6 +496,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+
 		coursesLogic.deleteCourseCascade(courseId);
 	}
 
@@ -471,6 +516,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
+		gateKeeper.verifyCourseInstructorOrAbove(student.course);
+
 		//TODO: push the cascade logic to studentLogic.createStudent
 		studentsLogic.createStudentCascade(student);
 
@@ -488,6 +535,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
+		gateKeeper.verifyRegisteredUserOrAbove();
+
 		return studentsLogic.getStudentForEmail(courseId, email);
 	}
 
@@ -504,6 +553,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 	
+		gateKeeper.verifySameStudentOrCourseOwnerOrAdmin(courseId, googleId);
+		
 		return studentsLogic.getStudentForGoogleId(courseId, googleId);
 	}
 
@@ -517,6 +568,8 @@ public class Logic {
 	public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
+		gateKeeper.verifySameStudentOrAdmin(googleId);
 		
 		return studentsLogic.getStudentsForGoogleId(googleId);
 	}
@@ -532,6 +585,8 @@ public class Logic {
 			throws EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		return studentsLogic.getStudentsForCourse(courseId);
 	
 	}
@@ -545,6 +600,8 @@ public class Logic {
 			throws EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+	
+		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 	
 		return coursesLogic.getTeamsForCourse(courseId);
 		
@@ -561,6 +618,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 	
 		return studentsLogic.getKeyForStudent(courseId, email);
 	}
@@ -582,6 +641,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
+		gateKeeper.verifyCourseInstructorOrAbove(student.course);
+
 		studentsLogic.updateStudentCascade(originalEmail, student);
 	}
 
@@ -595,6 +656,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+	
+		gateKeeper.verifyOwnerOfId(googleId);
 	
 		accountsLogic.joinCourse(key, googleId);
 	
@@ -621,6 +684,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, enrollLines);
 	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		return studentsLogic.enrollStudents(enrollLines, courseId);
 	
 	}
@@ -639,6 +704,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		return studentsLogic.sendRegistrationInviteForCourse(courseId);
 	}
 
@@ -653,6 +720,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		return studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
 	}
 
@@ -668,6 +737,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		return evaluationsLogic.sendReminderForEvaluation(courseId, evaluationName);
 	}
 
@@ -683,6 +754,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 
 		studentsLogic.deleteStudentCascade(courseId, studentEmail);
 	}
@@ -701,6 +774,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
 
+		gateKeeper.verifyCourseInstructorOrAbove(evaluation.courseId);
+
 		evaluationsLogic.createEvaluationCascade(evaluation);
 	}
 
@@ -713,6 +788,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
+
+		gateKeeper.verifyRegisteredUserOrAbove();
 
 		return evaluationsLogic.getEvaluation(courseId, evaluationName);
 	}
@@ -729,6 +806,8 @@ public class Logic {
 			throws EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+	
+		gateKeeper.verifyInstructorUsingOwnIdOrAbove(instructorId);
 	
 		instructorsLogic.verifyInstructorExists(instructorId);
 	
@@ -747,6 +826,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		return evaluationsLogic.getEvaluationResult(courseId, evaluationName);
 
 	}
@@ -763,6 +844,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evalName);
 		
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		return evaluationsLogic.getEvaluationResultSummaryAsCsv(courseId, evalName);
 	}
 
@@ -777,6 +860,8 @@ public class Logic {
 			throws EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+	
+		gateKeeper.verifyCourseOwnerOrStudentInCourse(courseId);
 	
 		return evaluationsLogic.getEvaluationsDetailsForCourse(courseId);
 	}
@@ -794,6 +879,9 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 	
+		gateKeeper.verfyCourseOwner_OR_EmailOwnerAndPublished(courseId, evaluationName,
+				studentEmail);
+		
 		return evaluationsLogic.getEvaluationResultForStudent(courseId, evaluationName, studentEmail);
 	}
 
@@ -814,6 +902,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructions);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, start);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, end);
+	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 	
 		if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
 			throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
@@ -847,6 +937,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		evaluationsLogic.publishEvaluation(courseId, evaluationName);
 		
 	}
@@ -864,6 +956,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
+		
 		evaluationsLogic.unpublishEvaluation(courseId, evaluationName);
 	}
 
@@ -877,6 +971,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
+	
+		gateKeeper.verifyCourseInstructorOrAbove(courseId);
 	
 		evaluationsLogic.deleteEvaluationCascade(courseId, evaluationName);
 	}
@@ -905,6 +1001,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, reviewerEmail);
 	
+		gateKeeper.verifyReviewerOrCourseOwnerOrAdmin(courseId, reviewerEmail);
+		
 		return submissionsLogic.getSubmissionsForEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
 	
 	}
@@ -922,6 +1020,8 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 	
+		gateKeeper.verifyLoggedInUserAndAbove();
+		
 		return submissionsLogic.hasStudentSubmittedEvaluation(
 				courseId, evaluationName, studentEmail);
 	}
@@ -936,6 +1036,8 @@ public class Logic {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, submissionsList);
 
+		gateKeeper.verifySubmissionsEditableForUser(submissionsList);
+		
 		submissionsLogic.updateSubmissions(submissionsList);
 	}
 
@@ -990,7 +1092,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-		feedbackSessionsLogic.deleteFeedbackSession(feedbackSessionName, courseId);
+		feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
 	}
 	
 	/**
@@ -1146,7 +1248,7 @@ public class Logic {
 	 * * All parameters are non-null.
 	 */
 	public void createFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
-			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+			throws EntityAlreadyExistsException, InvalidParametersException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
 

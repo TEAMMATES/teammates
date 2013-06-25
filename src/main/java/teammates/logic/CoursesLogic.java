@@ -307,6 +307,7 @@ public class CoursesLogic {
 		evaluationsLogic.deleteEvaluationsForCourse(courseId);
 		studentsLogic.deleteStudentsForCourse(courseId);
 		instructorsLogic.deleteInstructorsForCourse(courseId);
+		FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(courseId);
 		coursesDb.deleteCourse(courseId);
 	}
 	

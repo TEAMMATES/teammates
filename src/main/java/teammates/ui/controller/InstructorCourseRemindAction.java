@@ -20,7 +20,7 @@ public class InstructorCourseRemindAction extends Action {
 		
 		String studentEmail = getRequestParam(Common.PARAM_STUDENT_EMAIL);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
 		
 		RedirectResult response;
 		try{

@@ -10,12 +10,20 @@
 	width: 900px;
 }
 
+#instructionsTable {
+	width: 900px;
+}
+
 .questionTable td {
 	vertical-align: middle;
 }
 
 .participantTable {
 	width: 880px;
+}
+
+.participantTable td+td {
+	text-align: center;
 }
 
 .participantSelect {
@@ -40,4 +48,9 @@
 
 #timezone {
 	width: 100px;
+}
+
+.numberOfEntitiesBox {
+	width: 50px;
+	padding-right: 10px;
 }

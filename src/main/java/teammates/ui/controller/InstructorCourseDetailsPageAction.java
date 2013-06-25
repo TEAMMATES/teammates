@@ -20,7 +20,7 @@ public class InstructorCourseDetailsPageAction extends Action {
 		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
 		
 		InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account);
 

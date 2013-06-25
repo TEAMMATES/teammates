@@ -6,7 +6,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.GateKeeper;
 
 public class InstructorFeedbackDeleteAction extends Action {
@@ -33,8 +32,9 @@ public class InstructorFeedbackDeleteAction extends Action {
 		}
 		
 		if (sessionToDelete.creatorEmail.equals(instructorDoingDelete.email) == false) {
-			throw new UnauthorizedAccessException("Only the creator of the feedback session is" +
-					" allowed to delete it");
+			statusToUser.add("Only the creator of this feedback session is" +
+					" allowed to delete it.");
+			return createRedirectResult(Common.PAGE_INSTRUCTOR_FEEDBACK);
 		}
 		
 		logic.deleteFeedbackSession(feedbackSessionName, courseId);

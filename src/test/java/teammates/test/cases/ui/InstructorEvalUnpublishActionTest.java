@@ -10,6 +10,8 @@ import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.ControllerServlet;
 
@@ -21,7 +23,7 @@ public class InstructorEvalUnpublishActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
+		URI = "/page/instructorEvalUnpublish";
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -34,24 +36,59 @@ public class InstructorEvalUnpublishActionTest extends BaseActionTest {
 	@Test
 	public void testAccessControl() throws Exception{
 		
+		String	unregUserId = "unreg.user";
+		String 	adminUserId = "admin.user";
+		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 		EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
 		makeEvaluationPublished(evaluationInCourse1);
+		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		EvaluationAttributes evaluationInOtherCourse = dataBundle.evaluations.get("evaluation1InCourse2");
+		makeEvaluationPublished(evaluationInOtherCourse);
 		
 		String[] submissionParams = new String[]{
 				Common.PARAM_COURSE_ID, evaluationInCourse1.courseId,
 				Common.PARAM_EVALUATION_NAME, evaluationInCourse1.name 
 		};
 		
-		verifyUnaccessibleWithoutLogin(submissionParams);
-		verifyUnaccessibleForUnregisteredUsers(submissionParams);
-		verifyUnaccessibleForStudents(submissionParams);
-		verifyUnccessibleForInstructorsOfOtherCourses(submissionParams);
-		verifyAccessibleForCourseInstructor(submissionParams);
+		______TS("not-logged-in users cannot access");
 		
-		makeEvaluationPublished(evaluationInCourse1); //we have revert to the PUBLISHED state
+		logoutUser();
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
 		
-		verifyAdminCanMasqueradeAsInstructor(submissionParams);
+		______TS("non-registered users cannot access");
 		
+		loginUser(unregUserId);
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+		
+		______TS("students cannot access");
+		
+		loginAsStudent(student1InCourse1.googleId);
+		verifyCannotAccess(submissionParams);
+		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+		
+		______TS("instructor of the course can access");
+		
+		loginAsInstructor(instructor1OfCourse1.googleId);
+		verifyCanAccess(submissionParams);
+		
+		______TS("instructor of others courses cannot access");
+		
+		InstructorAttributes instructorOfOtherCourse = dataBundle.instructors.get("instructor1OfCourse2");
+		verifyCannotMasquerade(addUserIdToParams(instructorOfOtherCourse.googleId,submissionParams));
+		
+		String[] submissionParamsForOtherCourse = new String[]{
+				Common.PARAM_COURSE_ID, evaluationInOtherCourse.courseId,
+				Common.PARAM_EVALUATION_NAME, evaluationInOtherCourse.name 
+		};
+		verifyCannotAccess(submissionParamsForOtherCourse);
+		
+		______TS("admin can masquerade");
+		
+		loginAsAdmin(adminUserId);
+		//not checking for non-masquerade mode because admin may not be an instructor
+		verifyCanMasquerade(addUserIdToParams(instructorOfOtherCourse.googleId,submissionParamsForOtherCourse));
 		
 	}
 	

@@ -252,18 +252,6 @@ public class BaseTestCase {
 			AccountsLogic.inst().downgradeInstructorToStudentCascade(instructor.googleId);
 		}
 		
-		for (FeedbackSessionAttributes feedbackSession : dataBundle.feedbackSessions.values()) {
-			backDoorLogic.deleteFeedbackSession(
-					feedbackSession.feedbackSessionName, feedbackSession.courseId);
-		}
-		
-		// TODO: add responses too.
-		for (FeedbackQuestionAttributes feedbackQuestion : dataBundle.feedbackQuestions.values()) {
-			backDoorLogic.deleteFeedbackQuestion(
-					feedbackQuestion.feedbackSessionName, feedbackQuestion.courseId,
-					feedbackQuestion.questionNumber);
-		}
-		
 		backDoorLogic.persistDataBundle(dataBundle);
 
 		// restore logging levels to normal

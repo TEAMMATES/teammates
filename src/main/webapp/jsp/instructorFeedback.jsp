@@ -52,19 +52,16 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 				<h1>Add New Feedback Session</h1>
 			</div>
 			
-			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_CHANGE_TYPE%>" name="form_changesessiontype">
-			<p class="bold centeralign middlealign">Session Type&nbsp;&nbsp;
+			<p class="bold centeralign middlealign"><span style="padding-right:10px">Session Type</span>
 			<select style="width:730px" name="feedbackchangetype"
 									id="feedbackchangetype"
 									onmouseover="ddrivetip('Select a different type of session here.')"
-									onmouseout="hideddrivetip()" tabindex="0" 
-									onclick="submit">
-									<option value="STANDARD" selected="selected">Class Feedback Session with customizable questions</option>
+									onmouseout="hideddrivetip()" tabindex="0">
+									<option value="<%=Common.PAGE_INSTRUCTOR_FEEDBACK %>" selected="selected">Class Feedback Session with customizable questions</option>
 									<!-- <option value="TEAM">Team Feedback Session</option> -->
 									<!-- <option value="PRIVATE">Private Feedback Session</option> -->
-									<option value="EVALUATION">Standard Peer Evaluation Session</option>			
+									<option value="<%=Common.PAGE_INSTRUCTOR_EVAL %>">Standard Peer Evaluation Session</option>			
 			</select></p>
-			</form>
 			<br><br>
 			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_ADD%>" name="form_addfeedbacksession">
 				<table class="inputTable sessionTable" id="sessionNameTable">
@@ -92,7 +89,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 						<td colspan="3"><input  type="text"
 									name="<%=Common.PARAM_FEEDBACK_SESSION_NAME%>" id="<%=Common.PARAM_FEEDBACK_SESSION_NAME%>"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_INPUT_NAME%>')"
-									onmouseout="hideddrivetip()" maxlength =<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
+									onmouseout="hideddrivetip()" maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
 									value="<%if(data.newFeedbackSession!=null) out.print(InstructorFeedbackPageData.escapeForHTML(data.newFeedbackSession.feedbackSessionName));%>"
 									tabindex="2" placeholder="e.g. Class presentation feedback session"></td>
 					</tr>
@@ -264,22 +261,9 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 				<table class="inputTable" id="instructionsTable">
 					<tr>
 						<td class="label bold middlealign" >Instructions to students:</td>
-						<td>
-							<%
-								if(data.newFeedbackSession==null){
-							%>
-								<textarea rows="4" cols="110" class="textvalue" name="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
-										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_INSTRUCTIONS%>')"
-										onmouseout="hideddrivetip()" tabindex="8">Please answer all the given questions.</textarea>
-							<%
-								} else {
-							%>
-								<textarea rows="4" cols="110" class="textvalue" name="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
-										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_INSTRUCTIONS%>')"
-										onmouseout="hideddrivetip()" tabindex="8"><%=InstructorFeedbackPageData.escapeForHTML(data.newFeedbackSession.instructions.getValue())%></textarea>
-							<%
-								}
-							%>
+						<td><textarea rows="4" cols="100%" class="textvalue" name="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
+								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_INSTRUCTIONS%>')"
+								onmouseout="hideddrivetip()" tabindex="8" placeholder="e.g. Please answer all the given questions."><%=data.newFeedbackSession==null ? "" :InstructorFeedbackPageData.escapeForHTML(data.newFeedbackSession.instructions.getValue())%></textarea>							
 						</td>
 					</tr>
 					<tr>

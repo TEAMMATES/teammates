@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
@@ -59,13 +60,13 @@ public class Common {
 	// Number to trigger the header file to truncate the user googleId and show hover message
 	public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
 	
-	public static Date TIME_REPRESENTS_FOLLOW_OPENING;
-	public static Date TIME_REPRESENTS_FOLLOW_VISIBLE;
-	public static Date TIME_REPRESENTS_NEVER;
-	public static Date TIME_REPRESENTS_LATER;
+	public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
+	public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
+	public static final Date TIME_REPRESENTS_NEVER;
+	public static final Date TIME_REPRESENTS_LATER;
 
 	static {
-		Calendar calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 		calendar.clear();
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
@@ -81,7 +82,7 @@ public class Common {
 	}
 	
 	public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
-	
+	public static final String GENERAL_QUESTION = "%GENERAL%";
 	// Hover messages
 	
 	public static final String HOVER_MESSAGE_COURSE_ENROLL = "Enroll student into the course";
@@ -356,7 +357,6 @@ public class Common {
 	
 	public static final String PAGE_INSTRUCTOR_FEEDBACK = "/page/instructorFeedback";
 	public static final String PAGE_INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
-	public static final String PAGE_INSTRUCTOR_FEEDBACK_CHANGE_TYPE = "/page/instructorFeedbackChangeType"; 
 	public static final String PAGE_INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
 	public static final String PAGE_INSTRUCTOR_FEEDBACK_EDIT = "/page/instructorFeedbackEdit";
 	public static final String PAGE_INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
@@ -491,7 +491,8 @@ public class Common {
 	public static final String MESSAGE_FEEDBACK_QUESTION_DELETED = "The question has been deleted.";
 	public static final String MESSAGE_FEEDBACK_QUESTION_EXISTS = "The requested question has already been created.";
 	public static final String MESSAGE_FEEDBACK_QUESTION_EMPTY = "You have not created any questions for this feedback session yet. Click the button below to add a feedback question.";
-
+	public static final String MESSAGE_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to.";
+	public static final String MESSAGE_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 	// Status messages from Javascript
 	
 	public static final String MESSAGE_COURSE_INPUT_FIELDS_EXTRA = "There are too many fields.";
@@ -510,6 +511,11 @@ public class Common {
 			+ "The start time should be in the future, and the deadline should be after start time.";
 	public static final String MESSAGE_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 
+	public static final String MESSAGE_FEEDBACK_SESSION_NAME_INVALID = "Please use only alphabets, numbers and whitespace in feedback session name.";
+	public static final String MESSAGE_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
+	public static final String MESSAGE_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
+			+ "The start time should be in the future, and the end time should be after start time.";
+	
 	public static final String MESSAGE_INSTRUCTOR_STATUS_DELETED = "The Instructor status has been deleted";
 	public static final String MESSAGE_INSTRUCTOR_ACCOUNT_DELETED = "The Account has been deleted";
 	public static final String MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";

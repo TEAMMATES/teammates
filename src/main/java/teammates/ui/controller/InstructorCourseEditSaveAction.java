@@ -19,7 +19,7 @@ public class InstructorCourseEditSaveAction extends Action {
 		String instructorList = getRequestParam(Common.PARAM_COURSE_INSTRUCTOR_LIST);
 		Assumption.assertNotNull(instructorList);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
 		
 		String institute = account.institute;
 		try{

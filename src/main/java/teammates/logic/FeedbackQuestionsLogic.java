@@ -46,6 +46,7 @@ public class FeedbackQuestionsLogic {
 		fqDb.createEntity(fqa);
 	}
 	
+	// TODO: cascade deletion of responses if changing to incompatible giver/recipient type?
 	/**
 	 * Updates the feedback session identified by {@code newAttributes.getId()}.
 	 * For the remaining parameters, the existing value is preserved 
@@ -95,7 +96,34 @@ public class FeedbackQuestionsLogic {
 		fqDb.updateFeedbackQuestion(newAttributes);
 	}
 	
-	// Cascades question number
+	public void deleteFeedbackQuestionsForSession(String feedbackSessionName, String courseId) 
+			throws EntityDoesNotExistException{
+		List<FeedbackQuestionAttributes> questions = 
+				getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+		
+		for(FeedbackQuestionAttributes question : questions) {
+			deleteFeedbackQuestionCascade(question.getId());
+		}
+		
+	}
+	
+	// Deletes a question by it's ID.
+	// Cascade deletes all responses for the question and then 
+	// shifts higher question numbers down by one to preserve order
+	public void deleteFeedbackQuestionCascade(String feedbackQuestionId){
+		FeedbackQuestionAttributes questionToDeleteById = 
+						getFeedbackQuestion(feedbackQuestionId);
+		
+		if (questionToDeleteById != null) {
+			deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
+										questionToDeleteById.courseId, 
+										questionToDeleteById.questionNumber);
+		}
+		
+	}
+	
+	// Cascade deletes all responses for the question and then 
+	// shifts higher question numbers down by one to preserve order
 	public void deleteFeedbackQuestionCascade(
 			String feedbackSessionName, String courseId, int questionNumber) {
 		
@@ -104,18 +132,22 @@ public class FeedbackQuestionsLogic {
 		
 		if (questionToDelete == null) {
 			return; // Silently fail if question does not exist.
+		} else {
+			// Cascade delete responses for question.
+			frLogic.deleteFeedbackResponsesForQuestion(questionToDelete.getId());
 		}
-		List<FeedbackQuestionAttributes> questionsToCascade = null;
+		
+		List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;
 		try {
-			questionsToCascade = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+			questionsToShiftQnNumber = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
 		} catch (EntityDoesNotExistException e) {
 			Assumption.fail("Session disappeared.");
 		}
 		
 		fqDb.deleteEntity(questionToDelete);
 		
-		if(questionToDelete.questionNumber < questionsToCascade.size()) {
-			shiftQuestionNumbersDown(questionToDelete.questionNumber, questionsToCascade);
+		if(questionToDelete.questionNumber < questionsToShiftQnNumber.size()) {
+			shiftQuestionNumbersDown(questionToDelete.questionNumber, questionsToShiftQnNumber);
 		}
 	}
 
@@ -394,6 +426,7 @@ public class FeedbackQuestionsLogic {
 				}
 			}
 		case NONE:
+			recipients.put(Common.GENERAL_QUESTION, Common.GENERAL_QUESTION);
 			break;
 		default:
 			break;

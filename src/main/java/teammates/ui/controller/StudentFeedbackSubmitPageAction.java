@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import teammates.common.Common;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.GateKeeper;

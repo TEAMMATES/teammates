@@ -24,7 +24,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
 		String studentsInfo = getRequestParam(Common.PARAM_STUDENTS_ENROLLMENT_INFO);
 		Assumption.assertNotNull(studentsInfo);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
 		
 		InstructorCourseEnrollResultPageData data = new InstructorCourseEnrollResultPageData(account);
 		data.courseId = courseId;
