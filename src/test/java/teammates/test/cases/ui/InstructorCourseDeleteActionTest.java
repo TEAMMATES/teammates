@@ -47,7 +47,17 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 				Common.PARAM_COURSE_ID, "icdat.owncourse"
 		};
 		
-		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+		verifyUnaccessibleWithoutLogin(submissionParams);
+		verifyUnaccessibleForUnregisteredUsers(submissionParams);
+		verifyUnaccessibleForStudents(submissionParams);
+		verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+		verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+		
+		//recreate the entity
+		CoursesLogic.inst().createCourseAndInstructor(
+				dataBundle.instructors.get("instructor1OfCourse1").googleId, 
+				"icdat.owncourse", "New course");
+		verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
 		
 	}
 

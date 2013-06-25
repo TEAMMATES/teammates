@@ -20,7 +20,9 @@ public class InstructorEvalResultsPageAction extends Action {
 		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId),
+				logic.getEvaluation(courseId, evalName));
 		
 		InstructorEvalResultsPageData data = new InstructorEvalResultsPageData(account);
 		

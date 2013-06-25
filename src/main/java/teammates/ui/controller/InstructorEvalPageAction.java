@@ -23,9 +23,12 @@ public class InstructorEvalPageAction extends Action {
 		//   to add an evaluation to the specified course
 		String courseIdForNewEvaluation = getRequestParam(Common.PARAM_COURSE_ID);
 		
-		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
+		new GateKeeper().verifyInstructorPrivileges(account);
+		
 		if(courseIdForNewEvaluation!=null){
-			new GateKeeper().verifyCourseInstructorOrAbove(courseIdForNewEvaluation);
+			new GateKeeper().verifyAccessible(
+					logic.getInstructorForGoogleId(courseIdForNewEvaluation, account.googleId), 
+					logic.getCourse(courseIdForNewEvaluation));
 		}
 
 		InstructorEvalPageData data = new InstructorEvalPageData(account);

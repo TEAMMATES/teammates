@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.ControllerServlet;
 
 public class InstructorEvalDeleteActionTest extends BaseActionTest {
@@ -37,7 +38,15 @@ public class InstructorEvalDeleteActionTest extends BaseActionTest {
 				Common.PARAM_EVALUATION_NAME, evaluationInCourse1.name 
 		};
 		
-		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+		verifyUnaccessibleWithoutLogin(submissionParams);
+		verifyUnaccessibleForUnregisteredUsers(submissionParams);
+		verifyUnaccessibleForStudents(submissionParams);
+		verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+		verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+		
+		//recreate the evaluation
+		new EvaluationsDb().createEntity(evaluationInCourse1);
+		verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
 		
 	}
 	

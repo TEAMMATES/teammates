@@ -112,7 +112,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		verifyRedirectTo(Common.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
-		verifyAdminCanMasqueradeAsStudent(submissionParams);
+		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
 	}
 	
 }

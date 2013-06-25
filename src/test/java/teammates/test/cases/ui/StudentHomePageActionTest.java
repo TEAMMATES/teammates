@@ -42,7 +42,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
 	public void testAccessControl() throws Exception{
 		
 		String[] submissionParams = new String[]{};
-		verifyAnyLoggedInUserCanAccess(submissionParams);
+		verifyOnlyLoggedInUsersCanAccess(submissionParams);
 		
 	}
 	

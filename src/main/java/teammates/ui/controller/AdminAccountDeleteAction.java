@@ -12,7 +12,7 @@ public class AdminAccountDeleteAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException,
 			InvalidParametersException {
 		
-		new GateKeeper().verifyAdminLoggedIn();
+		new GateKeeper().verifyAdminPrivileges(account);
 		
 		String instructorId = getRequestParam(Common.PARAM_INSTRUCTOR_ID);
 		String studentId = getRequestParam(Common.PARAM_STUDENT_ID);

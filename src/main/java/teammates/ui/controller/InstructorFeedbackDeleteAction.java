@@ -20,7 +20,9 @@ public class InstructorFeedbackDeleteAction extends Action {
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
 
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId), 
+				logic.getFeedbackSession(feedbackSessionName, courseId));
 
 		FeedbackSessionAttributes sessionToDelete =
 				logic.getFeedbackSession(feedbackSessionName, courseId);

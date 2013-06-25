@@ -65,6 +65,7 @@ public class ControllerServlet extends HttpServlet {
 			log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
 			resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
 
+		//TODO: handle invalid parameters exception
 		}  catch (Throwable e) {
 			MimeMessage email = new Logic().emailErrorReport(
 					req.getServletPath(), 

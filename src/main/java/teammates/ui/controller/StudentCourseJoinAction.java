@@ -17,7 +17,7 @@ public class StudentCourseJoinAction extends Action {
 		String key = getRequestParam(Common.PARAM_REGKEY);
 		Assumption.assertNotNull(key);
 
-		new GateKeeper().verifyLoggedInUserAndAbove();
+		new GateKeeper().verifyLoggedInUserPrivileges();
 		try {
 			logic.joinCourse(account.googleId, key);
 		} catch (JoinCourseException 

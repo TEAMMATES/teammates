@@ -109,7 +109,7 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
 		CoursesLogic.inst().deleteCourseCascade("new-course");
 		
-		submissionParams = new String[]{Common.PARAM_COURSE_ID, instructor1ofCourse1.courseId};
+		submissionParams = new String[]{};
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
@@ -125,7 +125,7 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		assertEquals(0, pageData.courses.size());
 		assertEquals(0, pageData.evaluations.size());
 		assertEquals(null, pageData.newEvaluationToBeCreated);
-		assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewEvaluation);
+		assertEquals(null, pageData.courseIdForNewEvaluation);
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorEval|||instructorEval" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +

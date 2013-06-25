@@ -14,7 +14,9 @@ public class InstructorEvalDeleteAction extends InstructorEvalPageAction {
 		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId), 
+				logic.getEvaluation(courseId, evalName));
 		
 		logic.deleteEvaluation(courseId,evalName);
 		statusToUser.add(Common.MESSAGE_EVALUATION_DELETED);

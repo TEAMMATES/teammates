@@ -29,7 +29,7 @@ public class AdminSearchPageActionTest extends BaseActionTest {
 	@Test
 	public void testAccessControl() throws Exception{
 		String[] submissionParams = new String[]{};
-		verifyNonAdminsCannotAccess(submissionParams);
+		verifyOnlyAdminsCanAccess(submissionParams);
 	}
 
 	

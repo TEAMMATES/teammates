@@ -14,7 +14,7 @@ public class AdminExceptionTestAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException,
 			InvalidParametersException {
 
-		new GateKeeper().verifyAdminLoggedIn();
+		new GateKeeper().verifyAdminPrivileges(account);
 
 		String error = getRequestParam(Common.PARAM_ERROR);
 

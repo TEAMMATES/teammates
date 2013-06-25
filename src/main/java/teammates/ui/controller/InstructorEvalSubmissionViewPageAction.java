@@ -27,7 +27,9 @@ public class InstructorEvalSubmissionViewPageAction extends Action {
 		//Note: in InstructorEvalSubmissionEditPageData we use Common.PARAM_FROM_EMAIL instead
 		Assumption.assertNotNull(studentEmail);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId),
+				logic.getEvaluation(courseId, evalName));
 		
 		InstructorEvalSubmissionViewPageData data = new InstructorEvalSubmissionViewPageData(account);
 		

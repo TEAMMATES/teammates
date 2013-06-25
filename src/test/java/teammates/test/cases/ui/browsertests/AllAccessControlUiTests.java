@@ -240,7 +240,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
-		verifyRedirectToNotAuthorized(link);
+		verifyRedirectedToServerErrorPage(link); //TODO: this error should be handled better.
 	
 		______TS("student can view own evaluation result after publishing");
 	
@@ -254,7 +254,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}"
 				+ ownEvaluation.name + "{*}" + ownCourse.id);
 	}
-	
+
 	@Test
 	public void testInstructorHome() {
 	
@@ -376,6 +376,10 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		printUrl(appUrl + path);
 		currentPage.navigateTo(new Url(path));
 		assertTrue(isLoginPage(currentPage));
+	}
+
+	private void verifyRedirectedToServerErrorPage(String url) {
+		verifyPageContains(url, "There was an error in our server.");
 	}
 
 	private boolean isLoginPage(AppPage currentPage) {

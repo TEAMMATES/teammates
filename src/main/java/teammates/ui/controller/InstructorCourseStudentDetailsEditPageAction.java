@@ -17,7 +17,9 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
 		String studentEmail = getRequestParam(Common.PARAM_STUDENT_EMAIL);
 		Assumption.assertNotNull(studentEmail);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId),
+				logic.getCourse(courseId));
 		
 		InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
 		

@@ -45,12 +45,12 @@ public class InstructorEvalUnpublishActionTest extends BaseActionTest {
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		verifyUnaccessibleForUnregisteredUsers(submissionParams);
 		verifyUnaccessibleForStudents(submissionParams);
-		verifyUnccessibleForInstructorsOfOtherCourses(submissionParams);
-		verifyAccessibleForCourseInstructor(submissionParams);
+		verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+		verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
 		
 		makeEvaluationPublished(evaluationInCourse1); //we have revert to the PUBLISHED state
 		
-		verifyAdminCanMasqueradeAsInstructor(submissionParams);
+		verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
 		
 		
 	}
@@ -59,6 +59,8 @@ public class InstructorEvalUnpublishActionTest extends BaseActionTest {
 	public void testExecuteAndPostProcess() throws Exception{
 		
 		//TODO: implement this
+		
+		//TODO: ensure cannot unpublish if not published already
 	}
 
 	private void makeEvaluationPublished(EvaluationAttributes eval) throws Exception {

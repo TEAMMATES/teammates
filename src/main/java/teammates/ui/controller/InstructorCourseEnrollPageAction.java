@@ -15,7 +15,9 @@ public class InstructorCourseEnrollPageAction extends Action {
 		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId),
+				logic.getCourse(courseId));
 		
 		InstructorCourseEnrollPageData data = new InstructorCourseEnrollPageData(account);
 		data.courseId = courseId;

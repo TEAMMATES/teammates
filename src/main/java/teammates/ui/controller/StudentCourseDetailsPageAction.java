@@ -23,7 +23,9 @@ public class StudentCourseDetailsPageAction extends Action {
 			return createPleaseJoinCourseResponse(courseId);
 		}
 
-		new GateKeeper().verifyStudentOfCourse(account.googleId, courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getStudentForGoogleId(courseId, account.googleId),
+				logic.getCourse(courseId));
 
 		data = new StudentCourseDetailsPageData(account);
 

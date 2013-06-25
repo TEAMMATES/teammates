@@ -21,10 +21,12 @@ public class InstructorFeedbackPageAction extends Action {
 		//   to add a feedback to the specified course
 		String courseIdForNewSession = getRequestParam(Common.PARAM_COURSE_ID);
 		
-		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
+		new GateKeeper().verifyInstructorPrivileges(account);
 		
 		if(courseIdForNewSession!=null){
-			new GateKeeper().verifyCourseInstructorOrAbove(courseIdForNewSession);
+			new GateKeeper().verifyAccessible(
+					logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId), 
+					logic.getCourse(courseIdForNewSession));
 		}
 
 		InstructorFeedbackPageData data = new InstructorFeedbackPageData(account);

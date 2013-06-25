@@ -13,7 +13,11 @@ public class InstructorEvalAddAction extends InstructorEvalPageAction {
 	protected ActionResult execute() 
 			throws EntityDoesNotExistException,	InvalidParametersException {
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(getRequestParam(Common.PARAM_COURSE_ID));
+		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId), 
+				logic.getCourse(courseId));
 		
 		EvaluationAttributes eval = extractEvaluationData();
 		

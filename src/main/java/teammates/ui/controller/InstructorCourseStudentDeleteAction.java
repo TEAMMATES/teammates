@@ -23,7 +23,9 @@ public class InstructorCourseStudentDeleteAction extends InstructorCoursePageAct
 		String studentEmail = getRequestParam(Common.PARAM_STUDENT_EMAIL);
 		Assumption.assertNotNull(studentEmail);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId),
+				logic.getCourse(courseId));
 		
 		logic.deleteStudent(courseId, studentEmail);
 		statusToUser.add(Common.MESSAGE_STUDENT_DELETED);

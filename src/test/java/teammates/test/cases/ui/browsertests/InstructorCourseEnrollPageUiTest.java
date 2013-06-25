@@ -118,6 +118,11 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		//make the course empty
 		BackDoor.deleteCourse(courseId);
 		BackDoor.createCourse(testData.courses.get("CCEnrollUiT.CS2104"));
+		BackDoor.createInstructor(testData.instructors.get("CCEnrollUiT.teammates.test"));
+		
+		enrollUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_ENROLL)
+			.withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+			.withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
 		
 		enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 		enrollPage.enroll(enrollString)

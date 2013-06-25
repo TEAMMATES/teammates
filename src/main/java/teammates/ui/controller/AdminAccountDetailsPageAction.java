@@ -14,7 +14,7 @@ public class AdminAccountDetailsPageAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException,
 			InvalidParametersException {
 		
-		new GateKeeper().verifyAdminLoggedIn();
+		new GateKeeper().verifyAdminPrivileges(account);
 		
 		AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account);
 		

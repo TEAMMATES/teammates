@@ -26,7 +26,7 @@ public class InstructorCourseAddAction extends Action {
 		String newCourseInstructorList = getRequestParam(Common.PARAM_COURSE_INSTRUCTOR_LIST);
 		Assumption.assertNotNull(newCourseInstructorList);
 		
-		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
+		new GateKeeper().verifyInstructorPrivileges(account);
 		
 		data = new InstructorCoursePageData(account);
 		

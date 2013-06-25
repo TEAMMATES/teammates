@@ -26,7 +26,9 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
 		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId),
+				logic.getEvaluation(courseId, evalName));
 		
 		String teamName = getRequestParam(Common.PARAM_TEAM_NAME);
 		String fromEmail = getRequestParam(Common.PARAM_FROM_EMAIL);
@@ -58,7 +60,6 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
 			submissionData.add(sub);
 		}
 		
-		new GateKeeper().verifySubmissionsEditableForUser(submissionData);
 		
 		try{
 			logic.updateSubmissions(submissionData);

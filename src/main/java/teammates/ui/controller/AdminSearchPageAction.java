@@ -30,7 +30,7 @@ public class AdminSearchPageAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException,
 			InvalidParametersException {
 		
-		new GateKeeper().verifyAdminLoggedIn();
+		new GateKeeper().verifyAdminPrivileges(account);
 		
 		String rebuildDoc = getRequestParam("build_doc");
 		

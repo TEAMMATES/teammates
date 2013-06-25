@@ -22,7 +22,11 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
 
-		new GateKeeper().verifySameStudentOrCourseOwnerOrAdmin(courseId, account.googleId);
+		new GateKeeper().verifyAccessible(
+				logic.getStudentForGoogleId(courseId, account.googleId), 
+				logic.getFeedbackSession(feedbackSessionName, courseId));
+		
+		//TODO: ensure the session is OPEN. Access control does not ensure it.
 
 		StudentFeedbackSubmitPageData data = new StudentFeedbackSubmitPageData(account);
 

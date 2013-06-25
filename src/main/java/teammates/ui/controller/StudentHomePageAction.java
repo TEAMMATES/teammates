@@ -22,7 +22,7 @@ public class StudentHomePageAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		new GateKeeper().verifyOwnerOfId(account.googleId);
+		new GateKeeper().verifyLoggedInUserPrivileges();
 		
 		data = new StudentHomePageData(account);
 		

@@ -22,7 +22,8 @@ public class AdminInstructorAccountAddAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException,
 			InvalidParametersException {
 		
-		new GateKeeper().verifyAdminLoggedIn();
+		new GateKeeper().verifyAdminPrivileges(account);
+		
 		AdminHomePageData data = new AdminHomePageData(account);
 		
 		data.instructorId = getRequestParam(Common.PARAM_INSTRUCTOR_ID);

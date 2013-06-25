@@ -50,18 +50,9 @@ public class BaseActionTest extends BaseComponentTest {
 		return ActionFactory.getAction(req);
 	}
 
-	/**
-	 * Verifies that the {@code parameters} violates an assumption of the 
-	 * matching {@link Action}. e.g., missing a compulsory parameter.
-	 */
-	protected void verifyAssumptionFailure(String... parameters) throws Exception {
-		try {
-			Action c = getActionObject(parameters);
-			c.executeAndPostProcess();
-			signalFailureToDetectException();
-		} catch (AssertionError e) {
-			ignoreExpectedException();
-		}
+	protected ShowPageResult getShowPageResult(Action a)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		return (ShowPageResult) a.executeAndPostProcess();
 	}
 
 	/**
@@ -75,11 +66,6 @@ public class BaseActionTest extends BaseComponentTest {
 			list.add(s);
 		}
 		return list.toArray(new String[list.size()]);
-	}
-
-	protected ShowPageResult getShowPageResult(Action a)
-			throws EntityDoesNotExistException, InvalidParametersException {
-		return (ShowPageResult) a.executeAndPostProcess();
 	}
 
 	protected String[] createParamsForTypicalEval(String courseId, String evalName) {
@@ -98,28 +84,50 @@ public class BaseActionTest extends BaseComponentTest {
 		};
 	}
 	
-	protected void verifyNonAdminsCannotAccess(String[] submissionParams) throws Exception {
+	/**
+	 * Verifies that the {@code parameters} violates an assumption of the 
+	 * matching {@link Action}. e.g., missing a compulsory parameter.
+	 */
+	protected void verifyAssumptionFailure(String... parameters) throws Exception {
+		try {
+			Action c = getActionObject(parameters);
+			c.executeAndPostProcess();
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			ignoreExpectedException();
+		}
+	}
+
+	/*
+	 * 'high-level' here means it tests access control of an action for the 
+	 * full range of user types.
+	 */
+	@SuppressWarnings("unused")
+	private void __________high_level_access_controll_checks(){};
+	
+	protected void verifyOnlyAdminsCanAccess(String[] submissionParams) throws Exception {
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		verifyUnaccessibleForUnregisteredUsers(submissionParams);
 		verifyUnaccessibleForStudents(submissionParams);
 		verifyUnaccessibleForInstructors(submissionParams);
+		//we omit checking for admin access because these are covered by UI tests
 	}
 	
-	protected void verifyAnyLoggedInUserCanAccess(String[] submissionParams) throws Exception{
+	protected void verifyOnlyLoggedInUsersCanAccess(String[] submissionParams) throws Exception{
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		verifyAccessibleForUnregisteredUsers(submissionParams);
 		verifyAccessibleForStudents(submissionParams);
 		verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
 		//No need to check for instructors of the same course since even other instructors can access.
-		verifyAdminCanMasqueradeAsInstructor(submissionParams);
+		verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
 	}
 	
 	protected void verifyOnlyInstructorsCanAccess(String[] submissionParams) throws Exception{
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		verifyUnaccessibleForUnregisteredUsers(submissionParams);
 		verifyUnaccessibleForStudents(submissionParams);
-		verifyAccessibleForCourseInstructor(submissionParams);
-		verifyAdminCanMasqueradeAsInstructor(submissionParams);
+		verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+		verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
 	}
 	
 	protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams)
@@ -127,9 +135,9 @@ public class BaseActionTest extends BaseComponentTest {
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		verifyUnaccessibleForUnregisteredUsers(submissionParams);
 		verifyUnaccessibleForStudents(submissionParams);
-		verifyUnccessibleForInstructorsOfOtherCourses(submissionParams);
-		verifyAccessibleForCourseInstructor(submissionParams);
-		verifyAdminCanMasqueradeAsInstructor(submissionParams);
+		verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+		verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+		verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
 	}
 	
 	protected void verifyOnlyStudentsOfTheSameCourseCanAccess(String[] submissionParams)
@@ -139,22 +147,29 @@ public class BaseActionTest extends BaseComponentTest {
 		verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
 		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
 		verifyUnaccessibleForInstructors(submissionParams);
-		verifyAdminCanMasqueradeAsStudent(submissionParams);
+		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
 	}
 	
-	protected void verifyAccessibleForCourseInstructor(String[] submissionParams) throws Exception {
+	/*
+	 * 'mid-level' here means it tests access control of an action for 
+	 * one user types.
+	 */
+	@SuppressWarnings("unused")
+	private void __________mid_level_access_controll_checks(){};
+	
+	protected void verifyAccessibleForUnregisteredUsers(String[] submissionParams) throws Exception {
 		
-		______TS("course instructor can access");
+		______TS("non-registered users can access");
+		
+		String	unregUserId = "unreg.user";
 		
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
-		InstructorAttributes otherInstructor = data.instructors.get("instructor1OfCourse2");
 		
-		loginAsInstructor(instructor1OfCourse1.googleId);
+		loginUser(unregUserId);
 		verifyCanAccess(submissionParams);
-		
 		verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
-		verifyCannotMasquerade(addUserIdToParams(otherInstructor.googleId,submissionParams));
+		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
 		
 	}
 
@@ -186,19 +201,19 @@ public class BaseActionTest extends BaseComponentTest {
 		
 	}
 
-	protected void verifyAccessibleForUnregisteredUsers(String[] submissionParams) throws Exception {
+	protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) throws Exception {
 		
-		______TS("non-registered users can access");
-		
-		String	unregUserId = "unreg.user";
+		______TS("course instructor can access");
 		
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
+		InstructorAttributes otherInstructor = data.instructors.get("instructor1OfCourse2");
 		
-		loginUser(unregUserId);
+		loginAsInstructor(instructor1OfCourse1.googleId);
 		verifyCanAccess(submissionParams);
+		
 		verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
-		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+		verifyCannotMasquerade(addUserIdToParams(otherInstructor.googleId,submissionParams));
 		
 	}
 
@@ -212,7 +227,7 @@ public class BaseActionTest extends BaseComponentTest {
 		verifyCanAccess(submissionParams);
 	}
 
-	protected void verifyAdminCanMasqueradeAsInstructor(String[] submissionParams) throws Exception {
+	protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) throws Exception {
 		
 		______TS("admin can access");
 		
@@ -224,7 +239,7 @@ public class BaseActionTest extends BaseComponentTest {
 		
 	}
 
-	protected void verifyAdminCanMasqueradeAsStudent(String[] submissionParams) throws Exception {
+	protected void verifyAccessibleForAdminToMasqueradeAsStudent(String[] submissionParams) throws Exception {
 		
 		______TS("admin can access");
 		
@@ -312,7 +327,7 @@ public class BaseActionTest extends BaseComponentTest {
 		
 	}
 	
-	protected void verifyUnccessibleForInstructorsOfOtherCourses(String[] submissionParams) throws Exception {
+	protected void verifyUnaccessibleForInstructorsOfOtherCourses(String[] submissionParams) throws Exception {
 		
 		______TS("other course instructor cannot access");
 	
@@ -322,11 +337,50 @@ public class BaseActionTest extends BaseComponentTest {
 		verifyCannotAccess(submissionParams);
 	}
 	
+	/*
+	 * 'low-level' here means it tests an action once with the given parameters.
+	 * These methods are not aware of the user type.
+	 */
+	@SuppressWarnings("unused")
+	private void __________low_level_access_controll_checks(){};
+	
+	/**
+	 * Verifies that the {@link Action} matching the {@code params} is 
+	 * accessible to the logged in user. 
+	 */
+	protected void verifyCanAccess(String... params) throws Exception {
+		Action c = getActionObject(params);
+		c.executeAndPostProcess();
+	}
+
+	/**
+	 * Verifies that the {@link Action} matching the {@code params} is
+	 * accessible to the logged in user masquerading as another user. 
+	 */
+	protected void verifyCanMasquerade(String... params) throws Exception {
+		Action c = getActionObject(params);
+		c.executeAndPostProcess();
+	}
+
 	/**
 	 * Verifies that the {@link Action} matching the {@code params} is not
 	 * accessible to the logged in user. 
 	 */
 	protected void verifyCannotAccess(String... params) throws Exception {
+		try {
+			Action c = getActionObject(params);
+			c.executeAndPostProcess();
+			signalFailureToDetectException();
+		} catch (UnauthorizedAccessException e) {
+			ignoreExpectedException();
+		}
+	}
+
+	/**
+	 * Verifies that the {@link Action} matching the {@code params} is not
+	 * accessible to the logged in user masquerading as another user. 
+	 */
+	protected void verifyCannotMasquerade(String... params) throws Exception {
 		try {
 			Action c = getActionObject(params);
 			c.executeAndPostProcess();
@@ -346,38 +400,6 @@ public class BaseActionTest extends BaseComponentTest {
 		Action c = getActionObject(params);
 		RedirectResult r = (RedirectResult) c.executeAndPostProcess();
 		assertContains(expectedRedirectUrl, r.destination);
-	}
-
-	/**
-	 * Verifies that the {@link Action} matching the {@code params} is not
-	 * accessible to the logged in user masquerading as another user. 
-	 */
-	protected void verifyCannotMasquerade(String... params) throws Exception {
-		try {
-			Action c = getActionObject(params);
-			c.executeAndPostProcess();
-			signalFailureToDetectException();
-		} catch (UnauthorizedAccessException e) {
-			ignoreExpectedException();
-		}
-	}
-
-	/**
-	 * Verifies that the {@link Action} matching the {@code params} is 
-	 * accessible to the logged in user. 
-	 */
-	protected void verifyCanAccess(String... params) throws Exception {
-		Action c = getActionObject(params);
-		c.executeAndPostProcess();
-	}
-
-	/**
-	 * Verifies that the {@link Action} matching the {@code params} is
-	 * accessible to the logged in user masquerading as another user. 
-	 */
-	protected void verifyCanMasquerade(String... params) throws Exception {
-		Action c = getActionObject(params);
-		c.executeAndPostProcess();
 	}
 
 }

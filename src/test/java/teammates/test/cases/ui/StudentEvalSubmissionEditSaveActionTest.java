@@ -56,54 +56,13 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 	@Test
 	public void testAccessControl() throws Exception{
 		
-		______TS("OPEN evaluation");
-		
 		EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
 		assertEquals(EvalStatus.OPEN, eval.getStatus());
-		checkAccessControlForEval(eval, true);
-		
-		______TS("CLOSED evaluation");
-		
-		eval.endTime = Common.getDateOffsetToCurrentTime(-1);
-		assertEquals(EvalStatus.CLOSED, eval.getStatus());
-		evaluationsDb.updateEvaluation(eval);
-		checkAccessControlForEval(eval, false);
-		
-		______TS("PUBLISHED evaluation");
-		
-		eval.published = true;
-		assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-		evaluationsDb.updateEvaluation(eval);
-		checkAccessControlForEval(eval, false);
-		
-		______TS("AWAITING evaluation");
-		
-		eval.startTime = Common.getDateOffsetToCurrentTime(1);
-		eval.endTime = Common.getDateOffsetToCurrentTime(2);
-		eval.setDerivedAttributes();
-		assertEquals(EvalStatus.AWAITING, eval.getStatus());
-		evaluationsDb.updateEvaluation(eval);
-		checkAccessControlForEval(eval, false);
-		
-	}
-
-	@Test
-	public void testExecuteAndPostProcess() throws Exception{
-		
-		//TODO: implement this
-		
-	}
-
-	private void checkAccessControlForEval(EvaluationAttributes eval, boolean isEditableForStudent)
-			throws Exception {
-		
-		String courseId = eval.courseId;
-		String evalName = eval.name;
 		SubmissionAttributes sub = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
 		
 		String[] submissionParams = new String[]{
-				Common.PARAM_COURSE_ID, courseId,
-				Common.PARAM_EVALUATION_NAME, evalName,
+				Common.PARAM_COURSE_ID, eval.courseId,
+				Common.PARAM_EVALUATION_NAME, eval.name,
 				Common.PARAM_FROM_EMAIL, dataBundle.students.get("student1InCourse1").email,
 				Common.PARAM_TEAM_NAME, sub.team,
 				Common.PARAM_TO_EMAIL, sub.reviewee,
@@ -115,15 +74,19 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		verifyUnaccessibleForUnregisteredUsers(submissionParams);
 		
-		if(isEditableForStudent){
-			verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-			verifyUnaccessibleForDifferentStudentOfTheSameCourses(submissionParams);
-		}else {
-			verifyUnaccessibleForStudents(submissionParams);
-		}
+		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+		verifyUnaccessibleForDifferentStudentOfTheSameCourses(submissionParams);
 		
 		verifyUnaccessibleForInstructors(submissionParams);
-		verifyAdminCanMasqueradeAsStudent(submissionParams);
+		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
+	}
+
+	@Test
+	public void testExecuteAndPostProcess() throws Exception{
+		
+		//TODO: implement this
+		//TODO: ensure uneditable if not OPEN
+		
 	}
 	
 }

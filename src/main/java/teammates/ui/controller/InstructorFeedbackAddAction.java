@@ -24,7 +24,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 		
 		Assumption.assertNotNull(courseId);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId), 
+				logic.getCourse(courseId));
 				
 		InstructorFeedbackPageData data = new InstructorFeedbackPageData(account);
 

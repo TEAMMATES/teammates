@@ -46,12 +46,12 @@ public class InstructorEvalPublishActionTest extends BaseActionTest {
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		verifyUnaccessibleForUnregisteredUsers(submissionParams);
 		verifyUnaccessibleForStudents(submissionParams);
-		verifyUnccessibleForInstructorsOfOtherCourses(submissionParams);
-		verifyAccessibleForCourseInstructor(submissionParams);
+		verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+		verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
 		
 		makeEvaluationClosed(evaluationInCourse1); //we have revert to the closed state
 		
-		verifyAdminCanMasqueradeAsInstructor(submissionParams);
+		verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
 		
 	}
 	
@@ -59,6 +59,8 @@ public class InstructorEvalPublishActionTest extends BaseActionTest {
 	public void testExecuteAndPostProcess() throws Exception{
 		
 		//TODO: implement this
+		
+		//TODO: ensure cannot publish in when not publishable
 	}
 
 	private void makeEvaluationClosed(EvaluationAttributes eval) throws Exception {

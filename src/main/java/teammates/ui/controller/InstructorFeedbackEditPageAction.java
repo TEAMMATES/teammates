@@ -11,7 +11,6 @@ public class InstructorFeedbackEditPageAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException,
 			InvalidParametersException {
 		
-		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
 
 		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		String feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
@@ -21,6 +20,10 @@ public class InstructorFeedbackEditPageAction extends Action {
 					+ "Tried to edit feedback session with null parameters";
 			return createRedirectResult(Common.PAGE_INSTRUCTOR_FEEDBACK);
 		}
+		
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId), 
+				logic.getFeedbackSession(feedbackSessionName, courseId));
 		
 		InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
 		

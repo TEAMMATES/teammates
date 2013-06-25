@@ -19,8 +19,14 @@ public class StudentFeedbackSubmitPageAction extends Action {
 			return createRedirectResult(Common.PAGE_STUDENT_HOME);
 		}
 		
+		if(notYetJoinedCourse(courseId, account.googleId)){
+			return createPleaseJoinCourseResponse(courseId);
+		}
+		
 		// Verify access level
-		new GateKeeper().verifyCourseOwnerOrStudentInCourse(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getStudentForGoogleId(courseId, account.googleId), 
+				logic.getFeedbackSession(feedbackSessionName, courseId));
 		
 		// Get login details
 		StudentFeedbackSubmitPageData data = new StudentFeedbackSubmitPageData(account);

@@ -19,7 +19,7 @@ public class InstructorCoursePageAction extends Action {
 	public ActionResult execute() 
 			throws EntityDoesNotExistException {
 		
-		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
+		new GateKeeper().verifyInstructorPrivileges(account);
 		
 		InstructorCoursePageData data = new InstructorCoursePageData(account);
 		data.newCourse = null;

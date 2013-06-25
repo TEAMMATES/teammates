@@ -18,8 +18,10 @@ public class InstructorFeedbackResultsPageAction extends Action {
 			return createRedirectResult(Common.PAGE_INSTRUCTOR_HOME);
 		}
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
-
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId), 
+				logic.getFeedbackSession(feedbackSessionName, courseId));
+		
 		InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
 		data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
 		data.bundle = logic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, data.instructor.email);

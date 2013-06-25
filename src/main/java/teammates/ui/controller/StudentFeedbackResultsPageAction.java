@@ -18,7 +18,15 @@ public class StudentFeedbackResultsPageAction extends Action {
 			return createRedirectResult(Common.PAGE_STUDENT_HOME);
 		}
 		
-		new GateKeeper().verifyCourseOwnerOrStudentInCourse(courseId);
+		if(notYetJoinedCourse(courseId, account.googleId)){
+			return createPleaseJoinCourseResponse(courseId);
+		}
+		
+		new GateKeeper().verifyAccessible(
+				logic.getStudentForGoogleId(courseId, account.googleId), 
+				logic.getFeedbackSession(feedbackSessionName, courseId));
+		
+		//TODO: ensure the session is PUBLISHED. Access control does not ensure it.
 
 		StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account);
 		data.student = logic.getStudentForGoogleId(courseId, account.googleId);

@@ -24,13 +24,12 @@ public class StudentEvalSubmissionEditPageAction extends Action {
 		if(notYetJoinedCourse(courseId, account.googleId)){
 			return createPleaseJoinCourseResponse(courseId);
 		}
-		
+		//No need to call GateKeeper because of the above redirect
 		
 		data = new StudentEvalSubmissionEditPageData(account);
 		data.student = logic.getStudentForGoogleId(courseId, account.googleId);
 		data.eval = logic.getEvaluation(courseId, evalName);
 		Assumption.assertNotNull(data.eval);
-		
 		
 		try{
 			data.submissions = logic.getSubmissionsForEvaluationFromStudent(courseId, evalName, data.student.email);

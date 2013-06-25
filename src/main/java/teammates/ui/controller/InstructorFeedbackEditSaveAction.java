@@ -15,14 +15,16 @@ public class InstructorFeedbackEditSaveAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
-		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
-		
 		//TODO: do we need this?
 		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		String feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
 		
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
+		
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId), 
+				logic.getFeedbackSession(feedbackSessionName, courseId));
 		
 		InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
 		data.session = extractFeedbackSessionData();

@@ -21,7 +21,15 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException,
 			InvalidParametersException {
 		
-		new GateKeeper().verifyInstructorUsingOwnIdOrAbove(account.googleId);
+		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		String feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
+		
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId), 
+				logic.getFeedbackSession(feedbackSessionName, courseId));
+		
+		Assumption.assertNotNull(courseId);
+		Assumption.assertNotNull(feedbackSessionName);
 		
 		FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData();
 		
@@ -41,12 +49,6 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 			statusToAdmin = e.getMessage();
 			isError = true;
 		}
-		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
-		String feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
-		
-		Assumption.assertNotNull(courseId);
-		Assumption.assertNotNull(feedbackSessionName);
 		
 		return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
 	}

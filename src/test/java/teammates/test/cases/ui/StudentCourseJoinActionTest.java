@@ -33,7 +33,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 					Common.PARAM_REGKEY, "sample-key"
 				};
 		
-		verifyAnyLoggedInUserCanAccess(submissionParams);
+		verifyOnlyLoggedInUsersCanAccess(submissionParams);
 		
 	}
 	

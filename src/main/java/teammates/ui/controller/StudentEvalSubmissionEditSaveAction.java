@@ -17,7 +17,7 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 	
 
 	@Override
-	public ActionResult execute() throws EntityDoesNotExistException {
+	public ActionResult execute() throws EntityDoesNotExistException, InvalidParametersException {
 		
 		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
@@ -28,8 +28,6 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		String fromEmail = getRequestParam(Common.PARAM_FROM_EMAIL);
 		Assumption.assertNotNull(fromEmail);
 		
-		new GateKeeper().verifyEmailOwnerAndEvalInState(courseId, evalName, fromEmail, EvalStatus.OPEN);
-		
 		String teamName = getRequestParam(Common.PARAM_TEAM_NAME);
 		String[] toEmails = getRequestParamValues(Common.PARAM_TO_EMAIL);
 		String[] points = getRequestParamValues(Common.PARAM_POINTS);
@@ -37,6 +35,10 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		String[] comments = getRequestParamValues(Common.PARAM_COMMENTS);
 		
 		EvaluationAttributes eval = logic.getEvaluation(courseId, evalName);
+		
+		if(eval.getStatus() != EvalStatus.OPEN){
+			throw new InvalidParametersException("This evalutions is not currently open for editing");
+		}
 		
 		//extract submission data
 		ArrayList<SubmissionAttributes> submissionData = new ArrayList<SubmissionAttributes>();
@@ -58,7 +60,9 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 			submissionData.add(sub);
 		}
 		
-		new GateKeeper().verifySubmissionsEditableForUser(submissionData);
+		new GateKeeper().verifyAccessible(
+				logic.getStudentForGoogleId(courseId, account.googleId),
+				submissionData);
 		
 		try{
 			logic.updateSubmissions(submissionData);

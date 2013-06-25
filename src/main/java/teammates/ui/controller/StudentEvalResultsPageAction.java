@@ -16,7 +16,7 @@ public class StudentEvalResultsPageAction extends Action {
 	
 
 	@Override
-	public ActionResult execute() throws EntityDoesNotExistException {
+	public ActionResult execute() throws EntityDoesNotExistException, InvalidParametersException {
 		
 		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
@@ -33,9 +33,15 @@ public class StudentEvalResultsPageAction extends Action {
 		
 		data.student = logic.getStudentForGoogleId(courseId, account.googleId);
 		
-		new GateKeeper().verifyEmailOwnerAndEvalInState(courseId, evalName, data.student.email, EvalStatus.PUBLISHED);
+		new GateKeeper().verifyAccessible(
+				logic.getStudentForGoogleId(courseId, account.googleId),
+				logic.getEvaluation(courseId,evalName));
 		
 		data.eval = logic.getEvaluation(courseId, evalName);
+		
+		if(data.eval.getStatus() != EvalStatus.PUBLISHED ){
+			throw new InvalidParametersException("Results of this evaluation are not yet published");
+		}
 		
 		try{
 			data.evalResult = logic.getEvaluationResultForStudent(courseId, evalName, data.student.email);

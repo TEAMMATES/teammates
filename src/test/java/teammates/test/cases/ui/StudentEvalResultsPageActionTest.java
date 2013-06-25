@@ -36,50 +36,21 @@ public class StudentEvalResultsPageActionTest extends BaseActionTest {
 	@Test
 	public void testAccessControl() throws Exception{
 		
-		______TS("OPEN evaluation");
-		
 		EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-		assertEquals(EvalStatus.OPEN, eval.getStatus());
-		checkAccessControlForEval(eval, false);
-		
-		______TS("CLOSED evaluation");
-		
 		eval.endTime = Common.getDateOffsetToCurrentTime(-1);
-		assertEquals(EvalStatus.CLOSED, eval.getStatus());
-		evaluationsDb.updateEvaluation(eval);
-		checkAccessControlForEval(eval, false);
-		
-		______TS("PUBLISHED evaluation");
-		
 		eval.published = true;
 		assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
 		evaluationsDb.updateEvaluation(eval);
-		checkAccessControlForEval(eval, true);
 		
-		//TODO: test for other states too
-		
-	}
-
-	@Test
-	public void testExecuteAndPostProcess() throws Exception{
-		
-		//TODO: implement this
-		
-	}
-
-
-	private void checkAccessControlForEval(EvaluationAttributes eval, boolean isPublished)
-			throws Exception {
-		String courseId = eval.courseId;
-		String evalName = eval.name;
 		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 		String instructorId = instructor1OfCourse1.googleId;
 		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 		String studentId = student1InCourse1.googleId;
 		
 		String[] submissionParams = new String[]{
-				Common.PARAM_COURSE_ID, courseId,
-				Common.PARAM_EVALUATION_NAME, evalName};
+				Common.PARAM_COURSE_ID, eval.courseId,
+				Common.PARAM_EVALUATION_NAME, eval.name
+				};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		
@@ -88,18 +59,23 @@ public class StudentEvalResultsPageActionTest extends BaseActionTest {
 		verifyRedirectTo(Common.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
-		if(isPublished){
-			verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-		}else {
-			verifyUnaccessibleForStudents(submissionParams);
-		}
+		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
 		
 		//if the user is not a student of the course, we redirect to home page.
 		loginAsInstructor(instructorId);
 		verifyRedirectTo(Common.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
-		verifyAdminCanMasqueradeAsStudent(submissionParams);
+		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
+		
 	}
+
+	@Test
+	public void testExecuteAndPostProcess() throws Exception{
+		
+		//TODO: implement this
+		//TODO: ensure results are not viewable when not PUBLISHED
+	}
+
 	
 }

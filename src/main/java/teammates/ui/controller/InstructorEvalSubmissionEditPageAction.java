@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -26,7 +25,9 @@ public class InstructorEvalSubmissionEditPageAction extends Action {
 		//Note: in InstructorEvalSubmissionEditPageData we use Common.PARAM_FROM_EMAIL instead
 		Assumption.assertNotNull(studentEmail);
 		
-		new GateKeeper().verifyCourseInstructorOrAbove(courseId);
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId),
+				logic.getEvaluation(courseId, evalName));
 		
 		data = new InstructorEvalSubmissionEditPageData(account);
 		data.student = logic.getStudentForEmail(courseId, studentEmail);
