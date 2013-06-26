@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,8 +28,6 @@ import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-
-import teammates.ui.controller.Helper;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
@@ -1087,8 +1087,21 @@ public class Common {
 		if (url.contains("?" + key + "=") || url.contains("&" + key + "="))
 			return url;
 		url += url.indexOf('?') >= 0 ? '&' : '?';
-		url += key + "=" + Helper.convertForURL(value);
+		url += key + "=" + convertForURL(value);
 		return url;
+	}
+	
+	/**
+	 * Converts a string to be put in URL (replaces some characters)
+	 * @param str
+	 * @return
+	 */
+	public static String convertForURL(String str){
+		try {
+			return URLEncoder.encode(str, Common.ENCODING);
+		} catch (UnsupportedEncodingException e){
+			return str;
+		}
 	}
 	
 	public static String printRequestParameters(HttpServletRequest request) {

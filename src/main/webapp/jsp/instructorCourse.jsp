@@ -2,7 +2,6 @@
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
-<%@ page import="teammates.ui.controller.Helper"%>
 <%@ page import="teammates.ui.controller.InstructorCoursePageData"%>
 <%
 InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("data");
@@ -61,7 +60,7 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 						<td class="label bold">Course Name:</td>
 						<td><input class="addinput" type="text"
 							name="<%=Common.PARAM_COURSE_NAME%>" id="<%=Common.PARAM_COURSE_NAME%>"
-							value="<%=(Helper.escapeForHTML(data.courseNameToShow))%>"
+							value="<%=(InstructorCoursePageData.escapeForHTML(data.courseNameToShow))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
@@ -110,7 +109,7 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 				%>
 					<tr class="courses_row">
 						<td id="courseid<%=idx%>"><%=courseDetails.course.id%></td>
-						<td id="coursename<%=idx%>"><%=Helper.escapeForHTML(courseDetails.course.name)%></td>
+						<td id="coursename<%=idx%>"><%=InstructorCoursePageData.escapeForHTML(courseDetails.course.name)%></td>
 						<td class="t_course_teams centeralign"><%= courseDetails.stats.teamsTotal %></td>
 						<td class="centeralign"><%= courseDetails.stats.studentsTotal %></td>
 						<td class="centeralign"><%= courseDetails.stats.unregisteredTotal %></td>

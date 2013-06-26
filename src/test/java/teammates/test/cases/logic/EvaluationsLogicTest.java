@@ -2,19 +2,13 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
-import static teammates.common.FieldValidator.EVALUATION_NAME;
-import static teammates.common.FieldValidator.START_TIME_FIELD_NAME;
-import static teammates.common.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 import static teammates.logic.TeamEvalResult.NA;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -30,8 +24,6 @@ import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.TeamResultBundle;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
@@ -39,7 +31,6 @@ import teammates.logic.StudentsLogic;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.TeamEvalResult;
 import teammates.logic.api.Logic;
-import teammates.logic.automated.EvaluationOpeningRemindersServlet;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
@@ -58,7 +49,6 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(EvaluationsLogic.class);
 		resetDatastore();
 	}
 	
@@ -667,7 +657,6 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
-		turnLoggingDown(EvaluationOpeningRemindersServlet.class);
 	}
 
 }
