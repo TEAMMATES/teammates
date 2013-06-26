@@ -53,7 +53,7 @@ AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttri
                 </tr>
             </table>
             <br>
-             <jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
+             <jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
             <br>
             <br>
             <h2>Instructor For:</h2>
@@ -105,7 +105,7 @@ AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttri
     </div>
 
     <div id="frameBottom">
-        <jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+        <jsp:include page="<%=Common.JSP_FOOTER%>" />
     </div>
 </body>
 </html>

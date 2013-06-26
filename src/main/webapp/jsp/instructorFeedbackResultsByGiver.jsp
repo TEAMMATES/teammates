@@ -27,7 +27,7 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 <body onload="">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -87,7 +87,7 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

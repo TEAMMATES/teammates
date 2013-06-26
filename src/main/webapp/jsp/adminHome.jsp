@@ -66,14 +66,14 @@
 				    </table>
 				</form>
 			</div>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<br>
 			<br>
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

@@ -32,7 +32,7 @@ InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.ge
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -59,7 +59,7 @@ InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.ge
 							<td><textarea rows="6" cols="120" class ="textvalue" name="enrollstudents" id="enrollstudents" placeholder="This box can be used for enrolling new students and editing details (except email address) of students already enrolled. To EDIT, simply enroll students using the updated data and existing data will be updated accordingly. To DELETE students or to UPDATE EMAIL address of a student,please use the 'view' page of the course."></textarea></td>
 						</tr>
 					</table>
-					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
+					<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 					<br>
 					<div id="instructorCourseEnrollmentButtons" class="centeralign">
 						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
@@ -73,7 +73,7 @@ InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.ge
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

@@ -88,7 +88,7 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 		value="<%=data.bundle.feedbackSession.courseId%>">
 </form>
 <% } %>
-<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
+<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 
 <% if (noResponses) { %>
 	<br><br><br>

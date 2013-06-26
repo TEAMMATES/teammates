@@ -30,7 +30,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 
@@ -41,7 +41,7 @@
 				<h1>Student Details</h1>
 			</div>
 			
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			
 			<table class="inputTable" id="studentInfomationTable">
 				<tr>
@@ -77,7 +77,7 @@
 
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

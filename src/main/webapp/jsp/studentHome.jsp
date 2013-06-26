@@ -30,7 +30,7 @@ StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER_NEW%>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -62,7 +62,7 @@ StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 			</form>
 			
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<br>
 			
 			<%
@@ -127,7 +127,7 @@ StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 	</div>
 	
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

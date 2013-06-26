@@ -30,7 +30,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER_NEW%>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -40,7 +40,7 @@
 				<h1>Evaluation Results</h1>
 			</div>
 			
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			
 			<div id="studentEvaluationResults">
 				<div id="equalShareTag">E = Equal Share</div>
@@ -158,7 +158,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

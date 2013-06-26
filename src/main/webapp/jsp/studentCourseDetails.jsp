@@ -30,7 +30,7 @@ StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAtt
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER_NEW%>" />
+		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -40,7 +40,7 @@ StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAtt
 				<h1>Team Details for <%=data.courseDetails.course.id%></h1>
 			</div>
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<br>
 				
 			<table class="inputTable" id="studentCourseInformation">
@@ -110,7 +110,7 @@ StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAtt
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

@@ -38,7 +38,7 @@
             <div id="headerOperation">
             <h1>Instructor Account Management</h1>
             <br>
-            <jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
+            <jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
             <br>
             </div>
             <p id="instructorCount" class="rightalign bold">Total Instructors: <%=data.instructorCoursesTable.size()%></p>
@@ -85,7 +85,7 @@
     </div>
 
     <div id="frameBottom">
-        <jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+        <jsp:include page="<%=Common.JSP_FOOTER%>" />
     </div>
 </body>
 </html>

@@ -29,7 +29,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -82,7 +82,7 @@
 				 	</tr>
 				</table>
 				
-				<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
+				<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 				<br>
 				<div class="centeralign">
 					<input type="submit" class="button centeralign" id="button_submit" name="submit" value="Save Changes"
@@ -97,7 +97,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

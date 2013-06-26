@@ -1,3 +1,4 @@
+<%@ page import="teammates.common.Common"%>
 <!DOCTYPE html>
 
 <html>
@@ -33,7 +34,7 @@
         </div>
 
         <div id="frameBottom">
-		<jsp:include page="/jsp/footer.jsp" />
+			<jsp:include page="<%=Common.JSP_FOOTER%>" />
         </div>
 </body>
 </html>

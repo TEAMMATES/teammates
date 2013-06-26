@@ -43,7 +43,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -114,7 +114,7 @@
 			</table>
 
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<br>
 
 			<%
@@ -292,7 +292,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER_NEW%>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 	<script>
 		setStatusMessage("");

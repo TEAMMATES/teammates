@@ -34,7 +34,7 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER_NEW%>" />
+		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -44,7 +44,7 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 				<h1>Instructor Home</h1>
 			</div>
 			
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE_NEW%>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			
 			<div class="backgroundBlock">
 				<div class="blockLink rightalign">
@@ -140,7 +140,7 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 
 	
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

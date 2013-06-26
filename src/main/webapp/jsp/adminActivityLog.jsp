@@ -202,7 +202,7 @@ AdminActivityLogPageData data = (AdminActivityLogPageData)request.getAttribute("
 			      }
 			  %>
 			    
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE_NEW %>" />
+			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
 			<br>
 			<div class="rightalign"><a href="#frameBodyWrapper">Back To Top</a></div>
 			<br>
@@ -211,7 +211,7 @@ AdminActivityLogPageData data = (AdminActivityLogPageData)request.getAttribute("
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER_NEW %>" />
+		<jsp:include page="<%=Common.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

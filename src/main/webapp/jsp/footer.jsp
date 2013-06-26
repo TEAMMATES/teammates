@@ -1,15 +1,15 @@
 <%@ page import="teammates.common.BuildProperties"%>
 <%@ page import="teammates.common.datatransfer.UserType"%>
-<%@ page import="teammates.ui.controller.Helper"%>
+<%@ page import="teammates.ui.controller.PageData"%>
 <% 
-	Helper helper = (Helper)request.getAttribute("helper"); 
+	PageData data = (PageData)request.getAttribute("data"); 
 	String version = BuildProperties.getAppVersion();
 	String institute = "";
 	//Set institute only if both helper and account are available. 
 	//  helper is not available for pages such as generic error pages.
 	//  account may not be available for admin.
-	if((helper!= null) && (helper.account != null)){
-		institute = "[for <span class=\"color_white\">"+helper.account.institute+"</span>]";
+	if((data!= null) && (data.account != null) && (data.account.institute != null)){
+		institute = "[for <span class=\"color_white\">"+data.account.institute+"</span>]";
 	}
 %>
 <div id="contentFooter">

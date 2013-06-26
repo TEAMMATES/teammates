@@ -422,14 +422,10 @@ public class Common {
 	public static final String JSP_STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp"; 
 
 	public static final String JSP_INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; 
-	public static final String JSP_INSTRUCTOR_HEADER_NEW = "/jsp/instructorHeaderNew.jsp"; //TODO: rename this after all pages are migrated to new header
-	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp";
-	public static final String JSP_STUDENT_HEADER_NEW = "/jsp/studentHeaderNew.jsp"; 
+	public static final String JSP_STUDENT_HEADER = "/jsp/studentHeader.jsp"; 
 	public static final String JSP_ADMIN_HEADER = "/jsp/adminHeader.jsp"; 
 	public static final String JSP_FOOTER = "/jsp/footer.jsp"; 
-	public static final String JSP_FOOTER_NEW = "/jsp/footerNew.jsp"; //TODO: rename this after all pages are migrated to new footer
 	public static final String JSP_STATUS_MESSAGE = "/jsp/statusMessage.jsp"; 
-	public static final String JSP_STATUS_MESSAGE_NEW = "/jsp/statusMessageNew.jsp"; //TODO: rename this after all pages are migrated to new status message
 	public static final String JSP_EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; 
 
 	public static final String JSP_ADMIN_HOME = "/jsp/adminHome.jsp";
