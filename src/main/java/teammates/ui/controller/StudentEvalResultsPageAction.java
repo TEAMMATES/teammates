@@ -47,7 +47,7 @@ public class StudentEvalResultsPageAction extends Action {
 			data.evalResult = logic.getEvaluationResultForStudent(courseId, evalName, data.student.email);
 			SubmissionAttributes.sortByJustification(data.evalResult.incoming);
 			data.incoming = organizeSubmissions(data.evalResult.incoming, data);
-			SubmissionAttributes.sortByPoints(data.evalResult.outgoing);
+			SubmissionAttributes.sortByPointsAscending(data.evalResult.outgoing);
 			data.outgoing = organizeSubmissions(data.evalResult.outgoing, data);
 			SubmissionAttributes.sortByReviewee(data.evalResult.selfEvaluations);
 			data.selfEvaluations = organizeSubmissions(data.evalResult.selfEvaluations, data);

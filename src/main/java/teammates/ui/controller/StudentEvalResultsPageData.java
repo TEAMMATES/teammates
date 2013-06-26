@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -26,32 +25,8 @@ public class StudentEvalResultsPageData extends PageData {
 
 	public StudentResultBundle evalResult;
 	
-	/**
-	 * Method to color the points by adding <code>span</code> tag with appropriate
-	 * class (posDiff and negDiff).
-	 * Positive points will be green, negative will be red, 0 will be black.
-	 * This will also put N/A or Not Sure for respective points representation.
-	 * The output will be E+x% for positive points, E-x% for negative points,
-	 * and just E for equal share.
-	 * Zero contribution will be printed as 0%
-	 * @param points
-	 * 		In terms of full percentage, so equal share will be 100, 20% more
-	 * 		from equal share will be 120, etc.
-	 * @return
-	 */
-	public static String colorizePoints(int points){
-		if(points==Common.POINTS_NOT_SUBMITTED || points==Common.UNINITIALIZED_INT)
-			return "<span class=\"color_negative\" onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_AVAILABLE+"')\" onmouseout=\"hideddrivetip()\">N/A</span>";
-		else if(points==Common.POINTS_NOT_SURE)
-			return "<span class=\"color_negative\" onmouseover=\"ddrivetip('"+Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_SURE+"')\" onmouseout=\"hideddrivetip()\">N/S</span>";
-		else if(points==0)
-			return "<span class=\"color_negative\">0%</span>";
-		else if(points>100)
-			return "<span class=\"color_positive\">E +"+(points-100)+"%</span>";
-		else if(points<100)
-			return "<span class=\"color_negative\">E -"+(100-points)+"%</span>";
-		else
-			return "<span class=\"color_neutral\">E</span>";
+	public static String getPointsAsColorizedHtml(int points){
+		return PageData.getPointsAsColorizedHtml(points);
 	}
 	
 	public static String getPointsListOriginal(List<SubmissionAttributes> subs){
@@ -82,9 +57,9 @@ public class StudentEvalResultsPageData extends PageData {
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
 			if(normalized){
-				result+=colorizePoints(sub.details.normalizedToInstructor);
+				result+=getPointsAsColorizedHtml(sub.details.normalizedToInstructor);
 			} else{
-				result+=colorizePoints(sub.points);
+				result+=getPointsAsColorizedHtml(sub.points);
 			}
 		}
 		return result;
@@ -108,7 +83,7 @@ public class StudentEvalResultsPageData extends PageData {
 		for(SubmissionAttributes sub: tempSubs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
 			if(result!="") result+=", ";
-			result+=InstructorEvalResultsPageData.colorizePoints(sub.details.normalizedToStudent);
+			result+=InstructorEvalResultsPageData.getPointsAsColorizedHtml(sub.details.normalizedToStudent);
 		}
 		return result;
 	}

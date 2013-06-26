@@ -55,18 +55,14 @@ public class StudentHomePageData extends PageData {
 	}
 	
 	
-	/**
-	 * @return The link to see course details.
-	 */
+	
 	public String getStudentCourseDetailsLink(String courseId){
 		String link = Common.PAGE_STUDENT_COURSE_DETAILS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
 		return link;
 	}
 	
-	/**
-	 * @return The link to see evaluation result.
-	 */
+	
 	public String getStudentEvaluationResultsLink(String courseID, String evalName){
 		String link = Common.PAGE_STUDENT_EVAL_RESULTS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);

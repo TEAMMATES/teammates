@@ -65,15 +65,15 @@
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
 							onmouseout="hideddrivetip()">
-						Claimed Contribution: </span><%=InstructorEvalSubmissionViewPageData.printSharePoints(data.studentResult.summary.claimedToInstructor,true)%></th>
+						Claimed Contribution: </span><%=InstructorEvalSubmissionViewPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.claimedToInstructor,true)%></th>
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
 							onmouseout="hideddrivetip()">
-						Perceived Contribution: </span><%=InstructorEvalSubmissionViewPageData.printSharePoints(data.studentResult.summary.perceivedToInstructor,true)%></th>
+						Perceived Contribution: </span><%=InstructorEvalSubmissionViewPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.perceivedToInstructor,true)%></th>
 				</tr></thead>
 				<tr>
 					<td colspan="4"><span class="bold">Self evaluation:</span><br>
-							<%=InstructorEvalSubmissionViewPageData.printJustification(data.studentResult.getSelfEvaluation())%></td>
+							<%=InstructorEvalSubmissionViewPageData.getJustificationAsSanitizedHtml(data.studentResult.getSelfEvaluation())%></td>
 					</tr>
 				<tr>
 					<td colspan="4"><span class="bold">Comments about team:</span><br>
@@ -87,13 +87,13 @@
 				</tr>
 				<%
 					for(SubmissionAttributes sub: (byReviewee ? data.studentResult.incoming : data.studentResult.outgoing)){
-						if(sub.reviewer.equals(sub.reviewee)) continue;
+										if(sub.reviewer.equals(sub.reviewee)) continue;
 				%>
 					<tr>
 						<td><b><%=InstructorEvalSubmissionViewPageData.escapeForHTML(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
-						<td><%=InstructorEvalSubmissionViewPageData.printSharePoints(sub.details.normalizedToInstructor,false)%></td>
-						<td><%=InstructorEvalSubmissionViewPageData.printJustification(sub)%></td>
-						<td><%=InstructorEvalSubmissionViewPageData.formatP2PFeedback(InstructorEvalSubmissionViewPageData.escapeForHTML(sub.p2pFeedback.getValue()), data.evaluation.p2pEnabled)%></td>
+						<td><%=InstructorEvalSubmissionViewPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,false)%></td>
+						<td><%=InstructorEvalSubmissionViewPageData.getJustificationAsSanitizedHtml(sub)%></td>
+						<td><%=InstructorEvalSubmissionViewPageData.getP2pFeedbackAsHtml(InstructorEvalSubmissionViewPageData.escapeForHTML(sub.p2pFeedback.getValue()), data.evaluation.p2pEnabled)%></td>
 					</tr>
 				<%
 					}

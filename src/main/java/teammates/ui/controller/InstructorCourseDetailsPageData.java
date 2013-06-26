@@ -18,12 +18,7 @@ public class InstructorCourseDetailsPageData extends PageData {
 	public List<StudentAttributes> students;
 	public List<InstructorAttributes> instructors;
 	
-	/**
-	 * Returns the link to send registration key to all students<br />
-	 * This includes masquerade mode as well.
-	 * @param courseID
-	 * @return
-	 */
+	
 	public String getInstructorCourseRemindLink(){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
@@ -31,12 +26,7 @@ public class InstructorCourseDetailsPageData extends PageData {
 		return link;
 	}
 	
-	/**
-	 * Returns the link to the student's detail page<br />
-	 * This includes masquerade mode as well.
-	 * @param student
-	 * @return
-	 */
+	
 	public String getCourseStudentDetailsLink(StudentAttributes student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
@@ -45,12 +35,7 @@ public class InstructorCourseDetailsPageData extends PageData {
 		return link;
 	}
 	
-	/**
-	 * Returns the link to the student's detail edit page<br />
-	 * This includes masquerade mode as well.
-	 * @param student
-	 * @return
-	 */
+	
 	public String getCourseStudentEditLink(StudentAttributes student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
@@ -59,12 +44,7 @@ public class InstructorCourseDetailsPageData extends PageData {
 		return link;
 	}
 	
-	/**
-	 * Returns the link remind students to join the course.<br />
-	 * This includes masquerade mode as well.
-	 * @param student
-	 * @return
-	 */
+	
 	public String getCourseStudentRemindLink(StudentAttributes student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_REMIND;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);
@@ -73,12 +53,7 @@ public class InstructorCourseDetailsPageData extends PageData {
 		return link;
 	}
 	
-	/**
-	 * Returns the link to delete a student<br />
-	 * This includes masquerade mode as well.
-	 * @param student
-	 * @return
-	 */
+	
 	public String getCourseStudentDeleteLink(StudentAttributes student){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DELETE;
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseDetails.course.id);

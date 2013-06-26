@@ -66,7 +66,7 @@
 					<tr>
 						<td class="bold color_white">My View:</td>
 						<td width="12%">
-							Of me: <%=StudentEvalResultsPageData.colorizePoints(data.evalResult.outgoing.get(0).points)%>
+							Of me: <%=StudentEvalResultsPageData.getPointsAsColorizedHtml(data.evalResult.outgoing.get(0).points)%>
 						</td>
 						<td>
 							Of others: <%=StudentEvalResultsPageData.getPointsListOriginal(data.outgoing)%>
@@ -75,7 +75,7 @@
 					<tr>
 						<td class="bold color_white">Team's View:</td>
 						<td>
-							Of me: <%=StudentEvalResultsPageData.colorizePoints(data.evalResult.incoming.get(0).details.normalizedToStudent)%>
+							Of me: <%=StudentEvalResultsPageData.getPointsAsColorizedHtml(data.evalResult.incoming.get(0).details.normalizedToStudent)%>
 						</td>
 						<td>
 							Of others: <%=StudentEvalResultsPageData.getNormalizedToStudentsPointsList(data.incoming)%>
@@ -122,7 +122,7 @@
 				<table class="result_studentform">
 					<tr>
 						<td width="15%" class="bold color_white">Points to yourself:</td>
-						<td><%=StudentEvalResultsPageData.colorizePoints(data.evalResult.getSelfEvaluation().points)%></td>
+						<td><%=StudentEvalResultsPageData.getPointsAsColorizedHtml(data.evalResult.getSelfEvaluation().points)%></td>
 					</tr>
 					<tr>
 						<td class="bold color_white">Your contribution:</td>
@@ -145,7 +145,7 @@
 					%>
 						<tr>
 							<td><%=PageData.escapeForHTML(sub.details.revieweeName)%></td>
-							<td><%=StudentEvalResultsPageData.colorizePoints(sub.points)%></td> 
+							<td><%=StudentEvalResultsPageData.getPointsAsColorizedHtml(sub.points)%></td> 
 							<td><%=PageData.escapeForHTML(sub.justification.getValue())%></td>
 							<td><%=StudentEvalResultsPageData.formatP2PFeedback(PageData.escapeForHTML(sub.p2pFeedback.getValue()), data.eval.p2pEnabled)%></td>
 						</tr>

@@ -21,10 +21,7 @@ public class EvalSubmissionEditPageData extends PageData {
 	}
 	
 	/**
-	 * Returns the p2p comments depending whether it is for self or others, and
-	 * if the comments is empty
-	 * @param sub
-	 * @return
+	 * @return The p2p comments in the submission, if one exists. If it is empty, inserts sub headings.
 	 */
 	public String getP2PComments(SubmissionAttributes sub) {
 		String commentsString = PageData.escapeForHTML(sub.p2pFeedback.getValue());
@@ -43,8 +40,6 @@ public class EvalSubmissionEditPageData extends PageData {
 	/**
 	 * Returns the section title of evaluation depending on whether it is
 	 * an evaluation submission for self or for others.
-	 * @param sub
-	 * @return
 	 */
 	public String getEvaluationSectionTitle(SubmissionAttributes sub){
 		if(sub.reviewee.equals(sub.reviewer)){
@@ -55,10 +50,8 @@ public class EvalSubmissionEditPageData extends PageData {
 	}
 	
 	/**
-	 * Returns the justification instruction depending on whether it is
+	 * Returns the descriptor for the justification field depending on whether it is
 	 * an evaluation submission for self or for others.
-	 * @param sub
-	 * @return
 	 */
 	public String getJustificationInstr(SubmissionAttributes sub){
 		if(sub.reviewee.equals(sub.reviewer)){
@@ -71,10 +64,8 @@ public class EvalSubmissionEditPageData extends PageData {
 	}
 	
 	/**
-	 * Returns the comments (p2pfeedback) instructions depending on whether
+	 * Returns the comments (p2pfeedback) descriptor depending on whether
 	 * it is an evaluation submission for self or for others.
-	 * @param sub
-	 * @return
 	 */
 	public String getCommentsInstr(SubmissionAttributes sub){
 		if(sub.reviewee.equals(sub.reviewer)){
@@ -91,8 +82,6 @@ public class EvalSubmissionEditPageData extends PageData {
 	 * This will also select the one which is already selected as shown in the
 	 * given SubmissionData. If the submission data is a new data, then by
 	 * default "Not Sure" is chosen.
-	 * @param sub
-	 * @return
 	 */
 	public String getEvaluationOptions(SubmissionAttributes sub){
 		String result = "";

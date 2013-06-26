@@ -49,7 +49,7 @@ InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageDat
 					<%
 						if(students.size()>0){
 					%>
-						<p class="bold centeralign"><%=data.getMessageForStudentsListID(i)%></p>
+						<p class="bold centeralign"><%=data.getMessageForEnrollmentStatus(i)%></p>
 						<br>
 						<table class="dataTable" class="enroll_result<%=i%>">
 						<tr>

@@ -115,18 +115,20 @@ InstructorCourseDetailsPageData data = (InstructorCourseDetailsPageData)request.
 						<tr class="student_row" id="student<%=idx%>">
 							<td id="<%=Common.PARAM_TEAM_NAME%>"><%=InstructorCourseDetailsPageData.escapeForHTML(student.team)%></td>
 							<td id="<%=Common.PARAM_STUDENT_NAME%>"><%=student.name%></td>
-	 						<td class="centeralign"><%= data.status(student) %></td>
+	 						<td class="centeralign"><%=data.getStudentStatus(student)%></td>
 	 						<td class="centeralign no-print">
-								<a class="color_black t_student_details<%= idx %>"
-										href="<%= data.getCourseStudentDetailsLink(student) %>"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_DETAILS %>')"
+								<a class="color_black t_student_details<%=idx%>"
+										href="<%=data.getCourseStudentDetailsLink(student)%>"
+										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_STUDENT_DETAILS%>')"
 										onmouseout="hideddrivetip()">
 										View</a>
-								<a class="color_black t_student_edit<%= idx %>" href="<%= data.getCourseStudentEditLink(student) %>"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_EDIT %>')"
+								<a class="color_black t_student_edit<%=idx%>" href="<%=data.getCourseStudentEditLink(student)%>"
+										onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_STUDENT_EDIT%>')"
 										onmouseout="hideddrivetip()">
 										Edit</a>
-								<%	if(data.status(student).equals(Common.STUDENT_STATUS_YET_TO_JOIN)){ %>
+								<%
+									if(data.getStudentStatus(student).equals(Common.STUDENT_STATUS_YET_TO_JOIN)){
+								%>
 									<a class="color_black t_student_resend<%= idx %>" href="<%= data.getCourseStudentRemindLink(student) %>"
 											onclick="return toggleSendRegistrationKey()"
 											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_REMIND %>')"

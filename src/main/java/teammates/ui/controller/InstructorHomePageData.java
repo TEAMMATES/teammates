@@ -14,7 +14,7 @@ public class InstructorHomePageData extends PageData {
 	
 	public List<CourseDetailsBundle> courses;
 	
-	public String getInstructorEvaluationLink(String courseID) {
+	public String getInstructorEvaluationLinkForCourse(String courseID) {
 		String link = super.getInstructorEvaluationLink();
 		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, courseID);
 		return link;

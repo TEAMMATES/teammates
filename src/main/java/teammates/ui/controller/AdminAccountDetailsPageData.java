@@ -17,14 +17,14 @@ public class AdminAccountDetailsPageData extends PageData {
 		super(account);
 	}
 	
-	public String getInstructorCourseDeleteLink(String instructorId, String courseId){
+	public String getAdminDeleteInstructorFromCourseLink(String instructorId, String courseId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DELETE;
 		link = Common.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,instructorId);
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
 		return link;
 	}
 	
-	public String getStudentCourseDeleteLink(String studentId, String courseId){
+	public String getAdminDeleteStudentFromCourseLink(String studentId, String courseId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DELETE;
 		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_ID,studentId);
 		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);

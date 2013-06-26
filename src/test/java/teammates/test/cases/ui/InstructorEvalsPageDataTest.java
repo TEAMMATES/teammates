@@ -14,7 +14,7 @@ public class InstructorEvalsPageDataTest extends BaseTestCase {
 	@Test
 	public void testGetTimeOptions(){
 		InstructorEvalPageData data = new InstructorEvalPageData(new AccountAttributes());
-		ArrayList<String> timeOptions = data.getTimeOptions(false);
+		ArrayList<String> timeOptions = data.getTimeOptionsAsHtml(false);
 		String retValue = "";
 		for(String option: timeOptions){
 			retValue += option + "\r\n";

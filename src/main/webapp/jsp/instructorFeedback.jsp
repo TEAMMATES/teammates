@@ -80,7 +80,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE%>')"
 									onmouseout="hideddrivetip()" tabindex="3">
 										<%
-											for(String opt: data.getTimeZoneOptions()) out.println(opt);
+											for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
 										%>
 							</select></td>
 					</tr>
@@ -122,7 +122,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							disabled="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom').checked){'disabled'}else{''}"
 							>
 								<%
-									for(String opt: data.getTimeOptions(true)) out.println(opt);
+									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
@@ -176,7 +176,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							disabled="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){'disabled'}else{''}"
 							>
 								<%
-									for(String opt: data.getTimeOptions(true)) out.println(opt);
+									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
@@ -224,7 +224,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>" tabindex="4">
 								<%
-									for(String opt: data.getTimeOptions(true)) out.println(opt);
+									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
 								%>
 						</select></td>
 						<td class="label bold middlealign" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE%>')"
@@ -241,7 +241,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>" tabindex="4">
 								<%
-									for(String opt: data.getTimeOptions(true)) out.println(opt);
+									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
 								%>
 						</select></td>
 						<td class="label bold" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
@@ -252,7 +252,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 								id="<%=Common.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>"
 								tabindex="7">
 									<%
-										for(String opt: data.getGracePeriodOptions()) out.println(opt);
+										for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
 									%>
 						</select></td>
 					</tr>

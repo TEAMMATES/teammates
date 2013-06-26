@@ -147,11 +147,22 @@ public class SubmissionAttributes extends EntityAttributes {
 		});
 	}
 
-	public static void sortByPoints(List<SubmissionAttributes> submissions) {
+	public static void sortByPointsAscending(List<SubmissionAttributes> submissions) {
 		Collections.sort(submissions, new Comparator<SubmissionAttributes>() {
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				return Integer.valueOf(s1.points).compareTo(
 						Integer.valueOf(s2.points));
+			}
+		});
+	}
+	
+	
+	public static void sortByNormalizedPointsDescending(List<SubmissionAttributes> submissions){
+		Collections.sort(submissions, new Comparator<SubmissionAttributes>(){
+			@Override
+			public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
+				return Integer.valueOf(s2.details.normalizedToInstructor)
+						.compareTo(Integer.valueOf(s1.details.normalizedToInstructor));
 			}
 		});
 	}

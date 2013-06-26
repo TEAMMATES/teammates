@@ -20,7 +20,7 @@ public class InstructorCourseEnrollResultPageData extends PageData {
 
 	public List<StudentAttributes>[] students;
 	
-	public String getMessageForStudentsListID(int enrollmentStatus) {
+	public String getMessageForEnrollmentStatus(int enrollmentStatus) {
 
 		UpdateStatus status = UpdateStatus.enumRepresentation(enrollmentStatus);
 

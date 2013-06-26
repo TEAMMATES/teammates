@@ -84,7 +84,7 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 						onmouseout="hideddrivetip()">
 						Edit</a>
 					<a class="t_course_add_eval<%=idx%> color_white bold"
-						href="<%=data.getInstructorEvaluationLink(courseDetails.course.id)%>"
+						href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
 						onmouseout="hideddrivetip()">
 						Add Evaluation</a>

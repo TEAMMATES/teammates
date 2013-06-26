@@ -69,9 +69,9 @@
                      %>
                      </td>
                      <td>
-                        <a id="<%=acc.googleId + "_details"%>" href="<%=data.getAccountDetailsLink(acc.googleId) %>">View Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a id="<%=acc.googleId + "_delete"%>" href="<%=data.getInstructorDeleteLink(acc.googleId) %>">Delete Instructor Status</a><br>
-                        <a id="<%=acc.googleId + "_deleteAccount"%>" href="<%=data.getAccountDeleteLink(acc.googleId) %>" onclick="return toggleDeleteAccountConfirmation()">Delete Entire Account</a>
+                        <a id="<%=acc.googleId + "_details"%>" href="<%=data.getAdminViewAccountDetailsLink(acc.googleId)%>">View Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="<%=acc.googleId + "_delete"%>" href="<%=data.getAdminDeleteInstructorStatusLink(acc.googleId)%>">Delete Instructor Status</a><br>
+                        <a id="<%=acc.googleId + "_deleteAccount"%>" href="<%=data.getAdminDeleteAccountLink(acc.googleId)%>" onclick="return toggleDeleteAccountConfirmation()">Delete Entire Account</a>
                      </td>
                 </tr>
             <%

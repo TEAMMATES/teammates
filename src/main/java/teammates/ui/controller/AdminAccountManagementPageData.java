@@ -16,19 +16,19 @@ public class AdminAccountManagementPageData extends PageData {
 		super(account);
 	}
 	
-	public String getAccountDetailsLink(String googleId){
+	public String getAdminViewAccountDetailsLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DETAILS;
 		link = Common.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
 		return link;
 	}
 	
-	public String getInstructorDeleteLink(String googleId){
+	public String getAdminDeleteInstructorStatusLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DELETE;
 		link = Common.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
 		return link;
 	}
 	
-	public String getAccountDeleteLink(String googleId){
+	public String getAdminDeleteAccountLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DELETE;
 		link = Common.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
 		link = Common.addParamToUrl(link,"account","true");

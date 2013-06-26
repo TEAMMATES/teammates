@@ -81,7 +81,7 @@ InstructorEvalPageData data = (InstructorEvalPageData)request.getAttribute("data
 									id="<%=Common.PARAM_EVALUATION_STARTTIME%>"
 									tabindex="4">
 										<%
-											for(String opt: data.getTimeOptions(true)) out.println(opt);
+											for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
 										%>
 							</select></td>
 					</tr>
@@ -107,7 +107,7 @@ InstructorEvalPageData data = (InstructorEvalPageData)request.getAttribute("data
 									id="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"
 									tabindex="6">
 										<%
-											for(String opt: data.getTimeOptions(false)) out.println(opt);
+											for(String opt: data.getTimeOptionsAsHtml(false)) out.println(opt);
 										%>
 							</select></td>
 					</tr>
@@ -131,7 +131,7 @@ InstructorEvalPageData data = (InstructorEvalPageData)request.getAttribute("data
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE%>')"
 									onmouseout="hideddrivetip()" tabindex="7">
 										<%
-											for(String opt: data.getTimeZoneOptions()) out.println(opt);
+											for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
 										%>
 							</select>
 						</td>
@@ -146,7 +146,7 @@ InstructorEvalPageData data = (InstructorEvalPageData)request.getAttribute("data
 								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
 								onmouseout="hideddrivetip()" tabindex="7">
 									<%
-										for(String opt: data.getGracePeriodOptions()) out.println(opt);
+										for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
 									%>
 						</select></td>
 					</tr>
