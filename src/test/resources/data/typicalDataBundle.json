@@ -465,7 +465,7 @@
 		"questionNumber" : "1",
 		"giverType" : "INSTRUCTORS",
 		"recipientType" : "TEAMS",
-		"numberOfEntitiesToGiveFeedbackTo" : 2,
+		"numberOfEntitiesToGiveFeedbackTo" : 1,
 		"showResponsesTo" : [ ],
 		"showGiverNameTo" : [ ],
 		"showRecipientNameTo" : [ ]

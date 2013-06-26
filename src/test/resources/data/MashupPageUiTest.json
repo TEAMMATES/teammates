@@ -344,5 +344,230 @@
       "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
       "team" : "Team 2"
     }
+  },
+  
+  "feedbackSessions" : {
+  	 "session1InCourse1": {
+      "feedbackSessionName" : "First feedback session",
+      "courseId" : "CS2104",
+      "creatorEmail": "teammates.test@gmail.com",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2012-03-20 11:59 PM",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2015-04-30 11:59 PM",
+      "sessionVisibleFromTime" : "2012-03-28 11:59 PM",
+      "resultsVisibleFromTime" : "2012-05-01 11:59 PM",
+      "timeZone" : 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    },
+    "session2InCourse1": {
+      "feedbackSessionName" : "Second feedback session",
+      "courseId" : "CS2104",
+      "creatorEmail": "teammates.test@gmail.com",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2013-03-20 11:59 PM",
+      "startTime" : "2013-06-01 11:59 PM",
+      "endTime" : "2014-04-28 11:59 PM",
+      "sessionVisibleFromTime" : "2013-03-20 11:59 PM",
+      "resultsVisibleFromTime" : "2014-04-29 11:59 PM",
+      "timeZone" : 2.0,
+      "gracePeriod": 5,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : false,
+      "sentPublishedEmail" : false
+    },
+    "session3InCourse1": {
+      "feedbackSessionName" : "3rd feedback session",
+      "courseId" : "CS2104",
+      "creatorEmail": "instructor2@course1.com",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2013-01-20 11:57 PM",
+      "startTime" : "2013-02-01 11:57 PM",
+      "endTime" : "2013-04-28 11:57 PM",
+      "sessionVisibleFromTime" : "2013-01-20 11:57 PM",
+      "resultsVisibleFromTime" : "2013-04-29 11:57 PM",
+      "timeZone" : 0,
+      "gracePeriod": 5,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : false,
+      "sentPublishedEmail" : false
+    },
+    "session1InCourse2": {
+      "feedbackSessionName" : "Private feedback session",
+      "courseId" : "CS1101",
+      "creatorEmail": "teammates.test@gmail.com",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2012-03-20 11:59 PM",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2015-04-30 11:59 PM",
+      "sessionVisibleFromTime" : "2012-03-28 11:59 PM",
+      "resultsVisibleFromTime" : "2015-05-01 11:59 PM",
+      "timeZone" : 8,
+      "gracePeriod": 0,
+      "feedbackSessionType" : "PRIVATE",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    },
+    "session2InCourse2": {
+      "feedbackSessionName" : "Instructor feedback session",
+      "courseId" : "CS1101",
+      "creatorEmail": "teammates.test@gmail.com",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2012-03-20 11:59 PM",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2015-04-30 11:59 PM",
+      "sessionVisibleFromTime" : "2012-03-28 11:59 PM",
+      "resultsVisibleFromTime" : "2015-05-01 11:59 PM",
+      "timeZone" : 8,
+      "gracePeriod": 0,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    }   
+  },
+  "feedbackQuestions" : {
+  	 "qn1InSession1InCourse1": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "CS2104",
+		"creatorEmail" : "teammates.test@gmail.com",
+		"questionText" : {"value" : "What is the best selling point of your product?"},
+		"questionNumber" : "1",
+		"questionType" : "TEXT",
+		"giverType" : "STUDENTS",
+		"recipientType" : "SELF",
+		"numberOfEntitiesToGiveFeedbackTo" : 1,
+		"showResponsesTo" : [ "INSTRUCTORS" ],
+		"showGiverNameTo" : [ "INSTRUCTORS" ],
+		"showRecipientNameTo" : [ "INSTRUCTORS" ]
+    },
+    "qn2InSession1InCourse1": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "CS2104",
+		"creatorEmail" : "teammates.test@gmail.com",
+		"questionText" : {"value" : "Rate 5 other students' products"},
+		"questionNumber" : "2",
+		"questionType" : "TEXT",
+		"giverType" : "STUDENTS",
+		"recipientType" : "STUDENTS",
+		"numberOfEntitiesToGiveFeedbackTo" : 5,
+		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
+		"showGiverNameTo" : [ "INSTRUCTORS" ],
+		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
+    },
+    "qn3InSession1InCourse1": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "CS2104",
+		"creatorEmail" : "teammates.test@gmail.com",
+		"questionText" : {"value" : "My comments on the class"},
+		"questionNumber" : "3",
+		"giverType" : "SELF",
+		"recipientType" : "NONE",
+		"numberOfEntitiesToGiveFeedbackTo" : 0,
+		"showResponsesTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
+		"showGiverNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
+		"showRecipientNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ]
+    },
+    "qn1InSession2InCourse1": {
+		"feedbackSessionName" : "Second feedback session",
+		"courseId" : "CS2104",
+		"creatorEmail" : "teammates.test@gmail.com",
+		"questionText" : {"value" : "Give feedback to 2 other teams."},
+		"questionNumber" : "1",
+		"giverType" : "TEAMS",
+		"recipientType" : "TEAMS",
+		"numberOfEntitiesToGiveFeedbackTo" : 2,
+		"showResponsesTo" : [ "RECEIVER" ],
+		"showGiverNameTo" : [ "RECEIVER" ],
+		"showRecipientNameTo" : [ "RECEIVER" ]
+    },
+    "qn2InSession2InCourse1": {
+		"feedbackSessionName" : "Second feedback session",
+		"courseId" : "CS2104",
+		"creatorEmail" : "teammates.test@gmail.com",
+		"questionText" : {"value" : "Give feedback to 1 of your team mates"},
+		"questionNumber" : "2",
+		"giverType" : "STUDENTS",
+		"recipientType" : "OWN_TEAM_MEMBERS",
+		"numberOfEntitiesToGiveFeedbackTo" : 1,
+		"showResponsesTo" : [ "RECEIVER" ],
+		"showGiverNameTo" : [ "RECEIVER" ],
+		"showRecipientNameTo" : [ "RECEIVER" ]
+    },
+    "qn1InSession1InCourse2": {
+		"feedbackSessionName" : "Private feedback session",
+		"courseId" : "CS1101",
+		"creatorEmail" : "teammates.test@gmail.com",
+		"questionText" : {"value" : "This is a private session for myself"},
+		"questionNumber" : "1",
+		"giverType" : "SELF",
+		"recipientType" : "STUDENTS",
+		"numberOfEntitiesToGiveFeedbackTo" : 10,
+		"showResponsesTo" : [ ],
+		"showGiverNameTo" : [ ],
+		"showRecipientNameTo" : [ ]
+    },
+    "qn1InSession2InCourse2": {
+		"feedbackSessionName" : "Instructor feedback session",
+		"courseId" : "CS1101",
+		"creatorEmail" : "teammates.test@gmail.com",
+		"questionText" : {"value" : "Please rate the following teams"},
+		"questionNumber" : "1",
+		"giverType" : "INSTRUCTORS",
+		"recipientType" : "TEAMS",
+		"numberOfEntitiesToGiveFeedbackTo" : 1,
+		"showResponsesTo" : [ ],
+		"showGiverNameTo" : [ ],
+		"showRecipientNameTo" : [ ]
+    }
+   },
+  "feedbackResponses" : {
+  	 "response1": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "CS2104",
+		"feedbackQuestionId" : "1",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "alice.b.tmms@gmail.com",
+		"recipient" : "alice.b.tmms@gmail.com",
+		"answer" : {"value" : "My product is light."}
+    },
+    "response2": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "CS2104",
+		"feedbackQuestionId" : "2",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "alice.b.tmms@gmail.com",
+		"recipient" : "benny.c.tmms@gmail.com",
+		"answer" : {"value" : "Benny is a good student."}
+    },
+    "response3": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "CS2104",
+		"feedbackQuestionId" : "2",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "benny.c.tmms@gmail.com",
+		"recipient" : "danny.e.tmms@gmail.com",
+		"answer" : {"value" : "Danny starts with D."}
+    },
+    "response4": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "CS2104",
+		"feedbackQuestionId" : "2",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "charlie.d.tmms@gmail.com",
+		"recipient" : "alice.b.tmms@gmail.com",
+		"answer" : {"value" : "Alice is a good girl coder."}
+    },
+    "response5": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "CS2104",
+		"feedbackQuestionId" : "2",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "benny.c.tmms@gmail.com",
+		"recipient" : "charlie.d.tmms@gmail.com",
+		"answer" : {"value" : "Charlie did alot of work."}
+    }
   }
 }

@@ -56,4 +56,18 @@ public enum FeedbackParticipantType {
 	public String toDisplayNameVisibility(){
 		return displayNameVisibility;
 	}
+	
+	public String toSingletonString() {
+		switch (this) {
+		case INSTRUCTORS:
+			return "instructor";
+		case STUDENTS:
+			return "student";
+		case TEAMS:
+			return "team";
+		default:
+			return super.toString();
+		}
+	}
+	
 }

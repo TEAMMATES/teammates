@@ -140,29 +140,53 @@ public class FeedbackSessionsLogic {
 			throw new EntityDoesNotExistException(
 					"Trying to get a feedback session that does not exist.");
 		}
-
-		if (fsa.isVisible() == false) {
-			throw new UnauthorizedAccessException(
-					"This feedback session is not yet visible.");
-		}
-
-		List<FeedbackQuestionAttributes> questions =
-					fqLogic.getFeedbackQuestionsForUser(feedbackSessionName,
-						courseId, userEmail);
 		
 		Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle
 			= new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
 		Map<String, Map<String,String>> recipientList
 			= new HashMap<String, Map<String,String>>();
 		
+		List<FeedbackQuestionAttributes> questions =
+				fqLogic.getFeedbackQuestionsForUser(feedbackSessionName,
+					courseId, userEmail);
+		
 		for (FeedbackQuestionAttributes question : questions) {
-			bundle.put(question,
-					frLogic.getFeedbackResponsesFromGiver(question.getId(), userEmail));
-			recipientList.put(question.getId(),
-					fqLogic.getRecipientsForQuestion(question, userEmail));
+			
+			List<FeedbackResponseAttributes> responses = 
+					frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), userEmail);
+			Map<String, String> recipients =
+					fqLogic.getRecipientsForQuestion(question, userEmail);
+			
+			normalizeMaximumResponseEntities(courseId, userEmail, question,
+					responses, recipients);
+			
+			bundle.put(question, responses);
+			recipientList.put(question.getId(), recipients);
 		}
 		
 		return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+	}
+
+	private void normalizeMaximumResponseEntities(String courseId,
+			String userEmail, FeedbackQuestionAttributes question,
+			List<FeedbackResponseAttributes> responses,
+			Map<String, String> recipients) {
+		
+		// change constant to actual maximum size.
+		if (question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS) {
+			question.numberOfEntitiesToGiveFeedbackTo = recipients.size();
+		}	
+		
+		if (question.giverType == FeedbackParticipantType.TEAMS) {
+			// reduce max response count depending on other members' feedback 
+			// to account for the multi-giver question.
+			StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
+			int studentCount = responses.size();
+			int teamCount = frLogic.getNumberOfResponsesFromTeamForQuestion(question.courseId, question.getId(), student.team );
+			
+			question.numberOfEntitiesToGiveFeedbackTo -= (teamCount - studentCount);
+		}
+		
 	}
 
 	// This method gets the ResultsBundle i.e attributes + question + responses
@@ -180,13 +204,7 @@ public class FeedbackSessionsLogic {
 		}
 		
 		boolean userIsCreator = session.creatorEmail.equals(userEmail);
-		boolean userIsInstructor = instructorsLogic.isInstructorOfCourse(userEmail, courseId);
-		
-		// TODO: should we use isInstructor instead of creator?
-		if (session.isPublished() == false && userIsCreator == false) {
-			throw new UnauthorizedAccessException(
-					"This feedback sesion has not been published.");
-		}
+		boolean userIsInstructor = instructorsLogic.getInstructorForEmail(courseId, userEmail) != null ? true : false;
 		
 		List<FeedbackQuestionAttributes> allQuestions = 
 				fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);

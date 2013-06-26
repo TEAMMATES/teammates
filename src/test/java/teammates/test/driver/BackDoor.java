@@ -16,6 +16,7 @@ import java.util.Map;
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -480,8 +481,29 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_NUMBER, qnNumber);
-		String feedbackSessionJson = makePOSTRequest(params);
-		return feedbackSessionJson;
+		String feedbackQuestionJson = makePOSTRequest(params);
+		return feedbackQuestionJson;
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
+	}
+	
+	public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
+			String giverEmail, String recipient) {
+		String jsonString = getFeedbackResponseAsJson(feedbackQuestionId, giverEmail, recipient);
+		Common.getLogger().info(jsonString);
+		return Common.getTeammatesGson().fromJson(jsonString, FeedbackResponseAttributes.class);
+	}
+
+	public static String getFeedbackResponseAsJson(String feedbackQuestionId,
+			String giverEmail, String recipient) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);
+		params.put(BackDoorServlet.PARAMETER_GIVER_EMAIL, giverEmail);
+		params.put(BackDoorServlet.PARAMETER_RECIPIENT, recipient);
+		String feedbackResponseJson = makePOSTRequest(params);
+		return feedbackResponseJson;
 	}
 	
 	@SuppressWarnings("unused")

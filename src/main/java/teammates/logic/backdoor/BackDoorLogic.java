@@ -112,6 +112,13 @@ public class BackDoorLogic extends Logic {
 			super.createFeedbackQuestion(question);
 		}
 		
+		HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
+		for (FeedbackResponseAttributes response : responses.values()) {
+			log.fine("API Servlet adding feedback question :" + response.getId()
+					+ " to session " + response.feedbackSessionName);
+			this.createFeedbackResponse(response);
+		}
+		
 		return Common.BACKEND_STATUS_SUCCESS;
 	}
 	
@@ -157,6 +164,12 @@ public class BackDoorLogic extends Logic {
 				feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
 		return Common.getTeammatesGson().toJson(fq);
 	}
+
+	public String getFeedbackResponseAsJson(String feedbackQuestionId, String giverEmail, String recipient) {
+		FeedbackResponseAttributes fq = 
+				feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
+		return Common.getTeammatesGson().toJson(fq);
+	}
 	
 	public void editAccountAsJson(String newValues)
 			throws InvalidParametersException, EntityDoesNotExistException {
@@ -198,15 +211,18 @@ public class BackDoorLogic extends Logic {
 	// Normally, the ID is already passed in the attributes on creation,
 	// but the json file does not contain the actual ID and so an additional step
 	// must be performed to add the correct ID.
+	// So we put the question number of the response in it instead and get
+	// the questionId if the question exists.
 	@Override
 	public void createFeedbackResponse(FeedbackResponseAttributes response) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
-		String params[] = response.feedbackQuestionId.split("%");
+		
+		int qnNumber = Integer.parseInt(response.feedbackQuestionId);
 		
 		response.feedbackQuestionId = 
 				feedbackQuestionsLogic.getFeedbackQuestion(
-						params[0], params[1], Integer.parseInt(params[2]))
-						.getId();
+						response.feedbackSessionName, response.courseId,
+						qnNumber).getId();
 
 		super.createFeedbackResponse(response);
 	}

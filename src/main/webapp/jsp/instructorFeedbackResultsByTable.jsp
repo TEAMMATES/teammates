@@ -40,27 +40,30 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 			<jsp:include page="<%=Common.JSP_INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
 			<% for(Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries :
 													data.bundle.getQuestionResponseMap().entrySet()) { %>
-				<h2 style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>: [<%=responseEntries.getKey().questionText.getValue()%>]</h2>
-				<table class="dataTable">
-				<tr>
-					<th class="leftalign color_white bold">
-						<input class="buttonSortNone" type="button" id="button_sortgiver" 
-							onclick="toggleSort(this,1)">From:</th>
-					<th class="leftalign color_white bold">
-						<input class="buttonSortAscending" type="button" id="button_sortrecipient"
-							onclick="toggleSort(this,2)">To:</th>
-					<th class="leftalign color_white bold">
-						<input class="buttonSortNone" type="button" id="button_sortanswer"
-							onclick="toggleSort(this,3)">Feedback:</th>
-				</tr>
-				<% for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) { %>
-				<tr>
-					<td><%= data.bundle.emailNameTable.get(responseEntry.giverEmail) %></td>
-					<td><%= data.bundle.emailNameTable.get(responseEntry.recipient) %></td>
-					<td><%= responseEntry.answer.getValue() %></td>
-				</tr>		
-				<% } %>	
-			</table>
+				
+				<div class="backgroundBlock">
+					<h2 class="color_white" style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>: [<%=responseEntries.getKey().questionText.getValue()%>]</h2>
+					<table class="dataTable">
+						<tr>
+							<th class="leftalign color_white bold">
+								<input class="buttonSortNone" type="button" id="button_sortgiver" 
+									onclick="toggleSort(this,1)">From:</th>
+							<th class="leftalign color_white bold">
+								<input class="buttonSortAscending" type="button" id="button_sortrecipient"
+									onclick="toggleSort(this,2)">To:</th>
+							<th class="leftalign color_white bold">
+								<input class="buttonSortNone" type="button" id="button_sortanswer"
+									onclick="toggleSort(this,3)">Feedback:</th>
+						</tr>
+						<% for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) { %>
+						<tr>
+							<td><%= data.bundle.emailNameTable.get(responseEntry.giverEmail) %></td>
+							<td><%= data.bundle.emailNameTable.get(responseEntry.recipient) %></td>
+							<td><%= responseEntry.answer.getValue() %></td>
+						</tr>		
+						<% } %>	
+					</table>
+				</div>
 			<br>
 			<% } %>
 		</div>

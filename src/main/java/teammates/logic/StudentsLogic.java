@@ -31,6 +31,7 @@ public class StudentsLogic {
 	
 	private CoursesLogic coursesLogic = CoursesLogic.inst();
 	private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+	private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 	
 	private static Logger log = Common.getLogger();
 	
@@ -139,11 +140,13 @@ public class StudentsLogic {
 		// cascade email change, if any
 		if (!originalEmail.equals(student.email)) {
 			evaluationsLogic.updateStudentEmailForSubmissionsInCourse(student.course, originalEmail, student.email);
+			frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
 		}
 
 		// adjust submissions if moving to a different team
 		if (isTeamChanged(originalStudent.team, student.team)) {
 			evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, student.email, originalStudent.team, student.team);
+			frLogic.updateFeedbackResponsesForChangingTeam(student.course, student.email, originalStudent.team, student.team);
 		}
 	}
 	
@@ -246,6 +249,7 @@ public class StudentsLogic {
 	public void deleteStudentCascade(String courseId, String studentEmail) {
 		studentsDb.deleteStudent(courseId, studentEmail);
 		SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
+		frLogic.deleteFeedbackResponsesForStudent(courseId, studentEmail);
 	}
 
 	public void deleteStudentsForGoogleId(String googleId) {

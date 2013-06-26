@@ -45,23 +45,24 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 					for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>>
 									responsesForRecipient : allResponses.entrySet()) {
 			%>
-			<table class="inputTable responseTable">
-				<tr><th><span class ="bold">To: </span><%= data.bundle.emailNameTable.get(responsesForRecipient.getKey()) %></th></tr>
-				<tr>
-					<td>
+			<div class="backgroundBlock">
+				<h2 class="color_white">To: <%= data.bundle.emailNameTable.get(responsesForRecipient.getKey()) %></h2>
+
 				<% 			for (Map.Entry<String, List<FeedbackResponseAttributes>>
 										responsesForRecipientFromGiver : responsesForRecipient.getValue().entrySet()) {
 				%>			
-					<table class="inputTable" style="width:80%">
-						<tr><th><span class ="bold">From: </span><%= data.bundle.emailNameTable.get(responsesForRecipientFromGiver.getKey()) %></th></tr>
+					<table class="resultTable" style="width:100%">
+						<thead>
+							<tr><th><span class="bold">From: </span><%= data.bundle.emailNameTable.get(responsesForRecipientFromGiver.getKey()) %></th></tr>
+						</thead>
 				<% 				
 								int qnIndx = 1;
 								for (FeedbackResponseAttributes	singleResponse : responsesForRecipientFromGiver.getValue()) {
 				%>
-						<tr><td>
-							<span class="bold">Question <%=qnIndx%>: [<%=data.bundle.questions.get(singleResponse.feedbackQuestionId).questionText.getValue() %>]</span>
+						<tr class="resultSubheader"><td>
+							<span class="bold">Question <%=qnIndx%>: </span>[<%=data.bundle.questions.get(singleResponse.feedbackQuestionId).questionText.getValue() %>]
 						</td></tr>
-						<tr><td><%= singleResponse.answer.getValue()%></td></tr>
+						<tr><td><span class="bold">Response: </span><%= singleResponse.answer.getValue()%></td></tr>
 				<%				qnIndx++;
 								}
 								if (responsesForRecipientFromGiver.getValue().isEmpty()) {
@@ -75,8 +76,7 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 				<%
 							}
 				%>
-				</td></tr>
-			</table>
+			</div>
 			<br><br>
 			<%
 					}

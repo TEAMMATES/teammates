@@ -8,6 +8,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.GateKeeper;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
@@ -26,8 +27,6 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 				logic.getStudentForGoogleId(courseId, account.googleId), 
 				logic.getFeedbackSession(feedbackSessionName, courseId));
 		
-		//TODO: ensure the session is OPEN. Access control does not ensure it.
-
 		StudentFeedbackSubmitPageData data = new StudentFeedbackSubmitPageData(account);
 
 		// Get student email instead of account email.
@@ -38,6 +37,11 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
 		}
+		if (data.bundle.feedbackSession.isOpened() == false) {
+			throw new UnauthorizedAccessException(
+					"This feedback session is not yet opened.");
+		}
+		
 		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
 		
 		for(int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
@@ -47,7 +51,8 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 			}
 			int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);			
 			for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
-				FeedbackResponseAttributes response = extractFeedbackResponseData(questionIndx,responseIndx); 
+				FeedbackResponseAttributes response = extractFeedbackResponseData(questionIndx,responseIndx);
+				response.giverEmail = studentEmail;
 				if (response.getId() != null) {
 					try {
 						logic.updateFeedbackResponse(response);
@@ -69,7 +74,7 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		}
 		
 		if (isError == false) {
-			statusToUser.add("All responses submitted succesfully!");
+			statusToUser.add(Common.MESSAGE_FEEDBACK_RESPONSES_SAVED);
 		}
 		
 		// TODO: what happens if qn is deleted as response is being submitted?
@@ -87,7 +92,6 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		response.courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		response.feedbackQuestionId = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_ID+"-"+questionIndx);
 		response.feedbackQuestionType = QuestionType.valueOf(getRequestParam(Common.PARAM_FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
-		response.giverEmail = account.email;
 		response.recipient = getRequestParam(Common.PARAM_FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
 		response.answer = new Text(getRequestParam(Common.PARAM_FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
 		return response;

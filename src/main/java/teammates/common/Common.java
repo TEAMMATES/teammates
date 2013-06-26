@@ -489,6 +489,9 @@ public class Common {
 	public static final String MESSAGE_FEEDBACK_QUESTION_EMPTY = "You have not created any questions for this feedback session yet. Click the button below to add a feedback question.";
 	public static final String MESSAGE_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to.";
 	public static final String MESSAGE_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
+	
+	public static final String MESSAGE_FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
+	
 	// Status messages from Javascript
 	
 	public static final String MESSAGE_COURSE_INPUT_FIELDS_EXTRA = "There are too many fields.";

@@ -19,7 +19,8 @@ public class InstructorFeedbackEditPageData extends PageData {
 		super(account);
 	}
 	
-	public List<String> getParticipantOptions(FeedbackQuestionAttributes question, boolean isGiver){
+	public List<String> getParticipantOptions(
+			FeedbackQuestionAttributes question, boolean isGiver){
 		List<String> result = new ArrayList<String>();
 		for(FeedbackParticipantType option : FeedbackParticipantType.values()) {
 			if(isGiver && option.isValidGiver()) {

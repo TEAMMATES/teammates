@@ -27,7 +27,7 @@
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body onload="initializetooltip(); formatRecipientLists();">
+<body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
 		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
@@ -161,7 +161,7 @@
 			<%
 				} else if (data.bundle.feedbackSession.isOpened()) {
 			%>
-			<input type="submit" class="button" onclick="reenableFieldsForSubmission()" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
+			<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
 			<%
 				} else {
 			%>

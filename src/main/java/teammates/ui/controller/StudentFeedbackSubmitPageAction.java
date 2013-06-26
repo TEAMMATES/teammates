@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.GateKeeper;
 
 public class StudentFeedbackSubmitPageAction extends Action {
@@ -32,19 +33,16 @@ public class StudentFeedbackSubmitPageAction extends Action {
 		StudentFeedbackSubmitPageData data = new StudentFeedbackSubmitPageData(account);
 		
 		// Set login email
-		String email;
-		if (account.isInstructor) {
-			// Currently allowing the course owner to access student feedback submit page as well.
-			email = account.email;
-		} else {
-			// Get student email instead of account email which may be different.
-			email = logic.getStudentForGoogleId(courseId, account.googleId).email;
-		}
+		String email = logic.getStudentForGoogleId(courseId, account.googleId).email;
 		
 		data.bundle = logic.getFeedbackSessionQuestionsBundle(feedbackSessionName, courseId, email);
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
+		}
+		if (data.bundle.feedbackSession.isVisible() == false) {
+			throw new UnauthorizedAccessException(
+					"This feedback session is not yet visible.");
 		}
 		
 		return createShowPageResult(Common.JSP_STUDENT_FEEDBACK_SUBMIT, data);

@@ -131,7 +131,7 @@
       "sentOpenEmail" : true,
       "sentPublishedEmail" : true
     },
-    "closedEval": {
+    "closedSession": {
       "feedbackSessionName" : "Third Session",
       "courseId" : "CFeedbackUiT.CS1101",
       "creatorEmail" : "teammates.test3@gmail.com",

@@ -35,6 +35,11 @@
 						<li><a href="#instructorCourseEvalResultsPage3">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</a></li>
 						<li><a href="#instructorCourseEvalSubmissionViewPage">Instructor Eval Submission View Page</a></li>
 						<li><a href="#instructorCourseEvalSubmissionEditPage">Instructor Eval Submission Edit Page</a></li>
+						<li><a href="#instructorFeedbackPage">Instructor Feedback Page</a></li>
+						<li><a href="#instructorFeedbackEditPage">Instructor Feedback Edit Page</a></li>
+						<li><a href="#instructorFeedbackResultsPageByGiver">Instructor Feedback Results Page (By giver)</a></li>
+						<li><a href="#instructorFeedbackResultsPageByRecipient">Instructor Feedback Results Page (By recipient)</a></li>
+						<li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>						
 					</ul>
 				</td>
 				<td width="33%">
@@ -44,6 +49,8 @@
 						<li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
 						<li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
 						<li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
+						<li><a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a></li>
+						<li><a href="#studentFeedbackResultsPage">Student Feedback Results Page</a></li>
 					</ul>
 				<td>
 				</td>
@@ -100,6 +107,21 @@
 		
 		<div class="pageinfo">Instructor Eval Submission Edit Page</div>
 		<div id="instructorCourseEvalSubmissionEditPage" class="wrapper"></div>
+		
+		<div class="pageinfo">Instructor Feedback Page</div>
+		<div id="instructorFeedbackPage" class="wrapper"></div>
+		
+		<div class="pageinfo">Instructor Feedback Edit Page</div>
+		<div id="instructorFeedbackEditPage" class="wrapper"></div>
+		
+		<div class="pageinfo">Instructor Feedback Results Page (By giver)</div>
+		<div id="instructorFeedbackResultsPageByGiver" class="wrapper"></div>		
+		
+		<div class="pageinfo">Instructor Feedback Results Page (By recipient)</div>
+		<div id="instructorFeedbackResultsPageByRecipient" class="wrapper"></div>
+		
+		<div class="pageinfo">Instructor Feedback Results Page (By table)</div>
+		<div id="instructorFeedbackResultsPageByTable" class="wrapper"></div>
 		<br></br>
 		<br></br>
 		<br></br>
@@ -115,6 +137,12 @@
 		
 		<div class="pageinfo">Student Eval Results Page</div>
 		<div id="studentEvalResultsPage" class="wrapper"></div>
+		
+		<div class="pageinfo">Student Feedback Submit Page</div>
+		<div id="studentFeedbackSubmitPage" class="wrapper"></div>
+
+		<div class="pageinfo">Student Feedback Results Page</div>
+		<div id="studentFeedbackResultsPage" class="wrapper"></div>
 		<br></br>
 		<br></br>
 		<br></br>
@@ -144,13 +172,14 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalResults.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionView.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionEdit.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorFeedback.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentHome.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentCourseDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/adminHome.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css">');
-			
+
 			$('#instructorHomePage').load("<%= Common.PAGE_INSTRUCTOR_HOME %>?user=teammates.test #frameBodyWrapper");
 			$('#instructorAddCoursePage').load("<%= Common.PAGE_INSTRUCTOR_COURSE %>?user=teammates.test #frameBodyWrapper");
 			$('#instructorEditCoursePage').load("<%= Common.PAGE_INSTRUCTOR_COURSE_EDIT %>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
@@ -171,11 +200,18 @@
 			});
 			$('#instructorCourseEvalSubmissionViewPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=teammates.test%40gmail.com #frameBodyWrapper");		
 			$('#instructorCourseEvalSubmissionEditPage').load("<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
+			$('#instructorFeedbackPage').load("<%= Common.PAGE_INSTRUCTOR_FEEDBACK %>?user=teammates.test #frameBodyWrapper");
+			$('#instructorFeedbackEditPage').load("<%= Common.PAGE_INSTRUCTOR_FEEDBACK_EDIT %>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+			$('#instructorFeedbackResultsPageByGiver').load("<%= Common.PAGE_INSTRUCTOR_FEEDBACK_RESULTS %>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver #frameBodyWrapper");
+			$('#instructorFeedbackResultsPageByRecipient').load("<%= Common.PAGE_INSTRUCTOR_FEEDBACK_RESULTS %>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient #frameBodyWrapper");
+			$('#instructorFeedbackResultsPageByTable').load("<%= Common.PAGE_INSTRUCTOR_FEEDBACK_RESULTS %>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=table #frameBodyWrapper");
 			
 			$('#studentHomePage').load("<%= Common.PAGE_STUDENT_HOME %>?user=teammates.test #frameBodyWrapper");
 			$('#studentCourseDetailsPage').load("<%= Common.PAGE_STUDENT_COURSE_DETAILS %>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
 			$('#studentEvalEditPage').load("<%= Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
 			$('#studentEvalResultsPage').load("<%= Common.PAGE_STUDENT_EVAL_RESULTS %>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#studentFeedbackSubmitPage').load("<%= Common.PAGE_STUDENT_FEEDBACK_SUBMIT %>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+			$('#studentFeedbackResultsPage').load("<%= Common.PAGE_STUDENT_FEEDBACK_RESULTS %>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
 			
 			$('#adminHomePage').load("<%=Common.PAGE_ADMIN_HOME %> #frameBodyWrapper");
 			$('#adminSearchPage').load("<%=Common.PAGE_ADMIN_SEARCH %>?limit=20&query=teammates&search=Search #frameBodyWrapper");

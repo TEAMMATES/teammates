@@ -66,26 +66,55 @@ public class FeedbackResponsesLogic {
 			frDb.deleteEntity(response);
 		}
 	}
+	
+	public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
+			String giverEmail, String recipient) {
+		return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
+	}
+		
+	public List<FeedbackResponseAttributes> getFeedbackResponsesForFeedbackSession(
+			String feedbackSessionName, String courseId) {
+		return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
+	}
 		
 	public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(
 			String feedbackQuestionId) {
 		return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
 	}
 	
-	
-	public List<FeedbackResponseAttributes> getFeedbackResponsesForFeedbackSession(
-			String feedbackSessionName, String courseId) {
-		return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
+	public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
+			String feedbackQuestionId, String userEmail) {
+		return frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, userEmail);
 	}
 	
-	public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiver(
+	public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestion(
 			String feedbackQuestionId, String userEmail) {
-		return frDb.getFeedbackResponsesForReceiver(feedbackQuestionId, userEmail);
+		return frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, userEmail);
+	}
+
+	public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
+			String courseId, String userEmail) {
+		return frDb.getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
 	}
 	
-	public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiver(
-			String feedbackQuestionId, String userEmail) {
-		return frDb.getFeedbackResponsesFromGiver(feedbackQuestionId, userEmail);
+	public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
+			String courseId, String userEmail) {
+		return frDb.getFeedbackResponsesFromGiverForQuestion(courseId, userEmail);
+	}
+	
+	public int getNumberOfResponsesFromTeamForQuestion(
+			String courseId, String feedbackQuestionId, String teamName) {
+		
+		int count = 0;
+		
+		List<StudentAttributes> students = 
+				studentsLogic.getStudentsForTeam(teamName, courseId);
+		
+		for (StudentAttributes student : students) {
+			count += frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, student.email).size();
+		}
+		
+		return count;
 	}
 	
 	public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestion(
@@ -101,7 +130,7 @@ public class FeedbackResponsesLogic {
 		if (fqLogic.isQuestionAnswersVisibleTo(question,
 				FeedbackParticipantType.RECEIVER)) {
 			addNewResponses (viewableResponses,
-					getFeedbackResponsesForReceiver(feedbackQuestionId,	userEmail));
+					frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId,	userEmail));
 		}
 
 		// Add responses for if user is a student
@@ -239,19 +268,68 @@ public class FeedbackResponsesLogic {
 		return false;
 	}
 
-	public void updateFeedbackResponsesForChangingTeam(String userEmail, String newTeam) {
-		// TODO: 
-		// for giver:
-		// we should either delete FROM: TEAM responses and TO: TEAM_MEMBERS responses
-		// or modify them as appropriate.
-		// for recipient:
-		// we should delete TO: TEAM_MEMBERS responses which user is a team member of
+	public void updateFeedbackResponsesForChangingTeam(
+			String courseId, String userEmail, String oldTeam, String newTeam)
+					throws EntityDoesNotExistException {
+		
+		FeedbackQuestionAttributes question;
+		
+		List<FeedbackResponseAttributes> responsesFromUser =
+				getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
+		
+		for (FeedbackResponseAttributes response : responsesFromUser) {
+			question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+			if (question.giverType == FeedbackParticipantType.TEAMS || 
+				question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+				frDb.deleteEntity(response);
+			}
+		}
+		
+		List<FeedbackResponseAttributes> responsesToUser =
+				getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
+		
+		for (FeedbackResponseAttributes response : responsesToUser) {
+			question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+			if (question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+				frDb.deleteEntity(response);
+			}
+		}
 	}
 
-	public void updateFeedbackResponsesForChangingEmail(String oldEmail, String newEmail) {
-		// TODO:
-		// for giver, change needs to be cascaded.
-		// for receiver, change needs to be cascaded if question type
-		// is not TO: TEAMS
+	public void updateFeedbackResponsesForChangingEmail(
+			String courseId, String oldEmail, String newEmail)
+					throws InvalidParametersException, EntityDoesNotExistException {	
+		
+		List<FeedbackResponseAttributes> responsesFromUser =
+				getFeedbackResponsesFromGiverForCourse(courseId, oldEmail);
+		
+		for (FeedbackResponseAttributes response : responsesFromUser) {
+			FeedbackQuestionAttributes question =
+					fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+			if (question.giverType == FeedbackParticipantType.TEAMS) {
+				frDb.deleteEntity(response);
+			} else {
+				response.giverEmail = newEmail;
+				updateFeedbackResponse(response);
+			}
+		}
+		
+		List<FeedbackResponseAttributes> responsesToUser =
+				getFeedbackResponsesForReceiverForCourse(courseId, oldEmail);
+		
+		for (FeedbackResponseAttributes response : responsesToUser) {
+				response.giverEmail = newEmail;
+				updateFeedbackResponse(response);
+		}
 	}
+
+	public void deleteFeedbackResponsesForStudent(String courseId,
+			String studentEmail) {
+		List<FeedbackResponseAttributes> responses = getFeedbackResponsesFromGiverForCourse(courseId, studentEmail);
+		responses.addAll(getFeedbackResponsesForReceiverForCourse(courseId, studentEmail));
+		for(FeedbackResponseAttributes response : responses){
+			frDb.deleteEntity(response);
+		}
+	}
+	
 }

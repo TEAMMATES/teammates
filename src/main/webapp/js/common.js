@@ -98,8 +98,8 @@ var INSTITUTION_MAX_LENGTH = 64;
 function toggleSort(divElement, colIdx, comparator) {
 	if ($(divElement).attr("class") == "buttonSortNone") {
 		sortTable(divElement, colIdx, comparator, true);
-		$(".buttonSortAscending").attr("class", "buttonSortNone");
-		$(".buttonSortDescending").attr("class", "buttonSortNone");
+		$(divElement).parent().parent().find(".buttonSortAscending").attr("class", "buttonSortNone");
+		$(divElement).parent().parent().find(".buttonSortDescending").attr("class", "buttonSortNone");
 		$(divElement).attr("class", "buttonSortAscending");
 	} else if ($(divElement).attr("class") == "buttonSortAscending") {
 		sortTable(divElement, colIdx, comparator, false);

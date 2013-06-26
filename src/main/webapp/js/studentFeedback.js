@@ -2,6 +2,26 @@ jQuery.fn.reverse = [].reverse;
 
 var FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 
+// On body load event
+$(document).ready(function () {
+
+	// Bind submission event
+	$('form[name="form_student_submit_response"]').submit(function() {
+		reenableFieldsForSubmission();
+	});
+	
+	// Format recipient dropdown lists
+	formatRecipientLists();
+	
+	// Replace hidden dropdowns with text
+	$('select.participantSelect:hidden').each(function (){
+		$(this).after('<span> '+$(this).find('option:selected').html()+'</span>');
+	});
+	
+	// Enable tooltips
+	document.onmousemove = positiontip;
+});
+
 // Ensures a single question cannot have two identical recipients selected
 // (Assuming recipients in dropdown list <= number of response boxes).
 // This function also assumes that responses that already exist will be placed
@@ -18,6 +38,10 @@ function formatRecipientLists(){
 			$(this).find('option:selected').prev().prop('selected',true);
 			defensiveCheck--;
 		}
+	});
+	
+	$('select.participantSelect').each(function () {
+		// Save initial data.
 		$(this).data('previouslySelected',$(this).val());
 	}).change(function() {
 		// Binds further changes such that a swap will occur
@@ -32,14 +56,6 @@ function formatRecipientLists(){
 		});
 		$(this).data('previouslySelected',$(this).val());
     });
-	
-	// Replace dropboxes with text
-	$('select.participantSelect:hidden').each(function (){
-		$(this).after('<span> '+$(this).find('option:selected').html()+'</span>');
-	});
-	
-	// Enable tooltips
-	document.onmousemove = positiontip;
 }
 
 function isCollides($select) {

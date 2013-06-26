@@ -145,6 +145,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 	
 	public void clickSaveSessionButton(){
 		fsSaveLink.click();
+		waitForPageToLoad();
 	}
 	
 	public void clickAddQuestionButton(){

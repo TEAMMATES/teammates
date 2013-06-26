@@ -1,0 +1,305 @@
+{
+  "accounts": {
+    "CFResultsUiT.instr": {
+      "googleId": "CFResultsUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "CFResultsUiT.instr@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "CFResultsUiT.charlie.d": {
+      "googleId": "CFResultsUiT.charlie.d",
+      "name": "Charlie D.",
+      "isInstructor": false,
+      "email": "CFResultsUiT.charlie.d@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "CFResultsUiT.danny.e": {
+      "googleId": "CFResultsUiT.danny.e",
+      "name": "Danny E.",
+      "isInstructor": false,
+      "email": "CFResultsUiT.danny.e@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "CFResultsUiT.emily.f": {
+      "googleId": "CFResultsUiT.emily.f",
+      "name": "Emily F.",
+      "isInstructor": false,
+      "email": "CFResultsUiT.emily.f@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  }, 
+
+  "courses": {
+    "CFResultsUiT.CS2104": {
+      "id": "CFResultsUiT.CS2104",
+      "name": "Programming Language Concepts"
+    }
+  },
+  
+  "instructors": {
+    "CFResultsUiT.instr": {
+      "googleId": "CFResultsUiT.instr",
+      "courseId": "CFResultsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "CFResultsUiT.instr@gmail.com"
+    }
+  },
+  
+  "students": {
+    "Alice": {
+      "googleId": "CFResultsUiT.alice.b",
+      "email": "CFResultsUiT.alice.b@gmail.com",
+      "course": "CFResultsUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "profile": {"value": "My name is Alice Betsy, and I'm a student in CFResultsUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "Benny": {
+      "googleId": "CFResultsUiT.benny.c",
+      "email": "CFResultsUiT.benny.c@gmail.com",
+      "course": "CFResultsUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in CFResultsUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "ExtraGuy": {
+      "googleId": "extra.guy",
+      "email": "extra.guy@gmail.com",
+      "course": "CFResultsUiT.CS2104",
+      "name": "Extra guy",
+      "comments": "This student will move to a new team after evaluation created",
+      "team": "Team 2"
+    },
+    "DropOut": {
+      "googleId": "drop.out",
+      "email": "drop.out@gmail.com",
+      "course": "CFResultsUiT.CS2104",
+      "name": "Drop out",
+      "comments": "This student will drop out after evaluation created",
+      "team": "Team 2"
+    },
+    "Charlie": {
+      "googleId": "CFResultsUiT.charlie.d",
+      "email": "CFResultsUiT.charlie.d@gmail.com",
+      "course": "CFResultsUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in CFResultsUiT.CS2104"},
+      "team": "Team 2"
+    },
+    "Danny": {
+      "googleId": "CFResultsUiT.danny.e",
+      "email": "CFResultsUiT.danny.e@gmail.com",
+      "course": "CFResultsUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in CFResultsUiT.CS2104"},
+      "team": "Team 2"
+    },
+    "Emily": {
+      "googleId": "CFResultsUiT.emily.f",
+      "email": "CFResultsUiT.emily.f@gmail.com",
+      "course": "CFResultsUiT.CS2104",
+      "name": "Emily",
+      "comments": "This student's name is Emily",
+      "profile": {"value": "My name is Emily, and I'm a student in CFResultsUiT.CS2104"},
+      "team": "Team 3"
+    }
+  },
+  
+  "feedbackSessions": {
+    "Open Session": {
+      "feedbackSessionName" : "First Session",
+      "courseId" : "CFResultsUiT.CS2104",
+      "creatorEmail" : "CFResultsUiT.instr@gmail.com",
+      "instructions": {"value" : "Instructions for first session"},
+      "createdTime" : "2012-04-01 11:59 PM",
+      "startTime" : "2012-04-01 11:59 PM",
+      "endTime" : "2014-04-30 11:59 PM",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM",
+      "resultsVisibleFromTime" : "2012-05-01 11:59 PM",
+      "timeZone" : 8.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : true
+    },
+    "Unpublished Session": {
+      "feedbackSessionName" : "Second Session",
+      "courseId" : "CFResultsUiT.CS2104",
+      "creatorEmail" : "CFResultsUiT.instr@gmail.com",
+      "instructions": {"value" : "Please please fill in the second feedback session"},
+      "createdTime" : "2012-04-01 11:59 PM",
+      "startTime" : "2012-04-02 11:59 PM",
+      "endTime" : "2014-04-30 11:59 PM",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM",
+      "resultsVisibleFromTime" : "2014-05-01 11:59 PM",
+      "timeZone" : 8.0,
+      "gracePeriod": 20,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    }, 
+    "Empty Session": {
+      "feedbackSessionName" : "Third Session",
+      "courseId" : "CFResultsUiT.CS2104",
+      "creatorEmail" : "CFResultsUiT.instr@gmail.com",
+      "instructions": {"value" : "Please please fill in the last feedback session"},
+      "createdTime" : "2012-04-01 11:59 PM",
+      "startTime" : "2012-04-02 11:59 PM",
+      "endTime" : "2014-04-30 11:59 PM",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM",
+      "resultsVisibleFromTime" : "2012-05-01 11:59 PM",
+      "timeZone" : 8.0,
+      "gracePeriod": 20,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : true
+    }
+  },
+  "feedbackQuestions" : {
+  	 "qn2InSession1": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"creatorEmail" : "CFResultsUiT.instr@gmail.com",
+		"questionText" : {"value" : "What is the best selling point of your product?"},
+		"questionNumber" : "2",
+		"questionType" : "TEXT",
+		"giverType" : "STUDENTS",
+		"recipientType" : "SELF",
+		"numberOfEntitiesToGiveFeedbackTo" : 1,
+		"showResponsesTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
+		"showGiverNameTo" : [ "INSTRUCTORS" ],
+		"showRecipientNameTo" : [ "INSTRUCTORS" ]
+    },
+    "qn1InSession1": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"creatorEmail" : "CFResultsUiT.instr@gmail.com",
+		"questionText" : {"value" : "Rate 3 other students' products"},
+		"questionNumber" : "1",
+		"questionType" : "TEXT",
+		"giverType" : "STUDENTS",
+		"recipientType" : "STUDENTS",
+		"numberOfEntitiesToGiveFeedbackTo" : 3,
+		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER", "STUDENTS" ],
+		"showGiverNameTo" : [ "INSTRUCTORS", "OWN_TEAM_MEMBERS" ],
+		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
+    },
+    "qn3InSession1": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"creatorEmail" : "CFResultsUiT.instr@gmail.com",
+		"questionText" : {"value" : "My comments on the class"},
+		"questionNumber" : "3",
+		"giverType" : "SELF",
+		"recipientType" : "NONE",
+		"numberOfEntitiesToGiveFeedbackTo" : 0,
+		"showResponsesTo" : [  ],
+		"showGiverNameTo" : [  ],
+		"showRecipientNameTo" : [  ]
+    },
+    "qn4InSession1": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"creatorEmail" : "CFResultsUiT.instr@gmail.com",
+		"questionText" : {"value" : "Give feedback to 3 other teams."},
+		"questionNumber" : "4",
+		"giverType" : "TEAMS",
+		"recipientType" : "TEAMS",
+		"numberOfEntitiesToGiveFeedbackTo" : 3,
+		"showResponsesTo" : [ "RECEIVER" ],
+		"showGiverNameTo" : [ "RECEIVER" ],
+		"showRecipientNameTo" : [ "RECEIVER" ]
+    },
+    "qn5InSession1": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"creatorEmail" : "CFResultsUiT.instr@gmail.com",
+		"questionText" : {"value" : "Give feedback to your team mates"},
+		"questionNumber" : "5",
+		"giverType" : "STUDENTS",
+		"recipientType" : "OWN_TEAM_MEMBERS",
+		"numberOfEntitiesToGiveFeedbackTo" : -100,
+		"showResponsesTo" : [ "RECEIVER" ],
+		"showGiverNameTo" : [ "RECEIVER" ],
+		"showRecipientNameTo" : [ "RECEIVER" ]
+    },
+    "qn6InSession1": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"creatorEmail" : "CFResultsUiT.instr@gmail.com",
+		"questionText" : {"value" : "This question should be hidden."},
+		"questionNumber" : "6",
+		"giverType" : "INSTRUCTORS",
+		"recipientType" : "STUDENTS",
+		"numberOfEntitiesToGiveFeedbackTo" : -100,
+		"showResponsesTo" : [ "RECEIVER" ],
+		"showGiverNameTo" : [ "RECEIVER" ],
+		"showRecipientNameTo" : [ "RECEIVER" ]
+    },
+    "qn1InSession2": {
+		"feedbackSessionName" : "Second Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"creatorEmail" : "CFResultsUiT.instr@gmail.com",
+		"questionText" : {"value" : "Give feedback to your instructors"},
+		"questionNumber" : "1",
+		"giverType" : "STUDENTS",
+		"recipientType" : "INSTRUCTORS",
+		"numberOfEntitiesToGiveFeedbackTo" : -100,
+		"showResponsesTo" : [ "RECEIVER" ],
+		"showGiverNameTo" : [ "RECEIVER" ],
+		"showRecipientNameTo" : [ "RECEIVER" ]
+    }
+  },
+  "feedbackResponses" : {
+  	 "response1": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"feedbackQuestionId" : "2",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "CFResultsUiT.alice.b@gmail.com",
+		"recipient" : "CFResultsUiT.alice.b@gmail.com",
+		"answer" : {"value" : "Alice self feedback."}
+    },
+    "response2": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"feedbackQuestionId" : "1",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "CFResultsUiT.alice.b@gmail.com",
+		"recipient" : "CFResultsUiT.benny.c@gmail.com",
+		"answer" : {"value" : "2 Response to Benny."}
+    },
+    "response3": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"feedbackQuestionId" : "1",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "CFResultsUiT.benny.c@gmail.com",
+		"recipient" : "CFResultsUiT.danny.e@gmail.com",
+		"answer" : {"value" : "1 Response to Danny."}
+    },
+    "response4": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"feedbackQuestionId" : "1",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "CFResultsUiT.charlie.d@gmail.com",
+		"recipient" : "CFResultsUiT.emily.f@gmail.com",
+		"answer" : {"value" : "3 Response to Emily."}
+    },
+    "response5": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"feedbackQuestionId" : "1",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "CFResultsUiT.benny.c@gmail.com",
+		"recipient" : "CFResultsUiT.charlie.d@gmail.com",
+		"answer" : {"value" : "4 Response to Charlie."}
+    }
+  }
+}

@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.GateKeeper;
 
 public class StudentFeedbackResultsPageAction extends Action {
@@ -26,23 +27,17 @@ public class StudentFeedbackResultsPageAction extends Action {
 				logic.getStudentForGoogleId(courseId, account.googleId), 
 				logic.getFeedbackSession(feedbackSessionName, courseId));
 		
-		//TODO: ensure the session is PUBLISHED. Access control does not ensure it.
-
 		StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account);
-		data.student = logic.getStudentForGoogleId(courseId, account.googleId);
 		
-		String email;		
-		if(data.student == null) {
-			// Currently allowing the course owner to access student feedback results page.
-			email = account.email;
-		} else {
-			// Get student email instead of account email which may be different.
-			email = data.student.email;
-		}
-		data.bundle = logic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, email);
+		data.student = logic.getStudentForGoogleId(courseId, account.googleId);
+		data.bundle = logic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, data.student.email);
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
+		}
+		if (data.bundle.feedbackSession.isPublished() == false) {
+			throw new UnauthorizedAccessException(
+					"This feedback session is not yet visible.");
 		}
 		
 		return createShowPageResult(Common.JSP_STUDENT_FEEDBACK_RESULTS, data);

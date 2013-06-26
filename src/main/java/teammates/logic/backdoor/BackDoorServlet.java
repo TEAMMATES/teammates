@@ -52,6 +52,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
 	public static final String OPERATION_GET_FEEDBACK_SESSION_AS_JSON = "OPERATION_GET_FEEDBACK_SESSION_AS_JSON";
 	public static final String OPERATION_GET_FEEDBACK_QUESTION_AS_JSON = "OPERATION_GET_FEEDBACK_QUESTION_AS_JSON";
+	public static final String OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
 	
@@ -59,6 +60,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
 	public static final String PARAMETER_GOOGLE_ID = "PARAMETER_GOOGLE_ID";
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
+	public static final String PARAMETER_FEEDBACK_QUESTION_ID = "PARAMETER_QUESTION_ID";
 	public static final String PARAMETER_INSTRUCTOR_EMAIL = "PARAMETER_INSTRUCTOR_EMAIL";
 	public static final String PARAMETER_INSTRUCTOR_ID = "PARAMETER_INSTRUCTOR_ID";
 	public static final String PARAMETER_INSTRUCTOR_NAME = "PARAMETER_INSTRUCTOR_NAME";
@@ -72,7 +74,9 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String PARAMETER_TEAM_NAME = "PARAMETER_TEAM_NAME";
 	public static final String PARAMETER_FEEDBACK_SESSION_NAME = "PARAMETER_FEEDBACK_SESSION_NAME";
 	public static final String PARAMETER_FEEDBACK_QUESTION_NUMBER = "PARAMETER_FEEDBACK_QUESTION_NUMBER";
-
+	public static final String PARAMETER_GIVER_EMAIL = "PARAMETER_GIVER_EMAIL";
+	public static final String PARAMETER_RECIPIENT = "PARAMETER_RECIPIENT";
+	
 	private static final Logger log = Common.getLogger();
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -195,6 +199,11 @@ public class BackDoorServlet extends HttpServlet {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			int qnNumber = Integer.parseInt(req.getParameter(PARAMETER_FEEDBACK_QUESTION_NUMBER));
 			return backDoorLogic.getFeedbackQuestionAsJson(feedbackSessionName, courseId, qnNumber);			
+		} else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON)) { 
+			String feedbackQuestionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
+			String giverEmail = req.getParameter(PARAMETER_GIVER_EMAIL);
+			String recipient = req.getParameter(PARAMETER_RECIPIENT);
+			return backDoorLogic.getFeedbackResponseAsJson(feedbackQuestionId, giverEmail, recipient);			
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}

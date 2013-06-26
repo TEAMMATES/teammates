@@ -27,6 +27,7 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
@@ -35,6 +36,8 @@
 			<class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentFeedbackSubmitPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
 		</classes>
 	</test>
 	<test name="component-tests">

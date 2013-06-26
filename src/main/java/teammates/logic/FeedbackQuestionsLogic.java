@@ -3,6 +3,7 @@ package teammates.logic;
 import static teammates.common.FeedbackParticipantType.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -245,7 +246,7 @@ public class FeedbackQuestionsLogic {
 				
 		for (FeedbackQuestionAttributes question : teamQuestions) {
 			if (isQuestionAnsweredByTeam(question, student.team) == true) {
-				if (frLogic.getFeedbackResponsesFromGiver(
+				if (frLogic.getFeedbackResponsesFromGiverForQuestion(
 						question.getId(), studentEmail).isEmpty() == false) {
 					// question has at least one response by this student
 					unstolenQuestions.add(question);
@@ -288,9 +289,11 @@ public class FeedbackQuestionsLogic {
 			throw new EntityDoesNotExistException(
 					"Trying to get questions for a feedback session that does not exist.");
 		}
+		List<FeedbackQuestionAttributes> questions =
+				fqDb.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+		Collections.sort(questions);
 		
-		return fqDb.getFeedbackQuestionsForSession(
-				feedbackSessionName, courseId);
+		return questions;
 	}
 	
 	public boolean isQuestionAnswersVisibleTo (
@@ -306,7 +309,7 @@ public class FeedbackQuestionsLogic {
 			throws EntityDoesNotExistException {
 		
 		int numberOfResponsesGiven = 
-				frLogic.getFeedbackResponsesFromGiver(question.getId(), email).size();
+				frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), email).size();
 		
 		// As long as a user has responded, we count the question as answered.
 		return numberOfResponsesGiven > 0 ? true : false;
@@ -316,7 +319,7 @@ public class FeedbackQuestionsLogic {
 			throws EntityDoesNotExistException {
 		
 		int numberOfResponsesGiven = 
-				frLogic.getFeedbackResponsesFromGiver(question.getId(), email).size();
+				frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), email).size();
 		int numberOfResponsesNeeded =
 				question.numberOfEntitiesToGiveFeedbackTo;
 		
@@ -327,6 +330,14 @@ public class FeedbackQuestionsLogic {
 		return numberOfResponsesGiven >= numberOfResponsesNeeded ? true : false;
 	}
 
+	/**
+	 * Checks if a question has been fully answered by a team.
+	 * @param question
+	 * @param teamName
+	 * @return {@code True} if there are no more recipients to give feedback to for the given
+	 * {@code teamName}. {@code False} if not.
+	 * @throws EntityDoesNotExistException
+	 */
 	public boolean isQuestionAnsweredByTeam(FeedbackQuestionAttributes question, 
 			String teamName) throws EntityDoesNotExistException {
 
@@ -342,7 +353,7 @@ public class FeedbackQuestionsLogic {
 				
 		for (StudentAttributes student : studentsInTeam) {
 			List<FeedbackResponseAttributes> responses = 
-					frLogic.getFeedbackResponsesFromGiver(question.getId(), student.email);
+					frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
 			for (FeedbackResponseAttributes response : responses) {
 				if (response.giverEmail.equals(student.email)) {
 					numberOfResponsesNeeded -= 1;
@@ -353,7 +364,7 @@ public class FeedbackQuestionsLogic {
 	}
 	
 	public Map<String,String> getRecipientsForQuestion(
-			FeedbackQuestionAttributes question, String giverEmail)
+			FeedbackQuestionAttributes question, String giver)
 					throws EntityDoesNotExistException {
 
 		Map<String,String> recipients = new HashMap<String,String>();
@@ -364,12 +375,13 @@ public class FeedbackQuestionsLogic {
 		String giverTeam = null;
 		
 		InstructorAttributes instructor =
-				instructorsLogic.getInstructorForEmail(question.courseId, giverEmail);
+				instructorsLogic.getInstructorForEmail(question.courseId, giver);
 		if(instructor == null) {
 			StudentAttributes student = 
-					studentsLogic.getStudentForEmail(question.courseId, giverEmail);
+					studentsLogic.getStudentForEmail(question.courseId, giver);
 			if (student == null) {
-				throw new EntityDoesNotExistException("No entity with corresponding "+giverEmail+" can respond to question: "+question.getIdentificationString());
+				giverName = giver;
+				giverTeam = giver;
 			} else {
 				giverName = student.name;
 				giverTeam = student.team;
@@ -381,14 +393,14 @@ public class FeedbackQuestionsLogic {
 		
 		switch (recipientType) {
 		case SELF:
-			recipients.put(giverEmail, giverName);
+			recipients.put(giver, giverName);
 			break;
 		case STUDENTS:
 			List<StudentAttributes> studentsInCourse =
 				studentsLogic.getStudentsForCourse(question.courseId);
 			for(StudentAttributes student : studentsInCourse) {
 				// Ensure student does not evaluate himself
-				if(giverEmail.equals(student.email) == false) {
+				if(giver.equals(student.email) == false) {
 					recipients.put(student.email, student.name);
 				}
 			}
@@ -398,7 +410,7 @@ public class FeedbackQuestionsLogic {
 				instructorsLogic.getInstructorsForCourse(question.courseId);
 			for(InstructorAttributes instr : instructorsInCourse) {
 				// Ensure instructor does not evaluate himself
-				if(giverEmail.equals(instr.email) == false) {
+				if(giver.equals(instr.email) == false) {
 					recipients.put(instr.email, instr.name);
 				}
 			}
@@ -421,10 +433,11 @@ public class FeedbackQuestionsLogic {
 			List<StudentAttributes> students = 
 				studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
 			for (StudentAttributes student : students) {
-				if(student.email.equals(giverEmail) == false) {
+				if(student.email.equals(giver) == false) {
 					recipients.put(student.email, student.name);
 				}
 			}
+			break;
 		case NONE:
 			recipients.put(Common.GENERAL_QUESTION, Common.GENERAL_QUESTION);
 			break;

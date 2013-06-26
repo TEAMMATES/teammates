@@ -68,7 +68,7 @@ StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.ge
 										questionWithResponses : questionsWithResponses.entrySet()) {
 			%>
 			<table class="inputTable responseTable">
-			<tr style="border-bottom: 3px solid black;"><td colspan="2"><span class="bold" >Question <%=qnIndx %>: &nbsp;</span>[<%=questionWithResponses.getKey().questionText.getValue() %>]</td></tr>
+			<tr style="border-bottom: 3px solid black;"><td colspan="2"><span class="bold" >Question <%=qnIndx %>: </span>[<%=questionWithResponses.getKey().questionText.getValue() %>]</td></tr>
 			<%
 						int responseIndx = 1;
 						String prevRecipient = null;
@@ -78,10 +78,11 @@ StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.ge
 			%>
 			<%
 							String recipient = data.bundle.emailNameTable.get(responseForQn.recipient);
-							if (data.bundle.visibilityTable.get(responseForQn.getId())[1] == false) {
+							if (data.bundle.visibilityTable.get(responseForQn.getId())[1] == false &&
+									questionWithResponses.getKey().recipientType != FeedbackParticipantType.SELF) {
 								String hash = Integer.toString(Math.abs(recipient.hashCode()));
-								recipient = questionWithResponses.getKey().recipientType.toString().toLowerCase();
-								recipient = "Anonymous " + recipient.substring(0, recipient.length()-1) + " " + hash;
+								recipient = questionWithResponses.getKey().recipientType.toSingletonString();
+								recipient = "Anonymous " + recipient + " " + hash;
 							} else if(data.student.email!=null) {
 								if(questionWithResponses.getKey().recipientType ==  FeedbackParticipantType.TEAMS) {
 									if(data.student.team.equals(responseForQn.recipient)) {
@@ -100,46 +101,47 @@ StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.ge
 								}
 			%>
 			<tr><td>
-			<table class="inputTable" style="width:90%">
-			<tr><th>To: <%=recipient %></th></tr>
-			<%				 
+				<table class="resultTable" style="width:90%">
+				<tr><th>To: <%=recipient %></th></tr>
+				<%				 
+								}
+				%>
+				<tr class="resultSubheader"><td><span class="bold">From: </span><%
+						String giver = data.bundle.emailNameTable.get(responseForQn.giverEmail);
+						if (data.bundle.visibilityTable.get(responseForQn.getId())[0] == false &&
+								questionWithResponses.getKey().recipientType != FeedbackParticipantType.SELF) {
+							String hash = Integer.toString(Math.abs(giver.hashCode()));
+							giver = questionWithResponses.getKey().giverType.toSingletonString();
+							giver = "Anonymous " + giver + " " + hash;
+						} else if(data.student.email!=null) {
+							if(questionWithResponses.getKey().giverType ==  FeedbackParticipantType.TEAMS) {
+								if(data.student.team.equals(responseForQn.giverEmail)) {
+									giver = "Your Team ("+ giver +")";
+								}
+							} else if (data.student.email.equals(responseForQn.giverEmail)) {
+								giver = "You";
 							}
-			%>
-			<tr><td>From: <%
-					String giver = data.bundle.emailNameTable.get(responseForQn.giverEmail);
-					if (data.bundle.visibilityTable.get(responseForQn.getId())[0] == false) {
-						String hash = Integer.toString(Math.abs(giver.hashCode()));
-						giver = questionWithResponses.getKey().giverType.toString().toLowerCase();
-						giver = "Anonymous " + giver.substring(0, giver.length()-1) + " " + hash;
-					} else if(data.student.email!=null) {
-						if(questionWithResponses.getKey().giverType ==  FeedbackParticipantType.TEAMS) {
-							if(data.student.team.equals(responseForQn.giverEmail)) {
-								giver = "Your Team ("+ giver +")";
+						}
+						%><%=giver%>
+				</td></tr>
+				<tr <% 
+						if (itr.hasNext()) {
+							if(itr.next().recipient.equals(responseForQn.recipient)) {
+					%>style="border-bottom: dotted 1px grey" 
+					<% 
 							}
-						} else if (data.student.email.equals(responseForQn.giverEmail)) {
-							giver = "You";
+							itr.previous();
 						}
-					}
-					%><%=giver%>
-			</td></tr>
-			<tr <% 
-					if (itr.hasNext()) {
-						if(itr.next().recipient.equals(responseForQn.recipient)) {
-				%>style="border-bottom: dotted 1px grey" 
-				<% 
-						}
-						itr.previous();
-					}
-				%>>
-				<td colspan="2" style="width:110px"><%=responseForQn.answer.getValue() %></td>
-			</tr>
-			<%
-						prevRecipient = recipient;
-						responseIndx++;
-						}
-			%>			
-			</td></tr>
-			</table>
+					%>>
+					<td colspan="2" style="width:110px"><%=responseForQn.answer.getValue() %></td>
+				</tr>
+				<%
+							prevRecipient = recipient;
+							responseIndx++;
+							}
+				%>			
+				</td></tr>
+				</table>
 			</table>
 			<br>
 			<%
