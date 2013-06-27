@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
+<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEnrollPageData"%>
 <%
 InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.getAttribute("data");
@@ -40,7 +41,7 @@ InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.ge
 			<div id="topOfPage"></div>
 			
 				<div id="headerOperation">
-					<h1>Enroll Students for <%= data.courseId %></h1>
+					<h1>Enroll Students for <%= escapeForHTML(data.courseId) %></h1>
 				</div>
 				<form action="<%= data.getInstructorCourseEnrollSaveLink(data.courseId) %>" method="post">
 					<p class ="bold rightalign spreadsheetLink">		
@@ -56,7 +57,12 @@ InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.ge
 				 	<table class="inputTable enrollStudentTable" > 
 						<tr>
 							<td class="label bold middlealign" id="studentDetails"> Student details: </td>
-							<td><textarea rows="6" cols="120" class ="textvalue" name="enrollstudents" id="enrollstudents" placeholder="This box can be used for enrolling new students and editing details (except email address) of students already enrolled. To EDIT, simply enroll students using the updated data and existing data will be updated accordingly. To DELETE students or to UPDATE EMAIL address of a student,please use the 'view' page of the course."></textarea></td>
+							<td><textarea rows="6" cols="120" class ="textvalue" name="enrollstudents" id="enrollstudents" 
+									placeholder="This box can be used for enrolling new students and editing details 
+									(except email address) of students already enrolled. To EDIT, simply enroll students using 
+									the updated data and existing data will be updated accordingly. To DELETE students or to 
+									UPDATE EMAIL address of a student,please use the 'view' page of the course."></textarea>
+							</td>
 						</tr>
 					</table>
 					<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />

@@ -71,7 +71,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("invalid info");
 		
-		courseEditPage.fillInstructorList(originalInformation + "GoogleID|NAME|InvalidEmail\n");
+		courseEditPage.fillInstructorList(originalInformation + "\nGoogleID|NAME|InvalidEmail\n");
 		courseEditPage.submitUnsuccessfully()
 			.verifyStatus("The e-mail address is invalid. Incorrect line : GoogleID|NAME|InvalidEmail");
 	}
@@ -89,7 +89,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("success: add an instructor");
 		
-		InstructorCoursesPage coursesPage = courseEditPage.editCourse(originalInformation + "CCDetailsUiT.instructor|Teammates Instructor|CCDetailsUiT.instructor@gmail.com");
+		InstructorCoursesPage coursesPage = courseEditPage.editCourse(originalInformation + "\nCCDetailsUiT.instructor|Teammates Instructor|CCDetailsUiT.instructor@gmail.com");
 		courseEditPage.verifyStatus(Common.MESSAGE_COURSE_EDITED);
 		
 		Url courseDetailsLink = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
@@ -102,7 +102,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		______TS("success: test edit existing instructor"); //TODO: this case should be removed. It should be covered by a lower level test
 		
 		courseEditPage = courseDetailsPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
-		coursesPage = courseEditPage.editCourse(originalInformation + "CCDetailsUiT.instructor|Teammates Instructor New|CCDetailsUiT.instructor.new@gmail.com");
+		coursesPage = courseEditPage.editCourse(originalInformation + "\nCCDetailsUiT.instructor|Teammates Instructor New|CCDetailsUiT.instructor.new@gmail.com");
 		assertEquals("The course has been edited.", coursesPage.getStatus());
 		
 		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);

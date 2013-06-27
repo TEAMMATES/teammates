@@ -2,6 +2,7 @@
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
+<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEditPageData"%>
 <%
 InstructorCourseEditPageData data = (InstructorCourseEditPageData)request.getAttribute("data");
@@ -53,7 +54,7 @@ InstructorCourseEditPageData data = (InstructorCourseEditPageData)request.getAtt
 					<tr>
 						<td><input class="addinput" type="text"
 							name="<%=Common.PARAM_COURSE_ID%>" id="<%=Common.PARAM_COURSE_ID%>"
-							value="<%=(data.course.id==null ? "" : data.course.id)%>"
+							value="<%=(data.course.id==null ? "" : escapeForHTML(data.course.id))%>"
 							onmouseover="ddrivetip('Identifier of the course, e.g.CS3215-Sem1.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1" disabled="disabled"></td>
@@ -64,7 +65,7 @@ InstructorCourseEditPageData data = (InstructorCourseEditPageData)request.getAtt
 					<tr>
 						<td><input class="addinput" type="text"
 							name="<%=Common.PARAM_COURSE_NAME%>" id="<%=Common.PARAM_COURSE_NAME%>"
-							value="<%=(data.course.name==null ? "" : data.course.name)%>"
+							value="<%=(data.course.name==null ? "" : escapeForHTML(data.course.name))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2 disabled="disabled"/></td>
@@ -75,13 +76,14 @@ InstructorCourseEditPageData data = (InstructorCourseEditPageData)request.getAtt
 					<tr>
 						<td colspan=2>
 							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>" id="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>"><%
+							<%
+								String instructorInfo = "";
 								for (int i = 0; i < data.instructorList.size(); i++){
-														InstructorAttributes instructor = data.instructorList.get(i);
-														String instructorInfo = instructor.googleId + "|" + instructor.name + "|" + instructor.email + "\n";
-							%><%= instructorInfo %><%
+									InstructorAttributes instructor = data.instructorList.get(i);
+									instructorInfo += instructor.googleId + "|" + instructor.name + "|" + instructor.email + "\n";
 								}
-							%></textarea>
+							%>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>" id="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>"><%= escapeForHTML(instructorInfo.trim())%></textarea>
 						</td>
 					</tr>
 					<tr>

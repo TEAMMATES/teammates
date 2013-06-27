@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
+<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEnrollResultPageData"%>
 <%
 InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageData)request.getAttribute("data");
@@ -39,9 +40,11 @@ InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageDat
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 				<div id="headerOperation">
-					<h1>Enrollment Results for <%=data.courseId%></h1>
+					<h1>Enrollment Results for <%=escapeForHTML(data.courseId)%></h1>
 				</div>
-				<div style="display: block;" id="statusMessage">Enrollment Successful. Summary given below. Click <a href="javascript:history.go(-1)" id="edit_enroll">here</a> to modify values and re-do the enrollment.</div>
+				<div style="display: block;" id="statusMessage">Enrollment Successful. 
+				Summary given below. Click <a href="javascript:history.go(-1)" id="edit_enroll">here</a> 
+				to modify values and re-do the enrollment.</div>
 				<%
 					for(int i=0; i<5; i++){
 						List<StudentAttributes> students = data.students[i];
@@ -62,10 +65,10 @@ InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageDat
 							for(StudentAttributes student: students){
 						%>
 							<tr>
-								<td><%= student.name %></td>
-								<td><%= student.email %></td>
-								<td><%= student.team %></td>
-								<td><%= student.comments %></td>
+								<td><%= escapeForHTML(student.name) %></td>
+								<td><%= escapeForHTML(student.email) %></td>
+								<td><%= escapeForHTML(student.team) %></td>
+								<td><%= escapeForHTML(student.comments) %></td>
 							</tr>
 						<% 	} %>
 						</table>

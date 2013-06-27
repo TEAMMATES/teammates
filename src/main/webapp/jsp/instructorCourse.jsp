@@ -2,6 +2,7 @@
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
+<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCoursePageData"%>
 <%
 InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("data");
@@ -50,7 +51,7 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 						<td class="label bold" width="20%">Course ID:</td>
 						<td><input class="addinput" type="text"
 							name="<%=Common.PARAM_COURSE_ID%>" id="<%=Common.PARAM_COURSE_ID%>"
-							value="<%=(InstructorCoursePageData.escapeForHTML(data.courseIdToShow))%>"
+							value="<%=(escapeForHTML(data.courseIdToShow))%>"
 							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
@@ -60,7 +61,7 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 						<td class="label bold">Course Name:</td>
 						<td><input class="addinput" type="text"
 							name="<%=Common.PARAM_COURSE_NAME%>" id="<%=Common.PARAM_COURSE_NAME%>"
-							value="<%=(InstructorCoursePageData.escapeForHTML(data.courseNameToShow))%>"
+							value="<%=(escapeForHTML(data.courseNameToShow))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
@@ -72,7 +73,8 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 					<tr>
 						<td colspan=2>
 							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>" id="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=InstructorCoursePageData.escapeForHTML(data.instructorListToShow)%></textarea>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>" 
+							id="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=escapeForHTML(data.instructorListToShow)%></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -108,8 +110,8 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 						idx++;
 				%>
 					<tr class="courses_row">
-						<td id="courseid<%=idx%>"><%=InstructorCoursePageData.escapeForHTML(courseDetails.course.id)%></td>
-						<td id="coursename<%=idx%>"><%=InstructorCoursePageData.escapeForHTML(courseDetails.course.name)%></td>
+						<td id="courseid<%=idx%>"><%=escapeForHTML(courseDetails.course.id)%></td>
+						<td id="coursename<%=idx%>"><%=escapeForHTML(courseDetails.course.name)%></td>
 						<td class="t_course_teams centeralign"><%= courseDetails.stats.teamsTotal %></td>
 						<td class="centeralign"><%= courseDetails.stats.studentsTotal %></td>
 						<td class="centeralign"><%= courseDetails.stats.unregisteredTotal %></td>

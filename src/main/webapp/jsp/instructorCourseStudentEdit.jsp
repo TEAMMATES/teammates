@@ -1,6 +1,7 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
+<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCourseStudentDetailsEditPageData"%>
 <%	InstructorCourseStudentDetailsEditPageData data = (InstructorCourseStudentDetailsEditPageData)request.getAttribute("data"); %>
 <!DOCTYPE html>
@@ -45,39 +46,45 @@
 					<tr>
 			 			<td class="label bold">Student Name:</td>
 			 			<td>
-			 				<input class="fieldvalue" name="<%= Common.PARAM_STUDENT_NAME %>" id="<%= Common.PARAM_STUDENT_NAME %>"
-			 						value="<%= data.student.name %>">
+			 				<input class="fieldvalue" name="<%= Common.PARAM_STUDENT_NAME %>" 
+			 						id="<%= Common.PARAM_STUDENT_NAME %>"
+			 						value="<%= escapeForHTML(data.student.name) %>">
 			 			</td>
 			 		</tr>
 				 	<tr>
 				 		<td class="label bold">Team Name:</td>
 				 		<td>
-				 			<input class="fieldvalue" name="<%= Common.PARAM_TEAM_NAME %>" id="<%= Common.PARAM_TEAM_NAME %>"
-				 					value="<%=InstructorCourseStudentDetailsEditPageData.escapeForHTML(data.student.team)%>">
+				 			<input class="fieldvalue" name="<%= Common.PARAM_TEAM_NAME %>" 
+				 					id="<%= Common.PARAM_TEAM_NAME %>"
+				 					value="<%=escapeForHTML(data.student.team)%>">
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td class="label bold">E-mail Address:
-				 			<input type="hidden" name="<%=Common.PARAM_STUDENT_EMAIL%>" id="<%=Common.PARAM_STUDENT_EMAIL%>"
-				 					value="<%=InstructorCourseStudentDetailsEditPageData.escapeForHTML(data.student.email)%>">
+				 			<input type="hidden" name="<%=Common.PARAM_STUDENT_EMAIL%>" 
+				 					id="<%=Common.PARAM_STUDENT_EMAIL%>"
+				 					value="<%=escapeForHTML(data.student.email)%>">
 				 		</td>
 				 		<td>
-				 			<input class="fieldvalue" name="<%=Common.PARAM_NEW_STUDENT_EMAIL%>" id="<%=Common.PARAM_NEW_STUDENT_EMAIL%>"
-				 					value="<%=InstructorCourseStudentDetailsEditPageData.escapeForHTML(data.student.email)%>">
+				 			<input class="fieldvalue" name="<%=Common.PARAM_NEW_STUDENT_EMAIL%>" 
+				 					id="<%=Common.PARAM_NEW_STUDENT_EMAIL%>"
+				 					value="<%=escapeForHTML(data.student.email)%>">
 				 		</td>
 				 	</tr>
 				 	<tr>
 						<td class="label bold">Google ID:</td>
-						<td id="<%=Common.PARAM_USER_ID%>"><%=(data.student.googleId!= null ? InstructorCourseStudentDetailsEditPageData.escapeForHTML(data.student.googleId) : "")%></td>
+						<td id="<%=Common.PARAM_USER_ID%>"><%=(data.student.googleId!= null ? escapeForHTML(data.student.googleId) : "")%></td>
 					</tr>
 					<tr>
 						<td class="label bold">Registration Key:</td>
-						<td id="<%=Common.PARAM_REGKEY%>"><%=InstructorCourseStudentDetailsEditPageData.escapeForHTML(data.regKey)%></td>
+						<td id="<%=Common.PARAM_REGKEY%>"><%=escapeForHTML(data.regKey)%></td>
 					</tr>
 				 	<tr>
 				 		<td class="label bold middlealign">Comments:</td>
 				 		<td>
-				 			<textarea class="textvalue" rows="6" cols="80" name="<%=Common.PARAM_COMMENTS%>" id="<%=Common.PARAM_COMMENTS%>"><%=InstructorCourseStudentDetailsEditPageData.escapeForHTML(data.student.comments)%></textarea>
+				 			<textarea class="textvalue" rows="6" cols="80" 
+				 				name="<%=Common.PARAM_COMMENTS%>" 
+				 				id="<%=Common.PARAM_COMMENTS%>"><%=escapeForHTML(data.student.comments)%></textarea>
 				 		</td>
 				 	</tr>
 				</table>
