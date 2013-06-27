@@ -79,8 +79,7 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		
 		// TODO: what happens if qn is deleted as response is being submitted?
 		// what happens if team/etc change such that receiver / response in general is invalid?
-		
-		return createRedirectResult(new PageData(account).getStudentFeedbackResponseEditLink(courseId,feedbackSessionName));
+		return createRedirectResult(Common.PAGE_STUDENT_HOME);
 	}
 	
 	private FeedbackResponseAttributes extractFeedbackResponseData(int questionIndx, int responseIndx) {

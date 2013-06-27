@@ -9,6 +9,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 
 public class StudentHomePageData extends PageData {
 	
@@ -18,7 +19,7 @@ public class StudentHomePageData extends PageData {
 	
 	public List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
 	public Map<String, String> evalSubmissionStatusMap = new HashMap<String, String>();
-	
+	public Map<String, Boolean> sessionSubmissionStatusMap = new HashMap<String, Boolean>();
 	
 	/**
 	 * Returns the submission status of the student for a given evaluation.
@@ -32,6 +33,41 @@ public class StudentHomePageData extends PageData {
 	 */
 	public String getStudentStatusForEval(EvaluationAttributes evaluation){
 		return evalSubmissionStatusMap.get(evaluation.courseId+"%"+evaluation.name);
+	}
+	
+	/**
+	 * Returns the submission status of the student for a given feedback session.
+	 */
+	public String getStudentStatusForSession(FeedbackSessionAttributes session){
+		String status = PageData.getInstructorStatusForFeedbackSession(session);
+		if (status == "Open") {
+			Boolean hasSubmitted = sessionSubmissionStatusMap.get(session.courseId+"%"+session.feedbackSessionName);
+			status = hasSubmitted ? "Submitted" : "Pending";
+		}
+		return status;
+	}
+	
+	/**
+	 * @param submissionStatus Submission status of a student for a particular evaluation. 
+	 * 
+	 * @return The hover message to explain evaluation submission status.
+	 */
+	public String getStudentHoverMessageForSession(FeedbackSessionAttributes session){
+		String msg = "";
+		Boolean hasSubmitted = sessionSubmissionStatusMap.get(session.courseId+"%"+session.feedbackSessionName);
+		
+		if (hasSubmitted){
+			msg += Common.HOVER_MESSAGE_STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED;
+		} else {
+			msg += Common.HOVER_MESSAGE_STUDENT_FEEDBACK_SESSION_STATUS_PENDING;
+		}		
+		if (session.isClosed()){
+			msg += Common.HOVER_MESSAGE_STUDENT_FEEDBACK_SESSION_STATUS_CLOSED;
+		}
+		if (session.isPublished()) {
+			msg += Common.HOVER_MESSAGE_STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED;
+		}
+		return msg;
 	}
 	
 	/**
@@ -62,6 +98,21 @@ public class StudentHomePageData extends PageData {
 		return link;
 	}
 	
+	public String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
+		String link = Common.PAGE_STUDENT_FEEDBACK_SUBMIT;
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = addUserIdToUrl(link);
+		return link;
+	}
+	
+	public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
+		String link = Common.PAGE_STUDENT_FEEDBACK_RESULTS;
+		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = addUserIdToUrl(link);
+		return link;
+	}
 	
 	public String getStudentEvaluationResultsLink(String courseID, String evalName){
 		String link = Common.PAGE_STUDENT_EVAL_RESULTS;
@@ -94,7 +145,7 @@ public class StudentHomePageData extends PageData {
 					+ "href=\""
 					+ getStudentEvaluationSubmissionEditLink(eval.courseId,
 							eval.name) + "\" " + "onmouseover=\"ddrivetip('"
-					+ Common.HOVER_MESSAGE_STUDENT_EVALUATION_SUBMIT + "')\" "
+					+ Common.HOVER_MESSAGE_EVALUATION_SUBMIT + "')\" "
 					+ "onmouseout=\"hideddrivetip()\">Submit</a>";
 		}
 		
@@ -131,4 +182,46 @@ public class StudentHomePageData extends PageData {
 		return result;
 	}
 
+	/**
+	 * @return The list of available actions for a specific feedback session.
+	 */
+	public String getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx) {
+		
+		Boolean hasSubmitted = sessionSubmissionStatusMap.get(fs.courseId+"%"+fs.feedbackSessionName);
+		
+		boolean hasView = fs.isPublished();
+		boolean hasEdit = fs.isOpened();
+		
+		// @formatter:off
+		String result = "<a class=\"color_black\" href=\""
+				+ getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName)
+				+ "\" " + "name=\"viewFeedbackResults"
+				+ idx + "\" " + " id=\"viewFeedbackResults" + idx + "\" "
+				+ "onmouseover=\"ddrivetip('" + Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTS
+				+ "')\" " + "onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED)
+				+ ">" + "View Responses</a>";
+				
+		if (hasSubmitted) {
+			result += "<a class=\"color_black\" href=\""
+					+ getStudentFeedbackResponseEditLink(fs.courseId, fs.feedbackSessionName)
+					+ "\" " + "name=\"editFeedbackResponses" + idx
+					+ "\" id=\"editFeedbackResponses" + idx + "\" "
+					+ "onmouseover=\"ddrivetip('"
+					+ Common.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT_RESPONSE
+					+ "')\" onmouseout=\"hideddrivetip()\" "
+					+ (hasEdit ? "" : DISABLED) + ">Edit/View Submission</a>";
+		} else {
+			result += "<a class=\"color_black\" id=\"submitEvaluation"
+					+ idx
+					+ "\" "
+					+ "href=\""
+					+ getStudentFeedbackResponseEditLink(fs.courseId,
+						fs.feedbackSessionName) + "\" " + "onmouseover=\"ddrivetip('"
+					+ Common.HOVER_MESSAGE_FEEDBACK_SESSION_SUBMIT + "')\" "
+					+ "onmouseout=\"hideddrivetip()\">Submit Feedback</a>";	
+		}
+		// @formatter:off
+		
+		return result;
+	}
 }

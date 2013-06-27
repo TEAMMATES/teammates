@@ -1,3 +1,4 @@
+<%@ page import="java.util.Date" %>
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
@@ -122,7 +123,10 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							disabled="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom').checked){'disabled'}else{''}"
 							>
 								<%
-									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
+									Date date;
+									date = ((data.newFeedbackSession==null || Common.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
+											? null : data.newFeedbackSession.sessionVisibleFromTime);
+									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
@@ -176,7 +180,9 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							disabled="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){'disabled'}else{''}"
 							>
 								<%
-									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
+									date = ((data.newFeedbackSession==null || Common.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) 
+											? null : data.newFeedbackSession.sessionVisibleFromTime);
+									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
@@ -224,7 +230,8 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>" tabindex="4">
 								<%
-									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
+									date = (data.newFeedbackSession == null ? null : data.newFeedbackSession.startTime);
+									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td class="label bold middlealign" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE%>')"
@@ -241,7 +248,8 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>" tabindex="4">
 								<%
-									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
+									date = (data.newFeedbackSession == null ? null : data.newFeedbackSession.endTime);								
+									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td class="label bold" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"

@@ -183,6 +183,7 @@ public class FeedbackResponsesLogic {
 	
 	// Adds FeedbackResponseAttributes in newResponses that are not already
 	// in existingResponses to existingResponses. 
+	// TODO: use a Map with ID as key for a faster implementation?
 	private void addNewResponses(
 			List<FeedbackResponseAttributes> existingResponses,
 			List<FeedbackResponseAttributes> newResponses) {

@@ -173,7 +173,7 @@
 							id="editEvaluationResults<%=idx%>" target="_blank"
 							href="<%=data.getInstructorEvaluationSubmissionEditLink(data.evaluationResults.evaluation.courseId, data.evaluationResults.evaluation.name, student.email)%>"
 							onclick="return openChildWindow(this.href)"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT%>')"
+							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_INSTRUCTOR_EDIT%>')"
 							onmouseout="hideddrivetip()">Edit</a></td>
 					</tr>
 					<%

@@ -101,6 +101,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		
 		______TS("edit existing response");		
 		
+		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+
 		// Test editing an existing response 
 		// + fill up rest of responses at the same time
 		String editedResponse = "Edited response to Benny.";

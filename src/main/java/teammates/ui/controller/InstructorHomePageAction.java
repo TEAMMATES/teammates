@@ -6,6 +6,7 @@ import java.util.HashMap;
 import teammates.common.Common;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.GateKeeper;
 
@@ -27,6 +28,9 @@ public class InstructorHomePageAction extends Action {
 		CourseDetailsBundle.sortDetailedCourses(data.courses);
 		for(CourseDetailsBundle course: data.courses){
 			EvaluationDetailsBundle.sortEvaluationsByDeadline(course.evaluations);
+		}
+		for(CourseDetailsBundle course: data.courses){
+			FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
 		}
 		   
 		statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + data.courses.size();

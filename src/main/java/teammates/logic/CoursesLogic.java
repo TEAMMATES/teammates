@@ -14,6 +14,8 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -125,12 +127,17 @@ public class CoursesLogic {
 		
 		List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
 		List<CourseDetailsBundle> courseDetailsList = new ArrayList<CourseDetailsBundle>();
-	
+		
 		for (CourseAttributes c : courseList) {
 
+			StudentAttributes s = studentsLogic.getStudentForGoogleId(c.id, googleId);
+			Assumption.assertNotNull("Student should not be null at this point.", s);
+			
 			List<EvaluationAttributes> evaluationDataList = evaluationsLogic
-					.getEvaluationsForCourse(c.id);
-	
+					.getEvaluationsForCourse(c.id);			
+			List<FeedbackSessionAttributes> feedbackSessionList = 
+					FeedbackSessionsLogic.inst().getFeedbackSessionsForUserInCourse(c.id, s.email);
+			
 			CourseDetailsBundle cdd = new CourseDetailsBundle(c);
 			
 			for (EvaluationAttributes ed : evaluationDataList) {
@@ -140,6 +147,10 @@ public class CoursesLogic {
 					cdd.evaluations.add(edd);
 				}
 			}
+			for (FeedbackSessionAttributes fs : feedbackSessionList) {
+				cdd.feedbackSessions.add(new FeedbackSessionDetailsBundle(fs));
+			}
+			
 			courseDetailsList.add(cdd);
 		}
 		return courseDetailsList;
@@ -288,10 +299,16 @@ public class CoursesLogic {
 		
 		ArrayList<EvaluationDetailsBundle> evaluationList = 
 				evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
+		List<FeedbackSessionDetailsBundle> feedbackSessionList = 
+				FeedbackSessionsLogic.inst().getFeedbackSessionDetailsForInstructor(instructorId);
 		
 		for (EvaluationDetailsBundle edd : evaluationList) {
 			CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.courseId);
 			courseSummary.evaluations.add(edd);
+		}
+		for (FeedbackSessionDetailsBundle fsb : feedbackSessionList) {
+			CourseDetailsBundle courseSummary = courseList.get(fsb.feedbackSession.courseId);
+			courseSummary.feedbackSessions.add(fsb);
 		}
 		return courseList;
 	}

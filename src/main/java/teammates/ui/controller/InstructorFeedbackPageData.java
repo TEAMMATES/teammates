@@ -38,32 +38,23 @@ public class InstructorFeedbackPageData extends PageData {
 					: newFeedbackSession.gracePeriod);
 	}
 	
-	
-	public ArrayList<String> getTimeOptionsAsHtml(boolean isStartTime){
-		if(newFeedbackSession == null ) {
-			return getTimeOptionsAsHtml(null);
-		} else {
-			return getTimeOptionsAsHtml(isStartTime? newFeedbackSession.startTime : newFeedbackSession.endTime);
-		}
-	}
-	
 	public ArrayList<String> getCourseIdOptions() {
 		ArrayList<String> result = new ArrayList<String>();
 
 		for (CourseDetailsBundle courseBundle : courses) {
 
-			// True if this is a submission of the filled 'new evaluation' form
+			// True if this is a submission of the filled 'new session' form
 			// for this course:
-			boolean isFilledFormForEvaluationInThisCourse = (newFeedbackSession != null)
+			boolean isFilledFormForSessionInThisCourse = (newFeedbackSession != null)
 					&& courseBundle.course.id.equals(newFeedbackSession.courseId);
 
-			// True if this is for displaying an empty form for creating an
-			// evaluation for this course:
-			boolean isEmptyFormForEvaluationInThisCourse = (courseIdForNewSession != null)
+			// True if this is for displaying an empty form for creating a 
+			// session for this course:
+			boolean isEmptyFormForSessionInThisCourse = (courseIdForNewSession != null)
 					&& courseBundle.course.id.equals(courseIdForNewSession);
 
-			String selectedAttribute = isFilledFormForEvaluationInThisCourse
-					|| isEmptyFormForEvaluationInThisCourse ? " selected=\"selected\""
+			String selectedAttribute = isFilledFormForSessionInThisCourse
+					|| isEmptyFormForSessionInThisCourse ? " selected=\"selected\""
 					: "";
 
 			result.add("<option value=\"" + courseBundle.course.id + "\""

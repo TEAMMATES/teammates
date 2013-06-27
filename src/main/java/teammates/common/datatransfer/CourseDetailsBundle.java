@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.List;
  * <br> Contains:
  * <br> * statistics of teams, enrollments, registrations
  * <br> * Details of its evaluations (as {@link EvaluationDetailsBundle} objects)
+ * <br> * Details of its feedback sessions (as {@link FeedbackSessionDetailsBundle} objects)
  * <br> * Details of its teams (as {@link TeamDetailsBundle} objects)
  * <br> * Details of students without teams i.e. 'loners'  (as {@link StudentAttributes} objects)
  *
@@ -24,6 +24,7 @@ public class CourseDetailsBundle {
 	public CourseAttributes course;
 	public CourseStats stats = new CourseStats();
 	public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
+	public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
 	public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
 	public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
 	

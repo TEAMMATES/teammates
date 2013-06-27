@@ -1,3 +1,4 @@
+<%@ page import="java.util.Date"%>
 <%@ page import="teammates.common.Common"%>
 <%@ page import="teammates.common.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
@@ -51,7 +52,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							<a href="#" class="color_blue pad_right" id="fsEditLink" 
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT%>')" onmouseout="hideddrivetip()" 
 							onclick="enableEditFS()">Edit</a>
-							<a href="#" class="color_green pad_right" style="display:none;" id="fsSaveLink"">Save Changes</a>
+							<a href="#" class="color_green pad_right" style="display:none;" id="fsSaveLink">Save Changes</a>
 							<a href="<%=data.getInstructorFeedbackSessionDeleteLink(data.session.courseId, data.session.feedbackSessionName, "") %>" 
 							onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('<%=data.session.courseId%>','<%=data.session.feedbackSessionName%>');"
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_DELETE%>')" onmouseout="hideddrivetip()"
@@ -97,12 +98,18 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							style="width: 70px;"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>" tabindex="4"
-							<%if(Common.isSpecialTime(data.session.sessionVisibleFromTime) == true)  
+							<%
+								Date date = null;
+								if(Common.isSpecialTime(data.session.sessionVisibleFromTime) == true) {  
 									out.print("disabled=\"disabled\"");
+									date = null;
+								} else {
+									date = data.session.sessionVisibleFromTime; 
+								}
 							%>		
 							>
 								<%
-									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
+									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
@@ -146,11 +153,16 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							style="width: 70px;"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>" tabindex="6"
-							<%if(Common.isSpecialTime(data.session.resultsVisibleFromTime) == true)  
-									out.print("disabled=\"disabled\"");%>
+							<%	if(Common.isSpecialTime(data.session.resultsVisibleFromTime) == true) {
+									out.print("disabled=\"disabled\"");
+									date = null;
+								} else {
+									date = data.session.resultsVisibleFromTime; 
+								}		
+							%>
 							>
 								<%
-									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
+									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
@@ -192,7 +204,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>" tabindex="4">
 								<%
-									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
+									for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
 								%>
 						</select></td>
 						<td class="nowrap" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE%>')"
@@ -207,9 +219,9 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							style="width: 70px;"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>" tabindex="4">							
-								<%
-																for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
-															%>
+							<%
+								for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
+							%>
 						</select></td>
 						<td class="label bold rightalign nowrap" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
 							onmouseout="hideddrivetip()">Grace Period:</td>

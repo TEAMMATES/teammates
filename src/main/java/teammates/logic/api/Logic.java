@@ -1038,6 +1038,24 @@ public class Logic {
 		return feedbackSessionsLogic.getFeedbackSessionQuestionsForUser(feedbackSessionName, courseId, userEmail);
 	}
 	
+	/**
+	 * Access: any logged in user (to minimize cost of checking)<br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @throws EntityDoesNotExistException 
+	 */
+	public boolean hasStudentSubmittedFeedback(
+			String courseId, String feedbackSessionName, String studentEmail)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+	
+		return feedbackSessionsLogic.isFeedbackSessionFullyCompletedByUser(
+				feedbackSessionName, courseId, studentEmail);
+	}
+	
 	@SuppressWarnings("unused")
 	private void ____FEEDBACK_QUESTION_level_methods_____________________________() {
 	}

@@ -208,11 +208,7 @@ public class FeedbackQuestionsLogic {
 		// that aren't answered by others if student.
 		if (studentsLogic.isStudentInCourse(courseId, userEmail)) {
 			questions.addAll(
-					fqDb.getFeedbackQuestionsForGiverType(
-							feedbackSessionName, courseId, STUDENTS));
-			questions.addAll(
-					getUnstolenTeamQuestions(
-							feedbackSessionName, courseId, userEmail));
+					getFeedbackQuestionsForStudent(feedbackSessionName, courseId, userEmail));
 		}
 
 		// Return instructor questions if instructor.
@@ -225,6 +221,24 @@ public class FeedbackQuestionsLogic {
 						feedbackSessionName, courseId, INSTRUCTORS));
 			}
 		}
+		
+		return questions;
+	}
+	
+	// This method tries to optimize page loading time by skipping querying email for instructors.
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudent(
+			String feedbackSessionName, String courseId, String userEmail) 
+					throws EntityDoesNotExistException {
+
+		List<FeedbackQuestionAttributes> questions =
+				new ArrayList<FeedbackQuestionAttributes>();
+		
+		questions.addAll(
+				fqDb.getFeedbackQuestionsForGiverType(
+						feedbackSessionName, courseId, STUDENTS));
+		questions.addAll(
+				getUnstolenTeamQuestions(
+						feedbackSessionName, courseId, userEmail));
 		
 		return questions;
 	}

@@ -54,6 +54,17 @@ InstructorEvalPageData data = (InstructorEvalPageData)request.getAttribute("data
 				<h1>Add New Evaluation</h1>
 			</div>
 			
+			<p class="bold centeralign middlealign"><span style="padding-right: 10px">Session Type</span>
+			<select style="width: 730px" name="feedbackchangetype"
+									id="feedbackchangetype"
+									onmouseover="ddrivetip('Select a different type of session here.')"
+									onmouseout="hideddrivetip()" tabindex="0">
+									<option value="<%=Common.PAGE_INSTRUCTOR_FEEDBACK %>">Class Feedback Session with customizable questions</option>
+									<!-- <option value="TEAM">Team Feedback Session</option> -->
+									<!-- <option value="PRIVATE">Private Feedback Session</option> -->
+									<option value="<%=Common.PAGE_INSTRUCTOR_EVAL %>" selected="selected">Standard Peer Evaluation Session</option>			
+			</select></p>
+			<br><br>
 			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_EVAL_ADD%>" name="form_addevaluation">
 				<table class="inputTable" id="instructorEvaluationManagement">
 					<tr>

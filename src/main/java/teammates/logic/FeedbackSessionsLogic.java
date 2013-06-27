@@ -301,7 +301,7 @@ public class FeedbackSessionsLogic {
 			if (instructor == null) {
 				if(email.equals(Common.GENERAL_QUESTION)) {
 					// Email represents that there is no specific recipient. 
-					name = "Class";
+					name = "Nobody";
 					team = email;
 				} else {
 					// Assume that the email is actually a team name.
@@ -317,7 +317,7 @@ public class FeedbackSessionsLogic {
 			team = student.team;
 		}
 		
-		if (type == FeedbackParticipantType.TEAMS){
+		if (type == FeedbackParticipantType.TEAMS || type == FeedbackParticipantType.OWN_TEAM){
 			return team;
 		} else {
 			return name;
@@ -646,7 +646,7 @@ public class FeedbackSessionsLogic {
 					.getInstructorsForCourse(fsa.courseId);
 			
 			for(StudentAttributes student : students) {
-				List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForUser(
+				List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForStudent(
 						fsa.feedbackSessionName, fsa.courseId, student.email);
 				if (questions.isEmpty() == false) {
 					details.stats.expectedTotal += 1;
@@ -692,7 +692,7 @@ public class FeedbackSessionsLogic {
 		return details;
 	}
 
-	private boolean isFeedbackSessionCompletedByUser(String feedbackSessionName,
+	public boolean isFeedbackSessionCompletedByUser(String feedbackSessionName,
 			String courseId, String userEmail)
 			throws EntityDoesNotExistException {
 
@@ -714,7 +714,7 @@ public class FeedbackSessionsLogic {
 		return false;
 	}
 	
-	private boolean isFeedbackSessionFullyCompletedByUser(String feedbackSessionName,
+	public boolean isFeedbackSessionFullyCompletedByUser(String feedbackSessionName,
 			String courseId, String userEmail)
 			throws EntityDoesNotExistException {
 

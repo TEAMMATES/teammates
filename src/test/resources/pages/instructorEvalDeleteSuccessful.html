@@ -63,6 +63,19 @@
 				<h1>Add New Evaluation</h1>
 			</div>
 			
+			<p class="bold centeralign middlealign">
+				<span style="padding-right: 10px"> Session Type </span> <select
+					id="feedbackchangetype" name="feedbackchangetype"
+					onmouseout="hideddrivetip()"
+					onmouseover="ddrivetip('Select a different type of session here.')"
+					style="width: 730px" tabindex="0">
+					<option value="/page/instructorFeedback">Class Feedback Session with customizable questions</option>
+					{*}
+					<option selected="selected" value="/page/instructorEval">Standard Peer Evaluation Session</option>
+				</select>
+			</p>
+			<br /> <br />
+			
 			<form name="form_addevaluation" action="/page/instructorEvalAdd" method="post">
 				<table id="instructorEvaluationManagement" class="inputTable">
 					<tbody><tr>

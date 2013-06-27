@@ -147,6 +147,11 @@ StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.ge
 			<%
 					qnIndx++;
 					}
+					if (questionsWithResponses.size() == 0) {
+			%>
+			<div class="centeralign color_red bold">There are no responses for you to view yet.</div>	
+			<%
+					}
 			%>
 			
 			

@@ -46,14 +46,4 @@ public class InstructorFeedbackEditPageData extends PageData {
 	public ArrayList<String> getGracePeriodOptionsAsHtml(){
 		return getGracePeriodOptionsAsHtml(session == null ? Common.UNINITIALIZED_INT : session.gracePeriod);
 	}
-	
-	
-	public ArrayList<String> getTimeOptionsAsHtml(boolean isStartTime){
-		if(session == null ) {
-			return getTimeOptionsAsHtml(null);
-		} else {
-			return getTimeOptionsAsHtml(isStartTime? session.startTime : session.endTime);
-		}
-	}
-	
 }

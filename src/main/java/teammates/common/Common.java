@@ -114,7 +114,9 @@ public class Common {
 	public static final String HOVER_MESSAGE_EVALUATION_DELETE = "Delete the evaluation";
 	public static final String HOVER_MESSAGE_EVALUATION_PUBLISH = "Publish evaluation results for students to view";
 	public static final String HOVER_MESSAGE_EVALUATION_UNPUBLISH = "Make results not visible to students";
-
+	public static final String HOVER_MESSAGE_EVALUATION_SUBMIT = "Start evaluation";
+	public static final String HOVER_MESSAGE_EVALUATION_EDIT_SUBMISSION = "Edit submitted evaluation";
+	
 	public static final String HOVER_MESSAGE_EVALUATION_DIFF = "Perceived Contribution - Claimed Contribution";
 	public static final String HOVER_MESSAGE_EVALUATION_RESPONSE_RATE = "Number of students submitted / Class size";
 	public static final String HOVER_MESSAGE_EVALUATION_POINTS_RECEIVED = "The list of points that this student received from others";
@@ -133,23 +135,25 @@ public class Common {
 
 	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER = "View feedback from the student for his team<br />This opens in a new window";
 	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWEE = "View feedback from the team for the student<br />This opens in a new window";
-	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_EDIT = "Edit feedback from the student for his team<br />This opens in a new window";
+	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_INSTRUCTOR_EDIT = "Edit feedback from the student for his team<br />This opens in a new window";
 
 	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this<br />or the data is not enough";
 	public static final String HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_SURE = "Not sure about the contribution";
 
-	public static final String HOVER_MESSAGE_JOIN_COURSE = "Enter your registration key for the course.";
-	public static final String HOVER_MESSAGE_EVALUATION_EDIT_SUBMISSION = "Edit submitted evaluation";
-
+	public static final String HOVER_MESSAGE_STUDENT_JOIN_COURSE = "Enter your registration key for the course.";
 	public static final String HOVER_MESSAGE_STUDENT_COURSE_PROFILE = "Your profile in this course";
 	public static final String HOVER_MESSAGE_STUDENT_COURSE_DETAILS = "View and edit information regarding your team";
-	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_SUBMIT = "Start evaluation";
 
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PENDING = "The evaluation is yet to be completed by you";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_SUBMITTED = "You have submitted your feedback for this evaluation";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the instructor has not published the results yet";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and you can check the results";
 	public static final String HOVER_MESSAGE_STUDENT_EVALUATION_STATUS_ERROR = "There were some errors in retrieving this evaluation.";
+
+	public static final String HOVER_MESSAGE_STUDENT_FEEDBACK_SESSION_STATUS_PENDING = "The feedback session is yet to be completed by you.";
+	public static final String HOVER_MESSAGE_STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED = "You have submitted your feedback for this session.";
+	public static final String HOVER_MESSAGE_STUDENT_FEEDBACK_SESSION_STATUS_CLOSED = "<br />The session is now closed for submissions.";
+	public static final String HOVER_MESSAGE_STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED = "<br />The responses for the session can now be viewed.";
 
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
@@ -178,11 +182,13 @@ public class Common {
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_PUBLISHED = ". The responses for this session are visible";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_PUBLISHED = ".<br />The responses for this session are visible";
 	
-	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTS = "View the current submitted responses of the feedback session";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_RESULTS = "View the submitted responses for this feedback session";
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_EDIT = "Edit feedback session details";
 	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_DELETE = "Delete the feedback session";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_SUBMIT = "Start submitting feedback";
+	public static final String HOVER_MESSAGE_FEEDBACK_SESSION_EDIT_RESPONSE = "Edit submitted feedback";
 	
 	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 	public static final String HOVER_MESSAGE_FEEDBACK_QUESTION_EDIT = "Edit this question";
@@ -195,6 +201,8 @@ public class Common {
 			"<br />in the course once the results are published.";
 	public static final String HOVER_MESSAGE_FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
 			"before the session closes.";
+	
+	
 	// Evaluation status
 	public static final String EVALUATION_STATUS_AWAITING = "Awaiting";
 	public static final String EVALUATION_STATUS_OPEN = "Open";

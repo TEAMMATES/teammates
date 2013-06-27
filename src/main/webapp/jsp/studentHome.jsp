@@ -1,6 +1,7 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle" %>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.StudentHomePageData"%>
 <%
@@ -48,7 +49,7 @@ StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 							<input class="keyvalue" type="text"
 									name="<%=Common.PARAM_REGKEY%>"
 									id="<%=Common.PARAM_REGKEY%>"
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_JOIN_COURSE%>')"
+									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_JOIN_COURSE%>')"
 									onmouseout="hideddrivetip()" tabindex="1">
 						</td>
 						<td>
@@ -68,6 +69,7 @@ StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 			<%
 				int idx = -1;
 				int evalIdx = -1;
+				int fsIdx = -1;
 				for (CourseDetailsBundle courseDetails: data.courses) { idx++;
 			%>
 			<div class="backgroundBlock">
@@ -112,7 +114,35 @@ StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 								</tr>
 							<%	} %>
 						</table>
-						
+						<br>					
+					<%	
+						} 
+						if (courseDetails.feedbackSessions.size() > 0) {
+					%>
+						<br>
+						<table class="dataTable">
+							<tr>
+								<th class="leftalign bold color_white">Feedback Session Name</th>
+								<th class="centeralign bold color_white">Submission Closing Time</th>
+								<th class="centeralign bold color_white">Status</th>
+								<th class="centeralign bold color_white">Action(s)</th>
+							</tr>
+							<%
+								for (FeedbackSessionDetailsBundle fsd: courseDetails.feedbackSessions) { 
+									fsIdx++;
+							%>
+								<tr class="home_evaluations_row" id="evaluation<%=fsIdx%>">
+									<td class="t_eval_name"><%=PageData.escapeForHTML(fsd.feedbackSession.feedbackSessionName)%></td>
+									<td class="t_eval_deadline centeralign"><%= Common.formatTime(fsd.feedbackSession.endTime) %></td>
+									<td class="t_eval_status centeralign"><span
+										onmouseover="ddrivetip(' <%= data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"
+										onmouseout="hideddrivetip()"><%= data.getStudentStatusForSession(fsd.feedbackSession)%></span></td>
+									<td class="centeralign"><%= data.getStudentFeedbackSessionActions(fsd.feedbackSession,fsIdx) %>
+									</td>
+								</tr>
+							<%	} %>
+						</table>
+						<br>				
 					<%	} %>
 				</div>
 			</div>

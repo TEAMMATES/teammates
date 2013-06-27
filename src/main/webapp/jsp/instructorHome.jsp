@@ -1,6 +1,7 @@
 <%@ page import="teammates.common.Common" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationStats"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.InstructorHomePageData"%>
@@ -56,6 +57,7 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 			<%
 				int idx = -1;
 				int evalIdx = -1;
+				int fsIdx = -1;
 				for (CourseDetailsBundle courseDetails: data.courses) { idx++;
 			%>
 			<br>
@@ -128,6 +130,37 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 				<%
 					}
 				%>
+				<%
+					if (courseDetails.feedbackSessions.size() > 0) {
+				%>
+					<br>
+					<table class="dataTable">
+					<tr>
+						<th class="leftalign color_white bold">Feedback Session Name</th>
+						<th class="centeralign color_white bold">Status</th>
+						<th class="centeralign color_white bold"><span
+							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
+							onmouseout="hideddrivetip()">Response Rate</span></th>
+						<th class="centeralign color_white bold no-print">Action(s)</th>
+					</tr>
+				<%
+						for(FeedbackSessionDetailsBundle fdb: courseDetails.feedbackSessions){ 
+							fsIdx++;
+				%>
+							<tr class="evaluations_row" id="evaluation<%=fsIdx%>">
+								<td class="t_eval_name"><%=PageData.escapeForHTML(fdb.feedbackSession.feedbackSessionName)%></td>
+								<td class="t_eval_status centeralign"><span
+									onmouseover="ddrivetip(' <%=PageData.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
+									onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>
+								<td class="t_eval_response centeralign"><%= fdb.stats.submittedTotal %>
+									/ <%= fdb.stats.expectedTotal %></td>
+								<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(fdb.feedbackSession,fsIdx, false)%>
+								</td>
+							</tr>
+						<%	} %>
+					</table>
+					<br>
+					<% } %>
 			</div>
 			<%		out.flush();
 				}

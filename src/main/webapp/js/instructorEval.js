@@ -1,3 +1,9 @@
+$(document).ready(function(){
+	$("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
+    	document.location.href = $(this).val();
+    });
+});
+
 function isEvaluationNameLengthValid(name) {
 	//Constant is kept in Common.java file, but checking is done in Javascript
 	return name.length <= EVAL_NAME_MAX_LENGTH;
@@ -217,4 +223,3 @@ function convertDateToDDMMYYYY(date) {
 function convertDateToHHMM(date) {
 	return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
 }
-

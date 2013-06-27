@@ -255,7 +255,7 @@ public class PageData {
 	 * By default the selected one is the last one.
 	 * @param selectCurrentTime
 	 */
-	protected ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected){
+	public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected){
 		ArrayList<String> result = new ArrayList<String>();
 		for(int i=1; i<=24; i++){
 			result.add("<option value=\""+i+"\"" +
@@ -481,20 +481,7 @@ public class PageData {
 		return link;
 	}
 		
-	/**
-	 * Returns the link for a student to view/edit his responses for a feedback session<br/>
-	 * This includes masquerade mode as well.
-	 * @param courseId
-	 * @param feedbackSessionName
-	 * @return
-	 */
-	public String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
-		String link = Common.PAGE_STUDENT_FEEDBACK_SUBMIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
-		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
-		link = addUserIdToUrl(link);
-		return link;
-	}
+
 	
 	@SuppressWarnings("unused")
 	private void _________other_util_methods_for_instructor_pages(){
