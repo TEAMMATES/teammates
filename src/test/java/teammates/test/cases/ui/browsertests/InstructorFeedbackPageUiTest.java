@@ -176,7 +176,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		assertEquals(newSession.toString(), savedSession.toString());
 		feedbackPage.verifyHtml("/instructorFeedbackAddSuccess.html");
 
-		______TS("duplicate evalution name");
+		______TS("duplicate session name");
 		
 	    // go back as page has redirected
 		feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);

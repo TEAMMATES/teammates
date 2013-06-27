@@ -239,6 +239,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				</table>
 				<input type="hidden" name="<%=Common.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
 				<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
+				<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 			<br>
@@ -372,6 +373,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
+			<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			<br><br>
 			<%
@@ -477,6 +479,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
+			<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 		</form>			
 		<br><br>
 		</div>
