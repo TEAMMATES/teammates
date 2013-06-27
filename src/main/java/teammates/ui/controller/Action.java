@@ -91,7 +91,7 @@ public abstract class Action {
 			account = logic.getAccount(paramRequestedUserId);
 			if(account==null){ //Unregistered user
 				account = new AccountAttributes();
-				account.googleId = loggedInUserType.id;
+				account.googleId = paramRequestedUserId;
 			}
 		
 		} else {

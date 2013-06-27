@@ -55,6 +55,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		
 		______TS("content: no courses, 'welcome stranger' message");
 		
+		BackDoor.deleteAccount("SHPUiT.stranger"); //delete account if it exists
 		Url studentHomeUrl = new Url(Common.PAGE_STUDENT_HOME).withUserId("SHPUiT.stranger");
 		studentHome = loginAdminToPage(browser, studentHomeUrl, StudentHomePage.class);
 		studentHome.verifyHtml("/studentHomeHTMLEmpty.html");
