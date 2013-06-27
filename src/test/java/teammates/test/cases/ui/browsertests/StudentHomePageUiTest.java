@@ -4,14 +4,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.driver.Url;
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
+import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
@@ -55,9 +55,14 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		
 		______TS("content: no courses, 'welcome stranger' message");
 		
-		BackDoor.deleteAccount("SHPUiT.stranger"); //delete account if it exists
-		Url studentHomeUrl = new Url(Common.PAGE_STUDENT_HOME).withUserId("SHPUiT.stranger");
-		studentHome = loginAdminToPage(browser, studentHomeUrl, StudentHomePage.class);
+		String unregUserId = TestProperties.inst().TEST_UNREG_ACCOUNT;
+		String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
+		BackDoor.deleteAccount(unregUserId); //delete account if it exists
+		
+		AppPage.logout(browser);
+		studentHome = HomePage.getNewInstance(browser)
+				.clickStudentLogin()
+				.loginAsStudent(unregUserId, unregPassword);
 		studentHome.verifyHtml("/studentHomeHTMLEmpty.html");
 		
 		______TS("login");
