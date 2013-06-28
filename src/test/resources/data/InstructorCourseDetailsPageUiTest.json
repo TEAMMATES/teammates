@@ -13,6 +13,20 @@
       "isInstructor": true,
       "email": "CCDetailsUiT.coord@gmail.com",
       "institute": "National University of Singapore"
+    },
+    "Alice": {
+      "googleId": "alice.tmms",
+      "name": "Alice Betsy",
+      "isInstructor": false,
+      "email": "alice.b.tmms@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "Charlie": {
+      "googleId": "charlie.tmms",
+      "name": "Charlie Davis",
+      "isInstructor": false,
+      "email": "charlie.d.tmms@gmail.com",
+      "institute": "National University of Singapore"
     }
   },
 

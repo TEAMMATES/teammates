@@ -105,28 +105,27 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
 	public void testRemindAction() {
 
-		String studentName = testData.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
-		String studentEmail = testData.students
-				.get("benny.tmms@CCDetailsUiT.CS2104").email;
-		String otherStudentEmail = testData.students
-				.get("charlie.tmms@CCDetailsUiT.CS2104").email;
-		String registeredStudentEmail = testData.students
-				.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").email;
+		//Charlie is yet to register
+		StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
+		
+		//Alice is already registered
+		StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+		
 		String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
 		boolean isEmailEnabled = !TestProperties.inst().isDevServer();
 
 
 		______TS("action: remind single student");
 
-		detailsPage.clickRemindStudentAndCancel(studentName);
+		detailsPage.clickRemindStudentAndCancel(charlie.name);
 		if (isEmailEnabled) {
-			assertFalse(didStudentReceiveReminder(courseId, studentEmail));
+			assertFalse(didStudentReceiveReminder(courseId, charlie.email));
 		}
 		
 
-		detailsPage.clickRemindStudentAndConfirm(studentName);
+		detailsPage.clickRemindStudentAndConfirm(charlie.name);
 		if (isEmailEnabled) {
-			assertTrue(didStudentReceiveReminder(courseId, studentEmail));
+			assertTrue(didStudentReceiveReminder(courseId, charlie.email));
 		}
 		
 		// Hiding of the 'Send invite' link is already covered by content test.
@@ -140,9 +139,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 		
 		if (isEmailEnabled) {
 			// verify an unregistered student received reminder
-			assertTrue(didStudentReceiveReminder(courseId, otherStudentEmail));
+			assertTrue(didStudentReceiveReminder(courseId, charlie.email));
 			// verify a registered student did not receive a reminder
-			assertFalse(didStudentReceiveReminder(courseId, registeredStudentEmail));
+			assertFalse(didStudentReceiveReminder(courseId, alice.email));
 		}
 	}
 
