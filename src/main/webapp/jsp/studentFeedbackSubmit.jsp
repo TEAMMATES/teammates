@@ -172,6 +172,7 @@
 			</div>
 			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
 			<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
+			<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 			<br><br>	
 			</form>
 		</div>

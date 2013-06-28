@@ -66,7 +66,7 @@ public class Common {
 	public static final Date TIME_REPRESENTS_LATER;
 
 	static {
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		calendar.clear();
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);

@@ -86,6 +86,8 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 		value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
 	<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>"
 		value="<%=data.bundle.feedbackSession.courseId%>">
+	<input type="hidden" name="<%=Common.PARAM_USER_ID%>" 
+		value="<%=data.account.googleId%>">
 </form>
 <% } %>
 <jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
