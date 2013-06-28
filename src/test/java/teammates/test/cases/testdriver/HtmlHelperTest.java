@@ -1,5 +1,7 @@
 package teammates.test.cases.testdriver;
 
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertEquals;
 import static teammates.common.Common.EOL;
 
 import java.io.IOException;
@@ -36,14 +38,35 @@ public class HtmlHelperTest {
 		
 		actual = expected.replace("<DIV></DIV></DIV>", EOL+EOL+"\n<DIV>\n\n</DIV></DIV>\n\n"+EOL);
 		HtmlHelper.assertSameHtml(actual, expected);
+		
+		expected = Common.readFile(Common.TEST_PAGES_FOLDER +"/sampleExpected.html");
+		actual = Common.readFile(Common.TEST_PAGES_FOLDER +"/sampleActual.html");
+		HtmlHelper.assertSameHtml(actual, expected);
 
 	}
 	
 	@Test
-	public void sampleTest() throws Exception{
-		String expected = Common.readFile(Common.TEST_PAGES_FOLDER +"/sampleExpected.html");
-		String actual = Common.readFile(Common.TEST_PAGES_FOLDER +"/sampleActual.html");
-		HtmlHelper.assertSameHtml(actual, expected);
+	public void testConvertToStandardHtml() throws Exception{
+		
+		//Tool tip in actual. Should not be ignored.
+		String actual = "<html><head></head><body><div id=\"dhtmltooltip\">tool tip <br> 2nd line </div></body></html>";
+		String expected = "<html><head></head><body></body></html>";
+		assertEquals(HtmlHelper.convertToStandardHtml(expected),HtmlHelper.convertToStandardHtml(actual));
+		
+		//'<div>' without attributes (not a tool tip). Should not be ignored.
+		actual = "<html><head></head><body><div></div></body></html>";
+		expected = "<html><head></head><body></body></html>";
+		assertFalse(HtmlHelper.convertToStandardHtml(expected).equals(HtmlHelper.convertToStandardHtml(actual)));
+				
+		//Using a '<div>' that is not a tool tip. Should not be ignored.
+		actual = "<html><head></head><body><div id=\"otherId\"></div></body></html>";
+		expected = "<html><head></head><body></body></html>";
+		assertFalse(HtmlHelper.convertToStandardHtml(expected).equals(HtmlHelper.convertToStandardHtml(actual)));
+		
+		//Different tool tips. Will be ignored (the logic does not detect this).
+		actual = "<html><head></head><body><div id=\"dhtmltooltip\">tool tip <br> 2nd line </div></body></html>";
+		expected = "<html><head></head><body><div id=\"dhtmltooltip\"></div></body></html>";
+		assertEquals(HtmlHelper.convertToStandardHtml(expected),HtmlHelper.convertToStandardHtml(actual));
 	}
 	
 

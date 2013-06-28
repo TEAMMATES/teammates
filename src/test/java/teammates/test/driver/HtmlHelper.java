@@ -41,7 +41,7 @@ public class HtmlHelper {
 	 * Element attributes are reordered in alphabetical order.
 	 * Spacing and line breaks are standardized too.
 	 */
-	private static String convertToStandardHtml(String rawHtml) {
+	public static String convertToStandardHtml(String rawHtml) {
 		String preProcessedHtml = preProcessHtml(rawHtml);
 		try {
 			Node currentNode = getNodeFromString(preProcessedHtml);
@@ -88,6 +88,12 @@ public class HtmlHelper {
 				currentHtmlText.append(indentation + text.trim() + "\n");
 			}
 			return;
+		} else if(isToolTip(currentNode)){
+			String tooltip = currentNode.getTextContent();
+			if(!tooltip.trim().isEmpty()){
+				System.out.println("ignoring tool tip: "+ tooltip);
+			}
+			return;
 		}
 
 		//Add the start of opening tag
@@ -119,6 +125,30 @@ public class HtmlHelper {
 			currentHtmlText.append(indentation + getEndTag(currentNode));
 		}
 	
+	}
+
+
+	private static boolean isToolTip(Node currentNode) {
+		
+		if(!currentNode.getNodeName().equalsIgnoreCase("div")){
+			return false;
+		}
+		
+		NamedNodeMap attributes = currentNode.getAttributes();
+		
+		if(attributes == null){ 
+			return false;
+		}
+			
+		for (int i = 0; i < attributes.getLength(); i++) {
+			Node attribute = attributes.item(i);
+			if(attribute.getNodeName().equalsIgnoreCase("id")
+					&& attribute.getNodeValue().equalsIgnoreCase("dhtmltooltip")){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 
