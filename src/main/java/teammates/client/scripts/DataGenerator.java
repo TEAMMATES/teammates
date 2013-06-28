@@ -50,9 +50,9 @@ public class DataGenerator {
 	public static final Integer MIN_ACTIVE_EVALUATION_PER_COURSE =0;
 	public static final Integer MAX_ACTIVE_EVALUATION_PER_COURSE =0;
 
-	public static final String START_TIME = "2012-04-01 11:59 PM";
-	public static final String END_TIME_PASSED = "2012-07-30 11:59 PM";
-	public static final String END_TIME_NOT_PASSED = "2013-012-30 11:59 PM";
+	public static final String START_TIME = "2012-04-01 11:59 PM UTC";
+	public static final String END_TIME_PASSED = "2012-07-30 11:59 PM UTC";
+	public static final String END_TIME_NOT_PASSED = "2013-012-30 11:59 PM UTC";
 
 	public static ArrayList<String> courses = new ArrayList<String>();
 	public static HashMap<String, String> instructors = new HashMap<String, String>();

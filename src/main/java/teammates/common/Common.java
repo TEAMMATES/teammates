@@ -797,8 +797,10 @@ public class Common {
 	 * >here </a>
 	 */
 	public static Gson getTeammatesGson() {
-		return new GsonBuilder().setDateFormat(DateFormat.FULL)
-				.setDateFormat("yyyy-MM-dd h:mm a").setPrettyPrinting()
+		return new GsonBuilder()
+				.setDateFormat(DateFormat.FULL)
+				.setDateFormat("yyyy-MM-dd h:mm a Z")
+				.setPrettyPrinting()
 				.create();
 	}
 
@@ -830,7 +832,7 @@ public class Common {
 
 	private static Date convertToDate(String date, int time) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Calendar calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
 		Date newDate = new Date();
 
@@ -855,11 +857,11 @@ public class Common {
 	}
 
 	/**
-	 * @param dateInStringFormat should be in the format "yyyy-MM-dd h:mm a"
-	 * e.g. "2014-04-01 11:59 PM"
+	 * @param dateInStringFormat should be in the format "yyyy-MM-dd h:mm a Z"
+	 * e.g. "2014-04-01 11:59 PM UTC"
 	 */
 	public static Date convertToDate(String dateInStringFormat) throws ParseException {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd h:mm a");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd h:mm a Z");
 		return df.parse(dateInStringFormat);
 	}
 
@@ -870,7 +872,7 @@ public class Common {
 	 * @return
 	 */
 	public static Date getDateOffsetToCurrentTime(int offsetDays) {
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		cal.setTime(cal.getTime());
 		cal.add(Calendar.DATE, +offsetDays);
 		return cal.getTime();
@@ -883,7 +885,7 @@ public class Common {
 	 * @return
 	 */
 	public static Date getMsOffsetToCurrentTime(int offsetMilliseconds) {
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		cal.setTime(cal.getTime());
 		cal.add(Calendar.MILLISECOND, +offsetMilliseconds);
 		return cal.getTime();
@@ -891,7 +893,7 @@ public class Common {
 
 	public static Date getMsOffsetToCurrentTimeInUserTimeZone(int offset, double timeZone) {
 		Date d = Common.getMsOffsetToCurrentTime(offset);
-		Calendar c = Calendar.getInstance();
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		c.setTime(d);
 		return convertToUserTimeZone(c, timeZone).getTime();
 	}
@@ -903,7 +905,7 @@ public class Common {
 	 * @return
 	 */
 	public static Date getNextHour() {
-		Calendar cal = GregorianCalendar.getInstance();
+		Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		cal.set(Calendar.MINUTE, 0);
 		return cal.getTime();
@@ -919,7 +921,7 @@ public class Common {
 	 */
 	public static String convertToOptionValueInTimeDropDown(Date date) { 
 		//TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
-		Calendar c = Calendar.getInstance();
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		c.setTime(date);
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int minutes = c.get(Calendar.MINUTE);
@@ -979,7 +981,7 @@ public class Common {
 	}
 
 	public static Calendar dateToCalendar(Date date) {
-		Calendar c = Calendar.getInstance();
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		if (date == null)
 			return c;
 		c.setTime(date);

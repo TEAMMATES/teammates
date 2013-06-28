@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import teammates.common.Assumption;
 import teammates.common.BuildProperties;
@@ -104,14 +105,14 @@ public class AdminInstructorAccountAddAction extends Action {
 		jsonString = jsonString.replaceAll("demo.course", courseId);
 
 		// update evaluation time
-		Calendar c = Calendar.getInstance();
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		c.set(Calendar.AM_PM, Calendar.PM);
 		c.set(Calendar.HOUR, 11);
 		c.set(Calendar.MINUTE, 59);
 		c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
 
-		jsonString = jsonString.replace("2013-04-01 11:59 PM",
+		jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
 				formatter.format(c.getTime()));
 
 		Gson gson = Common.getTeammatesGson();

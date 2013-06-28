@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
@@ -691,7 +692,7 @@ public class PageData {
 	private boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption){
 		boolean isEditingExistingEvaluation = (timeToShowAsSelected!=null);
 		if(isEditingExistingEvaluation){
-			Calendar cal = GregorianCalendar.getInstance();
+			Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
 			cal.setTime(timeToShowAsSelected);
 			if(cal.get(Calendar.MINUTE)==0){
 				if(cal.get(Calendar.HOUR_OF_DAY)==hourOfTheOption) return true;

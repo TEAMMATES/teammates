@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -2364,7 +2365,7 @@ public class LogicTest extends BaseComponentTest {
 		eval.courseId = "idOfTypicalCourse1";
 		eval.name = "new evaluation";
 		eval.instructions = "inst";
-		Date dummyTime = Calendar.getInstance().getTime();
+		Date dummyTime = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime();
 		eval.startTime = dummyTime;
 		eval.endTime = dummyTime;
 

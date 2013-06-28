@@ -3,19 +3,20 @@ package teammates.test.cases.testdriver;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
@@ -39,6 +40,7 @@ public class BackDoorTest extends BaseTestCase {
 				+ "/typicalDataBundle.json");
 
 		dataBundle = gson.fromJson(jsonString, DataBundle.class);
+		
 	}
 
 	@AfterClass
@@ -50,34 +52,13 @@ public class BackDoorTest extends BaseTestCase {
 	@SuppressWarnings("unused")
 	private void ____SYSTEM_level_methods_________________________________() {
 	}
+	
+
 
 	@Test
 	public void testPersistenceAndDeletion() {
-		// Clean up to avoid clashes with existing data.
-		// We delete courses first in case the same course ID exists under a
-		// different instructor not listed in our databundle.
-		// check if deleteInstructors worked
-
-		// Feedback sessions currently do not cascade from deleting a course or
-		// instructor to preserve past feedback (for future repo implementation).
-		BackDoor.deleteFeedbackSessions(jsonString);
 		
-		for (CourseAttributes course : dataBundle.courses.values()) {
-			BackDoor.deleteCourse(course.id);
-		}
-
-		BackDoor.deleteInstructors(jsonString);
-
-		// ensure clean up worked
-		for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
-			verifyAbsentInDatastore(fs);
-		}		
-		for (InstructorAttributes instructor : dataBundle.instructors.values()) {
-			verifyAbsentInDatastore(instructor);
-		}
-		for (CourseAttributes course : dataBundle.courses.values()) {
-			verifyAbsentInDatastore(course);
-		}
+		DataBundle dataForPersistenceChecking = gson.fromJson(jsonString, DataBundle.class);
 
 		// check persisting
 		String status = BackDoor.persistNewDataBundle(jsonString);
@@ -85,62 +66,26 @@ public class BackDoorTest extends BaseTestCase {
 		verifyPresentInDatastore(jsonString);
 
 		// ----------deleting Instructor entities-------------------------
-		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+		InstructorAttributes instructor1OfCourse1 = dataForPersistenceChecking.instructors.get("instructor1OfCourse1");
 		verifyPresentInDatastore(instructor1OfCourse1);
 		status = BackDoor.deleteInstructor(instructor1OfCourse1.googleId);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(instructor1OfCourse1);
 		
-		InstructorAttributes instructor2OfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
-		verifyPresentInDatastore(instructor2OfCourse1);
-		status = BackDoor.deleteInstructor(instructor2OfCourse1.googleId);
+		//try to delete again: should indicate as success because delete fails silently.
+		status = BackDoor.deleteInstructor(instructor1OfCourse1.googleId);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(instructor2OfCourse1);
 		
-		InstructorAttributes instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
-		verifyPresentInDatastore(instructor1OfCourse2);
-		status = BackDoor.deleteInstructor(instructor1OfCourse2.googleId);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(instructor1OfCourse2);
-
-		InstructorAttributes instructor2OfCourse2 = dataBundle.instructors.get("instructor2OfCourse2");
-		verifyPresentInDatastore(instructor2OfCourse2);
-		status = BackDoor.deleteInstructor(instructor2OfCourse2.googleId);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(instructor2OfCourse2);
-		
-		// Instructor of 2 courses - Deleting the instructor once removes all instructors of this google id
-		// TODO: deleteInstructor(String instructorId, String courseId)
-		InstructorAttributes instructor3OfCourse1 = dataBundle.instructors.get("instructor3OfCourse1");
-		verifyPresentInDatastore(instructor3OfCourse1);
-		status = BackDoor.deleteInstructor(instructor3OfCourse1.googleId);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(instructor3OfCourse1);
-		
-		// This is already deleted in the previous operation, when `googleId` = "idOfInstructor3" was deleted
-		InstructorAttributes instructor3OfCourse2 = dataBundle.instructors.get("instructor3OfCourse2");
-		//verifyPresentInDatastore(instructor3OfCourse2);
-		status = BackDoor.deleteInstructor(instructor3OfCourse2.googleId);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-		verifyAbsentInDatastore(instructor3OfCourse2);
-
-		// try to delete again. should succeed.
-		status = BackDoor.deleteInstructor(instructor2OfCourse2.googleId);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-
-		status = BackDoor.deleteInstructor("idOfInstructor4");
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
-
 		// ----------deleting Evaluation entities-------------------------
 
 		// check the existence of a submission that will be deleted along with
 		// the evaluation
-		SubmissionAttributes subInDeletedEvaluation = dataBundle.submissions
+		SubmissionAttributes subInDeletedEvaluation = dataForPersistenceChecking.submissions
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(subInDeletedEvaluation);
 
 		// delete the evaluation and verify it is deleted
-		EvaluationAttributes evaluation1InCourse1 = dataBundle.evaluations
+		EvaluationAttributes evaluation1InCourse1 = dataForPersistenceChecking.evaluations
 				.get("evaluation1InCourse1");
 		verifyPresentInDatastore(evaluation1InCourse1);
 		status = BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
@@ -157,38 +102,38 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
 		// verify that the other evaluation in the same course is intact
-		EvaluationAttributes evaluation2InCourse1 = dataBundle.evaluations
+		EvaluationAttributes evaluation2InCourse1 = dataForPersistenceChecking.evaluations
 				.get("evaluation2InCourse1");
 		verifyPresentInDatastore(evaluation2InCourse1);
 
 		// ----------deleting Course entities-------------------------
 
 		// #COURSE 2
-		CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
+		CourseAttributes course2 = dataForPersistenceChecking.courses.get("typicalCourse2");
 		verifyPresentInDatastore(course2);
 		status = BackDoor.deleteCourse(course2.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(course2);
 
 		// check if related student entities are also deleted
-		StudentAttributes student2InCourse2 = dataBundle.students
+		StudentAttributes student2InCourse2 = dataForPersistenceChecking.students
 				.get("student2InCourse2");
 		verifyAbsentInDatastore(student2InCourse2);
 
 		// check if related evaluation entities are also deleted
-		EvaluationAttributes evaluation1InCourse2 = dataBundle.evaluations
+		EvaluationAttributes evaluation1InCourse2 = dataForPersistenceChecking.evaluations
 				.get("evaluation1InCourse1");
 		verifyAbsentInDatastore(evaluation1InCourse2);
 		
 		// #COURSE 1
-		CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
+		CourseAttributes course1 = dataForPersistenceChecking.courses.get("typicalCourse1");
 		verifyPresentInDatastore(course1);
 		status = BackDoor.deleteCourse(course1.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(course1);
 		
 		// check if related student entities are also deleted
-		StudentAttributes student1InCourse1 = dataBundle.students
+		StudentAttributes student1InCourse1 = dataForPersistenceChecking.students
 				.get("student1InCourse1");
 		verifyAbsentInDatastore(student1InCourse1);
 		
@@ -196,7 +141,7 @@ public class BackDoorTest extends BaseTestCase {
 		verifyAbsentInDatastore(evaluation2InCourse1);
 		
 		// #COURSE NO EVALS
-		CourseAttributes courseNoEvals = dataBundle.courses.get("courseNoEvals");
+		CourseAttributes courseNoEvals = dataForPersistenceChecking.courses.get("courseNoEvals");
 		verifyPresentInDatastore(courseNoEvals);
 		status = BackDoor.deleteCourse(courseNoEvals.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
@@ -206,10 +151,6 @@ public class BackDoorTest extends BaseTestCase {
 		// TODO: do proper deletion test
 		BackDoor.deleteFeedbackSessions(jsonString);
 
-		//-------------------------------------------------------------------------
-		// RECREATE ALL DATA. this should succeed if all previous data were deleted
-		status = BackDoor.persistNewDataBundle(jsonString);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 	}
 	
 	@SuppressWarnings("unused")
@@ -646,10 +587,10 @@ public class BackDoorTest extends BaseTestCase {
 				evaluation1.instructions);
 		assertEquals(10, evaluation1.gracePeriod);
 		assertEquals(true, evaluation1.p2pEnabled);
-		assertEquals("Sun Apr 01 23:59:00 GMT+08:00 2012",
-				evaluation1.startTime.toString());
-		assertEquals("Thu Apr 30 23:59:00 GMT+08:00 2015",
-				evaluation1.endTime.toString());
+		assertEquals(Common.convertToDate("2012-04-01 11:59 PM UTC"),
+				evaluation1.startTime);
+		assertEquals(Common.convertToDate("2015-04-30 11:59 PM UTC"),
+				evaluation1.endTime);
 		assertEquals(true, evaluation1.activated);
 		assertEquals(false, evaluation1.published);
 		assertEquals(2.0, evaluation1.timeZone, 0.01);

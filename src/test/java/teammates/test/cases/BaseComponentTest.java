@@ -32,7 +32,6 @@ public class BaseComponentTest extends BaseTestCase {
 		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
 		LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
 		helper = new LocalServiceTestHelper(localDatastore, localMail,	localUserServices, localTasks);
-		setHelperTimeZone(helper);
 		helper.setUp();
 		Datastore.initialize();
 		sr = new ServletRunner();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import com.google.appengine.api.datastore.Text;
@@ -139,15 +140,15 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	// Copied from EvaluationsAttributes. To Unit Test.
 	public boolean isClosingWithinTimeLimit(int hours) {
 
-		Calendar now = Calendar.getInstance();
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		// Fix the time zone accordingly
 		now.add(Calendar.MILLISECOND,
 				(int) (60 * 60 * 1000 * timeZone));
 		
-		Calendar start = Calendar.getInstance();
+		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		start.setTime(startTime);
 		
-		Calendar deadline = Calendar.getInstance();
+		Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		deadline.setTime(endTime);
 
 		long nowMillis = now.getTimeInMillis();
@@ -167,7 +168,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * @return {@code true} if it is after the closing time of this feedback session; {@code false} if not.
 	 */
 	public boolean isClosed() {
-		Calendar now = Calendar.getInstance();
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		Common.convertToUserTimeZone(now, timeZone);
 
 		Calendar end = Common.dateToCalendar(endTime);
@@ -180,7 +181,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * @return {@code true} is currently open and accepting responses.
 	 */
 	public boolean isOpened() {
-		Calendar now = Calendar.getInstance();
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		Common.convertToUserTimeZone(now, timeZone);
 
 		Calendar start = Common.dateToCalendar(startTime);
@@ -201,7 +202,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * Does not care if the session has started or not.
 	 */
 	public boolean isVisible() {
-		Date now = Common.convertToUserTimeZone(Calendar.getInstance(), timeZone).getTime();
+		Date now = Common.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
 		Date visibleTime = this.sessionVisibleFromTime;
 		
 		if (visibleTime.equals(Common.TIME_REPRESENTS_FOLLOW_OPENING)) {
@@ -217,7 +218,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * Does not care if the session has ended or not.
 	 */
 	public boolean isPublished() {
-		Date now = Common.convertToUserTimeZone(Calendar.getInstance(), timeZone).getTime();
+		Date now = Common.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
 		Date publishTime = this.resultsVisibleFromTime;
 		
 		if (publishTime.equals(Common.TIME_REPRESENTS_FOLLOW_VISIBLE)) {

@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -83,7 +84,7 @@ public class CommonTest extends BaseTestCase {
 	
 	@Test
 	public void testFormatTimeForEvaluation(){
-		Calendar c = Calendar.getInstance();
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		
 		c.set(Calendar.HOUR_OF_DAY, 9);
 		assertEquals("9", Common.convertToOptionValueInTimeDropDown(c.getTime()));

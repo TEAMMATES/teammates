@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import teammates.common.Assumption;
@@ -77,13 +78,13 @@ public class EvaluationAttributes extends EntityAttributes {
 	}
 
 	public EvalStatus getStatus() {
-		Calendar now = Calendar.getInstance();
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		Common.convertToUserTimeZone(now, timeZone);
 
-		Calendar start = Calendar.getInstance();
+		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		start.setTime(startTime);
 
-		Calendar end = Calendar.getInstance();
+		Calendar end = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		end.setTime(endTime);
 		end.add(Calendar.MINUTE, gracePeriod);
 
@@ -108,9 +109,9 @@ public class EvaluationAttributes extends EntityAttributes {
 	 */
 	public boolean isReadyToActivate() {
 		Calendar currentTimeInUserTimeZone = Common.convertToUserTimeZone(
-				Calendar.getInstance(), timeZone);
+				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
 
-		Calendar evalStartTime = Calendar.getInstance();
+		Calendar evalStartTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		evalStartTime.setTime(startTime);
 
 		log.fine("current:"
@@ -130,9 +131,9 @@ public class EvaluationAttributes extends EntityAttributes {
 	 */
 	public boolean isOpeningInFuture() {
 		Calendar currentTimeInUserTimeZone = Common.convertToUserTimeZone(
-				Calendar.getInstance(), timeZone);
+				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
 
-		Calendar evalStartTime = Calendar.getInstance();
+		Calendar evalStartTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		evalStartTime.setTime(startTime);
 
 		return currentTimeInUserTimeZone.before(evalStartTime);
@@ -141,15 +142,15 @@ public class EvaluationAttributes extends EntityAttributes {
 	//TODO: unit test this
 	public boolean isClosingWithinTimeLimit(int hours) {
 
-		Calendar now = Calendar.getInstance();
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		// Fix the time zone accordingly
 		now.add(Calendar.MILLISECOND,
 				(int) (60 * 60 * 1000 * timeZone));
 		
-		Calendar start = Calendar.getInstance();
+		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		start.setTime(startTime);
 		
-		Calendar deadline = Calendar.getInstance();
+		Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		deadline.setTime(endTime);
 
 		long nowMillis = now.getTimeInMillis();
@@ -171,10 +172,10 @@ public class EvaluationAttributes extends EntityAttributes {
 	 * for time zone differences and grace period.
 	 */
 	public boolean isClosingInFuture() {
-		Calendar now = Calendar.getInstance();
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		Common.convertToUserTimeZone(now, timeZone);
 
-		Calendar end = Calendar.getInstance();
+		Calendar end = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		end.setTime(endTime);
 		end.add(Calendar.MINUTE, gracePeriod);
 		

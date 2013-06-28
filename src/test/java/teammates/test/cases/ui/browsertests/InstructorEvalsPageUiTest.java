@@ -38,8 +38,8 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		newEval = new EvaluationAttributes();
 		newEval.courseId = "CEvalUiT.CS1101";
 	    newEval.name = "New Evaluation";
-	    newEval.startTime = Common.convertToDate("2014-04-01 11:59 PM");
-	    newEval.endTime = Common.convertToDate("2014-04-30 11:59 PM");
+	    newEval.startTime = Common.convertToDate("2014-04-01 11:59 PM UTC");
+	    newEval.endTime = Common.convertToDate("2014-04-30 11:59 PM UTC");
 	    newEval.gracePeriod = 10;
 	    newEval.instructions = "Please fill in the new evaluation";
 	    newEval.p2pEnabled = true;

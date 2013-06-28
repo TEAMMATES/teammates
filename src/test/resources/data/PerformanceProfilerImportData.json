@@ -192,8 +192,8 @@
 },
 
 "evaluations":{
-	"idOf_Z2_Eval0_in_Cou0_of_Coo0":{"courseId":"idOf_Z2_Cou0_of_Coo0","name":"Z2_Eval0_in_Cou0_of_Coo0","instructions":"instructions for Z2_Eval0_in_Cou0_of_Coo0","gracePeriod":10,"p2pEnabled":true,"startTime":"2012-04-01 11:59 PM","endTime":"2012-012-30 11:59 PM","startTime":"2012-04-01 11:59 PM","timeZone":8.0,"activated":true,"published":false},
-	"idOf_Z2_Eval0_in_Cou1_of_Coo0":{"courseId":"idOf_Z2_Cou1_of_Coo0","name":"Z2_Eval0_in_Cou1_of_Coo0","instructions":"instructions for Z2_Eval0_in_Cou1_of_Coo0","gracePeriod":10,"p2pEnabled":true,"startTime":"2012-04-01 11:59 PM","endTime":"2012-012-30 11:59 PM","startTime":"2012-04-01 11:59 PM","timeZone":8.0,"activated":true,"published":false}
+	"idOf_Z2_Eval0_in_Cou0_of_Coo0":{"courseId":"idOf_Z2_Cou0_of_Coo0","name":"Z2_Eval0_in_Cou0_of_Coo0","instructions":"instructions for Z2_Eval0_in_Cou0_of_Coo0","gracePeriod":10,"p2pEnabled":true,"startTime":"2012-04-01 11:59 PM UTC","endTime":"2012-012-30 11:59 PM UTC","startTime":"2012-04-01 11:59 PM UTC","timeZone":8.0,"activated":true,"published":false},
+	"idOf_Z2_Eval0_in_Cou1_of_Coo0":{"courseId":"idOf_Z2_Cou1_of_Coo0","name":"Z2_Eval0_in_Cou1_of_Coo0","instructions":"instructions for Z2_Eval0_in_Cou1_of_Coo0","gracePeriod":10,"p2pEnabled":true,"startTime":"2012-04-01 11:59 PM UTC","endTime":"2012-012-30 11:59 PM UTC","startTime":"2012-04-01 11:59 PM UTC","timeZone":8.0,"activated":true,"published":false}
 },
 
 "submissions":{

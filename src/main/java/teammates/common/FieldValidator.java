@@ -2,6 +2,7 @@ package teammates.common;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -406,7 +407,7 @@ public class FieldValidator {
 	
 	private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {
 		Date nowInUserTimeZone = Common.convertToUserTimeZone(
-				Calendar.getInstance(), timeZone).getTime();
+				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
 		return nowInUserTimeZone.before(time);
 	}
 

@@ -284,7 +284,7 @@ public class PerformanceProfiler extends Thread{
     
     @PerformanceTest(name = "Instructor add eval",customTimer = true)
     public Long instructorAddEval() {
-    	Calendar cal = Calendar.getInstance();
+    	Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     	cal.add(Calendar.DATE, +1);
     	Date date1 = cal.getTime();
     	cal.add(Calendar.DATE, +2);

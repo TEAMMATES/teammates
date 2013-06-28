@@ -5,6 +5,7 @@ import static teammates.common.Common.EOL;
 import static teammates.common.FieldValidator.*;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
@@ -271,8 +272,8 @@ public class EvaluationAttributesTest extends BaseTestCase {
 	public void testIsReady() throws InvalidParametersException {
 
 		// Create evaluation object to use as the test object
-		Calendar start = Calendar.getInstance();
-		Calendar end = Calendar.getInstance();
+		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		Calendar end = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		EvaluationAttributes e = new EvaluationAttributes(
 				new Evaluation("course1", "evalution 1", "instructions",
 				true, start.getTime(), end.getTime(), 0.0, 0));

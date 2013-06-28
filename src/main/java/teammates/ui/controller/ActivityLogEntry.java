@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -157,7 +158,7 @@ public class ActivityLogEntry {
 	
 	
 	public String getDateInfo(){
-		Calendar appCal = Calendar.getInstance();
+		Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         appCal.setTimeInMillis(time);
 
