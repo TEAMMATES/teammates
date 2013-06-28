@@ -15,19 +15,18 @@ import java.util.Map;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.NotImplementedException;
 import teammates.logic.backdoor.BackDoorServlet;
 
-import com.gargoylesoftware.htmlunit.WebConsole.Logger;
 import com.google.gson.Gson;
 
 /**

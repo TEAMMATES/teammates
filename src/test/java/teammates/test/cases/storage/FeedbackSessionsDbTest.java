@@ -16,7 +16,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
@@ -28,7 +27,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 import teammates.test.cases.BaseComponentTest;
-import teammates.test.cases.BaseTestCase;
 import teammates.test.cases.logic.LogicTest;
 
 import com.google.appengine.api.datastore.Text;

@@ -2,16 +2,11 @@ package teammates.ui.controller;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.datatransfer.EvaluationResultsBundle;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalSubmissionViewPageAction extends Action {
-	
-	private InstructorEvalSubmissionEditPageData data;
 	
 
 	@Override

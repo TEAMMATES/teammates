@@ -15,7 +15,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -668,11 +667,6 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals("null", submissionAsJson);
 	}
 
-	private void verifyAbsentInDatastore(FeedbackSessionAttributes fs) {
-		assertEquals("null", BackDoor.getFeedbackSessionAsJson(
-				fs.feedbackSessionName,
-				fs.courseId));
-	}
 	
 	private void verifyPresentInDatastore(String dataBundleJsonString) {
 		Gson gson = Common.getTeammatesGson();

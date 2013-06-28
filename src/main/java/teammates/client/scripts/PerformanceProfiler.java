@@ -7,31 +7,31 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.openqa.selenium.By;
-
-import com.google.gson.Gson;
-
 import teammates.common.Common;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
+import teammates.test.pageobjects.Browser;
+import teammates.test.pageobjects.BrowserPool;
+
+import com.google.gson.Gson;
 /**
  * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
  * of this script in parallel, use ParallelProfiler.Java.
@@ -41,8 +41,6 @@ import teammates.test.driver.TestProperties;
  * -Edit name of the report file, the result will be written to a file in src/test/resources/data folder
  * -Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
  */
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
 
 
 /**

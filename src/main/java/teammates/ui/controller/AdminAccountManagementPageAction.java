@@ -21,6 +21,7 @@ public class AdminAccountManagementPageAction extends Action {
 		
 		AdminAccountManagementPageData data = new AdminAccountManagementPageData(account);
 		
+		@SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
 		List<InstructorAttributes> allInstructorsList = logic.getAllInstructors();
 		List<AccountAttributes> allInstructorAccountsList = logic.getInstructorAccounts();
 		

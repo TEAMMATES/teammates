@@ -104,20 +104,4 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
 		System.out.println("Appended for " + count + " entities");
 	}
 	
-	private static void undoAppendInstitutionForAccounts() {
-		String query = "SELECT FROM " + Account.class.getName();
-		@SuppressWarnings("unchecked")
-		List<Account> accountsList = (List<Account>) pm.newQuery(query).execute();
-		
-		int count = 0;
-		for (Account a : accountsList) {
-			if ((a.getInstitute() != null) && (!a.getInstitute().equals(""))) {
-				a.setInstitute("");
-				pm.deletePersistent(a);
-				pm.makePersistent(a);
-				count++;
-			}
-		}
-		System.out.println("Undid " + count + " entitites from " + accountsList.size() + " entities");
-	}
 }

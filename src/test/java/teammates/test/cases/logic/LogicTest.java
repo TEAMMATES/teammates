@@ -33,7 +33,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
-import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -54,7 +53,6 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
@@ -77,12 +75,6 @@ public class LogicTest extends BaseComponentTest {
 	private static final Logic logic = new Logic();
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
 
-	// these are used for access control checking for different types of users
-	private static final int USER_TYPE_NOT_LOGGED_IN = -1;
-	private static final int USER_TYPE_UNREGISTERED = 0;
-	private static final int USER_TYPE_STUDENT = 1;
-	private static final int USER_TYPE_INSTRUCTOR = 2;
-	
 	private static final CoursesDb coursesDb = new CoursesDb();
 	private static final InstructorsDb instructorsDb = new InstructorsDb();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
@@ -594,8 +586,6 @@ public class LogicTest extends BaseComponentTest {
 
 		String methodName = "getCourseDetails";
 		Class<?>[] paramTypes = new Class<?>[] { String.class };
-		Object[] params = new Object[] { "idOfTypicalCourse1" };
-
 		
 		______TS("typical case");
 
@@ -2959,64 +2949,6 @@ public class LogicTest extends BaseComponentTest {
 		assertEquals(expected.activated, actual.activated);
 	}
 
-	private void verifyCannotAccess(int userType, String methodName,
-			String userId, Class<?>[] paramTypes, Object[] params)
-			throws Exception {
-		verifyAccessLevel(true, userType, methodName, userId, paramTypes,
-				params);
-	}
-
-	private void verifyCanAccess(int userType, String methodName,
-			String userId, Class<?>[] paramTypes, Object[] params)
-			throws Exception {
-		verifyAccessLevel(false, userType, methodName, userId, paramTypes,
-				params);
-	}
-
-	private void verifyAccessLevel(boolean isUnauthExceptionExpected,
-			int userType, String methodName, String userId,
-			Class<?>[] paramTypes, Object[] params) throws Exception {
-		Method method = Logic.class.getDeclaredMethod(methodName, paramTypes);
-
-		switch (userType) {
-		case USER_TYPE_NOT_LOGGED_IN:
-			logoutUser();
-			break;
-		case USER_TYPE_UNREGISTERED:
-			loginUser(userId);
-			break;
-		case USER_TYPE_STUDENT:
-			loginAsStudent(userId);
-			break;
-		case USER_TYPE_INSTRUCTOR:
-			loginAsInstructor(userId);
-			break;
-		}
-
-		try {
-			method.setAccessible(true); // in case it is a private method
-			method.invoke(logic, params);
-			if (isUnauthExceptionExpected) {
-				Assert.fail();
-			}
-		} catch (Exception e) {
-			String stack = Common.stackTraceToString(e);
-
-			if (isUnauthExceptionExpected) {
-				// ensure it was the UnauthorizedAccessException
-				assertEquals(
-						"UnauthorizedAccessException expected, but received this: "
-								+ stack, UnauthorizedAccessException.class, e
-								.getCause().getClass());
-			} else {
-				// ensure it was not the UnauthorizedAccessException
-				assertTrue("UnauthorizedAccessException is not expected here: "
-						+ stack, e.getCause() == null
-						|| UnauthorizedAccessException.class != e.getCause()
-								.getClass());
-			}
-		}
-	}
 
 	private void verifyEntityDoesNotExistException(String methodName,
 			Class<?>[] paramTypes, Object[] params) throws Exception {

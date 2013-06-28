@@ -4,9 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
-import java.util.List;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
 import org.testng.Assert;
@@ -19,16 +17,11 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.Emails;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.storage.api.CoursesDb;
-import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseComponentTest;
 import teammates.test.cases.common.CourseAttributesTest;
 

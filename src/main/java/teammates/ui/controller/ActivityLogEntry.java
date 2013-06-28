@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 
 import com.google.appengine.api.log.AppLogLine;
 

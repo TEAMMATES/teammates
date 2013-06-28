@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -12,16 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.storage.api.AccountsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
-import com.google.appengine.api.search.ListRequest;
-import com.google.appengine.api.search.ListResponse;
 import com.google.appengine.api.search.SearchServiceFactory;
 
 public class AdminSearchTaskServlet extends HttpServlet {
@@ -59,6 +53,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		/**
 		 * Insert instructors
 		 */
+		@SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
 		List<InstructorAttributes> instructors = new InstructorsDb().getAllInstructors();
 		
 		Iterator<InstructorAttributes> it = instructors.iterator();
@@ -70,6 +65,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		/**
 		 * Insert students
 		 */
+		@SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
 		List<StudentAttributes> students = new StudentsDb().getAllStudents();
 		Iterator<StudentAttributes> it2 = students.iterator();
 		while (it2.hasNext()) {

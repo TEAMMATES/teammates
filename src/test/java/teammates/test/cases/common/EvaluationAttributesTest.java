@@ -1,8 +1,19 @@
 package teammates.test.cases.common;
 
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.Common.EOL;
-import static teammates.common.FieldValidator.*;
+import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.EVALUATION_INSTRUCTIONS_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.EVALUATION_INSTRUCTIONS_MAX_LENGTH;
+import static teammates.common.FieldValidator.EVALUATION_NAME;
+import static teammates.common.FieldValidator.EVALUATION_NAME_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_EMPTY;
+import static teammates.common.FieldValidator.REASON_TOO_LONG;
+import static teammates.common.FieldValidator.START_TIME_FIELD_NAME;
+import static teammates.common.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -17,7 +28,6 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Evaluation;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.cases.logic.LogicTest;
 
 public class EvaluationAttributesTest extends BaseTestCase {
 

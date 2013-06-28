@@ -1,11 +1,11 @@
 package teammates.test.cases.storage;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -18,11 +18,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.datastore.Datastore;
 import teammates.test.cases.BaseTestCase;
-
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class StudentsDbTest extends BaseTestCase {
 	

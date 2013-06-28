@@ -1,6 +1,6 @@
 package teammates.test.driver;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -9,19 +9,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.xml.transform.TransformerException;
-
-
 import org.cyberneko.html.parsers.DOMParser;
-import org.openqa.selenium.internal.seleniumemulation.IsVisible;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.cases.BaseTestCase;
 
 

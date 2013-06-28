@@ -64,7 +64,10 @@ public class BuildProperties {
 	 * @return
 	 */
 	public String readStream(InputStream stream) {
-		return new Scanner(stream).useDelimiter("\\Z").next();
+		Scanner scanner = new Scanner(stream);
+		String content = scanner.useDelimiter("\\Z").next();
+		scanner.close();
+		return content;
 	}
 	
 	/**

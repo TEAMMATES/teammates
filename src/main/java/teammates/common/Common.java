@@ -1026,8 +1026,9 @@ public class Common {
 	 * @return
 	 */
 	public static String readFile(String filename) throws FileNotFoundException {
-		String ans = new Scanner(new FileReader(filename)).useDelimiter("\\Z")
-				.next();
+		Scanner scanner = new Scanner(new FileReader(filename));
+		String ans = scanner.useDelimiter("\\Z").next();
+		scanner.close();
 		return ans;
 	}
 
@@ -1119,7 +1120,7 @@ public class Common {
 	
 	public static String printRequestParameters(HttpServletRequest request) {
 		String requestParameters = "{";
-		for (Enumeration f = request.getParameterNames(); f.hasMoreElements();) {
+		for (Enumeration<?> f = request.getParameterNames(); f.hasMoreElements();) {
 			String paramet = new String(f.nextElement().toString());
 			requestParameters += paramet + "::";
 			String[] parameterValues = request.getParameterValues(paramet);
