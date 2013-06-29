@@ -21,7 +21,7 @@ public class MashupPageUiTest extends BaseUiTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		DataBundle testData = loadTestData("/MashupPageUiTest.json");
+		DataBundle testData = loadDataBundle("/MashupPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
 	}

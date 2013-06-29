@@ -47,11 +47,9 @@ public class BackDoorLogicTest extends BaseComponentTest {
 	public void testPersistDataBundle() throws Exception {
 
 		BackDoorLogic logic = new BackDoorLogic();
-		String jsonString = "";
-		jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/typicalDataBundle.json");
 		loginAsAdmin("admin.user");
 		
-		DataBundle dataBundle = gson.fromJson(jsonString, DataBundle.class);
+		DataBundle dataBundle = getTypicalDataBundle();
 		// clean up the datastore first, to avoid clashes with existing data
 		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
 		for (InstructorAttributes instructor : instructors.values()) {
@@ -62,7 +60,7 @@ public class BackDoorLogicTest extends BaseComponentTest {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
 		logic.persistDataBundle(dataBundle);
-		verifyPresentInDatastore(jsonString);
+		verifyPresentInDatastore(dataBundle);
 
 		______TS("try to persist while entities exist");
 		
@@ -126,10 +124,7 @@ public class BackDoorLogicTest extends BaseComponentTest {
 						expected.reviewer, "non-existent"));
 	}
 	
-	private void verifyPresentInDatastore(String dataBundleJsonString)
-			throws Exception {
-	
-		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
+	private void verifyPresentInDatastore(DataBundle data) throws Exception {
 		HashMap<String, InstructorAttributes> instructors = data.instructors;
 		for (InstructorAttributes expectedInstructor : instructors.values()) {
 			LogicTest.verifyPresentInDatastore(expectedInstructor);
@@ -154,7 +149,6 @@ public class BackDoorLogicTest extends BaseComponentTest {
 		for (SubmissionAttributes expectedSubmission : submissions.values()) {
 			LogicTest.verifyPresentInDatastore(expectedSubmission);
 		}
-	
 	}
 
 	/*

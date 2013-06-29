@@ -29,23 +29,13 @@ import com.google.gson.Gson;
 public class BackDoorTest extends BaseTestCase {
 
 	private static Gson gson = Common.getTeammatesGson();
-	private static String jsonString;
-	private static DataBundle dataBundle;
+	private static DataBundle dataBundle = getTypicalDataBundle();
+	private static String jsonString = gson.toJson(dataBundle);
 
 	@BeforeClass
 	public static void setUp() throws Exception {
 		printTestClassHeader();
-		jsonString = Common.readFile(Common.TEST_DATA_FOLDER
-				+ "/typicalDataBundle.json");
-
-		dataBundle = gson.fromJson(jsonString, DataBundle.class);
-		
-	}
-
-	@AfterClass
-	public static void tearDown() {
-		BackDoor.deleteInstructors(jsonString);
-		printTestClassFooter();
+		dataBundle = getTypicalDataBundle();
 	}
 
 	@SuppressWarnings("unused")
@@ -57,15 +47,13 @@ public class BackDoorTest extends BaseTestCase {
 	@Test
 	public void testPersistenceAndDeletion() {
 		
-		DataBundle dataForPersistenceChecking = gson.fromJson(jsonString, DataBundle.class);
-
 		// check persisting
-		String status = BackDoor.persistNewDataBundle(jsonString);
+		String status = BackDoor.restoreDataBundle(dataBundle);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyPresentInDatastore(jsonString);
 
 		// ----------deleting Instructor entities-------------------------
-		InstructorAttributes instructor1OfCourse1 = dataForPersistenceChecking.instructors.get("instructor1OfCourse1");
+		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 		verifyPresentInDatastore(instructor1OfCourse1);
 		status = BackDoor.deleteInstructor(instructor1OfCourse1.googleId);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
@@ -79,12 +67,12 @@ public class BackDoorTest extends BaseTestCase {
 
 		// check the existence of a submission that will be deleted along with
 		// the evaluation
-		SubmissionAttributes subInDeletedEvaluation = dataForPersistenceChecking.submissions
+		SubmissionAttributes subInDeletedEvaluation = dataBundle.submissions
 				.get("submissionFromS1C1ToS1C1");
 		verifyPresentInDatastore(subInDeletedEvaluation);
 
 		// delete the evaluation and verify it is deleted
-		EvaluationAttributes evaluation1InCourse1 = dataForPersistenceChecking.evaluations
+		EvaluationAttributes evaluation1InCourse1 = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 		verifyPresentInDatastore(evaluation1InCourse1);
 		status = BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
@@ -101,38 +89,38 @@ public class BackDoorTest extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 
 		// verify that the other evaluation in the same course is intact
-		EvaluationAttributes evaluation2InCourse1 = dataForPersistenceChecking.evaluations
+		EvaluationAttributes evaluation2InCourse1 = dataBundle.evaluations
 				.get("evaluation2InCourse1");
 		verifyPresentInDatastore(evaluation2InCourse1);
 
 		// ----------deleting Course entities-------------------------
 
 		// #COURSE 2
-		CourseAttributes course2 = dataForPersistenceChecking.courses.get("typicalCourse2");
+		CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
 		verifyPresentInDatastore(course2);
 		status = BackDoor.deleteCourse(course2.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(course2);
 
 		// check if related student entities are also deleted
-		StudentAttributes student2InCourse2 = dataForPersistenceChecking.students
+		StudentAttributes student2InCourse2 = dataBundle.students
 				.get("student2InCourse2");
 		verifyAbsentInDatastore(student2InCourse2);
 
 		// check if related evaluation entities are also deleted
-		EvaluationAttributes evaluation1InCourse2 = dataForPersistenceChecking.evaluations
+		EvaluationAttributes evaluation1InCourse2 = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 		verifyAbsentInDatastore(evaluation1InCourse2);
 		
 		// #COURSE 1
-		CourseAttributes course1 = dataForPersistenceChecking.courses.get("typicalCourse1");
+		CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
 		verifyPresentInDatastore(course1);
 		status = BackDoor.deleteCourse(course1.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(course1);
 		
 		// check if related student entities are also deleted
-		StudentAttributes student1InCourse1 = dataForPersistenceChecking.students
+		StudentAttributes student1InCourse1 = dataBundle.students
 				.get("student1InCourse1");
 		verifyAbsentInDatastore(student1InCourse1);
 		
@@ -140,7 +128,7 @@ public class BackDoorTest extends BaseTestCase {
 		verifyAbsentInDatastore(evaluation2InCourse1);
 		
 		// #COURSE NO EVALS
-		CourseAttributes courseNoEvals = dataForPersistenceChecking.courses.get("courseNoEvals");
+		CourseAttributes courseNoEvals = dataBundle.courses.get("courseNoEvals");
 		verifyPresentInDatastore(courseNoEvals);
 		status = BackDoor.deleteCourse(courseNoEvals.id);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
@@ -148,7 +136,7 @@ public class BackDoorTest extends BaseTestCase {
 		
 		// ----------deleting Feedback Session entities-------------------------
 		// TODO: do proper deletion test
-		BackDoor.deleteFeedbackSessions(jsonString);
+		BackDoor.deleteFeedbackSessions(dataBundle);
 
 	}
 	
@@ -385,7 +373,7 @@ public class BackDoorTest extends BaseTestCase {
 	public void testEditStudent() {
 
 		// check for successful edit
-		refreshDataInDatastore();
+		BackDoor.restoreDataBundle(dataBundle);
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 		String originalEmail = student.email;
 		student.name = "New name";
@@ -442,7 +430,7 @@ public class BackDoorTest extends BaseTestCase {
 	@Test
 	public void testEditEvaluation() {
 
-		refreshDataInDatastore();
+		BackDoor.restoreDataBundle(dataBundle);
 
 		// check for successful edit
 		EvaluationAttributes e = dataBundle.evaluations
@@ -488,13 +476,12 @@ public class BackDoorTest extends BaseTestCase {
 	@Test
 	public void testEditSubmission() {
 
-		refreshDataInDatastore();
+		BackDoor.restoreDataBundle(dataBundle);
 
 		// check for successful edit
 		SubmissionAttributes submission = dataBundle.submissions
 				.get("submissionFromS1C1ToS1C1");
-		submission.justification = new Text(submission.justification.getValue()
-				+ "x");
+		submission.justification = new Text(submission.justification.getValue()	+ "x");
 		submission.points = submission.points + 10;
 		String status = BackDoor.editSubmission(submission);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
@@ -519,11 +506,8 @@ public class BackDoorTest extends BaseTestCase {
 	@Test
 	public void testDataBundle() throws Exception {
 
-		String jsonString = Common.readFile(Common.TEST_DATA_FOLDER
-				+ "/typicalDataBundle.json");
-		Gson gson = Common.getTeammatesGson();
-
-		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		
+		DataBundle data = getTypicalDataBundle();
 
 		// INSTRUCTORS
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
@@ -625,15 +609,6 @@ public class BackDoorTest extends BaseTestCase {
 				submissionFromS2C1ToS1C1.reviewer);
 		assertEquals("student1InCourse1@gmail.com",
 				submissionFromS2C1ToS1C1.reviewee);
-	}
-
-	private void refreshDataInDatastore() {
-		dataBundle = gson.fromJson(jsonString, DataBundle.class);
-		BackDoor.deleteInstructors(jsonString);
-		BackDoor.deleteCourses(jsonString);
-		BackDoor.deleteFeedbackSessions(jsonString);
-		String status = BackDoor.persistNewDataBundle(jsonString);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, status);
 	}
 
 	private void verifyAbsentInDatastore(AccountAttributes account) {
@@ -777,5 +752,10 @@ public class BackDoorTest extends BaseTestCase {
 		if ((actualStudent.key != null)) {
 			expectedStudent.key = actualStudent.key;
 		}
+	}
+
+	@AfterClass
+	public static void tearDown() {
+		printTestClassFooter();
 	}
 }

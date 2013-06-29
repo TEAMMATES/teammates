@@ -24,7 +24,7 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/StudentEvalResultsPageUiTest.json");
+		testData = loadDataBundle("/StudentEvalResultsPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
 	}

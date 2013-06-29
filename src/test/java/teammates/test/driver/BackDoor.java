@@ -122,9 +122,7 @@ public class BackDoor {
 	 * 
 	 * @param jsonString
 	 */
-	public static void deleteFeedbackSessions(String jsonString) {
-		Gson gson = Common.getTeammatesGson();
-		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+	public static void deleteFeedbackSessions(DataBundle data) {
 		HashMap<String, FeedbackSessionAttributes> feedbackSessions = data.feedbackSessions;
 		for (FeedbackSessionAttributes feedbackSession : feedbackSessions.values()) {
 			deleteFeedbackSession(

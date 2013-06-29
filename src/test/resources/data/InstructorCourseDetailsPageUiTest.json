@@ -15,14 +15,14 @@
       "institute": "National University of Singapore"
     },
     "Alice": {
-      "googleId": "alice.tmms",
+      "googleId": "{$test.student1}",
       "name": "Alice Betsy",
       "isInstructor": false,
       "email": "alice.b.tmms@gmail.com",
       "institute": "National University of Singapore"
     },
     "Charlie": {
-      "googleId": "charlie.tmms",
+      "googleId": "{$test.student2}",
       "name": "Charlie Davis",
       "isInstructor": false,
       "email": "charlie.d.tmms@gmail.com",
@@ -54,8 +54,8 @@
   
   "students": {
     "CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104": {
-      "googleId": "CCDetailsUiT.alice.tmms",
-      "email": "alice.tmms@gmail.com",
+      "googleId": "{$test.student1}",
+      "email": "{$test.student1}@gmail.com",
       "course": "CCDetailsUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -73,7 +73,7 @@
     },
     "charlie.tmms@CCDetailsUiT.CS2104": {
       "googleId": "",
-      "email": "charlie.tmms@gmail.com",
+      "email": "{$test.student2}@gmail.com",
       "course": "CCDetailsUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",

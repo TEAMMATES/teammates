@@ -30,7 +30,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/InstructorCourseEditPageUiTest.json");
+		testData = loadDataBundle("/InstructorCourseEditPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
 	}

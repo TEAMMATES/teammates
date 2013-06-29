@@ -29,7 +29,6 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
@@ -43,6 +42,7 @@
 	<!--  Theses cases use real Google accounts and need to be run sequentially to avoid state leaks between tests -->
 		<classes>
 			<class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />

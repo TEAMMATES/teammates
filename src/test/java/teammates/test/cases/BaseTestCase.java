@@ -27,6 +27,7 @@ import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.test.driver.TestProperties;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -205,14 +206,29 @@ public class BaseTestCase {
 	 * Creates a DataBundle as specified in typicalDataBundle.json
 	 */
 	protected static DataBundle getTypicalDataBundle() {
+		return loadDataBundle("/typicalDataBundle.json");
+	}
+	
+	protected static DataBundle loadDataBundle(String pathToJsonFile){
+		if(pathToJsonFile.startsWith("/")){
+			pathToJsonFile = Common.TEST_DATA_FOLDER + pathToJsonFile;
+		}
 		String jsonString;
 		try {
-			jsonString = Common.readFile(Common.TEST_DATA_FOLDER
-					+ "/typicalDataBundle.json");
+			jsonString = Common.readFile(pathToJsonFile);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
+		jsonString = injectRealAccounts(jsonString);
 		return Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+	}
+
+	private static String injectRealAccounts(String jsonString) {
+		
+		return jsonString
+				.replace("{$test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+				.replace("{$test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
+				.replace("{$test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
 	}
 
 	/**

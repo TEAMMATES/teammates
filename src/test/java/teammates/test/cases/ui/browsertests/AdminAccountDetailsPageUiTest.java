@@ -26,7 +26,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/AdminAccountDetailsPageUiTest.json");
+		testData = loadDataBundle("/AdminAccountDetailsPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
 	}

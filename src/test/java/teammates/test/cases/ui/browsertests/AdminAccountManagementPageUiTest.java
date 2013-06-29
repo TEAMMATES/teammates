@@ -30,7 +30,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/AdminAccountManagementPageUiTest.json");
+		testData = loadDataBundle("/AdminAccountManagementPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
 	}

@@ -34,7 +34,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/StudentEvalEditSubmissionPageUiTest.json");
+		testData = loadDataBundle("/StudentEvalEditSubmissionPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		
 		

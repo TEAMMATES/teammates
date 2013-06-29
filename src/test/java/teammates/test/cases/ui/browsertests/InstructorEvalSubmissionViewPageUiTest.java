@@ -27,7 +27,7 @@ public class InstructorEvalSubmissionViewPageUiTest extends BaseUiTestCase{
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/InstructorEvalSubmissionViewPageUiTest.json");
+		testData = loadDataBundle("/InstructorEvalSubmissionViewPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
 	}

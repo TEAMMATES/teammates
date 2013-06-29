@@ -37,7 +37,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/InstructorFeedbackEditPageUiTest.json");
+		testData = loadDataBundle("/InstructorFeedbackEditPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		
 		editedSession = testData.feedbackSessions.get("openSession");

@@ -67,14 +67,6 @@ public class BaseUiTestCase extends BaseTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 	}
 
-	protected static DataBundle loadTestData(String pathToJsonFile) throws Exception {
-		if(pathToJsonFile.startsWith("/")){
-			pathToJsonFile = Common.TEST_DATA_FOLDER + pathToJsonFile;
-		}
-		String jsonString = Common.readFile(pathToJsonFile);
-		return Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
-	}
-
 	protected static AdminHomePage loginAdmin(Browser currentBrowser) {
 		return loginAdminToPage(currentBrowser, new Url(Common.PAGE_ADMIN_HOME), AdminHomePage.class);
 	}

@@ -35,10 +35,10 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li class="current"><a class='nav home' data-link="studentHome" href="/page/studentHome?user=alice.tmms">Home</a></li>
+					<li class="current"><a class='nav home' data-link="studentHome" href="/page/studentHome?user={$test.student1}">Home</a></li>
 					<li><a class='nav help' href="/studentHelp.html" target="_blank">Help</a></li>
 					<li><a class='nav logout' href="/logout.jsp">Logout</a>
-							<b>(alice.tmms)</b>
+							<b>({$test.student1})</b>
 					</li>
 				</ul>
 			</div>
@@ -65,7 +65,7 @@
 						</td>
 					</tr>
 				 </tbody></table>
-				<input type="hidden" value="alice.tmms" name="user" />
+				<input type="hidden" value="{$test.student1}" name="user" />
 			</form>
 			
 			<br />
@@ -132,7 +132,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{version}</span>]</span>
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
 	[for <span class="color_white">National University of Singapore</span>]
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>

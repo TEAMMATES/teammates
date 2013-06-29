@@ -1,10 +1,10 @@
 {
  "accounts": {
 	  "account": {
-	    "googleId":  "teammates.coord",
+	    "googleId":  "{$test.instructor}",
 	    "name": "Teammates Test",
 	    "isInstructor": true,
-	    "email": "teammates.coord@gmail.com",
+	    "email": "{$test.instructor}@gmail.com",
 	    "institute": "National University of Singapore"
 	  }
   },
@@ -21,16 +21,16 @@
   
   "instructors": {
     "CHomeUiT.instr.CS2104": {
-      "googleId": "teammates.coord",
+      "googleId": "{$test.instructor}",
       "courseId": "CHomeUiT.CS2104",
       "name": "Teammates Test",
-      "email": "teammates.coord@gmail.com"
+      "email": "{$test.instructor}@gmail.com"
     },
     "CHomeUiT.instr.CS1101": {
-      "googleId": "teammates.coord",
+      "googleId": "{$test.instructor}",
       "courseId": "CHomeUiT.CS1101",
       "name": "Teammates Test",
-      "email": "teammates.coord@gmail.com"
+      "email": "{$test.instructor}@gmail.com"
     }
   },
   

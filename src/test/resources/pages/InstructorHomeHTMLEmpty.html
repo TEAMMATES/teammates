@@ -38,12 +38,12 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li class="current"><a href="/page/instructorHome?user=teammates.coord" class='nav home' data-link="instructorHome">Home</a></li>
-					<li><a href="/page/instructorCourse?user=teammates.coord" class='nav courses' data-link="instructorCourse">Courses</a></li>
-					<li><a href="/page/instructorEval?user=teammates.coord" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li class="current"><a href="/page/instructorHome?user={$test.instructor}" class='nav home' data-link="instructorHome">Home</a></li>
+					<li><a href="/page/instructorCourse?user={$test.instructor}" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li><a href="/page/instructorEval?user={$test.instructor}" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <b>(teammates.coord)</b></li>
+					 <b>({$test.instructor})</b></li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -67,7 +67,7 @@
 			
 			<div class="backgroundBlock">
 				<div class="blockLink rightalign">
-					<a class="color_white bold" id="addNewCourse" name="addNewCourse" href="/page/instructorCourse?user=teammates.coord">
+					<a class="color_white bold" id="addNewCourse" name="addNewCourse" href="/page/instructorCourse?user={$test.instructor}">
 						Add New Course </a>
 				</div>
 			</div>
@@ -83,7 +83,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{version}</span>]</span>
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
 	[for <span class="color_white">National University of Singapore</span>]
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>

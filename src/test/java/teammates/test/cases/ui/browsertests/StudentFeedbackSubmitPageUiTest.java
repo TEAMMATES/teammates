@@ -33,7 +33,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/StudentFeedbackSubmitPageUiTest.json");
+		testData = loadDataBundle("/StudentFeedbackSubmitPageUiTest.json");
 		restoreTestDataOnServer(testData);
 
 		browser = BrowserPool.getBrowser();		

@@ -33,7 +33,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadTestData("/InstructorEvalSubmissionEditPageUiTest.json");
+		testData = loadDataBundle("/InstructorEvalSubmissionEditPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
 		eval = testData.evaluations.get("First Eval");

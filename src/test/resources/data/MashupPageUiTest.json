@@ -7,11 +7,11 @@
       "email": "teammates.test@gmail.com",
       "institute": "National University of Singapore"
     },
-    "teammates.coord": {
-      "googleId": "teammates.coord",
+    "teammates.instr": {
+      "googleId": "teammates.instr",
       "name": "Teammates Coord",
       "isInstructor": true,
-      "email": "teammates.coord@gmail.com",
+      "email": "teammates.instr@gmail.com",
       "institute": "National University of Singapore"
     }
   },
@@ -40,11 +40,11 @@
       "name": "Teammates Test",
       "email": "teammates.test@gmail.com"
     },
-    "teammates.coord.CS1101": {
-      "googleId": "teammates.coord",
+    "teammates.instr.CS1101": {
+      "googleId": "teammates.instr",
       "courseId": "CS1101",
       "name": "Teammates Coord",
-      "email": "teammates.coord@gmail.com"
+      "email": "teammates.instr@gmail.com"
     }
   },
   

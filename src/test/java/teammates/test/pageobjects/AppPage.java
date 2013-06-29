@@ -502,9 +502,9 @@ public abstract class AppPage {
 	 * This can be used to save pages which can later be used as the 'expected'
 	 * in UI test cases. After saving the file, remember to edit it manually and
 	 *  replace the version number in the page footer with the string 
-	 * "{version}". so that the test can insert the correct version number 
+	 * "{$version}". so that the test can insert the correct version number 
 	 * before comparing the 'expected' with the 'actual.
-	 *  e.g., replace "V4.55" in the page footer by "V{version}".
+	 *  e.g., replace "V4.55" in the page footer by "V{$version}".
 	 *  @param filePath If the full path is not given, it will be saved in the
 	 *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
 	 *  value should start with "/". e.g., "/instructorHomePage.html".
