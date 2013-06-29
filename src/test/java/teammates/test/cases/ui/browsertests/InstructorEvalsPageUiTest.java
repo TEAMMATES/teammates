@@ -241,7 +241,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 			assertEquals(courseId,
 					EmailAccount.getEvaluationReminderFromGmail(
 							testData.students.get("alice.tmms@CEvalUiT.CS2104").email, 
-							TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS, 
+							TestProperties.inst().TEST_STUDENT1_PASSWORD, 
 							courseId, 
 							evalName));
 		}

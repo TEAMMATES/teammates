@@ -62,7 +62,7 @@
   "students": {
     "alice.tmms@CEvalUiT.CS2104": {
       "googleId": "CEvalUiT.alice.tmms",
-      "email": "alice.tmms@gmail.com",
+      "email": "alice.b.tmms@gmail.com",
       "course": "CEvalUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -71,7 +71,7 @@
     },
     "benny.tmms@CEvalUiT.CS2104": {
       "googleId": "CEvalUiT.benny.tmms",
-      "email": "benny.tmms@gmail.com",
+      "email": "benny.c.tmms@gmail.com",
       "course": "CEvalUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
@@ -79,7 +79,7 @@
       "team": "Team 1"
     },
     "charlie.tmms@CEvalUiT.CS1101": {
-      "googleId": "charlie.tmms",
+      "googleId": "charlie.d.tmms",
       "email": "CEvalUiT.charlie.tmms@gmail.com",
       "course": "CEvalUiT.CS1101",
       "name": "Charlie Davis",
@@ -88,7 +88,7 @@
       "team": "Team 2"
     },
     "danny.tmms@CEvalUiT.CS1101": {
-      "googleId": "danny.tmms",
+      "googleId": "danny.e.tmms",
       "email": "CEvalUiT.danny.tmms@gmail.com",
       "course": "CEvalUiT.CS1101",
       "name": "Danny Engrid",

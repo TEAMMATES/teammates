@@ -19,13 +19,14 @@ public class TestProperties {
 
 	public String TEAMMATES_URL_IN_EMAILS;
 
-	public String TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS;
-
 	public String TEST_INSTRUCTOR_ACCOUNT;
 	public String TEST_INSTRUCTOR_PASSWORD;
 
-	public String TEST_STUDENT_ACCOUNT;
-	public String TEST_STUDENT_PASSWORD;
+	public String TEST_STUDENT1_ACCOUNT;
+	public String TEST_STUDENT1_PASSWORD;
+	
+	public String TEST_STUDENT2_ACCOUNT;
+	public String TEST_STUDENT2_PASSWORD;
 	
 	public String TEST_ADMIN_ACCOUNT;
 	public String TEST_ADMIN_PASSWORD;
@@ -62,17 +63,17 @@ public class TestProperties {
 			
 			TEAMMATES_URL_IN_EMAILS = Common.trimTrailingSlash(prop.getProperty("test.app.urlInEmails"));
 			
-			//TODO: abolish the use of common password and find a better alternative
-			TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS = prop.getProperty("test.common.password");
-			
 			TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
 			TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
 			
 			TEST_INSTRUCTOR_ACCOUNT = prop.getProperty("test.instructor.account");
 			TEST_INSTRUCTOR_PASSWORD = prop.getProperty("test.instructor.password");
 			
-			TEST_STUDENT_ACCOUNT = prop.getProperty("test.student.account");
-			TEST_STUDENT_PASSWORD = prop.getProperty("test.student.password");
+			TEST_STUDENT1_ACCOUNT = prop.getProperty("test.student1.account");
+			TEST_STUDENT1_PASSWORD = prop.getProperty("test.student1.password");
+			
+			TEST_STUDENT2_ACCOUNT = prop.getProperty("test.student2.account");
+			TEST_STUDENT2_PASSWORD = prop.getProperty("test.student2.password");
 			
 			TEST_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
 			TEST_UNREG_PASSWORD = prop.getProperty("test.unreg.password");

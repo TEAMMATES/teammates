@@ -17,6 +17,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.driver.Url;
@@ -37,8 +38,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	private static String unregUsername = TestProperties.inst().TEST_UNREG_ACCOUNT;
 	private static String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
 
-	private static String studentUsername = TestProperties.inst().TEST_STUDENT_ACCOUNT;
-	private static String studentPassword = TestProperties.inst().TEST_STUDENT_PASSWORD;
+	private static String studentUsername = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+	private static String studentPassword = TestProperties.inst().TEST_STUDENT1_PASSWORD;
 	
 	private static String instructorUsername = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
 	private static String instructorPassword = TestProperties.inst().TEST_INSTRUCTOR_PASSWORD;
@@ -72,15 +73,13 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		browser = BrowserPool.getBrowser();
 		
 		currentPage = HomePage.getNewInstance(browser);
+		
 	}
 	
-	@BeforeMethod
-	public void methodSetup(){
-		restoreTestData();
-	}
-
 	@Test
 	public void testUserNotLoggedIn() throws Exception {
+		
+		restoreTypicalTestData();
 		
 		currentPage.logout().verifyHtml("/login.html");
 
@@ -103,6 +102,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 	@Test
 	public void testUserNotRegistered() throws Exception {
+		
+		restoreTypicalTestData();
 
 		______TS("student pages");
 
@@ -130,21 +131,29 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 	@Test
 	public void testStudentAccessToAdminPages() throws Exception {
+		restoreTypicalTestData();
 		loginStudent(studentUsername, studentPassword);
 		verifyCannotAccessAdminPages();
 	}
 
 	@Test
 	public void testStudentHome() {
+		
+		restoreTypicalTestData();
 		loginStudent(studentUsername, studentPassword);
-		verifyPageContains(Common.PAGE_STUDENT_HOME, studentUsername
-				+ "{*}Student Home{*}View Team");
+		
+		______TS("cannot view other homepage");
+		
+		link = Common.PAGE_STUDENT_HOME;
+		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
 
 
 	@Test
 	public void testStudentEvalSubmission() {
+		
+		restoreSpecialTestData();
 		
 		loginStudent(studentUsername, studentPassword);
 		
@@ -224,10 +233,13 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
 		assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
 		
+		deleteSpecialTestData();
+		
 	}
 
 	@Test
 	public void testStudentEvalResult() {
+		restoreSpecialTestData();
 		loginStudent(studentUsername, studentPassword);
 		______TS("student cannot view own evaluation result before publishing");
 		
@@ -253,23 +265,22 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}"
 				+ ownEvaluation.name + "{*}" + ownCourse.id);
+		deleteSpecialTestData();
 	}
 
 	@Test
 	public void testInstructorHome() {
 	
+		restoreSpecialTestData();
+		
 		loginInstructor(instructorUsername, instructorPassword);
-	
-		______TS("can view own homepage");
-	
-		link = Common.PAGE_INSTRUCTOR_HOME;
-		verifyPageContains(link, instructorUsername + "{*}Instructor Home{*}"
-				+ ownCourse.id);
 	
 		______TS("cannot view other homepage");
 	
 		link = Common.PAGE_INSTRUCTOR_HOME;
 		verifyCannotMasquerade(link, otherInstructor.googleId);
+		
+		deleteSpecialTestData();
 	
 	}
 
@@ -293,32 +304,28 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		currentPage = loginPage.loginAsInstructor(userName, password);
 	}
 
-	private static void restoreTestData() {
+	private static void restoreTypicalTestData() {
+		
 		testData = getTypicalDataBundle();
-		try {
-			String jsonString = Common.readFile(Common.TEST_DATA_FOLDER
-					+ "/typicalDataBundle.json");
-			BackDoor.deleteFeedbackSessions(jsonString);
-			BackDoor.deleteCourses(jsonString);
-			BackDoor.deleteCourse("new-course-tCCA"); // Another course added during testing, not in DataBundle
-			BackDoor.deleteInstructors(jsonString);
-			
-			// According to original code, this test suite requires some modifications to be made to the Databundle
-			// The student tests use TEST_STUDENT_ACCOUNT
-			//	- so we will replace the entry "student1InCourse1" to have the id TEST_STUDENT_ACCOUNT
-			// The instructor tests use TEST_INSTRUCTOR_ACCOUNT
-			//	- so we will replace the entry "instructor1OfCourse1" to have the id TEST_INSTRUCTOR_ACCOUNT
-			
-			DataBundle db = Common.getTeammatesGson().fromJson(jsonString, DataBundle.class); // Get the objects to replace
-			db.students.get("student1InCourse1").googleId = TestProperties.inst().TEST_STUDENT_ACCOUNT;
-			db.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-			jsonString = Common.getTeammatesGson().toJson(db); // Reconvert back to string.
-			
-            String backDoorOperationStatus = BackDoor.persistNewDataBundle(jsonString); // Persist as usual
-            assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		
+		// This test suite requires some real accounts; Here, we inject them to the test data.
+		testData.students.get("student1InCourse1").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+		testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+		
+        String backDoorOperationStatus = BackDoor.restoreDataBundle(testData); 
+        assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+	}
+	
+	private static void restoreSpecialTestData() {
+		
+		testData = getTypicalDataBundle();
+		
+		// This test suite requires some real accounts; Here, we inject them to the test data.
+		testData.students.get("student1InCourse1").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+		testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+		
+        String backDoorOperationStatus = BackDoor.restoreDataBundle(testData); 
+        assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 	}
 
 	private void verifyCannotAccessAdminPages() {
@@ -393,7 +400,17 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 	@AfterClass
 	public static void classTearDown() throws Exception {
+		
+		//delete any data related to real accounts used in testing (to prevent state leakage to other tests)
+		deleteSpecialTestData();
 		BrowserPool.release(browser);
+	}
+
+	private static void deleteSpecialTestData() {
+		StudentAttributes student = testData.students.get("student1InCourse1");
+		BackDoor.deleteStudent(student.course, student.email);
+		BackDoor.deleteInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+		BackDoor.deleteCourse(student.course);
 	}
 
 }

@@ -70,8 +70,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		studentHome = HomePage.getNewInstance(browser)
 	    		.clickStudentLogin()
 	    		.loginAsStudent(
-	    				"alice.tmms", 
-	    				TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS);
+	    				TestProperties.inst().TEST_STUDENT1_ACCOUNT, 
+	    				TestProperties.inst().TEST_STUDENT1_PASSWORD);
 			
 		______TS("content: multiple courses");
 		

@@ -24,9 +24,8 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 /**
  * Tests 'Course Details' view for Instructors.
  * SUT {@link InstructorCourseDetailsPage}. <br>
- * This class uses real user accounts alice.tmms, benny.tmms and charlier.tmms.
+ * This class uses real user accounts for students.
  */
-//TODO: change to use a single real user account (alice.tmms?)
 public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 	private static Browser browser;
 	private static InstructorCourseDetailsPage detailsPage;
@@ -107,25 +106,30 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
 		//Charlie is yet to register
 		StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
+		String charlieEmail = charlie.email;
+		String charliePassword = TestProperties.inst().TEST_STUDENT2_PASSWORD;
 		
 		//Alice is already registered
 		StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+		String aliceEmail = alice.email;
+		String alicePassword = TestProperties.inst().TEST_STUDENT2_PASSWORD;
 		
 		String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
 		boolean isEmailEnabled = !TestProperties.inst().isDevServer();
 
+		
 
 		______TS("action: remind single student");
 
 		detailsPage.clickRemindStudentAndCancel(charlie.name);
 		if (isEmailEnabled) {
-			assertFalse(didStudentReceiveReminder(courseId, charlie.email));
+			assertFalse(didStudentReceiveReminder(courseId, charlieEmail, charliePassword));
 		}
 		
 
 		detailsPage.clickRemindStudentAndConfirm(charlie.name);
 		if (isEmailEnabled) {
-			assertTrue(didStudentReceiveReminder(courseId, charlie.email));
+			assertTrue(didStudentReceiveReminder(courseId, charlie.email, charliePassword));
 		}
 		
 		// Hiding of the 'Send invite' link is already covered by content test.
@@ -139,9 +143,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 		
 		if (isEmailEnabled) {
 			// verify an unregistered student received reminder
-			assertTrue(didStudentReceiveReminder(courseId, charlie.email));
+			assertTrue(didStudentReceiveReminder(courseId, charlie.email, charliePassword));
 			// verify a registered student did not receive a reminder
-			assertFalse(didStudentReceiveReminder(courseId, alice.email));
+			assertFalse(didStudentReceiveReminder(courseId, alice.email, alicePassword));
 		}
 	}
 
@@ -160,8 +164,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 			.verifyHtml("/instructorCourseDetailsStudentDeleteSuccessful.html");
 	}
 	
-	private boolean didStudentReceiveReminder(String courseId, String studentEmail) {
-		String studentPassword = TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS;
+	private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) {
 		String keyToSend = Common.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
 	
 		waitFor(5000); //TODO: replace this with a more efficient check

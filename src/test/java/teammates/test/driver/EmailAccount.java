@@ -330,8 +330,8 @@ public class EmailAccount {
 		try {
 			System.out
 					.println(EmailAccount.getRegistrationKeyFromGmail(
-							"benny.tmms@gmail.com",
-							TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
+							TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+							TestProperties.inst().TEST_STUDENT1_PASSWORD,
 							"CCDetailsUiT.CS2104"));
 		} catch (Exception e) {
 			e.printStackTrace();
