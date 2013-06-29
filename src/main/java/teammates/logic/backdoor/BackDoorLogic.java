@@ -217,12 +217,16 @@ public class BackDoorLogic extends Logic {
 	public void createFeedbackResponse(FeedbackResponseAttributes response) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		
-		int qnNumber = Integer.parseInt(response.feedbackQuestionId);
+		try {
+			int qnNumber = Integer.parseInt(response.feedbackQuestionId);
 		
-		response.feedbackQuestionId = 
+			response.feedbackQuestionId = 
 				feedbackQuestionsLogic.getFeedbackQuestion(
 						response.feedbackSessionName, response.courseId,
 						qnNumber).getId();
+		} catch (NumberFormatException e) {
+			// Correct question ID was already attached to response.
+		}
 
 		super.createFeedbackResponse(response);
 	}

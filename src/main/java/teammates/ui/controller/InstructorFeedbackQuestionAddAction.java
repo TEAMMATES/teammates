@@ -102,7 +102,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		
 		List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
 		
-		if(params.isEmpty())
+		if(params == null || params.isEmpty())
 			return list;
 		
 		String[] splitString = params.split(",");

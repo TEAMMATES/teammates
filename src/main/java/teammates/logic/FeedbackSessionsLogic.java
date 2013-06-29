@@ -1,6 +1,7 @@
 package teammates.logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 
+// TODO: Split all "User" type methods into Instructor & Student for more direct access?
+// Can select appropriate method at Action level.
 public class FeedbackSessionsLogic {
 
 	private static final Logger log = Common.getLogger();
@@ -237,6 +240,7 @@ public class FeedbackSessionsLogic {
 			
 		}
 		
+		// TODO: move this up to Access Control layer in actions.
 		if (relevantQuestions.isEmpty() && userIsInstructor == false) {
 			throw new UnauthorizedAccessException(
 					"There are no questions that "+ userEmail +" can view the result of for feedback session:" +
@@ -332,7 +336,37 @@ public class FeedbackSessionsLogic {
 				"Can't do manual adding of responses yet");
 	}
 
-	// TODO: String getFeedbackSessionResultsSummaryAsCsv
+	public String getFeedbackSessionResultsSummaryAsCsv(
+			String feedbackSessionName, String courseId, String userEmail) 
+					throws UnauthorizedAccessException, EntityDoesNotExistException {
+		
+		FeedbackSessionResultsBundle results =
+				getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail);
+		
+		// sort responses by giver > recipient > qnNumber
+		Collections.sort(results.responses, results.compareByGiverName);
+		
+		String export = "";
+		
+		export += "Course" + ",," + results.feedbackSession.courseId + Common.EOL
+				+ "Evaluation Name" + ",," + results.feedbackSession.feedbackSessionName + Common.EOL
+				+ Common.EOL;
+		
+		for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry :
+								results.getQuestionResponseMap().entrySet()) {
+			export += "Question " + Integer.toString(entry.getKey().questionNumber) + ",," +
+						entry.getKey().questionText.getValue() + Common.EOL;
+			export += "Giver" + ",," + "Recipient" + ",," + "Feedback" + Common.EOL;
+			
+			for(FeedbackResponseAttributes response : results.responses){
+				export += results.emailNameTable.get(response.giverEmail) + ",," + 
+						results.emailNameTable.get(response.recipient) + ",," +
+						response.answer.getValue();
+			}
+		}
+				
+		return export;
+	}
 		
 	public void updateFeedbackSession(FeedbackSessionAttributes newSession)
 			throws InvalidParametersException, EntityDoesNotExistException {

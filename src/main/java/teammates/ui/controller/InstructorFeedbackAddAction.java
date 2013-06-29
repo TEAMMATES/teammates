@@ -44,9 +44,6 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 		try {
 			logic.createFeedbackSession(fs);
 			
-			data.courseIdForNewSession = null;
-			data.newFeedbackSession = null;
-			
 			statusToUser.add(Common.MESSAGE_FEEDBACK_SESSION_ADDED);
 			statusToAdmin = "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
 					"<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +

@@ -470,5 +470,34 @@
 		"showGiverNameTo" : [ ],
 		"showRecipientNameTo" : [ ]
     }
+   },
+  "feedbackResponses" : {
+  	 "response1ForQ1S1C1": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "idOfTypicalCourse1",
+		"feedbackQuestionId" : "1",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "student1InCourse1@gmail.com",
+		"recipient" : "student1InCourse1@gmail.com",
+		"answer" : {"value" : "Student 1 self feedback."}
+    },
+    "response2ForQ1S1C1": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "idOfTypicalCourse1",
+		"feedbackQuestionId" : "1",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "student2InCourse1@gmail.com",
+		"recipient" : "student2InCourse1@gmail.com",
+		"answer" : {"value" : "Student 2 self feedback."}
+    },
+    "response1ForQ2S1C1": {
+		"feedbackSessionName" : "First feedback session",
+		"courseId" : "idOfTypicalCourse1",
+		"feedbackQuestionId" : "2",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "student2InCourse1@gmail.com",
+		"recipient" : "student1InCourse1@gmail.com",
+		"answer" : {"value" : "Response from student 2 to student 1."}
+    }
    }
 }

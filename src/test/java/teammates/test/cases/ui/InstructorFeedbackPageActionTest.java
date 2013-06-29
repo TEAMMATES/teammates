@@ -80,6 +80,7 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		
 		loginAsAdmin(adminUserId);
 		//not checking for non-masquerade mode because admin may not be an instructor
+		submissionParams = new String[]{Common.PARAM_COURSE_ID, "idOfTypicalCourse1"};
 		verifyCanMasquerade(addUserIdToParams(instructorId,submissionParams));
 		
 	}
@@ -150,7 +151,7 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
 		CoursesLogic.inst().deleteCourseCascade("new-course");
 		
-		submissionParams = new String[]{Common.PARAM_COURSE_ID, instructor1ofCourse1.courseId};
+		submissionParams = new String[]{};
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
@@ -167,7 +168,6 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		assertEquals(0, pageData.existingEvals.size());
 		assertEquals(0, pageData.existingSessions.size());
 		assertEquals(null, pageData.newFeedbackSession);
-		assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewSession);
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorFeedback|||instructorFeedback" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +

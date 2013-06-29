@@ -192,9 +192,11 @@ public class FeedbackSessionResultsBundle {
 	}
 	
 	/* COMPARATORS */
+	@SuppressWarnings("unused")
+	private void ________________COMPARATORS_____________(){}
 	
 	// Sorts by giverName > recipientName > qnNumber
-	private Comparator<FeedbackResponseAttributes> compareByGiverName
+	public Comparator<FeedbackResponseAttributes> compareByGiverName
 		= new Comparator<FeedbackResponseAttributes>() {
 //		@Override
 		public int compare(FeedbackResponseAttributes o1,
@@ -210,7 +212,7 @@ public class FeedbackSessionResultsBundle {
 	};
 	
 	//Sorts by recipientName > giverName > qnNumber
-	private final Comparator<FeedbackResponseAttributes> compareByRecipientName
+	public final Comparator<FeedbackResponseAttributes> compareByRecipientName
 		= new Comparator<FeedbackResponseAttributes>() {
 		@Override
 		public int compare(FeedbackResponseAttributes o1,

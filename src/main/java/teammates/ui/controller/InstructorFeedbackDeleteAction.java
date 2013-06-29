@@ -20,18 +20,13 @@ public class InstructorFeedbackDeleteAction extends Action {
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
 
-		new GateKeeper().verifyAccessible(
-				logic.getInstructorForGoogleId(courseId, account.googleId), 
-				logic.getFeedbackSession(feedbackSessionName, courseId));
-
 		FeedbackSessionAttributes sessionToDelete =
 				logic.getFeedbackSession(feedbackSessionName, courseId);
 		InstructorAttributes instructorDoingDelete = 
 				logic.getInstructorForGoogleId(courseId, account.googleId);
 		
-		if (sessionToDelete == null || instructorDoingDelete == null) {
-			throw new EntityDoesNotExistException("Missing session or instructor!");
-		}
+		new GateKeeper().verifyAccessible(
+				instructorDoingDelete, sessionToDelete);
 		
 		if (sessionToDelete.creatorEmail.equals(instructorDoingDelete.email) == false) {
 			statusToUser.add("Only the creator of this feedback session is" +
