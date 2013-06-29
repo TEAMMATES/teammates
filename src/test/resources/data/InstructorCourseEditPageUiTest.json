@@ -1,85 +1,85 @@
 {
   "accounts": {
-    "CCDetailsUiT.test": {
-      "googleId": "CCDetailsUiT.test",
+    "InsCrsEdit.test": {
+      "googleId": "InsCrsEdit.test",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "CCDetailsUiT.test@gmail.com",
+      "email": "InsCrsEdit.test@gmail.com",
       "institute": "National University of Singapore"
     },
-    "CCDetailsUiT.coord": {
-      "googleId": "CCDetailsUiT.coord",
+    "InsCrsEdit.coord": {
+      "googleId": "InsCrsEdit.coord",
       "name": "Teammates Coord",
       "isInstructor": true,
-      "email": "CCDetailsUiT.coord@gmail.com",
+      "email": "InsCrsEdit.coord@gmail.com",
       "institute": "National University of Singapore"
     },
-    "CCDetailsUiT.instructor": {
-      "googleId": "CCDetailsUiT.instructor",
+    "InsCrsEdit.instructor": {
+      "googleId": "InsCrsEdit.instructor",
       "name": "Teammates Instructor",
       "isInstructor": true,
-      "email": "CCDetailsUiT.instructor@gmail.com",
+      "email": "InsCrsEdit.instructor@gmail.com",
       "institute": "National University of Singapore"
     }
   },
 
   "courses": {
-    "CCDetailsUiT.CS2104": {
-      "id": "CCDetailsUiT.CS2104",
+    "InsCrsEdit.CS2104": {
+      "id": "InsCrsEdit.CS2104",
       "name": "Programming Language Concepts"
     }
   },
   
   "instructors": {
-    "CCDetailsUiT.test": {
-      "googleId": "CCDetailsUiT.test",
-      "courseId": "CCDetailsUiT.CS2104",
+    "InsCrsEdit.test": {
+      "googleId": "InsCrsEdit.test",
+      "courseId": "InsCrsEdit.CS2104",
       "name": "Teammates Test",
-      "email": "CCDetailsUiT.test@gmail.com"
+      "email": "InsCrsEdit.test@gmail.com"
     },
-    "CCDetailsUiT.coord": {
-      "googleId": "CCDetailsUiT.coord",
-      "courseId": "CCDetailsUiT.CS2104",
+    "InsCrsEdit.coord": {
+      "googleId": "InsCrsEdit.coord",
+      "courseId": "InsCrsEdit.CS2104",
       "name": "Teammates Coord",
-      "email": "CCDetailsUiT.coord@gmail.com"
+      "email": "InsCrsEdit.coord@gmail.com"
     }
   },
   
   "students": {
-    "alice.tmms@CCDetailsUiT.CS2104": {
-      "googleId": "CCDetailsUiT.alice.tmms",
+    "alice.tmms@InsCrsEdit.CS2104": {
+      "googleId": "InsCrsEdit.alice.tmms",
       "email": "alice.b.tmms@gmail.com",
-      "course": "CCDetailsUiT.CS2104",
+      "course": "InsCrsEdit.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in CCDetailsUiT.CS2104"},
+      "profile": {"value": "My name is Alice Betsy, and I'm a student in InsCrsEdit.CS2104"},
       "team": "Team 1"
     },
-    "benny.tmms@CCDetailsUiT.CS2104": {
+    "benny.tmms@InsCrsEdit.CS2104": {
       "googleId": "",
       "email": "benny.c.tmms@gmail.com",
-      "course": "CCDetailsUiT.CS2104",
+      "course": "InsCrsEdit.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CCDetailsUiT.CS2104"},
+      "profile": {"value": "My name is Benny Charles, and I'm a student in InsCrsEdit.CS2104"},
       "team": "Team 2"
     },
-    "charlie.tmms@CCDetailsUiT.CS2104": {
+    "charlie.tmms@InsCrsEdit.CS2104": {
       "googleId": "",
       "email": "charlie.d.tmms@gmail.com",
-      "course": "CCDetailsUiT.CS2104",
+      "course": "InsCrsEdit.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CCDetailsUiT.CS2104"},
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in InsCrsEdit.CS2104"},
       "team": "Team 1"
     },
-    "danny.tmms@CCDetailsUiT.CS2104": {
-      "googleId": "CCDetailsUiT.danny.tmms",
+    "danny.tmms@InsCrsEdit.CS2104": {
+      "googleId": "InsCrsEdit.danny.tmms",
       "email": "danny.e.tmms@gmail.com",
-      "course": "CCDetailsUiT.CS2104",
+      "course": "InsCrsEdit.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CCDetailsUiT.CS2104"},
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in InsCrsEdit.CS2104"},
       "team": "Team 2"
     }
   }

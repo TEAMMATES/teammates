@@ -44,8 +44,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testContent() throws Exception{
-		String instructorId = testData.instructors.get("CCDetailsUiT.test").googleId;
-		String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
+		String instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
+		String courseId = testData.courses.get("InsCrsEdit.CS2104").id;
 		
 		______TS("page load");
 		
@@ -78,8 +78,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 	
 	public void testEditAction() throws Exception{
 		
-		String instructorId = testData.instructors.get("CCDetailsUiT.test").googleId;
-		String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
+		String instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
+		String courseId = testData.courses.get("InsCrsEdit.CS2104").id;
 		Url courseEditPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_EDIT)
 			.withUserId(instructorId)
 			.withCourseId(courseId);
@@ -89,12 +89,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("success: add an instructor");
 		
-		InstructorCoursesPage coursesPage = courseEditPage.editCourse(originalInformation + "\nCCDetailsUiT.instructor|Teammates Instructor|CCDetailsUiT.instructor@gmail.com");
+		InstructorCoursesPage coursesPage = courseEditPage.editCourse(originalInformation + "\nInsCrsEdit.instructor|Teammates Instructor|InsCrsEdit.instructor@gmail.com");
 		courseEditPage.verifyStatus(Common.MESSAGE_COURSE_EDITED);
 		
 		Url courseDetailsLink = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
 			.withCourseId(courseId)
-			.withUserId(testData.instructors.get("CCDetailsUiT.test").googleId);
+			.withUserId(testData.instructors.get("InsCrsEdit.test").googleId);
 		
 		InstructorCourseDetailsPage courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
 		courseDetailsPage.verifyHtml("/instructorCourseDetailsAddInstructor.html" );
@@ -102,7 +102,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		______TS("success: test edit existing instructor"); //TODO: this case should be removed. It should be covered by a lower level test
 		
 		courseEditPage = courseDetailsPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
-		coursesPage = courseEditPage.editCourse(originalInformation + "\nCCDetailsUiT.instructor|Teammates Instructor New|CCDetailsUiT.instructor.new@gmail.com");
+		coursesPage = courseEditPage.editCourse(originalInformation + "\nInsCrsEdit.instructor|Teammates Instructor New|InsCrsEdit.instructor.new@gmail.com");
 		assertEquals("The course has been edited.", coursesPage.getStatus());
 		
 		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
@@ -120,7 +120,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		______TS("success: instructor list without logged-in instructor");
 		
 		courseEditPage = courseDetailsPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
-		courseEditPage.fillInstructorList("CCDetailsUiT.instructor|Teammates Instructor|CCDetailsUiT.instructor@gmail.com");
+		courseEditPage.fillInstructorList("InsCrsEdit.instructor|Teammates Instructor|InsCrsEdit.instructor@gmail.com");
 		courseEditPage.clickSubmitButtonAndCancel();
 		assertNotNull(BackDoor.getInstructor(instructorId, courseId));
 		coursesPage = courseEditPage.clickSubmitButtonAndConfirm();
@@ -131,7 +131,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		courseDetailsLink = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
 			.withCourseId(courseId)
-			.withUserId(testData.accounts.get("CCDetailsUiT.instructor").googleId);
+			.withUserId(testData.accounts.get("InsCrsEdit.instructor").googleId);
 		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
 		courseDetailsPage.verifyHtml("/instructorCourseDetailsOmitLoggedInInstructor.html");
 		
