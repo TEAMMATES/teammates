@@ -53,7 +53,6 @@
 		<classes>
 			<class name="teammates.test.cases.common.FieldValidatorTest" />
 			<class name="teammates.test.cases.common.SanitizerTest" />
-			<class name="teammates.test.cases.testdriver.TestPropertiesTest" />
 			<class name="teammates.test.cases.common.BuildPropertiesTest" />
 			<class name="teammates.test.cases.common.CommonTest" />
 			<class name="teammates.test.cases.common.AccountAttributesTest" />
@@ -64,9 +63,19 @@
 			<class name="teammates.test.cases.common.SubmissionAttributesTest" />
 			<class name="teammates.test.cases.common.StudentResultBundleTest" />
 			<class name="teammates.test.cases.common.TeamResultBundleTest" />
-			<class name="teammates.test.cases.ui.ActivityLogTest" />
+			<class name="teammates.test.cases.testdriver.DataBundleTest" />
+			<class name="teammates.test.cases.testdriver.TestPropertiesTest" />
+			<class name="teammates.test.cases.testdriver.HtmlHelperTest" />
+			<class name="teammates.test.pageobjects.PageDataTest" />
 			<class name="teammates.test.cases.logic.LogicTest" />
 			<class name="teammates.test.cases.logic.BackDoorLogicTest"/>
+			<class name="teammates.test.cases.logic.SubmissionsLogicTest" />
+			<class name="teammates.test.cases.logic.EvaluationsLogicTest" />
+			<class name="teammates.test.cases.logic.StudentsLogicTest" />
+			<class name="teammates.test.cases.logic.InstructorsLogicTest" />
+			<class name="teammates.test.cases.logic.FeedbackSessionsLogicTest" />
+			<class name="teammates.test.cases.logic.EmailsTest" />
+			<class name="teammates.test.cases.logic.TeamEvalResultTest" />
 			<class name="teammates.test.cases.storage.AccountsDbTest" />
 			<class name="teammates.test.cases.storage.StudentsDbTest" />
 			<class name="teammates.test.cases.storage.InstructorsDbTest" />
@@ -74,12 +83,7 @@
 			<class name="teammates.test.cases.storage.SubmissionsDbTest" />
 			<class name="teammates.test.cases.storage.EvaluationsDbTest" />
 			<class name="teammates.test.cases.storage.FeedbackSessionsDbTest" />
-			<class name="teammates.test.cases.logic.SubmissionsLogicTest" />
-			<class name="teammates.test.cases.logic.EvaluationsLogicTest" />
-			<class name="teammates.test.cases.logic.StudentsLogicTest" />
-			<class name="teammates.test.cases.logic.InstructorsLogicTest" />
-			<class name="teammates.test.cases.logic.FeedbackSessionsLogicTest" />
-			<class name="teammates.test.pageobjects.PageDataTest" />
+			<class name="teammates.test.cases.ui.ActivityLogTest" />
 			<class name="teammates.test.cases.ui.ActionResultTest" />
 			<class name="teammates.test.cases.ui.AdminAccountDeletePageActionTest" />
 			<class name="teammates.test.cases.ui.AdminAccountDetailsPageActionTest" />
@@ -131,9 +135,6 @@
 			<class name="teammates.test.cases.ui.StudentEvalSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.StudentFeedbackResultsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentHomePageActionTest" />
-			<class name="teammates.test.cases.logic.EmailsTest" />
-			<class name="teammates.test.cases.testdriver.HtmlHelperTest" />
-			<class name="teammates.test.cases.logic.TeamEvalResultTest" />
 		</classes>
 	</test>
 </suite> 
