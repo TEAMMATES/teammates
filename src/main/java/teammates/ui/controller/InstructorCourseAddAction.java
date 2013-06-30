@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -39,7 +40,7 @@ public class InstructorCourseAddAction extends Action {
 			data.instructorListToShow = newCourseInstructorList;
 			data.courseIdToShow = data.newCourse.id;
 			data.courseNameToShow = data.newCourse.name;
-			statusToAdmin = Common.toString(statusToUser, "<br>");
+			statusToAdmin = StringHelper.toString(statusToUser, "<br>");
 		} else {
 			data.instructorListToShow = data.account.googleId + "|" + data.account.name + "|" + data.account.email;
 			data.courseIdToShow = "";

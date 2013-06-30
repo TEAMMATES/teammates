@@ -12,15 +12,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
@@ -735,35 +732,6 @@ public class Common {
 	}
 	
 	/**
-	 * Concatenates a list of strings to a single string, separated by line breaks.
-	 * @return Concatenated string.
-	 */
-	public static String toString(List<String> strings) {
-		return toString(strings, EOL);	
-	}
-	
-	/**
-	 * Concatenates a list of strings to a single string, separated by the given delimiter.
-	 * @return Concatenated string.
-	 */
-	public static String toString(List<String> strings, String delimiter) {
-		String returnValue = "";
-		
-		if(strings.size()==0){
-			return returnValue;
-		}
-		
-		for(int i=0; i < strings.size()-1; i++){
-			String s = strings.get(i);
-			returnValue += s + delimiter;
-		}
-		//append the last item
-		returnValue += strings.get(strings.size()-1);
-		
-		return returnValue;		
-	}
-	
-	/**
 	 * 
 	 * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
 	 * @param key
@@ -837,29 +805,8 @@ public class Common {
 				.getResourceAsStream(file));
 	}
 
-	public static boolean isWhiteSpace(String string) {
-		return string.trim().isEmpty();
-	}
-
 	public static String trimTrailingSlash(String url) {
 		return url.trim().replaceAll("/(?=$)", "");
-	}
-
-	public static String generateStringOfLength(int length) {
-		return generateStringOfLength(length, 'a');
-	}
-
-	public static String getIndent(int length) {
-		return generateStringOfLength(length, ' ');
-	}
-
-	public static String generateStringOfLength(int length, char character) {
-		assert (length >= 0);
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < length; i++) {
-			sb.append(character);
-		}
-		return sb.toString();
 	}
 
 	public static Logger getLogger() {
@@ -945,32 +892,6 @@ public class Common {
 		}
 	}
 
-	public static String encrypt(String value) {
-		try {
-			SecretKeySpec sks = new SecretKeySpec(
-					hexStringToByteArray(BUILD_PROPERTIES.getEncyptionKey()), "AES");
-			Cipher cipher = Cipher.getInstance("AES");
-			cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
-			byte[] encrypted = cipher.doFinal(value.getBytes());
-			return byteArrayToHexString(encrypted);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public static String decrypt(String message) {
-		try {
-			SecretKeySpec sks = new SecretKeySpec(
-					hexStringToByteArray(BUILD_PROPERTIES.getEncyptionKey()), "AES");
-			Cipher cipher = Cipher.getInstance("AES");
-			cipher.init(Cipher.DECRYPT_MODE, sks);
-			byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
-			return new String(decrypted);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
 	/**
 	 * @return  the URL used for the HTTP request but without the domain.
 	 * e.g. "/page/studentHome?user=james" 
@@ -985,28 +906,6 @@ public class Common {
 	}
 
 
-	private static String byteArrayToHexString(byte[] b) {
-		StringBuffer sb = new StringBuffer(b.length * 2);
-		for (int i = 0; i < b.length; i++) {
-			int v = b[i] & 0xff;
-			if (v < 16) {
-				sb.append('0');
-			}
-			sb.append(Integer.toHexString(v));
-		}
-		return sb.toString().toUpperCase();
-	}
-
-	private static byte[] hexStringToByteArray(String s) {
-		byte[] b = new byte[s.length() / 2];
-		for (int i = 0; i < b.length; i++) {
-			int index = i * 2;
-			int v = Integer.parseInt(s.substring(index, index + 2), 16);
-			b[i] = (byte) v;
-		}
-		return b;
-	}
-	
 	@SuppressWarnings("unused")
 	private void ____PRIVATE_helper_methods_________________________________() {
 	}

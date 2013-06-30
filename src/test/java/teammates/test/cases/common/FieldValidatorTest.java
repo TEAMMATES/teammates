@@ -8,9 +8,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
+import teammates.common.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase{
@@ -54,9 +54,9 @@ public class FieldValidatorTest extends BaseTestCase{
 				validator.getValidityInfoForSizeCappedNonEmptyString(
 						typicalFieldName, 
 						maxLength, 
-						Common.generateStringOfLength(maxLength)));
+						StringHelper.generateStringOfLength(maxLength)));
 		
-		String tooLongName = Common.generateStringOfLength(maxLength+1);
+		String tooLongName = StringHelper.generateStringOfLength(maxLength+1);
 		assertEquals("invalid: too long", 
 				String.format(
 						SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
@@ -111,7 +111,7 @@ public class FieldValidatorTest extends BaseTestCase{
 				validator.getValidityInfoForSizeCappedPossiblyEmptyString(
 						typicalFieldName, 
 						maxLength, 
-						Common.generateStringOfLength(maxLength)));
+						StringHelper.generateStringOfLength(maxLength)));
 		
 		
 		String emptyValue = "";
@@ -122,7 +122,7 @@ public class FieldValidatorTest extends BaseTestCase{
 						maxLength, 
 						emptyValue));
 		
-		String tooLongName = Common.generateStringOfLength(maxLength+1);
+		String tooLongName = StringHelper.generateStringOfLength(maxLength+1);
 		assertEquals("invalid: too long", 
 				String.format(
 						SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, 
@@ -244,7 +244,7 @@ public class FieldValidatorTest extends BaseTestCase{
 				"e@y", 
 				"");
 		
-		String maxLengthValue = Common.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
+		String maxLengthValue = StringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
 		testOnce("valid: max length", 
 				FieldType.GOOGLE_ID, 
 				maxLengthValue, 
@@ -300,7 +300,7 @@ public class FieldValidatorTest extends BaseTestCase{
 				"e@y", 
 				"");
 		
-		String maxLengthValue = Common.generateStringOfLength(EMAIL_MAX_LENGTH-6)+"@c.gov";
+		String maxLengthValue = StringHelper.generateStringOfLength(EMAIL_MAX_LENGTH-6)+"@c.gov";
 		testOnce("valid: max length", 
 				FieldType.EMAIL, 
 				maxLengthValue, 
@@ -356,7 +356,7 @@ public class FieldValidatorTest extends BaseTestCase{
 				"c", 
 				"");
 		
-		String maxLengthValue = Common.generateStringOfLength(COURSE_ID_MAX_LENGTH);
+		String maxLengthValue = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH);
 		testOnce("valid: max length", 
 				FieldType.COURSE_ID, 
 				maxLengthValue, 
@@ -394,7 +394,7 @@ public class FieldValidatorTest extends BaseTestCase{
 			String errorMessageFormat, 
 			boolean emptyStringAllowed) {
 		
-		String maxLengthValue = Common.generateStringOfLength(maxSize);
+		String maxLengthValue = StringHelper.generateStringOfLength(maxSize);
 		testOnce("valid: max length value", 
 				fieldType, 
 				maxLengthValue, 

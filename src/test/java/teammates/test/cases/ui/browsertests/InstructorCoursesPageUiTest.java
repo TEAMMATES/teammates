@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -185,14 +186,14 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 					+ Common.MESSAGE_COURSE_INSTRUCTOR_LIST_EMPTY);
 		
 		//Checking max-length enforcement by the text boxes
-		String maxLengthCourseId = Common.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
-		String longCourseId = Common.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH+1);
+		String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
+		String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH+1);
 		
 		assertEquals(maxLengthCourseId, coursesPage.fillCourseIdTextBox(maxLengthCourseId));
 		assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH), coursesPage.fillCourseIdTextBox(longCourseId));
 		
-		String maxLengthCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
-		String longCourseName = Common.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH+1);
+		String maxLengthCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
+		String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH+1);
 		
 		assertEquals(maxLengthCourseName, coursesPage.fillCourseNameTextBox(maxLengthCourseName));
 		assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH), coursesPage.fillCourseNameTextBox(longCourseName));

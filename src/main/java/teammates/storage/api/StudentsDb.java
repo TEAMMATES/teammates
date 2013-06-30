@@ -11,6 +11,7 @@ import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -88,7 +89,7 @@ public class StudentsDb extends EntitiesDb {
 		String originalKey = registrationKey;
 		try {
 			//First, try to retrieve the student by assuming the given registrationKey key is encrypted
-			registrationKey = Common.decrypt(registrationKey);
+			registrationKey = StringHelper.decrypt(registrationKey);
 			Student student = getPM().getObjectById(Student.class,
 					KeyFactory.stringToKey(registrationKey));
 			studentAttributes = new StudentAttributes(student); 

@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
@@ -171,7 +172,7 @@ public class StudentsLogic {
 		for (int i = 0; i < linesArray.length; i++) {
 			String line = linesArray[i];
 			try {
-				if (Common.isWhiteSpace(line))
+				if (StringHelper.isWhiteSpace(line))
 					continue;
 				studentList.add(new StudentAttributes(line, courseId));
 			} catch (EnrollException e) {

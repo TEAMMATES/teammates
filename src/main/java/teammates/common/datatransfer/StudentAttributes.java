@@ -8,10 +8,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
 import teammates.common.Sanitizer;
+import teammates.common.StringHelper;
 import teammates.common.exception.EnrollException;
 import teammates.storage.entity.Student;
 
@@ -225,7 +225,7 @@ public class StudentAttributes extends EntityAttributes {
 	}
 
 	public String toString(int indent) {
-		String indentString = Common.getIndent(indent);
+		String indentString = StringHelper.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString + "Student:" + name + "[" + email + "]" + EOL);
 		return sb.toString();

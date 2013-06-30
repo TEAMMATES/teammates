@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -25,18 +26,18 @@ public class CommonTest extends BaseTestCase {
 	@Test
 	public void testGenerateStringOfLength() {
 		
-		assertEquals(5, Common.generateStringOfLength(5).length());
-		assertEquals(0, Common.generateStringOfLength(0).length());
+		assertEquals(5, StringHelper.generateStringOfLength(5).length());
+		assertEquals(0, StringHelper.generateStringOfLength(0).length());
 	}
 
 	@Test
 	public void testIsWhiteSpace() {
 		
-		assertEquals(true, Common.isWhiteSpace(""));
-		assertEquals(true, Common.isWhiteSpace("       "));
-		assertEquals(true, Common.isWhiteSpace("\t\n\t"));
-		assertEquals(true, Common.isWhiteSpace(Common.EOL));
-		assertEquals(true, Common.isWhiteSpace(Common.EOL + "   "));
+		assertEquals(true, StringHelper.isWhiteSpace(""));
+		assertEquals(true, StringHelper.isWhiteSpace("       "));
+		assertEquals(true, StringHelper.isWhiteSpace("\t\n\t"));
+		assertEquals(true, StringHelper.isWhiteSpace(Common.EOL));
+		assertEquals(true, StringHelper.isWhiteSpace(Common.EOL + "   "));
 	}
 
 	@Test
@@ -118,18 +119,18 @@ public class CommonTest extends BaseTestCase {
 	@Test 
 	public void testToStringForStringLists(){
 		ArrayList<String> strings = new ArrayList<String>();
-		assertEquals("", Common.toString(strings, ""));
-		assertEquals("", Common.toString(strings, "<br>"));
+		assertEquals("", StringHelper.toString(strings, ""));
+		assertEquals("", StringHelper.toString(strings, "<br>"));
 		
 		strings.add("aaa");
-		assertEquals("aaa", Common.toString(strings, ""));
-		assertEquals("aaa", Common.toString(strings, "\n"));
-		assertEquals("aaa", Common.toString(strings, "<br>"));
+		assertEquals("aaa", StringHelper.toString(strings, ""));
+		assertEquals("aaa", StringHelper.toString(strings, "\n"));
+		assertEquals("aaa", StringHelper.toString(strings, "<br>"));
 		
 		strings.add("bbb");
-		assertEquals("aaabbb", Common.toString(strings, ""));
-		assertEquals("aaa\nbbb", Common.toString(strings, "\n"));
-		assertEquals("aaa<br>bbb", Common.toString(strings, "<br>"));
+		assertEquals("aaabbb", StringHelper.toString(strings, ""));
+		assertEquals("aaa\nbbb", StringHelper.toString(strings, "\n"));
+		assertEquals("aaa<br>bbb", StringHelper.toString(strings, "<br>"));
 	}
 	
 	
@@ -138,7 +139,7 @@ public class CommonTest extends BaseTestCase {
 		String msg = "Test decryption";
 		String decrptedMsg;
 		
-		decrptedMsg = Common.decrypt(Common.encrypt(msg));
+		decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
 		assertEquals(msg, decrptedMsg);
 	}
 

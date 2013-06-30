@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.AccountAttributes;
 
 /**
@@ -57,7 +58,7 @@ public abstract class ActionResult {
 	 * execution of the action. Messages are separated by {@code '<br>'}
 	 */
 	public String getStatusMessage() {
-		return Common.toString(statusToUser, "<br>");
+		return StringHelper.toString(statusToUser, "<br>");
 	}
 		
 	/**

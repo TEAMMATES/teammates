@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -228,7 +229,7 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_ID, instructorId);
 		String courseString = makePOSTRequest(params);
 		String[] coursesArray = {};
-		if (Common.isWhiteSpace(courseString)) {
+		if (StringHelper.isWhiteSpace(courseString)) {
 			return coursesArray;
 		}
 		coursesArray = courseString.trim().split(" ");

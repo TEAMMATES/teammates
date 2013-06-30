@@ -8,7 +8,7 @@ import static teammates.common.FieldValidator.*;
 import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.test.cases.BaseTestCase;
 
@@ -61,7 +61,7 @@ public class SubmissionAttributesTest extends BaseTestCase {
 				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, s.evaluation, REASON_EMPTY) + EOL 
 				+ "Invalid email address for the student receiving the evaluation: "+ String.format(EMAIL_ERROR_MESSAGE, s.reviewer, REASON_EMPTY) + EOL
 				+ "Invalid email address for the student giving the evaluation: "+ String.format(EMAIL_ERROR_MESSAGE, s.reviewee, REASON_EMPTY);
-		assertEquals("valid values", errorMessage, Common.toString(s.getInvalidityInfo()));
+		assertEquals("valid values", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
 
 	}
 	

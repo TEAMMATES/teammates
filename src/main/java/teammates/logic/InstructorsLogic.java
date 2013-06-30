@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -178,7 +179,7 @@ public class InstructorsLogic {
 		List<InstructorAttributes> instructorsList = new ArrayList<InstructorAttributes>();
 		for (int i = 0; i < linesArray.length; i++) {
 			String information = linesArray[i];
-			if (Common.isWhiteSpace(information)) {
+			if (StringHelper.isWhiteSpace(information)) {
 				continue;
 			}
 			instructorsList.add(new InstructorAttributes(courseId, information));

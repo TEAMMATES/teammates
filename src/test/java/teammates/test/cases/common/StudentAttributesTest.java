@@ -16,8 +16,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.TeammatesException;
@@ -140,7 +140,7 @@ public class StudentAttributesTest extends BaseTestCase {
 				invalidStudent.getInvalidityInfo().get(0));
 	
 		// FAIL : team name too long
-		String longTeamName = Common.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
+		String longTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
 		line = longTeamName + "|name|e@e.com|c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
@@ -149,7 +149,7 @@ public class StudentAttributesTest extends BaseTestCase {
 				invalidStudent.getInvalidityInfo().get(0));
 		
 		// FAIL : student name too long
-		String longStudentName = Common.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+		String longStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 		line = "t1|" + longStudentName + "|e@e.com|c";
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
@@ -166,7 +166,7 @@ public class StudentAttributesTest extends BaseTestCase {
 				invalidStudent.getInvalidityInfo().get(0));
 		
 		// FAIL : comment too long
-		String longComment = Common.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
+		String longComment = StringHelper.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
 		line = "t1|name|e@e.com|" + longComment;
 		invalidStudent = new StudentAttributes(line, courseId);
 		assertFalse(invalidStudent.isValid());
@@ -210,8 +210,8 @@ public class StudentAttributesTest extends BaseTestCase {
 		s.name = "";
 		s.email = "invalid email";
 		s.course = "";
-		s.comments = Common.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH+1);
-		s.team = Common.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH+1);
+		s.comments = StringHelper.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH+1);
+		s.team = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH+1);
 
 		assertEquals("invalid value", false, s.isValid());
 		String errorMessage = 
@@ -221,7 +221,7 @@ public class StudentAttributesTest extends BaseTestCase {
 				+"\"aaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a team name because it is too long. The value of a team name should be no longer than 25 characters."+EOL
 				+"\""+s.comments+"\" is not acceptable to TEAMMATES as comments about a student enrolled in a course because it is too long. The value of comments about a student enrolled in a course should be no longer than 500 characters."+EOL
 				+"\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person name should be no longer than 40 characters. It should not be empty.";
-		assertEquals("invalid value", errorMessage, Common.toString(s.getInvalidityInfo()));
+		assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
 	}
 
 	@Test

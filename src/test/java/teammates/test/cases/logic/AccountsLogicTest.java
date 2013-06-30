@@ -7,8 +7,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -123,7 +123,7 @@ public class AccountsLogicTest extends BaseComponentTest {
 		studentData = StudentsLogic.inst().getStudentForEmail(courseId,
 				originalEmail);
 
-		String encryptedKey = Common.encrypt(studentData.key);
+		String encryptedKey = StringHelper.encrypt(studentData.key);
 		accountsLogic.joinCourse(encryptedKey, correctStudentId);
 		studentData.googleId = correctStudentId;
 		LogicTest.verifyPresentInDatastore(studentData);

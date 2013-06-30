@@ -33,6 +33,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -1420,7 +1421,7 @@ public class LogicTest extends BaseComponentTest {
 		helper.setEnvAuthDomain("gmail.com");
 		
 		//Test for encrypted key used
-		key = Common.encrypt(key);
+		key = StringHelper.encrypt(key);
 		logic.joinCourse(googleId, key);
 		assertEquals(googleId,
 				logic.getStudentForEmail(student.course, student.email).googleId);

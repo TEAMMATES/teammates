@@ -13,6 +13,7 @@ import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
 import teammates.common.Sanitizer;
+import teammates.common.StringHelper;
 import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text;
@@ -183,7 +184,7 @@ public class SubmissionAttributes extends EntityAttributes {
 	}
 
 	public String toString(int indent) {
-		String indentString = Common.getIndent(indent);
+		String indentString = StringHelper.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString + "[eval:" + evaluation + "] " + reviewer + "->"
 				+ reviewee + EOL);

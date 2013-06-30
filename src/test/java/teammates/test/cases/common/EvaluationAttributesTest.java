@@ -23,6 +23,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.StringHelper;
 import teammates.common.TimeHelper;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
@@ -150,7 +151,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 
 		e.courseId = "";
 		e.name = "";
-		e.instructions = Common.generateStringOfLength(EVALUATION_INSTRUCTIONS_MAX_LENGTH+1);
+		e.instructions = StringHelper.generateStringOfLength(EVALUATION_INSTRUCTIONS_MAX_LENGTH+1);
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		e.activated = false;
@@ -164,7 +165,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 				String.format(COURSE_ID_ERROR_MESSAGE, e.courseId, REASON_EMPTY) + EOL 
 				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, e.name, REASON_EMPTY) + EOL 
 				+ String.format(EVALUATION_INSTRUCTIONS_ERROR_MESSAGE, e.instructions, REASON_TOO_LONG);
-		assertEquals("valid values", errorMessage, Common.toString(e.getInvalidityInfo()));
+		assertEquals("valid values", errorMessage, StringHelper.toString(e.getInvalidityInfo()));
 
 		e.courseId = "valid-course";
 		e.name = "valid name";
@@ -204,7 +205,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE, 
 				END_TIME_FIELD_NAME, EVALUATION_NAME, START_TIME_FIELD_NAME);
 		assertEquals(errorMessage, 
-				Common.toString(e.getInvalidityInfo()));
+				StringHelper.toString(e.getInvalidityInfo()));
 
 		// FAIL : published before endtime: invalid
 		e.published = true;
@@ -212,7 +213,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.endTime = TimeHelper.getMsOffsetToCurrentTime(5);
 		assertFalse(e.isValid());
 		assertEquals(FieldValidator.EVALUATION_END_TIME_ERROR_MESSAGE,
-				Common.toString(e.getInvalidityInfo()));
+				StringHelper.toString(e.getInvalidityInfo()));
 
 		// SUCCESS : just after endtime and published: valid
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
@@ -227,7 +228,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.activated = true;
 		assertFalse(e.isValid());
 		assertEquals(FieldValidator.EVALUATION_START_TIME_ERROR_MESSAGE,
-			Common.toString(e.getInvalidityInfo()));
+			StringHelper.toString(e.getInvalidityInfo()));
 	}
 	
 	@Test

@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.driver.BackDoor;
@@ -164,7 +165,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 	}
 	
 	private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) {
-		String keyToSend = Common.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
+		String keyToSend = StringHelper.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
 	
 		waitFor(5000); //TODO: replace this with a more efficient check
 		String keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(

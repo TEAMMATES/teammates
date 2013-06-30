@@ -4,7 +4,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import static org.testng.AssertJUnit.*;
-import teammates.common.Common;
+import teammates.common.StringHelper;
 import static teammates.common.Common.EOL;
 import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
@@ -30,7 +30,7 @@ public class AccountAttributesTest extends BaseTestCase {
 				"\"invalid@email@com\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces."+ EOL +
 				"\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as an institute name because it is too long. The value of an institute name should be no longer than 64 characters. It should not be empty.";
 		assertEquals("all valid values",false, account.isValid());
-		assertEquals("all valid values",expectedError, Common.toString(account.getInvalidityInfo()));
+		assertEquals("all valid values",expectedError, StringHelper.toString(account.getInvalidityInfo()));
 		
 	}
 	
@@ -44,7 +44,7 @@ public class AccountAttributesTest extends BaseTestCase {
 		account.googleId = "invalid google id";
 		account.name = ""; //invalid name
 		account.email = "invalid@email@com";
-		account.institute = Common.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
+		account.institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
 		return account;
 	}
 

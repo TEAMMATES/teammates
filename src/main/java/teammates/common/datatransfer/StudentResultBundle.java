@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
+import teammates.common.StringHelper;
 
 /**
  *  Represents detailed results of one student for one evaluation. 
@@ -92,7 +93,7 @@ public class StudentResultBundle {
 
 	//TODO: unit test this
 	public String toString(int indent) {
-		String indentString = Common.getIndent(indent);
+		String indentString = StringHelper.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString + "claimedFromStudent:" + summary.claimedFromStudent
 				+ EOL);

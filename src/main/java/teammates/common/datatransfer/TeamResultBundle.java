@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import teammates.common.Common;
+import teammates.common.StringHelper;
 
 /**
  * Represents detailed results for a team.
@@ -54,7 +54,7 @@ public class TeamResultBundle {
 	
 	//TODO: unit test this
 	public String toString(int indent){
-		String indentString = Common.getIndent(indent);
+		String indentString = StringHelper.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		for(StudentResultBundle srb: studentResults){
 			sb.append(indentString+srb.toString(indent+1));

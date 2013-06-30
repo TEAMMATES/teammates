@@ -18,6 +18,7 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -475,7 +476,7 @@ public class Emails {
 				Common.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
 
 		String key;
-		key = Common.encrypt(s.key);
+		key = StringHelper.encrypt(s.key);
 		emailBody = emailBody.replace("${key}", key);
 
 		String joinUrl = Common.TEAMMATES_APP_URL

@@ -24,6 +24,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
+import teammates.common.StringHelper;
 import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -115,7 +116,7 @@ public class EmailsTest extends BaseComponentTest {
 				email.getSubject());
 
 		// check email body
-		String encryptedKey = Common.encrypt(s.key);
+		String encryptedKey = StringHelper.encrypt(s.key);
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
 		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
@@ -228,7 +229,7 @@ public class EmailsTest extends BaseComponentTest {
 		// check email body
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		String encryptedKey = Common.encrypt(s.key);
+		String encryptedKey = StringHelper.encrypt(s.key);
 		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
 
 

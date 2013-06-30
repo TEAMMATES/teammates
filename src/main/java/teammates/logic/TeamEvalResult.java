@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 import teammates.common.Common;
+import teammates.common.StringHelper;
 
 /**
  * This class represents an evaluation result for a given team.
@@ -409,7 +410,7 @@ public class TeamEvalResult {
 	}
 
 	public String toString(int indent) {
-		String indentString = Common.getIndent(indent);
+		String indentString = StringHelper.getIndent(indent);
 		String divider = "======================" + Common.EOL;
 		StringBuilder sb = new StringBuilder();
 		sb.append("           claimed from student:");
