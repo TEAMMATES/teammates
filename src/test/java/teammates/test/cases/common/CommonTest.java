@@ -14,6 +14,7 @@ import teammates.common.Common;
 import teammates.common.FileHelper;
 import teammates.common.StringHelper;
 import teammates.common.TimeHelper;
+import teammates.common.Url;
 import teammates.test.cases.BaseTestCase;
 
 public class CommonTest extends BaseTestCase {
@@ -112,9 +113,9 @@ public class CommonTest extends BaseTestCase {
 	
 	@Test
 	public void testTrimTrailingSlash(){
-		assertEquals("abc.com", Common.trimTrailingSlash("abc.com/"));
-		assertEquals("abc.com", Common.trimTrailingSlash("abc.com/ "));
-		assertEquals("abc.com", Common.trimTrailingSlash("abc.com"));
+		assertEquals("abc.com", Url.trimTrailingSlash("abc.com/"));
+		assertEquals("abc.com", Url.trimTrailingSlash("abc.com/ "));
+		assertEquals("abc.com", Url.trimTrailingSlash("abc.com"));
 	}
 	
 	@Test 

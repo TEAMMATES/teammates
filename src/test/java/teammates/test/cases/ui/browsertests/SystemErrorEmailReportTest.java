@@ -8,10 +8,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
+import teammates.common.Url;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.Emails;
-import teammates.test.driver.Url;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;

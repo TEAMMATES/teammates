@@ -20,6 +20,7 @@ import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.StringHelper;
 import teammates.common.TimeHelper;
+import teammates.common.Url;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -190,17 +191,17 @@ public class Emails {
 
 		String submitUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID,
+		submitUrl = Url.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID,
 				c.id);
-		submitUrl = Common.addParamToUrl(submitUrl,
+		submitUrl = Url.addParamToUrl(submitUrl,
 				Common.PARAM_EVALUATION_NAME, e.name);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
 		String reportUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_RESULTS;
-		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID,
+		reportUrl = Url.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID,
 				c.id);
-		reportUrl = Common.addParamToUrl(reportUrl,
+		reportUrl = Url.addParamToUrl(reportUrl,
 				Common.PARAM_EVALUATION_NAME, e.name);
 		emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
@@ -320,17 +321,17 @@ public class Emails {
 		
 		String submitUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_FEEDBACK_SUBMIT;
-		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID,
+		submitUrl = Url.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID,
 				c.id);
-		submitUrl = Common.addParamToUrl(submitUrl,
+		submitUrl = Url.addParamToUrl(submitUrl,
 				Common.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
 		String reportUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_FEEDBACK_RESULTS;
-		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID,
+		reportUrl = Url.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID,
 				c.id);
-		reportUrl = Common.addParamToUrl(reportUrl,
+		reportUrl = Url.addParamToUrl(reportUrl,
 				Common.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
@@ -365,17 +366,17 @@ public class Emails {
 		
 		String submitUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_FEEDBACK_SUBMIT;
-		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID,
+		submitUrl = Url.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID,
 				c.id);
-		submitUrl = Common.addParamToUrl(submitUrl,
+		submitUrl = Url.addParamToUrl(submitUrl,
 				Common.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
 		String reportUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_INSTRUCTOR_FEEDBACK_RESULTS;
-		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID,
+		reportUrl = Url.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID,
 				c.id);
-		reportUrl = Common.addParamToUrl(reportUrl,
+		reportUrl = Url.addParamToUrl(reportUrl,
 				Common.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
@@ -481,7 +482,7 @@ public class Emails {
 
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, key);
+		joinUrl = Url.addParamToUrl(joinUrl, Common.PARAM_REGKEY, key);
 
 		emailBody = emailBody.replace("${joinUrl}", joinUrl);
 		return emailBody;

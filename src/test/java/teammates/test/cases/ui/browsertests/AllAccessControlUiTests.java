@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.TimeHelper;
+import teammates.common.Url;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -19,7 +20,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.driver.Url;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -157,9 +157,9 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		loginStudent(studentUsername, studentPassword);
 		
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Url.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
 		EvaluationAttributes ownEvaluation = testData.evaluations.get("evaluation1InCourse1");
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,	ownEvaluation.name);
+		link = Url.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,	ownEvaluation.name);
 		
 		______TS("student cannot submit evaluation in AWAITING state");
 	
@@ -179,8 +179,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		______TS("student can view own evaluation submission page");
 	
 		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
+		link = Url.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Url.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyPageContains(link, studentUsername
 				+ "{*}Evaluation Submission{*}" + ownCourse.id + "{*}"
@@ -248,8 +248,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 	
 		link = Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Common.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
+		link = Url.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Url.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyRedirectedToServerErrorPage(link); //TODO: this error should be handled better.
 	
@@ -337,7 +337,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	}
 
 	private void verifyCannotMasquerade(String link, String otherInstructorId) {
-		link = Common.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructorId);
+		link = Url.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructorId);
 		verifyRedirectToNotAuthorized(link);
 	}
 	

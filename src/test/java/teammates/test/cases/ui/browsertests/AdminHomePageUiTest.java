@@ -9,9 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.Url;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.Url;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;

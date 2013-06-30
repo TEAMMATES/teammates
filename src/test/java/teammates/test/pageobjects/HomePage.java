@@ -3,7 +3,7 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.test.driver.Url;
+import teammates.common.Url;
 
 /**
  * Represents the home page of the website (i.e., index.html)

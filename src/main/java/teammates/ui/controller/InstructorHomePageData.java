@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.Common;
+import teammates.common.Url;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 
@@ -16,7 +17,7 @@ public class InstructorHomePageData extends PageData {
 	
 	public String getInstructorEvaluationLinkForCourse(String courseID) {
 		String link = super.getInstructorEvaluationLink();
-		link = Common.addParamToUrl(link, Common.PARAM_COURSE_ID, courseID);
+		link = Url.addParamToUrl(link, Common.PARAM_COURSE_ID, courseID);
 		return link;
 	}
 

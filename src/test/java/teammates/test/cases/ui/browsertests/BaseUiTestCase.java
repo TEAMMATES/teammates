@@ -2,11 +2,11 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import teammates.common.Common;
+import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.driver.Url;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;

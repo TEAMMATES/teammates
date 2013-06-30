@@ -4,8 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import teammates.common.Common;
 import teammates.common.FileHelper;
+import teammates.common.Url;
 
 /** 
  * Represents properties in test.properties file
@@ -51,7 +51,7 @@ public class TestProperties {
 			
 			prop.load(new FileInputStream("src/test/resources/test.properties"));
 			
-			TEAMMATES_URL = Common.trimTrailingSlash(prop
+			TEAMMATES_URL = Url.trimTrailingSlash(prop
 					.getProperty("test.app.url"));
 
 			String remoteApiDomain = TEAMMATES_URL.substring(TEAMMATES_URL
@@ -62,7 +62,7 @@ public class TestProperties {
 		
 			TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 			
-			TEAMMATES_URL_IN_EMAILS = Common.trimTrailingSlash(prop.getProperty("test.app.urlInEmails"));
+			TEAMMATES_URL_IN_EMAILS = Url.trimTrailingSlash(prop.getProperty("test.app.urlInEmails"));
 			
 			TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
 			TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");

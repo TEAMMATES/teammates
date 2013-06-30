@@ -1,6 +1,9 @@
-package teammates.test.driver;
+package teammates.common;
 
-import teammates.common.Common;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import teammates.test.driver.TestProperties;
 
 public class Url {
 
@@ -39,43 +42,86 @@ public class Url {
 	}
 	
 	public Url withUserId(String userId) {
-		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_USER_ID, userId);
+		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_USER_ID, userId);
 		return this;
 	}
 	
 	public Url withCourseId(String courseId) {
-		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_COURSE_ID, courseId);
+		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_COURSE_ID, courseId);
 		return this;
 	}
 
 	public Url withEvalName(String evaluationName) {
-		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_EVALUATION_NAME, evaluationName);
+		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_EVALUATION_NAME, evaluationName);
 		return this;
 	}
 	
 	public Url withSessionName(String feedbackSessionName) {
-		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_FEEDBACK_SESSION_NAME, feedbackSessionName);
+		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_FEEDBACK_SESSION_NAME, feedbackSessionName);
 		return this;
 	}
 
 	public Url withStudentEmail(String email) {
-		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_STUDENT_EMAIL, email);
+		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_STUDENT_EMAIL, email);
 		return this;
 	}
 
 	public Url withInstructorId(String instructorId) {
-		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_INSTRUCTOR_ID, instructorId);
+		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_INSTRUCTOR_ID, instructorId);
 		return this;
 	}
 
 	public Url withCourseName(String courseName) {
-		this.urlString = Common.addParamToUrl(this.urlString, Common.PARAM_COURSE_NAME, courseName);
+		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_COURSE_NAME, courseName);
 		return this;
 	}
 	
 	public Url withParam(String paramName, String paramValue) {
-		this.urlString = Common.addParamToUrl(this.urlString, paramName, paramValue);
+		this.urlString = Url.addParamToUrl(this.urlString, paramName, paramValue);
 		return this;
+	}
+
+	/**
+	 * Converts a string to be put in URL (replaces some characters)
+	 */
+	public static String convertForURL(String str){
+		try {
+			return URLEncoder.encode(str, Common.ENCODING);
+		} catch (UnsupportedEncodingException e){
+			return str;
+		}
+	}
+
+	/**
+	 * Returns the URL with the specified key-value pair parameter added.
+	 * Unchanged if either the key or value is null, or the key already exists<br />
+	 * Example:
+	 * <ul>
+	 * <li><code>addParam("index.jsp","action","add")</code> returns
+	 * <code>index.jsp?action=add</code></li>
+	 * <li><code>addParam("index.jsp?action=add","courseid","cs1101")</code>
+	 * returns <code>index.jsp?action=add&courseid=cs1101</code></li>
+	 * <li><code>addParam("index.jsp","message",null)</code> returns
+	 * <code>index.jsp</code></li>
+	 * </ul>
+	 * 
+	 * @param url
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public static String addParamToUrl(String url, String key, String value) {
+		if (key == null || value == null)
+			return url;
+		if (url.contains("?" + key + "=") || url.contains("&" + key + "="))
+			return url;
+		url += url.indexOf('?') >= 0 ? '&' : '?';
+		url += key + "=" + Url.convertForURL(value);
+		return url;
+	}
+
+	public static String trimTrailingSlash(String url) {
+		return url.trim().replaceAll("/(?=$)", "");
 	}
 
 	@Override

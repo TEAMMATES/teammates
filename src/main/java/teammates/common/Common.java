@@ -2,8 +2,6 @@ package teammates.common;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -765,56 +763,11 @@ public class Common {
 				.create();
 	}
 
-	public static String trimTrailingSlash(String url) {
-		return url.trim().replaceAll("/(?=$)", "");
-	}
-
 	public static Logger getLogger() {
 		return Logger.getLogger(Thread.currentThread().getStackTrace()[2]
 				.getClassName());
 	}
 
-	/**
-	 * Returns the URL with the specified key-value pair parameter added.
-	 * Unchanged if either the key or value is null, or the key already exists<br />
-	 * Example:
-	 * <ul>
-	 * <li><code>addParam("index.jsp","action","add")</code> returns
-	 * <code>index.jsp?action=add</code></li>
-	 * <li><code>addParam("index.jsp?action=add","courseid","cs1101")</code>
-	 * returns <code>index.jsp?action=add&courseid=cs1101</code></li>
-	 * <li><code>addParam("index.jsp","message",null)</code> returns
-	 * <code>index.jsp</code></li>
-	 * </ul>
-	 * 
-	 * @param url
-	 * @param key
-	 * @param value
-	 * @return
-	 */
-	public static String addParamToUrl(String url, String key, String value) {
-		if (key == null || value == null)
-			return url;
-		if (url.contains("?" + key + "=") || url.contains("&" + key + "="))
-			return url;
-		url += url.indexOf('?') >= 0 ? '&' : '?';
-		url += key + "=" + convertForURL(value);
-		return url;
-	}
-	
-	/**
-	 * Converts a string to be put in URL (replaces some characters)
-	 * @param str
-	 * @return
-	 */
-	public static String convertForURL(String str){
-		try {
-			return URLEncoder.encode(str, Common.ENCODING);
-		} catch (UnsupportedEncodingException e){
-			return str;
-		}
-	}
-	
 	public static String printRequestParameters(HttpServletRequest request) {
 		String requestParameters = "{";
 		for (Enumeration<?> f = request.getParameterNames(); f.hasMoreElements();) {

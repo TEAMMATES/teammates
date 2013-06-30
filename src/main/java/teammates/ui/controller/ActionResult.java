@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
 import teammates.common.StringHelper;
+import teammates.common.Url;
 import teammates.common.datatransfer.AccountAttributes;
 
 /**
@@ -93,7 +94,7 @@ public abstract class ActionResult {
 	private String appendParameters(String url, Map<String,String> params){
 		String returnValue = url;
 		for (String key : params.keySet()) {
-			returnValue = Common.addParamToUrl(returnValue,	key, params.get(key));
+			returnValue = Url.addParamToUrl(returnValue,	key, params.get(key));
 		}
 		return returnValue;
 	}

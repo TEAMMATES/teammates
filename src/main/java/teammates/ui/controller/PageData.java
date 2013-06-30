@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.Url;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -83,7 +84,7 @@ public class PageData {
 
 	
 	public String addUserIdToUrl(String link){
-		return Common.addParamToUrl(link,Common.PARAM_USER_ID,account.googleId);
+		return Url.addParamToUrl(link,Common.PARAM_USER_ID,account.googleId);
 	}
 	
 	/**
@@ -328,7 +329,7 @@ public class PageData {
 	
 	public String getInstructorCourseEnrollLink(String courseId){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_ENROLL;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -337,14 +338,14 @@ public class PageData {
 	public String getInstructorCourseEnrollSaveLink(String courseId){
 		//TODO: instead of using this method, the form should include these data as hidden fields?
 		String link = Common.PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 
 	public String getInstructorCourseDetailsLink(String courseID){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_DETAILS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID); 
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID); 
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -352,7 +353,7 @@ public class PageData {
 	
 	public String getInstructorCourseEditLink(String courseID){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_EDIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID); 
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID); 
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -362,8 +363,8 @@ public class PageData {
 	 */
 	public String getInstructorCourseDeleteLink(String courseId, boolean isHome){
 		String link = Common.PAGE_INSTRUCTOR_COURSE_DELETE;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
-		link = Common.addParamToUrl(
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(
 				link,
 				Common.PARAM_NEXT_URL,(isHome? Common.PAGE_INSTRUCTOR_HOME : Common.PAGE_INSTRUCTOR_COURSE));
 		link = addUserIdToUrl(link);
@@ -380,9 +381,9 @@ public class PageData {
 
 	public String getInstructorEvaluationDeleteLink(String courseID, String evalName, String nextURL){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_DELETE;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,addUserIdToUrl(nextURL));
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_NEXT_URL,addUserIdToUrl(nextURL));
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -390,8 +391,8 @@ public class PageData {
 	
 	public String getInstructorEvaluationEditLink(String courseID, String evalName){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_EDIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -399,8 +400,8 @@ public class PageData {
 	
 	public String getInstructorEvaluationResultsLink(String courseID, String evalName){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -408,8 +409,8 @@ public class PageData {
 	
 	public String getInstructorEvaluationRemindLink(String courseID, String evalName){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_REMIND;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -417,9 +418,9 @@ public class PageData {
 	
 	public String getInstructorEvaluationPublishLink(String courseID, String evalName, boolean isHome){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_PUBLISH;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? addUserIdToUrl(Common.PAGE_INSTRUCTOR_HOME): addUserIdToUrl(Common.PAGE_INSTRUCTOR_EVAL)));
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? addUserIdToUrl(Common.PAGE_INSTRUCTOR_HOME): addUserIdToUrl(Common.PAGE_INSTRUCTOR_EVAL)));
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -427,9 +428,9 @@ public class PageData {
 	
 	public String getInstructorEvaluationUnpublishLink(String courseID, String evalName, boolean isHome){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? addUserIdToUrl(Common.PAGE_INSTRUCTOR_HOME): addUserIdToUrl(Common.PAGE_INSTRUCTOR_EVAL)));
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID, courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_NEXT_URL,(isHome ? addUserIdToUrl(Common.PAGE_INSTRUCTOR_HOME): addUserIdToUrl(Common.PAGE_INSTRUCTOR_EVAL)));
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -437,9 +438,9 @@ public class PageData {
 
 	public String getInstructorEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -447,9 +448,9 @@ public class PageData {
 	
 	public String getInstructorEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
 		String link = Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
-		link = Common.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_STUDENT_EMAIL,studentEmail);
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -457,9 +458,9 @@ public class PageData {
 	
 	public String getInstructorFeedbackSessionDeleteLink(String courseId, String feedbackSessionName, String nextURL){
 		String link = Common.PAGE_INSTRUCTOR_FEEDBACK_DELETE;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
-		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
-		link = Common.addParamToUrl(link,Common.PARAM_NEXT_URL,addUserIdToUrl(nextURL));
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = Url.addParamToUrl(link,Common.PARAM_NEXT_URL,addUserIdToUrl(nextURL));
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -467,8 +468,8 @@ public class PageData {
 	
 	public String getInstructorFeedbackSessionEditLink(String courseId, String feedbackSessionName){
 		String link = Common.PAGE_INSTRUCTOR_FEEDBACK_EDIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
-		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -476,8 +477,8 @@ public class PageData {
 	
 	public String getInstructorFeedbackSessionResultsLink(String courseId, String feedbackSessionName){
 		String link = Common.PAGE_INSTRUCTOR_FEEDBACK_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
-		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
 		return link;
 	}

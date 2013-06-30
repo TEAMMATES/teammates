@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.Common;
+import teammates.common.Url;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -94,30 +95,30 @@ public class StudentHomePageData extends PageData {
 	
 	public String getStudentCourseDetailsLink(String courseId){
 		String link = Common.PAGE_STUDENT_COURSE_DETAILS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
 		return link;
 	}
 	
 	public String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
 		String link = Common.PAGE_STUDENT_FEEDBACK_SUBMIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
-		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
 		String link = Common.PAGE_STUDENT_FEEDBACK_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
-		link = Common.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Common.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	public String getStudentEvaluationResultsLink(String courseID, String evalName){
 		String link = Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		return link;
 	}
 	
@@ -127,8 +128,8 @@ public class StudentHomePageData extends PageData {
 	 */
 	public String getStudentEvaluationSubmissionEditLink(String courseID, String evalName){
 		String link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Common.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
-		link = Common.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Common.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Common.PARAM_EVALUATION_NAME,evalName);
 		return link;
 	}
 	

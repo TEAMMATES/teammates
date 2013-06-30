@@ -26,6 +26,7 @@ import teammates.common.BuildProperties;
 import teammates.common.Common;
 import teammates.common.StringHelper;
 import teammates.common.TimeHelper;
+import teammates.common.Url;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -119,12 +120,12 @@ public class EmailsTest extends BaseComponentTest {
 		String encryptedKey = StringHelper.encrypt(s.key);
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
+		joinUrl = Url.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
 
 		String submitUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID, c.id);
-		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_EVALUATION_NAME,
+		submitUrl = Url.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID, c.id);
+		submitUrl = Url.addParamToUrl(submitUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
 
 		String deadline = TimeHelper.formatTime(e.endTime);
@@ -151,8 +152,8 @@ public class EmailsTest extends BaseComponentTest {
 
 		String reportUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_RESULTS;
-		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID, c.id);
-		reportUrl = Common.addParamToUrl(reportUrl, Common.PARAM_EVALUATION_NAME,
+		reportUrl = Url.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID, c.id);
+		reportUrl = Url.addParamToUrl(reportUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
@@ -230,7 +231,7 @@ public class EmailsTest extends BaseComponentTest {
 		String joinUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_JOIN_COURSE;
 		String encryptedKey = StringHelper.encrypt(s.key);
-		joinUrl = Common.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
+		joinUrl = Url.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
 
 
 		String emailBody = email.getContent().toString();

@@ -29,9 +29,9 @@ import org.testng.Assert;
 
 import teammates.common.Common;
 import teammates.common.FileHelper;
+import teammates.common.Url;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.driver.Url;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and

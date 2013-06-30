@@ -7,9 +7,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalResultsPage;

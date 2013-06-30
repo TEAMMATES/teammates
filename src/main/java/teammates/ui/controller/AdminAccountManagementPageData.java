@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import teammates.common.Common;
+import teammates.common.Url;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 
@@ -18,20 +19,20 @@ public class AdminAccountManagementPageData extends PageData {
 	
 	public String getAdminViewAccountDetailsLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DETAILS;
-		link = Common.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
+		link = Url.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
 		return link;
 	}
 	
 	public String getAdminDeleteInstructorStatusLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DELETE;
-		link = Common.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
+		link = Url.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
 		return link;
 	}
 	
 	public String getAdminDeleteAccountLink(String googleId){
 		String link = Common.PAGE_ADMIN_ACCOUNT_DELETE;
-		link = Common.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
-		link = Common.addParamToUrl(link,"account","true");
+		link = Url.addParamToUrl(link,Common.PARAM_INSTRUCTOR_ID,googleId);
+		link = Url.addParamToUrl(link,"account","true");
 		return link;
 	}
 
