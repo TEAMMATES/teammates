@@ -8,6 +8,7 @@ import java.util.TimeZone;
 import teammates.common.Assumption;
 import teammates.common.BuildProperties;
 import teammates.common.Common;
+import teammates.common.FileHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -88,7 +89,7 @@ public class AdminInstructorAccountAddAction extends Action {
 			courseId = courseId.substring(courseId.length() - 20);
 		}
 		
-		jsonString = Common.readStream(BuildProperties.class.getClassLoader()
+		jsonString = FileHelper.readStream(BuildProperties.class.getClassLoader()
 				.getResourceAsStream("InstructorSampleData.json"));
 
 		// replace email

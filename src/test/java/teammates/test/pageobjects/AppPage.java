@@ -28,6 +28,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import teammates.common.Common;
+import teammates.common.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.driver.Url;
@@ -409,7 +410,7 @@ public abstract class AppPage {
 		}
 		try {
 			String actual = getPageSource();
-			String expected = Common.readFile(filePath);
+			String expected = FileHelper.readFile(filePath);
 			HtmlHelper.assertSameHtml(actual, expected);
 			
 		} catch (Exception e) {

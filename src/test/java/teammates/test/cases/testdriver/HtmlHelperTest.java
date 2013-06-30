@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
 import teammates.common.Common;
+import teammates.common.FileHelper;
 import teammates.test.driver.HtmlHelper;
 
 public class HtmlHelperTest {
@@ -39,8 +40,8 @@ public class HtmlHelperTest {
 		actual = expected.replace("<DIV></DIV></DIV>", EOL+EOL+"\n<DIV>\n\n</DIV></DIV>\n\n"+EOL);
 		HtmlHelper.assertSameHtml(actual, expected);
 		
-		expected = Common.readFile(Common.TEST_PAGES_FOLDER +"/sampleExpected.html");
-		actual = Common.readFile(Common.TEST_PAGES_FOLDER +"/sampleActual.html");
+		expected = FileHelper.readFile(Common.TEST_PAGES_FOLDER +"/sampleExpected.html");
+		actual = FileHelper.readFile(Common.TEST_PAGES_FOLDER +"/sampleActual.html");
 		HtmlHelper.assertSameHtml(actual, expected);
 
 	}

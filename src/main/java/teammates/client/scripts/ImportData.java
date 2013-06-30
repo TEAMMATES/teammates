@@ -6,6 +6,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import teammates.common.Common;
+import teammates.common.FileHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -39,7 +40,7 @@ public class ImportData {
 	private static String jsonString;
 	
 	public static void main(String args[]) throws Exception {
-		jsonString = Common.readFile(Common.TEST_DATA_FOLDER+ "/" + SOURCE_FILE_NAME);
+		jsonString = FileHelper.readFile(Common.TEST_DATA_FOLDER+ "/" + SOURCE_FILE_NAME);
 		data = gson.fromJson(jsonString, DataBundle.class);
 		
 		String status = "";

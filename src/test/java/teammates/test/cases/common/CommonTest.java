@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.FileHelper;
 import teammates.common.StringHelper;
 import teammates.common.TimeHelper;
 import teammates.test.cases.BaseTestCase;
@@ -59,10 +60,10 @@ public class CommonTest extends BaseTestCase {
 				"404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 
-		String pageStr = Common.readFile(Common.TEST_PAGES_FOLDER
+		String pageStr = FileHelper.readFile(Common.TEST_PAGES_FOLDER
 				+ "/commonAssertRegexTestPage.html");
 
-		String inputStr = Common.readFile(Common.TEST_PAGES_FOLDER
+		String inputStr = FileHelper.readFile(Common.TEST_PAGES_FOLDER
 				+ "/commonAssertRegexTestPart.html");
 
 		assertContainsRegex(inputStr, pageStr);

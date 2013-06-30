@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import teammates.common.Common;
+import teammates.common.FileHelper;
 import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -216,7 +217,7 @@ public class BaseTestCase {
 		}
 		String jsonString;
 		try {
-			jsonString = Common.readFile(pathToJsonFile);
+			jsonString = FileHelper.readFile(pathToJsonFile);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}

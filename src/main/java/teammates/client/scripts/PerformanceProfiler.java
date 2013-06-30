@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import teammates.common.Common;
+import teammates.common.FileHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -82,7 +83,7 @@ public class PerformanceProfiler extends Thread{
 		//Data used for profiling
 		String jsonString= "";
 		try {
-			jsonString = Common.readFile(Common.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
+			jsonString = FileHelper.readFile(Common.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}

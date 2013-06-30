@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import teammates.common.Common;
+import teammates.common.FileHelper;
 
 /** 
  * Represents properties in test.properties file
@@ -59,7 +60,7 @@ public class TestProperties {
 			TEAMMATES_REMOTEAPI_APP_PORT = remoteApiDomain.contains(":") ? 
 					Integer.parseInt(remoteApiDomain.split(":")[1]) : 443;
 		
-			TEAMMATES_VERSION = extractVersionNumber(Common.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
+			TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 			
 			TEAMMATES_URL_IN_EMAILS = Common.trimTrailingSlash(prop.getProperty("test.app.urlInEmails"));
 			

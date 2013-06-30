@@ -1,8 +1,5 @@
 package teammates.common;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -14,7 +11,6 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
@@ -585,13 +581,13 @@ public class Common {
 	/**
 	 * Email templates
 	 */
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = readResourseFile("studentEmailTemplate-evaluation_.html");
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = readResourseFile("studentEmailTemplate-evaluationPublished.html");
-	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = readResourseFile("studentEmailTemplate-courseJoin.html");
-	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = readResourseFile("studentEmailFragment-courseJoin.html");
-	public static String USER_EMAIL_TEMPLATE_FEEDBACK_SESSION = readResourseFile("userEmailTemplate-feedbackSession.html");
-	public static String USER_EMAIL_TEMPLATE_FEEDBACK_SESSION_PUBLISHED = readResourseFile("userEmailTemplate-feedbackSessionPublished.html");
-	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = readResourseFile("systemErrorEmailTemplate.html");
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = FileHelper.readResourseFile("studentEmailTemplate-evaluation_.html");
+	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = FileHelper.readResourseFile("studentEmailTemplate-evaluationPublished.html");
+	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = FileHelper.readResourseFile("studentEmailTemplate-courseJoin.html");
+	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = FileHelper.readResourseFile("studentEmailFragment-courseJoin.html");
+	public static String USER_EMAIL_TEMPLATE_FEEDBACK_SESSION = FileHelper.readResourseFile("userEmailTemplate-feedbackSession.html");
+	public static String USER_EMAIL_TEMPLATE_FEEDBACK_SESSION_PUBLISHED = FileHelper.readResourseFile("userEmailTemplate-feedbackSessionPublished.html");
+	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = FileHelper.readResourseFile("systemErrorEmailTemplate.html");
 		
 
 	/**
@@ -767,42 +763,6 @@ public class Common {
 				.setDateFormat("yyyy-MM-dd h:mm a Z")
 				.setPrettyPrinting()
 				.create();
-	}
-
-	public static void println(String message) {
-		log.fine(String.format("[%d - %s] %s", Thread.currentThread().getId(),
-				Thread.currentThread().getName(), message));
-	}
-	
-	
-
-
-	/**
-	 * Read a file content and return a String
-	 * 
-	 * @param filename
-	 * @return
-	 */
-	public static String readFile(String filename) throws FileNotFoundException {
-		Scanner scanner = new Scanner(new FileReader(filename));
-		String ans = scanner.useDelimiter("\\Z").next();
-		scanner.close();
-		return ans;
-	}
-
-	/**
-	 * Wrapper. Loading jobs are delegated to BuildProperties
-	 * 
-	 * @param reader
-	 * @return
-	 */
-	public static String readStream(InputStream stream) {
-		return BUILD_PROPERTIES.readStream(stream);
-	}
-	
-	public static String readResourseFile(String file) {
-		return readStream(BuildProperties.class.getClassLoader()
-				.getResourceAsStream(file));
 	}
 
 	public static String trimTrailingSlash(String url) {
