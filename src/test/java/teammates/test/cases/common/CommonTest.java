@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class CommonTest extends BaseTestCase {
@@ -87,23 +88,23 @@ public class CommonTest extends BaseTestCase {
 		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		
 		c.set(Calendar.HOUR_OF_DAY, 9);
-		assertEquals("9", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		assertEquals("9", TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
 		
 		c.set(Calendar.HOUR_OF_DAY, 14);
-		assertEquals("14", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		assertEquals("14", TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
 		
 		c.set(Calendar.HOUR_OF_DAY, 22);
 		c.set(Calendar.MINUTE, 59);
-		assertEquals("22", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		assertEquals("22", TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
 		
 		//special cases that returns 24
 		
 		c.set(Calendar.HOUR_OF_DAY, 0);
-		assertEquals("24", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		assertEquals("24", TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
 		
 		c.set(Calendar.HOUR_OF_DAY, 23);
 		c.set(Calendar.MINUTE, 59);
-		assertEquals("24", Common.convertToOptionValueInTimeDropDown(c.getTime()));
+		assertEquals("24", TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
 		
 	}
 	

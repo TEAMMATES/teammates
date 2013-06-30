@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -54,10 +55,10 @@ public class InstructorFeedbackEditSaveAction extends Action {
 		newSession.courseId = getRequestParam(Common.PARAM_COURSE_ID);
 		newSession.feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
 		newSession.creatorEmail = getRequestParam(Common.PARAM_FEEDBACK_SESSION_CREATOR);
-		newSession.startTime = Common.combineDateTime(
+		newSession.startTime = TimeHelper.combineDateTime(
 				getRequestParam(Common.PARAM_FEEDBACK_SESSION_STARTDATE),
 				getRequestParam(Common.PARAM_FEEDBACK_SESSION_STARTTIME));
-		newSession.endTime = Common.combineDateTime(
+		newSession.endTime = TimeHelper.combineDateTime(
 				getRequestParam(Common.PARAM_FEEDBACK_SESSION_ENDDATE),
 				getRequestParam(Common.PARAM_FEEDBACK_SESSION_ENDTIME));		
 		String paramTimeZone = getRequestParam(Common.PARAM_FEEDBACK_SESSION_TIMEZONE);
@@ -73,7 +74,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
 		String type = getRequestParam(Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
 		switch (type) {
 		case "custom":
-			newSession.sessionVisibleFromTime = Common.combineDateTime(
+			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
 					getRequestParam(Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE),
 					getRequestParam(Common.PARAM_FEEDBACK_SESSION_VISIBLETIME));
 			break;
@@ -89,7 +90,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
 		type = getRequestParam(Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
 		switch (type) {
 		case "custom":
-			newSession.resultsVisibleFromTime = Common.combineDateTime(
+			newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
 					getRequestParam(Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE),
 					getRequestParam(Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME));
 			break;

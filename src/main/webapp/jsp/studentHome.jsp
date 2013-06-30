@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
@@ -105,7 +106,7 @@ StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
 									<td class="t_eval_name"><%=PageData.escapeForHTML(edd.evaluation.name)%></td>
-									<td class="t_eval_deadline centeralign"><%= Common.formatTime(edd.evaluation.endTime) %></td>
+									<td class="t_eval_deadline centeralign"><%= TimeHelper.formatTime(edd.evaluation.endTime) %></td>
 									<td class="t_eval_status centeralign"><span
 										onmouseover="ddrivetip(' <%= data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
 										onmouseout="hideddrivetip()"><%= data.getStudentStatusForEval(edd.evaluation)%></span></td>
@@ -133,7 +134,7 @@ StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=fsIdx%>">
 									<td class="t_eval_name"><%=PageData.escapeForHTML(fsd.feedbackSession.feedbackSessionName)%></td>
-									<td class="t_eval_deadline centeralign"><%= Common.formatTime(fsd.feedbackSession.endTime) %></td>
+									<td class="t_eval_deadline centeralign"><%= TimeHelper.formatTime(fsd.feedbackSession.endTime) %></td>
 									<td class="t_eval_status centeralign"><span
 										onmouseover="ddrivetip(' <%= data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"
 										onmouseout="hideddrivetip()"><%= data.getStudentStatusForSession(fsd.feedbackSession)%></span></td>

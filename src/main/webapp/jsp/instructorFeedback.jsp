@@ -1,5 +1,6 @@
-<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Date"%>
 <%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.TimeHelper"%>
 <%@ page import="teammates.common.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
@@ -113,7 +114,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							name="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
 							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>','dd/MM/yyyy')"
-							value="<%=((data.newFeedbackSession==null || Common.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) ? "" : Common.formatDate(data.newFeedbackSession.sessionVisibleFromTime))%>"
+							value="<%=((data.newFeedbackSession==null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) ? "" : TimeHelper.formatDate(data.newFeedbackSession.sessionVisibleFromTime))%>"
 							readonly="readonly" tabindex="3"
 							disabled="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom').checked){'disabled'}else{''}"
 							> @ <select
@@ -124,7 +125,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							>
 								<%
 									Date date;
-									date = ((data.newFeedbackSession==null || Common.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
+									date = ((data.newFeedbackSession==null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
 											? null : data.newFeedbackSession.sessionVisibleFromTime);
 									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
@@ -168,7 +169,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							id="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>"
 							onclick="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>','dd/MM/yyyy');}
 							else{return false;}"
-							value="<%=((data.newFeedbackSession==null || Common.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime)) ? "" : Common.formatDate(data.newFeedbackSession.resultsVisibleFromTime))%>"
+							value="<%=((data.newFeedbackSession==null || TimeHelper.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime)) ? "" : TimeHelper.formatDate(data.newFeedbackSession.resultsVisibleFromTime))%>"
 							readonly="readonly" tabindex="5"
 							disabled="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){'disabled'}else{''}">
 							 @ <select
@@ -180,7 +181,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							disabled="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){'disabled'}else{''}"
 							>
 								<%
-									date = ((data.newFeedbackSession==null || Common.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) 
+									date = ((data.newFeedbackSession==null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) 
 											? null : data.newFeedbackSession.sessionVisibleFromTime);
 									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
@@ -224,7 +225,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>"
 							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>','dd/MM/yyyy')"							
-							value="<%=(data.newFeedbackSession==null? Common.formatDate(Common.getNextHour()) : Common.formatDate(data.newFeedbackSession.startTime))%>"
+							value="<%=(data.newFeedbackSession==null? TimeHelper.formatDate(TimeHelper.getNextHour()) : TimeHelper.formatDate(data.newFeedbackSession.startTime))%>"
 							readonly="readonly" tabindex="7"> @ <select
 							style="width: 70px;"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>"
@@ -242,7 +243,7 @@ InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribu
 							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>"
 							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>','dd/MM/yyyy')"							
-							value="<%=(data.newFeedbackSession==null? "" : Common.formatDate(data.newFeedbackSession.endTime))%>"
+							value="<%=(data.newFeedbackSession==null? "" : TimeHelper.formatDate(data.newFeedbackSession.endTime))%>"
 							readonly="readonly" tabindex="8"> @ <select
 							style="width: 70px;"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>"

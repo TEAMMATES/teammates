@@ -13,7 +13,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
@@ -82,9 +82,9 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 		double timeZone = -1.0;
 		evaluation.timeZone = timeZone;
 
-		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(0,
+		evaluation.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(0,
 				timeZone);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		evaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 
 		backdoor.createEvaluation(evaluation);
 
@@ -105,9 +105,9 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 		timeZone = 2.0;
 		evaluation.timeZone = timeZone;
 
-		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(0,
+		evaluation.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(0,
 				timeZone);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		evaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 
 		backdoor.createEvaluation(evaluation);
 
@@ -127,7 +127,7 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 		evaluation.timeZone = timeZone;
 
 		int oneSecondInMs = 1000;
-		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+		evaluation.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(
 				oneSecondInMs, timeZone);
 		backdoor.createEvaluation(evaluation);
 
@@ -229,8 +229,8 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 		eval.gracePeriod = eval.gracePeriod + 1;
 		eval.instructions = eval.instructions + "x";
 		eval.p2pEnabled = (!eval.p2pEnabled);
-		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
-		eval.endTime = Common.getDateOffsetToCurrentTime(-1);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		eval.timeZone = 0;
 		evaluationsLogic.updateEvaluation(eval);
 
@@ -256,8 +256,8 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 		//first, make it PUBLISHED
 		eval.timeZone = 0;
 		eval.gracePeriod = 15;
-		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
-		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute, 0);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		eval.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute, 0);
 		eval.published = true;
 		eval.activated = true;
 		assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
@@ -265,7 +265,7 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 		LogicTest.verifyPresentInDatastore(eval);
 		
 		//then, make it OPEN
-		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod-1), 0);
+		eval.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod-1), 0);
 		evaluationsLogic.updateEvaluation(eval);
 		
 		//check if derived attributes are set correctly
@@ -306,8 +306,8 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 		double timeZone = -1.0;
 		evaluation1.timeZone = timeZone;
 
-		evaluation1.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(0, timeZone);
-		evaluation1.endTime = Common.getDateOffsetToCurrentTime(2);
+		evaluation1.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(0, timeZone);
+		evaluation1.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 
 		evaluationsLogic.createEvaluationCascade(evaluation1);
 		assertEquals("This evaluation is not ready to activate as expected "+ evaluation1.toString(),
@@ -326,9 +326,9 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 		timeZone = 2.0;
 		evaluation2.timeZone = timeZone;
 
-		evaluation2.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+		evaluation2.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(
 				0, timeZone);
-		evaluation2.endTime = Common.getDateOffsetToCurrentTime(2);
+		evaluation2.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 
 		evaluationsLogic.createEvaluationCascade(evaluation2);
 		assertEquals("This evaluation is not ready to activate as expected "+ evaluation2.toString(),
@@ -393,8 +393,8 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 
 		double timeZone = 0.0;
 		evaluation1.timeZone = timeZone;
-		evaluation1.startTime = Common.getDateOffsetToCurrentTime(-1);
-		evaluation1.endTime = Common.getDateOffsetToCurrentTime(1);
+		evaluation1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		evaluation1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		evaluationsLogic.createEvaluationCascade(evaluation1);
 
 		// Create another evaluation in another course in similar fashion.
@@ -407,8 +407,8 @@ public class EvaluationsLogicTest extends BaseComponentTest{
 
 		evaluation2.timeZone = 0.0;
 
-		evaluation2.startTime = Common.getDateOffsetToCurrentTime(-2);
-		evaluation2.endTime = Common.getDateOffsetToCurrentTime(1);
+		evaluation2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		evaluation2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 
 		evaluationsLogic.createEvaluationCascade(evaluation2);
 		

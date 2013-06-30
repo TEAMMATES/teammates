@@ -1,5 +1,6 @@
 <%@page import="teammates.common.datatransfer.StudentResultBundle"%>
 <%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
@@ -65,11 +66,11 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold">Opening time:</td>
-					<td><%=Common.formatTime(data.evaluationResults.evaluation.startTime)%></td>
+					<td><%=TimeHelper.formatTime(data.evaluationResults.evaluation.startTime)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold">Closing time:</td>
-					<td><%=Common.formatTime(data.evaluationResults.evaluation.endTime)%></td>
+					<td><%=TimeHelper.formatTime(data.evaluationResults.evaluation.endTime)%></td>
 				</tr>
 				<tr>
 					<td class="centeralign" colspan=2><span class="label bold">Report Type:</span> <input type="radio" name="radio_reporttype"

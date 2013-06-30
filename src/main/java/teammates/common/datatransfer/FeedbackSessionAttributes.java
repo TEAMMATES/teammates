@@ -13,6 +13,7 @@ import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.Sanitizer;
 import teammates.common.FieldValidator.FieldType;
+import teammates.common.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 
@@ -171,9 +172,9 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 */
 	public boolean isClosed() {
 		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		Common.convertToUserTimeZone(now, timeZone);
+		TimeHelper.convertToUserTimeZone(now, timeZone);
 
-		Calendar end = Common.dateToCalendar(endTime);
+		Calendar end = TimeHelper.dateToCalendar(endTime);
 		end.add(Calendar.MINUTE, gracePeriod);
 
 		return (now.after(end));
@@ -184,9 +185,9 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 */
 	public boolean isOpened() {
 		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		Common.convertToUserTimeZone(now, timeZone);
+		TimeHelper.convertToUserTimeZone(now, timeZone);
 
-		Calendar start = Common.dateToCalendar(startTime);
+		Calendar start = TimeHelper.dateToCalendar(startTime);
 
 		return (now.after(start) && !isClosed());
 	}
@@ -204,7 +205,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * Does not care if the session has started or not.
 	 */
 	public boolean isVisible() {
-		Date now = Common.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
+		Date now = TimeHelper.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
 		Date visibleTime = this.sessionVisibleFromTime;
 		
 		if (visibleTime.equals(Common.TIME_REPRESENTS_FOLLOW_OPENING)) {
@@ -220,7 +221,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * Does not care if the session has ended or not.
 	 */
 	public boolean isPublished() {
-		Date now = Common.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
+		Date now = TimeHelper.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
 		Date publishTime = this.resultsVisibleFromTime;
 		
 		if (publishTime.equals(Common.TIME_REPRESENTS_FOLLOW_VISIBLE)) {

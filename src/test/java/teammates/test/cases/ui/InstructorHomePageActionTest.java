@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
@@ -73,8 +74,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		String IdOfCourse2 = dataBundle.courses.get("typicalCourse2").id;
 		eval.courseId = IdOfCourse2;
 		eval.name = "Closed eval";
-		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
-		eval.endTime = Common.getDateOffsetToCurrentTime(-1);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		eval.setDerivedAttributes();
 		assertEquals(EvalStatus.CLOSED, eval.getStatus());
 		EvaluationsLogic evaluationsLogic = new EvaluationsLogic();
@@ -82,8 +83,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		
 		//create a PUBLISHED evaluation
 		eval.name = "published eval";
-		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
-		eval.endTime = Common.getDateOffsetToCurrentTime(-1);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		eval.published = true;
 		eval.setDerivedAttributes();
 		assertEquals(EvalStatus.PUBLISHED, eval.getStatus());

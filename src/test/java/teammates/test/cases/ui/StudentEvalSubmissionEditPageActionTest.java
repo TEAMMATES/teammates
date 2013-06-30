@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
@@ -44,7 +45,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		
 		______TS("CLOSED evaluation");
 		
-		eval.endTime = Common.getDateOffsetToCurrentTime(-1);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		assertEquals(EvalStatus.CLOSED, eval.getStatus());
 		evaluationsDb.updateEvaluation(eval);
 		checkAccessControlForEval(eval, true);
@@ -58,8 +59,8 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		
 		______TS("AWAITING evaluation");
 		
-		eval.startTime = Common.getDateOffsetToCurrentTime(1);
-		eval.endTime = Common.getDateOffsetToCurrentTime(2);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		eval.setDerivedAttributes();
 		assertEquals(EvalStatus.AWAITING, eval.getStatus());
 		evaluationsDb.updateEvaluation(eval);

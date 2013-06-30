@@ -3,15 +3,14 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.io.FileNotFoundException;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -164,8 +163,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		
 		______TS("student cannot submit evaluation in AWAITING state");
 	
-		ownEvaluation.startTime = Common.getDateOffsetToCurrentTime(1);
-		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(2);
+		ownEvaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		ownEvaluation.activated = false;
 		assertEquals(EvalStatus.AWAITING, ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
@@ -189,8 +188,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	
 		______TS("student cannot submit evaluation in CLOSED state");
 		
-		ownEvaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
-		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		ownEvaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		currentPage.navigateTo(new Url(link))
@@ -203,7 +202,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		______TS("student cannot submit evaluation in CLOSED state (evaluation with different timezone)");
 		//Set the end time to the next hour, but push the timezone ahead 2 hours, so the evaluation has expired by 1 hour
 		//Then we verify that the evaluation is disabled
-		ownEvaluation.endTime = Common.getNextHour();
+		ownEvaluation.endTime = TimeHelper.getNextHour();
 		ownEvaluation.timeZone = 10.0;   //put user's timezone ahead by 10hrs
 		//TODO: this test case needs tweaking. It fails on some computers when
 		//  the above is set to +2. Furthermore, we need a test case to ensure
@@ -220,7 +219,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		
 		______TS("student cannot submit evaluation in PUBLISHED state");
 	
-		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		ownEvaluation.timeZone = 0.0;
 		ownEvaluation.published = true;
 		assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
@@ -256,8 +255,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	
 		______TS("student can view own evaluation result after publishing");
 	
-		ownEvaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
-		ownEvaluation.endTime = Common.getDateOffsetToCurrentTime(-1);
+		ownEvaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		ownEvaluation.timeZone = 0.0;
 		ownEvaluation.published = true;
 		assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());

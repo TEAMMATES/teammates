@@ -19,6 +19,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -169,7 +170,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTest {
 		FeedbackSessionAttributes invalidFs = getNewFeedbackSession();
 		fsDb.deleteEntity(invalidFs);
 		fsDb.createEntity(invalidFs);
-		Calendar calendar = Common.dateToCalendar(invalidFs.endTime);
+		Calendar calendar = TimeHelper.dateToCalendar(invalidFs.endTime);
 		calendar.add(Calendar.MONTH, 1);
 		invalidFs.startTime = calendar.getTime();
 		invalidFs.resultsVisibleFromTime = calendar.getTime();

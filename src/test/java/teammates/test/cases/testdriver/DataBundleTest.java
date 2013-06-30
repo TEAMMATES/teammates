@@ -4,7 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -82,9 +82,9 @@ public class DataBundleTest extends BaseTestCase {
 				evaluation1.instructions);
 		assertEquals(10, evaluation1.gracePeriod);
 		assertEquals(true, evaluation1.p2pEnabled);
-		assertEquals(Common.convertToDate("2012-04-01 11:59 PM UTC"),
+		assertEquals(TimeHelper.convertToDate("2012-04-01 11:59 PM UTC"),
 				evaluation1.startTime);
-		assertEquals(Common.convertToDate("2015-04-30 11:59 PM UTC"),
+		assertEquals(TimeHelper.convertToDate("2015-04-30 11:59 PM UTC"),
 				evaluation1.endTime);
 		assertEquals(true, evaluation1.activated);
 		assertEquals(false, evaluation1.published);

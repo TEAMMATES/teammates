@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.test.driver.BackDoor;
@@ -63,8 +64,8 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 		
 		//these will be the updated values
 		//TODO: make the start time a future time (after Issue 897 is fixed)
-		existingEval.startTime = Common.convertToDate("2012-04-01 11:59 PM UTC"); 
-		existingEval.endTime = Common.convertToDate("2015-04-01 10:00 PM UTC"); 
+		existingEval.startTime = TimeHelper.convertToDate("2012-04-01 11:59 PM UTC"); 
+		existingEval.endTime = TimeHelper.convertToDate("2015-04-01 10:00 PM UTC"); 
 		existingEval.p2pEnabled = !existingEval.p2pEnabled; 
 		existingEval.instructions = existingEval.instructions+"(edited)"; 
 		existingEval.gracePeriod = existingEval.gracePeriod + 5;

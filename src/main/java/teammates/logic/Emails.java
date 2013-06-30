@@ -18,6 +18,7 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -184,7 +185,7 @@ public class Emails {
 		emailBody = emailBody.replace("${courseId}", c.id);
 		emailBody = emailBody.replace("${evaluationName}", e.name);
 		emailBody = emailBody.replace("${deadline}",
-				Common.formatTime(e.endTime));
+				TimeHelper.formatTime(e.endTime));
 
 		String submitUrl = Common.TEAMMATES_APP_URL
 				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
@@ -313,7 +314,7 @@ public class Emails {
 		emailBody = emailBody.replace("${courseId}", c.id);
 		emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
 		emailBody = emailBody.replace("${deadline}",
-				Common.formatTime(fs.endTime));
+				TimeHelper.formatTime(fs.endTime));
 		emailBody = emailBody.replace("${instructorFragment}", "");
 		
 		String submitUrl = Common.TEAMMATES_APP_URL
@@ -358,7 +359,7 @@ public class Emails {
 		emailBody = emailBody.replace("${courseId}", c.id);
 		emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
 		emailBody = emailBody.replace("${deadline}",
-				Common.formatTime(fs.endTime));
+				TimeHelper.formatTime(fs.endTime));
 		emailBody = emailBody.replace("${instructorFragment}", "The email below has also been sent to students of course: "+c.id+".<br/>");
 		
 		String submitUrl = Common.TEAMMATES_APP_URL

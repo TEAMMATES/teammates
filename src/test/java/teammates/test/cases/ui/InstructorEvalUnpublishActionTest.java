@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
@@ -64,8 +65,8 @@ public class InstructorEvalUnpublishActionTest extends BaseActionTest {
 	}
 
 	private void makeEvaluationPublished(EvaluationAttributes eval) throws Exception {
-		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
-		eval.endTime = Common.getDateOffsetToCurrentTime(-1);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		eval.activated = true;
 		eval.published = true;
 		assertEquals(EvalStatus.PUBLISHED, eval.getStatus());

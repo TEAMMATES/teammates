@@ -306,7 +306,7 @@ public class FieldValidator {
 		Assumption.assertTrue("Non-null value expected", earlierTime != null);
 		Assumption.assertTrue("Non-null value expected", laterTime != null);
 		
-		if(Common.isSpecialTime(earlierTime) || Common.isSpecialTime(laterTime)) {
+		if(TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
 			return "";
 		}
 		
@@ -406,7 +406,7 @@ public class FieldValidator {
 	}
 	
 	private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {
-		Date nowInUserTimeZone = Common.convertToUserTimeZone(
+		Date nowInUserTimeZone = TimeHelper.convertToUserTimeZone(
 				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
 		return nowInUserTimeZone.before(time);
 	}

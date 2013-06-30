@@ -11,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.Common;
 import teammates.common.FeedbackParticipantType;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -555,7 +556,7 @@ public class FeedbackSessionsLogic {
 		for (FeedbackSessionAttributes session : sessions){
 			if(session.isPublished() && !session.sentPublishedEmail && 
 					// Don't send email if publish time is same as open time.
-					!Common.isSpecialTime(session.resultsVisibleFromTime) &&
+					!TimeHelper.isSpecialTime(session.resultsVisibleFromTime) &&
 					session.feedbackSessionType != FeedbackSessionType.PRIVATE) {
 				sessionsToSendEmailsFor.add(session);
 			}

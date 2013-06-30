@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorEvalEditPageData"%>
@@ -56,7 +57,7 @@
 									onclick ="cal.select(this,'<%=Common.PARAM_EVALUATION_START%>','dd/MM/yyyy')"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_START%>')"
 									onmouseout="hideddrivetip()"
-									value="<%=Common.formatDate(data.evaluation.startTime)%>"
+									value="<%=TimeHelper.formatDate(data.evaluation.startTime)%>"
 									readonly="readonly" tabindex="3">
 									@
 							<select style="width: 70px;"
@@ -80,7 +81,7 @@
 									onclick ="cal.select(this,'<%=Common.PARAM_EVALUATION_DEADLINE%>','dd/MM/yyyy')"
 									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE%>')"
 									onmouseout="hideddrivetip()"
-									value="<%=Common.formatDate(data.evaluation.endTime)%>"
+									value="<%=TimeHelper.formatDate(data.evaluation.endTime)%>"
 									readonly="readonly" tabindex="5">
 									@
 							<select style="width: 70px;"

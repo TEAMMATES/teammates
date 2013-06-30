@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes.EvalStatus" %>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes" %>
 <%@ page import="teammates.common.datatransfer.StudentAttributes" %>
@@ -54,11 +55,11 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Opening time:</td>
-					<td id="<%=Common.PARAM_EVALUATION_STARTTIME%>"><%=Common.formatTime(data.eval.startTime)%></td>
+					<td id="<%=Common.PARAM_EVALUATION_STARTTIME%>"><%=TimeHelper.formatTime(data.eval.startTime)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Closing time:</td>
-					<td id="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"><%=Common.formatTime(data.eval.endTime)%></td>
+					<td id="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"><%=TimeHelper.formatTime(data.eval.endTime)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Instructions:</td>

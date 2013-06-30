@@ -24,6 +24,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.BuildProperties;
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -82,7 +83,7 @@ public class EmailsTest extends BaseComponentTest {
 
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.name = "Evaluation Name";
-		e.endTime = Common.getDateOffsetToCurrentTime(0);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 
 		CourseAttributes c = new CourseAttributes();
 		c.id = "course-id";
@@ -125,7 +126,7 @@ public class EmailsTest extends BaseComponentTest {
 		submitUrl = Common.addParamToUrl(submitUrl, Common.PARAM_EVALUATION_NAME,
 				e.name);
 
-		String deadline = Common.formatTime(e.endTime);
+		String deadline = TimeHelper.formatTime(e.endTime);
 
 		String emailBody = email.getContent().toString();
 
@@ -259,7 +260,7 @@ public class EmailsTest extends BaseComponentTest {
 
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.name = "Evaluation Name";
-		e.endTime = Common.getDateOffsetToCurrentTime(0);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 
 		CourseAttributes c = new CourseAttributes();
 		c.id = "course-id";

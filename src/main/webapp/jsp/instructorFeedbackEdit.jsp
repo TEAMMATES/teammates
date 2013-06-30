@@ -1,5 +1,6 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.TimeHelper"%>
 <%@ page import="teammates.common.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackEditPageData"%>
@@ -80,7 +81,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_VISIBLEDATE%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom" value="custom"
-							<%if(Common.isSpecialTime(data.session.sessionVisibleFromTime) == false)  
+							<%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == false)  
 									out.print("checked=\"checked\"");
 							%>
 							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='';
@@ -89,9 +90,9 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							name="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
 							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>','dd/MM/yyyy')"
-							value="<%=Common.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : Common.formatDate(data.session.sessionVisibleFromTime)%>"
+							value="<%=TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.sessionVisibleFromTime)%>"
 							readonly="readonly" tabindex="3"
-							<%if(Common.isSpecialTime(data.session.sessionVisibleFromTime) == true)  
+							<%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == true)  
 									out.print("disabled=\"disabled\"");
 							%>							
 							> @ <select
@@ -100,7 +101,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							id="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>" tabindex="4"
 							<%
 								Date date = null;
-								if(Common.isSpecialTime(data.session.sessionVisibleFromTime) == true) {  
+								if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == true) {  
 									out.print("disabled=\"disabled\"");
 									date = null;
 								} else {
@@ -136,7 +137,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_PUBLISHDATE%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom" value="custom"
-							<%if(Common.isSpecialTime(data.session.resultsVisibleFromTime) == false) 
+							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == false) 
 									out.print("checked=\"checked\"");%>
 							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled=''
 							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled=''"> 
@@ -145,15 +146,15 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							id="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>"
 							onclick="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>','dd/MM/yyyy');}
 							else{return false;}"
-							value="<%=Common.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : Common.formatDate(data.session.resultsVisibleFromTime)%>"
+							value="<%=TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.resultsVisibleFromTime)%>"
 							readonly="readonly" tabindex="5"
-							<%if(Common.isSpecialTime(data.session.resultsVisibleFromTime) == true)  
+							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == true)  
 									out.print("disabled=\"disabled\"");%>
 							> @ <select
 							style="width: 70px;"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>" tabindex="6"
-							<%	if(Common.isSpecialTime(data.session.resultsVisibleFromTime) == true) {
+							<%	if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == true) {
 									out.print("disabled=\"disabled\"");
 									date = null;
 								} else {
@@ -198,7 +199,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>"
 							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>','dd/MM/yyyy')"
-							value="<%=Common.formatDate(data.session.startTime)%>"
+							value="<%=TimeHelper.formatDate(data.session.startTime)%>"
 							readonly="readonly" tabindex="7"> @ <select
 							style="width: 70px;"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>"
@@ -214,7 +215,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>"
 							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>"
 							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>','dd/MM/yyyy')"							
-							value="<%=Common.formatDate(data.session.endTime)%>"
+							value="<%=TimeHelper.formatDate(data.session.endTime)%>"
 							readonly="readonly" tabindex="8"> @ <select
 							style="width: 70px;"
 							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>"

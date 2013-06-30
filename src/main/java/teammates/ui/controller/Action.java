@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.UserType;
@@ -240,11 +241,11 @@ public abstract class Action {
 		newEval.name = getRequestParam(Common.PARAM_EVALUATION_NAME);
 		newEval.p2pEnabled = getRequestParamAsBoolean(Common.PARAM_EVALUATION_COMMENTSENABLED);
 
-		newEval.startTime = Common.combineDateTime(
+		newEval.startTime = TimeHelper.combineDateTime(
 				getRequestParam(Common.PARAM_EVALUATION_START),
 				getRequestParam(Common.PARAM_EVALUATION_STARTTIME));
 
-		newEval.endTime = Common.combineDateTime(
+		newEval.endTime = TimeHelper.combineDateTime(
 				getRequestParam(Common.PARAM_EVALUATION_DEADLINE),
 				getRequestParam(Common.PARAM_EVALUATION_DEADLINETIME));
 

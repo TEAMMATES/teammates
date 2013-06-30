@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -112,8 +113,8 @@ public class EvaluationsDbTest extends BaseComponentTest {
 		
 		______TS("invalid parameters");
 		
-		e.startTime = Common.getDateOffsetToCurrentTime(1);
-		e.endTime = Common.getDateOffsetToCurrentTime(-1);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		try {
 			evaluationsDb.updateEvaluation(e);
 			Assert.fail();
@@ -126,8 +127,8 @@ public class EvaluationsDbTest extends BaseComponentTest {
 		______TS("non existent");
 		
 		e.name = "Non existent Evaluation";
-		e.startTime = Common.getDateOffsetToCurrentTime(-1);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		try {
 			evaluationsDb.updateEvaluation(e);
 			Assert.fail();
@@ -186,8 +187,8 @@ public class EvaluationsDbTest extends BaseComponentTest {
 		e.timeZone = 0.0;
 		e.gracePeriod = 0;
 		e.instructions = "typical instructions";
-		e.startTime = Common.getDateOffsetToCurrentTime(-1);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.p2pEnabled = true;
 		e.activated = true;
 		e.published = false;

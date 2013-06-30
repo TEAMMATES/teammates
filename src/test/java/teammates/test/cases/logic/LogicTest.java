@@ -33,6 +33,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -852,23 +853,21 @@ public class LogicTest extends BaseComponentTest {
 				.get("student2InCourse1");
 	
 		// Make sure all evaluations in course1 are visible (i.e., not AWAITING)
-		expectedEval1InCourse1.startTime = Common
-				.getDateOffsetToCurrentTime(-2);
-		expectedEval1InCourse1.endTime = Common.getDateOffsetToCurrentTime(-1);
+		expectedEval1InCourse1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		expectedEval1InCourse1.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		expectedEval1InCourse1.published = false;
 		assertEquals(EvalStatus.CLOSED, expectedEval1InCourse1.getStatus());
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		backDoorLogic.updateEvaluation(expectedEval1InCourse1);
 	
-		expectedEval2InCourse1.startTime = Common
-				.getDateOffsetToCurrentTime(-1);
-		expectedEval2InCourse1.endTime = Common.getDateOffsetToCurrentTime(1);
+		expectedEval2InCourse1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		expectedEval2InCourse1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.OPEN, expectedEval2InCourse1.getStatus());
 		backDoorLogic.updateEvaluation(expectedEval2InCourse1);
 	
 		// Make sure all evaluations in course2 are still AWAITING
-		expectedEval1InCourse2.startTime = Common.getDateOffsetToCurrentTime(1);
-		expectedEval1InCourse2.endTime = Common.getDateOffsetToCurrentTime(2);
+		expectedEval1InCourse2.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		expectedEval1InCourse2.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		expectedEval1InCourse2.activated = false;
 		assertEquals(EvalStatus.AWAITING, expectedEval1InCourse2.getStatus());
 		backDoorLogic.updateEvaluation(expectedEval1InCourse2);
@@ -1650,8 +1649,8 @@ public class LogicTest extends BaseComponentTest {
 		EvaluationAttributes newEval = new EvaluationAttributes();
 		newEval.courseId = "course1";
 		newEval.name = "new eval";
-		newEval.startTime = Common.getDateOffsetToCurrentTime(1);
-		newEval.endTime = Common.getDateOffsetToCurrentTime(2);
+		newEval.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		newEval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		logic.createEvaluation(newEval);
 	
 		List<MimeMessage> emailsSent = logic.sendReminderForEvaluation(
@@ -2369,8 +2368,8 @@ public class LogicTest extends BaseComponentTest {
 		eval.gracePeriod = eval.gracePeriod + 1;
 		eval.instructions = eval.instructions + "x";
 		eval.p2pEnabled = (!eval.p2pEnabled);
-		eval.startTime = Common.getDateOffsetToCurrentTime(-1);
-		eval.endTime = Common.getDateOffsetToCurrentTime(2);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		//we don't modify derived attributes here because they cannot be updated this way.
 		invokeEditEvaluation(eval);
 
@@ -2396,8 +2395,8 @@ public class LogicTest extends BaseComponentTest {
 
 		// make the evaluation invalid (end time is before start time)
 		eval.timeZone = 0;
-		eval.startTime = Common.getDateOffsetToCurrentTime(1);
-		eval.endTime = Common.getDateOffsetToCurrentTime(0);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 		try {
 			invokeEditEvaluation(eval);
 			Assert.fail();
@@ -2436,7 +2435,7 @@ public class LogicTest extends BaseComponentTest {
 		assertEquals(false,
 				logic.getEvaluation(eval1.courseId, eval1.name).published);
 		// ensure CLOSED
-		eval1.endTime = Common.getDateOffsetToCurrentTime(-1);
+		eval1.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		assertEquals(EvalStatus.CLOSED, eval1.getStatus());
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		backDoorLogic.updateEvaluation(eval1);
@@ -2452,7 +2451,7 @@ public class LogicTest extends BaseComponentTest {
 		______TS("not ready for publishing");
 
 		// make the evaluation OPEN
-		eval1.endTime = Common.getDateOffsetToCurrentTime(1);
+		eval1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		assertEquals(EvalStatus.OPEN, eval1.getStatus());
 		backDoorLogic.updateEvaluation(eval1);
 
@@ -3043,8 +3042,8 @@ public class LogicTest extends BaseComponentTest {
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.courseId = courseId;
 		e.name = evaluationName;
-		e.startTime = Common.getDateOffsetToCurrentTime(-1);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.gracePeriod = 0;
 		e.instructions = "instructions for " + e.name;
 		logic.createEvaluation(e);

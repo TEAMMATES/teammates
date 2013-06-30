@@ -23,6 +23,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.InvalidParametersException;
@@ -42,8 +43,8 @@ public class EvaluationAttributesTest extends BaseTestCase {
 
 		______TS("in the awaiting period");
 
-		evaluation.startTime = Common.getMsOffsetToCurrentTime(safetyMargin);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(1);
+		evaluation.startTime = TimeHelper.getMsOffsetToCurrentTime(safetyMargin);
+		evaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 
 		timeZone = 0.0;
 		evaluation.timeZone = timeZone;
@@ -57,7 +58,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 
 		______TS("in the middle of open period");
 
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(-1);
+		evaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		AssertJUnit.assertEquals(EvalStatus.OPEN, evaluation.getStatus());
 
 		______TS("just before grace period expires");
@@ -66,7 +67,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		int gracePeriodInMs = gracePeriod * 60 * 1000;
 		evaluation.gracePeriod = gracePeriod;
 		
-		evaluation.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+		evaluation.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(
 				gracePeriodInMs - safetyMargin, timeZone);
 		
 		timeZone = 0.0;
@@ -83,7 +84,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		timeZone = 0.0;
 		evaluation.timeZone = timeZone;
 		
-		evaluation.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+		evaluation.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(
 				- gracePeriodInMs - safetyMargin, timeZone);
 		
 		AssertJUnit.assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
@@ -101,13 +102,13 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		evaluation.timeZone = timeZone;
 
 		// in AWAITING period
-		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+		evaluation.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(
 				safetyMargin, timeZone);
-		evaluation.endTime = Common.getDateOffsetToCurrentTime(1);
+		evaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		AssertJUnit.assertEquals(EvalStatus.AWAITING, evaluation.getStatus());
 
 		// in OPEN period
-		evaluation.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+		evaluation.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(
 				-safetyMargin, timeZone);
 		AssertJUnit.assertEquals(EvalStatus.OPEN, evaluation.getStatus());
 
@@ -119,8 +120,8 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		timeZone = 1.0;
 		evaluation.timeZone = timeZone;
 
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
-		evaluation.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+		evaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		evaluation.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(
 				- gracePeriodInMs + safetyMargin, timeZone);
 
 		AssertJUnit.assertEquals(EvalStatus.OPEN, evaluation.getStatus());
@@ -132,8 +133,8 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		timeZone = 1.0;
 		evaluation.timeZone = timeZone;
 
-		evaluation.startTime = Common.getDateOffsetToCurrentTime(-2);
-		evaluation.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(
+		evaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		evaluation.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(
 				- gracePeriodInMs - safetyMargin, timeZone);
 
 		AssertJUnit.assertEquals(EvalStatus.CLOSED, evaluation.getStatus());
@@ -150,8 +151,8 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.courseId = "";
 		e.name = "";
 		e.instructions = Common.generateStringOfLength(EVALUATION_INSTRUCTIONS_MAX_LENGTH+1);
-		e.startTime = Common.getDateOffsetToCurrentTime(1);
-		e.endTime = Common.getDateOffsetToCurrentTime(2);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		e.activated = false;
 		e.published = false;
 		e.timeZone = 0.0;
@@ -181,7 +182,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 			ignoreExpectedException();
 		}
 		
-		e.startTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.endTime = null;
 		try {
 			e.getInvalidityInfo();
@@ -192,13 +193,13 @@ public class EvaluationAttributesTest extends BaseTestCase {
 
 		
 		// SUCCESS : end == start
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.startTime = e.endTime;
 		assertTrue(e.isValid());
 		
 		// FAIL : end before start
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
-		e.startTime = Common.getDateOffsetToCurrentTime(2);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		assertFalse(e.isValid());
 		errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE, 
 				END_TIME_FIELD_NAME, EVALUATION_NAME, START_TIME_FIELD_NAME);
@@ -207,21 +208,21 @@ public class EvaluationAttributesTest extends BaseTestCase {
 
 		// FAIL : published before endtime: invalid
 		e.published = true;
-		e.startTime = Common.getDateOffsetToCurrentTime(0);
-		e.endTime = Common.getMsOffsetToCurrentTime(5);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(0);
+		e.endTime = TimeHelper.getMsOffsetToCurrentTime(5);
 		assertFalse(e.isValid());
 		assertEquals(FieldValidator.EVALUATION_END_TIME_ERROR_MESSAGE,
 				Common.toString(e.getInvalidityInfo()));
 
 		// SUCCESS : just after endtime and published: valid
-		e.startTime = Common.getDateOffsetToCurrentTime(-1);
-		e.endTime = Common.getMsOffsetToCurrentTime(-5);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		e.endTime = TimeHelper.getMsOffsetToCurrentTime(-5);
 		e.published = true;
 		assertTrue(e.isValid());
 
 		// FAIL : activated before start time: invalid
-		e.startTime = Common.getDateOffsetToCurrentTime(1);
-		e.endTime = Common.getDateOffsetToCurrentTime(2);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		e.published = false;
 		e.activated = true;
 		assertFalse(e.isValid());
@@ -293,16 +294,16 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		______TS("ready, just after start time");
 
 		// start time set to 1 sec before current time
-		e.startTime = Common.getMsOffsetToCurrentTime(-oneSecInMilliSeconds);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getMsOffsetToCurrentTime(-oneSecInMilliSeconds);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.activated = false;
 		e.timeZone = 0.0;
 		assertEquals(true, e.isReadyToActivate());
 		
 		// negative time zone, starting just before current time
 		timeZone = -2.0;
-		e.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-oneSecInMilliSeconds,timeZone);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-oneSecInMilliSeconds,timeZone);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.activated = false;
 		e.timeZone = timeZone;
 		assertEquals(true, e.isReadyToActivate());
@@ -310,8 +311,8 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		
 		// positive time zone, starting just before current time
 		timeZone = 2.0;
-		e.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-oneSecInMilliSeconds, timeZone);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-oneSecInMilliSeconds, timeZone);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.activated = false;
 		e.timeZone = timeZone;
 		assertEquals(true, e.isReadyToActivate());
@@ -319,24 +320,24 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		______TS("not ready, just before start time");
 		//start time set to 1 sec after current time
 		oneSecInMilliSeconds = 1 * 1000;
-		e.startTime = Common.getMsOffsetToCurrentTime(+oneSecInMilliSeconds);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getMsOffsetToCurrentTime(+oneSecInMilliSeconds);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.activated = false;
 		e.timeZone = 0.0;
 		assertEquals(false, e.isReadyToActivate());
 
 		// negative time zone, starting just after current time
 		timeZone = -2.0;
-		e.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(oneSecInMilliSeconds, timeZone);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(oneSecInMilliSeconds, timeZone);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.activated = false;
 		e.timeZone = timeZone;
 		assertEquals(false, e.isReadyToActivate());
 		
 		// positive time zone, starting just after current time
 		timeZone = 2.0;
-		e.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(oneSecInMilliSeconds, timeZone);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(oneSecInMilliSeconds, timeZone);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.activated = false;
 		e.timeZone = timeZone;
 		assertEquals(false, e.isReadyToActivate());
@@ -344,15 +345,15 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		______TS("not ready, already activated");
 		
 		// start time set to 1 sec before current time
-		e.startTime = Common.getMsOffsetToCurrentTime(-oneSecInMilliSeconds);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getMsOffsetToCurrentTime(-oneSecInMilliSeconds);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.activated = true;
 		e.timeZone = 0.0;
 		assertEquals(false, e.isReadyToActivate());
 
 		// start time set to 1 sec after current time
-		e.startTime = Common.getMsOffsetToCurrentTime(+oneSecInMilliSeconds);
-		e.endTime = Common.getDateOffsetToCurrentTime(1);
+		e.startTime = TimeHelper.getMsOffsetToCurrentTime(+oneSecInMilliSeconds);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.activated = true;
 		e.timeZone = 0.0;
 		assertEquals(false, e.isReadyToActivate());
@@ -377,8 +378,8 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		e.courseId = "valid-course";
 		e.name = "valid name";
 		e.instructions = "1st line of instructions \n 2nd line of instructions";
-		e.startTime = Common.getDateOffsetToCurrentTime(1);
-		e.endTime = Common.getDateOffsetToCurrentTime(2);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		e.activated = false;
 		e.published = false;
 		e.timeZone = 0.0;
@@ -395,14 +396,14 @@ private void verifyEvalUpdateFromPublishedToOpen(int timeZone) throws Exception{
 		//first, make it PUBLISHED
 		eval.timeZone = timeZone;
 		eval.gracePeriod = 15;
-		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
-		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute, timeZone);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		eval.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute, timeZone);
 		eval.activated = true;
 		eval.published = true;
 		assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
 		
 		//then, make it OPEN
-		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod-1), timeZone);
+		eval.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod-1), timeZone);
 		eval.setDerivedAttributes();
 		
 		//check if derived attributes are set correctly
@@ -419,15 +420,15 @@ private void verifyEvalUpdateFromPublishedToOpen(int timeZone) throws Exception{
 		//first, make it CLOSED
 		eval.timeZone = timeZone;
 		eval.gracePeriod = 15;
-		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
-		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod+1), timeZone);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		eval.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod+1), timeZone);
 		eval.published = false;
 		eval.activated = true;
 		assertEquals(EvalStatus.CLOSED, eval.getStatus());
 		
 		//then, make it AWAITING
-		eval.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(milliSecondsPerMinute,timeZone);
-		eval.endTime = Common.getDateOffsetToCurrentTime(2);
+		eval.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(milliSecondsPerMinute,timeZone);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		eval.setDerivedAttributes();
 		
 		//check if derived attributes are set correctly
@@ -444,16 +445,16 @@ private void verifyEvalUpdateFromPublishedToOpen(int timeZone) throws Exception{
 		//first, make it AWAITING
 		eval.timeZone = timeZone;
 		eval.gracePeriod = 15;
-		eval.startTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(milliSecondsPerMinute,timeZone);
-		eval.endTime = Common.getDateOffsetToCurrentTime(2);
+		eval.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(milliSecondsPerMinute,timeZone);
+		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		eval.published = false;
 		eval.activated = false;
 		assertEquals(EvalStatus.AWAITING, eval.getStatus());
 		
 		
 		//then, make it CLOSED
-		eval.startTime = Common.getDateOffsetToCurrentTime(-2);
-		eval.endTime = Common.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod+1), timeZone);
+		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		eval.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod+1), timeZone);
 		eval.setDerivedAttributes();
 		
 		//check if derived attributes are set correctly

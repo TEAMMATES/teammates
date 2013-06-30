@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -419,8 +420,8 @@ public class BackDoorTest extends BaseTestCase {
 		e.name = "Eval for tmapit.tce.course";
 		e.instructions = "inst.";
 		e.p2pEnabled = true;
-		e.startTime = Common.getDateOffsetToCurrentTime(1);
-		e.endTime = Common.getDateOffsetToCurrentTime(2);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		e.timeZone = 8.0;
 		e.gracePeriod = 5;
 		BackDoor.deleteEvaluation(e.courseId, e.name);
@@ -448,8 +449,8 @@ public class BackDoorTest extends BaseTestCase {
 		e.gracePeriod = e.gracePeriod + 1;
 		e.instructions = e.instructions + "x";
 		e.p2pEnabled = (!e.p2pEnabled);
-		e.startTime = Common.getDateOffsetToCurrentTime(-2);
-		e.endTime = Common.getDateOffsetToCurrentTime(-1);
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		e.activated = (!e.activated);
 		e.published = (!e.published);
 		e.timeZone = e.timeZone + 1.0;

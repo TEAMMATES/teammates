@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 
 public class InstructorEvalEditPage extends AppPage {
 	
@@ -54,15 +55,15 @@ public class InstructorEvalEditPage extends AppPage {
 		
 		// Select deadline date
 		 js.executeScript("$('#" + Common.PARAM_EVALUATION_DEADLINE
-				+ "')[0].value='" + Common.formatDate(endTime) + "';");
+				+ "')[0].value='" + TimeHelper.formatDate(endTime) + "';");
 		selectDropdownByVisibleValue(endTimeDropdown,
-				Common.convertToDisplayValueInTimeDropDown(endTime));
+				TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
 		
 		// Select start date
 		js.executeScript("$('#" + Common.PARAM_EVALUATION_START
-				+ "')[0].value='" + Common.formatDate(startTime) + "';");
+				+ "')[0].value='" + TimeHelper.formatDate(startTime) + "';");
 		selectDropdownByVisibleValue(startTimeDropdown,
-				Common.convertToDisplayValueInTimeDropDown(startTime));
+				TimeHelper.convertToDisplayValueInTimeDropDown(startTime));
 	
 		// Allow P2P comment
 		if (p2pEnabled) {

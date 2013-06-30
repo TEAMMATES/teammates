@@ -12,6 +12,7 @@ import teammates.common.Common;
 import teammates.common.FieldValidator;
 import teammates.common.FieldValidator.FieldType;
 import teammates.common.Sanitizer;
+import teammates.common.TimeHelper;
 import teammates.storage.entity.Evaluation;
 
 /**
@@ -79,7 +80,7 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	public EvalStatus getStatus() {
 		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		Common.convertToUserTimeZone(now, timeZone);
+		TimeHelper.convertToUserTimeZone(now, timeZone);
 
 		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		start.setTime(startTime);
@@ -88,9 +89,9 @@ public class EvaluationAttributes extends EntityAttributes {
 		end.setTime(endTime);
 		end.add(Calendar.MINUTE, gracePeriod);
 
-		log.fine(Common.EOL + "Now  : " + Common.calendarToString(now)
-				+ Common.EOL + "Start: " + Common.calendarToString(start)
-				+ Common.EOL + "End  : " + Common.calendarToString(end));
+		log.fine(Common.EOL + "Now  : " + TimeHelper.calendarToString(now)
+				+ Common.EOL + "Start: " + TimeHelper.calendarToString(start)
+				+ Common.EOL + "End  : " + TimeHelper.calendarToString(end));
 
 		if (published) {
 			return EvalStatus.PUBLISHED;
@@ -108,15 +109,15 @@ public class EvaluationAttributes extends EntityAttributes {
 	 *         the evaluation has not been activated yet.
 	 */
 	public boolean isReadyToActivate() {
-		Calendar currentTimeInUserTimeZone = Common.convertToUserTimeZone(
+		Calendar currentTimeInUserTimeZone = TimeHelper.convertToUserTimeZone(
 				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
 
 		Calendar evalStartTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		evalStartTime.setTime(startTime);
 
 		log.fine("current:"
-				+ Common.calendarToString(currentTimeInUserTimeZone)
-				+ "|start:" + Common.calendarToString(evalStartTime));
+				+ TimeHelper.calendarToString(currentTimeInUserTimeZone)
+				+ "|start:" + TimeHelper.calendarToString(evalStartTime));
 
 		if (currentTimeInUserTimeZone.before(evalStartTime)) {
 			return false;
@@ -130,7 +131,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	 * for time zone differences.
 	 */
 	public boolean isOpeningInFuture() {
-		Calendar currentTimeInUserTimeZone = Common.convertToUserTimeZone(
+		Calendar currentTimeInUserTimeZone = TimeHelper.convertToUserTimeZone(
 				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
 
 		Calendar evalStartTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -173,7 +174,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	 */
 	public boolean isClosingInFuture() {
 		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		Common.convertToUserTimeZone(now, timeZone);
+		TimeHelper.convertToUserTimeZone(now, timeZone);
 
 		Calendar end = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		end.setTime(endTime);

@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
@@ -41,10 +42,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		newSession = new FeedbackSessionAttributes();
 		newSession.courseId = "CFeedbackUiT.CS1101";
 		newSession.feedbackSessionName = "New Session";
-		newSession.startTime = Common.convertToDate("2014-04-01 11:59 PM UTC");
-		newSession.endTime = Common.convertToDate("2014-04-30 11:59 PM UTC");
+		newSession.startTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
+		newSession.endTime = TimeHelper.convertToDate("2014-04-30 11:59 PM UTC");
 		newSession.creatorEmail = "teammates.test3@gmail.com";
-		newSession.createdTime = Common.convertToDate("2014-04-01 11:59 PM UTC");
+		newSession.createdTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
 		newSession.sessionVisibleFromTime = Common.TIME_REPRESENTS_FOLLOW_OPENING;
 		newSession.resultsVisibleFromTime = Common.TIME_REPRESENTS_FOLLOW_VISIBLE;
 		newSession.gracePeriod = 10;

@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import teammates.common.Common;
+import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -133,8 +134,8 @@ public class BaseTestCase {
 	}
 
 	protected static void assertSameDates(Date expected, Date actual) {
-		assertEquals(Common.calendarToString(Common.dateToCalendar(expected)),
-				Common.calendarToString(Common.dateToCalendar(actual)));
+		assertEquals(TimeHelper.calendarToString(TimeHelper.dateToCalendar(expected)),
+				TimeHelper.calendarToString(TimeHelper.dateToCalendar(actual)));
 	}
 
 	/**
