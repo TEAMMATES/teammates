@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
+import teammates.common.HttpRequestHelper;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.logic.api.Logic;
@@ -60,7 +61,7 @@ public class ControllerServlet extends HttpServlet {
 			//TODO: This exception is not caught because GAE kills the request soon after throwing it.
 			MimeMessage email = new Logic().emailErrorReport(
 					req.getServletPath(), 
-					Common.printRequestParameters(req), 
+					HttpRequestHelper.printRequestParameters(req), 
 					e);
 			log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
 			resp.sendRedirect(Common.JSP_DEADLINE_EXCEEDED_ERROR_PAGE);
@@ -69,7 +70,7 @@ public class ControllerServlet extends HttpServlet {
 		}  catch (Throwable e) {
 			MimeMessage email = new Logic().emailErrorReport(
 					req.getServletPath(), 
-					Common.printRequestParameters(req), 
+					HttpRequestHelper.printRequestParameters(req), 
 					e);
 
 			log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 

@@ -15,6 +15,7 @@ import java.util.Map;
 
 import teammates.common.Common;
 import teammates.common.StringHelper;
+import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -155,7 +156,7 @@ public class BackDoor {
 	public static AccountAttributes getAccountWithRetry(String googleId) {
 		AccountAttributes a = getAccount(googleId);
 		if(a == null){
-			Common.waitFor(RETRY_DELAY_IN_MILLISECONDS);
+			ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
 			a = getAccount(googleId);
 		}
 		return a;
@@ -266,7 +267,7 @@ public class BackDoor {
 	public static boolean isCourseNonExistent(String courseId) {
 		CourseAttributes c = getCourse(courseId);
 		if(c != null){
-			Common.waitFor(RETRY_DELAY_IN_MILLISECONDS);
+			ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
 			c = getCourse(courseId);
 		}
 		return c == null;
@@ -362,7 +363,7 @@ public class BackDoor {
 	public static boolean isEvaluationNonExistent(String courseID, String evaluationName) {
 		EvaluationAttributes e = getEvaluation(courseID, evaluationName);
 		if(e != null){
-			Common.waitFor(RETRY_DELAY_IN_MILLISECONDS);
+			ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
 			e = getEvaluation(courseID, evaluationName);
 		}
 		return (e == null) ;

@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
+import teammates.common.HttpRequestHelper;
 import teammates.common.datatransfer.AccountAttributes;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -236,11 +237,11 @@ public class ActivityLogEntry {
 		if(actionTaken.length > 0) {
 			action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
 		}
-		String url = Common.getRequestedURL(req);
+		String url = HttpRequestHelper.getRequestedURL(req);
         
         String message = "<span class=\"color_red\">Servlet Action failure in " + action + "<br>";
         message += e.getClass() + ": " + Common.stackTraceToString(e) + "<br>";
-        message += Common.printRequestParameters(req) + "</span>";
+        message += HttpRequestHelper.printRequestParameters(req) + "</span>";
         
         ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Common.LOG_SERVLET_ACTION_FAILURE, null, message, url);
         
@@ -254,7 +255,7 @@ public class ActivityLogEntry {
 		if(actionTaken.length > 0) {
 			action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
 		}
-		String url = Common.getRequestedURL(req);
+		String url = HttpRequestHelper.getRequestedURL(req);
         
         String message = "";
         if(errorEmail != null){

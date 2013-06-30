@@ -12,6 +12,7 @@ import javax.jdo.Query;
 import teammates.common.Assumption;
 import teammates.common.Common;
 import teammates.common.StringHelper;
+import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -267,9 +268,9 @@ public class StudentsDb extends EntitiesDb {
 		Student studentCheck = getStudentEntityForEmail(courseId, email);
 		while ((studentCheck != null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
+			ThreadHelper.waitBriefly();
 			studentCheck = getStudentEntityForEmail(courseId, email);
-			elapsedTime += Common.WAIT_DURATION;
+			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteStudent->"

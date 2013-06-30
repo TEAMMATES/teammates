@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -315,7 +316,7 @@ public class BackDoorLogic extends Logic {
 					break;
 				}else {
 					retryCount++;
-					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+					ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
 				}
 			}
 			if(retreived != null) {
@@ -332,7 +333,7 @@ public class BackDoorLogic extends Logic {
 					break;
 				}else {
 					retryCount++;
-					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+					ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
 				}
 			}
 			if(retreived != null) {
@@ -350,7 +351,7 @@ public class BackDoorLogic extends Logic {
 				}else {
 					retryCount++;
 					if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); };
-					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+					ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
 				}
 			}
 			if(retreived != null) {
@@ -368,7 +369,7 @@ public class BackDoorLogic extends Logic {
 				}else {
 					retryCount++;
 					if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); };
-					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+					ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
 				}
 			}
 			if(retreived != null) {
@@ -387,7 +388,7 @@ public class BackDoorLogic extends Logic {
 					break;
 				}else {
 					retryCount++;
-					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+					ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
 				}
 			}
 			if(retreived != null) {
@@ -404,7 +405,7 @@ public class BackDoorLogic extends Logic {
 					break;
 				}else {
 					retryCount++;
-					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+					ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
 				}
 			}
 			if(retreived != null) {
@@ -421,7 +422,7 @@ public class BackDoorLogic extends Logic {
 					break;
 				}else {
 					retryCount++;
-					Common.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
+					ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
 				}
 			}
 			if(retreived != null) {

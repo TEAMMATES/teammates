@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.Common;
+import teammates.common.ThreadHelper;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.GateKeeper;
@@ -42,7 +43,7 @@ public class AdminSearchPageAction extends Action {
 			Queue queue = QueueFactory.getQueue("search-document");
 			queue.add(TaskOptions.Builder.withUrl("/searchTask").method(TaskOptions.Method.GET));
 			statusToUser.add("Rebuild task submitted, please check again in a few minutes.");
-			Common.waitBriefly();
+			ThreadHelper.waitBriefly();
 			String queryStr = getRequestParam("query");
 			String limitStr = getRequestParam("limit");
 			search(queryStr, limitStr);

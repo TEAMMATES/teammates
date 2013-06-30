@@ -29,6 +29,7 @@ import org.testng.Assert;
 
 import teammates.common.Common;
 import teammates.common.FileHelper;
+import teammates.common.ThreadHelper;
 import teammates.common.Url;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
@@ -98,7 +99,7 @@ public abstract class AppPage {
 		//  reload the page and compare once more.
 		System.out.println("#### Incorrect page type: going to try reloading the page.");
 		
-		Common.waitFor(2000);
+		ThreadHelper.waitFor(2000);
 		
 		this.reloadPage();
 		isCorrectPageType = containsExpectedPageContents();
@@ -432,7 +433,7 @@ public abstract class AppPage {
 		boolean isSameStatus = expectedStatus.equals(this.getStatus());
 		if(!isSameStatus){
 			//try one more time (to account for delays in displaying the status message).
-			Common.waitFor(2000);
+			ThreadHelper.waitFor(2000);
 			assertEquals(expectedStatus, this.getStatus());
 		}
 		return this;
@@ -542,7 +543,7 @@ public abstract class AppPage {
 		//This method might fail at times due to a Selenium bug
 		//  See https://code.google.com/p/selenium/issues/detail?id=3544
 		//  The delay below is a temporary workaround to minimize the failure rate.
-		Common.waitFor(250);
+		ThreadHelper.waitFor(250);
 		Alert alert = browser.driver.switchTo().alert();
 		if(isConfirm){
 			alert.accept();

@@ -11,6 +11,7 @@ import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -144,7 +145,7 @@ public class InstructorsDb extends EntitiesDb{
 		
 		//TODO: this should be an exception instead?
 		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.googleId
-				+ Common.getCurrentThreadStack(), instructorToUpdate);
+				+ ThreadHelper.getCurrentThreadStack(), instructorToUpdate);
 		
 		instructorToUpdate.setName(instructorAttributesToUpdate.name);
 		instructorToUpdate.setEmail(instructorAttributesToUpdate.email);
@@ -180,9 +181,9 @@ public class InstructorsDb extends EntitiesDb{
 		Instructor instructorCheck = getInstructorEntityForGoogleId(courseId, googleId);
 		while ((instructorCheck != null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
+			ThreadHelper.waitBriefly();
 			instructorCheck = getInstructorEntityForGoogleId(courseId, googleId);
-			elapsedTime += Common.WAIT_DURATION;
+			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteInstructor->"

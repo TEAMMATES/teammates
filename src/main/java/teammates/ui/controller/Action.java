@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.Common;
 import teammates.common.FieldValidator;
+import teammates.common.HttpRequestHelper;
 import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -57,7 +58,7 @@ public abstract class Action {
 	@SuppressWarnings("unchecked")
 	public void init(HttpServletRequest req){
 		
-		requestUrl = Common.getRequestedURL(req);
+		requestUrl = HttpRequestHelper.getRequestedURL(req);
 		logic = new Logic();
 		requestParameters = req.getParameterMap();
 		
@@ -160,18 +161,18 @@ public abstract class Action {
 	 * @return null if the specified parameter was not found in the request.
 	 */
 	public String getRequestParam(String paramName) { //TODO: rename to getRequestParamValue
-		return Common.getValueFromParamMap(requestParameters, paramName);
+		return HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
 	}
 	
 	/**
 	 * @return null if the specified parameter was not found in the request.
 	 */
 	public String[] getRequestParamValues(String paramName) {
-		return Common.getValuesFromParamMap(requestParameters, paramName);
+		return HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
 	}
 	
 	public boolean getRequestParamAsBoolean(String paramName) {
-		return Boolean.parseBoolean(Common.getValueFromParamMap(requestParameters, paramName));
+		return Boolean.parseBoolean(HttpRequestHelper.getValueFromParamMap(requestParameters, paramName));
 	}
 
 	/**

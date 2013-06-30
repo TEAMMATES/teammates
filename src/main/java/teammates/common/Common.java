@@ -6,8 +6,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.Logger;
@@ -15,7 +13,6 @@ import java.util.logging.Logger;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
@@ -572,10 +569,6 @@ public class Common {
 	 * Generate delay to handle slow writing IO in datastore
 	 */
 	public static long PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
-	public static final int WAIT_DURATION = 200;
-
-	
-	
 	/**
 	 * Email templates
 	 */
@@ -726,29 +719,6 @@ public class Common {
 	}
 	
 	/**
-	 * 
-	 * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
-	 * @param key
-	 * @return the first value for the key. Returns null if key not found.
-	 */
-	public static String getValueFromParamMap(Map<String, String[]> paramMap, String key) {
-		String[] values = paramMap.get(key);
-		return values == null ? null : values[0];
-	}
-	
-	/**
-	 * 
-	 * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
-	 * @param key
-	 * @return all values for the key. Returns null if key not found.
-	 */
-	public static String[] getValuesFromParamMap(Map<String, String[]> paramMap, String key) {
-		String[] values = paramMap.get(key);
-		return values == null ? null : values;
-	}
-	
-
-	/**
 	 * This creates a Gson object that can handle the Date format we use in the
 	 * Json file and also reformat the Json string in pretty-print format. <br>
 	 * Technique found in <a href=
@@ -768,72 +738,11 @@ public class Common {
 				.getClassName());
 	}
 
-	public static String printRequestParameters(HttpServletRequest request) {
-		String requestParameters = "{";
-		for (Enumeration<?> f = request.getParameterNames(); f.hasMoreElements();) {
-			String paramet = new String(f.nextElement().toString());
-			requestParameters += paramet + "::";
-			String[] parameterValues = request.getParameterValues(paramet);
-			for (int j = 0; j < parameterValues.length; j++){
-				requestParameters += parameterValues[j] + "//";
-			}
-			requestParameters = requestParameters.substring(0, requestParameters.length() - 2) + ", ";
-		}
-		if (requestParameters != "{") {
-			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
-		}
-		requestParameters += "}";
-		return requestParameters;
-	}
-	
-	public static void waitBriefly() {
-		try {
-			Thread.sleep(WAIT_DURATION);
-		} catch (InterruptedException e) {
-			log.severe(Common.stackTraceToString(e));
-		}
-	}
-	
-	/**
-	 * Makes the thread sleep for the specified time. 
-	 */
-	public static void waitFor(int timeInMilliSeconds) {
-		try {
-			Thread.sleep(timeInMilliSeconds);
-		} catch (InterruptedException e) {
-			log.severe(Common.stackTraceToString(e));
-		}
-	}
-
-	/**
-	 * @return  the URL used for the HTTP request but without the domain.
-	 * e.g. "/page/studentHome?user=james" 
-	 */
-	public static String getRequestedURL(HttpServletRequest req) {
-		String link = req.getRequestURI();
-		String query = req.getQueryString();
-		if (query != null && !query.trim().isEmpty()){
-			link += "?" + query;
-		}
-		return link;
-	}
-
-
-	@SuppressWarnings("unused")
-	private void ____PRIVATE_helper_methods_________________________________() {
-	}
-
 	public static String stackTraceToString(Throwable e) {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		return "\n" + sw.toString();
 		
-	}
-	
-	public static String getCurrentThreadStack() {
-		StringWriter sw = new StringWriter();
-		new Throwable("").printStackTrace(new PrintWriter(sw));
-		return "\n" + sw.toString();
 	}
 	
 	/**

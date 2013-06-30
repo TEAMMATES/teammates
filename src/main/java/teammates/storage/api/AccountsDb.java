@@ -9,6 +9,7 @@ import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -91,7 +92,7 @@ public class AccountsDb extends EntitiesDb {
 		Account accountToUpdate = getAccountEntity(a.googleId);
 		//TODO: this should be an exception instead?
 		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
-				+ Common.getCurrentThreadStack(), accountToUpdate);
+				+ ThreadHelper.getCurrentThreadStack(), accountToUpdate);
 		
 		accountToUpdate.setName(a.name);
 		accountToUpdate.setEmail(a.email);
@@ -124,9 +125,9 @@ public class AccountsDb extends EntitiesDb {
 		Account accountCheck = getAccountEntity(googleId);
 		while ((accountCheck != null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
+			ThreadHelper.waitBriefly();
 			accountCheck = getAccountEntity(googleId);
-			elapsedTime += Common.WAIT_DURATION;
+			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteAccount->"

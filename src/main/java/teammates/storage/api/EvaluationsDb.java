@@ -8,6 +8,7 @@ import javax.jdo.Query;
 
 import teammates.common.Assumption;
 import teammates.common.Common;
+import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -132,9 +133,9 @@ public class EvaluationsDb extends EntitiesDb {
 		Evaluation evaluationCheck = getEvaluationEntity(courseId, name);
 		while ((evaluationCheck != null)
 				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
+			ThreadHelper.waitBriefly();
 			evaluationCheck = getEvaluationEntity(courseId, name);
-			elapsedTime += Common.WAIT_DURATION;
+			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
 		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteEvaluation->"
