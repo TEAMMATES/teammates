@@ -3,16 +3,12 @@ package teammates.common;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.internet.MimeMessage;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
@@ -758,28 +754,5 @@ public class Common {
 		TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
 		BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
 		PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
-	}
-	
-	
-	/**
-	 * Generate email recipient list for the automated reminders sent.
-	 * Used for AdminActivityLog
-	 */
-	public static ArrayList<Object> extractRecipientsList(ArrayList<MimeMessage> emails){
-
-		ArrayList<Object> data = new ArrayList<Object>();
-		
-		try{
-			for (int i = 0; i < emails.size(); i++){
-				Address[] recipients = emails.get(i).getRecipients(Message.RecipientType.TO);
-				for (int j = 0; j < recipients.length; j++){
-					data.add(recipients[j]);
-				}
-			}
-		} catch (Exception e){
-			throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders",e);
-		}
-		
-		return data;
 	}
 }

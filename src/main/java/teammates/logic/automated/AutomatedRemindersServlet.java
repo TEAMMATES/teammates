@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.Common;
+import teammates.logic.Emails;
 import teammates.ui.controller.ActivityLogEntry;
 
 @SuppressWarnings("serial")
@@ -39,7 +40,7 @@ public abstract class AutomatedRemindersServlet extends HttpServlet{
 		String message;
 		
 			try {
-				ArrayList<Object> data = Common.extractRecipientsList(emails);
+				ArrayList<Object> data = Emails.extractRecipientsList(emails);
 				message = "<span class=\"bold\">Emails sent to:</span><br>";
 				for (int i = 0; i < data.size(); i++){
 					message += data.get(i).toString() + "<br>";

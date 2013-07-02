@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.mail.Address;
 import javax.mail.Message;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -516,5 +517,27 @@ public class Emails {
 	
 	private boolean isYetToJoinCourse(StudentAttributes s) {
 		return s.googleId == null || s.googleId.isEmpty();
+	}
+
+	/**
+	 * Generate email recipient list for the automated reminders sent.
+	 * Used for AdminActivityLog
+	 */
+	public static ArrayList<Object> extractRecipientsList(ArrayList<MimeMessage> emails){
+	
+		ArrayList<Object> data = new ArrayList<Object>();
+		
+		try{
+			for (int i = 0; i < emails.size(); i++){
+				Address[] recipients = emails.get(i).getRecipients(Message.RecipientType.TO);
+				for (int j = 0; j < recipients.length; j++){
+					data.add(recipients[j]);
+				}
+			}
+		} catch (Exception e){
+			throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders",e);
+		}
+		
+		return data;
 	}
 }
