@@ -8,13 +8,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.FieldValidator;
-import teammates.common.StringHelper;
-import teammates.common.Url;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -110,14 +110,14 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		______TS("no courses");
 		
-		Url coursesUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE)
+		Url coursesUrl = new Url(Config.PAGE_INSTRUCTOR_COURSE)
 			.withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
 		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		coursesPage.verifyHtml("/instructorCourseEmpty.html");
 		
 		______TS("multiple course");
 		
-		coursesUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE)
+		coursesUrl = new Url(Config.PAGE_INSTRUCTOR_COURSE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId);
 		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		
@@ -181,9 +181,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		//one invalid case
 		coursesPage.addCourse("", "", "")
-			.verifyStatus(Common.MESSAGE_COURSE_COURSE_ID_EMPTY + "\n"
-					+ Common.MESSAGE_COURSE_COURSE_NAME_EMPTY + "\n"
-					+ Common.MESSAGE_COURSE_INSTRUCTOR_LIST_EMPTY);
+			.verifyStatus(Config.MESSAGE_COURSE_COURSE_ID_EMPTY + "\n"
+					+ Config.MESSAGE_COURSE_COURSE_NAME_EMPTY + "\n"
+					+ Config.MESSAGE_COURSE_INSTRUCTOR_LIST_EMPTY);
 		
 		//Checking max-length enforcement by the text boxes
 		String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
@@ -209,7 +209,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		 * 
 		 */
 		
-		Url coursesUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE)
+		Url coursesUrl = new Url(Config.PAGE_INSTRUCTOR_COURSE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId);
 		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		
@@ -221,7 +221,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		 */
 		BackDoor.deleteCourse(validCourse.id); //delete if it exists
 		coursesPage.addCourse(validCourse.id, validCourse.name, null)
-			.verifyStatus(Common.MESSAGE_COURSE_ADDED);
+			.verifyStatus(Config.MESSAGE_COURSE_ADDED);
 
 		coursesPage.verifyHtml("/instructorCourseAddSuccessful.html");
 
@@ -244,9 +244,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		instructorList += "\n" + instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email;
 		BackDoor.deleteCourse("MultipleInstructorsCourse"); //delete if it exists
 		coursesPage.addCourse("MultipleInstructorsCourse", "Course with multiple instructors", instructorList)
-			.verifyStatus(Common.MESSAGE_COURSE_ADDED);
+			.verifyStatus(Config.MESSAGE_COURSE_ADDED);
 
-		Url courseDetailsLink = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
+		Url courseDetailsLink = new Url(Config.PAGE_INSTRUCTOR_COURSE_DETAILS)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId)
 			.withCourseId("MultipleInstructorsCourse");
 		
@@ -266,7 +266,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		assertNull(BackDoor.getCourse("OmitInstructor"));
 		coursesPage.submitAndConfirm();
 		
-		courseDetailsLink = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
+		courseDetailsLink = new Url(Config.PAGE_INSTRUCTOR_COURSE_DETAILS)
 			.withUserId(instructor2.googleId)
 			.withCourseId("OmitInstructor");
 		
@@ -288,7 +288,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		/* Explanation: We test both 'confirm' and 'cancel' cases here.
 		 */
 		
-		Url coursesUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE)
+		Url coursesUrl = new Url(Config.PAGE_INSTRUCTOR_COURSE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId);
 		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 	

@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalAddAction extends InstructorEvalPageAction {
@@ -13,7 +13,7 @@ public class InstructorEvalAddAction extends InstructorEvalPageAction {
 	protected ActionResult execute() 
 			throws EntityDoesNotExistException,	InvalidParametersException {
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
@@ -31,14 +31,14 @@ public class InstructorEvalAddAction extends InstructorEvalPageAction {
 			data.courseIdForNewEvaluation = null;
 			data.newEvaluationToBeCreated = null;
 			
-			statusToUser.add(Common.MESSAGE_EVALUATION_ADDED);
+			statusToUser.add(Config.MESSAGE_EVALUATION_ADDED);
 			statusToAdmin = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.courseId + "]</span> created.<br>" +
 					"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
 					"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
 					"<span class=\"bold\">Instructions:</span> " + eval.instructions;
 			
 		} catch (EntityAlreadyExistsException e) {
-			statusToUser.add(Common.MESSAGE_EVALUATION_EXISTS);
+			statusToUser.add(Config.MESSAGE_EVALUATION_EXISTS);
 			isError = true;
 			statusToAdmin = e.getMessage();
 			
@@ -51,10 +51,10 @@ public class InstructorEvalAddAction extends InstructorEvalPageAction {
 		data.courses = loadCoursesList(account.googleId);
 		data.evaluations = loadEvaluationsList(account.googleId);
 		if (data.evaluations.size() == 0) {
-			statusToUser.add(Common.MESSAGE_EVALUATION_EMPTY);
+			statusToUser.add(Config.MESSAGE_EVALUATION_EMPTY);
 		}
 		
-		return createShowPageResult(Common.JSP_INSTRUCTOR_EVAL, data);
+		return createShowPageResult(Config.JSP_INSTRUCTOR_EVAL, data);
 	}
 	
 

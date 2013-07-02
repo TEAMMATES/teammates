@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -42,37 +42,37 @@ public class Url {
 	}
 	
 	public Url withUserId(String userId) {
-		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_USER_ID, userId);
+		this.urlString = Url.addParamToUrl(this.urlString, Config.PARAM_USER_ID, userId);
 		return this;
 	}
 	
 	public Url withCourseId(String courseId) {
-		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_COURSE_ID, courseId);
+		this.urlString = Url.addParamToUrl(this.urlString, Config.PARAM_COURSE_ID, courseId);
 		return this;
 	}
 
 	public Url withEvalName(String evaluationName) {
-		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_EVALUATION_NAME, evaluationName);
+		this.urlString = Url.addParamToUrl(this.urlString, Config.PARAM_EVALUATION_NAME, evaluationName);
 		return this;
 	}
 	
 	public Url withSessionName(String feedbackSessionName) {
-		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_FEEDBACK_SESSION_NAME, feedbackSessionName);
+		this.urlString = Url.addParamToUrl(this.urlString, Config.PARAM_FEEDBACK_SESSION_NAME, feedbackSessionName);
 		return this;
 	}
 
 	public Url withStudentEmail(String email) {
-		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_STUDENT_EMAIL, email);
+		this.urlString = Url.addParamToUrl(this.urlString, Config.PARAM_STUDENT_EMAIL, email);
 		return this;
 	}
 
 	public Url withInstructorId(String instructorId) {
-		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_INSTRUCTOR_ID, instructorId);
+		this.urlString = Url.addParamToUrl(this.urlString, Config.PARAM_INSTRUCTOR_ID, instructorId);
 		return this;
 	}
 
 	public Url withCourseName(String courseName) {
-		this.urlString = Url.addParamToUrl(this.urlString, Common.PARAM_COURSE_NAME, courseName);
+		this.urlString = Url.addParamToUrl(this.urlString, Config.PARAM_COURSE_NAME, courseName);
 		return this;
 	}
 	
@@ -86,7 +86,7 @@ public class Url {
 	 */
 	public static String convertForURL(String str){
 		try {
-			return URLEncoder.encode(str, Common.ENCODING);
+			return URLEncoder.encode(str, Config.ENCODING);
 		} catch (UnsupportedEncodingException e){
 			return str;
 		}
@@ -130,9 +130,9 @@ public class Url {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc").get(Common.PARAM_USER_ID));
-		System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc&course=course1").get(Common.PARAM_USER_ID));
-		System.out.println(new Url("http://teammates.com/page/instructorHome?error=true&user=abc&course=course1").get(Common.PARAM_USER_ID));
+		System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc").get(Config.PARAM_USER_ID));
+		System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc&course=course1").get(Config.PARAM_USER_ID));
+		System.out.println(new Url("http://teammates.com/page/instructorHome?error=true&user=abc&course=course1").get(Config.PARAM_USER_ID));
 		System.out.println(new Url("/page/instHome").withUserId("abc").toString());
 		System.out.println(new Url("/page/instHome").withUserId("abc").withCourseId("course1").toString());
 		System.out.println(new Url("http://google.com").withUserId("abc").withCourseId("course1").toString());

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.Common;
+import teammates.common.util.Config;
 
 /**
  * Represents details of an evaluation. 
@@ -25,7 +25,7 @@ public class FeedbackSessionDetailsBundle {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName
-				+ Common.EOL);
+				+ Config.EOL);
 		sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
 		return sb.toString();
 	}

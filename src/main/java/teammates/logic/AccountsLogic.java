@@ -3,8 +3,6 @@ package teammates.logic;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -14,6 +12,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -28,7 +28,7 @@ public class AccountsLogic {
 	private static AccountsLogic instance = null;
 	private static final AccountsDb accountsDb = new AccountsDb();
 	
-	private static Logger log = Common.getLogger();
+	private static Logger log = Config.getLogger();
 	
 	public static AccountsLogic inst() {
 		if (instance == null)
@@ -99,15 +99,15 @@ public class AccountsLogic {
 		StudentAttributes student = StudentsLogic.inst().getStudentForRegistrationKey(registrationKey);
 		
 		if(student==null){
-			throw new JoinCourseException(Common.ERRORCODE_INVALID_KEY,
+			throw new JoinCourseException(Config.ERRORCODE_INVALID_KEY,
 					"You have entered an invalid key: " + registrationKey);
 		} else if (student.isRegistered()) {
 			if (student.googleId.equals(googleId)) {
-				throw new JoinCourseException(Common.ERRORCODE_ALREADY_JOINED,
+				throw new JoinCourseException(Config.ERRORCODE_ALREADY_JOINED,
 						googleId + " has already joined this course");
 			} else {
 				throw new JoinCourseException(
-						Common.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
+						Config.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
 						registrationKey + " belongs to a different user");
 			}
 		} 

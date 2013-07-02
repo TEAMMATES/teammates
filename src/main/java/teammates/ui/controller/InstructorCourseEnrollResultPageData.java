@@ -3,10 +3,10 @@ package teammates.ui.controller;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.util.Config;
 
 public class InstructorCourseEnrollResultPageData extends PageData {
 	
@@ -14,7 +14,7 @@ public class InstructorCourseEnrollResultPageData extends PageData {
 		super(account);
 	}
 
-	protected static final Logger log = Common.getLogger();
+	protected static final Logger log = Config.getLogger();
 	
 	public String courseId;
 

@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -16,7 +16,7 @@ import com.google.gson.GsonBuilder;
 
 // TODO: create a subclass (e.g., InternalUtil) and move all internal utility
 // functions to that sub class. It should be in util package.
-public class Common {
+public class Config {
 	
 	public static final String EOL = System.getProperty("line.separator");
 	public static final int UNINITIALIZED_INT = -9999;

@@ -6,8 +6,8 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.Common;
-import teammates.common.HttpRequestHelper;
+import teammates.common.util.Config;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;
 
@@ -16,8 +16,8 @@ public class EvaluationOpeningRemindersServlet extends AutomatedRemindersServlet
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-		servletName = Common.EVALUATION_OPENING_REMINDERS_SERVLET;
-		action = Common.EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER;
+		servletName = Config.EVALUATION_OPENING_REMINDERS_SERVLET;
+		action = Config.EVALUATION_OPENING_REMINDERS_SERVLET_EVALUATION_OPEN_REMINDER;
 		
 		EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 		

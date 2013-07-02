@@ -6,9 +6,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Config;
 import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
@@ -21,7 +21,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_INSTRUCTOR_FEEDBACK_ADD;
+		URI = Config.PAGE_INSTRUCTOR_FEEDBACK_ADD;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -67,7 +67,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Common.PAGE_INSTRUCTOR_FEEDBACK_EDIT
+				Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT
 						+ "?courseid="
 						+ instructor1ofCourse1.courseId
 						+ "&fsname=ifaat+tca+fs"
@@ -94,10 +94,10 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		a = getAction(params);
 		ShowPageResult pr = (ShowPageResult) a.executeAndPostProcess();
 		assertEquals(
-				Common.JSP_INSTRUCTOR_FEEDBACK+"?message=A+feedback+session+by+this+name+already+exists+under+this+course&error=true&user=idOfInstructor1OfCourse1", 
+				Config.JSP_INSTRUCTOR_FEEDBACK+"?message=A+feedback+session+by+this+name+already+exists+under+this+course&error=true&user=idOfInstructor1OfCourse1", 
 				pr.getDestinationWithParams());
 		assertEquals(true, pr.isError);
-		assertEquals(Common.MESSAGE_FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
+		assertEquals(Config.MESSAGE_FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
 		
 		______TS("Masquerade mode");
 		
@@ -111,7 +111,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Common.PAGE_INSTRUCTOR_FEEDBACK_EDIT
+				Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT
 						+ "?courseid="
 						+ instructor1ofCourse1.courseId
 						+ "&fsname=masquerade+session"

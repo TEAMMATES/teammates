@@ -22,15 +22,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.BuildProperties;
-import teammates.common.Common;
-import teammates.common.StringHelper;
-import teammates.common.TimeHelper;
-import teammates.common.Url;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.BuildProperties;
+import teammates.common.util.Config;
+import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.logic.Emails;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
@@ -52,7 +52,7 @@ public class EmailsTest extends BaseComponentTestCase {
 	public void caseSetUp() throws ServletException, IOException {
 		
 		InternetAddress internetAddress = new InternetAddress("noreply@"
-				+ Common.APP_ID + ".appspotmail.com",
+				+ Config.APP_ID + ".appspotmail.com",
 				"TEAMMATES Admin (noreply)");
 		from = internetAddress.toString();
 		replyTo = "teammates@comp.nus.edu.sg";
@@ -99,7 +99,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("generic template, student yet to join");
 
-		String template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		String template = Config.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 		MimeMessage email = new Emails().generateEvaluationEmailBase(c, e, s,
 				template);
 
@@ -119,14 +119,14 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		// check email body
 		String encryptedKey = StringHelper.encrypt(s.key);
-		String joinUrl = Common.TEAMMATES_APP_URL
-				+ Common.PAGE_STUDENT_JOIN_COURSE;
-		joinUrl = Url.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
+		String joinUrl = Config.TEAMMATES_APP_URL
+				+ Config.PAGE_STUDENT_JOIN_COURSE;
+		joinUrl = Url.addParamToUrl(joinUrl, Config.PARAM_REGKEY, encryptedKey);
 
-		String submitUrl = Common.TEAMMATES_APP_URL
-				+ Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		submitUrl = Url.addParamToUrl(submitUrl, Common.PARAM_COURSE_ID, c.id);
-		submitUrl = Url.addParamToUrl(submitUrl, Common.PARAM_EVALUATION_NAME,
+		String submitUrl = Config.TEAMMATES_APP_URL
+				+ Config.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+		submitUrl = Url.addParamToUrl(submitUrl, Config.PARAM_COURSE_ID, c.id);
+		submitUrl = Url.addParamToUrl(submitUrl, Config.PARAM_EVALUATION_NAME,
 				e.name);
 
 		String deadline = TimeHelper.formatTime(e.endTime);
@@ -143,7 +143,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("published template, student yet to join");
 
-		template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
+		template = Config.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
 		emailBody = email.getContent().toString();
@@ -151,10 +151,10 @@ public class EmailsTest extends BaseComponentTestCase {
 		assertTrue(emailBody.contains(encryptedKey));
 		assertTrue(!emailBody.contains(submitUrl));
 
-		String reportUrl = Common.TEAMMATES_APP_URL
-				+ Common.PAGE_STUDENT_EVAL_RESULTS;
-		reportUrl = Url.addParamToUrl(reportUrl, Common.PARAM_COURSE_ID, c.id);
-		reportUrl = Url.addParamToUrl(reportUrl, Common.PARAM_EVALUATION_NAME,
+		String reportUrl = Config.TEAMMATES_APP_URL
+				+ Config.PAGE_STUDENT_EVAL_RESULTS;
+		reportUrl = Url.addParamToUrl(reportUrl, Config.PARAM_COURSE_ID, c.id);
+		reportUrl = Url.addParamToUrl(reportUrl, Config.PARAM_EVALUATION_NAME,
 				e.name);
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
@@ -168,7 +168,7 @@ public class EmailsTest extends BaseComponentTestCase {
 		______TS("generic template, student joined");
 
 		s.googleId = "student1id"; // set student id to make him "joined"
-		template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		template = Config.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
 
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
@@ -183,7 +183,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("published template, student joined");
 
-		template = Common.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
+		template = Config.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
 		emailBody = email.getContent().toString();
@@ -229,10 +229,10 @@ public class EmailsTest extends BaseComponentTestCase {
 				email.getSubject());
 
 		// check email body
-		String joinUrl = Common.TEAMMATES_APP_URL
-				+ Common.PAGE_STUDENT_JOIN_COURSE;
+		String joinUrl = Config.TEAMMATES_APP_URL
+				+ Config.PAGE_STUDENT_JOIN_COURSE;
 		String encryptedKey = StringHelper.encrypt(s.key);
-		joinUrl = Url.addParamToUrl(joinUrl, Common.PARAM_REGKEY, encryptedKey);
+		joinUrl = Url.addParamToUrl(joinUrl, Config.PARAM_REGKEY, encryptedKey);
 
 
 		String emailBody = email.getContent().toString();

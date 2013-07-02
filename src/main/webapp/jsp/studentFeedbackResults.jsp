@@ -1,13 +1,13 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ListIterator"%>
-<%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.FeedbackParticipantType"%>
+<%@ page import="teammates.common.util.Config"%>
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.StudentFeedbackResultsPageData"%>
 <%
-StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.getAttribute("data");
+	StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -30,7 +30,7 @@ StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.ge
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -57,109 +57,105 @@ StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.ge
 			</tr>
 			</table>
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 			<br>
 			<%
 				int qnIndx = 1;
-					Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = 
-							data.bundle.getQuestionResponseMap();
-					
-						for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
-										questionWithResponses : questionsWithResponses.entrySet()) {
+						Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = 
+								data.bundle.getQuestionResponseMap();
+						
+							for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
+											questionWithResponses : questionsWithResponses.entrySet()) {
 			%>
 			<table class="inputTable responseTable">
-			<tr style="border-bottom: 3px solid black;"><td colspan="2"><span class="bold" >Question <%=qnIndx %>: </span>[<%=questionWithResponses.getKey().questionText.getValue() %>]</td></tr>
+			<tr style="border-bottom: 3px solid black;"><td colspan="2"><span class="bold" >Question <%=qnIndx%>: </span>[<%=questionWithResponses.getKey().questionText.getValue()%>]</td></tr>
 			<%
-						int responseIndx = 1;
-						String prevRecipient = null;
-						ListIterator<FeedbackResponseAttributes> itr = questionWithResponses.getValue().listIterator();
-						while (itr.hasNext()) {
-							FeedbackResponseAttributes responseForQn = itr.next();
+				int responseIndx = 1;
+							String prevRecipient = null;
+							ListIterator<FeedbackResponseAttributes> itr = questionWithResponses.getValue().listIterator();
+							while (itr.hasNext()) {
+								FeedbackResponseAttributes responseForQn = itr.next();
 			%>
 			<%
-							String recipient = data.bundle.emailNameTable.get(responseForQn.recipient);
-							if (data.bundle.visibilityTable.get(responseForQn.getId())[1] == false &&
-									questionWithResponses.getKey().recipientType != FeedbackParticipantType.SELF) {
-								String hash = Integer.toString(Math.abs(recipient.hashCode()));
-								recipient = questionWithResponses.getKey().recipientType.toSingletonString();
-								recipient = "Anonymous " + recipient + " " + hash;
-							} else if(data.student.email!=null) {
-								if(questionWithResponses.getKey().recipientType ==  FeedbackParticipantType.TEAMS) {
-									if(data.student.team.equals(responseForQn.recipient)) {
-										recipient = "Your Team ("+ recipient +")";
+				String recipient = data.bundle.emailNameTable.get(responseForQn.recipient);
+								if (data.bundle.visibilityTable.get(responseForQn.getId())[1] == false &&
+										questionWithResponses.getKey().recipientType != FeedbackParticipantType.SELF) {
+									String hash = Integer.toString(Math.abs(recipient.hashCode()));
+									recipient = questionWithResponses.getKey().recipientType.toSingletonString();
+									recipient = "Anonymous " + recipient + " " + hash;
+								} else if(data.student.email!=null) {
+									if(questionWithResponses.getKey().recipientType ==  FeedbackParticipantType.TEAMS) {
+										if(data.student.team.equals(responseForQn.recipient)) {
+											recipient = "Your Team ("+ recipient +")";
+										}
+									} else if (data.student.email.equals(responseForQn.recipient)) {
+										recipient = "You";
 									}
-								} else if (data.student.email.equals(responseForQn.recipient)) {
-									recipient = "You";
 								}
-							}
-							if (recipient.equals(prevRecipient) == false) {
-								if(prevRecipient != null) {
+								if (recipient.equals(prevRecipient) == false) {
+									if(prevRecipient != null) {
 			%>
 			</table>
 			</td></tr>
-			<% 
-								}
+			<%
+				}
 			%>
 			<tr><td>
 				<table class="resultTable" style="width:90%">
-				<tr><th>To: <%=recipient %></th></tr>
-				<%				 
-								}
+				<tr><th>To: <%=recipient%></th></tr>
+				<%
+					}
 				%>
 				<tr class="resultSubheader"><td><span class="bold">From: </span><%
-						String giver = data.bundle.emailNameTable.get(responseForQn.giverEmail);
-						if (data.bundle.visibilityTable.get(responseForQn.getId())[0] == false &&
-								questionWithResponses.getKey().recipientType != FeedbackParticipantType.SELF) {
-							String hash = Integer.toString(Math.abs(giver.hashCode()));
-							giver = questionWithResponses.getKey().giverType.toSingletonString();
-							giver = "Anonymous " + giver + " " + hash;
-						} else if(data.student.email!=null) {
-							if(questionWithResponses.getKey().giverType ==  FeedbackParticipantType.TEAMS) {
-								if(data.student.team.equals(responseForQn.giverEmail)) {
-									giver = "Your Team ("+ giver +")";
+					String giver = data.bundle.emailNameTable.get(responseForQn.giverEmail);
+								if (data.bundle.visibilityTable.get(responseForQn.getId())[0] == false &&
+										questionWithResponses.getKey().recipientType != FeedbackParticipantType.SELF) {
+									String hash = Integer.toString(Math.abs(giver.hashCode()));
+									giver = questionWithResponses.getKey().giverType.toSingletonString();
+									giver = "Anonymous " + giver + " " + hash;
+								} else if(data.student.email!=null) {
+									if(questionWithResponses.getKey().giverType ==  FeedbackParticipantType.TEAMS) {
+										if(data.student.team.equals(responseForQn.giverEmail)) {
+											giver = "Your Team ("+ giver +")";
+										}
+									} else if (data.student.email.equals(responseForQn.giverEmail)) {
+										giver = "You";
+									}
 								}
-							} else if (data.student.email.equals(responseForQn.giverEmail)) {
-								giver = "You";
-							}
-						}
-						%><%=giver%>
+				%><%=giver%>
 				</td></tr>
-				<tr <% 
-						if (itr.hasNext()) {
-							if(itr.next().recipient.equals(responseForQn.recipient)) {
-					%>style="border-bottom: dotted 1px grey" 
-					<% 
-							}
+				<tr <%if (itr.hasNext()) {
+							if(itr.next().recipient.equals(responseForQn.recipient)) {%>style="border-bottom: dotted 1px grey" 
+					<%}
 							itr.previous();
-						}
-					%>>
-					<td colspan="2" style="width:110px"><%=responseForQn.answer.getValue() %></td>
+						}%>>
+					<td colspan="2" style="width:110px"><%=responseForQn.answer.getValue()%></td>
 				</tr>
 				<%
-							prevRecipient = recipient;
-							responseIndx++;
-							}
+					prevRecipient = recipient;
+									responseIndx++;
+									}
 				%>			
 				</td></tr>
 				</table>
 			</table>
 			<br>
 			<%
-					qnIndx++;
-					}
-					if (questionsWithResponses.size() == 0) {
+				qnIndx++;
+						}
+						if (questionsWithResponses.size() == 0) {
 			%>
 			<div class="centeralign color_red bold">There are no responses for you to view yet.</div>	
 			<%
 					}
-			%>
+				%>
 			
 			
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

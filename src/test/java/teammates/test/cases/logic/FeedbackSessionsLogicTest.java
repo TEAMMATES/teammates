@@ -10,13 +10,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.logic.FeedbackSessionsLogic;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 import teammates.test.cases.BaseComponentTestCase;
@@ -69,8 +69,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		
 		// Student can see sessions 1 and 2. Session 3 has no questions.
 		String expected =
-				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Common.EOL +
-				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Common.EOL;
+				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Config.EOL +
+				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Config.EOL;
 				
 		for (FeedbackSessionAttributes session : actualSessions) {
 			assertContains(session.toString(), expected);
@@ -89,9 +89,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		
 		// Instructors should be able to see all sessions for the course
 		expected =
-				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Common.EOL +
-				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Common.EOL +
-				dataBundle.feedbackSessions.get("session3InCourse1").toString() + Common.EOL;
+				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Config.EOL +
+				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Config.EOL +
+				dataBundle.feedbackSessions.get("session3InCourse1").toString() + Config.EOL;
 		
 		for (FeedbackSessionAttributes session : actualSessions) {
 			assertContains(session.toString(), expected);
@@ -132,7 +132,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		assertTrue(actual.questionResponseBundle.size() == 2);
 		
 		String expected =
-				dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").toString() + Common.EOL +
+				dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").toString() + Config.EOL +
 				dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").toString();
 		
 		assertEquals(actual.feedbackSession.toString(), 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import teammates.common.StringHelper;
+import teammates.common.util.StringHelper;
 
 /**
  * Represents detailed results for a team.

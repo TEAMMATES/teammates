@@ -6,9 +6,6 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.StringHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
@@ -17,6 +14,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -35,7 +35,7 @@ public class StudentsLogic {
 	private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 	
-	private static Logger log = Common.getLogger();
+	private static Logger log = Config.getLogger();
 	
 	public static StudentsLogic inst() {
 		if (instance == null)
@@ -166,7 +166,7 @@ public class StudentsLogic {
 				enrollLines);
 
 		ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
-		String[] linesArray = enrollLines.split(Common.EOL);
+		String[] linesArray = enrollLines.split(Config.EOL);
 		ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
 
 		// check if all non-empty lines are formatted correctly
@@ -178,7 +178,7 @@ public class StudentsLogic {
 				studentList.add(new StudentAttributes(line, courseId));
 			} catch (EnrollException e) {
 				throw new EnrollException(e.errorCode, "Problem in line : "
-						+ line + Common.EOL + e.getMessage());
+						+ line + Config.EOL + e.getMessage());
 			}
 		}
 
@@ -280,7 +280,7 @@ public class StudentsLogic {
 			//TODO: need better error handling here. This error is not 'unexpected'. e.g., invalid student data
 			updateStatus = UpdateStatus.ERROR;
 			String errorMessage = "Exception thrown unexpectedly while enrolling student: " 
-					+ validStudentAttributes.toString() + Common.EOL + TeammatesException.toStringWithStackTrace(e);
+					+ validStudentAttributes.toString() + Config.EOL + TeammatesException.toStringWithStackTrace(e);
 			log.severe(errorMessage);
 		}
 		validStudentAttributes.updateStatus = updateStatus;

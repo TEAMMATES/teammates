@@ -12,8 +12,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Config;
 import teammates.logic.InstructorsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 
@@ -41,7 +41,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		______TS("typical case");
 		
 		Object[] params = new Object[] { "private.course",
-				"test1.googleId \t test1.name \t test1.email" + Common.EOL
+				"test1.googleId \t test1.name \t test1.email" + Config.EOL
 			+	"test2.googleId | test2.name | test2.email"
 		};
 		
@@ -55,8 +55,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		______TS("blank space in first line");
 		
 		params = new Object[] { "private.course",
-				Common.EOL
-			+	"test1.googleId \t test1.name \t test1.email" + Common.EOL
+				Config.EOL
+			+	"test1.googleId \t test1.name \t test1.email" + Config.EOL
 			+	"test2.googleId | test2.name | test2.email"
 		};
 		
@@ -70,9 +70,9 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		______TS("blank space in between lines");
 		
 		params = new Object[] { "private.course",
-				Common.EOL
-			+	"test1.googleId \t test1.name \t test1.email" + Common.EOL
-			+	Common.EOL
+				Config.EOL
+			+	"test1.googleId \t test1.name \t test1.email" + Config.EOL
+			+	Config.EOL
 			+	"test2.googleId | test2.name | test2.email"
 		};
 		
@@ -86,11 +86,11 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		______TS("trailing blank lines");
 		
 		params = new Object[] { "private.course",
-				Common.EOL
-			+	"test1.googleId \t test1.name \t test1.email" + Common.EOL
-			+	Common.EOL
+				Config.EOL
+			+	"test1.googleId \t test1.name \t test1.email" + Config.EOL
+			+	Config.EOL
 			+	"test2.googleId | test2.name | test2.email"
-			+	Common.EOL + Common.EOL
+			+	Config.EOL + Config.EOL
 		};
 		
 		@SuppressWarnings("unchecked")

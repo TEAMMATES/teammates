@@ -6,10 +6,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -50,7 +50,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 		
 		______TS("content: unregistered student");
 		
-		Url editPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
+		Url editPageUrl = new Url(Config.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
 		.withUserId(instructorId)
 		.withCourseId(courseId)
 		.withStudentEmail(testData.students.get("unregisteredStudent").email);
@@ -60,7 +60,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 		
 		______TS("content: registered student");
 		
-		editPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
+		editPageUrl = new Url(Config.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withStudentEmail(testData.students.get("registeredStudent").email);
@@ -93,7 +93,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 		______TS("edit action");
 		
 		InstructorCourseDetailsPage detailsPage = editPage.submitSuccessfully("New name", "New team", "newemail@gmail.com", "New comments");
-		detailsPage.verifyStatus(Common.MESSAGE_STUDENT_EDITED);
+		detailsPage.verifyStatus(Config.MESSAGE_STUDENT_EDITED);
 		detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").id);
 			
 		// Verify data

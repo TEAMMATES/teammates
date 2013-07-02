@@ -1,9 +1,9 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
-import teammates.common.Common;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Config;
+import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
@@ -25,7 +25,7 @@ public class BaseUiTestCase extends BaseTestCase {
 		String adminUsername = TestProperties.inst().TEST_ADMIN_ACCOUNT; 
 		String adminPassword = TestProperties.inst().TEST_ADMIN_PASSWORD;
 		
-		String instructorId = url.get(Common.PARAM_USER_ID);
+		String instructorId = url.get(Config.PARAM_USER_ID);
 		
 		if(instructorId==null){ //admin using system as admin
 			instructorId = "defaultAdmin";
@@ -64,11 +64,11 @@ public class BaseUiTestCase extends BaseTestCase {
 	 */
 	protected static void restoreTestDataOnServer(DataBundle testData) {
 		String backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Config.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 	}
 
 	protected static AdminHomePage loginAdmin(Browser currentBrowser) {
-		return loginAdminToPage(currentBrowser, new Url(Common.PAGE_ADMIN_HOME), AdminHomePage.class);
+		return loginAdminToPage(currentBrowser, new Url(Config.PAGE_ADMIN_HOME), AdminHomePage.class);
 	}
 
 

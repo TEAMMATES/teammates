@@ -4,19 +4,19 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseTestCase;
 
@@ -71,7 +71,7 @@ public class StudentsDbTest extends BaseTestCase {
 			studentsDb.createEntity(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -92,13 +92,13 @@ public class StudentsDbTest extends BaseTestCase {
 			studentsDb.getStudentForEmail(null, "valid@email.com");
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}		
 		try {
 			studentsDb.getStudentForEmail("any-course-id", null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -123,7 +123,7 @@ public class StudentsDbTest extends BaseTestCase {
 			studentsDb.updateStudent(null, s.email, "new-name", "new-team", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
 			signalFailureToDetectException();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		______TS("null email case");
@@ -131,7 +131,7 @@ public class StudentsDbTest extends BaseTestCase {
 			studentsDb.updateStudent(s.course, null, "new-name", "new-team", "new@email.com", "new.google.id", "lorem ipsum dolor si amet");
 			signalFailureToDetectException();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		______TS("duplicate email case");
@@ -177,14 +177,14 @@ public class StudentsDbTest extends BaseTestCase {
 			studentsDb.deleteStudent(null, s.email);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			studentsDb.deleteStudent(s.course, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	

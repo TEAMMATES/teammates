@@ -1,6 +1,6 @@
 package teammates.common.datatransfer;
 
-import teammates.common.Common;
+import teammates.common.util.Config;
 
 /**
  * Represents the course statistics for a course.
@@ -10,7 +10,7 @@ import teammates.common.Common;
  * <br> * The total number of unregistered students in the course.
  */
 public class CourseStats {
-	public int teamsTotal = Common.UNINITIALIZED_INT;
-	public int studentsTotal = Common.UNINITIALIZED_INT;
-	public int unregisteredTotal = Common.UNINITIALIZED_INT;
+	public int teamsTotal = Config.UNINITIALIZED_INT;
+	public int studentsTotal = Config.UNINITIALIZED_INT;
+	public int unregisteredTotal = Config.UNINITIALIZED_INT;
 }

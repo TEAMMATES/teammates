@@ -4,7 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.Test;
 
-import teammates.common.Url;
+import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 
 public class UrlTest extends BaseTestCase {

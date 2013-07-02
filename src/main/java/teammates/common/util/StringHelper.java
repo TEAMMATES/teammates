@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class StringHelper {
 	 * @return Concatenated string.
 	 */
 	public static String toString(List<String> strings) {
-		return toString(strings, Common.EOL);	
+		return toString(strings, Config.EOL);	
 	}
 
 	/**

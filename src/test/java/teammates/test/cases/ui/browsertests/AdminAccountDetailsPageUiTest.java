@@ -6,9 +6,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Config;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 import teammates.test.pageobjects.Browser;
@@ -42,7 +42,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
 		
 		______TS("content: typical page");
 		
-		Url detailsPageUrl = new Url(Common.PAGE_ADMIN_ACCOUNT_DETAILS)
+		Url detailsPageUrl = new Url(Config.PAGE_ADMIN_ACCOUNT_DETAILS)
 			.withInstructorId("AAMgtUiT.instr2");
 		detailsPage = loginAdminToPage(browser, detailsPageUrl, AdminAccountDetailsPage.class);
 		
@@ -59,14 +59,14 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
 		String courseId = "AAMgtUiT.CS2104";
 		
 		detailsPage.clickRemoveInstructorFromCourse(courseId)
-			.verifyStatus(Common.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE);
+			.verifyStatus(Config.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE);
 		assertNull(BackDoor.getInstructor(googleId, courseId));
 	
 		______TS("action: remove student from course");
 		
 		courseId = "AAMgtUiT.CS1101";
 		detailsPage.clickRemoveStudentFromCourse(courseId)
-			.verifyStatus(Common.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE);
+			.verifyStatus(Config.MESSAGE_INSTRUCTOR_REMOVED_FROM_COURSE);
 		assertNull(BackDoor.getStudent(courseId, "AAMgtUiT.instr2@gmail.com"));
 	
 	}

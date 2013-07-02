@@ -1,10 +1,10 @@
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Config" %>
 <%@ page import="teammates.common.datatransfer.StudentAttributes" %>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.StudentCourseDetailsPageData"%>
 <%
-StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAttribute("data");
+	StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -30,7 +30,7 @@ StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAtt
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -40,25 +40,25 @@ StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAtt
 				<h1>Team Details for <%=data.courseDetails.course.id%></h1>
 			</div>
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 			<br>
 				
 			<table class="inputTable" id="studentCourseInformation">
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course ID:</td>
-	 				<td id="<%=Common.PARAM_COURSE_ID%>"><%=data.courseDetails.course.id%></td>
+	 				<td id="<%=Config.PARAM_COURSE_ID%>"><%=data.courseDetails.course.id%></td>
 	 			</tr>
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course name:</td>
-	 				<td id="<%=Common.PARAM_COURSE_NAME%>"><%=PageData.escapeForHTML(data.courseDetails.course.name)%></td>
+	 				<td id="<%=Config.PARAM_COURSE_NAME%>"><%=PageData.escapeForHTML(data.courseDetails.course.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Instructors:</td>
-	 				<td id="<%=Common.PARAM_INSTRUCTOR_NAME%>">
+	 				<td id="<%=Config.PARAM_INSTRUCTOR_NAME%>">
 	 				<%
 	 					for (int i = 0; i < data.instructors.size(); i++){
-	 					 	InstructorAttributes instructor = data.instructors.get(i);
-	 					 	String instructorInfo = instructor.name + " (" + instructor.email + ")";
+	 					 					 	InstructorAttributes instructor = data.instructors.get(i);
+	 					 					 	String instructorInfo = instructor.name + " (" + instructor.email + ")";
 	 				%>
 		 				<a href = "mailto:<%=instructor.email%>"><%=instructorInfo%></a><br><br>
 		 			<%
@@ -68,19 +68,19 @@ StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAtt
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your team:</td>
-	 				<td id="<%=Common.PARAM_TEAM_NAME%>"><%=PageData.escapeForHTML(data.student.team)%></td>
+	 				<td id="<%=Config.PARAM_TEAM_NAME%>"><%=PageData.escapeForHTML(data.student.team)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your name:</td>
-	 				<td id="<%=Common.PARAM_STUDENT_NAME%>"><%=PageData.escapeForHTML(data.student.name)%></td>
+	 				<td id="<%=Config.PARAM_STUDENT_NAME%>"><%=PageData.escapeForHTML(data.student.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your e-mail:</td>
-	 				<td id="<%=Common.PARAM_STUDENT_EMAIL%>"><%=data.student.email%></td>
+	 				<td id="<%=Config.PARAM_STUDENT_EMAIL%>"><%=data.student.email%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your teammates:</td>
-	 				<td id="<%=Common.PARAM_TEAMMATES%>">
+	 				<td id="<%=Config.PARAM_TEAMMATES%>">
 	 					<%
 	 						if(data.team==null || data.team.students.size()==1){
 	 					%>
@@ -96,10 +96,16 @@ StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAtt
 											if(!student.email.equals(data.student.email)) {
 										%>
 											<li><a href = "mailto:<%=student.email%>"><%=PageData.escapeForHTML(student.name)%></a></li>
-										<%	} %>
-									<%	} %>
+										<%
+											}
+										%>
+									<%
+										}
+									%>
 		 					</ul>
-		 				<%	} %>
+		 				<%
+		 					}
+		 				%>
 	 				</td>
 	 			</tr>
 	 		</table>	
@@ -110,7 +116,7 @@ StudentCourseDetailsPageData data = (StudentCourseDetailsPageData)request.getAtt
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

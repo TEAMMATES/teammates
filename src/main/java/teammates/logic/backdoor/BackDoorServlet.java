@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Config;
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
@@ -78,7 +78,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String PARAMETER_GIVER_EMAIL = "PARAMETER_GIVER_EMAIL";
 	public static final String PARAMETER_RECIPIENT = "PARAMETER_RECIPIENT";
 	
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -95,17 +95,17 @@ public class BackDoorServlet extends HttpServlet {
 		String returnValue;
 
 		String keyReceived = req.getParameter(PARAMETER_BACKDOOR_KEY);
-		if (!keyReceived.equals(Common.BACKDOOR_KEY)) {
+		if (!keyReceived.equals(Config.BACKDOOR_KEY)) {
 			returnValue = "Not authorized to access Backdoor Services";
 
 		} else {
 			try {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
-				returnValue = Common.BACKEND_STATUS_FAILURE
+				returnValue = Config.BACKEND_STATUS_FAILURE
 						+ TeammatesException.toStringWithStackTrace(e);
 			} catch (AssertionError ae) {
-				returnValue = Common.BACKEND_STATUS_FAILURE
+				returnValue = Config.BACKEND_STATUS_FAILURE
 						+ " Assertion error " + ae.getMessage();
 			}
 		}
@@ -171,7 +171,7 @@ public class BackDoorServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_PERSIST_DATABUNDLE)) {
 			String dataBundleJsonString = req
 					.getParameter(PARAMETER_DATABUNDLE_JSON);
-			DataBundle dataBundle = Common.getTeammatesGson().fromJson(
+			DataBundle dataBundle = Config.getTeammatesGson().fromJson(
 					dataBundleJsonString, DataBundle.class);
 			backDoorLogic.persistDataBundle(dataBundle);
 		} else if (action.equals(OPERATION_EDIT_ACCOUNT)) {
@@ -208,7 +208,7 @@ public class BackDoorServlet extends HttpServlet {
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}
-		return Common.BACKEND_STATUS_SUCCESS;
+		return Config.BACKEND_STATUS_SUCCESS;
 	}
 
 	private String getCourseIDsForInstructor(String instructorID) {

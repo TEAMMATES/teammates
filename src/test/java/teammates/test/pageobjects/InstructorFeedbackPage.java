@@ -9,8 +9,8 @@ import org.openqa.selenium.support.FindBy;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.Common;
-import teammates.common.TimeHelper;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
 
 public class InstructorFeedbackPage extends AppPage {
 	
@@ -41,16 +41,16 @@ public class InstructorFeedbackPage extends AppPage {
 	@FindBy(id = "instructions")
 	private WebElement instructionsTextBox;
 	
-	@FindBy(id = Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
+	@FindBy(id = Config.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
 	private WebElement customSessionVisibleTimeButton;
 	
-	@FindBy(id = Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_custom")
+	@FindBy(id = Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_custom")
 	private WebElement customResultsVisibleTimeButton;
 	
-	@FindBy(id = Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_atopen")
+	@FindBy(id = Config.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_atopen")
 	private WebElement defaultSessionVisibleTimeButton;
 	
-	@FindBy(id = Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_atvisible")
+	@FindBy(id = Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_atvisible")
 	private WebElement defaultResultsVisibleTimeButton;
 	
 	@FindBy(id = "button_submit")
@@ -125,13 +125,13 @@ public class InstructorFeedbackPage extends AppPage {
 		
 		// Select start date
 		JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-		js.executeScript("$('#" + Common.PARAM_FEEDBACK_SESSION_STARTDATE
+		js.executeScript("$('#" + Config.PARAM_FEEDBACK_SESSION_STARTDATE
 				+ "')[0].value='" + TimeHelper.formatDate(startTime) + "';");
 		selectDropdownByVisibleValue(startTimeDropdown,
 				TimeHelper.convertToDisplayValueInTimeDropDown(startTime));
 	
 		// Select deadline date
-		js.executeScript("$('#" + Common.PARAM_FEEDBACK_SESSION_ENDDATE
+		js.executeScript("$('#" + Config.PARAM_FEEDBACK_SESSION_ENDDATE
 				+ "')[0].value='" + TimeHelper.formatDate(endTime) + "';");
 		selectDropdownByVisibleValue(endTimeDropdown,
 				TimeHelper.convertToDisplayValueInTimeDropDown(endTime));

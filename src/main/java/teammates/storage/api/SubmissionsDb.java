@@ -7,14 +7,14 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.FieldValidator;
-import teammates.common.FieldValidator.FieldType;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Submission;
 
 /**
@@ -24,7 +24,7 @@ import teammates.storage.entity.Submission;
 public class SubmissionsDb extends EntitiesDb {
 
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Submission: ";	
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 	
 	/**
 	 * Preconditions: <br>
@@ -32,7 +32,7 @@ public class SubmissionsDb extends EntitiesDb {
 	 */
 	public void createSubmissions(List<SubmissionAttributes> newList) throws InvalidParametersException {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newList);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, newList);
 		
 		List<Submission> newEntityList = new ArrayList<Submission>();
 		
@@ -58,10 +58,10 @@ public class SubmissionsDb extends EntitiesDb {
 	public SubmissionAttributes getSubmission(String courseId, String evaluationName,
 			String toStudent, String fromStudent) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, toStudent);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, fromStudent);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, toStudent);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, fromStudent);
 
 		Submission s = getSubmissionEntity(courseId, evaluationName, toStudent, fromStudent);
 
@@ -81,7 +81,7 @@ public class SubmissionsDb extends EntitiesDb {
 	 */
 	public List<SubmissionAttributes> getSubmissionsForCourse(String courseId) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Submission> submissionList = getSubmissionEntitiesForCourse(courseId);
 
@@ -103,8 +103,8 @@ public class SubmissionsDb extends EntitiesDb {
 	public List<SubmissionAttributes> getSubmissionsForEvaluation(
 			String courseId, String evaluationName) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
 		
 		List<Submission> submissionList = getSubmissionEntititesForEvaluation(
 				courseId, evaluationName);
@@ -127,9 +127,9 @@ public class SubmissionsDb extends EntitiesDb {
 	public List<SubmissionAttributes> getSubmissionsForEvaluationFromStudent(
 			String courseId, String evaluationName, String reviewerEmail) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, reviewerEmail);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, reviewerEmail);
 
 		List<Submission> submissionList = getSubmissionEntitiesForEvaluationFromStudent(
 				courseId, evaluationName, reviewerEmail);
@@ -150,7 +150,7 @@ public class SubmissionsDb extends EntitiesDb {
 	public void updateSubmission(SubmissionAttributes newSubmissionAttributes) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newSubmissionAttributes);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, newSubmissionAttributes);
 
 		if (!newSubmissionAttributes.isValid()) {
 			throw new InvalidParametersException(newSubmissionAttributes.getInvalidityInfo());
@@ -161,7 +161,7 @@ public class SubmissionsDb extends EntitiesDb {
 
 		if (submission == null) {
 			throw new EntityDoesNotExistException(
-					ERROR_UPDATE_NON_EXISTENT + Common.EOL
+					ERROR_UPDATE_NON_EXISTENT + Config.EOL
 					+ newSubmissionAttributes.toString());
 		}
 
@@ -183,7 +183,7 @@ public class SubmissionsDb extends EntitiesDb {
 	public void updateSubmissions(List<SubmissionAttributes> submissionsList) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionsList);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, submissionsList);
 
 		for (SubmissionAttributes sd : submissionsList) {
 			updateSubmission(sd);
@@ -201,9 +201,9 @@ public class SubmissionsDb extends EntitiesDb {
 	public void updateStudentEmailForSubmissionsInCourse(String courseId,
 			String originalEmail, String newEmail) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, originalEmail);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newEmail);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, originalEmail);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, newEmail);
 		Assumption.assertTrue(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, newEmail).isEmpty());
 	
 		List<Submission> submissionsFromStudent = 
@@ -227,7 +227,7 @@ public class SubmissionsDb extends EntitiesDb {
 	 * * all parameters are non-null.
 	 */
 	public void deleteAllSubmissionsForCourse(String courseId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Submission> submissionList = getSubmissionEntitiesForCourse(courseId);
 
@@ -245,8 +245,8 @@ public class SubmissionsDb extends EntitiesDb {
 	public void deleteAllSubmissionsForEvaluation(String courseId,
 			String evaluationName) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
 		
 		List<Submission> submissionList = getSubmissionEntititesForEvaluation(courseId, evaluationName);
 
@@ -262,8 +262,8 @@ public class SubmissionsDb extends EntitiesDb {
 	public void deleteAllSubmissionsForStudent(String courseId,
 			String studentEmail) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentEmail);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, studentEmail);
 
 		List<Submission> submissionsFromStudent = 
 				getSubmissionEntitiesForCourseFromStudent(courseId, studentEmail);

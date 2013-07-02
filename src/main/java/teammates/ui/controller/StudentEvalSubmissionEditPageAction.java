@@ -1,11 +1,11 @@
 package teammates.ui.controller;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 
 public class StudentEvalSubmissionEditPageAction extends Action {
 	
@@ -15,10 +15,10 @@ public class StudentEvalSubmissionEditPageAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Config.PARAM_EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
 		if(notYetJoinedCourse(courseId, account.googleId)){
@@ -41,7 +41,7 @@ public class StudentEvalSubmissionEditPageAction extends Action {
 		SubmissionAttributes.putSelfSubmissionFirst(data.submissions);
 		
 		if(data.eval.getStatus() != EvalStatus.OPEN){
-			statusToUser.add(Common.MESSAGE_EVALUATION_NOT_OPEN);
+			statusToUser.add(Config.MESSAGE_EVALUATION_NOT_OPEN);
 			data.disableAttribute = "disabled=\"disabled\"";
 		}
 		
@@ -50,7 +50,7 @@ public class StudentEvalSubmissionEditPageAction extends Action {
 				"<span class=\"bold\">("+ data.eval.name +")</span> " +
 				"for Course <span class=\"bold\">[" + courseId + "]</span>";
 		
-		ShowPageResult response = createShowPageResult(Common.JSP_STUDENT_EVAL_SUBMISSION_EDIT, data);
+		ShowPageResult response = createShowPageResult(Config.JSP_STUDENT_EVAL_SUBMISSION_EDIT, data);
 		return response;
 
 	}

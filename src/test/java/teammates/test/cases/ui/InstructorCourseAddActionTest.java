@@ -6,9 +6,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Config;
 import teammates.logic.CoursesLogic;
 import teammates.ui.controller.InstructorCourseAddAction;
 import teammates.ui.controller.InstructorCoursePageData;
@@ -22,7 +22,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_INSTRUCTOR_COURSE_ADD;
+		URI = Config.PAGE_INSTRUCTOR_COURSE_ADD;
 		sr.registerServlet(URI, InstructorCourseAddAction.class.getName());
 	}
 
@@ -36,9 +36,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 	public void testAccessControl() throws Exception{
 		
 		String[] submissionParams = new String[]{
-				Common.PARAM_COURSE_ID, "ticac.tac.id",
-				Common.PARAM_COURSE_NAME, "ticac tac name",
-				Common.PARAM_COURSE_INSTRUCTOR_LIST, "gid|name|email@email.com"};
+				Config.PARAM_COURSE_ID, "ticac.tac.id",
+				Config.PARAM_COURSE_NAME, "ticac tac name",
+				Config.PARAM_COURSE_INSTRUCTOR_LIST, "gid|name|email@email.com"};
 		
 		verifyOnlyInstructorsCanAccess(submissionParams);
 	}
@@ -58,24 +58,24 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		
 		verifyAssumptionFailure();
 		verifyAssumptionFailure(
-				Common.PARAM_COURSE_INSTRUCTOR_LIST, "gid|name|email@email.com");
+				Config.PARAM_COURSE_INSTRUCTOR_LIST, "gid|name|email@email.com");
 		verifyAssumptionFailure(
-				Common.PARAM_COURSE_NAME, "ticac tac name",
-				Common.PARAM_COURSE_INSTRUCTOR_LIST, "gid|name|email@email.com");
+				Config.PARAM_COURSE_NAME, "ticac tac name",
+				Config.PARAM_COURSE_INSTRUCTOR_LIST, "gid|name|email@email.com");
 		
 		______TS("Typical case, 1 existing course");
 		
 		InstructorCourseAddAction a = getAction(
-				Common.PARAM_COURSE_ID, "ticac.tpa1.id",
-				Common.PARAM_COURSE_NAME, "ticac tpa1 name",
-				Common.PARAM_COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
+				Config.PARAM_COURSE_ID, "ticac.tpa1.id",
+				Config.PARAM_COURSE_NAME, "ticac tpa1 name",
+				Config.PARAM_COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
 		ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Common.JSP_INSTRUCTOR_COURSE+"?message=The+course+has+been+added.+Click+the+%27Enroll%27+link+in+the+table+below+to+add+students+to+the+course.+If+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1", 
+				Config.JSP_INSTRUCTOR_COURSE+"?message=The+course+has+been+added.+Click+the+%27Enroll%27+link+in+the+table+below+to+add+students+to+the+course.+If+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(false, r.isError);
-		assertEquals(Common.MESSAGE_COURSE_ADDED, r.getStatusMessage());
+		assertEquals(Config.MESSAGE_COURSE_ADDED, r.getStatusMessage());
 		
 		InstructorCoursePageData pageData = (InstructorCoursePageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
@@ -93,16 +93,16 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		______TS("Error: try to add the same course again");
 		
 		a = getAction(
-				Common.PARAM_COURSE_ID, "ticac.tpa1.id",
-				Common.PARAM_COURSE_NAME, "ticac tpa1 name",
-				Common.PARAM_COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
+				Config.PARAM_COURSE_ID, "ticac.tpa1.id",
+				Config.PARAM_COURSE_NAME, "ticac tpa1 name",
+				Config.PARAM_COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
 		r = (ShowPageResult)a.executeAndPostProcess();
 		
 		assertEquals(
-				Common.JSP_INSTRUCTOR_COURSE+"?message=A+course+by+the+same+ID+already+exists+in+the+system%2C+possibly+created+by+another+user.+Please+choose+a+different+course+ID&error=true&user=idOfInstructor1OfCourse1", 
+				Config.JSP_INSTRUCTOR_COURSE+"?message=A+course+by+the+same+ID+already+exists+in+the+system%2C+possibly+created+by+another+user.+Please+choose+a+different+course+ID&error=true&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(true, r.isError);
-		assertEquals(Common.MESSAGE_COURSE_EXISTS, r.getStatusMessage());
+		assertEquals(Config.MESSAGE_COURSE_EXISTS, r.getStatusMessage());
 		
 		pageData = (InstructorCoursePageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
@@ -123,17 +123,17 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		CoursesLogic.inst().deleteCourseCascade("ticac.tpa1.id");
 		loginAsAdmin(adminUserId);
 		a = getAction(
-				Common.PARAM_USER_ID, instructorId,
-				Common.PARAM_COURSE_ID, "ticac.tpa2.id",
-				Common.PARAM_COURSE_NAME, "ticac tpa2 name",
-				Common.PARAM_COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
+				Config.PARAM_USER_ID, instructorId,
+				Config.PARAM_COURSE_ID, "ticac.tpa2.id",
+				Config.PARAM_COURSE_NAME, "ticac tpa2 name",
+				Config.PARAM_COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Common.JSP_INSTRUCTOR_COURSE+"?message=The+course+has+been+added.+Click+the+%27Enroll%27+link+in+the+table+below+to+add+students+to+the+course.+If+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1", 
+				Config.JSP_INSTRUCTOR_COURSE+"?message=The+course+has+been+added.+Click+the+%27Enroll%27+link+in+the+table+below+to+add+students+to+the+course.+If+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(false, r.isError);
-		assertEquals(Common.MESSAGE_COURSE_ADDED, r.getStatusMessage());
+		assertEquals(Config.MESSAGE_COURSE_ADDED, r.getStatusMessage());
 		
 		pageData = (InstructorCoursePageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);

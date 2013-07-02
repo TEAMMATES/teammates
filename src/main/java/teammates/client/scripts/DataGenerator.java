@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import teammates.common.Common;
+
+import teammates.common.util.Config;
 /**
  * Class that create a json data file to be used with ImportData script
  * The result file will be saved in src/test/resources/data/ folder.
@@ -66,7 +67,7 @@ public class DataGenerator {
 
 	public static void main(String[] args) throws IOException {
 		String data = generateData();
-		writeDataToFile(data,Common.TEST_DATA_FOLDER +"/"+ FILE_NAME);
+		writeDataToFile(data,Config.TEST_DATA_FOLDER +"/"+ FILE_NAME);
 	}
 	
 	/**

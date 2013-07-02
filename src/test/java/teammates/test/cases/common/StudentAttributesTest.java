@@ -3,24 +3,24 @@ package teammates.test.cases.common;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.Common.EOL;
-import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_EMPTY;
-import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
-import static teammates.common.FieldValidator.REASON_TOO_LONG;
-import static teammates.common.FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.TEAM_NAME_ERROR_MESSAGE;
+import static teammates.common.util.Config.EOL;
+import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REASON_EMPTY;
+import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
+import static teammates.common.util.FieldValidator.REASON_TOO_LONG;
+import static teammates.common.util.FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.TEAM_NAME_ERROR_MESSAGE;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.FieldValidator;
-import teammates.common.StringHelper;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
 

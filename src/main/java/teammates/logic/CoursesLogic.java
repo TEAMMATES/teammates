@@ -1,14 +1,12 @@
 package teammates.logic;
 
-import static teammates.common.Common.EOL;
+import static teammates.common.util.Config.EOL;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -24,6 +22,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.storage.api.CoursesDb;
 
 /**
@@ -38,7 +38,7 @@ public class CoursesLogic {
 	//TODO: add a test class for this class. Some of the test content can be transferred from LogicTest.
 	
 	private static CoursesLogic instance = null;
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	private static final CoursesDb coursesDb = new CoursesDb();
 	
@@ -263,7 +263,7 @@ public class CoursesLogic {
 			CourseAttributes course = coursesDb.getCourse(s.course);
 			if(course==null){
 				log.warning(
-						"Course was deleted but the Student still exists :"+Common.EOL 
+						"Course was deleted but the Student still exists :"+Config.EOL 
 						+ s.toString());
 			}else{
 				courseList.add(course);
@@ -284,7 +284,7 @@ public class CoursesLogic {
 			try {
 				courseSummaryList.put(course.id, getCourseSummary(course.id));
 			} catch (EntityDoesNotExistException e) {
-				log.warning("Course was deleted but the Instructor still exists: "+Common.EOL 
+				log.warning("Course was deleted but the Instructor still exists: "+Config.EOL 
 						+ ia.toString());
 			}
 		}

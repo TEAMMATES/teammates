@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.datatransfer;
 
 public enum FeedbackParticipantType {
 	// booleans represent: isValidGiver?, isValidRecipient?

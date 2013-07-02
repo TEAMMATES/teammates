@@ -3,14 +3,14 @@ package teammates.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.Assumption;
-import teammates.common.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponsesDb;
 
 public class FeedbackResponsesLogic {

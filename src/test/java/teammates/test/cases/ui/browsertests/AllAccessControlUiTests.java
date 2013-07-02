@@ -9,15 +9,15 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.TimeHelper;
-import teammates.common.Url;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -84,17 +84,17 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 		______TS("student pages");
 
-		verifyRedirectToLogin(Common.PAGE_STUDENT_HOME);
+		verifyRedirectToLogin(Config.PAGE_STUDENT_HOME);
 		
 
 		______TS("instructor pages");
 
-		verifyRedirectToLogin(Common.PAGE_INSTRUCTOR_HOME);
+		verifyRedirectToLogin(Config.PAGE_INSTRUCTOR_HOME);
 		
 
 		______TS("admin pages");
 
-		verifyRedirectToLogin(Common.PAGE_ADMIN_HOME);
+		verifyRedirectToLogin(Config.PAGE_ADMIN_HOME);
 		
 		
 	}
@@ -108,14 +108,14 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 		loginStudent(unregUsername, unregPassword);
 
-		verifyRedirectToWelcomeStrangerPage(Common.PAGE_STUDENT_HOME, unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Config.PAGE_STUDENT_HOME, unregUsername);
 
 
 		______TS("instructor pages");
 
 		loginInstructorUnsuccessfully(unregUsername, unregPassword);
 
-		Url url = new Url(Common.PAGE_INSTRUCTOR_HOME);
+		Url url = new Url(Config.PAGE_INSTRUCTOR_HOME);
 		verifyRedirectToNotAuthorized(url);
 		verifyCannotMasquerade(url, otherInstructor.googleId);
 
@@ -143,7 +143,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		
 		______TS("cannot view other homepage");
 		
-		link = Common.PAGE_STUDENT_HOME;
+		link = Config.PAGE_STUDENT_HOME;
 		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
@@ -156,10 +156,10 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		
 		loginStudent(studentUsername, studentPassword);
 		
-		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Url.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
+		link = Config.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+		link = Url.addParamToUrl(link, Config.PARAM_COURSE_ID, ownCourse.id);
 		EvaluationAttributes ownEvaluation = testData.evaluations.get("evaluation1InCourse1");
-		link = Url.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,	ownEvaluation.name);
+		link = Url.addParamToUrl(link, Config.PARAM_EVALUATION_NAME,	ownEvaluation.name);
 		
 		______TS("student cannot submit evaluation in AWAITING state");
 	
@@ -168,19 +168,19 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		ownEvaluation.activated = false;
 		assertEquals(EvalStatus.AWAITING, ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Config.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		currentPage.navigateTo(new Url(link))
-			.verifyStatus(Common.MESSAGE_EVALUATION_NOT_OPEN);
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+			.verifyStatus(Config.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_COMMENTS + "0"), "disabled"));
 		assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
 		
 		______TS("student can view own evaluation submission page");
 	
-		link = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Url.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Url.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
+		link = Config.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+		link = Url.addParamToUrl(link, Config.PARAM_COURSE_ID, ownCourse.id);
+		link = Url.addParamToUrl(link, Config.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyPageContains(link, studentUsername
 				+ "{*}Evaluation Submission{*}" + ownCourse.id + "{*}"
@@ -191,12 +191,12 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		ownEvaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
 		ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Config.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		currentPage.navigateTo(new Url(link))
-			.verifyStatus(Common.MESSAGE_EVALUATION_NOT_OPEN);
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+			.verifyStatus(Config.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_COMMENTS + "0"), "disabled"));
 		assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
 		
 		______TS("student cannot submit evaluation in CLOSED state (evaluation with different timezone)");
@@ -209,12 +209,12 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		//  editing is enabled when the user timezone is behind. This test 
 		//  case only checks if editing is disabled when timezone is ahead.
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Config.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		currentPage.navigateTo(new Url(link))
-			.verifyStatus(Common.MESSAGE_EVALUATION_NOT_OPEN);
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+			.verifyStatus(Config.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_COMMENTS + "0"), "disabled"));
 		assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
 		
 		______TS("student cannot submit evaluation in PUBLISHED state");
@@ -224,12 +224,12 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		ownEvaluation.published = true;
 		assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Config.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		currentPage.navigateTo(new Url(link))
-			.verifyStatus(Common.MESSAGE_EVALUATION_NOT_OPEN);
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_POINTS + "0"), "disabled"));
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_JUSTIFICATION + "0"), "disabled"));
-		assertEquals("true", currentPage.getElementAttribute(By.id(Common.PARAM_COMMENTS + "0"), "disabled"));
+			.verifyStatus(Config.MESSAGE_EVALUATION_NOT_OPEN);
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_POINTS + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_JUSTIFICATION + "0"), "disabled"));
+		assertEquals("true", currentPage.getElementAttribute(By.id(Config.PARAM_COMMENTS + "0"), "disabled"));
 		assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
 		
 		deleteSpecialTestData();
@@ -245,11 +245,11 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		ownEvaluation.published = false;
 		assertTrue(EvalStatus.PUBLISHED != ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Config.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 	
-		link = Common.PAGE_STUDENT_EVAL_RESULTS;
-		link = Url.addParamToUrl(link, Common.PARAM_COURSE_ID, ownCourse.id);
-		link = Url.addParamToUrl(link, Common.PARAM_EVALUATION_NAME,
+		link = Config.PAGE_STUDENT_EVAL_RESULTS;
+		link = Url.addParamToUrl(link, Config.PARAM_COURSE_ID, ownCourse.id);
+		link = Url.addParamToUrl(link, Config.PARAM_EVALUATION_NAME,
 				ownEvaluation.name);
 		verifyRedirectedToServerErrorPage(link); //TODO: this error should be handled better.
 	
@@ -261,7 +261,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		ownEvaluation.published = true;
 		assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-		assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Config.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 		verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}"
 				+ ownEvaluation.name + "{*}" + ownCourse.id);
 		deleteSpecialTestData();
@@ -276,7 +276,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	
 		______TS("cannot view other homepage");
 	
-		link = Common.PAGE_INSTRUCTOR_HOME;
+		link = Config.PAGE_INSTRUCTOR_HOME;
 		verifyCannotMasquerade(link, otherInstructor.googleId);
 		
 		deleteSpecialTestData();
@@ -312,7 +312,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
 		
         String backDoorOperationStatus = BackDoor.restoreDataBundle(testData); 
-        assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+        assertEquals(Config.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 	}
 	
 	private static void restoreSpecialTestData() {
@@ -324,12 +324,12 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
 		
         String backDoorOperationStatus = BackDoor.restoreDataBundle(testData); 
-        assertEquals(Common.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+        assertEquals(Config.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
 	}
 
 	private void verifyCannotAccessAdminPages() {
 		//cannot access directly
-		Url url = new Url(Common.PAGE_ADMIN_HOME);
+		Url url = new Url(Config.PAGE_ADMIN_HOME);
 		verifyRedirectToNotAuthorized(url);
 		//cannot access by masquerading either
 		url = url.withUserId(adminUsername);
@@ -337,7 +337,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	}
 
 	private void verifyCannotMasquerade(String link, String otherInstructorId) {
-		link = Url.addParamToUrl(link, Common.PARAM_USER_ID, otherInstructorId);
+		link = Url.addParamToUrl(link, Config.PARAM_USER_ID, otherInstructorId);
 		verifyRedirectToNotAuthorized(link);
 	}
 	

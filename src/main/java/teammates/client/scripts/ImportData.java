@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.Set;
 import com.google.gson.Gson;
 
-import teammates.common.Common;
-import teammates.common.FileHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -14,6 +12,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.FileHelper;
 import teammates.test.driver.BackDoor;
 
 /**
@@ -36,11 +36,11 @@ public class ImportData {
 	private static final int WAIT_TIME_BETWEEN_REQUEST =1000 ;//ms
 	
 	private static DataBundle data;
-	private static Gson gson = Common.getTeammatesGson();
+	private static Gson gson = Config.getTeammatesGson();
 	private static String jsonString;
 	
 	public static void main(String args[]) throws Exception {
-		jsonString = FileHelper.readFile(Common.TEST_DATA_FOLDER+ "/" + SOURCE_FILE_NAME);
+		jsonString = FileHelper.readFile(Config.TEST_DATA_FOLDER+ "/" + SOURCE_FILE_NAME);
 		data = gson.fromJson(jsonString, DataBundle.class);
 		
 		String status = "";

@@ -1,9 +1,9 @@
 package teammates.ui.controller;
 
-import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class StudentFeedbackSubmitPageAction extends Action {
@@ -13,11 +13,11 @@ public class StudentFeedbackSubmitPageAction extends Action {
 			InvalidParametersException {
 		
 		// Check for empty parameters
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
-		String feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String feedbackSessionName = getRequestParam(Config.PARAM_FEEDBACK_SESSION_NAME);
 		
 		if(courseId==null || feedbackSessionName == null) {
-			return createRedirectResult(Common.PAGE_STUDENT_HOME);
+			return createRedirectResult(Config.PAGE_STUDENT_HOME);
 		}
 		
 		if(notYetJoinedCourse(courseId, account.googleId)){
@@ -45,7 +45,7 @@ public class StudentFeedbackSubmitPageAction extends Action {
 					"This feedback session is not yet visible.");
 		}
 		
-		return createShowPageResult(Common.JSP_STUDENT_FEEDBACK_SUBMIT, data);
+		return createShowPageResult(Config.JSP_STUDENT_FEEDBACK_SUBMIT, data);
 	}
 
 }

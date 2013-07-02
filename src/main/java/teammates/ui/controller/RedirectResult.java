@@ -8,14 +8,14 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Config;
 
 /** A 'redirect' type result. That is, the Browser will be required to make 
  * another request to the specified {@code destination}.
  */
 public class RedirectResult extends ActionResult {
-	static Logger log = Common.getLogger();
+	static Logger log = Config.getLogger();
 	
 	public RedirectResult(
 			String destination, 

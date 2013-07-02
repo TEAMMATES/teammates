@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Config" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
@@ -6,7 +6,7 @@
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.InstructorHomePageData"%>
 <%
-InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data");
+	InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -35,7 +35,7 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -45,7 +45,7 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 				<h1>Instructor Home</h1>
 			</div>
 			
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 			
 			<div class="backgroundBlock">
 				<div class="blockLink rightalign">
@@ -55,11 +55,11 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 			</div>
 			
 			<%
-				int idx = -1;
-				int evalIdx = -1;
-				int fsIdx = -1;
-				for (CourseDetailsBundle courseDetails: data.courses) { idx++;
-			%>
+							int idx = -1;
+								int evalIdx = -1;
+								int fsIdx = -1;
+								for (CourseDetailsBundle courseDetails: data.courses) { idx++;
+						%>
 			<br>
 			<br>
 			<br>
@@ -72,28 +72,28 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 				<div class="result_homeLinks blockLink rightalign">
 					<a class="t_course_enroll<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ENROLL%>')"
+						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_ENROLL%>')"
 						onmouseout="hideddrivetip()">
 						Enroll</a>
 					<a class="t_course_view<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DETAILS%>')"
+						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_DETAILS%>')"
 						onmouseout="hideddrivetip()">
 						View</a>
 					<a class="t_course_edit<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_EDIT%>')"
+						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_EDIT%>')"
 						onmouseout="hideddrivetip()">
 						Edit</a>
 					<a class="t_course_add_eval<%=idx%> color_white bold"
 						href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
+						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
 						onmouseout="hideddrivetip()">
 						Add Evaluation</a>
 					<a class="t_course_delete<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
 						onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
-						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_DELETE%>')"
+						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_DELETE%>')"
 						onmouseout="hideddrivetip()">
 						Delete</a>
 				</div>
@@ -107,7 +107,7 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 							<th class="leftalign color_white bold">Evaluation Name</th>
 							<th class="centeralign color_white bold">Status</th>
 							<th class="centeralign color_white bold"><span
-								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
+								onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
 								onmouseout="hideddrivetip()">Response Rate</span></th>
 							<th class="centeralign color_white bold no-print">Action(s)</th>
 						</tr>
@@ -116,15 +116,17 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 						%>
 							<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
 								<td class="t_eval_name<%=idx%>"><%=PageData.escapeForHTML(edd.evaluation.name)%></td>
-								<td class="t_eval_status<%= idx %> centeralign"><span
-									onmouseover="ddrivetip('<%= PageData.getInstructorHoverMessageForEval(edd.evaluation) %>')"
-									onmouseout="hideddrivetip()"><%= PageData.getInstructorStatusForEval(edd.evaluation) %></span></td>
-								<td class="t_eval_response<%= idx %> centeralign"><%= edd.stats.submittedTotal %>
-									/ <%= edd.stats.expectedTotal %></td>
-								<td class="centeralign no-print"><%= data.getInstructorEvaluationActions(edd.evaluation,evalIdx, true) %>
+								<td class="t_eval_status<%=idx%> centeralign"><span
+									onmouseover="ddrivetip('<%=PageData.getInstructorHoverMessageForEval(edd.evaluation)%>')"
+									onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForEval(edd.evaluation)%></span></td>
+								<td class="t_eval_response<%=idx%> centeralign"><%=edd.stats.submittedTotal%>
+									/ <%=edd.stats.expectedTotal%></td>
+								<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(edd.evaluation,evalIdx, true)%>
 								</td>
 							</tr>
-						<%	} %>
+						<%
+							}
+						%>
 					</table>
 					<br>
 				<%
@@ -139,31 +141,36 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 						<th class="leftalign color_white bold">Feedback Session Name</th>
 						<th class="centeralign color_white bold">Status</th>
 						<th class="centeralign color_white bold"><span
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
 							onmouseout="hideddrivetip()">Response Rate</span></th>
 						<th class="centeralign color_white bold no-print">Action(s)</th>
 					</tr>
 				<%
-						for(FeedbackSessionDetailsBundle fdb: courseDetails.feedbackSessions){ 
-							fsIdx++;
+					for(FeedbackSessionDetailsBundle fdb: courseDetails.feedbackSessions){ 
+									fsIdx++;
 				%>
 							<tr class="evaluations_row" id="evaluation<%=fsIdx%>">
 								<td class="t_eval_name"><%=PageData.escapeForHTML(fdb.feedbackSession.feedbackSessionName)%></td>
 								<td class="t_eval_status centeralign"><span
 									onmouseover="ddrivetip(' <%=PageData.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
 									onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>
-								<td class="t_eval_response centeralign"><%= fdb.stats.submittedTotal %>
-									/ <%= fdb.stats.expectedTotal %></td>
+								<td class="t_eval_response centeralign"><%=fdb.stats.submittedTotal%>
+									/ <%=fdb.stats.expectedTotal%></td>
 								<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(fdb.feedbackSession,fsIdx, false)%>
 								</td>
 							</tr>
-						<%	} %>
+						<%
+							}
+						%>
 					</table>
 					<br>
-					<% } %>
+					<%
+						}
+					%>
 			</div>
-			<%		out.flush();
-				}
+			<%
+				out.flush();
+					}
 			%>
 		</div>	
 		<br>
@@ -173,7 +180,7 @@ InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data
 
 	
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

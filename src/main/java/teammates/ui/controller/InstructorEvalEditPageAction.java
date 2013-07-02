@@ -2,22 +2,22 @@ package teammates.ui.controller;
 
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalEditPageAction extends Action {
-	Logger log = Common.getLogger();
+	Logger log = Config.getLogger();
 
 	@Override
 	protected ActionResult execute() 
 			throws EntityDoesNotExistException,	InvalidParametersException {
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Config.PARAM_EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
 		new GateKeeper().verifyAccessible(
@@ -39,7 +39,7 @@ public class InstructorEvalEditPageAction extends Action {
 				"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled== true ? "enabled" : "disabled") + 
 				"<br><br><span class=\"bold\">Instructions:</span> " + data.evaluation.instructions;
 		
-		return createShowPageResult(Common.JSP_INSTRUCTOR_EVAL_EDIT, data);
+		return createShowPageResult(Config.JSP_INSTRUCTOR_EVAL_EDIT, data);
 
 	}
 

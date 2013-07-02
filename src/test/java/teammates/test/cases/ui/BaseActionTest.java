@@ -7,14 +7,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.Common;
-import teammates.common.FeedbackParticipantType;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
@@ -61,7 +61,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	 */
 	protected String[] addUserIdToParams(String userId, String[] params) {
 		List<String> list = new ArrayList<String>();
-		list.add(Common.PARAM_USER_ID);
+		list.add(Config.PARAM_USER_ID);
 		list.add(userId);
 		for (String s : params) {
 			list.add(s);
@@ -72,55 +72,55 @@ public class BaseActionTest extends BaseComponentTestCase {
 	protected String[] createParamsForTypicalEval(String courseId, String evalName) {
 		
 		return new String[]{
-				Common.PARAM_COURSE_ID, courseId,
-				Common.PARAM_EVALUATION_NAME, evalName,
-				Common.PARAM_EVALUATION_COMMENTSENABLED, "true",
-				Common.PARAM_EVALUATION_START, "01/01/2015",
-				Common.PARAM_EVALUATION_STARTTIME, "0",
-				Common.PARAM_EVALUATION_DEADLINE, "01/01/2015",
-				Common.PARAM_EVALUATION_DEADLINETIME, "0",
-				Common.PARAM_EVALUATION_TIMEZONE, "0",
-				Common.PARAM_EVALUATION_GRACEPERIOD, "0",
-				Common.PARAM_EVALUATION_INSTRUCTIONS, "ins"
+				Config.PARAM_COURSE_ID, courseId,
+				Config.PARAM_EVALUATION_NAME, evalName,
+				Config.PARAM_EVALUATION_COMMENTSENABLED, "true",
+				Config.PARAM_EVALUATION_START, "01/01/2015",
+				Config.PARAM_EVALUATION_STARTTIME, "0",
+				Config.PARAM_EVALUATION_DEADLINE, "01/01/2015",
+				Config.PARAM_EVALUATION_DEADLINETIME, "0",
+				Config.PARAM_EVALUATION_TIMEZONE, "0",
+				Config.PARAM_EVALUATION_GRACEPERIOD, "0",
+				Config.PARAM_EVALUATION_INSTRUCTIONS, "ins"
 		};
 	}
 	
 	protected String[] createParamsForTypicalFeedbackSession(String courseId, String fsName) {
 		
 		return new String[]{
-				Common.PARAM_COURSE_ID, courseId,
-				Common.PARAM_FEEDBACK_SESSION_NAME, fsName,
-				Common.PARAM_FEEDBACK_SESSION_STARTDATE, "01/02/2012",
-				Common.PARAM_FEEDBACK_SESSION_STARTTIME, "0",
-				Common.PARAM_FEEDBACK_SESSION_ENDDATE, "01/01/2015",
-				Common.PARAM_FEEDBACK_SESSION_ENDTIME, "0",
-				Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON, "custom",
-				Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
-				Common.PARAM_FEEDBACK_SESSION_VISIBLETIME, "0",
-				Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON, "atvisible",
-				Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE, "",
-				Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME, "0",				
-				Common.PARAM_FEEDBACK_SESSION_TIMEZONE, "8",
-				Common.PARAM_FEEDBACK_SESSION_GRACEPERIOD, "10",
-				Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
+				Config.PARAM_COURSE_ID, courseId,
+				Config.PARAM_FEEDBACK_SESSION_NAME, fsName,
+				Config.PARAM_FEEDBACK_SESSION_STARTDATE, "01/02/2012",
+				Config.PARAM_FEEDBACK_SESSION_STARTTIME, "0",
+				Config.PARAM_FEEDBACK_SESSION_ENDDATE, "01/01/2015",
+				Config.PARAM_FEEDBACK_SESSION_ENDTIME, "0",
+				Config.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON, "custom",
+				Config.PARAM_FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
+				Config.PARAM_FEEDBACK_SESSION_VISIBLETIME, "0",
+				Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON, "atvisible",
+				Config.PARAM_FEEDBACK_SESSION_PUBLISHDATE, "",
+				Config.PARAM_FEEDBACK_SESSION_PUBLISHTIME, "0",				
+				Config.PARAM_FEEDBACK_SESSION_TIMEZONE, "8",
+				Config.PARAM_FEEDBACK_SESSION_GRACEPERIOD, "10",
+				Config.PARAM_FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
 		};
 	}
 	
 	protected String[] createParamsForTypicalFeedbackQuestion(String courseId, String fsName) {
 		
 		return new String[]{
-				Common.PARAM_COURSE_ID, courseId,
-				Common.PARAM_FEEDBACK_SESSION_NAME, fsName,
-				Common.PARAM_FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
-				Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
-				Common.PARAM_FEEDBACK_QUESTION_NUMBER, "1",
-				Common.PARAM_FEEDBACK_QUESTION_TEXT, "question",
-				Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
-				Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
-				Common.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
-				Common.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
-				Common.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
-				Common.PARAM_FEEDBACK_QUESTION_EDITTYPE, "edit"
+				Config.PARAM_COURSE_ID, courseId,
+				Config.PARAM_FEEDBACK_SESSION_NAME, fsName,
+				Config.PARAM_FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Config.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Config.PARAM_FEEDBACK_QUESTION_NUMBER, "1",
+				Config.PARAM_FEEDBACK_QUESTION_TEXT, "question",
+				Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+				Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+				Config.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+				Config.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+				Config.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+				Config.PARAM_FEEDBACK_QUESTION_EDITTYPE, "edit"
 		};
 	}
 	

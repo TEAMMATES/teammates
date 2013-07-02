@@ -3,12 +3,12 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.util.Config;
 
 public class InstructorFeedbackPageData extends PageData {
 
@@ -26,7 +26,7 @@ public class InstructorFeedbackPageData extends PageData {
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){
 		return getTimeZoneOptionsAsHtml(
 				newFeedbackSession == null
-					? Common.UNINITIALIZED_DOUBLE 
+					? Config.UNINITIALIZED_DOUBLE 
 					: newFeedbackSession.timeZone);
 	}
 	
@@ -34,7 +34,7 @@ public class InstructorFeedbackPageData extends PageData {
 	public ArrayList<String> getGracePeriodOptionsAsHtml(){
 		return getGracePeriodOptionsAsHtml(
 				newFeedbackSession == null 
-					? Common.UNINITIALIZED_INT
+					? Config.UNINITIALIZED_INT
 					: newFeedbackSession.gracePeriod);
 	}
 	

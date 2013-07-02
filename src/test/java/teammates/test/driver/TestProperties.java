@@ -4,8 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import teammates.common.FileHelper;
-import teammates.common.Url;
+import teammates.common.util.FileHelper;
+import teammates.common.util.Url;
 
 /** 
  * Represents properties in test.properties file

@@ -5,23 +5,23 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseEnrollSaveAction extends Action {
-	protected static final Logger log = Common.getLogger();
+	protected static final Logger log = Config.getLogger();
 	
 	
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String studentsInfo = getRequestParam(Common.PARAM_STUDENTS_ENROLLMENT_INFO);
+		String studentsInfo = getRequestParam(Config.PARAM_STUDENTS_ENROLLMENT_INFO);
 		Assumption.assertNotNull(studentsInfo);
 		
 		new GateKeeper().verifyAccessible(
@@ -41,7 +41,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
 			statusToAdmin = e.getMessage();
 		}
 		
-		return createShowPageResult(Common.JSP_INSTRUCTOR_COURSE_ENROLL_RESULT, data);
+		return createShowPageResult(Config.JSP_INSTRUCTOR_COURSE_ENROLL_RESULT, data);
 	}
 
 	

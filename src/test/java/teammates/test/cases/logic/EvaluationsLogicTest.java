@@ -13,7 +13,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
@@ -24,6 +23,7 @@ import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.TeamResultBundle;
+import teammates.common.util.TimeHelper;
 import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
 import teammates.logic.EvaluationsLogic;

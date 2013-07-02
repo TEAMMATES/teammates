@@ -1,10 +1,10 @@
 package teammates.test.cases.storage;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
-import static teammates.common.FieldValidator.EVALUATION_NAME;
-import static teammates.common.FieldValidator.START_TIME_FIELD_NAME;
-import static teammates.common.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.EVALUATION_NAME;
+import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 
 import java.util.Date;
 
@@ -13,12 +13,12 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
 import teammates.test.cases.BaseComponentTestCase;
 
@@ -77,7 +77,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.createEntity(null);
 			signalFailureToDetectException();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -98,7 +98,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.getEvaluation(e.courseId, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -142,7 +142,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.updateEvaluation(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 	}
@@ -165,14 +165,14 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.deleteEvaluation(null, e.name);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			evaluationsDb.deleteEvaluation(e.courseId, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 

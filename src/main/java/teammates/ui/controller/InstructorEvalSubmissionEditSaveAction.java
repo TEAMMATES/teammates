@@ -2,13 +2,13 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
@@ -20,22 +20,22 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Config.PARAM_EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getEvaluation(courseId, evalName));
 		
-		String teamName = getRequestParam(Common.PARAM_TEAM_NAME);
-		String fromEmail = getRequestParam(Common.PARAM_FROM_EMAIL);
-		String[] toEmails = getRequestParamValues(Common.PARAM_TO_EMAIL);
-		String[] points = getRequestParamValues(Common.PARAM_POINTS);
-		String[] justifications = getRequestParamValues(Common.PARAM_JUSTIFICATION);
-		String[] comments = getRequestParamValues(Common.PARAM_COMMENTS);
+		String teamName = getRequestParam(Config.PARAM_TEAM_NAME);
+		String fromEmail = getRequestParam(Config.PARAM_FROM_EMAIL);
+		String[] toEmails = getRequestParamValues(Config.PARAM_TO_EMAIL);
+		String[] points = getRequestParamValues(Config.PARAM_POINTS);
+		String[] justifications = getRequestParamValues(Config.PARAM_JUSTIFICATION);
+		String[] comments = getRequestParamValues(Config.PARAM_COMMENTS);
 		
 		EvaluationAttributes eval = logic.getEvaluation(courseId, evalName);
 		StudentAttributes student = logic.getStudentForEmail(courseId, fromEmail);
@@ -63,7 +63,7 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
 		
 		try{
 			logic.updateSubmissions(submissionData);
-			 statusToUser.add(String.format(Common.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,
+			 statusToUser.add(String.format(Config.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,
 					PageData.escapeForHTML(student.name),
 					PageData.escapeForHTML(evalName), courseId));
 			statusToAdmin = createLogMesage(courseId, evalName, teamName, fromEmail, toEmails, points, justifications, comments);
@@ -72,10 +72,10 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
 			//TODO: redirect to the same page?
 			statusToUser.add(e.getMessage());
 			isError = true;
-			statusToAdmin = Common.LOG_SERVLET_ACTION_FAILURE + " : " + e.getMessage();
+			statusToAdmin = Config.LOG_SERVLET_ACTION_FAILURE + " : " + e.getMessage();
 		}		
 		
-		RedirectResult response = createRedirectResult(Common.JSP_SHOW_MESSAGE);
+		RedirectResult response = createRedirectResult(Config.JSP_SHOW_MESSAGE);
 		return response;
 
 	}

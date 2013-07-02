@@ -1,6 +1,6 @@
 <%@page import="teammates.common.datatransfer.StudentResultBundle"%>
-<%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.TimeHelper"%>
+<%@ page import="teammates.common.util.Config"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
@@ -45,7 +45,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -91,13 +91,13 @@
 						<form id="download_eval_report" method="GET"
 							action="instructorEvalExport">
 							<%
-								if(InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Common.EVALUATION_STATUS_CLOSED)) {
+								if(InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Config.EVALUATION_STATUS_CLOSED)) {
 							%>
 							<input type="button" class="button" id="button_publish"
 								value="Publish"
 								onclick="if(togglePublishEvaluation('<%=data.evaluationResults.evaluation.name%>')) window.location.href='<%=data.getInstructorEvaluationPublishLink(data.evaluationResults.evaluation.courseId,data.evaluationResults.evaluation.name,false)%>';">
 							<%
-								} else if (InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Common.EVALUATION_STATUS_PUBLISHED)) {
+								} else if (InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Config.EVALUATION_STATUS_PUBLISHED)) {
 							%>
 							<input type="button" class="button" id="button_unpublish"
 								value="Unpublish"
@@ -105,9 +105,9 @@
 							<%
 								}
 							%>
-							<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>"
+							<input type="hidden" name="<%=Config.PARAM_COURSE_ID%>"
 								value="<%=data.evaluationResults.evaluation.courseId%>">
-							<input type="hidden" name="<%=Common.PARAM_EVALUATION_NAME%>"
+							<input type="hidden" name="<%=Config.PARAM_EVALUATION_NAME%>"
 								value="<%=escapeForHTML(data.evaluationResults.evaluation.name)%>">
 							<input type="submit" value="Download Report" class="button">
 						</form>
@@ -116,7 +116,7 @@
 			</table>
 
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 			<br>
 
 			<%
@@ -141,22 +141,22 @@
 						<th class="centeralign color_white bold" width="8%"><input
 							class="buttonSortNone" type="button" id="button_sortdiff"
 							onclick="toggleSort(this,5,sortByDiff)"> <span
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_DIFF%>')"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_DIFF%>')"
 							onmouseout="hideddrivetip()">Diff</span></th>
 						<th class="centeralign color_white bold" width="20%"><span
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_POINTS_RECEIVED%>')"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_POINTS_RECEIVED%>')"
 							onmouseout="hideddrivetip()"> Points Received</span></th>
 						<th class="centeralign color_white bold no-print" width="11%">Action(s)</th>
 					</tr>
 					<%
 						int idx = 0;
-						for(TeamResultBundle teamResultBundle: data.evaluationResults.teamResults.values()){
-								for(StudentResultBundle studentResult: teamResultBundle.studentResults){
-									StudentAttributes student = studentResult.student;
+									for(TeamResultBundle teamResultBundle: data.evaluationResults.teamResults.values()){
+											for(StudentResultBundle studentResult: teamResultBundle.studentResults){
+												StudentAttributes student = studentResult.student;
 					%>
 					<tr class="student_row" id="student<%=idx%>">
 						<td><%=escapeForHTML(student.team)%></td>
-						<td id="<%=Common.PARAM_STUDENT_NAME%>"><span
+						<td id="<%=Config.PARAM_STUDENT_NAME%>"><span
 							onmouseover="ddrivetip('<%=InstructorEvalResultsPageData.escapeForJavaScript(student.comments)%>')"
 							onmouseout="hideddrivetip()"> <%=student.name%>
 						</span></td>
@@ -168,19 +168,19 @@
 							name="viewEvaluationResults<%=idx%>"
 							id="viewEvaluationResults<%=idx%>" target="_blank"
 							href="<%=data.getInstructorEvaluationSubmissionViewLink(data.evaluationResults.evaluation.courseId, data.evaluationResults.evaluation.name, student.email)%>"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER%>')"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_SUBMISSION_VIEW_REVIEWER%>')"
 							onmouseout="hideddrivetip()"> View</a> <a class="color_black"
 							name="editEvaluationResults<%=idx%>"
 							id="editEvaluationResults<%=idx%>" target="_blank"
 							href="<%=data.getInstructorEvaluationSubmissionEditLink(data.evaluationResults.evaluation.courseId, data.evaluationResults.evaluation.name, student.email)%>"
 							onclick="return openChildWindow(this.href)"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_SUBMISSION_INSTRUCTOR_EDIT%>')"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_SUBMISSION_INSTRUCTOR_EDIT%>')"
 							onmouseout="hideddrivetip()">Edit</a></td>
 					</tr>
 					<%
 						idx++;
-																															}
-																														}
+																																		}
+																																	}
 					%>
 				</table>
 				<br> <br> <br>
@@ -202,7 +202,7 @@
 
 				<%
 					boolean firstTeam = true;
-					for(TeamResultBundle teamResultBundle: data.evaluationResults.teamResults.values()){
+							for(TeamResultBundle teamResultBundle: data.evaluationResults.teamResults.values()){
 				%>
 				<%
 					if(firstTeam) firstTeam = false; else out.print("<br>");
@@ -212,11 +212,11 @@
 					<h2 class="color_white"><%=escapeForHTML(teamResultBundle.getTeamName())%></h2>
 					<%
 						boolean firstStudent = true;
-						for(StudentResultBundle studentResult: teamResultBundle.studentResults){
-							StudentAttributes student = studentResult.student;
+									for(StudentResultBundle studentResult: teamResultBundle.studentResults){
+										StudentAttributes student = studentResult.student;
 					%>
 					<%
-							if(firstStudent) firstStudent = false; else out.print("<br>");
+						if(firstStudent) firstStudent = false; else out.print("<br>");
 					%>
 					<table class="resultTable">
 						<thead>
@@ -225,10 +225,10 @@
 									class="resultHeader"><%=byReviewer ? "Reviewer" : "Reviewee"%>:
 								</span><%=student.name%></th>
 								<th class="leftalign bold"><span class="resultHeader"
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_CLAIMED%>')"
+									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_CLAIMED%>')"
 									onmouseout="hideddrivetip()"> Claimed Contributions: </span><%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%></th>
 								<th class="leftalign bold"><span class="resultHeader"
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_PERCEIVED%>')"
+									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_PERCEIVED%>')"
 									onmouseout="hideddrivetip()"> Perceived Contributions: </span><%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.perceivedToInstructor,true)%>
 								</th>
 								<th class="rightalign no-print">
@@ -257,7 +257,7 @@
 						</tr>
 						<%
 							for(SubmissionAttributes sub: (byReviewer ? studentResult.outgoing : studentResult.incoming)){ 
-								if(sub.reviewer.equals(sub.reviewee)) continue;
+												if(sub.reviewer.equals(sub.reviewee)) continue;
 						%>
 						<tr>
 							<td><b><%=escapeForHTML(byReviewer ? sub.details.revieweeName : sub.details.reviewerName)%></b></td>
@@ -294,7 +294,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 	<script>
 		setStatusMessage("");

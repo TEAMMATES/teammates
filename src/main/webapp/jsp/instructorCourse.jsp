@@ -1,11 +1,11 @@
-<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.util.Config"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
-<%@ page import="teammates.common.FieldValidator"%>
+<%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCoursePageData"%>
 <%
-InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("data");
+	InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -34,7 +34,7 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -44,13 +44,13 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 				<h1>Add New Course</h1>
 			</div>
 
-			<form method="get" action="<%=Common.PAGE_INSTRUCTOR_COURSE_ADD%>" name="form_addcourse">
-				<input type="hidden" id="<%=Common.PARAM_INSTRUCTOR_ID%>" name="<%=Common.PARAM_INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
+			<form method="get" action="<%=Config.PAGE_INSTRUCTOR_COURSE_ADD%>" name="form_addcourse">
+				<input type="hidden" id="<%=Config.PARAM_INSTRUCTOR_ID%>" name="<%=Config.PARAM_INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
 				<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
 						<td><input class="addinput" type="text"
-							name="<%=Common.PARAM_COURSE_ID%>" id="<%=Common.PARAM_COURSE_ID%>"
+							name="<%=Config.PARAM_COURSE_ID%>" id="<%=Config.PARAM_COURSE_ID%>"
 							value="<%=(escapeForHTML(data.courseIdToShow))%>"
 							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
 							onmouseout="hideddrivetip()"
@@ -60,7 +60,7 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 					<tr>
 						<td class="label bold">Course Name:</td>
 						<td><input class="addinput" type="text"
-							name="<%=Common.PARAM_COURSE_NAME%>" id="<%=Common.PARAM_COURSE_NAME%>"
+							name="<%=Config.PARAM_COURSE_NAME%>" id="<%=Config.PARAM_COURSE_NAME%>"
 							value="<%=(escapeForHTML(data.courseNameToShow))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
@@ -73,8 +73,8 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 					<tr>
 						<td colspan=2>
 							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>" 
-							id="<%=Common.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=escapeForHTML(data.instructorListToShow)%></textarea>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%=Config.PARAM_COURSE_INSTRUCTOR_LIST%>" 
+							id="<%=Config.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=escapeForHTML(data.instructorListToShow)%></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -83,11 +83,11 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 					</tr>
 				</table>
 				
-				<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+				<input type="hidden" name="<%=Config.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 				
 			</form>
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 			<br>
 			<table class="dataTable">
 				<tr>
@@ -106,37 +106,38 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 				</tr>
 				<%
 					int idx = -1;
-					for(CourseDetailsBundle courseDetails: data.currentCourses){ 
-						idx++;
+							for(CourseDetailsBundle courseDetails: data.currentCourses){ 
+								idx++;
 				%>
 					<tr class="courses_row">
 						<td id="courseid<%=idx%>"><%=escapeForHTML(courseDetails.course.id)%></td>
 						<td id="coursename<%=idx%>"><%=escapeForHTML(courseDetails.course.name)%></td>
-						<td class="t_course_teams centeralign"><%= courseDetails.stats.teamsTotal %></td>
-						<td class="centeralign"><%= courseDetails.stats.studentsTotal %></td>
-						<td class="centeralign"><%= courseDetails.stats.unregisteredTotal %></td>
+						<td class="t_course_teams centeralign"><%=courseDetails.stats.teamsTotal%></td>
+						<td class="centeralign"><%=courseDetails.stats.studentsTotal%></td>
+						<td class="centeralign"><%=courseDetails.stats.unregisteredTotal%></td>
 						<td class="centeralign no-print">
-							<a class="color_black t_course_enroll<%= idx %>"
-								href="<%= data.getInstructorCourseEnrollLink(courseDetails.course.id) %>"
-								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL %>')"
+							<a class="color_black t_course_enroll<%=idx%>"
+								href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
+								onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_ENROLL%>')"
 								onmouseout="hideddrivetip()">Enroll</a>
-							<a class="color_black t_course_view<%= idx %>"
+							<a class="color_black t_course_view<%=idx%>"
 								href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
-								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DETAILS %>')"
+								onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_DETAILS%>')"
 								onmouseout="hideddrivetip()">View</a>
-							<a class="color_black t_course_edit<%= idx %>"
+							<a class="color_black t_course_edit<%=idx%>"
 								href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
-								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_EDIT %>')"
+								onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_EDIT%>')"
 								onmouseout="hideddrivetip()">Edit</a>
-							<a class="color_black t_course_delete<%= idx %>"
+							<a class="color_black t_course_delete<%=idx%>"
 								href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,false)%>"
-								onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%= courseDetails.course.id %>');"
-								onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_DELETE %>')"
+								onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>');"
+								onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_DELETE%>')"
 								onmouseout="hideddrivetip()">Delete</a>
 						</td>
 					</tr>
-				<%	}
-					if(idx==-1){ // Print empty row
+				<%
+					}
+							if(idx==-1){ // Print empty row
 				%>
 					<tr>
 						<td></td>
@@ -146,22 +147,28 @@ InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("
 						<td></td>
 						<td></td>
 					</tr>
-				<%	} %>
+				<%
+					}
+				%>
 			</table>
 			<br>
 			<br>
 			<br>
-			<% if(idx==-1){ %>
+			<%
+				if(idx==-1){
+			%>
 				No records found. <br>
 				<br>
 				<br>
 				<br>
-			<% } %>
+			<%
+				}
+			%>
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

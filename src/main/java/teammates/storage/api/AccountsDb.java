@@ -7,13 +7,13 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 
 /**
@@ -23,7 +23,7 @@ import teammates.storage.entity.Account;
  */
 public class AccountsDb extends EntitiesDb {
 
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 	
 	/**
 	 * Preconditions: 
@@ -46,7 +46,7 @@ public class AccountsDb extends EntitiesDb {
 	 * @return Null if not found.
 	 */
 	public AccountAttributes getAccount(String googleId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, googleId);
 	
 		Account a = getAccountEntity(googleId);
 	
@@ -83,7 +83,7 @@ public class AccountsDb extends EntitiesDb {
 	 * <br> * {@code accountToAdd} is not null and has valid data.
 	 */
 	public void updateAccount(AccountAttributes a) throws InvalidParametersException {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, a);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, a);
 		
 		if (!a.isValid()) {
 			throw new InvalidParametersException(a.getInvalidityInfo());
@@ -109,7 +109,7 @@ public class AccountsDb extends EntitiesDb {
 	 * <br> * {@code googleId} is not null.
 	 */
 	public void deleteAccount(String googleId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, googleId);
 	
 		Account accountToDelete = getAccountEntity(googleId);
 	
@@ -124,12 +124,12 @@ public class AccountsDb extends EntitiesDb {
 		int elapsedTime = 0;
 		Account accountCheck = getAccountEntity(googleId);
 		while ((accountCheck != null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
 			ThreadHelper.waitBriefly();
 			accountCheck = getAccountEntity(googleId);
 			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteAccount->"
 					+ googleId);
 		}

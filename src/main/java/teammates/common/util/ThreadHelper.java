@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -8,7 +8,7 @@ import teammates.common.exception.TeammatesException;
 
 public class ThreadHelper {
 	public static final int WAIT_DURATION = 200;
-	private static Logger log = Common.getLogger();
+	private static Logger log = Config.getLogger();
 
 	public static void waitBriefly() {
 		try {

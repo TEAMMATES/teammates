@@ -15,8 +15,6 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
@@ -32,6 +30,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.storage.api.EvaluationsDb;
 
 import com.google.appengine.api.datastore.Text;
@@ -46,7 +46,7 @@ public class EvaluationsLogic {
 	//  header comments in this class.
 	
 	
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	
@@ -223,11 +223,11 @@ public class EvaluationsLogic {
 		
 		String export = "";
 		
-		export += "Course" + ",," + evaluationResults.evaluation.courseId + Common.EOL
-				+ "Evaluation Name" + ",," + evaluationResults.evaluation.name + Common.EOL
-				+ Common.EOL;
+		export += "Course" + ",," + evaluationResults.evaluation.courseId + Config.EOL
+				+ "Evaluation Name" + ",," + evaluationResults.evaluation.name + Config.EOL
+				+ Config.EOL;
 		
-		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Common.EOL;
+		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Config.EOL;
 		
 		for (TeamResultBundle td : evaluationResults.teamResults.values()) {
 			for (StudentResultBundle srb : td.studentResults) {
@@ -244,14 +244,14 @@ public class EvaluationsLogic {
 					result += sub.details.normalizedToInstructor;
 				}
 				
-				export += srb.student.team + ",," + srb.student.name + ",," + srb.summary.claimedToInstructor + ",," + srb.summary.perceivedToInstructor + ",," + result + Common.EOL;
+				export += srb.student.team + ",," + srb.student.name + ",," + srb.summary.claimedToInstructor + ",," + srb.summary.perceivedToInstructor + ",," + result + Config.EOL;
 			}
 		}
 		
 		// Replace all Unset values
-		export = export.replaceAll(Integer.toString(Common.UNINITIALIZED_INT), "N/A");
-		export = export.replaceAll(Integer.toString(Common.POINTS_NOT_SURE), "Not Sure");
-		export = export.replaceAll(Integer.toString(Common.POINTS_NOT_SUBMITTED), "Not Submitted");
+		export = export.replaceAll(Integer.toString(Config.UNINITIALIZED_INT), "N/A");
+		export = export.replaceAll(Integer.toString(Config.POINTS_NOT_SURE), "Not Sure");
+		export = export.replaceAll(Integer.toString(Config.POINTS_NOT_SUBMITTED), "Not Submitted");
 		
 		return export;
 	}
@@ -266,7 +266,7 @@ public class EvaluationsLogic {
 						evaluation.courseId, evaluation.name, email);
 
 		for (SubmissionAttributes sd : submissionList) {
-			if (sd.points == Common.POINTS_NOT_SUBMITTED) {
+			if (sd.points == Config.POINTS_NOT_SUBMITTED) {
 				return false;
 			}
 		}
@@ -325,7 +325,7 @@ public class EvaluationsLogic {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
 		List<EvaluationAttributes> evaluationDataList = 
-				getEvaluationsClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+				getEvaluationsClosingWithinTimeLimit(Config.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 	
 		for (EvaluationAttributes ed : evaluationDataList) {
 			try {
@@ -371,7 +371,7 @@ public class EvaluationsLogic {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 		if (evaluation.getStatus() != EvalStatus.CLOSED) {
 			throw new InvalidParametersException(
-					Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
+					Config.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
 					"Cannot publish an evaluation unless it is CLOSED");
 		}
 	
@@ -391,7 +391,7 @@ public class EvaluationsLogic {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 		if (evaluation.getStatus() != EvalStatus.PUBLISHED) {
 			throw new InvalidParametersException(
-					Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
+					Config.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
 					"Cannot unpublish an evaluation unless it is PUBLISHED");
 		}
 	
@@ -562,7 +562,7 @@ public class EvaluationsLogic {
 		int count = 0;
 		List<String> emailsOfSubmittedStudents = new ArrayList<String>();
 		for (SubmissionAttributes s : submissions) {
-			if (s.points != Common.POINTS_NOT_SUBMITTED
+			if (s.points != Config.POINTS_NOT_SUBMITTED
 					&& !emailsOfSubmittedStudents.contains(s.reviewer)) {
 				count++;
 				emailsOfSubmittedStudents.add(s.reviewer);
@@ -684,7 +684,7 @@ public class EvaluationsLogic {
 
 				SubmissionAttributes outgoingSub = studentResult.outgoing.get(j);
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
-				outgoingSub.details.normalizedToStudent = Common.UNINITIALIZED_INT;
+				outgoingSub.details.normalizedToStudent = Config.UNINITIALIZED_INT;
 				outgoingSub.details.normalizedToInstructor = normalizedOutgoing;
 				log.finer("Setting normalized outgoing of " + studentResult.student.name + " to "
 						+ outgoingSub.details.revieweeName + " to "
@@ -757,7 +757,7 @@ public class EvaluationsLogic {
 		s = new SubmissionAttributes();
 		s.reviewer = reviewer;
 		s.reviewee = reviewee;
-		s.points = Common.UNINITIALIZED_INT;
+		s.points = Config.UNINITIALIZED_INT;
 		s.justification = new Text("");
 		s.p2pFeedback = new Text("");
 		s.course = "";

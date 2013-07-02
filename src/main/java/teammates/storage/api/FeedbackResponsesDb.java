@@ -7,17 +7,17 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponsesDb extends EntitiesDb {
 
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	/**
 	 * Preconditions: <br>
@@ -26,7 +26,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 	 */
 	public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, feedbackResponseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackResponseId);
 		
 		FeedbackResponse fr = 
 				getFeedbackResponseEntity(feedbackResponseId);
@@ -48,8 +48,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
 	public FeedbackResponseAttributes getFeedbackResponse (
 			String feedbackQuestionId, String giverEmail, String receiver) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, receiver);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, receiver);
 		
 		FeedbackResponse fr = 
 				getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiver);
@@ -71,7 +71,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 	public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion (
 			String feedbackQuestionId) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
 		
 		List<FeedbackResponse> frList =
 				getFeedbackResponseEntitiesForQuestion(feedbackQuestionId);
@@ -93,8 +93,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
 	public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
 			String feedbackSessionName, String courseId) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		List<FeedbackResponse> frList =
 				getFeedbackResponseEntitiesForSession(feedbackSessionName, courseId);
@@ -116,8 +116,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
 	public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion (
 			String feedbackQuestionId, String receiver) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, receiver);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, receiver);
 
 		
 		List<FeedbackResponse> frList =
@@ -140,8 +140,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
 	public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestion (
 			String feedbackQuestionId, String giverEmail) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, giverEmail);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, giverEmail);
 
 		
 		List<FeedbackResponse> frList =
@@ -164,8 +164,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
 	public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse (
 			String courseId, String receiver) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, receiver);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, receiver);
 
 		
 		List<FeedbackResponse> frList =
@@ -188,8 +188,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
 	public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse (
 			String courseId, String giverEmail) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, giverEmail);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, giverEmail);
 
 		
 		List<FeedbackResponse> frList =
@@ -215,7 +215,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 		throws InvalidParametersException, EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(
-				Common.ERROR_DBLEVEL_NULL_INPUT, 
+				Config.ERROR_DBLEVEL_NULL_INPUT, 
 				newAttributes);
 		
 		if (!newAttributes.isValid()) {

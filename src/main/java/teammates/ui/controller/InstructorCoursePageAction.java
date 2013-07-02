@@ -3,16 +3,16 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.
  */
 public class InstructorCoursePageAction extends Action {
-	protected static final Logger log = Common.getLogger();
+	protected static final Logger log = Config.getLogger();
 	
 	
 	@Override
@@ -31,13 +31,13 @@ public class InstructorCoursePageAction extends Action {
 				logic.getCourseSummariesForInstructor(account.googleId).values());
 		CourseDetailsBundle.sortDetailedCoursesByCourseId(data.currentCourses);
 		if (data.currentCourses.size() == 0 ){
-			statusToUser.add(Common.MESSAGE_COURSE_EMPTY);
+			statusToUser.add(Config.MESSAGE_COURSE_EMPTY);
 		}
 		
 		statusToAdmin = "instructorCourse Page Load<br>" 
 				+ "Total courses: " + data.currentCourses.size();
 		
-		ShowPageResult response = createShowPageResult(Common.JSP_INSTRUCTOR_COURSE, data);
+		ShowPageResult response = createShowPageResult(Config.JSP_INSTRUCTOR_COURSE, data);
 		return response;
 	}
 

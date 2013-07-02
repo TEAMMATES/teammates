@@ -3,17 +3,17 @@ package teammates.test.cases.common;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.Common.EOL;
-import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
-import static teammates.common.FieldValidator.EVALUATION_INSTRUCTIONS_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.EVALUATION_INSTRUCTIONS_MAX_LENGTH;
-import static teammates.common.FieldValidator.EVALUATION_NAME;
-import static teammates.common.FieldValidator.EVALUATION_NAME_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_EMPTY;
-import static teammates.common.FieldValidator.REASON_TOO_LONG;
-import static teammates.common.FieldValidator.START_TIME_FIELD_NAME;
-import static teammates.common.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
+import static teammates.common.util.Config.EOL;
+import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.EVALUATION_INSTRUCTIONS_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.EVALUATION_INSTRUCTIONS_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.EVALUATION_NAME;
+import static teammates.common.util.FieldValidator.EVALUATION_NAME_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REASON_EMPTY;
+import static teammates.common.util.FieldValidator.REASON_TOO_LONG;
+import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -21,13 +21,13 @@ import java.util.TimeZone;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.FieldValidator;
-import teammates.common.StringHelper;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Evaluation;
 import teammates.test.cases.BaseTestCase;
 
@@ -366,7 +366,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		EvaluationAttributes e ;
 		e = generateValidEvaluationAttributesObject();
 
-		String inStringFormat = Common.getTeammatesGson().toJson(e,
+		String inStringFormat = Config.getTeammatesGson().toJson(e,
 				EvaluationAttributes.class);
 		assertEquals(inStringFormat, e.toString());
 

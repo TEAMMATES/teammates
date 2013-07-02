@@ -6,11 +6,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.ControllerServlet;
 
@@ -22,7 +22,7 @@ public class InstructorEvalPublishActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_INSTRUCTOR_EVAL_PUBLISH;
+		URI = Config.PAGE_INSTRUCTOR_EVAL_PUBLISH;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -40,8 +40,8 @@ public class InstructorEvalPublishActionTest extends BaseActionTest {
 		makeEvaluationClosed(evaluationInCourse1);
 		
 		String[] submissionParams = new String[]{
-				Common.PARAM_COURSE_ID, evaluationInCourse1.courseId,
-				Common.PARAM_EVALUATION_NAME, evaluationInCourse1.name 
+				Config.PARAM_COURSE_ID, evaluationInCourse1.courseId,
+				Config.PARAM_EVALUATION_NAME, evaluationInCourse1.name 
 		};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);

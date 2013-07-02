@@ -6,11 +6,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
 import teammates.logic.EvaluationsLogic;
 import teammates.test.cases.common.EvaluationAttributesTest;
 import teammates.ui.controller.ControllerServlet;
@@ -25,7 +25,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_INSTRUCTOR_HOME;
+		URI = Config.PAGE_INSTRUCTOR_HOME;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 

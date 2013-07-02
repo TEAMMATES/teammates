@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.util.Config"%>
 <!DOCTYPE html>
 
 <html>
@@ -34,7 +34,7 @@
         </div>
 
         <div id="frameBottom">
-			<jsp:include page="<%=Common.JSP_FOOTER%>" />
+			<jsp:include page="<%=Config.JSP_FOOTER%>" />
         </div>
 </body>
 </html>

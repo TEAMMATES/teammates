@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <%@ page import="com.google.appengine.api.search.Document" %>
 <%@ page import="com.google.appengine.api.search.Field" %>
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Config" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="teammates.ui.controller.AdminSearchPageData"%>
 
-<% AdminSearchPageData data = (AdminSearchPageData)request.getAttribute("data"); %>
 <%
-  String outcome = (String) request.getAttribute("outcome");
+	AdminSearchPageData data = (AdminSearchPageData)request.getAttribute("data");
+%>
+<%
+	String outcome = (String) request.getAttribute("outcome");
   if (outcome == null || outcome.isEmpty()) {
     outcome = "&nbsp;";
   }
@@ -36,7 +38,7 @@
   <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-	<jsp:include page="<%= Common.JSP_ADMIN_HEADER %>" />
+	<jsp:include page="<%=Config.JSP_ADMIN_HEADER%>" />
 	</div>
 <div id="frameBody">
 <div id="frameBodyWrapper">
@@ -62,8 +64,8 @@
     <hr/>
     <br>
     <%
-      List<Document> found = data.results;
-      if (found != null) {
+    	List<Document> found = data.results;
+          if (found != null) {
     %>
     <form name="delete" action="" method="get">
       <!-- repeated so that we can execute a search after deletion -->
@@ -81,14 +83,14 @@
           <th>Link</th>
         </tr>
     <%
-        if (found.isEmpty()) {
+    	if (found.isEmpty()) {
     %>
         <tr>
           <td colspan='4'><i>No matching documents found</i></td>
         </tr>
     <%
-        } else {
-          for (Document doc : found) {
+    	} else {
+              for (Document doc : found) {
     %>
         <tr>
          <!--
@@ -110,20 +112,20 @@
         </td>
         </tr>
     <%
-          }
-        }
+    	}
+            }
     %>
       </table>
     </form>
     <%
-      }
+    	}
     %>
     </div>
-	<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+	<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 </div>
 </div>
     <div id="frameBottom">
-	<jsp:include page="<%=Common.JSP_FOOTER%>" />
+	<jsp:include page="<%=Config.JSP_FOOTER%>" />
 </div>
 </body>
 </html>

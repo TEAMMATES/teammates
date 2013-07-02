@@ -1,10 +1,10 @@
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Config" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.ui.controller.AdminAccountDetailsPageData"%>
 
 <%
-AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttribute("data");
+	AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -26,7 +26,7 @@ AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttri
 <body>
     <div id="dhtmltooltip"></div>
     <div id="frameTop">
-    <jsp:include page="<%=Common.JSP_ADMIN_HEADER%>" />
+    <jsp:include page="<%=Config.JSP_ADMIN_HEADER%>" />
     </div>
     <div id="frameBody">
         <div id="frameBodyWrapper">
@@ -53,7 +53,7 @@ AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttri
                 </tr>
             </table>
             <br>
-             <jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+             <jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
             <br>
             <br>
             <h2>Instructor For:</h2>
@@ -65,15 +65,15 @@ AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttri
                 </tr>
                 <%
                 	if(data.instructorCourseList != null && data.instructorCourseList.size() != 0){
-                   	                    for(CourseDetailsBundle courseDetails : data.instructorCourseList){
-                   	                        out.print("<tr>");
-                   	                        out.print("<td>[]" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
-                   	                        out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + data.getAdminDeleteInstructorFromCourseLink(data.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
-                   	                        out.print("</tr>");
-                   	                    }
-                                    } else {
-                                        out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>");
-                                    }
+                                   	                    for(CourseDetailsBundle courseDetails : data.instructorCourseList){
+                                   	                        out.print("<tr>");
+                                   	                        out.print("<td>[]" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
+                                   	                        out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + data.getAdminDeleteInstructorFromCourseLink(data.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
+                                   	                        out.print("</tr>");
+                                   	                    }
+                                                    } else {
+                                                        out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>");
+                                                    }
                 %>
             </table>
             <br>
@@ -87,15 +87,15 @@ AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttri
                 </tr>
                 <%
                 	if(data.studentCourseList != null){
-                                        for(CourseAttributes course : data.studentCourseList){
-                                            out.print("<tr>");
-                                            out.print("<td>[" + course.id + "] " + course.name + "</td>");
-                                            out.print("<td><a id=\"student_" + course.id + "\" href=\"" + data.getAdminDeleteStudentFromCourseLink(data.accountInformation.googleId, course.id)+ "\">Remove From Course</a></td>");
-                                            out.print("</tr>");
-                                        }
-                                    } else {
-                                        out.print("<tr><td colspan=\"2\" class=\"bold\">This Account is not a Student.</td></tr>");
-                                    }
+                                                        for(CourseAttributes course : data.studentCourseList){
+                                                            out.print("<tr>");
+                                                            out.print("<td>[" + course.id + "] " + course.name + "</td>");
+                                                            out.print("<td><a id=\"student_" + course.id + "\" href=\"" + data.getAdminDeleteStudentFromCourseLink(data.accountInformation.googleId, course.id)+ "\">Remove From Course</a></td>");
+                                                            out.print("</tr>");
+                                                        }
+                                                    } else {
+                                                        out.print("<tr><td colspan=\"2\" class=\"bold\">This Account is not a Student.</td></tr>");
+                                                    }
                 %>
             </table>
             <br>
@@ -105,7 +105,7 @@ AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttri
     </div>
 
     <div id="frameBottom">
-        <jsp:include page="<%=Common.JSP_FOOTER%>" />
+        <jsp:include page="<%=Config.JSP_FOOTER%>" />
     </div>
 </body>
 </html>

@@ -4,13 +4,13 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.Test;
 
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class DataBundleTest extends BaseTestCase {

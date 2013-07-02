@@ -1,9 +1,11 @@
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Config" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCourseStudentDetailsPageData"%>
-<%	InstructorCourseStudentDetailsPageData data = (InstructorCourseStudentDetailsPageData)request.getAttribute("data"); %>
+<%
+	InstructorCourseStudentDetailsPageData data = (InstructorCourseStudentDetailsPageData)request.getAttribute("data");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +33,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 
@@ -42,32 +44,32 @@
 				<h1>Student Details</h1>
 			</div>
 			
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 			
 			<table class="inputTable" id="studentInfomationTable">
 				<tr>
 		 			<td class="label rightalign bold" width="30%">Student Name:</td>
-		 			<td id="<%= Common.PARAM_STUDENT_NAME %>"><%= data.student.name %></td>
+		 			<td id="<%=Config.PARAM_STUDENT_NAME%>"><%=data.student.name%></td>
 					</tr>
 			 	<tr>
 					<td class="label rightalign bold" width="30%">Team Name:</td>
-			 		<td id="<%= Common.PARAM_TEAM_NAME %>"><%=escapeForHTML(data.student.team)%></td>
+			 		<td id="<%=Config.PARAM_TEAM_NAME%>"><%=escapeForHTML(data.student.team)%></td>
 			 	</tr>
 			 	<tr>
 			 		<td class="label rightalign bold" width="30%">E-mail Address:</td>
-			 		<td id="<%=Common.PARAM_STUDENT_EMAIL%>"><%=escapeForHTML(data.student.email)%></td>
+			 		<td id="<%=Config.PARAM_STUDENT_EMAIL%>"><%=escapeForHTML(data.student.email)%></td>
 			 	</tr>
 			 	<tr>
 					<td class="label rightalign bold" width="30%">Google ID:</td>
-					<td id="<%=Common.PARAM_USER_ID%>"><%=(data.student.googleId!= null ? escapeForHTML(data.student.googleId) : "")%></td>
+					<td id="<%=Config.PARAM_USER_ID%>"><%=(data.student.googleId!= null ? escapeForHTML(data.student.googleId) : "")%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Registration Key:</td>
-					<td id="<%=Common.PARAM_REGKEY%>"><%=escapeForHTML(data.regKey)%></td>
+					<td id="<%=Config.PARAM_REGKEY%>"><%=escapeForHTML(data.regKey)%></td>
 				</tr>
 			 	<tr>
 			 		<td class="label rightalign bold" width="30%">Comments:</td>
-			 		<td id="<%=Common.PARAM_COMMENTS%>"><%=escapeForHTML(data.student.comments)%></td>
+			 		<td id="<%=Config.PARAM_COMMENTS%>"><%=escapeForHTML(data.student.comments)%></td>
 			 	</tr>
 			 </table>
 			 <br>
@@ -78,7 +80,7 @@
 
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

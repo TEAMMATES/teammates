@@ -7,16 +7,16 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.Common;
-import teammates.common.FieldValidator;
-import teammates.common.HttpRequestHelper;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 
 /** An 'action' to be performed by the system. If the logged in user is allowed
@@ -24,7 +24,7 @@ import teammates.logic.api.Logic;
  * perform that action.
  */
 public abstract class Action {
-	protected static Logger log = Common.getLogger();
+	protected static Logger log = Config.getLogger();
 	
 	protected Logic logic;
 	
@@ -64,7 +64,7 @@ public abstract class Action {
 		
 		//---- set error status forwarded from the previous action
 		
-		isError = getRequestParamAsBoolean(Common.PARAM_ERROR);
+		isError = getRequestParamAsBoolean(Config.PARAM_ERROR);
 		
 		//---- set logged in user ------------------------------------------
 
@@ -83,7 +83,7 @@ public abstract class Action {
 		
 		// ---------- set nominal user -------------------------------------
 		
-		String paramRequestedUserId = req.getParameter(Common.PARAM_USER_ID);
+		String paramRequestedUserId = req.getParameter(Config.PARAM_USER_ID);
 		
 		if (!isMasqueradeModeRequested(loggedInUser.googleId, paramRequestedUserId)) {
 			account = loggedInUser;
@@ -123,7 +123,7 @@ public abstract class Action {
 		response.isError = isError;
 		
 		//Override the result if a redirect was requested by the action requester
-		String redirectUrl = getRequestParam(Common.PARAM_NEXT_URL);
+		String redirectUrl = getRequestParam(Config.PARAM_NEXT_URL);
 		if(redirectUrl != null && new FieldValidator().isLegitimateRedirectUrl(redirectUrl)) {
 			RedirectResult rr = new RedirectResult(redirectUrl, response.account, requestParameters, response.statusToUser);
 			rr.isError = response.isError;
@@ -131,10 +131,10 @@ public abstract class Action {
 		}
 		
 		//Set the common parameters for the response
-		response.responseParams.put(Common.PARAM_USER_ID, account.googleId);
-		response.responseParams.put(Common.PARAM_ERROR, ""+response.isError);
+		response.responseParams.put(Config.PARAM_USER_ID, account.googleId);
+		response.responseParams.put(Config.PARAM_ERROR, ""+response.isError);
 		if(!response.getStatusMessage().isEmpty()){
-			response.responseParams.put(Common.PARAM_STATUS_MESSAGE, response.getStatusMessage());
+			response.responseParams.put(Config.PARAM_STATUS_MESSAGE, response.getStatusMessage());
 		}
 		
 		return response;
@@ -219,8 +219,8 @@ public abstract class Action {
 		String errorMessage = "You are not registered in the course "+PageData.escapeForHTML(courseId);
 		statusToUser.add(errorMessage);
 		isError = true;
-		statusToAdmin = Common.LOG_SERVLET_ACTION_FAILURE + " : " + errorMessage; 
-		return createRedirectResult(Common.PAGE_STUDENT_HOME);
+		statusToAdmin = Config.LOG_SERVLET_ACTION_FAILURE + " : " + errorMessage; 
+		return createRedirectResult(Config.PAGE_STUDENT_HOME);
 	}
 
 	private boolean isInMasqueradeMode() {
@@ -238,29 +238,29 @@ public abstract class Action {
 	protected EvaluationAttributes extractEvaluationData() {
 		//TODO: assert that values are not null
 		EvaluationAttributes newEval = new EvaluationAttributes();
-		newEval.courseId = getRequestParam(Common.PARAM_COURSE_ID);
-		newEval.name = getRequestParam(Common.PARAM_EVALUATION_NAME);
-		newEval.p2pEnabled = getRequestParamAsBoolean(Common.PARAM_EVALUATION_COMMENTSENABLED);
+		newEval.courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		newEval.name = getRequestParam(Config.PARAM_EVALUATION_NAME);
+		newEval.p2pEnabled = getRequestParamAsBoolean(Config.PARAM_EVALUATION_COMMENTSENABLED);
 
 		newEval.startTime = TimeHelper.combineDateTime(
-				getRequestParam(Common.PARAM_EVALUATION_START),
-				getRequestParam(Common.PARAM_EVALUATION_STARTTIME));
+				getRequestParam(Config.PARAM_EVALUATION_START),
+				getRequestParam(Config.PARAM_EVALUATION_STARTTIME));
 
 		newEval.endTime = TimeHelper.combineDateTime(
-				getRequestParam(Common.PARAM_EVALUATION_DEADLINE),
-				getRequestParam(Common.PARAM_EVALUATION_DEADLINETIME));
+				getRequestParam(Config.PARAM_EVALUATION_DEADLINE),
+				getRequestParam(Config.PARAM_EVALUATION_DEADLINETIME));
 
-		String paramTimeZone = getRequestParam(Common.PARAM_EVALUATION_TIMEZONE);
+		String paramTimeZone = getRequestParam(Config.PARAM_EVALUATION_TIMEZONE);
 		if (paramTimeZone != null) {
 			newEval.timeZone = Double.parseDouble(paramTimeZone);
 		}
 
-		String paramGracePeriod = getRequestParam(Common.PARAM_EVALUATION_GRACEPERIOD);
+		String paramGracePeriod = getRequestParam(Config.PARAM_EVALUATION_GRACEPERIOD);
 		if (paramGracePeriod != null) {
 			newEval.gracePeriod = Integer.parseInt(paramGracePeriod);
 		}
 
-		newEval.instructions = getRequestParam(Common.PARAM_EVALUATION_INSTRUCTIONS);
+		newEval.instructions = getRequestParam(Config.PARAM_EVALUATION_INSTRUCTIONS);
 
 		return newEval;
 	}

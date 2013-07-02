@@ -6,13 +6,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.ControllerServlet;
 
@@ -24,7 +24,7 @@ public class StudentEvalResultsPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_STUDENT_EVAL_RESULTS;
+		URI = Config.PAGE_STUDENT_EVAL_RESULTS;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -49,22 +49,22 @@ public class StudentEvalResultsPageActionTest extends BaseActionTest {
 		String studentId = student1InCourse1.googleId;
 		
 		String[] submissionParams = new String[]{
-				Common.PARAM_COURSE_ID, eval.courseId,
-				Common.PARAM_EVALUATION_NAME, eval.name
+				Config.PARAM_COURSE_ID, eval.courseId,
+				Config.PARAM_EVALUATION_NAME, eval.name
 				};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		
 		//if the user is not a student of the course, we redirect to home page.
 		loginUser("unreg.user");
-		verifyRedirectTo(Common.PAGE_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
 		
 		//if the user is not a student of the course, we redirect to home page.
 		loginAsInstructor(instructorId);
-		verifyRedirectTo(Common.PAGE_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);

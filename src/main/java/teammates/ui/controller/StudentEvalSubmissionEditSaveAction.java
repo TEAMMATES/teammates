@@ -2,13 +2,13 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
@@ -19,20 +19,20 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException, InvalidParametersException {
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Config.PARAM_EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
-		String fromEmail = getRequestParam(Common.PARAM_FROM_EMAIL);
+		String fromEmail = getRequestParam(Config.PARAM_FROM_EMAIL);
 		Assumption.assertNotNull(fromEmail);
 		
-		String teamName = getRequestParam(Common.PARAM_TEAM_NAME);
-		String[] toEmails = getRequestParamValues(Common.PARAM_TO_EMAIL);
-		String[] points = getRequestParamValues(Common.PARAM_POINTS);
-		String[] justifications = getRequestParamValues(Common.PARAM_JUSTIFICATION);
-		String[] comments = getRequestParamValues(Common.PARAM_COMMENTS);
+		String teamName = getRequestParam(Config.PARAM_TEAM_NAME);
+		String[] toEmails = getRequestParamValues(Config.PARAM_TO_EMAIL);
+		String[] points = getRequestParamValues(Config.PARAM_POINTS);
+		String[] justifications = getRequestParamValues(Config.PARAM_JUSTIFICATION);
+		String[] comments = getRequestParamValues(Config.PARAM_COMMENTS);
 		
 		EvaluationAttributes eval = logic.getEvaluation(courseId, evalName);
 		
@@ -66,17 +66,17 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		
 		try{
 			logic.updateSubmissions(submissionData);
-			statusToUser.add(String.format(Common.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED, PageData.escapeForHTML(evalName), courseId));
+			statusToUser.add(String.format(Config.MESSAGE_STUDENT_EVALUATION_SUBMISSION_RECEIVED, PageData.escapeForHTML(evalName), courseId));
 			statusToAdmin = createLogMesage(courseId, evalName, teamName, fromEmail, toEmails, points, justifications, comments);
 			
 		} catch (InvalidParametersException e) {
 			//TODO: redirect to the same page?
 			statusToUser.add(e.getMessage());
 			isError = true;
-			statusToAdmin = Common.LOG_SERVLET_ACTION_FAILURE + " : " + e.getMessage();
+			statusToAdmin = Config.LOG_SERVLET_ACTION_FAILURE + " : " + e.getMessage();
 		}		
 		
-		RedirectResult response = createRedirectResult(Common.PAGE_STUDENT_HOME);
+		RedirectResult response = createRedirectResult(Config.PAGE_STUDENT_HOME);
 		return response;
 
 	}

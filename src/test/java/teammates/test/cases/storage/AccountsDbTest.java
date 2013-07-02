@@ -5,10 +5,10 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
+import teammates.common.util.FieldValidator;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 
@@ -70,7 +70,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 			accountsDb.createAccount(null);
 			Assert.fail();
 		} catch (AssertionError ae) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
 		}
 	}
 	
@@ -91,7 +91,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 			accountsDb.getAccount(null);
 			Assert.fail();
 		} catch (AssertionError ae) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
 		}
 	}
 	
@@ -118,7 +118,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 			accountsDb.updateAccount(null);
 			Assert.fail();
 		} catch (AssertionError ae) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
 		}
 	}
 	
@@ -140,7 +140,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 			accountsDb.deleteAccount(null);
 			Assert.fail();
 		} catch (AssertionError ae) {
-			AssertJUnit.assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
 		}
 	}
 

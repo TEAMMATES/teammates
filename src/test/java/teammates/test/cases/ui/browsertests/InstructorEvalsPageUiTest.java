@@ -7,11 +7,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.TimeHelper;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
 import teammates.test.driver.TestProperties;
@@ -119,7 +119,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		
 		// Empty name, closing date
 		evalsPage.clickSubmitButton();
-		assertEquals(Common.MESSAGE_FIELDS_EMPTY, evalsPage.getStatus());
+		assertEquals(Config.MESSAGE_FIELDS_EMPTY, evalsPage.getStatus());
 		
 		//TODO: The client-side validation tests below should be covered in JS tests, not as UI tests.
 		// They are to be removed after confirming coverage by JS tests.
@@ -127,23 +127,23 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		// Empty closing date
 		evalsPage.fillEvalName("Some value");
 		evalsPage.clickSubmitButton();
-		assertEquals(Common.MESSAGE_FIELDS_EMPTY, evalsPage.getStatus());
+		assertEquals(Config.MESSAGE_FIELDS_EMPTY, evalsPage.getStatus());
 		
 		// Empty name
 		evalsPage.addEvaluation(eval.courseId, "", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
-		assertEquals(Common.MESSAGE_FIELDS_EMPTY, evalsPage.getStatus());
+		assertEquals(Config.MESSAGE_FIELDS_EMPTY, evalsPage.getStatus());
 		
 		// Empty instructions
 		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, "", eval.gracePeriod);
-		assertEquals(Common.MESSAGE_FIELDS_EMPTY, evalsPage.getStatus());
+		assertEquals(Config.MESSAGE_FIELDS_EMPTY, evalsPage.getStatus());
 
 		// Invalid name
 		evalsPage.addEvaluation(eval.courseId, eval.name+"!@#$%^&*()_+", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
-		assertEquals(Common.MESSAGE_EVALUATION_NAMEINVALID, evalsPage.getStatus());
+		assertEquals(Config.MESSAGE_EVALUATION_NAMEINVALID, evalsPage.getStatus());
 		
 		// Invalid schedule
 		evalsPage.addEvaluation(eval.courseId, eval.name, eval.endTime, eval.startTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
-		assertEquals(Common.MESSAGE_EVALUATION_SCHEDULEINVALID.replace("<br />", "\n"), evalsPage.getStatus());
+		assertEquals(Config.MESSAGE_EVALUATION_SCHEDULEINVALID.replace("<br />", "\n"), evalsPage.getStatus());
 		
 	}
 
@@ -153,7 +153,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		
 		EvaluationAttributes eval = newEval;
 		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
-		evalsPage.verifyStatus(Common.MESSAGE_EVALUATION_ADDED);
+		evalsPage.verifyStatus(Config.MESSAGE_EVALUATION_ADDED);
 		EvaluationAttributes savedEvaluation = BackDoor.getEvaluation(eval.courseId, eval.name);
 		//Note: This can fail at times because Firefox fails to choose the correct value from the dropdown.
 		//  in that case, rerun in Chrome.
@@ -164,7 +164,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		______TS("duplicate evalution name");
 
 		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
-		assertEquals(Common.MESSAGE_EVALUATION_EXISTS, evalsPage.getStatus());
+		assertEquals(Config.MESSAGE_EVALUATION_EXISTS, evalsPage.getStatus());
 	}
 
 	
@@ -181,7 +181,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
 		
 		evalsPage.clickAndConfirm(evalsPage.getPublishLink(courseId, evalName));
-		evalsPage.verifyStatus(Common.MESSAGE_EVALUATION_PUBLISHED);
+		evalsPage.verifyStatus(Config.MESSAGE_EVALUATION_PUBLISHED);
 		assertEquals(true, BackDoor.getEvaluation(courseId, evalName).published);
 		
 		
@@ -194,7 +194,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		assertEquals(true, BackDoor.getEvaluation(courseId, evalName).published);
 		
 		evalsPage.clickAndConfirm(evalsPage.getUnpublishLink(courseId, evalName));
-		assertEquals(Common.MESSAGE_EVALUATION_UNPUBLISHED, evalsPage.getStatus());
+		assertEquals(Config.MESSAGE_EVALUATION_UNPUBLISHED, evalsPage.getStatus());
 		assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
 		
 		//TODO: ensure that publish link is unclickable in AWAITING, OPEN states
@@ -268,7 +268,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	}
 
 	private InstructorEvalsPage getEvalsPageForInstructor(String instructorId) {
-		Url evalPageLink = new Url(Common.PAGE_INSTRUCTOR_EVAL).withUserId(instructorId);
+		Url evalPageLink = new Url(Config.PAGE_INSTRUCTOR_EVAL).withUserId(instructorId);
 		return loginAdminToPage(browser, evalPageLink, InstructorEvalsPage.class);
 	}
 

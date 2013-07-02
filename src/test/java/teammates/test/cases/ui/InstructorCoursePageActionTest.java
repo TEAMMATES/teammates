@@ -6,9 +6,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Config;
 import teammates.logic.CoursesLogic;
 import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.InstructorCoursePageAction;
@@ -22,7 +22,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_INSTRUCTOR_COURSE;
+		URI = Config.PAGE_INSTRUCTOR_COURSE;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -57,7 +57,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		InstructorCoursePageAction a = getAction(submissionParams);
 		ShowPageResult r = getShowPageResult(a);
 		
-		assertEquals(Common.JSP_INSTRUCTOR_COURSE+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+		assertEquals(Config.JSP_INSTRUCTOR_COURSE+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
 		assertEquals(false, r.isError);
 		assertEquals("", r.getStatusMessage());
 		
@@ -83,7 +83,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		r = getShowPageResult(a);
 		
 		assertEquals(
-				Common.JSP_INSTRUCTOR_COURSE+"?message=You+have+not+created+any+courses+yet.+Use+the+form+above+to+create+a+course.&error=false&user=idOfInstructor1OfCourse1", 
+				Config.JSP_INSTRUCTOR_COURSE+"?message=You+have+not+created+any+courses+yet.+Use+the+form+above+to+create+a+course.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals("You have not created any courses yet. Use the form above to create a course.", r.getStatusMessage());
 		assertEquals(false, r.isError);

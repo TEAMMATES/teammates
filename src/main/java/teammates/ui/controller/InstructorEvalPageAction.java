@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalPageAction extends Action {
-	Logger log = Common.getLogger();
+	Logger log = Config.getLogger();
 
 	@Override
 	protected ActionResult execute() 
@@ -21,7 +21,7 @@ public class InstructorEvalPageAction extends Action {
 		
 		//This can be null. Non-null value indicates the page is being loaded 
 		//   to add an evaluation to the specified course
-		String courseIdForNewEvaluation = getRequestParam(Common.PARAM_COURSE_ID);
+		String courseIdForNewEvaluation = getRequestParam(Config.PARAM_COURSE_ID);
 		
 		new GateKeeper().verifyInstructorPrivileges(account);
 		
@@ -38,19 +38,19 @@ public class InstructorEvalPageAction extends Action {
 
 		data.courses = loadCoursesList(account.googleId);
 		if (data.courses.size() == 0) {
-			statusToUser.add(Common.MESSAGE_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
+			statusToUser.add(Config.MESSAGE_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
 			data.evaluations = new ArrayList<EvaluationDetailsBundle>();
 		
 		} else {
 			data.evaluations = loadEvaluationsList(account.googleId);
 			if (data.evaluations.size() == 0) {
-				statusToUser.add(Common.MESSAGE_EVALUATION_EMPTY);
+				statusToUser.add(Config.MESSAGE_EVALUATION_EMPTY);
 			}
 		}
 		
 		statusToAdmin = "Number of evaluations :"+data.evaluations.size();
 		
-		return createShowPageResult(Common.JSP_INSTRUCTOR_EVAL, data);
+		return createShowPageResult(Config.JSP_INSTRUCTOR_EVAL, data);
 	}
 
 	protected List<EvaluationDetailsBundle> loadEvaluationsList(String userId)

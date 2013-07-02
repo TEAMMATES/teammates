@@ -1,11 +1,11 @@
 <%@ page import="java.util.Date"%>
-<%@ page import="teammates.common.Common"%>
-<%@ page import="teammates.common.TimeHelper"%>
-<%@ page import="teammates.common.FeedbackParticipantType"%>
+<%@ page import="teammates.common.util.Config"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackEditPageData"%>
 <%
-InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.getAttribute("data");
+	InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -33,7 +33,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 <body onload="readyFeedbackEditPage(); initializetooltip();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -43,7 +43,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				<h1>Edit Feedback Session</h1>
 			</div>
 			
-			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_EDIT_SAVE%>" id="form_editfeedbacksession">
+			<form method="post" action="<%=Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT_SAVE%>" id="form_editfeedbacksession">
 				<table class="inputTable sessionTable" id="sessionNameTable">
 					<tr>
 						<td class="label bold">Course:</td>
@@ -51,12 +51,12 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 						<td></td>
 						<td class="rightalign" colspan="2">
 							<a href="#" class="color_blue pad_right" id="fsEditLink" 
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT%>')" onmouseout="hideddrivetip()" 
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT%>')" onmouseout="hideddrivetip()" 
 							onclick="enableEditFS()">Edit</a>
 							<a href="#" class="color_green pad_right" style="display:none;" id="fsSaveLink">Save Changes</a>
-							<a href="<%=data.getInstructorFeedbackSessionDeleteLink(data.session.courseId, data.session.feedbackSessionName, "") %>" 
+							<a href="<%=data.getInstructorFeedbackSessionDeleteLink(data.session.courseId, data.session.feedbackSessionName, "")%>" 
 							onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('<%=data.session.courseId%>','<%=data.session.feedbackSessionName%>');"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_DELETE%>')" onmouseout="hideddrivetip()"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_DELETE%>')" onmouseout="hideddrivetip()"
 							class="color_red" id="fsDeleteLink">Delete</a>
 						</td>
 					</tr>
@@ -65,8 +65,8 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 						<td><%=data.session.feedbackSessionName%></td>
 						<td></td>
 						<td class="label bold">Time zone: </td>
-						<td><select name="<%=Common.PARAM_FEEDBACK_SESSION_TIMEZONE%>" id="<%=Common.PARAM_FEEDBACK_SESSION_TIMEZONE%>"
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE%>')"
+						<td><select name="<%=Config.PARAM_FEEDBACK_SESSION_TIMEZONE%>" id="<%=Config.PARAM_FEEDBACK_SESSION_TIMEZONE%>"
+									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE%>')"
 									onmouseout="hideddrivetip()" tabindex="3"
 									disabled="disabled">
 										<%
@@ -75,76 +75,72 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 						</select></td>
 					</tr>
 					<tr>
-						<td class="label bold" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLELABEL%>')"
+						<td class="label bold" onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLELABEL%>')"
 							onmouseout="hideddrivetip()">Session visible<br> from:</td>
 						<td class="nowrap"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_VISIBLEDATE%>')"
-							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom" value="custom"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_VISIBLEDATE%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Config.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom" value="custom"
 							<%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == false)  
-									out.print("checked=\"checked\"");
-							%>
-							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='';
-							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled=''">
+									out.print("checked=\"checked\"");%>
+							onclick="document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='';
+							document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled=''">
 							<input style="width: 100px;" type="text"
-							name="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
-							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>','dd/MM/yyyy')"
+							name="<%=Config.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
+							onclick="cal.select(this,'<%=Config.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>','dd/MM/yyyy')"
 							value="<%=TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.sessionVisibleFromTime)%>"
 							readonly="readonly" tabindex="3"
 							<%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == true)  
-									out.print("disabled=\"disabled\"");
-							%>							
+									out.print("disabled=\"disabled\"");%>							
 							> @ <select
 							style="width: 70px;"
-							name="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>" tabindex="4"
-							<%
-								Date date = null;
+							name="<%=Config.PARAM_FEEDBACK_SESSION_VISIBLETIME%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_VISIBLETIME%>" tabindex="4"
+							<%Date date = null;
 								if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == true) {  
 									out.print("disabled=\"disabled\"");
 									date = null;
 								} else {
 									date = data.session.sessionVisibleFromTime; 
-								}
-							%>		
+								}%>		
 							>
 								<%
 									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
-						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
+						<td onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
 							onmouseout="hideddrivetip()" class="nowrap">
-							<input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" value="atopen"
-							<%if(data.session.sessionVisibleFromTime.equals(Common.TIME_REPRESENTS_FOLLOW_OPENING)) 
+							<input type="radio" name="<%=Config.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" value="atopen"
+							<%if(data.session.sessionVisibleFromTime.equals(Config.TIME_REPRESENTS_FOLLOW_OPENING)) 
 									out.print("checked=\"checked\"");%>							
-							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled';
-							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
+							onclick="document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled';
+							document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
 							 At submission opening time</td>
-						<td colspan="2" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
-							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never"
-							<%if(data.session.sessionVisibleFromTime.equals(Common.TIME_REPRESENTS_NEVER)) 
+						<td colspan="2" onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Config.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never"
+							<%if(data.session.sessionVisibleFromTime.equals(Config.TIME_REPRESENTS_NEVER)) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled'
-							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
+							onclick="document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled'
+							document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
 							 Never</td>
 					</tr>
 					<tr>
-						<td class="label bold" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELABEL%>')"
+						<td class="label bold" onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELABEL%>')"
 							onmouseout="hideddrivetip()">Responses visible from:</td>
-						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_PUBLISHDATE%>')"
-							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom" value="custom"
+						<td onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_PUBLISHDATE%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom" value="custom"
 							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == false) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled=''
-							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled=''"> 
+							onclick="document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled=''
+							document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled=''"> 
 							<input style="width: 100px;" type="text"
-							name="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>"
-							onclick="if(document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>','dd/MM/yyyy');}
+							name="<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>"
+							onclick="if(document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){cal.select(this,'<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>','dd/MM/yyyy');}
 							else{return false;}"
 							value="<%=TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.resultsVisibleFromTime)%>"
 							readonly="readonly" tabindex="5"
@@ -152,84 +148,83 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 									out.print("disabled=\"disabled\"");%>
 							> @ <select
 							style="width: 70px;"
-							name="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>" tabindex="6"
-							<%	if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == true) {
+							name="<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>" tabindex="6"
+							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == true) {
 									out.print("disabled=\"disabled\"");
 									date = null;
 								} else {
 									date = data.session.resultsVisibleFromTime; 
-								}		
-							%>
+								}%>
 							>
 								<%
 									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
-						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
-							onmouseout="hideddrivetip()"><input type="radio" name="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
-							<%if(data.session.resultsVisibleFromTime.equals(Common.TIME_REPRESENTS_FOLLOW_VISIBLE)) 
+						<td onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
+							<%if(data.session.resultsVisibleFromTime.equals(Config.TIME_REPRESENTS_FOLLOW_VISIBLE)) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
-							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
+							onclick="document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
+							document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
 							 Once the session is visible</td>
-						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
+						<td onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
-							<%if(data.session.resultsVisibleFromTime.equals(Common.TIME_REPRESENTS_LATER)) 
+							id="<%=Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
+							<%if(data.session.resultsVisibleFromTime.equals(Config.TIME_REPRESENTS_LATER)) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
-							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
+							onclick="document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
+							document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
 							 Decide later </td>
-						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
+						<td onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
 							onmouseout="hideddrivetip()"><input type="radio"
-							name="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
-							<%if(data.session.resultsVisibleFromTime.equals(Common.TIME_REPRESENTS_NEVER)) 
+							name="<%=Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
+							<%if(data.session.resultsVisibleFromTime.equals(Config.TIME_REPRESENTS_NEVER)) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled'
-							document.getElementById('<%=Common.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
+							onclick="document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled'
+							document.getElementById('<%=Config.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
 							 Never</td>
 					</tr>
 					<tr>
 						<td class="label bold">Opening time:</td>
-						<td class="nowrap" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_STARTDATE%>')"
+						<td class="nowrap" onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_STARTDATE%>')"
 							onmouseout="hideddrivetip()"><input style="width: 100px;" type="text"
-							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>"
-							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_STARTDATE%>','dd/MM/yyyy')"
+							name="<%=Config.PARAM_FEEDBACK_SESSION_STARTDATE%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_STARTDATE%>"
+							onclick="cal.select(this,'<%=Config.PARAM_FEEDBACK_SESSION_STARTDATE%>','dd/MM/yyyy')"
 							value="<%=TimeHelper.formatDate(data.session.startTime)%>"
 							readonly="readonly" tabindex="7"> @ <select
 							style="width: 70px;"
-							name="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_STARTTIME%>" tabindex="4">
+							name="<%=Config.PARAM_FEEDBACK_SESSION_STARTTIME%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_STARTTIME%>" tabindex="4">
 								<%
 									for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
 								%>
 						</select></td>
-						<td class="nowrap" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE%>')"
+						<td class="nowrap" onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_ENDDATE%>')"
 							onmouseout="hideddrivetip()">
 							<span class="label bold">Closing Time: </span> 
 							<input style="width: 100px;" type="text"
-							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>"
-							onclick="cal.select(this,'<%=Common.PARAM_FEEDBACK_SESSION_ENDDATE%>','dd/MM/yyyy')"							
+							name="<%=Config.PARAM_FEEDBACK_SESSION_ENDDATE%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_ENDDATE%>"
+							onclick="cal.select(this,'<%=Config.PARAM_FEEDBACK_SESSION_ENDDATE%>','dd/MM/yyyy')"							
 							value="<%=TimeHelper.formatDate(data.session.endTime)%>"
 							readonly="readonly" tabindex="8"> @ <select
 							style="width: 70px;"
-							name="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>"
-							id="<%=Common.PARAM_FEEDBACK_SESSION_ENDTIME%>" tabindex="4">							
+							name="<%=Config.PARAM_FEEDBACK_SESSION_ENDTIME%>"
+							id="<%=Config.PARAM_FEEDBACK_SESSION_ENDTIME%>" tabindex="4">							
 							<%
-								for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
-							%>
+															for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
+														%>
 						</select></td>
-						<td class="label bold rightalign nowrap" onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
+						<td class="label bold rightalign nowrap" onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
 							onmouseout="hideddrivetip()">Grace Period:</td>
-						<td onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
+						<td onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
 							onmouseout="hideddrivetip()">
-							<select style="width: 75px;" name="<%=Common.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>"
-								id="<%=Common.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>" tabindex="7">
+							<select style="width: 75px;" name="<%=Config.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>"
+								id="<%=Config.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>" tabindex="7">
 									<%
 										for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
 									%>
@@ -238,8 +233,8 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 					<tr>
 						<td class="label bold" >Instructions to students:</td>
 						<td colspan="4" style="padding-right:15px;">
-							<textarea rows="4" style="width:100%;" class="textvalue" name="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Common.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
-								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_SESSION_INSTRUCTIONS%>')"
+							<textarea rows="4" style="width:100%;" class="textvalue" name="<%=Config.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Config.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
+								onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_SESSION_INSTRUCTIONS%>')"
 								onmouseout="hideddrivetip()" tabindex="8"><%=InstructorFeedbackEditPageData.escapeForHTML(data.session.instructions.getValue())%></textarea>
 							
 						</td>
@@ -250,54 +245,60 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							value="Save Changes"></td>
 					</tr>
 				</table>
-				<input type="hidden" name="<%=Common.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-				<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
-				<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+				<input type="hidden" name="<%=Config.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+				<input type="hidden" name="<%=Config.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
+				<input type="hidden" name="<%=Config.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 			<br>
 			
-			<% if (data.questions.isEmpty()) {%>
-				<div class="centeralign bold" id="empty_message"><%=Common.MESSAGE_FEEDBACK_QUESTION_EMPTY%></div><br><br>
-			<% } %>
+			<%
+							if (data.questions.isEmpty()) {
+						%>
+				<div class="centeralign bold" id="empty_message"><%=Config.MESSAGE_FEEDBACK_QUESTION_EMPTY%></div><br><br>
+			<%
+				}
+			%>
 			
-			<% for(FeedbackQuestionAttributes question : data.questions) { %>
-			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>" id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions" class="form_question" onsubmit="tallyCheckboxes(<%=question.questionNumber%>)">
+			<%
+							for(FeedbackQuestionAttributes question : data.questions) {
+						%>
+			<form method="post" action="<%=Config.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>" id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions" class="form_question" onsubmit="tallyCheckboxes(<%=question.questionNumber%>)">
 			<table class="inputTable questionTable" id="questionTable<%=question.questionNumber%>">
 			<tr>
 				<td class="bold">Question <%=question.questionNumber%></td>
 				<td></td>
 				<td></td>
 				<td class="rightalign">
-				<a href="#" class="color_blue pad_right" id="<%=Common.PARAM_FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
-				onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
+				<a href="#" class="color_blue pad_right" id="<%=Config.PARAM_FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
+				onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
 				onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
 				<a href="#" class="color_green pad_right" style="display:none"
-				 id="<%=Common.PARAM_FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
+				 id="<%=Config.PARAM_FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
 				<a href="#" class="color_red" onclick="deleteQuestion(<%=question.questionNumber%>)"
-				onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete</a>
+				onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete</a>
 				</td>
 			</tr>
 			<tr>
 					<td colspan="4"><textarea rows="5" style="width:100%"
-							class="textvalue" name="<%=Common.PARAM_FEEDBACK_QUESTION_TEXT%>"
-							id="<%=Common.PARAM_FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
+							class="textvalue" name="<%=Config.PARAM_FEEDBACK_QUESTION_TEXT%>"
+							id="<%=Config.PARAM_FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
 							onmouseout="hideddrivetip()" tabindex="9"
 							disabled="disabled"><%=question.questionText.getValue()%></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td class="bold">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Common.PARAM_FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Common.PARAM_FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled">
+					<td><select class="participantSelect" name="<%=Config.PARAM_FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Config.PARAM_FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled">
 						<%
 							for(String opt: data.getParticipantOptions(question, true)) out.println(opt);
 						%>
 					</select></td>
 					<td class="bold nowrap">Feedback Recipient:</td>
-					<td><select class="participantSelect" name="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" disabled="disabled">
+					<td><select class="participantSelect" name="<%=Config.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Config.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" disabled="disabled">
 						<%
 							for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
 						%>
@@ -306,11 +307,11 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				<tr>
 					<td class="bold nowrap"><a class="visibilityOptionsLabel color_brown" href="#" onclick="toggleVisibilityOptions(this)">[+] Show Visibility Options</a></td>
 					<td></td>
-					<td class="numberOfEntitiesElements<%=question.questionNumber%>"><span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="bold">The maximum number of <span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-<%=question.questionNumber%>" class="bold"></span> each<br>respondant should give feedback to:</span></td>
+					<td class="numberOfEntitiesElements<%=question.questionNumber%>"><span id="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="bold">The maximum number of <span id="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-<%=question.questionNumber%>" class="bold"></span> each<br>respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements<%=question.questionNumber%>">
-					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? "" : "checked=\"checked\""%> value="custom" disabled="disabled"> 
-					<input type="number" class="numberOfEntitiesBox" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-<%=question.questionNumber%>"  min="1" max="250" value=<%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? 1 : question.numberOfEntitiesToGiveFeedbackTo%> disabled="disabled"> 
-					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS ? "checked=\"checked\"" : ""%> value="max" disabled="disabled"> 
+					<input type="radio" name="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Config.MAX_POSSIBLE_RECIPIENTS ? "" : "checked=\"checked\""%> value="custom" disabled="disabled"> 
+					<input type="number" class="numberOfEntitiesBox" name="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-<%=question.questionNumber%>"  min="1" max="250" value=<%=question.numberOfEntitiesToGiveFeedbackTo == Config.MAX_POSSIBLE_RECIPIENTS ? 1 : question.numberOfEntitiesToGiveFeedbackTo%> disabled="disabled"> 
+					<input type="radio" name="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Config.MAX_POSSIBLE_RECIPIENTS ? "checked=\"checked\"" : ""%> value="max" disabled="disabled"> 
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -326,47 +327,47 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 							<tr>
 								<td>Recipient(s)</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
-								<%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/></td>
 								<td><input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
-								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/></td>
 								<td><input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
-								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/></td>
 							</tr>
 							<tr>
 								<td>Giver's Team Members</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
-								<%if(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) { %> checked="checked" <% } %>/></td>								
+								<%if(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>								
 								<td><input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
-								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>
 								<td><input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
-								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>
 							</tr>
 							<tr>
 								<td>Recipient's Team Members</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
-								<%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) { %> checked="checked" <% } %>/></td>								
+								<%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>								
 								<td><input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
-								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>
 								<td><input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
-								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>
 							</tr>
 							<tr>
 								<td>Other students</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
-								<%if(question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS)) { %> checked="checked" <% } %>/></td>								
+								<%if(question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/></td>								
 								<td><input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
-								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.STUDENTS)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/></td>
 								<td><input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
-								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/></td>
 							</tr>
 							<tr>
 								<td>Instructors</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
-								<%if(question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)) { %> checked="checked" <% } %>/></td>								
+								<%if(question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/></td>								
 								<td><input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
-								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/></td>
 								<td><input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
-								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) { %> checked="checked" <% } %>/></td>
+								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/></td>
 							</tr>
 						</table>
 					</td>
@@ -378,15 +379,15 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 						style="display:none"></td>
 				</tr>
 			</table>
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-			<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_ID%>" value="<%=question.getId()%>">
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBER%>" value="<%=question.questionNumber%>">
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_EDITTYPE%>" id="<%=Common.PARAM_FEEDBACK_QUESTION_EDITTYPE%>-<%=question.questionNumber%>" value="edit">
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
-			<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+			<input type="hidden" name="<%=Config.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_ID%>" value="<%=question.getId()%>">
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBER%>" value="<%=question.questionNumber%>">
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_EDITTYPE%>" id="<%=Config.PARAM_FEEDBACK_QUESTION_EDITTYPE%>-<%=question.questionNumber%>" value="edit">
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
+			<input type="hidden" name="<%=Config.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			<br><br>
 			<%
@@ -396,7 +397,7 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 			<input id="button_openframe" class="button centeralign" value="Add New Question" 
 						onclick="showNewQuestionFrame()">
 			</div>
-			<form method="post" action="<%=Common.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
+			<form method="post" action="<%=Config.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
 			<table class="inputTable questionTable" id="questionTableNew" hidden="hidden">
 				<tr>
 					<td class="bold">Question <%=data.questions.size()+1%></td>
@@ -406,21 +407,21 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				</tr>
 				<tr>
 					<td colspan="4"><textarea rows="5" cols="140"
-							class="textvalue" name="<%=Common.PARAM_FEEDBACK_QUESTION_TEXT%>"
-							id="<%=Common.PARAM_FEEDBACK_QUESTION_TEXT%>"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
+							class="textvalue" name="<%=Config.PARAM_FEEDBACK_QUESTION_TEXT%>"
+							id="<%=Config.PARAM_FEEDBACK_QUESTION_TEXT%>"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
 							onmouseout="hideddrivetip()" tabindex="9"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td class="bold">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Common.PARAM_FEEDBACK_QUESTION_GIVERTYPE%>">
+					<td><select class="participantSelect" name="<%=Config.PARAM_FEEDBACK_QUESTION_GIVERTYPE%>">
 						<%
 							for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
 						%>
 					</select></td>
 					<td class="bold nowrap">Feedback Recipient:</td>
-					<td><select class="participantSelect" id="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>">
+					<td><select class="participantSelect" id="<%=Config.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Config.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>">
 						<%
 							for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
 						%>
@@ -429,11 +430,11 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 				</tr>
 				<tr>
 					<td></td><td></td>
-					<td class="numberOfEntitiesElements"><span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="bold">The maximum number of <span id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-" class="bold"></span> <br>each respondant should give feedback to:</span></td>
+					<td class="numberOfEntitiesElements"><span id="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="bold">The maximum number of <span id="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-" class="bold"></span> <br>each respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements">
-					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>" value="custom" checked="checked"> 
-					<input type="number" class="numberOfEntitiesBox" id="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" min="1" max="250" value="1"> 
-					<input type="radio" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="max"> 					
+					<input type="radio" name="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="custom" checked="checked"> 
+					<input type="number" class="numberOfEntitiesBox" id="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-" name="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" min="1" max="250" value="1"> 
+					<input type="radio" name="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="max"> 					
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -486,20 +487,20 @@ InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.ge
 					</td>					
 				</tr>
 			</table>
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_NUMBER%>" value="<%=data.questions.size()+1%>">
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-			<input type="hidden" name="<%=Common.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
-			<input type="hidden" name="<%=Common.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
-			<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_NUMBER%>" value="<%=data.questions.size()+1%>">
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+			<input type="hidden" name="<%=Config.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
+			<input type="hidden" name="<%=Config.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
+			<input type="hidden" name="<%=Config.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 		</form>			
 		<br><br>
 		</div>
 	</div>
 	
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

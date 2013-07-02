@@ -4,7 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.Test;
 
-import teammates.common.Sanitizer;
+import teammates.common.util.Sanitizer;
 import teammates.test.cases.BaseTestCase;
 
 public class SanitizerTest extends BaseTestCase {

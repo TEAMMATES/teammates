@@ -5,8 +5,8 @@ import static org.testng.AssertJUnit.*;
 import org.testng.annotations.Test;
 import com.google.appengine.api.log.AppLogLine;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Config;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.ActivityLogEntry;
 
@@ -17,7 +17,7 @@ public class ActivityLogTest extends BaseTestCase{
 		______TS("Test constructors and generateLogMessage");
 		String logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId|||UserEmail|||Message|||URL";
 		AccountAttributes acc = new AccountAttributes("UserId", "UserName", true, "UserEmail", "UserInstitute");
-		ActivityLogEntry entry = new ActivityLogEntry(Common.INSTRUCTOR_HOME_SERVLET, Common.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD, acc, "Message", "URL");		
+		ActivityLogEntry entry = new ActivityLogEntry(Config.INSTRUCTOR_HOME_SERVLET, Config.INSTRUCTOR_HOME_SERVLET_PAGE_LOAD, acc, "Message", "URL");		
 		assertEquals(logMessage, entry.generateLogMessage());
 		
 		AppLogLine appLog = new AppLogLine();
@@ -26,7 +26,7 @@ public class ActivityLogTest extends BaseTestCase{
 		assertEquals(logMessage, entry.generateLogMessage());
 		
 		logMessage = "TEAMMATESLOG|||instructorHome|||Unknown|||true|||Unknown|||Unknown|||Unknown|||Unknown|||<span class=\"color_red\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>Message|||URL";
-		entry = new ActivityLogEntry(Common.INSTRUCTOR_HOME_SERVLET, "Message", "URL");		
+		entry = new ActivityLogEntry(Config.INSTRUCTOR_HOME_SERVLET, "Message", "URL");		
 		assertEquals(logMessage, entry.generateLogMessage());
 		
 		

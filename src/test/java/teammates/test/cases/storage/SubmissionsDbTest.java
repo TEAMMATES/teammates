@@ -3,18 +3,18 @@ package teammates.test.cases.storage;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
-import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.storage.api.SubmissionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 
@@ -83,7 +83,7 @@ public class SubmissionsDbTest extends BaseComponentTestCase {
 			submissionsDb.createEntity(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -110,28 +110,28 @@ public class SubmissionsDbTest extends BaseComponentTestCase {
 			submissionsDb.getSubmission(null, s.evaluation, s.reviewee, s.reviewer);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, null, s.reviewee, s.reviewer);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, s.evaluation, null, s.reviewer);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.getSubmission(s.course, s.evaluation, s.reviewee, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -157,7 +157,7 @@ public class SubmissionsDbTest extends BaseComponentTestCase {
 			submissionsDb.updateSubmission(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -182,14 +182,14 @@ public class SubmissionsDbTest extends BaseComponentTestCase {
 			submissionsDb.deleteAllSubmissionsForEvaluation(null, s.evaluation);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			submissionsDb.deleteAllSubmissionsForEvaluation(s.course, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 

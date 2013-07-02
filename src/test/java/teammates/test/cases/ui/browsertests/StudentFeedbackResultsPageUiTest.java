@@ -4,9 +4,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Config;
+import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -47,7 +47,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 	
 	private StudentFeedbackResultsPage loginToStudentFeedbackSubmitPage(
 			String studentName, String fsName) {
-		Url editUrl = new Url(Common.PAGE_STUDENT_FEEDBACK_RESULTS)
+		Url editUrl = new Url(Config.PAGE_STUDENT_FEEDBACK_RESULTS)
 				.withUserId(testData.students.get(studentName).googleId)
 				.withCourseId(testData.feedbackSessions.get(fsName).courseId)
 				.withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);

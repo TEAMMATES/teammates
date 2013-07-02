@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.storage.api.SubmissionsDb;
 
 /**
@@ -23,7 +23,7 @@ public class SubmissionsLogic {
 	
 	private static SubmissionsLogic instance = null;
 	@SuppressWarnings("unused")
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	private static final SubmissionsDb submissionsDb = new SubmissionsDb();
 	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -91,7 +91,7 @@ public class SubmissionsLogic {
 				courseId, evaluationName, studentEmail);
 	
 		for (SubmissionAttributes sd : submissions) {
-			if (sd.points != Common.POINTS_NOT_SUBMITTED) {
+			if (sd.points != Config.POINTS_NOT_SUBMITTED) {
 				return true;
 			}
 		}

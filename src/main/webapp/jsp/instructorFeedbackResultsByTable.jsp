@@ -1,11 +1,11 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
-<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.util.Config"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%
-InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
+	InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -28,7 +28,7 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -37,9 +37,11 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 			<div id="headerOperation">
 				<h1>Feedback Results - Instructor</h1>
 			</div>			
-			<jsp:include page="<%=Common.JSP_INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
-			<% for(Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries :
-													data.bundle.getQuestionResponseMap().entrySet()) { %>
+			<jsp:include page="<%=Config.JSP_INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
+			<%
+				for(Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries :
+														data.bundle.getQuestionResponseMap().entrySet()) {
+			%>
 				
 				<div class="backgroundBlock">
 					<h2 class="color_white" style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>: [<%=responseEntries.getKey().questionText.getValue()%>]</h2>
@@ -55,22 +57,28 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 								<input class="buttonSortNone" type="button" id="button_sortanswer"
 									onclick="toggleSort(this,3)">Feedback:</th>
 						</tr>
-						<% for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) { %>
+						<%
+							for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
+						%>
 						<tr>
-							<td><%= data.bundle.emailNameTable.get(responseEntry.giverEmail) %></td>
-							<td><%= data.bundle.emailNameTable.get(responseEntry.recipient) %></td>
-							<td><%= responseEntry.answer.getValue() %></td>
+							<td><%=data.bundle.emailNameTable.get(responseEntry.giverEmail)%></td>
+							<td><%=data.bundle.emailNameTable.get(responseEntry.recipient)%></td>
+							<td><%=responseEntry.answer.getValue()%></td>
 						</tr>		
-						<% } %>	
+						<%
+									}
+								%>	
 					</table>
 				</div>
 			<br>
-			<% } %>
+			<%
+				}
+			%>
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

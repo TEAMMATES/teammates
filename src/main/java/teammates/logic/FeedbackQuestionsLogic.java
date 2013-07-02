@@ -1,6 +1,6 @@
 package teammates.logic;
 
-import static teammates.common.FeedbackParticipantType.*;
+import static teammates.common.datatransfer.FeedbackParticipantType.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -20,12 +18,14 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.storage.api.FeedbackQuestionsDb;
 
 public class FeedbackQuestionsLogic {
 	
 	@SuppressWarnings("unused")
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	private static FeedbackQuestionsLogic instance = null;
 	
@@ -337,7 +337,7 @@ public class FeedbackQuestionsLogic {
 		int numberOfResponsesNeeded =
 				question.numberOfEntitiesToGiveFeedbackTo;
 		
-		if (numberOfResponsesNeeded == Common.MAX_POSSIBLE_RECIPIENTS) {
+		if (numberOfResponsesNeeded == Config.MAX_POSSIBLE_RECIPIENTS) {
 			numberOfResponsesNeeded = getRecipientsForQuestion(question, email).size();
 		}
 		
@@ -361,7 +361,7 @@ public class FeedbackQuestionsLogic {
 		int numberOfResponsesNeeded =
 				question.numberOfEntitiesToGiveFeedbackTo;
 		
-		if (numberOfResponsesNeeded == Common.MAX_POSSIBLE_RECIPIENTS) {
+		if (numberOfResponsesNeeded == Config.MAX_POSSIBLE_RECIPIENTS) {
 			numberOfResponsesNeeded = getRecipientsForQuestion(question, teamName).size();
 		}
 				
@@ -453,7 +453,7 @@ public class FeedbackQuestionsLogic {
 			}
 			break;
 		case NONE:
-			recipients.put(Common.GENERAL_QUESTION, Common.GENERAL_QUESTION);
+			recipients.put(Config.GENERAL_QUESTION, Config.GENERAL_QUESTION);
 			break;
 		default:
 			break;

@@ -3,11 +3,11 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
+import teammates.common.util.Config;
 
 public class InstructorEvalPageData extends PageData {
 	public String courseIdForNewEvaluation;
@@ -23,7 +23,7 @@ public class InstructorEvalPageData extends PageData {
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){
 		return getTimeZoneOptionsAsHtml(
 				newEvaluationToBeCreated == null 
-					? Common.UNINITIALIZED_DOUBLE 
+					? Config.UNINITIALIZED_DOUBLE 
 					: newEvaluationToBeCreated.timeZone);
 	}
 	
@@ -31,7 +31,7 @@ public class InstructorEvalPageData extends PageData {
 	public ArrayList<String> getGracePeriodOptionsAsHtml(){
 		return getGracePeriodOptionsAsHtml(
 				newEvaluationToBeCreated == null 
-					? Common.UNINITIALIZED_INT 
+					? Config.UNINITIALIZED_INT 
 					: newEvaluationToBeCreated.gracePeriod);
 	}
 	

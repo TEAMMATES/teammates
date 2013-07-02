@@ -27,10 +27,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
-import teammates.common.Common;
-import teammates.common.FileHelper;
-import teammates.common.ThreadHelper;
-import teammates.common.Url;
+import teammates.common.util.Config;
+import teammates.common.util.FileHelper;
+import teammates.common.util.ThreadHelper;
+import teammates.common.util.Url;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 
@@ -246,7 +246,7 @@ public abstract class AppPage {
 	 * Equivalent to clicking the 'logout' link in the top menu of the page.
 	 */
 	public static void logout(Browser currentBrowser){
-		currentBrowser.driver.get(TestProperties.inst().TEAMMATES_URL + Common.JSP_LOGOUT);
+		currentBrowser.driver.get(TestProperties.inst().TEAMMATES_URL + Config.JSP_LOGOUT);
 		currentBrowser.isAdminLoggedIn = false;
 	}
 	
@@ -402,12 +402,12 @@ public abstract class AppPage {
 	 * the content given in the file at {@code filePath}. <br>
 	 * The HTML is checked for logical equivalence, not text equivalence. 
 	 * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-	 * folder is assumed to be {@link Common.TEST_PAGES_FOLDER}. 
+	 * folder is assumed to be {@link Config.TEST_PAGES_FOLDER}. 
 	 * @return The page (for chaining method calls).
 	 */
 	public AppPage verifyHtml(String filePath) {
 		if(filePath.startsWith("/")){
-			filePath = Common.TEST_PAGES_FOLDER + filePath;
+			filePath = Config.TEST_PAGES_FOLDER + filePath;
 		}
 		try {
 			String actual = getPageSource();
@@ -513,7 +513,7 @@ public abstract class AppPage {
 	 */
 	public void saveCurrentPage(String filePath) {
 		if(filePath.startsWith("/")){
-			filePath = Common.TEST_PAGES_FOLDER + filePath;
+			filePath = Config.TEST_PAGES_FOLDER + filePath;
 		}
 		try {
 		String pageSource = getPageSource();

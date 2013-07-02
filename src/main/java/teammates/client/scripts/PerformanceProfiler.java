@@ -20,14 +20,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.Common;
-import teammates.common.FileHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.FileHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -62,7 +62,7 @@ import com.google.gson.Gson;
 
 public class PerformanceProfiler extends Thread{
 	
-	private static final String defaultReportPath = Common.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
+	private static final String defaultReportPath = Config.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
 	private final Integer NUM_OF_RUNS = 2;
 	private final Integer WAIT_TIME_TEST = 1000;//waiting time between tests, in ms
 	private final Integer WAIT_TIME_RUN = 5000;//waiting time between runs, in ms
@@ -70,7 +70,7 @@ public class PerformanceProfiler extends Thread{
 	
 	private String reportFilePath;
 	private DataBundle data;
-	private Gson gson = Common.getTeammatesGson();
+	private Gson gson = Config.getTeammatesGson();
 	private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>> ();
 	private Browser browser;
 	
@@ -83,7 +83,7 @@ public class PerformanceProfiler extends Thread{
 		//Data used for profiling
 		String jsonString= "";
 		try {
-			jsonString = FileHelper.readFile(Common.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
+			jsonString = FileHelper.readFile(Config.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}

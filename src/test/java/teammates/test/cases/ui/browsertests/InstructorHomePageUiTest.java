@@ -8,10 +8,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.util.Config;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -116,7 +116,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		
 		homePage.clickAndCancel(homePage.getRemindLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
 		homePage.clickAndConfirm(homePage.getRemindLink(firstEval_OPEN.courseId, firstEval_OPEN.name))
-			.verifyStatus(Common.MESSAGE_EVALUATION_REMINDERSSENT);
+			.verifyStatus(Config.MESSAGE_EVALUATION_REMINDERSSENT);
 		
 		//go back to previous page because 'send reminder' redirects to the 'Evaluations' page.
 		homePage.goToPreviousPage(InstructorHomePage.class);
@@ -150,7 +150,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		assertEquals(EvalStatus.CLOSED, BackDoor.getEvaluation(courseId, evalName).getStatus());
 		
 		homePage.clickAndConfirm(homePage.getPublishLink(courseId, evalName))
-			.verifyStatus(Common.MESSAGE_EVALUATION_PUBLISHED);
+			.verifyStatus(Config.MESSAGE_EVALUATION_PUBLISHED);
 		assertEquals(EvalStatus.PUBLISHED, BackDoor.getEvaluation(courseId, evalName).getStatus());
 		
 		______TS("unpublish action: PUBLISHED evaluation");
@@ -159,7 +159,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		assertEquals(EvalStatus.PUBLISHED, BackDoor.getEvaluation(courseId, evalName).getStatus());
 		
 		homePage.clickAndConfirm(homePage.getUnpublishLink(courseId, evalName))
-			.verifyStatus(Common.MESSAGE_EVALUATION_UNPUBLISHED);
+			.verifyStatus(Config.MESSAGE_EVALUATION_UNPUBLISHED);
 		assertEquals(EvalStatus.CLOSED, BackDoor.getEvaluation(courseId, evalName).getStatus());
 	}
 

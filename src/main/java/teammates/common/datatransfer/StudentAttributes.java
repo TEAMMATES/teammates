@@ -1,18 +1,18 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.Common.EOL;
+import static teammates.common.util.Config.EOL;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.Assumption;
-import teammates.common.FieldValidator;
-import teammates.common.FieldValidator.FieldType;
-import teammates.common.Sanitizer;
-import teammates.common.StringHelper;
 import teammates.common.exception.EnrollException;
+import teammates.common.util.Assumption;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {

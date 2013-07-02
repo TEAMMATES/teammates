@@ -2,22 +2,22 @@ package teammates.ui.controller;
 
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseDetailsPageAction extends Action {
-	protected static final Logger log = Common.getLogger();
+	protected static final Logger log = Config.getLogger();
 	
 	
 	@Override
 	public ActionResult execute()
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
 		new GateKeeper().verifyAccessible(
@@ -35,7 +35,7 @@ public class InstructorCourseDetailsPageAction extends Action {
 		statusToAdmin = "instructorCourseDetails Page Load<br>" 
 				+ "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";
 		
-		return createShowPageResult(Common.JSP_INSTRUCTOR_COURSE_DETAILS, data);
+		return createShowPageResult(Config.JSP_INSTRUCTOR_COURSE_DETAILS, data);
 		
 	}
 

@@ -11,11 +11,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.Common;
-import teammates.common.HttpRequestHelper;
-import teammates.common.StringHelper;
-import teammates.common.Url;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 
 /**
  * The result of executing an {@link Action}.
@@ -102,7 +102,7 @@ public abstract class ActionResult {
 
 	private String getPreviousStatusMessage(
 			Map<String, String[]> parametersFromPreviousRequest) {
-		return HttpRequestHelper.getValueFromParamMap(parametersFromPreviousRequest, Common.PARAM_STATUS_MESSAGE);
+		return HttpRequestHelper.getValueFromParamMap(parametersFromPreviousRequest, Config.PARAM_STATUS_MESSAGE);
 	}
 
 

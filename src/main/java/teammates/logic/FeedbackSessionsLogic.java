@@ -9,10 +9,8 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
-import teammates.common.Common;
-import teammates.common.FeedbackParticipantType;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -28,6 +26,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
@@ -36,7 +36,7 @@ import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 // Can select appropriate method at Action level.
 public class FeedbackSessionsLogic {
 
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	private static FeedbackSessionsLogic instance = null;
 
@@ -178,7 +178,7 @@ public class FeedbackSessionsLogic {
 			Map<String, String> recipients) {
 		
 		// change constant to actual maximum size.
-		if (question.numberOfEntitiesToGiveFeedbackTo == Common.MAX_POSSIBLE_RECIPIENTS) {
+		if (question.numberOfEntitiesToGiveFeedbackTo == Config.MAX_POSSIBLE_RECIPIENTS) {
 			question.numberOfEntitiesToGiveFeedbackTo = recipients.size();
 		}	
 		
@@ -272,9 +272,9 @@ public class FeedbackSessionsLogic {
 		
 		for (FeedbackResponseAttributes response : responsesForThisQn) {
 			if (question.giverType == FeedbackParticipantType.TEAMS){
-				if (emailNameTable.containsKey(response.giverEmail + Common.TEAM_OF_EMAIL_OWNER) == false) {
+				if (emailNameTable.containsKey(response.giverEmail + Config.TEAM_OF_EMAIL_OWNER) == false) {
 					emailNameTable.put(
-							response.giverEmail + Common.TEAM_OF_EMAIL_OWNER,
+							response.giverEmail + Config.TEAM_OF_EMAIL_OWNER,
 							getNameForEmail(question.giverType, response.giverEmail, question.courseId));
 				}
 			}
@@ -305,7 +305,7 @@ public class FeedbackSessionsLogic {
 			InstructorAttributes instructor =
 					instructorsLogic.getInstructorForEmail(courseId, email);
 			if (instructor == null) {
-				if(email.equals(Common.GENERAL_QUESTION)) {
+				if(email.equals(Config.GENERAL_QUESTION)) {
 					// Email represents that there is no specific recipient. 
 					name = "Nobody";
 					team = email;
@@ -350,15 +350,15 @@ public class FeedbackSessionsLogic {
 		
 		String export = "";
 		
-		export += "Course" + ",," + results.feedbackSession.courseId + Common.EOL
-				+ "Evaluation Name" + ",," + results.feedbackSession.feedbackSessionName + Common.EOL
-				+ Common.EOL;
+		export += "Course" + ",," + results.feedbackSession.courseId + Config.EOL
+				+ "Evaluation Name" + ",," + results.feedbackSession.feedbackSessionName + Config.EOL
+				+ Config.EOL;
 		
 		for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry :
 								results.getQuestionResponseMap().entrySet()) {
 			export += "Question " + Integer.toString(entry.getKey().questionNumber) + ",," +
-						entry.getKey().questionText.getValue() + Common.EOL;
-			export += "Giver" + ",," + "Recipient" + ",," + "Feedback" + Common.EOL;
+						entry.getKey().questionText.getValue() + Config.EOL;
+			export += "Giver" + ",," + "Recipient" + ",," + "Feedback" + Config.EOL;
 			
 			for(FeedbackResponseAttributes response : results.responses){
 				export += results.emailNameTable.get(response.giverEmail) + ",," + 
@@ -442,7 +442,7 @@ public class FeedbackSessionsLogic {
 		List<FeedbackSessionAttributes> sessions = fsDb.getAllFeedbackSessions();
 		
 		for(FeedbackSessionAttributes session : sessions){
-			if(session.isClosingWithinTimeLimit(Common.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
+			if(session.isClosingWithinTimeLimit(Config.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
 				continue;
 			}
 			try {

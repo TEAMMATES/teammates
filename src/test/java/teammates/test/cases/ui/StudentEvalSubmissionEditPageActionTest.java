@@ -6,13 +6,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.ControllerServlet;
 
@@ -24,7 +24,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
+		URI = Config.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -91,14 +91,14 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		
 		
 		String[] submissionParams = new String[]{
-				Common.PARAM_COURSE_ID, courseId,
-				Common.PARAM_EVALUATION_NAME, evalName};
+				Config.PARAM_COURSE_ID, courseId,
+				Config.PARAM_EVALUATION_NAME, evalName};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		
 		loginUser("unreg.user");
 		//if the user is not a student of the course, we redirect to home page.
-		verifyRedirectTo(Common.PAGE_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		if(isEditableForStudent){
@@ -110,7 +110,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		
 		loginAsInstructor(instructorId);
 		//if the user is not a student of the course, we redirect to home page.
-		verifyRedirectTo(Common.PAGE_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);

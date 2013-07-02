@@ -1,8 +1,8 @@
 package teammates.ui.controller;
 
-import teammates.common.Common;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalResultsDownloadAction extends Action {
@@ -11,8 +11,8 @@ public class InstructorEvalResultsDownloadAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException,
 			InvalidParametersException {
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
-		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String evalName = getRequestParam(Config.PARAM_EVALUATION_NAME);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),

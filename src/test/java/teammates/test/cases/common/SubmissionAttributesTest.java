@@ -1,15 +1,15 @@
 package teammates.test.cases.common;
 
 import static org.testng.AssertJUnit.*;
-import static teammates.common.Common.EOL;
-import static teammates.common.FieldValidator.*;
+import static teammates.common.util.Config.EOL;
+import static teammates.common.util.FieldValidator.*;
 
 
 import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.StringHelper;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class SubmissionAttributesTest extends BaseTestCase {

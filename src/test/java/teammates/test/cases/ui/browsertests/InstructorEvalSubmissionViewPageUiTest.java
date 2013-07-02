@@ -4,10 +4,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
@@ -42,7 +42,7 @@ public class InstructorEvalSubmissionViewPageUiTest extends BaseUiTestCase{
 		
 		______TS("content: p2p disabled eval");
 		
-		Url resultsUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_RESULTS)
+		Url resultsUrl = new Url(Config.PAGE_INSTRUCTOR_EVAL_RESULTS)
 			.withUserId(testData.instructors.get("CESubViewUiT.instructor").googleId)
 			.withCourseId(eval.courseId)
 			.withEvalName(eval.name);
@@ -56,7 +56,7 @@ public class InstructorEvalSubmissionViewPageUiTest extends BaseUiTestCase{
 		
 		eval = testData.evaluations.get("First Eval");
 		
-		resultsUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_RESULTS)
+		resultsUrl = new Url(Config.PAGE_INSTRUCTOR_EVAL_RESULTS)
 			.withUserId(testData.instructors.get("CESubViewUiT.instructor").googleId)
 			.withCourseId(eval.courseId)
 			.withEvalName(eval.name);

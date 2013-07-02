@@ -4,8 +4,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Config;
 import teammates.ui.controller.ControllerServlet;
 
 public class AdminAccountDetailsPageActionTest extends BaseActionTest {
@@ -16,7 +16,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_ADMIN_ACCOUNT_DETAILS;
+		URI = Config.PAGE_ADMIN_ACCOUNT_DETAILS;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 

@@ -5,12 +5,12 @@ import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
@@ -20,8 +20,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
-		String feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String feedbackSessionName = getRequestParam(Config.PARAM_FEEDBACK_SESSION_NAME);
 		
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
@@ -30,21 +30,21 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
 				logic.getFeedbackSession(feedbackSessionName, courseId));
 
-		String editType = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_EDITTYPE);
+		String editType = getRequestParam(Config.PARAM_FEEDBACK_QUESTION_EDITTYPE);
 		
 		FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData();
 		
 		try {
 			if(editType.equals("edit")) {
 				logic.updateFeedbackQuestion(updatedQuestion);	
-				statusToUser.add(Common.MESSAGE_FEEDBACK_QUESTION_EDITED);
+				statusToUser.add(Config.MESSAGE_FEEDBACK_QUESTION_EDITED);
 				statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
 						updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
 						updatedQuestion.courseId + "]</span> edited.<br>" +
 						"<span class=\"bold\">Feedback Question Text:</span> " + updatedQuestion.questionText;
 			} else if (editType.equals("delete")) {
 				logic.deleteFeedbackQuestion(updatedQuestion.feedbackSessionName, updatedQuestion.courseId, updatedQuestion.questionNumber);
-				statusToUser.add(Common.MESSAGE_FEEDBACK_QUESTION_DELETED);
+				statusToUser.add(Config.MESSAGE_FEEDBACK_QUESTION_DELETED);
 				statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
 						updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
 						updatedQuestion.courseId + "]</span> deleted.<br>" +
@@ -64,28 +64,28 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		FeedbackQuestionAttributes newQuestion =
 				new FeedbackQuestionAttributes();
 		
-		newQuestion.setId(getRequestParam(Common.PARAM_FEEDBACK_QUESTION_ID));
+		newQuestion.setId(getRequestParam(Config.PARAM_FEEDBACK_QUESTION_ID));
 		
-		newQuestion.courseId = getRequestParam(Common.PARAM_COURSE_ID);
-		newQuestion.feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
+		newQuestion.courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		newQuestion.feedbackSessionName = getRequestParam(Config.PARAM_FEEDBACK_SESSION_NAME);
 		
 		String param;
-		if((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_GIVERTYPE)) != null) {
+		if((param = getRequestParam(Config.PARAM_FEEDBACK_QUESTION_GIVERTYPE)) != null) {
 			newQuestion.giverType = FeedbackParticipantType.valueOf(param);
 		}
-		if((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE)) != null){
+		if((param = getRequestParam(Config.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE)) != null){
 			newQuestion.recipientType = FeedbackParticipantType.valueOf(param);
 		}
-		if((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBER)) != null){
+		if((param = getRequestParam(Config.PARAM_FEEDBACK_QUESTION_NUMBER)) != null){
 			newQuestion.questionNumber = Integer.parseInt(param);
 		}
-		newQuestion.questionText = new Text(getRequestParam(Common.PARAM_FEEDBACK_QUESTION_TEXT));
+		newQuestion.questionText = new Text(getRequestParam(Config.PARAM_FEEDBACK_QUESTION_TEXT));
 		newQuestion.questionType = QuestionType.TEXT;
 		
-		newQuestion.numberOfEntitiesToGiveFeedbackTo = Common.MAX_POSSIBLE_RECIPIENTS;
-		if ((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
+		newQuestion.numberOfEntitiesToGiveFeedbackTo = Config.MAX_POSSIBLE_RECIPIENTS;
+		if ((param = getRequestParam(Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
 			if (param.equals("custom")) {
-				if ((param = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {
+				if ((param = getRequestParam(Config.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {
 					if (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
 						newQuestion.recipientType == FeedbackParticipantType.TEAMS) {
 						newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
@@ -95,11 +95,11 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		}
 		
 		newQuestion.showResponsesTo = getParticipantListFromParams(
-				getRequestParam(Common.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO));				
+				getRequestParam(Config.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO));				
 		newQuestion.showGiverNameTo = getParticipantListFromParams(
-				getRequestParam(Common.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO));		
+				getRequestParam(Config.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO));		
 		newQuestion.showRecipientNameTo = getParticipantListFromParams(
-				getRequestParam(Common.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
+				getRequestParam(Config.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
 		
 		return newQuestion;
 	}

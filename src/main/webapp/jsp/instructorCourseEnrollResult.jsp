@@ -1,10 +1,10 @@
 <%@ page import="java.util.List" %>
-<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.util.Config"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEnrollResultPageData"%>
 <%
-InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageData)request.getAttribute("data");
+	InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -33,7 +33,7 @@ InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageDat
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -47,7 +47,7 @@ InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageDat
 				to modify values and re-do the enrollment.</div>
 				<%
 					for(int i=0; i<5; i++){
-						List<StudentAttributes> students = data.students[i];
+								List<StudentAttributes> students = data.students[i];
 				%>
 					<%
 						if(students.size()>0){
@@ -65,18 +65,24 @@ InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageDat
 							for(StudentAttributes student: students){
 						%>
 							<tr>
-								<td><%= escapeForHTML(student.name) %></td>
-								<td><%= escapeForHTML(student.email) %></td>
-								<td><%= escapeForHTML(student.team) %></td>
-								<td><%= escapeForHTML(student.comments) %></td>
+								<td><%=escapeForHTML(student.name)%></td>
+								<td><%=escapeForHTML(student.email)%></td>
+								<td><%=escapeForHTML(student.team)%></td>
+								<td><%=escapeForHTML(student.comments)%></td>
 							</tr>
-						<% 	} %>
+						<%
+							}
+						%>
 						</table>
 						<br>
 						<br>
 						<br>
-					<%	} %>
-				<%	} %>
+					<%
+						}
+					%>
+				<%
+					}
+				%>
 				
 				<div id="instructorCourseEnrollmentButtons">
 				</div>
@@ -84,7 +90,7 @@ InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageDat
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

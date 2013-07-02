@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.FieldValidator;
-import teammates.common.FieldValidator.FieldType;
-import teammates.common.Sanitizer;
-import teammates.common.TimeHelper;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.TimeHelper;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Evaluation;
 
 /**
@@ -36,7 +36,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	public boolean published = false;
 	public boolean activated = false;
 
-	private static Logger log = Common.getLogger();
+	private static Logger log = Config.getLogger();
 
 	public EvaluationAttributes() {
 
@@ -89,9 +89,9 @@ public class EvaluationAttributes extends EntityAttributes {
 		end.setTime(endTime);
 		end.add(Calendar.MINUTE, gracePeriod);
 
-		log.fine(Common.EOL + "Now  : " + TimeHelper.calendarToString(now)
-				+ Common.EOL + "Start: " + TimeHelper.calendarToString(start)
-				+ Common.EOL + "End  : " + TimeHelper.calendarToString(end));
+		log.fine(Config.EOL + "Now  : " + TimeHelper.calendarToString(now)
+				+ Config.EOL + "Start: " + TimeHelper.calendarToString(start)
+				+ Config.EOL + "End  : " + TimeHelper.calendarToString(end));
 
 		if (published) {
 			return EvalStatus.PUBLISHED;
@@ -222,7 +222,7 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	@Override
 	public String toString() {
-		return Common.getTeammatesGson()
+		return Config.getTeammatesGson()
 				.toJson(this, EvaluationAttributes.class);
 	}
 

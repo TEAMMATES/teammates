@@ -8,13 +8,13 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
 import teammates.storage.entity.Course;
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.ThreadHelper;
 
 /**
  * Handles CRUD Operations for course entities.
@@ -24,7 +24,7 @@ public class CoursesDb extends EntitiesDb {
 
 	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update a Course that doesn't exist: ";
 	
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	/**
 	 * Preconditions: <br>
@@ -32,7 +32,7 @@ public class CoursesDb extends EntitiesDb {
 	 * @return Null if not found.
 	 */
 	public CourseAttributes getCourse(String courseId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		Course c = getCourseEntity(courseId);
 
@@ -72,7 +72,7 @@ public class CoursesDb extends EntitiesDb {
 	public void updateCourse(CourseAttributes courseToUpdate) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseToUpdate);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseToUpdate);
 		
 		if (!courseToUpdate.isValid()) {
 			throw new InvalidParametersException(courseToUpdate.getInvalidityInfo());
@@ -100,7 +100,7 @@ public class CoursesDb extends EntitiesDb {
 	 * <br> * {@code courseId} is not null.
 	 */
 	public void deleteCourse(String courseId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
 
 		Course courseToDelete = getCourseEntity(courseId);
 
@@ -115,12 +115,12 @@ public class CoursesDb extends EntitiesDb {
 		int elapsedTime = 0;
 		Course courseCheck = getCourseEntity(courseId);
 		while ((courseCheck != null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
 			ThreadHelper.waitBriefly();
 			courseCheck = getCourseEntity(courseId);
 			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteCourse->"
 					+ courseId);
 		}

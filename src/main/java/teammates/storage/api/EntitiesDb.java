@@ -4,12 +4,12 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.ThreadHelper;
 import teammates.storage.datastore.Datastore;
 
 public abstract class EntitiesDb {
@@ -21,7 +21,7 @@ public abstract class EntitiesDb {
 	public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
 	public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 	
 	/**
 	 * Preconditions: 
@@ -31,7 +31,7 @@ public abstract class EntitiesDb {
 			throws InvalidParametersException, EntityAlreadyExistsException {
 
 		Assumption.assertNotNull(
-				Common.ERROR_DBLEVEL_NULL_INPUT, entityToAdd);
+				Config.ERROR_DBLEVEL_NULL_INPUT, entityToAdd);
 		
 		if (!entityToAdd.isValid()) {
 			throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
@@ -53,12 +53,12 @@ public abstract class EntitiesDb {
 		int elapsedTime = 0;
 		Object objectCheck = getEntity(entityToAdd);
 		while ((objectCheck == null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
 			ThreadHelper.waitBriefly();
 			objectCheck = getEntity(entityToAdd);
 			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: create"
 					+ entityToAdd.getEntityTypeAsString() + "->"
 					+ entityToAdd.getIdentificationString());
@@ -73,7 +73,7 @@ public abstract class EntitiesDb {
 	 * <br> * {@code courseId} is not null.
 	 */
 	public void deleteEntity(EntityAttributes entityToDelete) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, entityToDelete);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, entityToDelete);
 
 		Object entity = getEntity(entityToDelete);
 
@@ -88,12 +88,12 @@ public abstract class EntitiesDb {
 		int elapsedTime = 0;
 		Object entityCheck = getEntity(entityToDelete);
 		while ((entityCheck != null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
 			ThreadHelper.waitBriefly();
 			entityCheck = getEntity(entityToDelete);
 			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: delete"
 					+ entityToDelete.getEntityTypeAsString() + "->"
 					+ entityToDelete.getIdentificationString());

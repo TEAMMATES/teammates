@@ -1,5 +1,5 @@
 <%@page import="teammates.ui.controller.StudentEvalResultsPageData"%>
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Config" %>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes" %>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.StudentEvalResultsPageData"%>
@@ -30,7 +30,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -40,7 +40,7 @@
 				<h1>Evaluation Results</h1>
 			</div>
 			
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 			
 			<div id="studentEvaluationResults">
 				<div id="equalShareTag">E = Equal Share</div>
@@ -149,7 +149,9 @@
 							<td><%=PageData.escapeForHTML(sub.justification.getValue())%></td>
 							<td><%=StudentEvalResultsPageData.formatP2PFeedback(PageData.escapeForHTML(sub.p2pFeedback.getValue()), data.eval.p2pEnabled)%></td>
 						</tr>
-					<%	} %>
+					<%
+						}
+					%>
 				</table>
 				<br><br>
 				<br><br>
@@ -158,7 +160,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

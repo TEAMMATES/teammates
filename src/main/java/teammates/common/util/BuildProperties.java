@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ import com.google.appengine.api.utils.SystemProperty;
 
 public class BuildProperties {
 
-	private static Logger log = Common.getLogger();
+	private static Logger log = Config.getLogger();
 
 	public static BuildProperties instance = null;
 	

@@ -6,7 +6,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.HttpRequestHelper;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.Emails;
 import teammates.logic.FeedbackSessionsLogic;
 

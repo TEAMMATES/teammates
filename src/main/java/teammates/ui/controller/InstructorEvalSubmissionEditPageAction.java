@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalSubmissionEditPageAction extends Action {
@@ -15,13 +15,13 @@ public class InstructorEvalSubmissionEditPageAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Common.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Config.PARAM_EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
-		String studentEmail = getRequestParam(Common.PARAM_STUDENT_EMAIL); 
+		String studentEmail = getRequestParam(Config.PARAM_STUDENT_EMAIL); 
 		//Note: in InstructorEvalSubmissionEditPageData we use Common.PARAM_FROM_EMAIL instead
 		Assumption.assertNotNull(studentEmail);
 		
@@ -51,7 +51,7 @@ public class InstructorEvalSubmissionEditPageAction extends Action {
 				"for Course <span class=\"bold\">[" + courseId + "]</span>";
 		
 		
-		ShowPageResult response = createShowPageResult(Common.JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT, data);
+		ShowPageResult response = createShowPageResult(Config.JSP_INSTRUCTOR_EVAL_SUBMISSION_EDIT, data);
 		return response;
 
 	}

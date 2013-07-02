@@ -7,7 +7,7 @@ import java.util.TimeZone;
 
 import org.testng.annotations.Test;
 
-import teammates.common.TimeHelper;
+import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class TimeHelperTest extends BaseTestCase {

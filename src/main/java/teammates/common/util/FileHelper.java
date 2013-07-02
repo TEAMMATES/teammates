@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

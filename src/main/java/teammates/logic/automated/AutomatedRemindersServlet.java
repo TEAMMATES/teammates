@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.Common;
+import teammates.common.util.Config;
 import teammates.logic.Emails;
 import teammates.ui.controller.ActivityLogEntry;
 
 @SuppressWarnings("serial")
 public abstract class AutomatedRemindersServlet extends HttpServlet{
-	protected static Logger log = Common.getLogger();
+	protected static Logger log = Config.getLogger();
 	protected String servletName = "unspecified";
 	protected String action = "unspecified";
 	

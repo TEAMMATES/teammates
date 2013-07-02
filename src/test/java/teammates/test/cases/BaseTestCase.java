@@ -17,15 +17,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import teammates.common.Common;
-import teammates.common.FileHelper;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Config;
+import teammates.common.util.FileHelper;
+import teammates.common.util.TimeHelper;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.api.Logic;
@@ -213,7 +213,7 @@ public class BaseTestCase {
 	
 	protected static DataBundle loadDataBundle(String pathToJsonFile){
 		if(pathToJsonFile.startsWith("/")){
-			pathToJsonFile = Common.TEST_DATA_FOLDER + pathToJsonFile;
+			pathToJsonFile = Config.TEST_DATA_FOLDER + pathToJsonFile;
 		}
 		String jsonString;
 		try {
@@ -222,7 +222,7 @@ public class BaseTestCase {
 			throw new RuntimeException(e);
 		}
 		jsonString = injectRealAccounts(jsonString);
-		return Common.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		return Config.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 	}
 
 	private static String injectRealAccounts(String jsonString) {

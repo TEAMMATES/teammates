@@ -1,14 +1,14 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.Common.EOL;
+import static teammates.common.util.Config.EOL;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Logger;
 
-import teammates.common.Common;
-import teammates.common.StringHelper;
+import teammates.common.util.Config;
+import teammates.common.util.StringHelper;
 
 /**
  *  Represents detailed results of one student for one evaluation. 
@@ -28,7 +28,7 @@ public class StudentResultBundle {
 	public StudentResultSummary summary;
 
 	@SuppressWarnings("unused")
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 	
 	public StudentResultBundle(StudentAttributes student){
 		this.student = student;
@@ -121,10 +121,10 @@ public class StudentResultBundle {
 	}
 	
 	private String replaceMagicNumbers(String input){
-		return input.replace(Common.UNINITIALIZED_INT + ".0", " NA")
-				.replace(Common.UNINITIALIZED_INT + "", " NA")
-				.replace(Common.POINTS_NOT_SUBMITTED + "", "NSB")
-				.replace(Common.POINTS_NOT_SURE + "", "NSU");
+		return input.replace(Config.UNINITIALIZED_INT + ".0", " NA")
+				.replace(Config.UNINITIALIZED_INT + "", " NA")
+				.replace(Config.POINTS_NOT_SUBMITTED + "", "NSB")
+				.replace(Config.POINTS_NOT_SURE + "", "NSU");
 	}
 
 }

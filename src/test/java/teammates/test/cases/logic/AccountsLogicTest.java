@@ -7,12 +7,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.FieldValidator;
-import teammates.common.StringHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.JoinCourseException;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.logic.AccountsLogic;
 import teammates.logic.StudentsLogic;
 import teammates.logic.api.Logic;

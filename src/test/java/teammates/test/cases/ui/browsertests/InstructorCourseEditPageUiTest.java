@@ -8,9 +8,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Config;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -49,7 +49,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("page load");
 		
-		Url courseEditPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_EDIT)
+		Url courseEditPageUrl = new Url(Config.PAGE_INSTRUCTOR_COURSE_EDIT)
 			.withUserId(instructorId)
 			.withCourseId(courseId);
 		
@@ -67,7 +67,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		courseEditPage.verifyStatus("");
 		courseEditPage.fillInstructorList("");
 		courseEditPage.submitUnsuccessfully()
-			.verifyStatus(Common.MESSAGE_COURSE_INSTRUCTOR_LIST_EMPTY);
+			.verifyStatus(Config.MESSAGE_COURSE_INSTRUCTOR_LIST_EMPTY);
 		
 		______TS("invalid info");
 		
@@ -80,7 +80,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		String instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
 		String courseId = testData.courses.get("InsCrsEdit.CS2104").id;
-		Url courseEditPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_EDIT)
+		Url courseEditPageUrl = new Url(Config.PAGE_INSTRUCTOR_COURSE_EDIT)
 			.withUserId(instructorId)
 			.withCourseId(courseId);
 		courseEditPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
@@ -90,9 +90,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		______TS("success: add an instructor");
 		
 		InstructorCoursesPage coursesPage = courseEditPage.editCourse(originalInformation + "\nInsCrsEdit.instructor|Teammates Instructor|InsCrsEdit.instructor@gmail.com");
-		courseEditPage.verifyStatus(Common.MESSAGE_COURSE_EDITED);
+		courseEditPage.verifyStatus(Config.MESSAGE_COURSE_EDITED);
 		
-		Url courseDetailsLink = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
+		Url courseDetailsLink = new Url(Config.PAGE_INSTRUCTOR_COURSE_DETAILS)
 			.withCourseId(courseId)
 			.withUserId(testData.instructors.get("InsCrsEdit.test").googleId);
 		
@@ -129,7 +129,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 				coursesPage.getStatus());
 		assertNull(BackDoor.getInstructor(instructorId, courseId));
 		
-		courseDetailsLink = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
+		courseDetailsLink = new Url(Config.PAGE_INSTRUCTOR_COURSE_DETAILS)
 			.withCourseId(courseId)
 			.withUserId(testData.accounts.get("InsCrsEdit.instructor").googleId);
 		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);

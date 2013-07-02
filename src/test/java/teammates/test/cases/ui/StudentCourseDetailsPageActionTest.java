@@ -4,8 +4,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Config;
 import teammates.ui.controller.ControllerServlet;
 
 public class StudentCourseDetailsPageActionTest extends BaseActionTest {
@@ -16,7 +16,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_STUDENT_COURSE_DETAILS;
+		URI = Config.PAGE_STUDENT_COURSE_DETAILS;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -32,7 +32,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 		String iDOfCourseOfStudent = dataBundle.students.get("student1InCourse1").course;
 		
 		String[] submissionParams = new String[]{
-					Common.PARAM_COURSE_ID, iDOfCourseOfStudent
+					Config.PARAM_COURSE_ID, iDOfCourseOfStudent
 				};
 		
 		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);

@@ -1,15 +1,15 @@
 package teammates.test.cases.common;
 
 import static org.testng.AssertJUnit.*;
-import static teammates.common.Common.EOL;
-import static teammates.common.FieldValidator.*;
+import static teammates.common.util.Config.EOL;
+import static teammates.common.util.FieldValidator.*;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.StringHelper;
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class CourseAttributesTest extends BaseTestCase {

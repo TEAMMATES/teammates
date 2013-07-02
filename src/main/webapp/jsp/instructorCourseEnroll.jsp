@@ -1,10 +1,10 @@
 <%@ page import="java.util.List" %>
-<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.util.Config"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEnrollPageData"%>
 <%
-InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.getAttribute("data");
+	InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -33,7 +33,7 @@ InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.ge
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -41,14 +41,14 @@ InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.ge
 			<div id="topOfPage"></div>
 			
 				<div id="headerOperation">
-					<h1>Enroll Students for <%= escapeForHTML(data.courseId) %></h1>
+					<h1>Enroll Students for <%=escapeForHTML(data.courseId)%></h1>
 				</div>
-				<form action="<%= data.getInstructorCourseEnrollSaveLink(data.courseId) %>" method="post">
+				<form action="<%=data.getInstructorCourseEnrollSaveLink(data.courseId)%>" method="post">
 					<p class ="bold rightalign spreadsheetLink">		
 						[ <a id ="spreadsheet_download" 
 							class="color_black t_course_enroll"
 							href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv"
-							onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET %>')"
+							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET%>')"
 							onmouseout="hideddrivetip()">Sample spreadsheet</a> ] 
 					</p>
 					<img src="/images/enrollInstructions.png" border="0" > 
@@ -65,7 +65,7 @@ InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.ge
 							</td>
 						</tr>
 					</table>
-					<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+					<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
 					<br>
 					<div id="instructorCourseEnrollmentButtons" class="centeralign">
 						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
@@ -79,7 +79,7 @@ InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.ge
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

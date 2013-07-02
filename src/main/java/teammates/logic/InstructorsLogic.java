@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.Common;
-import teammates.common.StringHelper;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
 
 /**
@@ -26,7 +26,7 @@ public class InstructorsLogic {
 	private static final InstructorsDb instructorsDb = new InstructorsDb();
 	private static final AccountsLogic accountsLogic = AccountsLogic.inst();
 	
-	private static Logger log = Common.getLogger();
+	private static Logger log = Config.getLogger();
 	
 	private static InstructorsLogic instance = null;
 	public static InstructorsLogic inst() {
@@ -173,7 +173,7 @@ public class InstructorsLogic {
 
 	private List<InstructorAttributes> parseInstructorLines(String courseId, String instructorLines) 
 			throws InvalidParametersException {
-		String[] linesArray = instructorLines.split(Common.EOL);
+		String[] linesArray = instructorLines.split(Config.EOL);
 		
 		// check if all non-empty lines are formatted correctly
 		List<InstructorAttributes> instructorsList = new ArrayList<InstructorAttributes>();

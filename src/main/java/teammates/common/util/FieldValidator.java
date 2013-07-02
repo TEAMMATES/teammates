@@ -1,8 +1,10 @@
-package teammates.common;
+package teammates.common.util;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.

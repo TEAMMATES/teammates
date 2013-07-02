@@ -3,10 +3,10 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.Common;
-import teammates.common.ThreadHelper;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
+import teammates.common.util.ThreadHelper;
 import teammates.logic.GateKeeper;
 
 import com.google.appengine.api.search.Document;
@@ -54,7 +54,7 @@ public class AdminSearchPageAction extends Action {
 			statusToUser.add("Found "+ data.results.size() + " results.");
 		}
 		
-		return createShowPageResult(Common.JSP_ADMIN_SEARCH, data);
+		return createShowPageResult(Config.JSP_ADMIN_SEARCH, data);
 	}
 	
 	private List<Document> search(String queryStr, String limitStr) {

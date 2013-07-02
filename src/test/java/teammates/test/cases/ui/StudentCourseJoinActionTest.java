@@ -4,8 +4,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Config;
 import teammates.ui.controller.ControllerServlet;
 
 public class StudentCourseJoinActionTest extends BaseActionTest {
@@ -16,7 +16,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_STUDENT_JOIN_COURSE;
+		URI = Config.PAGE_STUDENT_JOIN_COURSE;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -30,7 +30,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 	public void testAccessControl() throws Exception{
 		
 		String[] submissionParams = new String[]{
-					Common.PARAM_REGKEY, "sample-key"
+					Config.PARAM_REGKEY, "sample-key"
 				};
 		
 		verifyOnlyLoggedInUsersCanAccess(submissionParams);

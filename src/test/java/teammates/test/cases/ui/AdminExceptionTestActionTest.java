@@ -4,8 +4,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Config;
 import teammates.ui.controller.ControllerServlet;
 
 public class AdminExceptionTestActionTest extends BaseActionTest {
@@ -16,7 +16,7 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_ADMIN_EXCEPTION_TEST;
+		URI = Config.PAGE_ADMIN_EXCEPTION_TEST;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 

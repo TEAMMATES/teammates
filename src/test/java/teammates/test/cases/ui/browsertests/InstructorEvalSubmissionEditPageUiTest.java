@@ -6,11 +6,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -55,7 +55,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
 		
 		EvaluationAttributes p2pDisabledEval = testData.evaluations.get("Second Eval");
 		
-		Url editUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT)
+		Url editUrl = new Url(Config.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT)
 			.withUserId(testData.instructors.get("CESubEditUiT.instructor").googleId)
 			.withCourseId(p2pDisabledEval.courseId)
 			.withEvalName(p2pDisabledEval.name)
@@ -66,7 +66,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
 		
 		______TS("content: typical edit page, reached via resulst page");
 		
-		Url resultsUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_RESULTS)
+		Url resultsUrl = new Url(Config.PAGE_INSTRUCTOR_EVAL_RESULTS)
 			.withUserId(testData.instructors.get("CESubEditUiT.instructor").googleId)
 			.withCourseId(eval.courseId)
 			.withEvalName(eval.name);
@@ -96,7 +96,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
 		
 		InstructorEvalResultsPage resultsPage = editPage.submit();
 		String expectedStatus = String.format(
-				Common.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,
+				Config.MESSAGE_INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,
 				testData.students.get("Charlie").name,
 				eval.name,
 				eval.courseId)

@@ -3,12 +3,12 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.FieldValidator;
-import teammates.common.Sanitizer;
-import teammates.common.FieldValidator.FieldType;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Instructor;
 
 /**
@@ -87,7 +87,7 @@ public class InstructorAttributes extends EntityAttributes {
 	}
 	
 	public String toString(){
-		return Common.getTeammatesGson().toJson(this,InstructorAttributes.class);
+		return Config.getTeammatesGson().toJson(this,InstructorAttributes.class);
 	}
 
 	@Override

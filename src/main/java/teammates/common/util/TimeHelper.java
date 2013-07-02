@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -163,10 +163,10 @@ public class TimeHelper {
 			return false;
 		}
 		
-		if (date.equals(Common.TIME_REPRESENTS_FOLLOW_OPENING) ||
-			date.equals(Common.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
-			date.equals(Common.TIME_REPRESENTS_LATER) ||
-			date.equals(Common.TIME_REPRESENTS_NEVER)) {
+		if (date.equals(Config.TIME_REPRESENTS_FOLLOW_OPENING) ||
+			date.equals(Config.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
+			date.equals(Config.TIME_REPRESENTS_LATER) ||
+			date.equals(Config.TIME_REPRESENTS_NEVER)) {
 			return true;
 		} else {
 			return false;

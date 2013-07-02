@@ -6,13 +6,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.util.Config;
 import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.ControllerServlet;
 
@@ -30,7 +30,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER;
+		URI = Config.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -61,14 +61,14 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 		SubmissionAttributes sub = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
 		
 		String[] submissionParams = new String[]{
-				Common.PARAM_COURSE_ID, eval.courseId,
-				Common.PARAM_EVALUATION_NAME, eval.name,
-				Common.PARAM_FROM_EMAIL, dataBundle.students.get("student1InCourse1").email,
-				Common.PARAM_TEAM_NAME, sub.team,
-				Common.PARAM_TO_EMAIL, sub.reviewee,
-				Common.PARAM_POINTS, sub.points+"",
-				Common.PARAM_JUSTIFICATION, sub.justification.toString(),
-				Common.PARAM_COMMENTS, sub.p2pFeedback.toString()
+				Config.PARAM_COURSE_ID, eval.courseId,
+				Config.PARAM_EVALUATION_NAME, eval.name,
+				Config.PARAM_FROM_EMAIL, dataBundle.students.get("student1InCourse1").email,
+				Config.PARAM_TEAM_NAME, sub.team,
+				Config.PARAM_TO_EMAIL, sub.reviewee,
+				Config.PARAM_POINTS, sub.points+"",
+				Config.PARAM_JUSTIFICATION, sub.justification.toString(),
+				Config.PARAM_COMMENTS, sub.p2pFeedback.toString()
 			};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);

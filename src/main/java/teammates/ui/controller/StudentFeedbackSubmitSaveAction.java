@@ -2,13 +2,13 @@ package teammates.ui.controller;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
@@ -17,8 +17,8 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
-		String feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String feedbackSessionName = getRequestParam(Config.PARAM_FEEDBACK_SESSION_NAME);
 		
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
@@ -45,7 +45,7 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
 		
 		for(int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-			String totalResponsesForQuestion = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_RESPONSETOTAL+"-"+questionIndx);
+			String totalResponsesForQuestion = getRequestParam(Config.PARAM_FEEDBACK_QUESTION_RESPONSETOTAL+"-"+questionIndx);
 			if (totalResponsesForQuestion == null) {
 				continue; // question has been skipped (not displayed).
 			}
@@ -74,25 +74,25 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		}
 		
 		if (isError == false) {
-			statusToUser.add(Common.MESSAGE_FEEDBACK_RESPONSES_SAVED);
+			statusToUser.add(Config.MESSAGE_FEEDBACK_RESPONSES_SAVED);
 		}
 		
 		// TODO: what happens if qn is deleted as response is being submitted?
 		// what happens if team/etc change such that receiver / response in general is invalid?
-		return createRedirectResult(Common.PAGE_STUDENT_HOME);
+		return createRedirectResult(Config.PAGE_STUDENT_HOME);
 	}
 	
 	private FeedbackResponseAttributes extractFeedbackResponseData(int questionIndx, int responseIndx) {
 		
 		FeedbackResponseAttributes response = new FeedbackResponseAttributes();
 
-		response.setId(getRequestParam(Common.PARAM_FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
-		response.feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
-		response.courseId = getRequestParam(Common.PARAM_COURSE_ID);
-		response.feedbackQuestionId = getRequestParam(Common.PARAM_FEEDBACK_QUESTION_ID+"-"+questionIndx);
-		response.feedbackQuestionType = QuestionType.valueOf(getRequestParam(Common.PARAM_FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
-		response.recipient = getRequestParam(Common.PARAM_FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
-		response.answer = new Text(getRequestParam(Common.PARAM_FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
+		response.setId(getRequestParam(Config.PARAM_FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
+		response.feedbackSessionName = getRequestParam(Config.PARAM_FEEDBACK_SESSION_NAME);
+		response.courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		response.feedbackQuestionId = getRequestParam(Config.PARAM_FEEDBACK_QUESTION_ID+"-"+questionIndx);
+		response.feedbackQuestionType = QuestionType.valueOf(getRequestParam(Config.PARAM_FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
+		response.recipient = getRequestParam(Config.PARAM_FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
+		response.answer = new Text(getRequestParam(Config.PARAM_FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
 		return response;
 	}
 

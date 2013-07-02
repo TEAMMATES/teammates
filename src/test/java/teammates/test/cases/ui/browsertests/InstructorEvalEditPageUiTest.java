@@ -6,11 +6,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.TimeHelper;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -51,7 +51,7 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 	public void testContent() throws Exception{
 		
 		String instructorId = testData.instructors.get("instructor").googleId;
-		Url editPageUrl = new Url(Common.PAGE_INSTRUCTOR_EVAL_EDIT)
+		Url editPageUrl = new Url(Config.PAGE_INSTRUCTOR_EVAL_EDIT)
 		.withUserId(instructorId)
 		.withCourseId(existingEval.courseId)
 		.withEvalName(existingEval.name);
@@ -75,7 +75,7 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 				existingEval.endTime, 
 				existingEval.p2pEnabled, 
 				existingEval.instructions, 
-				existingEval.gracePeriod).verifyStatus(Common.MESSAGE_EVALUATION_EDITED);
+				existingEval.gracePeriod).verifyStatus(Config.MESSAGE_EVALUATION_EDITED);
 		
 		EvaluationAttributes updated = BackDoor.getEvaluation(existingEval.courseId, existingEval.name);
 		assertEquals(existingEval.toString(), updated.toString());

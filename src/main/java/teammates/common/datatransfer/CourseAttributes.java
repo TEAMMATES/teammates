@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import teammates.common.FieldValidator;
-import teammates.common.FieldValidator.FieldType;
-import teammates.common.Sanitizer;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Course;
 
 /**

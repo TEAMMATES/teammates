@@ -1,16 +1,16 @@
 package teammates.test.cases.common;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static teammates.common.FieldValidator.*;
+import static teammates.common.util.FieldValidator.*;
 
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.FieldValidator;
-import teammates.common.FieldValidator.FieldType;
-import teammates.common.StringHelper;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase{

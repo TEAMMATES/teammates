@@ -2,7 +2,7 @@ package teammates.common.exception;
 
 import java.util.List;
 
-import teammates.common.StringHelper;
+import teammates.common.util.StringHelper;
 
 
 @SuppressWarnings("serial")

@@ -5,10 +5,9 @@ import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.FeedbackParticipantType;
-import teammates.common.FieldValidator;
-import teammates.common.Sanitizer;
-import teammates.common.FieldValidator.FieldType;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 

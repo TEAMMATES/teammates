@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
@@ -15,6 +13,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class StudentHomePageAction extends Action {
@@ -42,11 +42,11 @@ public class StudentHomePageAction extends Action {
 			statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + data.courses.size();
 			
 		} catch (EntityDoesNotExistException e){
-			statusToUser.add(Common.MESSAGE_STUDENT_FIRST_TIME);
-			statusToAdmin = Common.LOG_SERVLET_ACTION_FAILURE + " :" + e.getMessage();
+			statusToUser.add(Config.MESSAGE_STUDENT_FIRST_TIME);
+			statusToAdmin = Config.LOG_SERVLET_ACTION_FAILURE + " :" + e.getMessage();
 		}
 		
-		ShowPageResult response = createShowPageResult(Common.JSP_STUDENT_HOME, data);
+		ShowPageResult response = createShowPageResult(Config.JSP_STUDENT_HOME, data);
 		return response;
 
 	}
@@ -87,9 +87,9 @@ public class StudentHomePageAction extends Action {
 		
 		switch (eval.getStatus()) {
 		case PUBLISHED:
-			return Common.STUDENT_EVALUATION_STATUS_PUBLISHED;
+			return Config.STUDENT_EVALUATION_STATUS_PUBLISHED;
 		case CLOSED:
-			return Common.STUDENT_EVALUATION_STATUS_CLOSED;
+			return Config.STUDENT_EVALUATION_STATUS_CLOSED;
 		default:
 			break; // continue processing.
 		}
@@ -103,8 +103,8 @@ public class StudentHomePageAction extends Action {
 		}
 		
 		return submitted ? 
-				Common.STUDENT_EVALUATION_STATUS_SUBMITTED 
-				: Common.STUDENT_EVALUATION_STATUS_PENDING;
+				Config.STUDENT_EVALUATION_STATUS_SUBMITTED 
+				: Config.STUDENT_EVALUATION_STATUS_PENDING;
 	}
 	
 	private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId){

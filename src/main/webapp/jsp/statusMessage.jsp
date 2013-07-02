@@ -1,7 +1,11 @@
 <%@ page import="teammates.ui.controller.PageData" %>
-<%@ page import="teammates.common.Common" %>
-<% boolean isError = Boolean.parseBoolean((String)request.getAttribute(Common.PARAM_ERROR)); %>
-<% String statusMessage = (String)request.getAttribute(Common.PARAM_STATUS_MESSAGE); %>
+<%@ page import="teammates.common.util.Config" %>
+<%
+	boolean isError = Boolean.parseBoolean((String)request.getAttribute(Config.PARAM_ERROR));
+%>
+<%
+	String statusMessage = (String)request.getAttribute(Config.PARAM_STATUS_MESSAGE);
+%>
 <%
 	if(!statusMessage.isEmpty()) {
 %>

@@ -3,13 +3,13 @@ package teammates.test.cases.logic;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.EMAIL_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.END_TIME_FIELD_NAME;
-import static teammates.common.FieldValidator.EVALUATION_NAME;
-import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
-import static teammates.common.FieldValidator.START_TIME_FIELD_NAME;
-import static teammates.common.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.EVALUATION_NAME;
+import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
+import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 import static teammates.logic.TeamEvalResult.NA;
 import static teammates.logic.TeamEvalResult.NSB;
 import static teammates.logic.TeamEvalResult.NSU;
@@ -32,9 +32,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.StringHelper;
-import teammates.common.TimeHelper;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -55,6 +52,9 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
+import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
@@ -83,7 +83,7 @@ public class LogicTest extends BaseComponentTestCase {
 	private static final StudentsDb studentsDb = new StudentsDb();
 	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 
-	private static Gson gson = Common.getTeammatesGson();
+	private static Gson gson = Config.getTeammatesGson();
 
 	private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -379,8 +379,8 @@ public class LogicTest extends BaseComponentTestCase {
 		
 		logic.createCourseAndInstructor(instructor.googleId, course.id, course.name);
 		logic.updateCourseInstructors(course.id,
-				instructor.googleId + "|" + instructor.name + "|" + instructor.email + Common.EOL
-			+	instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Common.EOL
+				instructor.googleId + "|" + instructor.name + "|" + instructor.email + Config.EOL
+			+	instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Config.EOL
 			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
 			creator.institute);
 		verifyPresentInDatastore(course);
@@ -396,7 +396,7 @@ public class LogicTest extends BaseComponentTestCase {
 		______TS("Remove one Instructor");
 		
 		logic.updateCourseInstructors(course.id,
-				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Common.EOL
+				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Config.EOL
 			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
 			creator.institute);
 		verifyPresentInDatastore(instructor);
@@ -406,7 +406,7 @@ public class LogicTest extends BaseComponentTestCase {
 		______TS("Remove one Instructor and add another Instructor");
 		
 		logic.updateCourseInstructors(course.id,
-				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
+				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Config.EOL
 			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
 			instructor2Account.institute);
 		verifyAbsentInDatastore(instructor); // Creator can be deleted too
@@ -420,7 +420,7 @@ public class LogicTest extends BaseComponentTestCase {
 		instructor3.email = "new@email.com";
 		
 		logic.updateCourseInstructors(course.id,
-				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Common.EOL
+				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Config.EOL
 			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
 			creator.institute);
 		verifyPresentInDatastore(instructor2);
@@ -758,7 +758,7 @@ public class LogicTest extends BaseComponentTestCase {
 		String course1EvalDetails = "";
 		for (EvaluationDetailsBundle ed : course1Evals) {
 			course1EvalDetails = course1EvalDetails
-					+ Common.getTeammatesGson().toJson(ed) + Common.EOL;
+					+ Config.getTeammatesGson().toJson(ed) + Config.EOL;
 		}
 		int numberOfEvalsInCourse1 = course1Evals.size();
 		assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
@@ -1463,7 +1463,7 @@ public class LogicTest extends BaseComponentTestCase {
 		loginAsAdmin("admin.user");
 		logic.createAccount("instructorForEnrollTesting", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor(instructorId, courseId, "Course for Enroll Testing");
-		String EOL = Common.EOL;
+		String EOL = Config.EOL;
 	
 		String line0 = "t1|n1|e1@g|c1";
 		String line1 = " t2|  n2|  e2@g|  c2";
@@ -2174,7 +2174,7 @@ public class LogicTest extends BaseComponentTestCase {
 		//Team 1.1,,student4 In Course1,,-999,,100,,100,-9999,-9999
 		//Team 1.2,,student5 In Course1,,-999,,-9999,,
 		
-		String[] exportLines = export.split(Common.EOL);
+		String[] exportLines = export.split(Config.EOL);
 		assertEquals("Course,," + eval.courseId, exportLines[0]);
 		assertEquals("Evaluation Name,," + eval.name, exportLines[1]);
 		assertEquals("", exportLines[2]);
@@ -2460,7 +2460,7 @@ public class LogicTest extends BaseComponentTestCase {
 			logic.publishEvaluation(eval1.courseId, eval1.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(Common.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
+			assertContains(Config.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
 					e.errorCode);
 		}
 
@@ -2474,7 +2474,7 @@ public class LogicTest extends BaseComponentTestCase {
 			logic.unpublishEvaluation(eval1.courseId, eval1.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(Common.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
+			assertContains(Config.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
 					e.errorCode);
 		}
 
@@ -2844,9 +2844,9 @@ public class LogicTest extends BaseComponentTestCase {
 	public static void verifyEnrollmentResultForStudent(StudentAttributes expectedStudent,
 			StudentAttributes enrollmentResult, StudentAttributes.UpdateStatus status) {
 		String errorMessage = "mismatch! \n expected:\n"
-				+ Common.getTeammatesGson().toJson(expectedStudent)
+				+ Config.getTeammatesGson().toJson(expectedStudent)
 				+ "\n actual \n"
-				+ Common.getTeammatesGson().toJson(enrollmentResult);
+				+ Config.getTeammatesGson().toJson(enrollmentResult);
 		assertEquals(errorMessage, true,
 				enrollmentResult.isEnrollInfoSameAs(expectedStudent) &&
 				enrollmentResult.updateStatus == status);

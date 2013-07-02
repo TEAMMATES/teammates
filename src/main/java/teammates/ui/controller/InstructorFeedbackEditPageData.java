@@ -3,11 +3,11 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.Common;
-import teammates.common.FeedbackParticipantType;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Config;
 
 public class InstructorFeedbackEditPageData extends PageData {
 
@@ -39,11 +39,11 @@ public class InstructorFeedbackEditPageData extends PageData {
 	}
 	
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){
-		return getTimeZoneOptionsAsHtml(session == null? Common.UNINITIALIZED_DOUBLE : session.timeZone);
+		return getTimeZoneOptionsAsHtml(session == null? Config.UNINITIALIZED_DOUBLE : session.timeZone);
 	}
 	
 	
 	public ArrayList<String> getGracePeriodOptionsAsHtml(){
-		return getGracePeriodOptionsAsHtml(session == null ? Common.UNINITIALIZED_INT : session.gracePeriod);
+		return getGracePeriodOptionsAsHtml(session == null ? Config.UNINITIALIZED_INT : session.gracePeriod);
 	}
 }

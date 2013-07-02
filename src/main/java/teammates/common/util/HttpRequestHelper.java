@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 import java.util.Enumeration;
 import java.util.Map;

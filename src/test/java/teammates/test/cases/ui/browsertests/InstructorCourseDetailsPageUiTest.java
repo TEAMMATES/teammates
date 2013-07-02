@@ -8,11 +8,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.StringHelper;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
 import teammates.test.driver.TestProperties;
@@ -57,7 +57,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 		
 		______TS("content: multiple students");
 		
-		Url detailsPageUrl = new Url(Common.PAGE_INSTRUCTOR_COURSE_DETAILS)
+		Url detailsPageUrl = new Url(Config.PAGE_INSTRUCTOR_COURSE_DETAILS)
 		.withUserId(testData.instructors.get("CCDetailsUiT.instr").googleId)
 		.withCourseId(testData.courses.get("CCDetailsUiT.CS2104").id);
 		

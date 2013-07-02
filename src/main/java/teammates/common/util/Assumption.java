@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 /**
  * This class provides a set of static method to verify assumptions about the

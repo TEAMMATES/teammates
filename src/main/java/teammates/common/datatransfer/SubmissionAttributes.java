@@ -1,6 +1,6 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.Common.EOL;
+import static teammates.common.util.Config.EOL;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,12 +8,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.FieldValidator;
-import teammates.common.FieldValidator.FieldType;
-import teammates.common.Sanitizer;
-import teammates.common.StringHelper;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text;
@@ -34,7 +34,7 @@ public class SubmissionAttributes extends EntityAttributes {
 	public Text p2pFeedback;
 	
 	@SuppressWarnings("unused")
-	private static Logger log = Common.getLogger();
+	private static Logger log = Config.getLogger();
 	
 	public SubmissionDetailsBundle details = new SubmissionDetailsBundle();
 

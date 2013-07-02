@@ -6,14 +6,14 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.ThreadHelper;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Evaluation;
 
 /**
@@ -24,7 +24,7 @@ public class EvaluationsDb extends EntitiesDb {
 
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Evaluation: ";
 	
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	/**
 	 * Preconditions: <br>
@@ -33,8 +33,8 @@ public class EvaluationsDb extends EntitiesDb {
 	 */
 	public EvaluationAttributes getEvaluation(String courseId, String name) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 
@@ -52,7 +52,7 @@ public class EvaluationsDb extends EntitiesDb {
 	 */
 	public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 
@@ -81,7 +81,7 @@ public class EvaluationsDb extends EntitiesDb {
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
 		Assumption.assertNotNull(
-				Common.ERROR_DBLEVEL_NULL_INPUT, 
+				Config.ERROR_DBLEVEL_NULL_INPUT, 
 				newEvaluationAttributes);
 		
 		if (!newEvaluationAttributes.isValid()) {
@@ -117,8 +117,8 @@ public class EvaluationsDb extends EntitiesDb {
 	 */
 	public void deleteEvaluation(String courseId, String name) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 		if (e == null) {
@@ -132,12 +132,12 @@ public class EvaluationsDb extends EntitiesDb {
 		int elapsedTime = 0;
 		Evaluation evaluationCheck = getEvaluationEntity(courseId, name);
 		while ((evaluationCheck != null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
 			ThreadHelper.waitBriefly();
 			evaluationCheck = getEvaluationEntity(courseId, name);
 			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteEvaluation->"
 					+ courseId + "/" + name);
 		}
@@ -152,7 +152,7 @@ public class EvaluationsDb extends EntitiesDb {
 	 */
 	public void deleteAllEvaluationsForCourse(String courseId) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
 
 		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 

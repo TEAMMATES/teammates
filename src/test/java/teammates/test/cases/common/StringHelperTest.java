@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
-import teammates.common.StringHelper;
+import teammates.common.util.Config;
+import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class StringHelperTest extends BaseTestCase {
@@ -25,8 +25,8 @@ public class StringHelperTest extends BaseTestCase {
 		assertEquals(true, StringHelper.isWhiteSpace(""));
 		assertEquals(true, StringHelper.isWhiteSpace("       "));
 		assertEquals(true, StringHelper.isWhiteSpace("\t\n\t"));
-		assertEquals(true, StringHelper.isWhiteSpace(Common.EOL));
-		assertEquals(true, StringHelper.isWhiteSpace(Common.EOL + "   "));
+		assertEquals(true, StringHelper.isWhiteSpace(Config.EOL));
+		assertEquals(true, StringHelper.isWhiteSpace(Config.EOL + "   "));
 	}
 
 	@Test 

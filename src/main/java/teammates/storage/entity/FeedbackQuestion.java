@@ -10,7 +10,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackParticipantType;
 
 @PersistenceCapable
 public class FeedbackQuestion {

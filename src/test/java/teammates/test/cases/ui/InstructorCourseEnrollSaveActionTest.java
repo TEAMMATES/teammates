@@ -4,8 +4,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Config;
 import teammates.ui.controller.ControllerServlet;
 
 public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
@@ -15,7 +15,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Common.PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE;
+		URI = Config.PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE;
 		sr.registerServlet(URI, ControllerServlet.class.getName());
 	}
 
@@ -29,8 +29,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 	public void testAccessControl() throws Exception{
 		
 		String[] submissionParams = new String[]{
-				Common.PARAM_COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
-				Common.PARAM_STUDENTS_ENROLLMENT_INFO, ""
+				Config.PARAM_COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
+				Config.PARAM_STUDENTS_ENROLLMENT_INFO, ""
 		};
 		
 		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

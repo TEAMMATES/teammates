@@ -8,8 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Config;
 
 /**
  * A result that shows a page in the Browser. These are usually implemented as 
@@ -51,8 +51,8 @@ public class ShowPageResult extends ActionResult{
 		 *  section is a {@code jsp:inclde} and cannot see parameters encoded 
 		 *  in the URL
 		 */ 
-		req.setAttribute(Common.PARAM_ERROR, ""+isError); 
-		req.setAttribute(Common.PARAM_STATUS_MESSAGE, ""+getStatusMessage()); 
+		req.setAttribute(Config.PARAM_ERROR, ""+isError); 
+		req.setAttribute(Config.PARAM_STATUS_MESSAGE, ""+getStatusMessage()); 
 		
 		req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
 	}

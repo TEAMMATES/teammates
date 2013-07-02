@@ -10,10 +10,10 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.Common;
-import teammates.common.Url;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Config;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -42,8 +42,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		editedSession = testData.feedbackSessions.get("openSession");
 		editedSession.gracePeriod = 30;
-		editedSession.sessionVisibleFromTime = Common.TIME_REPRESENTS_FOLLOW_OPENING;
-		editedSession.resultsVisibleFromTime = Common.TIME_REPRESENTS_FOLLOW_VISIBLE;
+		editedSession.sessionVisibleFromTime = Config.TIME_REPRESENTS_FOLLOW_OPENING;
+		editedSession.resultsVisibleFromTime = Config.TIME_REPRESENTS_FOLLOW_VISIBLE;
 		editedSession.instructions = new Text("Please fill in the edited feedback session.");
 		
 		instructorId = testData.accounts.get("instructorWithSessions").googleId;
@@ -96,19 +96,19 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		// Empty instructions
 		feedbackEditPage.fillInstructionsBox("");
 		feedbackEditPage.clickSaveSessionButton();
-		assertEquals(Common.MESSAGE_FIELDS_EMPTY, feedbackEditPage.getStatus());
+		assertEquals(Config.MESSAGE_FIELDS_EMPTY, feedbackEditPage.getStatus());
 
 		// Empty custom publishTime	
 		feedbackEditPage.fillInstructionsBox("instructions filled.");
-		feedbackEditPage.clearField(Common.PARAM_FEEDBACK_SESSION_PUBLISHDATE);
+		feedbackEditPage.clearField(Config.PARAM_FEEDBACK_SESSION_PUBLISHDATE);
 		feedbackEditPage.clickSaveSessionButton();
-		assertEquals(Common.MESSAGE_FIELDS_EMPTY, feedbackEditPage.getStatus());
+		assertEquals(Config.MESSAGE_FIELDS_EMPTY, feedbackEditPage.getStatus());
 
 		// Empty custom visibleTime
 		feedbackEditPage.clickDefaultPublishTimeButton();
-		feedbackEditPage.clearField(Common.PARAM_FEEDBACK_SESSION_VISIBLEDATE);
+		feedbackEditPage.clearField(Config.PARAM_FEEDBACK_SESSION_VISIBLEDATE);
 		feedbackEditPage.clickSaveSessionButton();
-		assertEquals(Common.MESSAGE_FIELDS_EMPTY, feedbackEditPage.getStatus());
+		assertEquals(Config.MESSAGE_FIELDS_EMPTY, feedbackEditPage.getStatus());
 
 
 	}
@@ -122,7 +122,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		feedbackEditPage.editFeedbackSession(editedSession.startTime, editedSession.endTime,
 				editedSession.instructions,
 				editedSession.gracePeriod);
-		feedbackEditPage.verifyStatus(Common.MESSAGE_FEEDBACK_SESSION_EDITED);
+		feedbackEditPage.verifyStatus(Config.MESSAGE_FEEDBACK_SESSION_EDITED);
 		FeedbackSessionAttributes savedSession = 
 				BackDoor.getFeedbackSession(editedSession.courseId, editedSession.feedbackSessionName);
 		assertEquals(editedSession.toString(), savedSession.toString());
@@ -142,7 +142,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		______TS("empty question text");
 		
 		feedbackEditPage.clickAddQuestionButton();
-		assertEquals(Common.MESSAGE_FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+		assertEquals(Config.MESSAGE_FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
 		
 		______TS("empty number of max respondants field");
 		
@@ -150,7 +150,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		feedbackEditPage.selectRecipientsToBeStudents();
 		feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBox("");
 		feedbackEditPage.clickAddQuestionButton();
-		assertEquals(Common.MESSAGE_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, feedbackEditPage.getStatus());
+		assertEquals(Config.MESSAGE_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, feedbackEditPage.getStatus());
 
 	}
 
@@ -160,7 +160,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
 		feedbackEditPage.clickMaxNumberOfRecipientsButton();
 		feedbackEditPage.clickAddQuestionButton();
-		assertEquals(Common.MESSAGE_FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+		assertEquals(Config.MESSAGE_FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
 		assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 		feedbackEditPage.verifyHtml("/instructorFeedbackQuestionAddSuccess.html");
 	}
@@ -178,7 +178,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		feedbackEditPage.fillEditQuestionBox("edited qn text");
 		feedbackEditPage.clickSaveExistingQuestionButton();
-		assertEquals(Common.MESSAGE_FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+		assertEquals(Config.MESSAGE_FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 		feedbackEditPage.verifyHtml("/instructorFeedbackQuestionEditSuccess.html");
 	}
 
@@ -192,7 +192,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		______TS("qn delete then accept");
 		
 		feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink());
-		assertEquals(Common.MESSAGE_FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+		assertEquals(Config.MESSAGE_FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
 		assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 	}
 	
@@ -207,7 +207,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		// check redirect to main feedback page
 		InstructorFeedbackPage feedbackPage = feedbackEditPage.deleteSession();
-		assertContains(Common.MESSAGE_FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
+		assertContains(Config.MESSAGE_FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
 		assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
 		
 	}
@@ -219,7 +219,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 	}
 
 	private InstructorFeedbackEditPage getFeedbackEditPage() {		
-		Url feedbackPageLink = new Url(Common.PAGE_INSTRUCTOR_FEEDBACK_EDIT).
+		Url feedbackPageLink = new Url(Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT).
 				withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
 		return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
 	}

@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.BuildProperties"%>
+<%@ page import="teammates.common.util.BuildProperties"%>
 <%@ page import="teammates.common.datatransfer.UserType"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <% 

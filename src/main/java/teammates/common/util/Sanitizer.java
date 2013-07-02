@@ -1,4 +1,4 @@
-package teammates.common;
+package teammates.common.util;
 
 import com.google.appengine.api.datastore.Text;
 

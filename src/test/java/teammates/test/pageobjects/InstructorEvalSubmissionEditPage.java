@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.util.Config;
 
 public class InstructorEvalSubmissionEditPage extends AppPage {
 	
@@ -56,17 +56,17 @@ public class InstructorEvalSubmissionEditPage extends AppPage {
 	}
 	
 	private void setPointsForSubmission(int rowId, int points) {
-		browser.selenium.select("id=" + Common.PARAM_POINTS + rowId, "value="+points);
+		browser.selenium.select("id=" + Config.PARAM_POINTS + rowId, "value="+points);
 	}
 
 
 	private void setJustificationForSubmission(int rowId, String justification) {
-		WebElement textBox = browser.driver.findElement(By.id(Common.PARAM_JUSTIFICATION + rowId));
+		WebElement textBox = browser.driver.findElement(By.id(Config.PARAM_JUSTIFICATION + rowId));
 		fillTextBox(textBox, justification);
 	}
 
 	private void setP2pCommentForSubmission(int rowId, String comments) {
-		WebElement textBox = browser.driver.findElement(By.id(Common.PARAM_COMMENTS + rowId));
+		WebElement textBox = browser.driver.findElement(By.id(Config.PARAM_COMMENTS + rowId));
 		fillTextBox(textBox, comments);
 	}
 

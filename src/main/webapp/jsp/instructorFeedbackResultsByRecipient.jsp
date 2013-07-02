@@ -1,10 +1,10 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
-<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.util.Config"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%
-InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
+	InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,7 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -36,50 +36,52 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 			<div id="headerOperation">
 				<h1>Feedback Results - Instructor</h1>
 			</div>			
-			<jsp:include page="<%=Common.JSP_INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
+			<jsp:include page="<%=Config.JSP_INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
 			<br>
 			<%
 				Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = 
-						data.bundle.getResponsesSortedByRecipient();
-				
-					for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>>
-									responsesForRecipient : allResponses.entrySet()) {
+							data.bundle.getResponsesSortedByRecipient();
+					
+						for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>>
+										responsesForRecipient : allResponses.entrySet()) {
 			%>
 			<div class="backgroundBlock">
-				<h2 class="color_white">To: <%= data.bundle.emailNameTable.get(responsesForRecipient.getKey()) %></h2>
+				<h2 class="color_white">To: <%=data.bundle.emailNameTable.get(responsesForRecipient.getKey())%></h2>
 
-				<% 			for (Map.Entry<String, List<FeedbackResponseAttributes>>
-										responsesForRecipientFromGiver : responsesForRecipient.getValue().entrySet()) {
+				<%
+					for (Map.Entry<String, List<FeedbackResponseAttributes>>
+												responsesForRecipientFromGiver : responsesForRecipient.getValue().entrySet()) {
 				%>			
 					<table class="resultTable" style="width:100%">
 						<thead>
-							<tr><th><span class="bold">From: </span><%= data.bundle.emailNameTable.get(responsesForRecipientFromGiver.getKey()) %></th></tr>
+							<tr><th><span class="bold">From: </span><%=data.bundle.emailNameTable.get(responsesForRecipientFromGiver.getKey())%></th></tr>
 						</thead>
-				<% 				
-								int qnIndx = 1;
-								for (FeedbackResponseAttributes	singleResponse : responsesForRecipientFromGiver.getValue()) {
+				<%
+					int qnIndx = 1;
+										for (FeedbackResponseAttributes	singleResponse : responsesForRecipientFromGiver.getValue()) {
 				%>
 						<tr class="resultSubheader"><td>
-							<span class="bold">Question <%=qnIndx%>: </span>[<%=data.bundle.questions.get(singleResponse.feedbackQuestionId).questionText.getValue() %>]
+							<span class="bold">Question <%=qnIndx%>: </span>[<%=data.bundle.questions.get(singleResponse.feedbackQuestionId).questionText.getValue()%>]
 						</td></tr>
-						<tr><td><span class="bold">Response: </span><%= singleResponse.answer.getValue()%></td></tr>
-				<%				qnIndx++;
-								}
-								if (responsesForRecipientFromGiver.getValue().isEmpty()) {
+						<tr><td><span class="bold">Response: </span><%=singleResponse.answer.getValue()%></td></tr>
+				<%
+					qnIndx++;
+										}
+										if (responsesForRecipientFromGiver.getValue().isEmpty()) {
 				%>
 									<tr><td class="bold color_red">No feedback from this user.</td></tr>
 				<%
-								}
+					}
 				%>
 					</table>
 					<br>
 				<%
-							}
+					}
 				%>
 			</div>
 			<br><br>
 			<%
-					}
+				}
 			%>
 			
 			
@@ -87,7 +89,7 @@ InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)requ
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Common.JSP_FOOTER%>" />
+		<jsp:include page="<%=Config.JSP_FOOTER%>" />
 	</div>
 </body>
 </html>

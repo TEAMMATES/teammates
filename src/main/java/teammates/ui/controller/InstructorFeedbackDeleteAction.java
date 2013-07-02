@@ -1,11 +1,11 @@
 package teammates.ui.controller;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.logic.GateKeeper;
 
 public class InstructorFeedbackDeleteAction extends Action {
@@ -14,8 +14,8 @@ public class InstructorFeedbackDeleteAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException,
 			InvalidParametersException {
 				
-		String courseId = getRequestParam(Common.PARAM_COURSE_ID);
-		String feedbackSessionName = getRequestParam(Common.PARAM_FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String feedbackSessionName = getRequestParam(Config.PARAM_FEEDBACK_SESSION_NAME);
 		
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
@@ -31,15 +31,15 @@ public class InstructorFeedbackDeleteAction extends Action {
 		if (sessionToDelete.creatorEmail.equals(instructorDoingDelete.email) == false) {
 			statusToUser.add("Only the creator of this feedback session is" +
 					" allowed to delete it.");
-			return createRedirectResult(Common.PAGE_INSTRUCTOR_FEEDBACK);
+			return createRedirectResult(Config.PAGE_INSTRUCTOR_FEEDBACK);
 		}
 		
 		logic.deleteFeedbackSession(feedbackSessionName, courseId);
-		statusToUser.add(Common.MESSAGE_FEEDBACK_SESSION_DELETED);
+		statusToUser.add(Config.MESSAGE_FEEDBACK_SESSION_DELETED);
 		statusToAdmin = "Feedback Session <span class=\"bold\">[" + feedbackSessionName + "]</span>" +
 				" from Course: <span class=\"bold\">[" + courseId + " deleted.";
 		
-		return createRedirectResult(Common.PAGE_INSTRUCTOR_FEEDBACK);
+		return createRedirectResult(Config.PAGE_INSTRUCTOR_FEEDBACK);
 	}
 
 }

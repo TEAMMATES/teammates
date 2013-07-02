@@ -3,17 +3,17 @@ package teammates.test.cases.storage;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
-import static teammates.common.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.FieldValidator.REASON_INCORRECT_FORMAT;
+import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.cases.logic.LogicTest;
@@ -68,7 +68,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.createEntity(null);
 			signalFailureToDetectException();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.getCourse(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -116,7 +116,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.deleteCourse(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Common.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 
