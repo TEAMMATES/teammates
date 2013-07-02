@@ -16,9 +16,9 @@ import teammates.common.exception.JoinCourseException;
 import teammates.logic.AccountsLogic;
 import teammates.logic.StudentsLogic;
 import teammates.logic.api.Logic;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
-public class AccountsLogicTest extends BaseComponentTest {
+public class AccountsLogicTest extends BaseComponentTestCase {
 
 	private AccountsLogic accountsLogic = AccountsLogic.inst();
 	private Logic logic = new Logic();

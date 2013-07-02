@@ -18,9 +18,9 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.SubmissionsLogic;
 import teammates.logic.api.Logic;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
-public class SubmissionsLogicTest extends BaseComponentTest{
+public class SubmissionsLogicTest extends BaseComponentTestCase{
 	
 	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	

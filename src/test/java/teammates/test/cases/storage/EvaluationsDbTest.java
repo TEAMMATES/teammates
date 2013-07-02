@@ -20,9 +20,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.EvaluationsDb;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
-public class EvaluationsDbTest extends BaseComponentTest {
+public class EvaluationsDbTest extends BaseComponentTestCase {
 	
 	//TODO: add missing test cases, refine existing ones. Follow the example
 	//  of CoursesDbTest::testCreateCourse().

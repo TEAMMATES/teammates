@@ -1,14 +1,10 @@
 package teammates.common;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
 import java.util.TimeZone;
 import java.util.logging.Logger;
-
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
@@ -22,8 +18,6 @@ import com.google.gson.GsonBuilder;
 // functions to that sub class. It should be in util package.
 public class Common {
 	
-	private static Logger log = Logger.getLogger(Common.class.getName());
-
 	public static final String EOL = System.getProperty("line.separator");
 	public static final int UNINITIALIZED_INT = -9999;
 	public static final double UNINITIALIZED_DOUBLE = -9999.0;
@@ -710,9 +704,6 @@ public class Common {
 	public static String LOG_SYSTEM_ERROR_REPORT = "System Error Report";
 	public static String LOG_SERVLET_ACTION_FAILURE = "Servlet Action Failure";
 	
-	@SuppressWarnings("unused")
-	private void ____MISC_utility_methods___________________________________() {
-	}
 	
 	/**
 	 * This creates a Gson object that can handle the Date format we use in the
@@ -729,30 +720,13 @@ public class Common {
 				.create();
 	}
 
+	/** 
+	 * This method should be used when instantiating loggers within the system.
+	 * @return A {@link Logger} class configured with the name of the calling class.
+	 */
 	public static Logger getLogger() {
-		return Logger.getLogger(Thread.currentThread().getStackTrace()[2]
-				.getClassName());
-	}
-
-	public static String stackTraceToString(Throwable e) {
-		StringWriter sw = new StringWriter();
-		e.printStackTrace(new PrintWriter(sw));
-		return "\n" + sw.toString();
-		
+		StackTraceElement logRequester = Thread.currentThread().getStackTrace()[2];
+		return Logger.getLogger(logRequester.getClassName());
 	}
 	
-	/**
-	 * 
-	 *  This function loads new buildproperties in run-time
-	 * 
-	 * @param Properties	The properties stream
-	 */
-	public static void readProperties(Properties p) {
-		BUILD_PROPERTIES.readProperties(p);
-
-		APP_ID = SystemProperty.applicationId.get();
-		TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
-		BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
-		PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
-	}
 }

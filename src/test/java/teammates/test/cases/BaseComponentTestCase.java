@@ -13,7 +13,7 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 import com.meterware.servletunit.ServletRunner;
 import com.meterware.servletunit.ServletUnitClient;
 
-public class BaseComponentTest extends BaseTestCase {
+public class BaseComponentTestCase extends BaseTestCase {
 
 	protected static String URI;
 	protected static ServletRunner sr;

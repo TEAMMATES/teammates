@@ -15,7 +15,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
 import teammates.ui.controller.RedirectResult;
@@ -28,7 +28,7 @@ import com.meterware.servletunit.InvocationContext;
 /**
  * Parent class for *ActionTest classes.
  */
-public class BaseActionTest extends BaseComponentTest {
+public class BaseActionTest extends BaseComponentTestCase {
 	
 	private DataBundle data = getTypicalDataBundle();
 

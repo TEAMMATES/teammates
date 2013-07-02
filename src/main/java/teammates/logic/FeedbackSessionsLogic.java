@@ -26,6 +26,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NotImplementedException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackResponse;
@@ -468,7 +469,7 @@ public class FeedbackSessionsLogic {
 				messagesSent.addAll(messages);
 				
 			} catch (Exception e) {
-				log.severe("Unexpected error " + Common.stackTraceToString(e));
+				log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
 			}
 			
 		}
@@ -505,7 +506,7 @@ public class FeedbackSessionsLogic {
 				session.sentPublishedEmail = true;
 				updateFeedbackSession(session);
 			} catch (Exception e) {
-				log.severe("Unexpected error " + Common.stackTraceToString(e));
+				log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
 			}
 		}
 		return messagesSent;
@@ -541,7 +542,7 @@ public class FeedbackSessionsLogic {
 				session.sentOpenEmail = true;
 				updateFeedbackSession(session);
 			} catch (Exception e) {
-				log.severe("Unexpected error " + Common.stackTraceToString(e));
+				log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
 			}
 		}
 		return messagesSent;

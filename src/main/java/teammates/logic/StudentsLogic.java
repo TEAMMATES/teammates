@@ -16,6 +16,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -241,7 +242,7 @@ public class StudentsLogic {
 			} catch (EntityDoesNotExistException e) {
 				Assumption
 						.fail("Unexpected EntitiyDoesNotExistException thrown when sending registration email"
-								+ Common.stackTraceToString(e));
+								+ TeammatesException.toStringWithStackTrace(e));
 			}
 		}
 		return emailsSent;
@@ -279,7 +280,7 @@ public class StudentsLogic {
 			//TODO: need better error handling here. This error is not 'unexpected'. e.g., invalid student data
 			updateStatus = UpdateStatus.ERROR;
 			String errorMessage = "Exception thrown unexpectedly while enrolling student: " 
-					+ validStudentAttributes.toString() + Common.EOL + Common.stackTraceToString(e);
+					+ validStudentAttributes.toString() + Common.EOL + TeammatesException.toStringWithStackTrace(e);
 			log.severe(errorMessage);
 		}
 		validStudentAttributes.updateStatus = updateStatus;

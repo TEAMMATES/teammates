@@ -14,9 +14,9 @@ import teammates.logic.CoursesLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
-public class CoursesLogicTest extends BaseComponentTest {
+public class CoursesLogicTest extends BaseComponentTestCase {
 
 	private CoursesLogic coursesLogic = new CoursesLogic();
 	private CoursesDb coursesDb = new CoursesDb();

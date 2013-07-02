@@ -6,6 +6,8 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import teammates.common.exception.TeammatesException;
+
 import com.google.appengine.api.utils.SystemProperty;
 
 public class BuildProperties {
@@ -26,7 +28,7 @@ public class BuildProperties {
 				instance.readProperties(prop);
 			} catch (IOException e) {
 				log.severe("Cannot create Config:"
-						+ Common.stackTraceToString(e));
+						+ TeammatesException.toStringWithStackTrace(e));
 			}
 		}
 		return instance;

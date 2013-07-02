@@ -27,6 +27,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.NotImplementedException;
+import teammates.common.exception.TeammatesException;
 import teammates.logic.backdoor.BackDoorServlet;
 
 import com.google.gson.Gson;
@@ -529,7 +530,7 @@ public class BackDoor {
 			sendRequest(paramString, conn);
 			return readResponse(conn);
 		} catch (Exception e) {
-			return Common.stackTraceToString(e);
+			return TeammatesException.toStringWithStackTrace(e);
 		}
 	}
 

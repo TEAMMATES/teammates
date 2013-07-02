@@ -19,11 +19,11 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.FeedbackSessionsLogic;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
 import com.google.appengine.api.datastore.Text;
 
-public class FeedbackSessionsLogicTest extends BaseComponentTest {
+public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	
 	private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 	

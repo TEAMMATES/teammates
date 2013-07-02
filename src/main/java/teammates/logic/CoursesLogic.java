@@ -23,6 +23,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.storage.api.CoursesDb;
 
 /**
@@ -89,7 +90,7 @@ public class CoursesLogic {
 			coursesDb.deleteCourse(courseId);
 			String errorMessage = "Unexpected exception while trying to create instructor for a new course "+ EOL 
 					+ instructor.toString() + EOL
-					+ Common.stackTraceToString(e);
+					+ TeammatesException.toStringWithStackTrace(e);
 			Assumption.fail(errorMessage);
 		}
 	}

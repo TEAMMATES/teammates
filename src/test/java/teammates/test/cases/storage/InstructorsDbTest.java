@@ -19,9 +19,9 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.InstructorsDb;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
-public class InstructorsDbTest extends BaseComponentTest {
+public class InstructorsDbTest extends BaseComponentTestCase {
 	
 	//TODO: add missing test cases, refine existing ones. Follow the example
 	//  of CoursesDbTest::testCreateCourse().

@@ -27,12 +27,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.logic.LogicTest;
 
 import com.google.appengine.api.datastore.Text;
 
-public class FeedbackSessionsDbTest extends BaseComponentTest {
+public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 	
 	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 	

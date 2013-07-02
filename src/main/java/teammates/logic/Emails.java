@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 import javax.mail.Address;
 import javax.mail.Message;
-import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -27,6 +26,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.TeammatesException;
 
 /**
  * Handles operations related to sending e-mails.
@@ -416,7 +416,7 @@ public class Emails {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
 		String errorMessage = error.getMessage();
-		String stackTrace = Common.stackTraceToString(error);
+		String stackTrace = TeammatesException.toStringWithStackTrace(error);
 	
 		// if the error doesn't contain a short description,
 		// retrieve the first line of stack trace.

@@ -34,9 +34,9 @@ import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
-public class EvaluationsLogicTest extends BaseComponentTest{
+public class EvaluationsLogicTest extends BaseComponentTestCase{
 	
 	//TODO: add missing tests. Some of the test content can be transferred from LogicTest.
 	

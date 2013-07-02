@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.logic.GateKeeper;
 
 public class StudentHomePageAction extends Action {
@@ -98,7 +99,7 @@ public class StudentHomePageAction extends Action {
 		try {
 			submitted = logic.hasStudentSubmittedEvaluation(eval.courseId, eval.name, studentEmail);
 		} catch (InvalidParametersException e) {
-			Assumption.fail("Parameters are expected to be valid at this point :" + Common.stackTraceToString(e));
+			Assumption.fail("Parameters are expected to be valid at this point :" + TeammatesException.toStringWithStackTrace(e));
 		}
 		
 		return submitted ? 
@@ -117,7 +118,7 @@ public class StudentHomePageAction extends Action {
 			return logic.hasStudentSubmittedFeedback(
 					fs.courseId, fs.feedbackSessionName, studentEmail);
 		} catch (InvalidParametersException | EntityDoesNotExistException e) {
-			Assumption.fail("Parameters are expected to be valid at this point :" + Common.stackTraceToString(e));
+			Assumption.fail("Parameters are expected to be valid at this point :" + TeammatesException.toStringWithStackTrace(e));
 			return false;
 		}
 	}

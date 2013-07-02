@@ -66,13 +66,13 @@ import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
-public class LogicTest extends BaseComponentTest {
+public class LogicTest extends BaseComponentTestCase {
 
 	private static final Logic logic = new Logic();
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();

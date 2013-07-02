@@ -10,9 +10,9 @@ import teammates.common.FieldValidator;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountsDb;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
-public class AccountsDbTest extends BaseComponentTest {
+public class AccountsDbTest extends BaseComponentTestCase {
 	
 	//TODO: add missing test cases, refine existing ones. Follow the example
 	//  of CoursesDbTest::testCreateCourse().

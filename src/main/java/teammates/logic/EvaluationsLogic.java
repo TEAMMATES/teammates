@@ -31,6 +31,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.storage.api.EvaluationsDb;
 
 import com.google.appengine.api.datastore.Text;
@@ -313,7 +314,7 @@ public class EvaluationsLogic {
 				//mark evaluation as activated
 				setEvaluationActivationStatus(ed.courseId, ed.name, true);
 			} catch (Exception e) {
-				log.severe("Unexpected error "+ Common.stackTraceToString(e));
+				log.severe("Unexpected error "+ TeammatesException.toStringWithStackTrace(e));
 			} 
 		}
 		return messagesSent;
@@ -347,7 +348,7 @@ public class EvaluationsLogic {
 				emailsSent.addAll(emails);
 				
 			} catch (Exception e) {
-				log.severe("Unexpected error " + Common.stackTraceToString(e));
+				log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
 			}
 		}
 		return emailsSent;

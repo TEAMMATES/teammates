@@ -13,6 +13,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
+import teammates.common.exception.TeammatesException;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -116,7 +117,7 @@ public class AccountsLogic {
 		try {
 			StudentsLogic.inst().updateStudentCascade(student.email, student);
 		} catch (EntityDoesNotExistException e) {
-			Assumption.fail("Student disappered while trying to register " + Common.stackTraceToString(e));
+			Assumption.fail("Student disappered while trying to register " + TeammatesException.toStringWithStackTrace(e));
 		} catch (InvalidParametersException e) {
 			throw new JoinCourseException(e.getMessage());
 		} 

@@ -30,12 +30,13 @@ import teammates.common.Url;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.TeammatesException;
 import teammates.logic.Emails;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
 import teammates.test.driver.TestProperties;
 
-public class EmailsTest extends BaseComponentTest {
+public class EmailsTest extends BaseComponentTestCase {
 	
 	private String from;
 	private String replyTo;
@@ -325,7 +326,7 @@ public class EmailsTest extends BaseComponentTest {
 				"SystemErrorEmailReportTest.java", 
 				89);
 		error.setStackTrace(new StackTraceElement[] {s1});
-		String stackTrace = Common.stackTraceToString(error);
+		String stackTrace = TeammatesException.toStringWithStackTrace(error);
 		String requestPath = "/page/studentHome";
 		String requestParam = "{}";
 

@@ -24,12 +24,12 @@ import teammates.logic.StudentsLogic;
 import teammates.logic.SubmissionsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.entity.Student;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.storage.EvaluationsDbTest;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
-public class StudentsLogicTest extends BaseComponentTest{
+public class StudentsLogicTest extends BaseComponentTestCase{
 	
 	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	

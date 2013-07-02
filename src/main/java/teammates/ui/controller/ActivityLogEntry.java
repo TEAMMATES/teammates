@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.Common;
 import teammates.common.HttpRequestHelper;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -240,7 +241,7 @@ public class ActivityLogEntry {
 		String url = HttpRequestHelper.getRequestedURL(req);
         
         String message = "<span class=\"color_red\">Servlet Action failure in " + action + "<br>";
-        message += e.getClass() + ": " + Common.stackTraceToString(e) + "<br>";
+        message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>";
         message += HttpRequestHelper.printRequestParameters(req) + "</span>";
         
         ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Common.LOG_SERVLET_ACTION_FAILURE, null, message, url);

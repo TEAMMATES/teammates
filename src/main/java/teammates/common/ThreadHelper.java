@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.logging.Logger;
 
+import teammates.common.exception.TeammatesException;
+
 public class ThreadHelper {
 	public static final int WAIT_DURATION = 200;
 	private static Logger log = Common.getLogger();
@@ -12,7 +14,7 @@ public class ThreadHelper {
 		try {
 			Thread.sleep(ThreadHelper.WAIT_DURATION);
 		} catch (InterruptedException e) {
-			log.severe(Common.stackTraceToString(e));
+			log.severe(TeammatesException.toStringWithStackTrace(e));
 		}
 	}
 
@@ -23,7 +25,7 @@ public class ThreadHelper {
 		try {
 			Thread.sleep(timeInMilliSeconds);
 		} catch (InterruptedException e) {
-			log.severe(Common.stackTraceToString(e));
+			log.severe(TeammatesException.toStringWithStackTrace(e));
 		}
 	}
 

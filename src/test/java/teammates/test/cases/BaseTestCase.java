@@ -25,6 +25,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.UserType;
+import teammates.common.exception.TeammatesException;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.api.Logic;
@@ -48,9 +49,8 @@ public class BaseTestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("Could not initialize Config object"
-					+ Common.stackTraceToString(e));
+					+ TeammatesException.toStringWithStackTrace(e));
 		}
-		Common.readProperties(buildProperties);
 	}
 
 	protected static LocalServiceTestHelper helper;

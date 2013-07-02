@@ -13,6 +13,7 @@ import teammates.common.Common;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.TeammatesException;
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
@@ -102,7 +103,7 @@ public class BackDoorServlet extends HttpServlet {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
 				returnValue = Common.BACKEND_STATUS_FAILURE
-						+ Common.stackTraceToString(e);
+						+ TeammatesException.toStringWithStackTrace(e);
 			} catch (AssertionError ae) {
 				returnValue = Common.BACKEND_STATUS_FAILURE
 						+ " Assertion error " + ae.getMessage();

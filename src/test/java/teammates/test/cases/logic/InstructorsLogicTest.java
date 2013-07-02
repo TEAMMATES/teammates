@@ -15,9 +15,9 @@ import org.testng.annotations.Test;
 import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.logic.InstructorsLogic;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
-public class InstructorsLogicTest extends BaseComponentTest{
+public class InstructorsLogicTest extends BaseComponentTestCase{
 	
 	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	

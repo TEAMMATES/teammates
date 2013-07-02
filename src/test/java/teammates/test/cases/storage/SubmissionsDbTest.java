@@ -16,11 +16,11 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.SubmissionsDb;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 
 import com.google.appengine.api.datastore.Text;
 
-public class SubmissionsDbTest extends BaseComponentTest {
+public class SubmissionsDbTest extends BaseComponentTestCase {
 	
 	//TODO: add missing test cases, refine existing ones. Follow the example
 	//  of CoursesDbTest::testCreateCourse().

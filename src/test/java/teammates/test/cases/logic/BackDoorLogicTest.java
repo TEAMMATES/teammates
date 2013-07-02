@@ -22,12 +22,12 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.test.cases.BaseComponentTest;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.common.CourseAttributesTest;
 
 import com.google.gson.Gson;
 
-public class BackDoorLogicTest extends BaseComponentTest {
+public class BackDoorLogicTest extends BaseComponentTestCase {
 	Gson gson = Common.getTeammatesGson();
 	private static DataBundle dataBundle = getTypicalDataBundle();
 
