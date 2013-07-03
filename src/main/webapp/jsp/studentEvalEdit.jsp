@@ -51,7 +51,7 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation name:</td>
-					<td id="<%=Constants.PARAM_EVALUATION_NAME%>"><%=StudentEvalSubmissionEditPageData.escapeForHTML(data.eval.name)%></td>
+					<td id="<%=Constants.PARAM_EVALUATION_NAME%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Opening time:</td>
@@ -63,7 +63,7 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Instructions:</td>
-					<td id="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>"><%=StudentEvalSubmissionEditPageData.escapeForHTML(data.eval.instructions)%></td>
+					<td id="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.instructions)%></td>
 				</tr>
 			</table>
 			

@@ -51,16 +51,16 @@
 				<table class="result_studentform">
 					<tr>
 						<td width="15%" class="bold color_white">Evaluation:</td>
-						<td colspan="2"><%=PageData.escapeForHTML(data.eval.name)%>
+						<td colspan="2"><%=PageData.sanitizeForHtml(data.eval.name)%>
 							in
 							<%=data.eval.courseId%>
 						</td>
 					</tr>
 					<tr>
 						<td class="bold color_white">Student:</td>
-						<td colspan="2"><%=PageData.escapeForHTML(data.student.name)%>
+						<td colspan="2"><%=PageData.sanitizeForHtml(data.student.name)%>
 							in
-							<%=PageData.escapeForHTML(data.student.team)%>
+							<%=PageData.sanitizeForHtml(data.student.team)%>
 						</td>
 					</tr>
 					<tr>
@@ -91,7 +91,7 @@
 								<%
 									for(SubmissionAttributes sub: data.incoming) {
 								%>
-									<li><%=StudentEvalResultsPageData.formatP2PFeedback(PageData.escapeForHTML(sub.p2pFeedback.getValue()), data.eval.p2pEnabled)%></li>
+									<li><%=StudentEvalResultsPageData.formatP2PFeedback(PageData.sanitizeForHtml(sub.p2pFeedback.getValue()), data.eval.p2pEnabled)%></li>
 								<%
 									}
 								%>
@@ -105,8 +105,8 @@
 								<%
 									for(SubmissionAttributes sub: data.selfEvaluations){
 								%>
-									<li><span class="bold"><%=PageData.escapeForHTML(sub.details.reviewerName)%>:</span> 
-										<%=PageData.escapeForHTML(sub.justification.getValue())%></li>
+									<li><span class="bold"><%=PageData.sanitizeForHtml(sub.details.reviewerName)%>:</span> 
+										<%=PageData.sanitizeForHtml(sub.justification.getValue())%></li>
 									<br>
 								<%
 									}
@@ -126,11 +126,11 @@
 					</tr>
 					<tr>
 						<td class="bold color_white">Your contribution:</td>
-						<td><%=PageData.escapeForHTML(data.evalResult.getSelfEvaluation().justification.getValue())%></td>
+						<td><%=PageData.sanitizeForHtml(data.evalResult.getSelfEvaluation().justification.getValue())%></td>
 					</tr>
 					<tr>
 						<td class="bold color_white">Team dynamics:</td>
-						<td><%=PageData.escapeForHTML(data.evalResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
+						<td><%=PageData.sanitizeForHtml(data.evalResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				</table>
 				<table class="dataTable">
@@ -144,10 +144,10 @@
 						for(SubmissionAttributes sub: data.outgoing){
 					%>
 						<tr>
-							<td><%=PageData.escapeForHTML(sub.details.revieweeName)%></td>
+							<td><%=PageData.sanitizeForHtml(sub.details.revieweeName)%></td>
 							<td><%=StudentEvalResultsPageData.getPointsAsColorizedHtml(sub.points)%></td> 
-							<td><%=PageData.escapeForHTML(sub.justification.getValue())%></td>
-							<td><%=StudentEvalResultsPageData.formatP2PFeedback(PageData.escapeForHTML(sub.p2pFeedback.getValue()), data.eval.p2pEnabled)%></td>
+							<td><%=PageData.sanitizeForHtml(sub.justification.getValue())%></td>
+							<td><%=StudentEvalResultsPageData.formatP2PFeedback(PageData.sanitizeForHtml(sub.p2pFeedback.getValue()), data.eval.p2pEnabled)%></td>
 						</tr>
 					<%
 						}

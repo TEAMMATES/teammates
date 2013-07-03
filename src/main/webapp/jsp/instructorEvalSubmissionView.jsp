@@ -49,7 +49,7 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
-					<td class="leftalign"><%=InstructorEvalSubmissionViewPageData.escapeForHTML(data.evaluation.name)%></td>
+					<td class="leftalign"><%=InstructorEvalSubmissionViewPageData.sanitizeForHtml(data.evaluation.name)%></td>
 				</tr>
 			</table>
 			
@@ -57,7 +57,7 @@
 			<%
 							for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
 						%>
-			<h2 class="centeralign"><%=InstructorEvalSubmissionViewPageData.escapeForHTML(data.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
+			<h2 class="centeralign"><%=InstructorEvalSubmissionViewPageData.sanitizeForHtml(data.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
 			<table class="resultTable">
 				<thead><tr>
 					<th colspan="2" width="10%" class="bold leftalign">
@@ -77,7 +77,7 @@
 					</tr>
 				<tr>
 					<td colspan="4"><span class="bold">Comments about team:</span><br>
-							<%=InstructorEvalSubmissionViewPageData.escapeForHTML(data.studentResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
+							<%=InstructorEvalSubmissionViewPageData.sanitizeForHtml(data.studentResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				<tr class="resultSubheader">
 					<td width="15%" class="bold"><%=byReviewee ? "From" : "To"%> Student</td>
@@ -90,10 +90,10 @@
 														if(sub.reviewer.equals(sub.reviewee)) continue;
 				%>
 					<tr>
-						<td><b><%=InstructorEvalSubmissionViewPageData.escapeForHTML(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
+						<td><b><%=InstructorEvalSubmissionViewPageData.sanitizeForHtml(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
 						<td><%=InstructorEvalSubmissionViewPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,false)%></td>
 						<td><%=InstructorEvalSubmissionViewPageData.getJustificationAsSanitizedHtml(sub)%></td>
-						<td><%=InstructorEvalSubmissionViewPageData.getP2pFeedbackAsHtml(InstructorEvalSubmissionViewPageData.escapeForHTML(sub.p2pFeedback.getValue()), data.evaluation.p2pEnabled)%></td>
+						<td><%=InstructorEvalSubmissionViewPageData.getP2pFeedbackAsHtml(InstructorEvalSubmissionViewPageData.sanitizeForHtml(sub.p2pFeedback.getValue()), data.evaluation.p2pEnabled)%></td>
 					</tr>
 				<%
 					}

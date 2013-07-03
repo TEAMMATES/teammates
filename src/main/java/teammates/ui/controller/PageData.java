@@ -14,6 +14,8 @@ import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Constants;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
 /**
@@ -39,49 +41,22 @@ public class PageData {
 	//========================================================================	
 	}
 	
+	/* These util methods simply delegate the work to the matching *Helper
+	 * class. We keep them here so that JSP pages do not have to import
+	 * those *Helper classes.
+	 */
+	public static String sanitizeForHtml(String unsanitizedStringLiteral){
+		return Sanitizer.sanitizeForHtml(unsanitizedStringLiteral);
+	}
 	
-	/**
-	 * Escape the string for inserting into javascript code.
-	 * This automatically calls {@link #escapeHTML} so make it safe for HTML too.
-	 */
-	public static String escapeForJavaScript(String str){ //TODO: rename to sanitizeForJS
-		return escapeForHTML(
-				str.replace("\\", "\\\\")
-				.replace("\"", "\\\"")
-				.replace("'", "\\'")
-				.replace("#", "\\#"));
+	public static String sanitizeForJs(String unsanitizedStringLiteral){
+		return Sanitizer.sanitizeForJs(unsanitizedStringLiteral);
 	}
-
-	/**
-	 * Sanitize the string for inserting into HTML. Converts special characters
-	 * into HTML-safe equivalents.
-	 */
-	public static String escapeForHTML(String str){ //TODO: rename to santitizeForHtml
-		return str.replace("&", "&amp;")
-				.replace("#", "&#35;")
-				.replace("<", "&lt;")
-				.replace(">", "&gt;")
-				.replace("\"", "&quot;")
-				.replace("'", "&#39;");
+	
+	public static String truncate (String untruncatedString, int truncateLength){
+		return StringHelper.truncate(untruncatedString, truncateLength);
 	}
-
-	/**
-	 * Checks whether the {@code inputString} is longer than a specified length
-	 * if so returns the truncated name appended by ellipsis,
-	 * otherwise returns the original input. <br>
-	 * E.g., "12345678" truncated to length 6 returns "123..."
-	 */
-	public static String truncate(String inputString, int truncateLength){
-		if(!(inputString.length()>truncateLength)){
-			return inputString;
-		}
-		String result = inputString;
-		if(inputString.length()>truncateLength){
-			result = inputString.substring(0,truncateLength-3)+"...";
-		}
-		return result;
-	}
-
+	
 	
 	public String addUserIdToUrl(String link){
 		return Url.addParamToUrl(link,Constants.PARAM_USER_ID,account.googleId);
@@ -190,7 +165,7 @@ public class PageData {
 		if(sub.justification==null || sub.justification.getValue()==null
 				|| sub.justification.getValue().equals(""))
 			return "N/A";
-		else return escapeForHTML(sub.justification.getValue());
+		else return Sanitizer.sanitizeForHtml(sub.justification.getValue());
 	}
 	
 	

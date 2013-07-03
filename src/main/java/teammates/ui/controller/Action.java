@@ -17,6 +17,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 
@@ -217,7 +218,7 @@ public abstract class Action {
 	}
 
 	protected ActionResult createPleaseJoinCourseResponse(String courseId) {
-		String errorMessage = "You are not registered in the course "+PageData.escapeForHTML(courseId);
+		String errorMessage = "You are not registered in the course "+Sanitizer.sanitizeForHtml(courseId);
 		statusToUser.add(errorMessage);
 		isError = true;
 		statusToAdmin = Constants.ACTION_RESULT_FAILURE + " : " + errorMessage; 

@@ -1,7 +1,7 @@
 <%@ page import="teammates.common.util.Constants" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%@ page import="teammates.ui.controller.InstructorCourseStudentDetailsEditPageData"%>
 <%
 	InstructorCourseStudentDetailsEditPageData data = (InstructorCourseStudentDetailsEditPageData)request.getAttribute("data");
@@ -50,7 +50,7 @@
 			 			<td>
 			 				<input class="fieldvalue" name="<%=Constants.PARAM_STUDENT_NAME%>" 
 			 						id="<%=Constants.PARAM_STUDENT_NAME%>"
-			 						value="<%=escapeForHTML(data.student.name)%>">
+			 						value="<%=sanitizeForHtml(data.student.name)%>">
 			 			</td>
 			 		</tr>
 				 	<tr>
@@ -58,35 +58,35 @@
 				 		<td>
 				 			<input class="fieldvalue" name="<%=Constants.PARAM_TEAM_NAME%>" 
 				 					id="<%=Constants.PARAM_TEAM_NAME%>"
-				 					value="<%=escapeForHTML(data.student.team)%>">
+				 					value="<%=sanitizeForHtml(data.student.team)%>">
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td class="label bold">E-mail Address:
 				 			<input type="hidden" name="<%=Constants.PARAM_STUDENT_EMAIL%>" 
 				 					id="<%=Constants.PARAM_STUDENT_EMAIL%>"
-				 					value="<%=escapeForHTML(data.student.email)%>">
+				 					value="<%=sanitizeForHtml(data.student.email)%>">
 				 		</td>
 				 		<td>
 				 			<input class="fieldvalue" name="<%=Constants.PARAM_NEW_STUDENT_EMAIL%>" 
 				 					id="<%=Constants.PARAM_NEW_STUDENT_EMAIL%>"
-				 					value="<%=escapeForHTML(data.student.email)%>">
+				 					value="<%=sanitizeForHtml(data.student.email)%>">
 				 		</td>
 				 	</tr>
 				 	<tr>
 						<td class="label bold">Google ID:</td>
-						<td id="<%=Constants.PARAM_USER_ID%>"><%=(data.student.googleId!= null ? escapeForHTML(data.student.googleId) : "")%></td>
+						<td id="<%=Constants.PARAM_USER_ID%>"><%=(data.student.googleId!= null ? sanitizeForHtml(data.student.googleId) : "")%></td>
 					</tr>
 					<tr>
 						<td class="label bold">Registration Key:</td>
-						<td id="<%=Constants.PARAM_REGKEY%>"><%=escapeForHTML(data.regKey)%></td>
+						<td id="<%=Constants.PARAM_REGKEY%>"><%=sanitizeForHtml(data.regKey)%></td>
 					</tr>
 				 	<tr>
 				 		<td class="label bold middlealign">Comments:</td>
 				 		<td>
 				 			<textarea class="textvalue" rows="6" cols="80" 
 				 				name="<%=Constants.PARAM_COMMENTS%>" 
-				 				id="<%=Constants.PARAM_COMMENTS%>"><%=escapeForHTML(data.student.comments)%></textarea>
+				 				id="<%=Constants.PARAM_COMMENTS%>"><%=sanitizeForHtml(data.student.comments)%></textarea>
 				 		</td>
 				 	</tr>
 				</table>

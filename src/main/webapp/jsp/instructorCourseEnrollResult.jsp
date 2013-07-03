@@ -1,7 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="teammates.common.util.Constants"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
-<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEnrollResultPageData"%>
 <%
 	InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageData)request.getAttribute("data");
@@ -40,7 +40,7 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 				<div id="headerOperation">
-					<h1>Enrollment Results for <%=escapeForHTML(data.courseId)%></h1>
+					<h1>Enrollment Results for <%=sanitizeForHtml(data.courseId)%></h1>
 				</div>
 				<div style="display: block;" id="statusMessage">Enrollment Successful. 
 				Summary given below. Click <a href="javascript:history.go(-1)" id="edit_enroll">here</a> 
@@ -65,10 +65,10 @@
 							for(StudentAttributes student: students){
 						%>
 							<tr>
-								<td><%=escapeForHTML(student.name)%></td>
-								<td><%=escapeForHTML(student.email)%></td>
-								<td><%=escapeForHTML(student.team)%></td>
-								<td><%=escapeForHTML(student.comments)%></td>
+								<td><%=sanitizeForHtml(student.name)%></td>
+								<td><%=sanitizeForHtml(student.email)%></td>
+								<td><%=sanitizeForHtml(student.team)%></td>
+								<td><%=sanitizeForHtml(student.comments)%></td>
 							</tr>
 						<%
 							}

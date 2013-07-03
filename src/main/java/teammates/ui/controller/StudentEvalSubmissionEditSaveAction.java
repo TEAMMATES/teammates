@@ -9,6 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Constants;
+import teammates.common.util.Sanitizer;
 import teammates.logic.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
@@ -66,7 +67,7 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		
 		try{
 			logic.updateSubmissions(submissionData);
-			statusToUser.add(String.format(Constants.STATUS_STUDENT_EVALUATION_SUBMISSION_RECEIVED, PageData.escapeForHTML(evalName), courseId));
+			statusToUser.add(String.format(Constants.STATUS_STUDENT_EVALUATION_SUBMISSION_RECEIVED, Sanitizer.sanitizeForHtml(evalName), courseId));
 			statusToAdmin = createLogMesage(courseId, evalName, teamName, fromEmail, toEmails, points, justifications, comments);
 			
 		} catch (InvalidParametersException e) {

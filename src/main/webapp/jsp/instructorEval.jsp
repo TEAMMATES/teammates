@@ -103,7 +103,7 @@
 									name="<%=Constants.PARAM_EVALUATION_NAME%>" id="<%=Constants.PARAM_EVALUATION_NAME%>"
 									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_NAME%>')"
 									onmouseout="hideddrivetip()" maxlength =<%=FieldValidator.EVALUATION_NAME_MAX_LENGTH%>
-									value="<%if(data.newEvaluationToBeCreated!=null) out.print(InstructorEvalPageData.escapeForHTML(data.newEvaluationToBeCreated.name));%>"
+									value="<%if(data.newEvaluationToBeCreated!=null) out.print(InstructorEvalPageData.sanitizeForHtml(data.newEvaluationToBeCreated.name));%>"
 									tabindex="2" placeholder="e.g. Midterm Evaluation"></td>
 						<td class="label bold" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
@@ -177,7 +177,7 @@
 							%>
 								<textarea rows="3" cols="90" class="textvalue" name="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>"
 										onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_INSTRUCTIONS%>')"
-										onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalPageData.escapeForHTML(data.newEvaluationToBeCreated.instructions)%></textarea>
+										onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalPageData.sanitizeForHtml(data.newEvaluationToBeCreated.instructions)%></textarea>
 							<%
 								}
 							%>
@@ -221,7 +221,7 @@
 				%>
 							<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
 								<td class="t_eval_coursecode"><%=edd.evaluation.courseId%></td>
-								<td class="t_eval_name"><%=InstructorEvalPageData.escapeForHTML(edd.evaluation.name)%></td>
+								<td class="t_eval_name"><%=InstructorEvalPageData.sanitizeForHtml(edd.evaluation.name)%></td>
 								<td class="t_eval_status centeralign"><span
 									onmouseover="ddrivetip(' <%=InstructorEvalPageData.getInstructorHoverMessageForEval(edd.evaluation)%>')"
 									onmouseout="hideddrivetip()"><%=InstructorEvalPageData.getInstructorStatusForEval(edd.evaluation)%></span></td>

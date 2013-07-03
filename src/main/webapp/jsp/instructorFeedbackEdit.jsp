@@ -235,7 +235,7 @@
 						<td colspan="4" style="padding-right:15px;">
 							<textarea rows="4" style="width:100%;" class="textvalue" name="<%=Constants.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Constants.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
 								onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_INSTRUCTIONS%>')"
-								onmouseout="hideddrivetip()" tabindex="8"><%=InstructorFeedbackEditPageData.escapeForHTML(data.session.instructions.getValue())%></textarea>
+								onmouseout="hideddrivetip()" tabindex="8"><%=InstructorFeedbackEditPageData.sanitizeForHtml(data.session.instructions.getValue())%></textarea>
 							
 						</td>
 					</tr>

@@ -2,7 +2,7 @@
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
-<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEditPageData"%>
 <%
 	InstructorCourseEditPageData data = (InstructorCourseEditPageData)request.getAttribute("data");
@@ -54,7 +54,7 @@
 					<tr>
 						<td><input class="addinput" type="text"
 							name="<%=Constants.PARAM_COURSE_ID%>" id="<%=Constants.PARAM_COURSE_ID%>"
-							value="<%=(data.course.id==null ? "" : escapeForHTML(data.course.id))%>"
+							value="<%=(data.course.id==null ? "" : sanitizeForHtml(data.course.id))%>"
 							onmouseover="ddrivetip('Identifier of the course, e.g.CS3215-Sem1.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1" disabled="disabled"></td>
@@ -65,7 +65,7 @@
 					<tr>
 						<td><input class="addinput" type="text"
 							name="<%=Constants.PARAM_COURSE_NAME%>" id="<%=Constants.PARAM_COURSE_NAME%>"
-							value="<%=(data.course.name==null ? "" : escapeForHTML(data.course.name))%>"
+							value="<%=(data.course.name==null ? "" : sanitizeForHtml(data.course.name))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
 							maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2 disabled="disabled"/></td>
@@ -83,7 +83,7 @@
 																			instructorInfo += instructor.googleId + "|" + instructor.name + "|" + instructor.email + "\n";
 																		}
 							%>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%=Constants.PARAM_COURSE_INSTRUCTOR_LIST%>" id="<%=Constants.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=escapeForHTML(instructorInfo.trim())%></textarea>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%=Constants.PARAM_COURSE_INSTRUCTOR_LIST%>" id="<%=Constants.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=sanitizeForHtml(instructorInfo.trim())%></textarea>
 						</td>
 					</tr>
 					<tr>

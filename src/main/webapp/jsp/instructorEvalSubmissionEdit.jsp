@@ -50,7 +50,7 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
-					<td class="leftalign"><%=InstructorEvalSubmissionEditPageData.escapeForHTML(data.eval.name)%></td>
+					<td class="leftalign"><%=InstructorEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></td>
 				</tr>
 			</table>
 			

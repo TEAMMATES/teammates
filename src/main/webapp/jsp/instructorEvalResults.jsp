@@ -7,7 +7,7 @@
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SubmissionDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorEvalResultsPageData"%>
-<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 
 <%
 	InstructorEvalResultsPageData data = (InstructorEvalResultsPageData)request.getAttribute("data");
@@ -62,7 +62,7 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold">Evaluation name:</td>
-					<td><%=InstructorEvalResultsPageData.escapeForHTML(data.evaluationResults.evaluation.name)%></td>
+					<td><%=InstructorEvalResultsPageData.sanitizeForHtml(data.evaluationResults.evaluation.name)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold">Opening time:</td>
@@ -108,7 +108,7 @@
 							<input type="hidden" name="<%=Constants.PARAM_COURSE_ID%>"
 								value="<%=data.evaluationResults.evaluation.courseId%>">
 							<input type="hidden" name="<%=Constants.PARAM_EVALUATION_NAME%>"
-								value="<%=escapeForHTML(data.evaluationResults.evaluation.name)%>">
+								value="<%=sanitizeForHtml(data.evaluationResults.evaluation.name)%>">
 							<input type="submit" value="Download Report" class="button">
 						</form>
 					</td>
@@ -155,9 +155,9 @@
 															StudentAttributes student = studentResult.student;
 					%>
 					<tr class="student_row" id="student<%=idx%>">
-						<td><%=escapeForHTML(student.team)%></td>
+						<td><%=sanitizeForHtml(student.team)%></td>
 						<td id="<%=Constants.PARAM_STUDENT_NAME%>"><span
-							onmouseover="ddrivetip('<%=InstructorEvalResultsPageData.escapeForJavaScript(student.comments)%>')"
+							onmouseover="ddrivetip('<%=InstructorEvalResultsPageData.sanitizeForJs(student.comments)%>')"
 							onmouseout="hideddrivetip()"> <%=student.name%>
 						</span></td>
 						<td><%=InstructorEvalResultsPageData.getPointsAsColorizedHtml(studentResult.summary.claimedToInstructor)%></td>
@@ -209,7 +209,7 @@
 				%>
 				<br>
 				<div class="backgroundBlock">
-					<h2 class="color_white"><%=escapeForHTML(teamResultBundle.getTeamName())%></h2>
+					<h2 class="color_white"><%=sanitizeForHtml(teamResultBundle.getTeamName())%></h2>
 					<%
 						boolean firstStudent = true;
 												for(StudentResultBundle studentResult: teamResultBundle.studentResults){
@@ -247,7 +247,7 @@
 								<%=InstructorEvalResultsPageData.getJustificationAsSanitizedHtml(studentResult.getSelfEvaluation())%><br></td>
 						</tr>
 						<tr>
-							<td colspan="5"><span class="bold">Comments about team:</span><br> <%=InstructorEvalResultsPageData.getP2pFeedbackAsHtml(escapeForHTML(studentResult.getSelfEvaluation().p2pFeedback.getValue()), data.evaluationResults.evaluation.p2pEnabled)%><br></td>
+							<td colspan="5"><span class="bold">Comments about team:</span><br> <%=InstructorEvalResultsPageData.getP2pFeedbackAsHtml(sanitizeForHtml(studentResult.getSelfEvaluation().p2pFeedback.getValue()), data.evaluationResults.evaluation.p2pEnabled)%><br></td>
 						</tr>
 						<tr class="resultSubheader bold">
 							<td width="15%"><%=byReviewer ? "To" : "From"%> Student</td>
@@ -260,10 +260,10 @@
 																if(sub.reviewer.equals(sub.reviewee)) continue;
 						%>
 						<tr>
-							<td><b><%=escapeForHTML(byReviewer ? sub.details.revieweeName : sub.details.reviewerName)%></b></td>
+							<td><b><%=sanitizeForHtml(byReviewer ? sub.details.revieweeName : sub.details.reviewerName)%></b></td>
 							<td><%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,false)%></td>
 							<td><%=InstructorEvalResultsPageData.getJustificationAsSanitizedHtml(sub)%></td>
-							<td colspan="2"><%=InstructorEvalResultsPageData.getP2pFeedbackAsHtml(escapeForHTML(sub.p2pFeedback.getValue()), data.evaluationResults.evaluation.p2pEnabled)%></td>
+							<td colspan="2"><%=InstructorEvalResultsPageData.getP2pFeedbackAsHtml(sanitizeForHtml(sub.p2pFeedback.getValue()), data.evaluationResults.evaluation.p2pEnabled)%></td>
 						</tr>
 						<%
 							}

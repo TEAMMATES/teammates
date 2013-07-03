@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -79,6 +80,31 @@ public class Sanitizer {
 	 */
 	public static Text sanitizeTextField(Text rawText) {
 		return (rawText==null) ? new Text("") :  new Text(trimIfNotNull(rawText.getValue()));
+	}
+
+	/**
+	 * Escape the string for inserting into javascript code.
+	 * This automatically calls {@link #escapeHTML} so make it safe for HTML too.
+	 */
+	public static String sanitizeForJs(String str){ 
+		return Sanitizer.sanitizeForHtml(
+				str.replace("\\", "\\\\")
+				.replace("\"", "\\\"")
+				.replace("'", "\\'")
+				.replace("#", "\\#"));
+	}
+
+	/**
+	 * Sanitize the string for inserting into HTML. Converts special characters
+	 * into HTML-safe equivalents.
+	 */
+	public static String sanitizeForHtml(String str){ 
+		return str.replace("&", "&amp;")
+				.replace("#", "&#35;")
+				.replace("<", "&lt;")
+				.replace(">", "&gt;")
+				.replace("\"", "&quot;")
+				.replace("'", "&#39;");
 	}
 
 	/**

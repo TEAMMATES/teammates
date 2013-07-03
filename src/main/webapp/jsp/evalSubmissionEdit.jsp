@@ -10,10 +10,10 @@
 <input type="hidden" value="<%=data.eval.courseId%>"
 		name="<%=Constants.PARAM_COURSE_ID%>"
 		id="<%=Constants.PARAM_COURSE_ID%>">
-<input type="hidden" value="<%=EvalSubmissionEditPageData.escapeForHTML(data.eval.name)%>"
+<input type="hidden" value="<%=EvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%>"
 		name="<%=Constants.PARAM_EVALUATION_NAME%>"
 		id="<%=Constants.PARAM_EVALUATION_NAME%>">
-<input type="hidden" value="<%=EvalSubmissionEditPageData.escapeForHTML(data.student.team)%>"
+<input type="hidden" value="<%=EvalSubmissionEditPageData.sanitizeForHtml(data.student.team)%>"
 		name="<%=Constants.PARAM_TEAM_NAME%>"
 		id="<%=Constants.PARAM_TEAM_NAME%>">
 <input type="hidden" value="<%=data.student.email%>"
@@ -57,7 +57,7 @@
 						<textarea class="textvalue" rows="8" cols="100" 
 								name="<%=Constants.PARAM_JUSTIFICATION%>"
 								id="<%=Constants.PARAM_JUSTIFICATION+idx%>"
-								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.escapeForHTML(sub.justification.getValue())%></textarea>
+								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue())%></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -134,7 +134,7 @@
 						<textarea class="textvalue" rows="8" cols="100" 
 								name="<%=Constants.PARAM_JUSTIFICATION%>"
 								id="<%=Constants.PARAM_JUSTIFICATION+idx%>"
-								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.escapeForHTML(sub.justification.getValue())%></textarea>
+								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue())%></textarea>
 					</td>
 				</tr>
 			<%	} %>

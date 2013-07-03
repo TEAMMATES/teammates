@@ -66,7 +66,7 @@
 			<div class="backgroundBlock home_courses_div" id="course<%=idx%>">
 				<div class="result_homeTitle">
 					<h2 class="color_white">[<%=courseDetails.course.id%>] :
-						<%=PageData.escapeForHTML(courseDetails.course.name)%>
+						<%=PageData.sanitizeForHtml(courseDetails.course.name)%>
 					</h2>
 				</div>
 				<div class="result_homeLinks blockLink rightalign">
@@ -115,7 +115,7 @@
 							for (EvaluationDetailsBundle edd: courseDetails.evaluations){ evalIdx++;
 						%>
 							<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
-								<td class="t_eval_name<%=idx%>"><%=PageData.escapeForHTML(edd.evaluation.name)%></td>
+								<td class="t_eval_name<%=idx%>"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
 								<td class="t_eval_status<%=idx%> centeralign"><span
 									onmouseover="ddrivetip('<%=PageData.getInstructorHoverMessageForEval(edd.evaluation)%>')"
 									onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForEval(edd.evaluation)%></span></td>
@@ -150,7 +150,7 @@
 											fsIdx++;
 				%>
 							<tr class="evaluations_row" id="evaluation<%=fsIdx%>">
-								<td class="t_eval_name"><%=PageData.escapeForHTML(fdb.feedbackSession.feedbackSessionName)%></td>
+								<td class="t_eval_name"><%=PageData.sanitizeForHtml(fdb.feedbackSession.feedbackSessionName)%></td>
 								<td class="t_eval_status centeralign"><span
 									onmouseover="ddrivetip(' <%=PageData.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
 									onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>

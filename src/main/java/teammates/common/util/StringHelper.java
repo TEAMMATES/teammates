@@ -30,6 +30,23 @@ public class StringHelper {
 		return generateStringOfLength(length, ' ');
 	}
 
+	/**
+	 * Checks whether the {@code inputString} is longer than a specified length
+	 * if so returns the truncated name appended by ellipsis,
+	 * otherwise returns the original input. <br>
+	 * E.g., "12345678" truncated to length 6 returns "123..."
+	 */
+	public static String truncate(String inputString, int truncateLength){
+		if(!(inputString.length()>truncateLength)){
+			return inputString;
+		}
+		String result = inputString;
+		if(inputString.length()>truncateLength){
+			result = inputString.substring(0,truncateLength-3)+"...";
+		}
+		return result;
+	}
+
 	public static String encrypt(String value) {
 		try {
 			SecretKeySpec sks = new SecretKeySpec(

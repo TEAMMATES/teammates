@@ -77,7 +77,7 @@
 				<div class="result_team home_courses_div" id="course<%=idx%>">
 					<div class="result_homeTitle">
 						<h2 class="color_white">[<%=courseDetails.course.id%>] :
-							<%=PageData.escapeForHTML(courseDetails.course.name)%>
+							<%=PageData.sanitizeForHtml(courseDetails.course.name)%>
 						</h2>
 					</div>
 					<div class="result_homeLinks blockLink rightalign">
@@ -105,7 +105,7 @@
 																			evalIdx++;
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
-									<td class="t_eval_name"><%=PageData.escapeForHTML(edd.evaluation.name)%></td>
+									<td class="t_eval_name"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
 									<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
 									<td class="t_eval_status centeralign"><span
 										onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
@@ -135,7 +135,7 @@
 																			fsIdx++;
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=fsIdx%>">
-									<td class="t_eval_name"><%=PageData.escapeForHTML(fsd.feedbackSession.feedbackSessionName)%></td>
+									<td class="t_eval_name"><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
 									<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
 									<td class="t_eval_status centeralign"><span
 										onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"

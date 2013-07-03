@@ -50,7 +50,7 @@
 	 			</tr>
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course name:</td>
-	 				<td id="<%=Constants.PARAM_COURSE_NAME%>"><%=PageData.escapeForHTML(data.courseDetails.course.name)%></td>
+	 				<td id="<%=Constants.PARAM_COURSE_NAME%>"><%=PageData.sanitizeForHtml(data.courseDetails.course.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Instructors:</td>
@@ -68,11 +68,11 @@
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your team:</td>
-	 				<td id="<%=Constants.PARAM_TEAM_NAME%>"><%=PageData.escapeForHTML(data.student.team)%></td>
+	 				<td id="<%=Constants.PARAM_TEAM_NAME%>"><%=PageData.sanitizeForHtml(data.student.team)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your name:</td>
-	 				<td id="<%=Constants.PARAM_STUDENT_NAME%>"><%=PageData.escapeForHTML(data.student.name)%></td>
+	 				<td id="<%=Constants.PARAM_STUDENT_NAME%>"><%=PageData.sanitizeForHtml(data.student.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your e-mail:</td>
@@ -95,7 +95,7 @@
 										<%
 											if(!student.email.equals(data.student.email)) {
 										%>
-											<li><a href = "mailto:<%=student.email%>"><%=PageData.escapeForHTML(student.name)%></a></li>
+											<li><a href = "mailto:<%=student.email%>"><%=PageData.sanitizeForHtml(student.name)%></a></li>
 										<%
 											}
 										%>

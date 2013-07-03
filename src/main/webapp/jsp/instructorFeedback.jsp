@@ -92,7 +92,7 @@
 									name="<%=Constants.PARAM_FEEDBACK_SESSION_NAME%>" id="<%=Constants.PARAM_FEEDBACK_SESSION_NAME%>"
 									onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_INPUT_NAME%>')"
 									onmouseout="hideddrivetip()" maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
-									value="<%if(data.newFeedbackSession!=null) out.print(InstructorFeedbackPageData.escapeForHTML(data.newFeedbackSession.feedbackSessionName));%>"
+									value="<%if(data.newFeedbackSession!=null) out.print(InstructorFeedbackPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
 									tabindex="2" placeholder="e.g. Class presentation feedback session"></td>
 					</tr>
 				</table>
@@ -272,7 +272,7 @@
 						<td class="label bold middlealign" >Instructions to students:</td>
 						<td><textarea rows="4" cols="100%" class="textvalue" name="<%=Constants.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Constants.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
 								onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_INSTRUCTIONS%>')"
-								onmouseout="hideddrivetip()" tabindex="8" placeholder="e.g. Please answer all the given questions."><%=data.newFeedbackSession==null ? "" :InstructorFeedbackPageData.escapeForHTML(data.newFeedbackSession.instructions.getValue())%></textarea>							
+								onmouseout="hideddrivetip()" tabindex="8" placeholder="e.g. Please answer all the given questions."><%=data.newFeedbackSession==null ? "" :InstructorFeedbackPageData.sanitizeForHtml(data.newFeedbackSession.instructions.getValue())%></textarea>							
 						</td>
 					</tr>
 					<tr>
@@ -309,7 +309,7 @@
 				%>
 							<tr class="evaluations_row" id="evaluation<%=fsIdx%>">
 								<td class="t_eval_coursecode"><%=fdb.feedbackSession.courseId%></td>
-								<td class="t_eval_name"><%=InstructorFeedbackPageData.escapeForHTML(fdb.feedbackSession.feedbackSessionName)%></td>
+								<td class="t_eval_name"><%=InstructorFeedbackPageData.sanitizeForHtml(fdb.feedbackSession.feedbackSessionName)%></td>
 								<td class="t_eval_status centeralign"><span
 									onmouseover="ddrivetip(' <%=InstructorFeedbackPageData.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
 									onmouseout="hideddrivetip()"><%=InstructorFeedbackPageData.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>

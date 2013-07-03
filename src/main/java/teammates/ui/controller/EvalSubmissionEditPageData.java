@@ -7,6 +7,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Constants;
+import teammates.common.util.Sanitizer;
 
 public class EvalSubmissionEditPageData extends PageData {
 	
@@ -24,7 +25,7 @@ public class EvalSubmissionEditPageData extends PageData {
 	 * @return The p2p comments in the submission, if one exists. If it is empty, inserts sub headings.
 	 */
 	public String getP2PComments(SubmissionAttributes sub) {
-		String commentsString = PageData.escapeForHTML(sub.p2pFeedback.getValue());
+		String commentsString = Sanitizer.sanitizeForHtml(sub.p2pFeedback.getValue());
 		if (commentsString.trim().equals("")){
 			if(sub.reviewee.equals(sub.reviewer)) {
 				return "";

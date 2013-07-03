@@ -1,7 +1,7 @@
 <%@ page import="teammates.common.util.Constants" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%@ page import="teammates.ui.controller.InstructorCourseStudentDetailsPageData"%>
 <%
 	InstructorCourseStudentDetailsPageData data = (InstructorCourseStudentDetailsPageData)request.getAttribute("data");
@@ -53,23 +53,23 @@
 					</tr>
 			 	<tr>
 					<td class="label rightalign bold" width="30%">Team Name:</td>
-			 		<td id="<%=Constants.PARAM_TEAM_NAME%>"><%=escapeForHTML(data.student.team)%></td>
+			 		<td id="<%=Constants.PARAM_TEAM_NAME%>"><%=sanitizeForHtml(data.student.team)%></td>
 			 	</tr>
 			 	<tr>
 			 		<td class="label rightalign bold" width="30%">E-mail Address:</td>
-			 		<td id="<%=Constants.PARAM_STUDENT_EMAIL%>"><%=escapeForHTML(data.student.email)%></td>
+			 		<td id="<%=Constants.PARAM_STUDENT_EMAIL%>"><%=sanitizeForHtml(data.student.email)%></td>
 			 	</tr>
 			 	<tr>
 					<td class="label rightalign bold" width="30%">Google ID:</td>
-					<td id="<%=Constants.PARAM_USER_ID%>"><%=(data.student.googleId!= null ? escapeForHTML(data.student.googleId) : "")%></td>
+					<td id="<%=Constants.PARAM_USER_ID%>"><%=(data.student.googleId!= null ? sanitizeForHtml(data.student.googleId) : "")%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Registration Key:</td>
-					<td id="<%=Constants.PARAM_REGKEY%>"><%=escapeForHTML(data.regKey)%></td>
+					<td id="<%=Constants.PARAM_REGKEY%>"><%=sanitizeForHtml(data.regKey)%></td>
 				</tr>
 			 	<tr>
 			 		<td class="label rightalign bold" width="30%">Comments:</td>
-			 		<td id="<%=Constants.PARAM_COMMENTS%>"><%=escapeForHTML(data.student.comments)%></td>
+			 		<td id="<%=Constants.PARAM_COMMENTS%>"><%=sanitizeForHtml(data.student.comments)%></td>
 			 	</tr>
 			 </table>
 			 <br>

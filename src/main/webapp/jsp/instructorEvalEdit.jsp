@@ -74,8 +74,8 @@
 					<tr>
 						<td class="label bold" >Evaluation name:</td>
 						<td style="vertical-align: middle;">
-							<input type="hidden" name="<%=Constants.PARAM_EVALUATION_NAME%>" value="<%=InstructorEvalEditPageData.escapeForHTML(data.evaluation.name)%>">
-							<%=InstructorEvalEditPageData.escapeForHTML(data.evaluation.name)%>
+							<input type="hidden" name="<%=Constants.PARAM_EVALUATION_NAME%>" value="<%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.name)%>">
+							<%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.name)%>
 						</td>
 						<td class="label bold" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
@@ -141,7 +141,7 @@
 						<table><tr><td>
 							<textarea rows="3" cols="90" class="textvalue" name="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>"
 									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_INSTRUCTIONS%>')"
-									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditPageData.escapeForHTML(data.evaluation.instructions)%></textarea>
+									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.instructions)%></textarea>
 							<p align=right><font color=grey>[maximum length = 500 characters]</font></p>
 						</td></tr></table>
 						</td>

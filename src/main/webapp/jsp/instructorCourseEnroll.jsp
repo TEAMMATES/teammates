@@ -1,7 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="teammates.common.util.Constants"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
-<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEnrollPageData"%>
 <%
 	InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData)request.getAttribute("data");
@@ -41,7 +41,7 @@
 			<div id="topOfPage"></div>
 			
 				<div id="headerOperation">
-					<h1>Enroll Students for <%=escapeForHTML(data.courseId)%></h1>
+					<h1>Enroll Students for <%=sanitizeForHtml(data.courseId)%></h1>
 				</div>
 				<form action="<%=data.getInstructorCourseEnrollSaveLink(data.courseId)%>" method="post">
 					<p class ="bold rightalign spreadsheetLink">		

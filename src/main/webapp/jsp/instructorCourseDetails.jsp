@@ -3,8 +3,8 @@
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
-<%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
-<%@ page import="static teammates.ui.controller.PageData.escapeForJavaScript"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 <%@ page import="teammates.ui.controller.InstructorCourseDetailsPageData"%>
 <%
 	InstructorCourseDetailsPageData data = (InstructorCourseDetailsPageData)request.getAttribute("data");
@@ -50,11 +50,11 @@
 			<table class="inputTable" id="courseInformationHeader">
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course ID:</td>
-	 				<td id="courseid"><%=escapeForHTML(data.courseDetails.course.id)%></td>
+	 				<td id="courseid"><%=sanitizeForHtml(data.courseDetails.course.id)%></td>
 	 			</tr>
 	 			<tr>
 		 			<td class="label rightalign bold" width="30%">Course name:</td>
-		 			<td id="coursename"><%=escapeForHTML(data.courseDetails.course.name)%></td>
+		 			<td id="coursename"><%=sanitizeForHtml(data.courseDetails.course.name)%></td>
 				</tr>
 				<tr>
 		 			<td class="label rightalign bold" width="30%">Teams:</td>
@@ -72,7 +72,7 @@
 		 					 				 					 	InstructorAttributes instructor = data.instructors.get(i);
 		 					 				 					 	String instructorInfo = instructor.name + " (" + instructor.email + ")";
 		 			%>
-				 				<%=escapeForHTML(instructorInfo)%><br><br>
+				 				<%=sanitizeForHtml(instructorInfo)%><br><br>
 				 			<%
 				 				}
 				 			%>
@@ -115,8 +115,8 @@
 														for(StudentAttributes student: data.students){ idx++;
 				%>
 						<tr class="student_row" id="student<%=idx%>">
-							<td id="<%=Constants.PARAM_TEAM_NAME%>"><%=escapeForHTML(student.team)%></td>
-							<td id="<%=Constants.PARAM_STUDENT_NAME%>"><%=escapeForHTML(student.name)%></td>
+							<td id="<%=Constants.PARAM_TEAM_NAME%>"><%=sanitizeForHtml(student.team)%></td>
+							<td id="<%=Constants.PARAM_STUDENT_NAME%>"><%=sanitizeForHtml(student.name)%></td>
 	 						<td class="centeralign"><%=data.getStudentStatus(student)%></td>
 	 						<td class="centeralign no-print">
 								<a class="color_black t_student_details<%=idx%>"
@@ -140,7 +140,7 @@
 									}
 								%>
 								<a class="color_black t_student_delete<%=idx%>" href="<%=data.getCourseStudentDeleteLink(student)%>"
-										onclick="return toggleDeleteStudentConfirmation('<%=escapeForJavaScript(student.name)%>')"
+										onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
 										onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_STUDENT_DELETE%>')"
 										onmouseout="hideddrivetip()">
 										Delete</a>

@@ -6,6 +6,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Constants;
+import teammates.common.util.Sanitizer;
 import teammates.logic.GateKeeper;
 
 public class StudentCourseJoinAction extends Action {
@@ -24,7 +25,7 @@ public class StudentCourseJoinAction extends Action {
 				| InvalidParametersException
 				| EntityAlreadyExistsException e) {
 			isError = true;
-			statusToUser.add(PageData.escapeForHTML(e.getMessage()));
+			statusToUser.add(Sanitizer.sanitizeForHtml(e.getMessage()));
 			statusToAdmin = Constants.ACTION_RESULT_FAILURE + " : " + e.getMessage();
 		}
 
