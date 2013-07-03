@@ -1,11 +1,7 @@
 package teammates.test.cases.ui;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -17,13 +13,8 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.Action;
-import teammates.ui.controller.ActionFactory;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
-
-import com.meterware.httpunit.PostMethodWebRequest;
-import com.meterware.httpunit.WebRequest;
-import com.meterware.servletunit.InvocationContext;
 
 /**
  * Parent class for *ActionTest classes.
@@ -31,25 +22,9 @@ import com.meterware.servletunit.InvocationContext;
 public class BaseActionTest extends BaseComponentTestCase {
 	
 	private DataBundle data = getTypicalDataBundle();
-
-	/** 
-	 * @param parameters Parameters that appear in a HttpServletRequest 
-	 * received by the app.
-	 * @return an {@link Action} object that matches the parameters given.
-	 */
-	protected Action getActionObject(String... parameters)
-			throws IOException,
-			MalformedURLException {
-		WebRequest request = new PostMethodWebRequest(
-				"http://localhost:8888" + URI);
-		for (int i = 0; i < parameters.length; i = i + 2) {
-			request.setParameter(parameters[i], parameters[i + 1]);
-		}
-
-		InvocationContext ic = sc.newInvocation(request);
-		HttpServletRequest req = ic.getRequest();
-		return ActionFactory.getAction(req);
-	}
+	
+	/**URI that matches with the action being tested */
+	protected static String uri;
 
 	protected ShowPageResult getShowPageResult(Action a)
 			throws EntityDoesNotExistException, InvalidParametersException {
@@ -130,7 +105,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	 */
 	protected void verifyAssumptionFailure(String... parameters) throws Exception {
 		try {
-			Action c = getActionObject(parameters);
+			Action c = gaeSimulation.getActionObject(uri, parameters);
 			c.executeAndPostProcess();
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
@@ -206,7 +181,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		
-		loginUser(unregUserId);
+		gaeSimulation.loginUser(unregUserId);
 		verifyCanAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
 		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
@@ -220,7 +195,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		
-		loginAsStudent(student1InCourse1.googleId);
+		gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 		verifyCanAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
 		
@@ -234,7 +209,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		StudentAttributes otherStudent = data.students.get("student1InCourse2");
 		
-		loginAsStudent(student1InCourse1.googleId);
+		gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 		verifyCanAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
 		verifyCannotMasquerade(addUserIdToParams(otherStudent.googleId,submissionParams));
@@ -249,7 +224,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		InstructorAttributes otherInstructor = data.instructors.get("instructor1OfCourse2");
 		
-		loginAsInstructor(instructor1OfCourse1.googleId);
+		gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
 		verifyCanAccess(submissionParams);
 		
 		verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
@@ -263,7 +238,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	
 		InstructorAttributes otherInstructor = data.instructors.get("instructor1OfCourse2");
 		
-		loginAsInstructor(otherInstructor.googleId);
+		gaeSimulation.loginAsInstructor(otherInstructor.googleId);
 		verifyCanAccess(submissionParams);
 	}
 
@@ -273,7 +248,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
 		
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 		//not checking for non-masquerade mode because admin may not be an instructor
 		verifyCanMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
 		
@@ -285,7 +260,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 		//not checking for non-masquerade mode because admin may not be a student
 		verifyCanMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
 		
@@ -298,7 +273,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		
-		logoutUser();
+		gaeSimulation.logoutUser();
 		verifyCannotAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
 		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
@@ -314,7 +289,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		
-		loginUser(unregUserId);
+		gaeSimulation.loginUser(unregUserId);
 		verifyCannotAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
 		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
@@ -328,7 +303,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		
-		loginAsStudent(student1InCourse1.googleId);
+		gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 		verifyCannotAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
 		
@@ -340,7 +315,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	
 		StudentAttributes studentInOtherCourse = data.students.get("student1InCourse2");
 		
-		loginAsStudent(studentInOtherCourse.googleId);
+		gaeSimulation.loginAsStudent(studentInOtherCourse.googleId);
 		verifyCannotAccess(submissionParams);
 	}
 
@@ -350,7 +325,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	
 		StudentAttributes differentStudentInSameCourse = data.students.get("student2InCourse1");
 		
-		loginAsStudent(differentStudentInSameCourse.googleId);
+		gaeSimulation.loginAsStudent(differentStudentInSameCourse.googleId);
 		verifyCannotAccess(submissionParams);
 	}
 
@@ -361,7 +336,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 		InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
 		StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
 		
-		loginAsInstructor(instructor1OfCourse1.googleId);
+		gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
 		verifyCannotAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
 		
@@ -373,7 +348,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	
 		InstructorAttributes otherInstructor = data.instructors.get("instructor1OfCourse2");
 		
-		loginAsInstructor(otherInstructor.googleId);
+		gaeSimulation.loginAsInstructor(otherInstructor.googleId);
 		verifyCannotAccess(submissionParams);
 	}
 	
@@ -389,7 +364,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	 * accessible to the logged in user. 
 	 */
 	protected void verifyCanAccess(String... params) throws Exception {
-		Action c = getActionObject(params);
+		Action c = gaeSimulation.getActionObject(uri, params);
 		c.executeAndPostProcess();
 	}
 
@@ -398,7 +373,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	 * accessible to the logged in user masquerading as another user. 
 	 */
 	protected void verifyCanMasquerade(String... params) throws Exception {
-		Action c = getActionObject(params);
+		Action c = gaeSimulation.getActionObject(uri, params);
 		c.executeAndPostProcess();
 	}
 
@@ -408,7 +383,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	 */
 	protected void verifyCannotAccess(String... params) throws Exception {
 		try {
-			Action c = getActionObject(params);
+			Action c = gaeSimulation.getActionObject(uri, params);
 			c.executeAndPostProcess();
 			signalFailureToDetectException();
 		} catch (UnauthorizedAccessException e) {
@@ -422,7 +397,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	 */
 	protected void verifyCannotMasquerade(String... params) throws Exception {
 		try {
-			Action c = getActionObject(params);
+			Action c = gaeSimulation.getActionObject(uri, params);
 			c.executeAndPostProcess();
 			signalFailureToDetectException();
 		} catch (UnauthorizedAccessException e) {
@@ -437,7 +412,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	 * matches "/page/studentHome?user=abc". 
 	 */
 	protected void verifyRedirectTo(String expectedRedirectUrl,	String... params) throws Exception {
-		Action c = getActionObject(params);
+		Action c = gaeSimulation.getActionObject(uri, params);
 		RedirectResult r = (RedirectResult) c.executeAndPostProcess();
 		assertContains(expectedRedirectUrl, r.destination);
 	}

@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Config;
-import teammates.ui.controller.ControllerServlet;
 
 public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
@@ -15,8 +14,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE;
 	}
 
 	@BeforeMethod

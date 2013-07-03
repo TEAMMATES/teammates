@@ -17,7 +17,6 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.EvaluationsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.common.EvaluationAttributesTest;
-import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentHomePageAction;
 import teammates.ui.controller.StudentHomePageData;
@@ -29,8 +28,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_STUDENT_HOME;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_STUDENT_HOME;
 	}
 
 	@BeforeMethod
@@ -59,7 +57,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		
 		______TS("unregistered student");
 		
-		loginUser(unregUserId);
+		gaeSimulation.loginUser(unregUserId);
 		StudentHomePageAction a = getAction(submissionParams);
 		ShowPageResult r = getShowPageResult(a);
 		assertContainsRegex("/jsp/studentHome.jsp?message=Welcome+stranger{*}&error=false&user=unreg.user", r.getDestinationWithParams());
@@ -92,7 +90,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		accountsDb.createAccount(studentWithoutCourses);
 		assertNotNull(accountsDb.getAccount(studentWithoutCourses.googleId));
 		
-		loginUser(studentWithoutCourses.googleId);
+		gaeSimulation.loginUser(studentWithoutCourses.googleId);
 		a = getAction(submissionParams);
 		r = getShowPageResult(a);
 		assertContainsRegex("/jsp/studentHome.jsp?message=Welcome+stranger{*}&error=false&user="+studentWithoutCourses.googleId, r.getDestinationWithParams());
@@ -111,7 +109,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		
 		______TS("typical user, masquerade mode");
 		
-		loginAsAdmin(adminUserId);
+		gaeSimulation.loginAsAdmin(adminUserId);
 		studentId = dataBundle.students.get("student2InCourse2").googleId;
 		
 		//create a CLOSED evaluation
@@ -163,7 +161,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
 	}
 
 	private StudentHomePageAction getAction(String... params) throws Exception{
-			return (StudentHomePageAction) (super.getActionObject(params));
+			return (StudentHomePageAction) (gaeSimulation.getActionObject(uri, params));
 	}
 	
 }

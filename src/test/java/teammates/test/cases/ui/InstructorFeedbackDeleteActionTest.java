@@ -8,7 +8,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Config;
 import teammates.logic.FeedbackSessionsLogic;
-import teammates.ui.controller.ControllerServlet;
 
 public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
 
@@ -17,8 +16,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_FEEDBACK_DELETE;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_FEEDBACK_DELETE;
 	}
 
 	@BeforeMethod

@@ -8,7 +8,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.util.Config;
 import teammates.storage.api.EvaluationsDb;
-import teammates.ui.controller.ControllerServlet;
 
 public class InstructorEvalDeleteActionTest extends BaseActionTest {
 
@@ -18,8 +17,7 @@ public class InstructorEvalDeleteActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_EVAL_DELETE;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_EVAL_DELETE;
 	}
 
 	@BeforeMethod

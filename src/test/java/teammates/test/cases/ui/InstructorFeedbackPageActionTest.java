@@ -12,7 +12,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.logic.CoursesLogic;
 import teammates.logic.FeedbackSessionsLogic;
-import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.InstructorFeedbackPageAction;
 import teammates.ui.controller.InstructorFeedbackPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -31,8 +30,7 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = "/page/instructorFeedback";
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_FEEDBACK;
 	}
 
 	@BeforeMethod
@@ -60,25 +58,25 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		
 		String[] submissionParams = new String[]{};
 		
-		logoutUser();
+		gaeSimulation.logoutUser();
 		verifyCannotAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
 		
-		loginUser(unregUserId);
+		gaeSimulation.loginUser(unregUserId);
 		verifyCannotAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
 		
-		loginAsStudent(studentId);
+		gaeSimulation.loginAsStudent(studentId);
 		verifyCannotAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
 		
-		loginAsInstructor(instructorId);
+		gaeSimulation.loginAsInstructor(instructorId);
 		verifyCanAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(otherInstructorId,submissionParams));
 		submissionParams = new String[]{Config.PARAM_COURSE_ID, "idOfTypicalCourse2"};
 		verifyCannotAccess(submissionParams); //trying to create evaluation for someone else's course
 		
-		loginAsAdmin(adminUserId);
+		gaeSimulation.loginAsAdmin(adminUserId);
 		//not checking for non-masquerade mode because admin may not be an instructor
 		submissionParams = new String[]{Config.PARAM_COURSE_ID, "idOfTypicalCourse1"};
 		verifyCanMasquerade(addUserIdToParams(instructorId,submissionParams));
@@ -95,7 +93,7 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		______TS("Typical case, 2 courses");
 		
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course");
-		loginAsInstructor(instructorId);
+		gaeSimulation.loginAsInstructor(instructorId);
 		InstructorFeedbackPageAction a = getAction(submissionParams);
 		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
 		
@@ -120,7 +118,7 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		
 		FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
 		
-		loginAsAdmin(adminUserId);
+		gaeSimulation.loginAsAdmin(adminUserId);
 		submissionParams = new String[]{Config.PARAM_COURSE_ID, instructor1ofCourse1.courseId};
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		r = (ShowPageResult) a.executeAndPostProcess();
@@ -177,7 +175,7 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 	
 	
 	private InstructorFeedbackPageAction getAction(String... params) throws Exception{
-			return (InstructorFeedbackPageAction) (super.getActionObject(params));
+			return (InstructorFeedbackPageAction) (gaeSimulation.getActionObject(uri, params));
 	}
 
 }

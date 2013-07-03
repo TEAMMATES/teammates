@@ -140,6 +140,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 
 	private void verifyAccountCreated(AccountAttributes expected) {
 		AccountAttributes actual = BackDoor.getAccountWithRetry(expected.googleId);
+		assertNotNull(actual);
 		expected.createdAt = actual.createdAt;
 		assertEquals(expected.toString(), actual.toString());
 	}

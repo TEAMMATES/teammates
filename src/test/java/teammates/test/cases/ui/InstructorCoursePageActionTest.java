@@ -10,7 +10,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Config;
 import teammates.logic.CoursesLogic;
-import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.InstructorCoursePageAction;
 import teammates.ui.controller.InstructorCoursePageData;
 import teammates.ui.controller.ShowPageResult;
@@ -22,8 +21,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_COURSE;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_COURSE;
 	}
 
 	@BeforeMethod
@@ -53,7 +51,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		______TS("Typical case, 2 courses");
 		
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course");
-		loginAsInstructor(instructorId);
+		gaeSimulation.loginAsInstructor(instructorId);
 		InstructorCoursePageAction a = getAction(submissionParams);
 		ShowPageResult r = getShowPageResult(a);
 		
@@ -78,7 +76,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		
 		CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
 		CoursesLogic.inst().deleteCourseCascade("new-course");
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		r = getShowPageResult(a);
 		
@@ -104,7 +102,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 	
 	
 	private InstructorCoursePageAction getAction(String... params) throws Exception{
-			return (InstructorCoursePageAction) (super.getActionObject(params));
+			return (InstructorCoursePageAction) (gaeSimulation.getActionObject(uri, params));
 	}
 	
 }

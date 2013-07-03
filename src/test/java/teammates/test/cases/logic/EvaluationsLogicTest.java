@@ -49,13 +49,13 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		resetDatastore();
+		gaeSimulation.resetDatastore();
 	}
 	
 	@Test
 	public void testGetReadyEvaluations() throws Exception {
 
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 
 		______TS("no evaluations activated");
 		// ensure there are no existing evaluations ready for activation
@@ -140,7 +140,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	
 	@Test
 	public void testAddSubmissionsForIncomingMember() throws Exception {
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 
 		______TS("typical case");
 
@@ -193,7 +193,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 		
 		Logic logic = new Logic();
 
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
 

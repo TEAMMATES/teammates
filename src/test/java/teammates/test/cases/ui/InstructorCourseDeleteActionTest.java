@@ -10,7 +10,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Config;
 import teammates.logic.CoursesLogic;
-import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.InstructorCourseDeleteAction;
 import teammates.ui.controller.InstructorCoursePageAction;
 import teammates.ui.controller.InstructorCoursePageData;
@@ -25,8 +24,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_COURSE_DELETE;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_COURSE_DELETE;
 	}
 
 	@BeforeMethod
@@ -79,7 +77,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		______TS("Typical case, 2 courses");
 		
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course");
-		loginAsInstructor(instructorId);
+		gaeSimulation.loginAsInstructor(instructorId);
 		InstructorCoursePageAction a = getAction(submissionParams);
 		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
 		
@@ -104,7 +102,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		
 		______TS("Masquerade mode, delete last courses");
 		
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 		submissionParams = new String[]{
 				Config.PARAM_COURSE_ID, "icdct.tpa.id1"
 		};
@@ -151,7 +149,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 	
 	
 	private InstructorCourseDeleteAction getAction(String... params) throws Exception{
-			return (InstructorCourseDeleteAction) (super.getActionObject(params));
+			return (InstructorCourseDeleteAction) (gaeSimulation.getActionObject(uri, params));
 	}
 	
 

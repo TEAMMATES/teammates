@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.ui.controller.ControllerServlet;
+import teammates.common.util.Config;
 
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
@@ -15,8 +15,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = "/admin/adminInstructorAccountAdd";
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_ADMIN_INSTRUCTORACCOUNT_ADD;
 	}
 
 	@BeforeMethod

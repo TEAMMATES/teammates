@@ -8,7 +8,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
-import teammates.ui.controller.ControllerServlet;
 
 public class InstructorCourseStudentDetailsEditPageActionTest extends BaseActionTest {
 
@@ -18,8 +17,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
 	}
 
 	@BeforeMethod

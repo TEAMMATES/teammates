@@ -12,7 +12,6 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.util.Config;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
-import teammates.ui.controller.ControllerServlet;
 
 public class InstructorEvalUnpublishActionTest extends BaseActionTest {
 
@@ -22,8 +21,7 @@ public class InstructorEvalUnpublishActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
 	}
 
 	@BeforeMethod

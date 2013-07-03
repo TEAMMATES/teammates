@@ -21,7 +21,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
@@ -31,8 +30,6 @@ import teammates.logic.CoursesLogic;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
-
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class BaseTestCase {
 
@@ -52,8 +49,6 @@ public class BaseTestCase {
 					+ TeammatesException.toStringWithStackTrace(e));
 		}
 	}
-
-	protected static LocalServiceTestHelper helper;
 
 	protected static long start;
 
@@ -240,11 +235,6 @@ public class BaseTestCase {
 		setGeneralLoggingLevel(Level.SEVERE);
 
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		// memorize the logged in user
-		UserType loggedInUser = backDoorLogic.getCurrentUser();
-
-		// switch to admin (writing operations require admin access)
-		loginAsAdmin("admin.user");
 
 		// also reduce logging verbosity of these classes as we are going to
 		// use them intensively here.
@@ -274,15 +264,6 @@ public class BaseTestCase {
 		setGeneralLoggingLevel(Level.WARNING);
 		setLogLevelOfClass(Logic.class, Level.FINE);
 
-		// restore the logged in user
-		logoutUser();
-		if (loggedInUser != null) {
-			helper.setEnvIsLoggedIn(true);
-			helper.setEnvEmail(loggedInUser.id);
-			helper.setEnvAuthDomain("gmail.com");
-			helper.setEnvIsAdmin(loggedInUser.isAdmin);
-		}
-
 	}
 
 
@@ -293,45 +274,7 @@ public class BaseTestCase {
 		return json == null || json.equals("null");
 	}
 
-	/**Logs in the user to the local test environment 
-	 */
-	protected void loginUser(String userId) {
-		helper.setEnvIsLoggedIn(true);
-		helper.setEnvEmail(userId);
-		helper.setEnvAuthDomain("gmail.com");
-		helper.setEnvIsAdmin(false);
-	}
-
-	/**Logs user out of the local test environment 
-	 */
-	protected void logoutUser() {
-		helper.setEnvIsLoggedIn(false);
-		helper.setEnvIsAdmin(false);
-	}
-
-	protected void loginAsAdmin(String userId) {
-		loginUser(userId);
-		helper.setEnvIsAdmin(true);
-	}
-
-	/**Logs in the user to the local test environment as an admin 
-	 */
-	protected void loginAsInstructor(String userId) {
-		loginUser(userId);
-		Logic logic = new Logic();
-		assertEquals(true, logic.getCurrentUser().isInstructor);
-		assertEquals(false, logic.getCurrentUser().isAdmin);
-	}
-
-	/**Logs in the user to the local test environment as a student 
-	 */
-	protected void loginAsStudent(String userId) {
-		loginUser(userId);
-		Logic logic = new Logic();
-		assertEquals(true, logic.getCurrentUser().isStudent);
-		assertEquals(false, logic.getCurrentUser().isInstructor);
-		assertEquals(false, logic.getCurrentUser().isAdmin);
-	}
+	
 
 	protected void signalFailureToDetectException(String... messages) {
 		throw new RuntimeException("Expected exception not detected."+ Arrays.toString(messages));

@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Config;
-import teammates.ui.controller.ControllerServlet;
 
 public class InstructorEvalAddActionTest extends BaseActionTest {
 
@@ -17,8 +16,7 @@ public class InstructorEvalAddActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_EVAL_ADD;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_EVAL_ADD;
 	}
 
 	@BeforeMethod

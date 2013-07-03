@@ -13,7 +13,6 @@ import teammates.common.util.Config;
 import teammates.common.util.TimeHelper;
 import teammates.logic.EvaluationsLogic;
 import teammates.test.cases.common.EvaluationAttributesTest;
-import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.InstructorHomePageAction;
 import teammates.ui.controller.InstructorHomePageData;
 import teammates.ui.controller.ShowPageResult;
@@ -25,8 +24,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_HOME;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_HOME;
 	}
 
 	@BeforeMethod
@@ -50,7 +48,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		
 		______TS("insctructor with no courses");
 		
-		loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
+		gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
 		InstructorHomePageAction a = getAction(submissionParams);
 		ShowPageResult r = getShowPageResult(a);
 		assertContainsRegex("/jsp/instructorHome.jsp?error=false&user=instructorWithoutCourses", r.getDestinationWithParams());
@@ -67,7 +65,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		
 		______TS("instructor with multiple courses, masquerade mode");
 		
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 		
 		//create a CLOSED evaluation
 		EvaluationAttributes eval = EvaluationAttributesTest.generateValidEvaluationAttributesObject();
@@ -111,7 +109,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 	}
 
 	private InstructorHomePageAction getAction(String... params) throws Exception{
-			return (InstructorHomePageAction) (super.getActionObject(params));
+			return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
 	}
 	
 }

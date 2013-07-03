@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Config;
-import teammates.ui.controller.ControllerServlet;
 
 public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
@@ -16,8 +15,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_STUDENT_COURSE_DETAILS;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_STUDENT_COURSE_DETAILS;
 	}
 
 	@BeforeMethod

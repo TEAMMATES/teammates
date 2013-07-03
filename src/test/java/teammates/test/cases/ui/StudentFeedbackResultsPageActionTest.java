@@ -11,7 +11,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.logic.FeedbackSessionsLogic;
 import teammates.storage.api.EvaluationsDb;
-import teammates.ui.controller.ControllerServlet;
 
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
@@ -21,8 +20,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_STUDENT_FEEDBACK_RESULTS;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_STUDENT_FEEDBACK_RESULTS;
 	}
 
 	@BeforeMethod
@@ -51,14 +49,14 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		
 		//if the user is not a student of the course, we redirect to home page.
-		loginUser("unreg.user");
+		gaeSimulation.loginUser("unreg.user");
 		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
 		
 		//if the user is not a student of the course, we redirect to home page.
-		loginAsInstructor(instructorId);
+		gaeSimulation.loginAsInstructor(instructorId);
 		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		

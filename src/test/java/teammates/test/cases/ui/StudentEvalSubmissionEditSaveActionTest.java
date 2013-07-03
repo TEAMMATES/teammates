@@ -14,7 +14,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Config;
 import teammates.storage.api.EvaluationsDb;
-import teammates.ui.controller.ControllerServlet;
 
 public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 
@@ -30,8 +29,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_STUDENT_EVAL_SUBMISSION_EDIT_HANDLER;
 	}
 
 	@BeforeMethod

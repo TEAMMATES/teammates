@@ -22,8 +22,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_COURSE_ADD;
-		sr.registerServlet(URI, InstructorCourseAddAction.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_COURSE_ADD;
 	}
 
 	@BeforeMethod
@@ -54,7 +53,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		
 		______TS("Not enough parameters");
 		
-		loginAsInstructor(instructorId);
+		gaeSimulation.loginAsInstructor(instructorId);
 		
 		verifyAssumptionFailure();
 		verifyAssumptionFailure(
@@ -121,7 +120,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		
 		CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
 		CoursesLogic.inst().deleteCourseCascade("ticac.tpa1.id");
-		loginAsAdmin(adminUserId);
+		gaeSimulation.loginAsAdmin(adminUserId);
 		a = getAction(
 				Config.PARAM_USER_ID, instructorId,
 				Config.PARAM_COURSE_ID, "ticac.tpa2.id",
@@ -150,7 +149,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 	}
 	
 	private InstructorCourseAddAction getAction(String... parameters) throws Exception {
-		return (InstructorCourseAddAction)getActionObject(parameters);
+		return (InstructorCourseAddAction)gaeSimulation.getActionObject(uri, parameters);
 	}
 
 }

@@ -144,7 +144,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
 		restoreTypicalDataInDatastore();
 		dataBundle = getTypicalDataBundle();
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 
 		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 		LogicTest.verifyPresentInDatastore(student1InCourse1);

@@ -14,7 +14,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
-import teammates.ui.controller.ControllerServlet;
 
 public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 
@@ -24,8 +23,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_STUDENT_EVAL_SUBMISSION_EDIT;
 	}
 
 	@BeforeMethod
@@ -96,7 +94,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		
-		loginUser("unreg.user");
+		gaeSimulation.loginUser("unreg.user");
 		//if the user is not a student of the course, we redirect to home page.
 		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
@@ -108,7 +106,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		}
 		
 		
-		loginAsInstructor(instructorId);
+		gaeSimulation.loginAsInstructor(instructorId);
 		//if the user is not a student of the course, we redirect to home page.
 		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));

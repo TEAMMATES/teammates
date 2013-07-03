@@ -3,52 +3,25 @@ package teammates.test.cases;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import teammates.storage.datastore.Datastore;
+import teammates.test.driver.GaeSimulation;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
-import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
-import com.meterware.servletunit.ServletRunner;
-import com.meterware.servletunit.ServletUnitClient;
-
+/** Base class for Component tests.
+ * Automatically sets up the GAE Simulation @BeforeTest and tears it down @AfterTest
+ */
 public class BaseComponentTestCase extends BaseTestCase {
 
-	protected static String URI;
-	protected static ServletRunner sr;
-	protected static ServletUnitClient sc;
-	
+	protected static GaeSimulation gaeSimulation;
 	
 	@BeforeTest
-	public void suiteSetUp() throws Exception {
-		setupGaeSimulation();
+	public void testSetUp() throws Exception {
+		gaeSimulation = GaeSimulation.inst();
+		gaeSimulation.setup();
 	}
 
-	protected static synchronized void setupGaeSimulation() {
-		System.out.println("Setting up GAE simulation");
-		LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
-		LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
-		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-		LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
-		helper = new LocalServiceTestHelper(localDatastore, localMail,	localUserServices, localTasks);
-		helper.setUp();
-		Datastore.initialize();
-		sr = new ServletRunner();
-		sc = sr.newClient();
-	}
-
+	
 	@AfterTest
-	public void suiteTearDown() throws Exception {
-		try {
-			helper.tearDown();
-		} catch (Exception e) {
-			System.out.println("LocalServiceTestHelper already torndown");
-		}
+	public void testTearDown() throws Exception {
+		gaeSimulation.tearDown();
 	}
 	
-	public static void resetDatastore(){
-		helper.tearDown();
-		helper.setUp();
-	}
 }

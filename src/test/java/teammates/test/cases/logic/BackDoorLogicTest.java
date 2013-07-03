@@ -40,14 +40,14 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
 	@BeforeMethod
 	public void caseSetUp() throws ServletException {
 		dataBundle = getTypicalDataBundle();
-		resetDatastore();
+		gaeSimulation.resetDatastore();
 	}
 
 	@Test
 	public void testPersistDataBundle() throws Exception {
 
 		BackDoorLogic logic = new BackDoorLogic();
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 		
 		DataBundle dataBundle = getTypicalDataBundle();
 		// clean up the datastore first, to avoid clashes with existing data

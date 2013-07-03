@@ -12,7 +12,6 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Config;
 import teammates.logic.FeedbackQuestionsLogic;
-import teammates.ui.controller.ControllerServlet;
 
 public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
@@ -21,8 +20,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
 	}
 
 	@BeforeMethod

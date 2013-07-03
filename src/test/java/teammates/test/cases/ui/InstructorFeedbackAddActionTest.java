@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Config;
-import teammates.ui.controller.ControllerServlet;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -21,8 +20,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_FEEDBACK_ADD;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_FEEDBACK_ADD;
 	}
 
 	@BeforeMethod
@@ -53,7 +51,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		
 		______TS("Not enough parameters");
 		
-		loginAsInstructor(instructor1ofCourse1.googleId);
+		gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 		verifyAssumptionFailure();
 		//verifyAssumptionFailure(Common.PARAM_COURSE_ID, instructor1ofCourse1.courseId);
 		
@@ -101,7 +99,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		
 		______TS("Masquerade mode");
 		
-		loginAsAdmin("admin.user");
+		gaeSimulation.loginAsAdmin("admin.user");
 
 		params = createParamsForTypicalFeedbackSession(
 						instructor1ofCourse1.courseId, "masquerade session");
@@ -135,6 +133,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 	}
 	
 	private InstructorFeedbackAddAction getAction (String... params) throws Exception {
-		return (InstructorFeedbackAddAction) getActionObject(params);
+		return (InstructorFeedbackAddAction) gaeSimulation.getActionObject(uri, params);
 	}
 }

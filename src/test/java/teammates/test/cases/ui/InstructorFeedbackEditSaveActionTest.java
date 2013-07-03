@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Config;
-import teammates.ui.controller.ControllerServlet;
 
 public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
@@ -16,8 +15,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		URI = Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT_SAVE;
-		sr.registerServlet(URI, ControllerServlet.class.getName());
+		uri = Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT_SAVE;
 	}
 
 	@BeforeMethod
