@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Constants;
+import teammates.common.util.Config;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -34,7 +34,7 @@ public class SubmissionAttributes extends EntityAttributes {
 	public Text p2pFeedback;
 	
 	@SuppressWarnings("unused")
-	private static Logger log = Constants.getLogger();
+	private static Logger log = Config.getLogger();
 	
 	public SubmissionDetailsBundle details = new SubmissionDetailsBundle();
 

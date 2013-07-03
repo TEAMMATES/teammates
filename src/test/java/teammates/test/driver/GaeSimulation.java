@@ -120,7 +120,9 @@ public class GaeSimulation {
 	}
 
 	public void tearDown() {
-		helper.tearDown();
+		if(helper != null ) {
+			helper.tearDown();
+		}
 	}
 
 

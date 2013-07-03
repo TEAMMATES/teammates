@@ -12,12 +12,13 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponsesDb extends EntitiesDb {
 
-	private static final Logger log = Constants.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	/**
 	 * Preconditions: <br>

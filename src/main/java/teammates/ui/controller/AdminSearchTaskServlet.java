@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -20,7 +21,7 @@ import com.google.appengine.api.search.SearchServiceFactory;
 
 public class AdminSearchTaskServlet extends HttpServlet {
 	
-	protected static final Logger log = Constants.getLogger();
+	protected static final Logger log = Config.getLogger();
 
 	private static final long serialVersionUID = 1L;
 

@@ -23,11 +23,14 @@ public class FileHelper {
 	 * Reads the contents of an {@link InputStream} as a String.
 	 */
 	public static String readStream(InputStream stream) {
-		return BuildProperties.inst().readStream(stream);
+		Scanner scanner = new Scanner(stream);
+		String content = scanner.useDelimiter("\\Z").next();
+		scanner.close();
+		return content;
 	}
 
 	public static String readResourseFile(String file) {
-		return readStream(BuildProperties.class.getClassLoader()
+		return readStream(Config.class.getClassLoader()
 				.getResourceAsStream(file));
 	}
 

@@ -7,7 +7,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
-import teammates.common.util.Constants;
+import teammates.common.util.Config;
 
 //TODO: we might not really need this class. To be reconsidered.
 /**
@@ -17,7 +17,7 @@ import teammates.common.util.Constants;
  */
 public class Datastore {
 	private static PersistenceManagerFactory PMF = null;
-	private static Logger log = Constants.getLogger();
+	private static Logger log = Config.getLogger();
 	private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
 
 	public static void initialize() {

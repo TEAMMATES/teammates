@@ -33,7 +33,7 @@ public class StringHelper {
 	public static String encrypt(String value) {
 		try {
 			SecretKeySpec sks = new SecretKeySpec(
-					hexStringToByteArray(BuildProperties.inst().getEncyptionKey()), "AES");
+					hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
 			Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
 			byte[] encrypted = cipher.doFinal(value.getBytes());
@@ -46,7 +46,7 @@ public class StringHelper {
 	public static String decrypt(String message) {
 		try {
 			SecretKeySpec sks = new SecretKeySpec(
-					hexStringToByteArray(BuildProperties.inst().getEncyptionKey()), "AES");
+					hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
 			Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.DECRYPT_MODE, sks);
 			byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));

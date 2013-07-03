@@ -6,12 +6,13 @@ import java.util.logging.Logger;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 	
-	protected static Logger log = Constants.getLogger();
+	protected static Logger log = Config.getLogger();
 	
 
 	public String idOfCourseToDelete;

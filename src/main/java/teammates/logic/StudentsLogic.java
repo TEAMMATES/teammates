@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
@@ -35,7 +36,7 @@ public class StudentsLogic {
 	private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 	
-	private static Logger log = Constants.getLogger();
+	private static Logger log = Config.getLogger();
 	
 	public static StudentsLogic inst() {
 		if (instance == null)

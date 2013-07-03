@@ -3,11 +3,12 @@ package teammates.ui.controller;
 import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseEnrollPageAction extends Action {
-	protected static final Logger log = Constants.getLogger();
+	protected static final Logger log = Config.getLogger();
 	
 	
 	@Override

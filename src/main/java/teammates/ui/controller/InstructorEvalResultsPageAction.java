@@ -5,11 +5,12 @@ import java.util.logging.Logger;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalResultsPageAction extends Action {
-	Logger log = Constants.getLogger();
+	Logger log = Config.getLogger();
 
 	@Override
 	protected ActionResult execute() 

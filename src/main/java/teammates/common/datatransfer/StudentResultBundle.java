@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Logger;
 
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 
@@ -28,7 +29,7 @@ public class StudentResultBundle {
 	public StudentResultSummary summary;
 
 	@SuppressWarnings("unused")
-	private static final Logger log = Constants.getLogger();
+	private static final Logger log = Config.getLogger();
 	
 	public StudentResultBundle(StudentAttributes student){
 		this.student = student;

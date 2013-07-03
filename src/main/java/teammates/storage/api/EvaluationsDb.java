@@ -12,6 +12,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Evaluation;
@@ -24,7 +25,7 @@ public class EvaluationsDb extends EntitiesDb {
 
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Evaluation: ";
 	
-	private static final Logger log = Constants.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	/**
 	 * Preconditions: <br>
@@ -132,12 +133,12 @@ public class EvaluationsDb extends EntitiesDb {
 		int elapsedTime = 0;
 		Evaluation evaluationCheck = getEvaluationEntity(courseId, name);
 		while ((evaluationCheck != null)
-				&& (elapsedTime < Constants.PERSISTENCE_CHECK_DURATION)) {
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
 			ThreadHelper.waitBriefly();
 			evaluationCheck = getEvaluationEntity(courseId, name);
 			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Constants.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteEvaluation->"
 					+ courseId + "/" + name);
 		}

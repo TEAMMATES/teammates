@@ -13,6 +13,7 @@ import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Instructor;
@@ -26,7 +27,7 @@ public class InstructorsDb extends EntitiesDb{
 	
 	public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 	
-	private static final Logger log = Constants.getLogger();
+	private static final Logger log = Config.getLogger();
 		
 	/**
 	 * Preconditions: <br>
@@ -180,12 +181,12 @@ public class InstructorsDb extends EntitiesDb{
 		int elapsedTime = 0;
 		Instructor instructorCheck = getInstructorEntityForGoogleId(courseId, googleId);
 		while ((instructorCheck != null)
-				&& (elapsedTime < Constants.PERSISTENCE_CHECK_DURATION)) {
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
 			ThreadHelper.waitBriefly();
 			instructorCheck = getInstructorEntityForGoogleId(courseId, googleId);
 			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Constants.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteInstructor->"
 					+ googleId);
 		}

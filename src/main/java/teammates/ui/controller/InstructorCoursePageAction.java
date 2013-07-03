@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
@@ -12,7 +13,7 @@ import teammates.logic.GateKeeper;
  * Action: loading of the 'Courses' page for an instructor.
  */
 public class InstructorCoursePageAction extends Action {
-	protected static final Logger log = Constants.getLogger();
+	protected static final Logger log = Config.getLogger();
 	
 	
 	@Override

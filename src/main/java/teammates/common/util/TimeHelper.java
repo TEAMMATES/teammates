@@ -128,7 +128,7 @@ public class TimeHelper {
 	 * @param dateInStringFormat should be in the format {@link Constants.DEFAULT_DATE_TIME_FORMAT}
 	 */
 	public static Date convertToDate(String dateInStringFormat) throws ParseException {
-		DateFormat df = new SimpleDateFormat(Constants.DEFAULT_DATE_TIME_FORMAT);
+		DateFormat df = new SimpleDateFormat(Config.DEFAULT_DATE_TIME_FORMAT);
 		return df.parse(dateInStringFormat);
 	}
 

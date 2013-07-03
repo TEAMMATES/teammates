@@ -6,7 +6,7 @@ import java.util.List;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.BuildProperties;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
@@ -55,7 +55,7 @@ public class AdminActivityLogPageAction extends Action {
 	private LogQuery buildQuery(String offset, boolean includeAppLogs) {
 		LogQuery query = LogQuery.Builder.withDefaults();
 		
-		String currentVersion = BuildProperties.getAppVersion().replace(".", "-");
+		String currentVersion = Config.inst().getAppVersion().replace(".", "-");
 		String[] tokens = currentVersion.split("-");
 		List<String> appVersions = new ArrayList<String>();
 		appVersions.add(currentVersion);

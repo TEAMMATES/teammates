@@ -13,6 +13,7 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
@@ -24,7 +25,7 @@ import teammates.logic.api.Logic;
  * perform that action.
  */
 public abstract class Action {
-	protected static Logger log = Constants.getLogger();
+	protected static Logger log = Config.getLogger();
 	
 	protected Logic logic;
 	

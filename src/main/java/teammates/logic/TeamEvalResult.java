@@ -3,6 +3,7 @@ package teammates.logic;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 
@@ -17,7 +18,7 @@ public class TeamEvalResult {
 	public static int NSU = Constants.POINTS_NOT_SURE;
 	/** did Not SuBmit */
 	public static int NSB = Constants.POINTS_NOT_SUBMITTED;
-	private static Logger log = Constants.getLogger();
+	private static Logger log = Config.getLogger();
 
 	/** submission values originally from students of the team */
 	public int[][] claimed;

@@ -19,6 +19,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
@@ -29,7 +30,7 @@ import com.google.gson.Gson;
 
 public class BackDoorTest extends BaseTestCase {
 
-	private static Gson gson = Constants.getTeammatesGson();
+	private static Gson gson = Config.getTeammatesGson();
 	private static DataBundle dataBundle = getTypicalDataBundle();
 	private static String jsonString = gson.toJson(dataBundle);
 
@@ -548,7 +549,7 @@ public class BackDoorTest extends BaseTestCase {
 
 	
 	private void verifyPresentInDatastore(String dataBundleJsonString) {
-		Gson gson = Constants.getTeammatesGson();
+		Gson gson = Config.getTeammatesGson();
 
 		DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
 		HashMap<String, AccountAttributes> accounts = data.accounts;

@@ -86,7 +86,7 @@ public class Url {
 	 */
 	public static String convertForURL(String str){
 		try {
-			return URLEncoder.encode(str, Constants.ENCODING);
+			return URLEncoder.encode(str, Config.ENCODING);
 		} catch (UnsupportedEncodingException e){
 			return str;
 		}

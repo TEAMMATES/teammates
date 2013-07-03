@@ -52,6 +52,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -83,7 +84,7 @@ public class LogicTest extends BaseComponentTestCase {
 	private static final StudentsDb studentsDb = new StudentsDb();
 	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 
-	private static Gson gson = Constants.getTeammatesGson();
+	private static Gson gson = Config.getTeammatesGson();
 
 	private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -752,7 +753,7 @@ public class LogicTest extends BaseComponentTestCase {
 		String course1EvalDetails = "";
 		for (EvaluationDetailsBundle ed : course1Evals) {
 			course1EvalDetails = course1EvalDetails
-					+ Constants.getTeammatesGson().toJson(ed) + Constants.EOL;
+					+ Config.getTeammatesGson().toJson(ed) + Constants.EOL;
 		}
 		int numberOfEvalsInCourse1 = course1Evals.size();
 		assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
@@ -2830,9 +2831,9 @@ public class LogicTest extends BaseComponentTestCase {
 	public static void verifyEnrollmentResultForStudent(StudentAttributes expectedStudent,
 			StudentAttributes enrollmentResult, StudentAttributes.UpdateStatus status) {
 		String errorMessage = "mismatch! \n expected:\n"
-				+ Constants.getTeammatesGson().toJson(expectedStudent)
+				+ Config.getTeammatesGson().toJson(expectedStudent)
 				+ "\n actual \n"
-				+ Constants.getTeammatesGson().toJson(enrollmentResult);
+				+ Config.getTeammatesGson().toJson(enrollmentResult);
 		assertEquals(errorMessage, true,
 				enrollmentResult.isEnrollInfoSameAs(expectedStudent) &&
 				enrollmentResult.updateStatus == status);

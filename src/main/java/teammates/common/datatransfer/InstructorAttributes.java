@@ -5,7 +5,7 @@ import java.util.List;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Constants;
+import teammates.common.util.Config;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
@@ -87,7 +87,7 @@ public class InstructorAttributes extends EntityAttributes {
 	}
 	
 	public String toString(){
-		return Constants.getTeammatesGson().toJson(this,InstructorAttributes.class);
+		return Config.getTeammatesGson().toJson(this,InstructorAttributes.class);
 	}
 
 	@Override

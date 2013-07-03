@@ -22,7 +22,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.BuildProperties;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -33,7 +33,7 @@ import teammates.common.util.Url;
  */
 public class Emails {
 	//TODO: methods in this class throw too many exceptions. Reduce using a wrapper exception?
-	private static Logger log = Constants.getLogger();
+	private static Logger log = Config.getLogger();
 
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING = "TEAMMATES: Peer evaluation now open";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER = "TEAMMATES: Peer evaluation reminder";
@@ -51,7 +51,7 @@ public class Emails {
 	private String replyTo;
 
 	public Emails() {
-		senderEmail = "noreply@" + Constants.APP_ID + ".appspotmail.com";
+		senderEmail = "noreply@" + Config.inst().getAppId() + ".appspotmail.com";
 		senderName = "TEAMMATES Admin (noreply)";
 		replyTo = "teammates@comp.nus.edu.sg";
 	}
@@ -75,7 +75,7 @@ public class Emails {
 			List<StudentAttributes> students)
 					throws MessagingException, IOException {
 
-		String template = Constants.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
 				evaluation, students, template);
 		for (MimeMessage email : emails) {
@@ -94,7 +94,7 @@ public class Emails {
 			List<StudentAttributes> students) 
 					throws MessagingException, IOException {
 
-		String template = Constants.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
 				evaluation, students, template);
 		for (MimeMessage email : emails) {
@@ -116,7 +116,7 @@ public class Emails {
 			List<StudentAttributes> students)
 					throws MessagingException, IOException {
 
-		String template = Constants.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
 				template);
 		for (MimeMessage email : emails) {
@@ -136,7 +136,7 @@ public class Emails {
 			List<StudentAttributes> students)
 					throws MessagingException, IOException {
 
-		String template = Constants.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
+		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_PUBLISHED;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
 				template);
 		for (MimeMessage email : emails) {
@@ -190,7 +190,7 @@ public class Emails {
 		emailBody = emailBody.replace("${deadline}",
 				TimeHelper.formatTime(e.endTime));
 
-		String submitUrl = Constants.TEAMMATES_APP_URL
+		String submitUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT;
 		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_COURSE_ID,
 				c.id);
@@ -198,7 +198,7 @@ public class Emails {
 				Constants.PARAM_EVALUATION_NAME, e.name);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
-		String reportUrl = Constants.TEAMMATES_APP_URL
+		String reportUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_EVAL_RESULTS;
 		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_COURSE_ID,
 				c.id);
@@ -216,7 +216,7 @@ public class Emails {
 			List<StudentAttributes> students, List<InstructorAttributes> instructors) 
 					throws MessagingException, IOException {
 		
-		String template = Constants.USER_EMAIL_TEMPLATE_FEEDBACK_SESSION;
+		String template = Config.EMAIL_TEMPLATE_USER_FEEDBACK_SESSION;
 		List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
 				session, students, instructors, template);
 		
@@ -238,7 +238,7 @@ public class Emails {
 			List<InstructorAttributes> instructors)
 					throws MessagingException, IOException {
 
-		String template = Constants.USER_EMAIL_TEMPLATE_FEEDBACK_SESSION;
+		String template = Config.EMAIL_TEMPLATE_USER_FEEDBACK_SESSION;
 		List<MimeMessage> emails = generateFeedbackSessionEmailBases(
 				course, session, students, instructors, template);
 		for (MimeMessage email : emails) {
@@ -259,7 +259,7 @@ public class Emails {
 			List<InstructorAttributes> instructors) 
 					throws MessagingException, IOException {
 		
-		String template = Constants.USER_EMAIL_TEMPLATE_FEEDBACK_SESSION_PUBLISHED;
+		String template = Config.EMAIL_TEMPLATE_USER_FEEDBACK_SESSION_PUBLISHED;
 		List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
 				session, students, instructors, template);
 		
@@ -320,7 +320,7 @@ public class Emails {
 				TimeHelper.formatTime(fs.endTime));
 		emailBody = emailBody.replace("${instructorFragment}", "");
 		
-		String submitUrl = Constants.TEAMMATES_APP_URL
+		String submitUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_FEEDBACK_EDIT;
 		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_COURSE_ID,
 				c.id);
@@ -328,7 +328,7 @@ public class Emails {
 				Constants.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
-		String reportUrl = Constants.TEAMMATES_APP_URL
+		String reportUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_FEEDBACK_RESULTS;
 		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_COURSE_ID,
 				c.id);
@@ -365,7 +365,7 @@ public class Emails {
 				TimeHelper.formatTime(fs.endTime));
 		emailBody = emailBody.replace("${instructorFragment}", "The email below has also been sent to students of course: "+c.id+".<br/>");
 		
-		String submitUrl = Constants.TEAMMATES_APP_URL
+		String submitUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_FEEDBACK_EDIT;
 		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_COURSE_ID,
 				c.id);
@@ -373,7 +373,7 @@ public class Emails {
 				Constants.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
-		String reportUrl = Constants.TEAMMATES_APP_URL
+		String reportUrl = Config.APP_URL
 				+ Constants.ACTION_INSTRUCTOR_FEEDBACK_RESULTS;
 		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_COURSE_ID,
 				c.id);
@@ -394,7 +394,7 @@ public class Emails {
 		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
 				+ " [%s][Course ID: %s]", c.name, c.id));
 
-		String emailBody = Constants.STUDENT_EMAIL_TEMPLATE_COURSE_JOIN;
+		String emailBody = Config.EMAIL_TEMPLATE_STUDENT_COURSE_JOIN;
 		emailBody = fillUpJoinFragment(s, emailBody);
 		emailBody = emailBody.replace("${studentName}", s.name);
 		emailBody = emailBody.replace("${courseName}", c.name);
@@ -429,14 +429,14 @@ public class Emails {
 				errorMessage = "";
 			}
 		}
-		String recipient = BuildProperties.inst().getAppCrashReportEmail();
+		String recipient = Config.SUPPORT_EMAIL;
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
 				recipient));
 		message.setFrom(new InternetAddress(senderEmail, senderName));
 		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR,
 				version, errorMessage));
 	
-		String emailBody = Constants.SYSTEM_ERROR_EMAIL_TEMPLATE;
+		String emailBody = Config.EMAIL_TEMPLATE_SYSTEM_ERROR;
 	
 		emailBody = emailBody.replace("${requestPath}", requestPath);
 		emailBody = emailBody.replace("${requestParameters}", requestParam);
@@ -462,7 +462,7 @@ public class Emails {
 		MimeMessage email = null;
 		try {
 			email = generateSystemErrorEmail(error, path, params,
-					BuildProperties.getAppVersion());
+					Config.inst().getAppVersion());
 			sendEmail(email);
 			log.severe("Sent crash report: " + Emails.getEmailInfo(email));
 		} catch (Exception e) {
@@ -475,13 +475,13 @@ public class Emails {
 
 	private String fillUpJoinFragment(StudentAttributes s, String emailBody) {
 		emailBody = emailBody.replace("${joinFragment}",
-				Constants.STUDENT_EMAIL_FRAGMENT_COURSE_JOIN);
+				Config.EMAIL_TEMPLATE_FRAGMENT_STUDENT_COURSE_JOIN);
 
 		String key;
 		key = StringHelper.encrypt(s.key);
 		emailBody = emailBody.replace("${key}", key);
 
-		String joinUrl = Constants.TEAMMATES_APP_URL
+		String joinUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_JOIN_COURSE;
 		joinUrl = Url.addParamToUrl(joinUrl, Constants.PARAM_REGKEY, key);
 

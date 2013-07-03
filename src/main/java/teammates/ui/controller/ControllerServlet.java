@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.Logic;
@@ -24,7 +25,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 @SuppressWarnings("serial")
 public class ControllerServlet extends HttpServlet {
 
-	protected static final Logger log = Constants.getLogger();
+	protected static final Logger log = Config.getLogger();
 
 	@Override
 	public final void doGet(HttpServletRequest req, HttpServletResponse resp)

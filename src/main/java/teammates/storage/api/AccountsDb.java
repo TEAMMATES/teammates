@@ -12,6 +12,7 @@ import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
@@ -23,7 +24,7 @@ import teammates.storage.entity.Account;
  */
 public class AccountsDb extends EntitiesDb {
 
-	private static final Logger log = Constants.getLogger();
+	private static final Logger log = Config.getLogger();
 	
 	/**
 	 * Preconditions: 
@@ -124,12 +125,12 @@ public class AccountsDb extends EntitiesDb {
 		int elapsedTime = 0;
 		Account accountCheck = getAccountEntity(googleId);
 		while ((accountCheck != null)
-				&& (elapsedTime < Constants.PERSISTENCE_CHECK_DURATION)) {
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
 			ThreadHelper.waitBriefly();
 			accountCheck = getAccountEntity(googleId);
 			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Constants.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteAccount->"
 					+ googleId);
 		}

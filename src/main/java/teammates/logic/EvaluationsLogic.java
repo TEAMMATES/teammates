@@ -31,6 +31,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.storage.api.EvaluationsDb;
 
@@ -46,7 +47,7 @@ public class EvaluationsLogic {
 	//  header comments in this class.
 	
 	
-	private static final Logger log = Constants.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	
@@ -325,7 +326,7 @@ public class EvaluationsLogic {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
 		List<EvaluationAttributes> evaluationDataList = 
-				getEvaluationsClosingWithinTimeLimit(Constants.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+				getEvaluationsClosingWithinTimeLimit(Config.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 	
 		for (EvaluationAttributes ed : evaluationDataList) {
 			try {

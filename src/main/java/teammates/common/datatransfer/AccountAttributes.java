@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import teammates.common.util.Constants;
+import teammates.common.util.Config;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.storage.entity.Account;
@@ -74,7 +74,7 @@ public class AccountAttributes extends EntityAttributes {
 	}
 	
 	public String toString(){
-		return Constants.getTeammatesGson().toJson(this, AccountAttributes.class);
+		return Config.getTeammatesGson().toJson(this, AccountAttributes.class);
 	}
 
 	@Override

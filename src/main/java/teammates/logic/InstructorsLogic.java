@@ -8,6 +8,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
@@ -26,7 +27,7 @@ public class InstructorsLogic {
 	private static final InstructorsDb instructorsDb = new InstructorsDb();
 	private static final AccountsLogic accountsLogic = AccountsLogic.inst();
 	
-	private static Logger log = Constants.getLogger();
+	private static Logger log = Config.getLogger();
 	
 	private static InstructorsLogic instance = null;
 	public static InstructorsLogic inst() {

@@ -10,7 +10,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.BuildProperties;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.FileHelper;
 import teammates.logic.GateKeeper;
@@ -89,7 +89,7 @@ public class AdminInstructorAccountAddAction extends Action {
 			courseId = courseId.substring(courseId.length() - 20);
 		}
 		
-		jsonString = FileHelper.readStream(BuildProperties.class.getClassLoader()
+		jsonString = FileHelper.readStream(Config.class.getClassLoader()
 				.getResourceAsStream("InstructorSampleData.json"));
 
 		// replace email
@@ -116,7 +116,7 @@ public class AdminInstructorAccountAddAction extends Action {
 		jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
 				formatter.format(c.getTime()));
 
-		Gson gson = Constants.getTeammatesGson();
+		Gson gson = Config.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 		
 		new BackDoorLogic().persistDataBundle(data);

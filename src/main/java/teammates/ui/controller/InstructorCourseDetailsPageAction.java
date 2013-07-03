@@ -6,11 +6,12 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseDetailsPageAction extends Action {
-	protected static final Logger log = Constants.getLogger();
+	protected static final Logger log = Config.getLogger();
 	
 	
 	@Override

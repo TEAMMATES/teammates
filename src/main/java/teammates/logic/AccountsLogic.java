@@ -13,6 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.storage.api.AccountsDb;
 
@@ -28,7 +29,7 @@ public class AccountsLogic {
 	private static AccountsLogic instance = null;
 	private static final AccountsDb accountsDb = new AccountsDb();
 	
-	private static Logger log = Constants.getLogger();
+	private static Logger log = Config.getLogger();
 	
 	public static AccountsLogic inst() {
 		if (instance == null)

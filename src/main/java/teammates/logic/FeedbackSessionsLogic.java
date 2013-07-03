@@ -26,6 +26,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -36,7 +37,7 @@ import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 // Can select appropriate method at Action level.
 public class FeedbackSessionsLogic {
 
-	private static final Logger log = Constants.getLogger();
+	private static final Logger log = Config.getLogger();
 
 	private static FeedbackSessionsLogic instance = null;
 
@@ -442,7 +443,7 @@ public class FeedbackSessionsLogic {
 		List<FeedbackSessionAttributes> sessions = fsDb.getAllFeedbackSessions();
 		
 		for(FeedbackSessionAttributes session : sessions){
-			if(session.isClosingWithinTimeLimit(Constants.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
+			if(session.isClosingWithinTimeLimit(Config.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
 				continue;
 			}
 			try {

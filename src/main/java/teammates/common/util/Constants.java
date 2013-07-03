@@ -1,14 +1,9 @@
 package teammates.common.util;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-import java.util.logging.Logger;
 
-import com.google.appengine.api.utils.SystemProperty;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * Stores constants that are widely used across classes.
@@ -16,65 +11,7 @@ import com.google.gson.GsonBuilder;
 
 public class Constants {
 	
-	@SuppressWarnings("unused")
-	private void _______config_______________________________________(){}
-	//TODO: move to a new class Config
-	
-	private static final BuildProperties BUILD_PROPERTIES = BuildProperties.inst();
-	
-	public static final String ENCODING = "UTF8";
-	public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
-	
-	/** e.g. "2014-04-01 11:59 PM UTC" */
-	public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
-	
-	// Number to trigger the header file to truncate the user googleId and show hover message
-	public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
-	
-	public static String APP_ID = SystemProperty.applicationId.get();
-	public static String TEAMMATES_APP_URL = BUILD_PROPERTIES.getAppUrl();
-	
-	/**
-	 * Key used by the Test driver to identify itself.
-	 */
-	public static String BACKDOOR_KEY = BUILD_PROPERTIES.getAppBackdoorKey();
-
-	public static long PERSISTENCE_CHECK_DURATION = BUILD_PROPERTIES.getAppPersistenceCheckduration();
-	
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_ = FileHelper.readResourseFile("studentEmailTemplate-evaluation_.html");
-	public static String STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED = FileHelper.readResourseFile("studentEmailTemplate-evaluationPublished.html");
-	public static String STUDENT_EMAIL_TEMPLATE_COURSE_JOIN = FileHelper.readResourseFile("studentEmailTemplate-courseJoin.html");
-	public static String STUDENT_EMAIL_FRAGMENT_COURSE_JOIN = FileHelper.readResourseFile("studentEmailFragment-courseJoin.html");
-	public static String USER_EMAIL_TEMPLATE_FEEDBACK_SESSION = FileHelper.readResourseFile("userEmailTemplate-feedbackSession.html");
-	public static String USER_EMAIL_TEMPLATE_FEEDBACK_SESSION_PUBLISHED = FileHelper.readResourseFile("userEmailTemplate-feedbackSessionPublished.html");
-	public static String SYSTEM_ERROR_EMAIL_TEMPLATE = FileHelper.readResourseFile("systemErrorEmailTemplate.html");
-	
-	
-	/**
-	 * This creates a Gson object that can handle the Date format we use in the
-	 * Json file and also reformat the Json string in pretty-print format. <br>
-	 * Technique found in <a href=
-	 * "http://code.google.com/p/google-gson/source/browse/trunk/gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java?spec=svn327&r=327"
-	 * >here </a>
-	 */
-	public static Gson getTeammatesGson() {
-		return new GsonBuilder()
-				.setDateFormat(DateFormat.FULL)
-				.setDateFormat(DEFAULT_DATE_TIME_FORMAT)
-				.setPrettyPrinting()
-				.create();
-	}
-
-	/** 
-	 * This method should be used when instantiating loggers within the system.
-	 * @return A {@link Logger} class configured with the name of the calling class.
-	 */
-	public static Logger getLogger() {
-		StackTraceElement logRequester = Thread.currentThread().getStackTrace()[2];
-		return Logger.getLogger(logRequester.getClassName());
-	}
-	
-	/* This sections holds constants that are defined as constants primarily 
+	/* This section holds constants that are defined as constants primarily 
 	 * because they are repeated in many places.
 	 */
 	@SuppressWarnings("unused")

@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.BuildProperties;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.Url;
 import teammates.logic.Emails;
@@ -49,7 +49,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
 				.withParam(Constants.PARAM_ERROR, AssertionError.class.getSimpleName());
 		page.navigateTo(url);
 		print("AssertionError triggered, please check your crash report at "
-				+ BuildProperties.inst().getAppCrashReportEmail());
+				+ Config.SUPPORT_EMAIL);
 	}
 	
 	@Test
@@ -71,7 +71,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
 		Url url = new Url(Constants.ACTION_ADMIN_EXCEPTION_TEST)
 			.withParam(Constants.PARAM_ERROR, NullPointerException.class.getSimpleName());
 		page.navigateTo(url);
-		print("NullPointerException triggered, please check your crash report at " + BuildProperties.inst().getAppCrashReportEmail());	
+		print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);	
 	}
 	
 	@Test
@@ -82,7 +82,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
 		Url url = new Url(Constants.ACTION_ADMIN_EXCEPTION_TEST)
 			.withParam(Constants.PARAM_ERROR, DeadlineExceededException.class.getSimpleName());
 		page.navigateTo(url);
-		print("DeadlineExceededException triggered, please check your crash report at " + BuildProperties.inst().getAppCrashReportEmail());	
+		print("DeadlineExceededException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);	
 		
 		______TS("DeadlineExceededException error view");
 		

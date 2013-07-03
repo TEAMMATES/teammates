@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Constants;
+import teammates.common.util.Config;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -366,7 +366,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		EvaluationAttributes e ;
 		e = generateValidEvaluationAttributesObject();
 
-		String inStringFormat = Constants.getTeammatesGson().toJson(e,
+		String inStringFormat = Config.getTeammatesGson().toJson(e,
 				EvaluationAttributes.class);
 		assertEquals(inStringFormat, e.toString());
 

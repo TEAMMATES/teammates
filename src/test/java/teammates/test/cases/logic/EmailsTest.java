@@ -26,7 +26,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.BuildProperties;
+import teammates.common.util.Config;
 import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -52,7 +52,7 @@ public class EmailsTest extends BaseComponentTestCase {
 	public void caseSetUp() throws ServletException, IOException {
 		
 		InternetAddress internetAddress = new InternetAddress("noreply@"
-				+ Constants.APP_ID + ".appspotmail.com",
+				+ Config.inst().getAppId() + ".appspotmail.com",
 				"TEAMMATES Admin (noreply)");
 		from = internetAddress.toString();
 		replyTo = "teammates@comp.nus.edu.sg";
@@ -99,7 +99,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("generic template, student yet to join");
 
-		String template = Constants.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
 		MimeMessage email = new Emails().generateEvaluationEmailBase(c, e, s,
 				template);
 
@@ -119,11 +119,11 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		// check email body
 		String encryptedKey = StringHelper.encrypt(s.key);
-		String joinUrl = Constants.TEAMMATES_APP_URL
+		String joinUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_JOIN_COURSE;
 		joinUrl = Url.addParamToUrl(joinUrl, Constants.PARAM_REGKEY, encryptedKey);
 
-		String submitUrl = Constants.TEAMMATES_APP_URL
+		String submitUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT;
 		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_COURSE_ID, c.id);
 		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_EVALUATION_NAME,
@@ -143,7 +143,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("published template, student yet to join");
 
-		template = Constants.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
+		template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
 		emailBody = email.getContent().toString();
@@ -151,7 +151,7 @@ public class EmailsTest extends BaseComponentTestCase {
 		assertTrue(emailBody.contains(encryptedKey));
 		assertTrue(!emailBody.contains(submitUrl));
 
-		String reportUrl = Constants.TEAMMATES_APP_URL
+		String reportUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_EVAL_RESULTS;
 		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_COURSE_ID, c.id);
 		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_EVALUATION_NAME,
@@ -168,7 +168,7 @@ public class EmailsTest extends BaseComponentTestCase {
 		______TS("generic template, student joined");
 
 		s.googleId = "student1id"; // set student id to make him "joined"
-		template = Constants.STUDENT_EMAIL_TEMPLATE_EVALUATION_;
+		template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
 
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
@@ -183,7 +183,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("published template, student joined");
 
-		template = Constants.STUDENT_EMAIL_TEMPLATE_EVALUATION_PUBLISHED;
+		template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
 		emailBody = email.getContent().toString();
@@ -229,7 +229,7 @@ public class EmailsTest extends BaseComponentTestCase {
 				email.getSubject());
 
 		// check email body
-		String joinUrl = Constants.TEAMMATES_APP_URL
+		String joinUrl = Config.APP_URL
 				+ Constants.ACTION_STUDENT_JOIN_COURSE;
 		String encryptedKey = StringHelper.encrypt(s.key);
 		joinUrl = Url.addParamToUrl(joinUrl, Constants.PARAM_REGKEY, encryptedKey);
@@ -336,7 +336,7 @@ public class EmailsTest extends BaseComponentTestCase {
 				TestProperties.inst().TEAMMATES_VERSION);
 
 		// check receiver
-		String recipient = BuildProperties.inst().getAppCrashReportEmail();
+		String recipient = Config.SUPPORT_EMAIL;
 		assertEquals(recipient, email.getAllRecipients()[0].toString());
 
 		// check sender
