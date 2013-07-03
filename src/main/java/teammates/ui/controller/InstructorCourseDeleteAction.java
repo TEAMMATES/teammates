@@ -6,12 +6,12 @@ import java.util.logging.Logger;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 	
-	protected static Logger log = Config.getLogger();
+	protected static Logger log = Constants.getLogger();
 	
 
 	public String idOfCourseToDelete;
@@ -21,7 +21,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 	public ActionResult execute()
 			throws EntityDoesNotExistException {
 
-		idOfCourseToDelete = getRequestParam(Config.PARAM_COURSE_ID);
+		idOfCourseToDelete = getRequestParam(Constants.PARAM_COURSE_ID);
 		Assumption.assertNotNull(idOfCourseToDelete);
 		
 		new GateKeeper().verifyAccessible(
@@ -29,7 +29,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 				logic.getCourse(idOfCourseToDelete));
 
 		logic.deleteCourse(idOfCourseToDelete);
-		statusToUser.add(Config.MESSAGE_COURSE_DELETED);
+		statusToUser.add(Constants.STATUS_COURSE_DELETED);
 		statusToAdmin = "Course deleted: " + idOfCourseToDelete;
 
 		InstructorCoursePageData data = new InstructorCoursePageData(account);
@@ -42,7 +42,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 				logic.getCourseSummariesForInstructor(data.account.googleId).values());
 		CourseDetailsBundle.sortDetailedCoursesByCourseId(data.currentCourses);
 
-		ShowPageResult svr = createShowPageResult(Config.JSP_INSTRUCTOR_COURSE, data);
+		ShowPageResult svr = createShowPageResult(Constants.VIEW_INSTRUCTOR_COURSES, data);
 		return svr;
 
 	}

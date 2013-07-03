@@ -2,7 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseStudentDetailsPageAction extends InstructorCoursePageAction {
@@ -11,10 +11,10 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursePa
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 
-		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String studentEmail = getRequestParam(Config.PARAM_STUDENT_EMAIL);
+		String studentEmail = getRequestParam(Constants.PARAM_STUDENT_EMAIL);
 		Assumption.assertNotNull(studentEmail);
 		
 		new GateKeeper().verifyAccessible(
@@ -32,7 +32,7 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursePa
 				"</span> in Course <span class=\"bold\">[" + courseId + "]</span>"; 
 		
 
-		return createShowPageResult(Config.JSP_INSTRUCTOR_COURSE_STUDENT_DETAILS, data);
+		return createShowPageResult(Constants.VIEW_INSTRUCTOR_COURSE_STUDENT_DETAILS, data);
 
 	}
 

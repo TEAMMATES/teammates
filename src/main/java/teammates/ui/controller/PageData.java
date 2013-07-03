@@ -13,7 +13,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.Url;
 
 /**
@@ -84,7 +84,7 @@ public class PageData {
 
 	
 	public String addUserIdToUrl(String link){
-		return Url.addParamToUrl(link,Config.PARAM_USER_ID,account.googleId);
+		return Url.addParamToUrl(link,Constants.PARAM_USER_ID,account.googleId);
 	}
 	
 	/**
@@ -100,12 +100,12 @@ public class PageData {
 	 * 		from equal share will be 120, etc.
 	 */
 	protected static String getPointsAsColorizedHtml(int points){
-		if(points==Config.POINTS_NOT_SUBMITTED || points==Config.UNINITIALIZED_INT)
+		if(points==Constants.POINTS_NOT_SUBMITTED || points==Constants.INT_UNINITIALIZED)
 			return "<span class=\"color_negative\" onmouseover=\"ddrivetip('"+
-				Config.HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_AVAILABLE+"')\" onmouseout=\"hideddrivetip()\">N/A</span>";
-		else if(points==Config.POINTS_NOT_SURE)
+				Constants.TOOLTIP_EVALUATION_SUBMISSION_NOT_AVAILABLE+"')\" onmouseout=\"hideddrivetip()\">N/A</span>";
+		else if(points==Constants.POINTS_NOT_SURE)
 			return "<span class=\"color_negative\" onmouseover=\"ddrivetip('"+
-				Config.HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_SURE+"')\" onmouseout=\"hideddrivetip()\">N/S</span>";
+				Constants.TOOLTIP_EVALUATION_SUBMISSION_NOT_SURE+"')\" onmouseout=\"hideddrivetip()\">N/S</span>";
 		else if(points==0)
 			return "<span class=\"color_negative\">0%</span>";
 		else if(points>100)
@@ -135,9 +135,9 @@ public class PageData {
 	 */
 	protected static String getPointsInEqualShareFormatAsHtml(int points, boolean inline){
 		int delta = 0;
-		if (points == Config.POINTS_NOT_SUBMITTED || points==Config.UNINITIALIZED_INT) {
+		if (points == Constants.POINTS_NOT_SUBMITTED || points==Constants.INT_UNINITIALIZED) {
 			return "<span class=\"color_negative\">N/A</span>";
-		} else if (points == Config.POINTS_NOT_SURE) {
+		} else if (points == Constants.POINTS_NOT_SURE) {
 			return "<span class=\"color_negative\">Not sure</span>";
 		} else if (points == 0) {
 			return "<span class=\"color_negative\">0%</span>";
@@ -169,11 +169,11 @@ public class PageData {
 		int claimed = sub.summary.claimedToInstructor;
 		int perceived = sub.summary.perceivedToInstructor;
 		int diff = perceived - claimed;
-		if(perceived==Config.POINTS_NOT_SUBMITTED || perceived==Config.UNINITIALIZED_INT
-				|| claimed==Config.POINTS_NOT_SUBMITTED || claimed==Config.UNINITIALIZED_INT){
-			return "<span class=\"negDiff\" onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_AVAILABLE+"')\" onmouseout=\"hideddrivetip()\">N/A</span>";
-		} else if(perceived==Config.POINTS_NOT_SURE || claimed==Config.POINTS_NOT_SURE) {
-			return "<span class=\"negDiff\" onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_EVALUATION_SUBMISSION_NOT_SURE+"')\" onmouseout=\"hideddrivetip()\">N/S</span>";
+		if(perceived==Constants.POINTS_NOT_SUBMITTED || perceived==Constants.INT_UNINITIALIZED
+				|| claimed==Constants.POINTS_NOT_SUBMITTED || claimed==Constants.INT_UNINITIALIZED){
+			return "<span class=\"negDiff\" onmouseover=\"ddrivetip('"+Constants.TOOLTIP_EVALUATION_SUBMISSION_NOT_AVAILABLE+"')\" onmouseout=\"hideddrivetip()\">N/A</span>";
+		} else if(perceived==Constants.POINTS_NOT_SURE || claimed==Constants.POINTS_NOT_SURE) {
+			return "<span class=\"negDiff\" onmouseover=\"ddrivetip('"+Constants.TOOLTIP_EVALUATION_SUBMISSION_NOT_SURE+"')\" onmouseout=\"hideddrivetip()\">N/S</span>";
 		} else if(diff>0){
 			return "<span class=\"posDiff\">+"+diff+"%</span>";
 		} else if(diff<0){
@@ -289,9 +289,9 @@ public class PageData {
 	 */
 	public String getStudentStatus(StudentAttributes student){
 		if(student.googleId == null || student.googleId.equals("")){
-			return Config.STUDENT_STATUS_YET_TO_JOIN;
+			return Constants.STUDENT_COURSE_STATUS_YET_TO_JOIN;
 		} else {
-			return Config.STUDENT_STATUS_JOINED;
+			return Constants.STUDENT_COURSE_STATUS_JOINED;
 		}
 	}
 
@@ -300,7 +300,7 @@ public class PageData {
 	 * The user Id is encoded in the url as a parameter.
 	 */
 	public String getStudentHomeLink(){
-		String link = Config.PAGE_STUDENT_HOME;
+		String link = Constants.ACTION_STUDENT_HOME;
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -315,21 +315,21 @@ public class PageData {
 	 * The user Id is encoded in the url as a parameter.
 	 */
 	public String getInstructorHomeLink(){
-		String link = Config.PAGE_INSTRUCTOR_HOME;
+		String link = Constants.ACTION_INSTRUCTOR_HOME;
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	public String getInstructorCourseLink(){
-		String link = Config.PAGE_INSTRUCTOR_COURSE;
+		String link = Constants.ACTION_INSTRUCTOR_COURSES;
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorCourseEnrollLink(String courseId){
-		String link = Config.PAGE_INSTRUCTOR_COURSE_ENROLL;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseId);
+		String link = Constants.ACTION_INSTRUCTOR_COURSE_ENROLL;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseId);
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -337,23 +337,23 @@ public class PageData {
 	
 	public String getInstructorCourseEnrollSaveLink(String courseId){
 		//TODO: instead of using this method, the form should include these data as hidden fields?
-		String link = Config.PAGE_INSTRUCTOR_COURSE_ENROLL_SAVE;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseId);
+		String link = Constants.ACTION_INSTRUCTOR_COURSE_ENROLL_SAVE;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseId);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 
 	public String getInstructorCourseDetailsLink(String courseID){
-		String link = Config.PAGE_INSTRUCTOR_COURSE_DETAILS;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseID); 
+		String link = Constants.ACTION_INSTRUCTOR_COURSE_DETAILS;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseID); 
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorCourseEditLink(String courseID){
-		String link = Config.PAGE_INSTRUCTOR_COURSE_EDIT;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseID); 
+		String link = Constants.ACTION_INSTRUCTOR_COURSE_EDIT;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseID); 
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -362,123 +362,123 @@ public class PageData {
 	 * @param isHome True if the Browser should redirect to the Home page after the operation. 
 	 */
 	public String getInstructorCourseDeleteLink(String courseId, boolean isHome){
-		String link = Config.PAGE_INSTRUCTOR_COURSE_DELETE;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseId);
+		String link = Constants.ACTION_INSTRUCTOR_COURSE_DELETE;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseId);
 		link = Url.addParamToUrl(
 				link,
-				Config.PARAM_NEXT_URL,(isHome? Config.PAGE_INSTRUCTOR_HOME : Config.PAGE_INSTRUCTOR_COURSE));
+				Constants.PARAM_NEXT_URL,(isHome? Constants.ACTION_INSTRUCTOR_HOME : Constants.ACTION_INSTRUCTOR_COURSES));
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorEvaluationLink(){
-		String link = Config.PAGE_INSTRUCTOR_EVAL;
+		String link = Constants.ACTION_INSTRUCTOR_EVALS;
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 
 	public String getInstructorEvaluationDeleteLink(String courseID, String evalName, String nextURL){
-		String link = Config.PAGE_INSTRUCTOR_EVAL_DELETE;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseID);
-		link = Url.addParamToUrl(link,Config.PARAM_EVALUATION_NAME,evalName);
-		link = Url.addParamToUrl(link,Config.PARAM_NEXT_URL,addUserIdToUrl(nextURL));
+		String link = Constants.ACTION_INSTRUCTOR_EVAL_DELETE;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Constants.PARAM_NEXT_URL,addUserIdToUrl(nextURL));
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorEvaluationEditLink(String courseID, String evalName){
-		String link = Config.PAGE_INSTRUCTOR_EVAL_EDIT;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseID);
-		link = Url.addParamToUrl(link,Config.PARAM_EVALUATION_NAME,evalName);
+		String link = Constants.ACTION_INSTRUCTOR_EVAL_EDIT;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorEvaluationResultsLink(String courseID, String evalName){
-		String link = Config.PAGE_INSTRUCTOR_EVAL_RESULTS;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseID);
-		link = Url.addParamToUrl(link,Config.PARAM_EVALUATION_NAME,evalName);
+		String link = Constants.ACTION_INSTRUCTOR_EVAL_RESULTS;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 
 	
 	public String getInstructorEvaluationRemindLink(String courseID, String evalName){
-		String link = Config.PAGE_INSTRUCTOR_EVAL_REMIND;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID, courseID);
-		link = Url.addParamToUrl(link,Config.PARAM_EVALUATION_NAME,evalName);
+		String link = Constants.ACTION_INSTRUCTOR_EVAL_REMIND;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID, courseID);
+		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorEvaluationPublishLink(String courseID, String evalName, boolean isHome){
-		String link = Config.PAGE_INSTRUCTOR_EVAL_PUBLISH;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID, courseID);
-		link = Url.addParamToUrl(link,Config.PARAM_EVALUATION_NAME,evalName);
-		link = Url.addParamToUrl(link,Config.PARAM_NEXT_URL,(isHome ? addUserIdToUrl(Config.PAGE_INSTRUCTOR_HOME): addUserIdToUrl(Config.PAGE_INSTRUCTOR_EVAL)));
+		String link = Constants.ACTION_INSTRUCTOR_EVAL_PUBLISH;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID, courseID);
+		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Constants.PARAM_NEXT_URL,(isHome ? addUserIdToUrl(Constants.ACTION_INSTRUCTOR_HOME): addUserIdToUrl(Constants.ACTION_INSTRUCTOR_EVALS)));
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorEvaluationUnpublishLink(String courseID, String evalName, boolean isHome){
-		String link = Config.PAGE_INSTRUCTOR_EVAL_UNPUBLISH;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID, courseID);
-		link = Url.addParamToUrl(link,Config.PARAM_EVALUATION_NAME,evalName);
-		link = Url.addParamToUrl(link,Config.PARAM_NEXT_URL,(isHome ? addUserIdToUrl(Config.PAGE_INSTRUCTOR_HOME): addUserIdToUrl(Config.PAGE_INSTRUCTOR_EVAL)));
+		String link = Constants.ACTION_INSTRUCTOR_EVAL_UNPUBLISH;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID, courseID);
+		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Constants.PARAM_NEXT_URL,(isHome ? addUserIdToUrl(Constants.ACTION_INSTRUCTOR_HOME): addUserIdToUrl(Constants.ACTION_INSTRUCTOR_EVALS)));
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 
 	public String getInstructorEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
-		String link = Config.PAGE_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseID);
-		link = Url.addParamToUrl(link,Config.PARAM_EVALUATION_NAME,evalName);
-		link = Url.addParamToUrl(link,Config.PARAM_STUDENT_EMAIL,studentEmail);
+		String link = Constants.ACTION_INSTRUCTOR_EVAL_SUBMISSION_VIEW;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Constants.PARAM_STUDENT_EMAIL,studentEmail);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
-		String link = Config.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseID);
-		link = Url.addParamToUrl(link,Config.PARAM_EVALUATION_NAME,evalName);
-		link = Url.addParamToUrl(link,Config.PARAM_STUDENT_EMAIL,studentEmail);
+		String link = Constants.ACTION_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
+		link = Url.addParamToUrl(link,Constants.PARAM_STUDENT_EMAIL,studentEmail);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorFeedbackSessionDeleteLink(String courseId, String feedbackSessionName, String nextURL){
-		String link = Config.PAGE_INSTRUCTOR_FEEDBACK_DELETE;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseId);
-		link = Url.addParamToUrl(link,Config.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
-		link = Url.addParamToUrl(link,Config.PARAM_NEXT_URL,addUserIdToUrl(nextURL));
+		String link = Constants.ACTION_INSTRUCTOR_FEEDBACK_DELETE;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Constants.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = Url.addParamToUrl(link,Constants.PARAM_NEXT_URL,addUserIdToUrl(nextURL));
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorFeedbackSessionEditLink(String courseId, String feedbackSessionName){
-		String link = Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseId);
-		link = Url.addParamToUrl(link,Config.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		String link = Constants.ACTION_INSTRUCTOR_FEEDBACK_EDIT;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Constants.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	
 	public String getInstructorFeedbackSessionResultsLink(String courseId, String feedbackSessionName){
-		String link = Config.PAGE_INSTRUCTOR_FEEDBACK_RESULTS;
-		link = Url.addParamToUrl(link,Config.PARAM_COURSE_ID,courseId);
-		link = Url.addParamToUrl(link,Config.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		String link = Constants.ACTION_INSTRUCTOR_FEEDBACK_RESULTS;
+		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Constants.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
@@ -495,10 +495,10 @@ public class PageData {
 	 */
 	public static String getInstructorHoverMessageForEval(EvaluationAttributes eval){
 		switch(eval.getStatus()){
-		case AWAITING: return Config.HOVER_MESSAGE_EVALUATION_STATUS_AWAITING;
-		case OPEN: return Config.HOVER_MESSAGE_EVALUATION_STATUS_OPEN;
-		case CLOSED: return Config.HOVER_MESSAGE_EVALUATION_STATUS_CLOSED;
-		case PUBLISHED: return Config.HOVER_MESSAGE_EVALUATION_STATUS_PUBLISHED;
+		case AWAITING: return Constants.TOOLTIP_EVALUATION_STATUS_AWAITING;
+		case OPEN: return Constants.TOOLTIP_EVALUATION_STATUS_OPEN;
+		case CLOSED: return Constants.TOOLTIP_EVALUATION_STATUS_CLOSED;
+		case PUBLISHED: return Constants.TOOLTIP_EVALUATION_STATUS_PUBLISHED;
 		default: 
 			Assumption.fail("Unknown evaluation status :"+ eval.getStatus());
 			return "unknown";
@@ -551,26 +551,26 @@ public class PageData {
 		result.append(
 			"<a class=\"color_green t_eval_view"+ position + "\" " +
 			"href=\"" + getInstructorEvaluationResultsLink(eval.courseId,eval.name) + "\" " +
-			"onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_EVALUATION_RESULTS+"')\" "+
+			"onmouseover=\"ddrivetip('"+Constants.TOOLTIP_EVALUATION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
 			"<a class=\"color_brown t_eval_edit" + position + "\" " +
 			"href=\"" + getInstructorEvaluationEditLink(eval.courseId,eval.name) + "\" " +
-			"onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
+			"onmouseover=\"ddrivetip('"+Constants.TOOLTIP_EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
 			(hasEdit ? "" : DISABLED) + ">Edit</a>"
 		);
 		result.append(
 			"<a class=\"color_red t_eval_delete" + position + "\" " +
-			"href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Config.PAGE_INSTRUCTOR_HOME : Config.PAGE_INSTRUCTOR_EVAL)) + "\" " +
+			"href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Constants.ACTION_INSTRUCTOR_HOME : Constants.ACTION_INSTRUCTOR_EVALS)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
-			"onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
+			"onmouseover=\"ddrivetip('"+Constants.TOOLTIP_EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
 		);
 		result.append(
 			"<a class=\"color_black t_eval_remind" + position + "\" " +
 			"href=\"" + getInstructorEvaluationRemindLink(eval.courseId,eval.name) + "\" " +
 			(hasRemind ? "onclick=\"hideddrivetip(); return toggleRemindStudents('" + eval.name + "');\" " : "") +
-			"onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_EVALUATION_REMIND+"')\" " +
+			"onmouseover=\"ddrivetip('"+Constants.TOOLTIP_EVALUATION_REMIND+"')\" " +
 			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a>"
 		);
 		
@@ -579,7 +579,7 @@ public class PageData {
 				"<a class=\"color_black t_eval_unpublish" + position + "\" " +
 				"href=\"" + getInstructorEvaluationUnpublishLink(eval.courseId,eval.name,isHome) + "\" " +
 				"onclick=\"hideddrivetip(); return toggleUnpublishEvaluation('" + eval.name + "');\" " +
-				"onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
+				"onmouseover=\"ddrivetip('"+Constants.TOOLTIP_EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
 				"Unpublish</a>"
 			);
 		} else {
@@ -587,7 +587,7 @@ public class PageData {
 				"<a class=\"color_black t_eval_publish" + position + "\" " +
 				"href=\"" + getInstructorEvaluationPublishLink(eval.courseId,eval.name,isHome) + "\" " +
 				(hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + eval.name + "');\" " : "") +
-				"onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_EVALUATION_PUBLISH+"')\" " +
+				"onmouseover=\"ddrivetip('"+Constants.TOOLTIP_EVALUATION_PUBLISH+"')\" " +
 				"onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : DISABLED) + ">Publish</a>"
 			);
 		}
@@ -615,19 +615,19 @@ public class PageData {
 		String msg = "The feedback session has been created";
 		
 		if (session.isVisible()) {
-			msg += Config.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_VISIBLE;
+			msg += Constants.TOOLTIP_FEEDBACK_SESSION_STATUS_VISIBLE;
 		}
 		
 		if (session.isOpened()) {
-			msg += Config.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_OPEN;
+			msg += Constants.TOOLTIP_FEEDBACK_SESSION_STATUS_OPEN;
 		} else if (session.isWaitingToOpen()) {
-			msg += Config.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_AWAITING;
+			msg += Constants.TOOLTIP_FEEDBACK_SESSION_STATUS_AWAITING;
 		} else if(session.isClosed()) {
-			msg += Config.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_CLOSED;
+			msg += Constants.TOOLTIP_FEEDBACK_SESSION_STATUS_CLOSED;
 		}
 		
 		if (session.isPublished()) {
-			msg += Config.HOVER_MESSAGE_FEEDBACK_SESSION_STATUS_PUBLISHED;
+			msg += Constants.TOOLTIP_FEEDBACK_SESSION_STATUS_PUBLISHED;
 		}
 		
 		msg += ".";
@@ -655,19 +655,19 @@ public class PageData {
 		result.append(
 			"<a class=\"color_green t_fs_view"+ position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
-			"onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_FEEDBACK_SESSION_RESULTS+"')\" "+
+			"onmouseover=\"ddrivetip('"+Constants.TOOLTIP_FEEDBACK_SESSION_RESULTS+"')\" "+
 			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
 			"<a class=\"color_brown t_fs_edit" + position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
-			"onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_FEEDBACK_SESSION_EDIT+"')\" onmouseout=\"hideddrivetip()\">Edit</a>"
+			"onmouseover=\"ddrivetip('"+Constants.TOOLTIP_FEEDBACK_SESSION_EDIT+"')\" onmouseout=\"hideddrivetip()\">Edit</a>"
 		);
 		result.append(
 			"<a class=\"color_red t_fs_delete" + position + "\" " +
-			"href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Config.PAGE_INSTRUCTOR_HOME : Config.PAGE_INSTRUCTOR_FEEDBACK)) + "\" " +
+			"href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Constants.ACTION_INSTRUCTOR_HOME : Constants.ACTION_INSTRUCTOR_FEEDBACKS)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
-			"onmouseover=\"ddrivetip('"+Config.HOVER_MESSAGE_FEEDBACK_SESSION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
+			"onmouseover=\"ddrivetip('"+Constants.TOOLTIP_FEEDBACK_SESSION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
 		);
 		return result.toString();
 	}
@@ -683,10 +683,10 @@ public class PageData {
 	 */
 	public static String getInstructorStatusForEval(EvaluationAttributes eval){
 		switch(eval.getStatus()){
-		case AWAITING: return Config.EVALUATION_STATUS_AWAITING;
-		case OPEN: return Config.EVALUATION_STATUS_OPEN;
-		case CLOSED: return Config.EVALUATION_STATUS_CLOSED;
-		default: return Config.EVALUATION_STATUS_PUBLISHED;
+		case AWAITING: return Constants.INSTRUCTOR_EVALUATION_STATUS_AWAITING;
+		case OPEN: return Constants.INSTRUCTOR_EVALUATION_STATUS_OPEN;
+		case CLOSED: return Constants.INSTRUCTOR_EVALUATION_STATUS_CLOSED;
+		default: return Constants.INSTRUCTOR_EVALUATION_STATUS_PUBLISHED;
 		}
 	}
 	
@@ -708,7 +708,7 @@ public class PageData {
 
 	private boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue){
 		int defaultGracePeriod = 15;
-		boolean isEditingExistingEvaluation = (existingGracePeriodValue!=Config.UNINITIALIZED_INT);
+		boolean isEditingExistingEvaluation = (existingGracePeriodValue!=Constants.INT_UNINITIALIZED);
 		if(isEditingExistingEvaluation){
 			return gracePeriodOptionValue==existingGracePeriodValue;
 		} else {

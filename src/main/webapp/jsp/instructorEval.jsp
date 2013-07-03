@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Config"%>
+<%@ page import="teammates.common.util.Constants"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
@@ -45,7 +45,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -60,19 +60,19 @@
 									id="feedbackchangetype"
 									onmouseover="ddrivetip('Select a different type of session here.')"
 									onmouseout="hideddrivetip()" tabindex="0">
-									<option value="<%=Config.PAGE_INSTRUCTOR_FEEDBACK%>">Class Feedback Session with customizable questions</option>
+									<option value="<%=Constants.ACTION_INSTRUCTOR_FEEDBACKS%>">Class Feedback Session with customizable questions</option>
 									<!-- <option value="TEAM">Team Feedback Session</option> -->
 									<!-- <option value="PRIVATE">Private Feedback Session</option> -->
-									<option value="<%=Config.PAGE_INSTRUCTOR_EVAL%>" selected="selected">Standard Peer Evaluation Session</option>			
+									<option value="<%=Constants.ACTION_INSTRUCTOR_EVALS%>" selected="selected">Standard Peer Evaluation Session</option>			
 			</select></p>
 			<br><br>
-			<form method="post" action="<%=Config.PAGE_INSTRUCTOR_EVAL_ADD%>" name="form_addevaluation">
+			<form method="post" action="<%=Constants.ACTION_INSTRUCTOR_EVAL_ADD%>" name="form_addevaluation">
 				<table class="inputTable" id="instructorEvaluationManagement">
 					<tr>
 						<td class="label bold" >Course ID:</td>
-						<td><select name="<%=Config.PARAM_COURSE_ID%>"
-									id="<%=Config.PARAM_COURSE_ID%>"
-									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_COURSE%>')"
+						<td><select name="<%=Constants.PARAM_COURSE_ID%>"
+									id="<%=Constants.PARAM_COURSE_ID%>"
+									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_COURSE%>')"
 									onmouseout="hideddrivetip()" tabindex="1">
 										<%
 											for(String opt: data.getCourseIdOptions()) out.println(opt);
@@ -80,17 +80,17 @@
 							</select></td>
 						<td class="label bold" >Opening time:</td>
 						<td><input style="width: 100px;" type="text"
-									name="<%=Config.PARAM_EVALUATION_START%>"
-									id="<%=Config.PARAM_EVALUATION_START%>" 
-									onclick ="cal.select(this,'<%=Config.PARAM_EVALUATION_START%>','dd/MM/yyyy')"
-									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_START%>')"
+									name="<%=Constants.PARAM_EVALUATION_START%>"
+									id="<%=Constants.PARAM_EVALUATION_START%>" 
+									onclick ="cal.select(this,'<%=Constants.PARAM_EVALUATION_START%>','dd/MM/yyyy')"
+									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_START%>')"
 									onmouseout="hideddrivetip()"
 									value="<%=(data.newEvaluationToBeCreated==null? TimeHelper.formatDate(TimeHelper.getNextHour()) : TimeHelper.formatDate(data.newEvaluationToBeCreated.startTime))%>"
 									readonly="readonly" tabindex="3">
 									@
 							<select style="width: 70px;"
-									name="<%=Config.PARAM_EVALUATION_STARTTIME%>"
-									id="<%=Config.PARAM_EVALUATION_STARTTIME%>"
+									name="<%=Constants.PARAM_EVALUATION_STARTTIME%>"
+									id="<%=Constants.PARAM_EVALUATION_STARTTIME%>"
 									tabindex="4">
 										<%
 											for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
@@ -100,23 +100,23 @@
 					<tr>
 						<td class="label bold" >Evaluation name:</td>
 						<td><input  type="text"
-									name="<%=Config.PARAM_EVALUATION_NAME%>" id="<%=Config.PARAM_EVALUATION_NAME%>"
-									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_NAME%>')"
+									name="<%=Constants.PARAM_EVALUATION_NAME%>" id="<%=Constants.PARAM_EVALUATION_NAME%>"
+									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_NAME%>')"
 									onmouseout="hideddrivetip()" maxlength =<%=FieldValidator.EVALUATION_NAME_MAX_LENGTH%>
 									value="<%if(data.newEvaluationToBeCreated!=null) out.print(InstructorEvalPageData.escapeForHTML(data.newEvaluationToBeCreated.name));%>"
 									tabindex="2" placeholder="e.g. Midterm Evaluation"></td>
 						<td class="label bold" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
-									name="<%=Config.PARAM_EVALUATION_DEADLINE%>" id="<%=Config.PARAM_EVALUATION_DEADLINE%>"
-									onclick ="cal.select(this,'<%=Config.PARAM_EVALUATION_DEADLINE%>','dd/MM/yyyy')"
-									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE%>')"
+									name="<%=Constants.PARAM_EVALUATION_DEADLINE%>" id="<%=Constants.PARAM_EVALUATION_DEADLINE%>"
+									onclick ="cal.select(this,'<%=Constants.PARAM_EVALUATION_DEADLINE%>','dd/MM/yyyy')"
+									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_DEADLINE%>')"
 									onmouseout="hideddrivetip()"
 									value="<%=(data.newEvaluationToBeCreated==null? "" : TimeHelper.formatDate(data.newEvaluationToBeCreated.endTime))%>"
 									readonly="readonly" tabindex="5">
 									@
 							<select style="width: 70px;"
-									name="<%=Config.PARAM_EVALUATION_DEADLINETIME%>"
-									id="<%=Config.PARAM_EVALUATION_DEADLINETIME%>"
+									name="<%=Constants.PARAM_EVALUATION_DEADLINETIME%>"
+									id="<%=Constants.PARAM_EVALUATION_DEADLINETIME%>"
 									tabindex="6">
 										<%
 											for(String opt: data.getTimeOptionsAsHtml(false)) out.println(opt);
@@ -125,22 +125,22 @@
 					</tr>
 					<tr>
 						<td class="label bold">Peer feedback:</td>
-						<td><input type="radio" name="<%=Config.PARAM_EVALUATION_COMMENTSENABLED%>"
+						<td><input type="radio" name="<%=Constants.PARAM_EVALUATION_COMMENTSENABLED%>"
 									id="commentsstatus_enabled" value="true"
 									<%if(data.newEvaluationToBeCreated==null || data.newEvaluationToBeCreated.p2pEnabled) out.print("checked=\"checked\"");%>
-									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
+									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_COMMENTSSTATUS%>')"
 									onmouseout="hideddrivetip()">
 							<label for="commentsstatus_enabled">Enabled</label>
-							<input type="radio" name="<%=Config.PARAM_EVALUATION_COMMENTSENABLED%>"
+							<input type="radio" name="<%=Constants.PARAM_EVALUATION_COMMENTSENABLED%>"
 									id="commentsstatus_disabled" value="false"
 									<%if(data.newEvaluationToBeCreated!=null && !data.newEvaluationToBeCreated.p2pEnabled) out.print("checked=\"checked\"");%>
-									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
+									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_COMMENTSSTATUS%>')"
 									onmouseout="hideddrivetip()">
 							<label for="commentsstatus_disabled">Disabled</label>
 						</td>
 						<td class="label bold" >Time zone:</td>
-						<td><select style="width: 100px;" name="<%=Config.PARAM_EVALUATION_TIMEZONE%>" id="<%=Config.PARAM_EVALUATION_TIMEZONE%>"
-									onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE%>')"
+						<td><select style="width: 100px;" name="<%=Constants.PARAM_EVALUATION_TIMEZONE%>" id="<%=Constants.PARAM_EVALUATION_TIMEZONE%>"
+									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_TIMEZONE%>')"
 									onmouseout="hideddrivetip()" tabindex="7">
 										<%
 											for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
@@ -153,9 +153,9 @@
 					<td></td>
 					<td class="label bold" >Grace Period:</td>
 					<td class="inputField">
-						<select style="width: 70px;" name="<%=Config.PARAM_EVALUATION_GRACEPERIOD%>"
-								id="<%=Config.PARAM_EVALUATION_GRACEPERIOD%>"
-								onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
+						<select style="width: 70px;" name="<%=Constants.PARAM_EVALUATION_GRACEPERIOD%>"
+								id="<%=Constants.PARAM_EVALUATION_GRACEPERIOD%>"
+								onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_GRACEPERIOD%>')"
 								onmouseout="hideddrivetip()" tabindex="7">
 									<%
 										for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
@@ -169,14 +169,14 @@
 							<%
 								if(data.newEvaluationToBeCreated==null){
 							%>
-								<textarea rows="3" cols="90" class="textvalue" name="<%=Config.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Config.PARAM_EVALUATION_INSTRUCTIONS%>"
-										onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
+								<textarea rows="3" cols="90" class="textvalue" name="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>"
+										onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_INSTRUCTIONS%>')"
 										onmouseout="hideddrivetip()" tabindex="8">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
 							<%
 								} else {
 							%>
-								<textarea rows="3" cols="90" class="textvalue" name="<%=Config.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Config.PARAM_EVALUATION_INSTRUCTIONS%>"
-										onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
+								<textarea rows="3" cols="90" class="textvalue" name="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>"
+										onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_INSTRUCTIONS%>')"
 										onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalPageData.escapeForHTML(data.newEvaluationToBeCreated.instructions)%></textarea>
 							<%
 								}
@@ -192,11 +192,11 @@
 									value="Create Evaluation" tabindex="9"></td>
 					</tr>
 				</table>
-				<input type="hidden" name="<%=Config.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+				<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 			<br>
-			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
 			<br>
 			
 
@@ -210,14 +210,14 @@
 								onclick="toggleSort(this,2)">Evaluation</th>
 					<th class="centeralign color_white bold">Status</th>
 					<th class="centeralign color_white bold"><span
-						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
+						onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_RESPONSE_RATE%>')"
 						onmouseout="hideddrivetip()">Response Rate</span></th>
 					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
 				<%
 					int evalIdx = -1;
-												if (data.evaluations.size() > 0) {
-													for(EvaluationDetailsBundle edd: data.evaluations){ evalIdx++;
+														if (data.evaluations.size() > 0) {
+															for(EvaluationDetailsBundle edd: data.evaluations){ evalIdx++;
 				%>
 							<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
 								<td class="t_eval_coursecode"><%=edd.evaluation.courseId%></td>
@@ -263,7 +263,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Config.JSP_FOOTER%>" />
+		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
 	</div>
 </body>
 </html>

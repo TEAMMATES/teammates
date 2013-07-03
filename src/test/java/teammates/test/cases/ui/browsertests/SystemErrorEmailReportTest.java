@@ -9,9 +9,10 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.BuildProperties;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.Url;
 import teammates.logic.Emails;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -44,8 +45,8 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
 		
 		______TS("AssertionError testing");
 		
-		Url url = new Url(Config.PAGE_ADMIN_EXCEPTION_TEST)
-				.withParam(Config.PARAM_ERROR, AssertionError.class.getSimpleName());
+		Url url = new Url(Constants.ACTION_ADMIN_EXCEPTION_TEST)
+				.withParam(Constants.PARAM_ERROR, AssertionError.class.getSimpleName());
 		page.navigateTo(url);
 		print("AssertionError triggered, please check your crash report at "
 				+ BuildProperties.inst().getAppCrashReportEmail());
@@ -56,8 +57,8 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
 		
 		______TS("EntityDoesNotExistException testing");
 		
-		Url url = new Url(Config.PAGE_ADMIN_EXCEPTION_TEST)
-			.withParam(Config.PARAM_ERROR, EntityDoesNotExistException.class.getSimpleName());
+		Url url = new Url(Constants.ACTION_ADMIN_EXCEPTION_TEST)
+			.withParam(Constants.PARAM_ERROR, EntityDoesNotExistException.class.getSimpleName());
 		page.navigateTo(url);
 		print("This exception is handled by system, make sure you don't receive any emails. ");
 	}
@@ -67,8 +68,8 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
 		
 		______TS("NullPointerException testing");
 		
-		Url url = new Url(Config.PAGE_ADMIN_EXCEPTION_TEST)
-			.withParam(Config.PARAM_ERROR, NullPointerException.class.getSimpleName());
+		Url url = new Url(Constants.ACTION_ADMIN_EXCEPTION_TEST)
+			.withParam(Constants.PARAM_ERROR, NullPointerException.class.getSimpleName());
 		page.navigateTo(url);
 		print("NullPointerException triggered, please check your crash report at " + BuildProperties.inst().getAppCrashReportEmail());	
 	}
@@ -78,14 +79,14 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
 		
 		______TS("Deadline Exceeded testing");
 		
-		Url url = new Url(Config.PAGE_ADMIN_EXCEPTION_TEST)
-			.withParam(Config.PARAM_ERROR, DeadlineExceededException.class.getSimpleName());
+		Url url = new Url(Constants.ACTION_ADMIN_EXCEPTION_TEST)
+			.withParam(Constants.PARAM_ERROR, DeadlineExceededException.class.getSimpleName());
 		page.navigateTo(url);
 		print("DeadlineExceededException triggered, please check your crash report at " + BuildProperties.inst().getAppCrashReportEmail());	
 		
 		______TS("DeadlineExceededException error view");
 		
-		page.verifyHtml(Config.TEST_PAGES_FOLDER+"/deadlineExceededErrorPage.html");
+		page.verifyHtml(TestProperties.TEST_PAGES_FOLDER+"/deadlineExceededErrorPage.html");
 		
 	}
 	
@@ -95,8 +96,8 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
 		
 		______TS("UnauthorizedAccessException testing");
 		
-		Url url = new Url(Config.PAGE_ADMIN_EXCEPTION_TEST)
-			.withParam(Config.PARAM_ERROR, UnauthorizedAccessException.class.getSimpleName());
+		Url url = new Url(Constants.ACTION_ADMIN_EXCEPTION_TEST)
+			.withParam(Constants.PARAM_ERROR, UnauthorizedAccessException.class.getSimpleName());
 		page.navigateTo(url);
 		print("This exception is handled by system, make sure you don't receive any emails. ");
 	}

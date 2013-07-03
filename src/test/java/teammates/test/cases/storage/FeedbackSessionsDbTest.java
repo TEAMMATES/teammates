@@ -23,7 +23,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
@@ -72,7 +72,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.createEntity(null);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains(Config.ERROR_DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+			assertContains(Constants.ERROR_DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
 		}
 		
 		______TS("invalid params");
@@ -113,7 +113,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.getFeedbackSession(null, "idOfTypicalCourse1");
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains(Config.ERROR_DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+			assertContains(Constants.ERROR_DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
 		}
 		
 	}
@@ -129,9 +129,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 		List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsForCourse("idOfTypicalCourse1");
 		
 		String expected =
-				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Config.EOL +
-				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Config.EOL +
-				dataBundle.feedbackSessions.get("session3InCourse1").toString() + Config.EOL;
+				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Constants.EOL +
+				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Constants.EOL +
+				dataBundle.feedbackSessions.get("session3InCourse1").toString() + Constants.EOL;
 		
 		for (FeedbackSessionAttributes session : sessions) {
 			assertContains(session.toString(), expected);
@@ -144,7 +144,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.getFeedbackSessionsForCourse(null);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains(Config.ERROR_DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+			assertContains(Constants.ERROR_DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
 		}
 		
 		______TS("non-existant course");
@@ -164,7 +164,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.updateFeedbackSession(null);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains(Config.ERROR_DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+			assertContains(Constants.ERROR_DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
 		}
 		______TS("invalid feedback sesion attributes");
 		FeedbackSessionAttributes invalidFs = getNewFeedbackSession();

@@ -6,7 +6,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class EvalSubmissionEditPageData extends PageData {
 	
@@ -85,9 +85,9 @@ public class EvalSubmissionEditPageData extends PageData {
 	 */
 	public String getEvaluationOptions(SubmissionAttributes sub){
 		String result = "";
-		if(sub.points==Config.POINTS_NOT_SUBMITTED ||
-				sub.points==Config.UNINITIALIZED_INT){
-			sub.points=Config.POINTS_NOT_SURE;
+		if(sub.points==Constants.POINTS_NOT_SUBMITTED ||
+				sub.points==Constants.INT_UNINITIALIZED){
+			sub.points=Constants.POINTS_NOT_SURE;
 		}
 		for(int i=200; i>=0; i-=10){
 			result += "<option value=\"" + i + "\"" +
@@ -97,7 +97,7 @@ public class EvalSubmissionEditPageData extends PageData {
 						">" + convertToEqualShareFormat(i) +
 						"</option>\r\n";
 		}
-		result+="<option value=\"" + Config.POINTS_NOT_SURE + "\""
+		result+="<option value=\"" + Constants.POINTS_NOT_SURE + "\""
 				+ (sub.points==-101 ? " selected=\"selected\"" : "") + ">" +
 				"Not Sure</option>";
 		return result;

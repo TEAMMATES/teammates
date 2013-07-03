@@ -12,7 +12,7 @@ import com.google.appengine.api.utils.SystemProperty;
 
 public class BuildProperties {
 
-	private static Logger log = Config.getLogger();
+	private static Logger log = Constants.getLogger();
 
 	public static BuildProperties instance = null;
 	

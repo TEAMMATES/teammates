@@ -17,7 +17,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -77,7 +77,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.createEntity(null);
 			signalFailureToDetectException();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -98,7 +98,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.getEvaluation(e.courseId, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -142,7 +142,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.updateEvaluation(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 	}
@@ -165,14 +165,14 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.deleteEvaluation(null, e.name);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 		
 		try {
 			evaluationsDb.deleteEvaluation(e.courseId, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			AssertJUnit.assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			AssertJUnit.assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 

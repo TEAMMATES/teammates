@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -20,7 +20,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_INSTRUCTOR_FEEDBACK_ADD;
+		uri = Constants.ACTION_INSTRUCTOR_FEEDBACK_ADD;
 	}
 
 	@BeforeMethod
@@ -65,7 +65,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT
+				Constants.ACTION_INSTRUCTOR_FEEDBACK_EDIT
 						+ "?courseid="
 						+ instructor1ofCourse1.courseId
 						+ "&fsname=ifaat+tca+fs"
@@ -92,10 +92,10 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		a = getAction(params);
 		ShowPageResult pr = (ShowPageResult) a.executeAndPostProcess();
 		assertEquals(
-				Config.JSP_INSTRUCTOR_FEEDBACK+"?message=A+feedback+session+by+this+name+already+exists+under+this+course&error=true&user=idOfInstructor1OfCourse1", 
+				Constants.VIEW_INSTRUCTOR_FEEDBACKS+"?message=A+feedback+session+by+this+name+already+exists+under+this+course&error=true&user=idOfInstructor1OfCourse1", 
 				pr.getDestinationWithParams());
 		assertEquals(true, pr.isError);
-		assertEquals(Config.MESSAGE_FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
+		assertEquals(Constants.STATUS_FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
 		
 		______TS("Masquerade mode");
 		
@@ -109,7 +109,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT
+				Constants.ACTION_INSTRUCTOR_FEEDBACK_EDIT
 						+ "?courseid="
 						+ instructor1ofCourse1.courseId
 						+ "&fsname=masquerade+session"

@@ -1,6 +1,6 @@
 package teammates.common.datatransfer;
 
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 /**
  * Represents the contribution ratings for the student for a given evaluation.
@@ -8,15 +8,15 @@ import teammates.common.util.Config;
  */
 public class StudentResultSummary {
 	/** The original contribution value claimed by the student  */
-	public int claimedFromStudent = Config.UNINITIALIZED_INT;
+	public int claimedFromStudent = Constants.INT_UNINITIALIZED;
 	
 	/** The normalized 'claimed contribution' value to be shown to the instructor  */
-	public int claimedToInstructor = Config.UNINITIALIZED_INT;
+	public int claimedToInstructor = Constants.INT_UNINITIALIZED;
 	
 	/** The 'de-normalized' perceived contribution, to be shown to the student */
-	public int perceivedToStudent = Config.UNINITIALIZED_INT;
+	public int perceivedToStudent = Constants.INT_UNINITIALIZED;
 	
 	/** The normalized 'perceived contribution' value to be shown to the instructor  */
-	public int perceivedToInstructor = Config.UNINITIALIZED_INT;
+	public int perceivedToInstructor = Constants.INT_UNINITIALIZED;
 	
 }

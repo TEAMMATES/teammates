@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class AdminAccountDeletePageActionTest extends BaseActionTest {
 
@@ -15,7 +15,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_ADMIN_ACCOUNT_DELETE;
+		uri = Constants.ACTION_ADMIN_ACCOUNT_DELETE;
 	}
 
 	@BeforeMethod

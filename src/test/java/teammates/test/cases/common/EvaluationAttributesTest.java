@@ -3,7 +3,7 @@ package teammates.test.cases.common;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.util.Config.EOL;
+import static teammates.common.util.Constants.EOL;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.EVALUATION_INSTRUCTIONS_ERROR_MESSAGE;
@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -366,7 +366,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		EvaluationAttributes e ;
 		e = generateValidEvaluationAttributesObject();
 
-		String inStringFormat = Config.getTeammatesGson().toJson(e,
+		String inStringFormat = Constants.getTeammatesGson().toJson(e,
 				EvaluationAttributes.class);
 		assertEquals(inStringFormat, e.toString());
 

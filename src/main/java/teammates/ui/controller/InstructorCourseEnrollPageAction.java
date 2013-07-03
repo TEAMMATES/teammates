@@ -3,16 +3,16 @@ package teammates.ui.controller;
 import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseEnrollPageAction extends Action {
-	protected static final Logger log = Config.getLogger();
+	protected static final Logger log = Constants.getLogger();
 	
 	
 	@Override
 	public ActionResult execute() {
-		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
 		new GateKeeper().verifyAccessible(
@@ -25,7 +25,7 @@ public class InstructorCourseEnrollPageAction extends Action {
 		statusToAdmin = "instructorCourseEnroll Page Load<br>"
 				+ "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
 		
-		return createShowPageResult(Config.JSP_INSTRUCTOR_COURSE_ENROLL, data);
+		return createShowPageResult(Constants.VIEW_INSTRUCTOR_COURSE_ENROLL, data);
 	}
 
 

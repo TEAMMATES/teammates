@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="teammates.common.util.Config"%>
+<%@ page import="teammates.common.util.Constants"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEnrollResultPageData"%>
@@ -33,7 +33,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -47,7 +47,7 @@
 				to modify values and re-do the enrollment.</div>
 				<%
 					for(int i=0; i<5; i++){
-								List<StudentAttributes> students = data.students[i];
+										List<StudentAttributes> students = data.students[i];
 				%>
 					<%
 						if(students.size()>0){
@@ -90,7 +90,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Config.JSP_FOOTER%>" />
+		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
 	</div>
 </body>
 </html>

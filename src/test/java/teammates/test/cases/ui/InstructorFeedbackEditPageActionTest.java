@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
 	
@@ -15,7 +15,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_INSTRUCTOR_FEEDBACK_EDIT;
+		uri = Constants.ACTION_INSTRUCTOR_FEEDBACK_EDIT;
 	}
 
 	@BeforeMethod
@@ -30,8 +30,8 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
 		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 		
 		String[] submissionParams = new String[]{
-				Config.PARAM_COURSE_ID, fs.courseId,
-				Config.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+				Constants.PARAM_COURSE_ID, fs.courseId,
+				Constants.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName
 		};
 		
 		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

@@ -61,7 +61,7 @@ public class StringHelper {
 	 * @return Concatenated string.
 	 */
 	public static String toString(List<String> strings) {
-		return toString(strings, Config.EOL);	
+		return toString(strings, Constants.EOL);	
 	}
 
 	/**

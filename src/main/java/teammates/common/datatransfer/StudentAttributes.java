@@ -1,6 +1,6 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.util.Config.EOL;
+import static teammates.common.util.Constants.EOL;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -7,7 +7,7 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorHomePageAction extends Action {
@@ -35,7 +35,7 @@ public class InstructorHomePageAction extends Action {
 		   
 		statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + data.courses.size();
 		
-		ShowPageResult response = createShowPageResult(Config.JSP_INSTRUCTOR_HOME, data);
+		ShowPageResult response = createShowPageResult(Constants.VIEW_INSTRUCTOR_HOME, data);
 		return response;
 
 	}

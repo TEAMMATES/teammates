@@ -44,6 +44,10 @@ public class TestProperties {
 	
 	private static TestProperties instance;
 	private Properties prop;
+	public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
+	/// TODO: create a subclass (e.g., TestDriverCo) and move all internal utility
+	// functions to that sub class. It should be in util package.
+	public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 	
 	private TestProperties() {
 		prop = new Properties();

@@ -8,7 +8,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 import teammates.logic.GateKeeper;
 
@@ -20,11 +20,11 @@ public class InstructorCourseAddAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String newCourseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String newCourseId = getRequestParam(Constants.PARAM_COURSE_ID);
 		Assumption.assertNotNull(newCourseId);
-		String newCourseName = getRequestParam(Config.PARAM_COURSE_NAME);
+		String newCourseName = getRequestParam(Constants.PARAM_COURSE_NAME);
 		Assumption.assertNotNull(newCourseName);
-		String newCourseInstructorList = getRequestParam(Config.PARAM_COURSE_INSTRUCTOR_LIST);
+		String newCourseInstructorList = getRequestParam(Constants.PARAM_COURSE_INSTRUCTOR_LIST);
 		Assumption.assertNotNull(newCourseInstructorList);
 		
 		new GateKeeper().verifyInstructorPrivileges(account);
@@ -54,7 +54,7 @@ public class InstructorCourseAddAction extends Action {
 		
 		statusToAdmin +=  "<br>Total courses: " + data.currentCourses.size();
 		
-		return createShowPageResult(Config.JSP_INSTRUCTOR_COURSE, data);
+		return createShowPageResult(Constants.VIEW_INSTRUCTOR_COURSES, data);
 	}
 
 
@@ -63,11 +63,11 @@ public class InstructorCourseAddAction extends Action {
 		
 		try {
 			logic.createCourseAndInstructor(data.account.googleId, course.id, course.name);
-			statusToUser.add(Config.MESSAGE_COURSE_ADDED);
+			statusToUser.add(Constants.STATUS_COURSE_ADDED);
 			isError = false;
 			
 		} catch (EntityAlreadyExistsException e) {
-			statusToUser.add(Config.MESSAGE_COURSE_EXISTS);
+			statusToUser.add(Constants.STATUS_COURSE_EXISTS);
 			isError = true;
 		} catch (InvalidParametersException e) {
 			statusToUser.add(e.getMessage());

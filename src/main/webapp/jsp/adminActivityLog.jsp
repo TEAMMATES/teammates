@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="teammates.common.util.Config" %>
+<%@ page import="teammates.common.util.Constants" %>
 <%@ page import="teammates.ui.controller.ActivityLogEntry" %>
 <%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
 
@@ -26,7 +26,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-	<jsp:include page="<%=Config.JSP_ADMIN_HEADER%>" />
+	<jsp:include page="<%=Constants.VIEW_ADMIN_HEADER%>" />
 	</div>
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
@@ -154,8 +154,8 @@
 		      </tr>
 		      <%
 		      	if (data.queryMessage != null){
-		                          out.println("<tr><td colspan=\"3\" class=\"color_red bold\">" + data.queryMessage + "</td></tr>");
-		                      }
+		      		                          out.println("<tr><td colspan=\"3\" class=\"color_red bold\">" + data.queryMessage + "</td></tr>");
+		      		                      }
 		      %>
 		    </table>
 		    <input type="hidden" name="offset" value="<%=data.offset%>">
@@ -166,7 +166,7 @@
 		    <br>
 			<%
 				List<ActivityLogEntry> appLogs = data.logs;
-							  if (appLogs != null) {
+								  if (appLogs != null) {
 			%>
 			<table class="dataTable">
 		        <tr>
@@ -184,7 +184,7 @@
 		        </tr>
 		    <%
 		    	} else {
-		    		    		            for (ActivityLogEntry log : appLogs){
+		    		    		    		            for (ActivityLogEntry log : appLogs){
 		    %>
 		        <tr>
 		          <td><%=log.getDateInfo()%></td>
@@ -195,14 +195,14 @@
 		        </tr>
 		    <%
 		    	}
-		    		        }
+		    		    		        }
 		    %>
 		      </table>
 		      <%
 		      	}
 		      %>
 			    
-			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
 			<br>
 			<div class="rightalign"><a href="#frameBodyWrapper">Back To Top</a></div>
 			<br>
@@ -211,7 +211,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Config.JSP_FOOTER%>" />
+		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
 	</div>
 </body>
 </html>

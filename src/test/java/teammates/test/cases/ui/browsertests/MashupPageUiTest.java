@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
@@ -29,7 +29,7 @@ public class MashupPageUiTest extends BaseUiTestCase {
 	@Test
 	public void loadWebpageCompilation() throws Exception {
 		AppPage page = loginAdmin(browser);
-		page.navigateTo(new Url(Config.PAGE_MASHUP));
+		page.navigateTo(new Url(Constants.VIEW_MASHUP));
 	}
 
 	@AfterClass

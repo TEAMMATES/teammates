@@ -3,7 +3,7 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 import com.google.apphosting.api.DeadlineExceededException;
@@ -16,7 +16,7 @@ public class AdminExceptionTestAction extends Action {
 
 		new GateKeeper().verifyAdminPrivileges(account);
 
-		String error = getRequestParam(Config.PARAM_ERROR);
+		String error = getRequestParam(Constants.PARAM_ERROR);
 
 		if (error.equals(AssertionError.class.getSimpleName())) {
 			throw new AssertionError("AssertionError Testing");
@@ -36,7 +36,7 @@ public class AdminExceptionTestAction extends Action {
 
 		statusToAdmin = "adminExceptionTest";
 				
-		return createRedirectResult(Config.PAGE_ADMIN_HOME);
+		return createRedirectResult(Constants.ACTION_ADMIN_HOME);
 	}
 
 }

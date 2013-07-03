@@ -3,7 +3,7 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class StudentFeedbackSubmitPageAction extends Action {
@@ -13,11 +13,11 @@ public class StudentFeedbackSubmitPageAction extends Action {
 			InvalidParametersException {
 		
 		// Check for empty parameters
-		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
-		String feedbackSessionName = getRequestParam(Config.PARAM_FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String feedbackSessionName = getRequestParam(Constants.PARAM_FEEDBACK_SESSION_NAME);
 		
 		if(courseId==null || feedbackSessionName == null) {
-			return createRedirectResult(Config.PAGE_STUDENT_HOME);
+			return createRedirectResult(Constants.ACTION_STUDENT_HOME);
 		}
 		
 		if(notYetJoinedCourse(courseId, account.googleId)){
@@ -45,7 +45,7 @@ public class StudentFeedbackSubmitPageAction extends Action {
 					"This feedback session is not yet visible.");
 		}
 		
-		return createShowPageResult(Config.JSP_STUDENT_FEEDBACK_SUBMIT, data);
+		return createShowPageResult(Constants.VIEW_STUDENT_FEEDBACK_SUBMIT, data);
 	}
 
 }

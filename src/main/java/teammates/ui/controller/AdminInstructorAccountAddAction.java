@@ -11,7 +11,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.BuildProperties;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.FileHelper;
 import teammates.logic.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
@@ -28,16 +28,16 @@ public class AdminInstructorAccountAddAction extends Action {
 		
 		AdminHomePageData data = new AdminHomePageData(account);
 		
-		data.instructorId = getRequestParam(Config.PARAM_INSTRUCTOR_ID);
+		data.instructorId = getRequestParam(Constants.PARAM_INSTRUCTOR_ID);
 		Assumption.assertNotNull(data.instructorId);
-		data.instructorName = getRequestParam(Config.PARAM_INSTRUCTOR_NAME);
+		data.instructorName = getRequestParam(Constants.PARAM_INSTRUCTOR_NAME);
 		Assumption.assertNotNull(data.instructorName);
-		data.instructorEmail = getRequestParam(Config.PARAM_INSTRUCTOR_EMAIL);
+		data.instructorEmail = getRequestParam(Constants.PARAM_INSTRUCTOR_EMAIL);
 		Assumption.assertNotNull(data.instructorEmail);
-		data.instructorInstitution = getRequestParam(Config.PARAM_INSTRUCTOR_INSTITUTION);
+		data.instructorInstitution = getRequestParam(Constants.PARAM_INSTRUCTOR_INSTITUTION);
 		Assumption.assertNotNull(data.instructorInstitution);
 		
-		String importSampleData = getRequestParam(Config.PARAM_INSTRUCTOR_IMPORT_SAMPLE);
+		String importSampleData = getRequestParam(Constants.PARAM_INSTRUCTOR_IMPORT_SAMPLE);
 		
 		data.instructorId = data.instructorId.trim();
 		data.instructorName = data.instructorName.trim();
@@ -48,8 +48,8 @@ public class AdminInstructorAccountAddAction extends Action {
 			isError = true;
 			String errorMessage = "The Google ID " + data.instructorId + " is already registered as an instructor";
 			statusToUser.add(errorMessage);
-			statusToAdmin = Config.LOG_SERVLET_ACTION_FAILURE + " : " + errorMessage;
-			return createShowPageResult(Config.JSP_ADMIN_HOME, data);
+			statusToAdmin = Constants.ACTION_RESULT_FAILURE + " : " + errorMessage;
+			return createShowPageResult(Constants.VIEW_ADMIN_HOME, data);
 		}
 		
 		try {
@@ -66,8 +66,8 @@ public class AdminInstructorAccountAddAction extends Action {
 		} catch (Exception e) {
 			isError = true;
 			statusToUser.add(e.getMessage());
-			statusToAdmin = Config.LOG_SERVLET_ACTION_FAILURE + " : " + e.getMessage();
-			return createShowPageResult(Config.JSP_ADMIN_HOME, data);
+			statusToAdmin = Constants.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+			return createShowPageResult(Constants.VIEW_ADMIN_HOME, data);
 		}
 
 		statusToUser.add("Instructor " + data.instructorName + " has been successfully created");
@@ -76,7 +76,7 @@ public class AdminInstructorAccountAddAction extends Action {
 				+ "<span class=\"bold\">Email: </span>" + data.instructorEmail 
 				+ "<span class=\"bold\">Institution: </span>" + data.instructorInstitution;
 		
-		return createRedirectResult(Config.PAGE_ADMIN_HOME);
+		return createRedirectResult(Constants.ACTION_ADMIN_HOME);
 	}
 	
 	private void importDemoData(AdminHomePageData helper)
@@ -116,7 +116,7 @@ public class AdminInstructorAccountAddAction extends Action {
 		jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
 				formatter.format(c.getTime()));
 
-		Gson gson = Config.getTeammatesGson();
+		Gson gson = Constants.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 		
 		new BackDoorLogic().persistDataBundle(data);

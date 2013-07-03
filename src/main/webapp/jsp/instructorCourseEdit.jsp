@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Config" %>
+<%@ page import="teammates.common.util.Constants" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
@@ -34,7 +34,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -44,16 +44,16 @@
 				<h1>Edit Course Details</h1>
 			</div>
 				
-			<form action="<%=Config.PAGE_INSTRUCTOR_COURSE_EDIT_SAVE%>" method="post">
-				<input type="hidden" name="<%=Config.PARAM_COURSE_ID%>" value="<%=data.course.id%>">
-				<input type="hidden" id="<%=Config.PARAM_INSTRUCTOR_ID%>" name="<%=Config.PARAM_INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
+			<form action="<%=Constants.ACTION_INSTRUCTOR_COURSE_EDIT_SAVE%>" method="post">
+				<input type="hidden" name="<%=Constants.PARAM_COURSE_ID%>" value="<%=data.course.id%>">
+				<input type="hidden" id="<%=Constants.PARAM_INSTRUCTOR_ID%>" name="<%=Constants.PARAM_INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
 				<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold">Course ID:</td>
 					</tr>
 					<tr>
 						<td><input class="addinput" type="text"
-							name="<%=Config.PARAM_COURSE_ID%>" id="<%=Config.PARAM_COURSE_ID%>"
+							name="<%=Constants.PARAM_COURSE_ID%>" id="<%=Constants.PARAM_COURSE_ID%>"
 							value="<%=(data.course.id==null ? "" : escapeForHTML(data.course.id))%>"
 							onmouseover="ddrivetip('Identifier of the course, e.g.CS3215-Sem1.')"
 							onmouseout="hideddrivetip()"
@@ -64,7 +64,7 @@
 					</tr>
 					<tr>
 						<td><input class="addinput" type="text"
-							name="<%=Config.PARAM_COURSE_NAME%>" id="<%=Config.PARAM_COURSE_NAME%>"
+							name="<%=Constants.PARAM_COURSE_NAME%>" id="<%=Constants.PARAM_COURSE_NAME%>"
 							value="<%=(data.course.name==null ? "" : escapeForHTML(data.course.name))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
@@ -78,12 +78,12 @@
 							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
 							<%
 								String instructorInfo = "";
-													for (int i = 0; i < data.instructorList.size(); i++){
-														InstructorAttributes instructor = data.instructorList.get(i);
-														instructorInfo += instructor.googleId + "|" + instructor.name + "|" + instructor.email + "\n";
-													}
+																		for (int i = 0; i < data.instructorList.size(); i++){
+																			InstructorAttributes instructor = data.instructorList.get(i);
+																			instructorInfo += instructor.googleId + "|" + instructor.name + "|" + instructor.email + "\n";
+																		}
 							%>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%=Config.PARAM_COURSE_INSTRUCTOR_LIST%>" id="<%=Config.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=escapeForHTML(instructorInfo.trim())%></textarea>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%=Constants.PARAM_COURSE_INSTRUCTOR_LIST%>" id="<%=Constants.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=escapeForHTML(instructorInfo.trim())%></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -93,19 +93,19 @@
 					</tr>
 				</table>
 				
-				<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
+				<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
 				<br>
 				
 				<br>
 				<br>
-				<input type="hidden" name="<%=Config.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+				<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Config.JSP_FOOTER%>" />
+		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
 	</div>
 </body>
 </html>

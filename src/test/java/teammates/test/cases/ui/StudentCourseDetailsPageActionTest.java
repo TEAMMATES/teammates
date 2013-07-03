@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
@@ -15,7 +15,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_STUDENT_COURSE_DETAILS;
+		uri = Constants.ACTION_STUDENT_COURSE_DETAILS;
 	}
 
 	@BeforeMethod
@@ -30,7 +30,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 		String iDOfCourseOfStudent = dataBundle.students.get("student1InCourse1").course;
 		
 		String[] submissionParams = new String[]{
-					Config.PARAM_COURSE_ID, iDOfCourseOfStudent
+					Constants.PARAM_COURSE_ID, iDOfCourseOfStudent
 				};
 		
 		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);

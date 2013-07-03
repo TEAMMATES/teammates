@@ -26,9 +26,10 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.FileHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
@@ -62,7 +63,7 @@ import com.google.gson.Gson;
 
 public class PerformanceProfiler extends Thread{
 	
-	private static final String defaultReportPath = Config.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
+	private static final String defaultReportPath = TestProperties.TEST_DATA_FOLDER + "/"+"nameOfTheReportFile.txt";
 	private final Integer NUM_OF_RUNS = 2;
 	private final Integer WAIT_TIME_TEST = 1000;//waiting time between tests, in ms
 	private final Integer WAIT_TIME_RUN = 5000;//waiting time between runs, in ms
@@ -70,7 +71,7 @@ public class PerformanceProfiler extends Thread{
 	
 	private String reportFilePath;
 	private DataBundle data;
-	private Gson gson = Config.getTeammatesGson();
+	private Gson gson = Constants.getTeammatesGson();
 	private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>> ();
 	private Browser browser;
 	
@@ -83,7 +84,7 @@ public class PerformanceProfiler extends Thread{
 		//Data used for profiling
 		String jsonString= "";
 		try {
-			jsonString = FileHelper.readFile(Config.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
+			jsonString = FileHelper.readFile(TestProperties.TEST_DATA_FOLDER + "/" + runningDataSourceFile);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
@@ -290,7 +291,7 @@ public class PerformanceProfiler extends Thread{
     	Date date2 = cal.getTime();
 		long startTime = System.nanoTime();
 		browser.addEvaluation("idOf_Z2_Cou0_of_Coo0", "test", date1,date2,true, "This is the instructions, please follow", 5);
-		browser.waitForStatusMessage(Common.MESSAGE_EVALUATION_ADDED);
+		browser.waitForStatusMessage(Common.STATUS_EVALUATION_ADDED);
     	return System.nanoTime() - startTime;
     }
     
@@ -319,7 +320,7 @@ public class PerformanceProfiler extends Thread{
     public Long instructorAddCourse() {
     	long startTime = System.nanoTime();
     	browser.addCourse("testcourse", "testcourse");
-    	browser.waitForStatusMessage(Common.MESSAGE_COURSE_ADDED);
+    	browser.waitForStatusMessage(Common.STATUS_COURSE_ADDED);
     	return System.nanoTime() - startTime;
     }
     

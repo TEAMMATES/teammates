@@ -2,7 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalRemindAction extends InstructorEvalPageAction {
@@ -11,8 +11,8 @@ public class InstructorEvalRemindAction extends InstructorEvalPageAction {
 	protected ActionResult execute() 
 			throws EntityDoesNotExistException,	InvalidParametersException {
 		
-		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
-		String evalName = getRequestParam(Config.PARAM_EVALUATION_NAME);
+		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String evalName = getRequestParam(Constants.PARAM_EVALUATION_NAME);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -20,12 +20,12 @@ public class InstructorEvalRemindAction extends InstructorEvalPageAction {
 		
 		logic.sendReminderForEvaluation(courseId,evalName);
 		
-		statusToUser.add(Config.MESSAGE_EVALUATION_REMINDERSSENT);
+		statusToUser.add(Constants.STATUS_EVALUATION_REMINDERSSENT);
 		statusToAdmin = "Email sent out to all students who have not completed " +
 				"Evaluation <span class=\"bold\">(" + evalName + ")</span> " +
 				"of Course <span class=\"bold\">[" + courseId + "]</span>";
 		
-		return createRedirectResult(Config.PAGE_INSTRUCTOR_EVAL);
+		return createRedirectResult(Constants.ACTION_INSTRUCTOR_EVALS);
 	}
 	
 }

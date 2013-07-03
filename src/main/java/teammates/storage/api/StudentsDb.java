@@ -14,7 +14,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Student;
@@ -30,7 +30,7 @@ public class StudentsDb extends EntitiesDb {
 
 	public static final String ERROR_UPDATE_EMAIL_ALREADY_USED = "Trying to update to an email that is already used by: ";
 	
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Constants.getLogger();
 
 	/**
 	 * Preconditions: <br>
@@ -40,8 +40,8 @@ public class StudentsDb extends EntitiesDb {
 	 *         there is no such student.
 	 */
 	public StudentAttributes getStudentForEmail(String courseId, String email) {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, email);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, email);
 	
 		Student s = getStudentEntityForEmail(courseId, email);
 
@@ -59,8 +59,8 @@ public class StudentsDb extends EntitiesDb {
 	 * @return null if no such student is found. 
 	 */
 	public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, googleId);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
 
 		Query q = getPM().newQuery(Student.class);
 		q.declareParameters("String googleIdParam, String courseIdParam");
@@ -84,7 +84,7 @@ public class StudentsDb extends EntitiesDb {
 	 * @return null if no matching student.
 	 */
 	public StudentAttributes getStudentForRegistrationKey(String registrationKey){
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, registrationKey);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, registrationKey);
 		StudentAttributes studentAttributes;
 		registrationKey = registrationKey.trim();
 		String originalKey = registrationKey;
@@ -117,7 +117,7 @@ public class StudentsDb extends EntitiesDb {
 	 * @return an empty list if no such students are found.
 	 */
 	public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, googleId);
 		
 		List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
 	
@@ -137,7 +137,7 @@ public class StudentsDb extends EntitiesDb {
 	 * @return an empty list if no students in the course.
 	 */
 	public List<StudentAttributes> getStudentsForCourse(String courseId) {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Student> studentList = getStudentEntitiesForCourse(courseId);
 		
@@ -158,8 +158,8 @@ public class StudentsDb extends EntitiesDb {
 	 * @return an empty list if no students in the course.
 	 */
 	public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, teamName);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, teamName);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Student> studentList = getStudentEntitiesForTeam(teamName, courseId);
 		
@@ -180,7 +180,7 @@ public class StudentsDb extends EntitiesDb {
 	 * @return an empty list if no students in the course.
 	 */
 	public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
 		ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
@@ -219,8 +219,8 @@ public class StudentsDb extends EntitiesDb {
 			String newTeamName, String newEmail, String newGoogleID,
 			String newComments)
 			throws InvalidParametersException, EntityDoesNotExistException {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, email);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, email);
 		
 		verifyStudentExists(courseId, email);
 		
@@ -251,8 +251,8 @@ public class StudentsDb extends EntitiesDb {
 	 *  
 	 */
 	public void deleteStudent(String courseId, String email) {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, email);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, email);
 	
 		Student studentToDelete = getStudentEntityForEmail(courseId, email);
 	
@@ -267,12 +267,12 @@ public class StudentsDb extends EntitiesDb {
 		int elapsedTime = 0;
 		Student studentCheck = getStudentEntityForEmail(courseId, email);
 		while ((studentCheck != null)
-				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+				&& (elapsedTime < Constants.PERSISTENCE_CHECK_DURATION)) {
 			ThreadHelper.waitBriefly();
 			studentCheck = getStudentEntityForEmail(courseId, email);
 			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Constants.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteStudent->"
 					+ courseId + "/" + email);
 		}
@@ -285,7 +285,7 @@ public class StudentsDb extends EntitiesDb {
 	 *  
 	 */
 	public void deleteStudentsForGoogleId(String googleId) {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, googleId);
 
 		List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
 
@@ -300,7 +300,7 @@ public class StudentsDb extends EntitiesDb {
 	 *  
 	 */
 	public void deleteStudentsForCourse(String courseId) {
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
 	
 		List<Student> studentList = getStudentEntitiesForCourse(courseId);
 	

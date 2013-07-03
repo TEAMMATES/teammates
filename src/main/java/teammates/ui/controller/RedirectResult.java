@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 /** A 'redirect' type result. That is, the Browser will be required to make 
  * another request to the specified {@code destination}.
  */
 public class RedirectResult extends ActionResult {
-	static Logger log = Config.getLogger();
+	static Logger log = Constants.getLogger();
 	
 	public RedirectResult(
 			String destination, 

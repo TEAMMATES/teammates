@@ -5,7 +5,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class StudentCourseDetailsPageAction extends Action {
@@ -16,7 +16,7 @@ public class StudentCourseDetailsPageAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 
-		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
 		if(notYetJoinedCourse(courseId, account.googleId)){
@@ -40,7 +40,7 @@ public class StudentCourseDetailsPageAction extends Action {
 				data.courseDetails.course.name + "</span>";
 
 		ShowPageResult response = createShowPageResult(
-				Config.JSP_STUDENT_COURSE_DETAILS, data);
+				Constants.VIEW_STUDENT_COURSE_DETAILS, data);
 		return response;
 
 	}

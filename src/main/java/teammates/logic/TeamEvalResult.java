@@ -3,7 +3,7 @@ package teammates.logic;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.StringHelper;
 
 /**
@@ -12,12 +12,12 @@ import teammates.common.util.StringHelper;
  */
 public class TeamEvalResult {
 	/** submitted value is uninitialized */
-	public static int NA = Config.UNINITIALIZED_INT;
+	public static int NA = Constants.INT_UNINITIALIZED;
 	/** submitted 'Not SUre' */
-	public static int NSU = Config.POINTS_NOT_SURE;
+	public static int NSU = Constants.POINTS_NOT_SURE;
 	/** did Not SuBmit */
-	public static int NSB = Config.POINTS_NOT_SUBMITTED;
-	private static Logger log = Config.getLogger();
+	public static int NSB = Constants.POINTS_NOT_SUBMITTED;
+	private static Logger log = Constants.getLogger();
 
 	/** submission values originally from students of the team */
 	public int[][] claimed;
@@ -95,8 +95,8 @@ public class TeamEvalResult {
 		for (int i = 0; i < teamSize; i++) {
 			for (int j = 0; j < teamSize; j++) {
 				int points = input[i][j];
-				boolean pointsNotGiven = (points == Config.POINTS_NOT_SUBMITTED)
-						|| (points == Config.POINTS_NOT_SURE);
+				boolean pointsNotGiven = (points == Constants.POINTS_NOT_SUBMITTED)
+						|| (points == Constants.POINTS_NOT_SURE);
 				output[i][j] = pointsNotGiven ? NA : points;
 			}
 		}
@@ -370,7 +370,7 @@ public class TeamEvalResult {
 	}
 
 	private String pointsToString(int[] input) {
-		return replaceMagicNumbers(Arrays.toString(input)) + Config.EOL;
+		return replaceMagicNumbers(Arrays.toString(input)) + Constants.EOL;
 	}
 
 	public static String pointsToString(double[][] array) {
@@ -381,14 +381,14 @@ public class TeamEvalResult {
 		int secondDividerLocation = teamSize * 2 - 1;
 		int thirdDividerLocation = secondDividerLocation + 1;
 		for (int i = 0; i < array.length; i++) {
-			returnValue = returnValue + Arrays.toString(array[i]) + Config.EOL;
+			returnValue = returnValue + Arrays.toString(array[i]) + Constants.EOL;
 			if (isSquareArray) {
 				continue;
 			}
 			if ((i == firstDividerLocation) || (i == secondDividerLocation)
 					|| (i == thirdDividerLocation)) {
 				returnValue = returnValue + "======================="
-						+ Config.EOL;
+						+ Constants.EOL;
 			}
 		}
 		returnValue = replaceMagicNumbers(returnValue);
@@ -411,34 +411,34 @@ public class TeamEvalResult {
 
 	public String toString(int indent) {
 		String indentString = StringHelper.getIndent(indent);
-		String divider = "======================" + Config.EOL;
+		String divider = "======================" + Constants.EOL;
 		StringBuilder sb = new StringBuilder();
 		sb.append("           claimed from student:");
 		String filler = "                                ";
 		sb.append(indentString
-				+ pointsToString((claimed)).replace(Config.EOL,
-						Config.EOL + indentString + filler));
+				+ pointsToString((claimed)).replace(Constants.EOL,
+						Constants.EOL + indentString + filler));
 		sb.append(divider);
 		sb.append("              normalizedClaimed:");
 		sb.append(indentString
-				+ pointsToString((normalizedClaimed)).replace(Config.EOL,
-						Config.EOL + indentString + filler));
+				+ pointsToString((normalizedClaimed)).replace(Constants.EOL,
+						Constants.EOL + indentString + filler));
 		sb.append(divider);
 		sb.append("normalizedPeerContributionRatio:");
 		sb.append(indentString
 				+ pointsToString(normalizedPeerContributionRatio).replace(
-						Config.EOL, Config.EOL + indentString + filler));
+						Constants.EOL, Constants.EOL + indentString + filler));
 		sb.append(divider);
 		sb.append("     normalizedAveragePerceived:");
 		sb.append(indentString
 				+ pointsToString(normalizedAveragePerceived).replace(
-						Config.EOL, Config.EOL + indentString + filler));
+						Constants.EOL, Constants.EOL + indentString + filler));
 		sb.append(divider);
 
 		sb.append("   denormalizedAveragePerceived:");
 		sb.append(indentString
 				+ pointsToString((denormalizedAveragePerceived)).replace(
-						Config.EOL, Config.EOL + indentString + filler));
+						Constants.EOL, Constants.EOL + indentString + filler));
 		sb.append(divider);
 		return sb.toString();
 	}

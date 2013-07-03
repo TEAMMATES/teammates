@@ -13,7 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -28,7 +28,7 @@ public class AccountsLogic {
 	private static AccountsLogic instance = null;
 	private static final AccountsDb accountsDb = new AccountsDb();
 	
-	private static Logger log = Config.getLogger();
+	private static Logger log = Constants.getLogger();
 	
 	public static AccountsLogic inst() {
 		if (instance == null)
@@ -99,15 +99,15 @@ public class AccountsLogic {
 		StudentAttributes student = StudentsLogic.inst().getStudentForRegistrationKey(registrationKey);
 		
 		if(student==null){
-			throw new JoinCourseException(Config.ERRORCODE_INVALID_KEY,
+			throw new JoinCourseException(Constants.ERRORCODE_INVALID_KEY,
 					"You have entered an invalid key: " + registrationKey);
 		} else if (student.isRegistered()) {
 			if (student.googleId.equals(googleId)) {
-				throw new JoinCourseException(Config.ERRORCODE_ALREADY_JOINED,
+				throw new JoinCourseException(Constants.ERRORCODE_ALREADY_JOINED,
 						googleId + " has already joined this course");
 			} else {
 				throw new JoinCourseException(
-						Config.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
+						Constants.ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER,
 						registrationKey + " belongs to a different user");
 			}
 		} 

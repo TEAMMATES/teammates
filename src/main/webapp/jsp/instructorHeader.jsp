@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Config"%>
+<%@ page import="teammates.common.util.Constants"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%
 	PageData data = (PageData)request.getAttribute("data");
@@ -17,15 +17,15 @@
 					<li><a class='nav courses' data-link="instructorCourse" href="<%=data.getInstructorCourseLink()%>">Courses</a></li>
 					<li><a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorEvaluationLink()%>">Evaluations</a></li>
 					<li><a class='nav help' href="/instructorHelp.html" target="_blank">Help</a></li>
-					<li><a class='nav logout' href="<%=Config.JSP_LOGOUT%>">Logout</a>
+					<li><a class='nav logout' href="<%=Constants.VIEW_LOGOUT%>">Logout</a>
 					<b><%
-						if(data.account.googleId.length()>=Config.USER_ID_MAX_DISPLAY_LENGTH){
+						if(data.account.googleId.length()>=Constants.USER_ID_MAX_DISPLAY_LENGTH){
 					%>
 					<span onmouseover="ddrivetip('<%=data.account.googleId%>')" onmouseout="hideddrivetip()">
-							(<%=PageData.truncate(data.account.googleId,Config.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%
+							(<%=PageData.truncate(data.account.googleId,Constants.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%
 						}else{
 					%>
-							(<%=PageData.truncate(data.account.googleId,Config.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %></b>
+							(<%=PageData.truncate(data.account.googleId,Constants.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %></b>
 					</li>
 				</ul>
 			</div>

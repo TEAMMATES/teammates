@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class AdminAccountDetailsPageAction extends Action {
@@ -18,7 +18,7 @@ public class AdminAccountDetailsPageAction extends Action {
 		
 		AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account);
 		
-		String googleId = getRequestParam(Config.PARAM_INSTRUCTOR_ID);
+		String googleId = getRequestParam(Constants.PARAM_INSTRUCTOR_ID);
 		
 		data.accountInformation = logic.getAccount(googleId);
 		
@@ -38,7 +38,7 @@ public class AdminAccountDetailsPageAction extends Action {
 		statusToAdmin = "adminAccountDetails Page Load<br>"+ 
 				"Viewing details for " + data.accountInformation.name + "(" + googleId + ")";
 		
-		return createShowPageResult(Config.JSP_ADMIN_ACCOUNT_DETAILS, data);
+		return createShowPageResult(Constants.VIEW_ADMIN_ACCOUNT_DETAILS, data);
 	}
 
 }

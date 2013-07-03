@@ -3,7 +3,7 @@ package teammates.test.cases.storage;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
-import static teammates.common.util.Config.EOL;
+import static teammates.common.util.Constants.EOL;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 
@@ -71,7 +71,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 			instructorsDb.createEntity(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -92,7 +92,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 			instructorsDb.getInstructorForGoogleId(null, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -132,7 +132,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 		try {
 			instructorsDb.updateInstructor(null);
 		} catch (AssertionError ae) {
-			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
+			assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, ae.getMessage());
 		}
 	}
 	
@@ -154,7 +154,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 			instructorsDb.deleteInstructor(null, null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	

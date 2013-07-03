@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class InstructorEvalSubmissionEditPageActionTest extends BaseActionTest {
 
@@ -17,7 +17,7 @@ public class InstructorEvalSubmissionEditPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
+		uri = Constants.ACTION_INSTRUCTOR_EVAL_SUBMISSION_EDIT;
 	}
 
 	@BeforeMethod
@@ -33,9 +33,9 @@ public class InstructorEvalSubmissionEditPageActionTest extends BaseActionTest {
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 				
 		String[] submissionParams = {
-			Config.PARAM_COURSE_ID, eval.courseId,
-			Config.PARAM_EVALUATION_NAME, eval.name,
-			Config.PARAM_STUDENT_EMAIL, student.email
+			Constants.PARAM_COURSE_ID, eval.courseId,
+			Constants.PARAM_EVALUATION_NAME, eval.name,
+			Constants.PARAM_STUDENT_EMAIL, student.email
 			};
 		
 		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

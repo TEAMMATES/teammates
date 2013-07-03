@@ -19,13 +19,13 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.storage.api.FeedbackQuestionsDb;
 
 public class FeedbackQuestionsLogic {
 	
 	@SuppressWarnings("unused")
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Constants.getLogger();
 
 	private static FeedbackQuestionsLogic instance = null;
 	
@@ -337,7 +337,7 @@ public class FeedbackQuestionsLogic {
 		int numberOfResponsesNeeded =
 				question.numberOfEntitiesToGiveFeedbackTo;
 		
-		if (numberOfResponsesNeeded == Config.MAX_POSSIBLE_RECIPIENTS) {
+		if (numberOfResponsesNeeded == Constants.MAX_POSSIBLE_RECIPIENTS) {
 			numberOfResponsesNeeded = getRecipientsForQuestion(question, email).size();
 		}
 		
@@ -361,7 +361,7 @@ public class FeedbackQuestionsLogic {
 		int numberOfResponsesNeeded =
 				question.numberOfEntitiesToGiveFeedbackTo;
 		
-		if (numberOfResponsesNeeded == Config.MAX_POSSIBLE_RECIPIENTS) {
+		if (numberOfResponsesNeeded == Constants.MAX_POSSIBLE_RECIPIENTS) {
 			numberOfResponsesNeeded = getRecipientsForQuestion(question, teamName).size();
 		}
 				
@@ -453,7 +453,7 @@ public class FeedbackQuestionsLogic {
 			}
 			break;
 		case NONE:
-			recipients.put(Config.GENERAL_QUESTION, Config.GENERAL_QUESTION);
+			recipients.put(Constants.GENERAL_QUESTION, Constants.GENERAL_QUESTION);
 			break;
 		default:
 			break;

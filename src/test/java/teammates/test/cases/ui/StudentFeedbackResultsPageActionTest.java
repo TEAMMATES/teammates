@@ -8,7 +8,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.FeedbackSessionsLogic;
 import teammates.storage.api.EvaluationsDb;
 
@@ -20,7 +20,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_STUDENT_FEEDBACK_RESULTS;
+		uri = Constants.ACTION_STUDENT_FEEDBACK_RESULTS;
 	}
 
 	@BeforeMethod
@@ -37,8 +37,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 		FeedbackSessionsLogic.inst().updateFeedbackSession(fs);
 		
 		String[] submissionParams = new String[]{
-				Config.PARAM_COURSE_ID, fs.courseId,
-				Config.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+				Constants.PARAM_COURSE_ID, fs.courseId,
+				Constants.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName
 				};
 		
 		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -50,14 +50,14 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 		
 		//if the user is not a student of the course, we redirect to home page.
 		gaeSimulation.loginUser("unreg.user");
-		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Constants.ACTION_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
 		
 		//if the user is not a student of the course, we redirect to home page.
 		gaeSimulation.loginAsInstructor(instructorId);
-		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Constants.ACTION_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);

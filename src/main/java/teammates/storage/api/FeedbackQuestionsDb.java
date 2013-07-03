@@ -13,13 +13,13 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionsDb extends EntitiesDb {
 	
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Constants.getLogger();
 
 	/**
 	 * Preconditions: <br>
@@ -28,7 +28,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 	 */
 	public FeedbackQuestionAttributes getFeedbackQuestion (String feedbackQuestionId) {
 		
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
 		FeedbackQuestion fq = getFeedbackQuestionEntity(feedbackQuestionId);
 		
@@ -49,9 +49,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 			String courseId,
 			int questionNumber){
 		
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, questionNumber);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, questionNumber);
 
 		FeedbackQuestion fq = getFeedbackQuestionEntity(feedbackSessionName,
 				courseId, questionNumber);
@@ -72,8 +72,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
 			String feedbackSessionName, String courseId) {
 
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
 
 		List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForSession(
 				feedbackSessionName, courseId);
@@ -93,9 +93,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForGiverType(
 			String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
 
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, giverType);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, giverType);
 
 		List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForGiverType(
 				feedbackSessionName, courseId, giverType);
@@ -119,7 +119,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 	 */
 	public void updateFeedbackQuestion (FeedbackQuestionAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException {
 		Assumption.assertNotNull(
-				Config.ERROR_DBLEVEL_NULL_INPUT, 
+				Constants.ERROR_DBLEVEL_NULL_INPUT, 
 				newAttributes);
 		
 		if (!newAttributes.isValid()) {
@@ -150,7 +150,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 	// Gets a question entity if it's Key (feedbackQuestionId) is known.
 	private FeedbackQuestion getFeedbackQuestionEntity (String feedbackQuestionId) {
 		
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
 		Query q = getPM().newQuery(FeedbackQuestion.class);
 		q.declareParameters("String feedbackQuestionIdParam");

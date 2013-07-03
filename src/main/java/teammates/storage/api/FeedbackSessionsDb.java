@@ -12,13 +12,13 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.storage.entity.FeedbackSession;
 
 public class FeedbackSessionsDb extends EntitiesDb {
 	
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Constants.getLogger();
 
 	/**
 	 * Preconditions: <br>
@@ -28,8 +28,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
 	public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
 		//TODO: change parameter order. Our general practice is to give courseId first 
 		
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, feedbackSessionName);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		FeedbackSession fs = getFeedbackSessionEntity(feedbackSessionName, courseId);
 		
@@ -64,7 +64,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 	 */
 	public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
 		
-		Assumption.assertNotNull(Config.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
 		
 		List<FeedbackSession> fsList = getFeedbackSessionEntitiesForCourse(courseId);
 		List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
@@ -88,7 +88,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 		throws InvalidParametersException, EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(
-				Config.ERROR_DBLEVEL_NULL_INPUT, 
+				Constants.ERROR_DBLEVEL_NULL_INPUT, 
 				newAttributes);
 		
 		if (!newAttributes.isValid()) {

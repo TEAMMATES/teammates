@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.CoursesLogic;
 import teammates.ui.controller.InstructorCourseDeleteAction;
 import teammates.ui.controller.InstructorCoursePageAction;
@@ -24,7 +24,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_INSTRUCTOR_COURSE_DELETE;
+		uri = Constants.ACTION_INSTRUCTOR_COURSE_DELETE;
 	}
 
 	@BeforeMethod
@@ -42,7 +42,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 				"icdat.owncourse", "New course");
 		
 		String[] submissionParams = new String[]{
-				Config.PARAM_COURSE_ID, "icdat.owncourse"
+				Constants.PARAM_COURSE_ID, "icdat.owncourse"
 		};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);
@@ -70,7 +70,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 		
 		String[] submissionParams = new String[]{
-				Config.PARAM_COURSE_ID, instructor1ofCourse1.courseId
+				Constants.PARAM_COURSE_ID, instructor1ofCourse1.courseId
 		};
 		
 		
@@ -82,7 +82,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
 		
 		assertEquals(
-				Config.JSP_INSTRUCTOR_COURSE+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+				Constants.VIEW_INSTRUCTOR_COURSES+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(false, r.isError);
 		assertEquals("The course has been deleted.", r.getStatusMessage());
@@ -104,13 +104,13 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		
 		gaeSimulation.loginAsAdmin("admin.user");
 		submissionParams = new String[]{
-				Config.PARAM_COURSE_ID, "icdct.tpa.id1"
+				Constants.PARAM_COURSE_ID, "icdct.tpa.id1"
 		};
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Config.JSP_INSTRUCTOR_COURSE+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+				Constants.VIEW_INSTRUCTOR_COURSES+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(false, r.isError);
 		assertEquals("The course has been deleted.", r.getStatusMessage());
@@ -131,14 +131,14 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course2");
 		submissionParams = new String[]{
-				Config.PARAM_COURSE_ID, "icdct.tpa.id2",
-				Config.PARAM_NEXT_URL, Config.PAGE_INSTRUCTOR_HOME
+				Constants.PARAM_COURSE_ID, "icdct.tpa.id2",
+				Constants.PARAM_NEXT_URL, Constants.ACTION_INSTRUCTOR_HOME
 		};
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Config.PAGE_INSTRUCTOR_HOME+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+				Constants.ACTION_INSTRUCTOR_HOME+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
 				rr.getDestinationWithParams());
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete" +

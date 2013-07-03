@@ -11,7 +11,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
 
@@ -23,7 +23,7 @@ public class StudentEvalResultsPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_STUDENT_EVAL_RESULTS;
+		uri = Constants.ACTION_STUDENT_EVAL_RESULTS;
 	}
 
 	@BeforeMethod
@@ -47,22 +47,22 @@ public class StudentEvalResultsPageActionTest extends BaseActionTest {
 		String studentId = student1InCourse1.googleId;
 		
 		String[] submissionParams = new String[]{
-				Config.PARAM_COURSE_ID, eval.courseId,
-				Config.PARAM_EVALUATION_NAME, eval.name
+				Constants.PARAM_COURSE_ID, eval.courseId,
+				Constants.PARAM_EVALUATION_NAME, eval.name
 				};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		
 		//if the user is not a student of the course, we redirect to home page.
 		gaeSimulation.loginUser("unreg.user");
-		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Constants.ACTION_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
 		
 		//if the user is not a student of the course, we redirect to home page.
 		gaeSimulation.loginAsInstructor(instructorId);
-		verifyRedirectTo(Config.PAGE_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Constants.ACTION_STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);

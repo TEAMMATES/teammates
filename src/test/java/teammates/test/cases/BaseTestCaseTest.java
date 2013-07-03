@@ -2,8 +2,8 @@ package teammates.test.cases;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
+import teammates.test.driver.TestProperties;
 
 public class BaseTestCaseTest extends BaseTestCase {
 
@@ -26,10 +26,10 @@ public class BaseTestCaseTest extends BaseTestCase {
 				"404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 	
-		String pageStr = FileHelper.readFile(Config.TEST_PAGES_FOLDER
+		String pageStr = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER
 				+ "/commonAssertRegexTestPage.html");
 	
-		String inputStr = FileHelper.readFile(Config.TEST_PAGES_FOLDER
+		String inputStr = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER
 				+ "/commonAssertRegexTestPart.html");
 	
 		assertContainsRegex(inputStr, pageStr);

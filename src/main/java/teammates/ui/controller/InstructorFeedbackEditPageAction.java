@@ -2,7 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorFeedbackEditPageAction extends Action {
@@ -12,13 +12,13 @@ public class InstructorFeedbackEditPageAction extends Action {
 			InvalidParametersException {
 		
 
-		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
-		String feedbackSessionName = getRequestParam(Config.PARAM_FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String feedbackSessionName = getRequestParam(Constants.PARAM_FEEDBACK_SESSION_NAME);
 		
 		if (courseId==null || feedbackSessionName==null) {
 			statusToAdmin = "instructorFeedbackEdit Page Redirect<br>"
 					+ "Tried to edit feedback session with null parameters";
-			return createRedirectResult(Config.PAGE_INSTRUCTOR_FEEDBACK);
+			return createRedirectResult(Constants.ACTION_INSTRUCTOR_FEEDBACKS);
 		}
 		
 		new GateKeeper().verifyAccessible(
@@ -38,7 +38,7 @@ public class InstructorFeedbackEditPageAction extends Action {
 				logic.getInstructorForGoogleId(courseId, data.account.googleId).email) == false) {
 			statusToUser.add("Only the creator of the feedback session is" +
 					" allowed to edit it.");
-			return createRedirectResult(Config.PAGE_INSTRUCTOR_FEEDBACK);
+			return createRedirectResult(Constants.ACTION_INSTRUCTOR_FEEDBACKS);
 		}
 		
 		data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
@@ -47,7 +47,7 @@ public class InstructorFeedbackEditPageAction extends Action {
 				+ "Editing information for Feedback Session <span class=\"bold\">["
 				+ feedbackSessionName + "]</span>" + "in Course: <span class=\"bold\">" + courseId + "]</span>";
 		
-		return createShowPageResult(Config.JSP_INSTRUCTOR_FEEDBACK_EDIT, data);
+		return createShowPageResult(Constants.VIEW_INSTRUCTOR_FEEDBACK_EDIT, data);
 	}
 
 }

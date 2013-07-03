@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class StudentCourseJoinActionTest extends BaseActionTest {
 
@@ -15,7 +15,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_STUDENT_JOIN_COURSE;
+		uri = Constants.ACTION_STUDENT_JOIN_COURSE;
 	}
 
 	@BeforeMethod
@@ -28,7 +28,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 	public void testAccessControl() throws Exception{
 		
 		String[] submissionParams = new String[]{
-					Config.PARAM_REGKEY, "sample-key"
+					Constants.PARAM_REGKEY, "sample-key"
 				};
 		
 		verifyOnlyLoggedInUsersCanAccess(submissionParams);

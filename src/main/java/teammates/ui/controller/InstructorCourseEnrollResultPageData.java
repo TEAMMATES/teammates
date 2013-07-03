@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class InstructorCourseEnrollResultPageData extends PageData {
 	
@@ -14,7 +14,7 @@ public class InstructorCourseEnrollResultPageData extends PageData {
 		super(account);
 	}
 
-	protected static final Logger log = Config.getLogger();
+	protected static final Logger log = Constants.getLogger();
 	
 	public String courseId;
 

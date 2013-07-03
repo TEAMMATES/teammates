@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class InstructorEvalEditPageData extends PageData {
 	public EvaluationAttributes evaluation;
@@ -15,12 +15,12 @@ public class InstructorEvalEditPageData extends PageData {
 	
 	
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){
-		return getTimeZoneOptionsAsHtml(evaluation == null ? Config.UNINITIALIZED_DOUBLE : evaluation.timeZone);
+		return getTimeZoneOptionsAsHtml(evaluation == null ? Constants.DOUBLE_UNINITIALIZED : evaluation.timeZone);
 	}
 	
 	
 	public ArrayList<String> getGracePeriodOptionsAsHtml(){
-		return getGracePeriodOptionsAsHtml( evaluation==null ? Config.UNINITIALIZED_INT : evaluation.gracePeriod);
+		return getGracePeriodOptionsAsHtml( evaluation==null ? Constants.INT_UNINITIALIZED : evaluation.gracePeriod);
 	}
 	
 	

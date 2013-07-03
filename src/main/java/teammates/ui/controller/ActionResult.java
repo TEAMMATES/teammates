@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
@@ -102,7 +102,7 @@ public abstract class ActionResult {
 
 	private String getPreviousStatusMessage(
 			Map<String, String[]> parametersFromPreviousRequest) {
-		return HttpRequestHelper.getValueFromParamMap(parametersFromPreviousRequest, Config.PARAM_STATUS_MESSAGE);
+		return HttpRequestHelper.getValueFromParamMap(parametersFromPreviousRequest, Constants.PARAM_STATUS_MESSAGE);
 	}
 
 

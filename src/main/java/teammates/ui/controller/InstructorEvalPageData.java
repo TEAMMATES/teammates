@@ -7,7 +7,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class InstructorEvalPageData extends PageData {
 	public String courseIdForNewEvaluation;
@@ -23,7 +23,7 @@ public class InstructorEvalPageData extends PageData {
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){
 		return getTimeZoneOptionsAsHtml(
 				newEvaluationToBeCreated == null 
-					? Config.UNINITIALIZED_DOUBLE 
+					? Constants.DOUBLE_UNINITIALIZED 
 					: newEvaluationToBeCreated.timeZone);
 	}
 	
@@ -31,7 +31,7 @@ public class InstructorEvalPageData extends PageData {
 	public ArrayList<String> getGracePeriodOptionsAsHtml(){
 		return getGracePeriodOptionsAsHtml(
 				newEvaluationToBeCreated == null 
-					? Config.UNINITIALIZED_INT 
+					? Constants.INT_UNINITIALIZED 
 					: newEvaluationToBeCreated.gracePeriod);
 	}
 	

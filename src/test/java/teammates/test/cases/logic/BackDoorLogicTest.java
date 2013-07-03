@@ -20,7 +20,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.common.CourseAttributesTest;
@@ -28,7 +28,7 @@ import teammates.test.cases.common.CourseAttributesTest;
 import com.google.gson.Gson;
 
 public class BackDoorLogicTest extends BaseComponentTestCase {
-	Gson gson = Config.getTeammatesGson();
+	Gson gson = Constants.getTeammatesGson();
 	private static DataBundle dataBundle = getTypicalDataBundle();
 
 	@BeforeClass
@@ -56,7 +56,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
 		}
 		______TS("empty data bundle");
 		String status = logic.persistDataBundle(new DataBundle());
-		assertEquals(Config.BACKEND_STATUS_SUCCESS, status);
+		assertEquals(Constants.BACKEND_STATUS_SUCCESS, status);
 
 		logic.persistDataBundle(dataBundle);
 		verifyPresentInDatastore(dataBundle);
@@ -71,7 +71,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
 			logic.persistDataBundle(nullDataBundle);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(Config.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			assertEquals(Constants.ERRORCODE_NULL_PARAMETER, e.errorCode);
 		}
 
 		______TS("invalid parameters in an entity");

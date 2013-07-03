@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
@@ -70,7 +70,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
 		
 		String idOfInstructorToDelete = "AAMgtUiT.instr1";
 		accountsPage.clickDeleteInstructorStatus(idOfInstructorToDelete)
-			.verifyStatus(Config.MESSAGE_INSTRUCTOR_STATUS_DELETED);
+			.verifyStatus(Constants.STATUS_INSTRUCTOR_STATUS_DELETED);
 		assertEquals(false, BackDoor.getAccount(idOfInstructorToDelete).isInstructor);
 	}
 
@@ -88,7 +88,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
 	}
 
 	private void loginToAdminAccountsManagementPage() {
-		accountsPageUrl = new Url(Config.PAGE_ADMIN_ACCOUNT_MANAGEMENT);
+		accountsPageUrl = new Url(Constants.ACTION_ADMIN_ACCOUNT_MANAGEMENT);
 		accountsPage = loginAdminToPage(browser, accountsPageUrl, AdminAccountManagementPage.class);
 	}
 

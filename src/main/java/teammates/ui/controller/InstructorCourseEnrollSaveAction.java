@@ -9,19 +9,19 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseEnrollSaveAction extends Action {
-	protected static final Logger log = Config.getLogger();
+	protected static final Logger log = Constants.getLogger();
 	
 	
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String studentsInfo = getRequestParam(Config.PARAM_STUDENTS_ENROLLMENT_INFO);
+		String studentsInfo = getRequestParam(Constants.PARAM_STUDENTS_ENROLLMENT_INFO);
 		Assumption.assertNotNull(studentsInfo);
 		
 		new GateKeeper().verifyAccessible(
@@ -41,7 +41,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
 			statusToAdmin = e.getMessage();
 		}
 		
-		return createShowPageResult(Config.JSP_INSTRUCTOR_COURSE_ENROLL_RESULT, data);
+		return createShowPageResult(Constants.VIEW_INSTRUCTOR_COURSE_ENROLL_RESULT, data);
 	}
 
 	

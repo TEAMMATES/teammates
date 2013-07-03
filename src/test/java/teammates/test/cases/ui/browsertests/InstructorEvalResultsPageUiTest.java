@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -110,7 +110,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 		
 		______TS("action: download report");
 		
-		Url reportUrl = new Url(Config.PAGE_INSTRUCTOR_EVAL_EXPORT)
+		Url reportUrl = new Url(Constants.ACTION_INSTRUCTOR_EVAL_EXPORT)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withEvalName(evalName);
@@ -133,7 +133,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 		
 		______TS("action: download report");
 		
-		Url reportUrl = new Url(Config.PAGE_INSTRUCTOR_EVAL_EXPORT)
+		Url reportUrl = new Url(Constants.ACTION_INSTRUCTOR_EVAL_EXPORT)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withEvalName(evalName);
@@ -147,7 +147,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 		assertEquals(true, BackDoor.getEvaluation(courseId, evalName).published);
 		
 		InstructorEvalsPage evalsPage = resultsPage.unpublishAndConfirm();
-		evalsPage.verifyStatus(Config.MESSAGE_EVALUATION_UNPUBLISHED);
+		evalsPage.verifyStatus(Constants.STATUS_EVALUATION_UNPUBLISHED);
 		assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
 		
 		//Other content checking, link checking and action checking were 
@@ -174,7 +174,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 		assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
 		
 		InstructorEvalsPage evalsPage = resultsPage.publishAndConfirm();
-		evalsPage.verifyStatus(Config.MESSAGE_EVALUATION_PUBLISHED);
+		evalsPage.verifyStatus(Constants.STATUS_EVALUATION_PUBLISHED);
 		assertEquals(true, BackDoor.getEvaluation(courseId, evalName).published);
 		
 		//other content checking, link checking and action checking were 
@@ -213,7 +213,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 	}
 
 	private InstructorEvalResultsPage loginToResultsPage(String instructorId, String courseId, String evalName){
-		Url resultsUrl = new Url(Config.PAGE_INSTRUCTOR_EVAL_RESULTS)
+		Url resultsUrl = new Url(Constants.ACTION_INSTRUCTOR_EVAL_RESULTS)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withEvalName(evalName);

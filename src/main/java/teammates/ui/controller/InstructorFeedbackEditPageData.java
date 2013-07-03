@@ -7,7 +7,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 public class InstructorFeedbackEditPageData extends PageData {
 
@@ -39,11 +39,11 @@ public class InstructorFeedbackEditPageData extends PageData {
 	}
 	
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){
-		return getTimeZoneOptionsAsHtml(session == null? Config.UNINITIALIZED_DOUBLE : session.timeZone);
+		return getTimeZoneOptionsAsHtml(session == null? Constants.DOUBLE_UNINITIALIZED : session.timeZone);
 	}
 	
 	
 	public ArrayList<String> getGracePeriodOptionsAsHtml(){
-		return getGracePeriodOptionsAsHtml(session == null ? Config.UNINITIALIZED_INT : session.gracePeriod);
+		return getGracePeriodOptionsAsHtml(session == null ? Constants.INT_UNINITIALIZED : session.gracePeriod);
 	}
 }

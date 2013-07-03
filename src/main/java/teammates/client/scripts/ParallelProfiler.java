@@ -1,6 +1,6 @@
 package teammates.client.scripts;
 
-import teammates.common.util.Config;
+import teammates.test.driver.TestProperties;
 
 
 /**
@@ -20,7 +20,7 @@ public class ParallelProfiler {
     public static void main(String args[]) {
         for (int i = 0; i < NUM_OF_THREADS ; i ++)
         {
-        	(new PerformanceProfiler(Config.TEST_DATA_FOLDER + "/thread"+i+".txt")).start();
+        	(new PerformanceProfiler(TestProperties.TEST_DATA_FOLDER + "/thread"+i+".txt")).start();
         }
     }
 }

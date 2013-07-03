@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 /**
  * Represents details of an evaluation. 
@@ -25,7 +25,7 @@ public class EvaluationDetailsBundle {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("course:" + evaluation.courseId + ", name:" + evaluation.name
-				+ Config.EOL);
+				+ Constants.EOL);
 		sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
 		return sb.toString();
 	}

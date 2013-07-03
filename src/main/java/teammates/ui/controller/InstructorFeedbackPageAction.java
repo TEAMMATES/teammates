@@ -9,7 +9,7 @@ import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorFeedbackPageAction extends Action {
@@ -19,7 +19,7 @@ public class InstructorFeedbackPageAction extends Action {
 			InvalidParametersException {
 		//This can be null. Non-null value indicates the page is being loaded 
 		//   to add a feedback to the specified course
-		String courseIdForNewSession = getRequestParam(Config.PARAM_COURSE_ID);
+		String courseIdForNewSession = getRequestParam(Constants.PARAM_COURSE_ID);
 		
 		new GateKeeper().verifyInstructorPrivileges(account);
 		
@@ -36,7 +36,7 @@ public class InstructorFeedbackPageAction extends Action {
 
 		data.courses = loadCoursesList(account.googleId);
 		if (data.courses.size() == 0) {
-			statusToUser.add(Config.MESSAGE_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
+			statusToUser.add(Constants.STATUS_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
 			data.existingEvals = new ArrayList<EvaluationDetailsBundle>();
 			data.existingSessions = new ArrayList<FeedbackSessionDetailsBundle>();
 		
@@ -44,13 +44,13 @@ public class InstructorFeedbackPageAction extends Action {
 			data.existingEvals = loadEvaluationsList(account.googleId);			
 			data.existingSessions = loadFeedbackSessionsList(account.googleId);
 			if (data.existingSessions.size() == 0) {
-				statusToUser.add(Config.MESSAGE_FEEDBACK_SESSION_EMPTY);
+				statusToUser.add(Constants.STATUS_FEEDBACK_SESSION_EMPTY);
 			}
 		}	
 		
 		statusToAdmin = "Number of feedback sessions: "+data.existingSessions.size();
 		
-		return createShowPageResult(Config.JSP_INSTRUCTOR_FEEDBACK, data);
+		return createShowPageResult(Constants.VIEW_INSTRUCTOR_FEEDBACKS, data);
 	}
 	
 	protected List<FeedbackSessionDetailsBundle> loadFeedbackSessionsList(

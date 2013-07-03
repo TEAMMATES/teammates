@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.cases.logic.LogicTest;
@@ -68,7 +68,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.createEntity(null);
 			signalFailureToDetectException();
 		} catch (AssertionError a) {
-			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.getCourse(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 	
@@ -116,7 +116,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.deleteCourse(null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Config.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
+			assertEquals(Constants.ERROR_DBLEVEL_NULL_INPUT, a.getMessage());
 		}
 	}
 

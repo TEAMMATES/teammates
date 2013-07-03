@@ -125,11 +125,10 @@ public class TimeHelper {
 	}
 
 	/**
-	 * @param dateInStringFormat should be in the format "yyyy-MM-dd h:mm a Z"
-	 * e.g. "2014-04-01 11:59 PM UTC"
+	 * @param dateInStringFormat should be in the format {@link Constants.DEFAULT_DATE_TIME_FORMAT}
 	 */
 	public static Date convertToDate(String dateInStringFormat) throws ParseException {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd h:mm a Z");
+		DateFormat df = new SimpleDateFormat(Constants.DEFAULT_DATE_TIME_FORMAT);
 		return df.parse(dateInStringFormat);
 	}
 
@@ -163,10 +162,10 @@ public class TimeHelper {
 			return false;
 		}
 		
-		if (date.equals(Config.TIME_REPRESENTS_FOLLOW_OPENING) ||
-			date.equals(Config.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
-			date.equals(Config.TIME_REPRESENTS_LATER) ||
-			date.equals(Config.TIME_REPRESENTS_NEVER)) {
+		if (date.equals(Constants.TIME_REPRESENTS_FOLLOW_OPENING) ||
+			date.equals(Constants.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
+			date.equals(Constants.TIME_REPRESENTS_LATER) ||
+			date.equals(Constants.TIME_REPRESENTS_NEVER)) {
 			return true;
 		} else {
 			return false;

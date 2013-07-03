@@ -6,7 +6,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.Extension;
 
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -59,7 +59,7 @@ public class Submission {
 		this.setTeamName(teamName);
 		this.setJustification(new Text(""));
 		this.setCommentsToStudent(new Text(""));
-		this.points = Config.POINTS_NOT_SUBMITTED;
+		this.points = Constants.POINTS_NOT_SUBMITTED;
 	}
 
 	public String getCourseId() {

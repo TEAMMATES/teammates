@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.FeedbackQuestionsLogic;
 
 public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
@@ -20,7 +20,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Config.PAGE_INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
+		uri = Constants.ACTION_INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
 	}
 
 	@BeforeMethod
@@ -50,7 +50,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 	
 	private String[] addQuestionIdToParams(String questionId, String[] params) {
 		List<String> list = new ArrayList<String>();
-		list.add(Config.PARAM_FEEDBACK_QUESTION_ID);
+		list.add(Constants.PARAM_FEEDBACK_QUESTION_ID);
 		list.add(questionId);
 		for (String s : params) {
 			list.add(s);

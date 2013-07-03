@@ -2,7 +2,7 @@ package teammates.test.cases.testdriver;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
-import static teammates.common.util.Config.EOL;
+import static teammates.common.util.Constants.EOL;
 
 import java.io.IOException;
 
@@ -11,9 +11,9 @@ import javax.xml.transform.TransformerException;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
-import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
 import teammates.test.driver.HtmlHelper;
+import teammates.test.driver.TestProperties;
 
 public class HtmlHelperTest {
 	
@@ -40,8 +40,8 @@ public class HtmlHelperTest {
 		actual = expected.replace("<DIV></DIV></DIV>", EOL+EOL+"\n<DIV>\n\n</DIV></DIV>\n\n"+EOL);
 		HtmlHelper.assertSameHtml(actual, expected);
 		
-		expected = FileHelper.readFile(Config.TEST_PAGES_FOLDER +"/sampleExpected.html");
-		actual = FileHelper.readFile(Config.TEST_PAGES_FOLDER +"/sampleActual.html");
+		expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
+		actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActual.html");
 		HtmlHelper.assertSameHtml(actual, expected);
 
 	}

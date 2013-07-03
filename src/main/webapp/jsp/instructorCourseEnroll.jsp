@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="teammates.common.util.Config"%>
+<%@ page import="teammates.common.util.Constants"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="static teammates.ui.controller.PageData.escapeForHTML"%>
 <%@ page import="teammates.ui.controller.InstructorCourseEnrollPageData"%>
@@ -33,7 +33,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -48,7 +48,7 @@
 						[ <a id ="spreadsheet_download" 
 							class="color_black t_course_enroll"
 							href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv"
-							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_ENROLL_SAMPLE_SPREADSHEET%>')"
+							onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_ENROLL_SAMPLE_SPREADSHEET%>')"
 							onmouseout="hideddrivetip()">Sample spreadsheet</a> ] 
 					</p>
 					<img src="/images/enrollInstructions.png" border="0" > 
@@ -65,7 +65,7 @@
 							</td>
 						</tr>
 					</table>
-					<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
+					<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
 					<br>
 					<div id="instructorCourseEnrollmentButtons" class="centeralign">
 						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
@@ -79,7 +79,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Config.JSP_FOOTER%>" />
+		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
 	</div>
 </body>
 </html>

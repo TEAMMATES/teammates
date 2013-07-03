@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.HttpRequestHelper;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -178,7 +178,7 @@ public class ActivityLogEntry {
 	
 	public String getActionInfo(){
 		String act = "";
-		if(action.equals(Config.LOG_SERVLET_ACTION_FAILURE) || action.equals(Config.LOG_SYSTEM_ERROR_REPORT)) {
+		if(action.equals(Constants.ACTION_RESULT_FAILURE) || action.equals(Constants.ACTION_RESULT_SYSTEM_ERROR_REPORT)) {
 			act = "<span class=\"color_red\">" + action + "</span>";
 		} else {
 			act = action;
@@ -244,7 +244,7 @@ public class ActivityLogEntry {
         message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>";
         message += HttpRequestHelper.printRequestParameters(req) + "</span>";
         
-        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Config.LOG_SERVLET_ACTION_FAILURE, null, message, url);
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Constants.ACTION_RESULT_FAILURE, null, message, url);
         
         return exceptionLog.generateLogMessage();
 	}
@@ -272,7 +272,7 @@ public class ActivityLogEntry {
       		}
       	}
 		
-		ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Config.LOG_SYSTEM_ERROR_REPORT, null, message, url);
+		ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Constants.ACTION_RESULT_SYSTEM_ERROR_REPORT, null, message, url);
 		
 		return emailReportLog.generateLogMessage();
 	}
@@ -281,7 +281,7 @@ public class ActivityLogEntry {
 	public static String generateActivityLogEntryErrorMessage(
 			String servletName, String action, ArrayList<Object> data){
 		String message;
-		if (action.equals(Config.LOG_SERVLET_ACTION_FAILURE)) {
+		if (action.equals(Constants.ACTION_RESULT_FAILURE)) {
             String e = data.get(0).toString();
             message = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
             message += e + "</span>";

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserType;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.api.Logic;
 
 @SuppressWarnings("serial")
@@ -18,7 +18,7 @@ import teammates.logic.api.Logic;
  */
 public class LoginServlet extends HttpServlet {
 	
-	protected static final Logger log = Config.getLogger();
+	protected static final Logger log = Constants.getLogger();
 	
 	@Override
 	public final void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -31,26 +31,26 @@ public class LoginServlet extends HttpServlet {
 			throws IOException, ServletException{
 		Logic server = new Logic();
 		UserType user = server.getCurrentUser();
-		if(req.getParameter(Config.PARAM_LOGIN_INSTRUCTOR)!=null){
+		if(req.getParameter(Constants.PARAM_LOGIN_INSTRUCTOR)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Config.PAGE_INSTRUCTOR_HOME);
+				resp.sendRedirect(Constants.ACTION_INSTRUCTOR_HOME);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Config.PAGE_INSTRUCTOR_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Constants.ACTION_INSTRUCTOR_HOME));
 			}
-		} else if(req.getParameter(Config.PARAM_LOGIN_STUDENT)!=null){
+		} else if(req.getParameter(Constants.PARAM_LOGIN_STUDENT)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Config.PAGE_STUDENT_HOME);
+				resp.sendRedirect(Constants.ACTION_STUDENT_HOME);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Config.PAGE_STUDENT_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Constants.ACTION_STUDENT_HOME));
 			}
-		} else if(req.getParameter(Config.PARAM_LOGIN_ADMIN)!=null){
+		} else if(req.getParameter(Constants.PARAM_LOGIN_ADMIN)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Config.PAGE_ADMIN_HOME);
+				resp.sendRedirect(Constants.ACTION_ADMIN_HOME);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Config.PAGE_ADMIN_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Constants.ACTION_ADMIN_HOME));
 			}
 		} else {
-			resp.sendRedirect(Config.JSP_ERROR_PAGE);
+			resp.sendRedirect(Constants.VIEW_ERROR_PAGE);
 		}
 	}
 

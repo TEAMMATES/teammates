@@ -7,7 +7,7 @@ import java.util.List;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.BuildProperties;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -48,7 +48,7 @@ public class AdminActivityLogPageAction extends Action {
 		LogQuery query = buildQuery(data.offset, includeAppLogs);
 		data.logs = getAppLogs(query, data);
 		
-		return createShowPageResult(Config.JSP_ADMIN_ACTIVITY_LOG, data);
+		return createShowPageResult(Constants.VIEW_ADMIN_ACTIVITY_LOG, data);
 		
 	}
 	

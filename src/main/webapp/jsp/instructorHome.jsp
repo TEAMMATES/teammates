@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Config" %>
+<%@ page import="teammates.common.util.Constants" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
@@ -35,7 +35,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Config.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -45,7 +45,7 @@
 				<h1>Instructor Home</h1>
 			</div>
 			
-			<jsp:include page="<%=Config.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
 			
 			<div class="backgroundBlock">
 				<div class="blockLink rightalign">
@@ -56,9 +56,9 @@
 			
 			<%
 							int idx = -1;
-								int evalIdx = -1;
-								int fsIdx = -1;
-								for (CourseDetailsBundle courseDetails: data.courses) { idx++;
+												int evalIdx = -1;
+												int fsIdx = -1;
+												for (CourseDetailsBundle courseDetails: data.courses) { idx++;
 						%>
 			<br>
 			<br>
@@ -72,28 +72,28 @@
 				<div class="result_homeLinks blockLink rightalign">
 					<a class="t_course_enroll<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_ENROLL%>')"
+						onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_ENROLL%>')"
 						onmouseout="hideddrivetip()">
 						Enroll</a>
 					<a class="t_course_view<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_DETAILS%>')"
+						onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_DETAILS%>')"
 						onmouseout="hideddrivetip()">
 						View</a>
 					<a class="t_course_edit<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_EDIT%>')"
+						onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_EDIT%>')"
 						onmouseout="hideddrivetip()">
 						Edit</a>
 					<a class="t_course_add_eval<%=idx%> color_white bold"
 						href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_ADD_EVALUATION%>')"
+						onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_ADD_EVALUATION%>')"
 						onmouseout="hideddrivetip()">
 						Add Evaluation</a>
 					<a class="t_course_delete<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
 						onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
-						onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_COURSE_DELETE%>')"
+						onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_DELETE%>')"
 						onmouseout="hideddrivetip()">
 						Delete</a>
 				</div>
@@ -107,7 +107,7 @@
 							<th class="leftalign color_white bold">Evaluation Name</th>
 							<th class="centeralign color_white bold">Status</th>
 							<th class="centeralign color_white bold"><span
-								onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
+								onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_RESPONSE_RATE%>')"
 								onmouseout="hideddrivetip()">Response Rate</span></th>
 							<th class="centeralign color_white bold no-print">Action(s)</th>
 						</tr>
@@ -141,13 +141,13 @@
 						<th class="leftalign color_white bold">Feedback Session Name</th>
 						<th class="centeralign color_white bold">Status</th>
 						<th class="centeralign color_white bold"><span
-							onmouseover="ddrivetip('<%=Config.HOVER_MESSAGE_EVALUATION_RESPONSE_RATE%>')"
+							onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_RESPONSE_RATE%>')"
 							onmouseout="hideddrivetip()">Response Rate</span></th>
 						<th class="centeralign color_white bold no-print">Action(s)</th>
 					</tr>
 				<%
 					for(FeedbackSessionDetailsBundle fdb: courseDetails.feedbackSessions){ 
-									fsIdx++;
+											fsIdx++;
 				%>
 							<tr class="evaluations_row" id="evaluation<%=fsIdx%>">
 								<td class="t_eval_name"><%=PageData.escapeForHTML(fdb.feedbackSession.feedbackSessionName)%></td>
@@ -170,7 +170,7 @@
 			</div>
 			<%
 				out.flush();
-					}
+						}
 			%>
 		</div>	
 		<br>
@@ -180,7 +180,7 @@
 
 	
 	<div id="frameBottom">
-		<jsp:include page="<%=Config.JSP_FOOTER%>" />
+		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
 	</div>
 </body>
 </html>

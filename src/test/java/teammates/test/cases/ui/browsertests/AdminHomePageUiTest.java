@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminHomePage;
@@ -45,7 +45,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 		
 		______TS("content: typical page");
 		
-		Url homeUrl = new Url(Config.PAGE_ADMIN_HOME);
+		Url homeUrl = new Url(Constants.ACTION_ADMIN_HOME);
 		homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
 		//Full page content check is omitted because this is an internal page. 
 	}
@@ -57,7 +57,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 		account = new AccountAttributes();
 		
 		homePage.createInstructor(account, false)
-			.verifyStatus(Config.MESSAGE_FIELDS_EMPTY);
+			.verifyStatus(Constants.STATUS_FIELDS_EMPTY);
 		
 		account.googleId = "AHPUiT.instr1";
 		account.name =  "!@#$%^&";
@@ -99,7 +99,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 
 		______TS("action failure : trying to create duplicate instructor account");
 		
-		homePage.navigateTo(new Url(Config.PAGE_ADMIN_HOME));
+		homePage.navigateTo(new Url(Constants.ACTION_ADMIN_HOME));
 		homePage.createInstructor(account, false)
 			.verifyStatus("The Google ID AHPUiT.instr1 is already registered as an instructor");
 		

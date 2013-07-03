@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
@@ -20,7 +20,7 @@ import com.google.appengine.api.search.SearchServiceFactory;
 
 public class AdminSearchTaskServlet extends HttpServlet {
 	
-	protected static final Logger log = Config.getLogger();
+	protected static final Logger log = Constants.getLogger();
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,7 +59,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		Iterator<InstructorAttributes> it = instructors.iterator();
 		while (it.hasNext()) {
 			InstructorAttributes instructor = it.next();
-			addDocument(instructor.name, instructor.email, instructor.googleId, Config.PAGE_INSTRUCTOR_HOME);
+			addDocument(instructor.name, instructor.email, instructor.googleId, Constants.ACTION_INSTRUCTOR_HOME);
 		}
 		
 		/**
@@ -70,7 +70,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		Iterator<StudentAttributes> it2 = students.iterator();
 		while (it2.hasNext()) {
 			StudentAttributes stu = it2.next();
-			addDocument(stu.name, stu.email, stu.googleId, Config.PAGE_STUDENT_HOME);
+			addDocument(stu.name, stu.email, stu.googleId, Constants.ACTION_STUDENT_HOME);
 		}
 
 	}

@@ -22,7 +22,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.common.util.FileHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.AccountsLogic;
@@ -208,7 +208,7 @@ public class BaseTestCase {
 	
 	protected static DataBundle loadDataBundle(String pathToJsonFile){
 		if(pathToJsonFile.startsWith("/")){
-			pathToJsonFile = Config.TEST_DATA_FOLDER + pathToJsonFile;
+			pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
 		}
 		String jsonString;
 		try {
@@ -217,7 +217,7 @@ public class BaseTestCase {
 			throw new RuntimeException(e);
 		}
 		jsonString = injectRealAccounts(jsonString);
-		return Config.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		return Constants.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 	}
 
 	private static String injectRealAccounts(String jsonString) {

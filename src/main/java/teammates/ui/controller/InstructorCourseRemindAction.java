@@ -5,20 +5,20 @@ import java.util.logging.Logger;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseRemindAction extends Action {
-	protected static final Logger log = Config.getLogger();
+	protected static final Logger log = Constants.getLogger();
 	
 	@Override
 	public ActionResult execute()
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
-		String courseId = getRequestParam(Config.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String studentEmail = getRequestParam(Config.PARAM_STUDENT_EMAIL);
+		String studentEmail = getRequestParam(Constants.PARAM_STUDENT_EMAIL);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -28,12 +28,12 @@ public class InstructorCourseRemindAction extends Action {
 		try{
 			if(studentEmail != null){
 				logic.sendRegistrationInviteToStudent(courseId, studentEmail);
-				statusToUser.add(Config.MESSAGE_COURSE_REMINDER_SENT_TO+studentEmail);
+				statusToUser.add(Constants.STATUS_COURSE_REMINDER_SENT_TO+studentEmail);
 				statusToAdmin = "Registration Key sent to <span class=\"bold\">" + studentEmail + "</span> " +
 									"in Course <span class=\"bold\">[" + courseId + "]</span>";
 			} else {
 				logic.sendRegistrationInviteForCourse(courseId);
-				statusToUser.add(Config.MESSAGE_COURSE_REMINDERS_SENT);
+				statusToUser.add(Constants.STATUS_COURSE_REMINDERS_SENT);
 				statusToAdmin = "Registration Key sent to all unregistered students " +
 						"in Course <span class=\"bold\">[" + courseId + "]</span>";
 			}
@@ -44,8 +44,8 @@ public class InstructorCourseRemindAction extends Action {
 			statusToAdmin = e.getMessage();
 			
 		} finally {
-			response = createRedirectResult(Config.PAGE_INSTRUCTOR_COURSE_DETAILS);
-			response.addResponseParam(Config.PARAM_COURSE_ID,courseId); 
+			response = createRedirectResult(Constants.ACTION_INSTRUCTOR_COURSE_DETAILS);
+			response.addResponseParam(Constants.PARAM_COURSE_ID,courseId); 
 		}
 		return response;
 

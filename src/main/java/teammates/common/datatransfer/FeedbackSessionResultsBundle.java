@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 /**
  * Represents detailed results for an feedback session.
@@ -36,7 +36,7 @@ public class FeedbackSessionResultsBundle {
 		// We change user email to team name here for display purposes.
 		for (FeedbackResponseAttributes response : responses) {
 			if (questions.get(response.feedbackQuestionId).giverType == FeedbackParticipantType.TEAMS){ 
-				response.giverEmail += Config.TEAM_OF_EMAIL_OWNER;
+				response.giverEmail += Constants.TEAM_OF_EMAIL_OWNER;
 			}
 		}
 	}

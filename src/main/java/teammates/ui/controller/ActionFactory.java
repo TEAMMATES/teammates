@@ -5,13 +5,13 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.util.Config;
+import teammates.common.util.Constants;
 
 /**
  * Is used to generate the matching {@link Action} for a given URI.
  */
 public class ActionFactory {
-	protected static Logger log = Config.getLogger();
+	protected static Logger log = Constants.getLogger();
 	
 	private static HashMap<String, Class<? extends Action>> actionMappings;
 	
@@ -19,13 +19,13 @@ public class ActionFactory {
 		//TODO: replace these literals with constants uses elsewhere
 		actionMappings = new HashMap<String, Class<? extends Action>>();
 		actionMappings.put("/admin/adminHome", AdminHomePageAction.class);
-		actionMappings.put(Config.PAGE_ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
-		actionMappings.put(Config.PAGE_ADMIN_ACTIVITY_LOG, AdminActivityLogPageAction.class);
+		actionMappings.put(Constants.ACTION_ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
+		actionMappings.put(Constants.ACTION_ADMIN_ACTIVITY_LOG, AdminActivityLogPageAction.class);
 		actionMappings.put("/admin/adminAccountDetails", AdminAccountDetailsPageAction.class);
 		actionMappings.put("/admin/adminAccountManagement", AdminAccountManagementPageAction.class);
-		actionMappings.put(Config.PAGE_ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
+		actionMappings.put(Constants.ACTION_ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
 		actionMappings.put("/admin/adminInstructorAccountAdd", AdminInstructorAccountAddAction.class);
-		actionMappings.put(Config.PAGE_ADMIN_SEARCH, AdminSearchPageAction.class);
+		actionMappings.put(Constants.ACTION_ADMIN_SEARCH, AdminSearchPageAction.class);
 		actionMappings.put("/page/instructorCourse", InstructorCoursePageAction.class);
 		actionMappings.put("/page/instructorCourseAdd", InstructorCourseAddAction.class);
 		actionMappings.put("/page/instructorCourseDelete", InstructorCourseDeleteAction.class);
@@ -42,7 +42,7 @@ public class ActionFactory {
 		actionMappings.put("/page/instructorEval", InstructorEvalPageAction.class);
 		actionMappings.put("/page/instructorEvalAdd", InstructorEvalAddAction.class);
 		actionMappings.put("/page/instructorEvalDelete", InstructorEvalDeleteAction.class);
-		actionMappings.put(Config.PAGE_INSTRUCTOR_EVAL_EXPORT, InstructorEvalResultsDownloadAction.class);
+		actionMappings.put(Constants.ACTION_INSTRUCTOR_EVAL_EXPORT, InstructorEvalResultsDownloadAction.class);
 		actionMappings.put("/page/instructorEvalEdit", InstructorEvalEditPageAction.class);
 		actionMappings.put("/page/instructorEvalEditSave", InstructorEvalEditSaveAction.class);
 		actionMappings.put("/page/instructorEvalPublish", InstructorEvalPublishAction.class);
