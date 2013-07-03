@@ -209,7 +209,7 @@
 			$('#studentHomePage').load("<%=Constants.ACTION_STUDENT_HOME%>?user=teammates.test #frameBodyWrapper");
 			$('#studentCourseDetailsPage').load("<%=Constants.ACTION_STUDENT_COURSE_DETAILS%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
 			$('#studentEvalEditPage').load("<%=Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-			$('#studentEvalResultsPage').load("<%=Constants.ACTION_STUDENT_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#studentEvalResultsPage').load("<%=Constants.ACTION_STUDENT_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper");
 			$('#studentFeedbackSubmitPage').load("<%=Constants.ACTION_STUDENT_FEEDBACK_EDIT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
 			$('#studentFeedbackResultsPage').load("<%=Constants.ACTION_STUDENT_FEEDBACK_RESULTS%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
 			
