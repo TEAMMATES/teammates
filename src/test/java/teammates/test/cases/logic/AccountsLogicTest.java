@@ -35,8 +35,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
 		______TS("typical success case");
 
-		gaeSimulation.loginAsAdmin("admin.user");
-
 		AccountAttributes accountToCreate = new AccountAttributes("id", "name",
 				true, "test@email", "dev");
 		accountsLogic.createAccount(accountToCreate);
@@ -45,8 +43,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
 	@Test
 	public void testJoinCourse() throws Exception {
-
-		gaeSimulation.loginAsAdmin("admin.user");
 
 		String correctStudentId = "correctStudentId";
 		String courseId = "courseId";
@@ -160,8 +156,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
 	@Test
 	public void testDeleteAccountCascade() throws Exception {
-
-		gaeSimulation.loginAsAdmin("admin.user");
 
 		______TS("typical success case");
 

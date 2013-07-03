@@ -55,8 +55,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	@Test
 	public void testGetReadyEvaluations() throws Exception {
 
-		gaeSimulation.loginAsAdmin("admin.user");
-
 		______TS("no evaluations activated");
 		// ensure there are no existing evaluations ready for activation
 		restoreTypicalDataInDatastore();
@@ -140,7 +138,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	
 	@Test
 	public void testAddSubmissionsForIncomingMember() throws Exception {
-		gaeSimulation.loginAsAdmin("admin.user");
 
 		______TS("typical case");
 
@@ -193,7 +190,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 		
 		Logic logic = new Logic();
 
-		gaeSimulation.loginAsAdmin("admin.user");
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
 

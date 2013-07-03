@@ -151,9 +151,10 @@ public class LogicTest extends BaseComponentTestCase {
 		assertEquals(false, user.isStudent);
 
 		______TS("instructor only");
+		
 		// this user is no longer an admin
 		gaeSimulation.loginAsInstructor(instructor.googleId);
-
+		
 		user = logic.getCurrentUser();
 		assertEquals(instructor.googleId, user.id);
 		assertEquals(false, user.isAdmin);
@@ -209,8 +210,6 @@ public class LogicTest extends BaseComponentTestCase {
 
 		______TS("success case");
 		
-		gaeSimulation.loginAsAdmin("admin.user");
-		
 		List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
 		int size = instructorAccounts.size();
 		
@@ -242,7 +241,6 @@ public class LogicTest extends BaseComponentTestCase {
 
 		______TS("success case");
 
-		gaeSimulation.loginAsAdmin("admin.user");
 		// Delete any existing
 		CourseAttributes cd = dataBundle.courses.get("typicalCourse1");
 		InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
@@ -358,7 +356,7 @@ public class LogicTest extends BaseComponentTestCase {
 		InstructorAttributes instructor3 = dataBundle.instructors.get("instructor3OfCourse1");
 		instructor.name = creator.name;
 		instructor.email = creator.email;
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		logic.deleteCourse(instructor.courseId);
 		logic.deleteAccount(instructor.googleId);
 		logic.deleteAccount(instructor2.googleId);
@@ -373,9 +371,6 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		// Have the admin create an empty instructor account
 		logic.createAccount(creator.googleId, creator.name, true, creator.email, creator.institute);
-		
-		// Then login as the new instructor to create a course
-		gaeSimulation.loginAsInstructor("idOfInstructor1OfCourse1");
 		
 		logic.createCourseAndInstructor(instructor.googleId, course.id, course.name);
 		logic.updateCourseInstructors(course.id,
@@ -415,7 +410,6 @@ public class LogicTest extends BaseComponentTestCase {
 		
 		______TS("Update Instructor information");
 		
-		gaeSimulation.loginAsInstructor("idOfInstructor2OfCourse1"); // idOfInstructor1OfCourse1 is no longer an instructor of the course
 		instructor2.name = "New name";
 		instructor3.email = "new@email.com";
 		
@@ -460,7 +454,7 @@ public class LogicTest extends BaseComponentTestCase {
 		
 		______TS("typical case");
 		
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 
 		InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -518,7 +512,7 @@ public class LogicTest extends BaseComponentTestCase {
 		
 		/* here we test path 2 */
 
-		gaeSimulation.loginAsInstructor("idOfInstructor1OfCourse1");
+		
 		
 		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
 		AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
@@ -591,7 +585,7 @@ public class LogicTest extends BaseComponentTestCase {
 		
 		______TS("typical case");
 
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 
 		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
 		CourseDetailsBundle courseDetials = logic.getCourseDetails(course.id);
@@ -641,7 +635,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		StudentAttributes studentInTwoCourses = dataBundle.students
 				.get("student2InCourse1");
@@ -697,7 +691,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("instructor with 2 courses");
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		// Instructor 3 is an instructor of 2 courses - Course 1 and Course 2. 
 		// Retrieve from one course to get the googleId, then pull the courses for that googleId
@@ -745,7 +739,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("typical case");
 	
-		gaeSimulation.loginAsInstructor("idOfInstructor3");
+		
 	
 		HashMap<String, CourseDetailsBundle> courseListForInstructor = logic
 				.getCourseDetailsListForInstructor("idOfInstructor3");
@@ -781,7 +775,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("instructor has a course with 0 evaluations");
 	
-		gaeSimulation.loginAsInstructor("idOfInstructor4");
+		
 		
 		courseListForInstructor = logic
 				.getCourseDetailsListForInstructor("idOfInstructor4");
@@ -794,7 +788,7 @@ public class LogicTest extends BaseComponentTestCase {
 		 * Not allowed, this is for Account
 		______TS("instructor with 0 courses");
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		logic.createInstructor("instructorWith0course", "Instructor with 0 courses",
 				"instructorWith0course@gmail.com");
 		courseListForInstructor = logic
@@ -813,7 +807,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("non-existent instructor");
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		
 		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
 				"non-existent"});
@@ -833,7 +827,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		// Let's call this course 1. It has 2 evaluations.
 		CourseAttributes expectedCourse1 = dataBundle.courses.get("typicalCourse1");
@@ -941,7 +935,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		CourseAttributes course1OfInstructor = dataBundle.courses.get("typicalCourse1");
 	
@@ -999,7 +993,7 @@ public class LogicTest extends BaseComponentTestCase {
 
 		// TODO: Move following to StudentsLogicTest (together with SUT -> StudentsLogic)
 		
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		
 		restoreTypicalDataInDatastore();
 		//reuse existing student to create a new student
@@ -1086,7 +1080,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("student in one course");
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		restoreTypicalDataInDatastore();
 		StudentAttributes studentInOneCourse = dataBundle.students
@@ -1162,7 +1156,7 @@ public class LogicTest extends BaseComponentTestCase {
 		______TS("student in two courses");
 	
 		restoreTypicalDataInDatastore();
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
 				.get("student2InCourse1");
 	
@@ -1203,7 +1197,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
 		List<StudentAttributes> studentList = logic
@@ -1247,7 +1241,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
 		logic.createStudent(new StudentAttributes("|s1|s1@e|", course.id));
@@ -1328,7 +1322,7 @@ public class LogicTest extends BaseComponentTestCase {
 
 		restoreTypicalDataInDatastore();
 
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 
 		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 		String originalEmail = student1InCourse1.email;
@@ -1370,7 +1364,7 @@ public class LogicTest extends BaseComponentTestCase {
 		restoreTypicalDataInDatastore();
 	
 		// make a student 'unregistered'
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 		String googleId = "student1InCourse1";
 		String key = logic.getKeyForStudent(student.course, student.email);
@@ -1383,7 +1377,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		// make a student 'unregistered'
 		student = dataBundle.students.get("student1InCourse1");
@@ -1393,8 +1387,6 @@ public class LogicTest extends BaseComponentTestCase {
 		logic.updateStudent(student.email, student);
 		assertEquals("", logic.getStudentForEmail(student.course, student.email).googleId);
 	
-		gaeSimulation.loginUser(googleId);
-		
 		// TODO: remove encrpytion - should fail test
 		//Test if unencrypted key used
 		logic.joinCourse(googleId, key);
@@ -1414,8 +1406,6 @@ public class LogicTest extends BaseComponentTestCase {
 		AccountAttributes studentAccount = logic.getAccount(googleId); // this is because student accounts are not in typical data bundle
 		assertNull(studentAccount);
 	
-		gaeSimulation.loginUser(googleId);
-		
 		//Test for encrypted key used
 		key = StringHelper.encrypt(key);
 		logic.joinCourse(googleId, key);
@@ -1456,7 +1446,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		String instructorId = "instructorForEnrollTesting";
 		String courseId = "courseForEnrollTest";
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		logic.createAccount("instructorForEnrollTesting", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor(instructorId, courseId, "Course for Enroll Testing");
 		String EOL = Config.EOL;
@@ -1551,7 +1541,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("all students already registered");
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		restoreTypicalDataInDatastore();
 		CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
@@ -1593,7 +1583,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("send to existing student");
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1637,7 +1627,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		
 		AccountsLogic.inst().deleteAccountCascade("instructor1");
 		CoursesLogic.inst().deleteCourseCascade("course1");
@@ -1674,7 +1664,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("some have submitted fully");
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		// This student is the only member in Team 1.2. If he submits his
 		// self-evaluation, he sill be considered 'fully submitted'. Only
@@ -1732,7 +1722,7 @@ public class LogicTest extends BaseComponentTestCase {
 
 		restoreTypicalDataInDatastore();
 
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 
 		// this is the student to be deleted
 		StudentAttributes student2InCourse1 = dataBundle.students
@@ -1800,7 +1790,7 @@ public class LogicTest extends BaseComponentTestCase {
 
 		______TS("typical case");
 
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 
 		restoreTypicalDataInDatastore();
 
@@ -1886,7 +1876,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("typical case, instructor has 3 evaluations");
 	
-		gaeSimulation.loginAsInstructor("idOfInstructor3");
+		
 		
 		InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
 		ArrayList<EvaluationDetailsBundle> evalList = logic
@@ -1926,7 +1916,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("instructor has 1 evaluation");
 	
-		gaeSimulation.loginAsInstructor("idOfInstructor2OfCourse2");
+		
 	
 		InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse2");
 		evalList = logic.getEvaluationsDetailsForInstructor(instructor2.googleId);
@@ -1937,7 +1927,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("instructor has 0 evaluations");
 	
-		gaeSimulation.loginAsInstructor("idOfInstructor4");
+		
 		
 		InstructorAttributes instructor4 = dataBundle.instructors.get("instructor4");
 		evalList = logic.getEvaluationsDetailsForInstructor(instructor4.googleId);
@@ -1954,7 +1944,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("non-existent instructor");
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		
 		verifyEntityDoesNotExistException(methodName, paramTypes,
 				new Object[] { "non-existent" });
@@ -1972,7 +1962,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		// reconfigure points of an existing evaluation in the datastore
 		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
@@ -2152,7 +2142,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		
 		EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
 		
@@ -2227,7 +2217,7 @@ public class LogicTest extends BaseComponentTestCase {
 		evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
 		student1email = "student1InCourse1@gmail.com";
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		// @formatter:off
 		setPointsForSubmissions(new int[][] 
@@ -2359,7 +2349,7 @@ public class LogicTest extends BaseComponentTestCase {
 
 		restoreTypicalDataInDatastore();
 
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 
 		eval = dataBundle.evaluations.get("evaluation1InCourse1");
 		eval.gracePeriod = eval.gracePeriod + 1;
@@ -2424,7 +2414,7 @@ public class LogicTest extends BaseComponentTestCase {
 
 		restoreTypicalDataInDatastore();
 
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 
 		EvaluationAttributes eval1 = dataBundle.evaluations
 				.get("evaluation1InCourse1");
@@ -2512,7 +2502,7 @@ public class LogicTest extends BaseComponentTestCase {
 		______TS("typical delete");
 	
 		restoreTypicalDataInDatastore();
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		EvaluationAttributes eval = dataBundle.evaluations
 				.get("evaluation1InCourse1");
@@ -2569,7 +2559,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		EvaluationAttributes evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1");
@@ -2647,7 +2637,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("student has submitted");
 	
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 	
 		assertEquals(true, logic.hasStudentSubmittedEvaluation(
 				evaluation.courseId, evaluation.name, student.email));
@@ -2686,7 +2676,7 @@ public class LogicTest extends BaseComponentTestCase {
 		______TS("typical cases");
 
 		restoreTypicalDataInDatastore();
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 
 		ArrayList<SubmissionAttributes> submissionContainer = new ArrayList<SubmissionAttributes>();
 
@@ -3017,7 +3007,7 @@ public class LogicTest extends BaseComponentTestCase {
 			throws EntityAlreadyExistsException, InvalidParametersException,
 			EntityDoesNotExistException {
 		// create course
-		gaeSimulation.loginAsAdmin("admin.user");
+		
 		logic.createAccount("instructorForTestingER", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor("instructorForTestingER", courseId,
 				"Course For Testing Evaluation Results");

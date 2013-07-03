@@ -47,7 +47,6 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
 	public void testPersistDataBundle() throws Exception {
 
 		BackDoorLogic logic = new BackDoorLogic();
-		gaeSimulation.loginAsAdmin("admin.user");
 		
 		DataBundle dataBundle = getTypicalDataBundle();
 		// clean up the datastore first, to avoid clashes with existing data

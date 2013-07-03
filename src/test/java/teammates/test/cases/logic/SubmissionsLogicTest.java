@@ -45,8 +45,6 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
 
 		______TS("typical case");
 
-		gaeSimulation.loginAsAdmin("admin.user");
-
 		EvaluationAttributes evaluation = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 		// reuse this evaluation data to create a new one
