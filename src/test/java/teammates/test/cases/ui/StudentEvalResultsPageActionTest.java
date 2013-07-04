@@ -55,14 +55,14 @@ public class StudentEvalResultsPageActionTest extends BaseActionTest {
 		
 		//if the user is not a student of the course, we redirect to home page.
 		gaeSimulation.loginUser("unreg.user");
-		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
 		
 		//if the user is not a student of the course, we redirect to home page.
 		gaeSimulation.loginAsInstructor(instructorId);
-		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);

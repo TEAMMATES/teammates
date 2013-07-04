@@ -15,7 +15,7 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.GateKeeper;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 
-public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
+public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
 	@Override
 	protected ActionResult execute() 
@@ -29,7 +29,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
 				logic.getCourse(courseId));
 				
-		InstructorFeedbackPageData data = new InstructorFeedbackPageData(account);
+		InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
 
 		FeedbackSessionAttributes fs = extractFeedbackSessionData();
 

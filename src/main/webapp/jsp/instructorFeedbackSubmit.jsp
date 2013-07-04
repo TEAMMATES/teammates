@@ -3,9 +3,9 @@
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
-<%@ page import="teammates.ui.controller.StudentFeedbackSubmitPageData"%>
+<%@ page import="teammates.ui.controller.StudentFeedbackSubmissionEditPageData"%>
 <%
-	StudentFeedbackSubmitPageData data = (StudentFeedbackSubmitPageData)request.getAttribute("data");
+	StudentFeedbackSubmissionEditPageData data = (StudentFeedbackSubmissionEditPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -39,7 +39,7 @@
 				<h1>Submit Feedback</h1>
 			</div>
 			
-			<form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_EDIT_SAVE%>" name="form_student_submit_response">
+			<form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_student_submit_response">
 			<table class="inputTable">
 			<tr>
 				<td class="bold">Course:</td>

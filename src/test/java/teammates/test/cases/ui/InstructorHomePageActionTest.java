@@ -24,7 +24,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_HOME;
+		uri = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
 	}
 
 	@BeforeMethod
@@ -58,9 +58,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		InstructorHomePageData data = (InstructorHomePageData)r.data;
 		assertEquals(0, data.courses.size());
 		
-		String expectedLogMessage = "TEAMMATESLOG|||instructorHome|||instructorHome|||true" +
+		String expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true" +
 				"|||Instructor|||Instructor Without Courses|||instructorWithoutCourses" +
-				"|||iwc@yahoo.com|||instructorHome Page Load<br>Total Courses: 0|||/page/instructorHome" ;
+				"|||iwc@yahoo.com|||instructorHome Page Load<br>Total Courses: 0|||/page/instructorHomePage" ;
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 		______TS("instructor with multiple courses, masquerade mode");
@@ -101,9 +101,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		assertEquals(2, data.courses.size());
 		
 		
-		expectedLogMessage = "TEAMMATESLOG|||instructorHome|||instructorHome|||true" +
+		expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true" +
 				"|||Instructor(M)|||Instructor 3 of Course 1 and 2|||idOfInstructor3" +
-				"|||instr3@course1n2.com|||instructorHome Page Load<br>Total Courses: 2|||/page/instructorHome" ;
+				"|||instr3@course1n2.com|||instructorHome Page Load<br>Total Courses: 2|||/page/instructorHomePage" ;
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 	}

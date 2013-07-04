@@ -29,7 +29,7 @@ public class InstructorCourseDetailsPageData extends PageData {
 	
 	
 	public String getCourseStudentDetailsLink(StudentAttributes student){
-		String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS;
+		String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseDetails.course.id);
 		link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
 		link = addUserIdToUrl(link);

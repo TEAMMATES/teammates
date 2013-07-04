@@ -12,7 +12,7 @@ import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
-public class StudentFeedbackSubmitSaveAction extends Action {
+public class StudentFeedbackSubmissionEditSaveAction extends Action {
 
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
@@ -27,7 +27,7 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 				logic.getStudentForGoogleId(courseId, account.googleId), 
 				logic.getFeedbackSession(feedbackSessionName, courseId));
 		
-		StudentFeedbackSubmitPageData data = new StudentFeedbackSubmitPageData(account);
+		StudentFeedbackSubmissionEditPageData data = new StudentFeedbackSubmissionEditPageData(account);
 
 		// Get student email instead of account email.
 		String studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
@@ -79,7 +79,7 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		
 		// TODO: what happens if qn is deleted as response is being submitted?
 		// what happens if team/etc change such that receiver / response in general is invalid?
-		return createRedirectResult(Const.ActionURIs.STUDENT_HOME);
+		return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
 	}
 	
 	private FeedbackResponseAttributes extractFeedbackResponseData(int questionIndx, int responseIndx) {

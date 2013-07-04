@@ -79,7 +79,7 @@
 	if (noResponses == false) {
 %>
 <form method="post"
-	action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS%>">
+	action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
 	<table class="inputTable sortTypeTable">
 		<tr>
 			<td><input type="radio"

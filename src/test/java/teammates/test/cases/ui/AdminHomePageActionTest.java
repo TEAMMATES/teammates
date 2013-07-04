@@ -15,7 +15,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.ADMIN_HOME;
+		uri = Const.ActionURIs.ADMIN_HOME_PAGE;
 	}
 
 	@BeforeMethod

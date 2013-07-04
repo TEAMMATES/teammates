@@ -68,7 +68,7 @@ public class BaseUiTestCase extends BaseTestCase {
 	}
 
 	protected static AdminHomePage loginAdmin(Browser currentBrowser) {
-		return loginAdminToPage(currentBrowser, new Url(Const.ActionURIs.ADMIN_HOME), AdminHomePage.class);
+		return loginAdminToPage(currentBrowser, new Url(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
 	}
 
 

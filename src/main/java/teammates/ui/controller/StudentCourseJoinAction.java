@@ -29,7 +29,7 @@ public class StudentCourseJoinAction extends Action {
 			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
 		}
 
-		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME);
+		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
 		return response;
 	}
 

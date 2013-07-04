@@ -10,18 +10,18 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.CoursesLogic;
-import teammates.ui.controller.InstructorCoursePageAction;
+import teammates.ui.controller.InstructorCoursesPageAction;
 import teammates.ui.controller.InstructorCoursePageData;
 import teammates.ui.controller.ShowPageResult;
 
-public class InstructorCoursePageActionTest extends BaseActionTest {
+public class InstructorCoursesPageActionTest extends BaseActionTest {
 
 	DataBundle dataBundle;
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_COURSES;
+		uri = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
 	}
 
 	@BeforeMethod
@@ -52,7 +52,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course");
 		gaeSimulation.loginAsInstructor(instructorId);
-		InstructorCoursePageAction a = getAction(submissionParams);
+		InstructorCoursesPageAction a = getAction(submissionParams);
 		ShowPageResult r = getShowPageResult(a);
 		
 		assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
@@ -66,10 +66,10 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		assertEquals("", pageData.courseNameToShow);
 		assertEquals("idOfInstructor1OfCourse1|Instructor 1 of Course 1|instr1@course1.com", pageData.instructorListToShow);
 		
-		String expectedLogMessage = "TEAMMATESLOG|||instructorCourse|||instructorCourse" +
+		String expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
 				"|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
 				"|||instr1@course1.com|||instructorCourse Page Load<br>Total courses: 2" +
-				"|||/page/instructorCourse";
+				"|||/page/instructorCoursesPage";
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 		______TS("Masquerade mode, 0 courses");
@@ -93,16 +93,16 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		assertEquals("", pageData.courseNameToShow);
 		assertEquals("idOfInstructor1OfCourse1|Instructor 1 of Course 1|instr1@course1.com", pageData.instructorListToShow);
 		
-		expectedLogMessage = "TEAMMATESLOG|||instructorCourse|||instructorCourse" +
+		expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
 				"|||instr1@course1.com|||instructorCourse Page Load<br>Total courses: 0" +
-				"|||/page/instructorCourse";
+				"|||/page/instructorCoursesPage";
 		assertEquals(expectedLogMessage, a.getLogMessage());
 	}
 	
 	
-	private InstructorCoursePageAction getAction(String... params) throws Exception{
-			return (InstructorCoursePageAction) (gaeSimulation.getActionObject(uri, params));
+	private InstructorCoursesPageAction getAction(String... params) throws Exception{
+			return (InstructorCoursesPageAction) (gaeSimulation.getActionObject(uri, params));
 	}
 	
 }

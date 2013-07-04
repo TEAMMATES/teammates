@@ -5,7 +5,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
-public class InstructorEvalDeleteAction extends InstructorEvalPageAction {
+public class InstructorEvalDeleteAction extends InstructorEvalsPageAction {
 	
 	@Override
 	protected ActionResult execute() 
@@ -23,7 +23,7 @@ public class InstructorEvalDeleteAction extends InstructorEvalPageAction {
 		statusToAdmin = "Evaluation <span class=\"bold\">" + evalName + 
 				"</span> in Course <span class=\"bold\"[" + courseId + "]/span> deleted";
 		
-		return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS);
+		return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE);
 	}
 	
 }

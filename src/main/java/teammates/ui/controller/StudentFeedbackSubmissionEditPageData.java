@@ -7,11 +7,11 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 
-public class StudentFeedbackSubmitPageData extends PageData {
+public class StudentFeedbackSubmissionEditPageData extends PageData {
 
 	public FeedbackSessionQuestionsBundle bundle = null;
 	
-	public StudentFeedbackSubmitPageData(AccountAttributes account) {
+	public StudentFeedbackSubmissionEditPageData(AccountAttributes account) {
 		super(account);
 	}
 

@@ -42,7 +42,7 @@
 				<h1>Student Home</h1>
 			</div>
 		
-			<form method="post" action="<%=Const.ActionURIs.STUDENT_JOIN_COURSE%>" name="form_joincourse">
+			<form method="post" action="<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>" name="form_joincourse">
 				<table class="inputTable" id="result_addOrJoinCourse">
 					<tr>
 						<td class="label bold">Registration Key:</td>

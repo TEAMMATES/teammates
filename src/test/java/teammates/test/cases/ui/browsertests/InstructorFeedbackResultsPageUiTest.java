@@ -96,7 +96,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	
 	private InstructorFeedbackResultsPage loginToInstructorFeedbackSubmitPage(
 			String instructorName, String fsName) {
-		Url editUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS)
+		Url editUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
 				.withUserId(testData.instructors.get(instructorName).googleId)
 				.withCourseId(testData.feedbackSessions.get(fsName).courseId)
 				.withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);

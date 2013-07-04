@@ -5,7 +5,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
-public class InstructorCourseStudentDetailsPageAction extends InstructorCoursePageAction {
+public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesPageAction {
 	
 	
 	@Override

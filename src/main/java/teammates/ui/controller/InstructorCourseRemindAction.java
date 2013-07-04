@@ -45,7 +45,7 @@ public class InstructorCourseRemindAction extends Action {
 			statusToAdmin = e.getMessage();
 			
 		} finally {
-			response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS);
+			response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
 			response.addResponseParam(Const.ParamsNames.COURSE_ID,courseId); 
 		}
 		return response;

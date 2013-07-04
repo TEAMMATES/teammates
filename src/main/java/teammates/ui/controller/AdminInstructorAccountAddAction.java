@@ -77,7 +77,7 @@ public class AdminInstructorAccountAddAction extends Action {
 				+ "<span class=\"bold\">Email: </span>" + data.instructorEmail 
 				+ "<span class=\"bold\">Institution: </span>" + data.instructorInstitution;
 		
-		return createRedirectResult(Const.ActionURIs.ADMIN_HOME);
+		return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
 	}
 	
 	private void importDemoData(AdminHomePageData helper)

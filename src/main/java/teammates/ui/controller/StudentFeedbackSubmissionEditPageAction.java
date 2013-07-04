@@ -6,7 +6,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
-public class StudentFeedbackSubmitPageAction extends Action {
+public class StudentFeedbackSubmissionEditPageAction extends Action {
 
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException,
@@ -17,7 +17,7 @@ public class StudentFeedbackSubmitPageAction extends Action {
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		if(courseId==null || feedbackSessionName == null) {
-			return createRedirectResult(Const.ActionURIs.STUDENT_HOME);
+			return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
 		}
 		
 		if(notYetJoinedCourse(courseId, account.googleId)){
@@ -30,7 +30,7 @@ public class StudentFeedbackSubmitPageAction extends Action {
 				logic.getFeedbackSession(feedbackSessionName, courseId));
 		
 		// Get login details
-		StudentFeedbackSubmitPageData data = new StudentFeedbackSubmitPageData(account);
+		StudentFeedbackSubmissionEditPageData data = new StudentFeedbackSubmissionEditPageData(account);
 		
 		// Set login email
 		String email = logic.getStudentForGoogleId(courseId, account.googleId).email;

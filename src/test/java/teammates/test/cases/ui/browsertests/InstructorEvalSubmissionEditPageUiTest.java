@@ -66,7 +66,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
 		
 		______TS("content: typical edit page, reached via resulst page");
 		
-		Url resultsUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS)
+		Url resultsUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE)
 			.withUserId(testData.instructors.get("CESubEditUiT.instructor").googleId)
 			.withCourseId(eval.courseId)
 			.withEvalName(eval.name);

@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.GateKeeper;
 
-public class InstructorCourseStudentDeleteAction extends InstructorCoursePageAction {
+public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAction {
 	
 	protected static Logger log = Utils.getLogger();
 	
@@ -34,7 +34,7 @@ public class InstructorCourseStudentDeleteAction extends InstructorCoursePageAct
 				"</span> in Course <span class=\"bold\">[" + courseId + "]</span> deleted.";
 		
 
-		RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS);
+		RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
 		result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
 		return result;
 

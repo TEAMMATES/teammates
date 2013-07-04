@@ -19,7 +19,7 @@
 					}
 				}
 			}
-			var nextUrl = "<%=Const.ActionURIs.INSTRUCTOR_EVALS%>";
+			var nextUrl = "<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>";
 			if(user!==null){
 				nextUrl += "?user="+user;
 			}

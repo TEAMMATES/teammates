@@ -16,7 +16,7 @@ public class InstructorEvalResultsDownloadActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_EVAL_EXPORT;
+		uri = Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD;
 	}
 
 	@BeforeMethod

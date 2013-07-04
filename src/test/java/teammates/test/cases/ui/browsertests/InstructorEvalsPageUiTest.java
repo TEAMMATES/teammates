@@ -268,7 +268,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	}
 
 	private InstructorEvalsPage getEvalsPageForInstructor(String instructorId) {
-		Url evalPageLink = new Url(Const.ActionURIs.INSTRUCTOR_EVALS).withUserId(instructorId);
+		Url evalPageLink = new Url(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE).withUserId(instructorId);
 		return loginAdminToPage(browser, evalPageLink, InstructorEvalsPage.class);
 	}
 

@@ -4,9 +4,9 @@
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
-<%@ page import="teammates.ui.controller.InstructorFeedbackPageData"%>
+<%@ page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
 <%
-	InstructorFeedbackPageData data = (InstructorFeedbackPageData)request.getAttribute("data");
+	InstructorFeedbacksPageData data = (InstructorFeedbacksPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -59,10 +59,10 @@
 									id="feedbackchangetype"
 									onmouseover="ddrivetip('Select a different type of session here.')"
 									onmouseout="hideddrivetip()" tabindex="0">
-									<option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS%>" selected="selected">Class Feedback Session with customizable questions</option>
+									<option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>" selected="selected">Class Feedback Session with customizable questions</option>
 									<!-- <option value="TEAM">Team Feedback Session</option> -->
 									<!-- <option value="PRIVATE">Private Feedback Session</option> -->
-									<option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS%>">Standard Peer Evaluation Session</option>			
+									<option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>">Standard Peer Evaluation Session</option>			
 			</select></p>
 			<br><br>
 			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD%>" name="form_addfeedbacksession">
@@ -92,7 +92,7 @@
 									name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
 									onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME%>')"
 									onmouseout="hideddrivetip()" maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
-									value="<%if(data.newFeedbackSession!=null) out.print(InstructorFeedbackPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
+									value="<%if(data.newFeedbackSession!=null) out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
 									tabindex="2" placeholder="e.g. Class presentation feedback session"></td>
 					</tr>
 				</table>
@@ -125,9 +125,9 @@
 							>
 								<%
 									Date date;
-																																	date = ((data.newFeedbackSession==null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
-																																			? null : data.newFeedbackSession.sessionVisibleFromTime);
-																																	for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
+																																							date = ((data.newFeedbackSession==null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
+																																									? null : data.newFeedbackSession.sessionVisibleFromTime);
+																																							for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
@@ -182,8 +182,8 @@
 							>
 								<%
 									date = ((data.newFeedbackSession==null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) 
-																																			? null : data.newFeedbackSession.sessionVisibleFromTime);
-																																	for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
+																																									? null : data.newFeedbackSession.sessionVisibleFromTime);
+																																							for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
@@ -232,7 +232,7 @@
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>" tabindex="4">
 								<%
 									date = (data.newFeedbackSession == null ? null : data.newFeedbackSession.startTime);
-																																	for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
+																																							for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td class="label bold middlealign" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>')"
@@ -250,7 +250,7 @@
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>" tabindex="4">
 								<%
 									date = (data.newFeedbackSession == null ? null : data.newFeedbackSession.endTime);								
-																																	for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
+																																							for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
 						<td class="label bold" onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
@@ -272,7 +272,7 @@
 						<td class="label bold middlealign" >Instructions to students:</td>
 						<td><textarea rows="4" cols="100%" class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
 								onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>')"
-								onmouseout="hideddrivetip()" tabindex="8" placeholder="e.g. Please answer all the given questions."><%=data.newFeedbackSession==null ? "" :InstructorFeedbackPageData.sanitizeForHtml(data.newFeedbackSession.instructions.getValue())%></textarea>							
+								onmouseout="hideddrivetip()" tabindex="8" placeholder="e.g. Please answer all the given questions."><%=data.newFeedbackSession==null ? "" :InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.instructions.getValue())%></textarea>							
 						</td>
 					</tr>
 					<tr>
@@ -304,15 +304,15 @@
 				</tr>
 				<%
 					int fsIdx = -1;
-																if (data.existingSessions.size() > 0) {
-																	for(FeedbackSessionDetailsBundle fdb: data.existingSessions){ fsIdx++;
+																		if (data.existingSessions.size() > 0) {
+																			for(FeedbackSessionDetailsBundle fdb: data.existingSessions){ fsIdx++;
 				%>
 							<tr class="evaluations_row" id="evaluation<%=fsIdx%>">
 								<td class="t_eval_coursecode"><%=fdb.feedbackSession.courseId%></td>
-								<td class="t_eval_name"><%=InstructorFeedbackPageData.sanitizeForHtml(fdb.feedbackSession.feedbackSessionName)%></td>
+								<td class="t_eval_name"><%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSession.feedbackSessionName)%></td>
 								<td class="t_eval_status centeralign"><span
-									onmouseover="ddrivetip(' <%=InstructorFeedbackPageData.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
-									onmouseout="hideddrivetip()"><%=InstructorFeedbackPageData.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>
+									onmouseover="ddrivetip(' <%=InstructorFeedbacksPageData.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
+									onmouseout="hideddrivetip()"><%=InstructorFeedbacksPageData.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>
 								<td class="t_eval_response centeralign"><%=fdb.stats.submittedTotal%>
 									/ <%=fdb.stats.expectedTotal%></td>
 								<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(fdb.feedbackSession,fsIdx, false)%>

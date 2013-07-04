@@ -38,7 +38,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 		
 		______TS("content: registered student");
 		
-		Url viewPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS)
+		Url viewPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withStudentEmail(testData.students.get("registeredStudent").email);
@@ -49,7 +49,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 		______TS("content: unregistered student");
 		
 		
-		viewPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS)
+		viewPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withStudentEmail(testData.students.get("unregisteredStudent").email);

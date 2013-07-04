@@ -84,17 +84,17 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 		______TS("student pages");
 
-		verifyRedirectToLogin(Const.ActionURIs.STUDENT_HOME);
+		verifyRedirectToLogin(Const.ActionURIs.STUDENT_HOME_PAGE);
 		
 
 		______TS("instructor pages");
 
-		verifyRedirectToLogin(Const.ActionURIs.INSTRUCTOR_HOME);
+		verifyRedirectToLogin(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
 		
 
 		______TS("admin pages");
 
-		verifyRedirectToLogin(Const.ActionURIs.ADMIN_HOME);
+		verifyRedirectToLogin(Const.ActionURIs.ADMIN_HOME_PAGE);
 		
 		
 	}
@@ -108,14 +108,14 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 		loginStudent(unregUsername, unregPassword);
 
-		verifyRedirectToWelcomeStrangerPage(Const.ActionURIs.STUDENT_HOME, unregUsername);
+		verifyRedirectToWelcomeStrangerPage(Const.ActionURIs.STUDENT_HOME_PAGE, unregUsername);
 
 
 		______TS("instructor pages");
 
 		loginInstructorUnsuccessfully(unregUsername, unregPassword);
 
-		Url url = new Url(Const.ActionURIs.INSTRUCTOR_HOME);
+		Url url = new Url(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
 		verifyRedirectToNotAuthorized(url);
 		verifyCannotMasquerade(url, otherInstructor.googleId);
 
@@ -143,7 +143,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		
 		______TS("cannot view other homepage");
 		
-		link = Const.ActionURIs.STUDENT_HOME;
+		link = Const.ActionURIs.STUDENT_HOME_PAGE;
 		verifyCannotMasquerade(link, otherInstructor.googleId);
 	}
 
@@ -156,7 +156,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		
 		loginStudent(studentUsername, studentPassword);
 		
-		link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT;
+		link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
 		link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, ownCourse.id);
 		EvaluationAttributes ownEvaluation = testData.evaluations.get("evaluation1InCourse1");
 		link = Url.addParamToUrl(link, Const.ParamsNames.EVALUATION_NAME,	ownEvaluation.name);
@@ -178,7 +178,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		
 		______TS("student can view own evaluation submission page");
 	
-		link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT;
+		link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
 		link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, ownCourse.id);
 		link = Url.addParamToUrl(link, Const.ParamsNames.EVALUATION_NAME,
 				ownEvaluation.name);
@@ -276,7 +276,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	
 		______TS("cannot view other homepage");
 	
-		link = Const.ActionURIs.INSTRUCTOR_HOME;
+		link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
 		verifyCannotMasquerade(link, otherInstructor.googleId);
 		
 		deleteSpecialTestData();
@@ -329,7 +329,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 	private void verifyCannotAccessAdminPages() {
 		//cannot access directly
-		Url url = new Url(Const.ActionURIs.ADMIN_HOME);
+		Url url = new Url(Const.ActionURIs.ADMIN_HOME_PAGE);
 		verifyRedirectToNotAuthorized(url);
 		//cannot access by masquerading either
 		url = url.withUserId(adminUsername);

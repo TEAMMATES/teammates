@@ -17,7 +17,7 @@ public class InstructorEvalSubmissionEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER;
+		uri = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE;
 	}
 
 	@BeforeMethod

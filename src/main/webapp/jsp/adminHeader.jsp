@@ -9,10 +9,10 @@
 	</div>
 	<div id="contentLinks">
 		<ul id="navbar">
-		    <li><a class='t_logout' href="<%=Const.ActionURIs.ADMIN_HOME%>">Create Instructor</a></li>
-		    <li><a class='t_logout' href="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT%>">Account Management</a></li>
-			<li><a class='t_logout' href="<%=Const.ActionURIs.ADMIN_SEARCH%>">Search</a></li>
-			<li><a class='t_logout' href="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG%>">Activity Log</a></li>
+		    <li><a class='t_logout' href="<%=Const.ActionURIs.ADMIN_HOME_PAGE%>">Create Instructor</a></li>
+		    <li><a class='t_logout' href="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE%>">Account Management</a></li>
+			<li><a class='t_logout' href="<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>">Search</a></li>
+			<li><a class='t_logout' href="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">Activity Log</a></li>
 			<li><a class='t_logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout</a></li>
 		</ul>
 	</div>

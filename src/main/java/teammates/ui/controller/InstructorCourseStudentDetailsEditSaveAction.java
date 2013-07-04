@@ -6,7 +6,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
-public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCoursePageAction {
+public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCoursesPageAction {
 	
 	
 	@Override
@@ -40,7 +40,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
 					"New Email: " + data.student.email + "<br>New Team: " + 
 					data.student.team + "<br>Comments: " + data.student.comments;
 			
-			RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS);
+			RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
 			result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
 			return result;
 			

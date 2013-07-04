@@ -43,9 +43,9 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=CEvalUiT.nocourses" class='nav home' data-link="instructorHome">Home</a></li>
-					<li><a href="/page/instructorCourse?user=CEvalUiT.nocourses" class='nav courses' data-link="instructorCourse">Courses</a></li>
-					<li class="current"><a href="/page/instructorEval?user=CEvalUiT.nocourses" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a href="/page/instructorHomePage?user=CEvalUiT.nocourses" class='nav home' data-link="instructorHome">Home</a></li>
+					<li><a href="/page/instructorCoursesPage?user=CEvalUiT.nocourses" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li class="current"><a href="/page/instructorEvalsPage?user=CEvalUiT.nocourses" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
 					 <b>(CEvalUiT.nocourses)</b></li>
@@ -69,9 +69,9 @@
 					onmouseout="hideddrivetip()"
 					onmouseover="ddrivetip('Select a different type of session here.')"
 					style="width: 730px" tabindex="0">
-					<option value="/page/instructorFeedback">Class Feedback Session with customizable questions</option>
+					<option value="/page/instructorFeedbacksPage">Class Feedback Session with customizable questions</option>
 					{*}
-					<option selected="selected" value="/page/instructorEval">Standard Peer Evaluation Session</option>
+					<option selected="selected" value="/page/instructorEvalsPage">Standard Peer Evaluation Session</option>
 				</select>
 			</p>
 			<br /> <br />
@@ -232,7 +232,7 @@
 
 
 	<div style="display: block;" id="statusMessage">
-		You have not created any courses yet. Go <a href="/page/instructorCourse?user=CEvalUiT.nocourses">here</a> to create one.</div>
+		You have not created any courses yet. Go <a href="/page/instructorCoursesPage?user=CEvalUiT.nocourses">here</a> to create one.</div>
 	<script type="text/javascript">
     	document.getElementById( 'statusMessage' ).scrollIntoView();
     </script>

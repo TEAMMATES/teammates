@@ -171,7 +171,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 	
 	private StudentFeedbackSubmitPage loginToStudentFeedbackSubmitPage(
 			String studentName, String fsName) {
-		Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_EDIT)
+		Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
 				.withUserId(testData.students.get(studentName).googleId)
 				.withCourseId(testData.feedbackSessions.get(fsName).courseId)
 				.withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);

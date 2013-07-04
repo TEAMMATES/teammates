@@ -248,69 +248,69 @@ public class Const {
 	}
 
 	public class ActionURIs{
+		
+		/* _PAGE/Page in the Action URI name means 'show page' */
 	
 		public static final String LOGIN = "/login";
 	
-		//TODO: refine action uri to reflect constant name (where necessary)
-		
-		public static final String INSTRUCTOR_HOME = "/page/instructorHome";
-		public static final String INSTRUCTOR_COURSES = "/page/instructorCourse";
+		public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
+		public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
 		public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
 		public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
-		public static final String INSTRUCTOR_COURSE_DETAILS = "/page/instructorCourseDetails";
-		public static final String INSTRUCTOR_COURSE_EDIT = "/page/instructorCourseEdit";
+		public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
+		public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
 		public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
-		public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS = "/page/instructorCourseStudentDetails";
+		public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE = "/page/instructorCourseStudentDetailsPage";
 		public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT = "/page/instructorCourseStudentDetailsEdit";
 		public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE = "/page/instructorCourseStudentDetailsEditSave";
 		public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
-		public static final String INSTRUCTOR_COURSE_ENROLL = "/page/instructorCourseEnroll";
+		public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
 		public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
 		public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
-		public static final String INSTRUCTOR_EVALS = "/page/instructorEval";
+		public static final String INSTRUCTOR_EVALS_PAGE = "/page/instructorEvalsPage";
 		public static final String INSTRUCTOR_EVAL_ADD = "/page/instructorEvalAdd";
 		public static final String INSTRUCTOR_EVAL_DELETE = "/page/instructorEvalDelete";
-		public static final String INSTRUCTOR_EVAL_EDIT = "/page/instructorEvalEdit";
+		public static final String INSTRUCTOR_EVAL_EDIT_PAGE = "/page/instructorEvalEditPage";
 		public static final String INSTRUCTOR_EVAL_EDIT_SAVE = "/page/instructorEvalEditSave";
-		public static final String INSTRUCTOR_EVAL_RESULTS = "/page/instructorEvalResults";
-		public static final String INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/page/instructorEvalSubmissionView";
+		public static final String INSTRUCTOR_EVAL_RESULTS_PAGE = "/page/instructorEvalResultsPage";
+		public static final String INSTRUCTOR_EVAL_SUBMISSION_PAGE = "/page/instructorEvalSubmissionPage";
 		public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/page/instructorEvalSubmissionEdit";
-		public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER = "/page/instructorEvalSubmissionEditHandler";
+		public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE = "/page/instructorEvalSubmissionEditSave";
 		public static final String INSTRUCTOR_EVAL_REMIND = "/page/instructorEvalRemind";
 		public static final String INSTRUCTOR_EVAL_PUBLISH = "/page/instructorEvalPublish";
 		public static final String INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
-		public static final String INSTRUCTOR_EVAL_EXPORT = "/page/instructorEvalExport";
+		public static final String INSTRUCTOR_EVAL_RESULTS_DOWNLOAD = "/page/instructorEvalResultsDownload";
 		
-		public static final String INSTRUCTOR_FEEDBACKS = "/page/instructorFeedback";
+		public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
 		public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
 		public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
-		public static final String INSTRUCTOR_FEEDBACK_EDIT = "/page/instructorFeedbackEdit";
+		public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
 		public static final String INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
-		public static final String INSTRUCTOR_FEEDBACK_RESULTS = "/page/instructorFeedbackResults";
+		public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
 		
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
 		
-		public static final String STUDENT_HOME = "/page/studentHome";
-		public static final String STUDENT_JOIN_COURSE = "/page/studentCourseJoin";
-		public static final String STUDENT_COURSE_DETAILS = "/page/studentCourseDetails";
-		public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/page/studentEvalEdit";
-		public static final String STUDENT_EVAL_SUBMISSION_EDIT_SAVE = "/page/studentEvalEditHandler";
+		public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
+		public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
+		public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
+		public static final String STUDENT_EVAL_SUBMISSION_EDIT_PAGE = "/page/studentEvalSubmissionEditPage";
+		public static final String STUDENT_EVAL_SUBMISSION_EDIT_SAVE = "/page/studentEvalSubmissionEditSave";
 		public static final String STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
 		
-		public static final String STUDENT_FEEDBACK_EDIT = "/page/studentFeedbackSubmit";
-		public static final String STUDENT_FEEDBACK_EDIT_SAVE = "/page/studentFeedbackSubmitSave";
-		public static final String STUDENT_FEEDBACK_RESULTS = "/page/studentFeedbackResults";
+		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
+		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
+		public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
 		
-		public static final String ADMIN_HOME = "/admin/adminHome";
+		public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
 		public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
-		public static final String ADMIN_ACCOUNT_MANAGEMENT = "/admin/adminAccountManagement";
-		public static final String ADMIN_ACCOUNT_DETAILS = "/admin/adminAccountDetails";
+		public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
+		public static final String ADMIN_ACCOUNT_DETAILS_PAGE = "/admin/adminAccountDetailsPage";
 		public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
 		public static final String ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
-		public static final String ADMIN_ACTIVITY_LOG = "/admin/adminActivityLog";
-		public static final String ADMIN_SEARCH = "/admin/adminSearch";
+		public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
+		public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
 		
 		public static final String BACKDOOR = "/backdoor";
 	}
@@ -387,7 +387,7 @@ public class Const {
 		public static final String COURSE_DELETED = "The course has been deleted.";
 		public static final String COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 		public static final String COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""
-				+ ActionURIs.INSTRUCTOR_COURSES + "${user}\">here</a> to create one.";
+				+ ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create one.";
 		public static final String COURSE_REMINDER_SENT_TO = "Registration key has been sent to ";
 		public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 	

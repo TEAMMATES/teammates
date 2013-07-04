@@ -65,7 +65,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
 						+ "?courseid="
 						+ instructor1ofCourse1.courseId
 						+ "&fsname=ifaat+tca+fs"
@@ -109,7 +109,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
 						+ "?courseid="
 						+ instructor1ofCourse1.courseId
 						+ "&fsname=masquerade+session"

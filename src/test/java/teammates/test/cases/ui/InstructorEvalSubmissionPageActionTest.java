@@ -9,7 +9,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 
-public class InstructorEvalSubmissionViewPageActionTest extends BaseActionTest {
+public class InstructorEvalSubmissionPageActionTest extends BaseActionTest {
 
 	DataBundle dataBundle;
 	
@@ -17,7 +17,7 @@ public class InstructorEvalSubmissionViewPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_VIEW;
+		uri = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_PAGE;
 	}
 
 	@BeforeMethod

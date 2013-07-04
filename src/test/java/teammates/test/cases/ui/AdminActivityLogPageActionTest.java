@@ -15,7 +15,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.ADMIN_ACTIVITY_LOG;
+		uri = Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE;
 	}
 
 	@BeforeMethod

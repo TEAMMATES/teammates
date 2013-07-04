@@ -14,7 +14,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS;
+		uri = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
 	}
 
 	@BeforeMethod

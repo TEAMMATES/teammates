@@ -34,21 +34,21 @@ public class LoginServlet extends HttpServlet {
 		UserType user = server.getCurrentUser();
 		if(req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME);
+				resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.INSTRUCTOR_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
 			}
 		} else if(req.getParameter(Const.ParamsNames.LOGIN_STUDENT)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Const.ActionURIs.STUDENT_HOME);
+				resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.STUDENT_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
 			}
 		} else if(req.getParameter(Const.ParamsNames.LOGIN_ADMIN)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Const.ActionURIs.ADMIN_HOME);
+				resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.ADMIN_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
 			}
 		} else {
 			resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);

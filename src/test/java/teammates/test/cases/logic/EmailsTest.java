@@ -121,11 +121,11 @@ public class EmailsTest extends BaseComponentTestCase {
 		// check email body
 		String encryptedKey = StringHelper.encrypt(s.key);
 		String joinUrl = Config.APP_URL
-				+ Const.ActionURIs.STUDENT_JOIN_COURSE;
+				+ Const.ActionURIs.STUDENT_COURSE_JOIN;
 		joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, encryptedKey);
 
 		String submitUrl = Config.APP_URL
-				+ Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT;
+				+ Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
 		submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID, c.id);
 		submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.EVALUATION_NAME,
 				e.name);
@@ -231,7 +231,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		// check email body
 		String joinUrl = Config.APP_URL
-				+ Const.ActionURIs.STUDENT_JOIN_COURSE;
+				+ Const.ActionURIs.STUDENT_COURSE_JOIN;
 		String encryptedKey = StringHelper.encrypt(s.key);
 		joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, encryptedKey);
 

@@ -13,7 +13,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.GateKeeper;
 
-public class InstructorEvalPageAction extends Action {
+public class InstructorEvalsPageAction extends Action {
 	Logger log = Utils.getLogger();
 
 	@Override

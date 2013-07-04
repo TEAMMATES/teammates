@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.GateKeeper;
 
-public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
+public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
 	
 	protected static Logger log = Utils.getLogger();
 	

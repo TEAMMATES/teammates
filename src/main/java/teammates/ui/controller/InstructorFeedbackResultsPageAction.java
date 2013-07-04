@@ -15,7 +15,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		if(courseId==null || feedbackSessionName == null) {
-			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME);
+			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
 		}
 		
 		new GateKeeper().verifyAccessible(

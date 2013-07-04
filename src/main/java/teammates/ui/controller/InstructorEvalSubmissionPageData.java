@@ -6,12 +6,12 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 
-public class InstructorEvalSubmissionViewPageData extends PageData {
+public class InstructorEvalSubmissionPageData extends PageData {
 	public EvaluationAttributes evaluation;
 	public StudentAttributes student;
 	public StudentResultBundle studentResult;
 
-	public InstructorEvalSubmissionViewPageData(AccountAttributes account) {
+	public InstructorEvalSubmissionPageData(AccountAttributes account) {
 		super(account);
 	}
 	

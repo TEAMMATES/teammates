@@ -16,7 +16,7 @@ public class StudentFeedbackResultsPageAction extends Action {
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		if(courseId==null || feedbackSessionName == null) {
-			return createRedirectResult(Const.ActionURIs.STUDENT_HOME);
+			return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
 		}
 		
 		if(notYetJoinedCourse(courseId, account.googleId)){

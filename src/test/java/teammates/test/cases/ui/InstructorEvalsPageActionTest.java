@@ -11,11 +11,11 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.CoursesLogic;
 import teammates.logic.EvaluationsLogic;
-import teammates.ui.controller.InstructorEvalPageAction;
+import teammates.ui.controller.InstructorEvalsPageAction;
 import teammates.ui.controller.InstructorEvalPageData;
 import teammates.ui.controller.ShowPageResult;
 
-public class InstructorEvalPageActionTest extends BaseActionTest {
+public class InstructorEvalsPageActionTest extends BaseActionTest {
 
 	DataBundle dataBundle;
 	
@@ -23,7 +23,7 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_EVALS;
+		uri = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
 	}
 
 	@BeforeMethod
@@ -54,7 +54,7 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course");
 		gaeSimulation.loginAsInstructor(instructorId);
-		InstructorEvalPageAction a = getAction(submissionParams);
+		InstructorEvalsPageAction a = getAction(submissionParams);
 		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
 		
 		assertEquals(Const.ViewURIs.INSTRUCTOR_EVALS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
@@ -68,9 +68,9 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		assertEquals(null, pageData.newEvaluationToBeCreated);
 		assertEquals(null, pageData.courseIdForNewEvaluation);
 		
-		String expectedLogMessage = "TEAMMATESLOG|||instructorEval|||instructorEval" +
+		String expectedLogMessage = "TEAMMATESLOG|||instructorEvalsPage|||instructorEvalsPage" +
 				"|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-				"|||instr1@course1.com|||Number of evaluations :2|||/page/instructorEval";
+				"|||instr1@course1.com|||Number of evaluations :2|||/page/instructorEvalsPage";
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 		______TS("Masquerade mode, 0 evaluations");
@@ -97,9 +97,9 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		assertEquals(null, pageData.newEvaluationToBeCreated);
 		assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewEvaluation);
 		
-		expectedLogMessage = "TEAMMATESLOG|||instructorEval|||instructorEval" +
+		expectedLogMessage = "TEAMMATESLOG|||instructorEvalsPage|||instructorEvalsPage" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-				"|||instr1@course1.com|||Number of evaluations :0|||/page/instructorEval";
+				"|||instr1@course1.com|||Number of evaluations :0|||/page/instructorEvalsPage";
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 		______TS("Masquerade mode, 0 courses");
@@ -113,9 +113,9 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		
 		assertEquals(
 				Const.ViewURIs.INSTRUCTOR_EVALS+"?message=You+have+not+created+any+courses+yet." +
-						"+Go+%3Ca+href%3D%22%2Fpage%2FinstructorCourse%3Fuser%3DidOfInstructor1OfCourse1%22%3Ehere%3C%2Fa%3E+to+create+one.&error=false&user=idOfInstructor1OfCourse1", 
+						"+Go+%3Ca+href%3D%22%2Fpage%2FinstructorCoursesPage%3Fuser%3DidOfInstructor1OfCourse1%22%3Ehere%3C%2Fa%3E+to+create+one.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
-		assertEquals("You have not created any courses yet. Go <a href=\"/page/instructorCourse?user=idOfInstructor1OfCourse1\">here</a> to create one.", r.getStatusMessage());
+		assertEquals("You have not created any courses yet. Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> to create one.", r.getStatusMessage());
 		assertEquals(false, r.isError);
 		
 		pageData = (InstructorEvalPageData) r.data;
@@ -125,15 +125,15 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		assertEquals(null, pageData.newEvaluationToBeCreated);
 		assertEquals(null, pageData.courseIdForNewEvaluation);
 		
-		expectedLogMessage = "TEAMMATESLOG|||instructorEval|||instructorEval" +
+		expectedLogMessage = "TEAMMATESLOG|||instructorEvalsPage|||instructorEvalsPage" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-				"|||instr1@course1.com|||Number of evaluations :0|||/page/instructorEval";
+				"|||instr1@course1.com|||Number of evaluations :0|||/page/instructorEvalsPage";
 		assertEquals(expectedLogMessage, a.getLogMessage());
 	}
 	
 	
-	private InstructorEvalPageAction getAction(String... params) throws Exception{
-			return (InstructorEvalPageAction) (gaeSimulation.getActionObject(uri, params));
+	private InstructorEvalsPageAction getAction(String... params) throws Exception{
+			return (InstructorEvalsPageAction) (gaeSimulation.getActionObject(uri, params));
 	}
 
 }

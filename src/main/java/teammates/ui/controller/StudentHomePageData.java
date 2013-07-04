@@ -94,13 +94,13 @@ public class StudentHomePageData extends PageData {
 	
 	
 	public String getStudentCourseDetailsLink(String courseId){
-		String link = Const.ActionURIs.STUDENT_COURSE_DETAILS;
+		String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
 		return link;
 	}
 	
 	public String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
-		String link = Const.ActionURIs.STUDENT_FEEDBACK_EDIT;
+		String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
 		link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
@@ -108,7 +108,7 @@ public class StudentHomePageData extends PageData {
 	}
 	
 	public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
-		String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS;
+		String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
 		link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
@@ -127,7 +127,7 @@ public class StudentHomePageData extends PageData {
 	 * @return The link to submit or edit a submission for a specific evaluation.
 	 */
 	public String getStudentEvaluationSubmissionEditLink(String courseID, String evalName){
-		String link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT;
+		String link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
 		link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
 		return link;

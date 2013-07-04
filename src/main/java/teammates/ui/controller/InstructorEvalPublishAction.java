@@ -5,7 +5,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
-public class InstructorEvalPublishAction extends InstructorEvalPageAction {
+public class InstructorEvalPublishAction extends InstructorEvalsPageAction {
 	
 	@Override
 	protected ActionResult execute() 
@@ -24,7 +24,7 @@ public class InstructorEvalPublishAction extends InstructorEvalPageAction {
 		statusToAdmin = "Evaluation <span class=\"bold\">(" + evalName + ")</span> " +
 				"for Course <span class=\"bold\">[" + courseId + "]</span> published.";
 		
-		return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS);
+		return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE);
 	}
 	
 }

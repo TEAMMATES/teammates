@@ -2,9 +2,9 @@
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorEvalSubmissionViewPageData"%>
+<%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
 <%
-	InstructorEvalSubmissionViewPageData data = (InstructorEvalSubmissionViewPageData)request.getAttribute("data");
+	InstructorEvalSubmissionPageData data = (InstructorEvalSubmissionPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -49,7 +49,7 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
-					<td class="leftalign"><%=InstructorEvalSubmissionViewPageData.sanitizeForHtml(data.evaluation.name)%></td>
+					<td class="leftalign"><%=InstructorEvalSubmissionPageData.sanitizeForHtml(data.evaluation.name)%></td>
 				</tr>
 			</table>
 			
@@ -57,7 +57,7 @@
 			<%
 							for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
 						%>
-			<h2 class="centeralign"><%=InstructorEvalSubmissionViewPageData.sanitizeForHtml(data.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
+			<h2 class="centeralign"><%=InstructorEvalSubmissionPageData.sanitizeForHtml(data.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
 			<table class="resultTable">
 				<thead><tr>
 					<th colspan="2" width="10%" class="bold leftalign">
@@ -65,19 +65,19 @@
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Const.Tooltips.CLAIMED%>')"
 							onmouseout="hideddrivetip()">
-						Claimed Contribution: </span><%=InstructorEvalSubmissionViewPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.claimedToInstructor,true)%></th>
+						Claimed Contribution: </span><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.claimedToInstructor,true)%></th>
 					<th class="bold leftalign"><span class="resultHeader"
 							onmouseover="ddrivetip('<%=Const.Tooltips.PERCEIVED%>')"
 							onmouseout="hideddrivetip()">
-						Perceived Contribution: </span><%=InstructorEvalSubmissionViewPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.perceivedToInstructor,true)%></th>
+						Perceived Contribution: </span><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.perceivedToInstructor,true)%></th>
 				</tr></thead>
 				<tr>
 					<td colspan="4"><span class="bold">Self evaluation:</span><br>
-							<%=InstructorEvalSubmissionViewPageData.getJustificationAsSanitizedHtml(data.studentResult.getSelfEvaluation())%></td>
+							<%=InstructorEvalSubmissionPageData.getJustificationAsSanitizedHtml(data.studentResult.getSelfEvaluation())%></td>
 					</tr>
 				<tr>
 					<td colspan="4"><span class="bold">Comments about team:</span><br>
-							<%=InstructorEvalSubmissionViewPageData.sanitizeForHtml(data.studentResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
+							<%=InstructorEvalSubmissionPageData.sanitizeForHtml(data.studentResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
 					</tr>
 				<tr class="resultSubheader">
 					<td width="15%" class="bold"><%=byReviewee ? "From" : "To"%> Student</td>
@@ -87,13 +87,13 @@
 				</tr>
 				<%
 					for(SubmissionAttributes sub: (byReviewee ? data.studentResult.incoming : data.studentResult.outgoing)){
-																if(sub.reviewer.equals(sub.reviewee)) continue;
+																		if(sub.reviewer.equals(sub.reviewee)) continue;
 				%>
 					<tr>
-						<td><b><%=InstructorEvalSubmissionViewPageData.sanitizeForHtml(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
-						<td><%=InstructorEvalSubmissionViewPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,false)%></td>
-						<td><%=InstructorEvalSubmissionViewPageData.getJustificationAsSanitizedHtml(sub)%></td>
-						<td><%=InstructorEvalSubmissionViewPageData.getP2pFeedbackAsHtml(InstructorEvalSubmissionViewPageData.sanitizeForHtml(sub.p2pFeedback.getValue()), data.evaluation.p2pEnabled)%></td>
+						<td><b><%=InstructorEvalSubmissionPageData.sanitizeForHtml(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
+						<td><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,false)%></td>
+						<td><%=InstructorEvalSubmissionPageData.getJustificationAsSanitizedHtml(sub)%></td>
+						<td><%=InstructorEvalSubmissionPageData.getP2pFeedbackAsHtml(InstructorEvalSubmissionPageData.sanitizeForHtml(sub.p2pFeedback.getValue()), data.evaluation.p2pEnabled)%></td>
 					</tr>
 				<%
 					}

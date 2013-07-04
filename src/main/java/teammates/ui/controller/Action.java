@@ -222,7 +222,7 @@ public abstract class Action {
 		statusToUser.add(errorMessage);
 		isError = true;
 		statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage; 
-		return createRedirectResult(Const.ActionURIs.STUDENT_HOME);
+		return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
 	}
 
 	private boolean isInMasqueradeMode() {

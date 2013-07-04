@@ -10,9 +10,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 
-public class InstructorFeedbackPageData extends PageData {
+public class InstructorFeedbacksPageData extends PageData {
 
-	public InstructorFeedbackPageData(AccountAttributes account) {
+	public InstructorFeedbacksPageData(AccountAttributes account) {
 		super(account);
 	}
 

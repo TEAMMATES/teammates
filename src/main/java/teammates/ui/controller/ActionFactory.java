@@ -18,61 +18,61 @@ public class ActionFactory {
 	private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
 	
 	static{
-		map(ADMIN_HOME, AdminHomePageAction.class);
+		map(ADMIN_HOME_PAGE, AdminHomePageAction.class);
 		map(ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
-		map(ADMIN_ACTIVITY_LOG, AdminActivityLogPageAction.class);
-		map(ADMIN_ACCOUNT_DETAILS, AdminAccountDetailsPageAction.class);
-		map(ADMIN_ACCOUNT_MANAGEMENT, AdminAccountManagementPageAction.class);
+		map(ADMIN_ACTIVITY_LOG_PAGE, AdminActivityLogPageAction.class);
+		map(ADMIN_ACCOUNT_DETAILS_PAGE, AdminAccountDetailsPageAction.class);
+		map(ADMIN_ACCOUNT_MANAGEMENT_PAGE, AdminAccountManagementPageAction.class);
 		map(ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
 		map(ADMIN_INSTRUCTORACCOUNT_ADD, AdminInstructorAccountAddAction.class);
-		map(ADMIN_SEARCH, AdminSearchPageAction.class);
+		map(ADMIN_SEARCH_PAGE, AdminSearchPageAction.class);
 		
-		map(INSTRUCTOR_COURSES, InstructorCoursePageAction.class);
+		map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
 		map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
 		map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
-		map(INSTRUCTOR_COURSE_DETAILS, InstructorCourseDetailsPageAction.class);
+		map(INSTRUCTOR_COURSE_DETAILS_PAGE, InstructorCourseDetailsPageAction.class);
 		map(INSTRUCTOR_COURSE_REMIND, InstructorCourseRemindAction.class);
-		map(INSTRUCTOR_COURSE_EDIT, InstructorCourseEditPageAction.class);
+		map(INSTRUCTOR_COURSE_EDIT_PAGE, InstructorCourseEditPageAction.class);
 		map(INSTRUCTOR_COURSE_EDIT_SAVE, InstructorCourseEditSaveAction.class);
-		map(INSTRUCTOR_COURSE_ENROLL, InstructorCourseEnrollPageAction.class);
+		map(INSTRUCTOR_COURSE_ENROLL_PAGE, InstructorCourseEnrollPageAction.class);
 		map(INSTRUCTOR_COURSE_ENROLL_SAVE, InstructorCourseEnrollSaveAction.class);
 		map(INSTRUCTOR_COURSE_STUDENT_DELETE, InstructorCourseStudentDeleteAction.class);
-		map(INSTRUCTOR_COURSE_STUDENT_DETAILS, InstructorCourseStudentDetailsPageAction.class);
+		map(INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE, InstructorCourseStudentDetailsPageAction.class);
 		map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT, InstructorCourseStudentDetailsEditPageAction.class);
 		map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE, InstructorCourseStudentDetailsEditSaveAction.class);
-		map(INSTRUCTOR_EVALS, InstructorEvalPageAction.class);
+		map(INSTRUCTOR_EVALS_PAGE, InstructorEvalsPageAction.class);
 		map(INSTRUCTOR_EVAL_ADD, InstructorEvalAddAction.class);
 		map(INSTRUCTOR_EVAL_DELETE, InstructorEvalDeleteAction.class);
-		map(INSTRUCTOR_EVAL_EXPORT, InstructorEvalResultsDownloadAction.class);
-		map(INSTRUCTOR_EVAL_EDIT, InstructorEvalEditPageAction.class);
+		map(INSTRUCTOR_EVAL_RESULTS_DOWNLOAD, InstructorEvalResultsDownloadAction.class);
+		map(INSTRUCTOR_EVAL_EDIT_PAGE, InstructorEvalEditPageAction.class);
 		map(INSTRUCTOR_EVAL_EDIT_SAVE, InstructorEvalEditSaveAction.class);
 		map(INSTRUCTOR_EVAL_PUBLISH, InstructorEvalPublishAction.class);
 		map(INSTRUCTOR_EVAL_REMIND, InstructorEvalRemindAction.class);
-		map(INSTRUCTOR_EVAL_RESULTS, InstructorEvalResultsPageAction.class);
+		map(INSTRUCTOR_EVAL_RESULTS_PAGE, InstructorEvalResultsPageAction.class);
 		map(INSTRUCTOR_EVAL_SUBMISSION_EDIT, InstructorEvalSubmissionEditPageAction.class);
-		map(INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER, InstructorEvalSubmissionEditSaveAction.class);
-		map(INSTRUCTOR_EVAL_SUBMISSION_VIEW, InstructorEvalSubmissionViewPageAction.class);
+		map(INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE, InstructorEvalSubmissionEditSaveAction.class);
+		map(INSTRUCTOR_EVAL_SUBMISSION_PAGE, InstructorEvalSubmissionPageAction.class);
 		map(INSTRUCTOR_EVAL_UNPUBLISH, InstructorEvalUnpublishAction.class);
-		map(INSTRUCTOR_FEEDBACKS, InstructorFeedbackPageAction.class);
+		map(INSTRUCTOR_FEEDBACKS_PAGE, InstructorFeedbacksPageAction.class);
 		map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
 		map(INSTRUCTOR_FEEDBACK_DELETE, InstructorFeedbackDeleteAction.class);
-		map(INSTRUCTOR_FEEDBACK_EDIT, InstructorFeedbackEditPageAction.class);
+		map(INSTRUCTOR_FEEDBACK_EDIT_PAGE, InstructorFeedbackEditPageAction.class);
 		map(INSTRUCTOR_FEEDBACK_EDIT_SAVE, InstructorFeedbackEditSaveAction.class);
 		map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);
 		map(INSTRUCTOR_FEEDBACK_QUESTION_EDIT, InstructorFeedbackQuestionEditAction.class);
-		map(INSTRUCTOR_FEEDBACK_RESULTS, InstructorFeedbackResultsPageAction.class);
+		map(INSTRUCTOR_FEEDBACK_RESULTS_PAGE, InstructorFeedbackResultsPageAction.class);
 		map(INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD, InstructorFeedbackResultsDownloadAction.class);
-		map(INSTRUCTOR_HOME, InstructorHomePageAction.class);
+		map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
 
-		map(STUDENT_COURSE_DETAILS, StudentCourseDetailsPageAction.class);
-		map(STUDENT_JOIN_COURSE, StudentCourseJoinAction.class);
-		map(STUDENT_EVAL_SUBMISSION_EDIT, StudentEvalSubmissionEditPageAction.class);
+		map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
+		map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
+		map(STUDENT_EVAL_SUBMISSION_EDIT_PAGE, StudentEvalSubmissionEditPageAction.class);
 		map(STUDENT_EVAL_RESULTS, StudentEvalResultsPageAction.class);
 		map(STUDENT_EVAL_SUBMISSION_EDIT_SAVE, StudentEvalSubmissionEditSaveAction.class);
-		map(STUDENT_FEEDBACK_RESULTS, StudentFeedbackResultsPageAction.class);
-		map(STUDENT_FEEDBACK_EDIT, StudentFeedbackSubmitPageAction.class);
-		map(STUDENT_FEEDBACK_EDIT_SAVE, StudentFeedbackSubmitSaveAction.class);
-		map(STUDENT_HOME, StudentHomePageAction.class);
+		map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
+		map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
+		map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
+		map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
 	}
 
 

@@ -38,7 +38,7 @@ public class InstructorCourseEditSaveAction extends Action {
 			isError = true;
 		}
 		
-		return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES);
+		return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
 
 	}
 

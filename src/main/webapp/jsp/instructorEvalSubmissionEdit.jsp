@@ -57,7 +57,7 @@
 			<br>
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
-						action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER%>">
+						action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE%>">
 					<jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
 					<jsp:param name="isStudent" value="false" />
 					</jsp:include>

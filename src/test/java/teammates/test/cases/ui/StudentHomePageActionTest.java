@@ -28,7 +28,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.STUDENT_HOME;
+		uri = Const.ActionURIs.STUDENT_HOME_PAGE;
 	}
 
 	@BeforeMethod
@@ -68,9 +68,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		assertEquals(0, data.courses.size());
 		assertEquals(0, data.evalSubmissionStatusMap.keySet().size());
 		
-		String expectedLogMessage = "TEAMMATESLOG|||studentHome|||studentHome" +
+		String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage" +
 				"|||true|||Student|||null|||unreg.user|||null" +
-				"|||Servlet Action Failure :Student with Google ID unreg.user does not exist|||/page/studentHome" ;
+				"|||Servlet Action Failure :Student with Google ID unreg.user does not exist|||/page/studentHomePage" ;
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 		______TS("registered student with no courses");
@@ -101,9 +101,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		assertEquals(0, data.courses.size());
 		assertEquals(0, data.evalSubmissionStatusMap.keySet().size());
 		
-		expectedLogMessage = "TEAMMATESLOG|||studentHome|||studentHome|||true" +
+		expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
 				"|||Student|||Student Without Courses|||googleId.without.courses" +
-				"|||googleId.without.courses@email.com|||Servlet Action Failure :Student with Google ID googleId.without.courses does not exist|||/page/studentHome" ;
+				"|||googleId.without.courses@email.com|||Servlet Action Failure :Student with Google ID googleId.without.courses does not exist|||/page/studentHomePage" ;
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 		
@@ -153,9 +153,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
 				data.evalSubmissionStatusMap.toString());
 		
 		
-		expectedLogMessage = "TEAMMATESLOG|||studentHome|||studentHome|||true" +
+		expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
 				"|||Student(M)|||Student in two courses|||student2InCourse1|||sudent2inCourse1@gmail.com" +
-				"|||studentHome Page Load<br>Total courses: 2|||/page/studentHome" ;
+				"|||studentHome Page Load<br>Total courses: 2|||/page/studentHomePage" ;
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 	}

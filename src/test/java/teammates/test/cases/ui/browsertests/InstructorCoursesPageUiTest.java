@@ -110,14 +110,14 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		______TS("no courses");
 		
-		Url coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES)
+		Url coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
 			.withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
 		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		coursesPage.verifyHtml("/instructorCourseEmpty.html");
 		
 		______TS("multiple course");
 		
-		coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES)
+		coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId);
 		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		
@@ -209,7 +209,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		 * 
 		 */
 		
-		Url coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES)
+		Url coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId);
 		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		
@@ -246,7 +246,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		coursesPage.addCourse("MultipleInstructorsCourse", "Course with multiple instructors", instructorList)
 			.verifyStatus(Const.StatusMessages.COURSE_ADDED);
 
-		Url courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS)
+		Url courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId)
 			.withCourseId("MultipleInstructorsCourse");
 		
@@ -266,7 +266,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		assertNull(BackDoor.getCourse("OmitInstructor"));
 		coursesPage.submitAndConfirm();
 		
-		courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS)
+		courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
 			.withUserId(instructor2.googleId)
 			.withCourseId("OmitInstructor");
 		
@@ -288,7 +288,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		/* Explanation: We test both 'confirm' and 'cancel' cases here.
 		 */
 		
-		Url coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES)
+		Url coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
 			.withUserId(testData.accounts.get("instructorWithCourses").googleId);
 		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 	

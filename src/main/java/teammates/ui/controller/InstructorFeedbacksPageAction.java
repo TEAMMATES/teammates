@@ -12,7 +12,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
-public class InstructorFeedbackPageAction extends Action {
+public class InstructorFeedbacksPageAction extends Action {
 
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException,
@@ -29,7 +29,7 @@ public class InstructorFeedbackPageAction extends Action {
 					logic.getCourse(courseIdForNewSession));
 		}
 
-		InstructorFeedbackPageData data = new InstructorFeedbackPageData(account);
+		InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
 		data.courseIdForNewSession = courseIdForNewSession;
 		// This indicates that an empty form to be shown (except possibly the course value filled in)
 		data.newFeedbackSession = null; 

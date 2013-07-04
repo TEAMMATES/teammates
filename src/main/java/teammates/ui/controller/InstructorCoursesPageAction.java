@@ -12,7 +12,7 @@ import teammates.logic.GateKeeper;
 /**
  * Action: loading of the 'Courses' page for an instructor.
  */
-public class InstructorCoursePageAction extends Action {
+public class InstructorCoursesPageAction extends Action {
 	protected static final Logger log = Utils.getLogger();
 	
 	

@@ -95,7 +95,7 @@
 			<class name="teammates.test.cases.ui.AdminExceptionTestActionTest" />
 			<class name="teammates.test.cases.ui.AdminHomePageActionTest" />
 			<class name="teammates.test.cases.ui.AdminInstructorAccountAddActionTest" />
-			<class name="teammates.test.cases.ui.InstructorCoursePageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCoursesPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseDeleteActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseDetailsPageActionTest" />
@@ -109,8 +109,8 @@
 			<class name="teammates.test.cases.ui.InstructorCourseStudentDetailsEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseStudentDetailsEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalAddActionTest" />
+			<class name="teammates.test.cases.ui.InstructorEvalsPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalsPageDataTest" />
-			<class name="teammates.test.cases.ui.InstructorEvalPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalDeleteActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalEditSaveActionTest" />
@@ -120,8 +120,8 @@
 			<class name="teammates.test.cases.ui.InstructorEvalResultsPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalSubmissionEditSaveActionTest" />
-			<class name="teammates.test.cases.ui.InstructorEvalSubmissionViewPageActionTest" />
-			<class name="teammates.test.cases.ui.InstructorFeedbackPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorEvalSubmissionPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbacksPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackDeleteActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackEditPageActionTest" />

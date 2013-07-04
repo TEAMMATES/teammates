@@ -18,7 +18,7 @@ public class InstructorFeedbackEditPageAction extends Action {
 		if (courseId==null || feedbackSessionName==null) {
 			statusToAdmin = "instructorFeedbackEdit Page Redirect<br>"
 					+ "Tried to edit feedback session with null parameters";
-			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS);
+			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
 		}
 		
 		new GateKeeper().verifyAccessible(
@@ -38,7 +38,7 @@ public class InstructorFeedbackEditPageAction extends Action {
 				logic.getInstructorForGoogleId(courseId, data.account.googleId).email) == false) {
 			statusToUser.add("Only the creator of the feedback session is" +
 					" allowed to edit it.");
-			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS);
+			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
 		}
 		
 		data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);

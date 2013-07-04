@@ -27,14 +27,14 @@ public class AdminAccountDeleteAction extends Action {
 			logic.downgradeInstructorToStudentCascade(instructorId);
 			statusToUser.add(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED);
 			statusToAdmin = "Instructor Status for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
-			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT);
+			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
 			
 		} else if (courseId == null && account != null){
 			//delete entire account
 			logic.deleteAccount(instructorId);
 			statusToUser.add(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED);
 			statusToAdmin = "Instructor Account for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
-			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT);
+			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
 			
 		} else if (courseId != null && instructorId != null){
 			//remove instructor from course
@@ -42,7 +42,7 @@ public class AdminAccountDeleteAction extends Action {
 			statusToUser.add(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
 			statusToAdmin = "Instructor <span class=\"bold\">" + instructorId + 
 					"</span> has been deleted from Course<span class=\"bold\">[" + courseId + "]</span>"; 
-			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS + "?instructorid=" + instructorId);
+			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE + "?instructorid=" + instructorId);
 			
 		} else if (courseId != null && studentId != null) {
 			//remove student from course
@@ -51,7 +51,7 @@ public class AdminAccountDeleteAction extends Action {
 			statusToUser.add(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
 			statusToAdmin = "Instructor <span class=\"bold\">" + instructorId + 
 					"</span>'s student status in Course<span class=\"bold\">[" + courseId + "]</span> has been deleted"; 
-			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS + "?instructorid=" + studentId);
+			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE + "?instructorid=" + studentId);
 		}		
 		
 		return result;

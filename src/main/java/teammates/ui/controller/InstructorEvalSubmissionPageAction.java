@@ -6,7 +6,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
-public class InstructorEvalSubmissionViewPageAction extends Action {
+public class InstructorEvalSubmissionPageAction extends Action {
 	
 
 	@Override
@@ -26,7 +26,7 @@ public class InstructorEvalSubmissionViewPageAction extends Action {
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getEvaluation(courseId, evalName));
 		
-		InstructorEvalSubmissionViewPageData data = new InstructorEvalSubmissionViewPageData(account);
+		InstructorEvalSubmissionPageData data = new InstructorEvalSubmissionPageData(account);
 		
 		try {
 			

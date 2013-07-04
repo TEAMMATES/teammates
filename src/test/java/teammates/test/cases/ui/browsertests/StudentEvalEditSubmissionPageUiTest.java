@@ -190,7 +190,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 	}
 
 	private StudentEvalEditPage loginToEvalEditPage(String studentName,	String evalName) {
-		Url editUrl = new Url(Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT)
+		Url editUrl = new Url(Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE)
 			.withUserId(testData.students.get(studentName).googleId)
 			.withCourseId(testData.evaluations.get(evalName).courseId)
 			.withEvalName(testData.evaluations.get(evalName).name);

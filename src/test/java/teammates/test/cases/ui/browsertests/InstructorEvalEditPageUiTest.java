@@ -51,7 +51,7 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 	public void testContent() throws Exception{
 		
 		String instructorId = testData.instructors.get("instructor").googleId;
-		Url editPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_EDIT)
+		Url editPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE)
 		.withUserId(instructorId)
 		.withCourseId(existingEval.courseId)
 		.withEvalName(existingEval.name);

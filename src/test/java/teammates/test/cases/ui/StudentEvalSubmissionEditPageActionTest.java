@@ -23,7 +23,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT;
+		uri = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
 	}
 
 	@BeforeMethod
@@ -96,7 +96,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		
 		gaeSimulation.loginUser("unreg.user");
 		//if the user is not a student of the course, we redirect to home page.
-		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		if(isEditableForStudent){
@@ -108,7 +108,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		
 		gaeSimulation.loginAsInstructor(instructorId);
 		//if the user is not a student of the course, we redirect to home page.
-		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);

@@ -49,7 +49,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("page load");
 		
-		Url courseEditPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT)
+		Url courseEditPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
 			.withUserId(instructorId)
 			.withCourseId(courseId);
 		
@@ -80,7 +80,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		String instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
 		String courseId = testData.courses.get("InsCrsEdit.CS2104").id;
-		Url courseEditPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT)
+		Url courseEditPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
 			.withUserId(instructorId)
 			.withCourseId(courseId);
 		courseEditPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
@@ -92,7 +92,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		InstructorCoursesPage coursesPage = courseEditPage.editCourse(originalInformation + "\nInsCrsEdit.instructor|Teammates Instructor|InsCrsEdit.instructor@gmail.com");
 		courseEditPage.verifyStatus(Const.StatusMessages.COURSE_EDITED);
 		
-		Url courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS)
+		Url courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
 			.withCourseId(courseId)
 			.withUserId(testData.instructors.get("InsCrsEdit.test").googleId);
 		
@@ -129,7 +129,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 				coursesPage.getStatus());
 		assertNull(BackDoor.getInstructor(instructorId, courseId));
 		
-		courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS)
+		courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
 			.withCourseId(courseId)
 			.withUserId(testData.accounts.get("InsCrsEdit.instructor").googleId);
 		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);

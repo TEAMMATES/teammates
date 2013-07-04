@@ -18,7 +18,7 @@ public class AdminAccountManagementPageData extends PageData {
 	}
 	
 	public String getAdminViewAccountDetailsLink(String googleId){
-		String link = Const.ActionURIs.ADMIN_ACCOUNT_DETAILS;
+		String link = Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_ID,googleId);
 		return link;
 	}

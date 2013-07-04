@@ -15,7 +15,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.STUDENT_JOIN_COURSE;
+		uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
 	}
 
 	@BeforeMethod

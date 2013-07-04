@@ -7,7 +7,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
-public class InstructorEvalAddAction extends InstructorEvalPageAction {
+public class InstructorEvalAddAction extends InstructorEvalsPageAction {
 	
 	@Override
 	protected ActionResult execute() 

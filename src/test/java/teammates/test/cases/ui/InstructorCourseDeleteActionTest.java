@@ -11,7 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.CoursesLogic;
 import teammates.ui.controller.InstructorCourseDeleteAction;
-import teammates.ui.controller.InstructorCoursePageAction;
+import teammates.ui.controller.InstructorCoursesPageAction;
 import teammates.ui.controller.InstructorCoursePageData;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -78,7 +78,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course");
 		gaeSimulation.loginAsInstructor(instructorId);
-		InstructorCoursePageAction a = getAction(submissionParams);
+		InstructorCoursesPageAction a = getAction(submissionParams);
 		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
 		
 		assertEquals(
@@ -132,13 +132,13 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course2");
 		submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, "icdct.tpa.id2",
-				Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME
+				Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
 		};
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ActionURIs.INSTRUCTOR_HOME+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+				Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
 				rr.getDestinationWithParams());
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete" +

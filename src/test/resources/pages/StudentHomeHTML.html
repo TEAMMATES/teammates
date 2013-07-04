@@ -35,7 +35,7 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li class="current"><a class='nav home' data-link="studentHome" href="/page/studentHome?user={$test.student1}">Home</a></li>
+					<li class="current"><a class='nav home' data-link="studentHome" href="/page/studentHomePage?user={$test.student1}">Home</a></li>
 					<li><a class='nav help' href="/studentHelp.html" target="_blank">Help</a></li>
 					<li><a class='nav logout' href="/logout.jsp">Logout</a>
 							<b>({$test.student1})</b>
@@ -85,7 +85,7 @@
 						</h2>
 					</div>
 					<div class="result_homeLinks blockLink rightalign">
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetails?courseid=SHomeUiT.CS1101" class="t_course_view0 color_white">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SHomeUiT.CS1101" class="t_course_view0 color_white">
 							View Team
 						</a>
 					</div>
@@ -104,7 +104,7 @@
 									<td class="t_eval_name">Third Eval</td>
 									<td class="t_eval_deadline centeralign">02 Apr 2012, 23:59</td>
 									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished but the instructor has not published the results yet')">Closed</span></td>
-									<td class="centeralign"><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults0" name="viewEvaluationResults0" href="/page/studentEvalResults?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" class="color_black">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission0" name="editEvaluationSubmission0" href="/page/studentEvalEdit?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" class="color_black">Edit/View Submission</a>
+									<td class="centeralign"><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults0" name="viewEvaluationResults0" href="/page/studentEvalResults?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" class="color_black">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission0" name="editEvaluationSubmission0" href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" class="color_black">Edit/View Submission</a>
 									</td>
 								</tr>
 							
@@ -112,7 +112,7 @@
 									<td class="t_eval_name">Fifth Eval</td>
 									<td class="t_eval_deadline centeralign">01 Apr 2015, 23:59</td>
 									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation is yet to be completed by you')">Pending</span></td>
-									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentEvalEdit?courseid=SHomeUiT.CS1101&amp;evaluationname=Fifth+Eval" id="submitEvaluation1" class="color_black">Submit</a>
+									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&amp;evaluationname=Fifth+Eval" id="submitEvaluation1" class="color_black">Submit</a>
 									</td>
 								</tr>
 							

@@ -44,7 +44,7 @@ public class InstructorEvalEditSaveAction extends Action {
 					"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled== true ? "enabled" : "disabled") + 
 					"<br><br><span class=\"bold\">Instructions:</span> " + data.evaluation.instructions;
 			
-			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS);
+			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE);
 			
 		} catch (InvalidParametersException e) {
 			isError = true;
