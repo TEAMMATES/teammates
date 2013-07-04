@@ -39,14 +39,6 @@ public class Config {
 	public static String SUPPORT_EMAIL;
 	
 
-	public static String EMAIL_TEMPLATE_STUDENT_EVALUATION_ = FileHelper.readResourseFile("studentEmailTemplate-evaluation_.html");
-	public static String EMAIL_TEMPLATE_STUDENT_EVALUATION_PUBLISHED = FileHelper.readResourseFile("studentEmailTemplate-evaluationPublished.html");
-	public static String EMAIL_TEMPLATE_STUDENT_COURSE_JOIN = FileHelper.readResourseFile("studentEmailTemplate-courseJoin.html");
-	public static String EMAIL_TEMPLATE_FRAGMENT_STUDENT_COURSE_JOIN = FileHelper.readResourseFile("studentEmailFragment-courseJoin.html");
-	public static String EMAIL_TEMPLATE_USER_FEEDBACK_SESSION = FileHelper.readResourseFile("userEmailTemplate-feedbackSession.html");
-	public static String EMAIL_TEMPLATE_USER_FEEDBACK_SESSION_PUBLISHED = FileHelper.readResourseFile("userEmailTemplate-feedbackSessionPublished.html");
-	public static String EMAIL_TEMPLATE_SYSTEM_ERROR = FileHelper.readResourseFile("systemErrorEmailTemplate.html");
-
 	public static Config inst() {
 		if (instance == null) {
 			Properties prop = new Properties();

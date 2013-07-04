@@ -25,6 +25,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 
@@ -75,7 +76,7 @@ public class Emails {
 			List<StudentAttributes> students)
 					throws MessagingException, IOException {
 
-		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
+		String template = EmailTemplates.STUDENT_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
 				evaluation, students, template);
 		for (MimeMessage email : emails) {
@@ -94,7 +95,7 @@ public class Emails {
 			List<StudentAttributes> students) 
 					throws MessagingException, IOException {
 
-		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
+		String template = EmailTemplates.STUDENT_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
 				evaluation, students, template);
 		for (MimeMessage email : emails) {
@@ -116,7 +117,7 @@ public class Emails {
 			List<StudentAttributes> students)
 					throws MessagingException, IOException {
 
-		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
+		String template = EmailTemplates.STUDENT_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
 				template);
 		for (MimeMessage email : emails) {
@@ -136,7 +137,7 @@ public class Emails {
 			List<StudentAttributes> students)
 					throws MessagingException, IOException {
 
-		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_PUBLISHED;
+		String template = EmailTemplates.STUDENT_EVALUATION_PUBLISHED;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
 				template);
 		for (MimeMessage email : emails) {
@@ -216,7 +217,7 @@ public class Emails {
 			List<StudentAttributes> students, List<InstructorAttributes> instructors) 
 					throws MessagingException, IOException {
 		
-		String template = Config.EMAIL_TEMPLATE_USER_FEEDBACK_SESSION;
+		String template = EmailTemplates.USER_FEEDBACK_SESSION;
 		List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
 				session, students, instructors, template);
 		
@@ -238,7 +239,7 @@ public class Emails {
 			List<InstructorAttributes> instructors)
 					throws MessagingException, IOException {
 
-		String template = Config.EMAIL_TEMPLATE_USER_FEEDBACK_SESSION;
+		String template = EmailTemplates.USER_FEEDBACK_SESSION;
 		List<MimeMessage> emails = generateFeedbackSessionEmailBases(
 				course, session, students, instructors, template);
 		for (MimeMessage email : emails) {
@@ -259,7 +260,7 @@ public class Emails {
 			List<InstructorAttributes> instructors) 
 					throws MessagingException, IOException {
 		
-		String template = Config.EMAIL_TEMPLATE_USER_FEEDBACK_SESSION_PUBLISHED;
+		String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
 		List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
 				session, students, instructors, template);
 		
@@ -394,7 +395,7 @@ public class Emails {
 		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
 				+ " [%s][Course ID: %s]", c.name, c.id));
 
-		String emailBody = Config.EMAIL_TEMPLATE_STUDENT_COURSE_JOIN;
+		String emailBody = EmailTemplates.STUDENT_COURSE_JOIN;
 		emailBody = fillUpJoinFragment(s, emailBody);
 		emailBody = emailBody.replace("${studentName}", s.name);
 		emailBody = emailBody.replace("${courseName}", c.name);
@@ -436,7 +437,7 @@ public class Emails {
 		message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR,
 				version, errorMessage));
 	
-		String emailBody = Config.EMAIL_TEMPLATE_SYSTEM_ERROR;
+		String emailBody = EmailTemplates.SYSTEM_ERROR;
 	
 		emailBody = emailBody.replace("${requestPath}", requestPath);
 		emailBody = emailBody.replace("${requestParameters}", requestParam);
@@ -475,7 +476,7 @@ public class Emails {
 
 	private String fillUpJoinFragment(StudentAttributes s, String emailBody) {
 		emailBody = emailBody.replace("${joinFragment}",
-				Config.EMAIL_TEMPLATE_FRAGMENT_STUDENT_COURSE_JOIN);
+				EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN);
 
 		String key;
 		key = StringHelper.encrypt(s.key);

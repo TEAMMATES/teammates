@@ -29,6 +29,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.logic.Emails;
@@ -99,7 +100,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("generic template, student yet to join");
 
-		String template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
+		String template = EmailTemplates.STUDENT_EVALUATION_;
 		MimeMessage email = new Emails().generateEvaluationEmailBase(c, e, s,
 				template);
 
@@ -143,7 +144,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("published template, student yet to join");
 
-		template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_PUBLISHED;
+		template = EmailTemplates.STUDENT_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
 		emailBody = email.getContent().toString();
@@ -168,7 +169,7 @@ public class EmailsTest extends BaseComponentTestCase {
 		______TS("generic template, student joined");
 
 		s.googleId = "student1id"; // set student id to make him "joined"
-		template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_;
+		template = EmailTemplates.STUDENT_EVALUATION_;
 
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
@@ -183,7 +184,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("published template, student joined");
 
-		template = Config.EMAIL_TEMPLATE_STUDENT_EVALUATION_PUBLISHED;
+		template = EmailTemplates.STUDENT_EVALUATION_PUBLISHED;
 		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
 
 		emailBody = email.getContent().toString();
