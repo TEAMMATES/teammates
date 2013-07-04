@@ -1,5 +1,5 @@
 <%@page import="teammates.ui.controller.StudentEvalResultsPageData"%>
-<%@ page import="teammates.common.util.Constants" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes" %>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.StudentEvalResultsPageData"%>
@@ -30,7 +30,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -40,7 +40,7 @@
 				<h1>Evaluation Results</h1>
 			</div>
 			
-			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			
 			<div id="studentEvaluationResults">
 				<div id="equalShareTag">E = Equal Share</div>
@@ -160,7 +160,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

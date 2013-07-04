@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import teammates.common.util.Const.SystemParams;
+
 /** A helper class to hold time-related functions (e.g., converting dates to strings etc.).
  * Time zone is assumed as UTC unless specifically mentioned.
  */
@@ -125,10 +127,10 @@ public class TimeHelper {
 	}
 
 	/**
-	 * @param dateInStringFormat should be in the format {@link Constants.DEFAULT_DATE_TIME_FORMAT}
+	 * @param dateInStringFormat should be in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
 	 */
 	public static Date convertToDate(String dateInStringFormat) throws ParseException {
-		DateFormat df = new SimpleDateFormat(Config.DEFAULT_DATE_TIME_FORMAT);
+		DateFormat df = new SimpleDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT);
 		return df.parse(dateInStringFormat);
 	}
 
@@ -162,10 +164,10 @@ public class TimeHelper {
 			return false;
 		}
 		
-		if (date.equals(Constants.TIME_REPRESENTS_FOLLOW_OPENING) ||
-			date.equals(Constants.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
-			date.equals(Constants.TIME_REPRESENTS_LATER) ||
-			date.equals(Constants.TIME_REPRESENTS_NEVER)) {
+		if (date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) ||
+			date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
+			date.equals(Const.TIME_REPRESENTS_LATER) ||
+			date.equals(Const.TIME_REPRESENTS_NEVER)) {
 			return true;
 		} else {
 			return false;

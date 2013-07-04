@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 
 public class InstructorCourseEditSaveActionTest extends BaseActionTest {
 
@@ -15,7 +15,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_COURSE_EDIT_SAVE;
+		uri = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE;
 	}
 
 	@BeforeMethod
@@ -29,8 +29,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
 		
 		InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
 		String[] submissionParams = new String[]{
-				Constants.PARAM_COURSE_ID, instructor.courseId,
-				Constants.PARAM_COURSE_INSTRUCTOR_LIST, instructor.googleId+"|instr|ins@gmail.com"
+				Const.ParamsNames.COURSE_ID, instructor.courseId,
+				Const.ParamsNames.COURSE_INSTRUCTOR_LIST, instructor.googleId+"|instr|ins@gmail.com"
 		};
 		
 		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

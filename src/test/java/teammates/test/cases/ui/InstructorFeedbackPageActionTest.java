@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.CoursesLogic;
 import teammates.logic.FeedbackSessionsLogic;
 import teammates.ui.controller.InstructorFeedbackPageAction;
@@ -30,7 +30,7 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_FEEDBACKS;
+		uri = Const.ActionURIs.INSTRUCTOR_FEEDBACKS;
 	}
 
 	@BeforeMethod
@@ -73,12 +73,12 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		gaeSimulation.loginAsInstructor(instructorId);
 		verifyCanAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(otherInstructorId,submissionParams));
-		submissionParams = new String[]{Constants.PARAM_COURSE_ID, "idOfTypicalCourse2"};
+		submissionParams = new String[]{Const.ParamsNames.COURSE_ID, "idOfTypicalCourse2"};
 		verifyCannotAccess(submissionParams); //trying to create evaluation for someone else's course
 		
 		gaeSimulation.loginAsAdmin(adminUserId);
 		//not checking for non-masquerade mode because admin may not be an instructor
-		submissionParams = new String[]{Constants.PARAM_COURSE_ID, "idOfTypicalCourse1"};
+		submissionParams = new String[]{Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"};
 		verifyCanMasquerade(addUserIdToParams(instructorId,submissionParams));
 		
 	}
@@ -97,7 +97,7 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		InstructorFeedbackPageAction a = getAction(submissionParams);
 		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
 		
-		assertEquals(Constants.VIEW_INSTRUCTOR_FEEDBACKS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+		assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
 		assertEquals(false, r.isError);
 		assertEquals("", r.getStatusMessage());
 		
@@ -119,12 +119,12 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
 		
 		gaeSimulation.loginAsAdmin(adminUserId);
-		submissionParams = new String[]{Constants.PARAM_COURSE_ID, instructor1ofCourse1.courseId};
+		submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId};
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Constants.VIEW_INSTRUCTOR_FEEDBACKS+"?message=You+have+not+created+any+feedback+sessions+yet." +
+				Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=You+have+not+created+any+feedback+sessions+yet." +
 						"+Use+the+form+above+to+create+a+new+feedback+session.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals("You have not created any feedback sessions yet. Use the form above to create a new feedback session.", 
@@ -154,7 +154,7 @@ public class InstructorFeedbackPageActionTest extends BaseActionTest {
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Constants.VIEW_INSTRUCTOR_FEEDBACKS+"?message=You+have+not+created+any+courses+yet." +
+				Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=You+have+not+created+any+courses+yet." +
 						"+Go+%3Ca+href%3D%22%2Fpage%2FinstructorCourse%3Fuser%3DidOfInstructor1OfCourse1%22%3Ehere%3C%2Fa%3E+to+create+one.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals("You have not created any courses yet. Go <a href=\"/page/instructorCourse?user=idOfInstructor1OfCourse1\">here</a> to create one.", r.getStatusMessage());

@@ -14,7 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class StudentHomePageAction extends Action {
@@ -42,11 +42,11 @@ public class StudentHomePageAction extends Action {
 			statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + data.courses.size();
 			
 		} catch (EntityDoesNotExistException e){
-			statusToUser.add(Constants.STATUS_STUDENT_FIRST_TIME);
-			statusToAdmin = Constants.ACTION_RESULT_FAILURE + " :" + e.getMessage();
+			statusToUser.add(Const.StatusMessages.STUDENT_FIRST_TIME);
+			statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
 		}
 		
-		ShowPageResult response = createShowPageResult(Constants.VIEW_STUDENT_HOME, data);
+		ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
 		return response;
 
 	}
@@ -87,9 +87,9 @@ public class StudentHomePageAction extends Action {
 		
 		switch (eval.getStatus()) {
 		case PUBLISHED:
-			return Constants.STUDENT_EVALUATION_STATUS_PUBLISHED;
+			return Const.STUDENT_EVALUATION_STATUS_PUBLISHED;
 		case CLOSED:
-			return Constants.STUDENT_EVALUATION_STATUS_CLOSED;
+			return Const.STUDENT_EVALUATION_STATUS_CLOSED;
 		default:
 			break; // continue processing.
 		}
@@ -103,8 +103,8 @@ public class StudentHomePageAction extends Action {
 		}
 		
 		return submitted ? 
-				Constants.STUDENT_EVALUATION_STATUS_SUBMITTED 
-				: Constants.STUDENT_EVALUATION_STATUS_PENDING;
+				Const.STUDENT_EVALUATION_STATUS_SUBMITTED 
+				: Const.STUDENT_EVALUATION_STATUS_PENDING;
 	}
 	
 	private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId){

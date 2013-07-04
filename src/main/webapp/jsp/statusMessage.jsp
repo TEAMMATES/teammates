@@ -1,10 +1,10 @@
 <%@ page import="teammates.ui.controller.PageData" %>
-<%@ page import="teammates.common.util.Constants" %>
+<%@ page import="teammates.common.util.Const" %>
 <%
-	boolean isError = Boolean.parseBoolean((String)request.getAttribute(Constants.PARAM_ERROR));
+	boolean isError = Boolean.parseBoolean((String)request.getAttribute(Const.ParamsNames.ERROR));
 %>
 <%
-	String statusMessage = (String)request.getAttribute(Constants.PARAM_STATUS_MESSAGE);
+	String statusMessage = (String)request.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
 %>
 <%
 	if(!statusMessage.isEmpty()) {

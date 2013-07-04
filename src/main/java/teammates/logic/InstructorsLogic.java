@@ -9,7 +9,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
 
@@ -174,7 +174,7 @@ public class InstructorsLogic {
 
 	private List<InstructorAttributes> parseInstructorLines(String courseId, String instructorLines) 
 			throws InvalidParametersException {
-		String[] linesArray = instructorLines.split(Constants.EOL);
+		String[] linesArray = instructorLines.split(Const.EOL);
 		
 		// check if all non-empty lines are formatted correctly
 		List<InstructorAttributes> instructorsList = new ArrayList<InstructorAttributes>();

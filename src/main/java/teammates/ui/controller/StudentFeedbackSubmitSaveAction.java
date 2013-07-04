@@ -8,7 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
@@ -17,8 +17,8 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
-		String feedbackSessionName = getRequestParam(Constants.PARAM_FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
@@ -45,7 +45,7 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
 		
 		for(int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-			String totalResponsesForQuestion = getRequestParam(Constants.PARAM_FEEDBACK_QUESTION_RESPONSETOTAL+"-"+questionIndx);
+			String totalResponsesForQuestion = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL+"-"+questionIndx);
 			if (totalResponsesForQuestion == null) {
 				continue; // question has been skipped (not displayed).
 			}
@@ -74,25 +74,25 @@ public class StudentFeedbackSubmitSaveAction extends Action {
 		}
 		
 		if (isError == false) {
-			statusToUser.add(Constants.STATUS_FEEDBACK_RESPONSES_SAVED);
+			statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 		}
 		
 		// TODO: what happens if qn is deleted as response is being submitted?
 		// what happens if team/etc change such that receiver / response in general is invalid?
-		return createRedirectResult(Constants.ACTION_STUDENT_HOME);
+		return createRedirectResult(Const.ActionURIs.STUDENT_HOME);
 	}
 	
 	private FeedbackResponseAttributes extractFeedbackResponseData(int questionIndx, int responseIndx) {
 		
 		FeedbackResponseAttributes response = new FeedbackResponseAttributes();
 
-		response.setId(getRequestParam(Constants.PARAM_FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
-		response.feedbackSessionName = getRequestParam(Constants.PARAM_FEEDBACK_SESSION_NAME);
-		response.courseId = getRequestParam(Constants.PARAM_COURSE_ID);
-		response.feedbackQuestionId = getRequestParam(Constants.PARAM_FEEDBACK_QUESTION_ID+"-"+questionIndx);
-		response.feedbackQuestionType = QuestionType.valueOf(getRequestParam(Constants.PARAM_FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
-		response.recipient = getRequestParam(Constants.PARAM_FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
-		response.answer = new Text(getRequestParam(Constants.PARAM_FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
+		response.setId(getRequestParam(Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
+		response.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		response.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		response.feedbackQuestionId = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
+		response.feedbackQuestionType = QuestionType.valueOf(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
+		response.recipient = getRequestParam(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
+		response.answer = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
 		return response;
 	}
 

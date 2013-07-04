@@ -1,6 +1,6 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
-<%@ page import="teammates.common.util.Constants"%>
+<%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
@@ -28,7 +28,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -37,10 +37,10 @@
 			<div id="headerOperation">
 				<h1>Feedback Results - Instructor</h1>
 			</div>			
-			<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
+			<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
 			<%
 				for(Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries :
-															data.bundle.getQuestionResponseMap().entrySet()) {
+																data.bundle.getQuestionResponseMap().entrySet()) {
 			%>
 				
 				<div class="backgroundBlock">
@@ -78,7 +78,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

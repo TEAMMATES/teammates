@@ -14,7 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
@@ -66,7 +66,7 @@ public abstract class Action {
 		
 		//---- set error status forwarded from the previous action
 		
-		isError = getRequestParamAsBoolean(Constants.PARAM_ERROR);
+		isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
 		
 		//---- set logged in user ------------------------------------------
 
@@ -85,7 +85,7 @@ public abstract class Action {
 		
 		// ---------- set nominal user -------------------------------------
 		
-		String paramRequestedUserId = req.getParameter(Constants.PARAM_USER_ID);
+		String paramRequestedUserId = req.getParameter(Const.ParamsNames.USER_ID);
 		
 		if (!isMasqueradeModeRequested(loggedInUser.googleId, paramRequestedUserId)) {
 			account = loggedInUser;
@@ -125,7 +125,7 @@ public abstract class Action {
 		response.isError = isError;
 		
 		//Override the result if a redirect was requested by the action requester
-		String redirectUrl = getRequestParam(Constants.PARAM_NEXT_URL);
+		String redirectUrl = getRequestParam(Const.ParamsNames.NEXT_URL);
 		if(redirectUrl != null && new FieldValidator().isLegitimateRedirectUrl(redirectUrl)) {
 			RedirectResult rr = new RedirectResult(redirectUrl, response.account, requestParameters, response.statusToUser);
 			rr.isError = response.isError;
@@ -133,10 +133,10 @@ public abstract class Action {
 		}
 		
 		//Set the common parameters for the response
-		response.responseParams.put(Constants.PARAM_USER_ID, account.googleId);
-		response.responseParams.put(Constants.PARAM_ERROR, ""+response.isError);
+		response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
+		response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);
 		if(!response.getStatusMessage().isEmpty()){
-			response.responseParams.put(Constants.PARAM_STATUS_MESSAGE, response.getStatusMessage());
+			response.responseParams.put(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
 		}
 		
 		return response;
@@ -221,8 +221,8 @@ public abstract class Action {
 		String errorMessage = "You are not registered in the course "+Sanitizer.sanitizeForHtml(courseId);
 		statusToUser.add(errorMessage);
 		isError = true;
-		statusToAdmin = Constants.ACTION_RESULT_FAILURE + " : " + errorMessage; 
-		return createRedirectResult(Constants.ACTION_STUDENT_HOME);
+		statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage; 
+		return createRedirectResult(Const.ActionURIs.STUDENT_HOME);
 	}
 
 	private boolean isInMasqueradeMode() {
@@ -240,29 +240,29 @@ public abstract class Action {
 	protected EvaluationAttributes extractEvaluationData() {
 		//TODO: assert that values are not null
 		EvaluationAttributes newEval = new EvaluationAttributes();
-		newEval.courseId = getRequestParam(Constants.PARAM_COURSE_ID);
-		newEval.name = getRequestParam(Constants.PARAM_EVALUATION_NAME);
-		newEval.p2pEnabled = getRequestParamAsBoolean(Constants.PARAM_EVALUATION_COMMENTSENABLED);
+		newEval.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		newEval.name = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
+		newEval.p2pEnabled = getRequestParamAsBoolean(Const.ParamsNames.EVALUATION_COMMENTSENABLED);
 
 		newEval.startTime = TimeHelper.combineDateTime(
-				getRequestParam(Constants.PARAM_EVALUATION_START),
-				getRequestParam(Constants.PARAM_EVALUATION_STARTTIME));
+				getRequestParam(Const.ParamsNames.EVALUATION_START),
+				getRequestParam(Const.ParamsNames.EVALUATION_STARTTIME));
 
 		newEval.endTime = TimeHelper.combineDateTime(
-				getRequestParam(Constants.PARAM_EVALUATION_DEADLINE),
-				getRequestParam(Constants.PARAM_EVALUATION_DEADLINETIME));
+				getRequestParam(Const.ParamsNames.EVALUATION_DEADLINE),
+				getRequestParam(Const.ParamsNames.EVALUATION_DEADLINETIME));
 
-		String paramTimeZone = getRequestParam(Constants.PARAM_EVALUATION_TIMEZONE);
+		String paramTimeZone = getRequestParam(Const.ParamsNames.EVALUATION_TIMEZONE);
 		if (paramTimeZone != null) {
 			newEval.timeZone = Double.parseDouble(paramTimeZone);
 		}
 
-		String paramGracePeriod = getRequestParam(Constants.PARAM_EVALUATION_GRACEPERIOD);
+		String paramGracePeriod = getRequestParam(Const.ParamsNames.EVALUATION_GRACEPERIOD);
 		if (paramGracePeriod != null) {
 			newEval.gracePeriod = Integer.parseInt(paramGracePeriod);
 		}
 
-		newEval.instructions = getRequestParam(Constants.PARAM_EVALUATION_INSTRUCTIONS);
+		newEval.instructions = getRequestParam(Const.ParamsNames.EVALUATION_INSTRUCTIONS);
 
 		return newEval;
 	}

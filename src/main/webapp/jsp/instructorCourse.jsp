@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Constants"%>
+<%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
@@ -34,7 +34,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -44,13 +44,13 @@
 				<h1>Add New Course</h1>
 			</div>
 
-			<form method="get" action="<%=Constants.ACTION_INSTRUCTOR_COURSE_ADD%>" name="form_addcourse">
-				<input type="hidden" id="<%=Constants.PARAM_INSTRUCTOR_ID%>" name="<%=Constants.PARAM_INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
+			<form method="get" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_ADD%>" name="form_addcourse">
+				<input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
 				<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
 						<td><input class="addinput" type="text"
-							name="<%=Constants.PARAM_COURSE_ID%>" id="<%=Constants.PARAM_COURSE_ID%>"
+							name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
 							value="<%=(sanitizeForHtml(data.courseIdToShow))%>"
 							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
 							onmouseout="hideddrivetip()"
@@ -60,7 +60,7 @@
 					<tr>
 						<td class="label bold">Course Name:</td>
 						<td><input class="addinput" type="text"
-							name="<%=Constants.PARAM_COURSE_NAME%>" id="<%=Constants.PARAM_COURSE_NAME%>"
+							name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
 							value="<%=(sanitizeForHtml(data.courseNameToShow))%>"
 							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
 							onmouseout="hideddrivetip()"
@@ -73,8 +73,8 @@
 					<tr>
 						<td colspan=2>
 							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%=Constants.PARAM_COURSE_INSTRUCTOR_LIST%>" 
-							id="<%=Constants.PARAM_COURSE_INSTRUCTOR_LIST%>"><%=sanitizeForHtml(data.instructorListToShow)%></textarea>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>" 
+							id="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>"><%=sanitizeForHtml(data.instructorListToShow)%></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -83,11 +83,11 @@
 					</tr>
 				</table>
 				
-				<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 				
 			</form>
 			<br>
-			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			<table class="dataTable">
 				<tr>
@@ -106,8 +106,8 @@
 				</tr>
 				<%
 					int idx = -1;
-									for(CourseDetailsBundle courseDetails: data.currentCourses){ 
-										idx++;
+											for(CourseDetailsBundle courseDetails: data.currentCourses){ 
+												idx++;
 				%>
 					<tr class="courses_row">
 						<td id="courseid<%=idx%>"><%=sanitizeForHtml(courseDetails.course.id)%></td>
@@ -118,26 +118,26 @@
 						<td class="centeralign no-print">
 							<a class="color_black t_course_enroll<%=idx%>"
 								href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-								onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_ENROLL%>')"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL%>')"
 								onmouseout="hideddrivetip()">Enroll</a>
 							<a class="color_black t_course_view<%=idx%>"
 								href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
-								onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_DETAILS%>')"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DETAILS%>')"
 								onmouseout="hideddrivetip()">View</a>
 							<a class="color_black t_course_edit<%=idx%>"
 								href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
-								onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_EDIT%>')"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_EDIT%>')"
 								onmouseout="hideddrivetip()">Edit</a>
 							<a class="color_black t_course_delete<%=idx%>"
 								href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,false)%>"
 								onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>');"
-								onmouseover="ddrivetip('<%=Constants.TOOLTIP_COURSE_DELETE%>')"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
 								onmouseout="hideddrivetip()">Delete</a>
 						</td>
 					</tr>
 				<%
 					}
-									if(idx==-1){ // Print empty row
+											if(idx==-1){ // Print empty row
 				%>
 					<tr>
 						<td></td>
@@ -168,7 +168,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

@@ -10,7 +10,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseEnrollSaveAction extends Action {
@@ -20,9 +20,9 @@ public class InstructorCourseEnrollSaveAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String studentsInfo = getRequestParam(Constants.PARAM_STUDENTS_ENROLLMENT_INFO);
+		String studentsInfo = getRequestParam(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
 		Assumption.assertNotNull(studentsInfo);
 		
 		new GateKeeper().verifyAccessible(
@@ -42,7 +42,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
 			statusToAdmin = e.getMessage();
 		}
 		
-		return createShowPageResult(Constants.VIEW_INSTRUCTOR_COURSE_ENROLL_RESULT, data);
+		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, data);
 	}
 
 	

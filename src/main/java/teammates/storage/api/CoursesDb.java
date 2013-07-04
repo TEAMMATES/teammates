@@ -14,7 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 
 /**
@@ -33,7 +33,7 @@ public class CoursesDb extends EntitiesDb {
 	 * @return Null if not found.
 	 */
 	public CourseAttributes getCourse(String courseId) {
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 		
 		Course c = getCourseEntity(courseId);
 
@@ -73,7 +73,7 @@ public class CoursesDb extends EntitiesDb {
 	public void updateCourse(CourseAttributes courseToUpdate) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseToUpdate);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseToUpdate);
 		
 		if (!courseToUpdate.isValid()) {
 			throw new InvalidParametersException(courseToUpdate.getInvalidityInfo());
@@ -101,7 +101,7 @@ public class CoursesDb extends EntitiesDb {
 	 * <br> * {@code courseId} is not null.
 	 */
 	public void deleteCourse(String courseId) {
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
 		Course courseToDelete = getCourseEntity(courseId);
 

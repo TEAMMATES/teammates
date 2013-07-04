@@ -10,7 +10,7 @@ import java.util.logging.Level;
 
 import teammates.logic.TeamEvalResult;
 import teammates.test.cases.BaseTestCase;
-import static teammates.common.util.Constants.EOL;
+import static teammates.common.util.Const.EOL;
 import static teammates.logic.TeamEvalResult.NA;
 import static teammates.logic.TeamEvalResult.NSB;
 import static teammates.logic.TeamEvalResult.NSU;

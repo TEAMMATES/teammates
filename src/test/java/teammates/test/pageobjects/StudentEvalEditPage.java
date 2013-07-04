@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 
 public class StudentEvalEditPage extends AppPage {
 	
@@ -45,16 +45,16 @@ public class StudentEvalEditPage extends AppPage {
 	}
 	
 	private void setPoints(int rowId, int points) {
-		browser.selenium.select("id=" + Constants.PARAM_POINTS + rowId, "value="+points);
+		browser.selenium.select("id=" + Const.ParamsNames.POINTS + rowId, "value="+points);
 	}
 	
 	private void setJustification(int rowId, String justification) {
-		WebElement element = browser.driver.findElement(By.id(Constants.PARAM_JUSTIFICATION + rowId));
+		WebElement element = browser.driver.findElement(By.id(Const.ParamsNames.JUSTIFICATION + rowId));
 		fillTextBox(element, justification);
 	}
 	
 	private void setComments(int rowId, String comments) {
-		WebElement element = browser.driver.findElement(By.id(Constants.PARAM_COMMENTS + rowId));
+		WebElement element = browser.driver.findElement(By.id(Const.ParamsNames.COMMENTS + rowId));
 		fillTextBox(element, comments);
 	}
 	

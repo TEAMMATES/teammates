@@ -6,7 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalEditPageAction extends Action {
@@ -16,9 +16,9 @@ public class InstructorEvalEditPageAction extends Action {
 	protected ActionResult execute() 
 			throws EntityDoesNotExistException,	InvalidParametersException {
 		
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String evalName = getRequestParam(Constants.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
 		new GateKeeper().verifyAccessible(
@@ -40,7 +40,7 @@ public class InstructorEvalEditPageAction extends Action {
 				"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled== true ? "enabled" : "disabled") + 
 				"<br><br><span class=\"bold\">Instructions:</span> " + data.evaluation.instructions;
 		
-		return createShowPageResult(Constants.VIEW_INSTRUCTOR_EVAL_EDIT, data);
+		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_EDIT, data);
 
 	}
 

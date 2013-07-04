@@ -13,7 +13,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
@@ -46,8 +46,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		newSession.endTime = TimeHelper.convertToDate("2014-04-30 11:59 PM UTC");
 		newSession.creatorEmail = "teammates.test3@gmail.com";
 		newSession.createdTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
-		newSession.sessionVisibleFromTime = Constants.TIME_REPRESENTS_FOLLOW_OPENING;
-		newSession.resultsVisibleFromTime = Constants.TIME_REPRESENTS_FOLLOW_VISIBLE;
+		newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+		newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
 		newSession.gracePeriod = 10;
 		newSession.instructions = new Text("Please fill in the new feedback session.");
 		newSession.sentOpenEmail = false;
@@ -127,14 +127,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		// Empty closing date
 		feedbackPage.fillSessionName("Some value");
 		feedbackPage.clickSubmitButton();
-		assertEquals(Constants.STATUS_FIELDS_EMPTY, feedbackPage.getStatus());
+		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackPage.getStatus());
 		
 		// Empty name
 		feedbackPage.addFeedbackSession("", newSession.courseId, newSession.startTime, newSession.endTime,
 				newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime, newSession.instructions,
 				newSession.gracePeriod );
 		feedbackPage.clickSubmitButton();
-		assertEquals(Constants.STATUS_FIELDS_EMPTY, feedbackPage.getStatus());
+		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackPage.getStatus());
 		
 		// Empty custom publishTime
 		feedbackPage.clickCustomPublishTimeButton();
@@ -142,7 +142,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 				newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime, newSession.instructions,
 				newSession.gracePeriod );
 		feedbackPage.clickSubmitButton();
-		assertEquals(Constants.STATUS_FIELDS_EMPTY, feedbackPage.getStatus());
+		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackPage.getStatus());
 
 		// Empty custom visibleTime
 		feedbackPage.clickCustomVisibleTimeButton();
@@ -150,7 +150,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 				newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime, newSession.instructions,
 				newSession.gracePeriod );
 		feedbackPage.clickSubmitButton();
-		assertEquals(Constants.STATUS_FIELDS_EMPTY, feedbackPage.getStatus());
+		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackPage.getStatus());
 		
 		// Invalid name
 		feedbackPage.clickDefaultVisibleTimeButton();
@@ -159,7 +159,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 				newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime, newSession.instructions,
 				newSession.gracePeriod );
 		feedbackPage.clickSubmitButton();
-		assertEquals(Constants.STATUS_FEEDBACK_SESSION_NAME_INVALID, feedbackPage.getStatus());
+		assertEquals(Const.StatusMessages.FEEDBACK_SESSION_NAME_INVALID, feedbackPage.getStatus());
 		
 	}
 
@@ -170,7 +170,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		feedbackPage.addFeedbackSession(newSession.feedbackSessionName, newSession.courseId, newSession.startTime, newSession.endTime,
 				newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime, newSession.instructions,
 				newSession.gracePeriod );
-		feedbackPage.verifyStatus(Constants.STATUS_FEEDBACK_SESSION_ADDED);
+		feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
 		FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
 		//Note: This can fail at times because Firefox fails to choose the correct value from the dropdown.
 		//  in that case, rerun in Chrome.
@@ -184,7 +184,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		feedbackPage.addFeedbackSession(newSession.feedbackSessionName, newSession.courseId, newSession.startTime, newSession.endTime,
 				newSession.sessionVisibleFromTime, newSession.resultsVisibleFromTime, newSession.instructions,
 				newSession.gracePeriod );
-		assertEquals(Constants.STATUS_FEEDBACK_SESSION_EXISTS, feedbackPage.getStatus());
+		assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, feedbackPage.getStatus());
 	}
 
 	public void testDeleteAction() throws Exception{
@@ -208,7 +208,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 	}
 
 	private InstructorFeedbackPage getFeedbackPageForInstructor(String instructorId) {
-		Url feedbackPageLink = new Url(Constants.ACTION_INSTRUCTOR_FEEDBACKS).withUserId(instructorId);
+		Url feedbackPageLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS).withUserId(instructorId);
 		return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackPage.class);
 	}
 

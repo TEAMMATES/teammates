@@ -7,7 +7,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class StudentEvalResultsPageAction extends Action {
@@ -18,10 +18,10 @@ public class StudentEvalResultsPageAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException, InvalidParametersException {
 		
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Constants.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
 		
@@ -60,7 +60,7 @@ public class StudentEvalResultsPageAction extends Action {
 			Assumption.fail("Invalid parameters are not expected at this stage");
 		}
 		
-		ShowPageResult response = createShowPageResult(Constants.VIEW_STUDENT_EVAL_RESULTS, data);
+		ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_EVAL_RESULTS, data);
 		return response;
 
 	}

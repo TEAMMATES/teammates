@@ -1,6 +1,6 @@
 package teammates.logic;
 
-import static teammates.common.util.Constants.EOL;
+import static teammates.common.util.Const.EOL;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 
 /**
@@ -264,7 +264,7 @@ public class CoursesLogic {
 			CourseAttributes course = coursesDb.getCourse(s.course);
 			if(course==null){
 				log.warning(
-						"Course was deleted but the Student still exists :"+Constants.EOL 
+						"Course was deleted but the Student still exists :"+Const.EOL 
 						+ s.toString());
 			}else{
 				courseList.add(course);
@@ -285,7 +285,7 @@ public class CoursesLogic {
 			try {
 				courseSummaryList.put(course.id, getCourseSummary(course.id));
 			} catch (EntityDoesNotExistException e) {
-				log.warning("Course was deleted but the Instructor still exists: "+Constants.EOL 
+				log.warning("Course was deleted but the Instructor still exists: "+Const.EOL 
 						+ ia.toString());
 			}
 		}

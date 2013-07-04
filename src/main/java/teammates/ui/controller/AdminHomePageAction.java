@@ -2,7 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class AdminHomePageAction extends Action {
@@ -22,7 +22,7 @@ public class AdminHomePageAction extends Action {
 		
 		statusToAdmin = "Admin Home Page Load";
 		
-		return createShowPageResult(Constants.VIEW_ADMIN_HOME, data);
+		return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
 	}
 
 }

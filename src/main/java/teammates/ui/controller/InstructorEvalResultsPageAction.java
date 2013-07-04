@@ -6,7 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalResultsPageAction extends Action {
@@ -16,9 +16,9 @@ public class InstructorEvalResultsPageAction extends Action {
 	protected ActionResult execute() 
 			throws EntityDoesNotExistException,	InvalidParametersException {
 		
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String evalName = getRequestParam(Constants.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
 		new GateKeeper().verifyAccessible(
@@ -30,13 +30,13 @@ public class InstructorEvalResultsPageAction extends Action {
 		data.evaluationResults = logic.getEvaluationResult(courseId, evalName);
 		data.evaluationResults.sortForReportToInstructor();
 				
-		statusToUser.add(Constants.STATUS_LOADING);
+		statusToUser.add(Const.StatusMessages.LOADING);
 		statusToAdmin = "instructorEvalResults Page Load<br>" + "Viewing Results " +
 				"for Evaluation <span class=\"bold\">" + evalName + "</span> " +
 				"in Course <span class=\"bold\">[" + courseId + "]</span>";
 			
 		
-		return createShowPageResult(Constants.VIEW_INSTRUCTOR_EVAL_RESULTS, data);
+		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_RESULTS, data);
 
 	}
 

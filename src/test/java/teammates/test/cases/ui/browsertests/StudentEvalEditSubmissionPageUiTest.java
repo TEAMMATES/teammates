@@ -10,7 +10,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -49,7 +49,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		StudentAttributes dropOutGuy = testData.students.get("DropOut");
 		String backDoorOperationStatus = BackDoor.deleteStudent(dropOutGuy.course,
 				dropOutGuy.email);
-		assertEquals(Constants.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 
 		
 		// add a new student to Team 2, and change his email
@@ -57,11 +57,11 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		StudentAttributes newGuy = new StudentAttributes("Team 2|New Guy|"
 				+ newGuyOriginalEmail, "SEvalEditUiT.CS2104");
 		backDoorOperationStatus = BackDoor.createStudent(newGuy);
-		assertEquals(Constants.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 		newGuy.email = "new@guy.com";
 		backDoorOperationStatus = BackDoor.editStudent(newGuyOriginalEmail,
 				newGuy);
-		assertEquals(Constants.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 		
 		//move new guy out and bring him back again
 		moveToTeam(newGuy, "Team x");
@@ -128,7 +128,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		editPage.fillSubmissionValues("Emily", subs[2]);
 		editPage.fillSubmissionValues("New Guy", subs[2]);
 		StudentHomePage homePage = editPage.submit();
-		homePage.verifyStatus(String.format(Constants.STATUS_STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.courseId).replace("<br />", "\n"));
+		homePage.verifyStatus(String.format(Const.StatusMessages.STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.courseId).replace("<br />", "\n"));
 		
 		//confirm new values were saved
 		String charlieEmail = testData.students.get("Charlie").email;
@@ -159,7 +159,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		StudentHomePage homePage = editPage.submit();
 		homePage.verifyStatus(
 				String.format(
-						Constants.STATUS_STUDENT_EVALUATION_SUBMISSION_RECEIVED,
+						Const.StatusMessages.STUDENT_EVALUATION_SUBMISSION_RECEIVED,
 						eval.name,
 						eval.courseId)
 						.replace("<br />", "\n"));
@@ -178,7 +178,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		______TS("action: submit");
 		
 		editPage.submitUnsuccessfully()
-			.verifyStatus(String.format(Constants.STATUS_EVALUATION_NOT_OPEN,eval.name,eval.courseId).replace("<br />", "\n"));
+			.verifyStatus(String.format(Const.StatusMessages.EVALUATION_NOT_OPEN,eval.name,eval.courseId).replace("<br />", "\n"));
 	
 		//TODO: test for evaluation that closed while the student was editing submission.
 	}
@@ -190,7 +190,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 	}
 
 	private StudentEvalEditPage loginToEvalEditPage(String studentName,	String evalName) {
-		Url editUrl = new Url(Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT)
+		Url editUrl = new Url(Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT)
 			.withUserId(testData.students.get(studentName).googleId)
 			.withCourseId(testData.evaluations.get(evalName).courseId)
 			.withEvalName(testData.evaluations.get(evalName).name);
@@ -201,7 +201,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		String backDoorOperationStatus;
 		student.team = newTeam;
 		backDoorOperationStatus = BackDoor.editStudent(student.email, student);
-		assertEquals(Constants.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 	}
 
 	@AfterClass

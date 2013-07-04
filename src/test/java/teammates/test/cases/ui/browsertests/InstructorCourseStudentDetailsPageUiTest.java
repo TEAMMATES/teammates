@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -38,7 +38,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 		
 		______TS("content: registered student");
 		
-		Url viewPageUrl = new Url(Constants.ACTION_INSTRUCTOR_COURSE_STUDENT_DETAILS)
+		Url viewPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withStudentEmail(testData.students.get("registeredStudent").email);
@@ -49,7 +49,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 		______TS("content: unregistered student");
 		
 		
-		viewPageUrl = new Url(Constants.ACTION_INSTRUCTOR_COURSE_STUDENT_DETAILS)
+		viewPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withStudentEmail(testData.students.get("unregisteredStudent").email);

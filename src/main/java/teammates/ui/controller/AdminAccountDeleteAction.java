@@ -3,7 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class AdminAccountDeleteAction extends Action {
@@ -14,9 +14,9 @@ public class AdminAccountDeleteAction extends Action {
 		
 		new GateKeeper().verifyAdminPrivileges(account);
 		
-		String instructorId = getRequestParam(Constants.PARAM_INSTRUCTOR_ID);
-		String studentId = getRequestParam(Constants.PARAM_STUDENT_ID);
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String instructorId = getRequestParam(Const.ParamsNames.INSTRUCTOR_ID);
+		String studentId = getRequestParam(Const.ParamsNames.STUDENT_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String account = getRequestParam("account");
 		
 		ActionResult result = null;
@@ -25,33 +25,33 @@ public class AdminAccountDeleteAction extends Action {
 		if(courseId == null && account == null){	
 			//delete instructor status
 			logic.downgradeInstructorToStudentCascade(instructorId);
-			statusToUser.add(Constants.STATUS_INSTRUCTOR_STATUS_DELETED);
+			statusToUser.add(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED);
 			statusToAdmin = "Instructor Status for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
-			result = createRedirectResult(Constants.ACTION_ADMIN_ACCOUNT_MANAGEMENT);
+			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT);
 			
 		} else if (courseId == null && account != null){
 			//delete entire account
 			logic.deleteAccount(instructorId);
-			statusToUser.add(Constants.STATUS_INSTRUCTOR_ACCOUNT_DELETED);
+			statusToUser.add(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED);
 			statusToAdmin = "Instructor Account for <span class=\"bold\">" + instructorId + "</span> has been deleted.";
-			result = createRedirectResult(Constants.ACTION_ADMIN_ACCOUNT_MANAGEMENT);
+			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT);
 			
 		} else if (courseId != null && instructorId != null){
 			//remove instructor from course
 			logic.deleteInstructor(courseId, instructorId);
-			statusToUser.add(Constants.STATUS_INSTRUCTOR_REMOVED_FROM_COURSE);
+			statusToUser.add(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
 			statusToAdmin = "Instructor <span class=\"bold\">" + instructorId + 
 					"</span> has been deleted from Course<span class=\"bold\">[" + courseId + "]</span>"; 
-			result = createRedirectResult(Constants.ACTION_ADMIN_ACCOUNT_DETAILS + "?instructorid=" + instructorId);
+			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS + "?instructorid=" + instructorId);
 			
 		} else if (courseId != null && studentId != null) {
 			//remove student from course
 			StudentAttributes student = logic.getStudentForGoogleId(courseId, studentId);
 			logic.deleteStudent(courseId, student.email);
-			statusToUser.add(Constants.STATUS_INSTRUCTOR_REMOVED_FROM_COURSE);
+			statusToUser.add(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
 			statusToAdmin = "Instructor <span class=\"bold\">" + instructorId + 
 					"</span>'s student status in Course<span class=\"bold\">[" + courseId + "]</span> has been deleted"; 
-			result = createRedirectResult(Constants.ACTION_ADMIN_ACCOUNT_DETAILS + "?instructorid=" + studentId);
+			result = createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS + "?instructorid=" + studentId);
 		}		
 		
 		return result;

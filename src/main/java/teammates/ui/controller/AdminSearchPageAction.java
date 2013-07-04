@@ -5,7 +5,7 @@ import java.util.List;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.GateKeeper;
 
@@ -54,7 +54,7 @@ public class AdminSearchPageAction extends Action {
 			statusToUser.add("Found "+ data.results.size() + " results.");
 		}
 		
-		return createShowPageResult(Constants.VIEW_ADMIN_SEARCH, data);
+		return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
 	}
 	
 	private List<Document> search(String queryStr, String limitStr) {

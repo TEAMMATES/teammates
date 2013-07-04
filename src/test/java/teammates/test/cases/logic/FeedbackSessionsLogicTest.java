@@ -16,7 +16,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.FeedbackSessionsLogic;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 import teammates.test.cases.BaseComponentTestCase;
@@ -69,8 +69,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		
 		// Student can see sessions 1 and 2. Session 3 has no questions.
 		String expected =
-				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Constants.EOL +
-				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Constants.EOL;
+				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL +
+				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL;
 				
 		for (FeedbackSessionAttributes session : actualSessions) {
 			assertContains(session.toString(), expected);
@@ -89,9 +89,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		
 		// Instructors should be able to see all sessions for the course
 		expected =
-				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Constants.EOL +
-				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Constants.EOL +
-				dataBundle.feedbackSessions.get("session3InCourse1").toString() + Constants.EOL;
+				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL +
+				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
+				dataBundle.feedbackSessions.get("session3InCourse1").toString() + Const.EOL;
 		
 		for (FeedbackSessionAttributes session : actualSessions) {
 			assertContains(session.toString(), expected);
@@ -132,7 +132,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		assertTrue(actual.questionResponseBundle.size() == 2);
 		
 		String expected =
-				dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").toString() + Constants.EOL +
+				dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").toString() + Const.EOL +
 				dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").toString();
 		
 		assertEquals(actual.feedbackSession.toString(), 

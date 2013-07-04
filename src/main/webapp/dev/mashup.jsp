@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Constants"%>
+<%@ page import="teammates.common.util.Const"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -180,42 +180,42 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/adminHome.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css">');
 
-			$('#instructorHomePage').load("<%=Constants.ACTION_INSTRUCTOR_HOME%>?user=teammates.test #frameBodyWrapper");
-			$('#instructorAddCoursePage').load("<%=Constants.ACTION_INSTRUCTOR_COURSES%>?user=teammates.test #frameBodyWrapper");
-			$('#instructorEditCoursePage').load("<%=Constants.ACTION_INSTRUCTOR_COURSE_EDIT%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
-			$('#instructorEnrollPage').load("<%=Constants.ACTION_INSTRUCTOR_COURSE_ENROLL%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
-			$('#instructorCourseDetailsPage').load("<%=Constants.ACTION_INSTRUCTOR_COURSE_DETAILS%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
-			$('#instructorCourseStudentDetailsPage').load("<%=Constants.ACTION_INSTRUCTOR_COURSE_STUDENT_DETAILS%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
-			$('#instructorCourseStudentEditPage').load("<%=Constants.ACTION_INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
-			$('#instructorCourseEvalPage').load("<%=Constants.ACTION_INSTRUCTOR_EVALS%>?user=teammates.test #frameBodyWrapper");
-			$('#instructorCourseEvalEditPage').load("<%=Constants.ACTION_INSTRUCTOR_EVAL_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-			$('#instructorCourseEvalResultsPage1').load("<%=Constants.ACTION_INSTRUCTOR_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-			$('#instructorCourseEvalResultsPage2').load("<%=Constants.ACTION_INSTRUCTOR_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
+			$('#instructorHomePage').load("<%=Const.ActionURIs.INSTRUCTOR_HOME%>?user=teammates.test #frameBodyWrapper");
+			$('#instructorAddCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSES%>?user=teammates.test #frameBodyWrapper");
+			$('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
+			$('#instructorEnrollPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
+			$('#instructorCourseDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
+			$('#instructorCourseStudentDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
+			$('#instructorCourseStudentEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
+			$('#instructorCourseEvalPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVALS%>?user=teammates.test #frameBodyWrapper");
+			$('#instructorCourseEvalEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#instructorCourseEvalResultsPage1').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#instructorCourseEvalResultsPage2').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
 				$('#instructorCourseEvalResultsPage2').find('#instructorEvaluationSummaryTable').hide();
 				$('#instructorCourseEvalResultsPage2').find('#instructorEvaluationDetailedReviewerTable').show();
 			});
-			$('#instructorCourseEvalResultsPage3').load("<%=Constants.ACTION_INSTRUCTOR_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
+			$('#instructorCourseEvalResultsPage3').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
 				$('#instructorCourseEvalResultsPage3').find('#instructorEvaluationSummaryTable').hide();
 				$('#instructorCourseEvalResultsPage3').find('#instructorEvaluationDetailedRevieweeTable').show();
 			});
-			$('#instructorCourseEvalSubmissionViewPage').load("<%=Constants.ACTION_INSTRUCTOR_EVAL_SUBMISSION_VIEW%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=teammates.test%40gmail.com #frameBodyWrapper");		
-			$('#instructorCourseEvalSubmissionEditPage').load("<%=Constants.ACTION_INSTRUCTOR_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
-			$('#instructorFeedbackPage').load("<%=Constants.ACTION_INSTRUCTOR_FEEDBACKS%>?user=teammates.test #frameBodyWrapper");
-			$('#instructorFeedbackEditPage').load("<%=Constants.ACTION_INSTRUCTOR_FEEDBACK_EDIT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
-			$('#instructorFeedbackResultsPageByGiver').load("<%=Constants.ACTION_INSTRUCTOR_FEEDBACK_RESULTS%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver #frameBodyWrapper");
-			$('#instructorFeedbackResultsPageByRecipient').load("<%=Constants.ACTION_INSTRUCTOR_FEEDBACK_RESULTS%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient #frameBodyWrapper");
-			$('#instructorFeedbackResultsPageByTable').load("<%=Constants.ACTION_INSTRUCTOR_FEEDBACK_RESULTS%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=table #frameBodyWrapper");
+			$('#instructorCourseEvalSubmissionViewPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_VIEW%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=teammates.test%40gmail.com #frameBodyWrapper");		
+			$('#instructorCourseEvalSubmissionEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
+			$('#instructorFeedbackPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS%>?user=teammates.test #frameBodyWrapper");
+			$('#instructorFeedbackEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+			$('#instructorFeedbackResultsPageByGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver #frameBodyWrapper");
+			$('#instructorFeedbackResultsPageByRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient #frameBodyWrapper");
+			$('#instructorFeedbackResultsPageByTable').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=table #frameBodyWrapper");
 			
-			$('#studentHomePage').load("<%=Constants.ACTION_STUDENT_HOME%>?user=teammates.test #frameBodyWrapper");
-			$('#studentCourseDetailsPage').load("<%=Constants.ACTION_STUDENT_COURSE_DETAILS%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
-			$('#studentEvalEditPage').load("<%=Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-			$('#studentEvalResultsPage').load("<%=Constants.ACTION_STUDENT_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper");
-			$('#studentFeedbackSubmitPage').load("<%=Constants.ACTION_STUDENT_FEEDBACK_EDIT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
-			$('#studentFeedbackResultsPage').load("<%=Constants.ACTION_STUDENT_FEEDBACK_RESULTS%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+			$('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME%>?user=teammates.test #frameBodyWrapper");
+			$('#studentCourseDetailsPage').load("<%=Const.ActionURIs.STUDENT_COURSE_DETAILS%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
+			$('#studentEvalEditPage').load("<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#studentEvalResultsPage').load("<%=Const.ActionURIs.STUDENT_EVAL_RESULTS%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper");
+			$('#studentFeedbackSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_EDIT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+			$('#studentFeedbackResultsPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
 			
-			$('#adminHomePage').load("<%=Constants.ACTION_ADMIN_HOME%> #frameBodyWrapper");
-			$('#adminSearchPage').load("<%=Constants.ACTION_ADMIN_SEARCH%>?limit=20&query=teammates&search=Search #frameBodyWrapper");
-			$('#adminActivityLogPage').load("<%=Constants.ACTION_ADMIN_ACTIVITY_LOG%> #frameBodyWrapper");
+			$('#adminHomePage').load("<%=Const.ActionURIs.ADMIN_HOME%> #frameBodyWrapper");
+			$('#adminSearchPage').load("<%=Const.ActionURIs.ADMIN_SEARCH%>?limit=20&query=teammates&search=Search #frameBodyWrapper");
+			$('#adminActivityLogPage').load("<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG%> #frameBodyWrapper");
 			
 			//Tooltip
 			initializetooltip();

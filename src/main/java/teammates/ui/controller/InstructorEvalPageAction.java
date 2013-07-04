@@ -10,7 +10,7 @@ import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalPageAction extends Action {
@@ -22,7 +22,7 @@ public class InstructorEvalPageAction extends Action {
 		
 		//This can be null. Non-null value indicates the page is being loaded 
 		//   to add an evaluation to the specified course
-		String courseIdForNewEvaluation = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseIdForNewEvaluation = getRequestParam(Const.ParamsNames.COURSE_ID);
 		
 		new GateKeeper().verifyInstructorPrivileges(account);
 		
@@ -39,19 +39,19 @@ public class InstructorEvalPageAction extends Action {
 
 		data.courses = loadCoursesList(account.googleId);
 		if (data.courses.size() == 0) {
-			statusToUser.add(Constants.STATUS_COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
+			statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
 			data.evaluations = new ArrayList<EvaluationDetailsBundle>();
 		
 		} else {
 			data.evaluations = loadEvaluationsList(account.googleId);
 			if (data.evaluations.size() == 0) {
-				statusToUser.add(Constants.STATUS_EVALUATION_EMPTY);
+				statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
 			}
 		}
 		
 		statusToAdmin = "Number of evaluations :"+data.evaluations.size();
 		
-		return createShowPageResult(Constants.VIEW_INSTRUCTOR_EVALS, data);
+		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVALS, data);
 	}
 
 	protected List<EvaluationDetailsBundle> loadEvaluationsList(String userId)

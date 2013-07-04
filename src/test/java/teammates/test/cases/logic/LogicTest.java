@@ -53,7 +53,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.AccountsLogic;
@@ -375,8 +375,8 @@ public class LogicTest extends BaseComponentTestCase {
 		
 		logic.createCourseAndInstructor(instructor.googleId, course.id, course.name);
 		logic.updateCourseInstructors(course.id,
-				instructor.googleId + "|" + instructor.name + "|" + instructor.email + Constants.EOL
-			+	instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Constants.EOL
+				instructor.googleId + "|" + instructor.name + "|" + instructor.email + Const.EOL
+			+	instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Const.EOL
 			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
 			creator.institute);
 		verifyPresentInDatastore(course);
@@ -392,7 +392,7 @@ public class LogicTest extends BaseComponentTestCase {
 		______TS("Remove one Instructor");
 		
 		logic.updateCourseInstructors(course.id,
-				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Constants.EOL
+				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Const.EOL
 			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
 			creator.institute);
 		verifyPresentInDatastore(instructor);
@@ -402,7 +402,7 @@ public class LogicTest extends BaseComponentTestCase {
 		______TS("Remove one Instructor and add another Instructor");
 		
 		logic.updateCourseInstructors(course.id,
-				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Constants.EOL
+				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Const.EOL
 			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
 			instructor2Account.institute);
 		verifyAbsentInDatastore(instructor); // Creator can be deleted too
@@ -415,7 +415,7 @@ public class LogicTest extends BaseComponentTestCase {
 		instructor3.email = "new@email.com";
 		
 		logic.updateCourseInstructors(course.id,
-				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Constants.EOL
+				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Const.EOL
 			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
 			creator.institute);
 		verifyPresentInDatastore(instructor2);
@@ -753,7 +753,7 @@ public class LogicTest extends BaseComponentTestCase {
 		String course1EvalDetails = "";
 		for (EvaluationDetailsBundle ed : course1Evals) {
 			course1EvalDetails = course1EvalDetails
-					+ Config.getTeammatesGson().toJson(ed) + Constants.EOL;
+					+ Config.getTeammatesGson().toJson(ed) + Const.EOL;
 		}
 		int numberOfEvalsInCourse1 = course1Evals.size();
 		assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
@@ -1450,7 +1450,7 @@ public class LogicTest extends BaseComponentTestCase {
 		
 		logic.createAccount("instructorForEnrollTesting", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor(instructorId, courseId, "Course for Enroll Testing");
-		String EOL = Constants.EOL;
+		String EOL = Const.EOL;
 	
 		String line0 = "t1|n1|e1@g|c1";
 		String line1 = " t2|  n2|  e2@g|  c2";
@@ -2161,7 +2161,7 @@ public class LogicTest extends BaseComponentTestCase {
 		//Team 1.1,,student4 In Course1,,-999,,100,,100,-9999,-9999
 		//Team 1.2,,student5 In Course1,,-999,,-9999,,
 		
-		String[] exportLines = export.split(Constants.EOL);
+		String[] exportLines = export.split(Const.EOL);
 		assertEquals("Course,," + eval.courseId, exportLines[0]);
 		assertEquals("Evaluation Name,," + eval.name, exportLines[1]);
 		assertEquals("", exportLines[2]);
@@ -2447,7 +2447,7 @@ public class LogicTest extends BaseComponentTestCase {
 			logic.publishEvaluation(eval1.courseId, eval1.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(Constants.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
+			assertContains(Const.StatusCodes.PUBLISHED_BEFORE_CLOSING,
 					e.errorCode);
 		}
 
@@ -2461,7 +2461,7 @@ public class LogicTest extends BaseComponentTestCase {
 			logic.unpublishEvaluation(eval1.courseId, eval1.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(Constants.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
+			assertContains(Const.StatusCodes.UNPUBLISHED_BEFORE_PUBLISHING,
 					e.errorCode);
 		}
 

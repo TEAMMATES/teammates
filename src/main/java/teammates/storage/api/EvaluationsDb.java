@@ -13,7 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Evaluation;
 
@@ -34,8 +34,8 @@ public class EvaluationsDb extends EntitiesDb {
 	 */
 	public EvaluationAttributes getEvaluation(String courseId, String name) {
 		
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, name);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 
@@ -53,7 +53,7 @@ public class EvaluationsDb extends EntitiesDb {
 	 */
 	public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
 		
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 
@@ -82,7 +82,7 @@ public class EvaluationsDb extends EntitiesDb {
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
 		Assumption.assertNotNull(
-				Constants.ERROR_DBLEVEL_NULL_INPUT, 
+				Const.StatusCodes.DBLEVEL_NULL_INPUT, 
 				newEvaluationAttributes);
 		
 		if (!newEvaluationAttributes.isValid()) {
@@ -118,8 +118,8 @@ public class EvaluationsDb extends EntitiesDb {
 	 */
 	public void deleteEvaluation(String courseId, String name) {
 		
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, name);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 		if (e == null) {
@@ -153,7 +153,7 @@ public class EvaluationsDb extends EntitiesDb {
 	 */
 	public void deleteAllEvaluationsForCourse(String courseId) {
 		
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
 		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 

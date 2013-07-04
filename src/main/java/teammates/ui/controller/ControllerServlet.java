@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.Logic;
 
@@ -52,11 +52,11 @@ public class ControllerServlet extends HttpServlet {
 			
 		} catch (EntityDoesNotExistException e) {
 			log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
-			resp.sendRedirect(Constants.VIEW_ENTITY_NOT_FOUND_PAGE);
+			resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
 
 		} catch (UnauthorizedAccessException e) {
 			log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
-			resp.sendRedirect(Constants.VIEW_UNAUTHORIZED);
+			resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
 		} catch (DeadlineExceededException e) {
 			//TODO: This exception is not caught because GAE kills the request soon after throwing it.
@@ -65,7 +65,7 @@ public class ControllerServlet extends HttpServlet {
 					HttpRequestHelper.printRequestParameters(req), 
 					e);
 			log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
-			resp.sendRedirect(Constants.VIEW_DEADLINE_EXCEEDED_ERROR_PAGE);
+			resp.sendRedirect(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
 
 		//TODO: handle invalid parameters exception
 		}  catch (Throwable e) {
@@ -75,7 +75,7 @@ public class ControllerServlet extends HttpServlet {
 					e);
 
 			log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
-		    resp.sendRedirect(Constants.VIEW_ERROR_PAGE);
+		    resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
 		} 
 		
 	}

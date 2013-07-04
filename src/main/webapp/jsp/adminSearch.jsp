@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ page import="com.google.appengine.api.search.Document" %>
 <%@ page import="com.google.appengine.api.search.Field" %>
-<%@ page import="teammates.common.util.Constants" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="teammates.ui.controller.AdminSearchPageData"%>
@@ -38,7 +38,7 @@
   <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-	<jsp:include page="<%=Constants.VIEW_ADMIN_HEADER%>" />
+	<jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 	</div>
 <div id="frameBody">
 <div id="frameBodyWrapper">
@@ -65,7 +65,7 @@
     <br>
     <%
     	List<Document> found = data.results;
-              if (found != null) {
+                  if (found != null) {
     %>
     <form name="delete" action="" method="get">
       <!-- repeated so that we can execute a search after deletion -->
@@ -90,7 +90,7 @@
         </tr>
     <%
     	} else {
-                  for (Document doc : found) {
+                      for (Document doc : found) {
     %>
         <tr>
          <!--
@@ -113,7 +113,7 @@
         </tr>
     <%
     	}
-                }
+                    }
     %>
       </table>
     </form>
@@ -121,11 +121,11 @@
     	}
     %>
     </div>
-	<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
+	<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 </div>
 </div>
     <div id="frameBottom">
-	<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+	<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </div>
 </body>
 </html>

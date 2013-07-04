@@ -1,5 +1,5 @@
 <%@page import="teammates.common.datatransfer.EvaluationAttributes.EvalStatus"%>
-<%@ page import="teammates.common.util.Constants" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes" %>
 <%@ page import="teammates.ui.controller.EvalSubmissionEditPageData" %>
 
@@ -8,17 +8,17 @@
 %>
 
 <input type="hidden" value="<%=data.eval.courseId%>"
-		name="<%=Constants.PARAM_COURSE_ID%>"
-		id="<%=Constants.PARAM_COURSE_ID%>">
+		name="<%=Const.ParamsNames.COURSE_ID%>"
+		id="<%=Const.ParamsNames.COURSE_ID%>">
 <input type="hidden" value="<%=EvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%>"
-		name="<%=Constants.PARAM_EVALUATION_NAME%>"
-		id="<%=Constants.PARAM_EVALUATION_NAME%>">
+		name="<%=Const.ParamsNames.EVALUATION_NAME%>"
+		id="<%=Const.ParamsNames.EVALUATION_NAME%>">
 <input type="hidden" value="<%=EvalSubmissionEditPageData.sanitizeForHtml(data.student.team)%>"
-		name="<%=Constants.PARAM_TEAM_NAME%>"
-		id="<%=Constants.PARAM_TEAM_NAME%>">
+		name="<%=Const.ParamsNames.TEAM_NAME%>"
+		id="<%=Const.ParamsNames.TEAM_NAME%>">
 <input type="hidden" value="<%=data.student.email%>"
-		name="<%=Constants.PARAM_FROM_EMAIL%>"
-		id="<%=Constants.PARAM_FROM_EMAIL%>">
+		name="<%=Const.ParamsNames.FROM_EMAIL%>"
+		id="<%=Const.ParamsNames.FROM_EMAIL%>">
 <table class="inputTable">
 	<%
 		int idx = 0;
@@ -27,8 +27,8 @@
 		<tr style="display: none;">
 			<td>
 					<input type="text" value="<%=sub.reviewee%>"
-							name="<%=Constants.PARAM_TO_EMAIL%>"
-							id="<%=Constants.PARAM_TO_EMAIL+idx%>">
+							name="<%=Const.ParamsNames.TO_EMAIL%>"
+							id="<%=Const.ParamsNames.TO_EMAIL+idx%>">
 				</td>
 			</tr>
 			<tr>
@@ -44,8 +44,8 @@
 					<td class="label rightalign bold">My Estimated contribution:</td>
 					<td>
 						<select style="width: 150px;"
-								name="<%=Constants.PARAM_POINTS%>"
-								id="<%=Constants.PARAM_POINTS+idx%>"
+								name="<%=Const.ParamsNames.POINTS%>"
+								id="<%=Const.ParamsNames.POINTS+idx%>"
 								<%=data.disableAttribute%>>
 							<%=data.getEvaluationOptions(sub)%>
 						</select>
@@ -55,8 +55,8 @@
 					<td class="label rightalign bold middlealign"><%=data.getJustificationInstr(sub)%></td>
 					<td>
 						<textarea class="textvalue" rows="8" cols="100" 
-								name="<%=Constants.PARAM_JUSTIFICATION%>"
-								id="<%=Constants.PARAM_JUSTIFICATION+idx%>"
+								name="<%=Const.ParamsNames.JUSTIFICATION%>"
+								id="<%=Const.ParamsNames.JUSTIFICATION+idx%>"
 								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue())%></textarea>
 					</td>
 				</tr>
@@ -67,8 +67,8 @@
 				%>
 					<td><textarea class = "textvalue"
 							rows="8" cols="100"
-							name="<%=Constants.PARAM_COMMENTS%>"
-					 		id="<%=Constants.PARAM_COMMENTS+idx%>"
+							name="<%=Const.ParamsNames.COMMENTS%>"
+					 		id="<%=Const.ParamsNames.COMMENTS+idx%>"
 					 		<%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
 					</td>
 				<%
@@ -78,8 +78,8 @@
 						<font color="red">
 							<textarea class="textvalue"
 									rows="1" cols="100"
-									name="<%=Constants.PARAM_COMMENTS%>"
-									id="<%=Constants.PARAM_COMMENTS+idx%>"
+									name="<%=Const.ParamsNames.COMMENTS%>"
+									id="<%=Const.ParamsNames.COMMENTS+idx%>"
 									disabled="disabled">N.A.</textarea>
 						</font>
 					</td>
@@ -94,8 +94,8 @@
 					<td class="label rightalign bold">His/Her Estimated contribution:</td>
 					<td>
 						<select style="width: 150px;"
-								name="<%=Constants.PARAM_POINTS%>"
-								id="<%=Constants.PARAM_POINTS+idx%>"
+								name="<%=Const.ParamsNames.POINTS%>"
+								id="<%=Const.ParamsNames.POINTS+idx%>"
 								<%=data.disableAttribute%>>
 							<%=data.getEvaluationOptions(sub)%>
 						</select>
@@ -108,8 +108,8 @@
 				%>
 					<td><textarea class = "textvalue"
 							rows="8" cols="100"
-							name="<%=Constants.PARAM_COMMENTS%>"
-					 		id="<%=Constants.PARAM_COMMENTS+idx%>"
+							name="<%=Const.ParamsNames.COMMENTS%>"
+					 		id="<%=Const.ParamsNames.COMMENTS+idx%>"
 					 		<%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
 					</td>
 				<%
@@ -119,8 +119,8 @@
 						<font color="red">
 							<textarea class="textvalue"
 									rows="1" cols="100"
-									name="<%=Constants.PARAM_COMMENTS%>"
-									id="<%=Constants.PARAM_COMMENTS+idx%>"
+									name="<%=Const.ParamsNames.COMMENTS%>"
+									id="<%=Const.ParamsNames.COMMENTS+idx%>"
 									disabled="disabled">N.A.</textarea>
 						</font>
 					</td>
@@ -132,8 +132,8 @@
 					<td class="label rightalign bold middlealign"><%=data.getJustificationInstr(sub)%></td>
 					<td>
 						<textarea class="textvalue" rows="8" cols="100" 
-								name="<%=Constants.PARAM_JUSTIFICATION%>"
-								id="<%=Constants.PARAM_JUSTIFICATION+idx%>"
+								name="<%=Const.ParamsNames.JUSTIFICATION%>"
+								id="<%=Const.ParamsNames.JUSTIFICATION+idx%>"
 								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue())%></textarea>
 					</td>
 				</tr>

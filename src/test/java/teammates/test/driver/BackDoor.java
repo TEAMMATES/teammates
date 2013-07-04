@@ -26,7 +26,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.backdoor.BackDoorServlet;
@@ -526,7 +526,7 @@ public class BackDoor {
 		try {
 			String paramString = encodeParameters(map);
 			String urlString = TestProperties.inst().TEAMMATES_URL
-					+ Constants.ACTION_BACKDOOR;
+					+ Const.ActionURIs.BACKDOOR;
 			URLConnection conn = getConnectionToUrl(urlString);
 			sendRequest(paramString, conn);
 			return readResponse(conn);

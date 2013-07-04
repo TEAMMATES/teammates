@@ -7,7 +7,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseDetailsPageAction extends Action {
@@ -18,7 +18,7 @@ public class InstructorCourseDetailsPageAction extends Action {
 	public ActionResult execute()
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
 		new GateKeeper().verifyAccessible(
@@ -36,7 +36,7 @@ public class InstructorCourseDetailsPageAction extends Action {
 		statusToAdmin = "instructorCourseDetails Page Load<br>" 
 				+ "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";
 		
-		return createShowPageResult(Constants.VIEW_INSTRUCTOR_COURSE_DETAILS, data);
+		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);
 		
 	}
 

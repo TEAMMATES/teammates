@@ -10,7 +10,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.storage.api.SubmissionsDb;
 
 /**
@@ -92,7 +92,7 @@ public class SubmissionsLogic {
 				courseId, evaluationName, studentEmail);
 	
 		for (SubmissionAttributes sd : submissions) {
-			if (sd.points != Constants.POINTS_NOT_SUBMITTED) {
+			if (sd.points != Const.POINTS_NOT_SUBMITTED) {
 				return true;
 			}
 		}

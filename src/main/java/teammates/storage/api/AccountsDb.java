@@ -13,7 +13,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 
@@ -47,7 +47,7 @@ public class AccountsDb extends EntitiesDb {
 	 * @return Null if not found.
 	 */
 	public AccountAttributes getAccount(String googleId) {
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 	
 		Account a = getAccountEntity(googleId);
 	
@@ -84,7 +84,7 @@ public class AccountsDb extends EntitiesDb {
 	 * <br> * {@code accountToAdd} is not null and has valid data.
 	 */
 	public void updateAccount(AccountAttributes a) throws InvalidParametersException {
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, a);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, a);
 		
 		if (!a.isValid()) {
 			throw new InvalidParametersException(a.getInvalidityInfo());
@@ -110,7 +110,7 @@ public class AccountsDb extends EntitiesDb {
 	 * <br> * {@code googleId} is not null.
 	 */
 	public void deleteAccount(String googleId) {
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 	
 		Account accountToDelete = getAccountEntity(googleId);
 	

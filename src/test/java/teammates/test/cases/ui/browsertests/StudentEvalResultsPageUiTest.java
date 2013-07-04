@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -73,7 +73,7 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
 
 	private void verifyResultContent(String evalObjectId, String studentObjectId, String filePath) {
 		
-		Url resultsUrl = new Url(Constants.ACTION_STUDENT_EVAL_RESULTS)
+		Url resultsUrl = new Url(Const.ActionURIs.STUDENT_EVAL_RESULTS)
 			.withUserId(testData.students.get(studentObjectId).googleId)
 			.withCourseId(testData.evaluations.get(evalObjectId).courseId)
 			.withEvalName(testData.evaluations.get(evalObjectId).name);

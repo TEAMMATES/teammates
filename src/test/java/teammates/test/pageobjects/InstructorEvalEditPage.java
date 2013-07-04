@@ -6,7 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
 public class InstructorEvalEditPage extends AppPage {
@@ -54,13 +54,13 @@ public class InstructorEvalEditPage extends AppPage {
 		selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod)+ " mins");
 		
 		// Select deadline date
-		 js.executeScript("$('#" + Constants.PARAM_EVALUATION_DEADLINE
+		 js.executeScript("$('#" + Const.ParamsNames.EVALUATION_DEADLINE
 				+ "')[0].value='" + TimeHelper.formatDate(endTime) + "';");
 		selectDropdownByVisibleValue(endTimeDropdown,
 				TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
 		
 		// Select start date
-		js.executeScript("$('#" + Constants.PARAM_EVALUATION_START
+		js.executeScript("$('#" + Const.ParamsNames.EVALUATION_START
 				+ "')[0].value='" + TimeHelper.formatDate(startTime) + "';");
 		selectDropdownByVisibleValue(startTimeDropdown,
 				TimeHelper.convertToDisplayValueInTimeDropDown(startTime));

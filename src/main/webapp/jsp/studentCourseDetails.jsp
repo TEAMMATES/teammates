@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Constants" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.StudentAttributes" %>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.ui.controller.PageData"%>
@@ -30,7 +30,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -40,25 +40,25 @@
 				<h1>Team Details for <%=data.courseDetails.course.id%></h1>
 			</div>
 			<br>
-			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 				
 			<table class="inputTable" id="studentCourseInformation">
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course ID:</td>
-	 				<td id="<%=Constants.PARAM_COURSE_ID%>"><%=data.courseDetails.course.id%></td>
+	 				<td id="<%=Const.ParamsNames.COURSE_ID%>"><%=data.courseDetails.course.id%></td>
 	 			</tr>
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course name:</td>
-	 				<td id="<%=Constants.PARAM_COURSE_NAME%>"><%=PageData.sanitizeForHtml(data.courseDetails.course.name)%></td>
+	 				<td id="<%=Const.ParamsNames.COURSE_NAME%>"><%=PageData.sanitizeForHtml(data.courseDetails.course.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Instructors:</td>
-	 				<td id="<%=Constants.PARAM_INSTRUCTOR_NAME%>">
+	 				<td id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>">
 	 				<%
 	 					for (int i = 0; i < data.instructors.size(); i++){
-	 					 					 					 	InstructorAttributes instructor = data.instructors.get(i);
-	 					 					 					 	String instructorInfo = instructor.name + " (" + instructor.email + ")";
+	 					 					 					 					 					 	InstructorAttributes instructor = data.instructors.get(i);
+	 					 					 					 					 					 	String instructorInfo = instructor.name + " (" + instructor.email + ")";
 	 				%>
 		 				<a href = "mailto:<%=instructor.email%>"><%=instructorInfo%></a><br><br>
 		 			<%
@@ -68,19 +68,19 @@
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your team:</td>
-	 				<td id="<%=Constants.PARAM_TEAM_NAME%>"><%=PageData.sanitizeForHtml(data.student.team)%></td>
+	 				<td id="<%=Const.ParamsNames.TEAM_NAME%>"><%=PageData.sanitizeForHtml(data.student.team)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your name:</td>
-	 				<td id="<%=Constants.PARAM_STUDENT_NAME%>"><%=PageData.sanitizeForHtml(data.student.name)%></td>
+	 				<td id="<%=Const.ParamsNames.STUDENT_NAME%>"><%=PageData.sanitizeForHtml(data.student.name)%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your e-mail:</td>
-	 				<td id="<%=Constants.PARAM_STUDENT_EMAIL%>"><%=data.student.email%></td>
+	 				<td id="<%=Const.ParamsNames.STUDENT_EMAIL%>"><%=data.student.email%></td>
 	 			</tr>
 	 			<tr>
 	 				<td class="label rightalign bold" width="30%">Your teammates:</td>
-	 				<td id="<%=Constants.PARAM_TEAMMATES%>">
+	 				<td id="<%=Const.ParamsNames.TEAMMATES%>">
 	 					<%
 	 						if(data.team==null || data.team.students.size()==1){
 	 					%>
@@ -116,7 +116,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

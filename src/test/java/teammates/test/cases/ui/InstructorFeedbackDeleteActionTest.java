@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.FeedbackSessionsLogic;
 
 public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
@@ -16,7 +16,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_FEEDBACK_DELETE;
+		uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
 	}
 
 	@BeforeMethod
@@ -31,8 +31,8 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
 		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 		
 		String[] submissionParams = new String[]{
-				Constants.PARAM_COURSE_ID, fs.courseId,
-				Constants.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
 		};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);

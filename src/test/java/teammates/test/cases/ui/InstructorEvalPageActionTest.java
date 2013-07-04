@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.CoursesLogic;
 import teammates.logic.EvaluationsLogic;
 import teammates.ui.controller.InstructorEvalPageAction;
@@ -23,7 +23,7 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_EVALS;
+		uri = Const.ActionURIs.INSTRUCTOR_EVALS;
 	}
 
 	@BeforeMethod
@@ -57,7 +57,7 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		InstructorEvalPageAction a = getAction(submissionParams);
 		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
 		
-		assertEquals(Constants.VIEW_INSTRUCTOR_EVALS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+		assertEquals(Const.ViewURIs.INSTRUCTOR_EVALS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
 		assertEquals(false, r.isError);
 		assertEquals("", r.getStatusMessage());
 		
@@ -78,12 +78,12 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		EvaluationsLogic.inst().deleteEvaluationsForCourse(instructor1ofCourse1.courseId);
 		
 		gaeSimulation.loginAsAdmin("admin.user");
-		submissionParams = new String[]{Constants.PARAM_COURSE_ID, instructor1ofCourse1.courseId};
+		submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId};
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Constants.VIEW_INSTRUCTOR_EVALS+"?message=You+have+not+created+any+evaluations+yet." +
+				Const.ViewURIs.INSTRUCTOR_EVALS+"?message=You+have+not+created+any+evaluations+yet." +
 						"+Use+the+form+above+to+create+a+new+evaluation.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals("You have not created any evaluations yet. Use the form above to create a new evaluation.", 
@@ -112,7 +112,7 @@ public class InstructorEvalPageActionTest extends BaseActionTest {
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Constants.VIEW_INSTRUCTOR_EVALS+"?message=You+have+not+created+any+courses+yet." +
+				Const.ViewURIs.INSTRUCTOR_EVALS+"?message=You+have+not+created+any+courses+yet." +
 						"+Go+%3Ca+href%3D%22%2Fpage%2FinstructorCourse%3Fuser%3DidOfInstructor1OfCourse1%22%3Ehere%3C%2Fa%3E+to+create+one.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals("You have not created any courses yet. Go <a href=\"/page/instructorCourse?user=idOfInstructor1OfCourse1\">here</a> to create one.", r.getStatusMessage());

@@ -5,7 +5,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.logic.GateKeeper;
 
@@ -15,7 +15,7 @@ public class StudentCourseJoinAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 
-		String key = getRequestParam(Constants.PARAM_REGKEY);
+		String key = getRequestParam(Const.ParamsNames.REGKEY);
 		Assumption.assertNotNull(key);
 
 		new GateKeeper().verifyLoggedInUserPrivileges();
@@ -26,10 +26,10 @@ public class StudentCourseJoinAction extends Action {
 				| EntityAlreadyExistsException e) {
 			isError = true;
 			statusToUser.add(Sanitizer.sanitizeForHtml(e.getMessage()));
-			statusToAdmin = Constants.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
 		}
 
-		RedirectResult response = createRedirectResult(Constants.ACTION_STUDENT_HOME);
+		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME);
 		return response;
 	}
 

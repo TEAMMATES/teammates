@@ -4,7 +4,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import static org.testng.AssertJUnit.*;
-import static teammates.common.util.Constants.EOL;
+import static teammates.common.util.Const.EOL;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;

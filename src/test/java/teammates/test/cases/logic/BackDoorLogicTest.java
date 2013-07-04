@@ -21,7 +21,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.common.CourseAttributesTest;
@@ -57,7 +57,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
 		}
 		______TS("empty data bundle");
 		String status = logic.persistDataBundle(new DataBundle());
-		assertEquals(Constants.BACKEND_STATUS_SUCCESS, status);
+		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
 		logic.persistDataBundle(dataBundle);
 		verifyPresentInDatastore(dataBundle);
@@ -72,7 +72,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
 			logic.persistDataBundle(nullDataBundle);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertEquals(Constants.ERRORCODE_NULL_PARAMETER, e.errorCode);
+			assertEquals(Const.StatusCodes.NULL_PARAMETER, e.errorCode);
 		}
 
 		______TS("invalid parameters in an entity");

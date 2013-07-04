@@ -10,7 +10,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.GateKeeper;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
@@ -21,7 +21,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 	protected ActionResult execute() 
 			throws EntityDoesNotExistException,	InvalidParametersException {
 		
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		
 		Assumption.assertNotNull(courseId);
 		
@@ -45,7 +45,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 		try {
 			logic.createFeedbackSession(fs);
 			
-			statusToUser.add(Constants.STATUS_FEEDBACK_SESSION_ADDED);
+			statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
 			statusToAdmin = "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
 					"<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
 					"<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
@@ -55,7 +55,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 			return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
 			
 		} catch (EntityAlreadyExistsException e) {
-			statusToUser.add(Constants.STATUS_FEEDBACK_SESSION_EXISTS);
+			statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
 			statusToAdmin = e.getMessage();
 			isError = true;
 			
@@ -70,67 +70,67 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackPageAction {
 		data.existingEvals = loadEvaluationsList(account.googleId);
 		data.existingSessions = loadFeedbackSessionsList(account.googleId);
 		if (data.existingSessions.size() == 0) {
-			statusToUser.add(Constants.STATUS_FEEDBACK_SESSION_EMPTY);
+			statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
 		}
 		
-		return createShowPageResult(Constants.VIEW_INSTRUCTOR_FEEDBACKS, data);
+		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
 	}
 	
 	private FeedbackSessionAttributes extractFeedbackSessionData() {
 		FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
-		newSession.courseId = getRequestParam(Constants.PARAM_COURSE_ID);
-		newSession.feedbackSessionName = getRequestParam(Constants.PARAM_FEEDBACK_SESSION_NAME);
+		newSession.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		newSession.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		newSession.createdTime = new Date();
 		newSession.startTime = TimeHelper.combineDateTime(
-				getRequestParam(Constants.PARAM_FEEDBACK_SESSION_STARTDATE),
-				getRequestParam(Constants.PARAM_FEEDBACK_SESSION_STARTTIME));
+				getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
+				getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
 		newSession.endTime = TimeHelper.combineDateTime(
-				getRequestParam(Constants.PARAM_FEEDBACK_SESSION_ENDDATE),
-				getRequestParam(Constants.PARAM_FEEDBACK_SESSION_ENDTIME));		
-		String paramTimeZone = getRequestParam(Constants.PARAM_FEEDBACK_SESSION_TIMEZONE);
+				getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
+				getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));		
+		String paramTimeZone = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
 		if (paramTimeZone != null) {
 			newSession.timeZone = Integer.parseInt(paramTimeZone);
 		}
-		String paramGracePeriod = getRequestParam(Constants.PARAM_FEEDBACK_SESSION_GRACEPERIOD);
+		String paramGracePeriod = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
 		if (paramGracePeriod != null) {
 			newSession.gracePeriod = Integer.parseInt(paramGracePeriod);
 		}
 		newSession.sentOpenEmail = false; 
 		newSession.sentPublishedEmail = false;
 		newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
-		newSession.instructions = new Text(getRequestParam(Constants.PARAM_FEEDBACK_SESSION_INSTRUCTIONS));
+		newSession.instructions = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
 		
-		String type = getRequestParam(Constants.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+		String type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
 		switch (type) {
 		case "custom":
 			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
-					getRequestParam(Constants.PARAM_FEEDBACK_SESSION_VISIBLEDATE),
-					getRequestParam(Constants.PARAM_FEEDBACK_SESSION_VISIBLETIME));
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
 			break;
 		case "atopen":
-			newSession.sessionVisibleFromTime = Constants.TIME_REPRESENTS_FOLLOW_OPENING;
+			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
 			break;
 		case "never":
-			newSession.sessionVisibleFromTime = Constants.TIME_REPRESENTS_NEVER;
+			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
 			newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
 			break;
 		}
 		
-		type = getRequestParam(Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+		type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
 		switch (type) {
 		case "custom":
 			newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
-					getRequestParam(Constants.PARAM_FEEDBACK_SESSION_PUBLISHDATE),
-					getRequestParam(Constants.PARAM_FEEDBACK_SESSION_PUBLISHTIME));
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
 			break;
 		case "atvisible":
-			newSession.resultsVisibleFromTime = Constants.TIME_REPRESENTS_FOLLOW_VISIBLE;
+			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
 			break;
 		case "later":
-			newSession.resultsVisibleFromTime = Constants.TIME_REPRESENTS_LATER;
+			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
 			break;
 		case "never":
-			newSession.resultsVisibleFromTime = Constants.TIME_REPRESENTS_NEVER;
+			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
 			break;
 		}
 		

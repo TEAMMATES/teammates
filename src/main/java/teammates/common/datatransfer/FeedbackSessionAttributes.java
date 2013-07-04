@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
@@ -209,9 +209,9 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		Date now = TimeHelper.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
 		Date visibleTime = this.sessionVisibleFromTime;
 		
-		if (visibleTime.equals(Constants.TIME_REPRESENTS_FOLLOW_OPENING)) {
+		if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
 			visibleTime = this.startTime;
-		} else if (visibleTime.equals(Constants.TIME_REPRESENTS_NEVER)) {
+		} else if (visibleTime.equals(Const.TIME_REPRESENTS_NEVER)) {
 			return false;
 		} 
 		return (visibleTime.before(now));
@@ -225,11 +225,11 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		Date now = TimeHelper.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
 		Date publishTime = this.resultsVisibleFromTime;
 		
-		if (publishTime.equals(Constants.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+		if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
 			return isVisible();
-		} else if (publishTime.equals(Constants.TIME_REPRESENTS_LATER)) {
+		} else if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
 			return false;
-		} else if (publishTime.equals(Constants.TIME_REPRESENTS_NEVER)) {
+		} else if (publishTime.equals(Const.TIME_REPRESENTS_NEVER)) {
 			return false;
 		}  else {
 			return (publishTime.before(now));

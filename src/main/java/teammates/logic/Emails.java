@@ -23,7 +23,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -191,19 +191,19 @@ public class Emails {
 				TimeHelper.formatTime(e.endTime));
 
 		String submitUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT;
-		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_COURSE_ID,
+				+ Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT;
+		submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
 				c.id);
 		submitUrl = Url.addParamToUrl(submitUrl,
-				Constants.PARAM_EVALUATION_NAME, e.name);
+				Const.ParamsNames.EVALUATION_NAME, e.name);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
 		String reportUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_EVAL_RESULTS;
-		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_COURSE_ID,
+				+ Const.ActionURIs.STUDENT_EVAL_RESULTS;
+		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
 				c.id);
 		reportUrl = Url.addParamToUrl(reportUrl,
-				Constants.PARAM_EVALUATION_NAME, e.name);
+				Const.ParamsNames.EVALUATION_NAME, e.name);
 		emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
 		message.setContent(emailBody, "text/html");
@@ -321,19 +321,19 @@ public class Emails {
 		emailBody = emailBody.replace("${instructorFragment}", "");
 		
 		String submitUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_FEEDBACK_EDIT;
-		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_COURSE_ID,
+				+ Const.ActionURIs.STUDENT_FEEDBACK_EDIT;
+		submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
 				c.id);
 		submitUrl = Url.addParamToUrl(submitUrl,
-				Constants.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
 		String reportUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_FEEDBACK_RESULTS;
-		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_COURSE_ID,
+				+ Const.ActionURIs.STUDENT_FEEDBACK_RESULTS;
+		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
 				c.id);
 		reportUrl = Url.addParamToUrl(reportUrl,
-				Constants.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
 		message.setContent(emailBody, "text/html");
@@ -366,19 +366,19 @@ public class Emails {
 		emailBody = emailBody.replace("${instructorFragment}", "The email below has also been sent to students of course: "+c.id+".<br/>");
 		
 		String submitUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_FEEDBACK_EDIT;
-		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_COURSE_ID,
+				+ Const.ActionURIs.STUDENT_FEEDBACK_EDIT;
+		submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
 				c.id);
 		submitUrl = Url.addParamToUrl(submitUrl,
-				Constants.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
 		String reportUrl = Config.APP_URL
-				+ Constants.ACTION_INSTRUCTOR_FEEDBACK_RESULTS;
-		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_COURSE_ID,
+				+ Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS;
+		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
 				c.id);
 		reportUrl = Url.addParamToUrl(reportUrl,
-				Constants.PARAM_FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
 		emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
 		message.setContent(emailBody, "text/html");
@@ -482,8 +482,8 @@ public class Emails {
 		emailBody = emailBody.replace("${key}", key);
 
 		String joinUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_JOIN_COURSE;
-		joinUrl = Url.addParamToUrl(joinUrl, Constants.PARAM_REGKEY, key);
+				+ Const.ActionURIs.STUDENT_JOIN_COURSE;
+		joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
 
 		emailBody = emailBody.replace("${joinUrl}", joinUrl);
 		return emailBody;

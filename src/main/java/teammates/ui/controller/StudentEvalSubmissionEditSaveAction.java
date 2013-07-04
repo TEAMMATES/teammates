@@ -8,7 +8,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.logic.GateKeeper;
 
@@ -20,20 +20,20 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException, InvalidParametersException {
 		
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Constants.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
-		String fromEmail = getRequestParam(Constants.PARAM_FROM_EMAIL);
+		String fromEmail = getRequestParam(Const.ParamsNames.FROM_EMAIL);
 		Assumption.assertNotNull(fromEmail);
 		
-		String teamName = getRequestParam(Constants.PARAM_TEAM_NAME);
-		String[] toEmails = getRequestParamValues(Constants.PARAM_TO_EMAIL);
-		String[] points = getRequestParamValues(Constants.PARAM_POINTS);
-		String[] justifications = getRequestParamValues(Constants.PARAM_JUSTIFICATION);
-		String[] comments = getRequestParamValues(Constants.PARAM_COMMENTS);
+		String teamName = getRequestParam(Const.ParamsNames.TEAM_NAME);
+		String[] toEmails = getRequestParamValues(Const.ParamsNames.TO_EMAIL);
+		String[] points = getRequestParamValues(Const.ParamsNames.POINTS);
+		String[] justifications = getRequestParamValues(Const.ParamsNames.JUSTIFICATION);
+		String[] comments = getRequestParamValues(Const.ParamsNames.COMMENTS);
 		
 		EvaluationAttributes eval = logic.getEvaluation(courseId, evalName);
 		
@@ -67,17 +67,17 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		
 		try{
 			logic.updateSubmissions(submissionData);
-			statusToUser.add(String.format(Constants.STATUS_STUDENT_EVALUATION_SUBMISSION_RECEIVED, Sanitizer.sanitizeForHtml(evalName), courseId));
+			statusToUser.add(String.format(Const.StatusMessages.STUDENT_EVALUATION_SUBMISSION_RECEIVED, Sanitizer.sanitizeForHtml(evalName), courseId));
 			statusToAdmin = createLogMesage(courseId, evalName, teamName, fromEmail, toEmails, points, justifications, comments);
 			
 		} catch (InvalidParametersException e) {
 			//TODO: redirect to the same page?
 			statusToUser.add(e.getMessage());
 			isError = true;
-			statusToAdmin = Constants.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
 		}		
 		
-		RedirectResult response = createRedirectResult(Constants.ACTION_STUDENT_HOME);
+		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME);
 		return response;
 
 	}

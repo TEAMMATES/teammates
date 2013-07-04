@@ -1,5 +1,5 @@
 <%@ page import="java.util.Date"%>
-<%@ page import="teammates.common.util.Constants"%>
+<%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
@@ -33,7 +33,7 @@
 <body onload="readyFeedbackEditPage(); initializetooltip();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -43,7 +43,7 @@
 				<h1>Edit Feedback Session</h1>
 			</div>
 			
-			<form method="post" action="<%=Constants.ACTION_INSTRUCTOR_FEEDBACK_EDIT_SAVE%>" id="form_editfeedbacksession">
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE%>" id="form_editfeedbacksession">
 				<table class="inputTable sessionTable" id="sessionNameTable">
 					<tr>
 						<td class="label bold">Course:</td>
@@ -51,12 +51,12 @@
 						<td></td>
 						<td class="rightalign" colspan="2">
 							<a href="#" class="color_blue pad_right" id="fsEditLink" 
-							onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_EDIT%>')" onmouseout="hideddrivetip()" 
+							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT%>')" onmouseout="hideddrivetip()" 
 							onclick="enableEditFS()">Edit</a>
 							<a href="#" class="color_green pad_right" style="display:none;" id="fsSaveLink">Save Changes</a>
 							<a href="<%=data.getInstructorFeedbackSessionDeleteLink(data.session.courseId, data.session.feedbackSessionName, "")%>" 
 							onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('<%=data.session.courseId%>','<%=data.session.feedbackSessionName%>');"
-							onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_DELETE%>')" onmouseout="hideddrivetip()"
+							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_DELETE%>')" onmouseout="hideddrivetip()"
 							class="color_red" id="fsDeleteLink">Delete</a>
 						</td>
 					</tr>
@@ -65,8 +65,8 @@
 						<td><%=data.session.feedbackSessionName%></td>
 						<td></td>
 						<td class="label bold">Time zone: </td>
-						<td><select name="<%=Constants.PARAM_FEEDBACK_SESSION_TIMEZONE%>" id="<%=Constants.PARAM_FEEDBACK_SESSION_TIMEZONE%>"
-									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_TIMEZONE%>')"
+						<td><select name="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>')"
 									onmouseout="hideddrivetip()" tabindex="3"
 									disabled="disabled">
 										<%
@@ -75,28 +75,28 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td class="label bold" onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_SESSIONVISIBLELABEL%>')"
+						<td class="label bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLELABEL%>')"
 							onmouseout="hideddrivetip()">Session visible<br> from:</td>
 						<td class="nowrap"
-							onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_VISIBLEDATE%>')"
-							onmouseout="hideddrivetip()"><input type="radio" name="<%=Constants.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom" value="custom"
+							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_VISIBLEDATE%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom" value="custom"
 							<%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == false)  
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='';
-							document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled=''">
+							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>').disabled='';
+							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>').disabled=''">
 							<input style="width: 100px;" type="text"
-							name="<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>"
-							onclick="cal.select(this,'<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>','dd/MM/yyyy')"
+							name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
+							onclick="cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>','dd/MM/yyyy')"
 							value="<%=TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.sessionVisibleFromTime)%>"
 							readonly="readonly" tabindex="3"
 							<%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == true)  
 									out.print("disabled=\"disabled\"");%>							
 							> @ <select
 							style="width: 70px;"
-							name="<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLETIME%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLETIME%>" tabindex="4"
+							name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>" tabindex="4"
 							<%Date date = null;
 								if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == true) {  
 									out.print("disabled=\"disabled\"");
@@ -109,38 +109,38 @@
 									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
-						<td onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
 							onmouseout="hideddrivetip()" class="nowrap">
-							<input type="radio" name="<%=Constants.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" value="atopen"
-							<%if(data.session.sessionVisibleFromTime.equals(Constants.TIME_REPRESENTS_FOLLOW_OPENING)) 
+							<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" value="atopen"
+							<%if(data.session.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) 
 									out.print("checked=\"checked\"");%>							
-							onclick="document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled';
-							document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
+							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled';
+							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
 							 At submission opening time</td>
-						<td colspan="2" onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
-							onmouseout="hideddrivetip()"><input type="radio" name="<%=Constants.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never"
-							<%if(data.session.sessionVisibleFromTime.equals(Constants.TIME_REPRESENTS_NEVER)) 
+						<td colspan="2" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never"
+							<%if(data.session.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled'
-							document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
+							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled'
+							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
 							 Never</td>
 					</tr>
 					<tr>
-						<td class="label bold" onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_RESULTSVISIBLELABEL%>')"
+						<td class="label bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELABEL%>')"
 							onmouseout="hideddrivetip()">Responses visible from:</td>
-						<td onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_PUBLISHDATE%>')"
-							onmouseout="hideddrivetip()"><input type="radio" name="<%=Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom" value="custom"
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom" value="custom"
 							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == false) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled=''
-							document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled=''"> 
+							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>').disabled=''
+							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>').disabled=''"> 
 							<input style="width: 100px;" type="text"
-							name="<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>"
-							onclick="if(document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){cal.select(this,'<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>','dd/MM/yyyy');}
+							name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
+							onclick="if(document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>','dd/MM/yyyy');}
 							else{return false;}"
 							value="<%=TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.resultsVisibleFromTime)%>"
 							readonly="readonly" tabindex="5"
@@ -148,8 +148,8 @@
 									out.print("disabled=\"disabled\"");%>
 							> @ <select
 							style="width: 70px;"
-							name="<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>" tabindex="6"
+							name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>" tabindex="6"
 							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == true) {
 									out.print("disabled=\"disabled\"");
 									date = null;
@@ -161,70 +161,70 @@
 									for(String opt: data.getTimeOptionsAsHtml(date)) out.println(opt);
 								%>
 						</select></td>
-						<td onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
-							onmouseout="hideddrivetip()"><input type="radio" name="<%=Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
-							<%if(data.session.resultsVisibleFromTime.equals(Constants.TIME_REPRESENTS_FOLLOW_VISIBLE)) 
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
+							onmouseout="hideddrivetip()"><input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
+							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
-							document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
+							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
+							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
 							 Once the session is visible</td>
-						<td onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
-							<%if(data.session.resultsVisibleFromTime.equals(Constants.TIME_REPRESENTS_LATER)) 
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
+							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
-							document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
+							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
+							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
 							 Decide later </td>
-						<td onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
 							onmouseout="hideddrivetip()"><input type="radio"
-							name="<%=Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
-							<%if(data.session.resultsVisibleFromTime.equals(Constants.TIME_REPRESENTS_NEVER)) 
+							name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
+							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) 
 									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled'
-							document.getElementById('<%=Constants.PARAM_FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
+							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled'
+							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
 							 Never</td>
 					</tr>
 					<tr>
 						<td class="label bold">Opening time:</td>
-						<td class="nowrap" onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_STARTDATE%>')"
+						<td class="nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_STARTDATE%>')"
 							onmouseout="hideddrivetip()"><input style="width: 100px;" type="text"
-							name="<%=Constants.PARAM_FEEDBACK_SESSION_STARTDATE%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_STARTDATE%>"
-							onclick="cal.select(this,'<%=Constants.PARAM_FEEDBACK_SESSION_STARTDATE%>','dd/MM/yyyy')"
+							name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
+							onclick="cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>','dd/MM/yyyy')"
 							value="<%=TimeHelper.formatDate(data.session.startTime)%>"
 							readonly="readonly" tabindex="7"> @ <select
 							style="width: 70px;"
-							name="<%=Constants.PARAM_FEEDBACK_SESSION_STARTTIME%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_STARTTIME%>" tabindex="4">
+							name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>" tabindex="4">
 								<%
 									for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
 								%>
 						</select></td>
-						<td class="nowrap" onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_ENDDATE%>')"
+						<td class="nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>')"
 							onmouseout="hideddrivetip()">
 							<span class="label bold">Closing Time: </span> 
 							<input style="width: 100px;" type="text"
-							name="<%=Constants.PARAM_FEEDBACK_SESSION_ENDDATE%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_ENDDATE%>"
-							onclick="cal.select(this,'<%=Constants.PARAM_FEEDBACK_SESSION_ENDDATE%>','dd/MM/yyyy')"							
+							name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
+							onclick="cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>','dd/MM/yyyy')"							
 							value="<%=TimeHelper.formatDate(data.session.endTime)%>"
 							readonly="readonly" tabindex="8"> @ <select
 							style="width: 70px;"
-							name="<%=Constants.PARAM_FEEDBACK_SESSION_ENDTIME%>"
-							id="<%=Constants.PARAM_FEEDBACK_SESSION_ENDTIME%>" tabindex="4">							
+							name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>"
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>" tabindex="4">							
 							<%
 															for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
 														%>
 						</select></td>
-						<td class="label bold rightalign nowrap" onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_GRACEPERIOD%>')"
+						<td class="label bold rightalign nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
 							onmouseout="hideddrivetip()">Grace Period:</td>
-						<td onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_GRACEPERIOD%>')"
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
 							onmouseout="hideddrivetip()">
-							<select style="width: 75px;" name="<%=Constants.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>"
-								id="<%=Constants.PARAM_FEEDBACK_SESSION_GRACEPERIOD%>" tabindex="7">
+							<select style="width: 75px;" name="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
+								id="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>" tabindex="7">
 									<%
 										for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
 									%>
@@ -233,8 +233,8 @@
 					<tr>
 						<td class="label bold" >Instructions to students:</td>
 						<td colspan="4" style="padding-right:15px;">
-							<textarea rows="4" style="width:100%;" class="textvalue" name="<%=Constants.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Constants.PARAM_FEEDBACK_SESSION_INSTRUCTIONS%>"
-								onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_SESSION_INSTRUCTIONS%>')"
+							<textarea rows="4" style="width:100%;" class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>')"
 								onmouseout="hideddrivetip()" tabindex="8"><%=InstructorFeedbackEditPageData.sanitizeForHtml(data.session.instructions.getValue())%></textarea>
 							
 						</td>
@@ -245,19 +245,19 @@
 							value="Save Changes"></td>
 					</tr>
 				</table>
-				<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-				<input type="hidden" name="<%=Constants.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
-				<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+				<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 			<br>
-			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			
 			<%
 							if (data.questions.isEmpty()) {
 						%>
-				<div class="centeralign bold" id="empty_message"><%=Constants.STATUS_FEEDBACK_QUESTION_EMPTY%></div><br><br>
+				<div class="centeralign bold" id="empty_message"><%=Const.StatusMessages.FEEDBACK_QUESTION_EMPTY%></div><br><br>
 			<%
 				}
 			%>
@@ -265,40 +265,40 @@
 			<%
 							for(FeedbackQuestionAttributes question : data.questions) {
 						%>
-			<form method="post" action="<%=Constants.ACTION_INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>" id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions" class="form_question" onsubmit="tallyCheckboxes(<%=question.questionNumber%>)">
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>" id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions" class="form_question" onsubmit="tallyCheckboxes(<%=question.questionNumber%>)">
 			<table class="inputTable questionTable" id="questionTable<%=question.questionNumber%>">
 			<tr>
 				<td class="bold">Question <%=question.questionNumber%></td>
 				<td></td>
 				<td></td>
 				<td class="rightalign">
-				<a href="#" class="color_blue pad_right" id="<%=Constants.PARAM_FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
-				onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
+				<a href="#" class="color_blue pad_right" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
+				onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
 				onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
 				<a href="#" class="color_green pad_right" style="display:none"
-				 id="<%=Constants.PARAM_FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
+				 id="<%=Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
 				<a href="#" class="color_red" onclick="deleteQuestion(<%=question.questionNumber%>)"
-				onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete</a>
+				onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete</a>
 				</td>
 			</tr>
 			<tr>
 					<td colspan="4"><textarea rows="5" style="width:100%"
-							class="textvalue" name="<%=Constants.PARAM_FEEDBACK_QUESTION_TEXT%>"
-							id="<%=Constants.PARAM_FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
-							onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
+							class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
+							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
+							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
 							onmouseout="hideddrivetip()" tabindex="9"
 							disabled="disabled"><%=question.questionText.getValue()%></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td class="bold">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Constants.PARAM_FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Constants.PARAM_FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled">
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled">
 						<%
 							for(String opt: data.getParticipantOptions(question, true)) out.println(opt);
 						%>
 					</select></td>
 					<td class="bold nowrap">Feedback Recipient:</td>
-					<td><select class="participantSelect" name="<%=Constants.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Constants.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" disabled="disabled">
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" disabled="disabled">
 						<%
 							for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
 						%>
@@ -307,11 +307,11 @@
 				<tr>
 					<td class="bold nowrap"><a class="visibilityOptionsLabel color_brown" href="#" onclick="toggleVisibilityOptions(this)">[+] Show Visibility Options</a></td>
 					<td></td>
-					<td class="numberOfEntitiesElements<%=question.questionNumber%>"><span id="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="bold">The maximum number of <span id="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-<%=question.questionNumber%>" class="bold"></span> each<br>respondant should give feedback to:</span></td>
+					<td class="numberOfEntitiesElements<%=question.questionNumber%>"><span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="bold">The maximum number of <span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-<%=question.questionNumber%>" class="bold"></span> each<br>respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements<%=question.questionNumber%>">
-					<input type="radio" name="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Constants.MAX_POSSIBLE_RECIPIENTS ? "" : "checked=\"checked\""%> value="custom" disabled="disabled"> 
-					<input type="number" class="numberOfEntitiesBox" name="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-<%=question.questionNumber%>"  min="1" max="250" value=<%=question.numberOfEntitiesToGiveFeedbackTo == Constants.MAX_POSSIBLE_RECIPIENTS ? 1 : question.numberOfEntitiesToGiveFeedbackTo%> disabled="disabled"> 
-					<input type="radio" name="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Constants.MAX_POSSIBLE_RECIPIENTS ? "checked=\"checked\"" : ""%> value="max" disabled="disabled"> 
+					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ? "" : "checked=\"checked\""%> value="custom" disabled="disabled"> 
+					<input type="number" class="numberOfEntitiesBox" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>-<%=question.questionNumber%>"  min="1" max="250" value=<%=question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ? 1 : question.numberOfEntitiesToGiveFeedbackTo%> disabled="disabled"> 
+					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ? "checked=\"checked\"" : ""%> value="max" disabled="disabled"> 
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -379,15 +379,15 @@
 						style="display:none"></td>
 				</tr>
 			</table>
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-			<input type="hidden" name="<%=Constants.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_ID%>" value="<%=question.getId()%>">
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBER%>" value="<%=question.questionNumber%>">
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_EDITTYPE%>" id="<%=Constants.PARAM_FEEDBACK_QUESTION_EDITTYPE%>-<%=question.questionNumber%>" value="edit">
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
-			<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+			<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="<%=question.getId()%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="<%=question.questionNumber%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE%>-<%=question.questionNumber%>" value="edit">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO%>" >
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
+			<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			<br><br>
 			<%
@@ -397,7 +397,7 @@
 			<input id="button_openframe" class="button centeralign" value="Add New Question" 
 						onclick="showNewQuestionFrame()">
 			</div>
-			<form method="post" action="<%=Constants.ACTION_INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
 			<table class="inputTable questionTable" id="questionTableNew" hidden="hidden">
 				<tr>
 					<td class="bold">Question <%=data.questions.size()+1%></td>
@@ -407,21 +407,21 @@
 				</tr>
 				<tr>
 					<td colspan="4"><textarea rows="5" cols="140"
-							class="textvalue" name="<%=Constants.PARAM_FEEDBACK_QUESTION_TEXT%>"
-							id="<%=Constants.PARAM_FEEDBACK_QUESTION_TEXT%>"
-							onmouseover="ddrivetip('<%=Constants.TOOLTIP_FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
+							class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
+							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
+							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
 							onmouseout="hideddrivetip()" tabindex="9"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td class="bold">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Constants.PARAM_FEEDBACK_QUESTION_GIVERTYPE%>">
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>">
 						<%
 							for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
 						%>
 					</select></td>
 					<td class="bold nowrap">Feedback Recipient:</td>
-					<td><select class="participantSelect" id="<%=Constants.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Constants.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE%>">
+					<td><select class="participantSelect" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>">
 						<%
 							for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
 						%>
@@ -430,11 +430,11 @@
 				</tr>
 				<tr>
 					<td></td><td></td>
-					<td class="numberOfEntitiesElements"><span id="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="bold">The maximum number of <span id="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-" class="bold"></span> <br>each respondant should give feedback to:</span></td>
+					<td class="numberOfEntitiesElements"><span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="bold">The maximum number of <span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-" class="bold"></span> <br>each respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements">
-					<input type="radio" name="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="custom" checked="checked"> 
-					<input type="number" class="numberOfEntitiesBox" id="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>-" name="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES%>" min="1" max="250" value="1"> 
-					<input type="radio" name="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="max"> 					
+					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="custom" checked="checked"> 
+					<input type="number" class="numberOfEntitiesBox" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>-" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>" min="1" max="250" value="1"> 
+					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="max"> 					
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -487,20 +487,20 @@
 					</td>					
 				</tr>
 			</table>
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_NUMBER%>" value="<%=data.questions.size()+1%>">
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-			<input type="hidden" name="<%=Constants.PARAM_COURSE_ID%>" value="<%=data.session.courseId%>">
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO%>" >
-			<input type="hidden" name="<%=Constants.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
-			<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="<%=data.questions.size()+1%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+			<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO%>" >
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
+			<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 		</form>			
 		<br><br>
 		</div>
 	</div>
 	
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

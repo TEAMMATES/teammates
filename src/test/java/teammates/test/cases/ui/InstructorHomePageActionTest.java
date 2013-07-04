@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.EvaluationsLogic;
 import teammates.test.cases.common.EvaluationAttributesTest;
@@ -24,7 +24,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_HOME;
+		uri = Const.ActionURIs.INSTRUCTOR_HOME;
 	}
 
 	@BeforeMethod

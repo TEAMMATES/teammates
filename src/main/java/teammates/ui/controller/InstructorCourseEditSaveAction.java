@@ -6,7 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseEditSaveAction extends Action {
@@ -15,9 +15,9 @@ public class InstructorCourseEditSaveAction extends Action {
 
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String instructorList = getRequestParam(Constants.PARAM_COURSE_INSTRUCTOR_LIST);
+		String instructorList = getRequestParam(Const.ParamsNames.COURSE_INSTRUCTOR_LIST);
 		Assumption.assertNotNull(instructorList);
 		
 		new GateKeeper().verifyAccessible(
@@ -27,7 +27,7 @@ public class InstructorCourseEditSaveAction extends Action {
 		String institute = account.institute;
 		try{
 			logic.updateCourseInstructors(courseId, instructorList, institute);				
-			statusToUser.add(Constants.STATUS_COURSE_EDITED);
+			statusToUser.add(Const.StatusMessages.COURSE_EDITED);
 			
 			statusToAdmin = "Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>" +
 					"New Instructor List: <br> - " + instructorList.replace("\n", "<br> - ");
@@ -38,7 +38,7 @@ public class InstructorCourseEditSaveAction extends Action {
 			isError = true;
 		}
 		
-		return createRedirectResult(Constants.ACTION_INSTRUCTOR_COURSES);
+		return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES);
 
 	}
 

@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Constants"%>
+<%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
@@ -32,7 +32,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -63,11 +63,11 @@
 					<th colspan="2" width="10%" class="bold leftalign">
 						<span class="resultHeader"><%=byReviewee ? "Reviewee" : "Reviewer"%>: </span><%=data.student.name%></th>
 					<th class="bold leftalign"><span class="resultHeader"
-							onmouseover="ddrivetip('<%=Constants.TOOLTIP_CLAIMED%>')"
+							onmouseover="ddrivetip('<%=Const.Tooltips.CLAIMED%>')"
 							onmouseout="hideddrivetip()">
 						Claimed Contribution: </span><%=InstructorEvalSubmissionViewPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.claimedToInstructor,true)%></th>
 					<th class="bold leftalign"><span class="resultHeader"
-							onmouseover="ddrivetip('<%=Constants.TOOLTIP_PERCEIVED%>')"
+							onmouseover="ddrivetip('<%=Const.Tooltips.PERCEIVED%>')"
 							onmouseout="hideddrivetip()">
 						Perceived Contribution: </span><%=InstructorEvalSubmissionViewPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.perceivedToInstructor,true)%></th>
 				</tr></thead>
@@ -87,7 +87,7 @@
 				</tr>
 				<%
 					for(SubmissionAttributes sub: (byReviewee ? data.studentResult.incoming : data.studentResult.outgoing)){
-														if(sub.reviewer.equals(sub.reviewee)) continue;
+																if(sub.reviewer.equals(sub.reviewee)) continue;
 				%>
 					<tr>
 						<td><b><%=InstructorEvalSubmissionViewPageData.sanitizeForHtml(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
@@ -115,7 +115,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

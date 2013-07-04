@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Constants"%>
+<%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
@@ -34,7 +34,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -44,27 +44,27 @@
 				<h1>Edit Evaluation</h1>
 			</div>
 			
-			<form method="post" action="<%=Constants.ACTION_INSTRUCTOR_EVAL_EDIT_SAVE%>" name="form_addevaluation">
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_SAVE%>" name="form_addevaluation">
 				<table class="inputTable" id="instructorEvaluationManagement">
 					<tr>
 						<td class="label bold" >Course ID:</td>
 						<td style="vertical-align: middle;">
-							<input type="hidden" name="<%=Constants.PARAM_COURSE_ID%>" value="<%=data.evaluation.courseId%>">
+							<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.evaluation.courseId%>">
 							<%=data.evaluation.courseId%>
 						</td>
 						<td class="label bold" >Opening time:</td>
 						<td><input style="width: 100px;" type="text"
-									name="<%=Constants.PARAM_EVALUATION_START%>"
-									id="<%=Constants.PARAM_EVALUATION_START%>" 
-									onclick ="cal.select(this,'<%=Constants.PARAM_EVALUATION_START%>','dd/MM/yyyy')"
-									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_START%>')"
+									name="<%=Const.ParamsNames.EVALUATION_START%>"
+									id="<%=Const.ParamsNames.EVALUATION_START%>" 
+									onclick ="cal.select(this,'<%=Const.ParamsNames.EVALUATION_START%>','dd/MM/yyyy')"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_START%>')"
 									onmouseout="hideddrivetip()"
 									value="<%=TimeHelper.formatDate(data.evaluation.startTime)%>"
 									readonly="readonly" tabindex="3">
 									@
 							<select style="width: 70px;"
-									name="<%=Constants.PARAM_EVALUATION_STARTTIME%>"
-									id="<%=Constants.PARAM_EVALUATION_STARTTIME%>"
+									name="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"
+									id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"
 									tabindex="4">
 								<%
 									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
@@ -74,21 +74,21 @@
 					<tr>
 						<td class="label bold" >Evaluation name:</td>
 						<td style="vertical-align: middle;">
-							<input type="hidden" name="<%=Constants.PARAM_EVALUATION_NAME%>" value="<%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.name)%>">
+							<input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.name)%>">
 							<%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.name)%>
 						</td>
 						<td class="label bold" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
-									name="<%=Constants.PARAM_EVALUATION_DEADLINE%>" id="<%=Constants.PARAM_EVALUATION_DEADLINE%>"
-									onclick ="cal.select(this,'<%=Constants.PARAM_EVALUATION_DEADLINE%>','dd/MM/yyyy')"
-									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_DEADLINE%>')"
+									name="<%=Const.ParamsNames.EVALUATION_DEADLINE%>" id="<%=Const.ParamsNames.EVALUATION_DEADLINE%>"
+									onclick ="cal.select(this,'<%=Const.ParamsNames.EVALUATION_DEADLINE%>','dd/MM/yyyy')"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_DEADLINE%>')"
 									onmouseout="hideddrivetip()"
 									value="<%=TimeHelper.formatDate(data.evaluation.endTime)%>"
 									readonly="readonly" tabindex="5">
 									@
 							<select style="width: 70px;"
-									name="<%=Constants.PARAM_EVALUATION_DEADLINETIME%>"
-									id="<%=Constants.PARAM_EVALUATION_DEADLINETIME%>"
+									name="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"
+									id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"
 									tabindex="6">
 								<%
 									for(String opt: data.getTimeOptionsAsHtml(false)) out.println(opt);
@@ -97,28 +97,28 @@
 					</tr>
 					<tr>
 						<td class="label bold" >Peer feedback:</td>
-						<td><input type="radio" name="<%=Constants.PARAM_EVALUATION_COMMENTSENABLED%>"
+						<td><input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
 									id="commentsstatus_enabled" value="true"
 									<%=data.evaluation.p2pEnabled ? "checked=\"checked\"" : ""%>
-									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_COMMENTSSTATUS%>')"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>')"
 									onmouseout="hideddrivetip()">
 							<label for="commentsstatus_enabled">Enabled</label>
-							<input type="radio" name="<%=Constants.PARAM_EVALUATION_COMMENTSENABLED%>"
+							<input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
 									id="commentsstatus_disabled" value="false"
 									<%=!data.evaluation.p2pEnabled ? "checked=\"checked\"" : ""%>
-									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_COMMENTSSTATUS%>')"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>')"
 									onmouseout="hideddrivetip()">
 							<label for="commentsstatus_disabled">Disabled</label>
 						</td>
 						<td class="bold label" >Time zone:</td>
-						<td><select style="width: 100px;" name="<%=Constants.PARAM_EVALUATION_TIMEZONE%>" id="<%=Constants.PARAM_EVALUATION_TIMEZONE%>"
-									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_TIMEZONE%>')"
+						<td><select style="width: 100px;" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>" id="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>')"
 									onmouseout="hideddrivetip()" disabled="disabled" tabindex="7">
 							<%
 								for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
 							%>
 							</select>
-							<input type="hidden" name="<%=Constants.PARAM_EVALUATION_TIMEZONE%>" value="<%=data.evaluation.timeZone%>">
+							<input type="hidden" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>" value="<%=data.evaluation.timeZone%>">
 						</td>
 					</tr>
 					<tr>
@@ -126,9 +126,9 @@
 					<td></td>
 					<td class="bold label" >Grace Period:</td>
 					<td class="inputField">
-						<select style="width: 70px;" name="<%=Constants.PARAM_EVALUATION_GRACEPERIOD%>"
-								id="<%=Constants.PARAM_EVALUATION_GRACEPERIOD%>"
-								onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_GRACEPERIOD%>')"
+						<select style="width: 70px;" name="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
+								id="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
 								onmouseout="hideddrivetip()" tabindex="7">
 							<%
 								for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
@@ -139,8 +139,8 @@
 						<td class="label bold middlealign">Instructions to students:</td>
 						<td colspan="3">
 						<table><tr><td>
-							<textarea rows="3" cols="90" class="textvalue" name="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>"
-									onmouseover="ddrivetip('<%=Constants.TOOLTIP_EVALUATION_INPUT_INSTRUCTIONS%>')"
+							<textarea rows="3" cols="90" class="textvalue" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>')"
 									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.instructions)%></textarea>
 							<p align=right><font color=grey>[maximum length = 500 characters]</font></p>
 						</td></tr></table>
@@ -156,11 +156,11 @@
 									value="Cancel" tabindex="10"></td>
 					</tr>
 				</table>
-				<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 			<br>
-			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			<br>
 			<br>
@@ -168,7 +168,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

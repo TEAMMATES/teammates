@@ -16,7 +16,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
@@ -167,7 +167,7 @@ public class StudentsLogic {
 				enrollLines);
 
 		ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
-		String[] linesArray = enrollLines.split(Constants.EOL);
+		String[] linesArray = enrollLines.split(Const.EOL);
 		ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
 
 		// check if all non-empty lines are formatted correctly
@@ -179,7 +179,7 @@ public class StudentsLogic {
 				studentList.add(new StudentAttributes(line, courseId));
 			} catch (EnrollException e) {
 				throw new EnrollException(e.errorCode, "Problem in line : "
-						+ line + Constants.EOL + e.getMessage());
+						+ line + Const.EOL + e.getMessage());
 			}
 		}
 
@@ -281,7 +281,7 @@ public class StudentsLogic {
 			//TODO: need better error handling here. This error is not 'unexpected'. e.g., invalid student data
 			updateStatus = UpdateStatus.ERROR;
 			String errorMessage = "Exception thrown unexpectedly while enrolling student: " 
-					+ validStudentAttributes.toString() + Constants.EOL + TeammatesException.toStringWithStackTrace(e);
+					+ validStudentAttributes.toString() + Const.EOL + TeammatesException.toStringWithStackTrace(e);
 			log.severe(errorMessage);
 		}
 		validStudentAttributes.updateStatus = updateStatus;

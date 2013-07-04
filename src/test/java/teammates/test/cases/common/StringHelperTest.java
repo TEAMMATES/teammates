@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -25,8 +25,8 @@ public class StringHelperTest extends BaseTestCase {
 		assertEquals(true, StringHelper.isWhiteSpace(""));
 		assertEquals(true, StringHelper.isWhiteSpace("       "));
 		assertEquals(true, StringHelper.isWhiteSpace("\t\n\t"));
-		assertEquals(true, StringHelper.isWhiteSpace(Constants.EOL));
-		assertEquals(true, StringHelper.isWhiteSpace(Constants.EOL + "   "));
+		assertEquals(true, StringHelper.isWhiteSpace(Const.EOL));
+		assertEquals(true, StringHelper.isWhiteSpace(Const.EOL + "   "));
 	}
 
 	@Test 

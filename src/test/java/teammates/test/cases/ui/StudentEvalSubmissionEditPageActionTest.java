@@ -11,7 +11,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
 
@@ -23,7 +23,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT;
+		uri = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT;
 	}
 
 	@BeforeMethod
@@ -89,14 +89,14 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		
 		
 		String[] submissionParams = new String[]{
-				Constants.PARAM_COURSE_ID, courseId,
-				Constants.PARAM_EVALUATION_NAME, evalName};
+				Const.ParamsNames.COURSE_ID, courseId,
+				Const.ParamsNames.EVALUATION_NAME, evalName};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		
 		gaeSimulation.loginUser("unreg.user");
 		//if the user is not a student of the course, we redirect to home page.
-		verifyRedirectTo(Constants.ACTION_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		if(isEditableForStudent){
@@ -108,7 +108,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
 		
 		gaeSimulation.loginAsInstructor(instructorId);
 		//if the user is not a student of the course, we redirect to home page.
-		verifyRedirectTo(Constants.ACTION_STUDENT_HOME, submissionParams);
+		verifyRedirectTo(Const.ActionURIs.STUDENT_HOME, submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
 		
 		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);

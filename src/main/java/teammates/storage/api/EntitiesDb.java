@@ -9,7 +9,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.datastore.Datastore;
 
@@ -32,7 +32,7 @@ public abstract class EntitiesDb {
 			throws InvalidParametersException, EntityAlreadyExistsException {
 
 		Assumption.assertNotNull(
-				Constants.ERROR_DBLEVEL_NULL_INPUT, entityToAdd);
+				Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
 		
 		if (!entityToAdd.isValid()) {
 			throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
@@ -74,7 +74,7 @@ public abstract class EntitiesDb {
 	 * <br> * {@code courseId} is not null.
 	 */
 	public void deleteEntity(EntityAttributes entityToDelete) {
-		Assumption.assertNotNull(Constants.ERROR_DBLEVEL_NULL_INPUT, entityToDelete);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
 		Object entity = getEntity(entityToDelete);
 

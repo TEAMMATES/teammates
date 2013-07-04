@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 
 public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
@@ -15,7 +15,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_FEEDBACK_EDIT_SAVE;
+		uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
 	}
 
 	@BeforeMethod

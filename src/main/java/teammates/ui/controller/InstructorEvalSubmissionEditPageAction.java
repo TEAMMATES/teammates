@@ -4,7 +4,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalSubmissionEditPageAction extends Action {
@@ -15,14 +15,14 @@ public class InstructorEvalSubmissionEditPageAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Constants.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
-		String studentEmail = getRequestParam(Constants.PARAM_STUDENT_EMAIL); 
-		//Note: in InstructorEvalSubmissionEditPageData we use Common.PARAM_FROM_EMAIL instead
+		String studentEmail = getRequestParam(Const.ParamsNames.STUDENT_EMAIL); 
+		//Note: in InstructorEvalSubmissionEditPageData we use Common.Params.FROM_EMAIL instead
 		Assumption.assertNotNull(studentEmail);
 		
 		new GateKeeper().verifyAccessible(
@@ -51,7 +51,7 @@ public class InstructorEvalSubmissionEditPageAction extends Action {
 				"for Course <span class=\"bold\">[" + courseId + "]</span>";
 		
 		
-		ShowPageResult response = createShowPageResult(Constants.VIEW_INSTRUCTOR_EVAL_SUBMISSION_EDIT, data);
+		ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT, data);
 		return response;
 
 	}

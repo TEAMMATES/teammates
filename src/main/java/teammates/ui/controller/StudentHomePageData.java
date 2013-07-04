@@ -9,7 +9,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.Url;
 
 public class StudentHomePageData extends PageData {
@@ -58,15 +58,15 @@ public class StudentHomePageData extends PageData {
 		Boolean hasSubmitted = sessionSubmissionStatusMap.get(session.courseId+"%"+session.feedbackSessionName);
 		
 		if (hasSubmitted){
-			msg += Constants.TOOLTIP_STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED;
+			msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED;
 		} else {
-			msg += Constants.TOOLTIP_STUDENT_FEEDBACK_SESSION_STATUS_PENDING;
+			msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING;
 		}		
 		if (session.isClosed()){
-			msg += Constants.TOOLTIP_STUDENT_FEEDBACK_SESSION_STATUS_CLOSED;
+			msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED;
 		}
 		if (session.isPublished()) {
-			msg += Constants.TOOLTIP_STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED;
+			msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED;
 		}
 		return msg;
 	}
@@ -78,47 +78,47 @@ public class StudentHomePageData extends PageData {
 	 * @return The hover message to explain evaluation submission status.
 	 */
 	public String getStudentHoverMessageForEval(String submissionStatus){
-		if(submissionStatus.equals(Constants.STUDENT_EVALUATION_STATUS_PENDING)){
-			return Constants.TOOLTIP_STUDENT_EVALUATION_STATUS_PENDING;
-		} else if(submissionStatus.equals(Constants.STUDENT_EVALUATION_STATUS_SUBMITTED)){
-			return Constants.TOOLTIP_STUDENT_EVALUATION_STATUS_SUBMITTED;
-		} else if(submissionStatus.equals(Constants.STUDENT_EVALUATION_STATUS_CLOSED)){
-			return Constants.TOOLTIP_STUDENT_EVALUATION_STATUS_CLOSED;
-		} else if(submissionStatus.equals(Constants.STUDENT_EVALUATION_STATUS_PUBLISHED)){
-			return Constants.TOOLTIP_STUDENT_EVALUATION_STATUS_PUBLISHED;
+		if(submissionStatus.equals(Const.STUDENT_EVALUATION_STATUS_PENDING)){
+			return Const.Tooltips.STUDENT_EVALUATION_STATUS_PENDING;
+		} else if(submissionStatus.equals(Const.STUDENT_EVALUATION_STATUS_SUBMITTED)){
+			return Const.Tooltips.STUDENT_EVALUATION_STATUS_SUBMITTED;
+		} else if(submissionStatus.equals(Const.STUDENT_EVALUATION_STATUS_CLOSED)){
+			return Const.Tooltips.STUDENT_EVALUATION_STATUS_CLOSED;
+		} else if(submissionStatus.equals(Const.STUDENT_EVALUATION_STATUS_PUBLISHED)){
+			return Const.Tooltips.STUDENT_EVALUATION_STATUS_PUBLISHED;
 		} else {
-			return Constants.TOOLTIP_STUDENT_EVALUATION_STATUS_ERROR;
+			return Const.Tooltips.STUDENT_EVALUATION_STATUS_ERROR;
 		}
 	}
 	
 	
 	
 	public String getStudentCourseDetailsLink(String courseId){
-		String link = Constants.ACTION_STUDENT_COURSE_DETAILS;
-		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseId);
+		String link = Const.ActionURIs.STUDENT_COURSE_DETAILS;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
 		return link;
 	}
 	
 	public String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
-		String link = Constants.ACTION_STUDENT_FEEDBACK_EDIT;
-		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseId);
-		link = Url.addParamToUrl(link,Constants.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		String link = Const.ActionURIs.STUDENT_FEEDBACK_EDIT;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
-		String link = Constants.ACTION_STUDENT_FEEDBACK_RESULTS;
-		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseId);
-		link = Url.addParamToUrl(link,Constants.PARAM_FEEDBACK_SESSION_NAME,feedbackSessionName);
+		String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
 		link = addUserIdToUrl(link);
 		return link;
 	}
 	
 	public String getStudentEvaluationResultsLink(String courseID, String evalName){
-		String link = Constants.ACTION_STUDENT_EVAL_RESULTS;
-		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseID);
-		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
+		String link = Const.ActionURIs.STUDENT_EVAL_RESULTS;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
 		return link;
 	}
 	
@@ -127,9 +127,9 @@ public class StudentHomePageData extends PageData {
 	 * @return The link to submit or edit a submission for a specific evaluation.
 	 */
 	public String getStudentEvaluationSubmissionEditLink(String courseID, String evalName){
-		String link = Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT;
-		link = Url.addParamToUrl(link,Constants.PARAM_COURSE_ID,courseID);
-		link = Url.addParamToUrl(link,Constants.PARAM_EVALUATION_NAME,evalName);
+		String link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
 		return link;
 	}
 	
@@ -139,27 +139,27 @@ public class StudentHomePageData extends PageData {
 	public String getStudentEvaluationActions(EvaluationAttributes eval, int idx) {
 		String studentStatus = getStudentStatusForEval(eval);
 		
-		if (studentStatus.equals(Constants.STUDENT_EVALUATION_STATUS_PENDING)) {
+		if (studentStatus.equals(Const.STUDENT_EVALUATION_STATUS_PENDING)) {
 			return "<a class=\"color_black\" id=\"submitEvaluation"
 					+ idx
 					+ "\" "
 					+ "href=\""
 					+ getStudentEvaluationSubmissionEditLink(eval.courseId,
 							eval.name) + "\" " + "onmouseover=\"ddrivetip('"
-					+ Constants.TOOLTIP_EVALUATION_SUBMIT + "')\" "
+					+ Const.Tooltips.EVALUATION_SUBMIT + "')\" "
 					+ "onmouseout=\"hideddrivetip()\">Submit</a>";
 		}
 		
 		
 		boolean hasView = false;
 		boolean hasEdit = false;
-		if (studentStatus.equals(Constants.STUDENT_EVALUATION_STATUS_PUBLISHED)) {
+		if (studentStatus.equals(Const.STUDENT_EVALUATION_STATUS_PUBLISHED)) {
 			hasView = true;
 		} else if (studentStatus
-				.equals(Constants.STUDENT_EVALUATION_STATUS_SUBMITTED)) {
+				.equals(Const.STUDENT_EVALUATION_STATUS_SUBMITTED)) {
 			hasEdit = true;
 		} else if (studentStatus
-				.equals(Constants.STUDENT_EVALUATION_STATUS_CLOSED)) {
+				.equals(Const.STUDENT_EVALUATION_STATUS_CLOSED)) {
 			hasEdit = true;
 		}
 		
@@ -168,14 +168,14 @@ public class StudentHomePageData extends PageData {
 				+ getStudentEvaluationResultsLink(eval.courseId, eval.name)
 				+ "\" " + "name=\"viewEvaluationResults"
 				+ idx + "\" " + " id=\"viewEvaluationResults" + idx + "\" "
-				+ "onmouseover=\"ddrivetip('" + Constants.TOOLTIP_EVALUATION_RESULTS
+				+ "onmouseover=\"ddrivetip('" + Const.Tooltips.EVALUATION_RESULTS
 				+ "')\" " + "onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED)
 				+ ">" + "View Results</a>" + "<a class=\"color_black\" href=\""
 				+ getStudentEvaluationSubmissionEditLink(eval.courseId, eval.name)
 				+ "\" " + "name=\"editEvaluationSubmission" + idx
 				+ "\" id=\"editEvaluationSubmission" + idx + "\" "
 				+ "onmouseover=\"ddrivetip('"
-				+ Constants.TOOLTIP_EVALUATION_EDIT_SUBMISSION
+				+ Const.Tooltips.EVALUATION_EDIT_SUBMISSION
 				+ "')\" onmouseout=\"hideddrivetip()\" "
 				+ (hasEdit ? "" : DISABLED) + ">Edit/View Submission</a>";
 		// @formatter:off
@@ -198,7 +198,7 @@ public class StudentHomePageData extends PageData {
 				+ getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName)
 				+ "\" " + "name=\"viewFeedbackResults"
 				+ idx + "\" " + " id=\"viewFeedbackResults" + idx + "\" "
-				+ "onmouseover=\"ddrivetip('" + Constants.TOOLTIP_FEEDBACK_SESSION_RESULTS
+				+ "onmouseover=\"ddrivetip('" + Const.Tooltips.FEEDBACK_SESSION_RESULTS
 				+ "')\" " + "onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED)
 				+ ">" + "View Responses</a>";
 				
@@ -208,7 +208,7 @@ public class StudentHomePageData extends PageData {
 					+ "\" " + "name=\"editFeedbackResponses" + idx
 					+ "\" id=\"editFeedbackResponses" + idx + "\" "
 					+ "onmouseover=\"ddrivetip('"
-					+ Constants.TOOLTIP_FEEDBACK_SESSION_EDIT_RESPONSE
+					+ Const.Tooltips.FEEDBACK_SESSION_EDIT_RESPONSE
 					+ "')\" onmouseout=\"hideddrivetip()\" "
 					+ (hasEdit ? "" : DISABLED) + ">Edit/View Submission</a>";
 		} else {
@@ -218,7 +218,7 @@ public class StudentHomePageData extends PageData {
 					+ "href=\""
 					+ getStudentFeedbackResponseEditLink(fs.courseId,
 						fs.feedbackSessionName) + "\" " + "onmouseover=\"ddrivetip('"
-					+ Constants.TOOLTIP_FEEDBACK_SESSION_SUBMIT + "')\" "
+					+ Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "')\" "
 					+ "onmouseout=\"hideddrivetip()\">Submit Feedback</a>";	
 		}
 		// @formatter:off

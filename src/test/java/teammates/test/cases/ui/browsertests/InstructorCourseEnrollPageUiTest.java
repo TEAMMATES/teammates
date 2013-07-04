@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -62,7 +62,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		
 		______TS("typical enroll page");
 		
-		enrollUrl = new Url(Constants.ACTION_INSTRUCTOR_COURSE_ENROLL)
+		enrollUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL)
 		.withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
 		.withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
 		
@@ -107,7 +107,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		
 		//ensure students were actually enrolled
 		String courseId = testData.courses.get("CCEnrollUiT.CS2104").id;
-		Url coursesPageUrl = new Url(Constants.ACTION_INSTRUCTOR_COURSE_DETAILS)
+		Url coursesPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS)
 			.withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
 			.withCourseId(courseId);
 		InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
@@ -120,7 +120,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		BackDoor.createCourse(testData.courses.get("CCEnrollUiT.CS2104"));
 		BackDoor.createInstructor(testData.instructors.get("CCEnrollUiT.teammates.test"));
 		
-		enrollUrl = new Url(Constants.ACTION_INSTRUCTOR_COURSE_ENROLL)
+		enrollUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL)
 			.withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
 			.withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
 		

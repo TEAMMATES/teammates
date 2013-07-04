@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
@@ -60,7 +60,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		Iterator<InstructorAttributes> it = instructors.iterator();
 		while (it.hasNext()) {
 			InstructorAttributes instructor = it.next();
-			addDocument(instructor.name, instructor.email, instructor.googleId, Constants.ACTION_INSTRUCTOR_HOME);
+			addDocument(instructor.name, instructor.email, instructor.googleId, Const.ActionURIs.INSTRUCTOR_HOME);
 		}
 		
 		/**
@@ -71,7 +71,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 		Iterator<StudentAttributes> it2 = students.iterator();
 		while (it2.hasNext()) {
 			StudentAttributes stu = it2.next();
-			addDocument(stu.name, stu.email, stu.googleId, Constants.ACTION_STUDENT_HOME);
+			addDocument(stu.name, stu.email, stu.googleId, Const.ActionURIs.STUDENT_HOME);
 		}
 
 	}
@@ -95,7 +95,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 								.setText(id))
 				.addField(
 						Field.newBuilder().setName("link").setHTML(
-							String.format("<a href=\"%s\">View</a>",url+"?"+Common.PARAM_USER_ID+"="+id)
+							String.format("<a href=\"%s\">View</a>",url+"?"+Common.Params.USER_ID+"="+id)
 								))
 				;
 

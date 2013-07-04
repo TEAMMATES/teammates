@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -20,7 +20,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_FEEDBACK_ADD;
+		uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
 	}
 
 	@BeforeMethod
@@ -53,7 +53,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		
 		gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 		verifyAssumptionFailure();
-		//verifyAssumptionFailure(Common.PARAM_COURSE_ID, instructor1ofCourse1.courseId);
+		//verifyAssumptionFailure(Common.Params.COURSE_ID, instructor1ofCourse1.courseId);
 		
 		______TS("Typical case");
 		
@@ -65,7 +65,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Constants.ACTION_INSTRUCTOR_FEEDBACK_EDIT
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT
 						+ "?courseid="
 						+ instructor1ofCourse1.courseId
 						+ "&fsname=ifaat+tca+fs"
@@ -92,10 +92,10 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		a = getAction(params);
 		ShowPageResult pr = (ShowPageResult) a.executeAndPostProcess();
 		assertEquals(
-				Constants.VIEW_INSTRUCTOR_FEEDBACKS+"?message=A+feedback+session+by+this+name+already+exists+under+this+course&error=true&user=idOfInstructor1OfCourse1", 
+				Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=A+feedback+session+by+this+name+already+exists+under+this+course&error=true&user=idOfInstructor1OfCourse1", 
 				pr.getDestinationWithParams());
 		assertEquals(true, pr.isError);
-		assertEquals(Constants.STATUS_FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
+		assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
 		
 		______TS("Masquerade mode");
 		
@@ -109,7 +109,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Constants.ACTION_INSTRUCTOR_FEEDBACK_EDIT
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT
 						+ "?courseid="
 						+ instructor1ofCourse1.courseId
 						+ "&fsname=masquerade+session"

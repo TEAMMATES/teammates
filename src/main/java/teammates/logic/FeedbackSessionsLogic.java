@@ -27,7 +27,8 @@ import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
+import teammates.common.util.Const.SystemParams;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackResponse;
@@ -179,7 +180,7 @@ public class FeedbackSessionsLogic {
 			Map<String, String> recipients) {
 		
 		// change constant to actual maximum size.
-		if (question.numberOfEntitiesToGiveFeedbackTo == Constants.MAX_POSSIBLE_RECIPIENTS) {
+		if (question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
 			question.numberOfEntitiesToGiveFeedbackTo = recipients.size();
 		}	
 		
@@ -273,9 +274,9 @@ public class FeedbackSessionsLogic {
 		
 		for (FeedbackResponseAttributes response : responsesForThisQn) {
 			if (question.giverType == FeedbackParticipantType.TEAMS){
-				if (emailNameTable.containsKey(response.giverEmail + Constants.TEAM_OF_EMAIL_OWNER) == false) {
+				if (emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER) == false) {
 					emailNameTable.put(
-							response.giverEmail + Constants.TEAM_OF_EMAIL_OWNER,
+							response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
 							getNameForEmail(question.giverType, response.giverEmail, question.courseId));
 				}
 			}
@@ -306,7 +307,7 @@ public class FeedbackSessionsLogic {
 			InstructorAttributes instructor =
 					instructorsLogic.getInstructorForEmail(courseId, email);
 			if (instructor == null) {
-				if(email.equals(Constants.GENERAL_QUESTION)) {
+				if(email.equals(Const.GENERAL_QUESTION)) {
 					// Email represents that there is no specific recipient. 
 					name = "Nobody";
 					team = email;
@@ -351,15 +352,15 @@ public class FeedbackSessionsLogic {
 		
 		String export = "";
 		
-		export += "Course" + ",," + results.feedbackSession.courseId + Constants.EOL
-				+ "Evaluation Name" + ",," + results.feedbackSession.feedbackSessionName + Constants.EOL
-				+ Constants.EOL;
+		export += "Course" + ",," + results.feedbackSession.courseId + Const.EOL
+				+ "Evaluation Name" + ",," + results.feedbackSession.feedbackSessionName + Const.EOL
+				+ Const.EOL;
 		
 		for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry :
 								results.getQuestionResponseMap().entrySet()) {
 			export += "Question " + Integer.toString(entry.getKey().questionNumber) + ",," +
-						entry.getKey().questionText.getValue() + Constants.EOL;
-			export += "Giver" + ",," + "Recipient" + ",," + "Feedback" + Constants.EOL;
+						entry.getKey().questionText.getValue() + Const.EOL;
+			export += "Giver" + ",," + "Recipient" + ",," + "Feedback" + Const.EOL;
 			
 			for(FeedbackResponseAttributes response : results.responses){
 				export += results.emailNameTable.get(response.giverEmail) + ",," + 
@@ -443,7 +444,7 @@ public class FeedbackSessionsLogic {
 		List<FeedbackSessionAttributes> sessions = fsDb.getAllFeedbackSessions();
 		
 		for(FeedbackSessionAttributes session : sessions){
-			if(session.isClosingWithinTimeLimit(Config.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
+			if(session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
 				continue;
 			}
 			try {

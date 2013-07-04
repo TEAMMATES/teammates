@@ -7,7 +7,7 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
@@ -22,7 +22,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 	public ActionResult execute()
 			throws EntityDoesNotExistException {
 
-		idOfCourseToDelete = getRequestParam(Constants.PARAM_COURSE_ID);
+		idOfCourseToDelete = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(idOfCourseToDelete);
 		
 		new GateKeeper().verifyAccessible(
@@ -30,7 +30,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 				logic.getCourse(idOfCourseToDelete));
 
 		logic.deleteCourse(idOfCourseToDelete);
-		statusToUser.add(Constants.STATUS_COURSE_DELETED);
+		statusToUser.add(Const.StatusMessages.COURSE_DELETED);
 		statusToAdmin = "Course deleted: " + idOfCourseToDelete;
 
 		InstructorCoursePageData data = new InstructorCoursePageData(account);
@@ -43,7 +43,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursePageAction {
 				logic.getCourseSummariesForInstructor(data.account.googleId).values());
 		CourseDetailsBundle.sortDetailedCoursesByCourseId(data.currentCourses);
 
-		ShowPageResult svr = createShowPageResult(Constants.VIEW_INSTRUCTOR_COURSES, data);
+		ShowPageResult svr = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
 		return svr;
 
 	}

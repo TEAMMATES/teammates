@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.CoursesLogic;
 import teammates.ui.controller.InstructorCoursePageAction;
 import teammates.ui.controller.InstructorCoursePageData;
@@ -21,7 +21,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_COURSES;
+		uri = Const.ActionURIs.INSTRUCTOR_COURSES;
 	}
 
 	@BeforeMethod
@@ -55,7 +55,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		InstructorCoursePageAction a = getAction(submissionParams);
 		ShowPageResult r = getShowPageResult(a);
 		
-		assertEquals(Constants.VIEW_INSTRUCTOR_COURSES+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+		assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
 		assertEquals(false, r.isError);
 		assertEquals("", r.getStatusMessage());
 		
@@ -81,7 +81,7 @@ public class InstructorCoursePageActionTest extends BaseActionTest {
 		r = getShowPageResult(a);
 		
 		assertEquals(
-				Constants.VIEW_INSTRUCTOR_COURSES+"?message=You+have+not+created+any+courses+yet.+Use+the+form+above+to+create+a+course.&error=false&user=idOfInstructor1OfCourse1", 
+				Const.ViewURIs.INSTRUCTOR_COURSES+"?message=You+have+not+created+any+courses+yet.+Use+the+form+above+to+create+a+course.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals("You have not created any courses yet. Use the form above to create a course.", r.getStatusMessage());
 		assertEquals(false, r.isError);

@@ -32,7 +32,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
+import teammates.common.util.Const.SystemParams;
 import teammates.storage.api.EvaluationsDb;
 
 import com.google.appengine.api.datastore.Text;
@@ -224,11 +225,11 @@ public class EvaluationsLogic {
 		
 		String export = "";
 		
-		export += "Course" + ",," + evaluationResults.evaluation.courseId + Constants.EOL
-				+ "Evaluation Name" + ",," + evaluationResults.evaluation.name + Constants.EOL
-				+ Constants.EOL;
+		export += "Course" + ",," + evaluationResults.evaluation.courseId + Const.EOL
+				+ "Evaluation Name" + ",," + evaluationResults.evaluation.name + Const.EOL
+				+ Const.EOL;
 		
-		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Constants.EOL;
+		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Const.EOL;
 		
 		for (TeamResultBundle td : evaluationResults.teamResults.values()) {
 			for (StudentResultBundle srb : td.studentResults) {
@@ -245,14 +246,14 @@ public class EvaluationsLogic {
 					result += sub.details.normalizedToInstructor;
 				}
 				
-				export += srb.student.team + ",," + srb.student.name + ",," + srb.summary.claimedToInstructor + ",," + srb.summary.perceivedToInstructor + ",," + result + Constants.EOL;
+				export += srb.student.team + ",," + srb.student.name + ",," + srb.summary.claimedToInstructor + ",," + srb.summary.perceivedToInstructor + ",," + result + Const.EOL;
 			}
 		}
 		
 		// Replace all Unset values
-		export = export.replaceAll(Integer.toString(Constants.INT_UNINITIALIZED), "N/A");
-		export = export.replaceAll(Integer.toString(Constants.POINTS_NOT_SURE), "Not Sure");
-		export = export.replaceAll(Integer.toString(Constants.POINTS_NOT_SUBMITTED), "Not Submitted");
+		export = export.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
+		export = export.replaceAll(Integer.toString(Const.POINTS_NOT_SURE), "Not Sure");
+		export = export.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
 		
 		return export;
 	}
@@ -267,7 +268,7 @@ public class EvaluationsLogic {
 						evaluation.courseId, evaluation.name, email);
 
 		for (SubmissionAttributes sd : submissionList) {
-			if (sd.points == Constants.POINTS_NOT_SUBMITTED) {
+			if (sd.points == Const.POINTS_NOT_SUBMITTED) {
 				return false;
 			}
 		}
@@ -326,7 +327,7 @@ public class EvaluationsLogic {
 		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
 		
 		List<EvaluationAttributes> evaluationDataList = 
-				getEvaluationsClosingWithinTimeLimit(Config.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
+				getEvaluationsClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 	
 		for (EvaluationAttributes ed : evaluationDataList) {
 			try {
@@ -372,7 +373,7 @@ public class EvaluationsLogic {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 		if (evaluation.getStatus() != EvalStatus.CLOSED) {
 			throw new InvalidParametersException(
-					Constants.ERRORCODE_PUBLISHED_BEFORE_CLOSING,
+					Const.StatusCodes.PUBLISHED_BEFORE_CLOSING,
 					"Cannot publish an evaluation unless it is CLOSED");
 		}
 	
@@ -392,7 +393,7 @@ public class EvaluationsLogic {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
 		if (evaluation.getStatus() != EvalStatus.PUBLISHED) {
 			throw new InvalidParametersException(
-					Constants.ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING,
+					Const.StatusCodes.UNPUBLISHED_BEFORE_PUBLISHING,
 					"Cannot unpublish an evaluation unless it is PUBLISHED");
 		}
 	
@@ -563,7 +564,7 @@ public class EvaluationsLogic {
 		int count = 0;
 		List<String> emailsOfSubmittedStudents = new ArrayList<String>();
 		for (SubmissionAttributes s : submissions) {
-			if (s.points != Constants.POINTS_NOT_SUBMITTED
+			if (s.points != Const.POINTS_NOT_SUBMITTED
 					&& !emailsOfSubmittedStudents.contains(s.reviewer)) {
 				count++;
 				emailsOfSubmittedStudents.add(s.reviewer);
@@ -685,7 +686,7 @@ public class EvaluationsLogic {
 
 				SubmissionAttributes outgoingSub = studentResult.outgoing.get(j);
 				int normalizedOutgoing = teamResult.normalizedClaimed[i][j];
-				outgoingSub.details.normalizedToStudent = Constants.INT_UNINITIALIZED;
+				outgoingSub.details.normalizedToStudent = Const.INT_UNINITIALIZED;
 				outgoingSub.details.normalizedToInstructor = normalizedOutgoing;
 				log.finer("Setting normalized outgoing of " + studentResult.student.name + " to "
 						+ outgoingSub.details.revieweeName + " to "
@@ -758,7 +759,7 @@ public class EvaluationsLogic {
 		s = new SubmissionAttributes();
 		s.reviewer = reviewer;
 		s.reviewee = reviewee;
-		s.points = Constants.INT_UNINITIALIZED;
+		s.points = Const.INT_UNINITIALIZED;
 		s.justification = new Text("");
 		s.p2pFeedback = new Text("");
 		s.course = "";

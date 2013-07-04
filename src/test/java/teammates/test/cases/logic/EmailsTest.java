@@ -27,7 +27,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -120,13 +120,13 @@ public class EmailsTest extends BaseComponentTestCase {
 		// check email body
 		String encryptedKey = StringHelper.encrypt(s.key);
 		String joinUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_JOIN_COURSE;
-		joinUrl = Url.addParamToUrl(joinUrl, Constants.PARAM_REGKEY, encryptedKey);
+				+ Const.ActionURIs.STUDENT_JOIN_COURSE;
+		joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, encryptedKey);
 
 		String submitUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT;
-		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_COURSE_ID, c.id);
-		submitUrl = Url.addParamToUrl(submitUrl, Constants.PARAM_EVALUATION_NAME,
+				+ Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT;
+		submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID, c.id);
+		submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.EVALUATION_NAME,
 				e.name);
 
 		String deadline = TimeHelper.formatTime(e.endTime);
@@ -152,9 +152,9 @@ public class EmailsTest extends BaseComponentTestCase {
 		assertTrue(!emailBody.contains(submitUrl));
 
 		String reportUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_EVAL_RESULTS;
-		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_COURSE_ID, c.id);
-		reportUrl = Url.addParamToUrl(reportUrl, Constants.PARAM_EVALUATION_NAME,
+				+ Const.ActionURIs.STUDENT_EVAL_RESULTS;
+		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID, c.id);
+		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.EVALUATION_NAME,
 				e.name);
 
 		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
@@ -230,9 +230,9 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		// check email body
 		String joinUrl = Config.APP_URL
-				+ Constants.ACTION_STUDENT_JOIN_COURSE;
+				+ Const.ActionURIs.STUDENT_JOIN_COURSE;
 		String encryptedKey = StringHelper.encrypt(s.key);
-		joinUrl = Url.addParamToUrl(joinUrl, Constants.PARAM_REGKEY, encryptedKey);
+		joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, encryptedKey);
 
 
 		String emailBody = email.getContent().toString();

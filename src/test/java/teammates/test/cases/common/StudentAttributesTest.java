@@ -3,7 +3,7 @@ package teammates.test.cases.common;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.util.Constants.EOL;
+import static teammates.common.util.Const.EOL;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_EMPTY;

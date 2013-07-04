@@ -10,7 +10,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.RedirectResult;
@@ -36,7 +36,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	 */
 	protected String[] addUserIdToParams(String userId, String[] params) {
 		List<String> list = new ArrayList<String>();
-		list.add(Constants.PARAM_USER_ID);
+		list.add(Const.ParamsNames.USER_ID);
 		list.add(userId);
 		for (String s : params) {
 			list.add(s);
@@ -47,55 +47,55 @@ public class BaseActionTest extends BaseComponentTestCase {
 	protected String[] createParamsForTypicalEval(String courseId, String evalName) {
 		
 		return new String[]{
-				Constants.PARAM_COURSE_ID, courseId,
-				Constants.PARAM_EVALUATION_NAME, evalName,
-				Constants.PARAM_EVALUATION_COMMENTSENABLED, "true",
-				Constants.PARAM_EVALUATION_START, "01/01/2015",
-				Constants.PARAM_EVALUATION_STARTTIME, "0",
-				Constants.PARAM_EVALUATION_DEADLINE, "01/01/2015",
-				Constants.PARAM_EVALUATION_DEADLINETIME, "0",
-				Constants.PARAM_EVALUATION_TIMEZONE, "0",
-				Constants.PARAM_EVALUATION_GRACEPERIOD, "0",
-				Constants.PARAM_EVALUATION_INSTRUCTIONS, "ins"
+				Const.ParamsNames.COURSE_ID, courseId,
+				Const.ParamsNames.EVALUATION_NAME, evalName,
+				Const.ParamsNames.EVALUATION_COMMENTSENABLED, "true",
+				Const.ParamsNames.EVALUATION_START, "01/01/2015",
+				Const.ParamsNames.EVALUATION_STARTTIME, "0",
+				Const.ParamsNames.EVALUATION_DEADLINE, "01/01/2015",
+				Const.ParamsNames.EVALUATION_DEADLINETIME, "0",
+				Const.ParamsNames.EVALUATION_TIMEZONE, "0",
+				Const.ParamsNames.EVALUATION_GRACEPERIOD, "0",
+				Const.ParamsNames.EVALUATION_INSTRUCTIONS, "ins"
 		};
 	}
 	
 	protected String[] createParamsForTypicalFeedbackSession(String courseId, String fsName) {
 		
 		return new String[]{
-				Constants.PARAM_COURSE_ID, courseId,
-				Constants.PARAM_FEEDBACK_SESSION_NAME, fsName,
-				Constants.PARAM_FEEDBACK_SESSION_STARTDATE, "01/02/2012",
-				Constants.PARAM_FEEDBACK_SESSION_STARTTIME, "0",
-				Constants.PARAM_FEEDBACK_SESSION_ENDDATE, "01/01/2015",
-				Constants.PARAM_FEEDBACK_SESSION_ENDTIME, "0",
-				Constants.PARAM_FEEDBACK_SESSION_SESSIONVISIBLEBUTTON, "custom",
-				Constants.PARAM_FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
-				Constants.PARAM_FEEDBACK_SESSION_VISIBLETIME, "0",
-				Constants.PARAM_FEEDBACK_SESSION_RESULTSVISIBLEBUTTON, "atvisible",
-				Constants.PARAM_FEEDBACK_SESSION_PUBLISHDATE, "",
-				Constants.PARAM_FEEDBACK_SESSION_PUBLISHTIME, "0",				
-				Constants.PARAM_FEEDBACK_SESSION_TIMEZONE, "8",
-				Constants.PARAM_FEEDBACK_SESSION_GRACEPERIOD, "10",
-				Constants.PARAM_FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
+				Const.ParamsNames.COURSE_ID, courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName,
+				Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, "01/02/2012",
+				Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, "0",
+				Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, "01/01/2015",
+				Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, "0",
+				Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON, "custom",
+				Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
+				Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME, "0",
+				Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON, "atvisible",
+				Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
+				Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",				
+				Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "8",
+				Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD, "10",
+				Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
 		};
 	}
 	
 	protected String[] createParamsForTypicalFeedbackQuestion(String courseId, String fsName) {
 		
 		return new String[]{
-				Constants.PARAM_COURSE_ID, courseId,
-				Constants.PARAM_FEEDBACK_SESSION_NAME, fsName,
-				Constants.PARAM_FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
-				Constants.PARAM_FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
-				Constants.PARAM_FEEDBACK_QUESTION_NUMBER, "1",
-				Constants.PARAM_FEEDBACK_QUESTION_TEXT, "question",
-				Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
-				Constants.PARAM_FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
-				Constants.PARAM_FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
-				Constants.PARAM_FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
-				Constants.PARAM_FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
-				Constants.PARAM_FEEDBACK_QUESTION_EDITTYPE, "edit"
+				Const.ParamsNames.COURSE_ID, courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "question",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit"
 		};
 	}
 	

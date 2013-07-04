@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Constants"%>
+<%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
@@ -33,7 +33,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -57,19 +57,19 @@
 			<br>
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
-						action="<%=Constants.ACTION_INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER%>">
-					<jsp:include page="<%=Constants.VIEW_EVAL_SUBMISSION_EDIT%>">
+						action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER%>">
+					<jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
 					<jsp:param name="isStudent" value="false" />
 					</jsp:include>
 					<br>
-					<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
+					<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 					<br>
 					<div class="centeralign">
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
 								id="button_submit" value="Save Changes">
 					</div>
-					<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+					<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 				</form>
 		 		<br><br>
 			</div>
@@ -77,7 +77,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

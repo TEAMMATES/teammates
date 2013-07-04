@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.Url;
 
 public class AdminAccountManagementPageData extends PageData {
@@ -18,20 +18,20 @@ public class AdminAccountManagementPageData extends PageData {
 	}
 	
 	public String getAdminViewAccountDetailsLink(String googleId){
-		String link = Constants.ACTION_ADMIN_ACCOUNT_DETAILS;
-		link = Url.addParamToUrl(link,Constants.PARAM_INSTRUCTOR_ID,googleId);
+		String link = Const.ActionURIs.ADMIN_ACCOUNT_DETAILS;
+		link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_ID,googleId);
 		return link;
 	}
 	
 	public String getAdminDeleteInstructorStatusLink(String googleId){
-		String link = Constants.ACTION_ADMIN_ACCOUNT_DELETE;
-		link = Url.addParamToUrl(link,Constants.PARAM_INSTRUCTOR_ID,googleId);
+		String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
+		link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_ID,googleId);
 		return link;
 	}
 	
 	public String getAdminDeleteAccountLink(String googleId){
-		String link = Constants.ACTION_ADMIN_ACCOUNT_DELETE;
-		link = Url.addParamToUrl(link,Constants.PARAM_INSTRUCTOR_ID,googleId);
+		String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
+		link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_ID,googleId);
 		link = Url.addParamToUrl(link,"account","true");
 		return link;
 	}

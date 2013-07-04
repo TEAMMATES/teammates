@@ -14,7 +14,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
@@ -58,7 +58,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
 	
-	public static final String PARAMETER_BACKDOOR_KEY = "PARAM_BACKDOOR_KEY";
+	public static final String PARAMETER_BACKDOOR_KEY = "Params.BACKDOOR_KEY";
 	public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
 	public static final String PARAMETER_GOOGLE_ID = "PARAMETER_GOOGLE_ID";
 	public static final String PARAMETER_COURSE_ID = "PARAMETER_COURSE_ID";
@@ -103,10 +103,10 @@ public class BackDoorServlet extends HttpServlet {
 			try {
 				returnValue = executeBackendAction(req, action);
 			} catch (Exception e) {
-				returnValue = Constants.BACKEND_STATUS_FAILURE
+				returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
 						+ TeammatesException.toStringWithStackTrace(e);
 			} catch (AssertionError ae) {
-				returnValue = Constants.BACKEND_STATUS_FAILURE
+				returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
 						+ " Assertion error " + ae.getMessage();
 			}
 		}
@@ -209,7 +209,7 @@ public class BackDoorServlet extends HttpServlet {
 		} else {
 			throw new Exception("Unknown command: " + action);
 		}
-		return Constants.BACKEND_STATUS_SUCCESS;
+		return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
 	}
 
 	private String getCourseIDsForInstructor(String instructorID) {

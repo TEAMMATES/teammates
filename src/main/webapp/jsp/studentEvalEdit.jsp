@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Constants" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes.EvalStatus" %>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes" %>
@@ -34,7 +34,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -47,35 +47,35 @@
 			<table class="inputTable" id="studentEvaluationInformation">
 				<tr>
 					<td class="label rightalign bold" width="30%">Course ID:</td>
-					<td id="<%=Constants.PARAM_COURSE_ID%>"><%=data.eval.courseId%></td>
+					<td id="<%=Const.ParamsNames.COURSE_ID%>"><%=data.eval.courseId%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation name:</td>
-					<td id="<%=Constants.PARAM_EVALUATION_NAME%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></td>
+					<td id="<%=Const.ParamsNames.EVALUATION_NAME%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Opening time:</td>
-					<td id="<%=Constants.PARAM_EVALUATION_STARTTIME%>"><%=TimeHelper.formatTime(data.eval.startTime)%></td>
+					<td id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"><%=TimeHelper.formatTime(data.eval.startTime)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Closing time:</td>
-					<td id="<%=Constants.PARAM_EVALUATION_DEADLINETIME%>"><%=TimeHelper.formatTime(data.eval.endTime)%></td>
+					<td id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"><%=TimeHelper.formatTime(data.eval.endTime)%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Instructions:</td>
-					<td id="<%=Constants.PARAM_EVALUATION_INSTRUCTIONS%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.instructions)%></td>
+					<td id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.instructions)%></td>
 				</tr>
 			</table>
 			
 			<br>
 			<br>
-			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			<br>
 			
 			<form name="form_submitevaluation" id="form_submitevaluation" method="post"
-					action="<%=Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT_SAVE%>">
-				<jsp:include page="<%=Constants.VIEW_EVAL_SUBMISSION_EDIT%>">
+					action="<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_SAVE%>">
+				<jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
 				<jsp:param name="isStudent" value="true" />
 				</jsp:include>
 				<br>
@@ -85,7 +85,7 @@
 							onclick="return checkEvaluationForm(this.form)"
 							id="button_submit" value="Submit Evaluation" <%=data.disableAttribute%>>
 				</div>
-				<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 		 	<br>
 		 	<br>
@@ -95,7 +95,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

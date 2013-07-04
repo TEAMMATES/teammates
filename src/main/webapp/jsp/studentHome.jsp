@@ -1,4 +1,4 @@
-<%@ page import="teammates.common.util.Constants" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle" %>
@@ -32,7 +32,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Constants.VIEW_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -42,36 +42,36 @@
 				<h1>Student Home</h1>
 			</div>
 		
-			<form method="post" action="<%=Constants.ACTION_STUDENT_JOIN_COURSE%>" name="form_joincourse">
+			<form method="post" action="<%=Const.ActionURIs.STUDENT_JOIN_COURSE%>" name="form_joincourse">
 				<table class="inputTable" id="result_addOrJoinCourse">
 					<tr>
 						<td class="label bold">Registration Key:</td>
 						<td>
 							<input class="keyvalue" type="text"
-									name="<%=Constants.PARAM_REGKEY%>"
-									id="<%=Constants.PARAM_REGKEY%>"
-									onmouseover="ddrivetip('<%=Constants.TOOLTIP_STUDENT_JOIN_COURSE%>')"
+									name="<%=Const.ParamsNames.REGKEY%>"
+									id="<%=Const.ParamsNames.REGKEY%>"
+									onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_JOIN_COURSE%>')"
 									onmouseout="hideddrivetip()" tabindex="1">
 						</td>
 						<td>
 							<input id="button_join_course" type="submit" class="button"
-									onclick="return this.form.<%=Constants.PARAM_REGKEY%>.value!=''"
+									onclick="return this.form.<%=Const.ParamsNames.REGKEY%>.value!=''"
 									value="Join Course" tabindex="2">
 						</td>
 					</tr>
 				 </table>
-				<input type="hidden" name="<%=Constants.PARAM_USER_ID%>" value="<%=data.account.googleId%>">
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 			<br>
-			<jsp:include page="<%=Constants.VIEW_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			
 			<%
 							int idx = -1;
-												int evalIdx = -1;
-												int fsIdx = -1;
-												for (CourseDetailsBundle courseDetails: data.courses) { idx++;
+																int evalIdx = -1;
+																int fsIdx = -1;
+																for (CourseDetailsBundle courseDetails: data.courses) { idx++;
 						%>
 			<div class="backgroundBlock">
 				<div class="result_team home_courses_div" id="course<%=idx%>">
@@ -83,7 +83,7 @@
 					<div class="result_homeLinks blockLink rightalign">
 						<a class="t_course_view<%=idx%> color_white"
 							href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
-							onmouseover="ddrivetip('<%=Constants.TOOLTIP_STUDENT_COURSE_DETAILS%>')"
+							onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>')"
 							onmouseout="hideddrivetip()">
 							View Team
 						</a>
@@ -102,7 +102,7 @@
 							</tr>
 							<%
 								for (EvaluationDetailsBundle edd: courseDetails.evaluations) { 
-																			evalIdx++;
+																								evalIdx++;
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
 									<td class="t_eval_name"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
@@ -120,7 +120,7 @@
 						<br>					
 					<%
 											} 
-																						if (courseDetails.feedbackSessions.size() > 0) {
+																														if (courseDetails.feedbackSessions.size() > 0) {
 										%>
 						<br>
 						<table class="dataTable">
@@ -132,7 +132,7 @@
 							</tr>
 							<%
 								for (FeedbackSessionDetailsBundle fsd: courseDetails.feedbackSessions) { 
-																			fsIdx++;
+																								fsIdx++;
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=fsIdx%>">
 									<td class="t_eval_name"><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
@@ -158,14 +158,14 @@
 			<br>
 			<%
 				out.flush();
-						}
+							}
 			%>
 		</div>
 		
 	</div>
 	
 	<div id="frameBottom">
-		<jsp:include page="<%=Constants.VIEW_FOOTER%>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

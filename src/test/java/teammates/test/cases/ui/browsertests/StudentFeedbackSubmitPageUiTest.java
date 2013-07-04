@@ -12,7 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -93,7 +93,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
 		submitPage.clickSubmitButton();
 
-		assertEquals(Constants.STATUS_FEEDBACK_RESPONSES_SAVED,
+		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
 				submitPage.getStatus());
 		assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
@@ -117,7 +117,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		
 		submitPage.clickSubmitButton();
 
-		assertEquals(Constants.STATUS_FEEDBACK_RESPONSES_SAVED,
+		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
 				submitPage.getStatus());
 		assertEquals(editedResponse,
 				BackDoor.getFeedbackResponse(fq.getId(),
@@ -151,7 +151,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		StudentAttributes dropOutGuy = testData.students.get("DropOut");
 		String backDoorOperationStatus = BackDoor.deleteStudent(dropOutGuy.course,
 				dropOutGuy.email);
-		assertEquals(Constants.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 
 		// move Benny out of team 1 into team 2 and change his email
 		// This should cause the team mates question to disappear completely as 
@@ -171,7 +171,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 	
 	private StudentFeedbackSubmitPage loginToStudentFeedbackSubmitPage(
 			String studentName, String fsName) {
-		Url editUrl = new Url(Constants.ACTION_STUDENT_FEEDBACK_EDIT)
+		Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_EDIT)
 				.withUserId(testData.students.get(studentName).googleId)
 				.withCourseId(testData.feedbackSessions.get(fsName).courseId)
 				.withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
@@ -183,7 +183,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		String backDoorOperationStatus;
 		student.team = newTeam;
 		backDoorOperationStatus = BackDoor.editStudent(student.email, student);
-		assertEquals(Constants.BACKEND_STATUS_SUCCESS, backDoorOperationStatus);
+		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 	}
 
 }

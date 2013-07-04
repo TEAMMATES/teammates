@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 
 public class InstructorEvalEditSaveActionTest extends BaseActionTest {
 
@@ -16,7 +16,7 @@ public class InstructorEvalEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_EVAL_EDIT_SAVE;
+		uri = Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_SAVE;
 	}
 
 	@BeforeMethod

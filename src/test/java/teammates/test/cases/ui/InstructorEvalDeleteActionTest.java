@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.storage.api.EvaluationsDb;
 
 public class InstructorEvalDeleteActionTest extends BaseActionTest {
@@ -17,7 +17,7 @@ public class InstructorEvalDeleteActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_INSTRUCTOR_EVAL_DELETE;
+		uri = Const.ActionURIs.INSTRUCTOR_EVAL_DELETE;
 	}
 
 	@BeforeMethod
@@ -32,8 +32,8 @@ public class InstructorEvalDeleteActionTest extends BaseActionTest {
 		EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
 		
 		String[] submissionParams = new String[]{
-				Constants.PARAM_COURSE_ID, evaluationInCourse1.courseId,
-				Constants.PARAM_EVALUATION_NAME, evaluationInCourse1.name 
+				Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
+				Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
 		};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);

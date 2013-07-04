@@ -8,7 +8,7 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 
 public class InstructorFeedbackPageData extends PageData {
 
@@ -26,7 +26,7 @@ public class InstructorFeedbackPageData extends PageData {
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){
 		return getTimeZoneOptionsAsHtml(
 				newFeedbackSession == null
-					? Constants.DOUBLE_UNINITIALIZED 
+					? Const.DOUBLE_UNINITIALIZED 
 					: newFeedbackSession.timeZone);
 	}
 	
@@ -34,7 +34,7 @@ public class InstructorFeedbackPageData extends PageData {
 	public ArrayList<String> getGracePeriodOptionsAsHtml(){
 		return getGracePeriodOptionsAsHtml(
 				newFeedbackSession == null 
-					? Constants.INT_UNINITIALIZED
+					? Const.INT_UNINITIALIZED
 					: newFeedbackSession.gracePeriod);
 	}
 	

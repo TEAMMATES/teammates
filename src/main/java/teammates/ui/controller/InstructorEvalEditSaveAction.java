@@ -6,7 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalEditSaveAction extends Action {
@@ -16,9 +16,9 @@ public class InstructorEvalEditSaveAction extends Action {
 	protected ActionResult execute() 
 			throws EntityDoesNotExistException,	InvalidParametersException {
 		
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String evalName = getRequestParam(Constants.PARAM_EVALUATION_NAME);
+		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
 		new GateKeeper().verifyAccessible(
@@ -36,7 +36,7 @@ public class InstructorEvalEditSaveAction extends Action {
 					data.evaluation.endTime, data.evaluation.timeZone, 
 					data.evaluation.gracePeriod, data.evaluation.p2pEnabled);
 			
-			statusToUser.add(Constants.STATUS_EVALUATION_EDITED);
+			statusToUser.add(Const.StatusMessages.EVALUATION_EDITED);
 			statusToAdmin = "Editing Evaluation <span class=\"bold\">(" + data.evaluation.name + 
 					")</span> for Course <span class=\"bold\">[" + data.evaluation.courseId + "]</span>.<br>" +
 					"<span class=\"bold\">From:</span> " + data.evaluation.startTime + 
@@ -44,14 +44,14 @@ public class InstructorEvalEditSaveAction extends Action {
 					"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled== true ? "enabled" : "disabled") + 
 					"<br><br><span class=\"bold\">Instructions:</span> " + data.evaluation.instructions;
 			
-			return createRedirectResult(Constants.ACTION_INSTRUCTOR_EVALS);
+			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS);
 			
 		} catch (InvalidParametersException e) {
 			isError = true;
 			statusToUser.add(e.getMessage());
-			statusToAdmin = Constants.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
 			
-			return createShowPageResult(Constants.VIEW_INSTRUCTOR_EVAL_EDIT, data);
+			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_EDIT, data);
 		}
 		
 

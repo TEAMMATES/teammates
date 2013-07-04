@@ -20,7 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.api.Logic;
 import teammates.storage.api.EvaluationsDb;
@@ -46,7 +46,7 @@ public class BackDoorLogic extends Logic {
 
 		if (dataBundle == null) {
 			throw new InvalidParametersException(
-					Constants.ERRORCODE_NULL_PARAMETER, "Null data bundle");
+					Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
 		}
 		
 		deleteExistingData(dataBundle);
@@ -121,7 +121,7 @@ public class BackDoorLogic extends Logic {
 			this.createFeedbackResponse(response);
 		}
 		
-		return Constants.BACKEND_STATUS_SUCCESS;
+		return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
 	}
 	
 	public String getAccountAsJson(String googleId) {

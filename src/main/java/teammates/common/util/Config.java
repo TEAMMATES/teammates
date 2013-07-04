@@ -6,13 +6,15 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Const.SystemParams;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * A singleton class that represents the configuration values of the system. 
+ * A singleton class that represents the deployment-specific configuration 
+ * values of the system. 
  * This can be used to access values in the build.properties file too.
  */
 public class Config {
@@ -21,16 +23,6 @@ public class Config {
 	private static Config instance = inst();
 	private static Properties props = null;
 	
-	public static final String ENCODING = "UTF8";
-
-	public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
-
-	/** e.g. "2014-04-01 11:59 PM UTC" */
-	public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
-
-	/** Number to trim the Google ID when displaying to the user*/
-	public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
-
 	/** The value of the "app.url" in build.properties file */
 	public static String APP_URL;
 	
@@ -91,7 +83,7 @@ public class Config {
 	public static Gson getTeammatesGson() {
 		return new GsonBuilder()
 				.setDateFormat(DateFormat.FULL)
-				.setDateFormat(DEFAULT_DATE_TIME_FORMAT)
+				.setDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT)
 				.setPrettyPrinting()
 				.create();
 	}

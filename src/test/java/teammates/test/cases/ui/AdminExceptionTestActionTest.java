@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 
 public class AdminExceptionTestActionTest extends BaseActionTest {
 
@@ -15,7 +15,7 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_ADMIN_EXCEPTION_TEST;
+		uri = Const.ActionURIs.ADMIN_EXCEPTION_TEST;
 	}
 
 	@BeforeMethod

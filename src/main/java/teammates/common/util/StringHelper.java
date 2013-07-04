@@ -78,7 +78,7 @@ public class StringHelper {
 	 * @return Concatenated string.
 	 */
 	public static String toString(List<String> strings) {
-		return toString(strings, Constants.EOL);	
+		return toString(strings, Const.EOL);	
 	}
 
 	/**

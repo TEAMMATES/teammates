@@ -2,7 +2,7 @@ package teammates.test.cases.testdriver;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
-import static teammates.common.util.Constants.EOL;
+import static teammates.common.util.Const.EOL;
 
 import java.io.IOException;
 

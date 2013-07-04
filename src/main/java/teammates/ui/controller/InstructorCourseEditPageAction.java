@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseEditPageAction extends Action {
@@ -16,7 +16,7 @@ public class InstructorCourseEditPageAction extends Action {
 	public ActionResult execute() throws EntityDoesNotExistException { 
 		
 		InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
-		String courseId = getRequestParam(Constants.PARAM_COURSE_ID);
+		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
 		new GateKeeper().verifyAccessible(
@@ -33,7 +33,7 @@ public class InstructorCourseEditPageAction extends Action {
 				+ "Editing information for Course <span class=\"bold\">["
 				+ courseId + "]</span>";
 		
-		return createShowPageResult(Constants.VIEW_INSTRUCTOR_COURSE_EDIT, data);
+		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, data);
 		
 	}
 

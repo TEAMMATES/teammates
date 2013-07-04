@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 
 @SuppressWarnings("serial")
@@ -32,26 +32,26 @@ public class LoginServlet extends HttpServlet {
 			throws IOException, ServletException{
 		Logic server = new Logic();
 		UserType user = server.getCurrentUser();
-		if(req.getParameter(Constants.PARAM_LOGIN_INSTRUCTOR)!=null){
+		if(req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Constants.ACTION_INSTRUCTOR_HOME);
+				resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Constants.ACTION_INSTRUCTOR_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.INSTRUCTOR_HOME));
 			}
-		} else if(req.getParameter(Constants.PARAM_LOGIN_STUDENT)!=null){
+		} else if(req.getParameter(Const.ParamsNames.LOGIN_STUDENT)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Constants.ACTION_STUDENT_HOME);
+				resp.sendRedirect(Const.ActionURIs.STUDENT_HOME);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Constants.ACTION_STUDENT_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.STUDENT_HOME));
 			}
-		} else if(req.getParameter(Constants.PARAM_LOGIN_ADMIN)!=null){
+		} else if(req.getParameter(Const.ParamsNames.LOGIN_ADMIN)!=null){
 			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Constants.ACTION_ADMIN_HOME);
+				resp.sendRedirect(Const.ActionURIs.ADMIN_HOME);
 			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Constants.ACTION_ADMIN_HOME));
+				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.ADMIN_HOME));
 			}
 		} else {
-			resp.sendRedirect(Constants.VIEW_ERROR_PAGE);
+			resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
 		}
 	}
 

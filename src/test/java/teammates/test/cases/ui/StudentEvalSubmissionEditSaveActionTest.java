@@ -12,7 +12,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.storage.api.EvaluationsDb;
 
 public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
@@ -29,7 +29,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Constants.ACTION_STUDENT_EVAL_SUBMISSION_EDIT_SAVE;
+		uri = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_SAVE;
 	}
 
 	@BeforeMethod
@@ -59,14 +59,14 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 		SubmissionAttributes sub = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
 		
 		String[] submissionParams = new String[]{
-				Constants.PARAM_COURSE_ID, eval.courseId,
-				Constants.PARAM_EVALUATION_NAME, eval.name,
-				Constants.PARAM_FROM_EMAIL, dataBundle.students.get("student1InCourse1").email,
-				Constants.PARAM_TEAM_NAME, sub.team,
-				Constants.PARAM_TO_EMAIL, sub.reviewee,
-				Constants.PARAM_POINTS, sub.points+"",
-				Constants.PARAM_JUSTIFICATION, sub.justification.toString(),
-				Constants.PARAM_COMMENTS, sub.p2pFeedback.toString()
+				Const.ParamsNames.COURSE_ID, eval.courseId,
+				Const.ParamsNames.EVALUATION_NAME, eval.name,
+				Const.ParamsNames.FROM_EMAIL, dataBundle.students.get("student1InCourse1").email,
+				Const.ParamsNames.TEAM_NAME, sub.team,
+				Const.ParamsNames.TO_EMAIL, sub.reviewee,
+				Const.ParamsNames.POINTS, sub.points+"",
+				Const.ParamsNames.JUSTIFICATION, sub.justification.toString(),
+				Const.ParamsNames.COMMENTS, sub.p2pFeedback.toString()
 			};
 		
 		verifyUnaccessibleWithoutLogin(submissionParams);

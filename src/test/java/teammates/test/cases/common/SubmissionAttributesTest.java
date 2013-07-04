@@ -1,7 +1,7 @@
 package teammates.test.cases.common;
 
 import static org.testng.AssertJUnit.*;
-import static teammates.common.util.Constants.EOL;
+import static teammates.common.util.Const.EOL;
 import static teammates.common.util.FieldValidator.*;
 
 

@@ -8,7 +8,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Constants;
+import teammates.common.util.Const;
 import teammates.logic.GateKeeper;
 
 public class AdminAccountManagementPageAction extends Action {
@@ -45,7 +45,7 @@ public class AdminAccountManagementPageAction extends Action {
 				"<span class=\"bold\">Total Instructors:</span> " + 
 				data.instructorAccountsTable.size();
 		
-		return createShowPageResult(Constants.VIEW_ADMIN_ACCOUNT_MANAGEMENT, data);
+		return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_MANAGEMENT, data);
 	}
 
 }
