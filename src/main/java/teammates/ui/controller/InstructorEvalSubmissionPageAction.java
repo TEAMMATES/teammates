@@ -39,7 +39,7 @@ public class InstructorEvalSubmissionPageAction extends Action {
 					"for Evaluation <span class=\"bold\">" + evalName + "</span> " +
 					"for Course <span class=\"bold\">[" + courseId + "]</span>";
 			
-			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_SUBMISSION_VIEW, data);
+			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_SUBMISSION, data);
 			
 		} catch (InvalidParametersException e) {
 			//TODO: some parts of this block can be extracted into a method and pulled up

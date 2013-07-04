@@ -45,7 +45,7 @@ public class StudentFeedbackSubmissionEditPageAction extends Action {
 					"This feedback session is not yet visible.");
 		}
 		
-		return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMIT, data);
+		return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
 	}
 
 }

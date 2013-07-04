@@ -316,23 +316,23 @@ public class Const {
 	}
 
 	public class ViewURIs{
-	
-		//TODO: refine file names to reflect view name (where necessary)
 		
+		/* We omit adding the 'page' prefix to views because all of them are "pages" */
+	
 		public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; 
-		public static final String INSTRUCTOR_COURSES = "/jsp/instructorCourse.jsp"; 
+		public static final String INSTRUCTOR_COURSES = "/jsp/instructorCourses.jsp"; 
 		public static final String INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp"; 
 		public static final String INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp"; 
 		public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS = "/jsp/instructorCourseStudentDetails.jsp"; 
 		public static final String INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp"; 
 		public static final String INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp"; 
 		public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp"; 
-		public static final String INSTRUCTOR_EVALS = "/jsp/instructorEval.jsp"; 
+		public static final String INSTRUCTOR_EVALS = "/jsp/instructorEvals.jsp"; 
 		public static final String INSTRUCTOR_EVAL_EDIT = "/jsp/instructorEvalEdit.jsp"; 
 		public static final String INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; 
-		public static final String INSTRUCTOR_EVAL_SUBMISSION_VIEW = "/jsp/instructorEvalSubmissionView.jsp"; 
+		public static final String INSTRUCTOR_EVAL_SUBMISSION = "/jsp/instructorEvalSubmission.jsp"; 
 		public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/jsp/instructorEvalSubmissionEdit.jsp"; 
-		public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedback.jsp";
+		public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
 		public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER = "/jsp/instructorFeedbackResultsByGiver.jsp";
@@ -343,7 +343,7 @@ public class Const {
 		public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
 		public static final String STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
-		public static final String STUDENT_FEEDBACK_SUBMIT = "/jsp/studentFeedbackSubmit.jsp"; 
+		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp"; 
 		public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp"; 
 	
 		public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
@@ -351,7 +351,10 @@ public class Const {
 		public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
 		public static final String ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
 		public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
+		
 		public static final String LOGOUT = "/logout.jsp"; 
+		
+		
 		public static final String SHOW_MESSAGE = "/showMessage.jsp"; 
 		public static final String UNAUTHORIZED = "/unauthorized.jsp"; 
 		public static final String ERROR_PAGE = "/errorPage.jsp"; 
