@@ -1,11 +1,12 @@
 package teammates.ui.controller;
 
+import static teammates.common.util.Const.ActionURIs.*;
+
 import java.util.HashMap;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.util.Const;
 import teammates.common.util.Utils;
 
 /**
@@ -14,70 +15,69 @@ import teammates.common.util.Utils;
 public class ActionFactory {
 	protected static Logger log = Utils.getLogger();
 	
-	private static HashMap<String, Class<? extends Action>> actionMappings;
+	private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
 	
 	static{
-		//TODO: replace these literals with constants uses elsewhere
-		actionMappings = new HashMap<String, Class<? extends Action>>();
-		actionMappings.put("/admin/adminHome", AdminHomePageAction.class);
-		actionMappings.put(Const.ActionURIs.ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
-		actionMappings.put(Const.ActionURIs.ADMIN_ACTIVITY_LOG, AdminActivityLogPageAction.class);
-		actionMappings.put("/admin/adminAccountDetails", AdminAccountDetailsPageAction.class);
-		actionMappings.put("/admin/adminAccountManagement", AdminAccountManagementPageAction.class);
-		actionMappings.put(Const.ActionURIs.ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
-		actionMappings.put("/admin/adminInstructorAccountAdd", AdminInstructorAccountAddAction.class);
-		actionMappings.put(Const.ActionURIs.ADMIN_SEARCH, AdminSearchPageAction.class);
-		actionMappings.put("/page/instructorCourse", InstructorCoursePageAction.class);
-		actionMappings.put("/page/instructorCourseAdd", InstructorCourseAddAction.class);
-		actionMappings.put("/page/instructorCourseDelete", InstructorCourseDeleteAction.class);
-		actionMappings.put("/page/instructorCourseDetails", InstructorCourseDetailsPageAction.class);
-		actionMappings.put("/page/instructorCourseRemind", InstructorCourseRemindAction.class);
-		actionMappings.put("/page/instructorCourseEdit", InstructorCourseEditPageAction.class);
-		actionMappings.put("/page/instructorCourseEditSave", InstructorCourseEditSaveAction.class);
-		actionMappings.put("/page/instructorCourseEnroll", InstructorCourseEnrollPageAction.class);
-		actionMappings.put("/page/instructorCourseEnrollSave", InstructorCourseEnrollSaveAction.class);
-		actionMappings.put("/page/instructorCourseStudentDelete", InstructorCourseStudentDeleteAction.class);
-		actionMappings.put("/page/instructorCourseStudentDetails", InstructorCourseStudentDetailsPageAction.class);
-		actionMappings.put("/page/instructorCourseStudentDetailsEdit", InstructorCourseStudentDetailsEditPageAction.class);
-		actionMappings.put("/page/instructorCourseStudentDetailsEditSave", InstructorCourseStudentDetailsEditSaveAction.class);
-		actionMappings.put("/page/instructorEval", InstructorEvalPageAction.class);
-		actionMappings.put("/page/instructorEvalAdd", InstructorEvalAddAction.class);
-		actionMappings.put("/page/instructorEvalDelete", InstructorEvalDeleteAction.class);
-		actionMappings.put(Const.ActionURIs.INSTRUCTOR_EVAL_EXPORT, InstructorEvalResultsDownloadAction.class);
-		actionMappings.put("/page/instructorEvalEdit", InstructorEvalEditPageAction.class);
-		actionMappings.put("/page/instructorEvalEditSave", InstructorEvalEditSaveAction.class);
-		actionMappings.put("/page/instructorEvalPublish", InstructorEvalPublishAction.class);
-		actionMappings.put("/page/instructorEvalRemind", InstructorEvalRemindAction.class);
-		actionMappings.put("/page/instructorEvalResults", InstructorEvalResultsPageAction.class);
-		actionMappings.put("/page/instructorEvalSubmissionEdit", InstructorEvalSubmissionEditPageAction.class);
-		actionMappings.put("/page/instructorEvalSubmissionEditHandler", InstructorEvalSubmissionEditSaveAction.class);
-		actionMappings.put("/page/instructorEvalSubmissionView", InstructorEvalSubmissionViewPageAction.class);
-		actionMappings.put("/page/instructorEvalUnpublish", InstructorEvalUnpublishAction.class);
-		actionMappings.put("/page/instructorFeedback", InstructorFeedbackPageAction.class);
-		actionMappings.put("/page/instructorFeedbackAdd", InstructorFeedbackAddAction.class);
-		actionMappings.put("/page/instructorFeedbackDelete", InstructorFeedbackDeleteAction.class);
-		actionMappings.put("/page/instructorFeedbackEdit", InstructorFeedbackEditPageAction.class);
-		actionMappings.put("/page/instructorFeedbackEditSave", InstructorFeedbackEditSaveAction.class);
-		actionMappings.put("/page/instructorFeedbackQuestionAdd", InstructorFeedbackQuestionAddAction.class);
-		actionMappings.put("/page/instructorFeedbackQuestionEdit", InstructorFeedbackQuestionEditAction.class);
-		actionMappings.put("/page/instructorFeedbackResults", InstructorFeedbackResultsPageAction.class);
-		actionMappings.put("/page/instructorFeedbackResultsDownload", InstructorFeedbackResultsDownloadAction.class);
-		actionMappings.put("/page/instructorHome", InstructorHomePageAction.class);
-
-		actionMappings.put("/page/studentCourseDetails", StudentCourseDetailsPageAction.class);
-		actionMappings.put("/page/studentCourseJoin", StudentCourseJoinAction.class);
-		actionMappings.put("/page/studentEvalEdit", StudentEvalSubmissionEditPageAction.class);
-		actionMappings.put("/page/studentEvalResults", StudentEvalResultsPageAction.class);
-		actionMappings.put("/page/studentEvalEditHandler", StudentEvalSubmissionEditSaveAction.class);
-		actionMappings.put("/page/studentFeedbackResults", StudentFeedbackResultsPageAction.class);
-		actionMappings.put("/page/studentFeedbackSubmit", StudentFeedbackSubmitPageAction.class);
-		actionMappings.put("/page/studentFeedbackSubmitSave", StudentFeedbackSubmitSaveAction.class);
-		actionMappings.put("/page/studentHome", StudentHomePageAction.class);
-	}
+		map(ADMIN_HOME, AdminHomePageAction.class);
+		map(ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
+		map(ADMIN_ACTIVITY_LOG, AdminActivityLogPageAction.class);
+		map(ADMIN_ACCOUNT_DETAILS, AdminAccountDetailsPageAction.class);
+		map(ADMIN_ACCOUNT_MANAGEMENT, AdminAccountManagementPageAction.class);
+		map(ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
+		map(ADMIN_INSTRUCTORACCOUNT_ADD, AdminInstructorAccountAddAction.class);
+		map(ADMIN_SEARCH, AdminSearchPageAction.class);
 		
+		map(INSTRUCTOR_COURSES, InstructorCoursePageAction.class);
+		map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
+		map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
+		map(INSTRUCTOR_COURSE_DETAILS, InstructorCourseDetailsPageAction.class);
+		map(INSTRUCTOR_COURSE_REMIND, InstructorCourseRemindAction.class);
+		map(INSTRUCTOR_COURSE_EDIT, InstructorCourseEditPageAction.class);
+		map(INSTRUCTOR_COURSE_EDIT_SAVE, InstructorCourseEditSaveAction.class);
+		map(INSTRUCTOR_COURSE_ENROLL, InstructorCourseEnrollPageAction.class);
+		map(INSTRUCTOR_COURSE_ENROLL_SAVE, InstructorCourseEnrollSaveAction.class);
+		map(INSTRUCTOR_COURSE_STUDENT_DELETE, InstructorCourseStudentDeleteAction.class);
+		map(INSTRUCTOR_COURSE_STUDENT_DETAILS, InstructorCourseStudentDetailsPageAction.class);
+		map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT, InstructorCourseStudentDetailsEditPageAction.class);
+		map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE, InstructorCourseStudentDetailsEditSaveAction.class);
+		map(INSTRUCTOR_EVALS, InstructorEvalPageAction.class);
+		map(INSTRUCTOR_EVAL_ADD, InstructorEvalAddAction.class);
+		map(INSTRUCTOR_EVAL_DELETE, InstructorEvalDeleteAction.class);
+		map(INSTRUCTOR_EVAL_EXPORT, InstructorEvalResultsDownloadAction.class);
+		map(INSTRUCTOR_EVAL_EDIT, InstructorEvalEditPageAction.class);
+		map(INSTRUCTOR_EVAL_EDIT_SAVE, InstructorEvalEditSaveAction.class);
+		map(INSTRUCTOR_EVAL_PUBLISH, InstructorEvalPublishAction.class);
+		map(INSTRUCTOR_EVAL_REMIND, InstructorEvalRemindAction.class);
+		map(INSTRUCTOR_EVAL_RESULTS, InstructorEvalResultsPageAction.class);
+		map(INSTRUCTOR_EVAL_SUBMISSION_EDIT, InstructorEvalSubmissionEditPageAction.class);
+		map(INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER, InstructorEvalSubmissionEditSaveAction.class);
+		map(INSTRUCTOR_EVAL_SUBMISSION_VIEW, InstructorEvalSubmissionViewPageAction.class);
+		map(INSTRUCTOR_EVAL_UNPUBLISH, InstructorEvalUnpublishAction.class);
+		map(INSTRUCTOR_FEEDBACKS, InstructorFeedbackPageAction.class);
+		map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
+		map(INSTRUCTOR_FEEDBACK_DELETE, InstructorFeedbackDeleteAction.class);
+		map(INSTRUCTOR_FEEDBACK_EDIT, InstructorFeedbackEditPageAction.class);
+		map(INSTRUCTOR_FEEDBACK_EDIT_SAVE, InstructorFeedbackEditSaveAction.class);
+		map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);
+		map(INSTRUCTOR_FEEDBACK_QUESTION_EDIT, InstructorFeedbackQuestionEditAction.class);
+		map(INSTRUCTOR_FEEDBACK_RESULTS, InstructorFeedbackResultsPageAction.class);
+		map(INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD, InstructorFeedbackResultsDownloadAction.class);
+		map(INSTRUCTOR_HOME, InstructorHomePageAction.class);
+
+		map(STUDENT_COURSE_DETAILS, StudentCourseDetailsPageAction.class);
+		map(STUDENT_JOIN_COURSE, StudentCourseJoinAction.class);
+		map(STUDENT_EVAL_SUBMISSION_EDIT, StudentEvalSubmissionEditPageAction.class);
+		map(STUDENT_EVAL_RESULTS, StudentEvalResultsPageAction.class);
+		map(STUDENT_EVAL_SUBMISSION_EDIT_SAVE, StudentEvalSubmissionEditSaveAction.class);
+		map(STUDENT_FEEDBACK_RESULTS, StudentFeedbackResultsPageAction.class);
+		map(STUDENT_FEEDBACK_EDIT, StudentFeedbackSubmitPageAction.class);
+		map(STUDENT_FEEDBACK_EDIT_SAVE, StudentFeedbackSubmitSaveAction.class);
+		map(STUDENT_HOME, StudentHomePageAction.class);
+	}
+
+
+
 	/**
-	 * 
-	 * @param req
 	 * @return the matching {@link Action} object for the URI in the {@code req}.
 	 *   The returned {@code Action} is already initialized using the {@code req}.
 	 */
@@ -105,6 +105,12 @@ public class ActionFactory {
 		}
 		
 		return c;
+	}
+
+
+
+	private static void map(String actionUri, Class<? extends Action> actionClass) {
+		actionMappings.put(actionUri, actionClass);
 	}
 
 }
