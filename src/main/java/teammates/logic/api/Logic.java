@@ -11,7 +11,7 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.*;
 import teammates.common.exception.*;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
+import teammates.common.util.Utils;
 
 import teammates.logic.Emails;
 import teammates.logic.AccountsLogic;
@@ -37,7 +37,7 @@ public class Logic {
 	//TODO: sanitizes values received from outside.
 
 	@SuppressWarnings("unused")
-	private static Logger log = Config.getLogger();
+	private static Logger log = Utils.getLogger();
 
 	public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
 	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";

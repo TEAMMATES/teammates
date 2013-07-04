@@ -15,6 +15,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 
 /**
@@ -24,7 +25,7 @@ import teammates.storage.entity.Account;
  */
 public class AccountsDb extends EntitiesDb {
 
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 	
 	/**
 	 * Preconditions: 

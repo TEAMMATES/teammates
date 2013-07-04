@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Submission;
 
 import com.google.appengine.api.datastore.Text;
@@ -34,7 +34,7 @@ public class SubmissionAttributes extends EntityAttributes {
 	public Text p2pFeedback;
 	
 	@SuppressWarnings("unused")
-	private static Logger log = Config.getLogger();
+	private static Logger log = Utils.getLogger();
 	
 	public SubmissionDetailsBundle details = new SubmissionDetailsBundle();
 

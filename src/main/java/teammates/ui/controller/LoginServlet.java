@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserType;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
 @SuppressWarnings("serial")
@@ -19,7 +19,7 @@ import teammates.logic.api.Logic;
  */
 public class LoginServlet extends HttpServlet {
 	
-	protected static final Logger log = Config.getLogger();
+	protected static final Logger log = Utils.getLogger();
 	
 	@Override
 	public final void doGet(HttpServletRequest req, HttpServletResponse resp)

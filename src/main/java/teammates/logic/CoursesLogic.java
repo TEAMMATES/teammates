@@ -23,8 +23,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.storage.api.CoursesDb;
 
 /**
@@ -39,7 +39,7 @@ public class CoursesLogic {
 	//TODO: add a test class for this class. Some of the test content can be transferred from LogicTest.
 	
 	private static CoursesLogic instance = null;
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 
 	private static final CoursesDb coursesDb = new CoursesDb();
 	

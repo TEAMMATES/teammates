@@ -19,14 +19,14 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.EvaluationsDb;
 
 public class BackDoorLogic extends Logic {
-	private static Logger log = Config.getLogger();
+	private static Logger log = Utils.getLogger();
 	
 	private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 500;
 	private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
@@ -126,76 +126,76 @@ public class BackDoorLogic extends Logic {
 	
 	public String getAccountAsJson(String googleId) {
 		AccountAttributes accountData = getAccount(googleId);
-		return Config.getTeammatesGson().toJson(accountData);
+		return Utils.getTeammatesGson().toJson(accountData);
 	}
 	
 	public String getInstructorAsJson(String instructorID, String courseId) {
 		InstructorAttributes instructorData = getInstructorForGoogleId(courseId, instructorID);
-		return Config.getTeammatesGson().toJson(instructorData);
+		return Utils.getTeammatesGson().toJson(instructorData);
 	}
 
 	public String getCourseAsJson(String courseId) {
 		CourseAttributes course = getCourse(courseId);
-		return Config.getTeammatesGson().toJson(course);
+		return Utils.getTeammatesGson().toJson(course);
 	}
 
 	public String getStudentAsJson(String courseId, String email) {
 		StudentAttributes student = getStudentForEmail(courseId, email);
-		return Config.getTeammatesGson().toJson(student);
+		return Utils.getTeammatesGson().toJson(student);
 	}
 
 	public String getEvaluationAsJson(String courseId, String evaluationName) {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
-		return Config.getTeammatesGson().toJson(evaluation);
+		return Utils.getTeammatesGson().toJson(evaluation);
 	}
 
 	public String getSubmissionAsJson(String courseId, String evaluationName,
 			String reviewerEmail, String revieweeEmail) {
 		SubmissionAttributes target = getSubmission(courseId, evaluationName,
 				reviewerEmail, revieweeEmail);
-		return Config.getTeammatesGson().toJson(target);
+		return Utils.getTeammatesGson().toJson(target);
 	}
 	
 	public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
 		FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
-		return Config.getTeammatesGson().toJson(fs);
+		return Utils.getTeammatesGson().toJson(fs);
 	}
 	
 	public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
 		FeedbackQuestionAttributes fq = 
 				feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
-		return Config.getTeammatesGson().toJson(fq);
+		return Utils.getTeammatesGson().toJson(fq);
 	}
 
 	public String getFeedbackResponseAsJson(String feedbackQuestionId, String giverEmail, String recipient) {
 		FeedbackResponseAttributes fq = 
 				feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
-		return Config.getTeammatesGson().toJson(fq);
+		return Utils.getTeammatesGson().toJson(fq);
 	}
 	
 	public void editAccountAsJson(String newValues)
 			throws InvalidParametersException, EntityDoesNotExistException {
-		AccountAttributes account = Config.getTeammatesGson().fromJson(newValues,
+		AccountAttributes account = Utils.getTeammatesGson().fromJson(newValues,
 				AccountAttributes.class);
 		updateAccount(account);
 	}
 	
 	public void editStudentAsJson(String originalEmail, String newValues)
 			throws InvalidParametersException, EntityDoesNotExistException {
-		StudentAttributes student = Config.getTeammatesGson().fromJson(newValues,
+		StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
 				StudentAttributes.class);
 		updateStudent(originalEmail, student);
 	}
 
 	public void editEvaluationAsJson(String evaluationJson)
 			throws InvalidParametersException, EntityDoesNotExistException {
-		EvaluationAttributes evaluation = Config.getTeammatesGson().fromJson(
+		EvaluationAttributes evaluation = Utils.getTeammatesGson().fromJson(
 				evaluationJson, EvaluationAttributes.class);
 		updateEvaluation(evaluation);
 	}
 
 	public void editSubmissionAsJson(String submissionJson) throws InvalidParametersException, EntityDoesNotExistException {
-		SubmissionAttributes submission = Config.getTeammatesGson().fromJson(
+		SubmissionAttributes submission = Utils.getTeammatesGson().fromJson(
 				submissionJson, SubmissionAttributes.class);
 		ArrayList<SubmissionAttributes> submissionList = new ArrayList<SubmissionAttributes>();
 		submissionList.add(submission);
@@ -393,7 +393,7 @@ public class BackDoorLogic extends Logic {
 				}
 			}
 			if(retreived != null) {
-				log.warning("Object did not get deleted in time \n"+ Config.getTeammatesGson().toJson(s));
+				log.warning("Object did not get deleted in time \n"+ Utils.getTeammatesGson().toJson(s));
 			}
 		}
 		

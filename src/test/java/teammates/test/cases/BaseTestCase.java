@@ -22,9 +22,9 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Utils;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.api.Logic;
@@ -217,7 +217,7 @@ public class BaseTestCase {
 			throw new RuntimeException(e);
 		}
 		jsonString = injectRealAccounts(jsonString);
-		return Config.getTeammatesGson().fromJson(jsonString, DataBundle.class);
+		return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 	}
 
 	private static String injectRealAccounts(String jsonString) {

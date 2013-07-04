@@ -25,10 +25,10 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorServlet;
 
 import com.google.gson.Gson;
@@ -81,7 +81,7 @@ public class BackDoor {
 	 * they will be overwritten.
 	 */
 	public static String restoreDataBundle(DataBundle dataBundle) {
-		String json = Config.getTeammatesGson().toJson(dataBundle);
+		String json = Utils.getTeammatesGson().toJson(dataBundle);
 		return persistNewDataBundle(json);
 	}
 
@@ -91,7 +91,7 @@ public class BackDoor {
 	 * @param jsonString
 	 */
 	public static void deleteInstructors(String jsonString) {
-		Gson gson = Config.getTeammatesGson();
+		Gson gson = Utils.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 		deleteInstructors(data);
 	}
@@ -111,7 +111,7 @@ public class BackDoor {
 	 * @param jsonString
 	 */
 	public static void deleteCourses(String jsonString) {
-		Gson gson = Config.getTeammatesGson();
+		Gson gson = Utils.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 		HashMap<String, CourseAttributes> courses = data.courses;
 		for (CourseAttributes course : courses.values()) {
@@ -144,12 +144,12 @@ public class BackDoor {
 	public static String createAccount(AccountAttributes account) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.accounts.put(account.googleId, account);
-		return persistNewDataBundle(Config.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 	
 	public static AccountAttributes getAccount(String googleId) {
-		return Config.getTeammatesGson().fromJson(getAccountAsJson(googleId), AccountAttributes.class);
+		return Utils.getTeammatesGson().fromJson(getAccountAsJson(googleId), AccountAttributes.class);
 	}
 	
 	/**
@@ -173,7 +173,7 @@ public class BackDoor {
 
 	public static String editAccount(AccountAttributes account) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_ACCOUNT);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Config
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
 				.getTeammatesGson().toJson(account));
 		String status = makePOSTRequest(params);
 		return status;
@@ -193,7 +193,7 @@ public class BackDoor {
 	public static String createInstructor(InstructorAttributes instructor) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.instructors.put(instructor.googleId, instructor);
-		return persistNewDataBundle(Config.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
@@ -207,7 +207,7 @@ public class BackDoor {
 	
 	public static InstructorAttributes getInstructor(String instructorId, String courseId) {
 		String json = getInstructorAsJson(instructorId, courseId);
-		return Config.getTeammatesGson().fromJson(json, InstructorAttributes.class);
+		return Utils.getTeammatesGson().fromJson(json, InstructorAttributes.class);
 	}
 
 	public static String editInstructor(InstructorAttributes instructor)
@@ -247,7 +247,7 @@ public class BackDoor {
 	public static String createCourse(CourseAttributes course) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.courses.put("dummy-key", course);
-		return persistNewDataBundle(Config.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
@@ -259,7 +259,7 @@ public class BackDoor {
 	}
 	
 	public static CourseAttributes getCourse(String courseId) {
-		return Config.getTeammatesGson().fromJson(getCourseAsJson(courseId), CourseAttributes.class);
+		return Utils.getTeammatesGson().fromJson(getCourseAsJson(courseId), CourseAttributes.class);
 	}
 	
 	/**
@@ -295,7 +295,7 @@ public class BackDoor {
 	public static String createStudent(StudentAttributes student) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.students.put("dummy-key", student);
-		return persistNewDataBundle(Config.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
@@ -309,7 +309,7 @@ public class BackDoor {
 	
 	public static StudentAttributes getStudent(String courseId, String studentEmail) {
 		String studentJson = getStudentAsJson(courseId, studentEmail);
-		return Config.getTeammatesGson().fromJson(studentJson, StudentAttributes.class);
+		return Utils.getTeammatesGson().fromJson(studentJson, StudentAttributes.class);
 	}
 
 	public static String getKeyForStudent(String courseId, String studentEmail) {
@@ -324,7 +324,7 @@ public class BackDoor {
 	public static String editStudent(String originalEmail, StudentAttributes student) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT);
 		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Config
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
 				.getTeammatesGson().toJson(student));
 		String status = makePOSTRequest(params);
 		return status;
@@ -345,7 +345,7 @@ public class BackDoor {
 	public static String createEvaluation(EvaluationAttributes evaluation) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.evaluations.put("dummy-key", evaluation);
-		return persistNewDataBundle(Config.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
@@ -374,12 +374,12 @@ public class BackDoor {
 	public static EvaluationAttributes getEvaluation(String courseID,
 			String evaluationName) {
 		String jsonString = getEvaluationAsJson(courseID, evaluationName);
-		return Config.getTeammatesGson().fromJson(jsonString, EvaluationAttributes.class);
+		return Utils.getTeammatesGson().fromJson(jsonString, EvaluationAttributes.class);
 	}
 
 	public static String editEvaluation(EvaluationAttributes evaluation) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_EVALUATION);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Config
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
 				.getTeammatesGson().toJson(evaluation));
 		String status = makePOSTRequest(params);
 		return status;
@@ -405,7 +405,7 @@ public class BackDoor {
 	
 	public static SubmissionAttributes getSubmission(String courseID,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
-		return Config.getTeammatesGson()
+		return Utils.getTeammatesGson()
 				.fromJson(
 						getSubmissionAsJson(courseID, evaluationName, reviewerEmail, revieweeEmail),
 						SubmissionAttributes.class);
@@ -424,7 +424,7 @@ public class BackDoor {
 
 	public static String editSubmission(SubmissionAttributes submission) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_SUBMISSION);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Config
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
 				.getTeammatesGson().toJson(submission));
 		String status = makePOSTRequest(params);
 		return status;
@@ -444,7 +444,7 @@ public class BackDoor {
 	public static FeedbackSessionAttributes getFeedbackSession(String courseID,
 			String feedbackSessionName) {
 		String jsonString = getFeedbackSessionAsJson(feedbackSessionName, courseID);
-		return Config.getTeammatesGson().fromJson(jsonString, FeedbackSessionAttributes.class);
+		return Utils.getTeammatesGson().fromJson(jsonString, FeedbackSessionAttributes.class);
 	}
 	
 	public static String getFeedbackSessionAsJson(String feedbackSessionName,
@@ -472,8 +472,8 @@ public class BackDoor {
 	public static FeedbackQuestionAttributes getFeedbackQuestion(String courseID,
 			String feedbackSessionName, int qnNumber) {
 		String jsonString = getFeedbackQuestionAsJson(feedbackSessionName, courseID, qnNumber);
-		Config.getLogger().info(jsonString);
-		return Config.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
+		Utils.getLogger().info(jsonString);
+		return Utils.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
 	}
 	
 	public static String getFeedbackQuestionAsJson(String feedbackSessionName,
@@ -493,8 +493,8 @@ public class BackDoor {
 	public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
 			String giverEmail, String recipient) {
 		String jsonString = getFeedbackResponseAsJson(feedbackQuestionId, giverEmail, recipient);
-		Config.getLogger().info(jsonString);
-		return Config.getTeammatesGson().fromJson(jsonString, FeedbackResponseAttributes.class);
+		Utils.getLogger().info(jsonString);
+		return Utils.getTeammatesGson().fromJson(jsonString, FeedbackResponseAttributes.class);
 	}
 
 	public static String getFeedbackResponseAsJson(String feedbackQuestionId,

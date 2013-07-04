@@ -31,9 +31,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Utils;
 import teammates.storage.api.EvaluationsDb;
 
 import com.google.appengine.api.datastore.Text;
@@ -48,7 +48,7 @@ public class EvaluationsLogic {
 	//  header comments in this class.
 	
 	
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	

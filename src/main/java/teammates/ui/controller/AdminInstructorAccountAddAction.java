@@ -13,6 +13,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.Utils;
 import teammates.logic.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -116,7 +117,7 @@ public class AdminInstructorAccountAddAction extends Action {
 		jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
 				formatter.format(c.getTime()));
 
-		Gson gson = Config.getTeammatesGson();
+		Gson gson = Utils.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 		
 		new BackDoorLogic().persistDataBundle(data);

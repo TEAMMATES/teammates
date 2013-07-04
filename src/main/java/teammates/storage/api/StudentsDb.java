@@ -18,6 +18,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Student;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -31,7 +32,7 @@ public class StudentsDb extends EntitiesDb {
 
 	public static final String ERROR_UPDATE_EMAIL_ALREADY_USED = "Trying to update to an email that is already used by: ";
 	
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 
 	/**
 	 * Preconditions: <br>

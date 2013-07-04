@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
@@ -79,7 +80,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String PARAMETER_GIVER_EMAIL = "PARAMETER_GIVER_EMAIL";
 	public static final String PARAMETER_RECIPIENT = "PARAMETER_RECIPIENT";
 	
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
@@ -172,7 +173,7 @@ public class BackDoorServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_PERSIST_DATABUNDLE)) {
 			String dataBundleJsonString = req
 					.getParameter(PARAMETER_DATABUNDLE_JSON);
-			DataBundle dataBundle = Config.getTeammatesGson().fromJson(
+			DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
 					dataBundleJsonString, DataBundle.class);
 			backDoorLogic.persistDataBundle(dataBundle);
 		} else if (action.equals(OPERATION_EDIT_ACCOUNT)) {

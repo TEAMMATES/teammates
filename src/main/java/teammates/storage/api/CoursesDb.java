@@ -16,6 +16,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 
 /**
  * Handles CRUD Operations for course entities.
@@ -25,7 +26,7 @@ public class CoursesDb extends EntitiesDb {
 
 	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update a Course that doesn't exist: ";
 	
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 
 	/**
 	 * Preconditions: <br>

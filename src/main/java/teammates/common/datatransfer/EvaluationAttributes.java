@@ -8,12 +8,12 @@ import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Evaluation;
 
 /**
@@ -37,7 +37,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	public boolean published = false;
 	public boolean activated = false;
 
-	private static Logger log = Config.getLogger();
+	private static Logger log = Utils.getLogger();
 
 	public EvaluationAttributes() {
 
@@ -223,7 +223,7 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	@Override
 	public String toString() {
-		return Config.getTeammatesGson()
+		return Utils.getTeammatesGson()
 				.toJson(this, EvaluationAttributes.class);
 	}
 

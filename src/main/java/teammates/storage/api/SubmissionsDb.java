@@ -12,10 +12,10 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Submission;
 
 /**
@@ -25,7 +25,7 @@ import teammates.storage.entity.Submission;
 public class SubmissionsDb extends EntitiesDb {
 
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Submission: ";	
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 	
 	/**
 	 * Preconditions: <br>

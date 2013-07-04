@@ -13,12 +13,12 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
 /** An 'action' to be performed by the system. If the logged in user is allowed
@@ -26,7 +26,7 @@ import teammates.logic.api.Logic;
  * perform that action.
  */
 public abstract class Action {
-	protected static Logger log = Config.getLogger();
+	protected static Logger log = Utils.getLogger();
 	
 	protected Logic logic;
 	

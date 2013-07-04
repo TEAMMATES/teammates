@@ -9,12 +9,12 @@ import java.util.logging.Logger;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 
@@ -36,7 +36,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	public boolean sentPublishedEmail;
 	
 	@SuppressWarnings("unused")
-	private static Logger log = Config.getLogger();
+	private static Logger log = Utils.getLogger();
 
 	public FeedbackSessionAttributes() {
 		

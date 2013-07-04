@@ -5,12 +5,12 @@ import java.util.logging.Logger;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalEditSaveAction extends Action {
-	Logger log = Config.getLogger();
+	Logger log = Utils.getLogger();
 
 	@Override
 	protected ActionResult execute() 

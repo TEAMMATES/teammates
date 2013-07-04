@@ -19,14 +19,14 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackQuestionsDb;
 
 public class FeedbackQuestionsLogic {
 	
 	@SuppressWarnings("unused")
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 
 	private static FeedbackQuestionsLogic instance = null;
 	

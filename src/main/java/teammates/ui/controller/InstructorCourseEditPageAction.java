@@ -4,12 +4,12 @@ import java.util.logging.Logger;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.GateKeeper;
 
 public class InstructorCourseEditPageAction extends Action {
-	protected static final Logger log = Config.getLogger();
+	protected static final Logger log = Utils.getLogger();
 	
 
 	@Override

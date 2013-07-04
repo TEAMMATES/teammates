@@ -26,10 +26,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
@@ -38,7 +38,7 @@ import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 // Can select appropriate method at Action level.
 public class FeedbackSessionsLogic {
 
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 
 	private static FeedbackSessionsLogic instance = null;
 

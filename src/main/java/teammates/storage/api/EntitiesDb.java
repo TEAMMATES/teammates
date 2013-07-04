@@ -11,6 +11,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 import teammates.storage.datastore.Datastore;
 
 public abstract class EntitiesDb {
@@ -22,7 +23,7 @@ public abstract class EntitiesDb {
 	public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
 	public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 	
 	/**
 	 * Preconditions: 

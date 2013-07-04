@@ -5,14 +5,14 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 
 /**
  * Is used to generate the matching {@link Action} for a given URI.
  */
 public class ActionFactory {
-	protected static Logger log = Config.getLogger();
+	protected static Logger log = Utils.getLogger();
 	
 	private static HashMap<String, Class<? extends Action>> actionMappings;
 	

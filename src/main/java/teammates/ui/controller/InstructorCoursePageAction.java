@@ -5,15 +5,15 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.GateKeeper;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.
  */
 public class InstructorCoursePageAction extends Action {
-	protected static final Logger log = Config.getLogger();
+	protected static final Logger log = Utils.getLogger();
 	
 	
 	@Override

@@ -9,12 +9,12 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.GateKeeper;
 
 public class InstructorEvalPageAction extends Action {
-	Logger log = Config.getLogger();
+	Logger log = Utils.getLogger();
 
 	@Override
 	protected ActionResult execute() 

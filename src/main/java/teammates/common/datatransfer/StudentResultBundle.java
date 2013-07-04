@@ -7,9 +7,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Logger;
 
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Utils;
 
 /**
  *  Represents detailed results of one student for one evaluation. 
@@ -29,7 +29,7 @@ public class StudentResultBundle {
 	public StudentResultSummary summary;
 
 	@SuppressWarnings("unused")
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 	
 	public StudentResultBundle(StudentAttributes student){
 		this.student = student;

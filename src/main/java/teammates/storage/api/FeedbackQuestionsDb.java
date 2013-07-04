@@ -13,14 +13,14 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionsDb extends EntitiesDb {
 	
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
-	private static final Logger log = Config.getLogger();
+	private static final Logger log = Utils.getLogger();
 
 	/**
 	 * Preconditions: <br>

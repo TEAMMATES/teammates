@@ -28,13 +28,14 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 
 /**
  * Handles operations related to sending e-mails.
  */
 public class Emails {
 	//TODO: methods in this class throw too many exceptions. Reduce using a wrapper exception?
-	private static Logger log = Config.getLogger();
+	private static Logger log = Utils.getLogger();
 
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING = "TEAMMATES: Peer evaluation now open";
 	public static final String SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER = "TEAMMATES: Peer evaluation reminder";

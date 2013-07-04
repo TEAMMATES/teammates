@@ -52,10 +52,10 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Utils;
 import teammates.logic.AccountsLogic;
 import teammates.logic.CoursesLogic;
 import teammates.logic.Emails;
@@ -84,7 +84,7 @@ public class LogicTest extends BaseComponentTestCase {
 	private static final StudentsDb studentsDb = new StudentsDb();
 	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 
-	private static Gson gson = Config.getTeammatesGson();
+	private static Gson gson = Utils.getTeammatesGson();
 
 	private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -753,7 +753,7 @@ public class LogicTest extends BaseComponentTestCase {
 		String course1EvalDetails = "";
 		for (EvaluationDetailsBundle ed : course1Evals) {
 			course1EvalDetails = course1EvalDetails
-					+ Config.getTeammatesGson().toJson(ed) + Const.EOL;
+					+ Utils.getTeammatesGson().toJson(ed) + Const.EOL;
 		}
 		int numberOfEvalsInCourse1 = course1Evals.size();
 		assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
@@ -2831,9 +2831,9 @@ public class LogicTest extends BaseComponentTestCase {
 	public static void verifyEnrollmentResultForStudent(StudentAttributes expectedStudent,
 			StudentAttributes enrollmentResult, StudentAttributes.UpdateStatus status) {
 		String errorMessage = "mismatch! \n expected:\n"
-				+ Config.getTeammatesGson().toJson(expectedStudent)
+				+ Utils.getTeammatesGson().toJson(expectedStudent)
 				+ "\n actual \n"
-				+ Config.getTeammatesGson().toJson(enrollmentResult);
+				+ Utils.getTeammatesGson().toJson(enrollmentResult);
 		assertEquals(errorMessage, true,
 				enrollmentResult.isEnrollInfoSameAs(expectedStudent) &&
 				enrollmentResult.updateStatus == status);

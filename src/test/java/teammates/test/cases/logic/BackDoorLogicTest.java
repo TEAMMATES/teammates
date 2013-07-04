@@ -20,8 +20,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.common.CourseAttributesTest;
@@ -29,7 +29,7 @@ import teammates.test.cases.common.CourseAttributesTest;
 import com.google.gson.Gson;
 
 public class BackDoorLogicTest extends BaseComponentTestCase {
-	Gson gson = Config.getTeammatesGson();
+	Gson gson = Utils.getTeammatesGson();
 	private static DataBundle dataBundle = getTypicalDataBundle();
 
 	@BeforeClass
