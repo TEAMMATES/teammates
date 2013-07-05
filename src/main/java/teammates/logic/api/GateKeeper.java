@@ -11,7 +11,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.logic.AccountsLogic;
+import teammates.logic.core.AccountsLogic;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.StudentsDb;
 

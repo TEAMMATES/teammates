@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.logic.FeedbackSessionsLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 
 public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
 

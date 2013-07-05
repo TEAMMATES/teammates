@@ -25,10 +25,10 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.logic.AccountsLogic;
-import teammates.logic.CoursesLogic;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.TestProperties;
 
 public class BaseTestCase {

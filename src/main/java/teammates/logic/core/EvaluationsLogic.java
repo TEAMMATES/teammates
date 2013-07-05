@@ -1,4 +1,4 @@
-package teammates.logic;
+package teammates.logic.core;
 
 import java.io.IOException;
 import java.util.ArrayList;

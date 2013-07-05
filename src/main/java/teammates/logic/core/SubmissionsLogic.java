@@ -1,4 +1,4 @@
-package teammates.logic;
+package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;

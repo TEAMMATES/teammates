@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.HttpRequestHelper;
-import teammates.logic.Emails;
-import teammates.logic.FeedbackSessionsLogic;
+import teammates.logic.core.Emails;
+import teammates.logic.core.FeedbackSessionsLogic;
 
 @SuppressWarnings("serial")
 public class FeedbackSessionPublishedRemindersServlet extends AutomatedRemindersServlet {

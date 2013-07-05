@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.InstructorsLogic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 
 public class InstructorsLogicTest extends BaseComponentTestCase{

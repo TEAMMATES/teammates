@@ -16,8 +16,8 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.logic.SubmissionsLogic;
 import teammates.logic.api.Logic;
+import teammates.logic.core.SubmissionsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 
 public class SubmissionsLogicTest extends BaseComponentTestCase{

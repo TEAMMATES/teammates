@@ -9,7 +9,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.logic.FeedbackSessionsLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.EvaluationsDb;
 
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {

@@ -13,16 +13,16 @@ import teammates.common.exception.*;
 import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
 
-import teammates.logic.Emails;
-import teammates.logic.AccountsLogic;
-import teammates.logic.CoursesLogic;
-import teammates.logic.EvaluationsLogic;
-import teammates.logic.FeedbackQuestionsLogic;
-import teammates.logic.FeedbackResponsesLogic;
-import teammates.logic.FeedbackSessionsLogic;
-import teammates.logic.InstructorsLogic;
-import teammates.logic.StudentsLogic;
-import teammates.logic.SubmissionsLogic;
+import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.Emails;
+import teammates.logic.core.EvaluationsLogic;
+import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.StudentsLogic;
+import teammates.logic.core.SubmissionsLogic;
 
 /**
  * This class represents the API to the business logic of the system. Please

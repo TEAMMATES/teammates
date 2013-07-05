@@ -15,7 +15,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import teammates.logic.Emails;
+import teammates.logic.core.Emails;
 
 public class EmailAccount {
 

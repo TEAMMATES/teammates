@@ -17,7 +17,7 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.logic.FeedbackSessionsLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 import teammates.test.cases.BaseComponentTestCase;
 

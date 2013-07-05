@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.CoursesLogic;
+import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.InstructorCourseAddAction;
 import teammates.ui.controller.InstructorCoursePageData;
 import teammates.ui.controller.ShowPageResult;

@@ -1,4 +1,4 @@
-package teammates.logic;
+package teammates.logic.core;
 
 import static teammates.common.util.Const.EOL;
 

@@ -11,7 +11,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.logic.EvaluationsLogic;
+import teammates.logic.core.EvaluationsLogic;
 import teammates.test.cases.common.EvaluationAttributesTest;
 import teammates.ui.controller.InstructorHomePageAction;
 import teammates.ui.controller.InstructorHomePageData;

@@ -8,14 +8,14 @@ import org.testng.AssertJUnit;
 import java.util.Arrays;
 import java.util.logging.Level;
 
-import teammates.logic.TeamEvalResult;
+import teammates.logic.core.TeamEvalResult;
 import teammates.test.cases.BaseTestCase;
 import static teammates.common.util.Const.EOL;
-import static teammates.logic.TeamEvalResult.NA;
-import static teammates.logic.TeamEvalResult.NSB;
-import static teammates.logic.TeamEvalResult.NSU;
-import static teammates.logic.TeamEvalResult.pointsToString;
-import static teammates.logic.TeamEvalResult.replaceMagicNumbers;
+import static teammates.logic.core.TeamEvalResult.NA;
+import static teammates.logic.core.TeamEvalResult.NSB;
+import static teammates.logic.core.TeamEvalResult.NSU;
+import static teammates.logic.core.TeamEvalResult.pointsToString;
+import static teammates.logic.core.TeamEvalResult.replaceMagicNumbers;
 
 public class TeamEvalResultTest extends BaseTestCase{
 	

@@ -13,9 +13,9 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.logic.AccountsLogic;
-import teammates.logic.StudentsLogic;
 import teammates.logic.api.Logic;
+import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 
 public class AccountsLogicTest extends BaseComponentTestCase {

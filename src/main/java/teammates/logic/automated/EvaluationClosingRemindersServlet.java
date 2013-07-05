@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.HttpRequestHelper;
-import teammates.logic.Emails;
-import teammates.logic.EvaluationsLogic;
+import teammates.logic.core.Emails;
+import teammates.logic.core.EvaluationsLogic;
 
 @SuppressWarnings("serial")
 public class EvaluationClosingRemindersServlet extends AutomatedRemindersServlet {

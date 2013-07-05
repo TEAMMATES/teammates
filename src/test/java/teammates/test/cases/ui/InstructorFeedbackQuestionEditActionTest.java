@@ -11,7 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.logic.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackQuestionsLogic;
 
 public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 

@@ -32,7 +32,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
-import teammates.logic.Emails;
+import teammates.logic.core.Emails;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
 import teammates.test.driver.TestProperties;
