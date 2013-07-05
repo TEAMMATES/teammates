@@ -6,7 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAction {
 	

@@ -10,7 +10,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseAddAction extends Action {
 	

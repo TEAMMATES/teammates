@@ -8,7 +8,7 @@ import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 
 public class InstructorHomePageAction extends Action {
 	

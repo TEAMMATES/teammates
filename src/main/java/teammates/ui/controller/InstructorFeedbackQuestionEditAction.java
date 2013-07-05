@@ -11,7 +11,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
 public class InstructorFeedbackQuestionEditAction extends Action {

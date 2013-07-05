@@ -15,7 +15,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 
 public class StudentHomePageAction extends Action {
 	

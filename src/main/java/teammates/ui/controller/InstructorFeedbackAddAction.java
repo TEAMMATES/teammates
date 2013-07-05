@@ -12,7 +12,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {

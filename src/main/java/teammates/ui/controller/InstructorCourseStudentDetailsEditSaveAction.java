@@ -4,7 +4,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCoursesPageAction {
 	

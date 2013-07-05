@@ -7,7 +7,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 
 public class StudentCourseJoinAction extends Action {
 	

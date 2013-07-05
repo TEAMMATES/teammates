@@ -9,7 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
 public class StudentFeedbackSubmissionEditSaveAction extends Action {

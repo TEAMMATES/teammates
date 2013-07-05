@@ -7,7 +7,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;

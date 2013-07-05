@@ -1,4 +1,4 @@
-package teammates.logic;
+package teammates.logic.api;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.logic.AccountsLogic;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.StudentsDb;
 

@@ -14,7 +14,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
-import teammates.logic.GateKeeper;
+import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
 import com.google.gson.Gson;

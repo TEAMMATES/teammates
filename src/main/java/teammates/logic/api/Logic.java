@@ -20,7 +20,6 @@ import teammates.logic.EvaluationsLogic;
 import teammates.logic.FeedbackQuestionsLogic;
 import teammates.logic.FeedbackResponsesLogic;
 import teammates.logic.FeedbackSessionsLogic;
-import teammates.logic.GateKeeper;
 import teammates.logic.InstructorsLogic;
 import teammates.logic.StudentsLogic;
 import teammates.logic.SubmissionsLogic;
