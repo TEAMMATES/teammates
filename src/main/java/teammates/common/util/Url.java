@@ -3,17 +3,12 @@ package teammates.common.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import teammates.test.driver.TestProperties;
-
 public class Url {
 
 	private String urlString;
 
 	public Url(String url) {
 		this.urlString = url;
-		if(urlString.startsWith("/")){
-			urlString = TestProperties.inst().TEAMMATES_URL + urlString;
-		}
 	}
 
 	public String get(String parameterName) {
@@ -132,10 +127,7 @@ public class Url {
 	public static void main(String[] args) {
 		System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc").get(Const.ParamsNames.USER_ID));
 		System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc&course=course1").get(Const.ParamsNames.USER_ID));
-		System.out.println(new Url("http://teammates.com/page/instructorHome?error=true&user=abc&course=course1").get(Const.ParamsNames.USER_ID));
-		System.out.println(new Url("/page/instHome").withUserId("abc").toString());
-		System.out.println(new Url("/page/instHome").withUserId("abc").withCourseId("course1").toString());
-		System.out.println(new Url("http://google.com").withUserId("abc").withCourseId("course1").toString());
+		System.out.println(new Url ("http://teammates.com/page/instructorHome?error=true&user=abc&course=course1").get(Const.ParamsNames.USER_ID));
 	}
 
 }

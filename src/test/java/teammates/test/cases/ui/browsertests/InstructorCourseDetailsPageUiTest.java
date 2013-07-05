@@ -57,7 +57,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 		
 		______TS("content: multiple students");
 		
-		Url detailsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+		Url detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
 		.withUserId(testData.instructors.get("CCDetailsUiT.instr").googleId)
 		.withCourseId(testData.courses.get("CCDetailsUiT.CS2104").id);
 		

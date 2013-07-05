@@ -110,7 +110,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 		
 		______TS("action: download report");
 		
-		Url reportUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD)
+		Url reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withEvalName(evalName);
@@ -133,7 +133,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 		
 		______TS("action: download report");
 		
-		Url reportUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD)
+		Url reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withEvalName(evalName);
@@ -213,7 +213,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 	}
 
 	private InstructorEvalResultsPage loginToResultsPage(String instructorId, String courseId, String evalName){
-		Url resultsUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE)
+		Url resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE)
 			.withUserId(instructorId)
 			.withCourseId(courseId)
 			.withEvalName(evalName);

@@ -42,7 +42,7 @@ public class InstructorEvalSubmissionViewPageUiTest extends BaseUiTestCase{
 		
 		______TS("content: p2p disabled eval");
 		
-		Url resultsUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE)
+		Url resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE)
 			.withUserId(testData.instructors.get("CESubViewUiT.instructor").googleId)
 			.withCourseId(eval.courseId)
 			.withEvalName(eval.name);
@@ -56,7 +56,7 @@ public class InstructorEvalSubmissionViewPageUiTest extends BaseUiTestCase{
 		
 		eval = testData.evaluations.get("First Eval");
 		
-		resultsUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE)
+		resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE)
 			.withUserId(testData.instructors.get("CESubViewUiT.instructor").googleId)
 			.withCourseId(eval.courseId)
 			.withEvalName(eval.name);

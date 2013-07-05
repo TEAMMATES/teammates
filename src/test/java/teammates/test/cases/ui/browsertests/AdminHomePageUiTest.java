@@ -45,7 +45,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 		
 		______TS("content: typical page");
 		
-		Url homeUrl = new Url(Const.ActionURIs.ADMIN_HOME_PAGE);
+		Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
 		homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
 		//Full page content check is omitted because this is an internal page. 
 	}
@@ -99,7 +99,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 
 		______TS("action failure : trying to create duplicate instructor account");
 		
-		homePage.navigateTo(new Url(Const.ActionURIs.ADMIN_HOME_PAGE));
+		homePage.navigateTo(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
 		homePage.createInstructor(account, false)
 			.verifyStatus("The Google ID AHPUiT.instr1 is already registered as an instructor");
 		

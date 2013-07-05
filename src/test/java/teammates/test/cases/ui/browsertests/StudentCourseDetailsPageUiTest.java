@@ -52,7 +52,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
 
 	private void verifyContent(String courseObjectId, String studentObjectId, String filePath) {
 		
-		Url detailsPageUrl = new Url(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
+		Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
 			.withUserId(testData.students.get(studentObjectId).googleId)
 			.withCourseId(testData.courses.get(courseObjectId).id);
 		

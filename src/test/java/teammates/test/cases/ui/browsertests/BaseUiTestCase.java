@@ -16,6 +16,18 @@ import teammates.test.pageobjects.GoogleLoginPage;
 public class BaseUiTestCase extends BaseTestCase {
 
 	protected static final String appUrl = TestProperties.inst().TEAMMATES_URL;
+	
+	/** 
+	 * Creates a {@link Url} for the supplied {@code url} parameter.
+	 * If url given is a relative one (e.g., "/page/adminHomePage"), 
+	 * adds test.app.url (from test.properties) to it.
+	 */
+	protected static Url createUrl(String url){
+		if(url.startsWith("/")){
+			url = TestProperties.inst().TEAMMATES_URL + url;
+		}
+		return new Url(url);
+	}
 
 	/**
 	 * Logs in a page using admin credentials (i.e. in masquerade mode).
@@ -68,8 +80,9 @@ public class BaseUiTestCase extends BaseTestCase {
 	}
 
 	protected static AdminHomePage loginAdmin(Browser currentBrowser) {
-		return loginAdminToPage(currentBrowser, new Url(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
+		return loginAdminToPage(currentBrowser, createUrl(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
 	}
+	
 
 
 }

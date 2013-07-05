@@ -88,7 +88,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
 	}
 
 	private void loginToAdminAccountsManagementPage() {
-		accountsPageUrl = new Url(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
+		accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
 		accountsPage = loginAdminToPage(browser, accountsPageUrl, AdminAccountManagementPage.class);
 	}
 

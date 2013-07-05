@@ -115,7 +115,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 		loginInstructorUnsuccessfully(unregUsername, unregPassword);
 
-		Url url = new Url(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+		Url url = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
 		verifyRedirectToNotAuthorized(url);
 		verifyCannotMasquerade(url, otherInstructor.googleId);
 
@@ -169,7 +169,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		assertEquals(EvalStatus.AWAITING, ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-		currentPage.navigateTo(new Url(link))
+		currentPage.navigateTo(createUrl(link))
 			.verifyStatus(Const.StatusMessages.EVALUATION_NOT_OPEN);
 		assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.POINTS + "0"), "disabled"));
 		assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.JUSTIFICATION + "0"), "disabled"));
@@ -192,7 +192,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-		currentPage.navigateTo(new Url(link))
+		currentPage.navigateTo(createUrl(link))
 			.verifyStatus(Const.StatusMessages.EVALUATION_NOT_OPEN);
 		assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.POINTS + "0"), "disabled"));
 		assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.JUSTIFICATION + "0"), "disabled"));
@@ -210,7 +210,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		//  case only checks if editing is disabled when timezone is ahead.
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-		currentPage.navigateTo(new Url(link))
+		currentPage.navigateTo(createUrl(link))
 			.verifyStatus(Const.StatusMessages.EVALUATION_NOT_OPEN);
 		assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.POINTS + "0"), "disabled"));
 		assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.JUSTIFICATION + "0"), "disabled"));
@@ -225,7 +225,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-		currentPage.navigateTo(new Url(link))
+		currentPage.navigateTo(createUrl(link))
 			.verifyStatus(Const.StatusMessages.EVALUATION_NOT_OPEN);
 		assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.POINTS + "0"), "disabled"));
 		assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.JUSTIFICATION + "0"), "disabled"));
@@ -329,7 +329,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 	private void verifyCannotAccessAdminPages() {
 		//cannot access directly
-		Url url = new Url(Const.ActionURIs.ADMIN_HOME_PAGE);
+		Url url = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
 		verifyRedirectToNotAuthorized(url);
 		//cannot access by masquerading either
 		url = url.withUserId(adminUsername);
@@ -347,7 +347,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 	private void verifyRedirectToWelcomeStrangerPage(String path, String unregUsername) {
 		printUrl(appUrl + path);
-		currentPage.navigateTo(new Url(path));
+		currentPage.navigateTo(createUrl(path));
 		// A simple regex check is enough because we do full HTML tests
 		// elsewhere
 		assertContainsRegex("{*}" + unregUsername + "{*}Welcome stranger{*}",
@@ -362,7 +362,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 	private void verifyRedirectToNotAuthorized(String path) {
 		printUrl(appUrl + path);
-		currentPage.navigateTo(new Url(path));
+		currentPage.navigateTo(createUrl(path));
 		verifyRedirectToNotAuthorized();
 	}
 	
@@ -374,13 +374,13 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 	private void verifyPageContains(String path, String targetText) {
 		printUrl(appUrl + path);
-		currentPage.navigateTo(new Url(path));
+		currentPage.navigateTo(createUrl(path));
 		assertContainsRegex(targetText, currentPage.getPageSource());
 	}
 
 	private void verifyRedirectToLogin(String path) {
 		printUrl(appUrl + path);
-		currentPage.navigateTo(new Url(path));
+		currentPage.navigateTo(createUrl(path));
 		assertTrue(isLoginPage(currentPage));
 	}
 

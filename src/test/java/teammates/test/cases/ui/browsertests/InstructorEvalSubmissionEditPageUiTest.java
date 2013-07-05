@@ -55,7 +55,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
 		
 		EvaluationAttributes p2pDisabledEval = testData.evaluations.get("Second Eval");
 		
-		Url editUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT)
+		Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT)
 			.withUserId(testData.instructors.get("CESubEditUiT.instructor").googleId)
 			.withCourseId(p2pDisabledEval.courseId)
 			.withEvalName(p2pDisabledEval.name)
@@ -66,7 +66,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
 		
 		______TS("content: typical edit page, reached via resulst page");
 		
-		Url resultsUrl = new Url(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE)
+		Url resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE)
 			.withUserId(testData.instructors.get("CESubEditUiT.instructor").googleId)
 			.withCourseId(eval.courseId)
 			.withEvalName(eval.name);
