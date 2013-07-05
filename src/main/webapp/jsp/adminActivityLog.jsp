@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="teammates.common.util.Const" %>
-<%@ page import="teammates.ui.controller.ActivityLogEntry" %>
+<%@ page import="teammates.common.util.ActivityLogEntry" %>
 <%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
 
 <%

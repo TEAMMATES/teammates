@@ -1,4 +1,4 @@
-package teammates.ui.controller;
+package teammates.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 
 import com.google.appengine.api.log.AppLogLine;
 

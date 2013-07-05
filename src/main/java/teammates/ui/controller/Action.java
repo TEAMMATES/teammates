@@ -13,6 +13,7 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;

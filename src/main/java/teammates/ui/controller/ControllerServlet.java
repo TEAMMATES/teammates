@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;

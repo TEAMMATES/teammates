@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Utils;
 import teammates.logic.Emails;
-import teammates.ui.controller.ActivityLogEntry;
 
 @SuppressWarnings("serial")
 public abstract class AutomatedRemindersServlet extends HttpServlet{

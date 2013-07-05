@@ -6,8 +6,8 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.log.AppLogLine;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.ActivityLogEntry;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.controller.ActivityLogEntry;
 
 public class ActivityLogTest extends BaseTestCase{
 

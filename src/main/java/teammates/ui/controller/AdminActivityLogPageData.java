@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.ActivityLogEntry;
 
 public class AdminActivityLogPageData extends PageData {
 	

@@ -6,6 +6,7 @@ import java.util.List;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
