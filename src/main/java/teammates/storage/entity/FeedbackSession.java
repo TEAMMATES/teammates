@@ -7,6 +7,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import teammates.common.datatransfer.FeedbackSessionType;
+
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -15,10 +17,6 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class FeedbackSession {
 
-	public enum FeedbackSessionType {
-		STANDARD, TEAM, PRIVATE;
-	}
-	
 	// Format is feedbackSessionName%courseId
 	@PrimaryKey
 	@Persistent

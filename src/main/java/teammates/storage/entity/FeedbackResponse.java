@@ -4,7 +4,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import teammates.storage.entity.FeedbackQuestion.QuestionType;
+import teammates.common.datatransfer.FeedbackQuestionType;
+
 
 import com.google.appengine.api.datastore.Text;
 
@@ -28,7 +29,7 @@ public class FeedbackResponse {
 	private String feedbackQuestionId;
 	
 	@Persistent
-	private QuestionType feedbackQuestionType;
+	private FeedbackQuestionType feedbackQuestionType;
 	
 	@Persistent
 	private String giverEmail;
@@ -72,11 +73,11 @@ public class FeedbackResponse {
 		this.feedbackQuestionId = feedbackQuestionId;
 	}
 
-	public QuestionType getFeedbackQuestionType() {
+	public FeedbackQuestionType getFeedbackQuestionType() {
 		return feedbackQuestionType;
 	}
 
-	public void setFeedbackQuestionType(QuestionType feedbackQuestionType) {
+	public void setFeedbackQuestionType(FeedbackQuestionType feedbackQuestionType) {
 		this.feedbackQuestionType = feedbackQuestionType;
 	}
 
@@ -105,7 +106,7 @@ public class FeedbackResponse {
 	}
 
 	public FeedbackResponse(String feedbackSessionName, String courseId,
-			String feedbackQuestionId, QuestionType feedbackQuestionType,
+			String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
 			String giverEmail, String recipient, Text answer) {
 		this.feedbackSessionName = feedbackSessionName;
 		this.courseId = courseId;

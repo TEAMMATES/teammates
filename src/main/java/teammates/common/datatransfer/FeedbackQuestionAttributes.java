@@ -9,7 +9,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
 public class FeedbackQuestionAttributes extends EntityAttributes
 	implements Comparable<FeedbackQuestionAttributes>{
@@ -19,7 +18,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	public String creatorEmail;
 	public Text questionText;
 	public int questionNumber;
-	public QuestionType questionType;
+	public FeedbackQuestionType questionType;
 	public FeedbackParticipantType giverType;
 	public FeedbackParticipantType recipientType;
 	public int numberOfEntitiesToGiveFeedbackTo;
@@ -51,7 +50,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 			String feedbackQuestionText, String feedbackSessionName,
 			String courseId, String creatorEmail, Text questionText,
 			int questionNumber,
-			QuestionType questionType, FeedbackParticipantType giverType,
+			FeedbackQuestionType questionType, FeedbackParticipantType giverType,
 			FeedbackParticipantType recipientType,
 			int numberOfEntitiesToGiveFeedbackTo,
 			List<FeedbackParticipantType> showResponsesTo,

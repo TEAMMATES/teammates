@@ -3,13 +3,13 @@ package teammates.ui.controller;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 
 public class InstructorFeedbackEditSaveAction extends Action {
 

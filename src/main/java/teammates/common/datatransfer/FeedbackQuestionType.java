@@ -1,0 +1,5 @@
+package teammates.common.datatransfer;
+
+public enum FeedbackQuestionType {
+	TEXT, MCQ;
+}

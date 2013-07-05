@@ -6,7 +6,6 @@ import java.util.List;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
-import teammates.storage.entity.FeedbackQuestion.QuestionType;
 import teammates.storage.entity.FeedbackResponse;
 
 import com.google.appengine.api.datastore.Text;
@@ -16,7 +15,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public String feedbackSessionName;
 	public String courseId;
 	public String feedbackQuestionId;
-	public QuestionType feedbackQuestionType;
+	public FeedbackQuestionType feedbackQuestionType;
 	public String giverEmail;
 	public String recipient;
 	public Text answer;
@@ -27,7 +26,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	
 	public FeedbackResponseAttributes(String feedbackSessionName,
 			String courseId, String feedbackQuestionId,
-			QuestionType feedbackQuestionType, String giverEmail,
+			FeedbackQuestionType feedbackQuestionType, String giverEmail,
 			String recipient, Text answer) {
 		this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
 		this.courseId = Sanitizer.sanitizeTitle(courseId);

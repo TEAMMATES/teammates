@@ -16,7 +16,6 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 
 public class FeedbackSessionAttributes extends EntityAttributes {
 	

@@ -7,13 +7,13 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
-import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
 public class InstructorFeedbackQuestionAddAction extends Action {
 
@@ -75,7 +75,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		newQuestion.questionText = 
 				new Text(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
 		newQuestion.questionType = 
-				QuestionType.TEXT;
+				FeedbackQuestionType.TEXT;
 		
 		newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
 		if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {

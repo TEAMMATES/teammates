@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -10,7 +11,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
-import teammates.storage.entity.FeedbackQuestion.QuestionType;
 
 public class StudentFeedbackSubmissionEditSaveAction extends Action {
 
@@ -90,7 +90,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		response.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		response.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		response.feedbackQuestionId = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
-		response.feedbackQuestionType = QuestionType.valueOf(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
+		response.feedbackQuestionType = FeedbackQuestionType.valueOf(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
 		response.recipient = getRequestParam(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
 		response.answer = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
 		return response;

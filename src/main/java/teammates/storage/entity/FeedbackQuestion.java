@@ -11,13 +11,10 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionType;
 
 @PersistenceCapable
 public class FeedbackQuestion {
-	
-	public enum QuestionType {
-		TEXT, MCQ;
-	}
 	
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -40,7 +37,7 @@ public class FeedbackQuestion {
 	private int questionNumber;
 	
 	@Persistent
-	private QuestionType questionType;
+	private FeedbackQuestionType questionType;
 
 	@Persistent
 	private FeedbackParticipantType giverType;
@@ -66,7 +63,7 @@ public class FeedbackQuestion {
 	
 	public FeedbackQuestion(
 			String feedbackSessionName, String courseId, String creatorEmail,
-			Text questionText, int questionNumber, QuestionType questionType,
+			Text questionText, int questionNumber, FeedbackQuestionType questionType,
 			FeedbackParticipantType giverType,
 			FeedbackParticipantType recipientType,
 			int numberOfEntitiesToGiveFeedbackTo,
@@ -130,11 +127,11 @@ public class FeedbackQuestion {
 		this.questionText = questionText;
 	}
 
-	public QuestionType getQuestionType() {
+	public FeedbackQuestionType getQuestionType() {
 		return questionType;
 	}
 
-	public void setQuestionType(QuestionType questionType) {
+	public void setQuestionType(FeedbackQuestionType questionType) {
 		this.questionType = questionType;
 	}
 

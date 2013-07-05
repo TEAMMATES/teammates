@@ -5,6 +5,7 @@ import java.util.Date;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -13,7 +14,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.storage.entity.FeedbackSession.FeedbackSessionType;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
