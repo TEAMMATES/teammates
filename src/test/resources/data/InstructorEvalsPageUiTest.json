@@ -61,8 +61,8 @@
   
   "students": {
     "alice.tmms@CEvalUiT.CS2104": {
-      "googleId": "CEvalUiT.alice.tmms",
-      "email": "alice.b.tmms@gmail.com",
+      "googleId": "{$test.student1}",
+      "email": "{$test.student1}@gmail.com",
       "course": "CEvalUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
