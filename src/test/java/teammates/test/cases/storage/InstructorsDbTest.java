@@ -20,6 +20,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class InstructorsDbTest extends BaseComponentTestCase {
 	
@@ -50,7 +51,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 			instructorsDb.createEntity(i);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(InstructorsDb.ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS, e.getMessage());
+			AssertHelper.assertContains(InstructorsDb.ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS, e.getMessage());
 		}
 		
 		// FAIL : invalid params
@@ -59,7 +60,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 			instructorsDb.createEntity(i);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(
+			AssertHelper.assertContains(
 					String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT),
 					e.getMessage());
 		} catch (EntityAlreadyExistsException e) {
@@ -122,7 +123,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 			instructorsDb.updateInstructor(instructorToEdit);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(
+			AssertHelper.assertContains(
 						String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,	REASON_EMPTY) + EOL 
 						+ String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email,	REASON_INCORRECT_FORMAT), 
 					e.getMessage());

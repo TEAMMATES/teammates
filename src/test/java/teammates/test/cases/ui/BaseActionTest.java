@@ -12,6 +12,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -414,7 +415,7 @@ public class BaseActionTest extends BaseComponentTestCase {
 	protected void verifyRedirectTo(String expectedRedirectUrl,	String... params) throws Exception {
 		Action c = gaeSimulation.getActionObject(uri, params);
 		RedirectResult r = (RedirectResult) c.executeAndPostProcess();
-		assertContains(expectedRedirectUrl, r.destination);
+		AssertHelper.assertContains(expectedRedirectUrl, r.destination);
 	}
 
 }

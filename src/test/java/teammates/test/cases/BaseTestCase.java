@@ -1,65 +1,24 @@
 package teammates.test.cases;
 
-import static org.junit.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.FileHelper;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.logic.core.AccountsLogic;
-import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.TestProperties;
 
+/** Base class for all test cases */
 public class BaseTestCase {
 
-	static {
-		String buildFile = System.getProperty("user.dir")
-				+ "/src/main/resources/"
-				+ "build.properties";
-		
-		buildFile = buildFile.replace("/", File.separator);
-		
-		Properties buildProperties = new Properties();
-		try {
-			buildProperties.load(new FileInputStream(buildFile));
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("Could not initialize Config object"
-					+ TeammatesException.toStringWithStackTrace(e));
-		}
-	}
-
-	protected static long start;
-
-	private static void printTestCaseHeader(String testCaseName) {
-		print("[TestCase]---:" + testCaseName);
-	}
-
-	public static void printTestCaseHeader() {
-		printTestCaseHeader(Thread.currentThread().getStackTrace()[2]
-				.getMethodName());
-	}
 
 	/**
 	 * Test Segment divider. Used to divide a test case into logical sections.
@@ -72,6 +31,11 @@ public class BaseTestCase {
 		print(" * " + description);
 	}
 
+	public static void printTestCaseHeader() {
+		print("[TestCase]---:" + 
+				Thread.currentThread().getStackTrace()[2].getMethodName());
+	}
+
 	public static void printTestClassHeader() {
 		print("[============================="
 				+ Thread.currentThread().getStackTrace()[2].getClassName()
@@ -79,8 +43,11 @@ public class BaseTestCase {
 	}
 
 	public static void printTestClassFooter() {
-		print(Thread.currentThread().getStackTrace()[2].getClassName()
-				+ " completed");
+		print(Thread.currentThread().getStackTrace()[2].getClassName() + " completed");
+	}
+
+	protected static void print(String message) {
+		System.out.println(message);
 	}
 
 	protected static void setLogLevelOfClass(Class<?> testedClass, Level level)
@@ -129,76 +96,6 @@ public class BaseTestCase {
 		setConsoleLoggingLevel(Level.WARNING);
 	}
 
-	protected static void assertSameDates(Date expected, Date actual) {
-		assertEquals(TimeHelper.calendarToString(TimeHelper.dateToCalendar(expected)),
-				TimeHelper.calendarToString(TimeHelper.dateToCalendar(actual)));
-	}
-
-	/**
-	 * Asserts that the superstringActual contains the exact occurence of
-	 * substringExpected. Display the difference between the two on failure (in
-	 * Eclipse).
-	 */
-	public static void assertContains(String substringExpected,
-			String superstringActual) {
-		if (!superstringActual.contains(substringExpected)) {
-			assertEquals(substringExpected, superstringActual);
-		}
-	}
-
-	/**
-	 * Asserts that the superstringActual contains the exact occurence of
-	 * substringExpected. Display the difference between the two on failure (in
-	 * Eclipse) with the specified message.
-	 */
-	public static void assertContains(String message, String substringExpected,
-			String superstringActual) {
-		if (!superstringActual.contains(substringExpected)) {
-			assertEquals(message, substringExpected, superstringActual);
-		}
-	}
-
-	/**
-	 * Asserts that the stringActual contains the occurence regexExpected.
-	 * Replaces occurences of {*} at regexExpected to match anything in
-	 * stringActual. Tries to display the difference between the two on failure
-	 * (in Eclipse). Ignores the tab character (i.e., ignore indentation using
-	 * tabs) and ignores the newline when comparing.
-	 */
-	public static void assertContainsRegex(String regexExpected,
-			String stringActual) {
-		if (!isContainsRegex(regexExpected, stringActual)) {
-			assertEquals(regexExpected, stringActual);
-		}
-	}
-	
-
-	/**
-	 * Asserts that the stringActual contains the occurence regexExpected.
-	 * Replaces occurences of {*} at regexExpected to match anything in
-	 * stringActual. Tries to display the difference between the two on failure
-	 * (in Eclipse) with the specified message.
-	 */
-	public static void assertContainsRegex(String message,
-			String regexExpected, String stringActual) {
-		if (!isContainsRegex(regexExpected, stringActual)) {
-			assertEquals(message, regexExpected, stringActual);
-		}
-	}
-
-	/**
-	 * Checks that the stringActual contains the occurence regexExpected.
-	 * Replaces occurences of {*} at regexExpected to match anything in
-	 * stringActual.
-	 */
-	public static boolean isContainsRegex(String regexExpected,	String stringActual) {
-		String processedActual = stringActual.replaceAll("[\t\r\n]", "");
-		String processedRegex = Pattern.quote(regexExpected)
-				.replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
-				.replaceAll("[\t\r\n]", "");
-		return processedActual.matches("(?s)(?m).*" + processedRegex + ".*");
-	}
-
 	/**
 	 * Creates a DataBundle as specified in typicalDataBundle.json
 	 */
@@ -220,61 +117,15 @@ public class BaseTestCase {
 		return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
 	}
 
-	private static String injectRealAccounts(String jsonString) {
-		
-		return jsonString
-				.replace("{$test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
-				.replace("{$test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
-				.replace("{$test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-	}
-
 	/**
 	 * Creates in the datastore a fresh copy of data in typicalDataBundle.json
 	 */
-	public void restoreTypicalDataInDatastore() throws Exception {
-		setGeneralLoggingLevel(Level.SEVERE);
-
+	protected void restoreTypicalDataInDatastore() throws Exception {
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
-
-		// also reduce logging verbosity of these classes as we are going to
-		// use them intensively here.
-		setLogLevelOfClass(Logic.class, Level.SEVERE);
-
 		DataBundle dataBundle = getTypicalDataBundle();
-		
-		for (AccountAttributes account : dataBundle.accounts.values()) {
-			AccountsLogic.inst().deleteAccountCascade(account.googleId);
-		}
-
-		// delete courses first in case there are existing courses with same id
-		// but under different instructors.
-		for (CourseAttributes course : dataBundle.courses.values()) {
-			CoursesLogic.inst().deleteCourseCascade(course.id);
-		}
-
-		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
-		for (InstructorAttributes instructor : instructors.values()) {
-			AccountsLogic.inst().downgradeInstructorToStudentCascade(instructor.googleId);
-		}
-		
 		backDoorLogic.persistDataBundle(dataBundle);
-
-		// restore logging levels to normal
-		// TODO: restore to previous levels
-		setGeneralLoggingLevel(Level.WARNING);
-		setLogLevelOfClass(Logic.class, Level.FINE);
-
 	}
 
-
-	/**
-	 * Checks whether a JSON string represents a null object
-	 */
-	protected boolean isNullJSON(String json) {
-		return json == null || json.equals("null");
-	}
-
-	
 
 	protected void signalFailureToDetectException(String... messages) {
 		throw new RuntimeException("Expected exception not detected."+ Arrays.toString(messages));
@@ -284,25 +135,12 @@ public class BaseTestCase {
 		assertTrue(true);
 	}
 
-	protected static void print(String message) {
-		System.out.println(message);
-	}
-
-	protected static void startRecordingTimeForDataImport() {
-		start = System.currentTimeMillis();
-	}
-
-	protected static void reportTimeForDataImport() {
-		print("Data import finished in " + (System.currentTimeMillis() - start)
-				+ " ms");
-	}
-	
-	protected void waitFor(long miliseconds) {
-		try {
-			Thread.sleep(miliseconds);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	private static String injectRealAccounts(String jsonString) {
+		
+		return jsonString
+				.replace("{$test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+				.replace("{$test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
+				.replace("{$test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
 	}
 
 }

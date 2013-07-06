@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
@@ -238,7 +239,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		evalsPage.clickAndConfirm(evalsPage.getRemindLink(courseId, evalName));
 		
 		if(!TestProperties.inst().isDevServer()) {
-			waitFor(5000); //wait for the emails to reach the mail box
+			ThreadHelper.waitFor(5000); //wait for the emails to reach the mail box
 			assertEquals(courseId,
 					EmailAccount.getEvaluationReminderFromGmail(
 							testData.students.get("alice.tmms@CEvalUiT.CS2104").email, 

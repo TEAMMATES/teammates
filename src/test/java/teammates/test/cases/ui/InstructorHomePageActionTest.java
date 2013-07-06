@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.EvaluationsLogic;
 import teammates.test.cases.common.EvaluationAttributesTest;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorHomePageAction;
 import teammates.ui.controller.InstructorHomePageData;
 import teammates.ui.controller.ShowPageResult;
@@ -51,7 +52,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
 		InstructorHomePageAction a = getAction(submissionParams);
 		ShowPageResult r = getShowPageResult(a);
-		assertContainsRegex("/jsp/instructorHome.jsp?error=false&user=instructorWithoutCourses", r.getDestinationWithParams());
+		AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?error=false&user=instructorWithoutCourses", r.getDestinationWithParams());
 		assertEquals(false, r.isError);
 		assertEquals("",r.getStatusMessage());
 		

@@ -26,6 +26,7 @@ import teammates.storage.api.StudentsDb;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.storage.EvaluationsDbTest;
+import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -213,7 +214,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 			studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
 			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
-			assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
+			AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
 					e.getMessage());
 		}
 	}

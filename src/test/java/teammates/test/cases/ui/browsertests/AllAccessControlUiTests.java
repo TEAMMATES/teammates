@@ -18,6 +18,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -350,7 +351,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		currentPage.navigateTo(createUrl(path));
 		// A simple regex check is enough because we do full HTML tests
 		// elsewhere
-		assertContainsRegex("{*}" + unregUsername + "{*}Welcome stranger{*}",
+		AssertHelper.assertContainsRegex("{*}" + unregUsername + "{*}Welcome stranger{*}",
 				currentPage.getPageSource());
 	}
 
@@ -375,7 +376,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	private void verifyPageContains(String path, String targetText) {
 		printUrl(appUrl + path);
 		currentPage.navigateTo(createUrl(path));
-		assertContainsRegex(targetText, currentPage.getPageSource());
+		AssertHelper.assertContainsRegex(targetText, currentPage.getPageSource());
 	}
 
 	private void verifyRedirectToLogin(String path) {

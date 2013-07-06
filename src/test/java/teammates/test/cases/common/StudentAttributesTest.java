@@ -23,6 +23,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class StudentAttributesTest extends BaseTestCase {
 
@@ -62,7 +63,7 @@ public class StudentAttributesTest extends BaseTestCase {
 			invalidStudent = new StudentAttributes(line, null);
 			signalFailureToDetectException("Assumption violation not detected");
 		} catch (AssertionError e) {
-			assertContains(StudentAttributes.ERROR_COURSE_ID_NULL, e.getMessage());
+			AssertHelper.assertContains(StudentAttributes.ERROR_COURSE_ID_NULL, e.getMessage());
 		}
 		
 		// FAIL : empty courseId

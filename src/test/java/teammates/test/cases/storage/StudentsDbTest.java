@@ -19,6 +19,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class StudentsDbTest extends BaseTestCase {
 	
@@ -50,7 +51,7 @@ public class StudentsDbTest extends BaseTestCase {
 			studentsDb.createEntity(s);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
+			AssertHelper.assertContains(String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
 			+ s.getIdentificationString(), e.getMessage());
 		}
 		
@@ -60,7 +61,7 @@ public class StudentsDbTest extends BaseTestCase {
 			studentsDb.createEntity(s);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(
+			AssertHelper.assertContains(
 					String.format(COURSE_ID_ERROR_MESSAGE, s.course, REASON_INCORRECT_FORMAT),
 					e.getMessage());
 			

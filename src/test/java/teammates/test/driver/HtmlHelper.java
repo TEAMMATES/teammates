@@ -16,7 +16,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import teammates.test.cases.BaseTestCase;
 
 
 public class HtmlHelper {
@@ -30,7 +29,7 @@ public class HtmlHelper {
 		String processedExpectedHtml = convertToStandardHtml(expectedString);
 		String processedActualHtml = convertToStandardHtml(actualString);
 		
-		if(!BaseTestCase.isContainsRegex(processedExpectedHtml, processedActualHtml)){
+		if(!AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml)){
 			assertEquals("<expected>\n"+processedExpectedHtml+"</expected>", "<actual>\n"+processedActualHtml+"</actual>");
 		}
 	}

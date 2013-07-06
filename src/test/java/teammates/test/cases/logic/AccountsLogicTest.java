@@ -17,6 +17,7 @@ import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class AccountsLogicTest extends BaseComponentTestCase {
 
@@ -73,7 +74,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 			accountsLogic.joinCourse(studentData.key, "wrong student");
 			signalFailureToDetectException();
 		} catch (JoinCourseException e) {
-			assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
+			AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
 					e.getMessage());
 		}
 

@@ -68,7 +68,7 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
@@ -296,7 +296,7 @@ public class LogicTest extends BaseComponentTestCase {
 			logic.createInstructorAccount(googleId, "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(
+			AssertHelper.assertContains(
 					String.format(COURSE_ID_ERROR_MESSAGE, "invalid courseId" , REASON_INCORRECT_FORMAT),
 					e.getMessage());
 		}
@@ -1808,7 +1808,7 @@ public class LogicTest extends BaseComponentTestCase {
 			logic.createEvaluation(evaluation);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(evaluation.name, e.getMessage());
+			AssertHelper.assertContains(evaluation.name, e.getMessage());
 		}
 
 		______TS("null parameters");
@@ -2322,7 +2322,7 @@ public class LogicTest extends BaseComponentTestCase {
 					"non-existent@email.com");
 			Assert.fail();
 		} catch (EntityDoesNotExistException e) {
-			BaseTestCase.assertContains("non-existent@email.com", e
+			AssertHelper.assertContains("non-existent@email.com", e
 					.getMessage().toLowerCase());
 		}
 	
@@ -2447,7 +2447,7 @@ public class LogicTest extends BaseComponentTestCase {
 			logic.publishEvaluation(eval1.courseId, eval1.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(Const.StatusCodes.PUBLISHED_BEFORE_CLOSING,
+			AssertHelper.assertContains(Const.StatusCodes.PUBLISHED_BEFORE_CLOSING,
 					e.errorCode);
 		}
 
@@ -2461,7 +2461,7 @@ public class LogicTest extends BaseComponentTestCase {
 			logic.unpublishEvaluation(eval1.courseId, eval1.name);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
-			assertContains(Const.StatusCodes.UNPUBLISHED_BEFORE_PUBLISHING,
+			AssertHelper.assertContains(Const.StatusCodes.UNPUBLISHED_BEFORE_PUBLISHING,
 					e.errorCode);
 		}
 
@@ -2813,9 +2813,9 @@ public class LogicTest extends BaseComponentTestCase {
 	private void verifyJoinInviteToStudent(StudentAttributes student,
 			MimeMessage email) throws MessagingException {
 		assertEquals(student.email, email.getAllRecipients()[0].toString());
-		assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN,
+		AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN,
 				email.getSubject());
-		assertContains(student.course, email.getSubject());
+		AssertHelper.assertContains(student.course, email.getSubject());
 	}
 
 	private void verifyEvaluationInfoExistsInList(EvaluationAttributes evaluation,
@@ -2927,8 +2927,8 @@ public class LogicTest extends BaseComponentTestCase {
 			EvaluationAttributes actual) {
 		assertEquals(expected.courseId, actual.courseId);
 		assertEquals(expected.name, actual.name);
-		assertSameDates(expected.startTime, actual.startTime);
-		assertSameDates(expected.endTime, actual.endTime);
+		AssertHelper.assertSameDates(expected.startTime, actual.startTime);
+		AssertHelper.assertSameDates(expected.endTime, actual.endTime);
 		assertEquals(expected.timeZone, actual.timeZone, 0.1);
 		assertEquals(expected.instructions, actual.instructions);
 		assertEquals(expected.p2pEnabled, actual.p2pEnabled);

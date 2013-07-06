@@ -20,6 +20,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -73,7 +74,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL;
 				
 		for (FeedbackSessionAttributes session : actualSessions) {
-			assertContains(session.toString(), expected);
+			AssertHelper.assertContains(session.toString(), expected);
 		}
 		assertTrue(actualSessions.size() == 2);
 		
@@ -94,7 +95,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				dataBundle.feedbackSessions.get("session3InCourse1").toString() + Const.EOL;
 		
 		for (FeedbackSessionAttributes session : actualSessions) {
-			assertContains(session.toString(), expected);
+			AssertHelper.assertContains(session.toString(), expected);
 		}
 		assertTrue(actualSessions.size() == 3);
 		
@@ -111,7 +112,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		// This is the creator for the private session.
 		// We have already tested above that other instructors cannot see it.
 		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor1@course2.com");
-		assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
+		AssertHelper.assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
 				actualSessions.toString());
 
 	}
@@ -139,7 +140,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				dataBundle.feedbackSessions.get("session1InCourse1").toString());
 		
 		for (FeedbackQuestionAttributes key : actual.questionResponseBundle.keySet()) {
-		    assertContains(key.toString(), expected);
+		    AssertHelper.assertContains(key.toString(), expected);
 		}
 		
 		// TODO: test responses (valueSet)

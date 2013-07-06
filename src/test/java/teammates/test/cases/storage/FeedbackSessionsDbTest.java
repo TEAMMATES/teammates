@@ -29,6 +29,7 @@ import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.logic.LogicTest;
+import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -58,7 +59,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.createEntity(fsa);
 			signalFailureToDetectException();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(String.format(FeedbackSessionsDb.
+			AssertHelper.assertContains(String.format(FeedbackSessionsDb.
 					ERROR_CREATE_ENTITY_ALREADY_EXISTS, fsa.getEntityTypeAsString())
 					+ fsa.getIdentificationString(), e.getMessage());
 		}
@@ -72,7 +73,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.createEntity(null);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+			AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
 		}
 		
 		______TS("invalid params");
@@ -83,7 +84,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
 			// start time is now after end time
-			assertContains("start time", e.getLocalizedMessage());
+			AssertHelper.assertContains("start time", e.getLocalizedMessage());
 		}
 		
 	}
@@ -113,7 +114,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.getFeedbackSession(null, "idOfTypicalCourse1");
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+			AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
 		}
 		
 	}
@@ -134,7 +135,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 				dataBundle.feedbackSessions.get("session3InCourse1").toString() + Const.EOL;
 		
 		for (FeedbackSessionAttributes session : sessions) {
-			assertContains(session.toString(), expected);
+			AssertHelper.assertContains(session.toString(), expected);
 		}
 		Assert.assertTrue(sessions.size() == 3);
 		
@@ -144,7 +145,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.getFeedbackSessionsForCourse(null);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+			AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
 		}
 		
 		______TS("non-existant course");
@@ -164,7 +165,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.updateFeedbackSession(null);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+			AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
 		}
 		______TS("invalid feedback sesion attributes");
 		FeedbackSessionAttributes invalidFs = getNewFeedbackSession();
@@ -191,7 +192,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 			fsDb.updateFeedbackSession(nonexistantFs);
 			signalFailureToDetectException();
 		} catch (EntityDoesNotExistException e) {
-			assertContains(FeedbackSessionsDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
+			AssertHelper.assertContains(FeedbackSessionsDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
 		}
 		______TS("standard success case");
 		FeedbackSessionAttributes modifiedSession = getNewFeedbackSession();

@@ -35,6 +35,7 @@ import teammates.common.util.Url;
 import teammates.logic.core.Emails;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
+import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
 
 public class EmailsTest extends BaseComponentTestCase {
@@ -134,7 +135,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		String emailBody = email.getContent().toString();
 
-		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
+		AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
 				+ encryptedKey + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}"
 				+ e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
@@ -158,7 +159,7 @@ public class EmailsTest extends BaseComponentTestCase {
 		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.EVALUATION_NAME,
 				e.name);
 
-		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
+		AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
 				+ encryptedKey + "{*}is now ready for viewing{*}" + c.id + "{*}"
 				+ c.name + "{*}" + e.name + "{*}" + reportUrl + "{*}"
@@ -176,7 +177,7 @@ public class EmailsTest extends BaseComponentTestCase {
 		emailBody = email.getContent().toString();
 
 		assertTrue(!emailBody.contains(encryptedKey));
-		assertContainsRegex("Hello " + s.name + "{*}" + c.id + "{*}" + c.name
+		AssertHelper.assertContainsRegex("Hello " + s.name + "{*}" + c.id + "{*}" + c.name
 				+ "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
 				+ submitUrl, emailBody);
 
@@ -191,7 +192,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		assertTrue(!emailBody.contains(encryptedKey));
 
-		assertContainsRegex("Hello " + s.name
+		AssertHelper.assertContainsRegex("Hello " + s.name
 				+ "{*}is now ready for viewing{*}" + c.id + "{*}" + c.name
 				+ "{*}" + e.name + "{*}" + reportUrl + "{*}" + reportUrl,
 				emailBody);
@@ -238,7 +239,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		String emailBody = email.getContent().toString();
 
-		assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
+		AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
 				+ "{*}" + joinUrl + "{*}" + joinUrl + "{*}" + c.name + "{*}"
 				+ encryptedKey, emailBody);
 		
@@ -346,7 +347,7 @@ public class EmailsTest extends BaseComponentTestCase {
 			
 		// check email body
 		String emailBody = email.getContent().toString();
-		assertContainsRegex(
+		AssertHelper.assertContainsRegex(
 				"<b>Error Message</b><br/><pre><code>" + error.getMessage()
 				+ "</code></pre><br/><b>Request Path</b>" + requestPath 
 				+ "<br/><b>Request Parameters</b>" + requestParam

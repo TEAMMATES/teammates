@@ -15,6 +15,7 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
 
@@ -78,7 +79,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 			coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains("for a non-existent instructor", e.getMessage());
+			AssertHelper.assertContains("for a non-existent instructor", e.getMessage());
 		}
 		LogicTest.verifyAbsentInDatastore(c);
 		LogicTest.verifyAbsentInDatastore(i);
@@ -96,7 +97,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 			coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains("doesn't have instructor privileges", e.getMessage());
+			AssertHelper.assertContains("doesn't have instructor privileges", e.getMessage());
 		}
 		LogicTest.verifyAbsentInDatastore(c);
 		LogicTest.verifyAbsentInDatastore(i);
@@ -112,7 +113,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 			coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
 			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
-			assertContains("not acceptable to TEAMMATES as a Course ID", e.getMessage());
+			AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID", e.getMessage());
 		}
 		LogicTest.verifyAbsentInDatastore(c);
 		LogicTest.verifyAbsentInDatastore(i);
@@ -126,7 +127,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 			coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
-			assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
+			AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
 		}
 		LogicTest.verifyAbsentInDatastore(c);
 		

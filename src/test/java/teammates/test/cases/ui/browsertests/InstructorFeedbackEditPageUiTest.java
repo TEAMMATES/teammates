@@ -14,6 +14,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
+import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -207,7 +208,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		// check redirect to main feedback page
 		InstructorFeedbackPage feedbackPage = feedbackEditPage.deleteSession();
-		assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
+		AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
 		assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
 		
 	}

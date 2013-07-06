@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class AccountsDbTest extends BaseComponentTestCase {
 	
@@ -57,7 +58,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 			accountsDb.createAccount(a);
 			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
-			assertContains(
+			AssertHelper.assertContains(
 					String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
 					"invalid email",
 					FieldValidator.REASON_INCORRECT_FORMAT),
@@ -109,7 +110,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 			accountsDb.updateAccount(a);
 			Assert.fail();
 		} catch (AssertionError ae) {
-			assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ae.getMessage());
+			AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ae.getMessage());
 		}
 		
 		// Null parameters check:

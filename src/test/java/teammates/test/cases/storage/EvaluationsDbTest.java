@@ -21,6 +21,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.EvaluationsDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class EvaluationsDbTest extends BaseComponentTestCase {
 	
@@ -58,7 +59,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.createEntity(e);
 			signalFailureToDetectException();
 		} catch (EntityAlreadyExistsException ex) {
-			assertContains(String.format(EvaluationsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, e.getEntityTypeAsString())
+			AssertHelper.assertContains(String.format(EvaluationsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, e.getEntityTypeAsString())
 					+ e.getIdentificationString(), ex.getMessage());
 		}
 		
@@ -121,7 +122,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		} catch (InvalidParametersException i) {
 			String errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE,
 					END_TIME_FIELD_NAME, EVALUATION_NAME, START_TIME_FIELD_NAME) ;
-			assertContains(errorMessage, i.getMessage());
+			AssertHelper.assertContains(errorMessage, i.getMessage());
 		}
 				
 		______TS("non existent");
@@ -133,7 +134,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			evaluationsDb.updateEvaluation(e);
 			Assert.fail();
 		} catch (EntityDoesNotExistException a) {
-			assertContains(EvaluationsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
+			AssertHelper.assertContains(EvaluationsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
 		}
 		
 		______TS("null parameters");

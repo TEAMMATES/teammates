@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.cases.logic.LogicTest;
+import teammates.test.driver.AssertHelper;
 
 public class CoursesDbTest extends BaseTestCase {
 
@@ -48,7 +49,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.createEntity(c);
 			signalFailureToDetectException();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.getEntityTypeAsString())
+			AssertHelper.assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.getEntityTypeAsString())
 					+ c.getIdentificationString(), e.getMessage());
 		}
 		
@@ -58,7 +59,7 @@ public class CoursesDbTest extends BaseTestCase {
 			coursesDb.createEntity(c);
 			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
-			assertContains(
+			AssertHelper.assertContains(
 					String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
 					e.getMessage());
 		} 

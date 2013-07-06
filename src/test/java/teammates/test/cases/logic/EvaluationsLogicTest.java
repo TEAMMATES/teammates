@@ -35,6 +35,7 @@ import teammates.logic.core.TeamEvalResult;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class EvaluationsLogicTest extends BaseComponentTestCase{
 	
@@ -206,9 +207,9 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 			String errorMessage = "No email sent to " + s.email;
 			MimeMessage emailToStudent = LogicTest.getEmailToStudent(s, emailsSent);
 			assertTrue(errorMessage, emailToStudent != null);
-			assertContains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED,
+			AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED,
 					emailToStudent.getSubject());
-			assertContains(e.name, emailToStudent.getSubject());
+			AssertHelper.assertContains(e.name, emailToStudent.getSubject());
 		}
 	}
 	

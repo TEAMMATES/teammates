@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Config;
 import teammates.common.util.EmailTemplates;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class BuildPropertiesTest extends BaseTestCase {
 
@@ -17,16 +18,16 @@ public class BuildPropertiesTest extends BaseTestCase {
 
 	@Test
 	public void checkReadingEmailTemplates() {
-		assertContainsRegex("${joinFragment}{*}${submitUrl}",
+		AssertHelper.assertContainsRegex("${joinFragment}{*}${submitUrl}",
 				EmailTemplates.STUDENT_EVALUATION_);
 		
-		assertContainsRegex("${reportUrl}",
+		AssertHelper.assertContainsRegex("${reportUrl}",
 				EmailTemplates.STUDENT_EVALUATION_PUBLISHED);
 		
-		assertContainsRegex("${studentName}{*}${joinFragment}",
+		AssertHelper.assertContainsRegex("${studentName}{*}${joinFragment}",
 				EmailTemplates.STUDENT_COURSE_JOIN);
 		
-		assertContainsRegex("${joinUrl}{*}${key}",
+		AssertHelper.assertContainsRegex("${joinUrl}{*}${key}",
 				EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN);
 	}
 

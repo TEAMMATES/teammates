@@ -3,6 +3,7 @@ package teammates.test.cases;
 import org.testng.annotations.Test;
 
 import teammates.common.util.FileHelper;
+import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
 
 public class BaseTestCaseTest extends BaseTestCase {
@@ -10,9 +11,9 @@ public class BaseTestCaseTest extends BaseTestCase {
 	@Test
 	public void testAssertContains() {
 		
-		assertContains("404 Page Not Found",
+		AssertHelper.assertContains("404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
-		assertContains("Fails on checking assert contains",
+		AssertHelper.assertContains("Fails on checking assert contains",
 				"404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 	}
@@ -20,9 +21,9 @@ public class BaseTestCaseTest extends BaseTestCase {
 	@Test
 	public void testAssertContainsRegex() throws Exception {
 		
-		assertContainsRegex("404 Page Not Found",
+		AssertHelper.assertContainsRegex("404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
-		assertContainsRegex("Fails on checking assert contains regex",
+		AssertHelper.assertContainsRegex("Fails on checking assert contains regex",
 				"404 Page Not Found",
 				"Error: 404 Page Not Found. Check the URL.");
 	
@@ -32,21 +33,21 @@ public class BaseTestCaseTest extends BaseTestCase {
 		String inputStr = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER
 				+ "/commonAssertRegexTestPart.html");
 	
-		assertContainsRegex(inputStr, pageStr);
-		assertContainsRegex("Fails on checking assert contains regex",
+		AssertHelper.assertContainsRegex(inputStr, pageStr);
+		AssertHelper.assertContainsRegex("Fails on checking assert contains regex",
 				inputStr, pageStr);
 	
-		assertContainsRegex(
+		AssertHelper.assertContainsRegex(
 				"<div>{*}</div><p>!@#$%^&*(){}_+[]</p>",
 				"<html><body><div>Testing</div><p>!@#$%^&*(){}_+[]</p><a href='index.html'>HOME</a></body></html>");
-		assertContainsRegex("Fails on checking assert contains regex",
+		AssertHelper.assertContainsRegex("Fails on checking assert contains regex",
 				"<div>{*}</div>",
 				"<html><body><div>Testing</div><a href='index.html'>HOME</a></body></html>");
 		
-		assertContainsRegex(
+		AssertHelper.assertContainsRegex(
 				"<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",
 				"<html><body><div style=\"display:none\">Hello world!</div></body></html>");
-		assertContainsRegex("Fails on checking assert contains regex",
+		AssertHelper.assertContainsRegex("Fails on checking assert contains regex",
 				"<html>\n\t<body>\n\t\t<div{*}>Hello world!</div>\n\t</body>\n\t</html>",
 				"<html><body><div style=\"display:none\">Hello world!</div></body></html>");
 	}

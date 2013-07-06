@@ -17,6 +17,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.SubmissionsDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -63,7 +64,7 @@ public class SubmissionsDbTest extends BaseComponentTestCase {
 			submissionsDb.createEntity(s);
 			Assert.fail();
 		} catch (EntityAlreadyExistsException e) {
-			assertContains(String.format(SubmissionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
+			AssertHelper.assertContains(String.format(SubmissionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
 					+ s.getIdentificationString(), e.getMessage());
 		}
 		
@@ -73,7 +74,7 @@ public class SubmissionsDbTest extends BaseComponentTestCase {
 			submissionsDb.createEntity(s);
 			Assert.fail();
 		} catch (InvalidParametersException a) {
-			assertContains(
+			AssertHelper.assertContains(
 					String.format("Invalid email address for the student giving the evaluation: "+ EMAIL_ERROR_MESSAGE, s.reviewer, REASON_INCORRECT_FORMAT),
 					a.getMessage());
 		} 
@@ -149,7 +150,7 @@ public class SubmissionsDbTest extends BaseComponentTestCase {
 			submissionsDb.updateSubmission(s);
 			Assert.fail();
 		} catch (EntityDoesNotExistException e) {
-			assertContains(SubmissionsDb.ERROR_UPDATE_NON_EXISTENT, e.getMessage());
+			AssertHelper.assertContains(SubmissionsDb.ERROR_UPDATE_NON_EXISTENT, e.getMessage());
 		}
 		
 		// Null params check:
