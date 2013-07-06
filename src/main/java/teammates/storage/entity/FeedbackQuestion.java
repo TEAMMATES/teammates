@@ -27,11 +27,11 @@ public class FeedbackQuestion {
 	@Persistent
 	private String courseId;
 	
-	// TODO: Do we need this field since creator of FS = creator of qn?
+	// TODO: Do we need this field since creator of FS = creator of qn? (can be removed -damith)
 	@Persistent
 	private String creatorEmail;
 	
-	private Text questionText;
+	private Text questionText; //TODO: use String instead? Can it save space?
 	
 	@Persistent
 	private int questionNumber;

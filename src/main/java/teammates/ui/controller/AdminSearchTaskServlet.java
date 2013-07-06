@@ -50,6 +50,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 	 * Indexes student and instructor entries to build the table for search
 	 */
 	private void buildNewSearchIndexes() {
+		//TODO: this method should not access the storage layer directly
 
 		/**
 		 * Insert instructors

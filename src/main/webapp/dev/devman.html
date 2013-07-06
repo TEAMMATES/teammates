@@ -17,13 +17,13 @@
 	<br>
 	<h3>Table of Contents</h3>
 	<ul>
-		<li><a href="#project">Project</a></li>
+		<li><a href="#project">Project</a>
 		<ul>
 			<li><a href="#project-vision">Vision</a></li>
 			<li><a href="#project-challenges">Challenges</a></li>
 			<li><a href="#project-principles">Principles</a></li>
 		</ul>
-
+		</li>
 		<li><a href="#design">Design</a></li>
 		<ul>
 			<li><a href="#design-architecture">Architecture</a></li>
@@ -84,14 +84,14 @@
 	<span class="bold">biggest student project in the world</span>.
 	<br> {Biggest = many contributors, many users, relatively large
 	code base (50k-100k LoC), evolving over a long period.}
-	<br>
 	<br> 'Biggest' above also implies an exceptionally high quality
 	standard because high quality is a necessity for the long-term survival
 	of a big student project.
 	<br>
-	<br> This project will also serve as a model and a training ground
-	for Software Engineering (SE) students who want to learn SE skills in
-	the context of a non-trivial real software product.
+	<br> This project will also serve as
+	<span class="bold"> a model and a training ground for Software
+		Engineering students </span> who want to learn SE skills in the
+	context of a non-trivial real software product.
 	<br>
 
 	<h2 id="project-challenges">Challenges</h2>
@@ -123,7 +123,7 @@
 			</ul></li>
 		<li><span class="bold">Software Engineering</span>: As TEAMMATES
 			serve as a model system for training students, it should also focus
-			on applying good 'Software Engineering' techniques.</li>
+			on applying good SE techniques.</li>
 	</ul>
 
 	<h2 id="project-principles">Principles</h2>
@@ -137,7 +137,7 @@
 			week. This means 'go back and rewrite from scratch' is only a last
 			resort.</li>
 		<li><span class="bold">We are agile</span>: We are able to change
-			the system quickly and with ease to match emerging requirements. We
+			the system quickly and easily to match emerging requirements. We
 			aim for minimal yet sufficient documentation.</li>
 		<li><span class="bold">We defend our code with tests,
 				fiercely</span>: Since we practice <a
@@ -149,9 +149,9 @@
 		<li><span class="bold">We are 'Gods' of the few tools we
 				use</span>: We stick to a minimal toolset. Adding third-party tools and
 			libraries to the project is done only if there is a STRONG
-			justification. Only mature, stable, and well-supported tools should
-			be considered. Once selected, we should know the tool very well to
-			get the best out of it.</li>
+			justification. Only mature, stable, and well-supported tools are
+			considered. Once selected, we should know the tool very well to get
+			the best out of it.</li>
 		<li><span class="bold">We value quality more than
 				functionality</span>: Our job is not to 'anyhow get it to work'. The
 			system should be good enough to be considered a 'model' software. Our
@@ -198,9 +198,7 @@
 			in Java POJOs (Plain Old Java Objects). Some automated tasks are
 			implemented as Servlets.</li>
 		<li><span class="bold">Storage</span>: Storage uses the
-			persistence framework provided by GAE 'datastore'. While the
-			datastore is a noSQL database, we use it in SQL fashion via a JDO
-			wrapper and GQL (a datastore-specific SQL variant).</li>
+			persistence framework provided by GAE 'datastore', a noSQL database.</li>
 		<li><span class="bold">Test Driver</span>: TEAMMATES makes heavy
 			use of automated regression testing. TestNG is used for Java unit
 			testing and QUnit for JavaScript unit testing. We use Selenium Web
@@ -228,195 +226,144 @@
 
 
 	<h2 id="design-ui">UI</h2>
+	The diagram below shows the object structure of the UI component.
 	<div class="image-holder">
 		<img class="image" src="images/UiComponent.png" width="90%" />
 	</div>
 	<br>
 
 	<h3>Request flow</h3>
-	Request from the Browser will go through following steps:
+	Request from the Browser for a specific page will go through following steps:
 	<br></br>
 
 	<div class="image-holder">
-		<img src="images/UiWorkflow.png" width="90%"></img>
+		<img src="images/UiWorkflow.png" width="100%"></img>
 	</div>
 
 	<ol>
-		<li>Request received by the GAE server</li>
-		<li>Forwarded to our custom filters according to the order
+		<li>Request received by the GAE server.</li>
+		<li>Custom filters are applied according to the order
 			specified in <span class="code">web.xml</span>. In our case this
 			would be <span class="code">DatastoreFilter</span> and <span
 			class="code">LoginFilter</span>. For example, the <span class="code">LoginFilter</span>
 			will forward any request from not-logged-in users to the login page.
 			If the request is from logged in user, then it will proceed according
-			to the URL.
+			to the URL. e.g. <span class="code">/page/instructorHomePage</span>
 		</li>
-		<li>Depending on the URL, it will be handled by its respective
-			Servlet (e.g., <span class="code">InstructorHomeServlet</span>, <span
-			class="code">InstructorCourseDeleteServlet</span>, etc).
+		<li>Request forwarded to the <span class="code">ControllerServlet</span>.
 		</li>
-		<li>The servlet will communicate with the <span class="code">Logic</span>
-			to carry out the business logic part of the requst (e.g., accessing
-			datastore, modifying datastore, etc). After that, it will create
-			respective <span class="code">Helper</span> object and store inside
-			that object relevant data retrieved from the <span class="code">Logic</span>
-			(e.g., student list, course list, evaluation data, etc).
+		<li><span class="code">ControllerServlet</span> uses the <span
+			class="code">ActionFactory</span> to generate the matching <span
+			class="code">Action</span> object. E.g., <span class="code">InstructorHomePageAction</span>.
 		</li>
-		<li>The respective Helper object then will be passed to the
-			respective JSP page.</li>
-		<li>The JSP page will then render the page according to the data
-			inside the <span class="code">Helper</span> object.
+		<li><span class="code">ControllerServlet</span> executes the
+			action.</li>
+		<li>The <span class="code">Action</span> object checks the access
+			rights of the user. If the action is allowed, it interacts with the <span
+			class="code">Logic</span> component to perform the action.
+		</li>
+		<li>Assuming the action was loading a page, the <span
+			class="code">Action</span> gathers the data required for the page
+			into a <span class="code">PageData</span> object. e.g. <span
+			class="code">InstructorHomePageData</span>, creates a <span
+			class="code">ShowPageResult</span> object by encolosing the <span
+			class="code">PageData</span> object created previously, and returns
+			it to the <span class="code">ControllerServlet</span>
+		</li>
+		<li><span class="code">ControllerServlert</span> "sends" the
+			result. In the case of a <span class="code">ShowPageResult</span>,
+			this is equivalent to forwarding to the matching JSP page.</li>
+		<li>The JSP page uses the data in the given <span class="code">PageData</span>
+			object to generate the HTML page.
 		</li>
 		<li>The response will then be sent back to the Browser, which
 			will render the page.</li>
 	</ol>
 
-	<h3>Process flow in Servlets</h3>
-	Since the request will undergo mostly similar processing steps, the
-	request will first be processed in the general-purpose abstract class
-	<span class="code">ActionServlet</span> (this is an application of the
-	<a href="http://en.wikipedia.org/wiki/Template_method_pattern">Template
-		Method pattern</a>). This is the sequence of steps taken by the
-	<span class="code">ActionServlet</span> object:
-	<ol>
-		<li>Check whether the request method is <span class="code">POST</span>
-			or <span class="code">GET</span>, store it in a variable <span
-			class="code">isPost</span>.
-		</li>
-		<li>Call abstract <span class="code">instantiateHelper</span>
-			method, which should have been overridden to create respective <span
-			class="code">Helper</span> object.
-		</li>
-		<li>Call concrete <span class="code">prepareHelper</span> method,
-			which will setup common data inside the <span class="code">Helper</span>
-			object, such as the <span class="code">Logic</span> object, <span
-			class="code">UserData</span> object, redirect URL, status message and
-			error status. This method will also set and configure the masquerade
-			mode if required ('masquarade mode' is used by the administrator to
-			masquerade as another user).
-		</li>
-		<li>It will call the abstract <span class="code">doAction</span>
-			method, which should have been overridden to contain the main action
-			for each servlet. This is the place for highest-level error handling
-			before the response is returned to the Browser.
-		</li>
-		<li>Within the <span class="code">doAction</span> method, each
-			servlet has to create an Activity Log Entry. This Activity Log Entry
-			is used to capture the user activities within the system. The servlet
-			has to call the <span class="code">instantiateActivityLogEntry
-			</span> method found in <span class="code">ActionServlet</span> to create the
-			Activity Log Entry. The servlet also has to implement the abstract <span
-			class="code">generateActivityLogEntryMessage</span> method which is
-			called within <span class="code">instantiateActivityLogEntry</span>.
-		</li>
-		<li>It will finally call <span class="code">doCreateResponse</span>
-			method, which redirects the request with appropriate method: either
-			forward the request using <span class="code">requestDispatcher</span>
-			to the page specified in <span class="code">getDefaultForwardUrl</span>
-			or redirect the request to the page as specified in variable <span
-			class="code">redirectUrl</span>.
-		</li>
-	</ol>
-	When adding new pages to the app, the developer just need to subclass
-	the
-	<span class="code">ActionServlet</span> class and implement the
-	abstract methods (and override
-	<span class="code">getDefaultForwardUrl</span>) accordingly. The
-	<span class="code">Helper</span> class can also be subclassed if the
-	default one is not enough (most likely).
+	Things to note:
 	<br>
-	<br> The UI consist of following pages:
-
-	<h3>Functional pages</h3>
-	These pages represent the core functionality of the system.
-	<ol>
-		<li><span class="code">logout.jsp</span> : Used for users to log out of the system.</li>
-		<br>
-		<li><span class="code">adminHome</span> : Home page for admin. Also used for creating instructors.</li>
-		<li><span class="code">adminAccountManagement</span> : Page for managing accounts etc.</li>
-		<li><span class="code">adminAccountDetails</span> : Page for viewing account details etc.</li>
-		<li><span class="code">adminActivityLog</span> : Page for monitoring user activities.</li>
-		<li><span class="code">adminSearch</span> : Page for searching for entity in the system.</li>
-		<br>
-		<li><span class="code">instructorHome</span> : Landing page for instructors. Lists course
-			and evaluations that the instructor is part of</li>
-		<li><span class="code">instructorCourse</span> : Page for Course-related actions.</li>
-		<li><span class="code">instructorCourseEdit</span> : Page to edit course information and
-			Instructor list</li>
-		<li><span class="code">instructorCourseEnroll</span> : Page for enrolling students in a
-			course</li>
-		<li><span class="code">instructorCourseView</span> : Page for listing students in a course.</li>
-		<li><span class="code">instructorCourseStudentDetails</span> : Page for viewing details of
-			an individual student.</li>
-		<li><span class="code">instructorCourseStudentEdit</span> : Page for editing details of a
-			student.</li>
-		<li><span class="code">instructorEval</span> : Page for listing and creating Evaluations.</li>
-		<li><span class="code">instructorEvalEdit</span> : Page for editing an Evaluation.</li>
-		<li><span class="code">instructorEvalResults</span> : Page for viewing evaluation results.</li>
-		<li><span class="code">instructorEvalSubmissionView</span> : Page for viewing submissions
-			from and to a student for a given evaluation.</li>
-		<li><span class="code">instructorEvalSubmissionEdit</span> : Page for editing a submission
-			by a student.</li>
-		<br>
-		<li><span class="code">studentHome</span> : Landing page for students.</li>
-		<li><span class="code">studentCourseDetails</span> : Page for the student to see details of
-			his/her team in a Course.</li>
-		<li><span class="code">studentEvalEdit</span> : Page for submitting a peer evaluation.</li>
-		<li><span class="code">studentEvalResults</span> : Page for viewing evaluation results.</li>
-	</ol>
-
-	These pages can be accessed via the
-	<span class="code">[TEAMMATES URL]/page/pagename</span>, handled by a
-	Servlet and a jsp page named after the page name.
-	<br> e.g.,
-	<span>adminHome</span> can be reached by
-	<a href="http://teammatesv4.appspot.com/admin/adminHome">http://teammatesv4.appspot.com/admin/adminHome</a>
-	and is handled by
-	<span class="code">AdminHomeServlet.java</span> and
-	<span class="code">adminHome.jsp</span>
-	<br>
-	<br> Only logged in users can access these pages.
-	<span class="code">LoginFilter.java</span> is used to redirect
-	not-logged-in users to a login page.
-	<br>
-	<br>
-
-	<h3>Special-purpose pages</h3>
-	These pages provide peripheral functionality.These pages are not
-	access-controlled.
 	<ul>
-		<li>studentHelpPage (an html page)</li>
-		<li>instructorHelpPage (an html page)</li>
-		<li>error pages (errorPage.jsp, mobile.jsp, oldIE.jsp, etc.)</li>
+		<li>After performing certain actions, the Browser should load
+			another page, possibly with the status of the previous action. For
+			example, if the action is 'delete course', the Browser should load
+			the 'courses' page after the server performed the action. In such
+			cases, the result generated for the action will be of type <span
+			class="code">RedirectResult</span> which simply instructs the Browser
+			to send a fresh request for the specified page. In such cases, we do
+			not create a <span class="code">PageData</span> object for the
+			original request.<br> Example:
+			<ul>
+				<li>Browser request for 'delete course' action.</li>
+				<li>Server performs the action (creates a <span class="code">RedirectResult</span>
+					object but no <span class="code">PageData</span> object) and
+					instructs the Browser to load the 'courses' page.
+				</li>
+				<li>As instructed, the Browser requests for the 'courses' page.
+				</li>
+				<li>Server processes the request separately (creates a <span
+					class="code">ShowPageResult</span> object but and a <span
+					class="code">PageData</span> object) and returns the 'courses' page.
+				</li>
+			</ul>
+		</li>
+		<li>The result of some actions is downloading of a file (e.g. an
+			evaluation report). In such cases, the result type will be <span
+			class="code">FileDownloadResult</span> and no <span class="code">PageData</span>
+			object will be generated.
+		</li>
+		<li>Since the high-level workflow of processing a request is same
+			for any request, we use the , the <a
+			href="http://en.wikipedia.org/wiki/Template_method_pattern">Template
+				Method pattern</a> to abstract the process folow into the <span
+			class="code">Action</span> class.
+		</li>
+		<li>The list of actions and corresponding URIs are listed in the
+			<span class="code">ActionURIs</span> nested class of the <a
+			href="https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/common/util/Const.java"
+			target="_blank"><span class="code">Const</span></a> class.
+		</li>
+		<li>The list of pages and corresponding URIs are listed in the
+			<span class="code">ViewURIs</span> nested class of the <a
+			href="https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/common/util/Const.java"
+			target="_blank"><span class="code">Const</span></a> class.
+		</li>
 	</ul>
 
-	<h3>Website pages</h3>
-	These are the static pages that forms the product website (not the
-	product itself).
-	<ul>
-		<li>contact.html, about.html etc.</li>
-	</ul>
 
+
+	<h3>Types of pages</h3>
+	The UI consist of following pages:
+	<ul>
+		<li>Product pages (functional): e.g., 'courses' page. These require login.</li>
+		<li>Product pages (peripheral): e.g., help pages, error pages. etc.</li>
+		<li>Website pages: These are the static pages of the product website. e.g., <span class="code">contact.html</span></li>
+		<li>Project pages: Pages meant for developers, such as this page.
+	</ul>
 
 	<h2 id="design-logic">Logic</h2>
 
 	The
 	<span class="code">Logic</span> component handles the business logic of
 	TEAMMATES.
-	<br> It is accessible via a thin 
-	<a href="http://en.wikipedia.org/wiki/Facade_pattern">facade class</a> called
-	<span class="code">Logic</span> which makes use of several
+	<br> It is accessible via a thin
+	<a href="http://en.wikipedia.org/wiki/Facade_pattern">facade class</a>
+	called
+	<a
+		href="https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/logic/api/Logic.java"
+		target="_blank"><span class="code">Logic</span></a> which makes use of
+	several
 	<span class="code">*Logic</span> classes to handle the logic related to
 	various types of data and to access data from the
-	<span class="code">Storage</span> component. In particular, Logic is 
-	responsible for these: <br>
+	<span class="code">Storage</span> component. In particular, Logic is
+	responsible for these:
+	<br>
 	<ul>
 		<li>Managing relationships between entities. e.g., cascade logic
-			for create/update/delete</li>
+			for create/update/delete.</li>
 		<li>Managing transactions. e.g., to ensure atomicity of a
-			transaction</li>
-		<li>Sanitizing input values recevied from the UI component</li>
-		<li>Access control (to be moved to the UI component soon)</li>
+			transaction.</li>
+		<li>Sanitizing input values recevied from the UI component.</li>
+		<li>Providing a mechanims for checking access control rights.</li>
 	</ul>
 
 	<div class="image-holder">
@@ -424,14 +371,23 @@
 	</div>
 	<br>
 
-	<h3>Logic API</h3>
-	Represented by
-	<span class="code">Logic.java</span> and
-	<span class="code">BackDoorServlet.java</span>
+	Package overiew:
 	<ul>
-		<li><span class="code">Logic</span>: For the use of UI. <span
+		<li><span class="code bold">logic.api</span>: Provides the normal API of the component.</li>
+		<li><span class="code bold">logic.backdoor</span>: Provides a mechanism for the test driver to access data.</li>
+		<li><span class="code bold">logic.core</span>: Contains the core logic of the system.</li>
+		<li><span class="code bold">logic.automated</span>: Contains the logic of automated tasks.</li>
+	</ul>
+
+
+	<h3>Logic API</h3>
+	Represented by these classes:
+	<ul>
+		<li><span class="code">Logic</span>: For the use of the UI. <span
 			class="code">Logic</span> class acts as a facade between UI
 			(servlets) and the backend of the app.</li>
+		<li><span class="code">GateKeeper</span>: For the use of the UI. To
+			check the access rights of a user for a given action.</li>
 		<li><span class="code">BackDoorLogic</span>: For the use of <span
 			class="code">TestDriver</span> (via <span class="code">BackDoorServlet</span>)</li>
 	</ul>
@@ -448,11 +404,10 @@
 
 	<br>Access control:
 	<ul>
-		<li>Calls received by <span class="code">Logic</span> are
-			checked against logged in user's privileges
-			(to be moved to UI layer).<br>
-		</li>
-		<li>Calls received by <span class="code">BackDoorServlet</span>
+		<li>Although this component provides methods to perform access control,
+		it API itself is not access controlled. The UI is expected to check access
+		control (using <span class="code">GateKeeper</span> class) before calling a method in the <span class="code">Logic</span>.
+		<li>However, calls received by <span class="code">BackDoorServlet</span>
 			are authenticated using the 'backdoor key'. Backdoor key is a string
 			known only to the person who deployed the app (typically, the
 			administrator).
@@ -484,22 +439,22 @@
 			non-existent course.
 		</li>
 	</ul>
-	<br>API for editing entities:
+	<br>API for updating entities:
 	<ul>
-		<li>Primary keys cannot be edited except: <span class="code">Student.email</span>
+		<li>Primary keys cannot be edited except: <span class="code">Student.email.</span>
 		</li>
 		<li>KeepExistingPolicy: the new value of an optional attribute is
 			specified as <span class="code">null</span> or set to
 			“Uninitialized”, the existing value will prevail. {This is not a good
-			policy. To be reconsidered}
+			policy. To be reconsidered}.
 		</li>
 		<li><span class="code">Null</span> parameters: Throws an
 			assertion error if that parameter cannot be null. Optional attributes
-			follow KeepExistingPolicy</li>
+			follow KeepExistingPolicy.</li>
 		<li>Entity not found: Throws <span class="code">EntityDoesNotExistException</span>
-			exception
+			exception.
 		</li>
-		<li>Invalid parameters: Throws <span class="code">InvalidParametersException</span>
+		<li>Invalid parameters: Throws <span class="code">InvalidParametersException.</span>
 		</li>
 	</ul>
 
@@ -517,14 +472,22 @@
 		</li>
 	</ul>
 	<h2 id="design-storage">Storage</h2>
-
 	The
 	<span class="code">Storage</span> component performs CRUD (Create,
-	Read, Update, Delete) operations on data entities individually. It is
-	accessible via the
-	<span class="code">*Db</span> classes in the
-	<span class="code">storage::api</span> package. 
-	<br>It contains minimal logic beyond what is directly relevant to
+	Read, Update, Delete) operations on data entities individually. 
+	
+	<div class="image-holder">
+		<img src="images/StorageComponent.png" width=100% />
+	</div>
+	
+	Package overiew:
+	<ul>
+		<li><span class="code bold">storage.api</span>: Provides the normal API of the component.</li>
+		<li><span class="code bold">storage.entity</span>: Classes that represent persistable entities.</li>
+		<li><span class="code bold">storage.datastore</span>: Classes for dealing with the datastore.</li>
+	</ul>
+	
+	<br>Storage contains minimal logic beyond what is directly relevant to
 	CRUD operations. <br> In particular, it handles these:
 	<ul>
 		<li>Validating data inside entities before creating/updating
@@ -544,7 +507,7 @@
 				transfer object</a> named <span class="code">*Attributes</span> (e.g., <span
 			class="code">CourseAttributes</span> is the data transfer object for
 			<span class="code">Course</span> entities) object is returned, where
-			values can be get and set easily without any impact on the persistent
+			values can be modified easily without any impact on the persistent
 			data copy. These datatransfer classes are in <span class="code">common::datatransfer</span>
 			package explained later. Note: This decision was taken before GAE
 			started supporting <a
@@ -559,20 +522,12 @@
 	the <span class="code">Logic</span> component.
 	<br>  
 
-	<div class="image-holder">
-		<img src="images/StorageComponent.png" width=80% />
-	</div>
-
 	
 	<br> Note that the navigability of the association links between
 	entity objects appear to be in the reverse direction of what we see in
 	a normal OOP design. This is because we want to keep the data scheme
 	flexible so that new entity types can be added later with minimal
 	modifications to existing elements.
-
-	<h3>Storage API</h3>
-	Represented by classes in
-	<span class="code">storage::api</span>
 
 	<h3>Policies</h3>
 	Add and Delete operations try to wait until data is persisted in the
@@ -631,19 +586,24 @@
 
 
 	<h2 id="design-common">Common</h2>
-
+	The Common component contains common utilities used across
+	TEAMMATES.
+	<br>
 	<div class="image-holder">
 		<img src="images/CommonComponent.png" width=90% />
 	</div>
-	<br> The Common component contains common utilities used across
-	TEAMMATES.
-	<br>
-	<span class="code">common::Common.java</span> currently holds a vast
-	collection of common constants and functions. This is a good candidate
-	for breaking into smaller classes.
-	<br>
-	<br>
-	<span class="code">common::datatransfer</span> package contains
+
+	Package overiew:
+	<ul>
+		<li><span class="code bold">common.util</span>: Contains utility
+			classes.</li>
+		<li><span class="code bold">common.exceptions</span>: Contains
+			custom exceptions.</li>
+		<li><span class="code bold">common.datatransfer</span>: Containts
+			data transfer objects. Given below are some more information
+			about this package.</li>
+	</ul>
+	<span class="code">common.datatransfer</span> package contains
 	lightweight 'data transfer object' classes for transferring data among components. 
 	They can be combined in various ways to transfer structured data between
 	components. Given below are three examples.
@@ -672,18 +632,40 @@
 	This component automates the testing of TEAMMATES.
 	<br>
 	<div class="image-holder">
-		<img src="images/TestDriverComponent.png" width=90% />
+		<img src="images/TestDriverComponent.png" width=100% />
 	</div>
-	<br> We have two kinds of automated test cases:
+	Package overiew:
+	<ul>
+		<li><span class="code bold">test.driver</span>: Contains
+			infrastructure need for running the test driver.</li>
+		<li><span class="code bold">test.pageobjects</span>: Contains
+			abstractions of the pages as the appear on a Browser (i.e. SUTs).</li>
+		<li><span class="code bold">test.cases</span>: Contains test
+			cases. <br> Sub packages:
+			<ul>
+				<li><span class="code bold">.cases.driver</span>: Component
+					test cases for testing test driver infrastructure.</li>
+				<li><span class="code bold">.cases.browsertests</span>: System
+					test cases for testing the UI.</li>
+				<li><span class="code bold">.cases.common</span>: Component
+					test cases for testing the <span class="code">Common</span>
+					component.</li>
+				<li><span class="code bold">.cases.logic</span>: Component test
+					cases for testing the <span class="code">Logic</span> component.</li>
+				<li><span class="code bold">.cases.storage</span>: Component
+					test cases for testing the <span class="code">Storage</span>
+					component.</li>
+			</ul></li>
+	</ul>
+	Notes:
 	<ul>
 		<li>Component tests: Some of these are pure unit tests (i.e.,
 			test one component in isolation) while others are integration tests
 			that tests units as well as integration of units with each other.<br>
-			<span class="code">AllJsTests.java</span> is for unit testing
-			JavaScript code.
 		</li>
-		<li>UI tests: These focus on testing the UI and the integration
-			of all components with the UI.</li>
+		<li><span class="code">AllJsTests.java</span> (implemented as a
+			UI test) is for unit testing JavaScript code.</li>
+
 	</ul>
 	This is how TEAMMATES testing maps to standard types of testing.
 	<br>
@@ -697,75 +679,19 @@
 		testing-------------|</span>
 	<span style="background: #B6D7A8">----automated UI
 		tests----|---automated component tests ---|</span>
-	<br>
-	<br>
-	<br> Notable classes/files:
-	<ul>
-		<li><span class="code"><span class="bold">testing.xml</span></span>
-			contains the testNG test configuration.</li>
-		<li><span class="code"><span class="bold">BrowserInstance.java</span></span>
-			represents the UI of the application. It is a wrapper around Selenium
-			Web Driver. It allows the test driver to simulate user actions on the
-			TEAMMATES UI. This class is a good candidate for further
-			decomposition as it is too big at the moment.<br> Notable
-			methods and data members (<span class="bold">IMPORTANT</span>):
-			<ul>
-				<li><span class="code">get[entity]RowID</span>: to find the
-					rowID of some specific entity on a specific page.</li>
-				<li><span class="code">get[entity]LinkLocator</span>: to
-					retrieve the locator (a By object) of an entity. This method
-					usually have two versions, one accepting primary key to that
-					entity, the other accepting rowID. The basic form is the one
-					accepting rowID.</li>
-				<li>Data member of By type: gives the locator of an entity
-					which does not require any parameter to be retrieved (such as input
-					textbox for course ID in creating course)</li>
-				<li><span class="code">click[entity]</span>: methods to click
-					on some object on the page. This is only convenience method as it
-					can be replaced by calling <span class="code">click(By
-						locator)</span> using locator as retrieved from the <span class="code">get*LinkLocator</span>.</li>
-				<li><span class="code">count[entity]</span>: to count the
-					number of that entity in the page (e.g., number of students, number
-					of evaluations, etc)</li>
-				<li><span class="code">get[entity]</span> and <span
-					class="code">studentGet[entity]</span>: method to retrieve some
-					information on the page. For some cases, this is only convenience
-					method as it can be replaced by calling <span class="code">getText(By
-						locator)</span> with respective locator, for others, it uses more
-					sophisticated method to retrieve the data easier and faster.</li>
-				<li>Methods related to form-filling such as <span class="code">fillString</span>,
-					<span class="code">fillInCourseID</span>, <span class="code">addEvaluation</span>,
-					<span class="code">addCourse</span>. These methods are there to
-					make filling forms easier, as well as giving model to new
-					developers on how to fill the forms.
-				</li>
-				<li>There are also some verification methods to test the page
-					HTML.</li>
-			</ul></li>
-		<li><span class="code"><span class="bold">BackDoor.java</span></span>
-			allows test driver to communicate with the TEAMMATES datastore. It
-			hides from Test Driver the complexity of HTTP communication that is
-			required to interact with the server.
-		<li><span class="code"><span class="bold">EmailAccount.java</span></span>
-			allows Test Driver to query email accounts of test users (e.g., to
-			verify the receipt of emails sent by TEAMMATES)
-		<li><span class="code"><span class="bold">TestProperties.java</span></span>
-			represents configuration values in test.properties and
-			appengine-web.xml that are useful for testing. e.g., the app version
-			number that we expect to see in the UI footer.
-	</ul>
-	
-	<h2 id="design-client">Client</h2>
 
-	<br> The Client component contains scripts that can connect to the application
-	backend for things such as migrating data and calculating statistics.
-	<br>
-	<span class="code">client::remoteapi</span> package contains the classes need to 
-	connect to the backend directly.
-	<br>
-	<span class="code">client::scripts</span> package contains
-	scripts that does things with the back end data.
-	<br>
+	<h2 id="design-client">Client</h2>
+	The Client component contains scripts that can connect to the
+	application backend for things such as migrating data and calculating
+	statistics.
+	<p> Package overiew:
+	<ul>
+		<li><span class="code bold">client.remoteapi</span>: Classes
+			needed to connect to the backend directly.</li>
+		<li><span class="code bold">client.scripts</span>: Scripts that
+			do things with the back end data.</li>
+
+	</ul>
 
 	<hr>
 	<!-- =============================================================== -->
@@ -885,13 +811,19 @@
 			standard XML interfaces. <br>NekoHTML is included in the
 			Selenium libraries. <br>Usage: During UI testing, for doing a
 			logical comparison of the pages generated against expected pages.</li>
+		<li><span class="bold">HttpUnit</span> [version 1.7] <br>We
+			use the <a
+			href="http://httpunit.sourceforge.net/doc/servletunit-intro.html">ServletUnit</a>
+			component of HttpUnit to create <span class="code">HttpServletUnit</span>
+			objects used for testing.</li>
 	</ul>
 	<h2 id="infrastructure-configpoints">Config points</h2>
 	There are several files used to configure various aspects of the
 	system.
 	<ul>
 		<li><span class="code"><span class="bold">build.properties
-			</span></span>: This is the main general purpose configuration file.
+			</span></span>: This is the main general purpose configuration file
+			used by the main app.
 		<li><span class="code"><span class="bold">logging.properties
 			</span></span>: Configuration for java.util.logging users.
 		<li><span class="code"><span class="bold">log4j.properties
@@ -925,16 +857,26 @@
 
 	<h2 id="settingup-prerequisites">Prerequisites</h2>
 	<ul>
-		<li>Install the latest JDK.</li>
 		<li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>
 			latest stable version. <br>If you are on Mac OS, you can install
 			<a href="http://mercurial.selenic.com/">Mercurial (Commandline
 				version)</a> or a Hg GUI such as <a
-			href="http://jasonfharris.com/machg/">MacHg</a>.<br> Configure
-			the user name in Hg global settings. The recommended format is <span
-			class="code">Full name &lt;email&gt;</span> e.g. <span class="code">John
-				Mayor &lt;john.m@gmail.com&gt; </span>
+			href="http://jasonfharris.com/machg/">MacHg</a>.
 		</li>
+		<li>Clone the source code from: <span class="code"><a
+				href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
+			<br /> Note: If you are using TortoiseHg to clone, simply copy the
+			URL above and paste it in the Source field. Alternatively, you can
+			use the command line to do the cloning.
+		</li>
+		<li>Open the latest version of <span class="code">devman.html</span>
+			(i.e. this document). It can be found in the <span class="code">\src\main\webapp\dev\</span>
+			folder of the repo you just cloned. From this point, follow that
+			document as it may be newer than the <a
+			href="https://teammatesv4.appspot.com/dev/devman.html">released
+				version</a>.
+		</li>
+		<li>Install the latest JDK.</li>
 		<li>Download <i>Eclipse IDE for Java EE Developers</i> (version:
 			Juno) from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/
 		</a>
@@ -963,20 +905,18 @@
 		Chrome or IE, but FF is the most convenient of the three), downgrade to
 			Firefox 12.0 from <a
 			href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a>
-			{The web driver for later Firefox doesn't work for our test cases.}
+			{The web driver for later Firefox versions is terribly slow.}
 		</li>
 	</ul>
 
 	<h2 id="settingup-settingupdevserver">Setting up the dev server</h2>
 	'Dev server' means running the server in localhost mode.
 	<ol>
-		<li>Clone the source code from: <span class="code"><a
-				href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
-			<br /> Note: If you are using TortoiseHg to clone, simply copy the
-			URL above and paste it in the Source field. Alternatively, you can
-			use the command line to do the cloning.
-		</li>
-		<li>Add the following section to the <span class="code">hgrc</span>
+		<li>Configure Hg: <br>
+			Configure the user name in Hg global settings. The recommended format is <span
+			class="code">Full name &lt;email&gt;</span> e.g. <span class="code">John
+				Mayor &lt;john.m@gmail.com&gt; </span><br>
+			Add the following section to the <span class="code">hgrc</span>
 			file inside your project repo folder. {reason: to configure Mercurial
 			Queue extension and EOL extension that we use for TEAMMATES.} <br>
 			<span class="code">
@@ -1039,21 +979,19 @@
 						</li>
 					</ol>
 				</li>
-				<li>Windows → Preferences → Java → Installed JRE
-					<ol type="i">
-						<li>Ensure a JDK (not a JRE) is selected. One of the items in
-					the <a href="#settingup-troubleshooting">Troubleshooting</a>
-					section below explains how to do this.
-						</li>
-					</ol>
-				</li>
+				
 			</ol>
+		</li>
+		<li>In Eclipse, go to Windows → Preferences → Java → Installed
+			JRE and ensure a JDK (not a JRE) is selected. One of the items in the
+			<a href="#settingup-troubleshooting">Troubleshooting</a> section
+			below explains how to do this.
 		</li>
 		<li>Right-click on the project folder and choose 'Run' → 'As Web
 			Application'. After some time, you should see this message on the
-			console “The server is running at http://localhost:8888/”.<br>
-			The dev server is now ready to start requests at the given URL. You
-			can verify by visiting the URL in your Browser. <br>You can
+			console “Dev App Server is now running” or something similar.<br>
+			The dev server is now ready to serve requests at the given URL. You
+			can verify by visiting the URL in your Browser. <br>To
 			login to the system, you need to add yourself as an instructor first
 			 (described below).
 		</li>
@@ -1067,7 +1005,7 @@
 			any email address, but remember to check the 'log in as
 			administrator' check box.</li>
 		<li>Enter credentials for an instructor. e.g., <br> Google
-			id: teammates.instructor<br> Name: Dr. John Adams <br>
+			id: teammates.instructor<br> Name: John Dorian <br>
 			Email: teammates.instructor@gmail.com<br>
 			Institute: National University of Singapore <br>
 		</li>
@@ -1075,7 +1013,7 @@
 
 	<h3>Running the test suite</h3>
 	This can be done using the "All tests" option under the
-	green "Run" button in the toolbar. If this option is not available
+	green "Run" button in the Eclipse toolbar. If this option is not available
 	(sometimes, Eclipse does not show this option immediately after you set
 	up the project. In will appear in subsequent runs. 
 	'Refreshing' will make it appear too.), run
@@ -1091,7 +1029,7 @@
 	<span class="code">test.properties</span> file and change the
 	<span class="code">test.selenium.browser</span> value to the browser
 	you want to test. Possible values are
-	<span class="code"> firefox, chrome, iexplore, safari.</span> In
+	<span class="code"> firefox, chrome, or iexplore.</span> In
 	addition, you need to configure the browser you have selected so that
 	it works with the test suite.
 	<br>
@@ -1123,13 +1061,6 @@
 			each zone, there will be a check box at the bottom of the tab labeled
 			"Enable Protected Mode".</li>
 	</ul>
-	<span class="bold">Safari</span>
-	<ul>
-		<li>If you are planning to test changes to JavaScript code,
-			disable javascript caching for Safari - Enable the Developer menu:
-			Safari -> Preferences -> Advanced -> Show Develop menu in menu bar
-			and select Disable Caches there.</li>
-	</ul>
 
 	<span class="bold">Note:</span> When testing with Chrome and Internet
 	Explorer, the chromedriver process and the IEDriverServer process will
@@ -1144,8 +1075,9 @@
 	for hosting the app for testing purposes.
 	<ol>
 		<li>Create your own app on GAE.<br> Suggested app name:
-			teammates-name (replace the name with your own name). The URL of the
-			app will be like this.<br> <span class="blue code">http://teammates-name.appspot.com</span><br>
+			teammates-name (replace the name with your own name. e.g.
+			teammates-john). The URL of the app will be like this.<br> <span
+			class="blue code">http://teammates-name.appspot.com</span><br>
 		</li>
 		<br>
 		<li>Modify configuration files.
@@ -1154,18 +1086,22 @@
 						class="bold">build.properties </span></span><br> Follow instructions
 					in the file itself.</li>
 				<li><span class="code"><span class="blue">src/test/resources/</span><span
-						class="bold">test.properties </span></span><br> Get from a project
-					member details of Gmail accounts used for testing. Edit the
-					file as instructed in its comments.</li>
+						class="bold">test.properties </span></span><br> Edit the
+					file as instructed in its comments. Note that in addition to your
+						own Google account, you need four other Google accounts as test accounts. 
+						Create four Google accounts and add their details to the file. </li>
 				<li><span class="code"><span class="blue">src/main/webapp/WEB-INF/</span><span
 						class="bold">appengine-web.xml </span></span><br> Modify to match
 					app name and app id of your own app.</li>
 			</ol>
 		</li>
-		<li>Deploy the application to an appspot
+		<li>Deploy the application to your staging server.
 			<ol type="a">
-				<li>Choose 'Deploy to app engine' from eclipse and follow the
-					steps.</li>
+				<li>Choose 'Deploy to app engine' from eclipse (under the
+					Google menu item <img
+					src="https://developers.google.com/appengine/docs/java/tools/eclipse/google_menu_button.png">)
+					and follow the steps.
+				</li>
 				<li>Wait until you see this message in Eclipse console
 					“Deployment completed successfully”</li>
 				<li>Go to appengine dashboard <br> <span class="code">
@@ -1276,8 +1212,9 @@
 		</li>
 		<br>
 		<li>ERROR: Browser alert about invalid ssl certificate.<br/>
-			SOLUTION: Ensure that your url uses -dot- instead of '.' when using secondary subdomains.<br/>
-			Eg. http\://4-30-dot-teammates-john.appspot.com <br/>
+			SOLUTION: Ensure that test.app.url in your test.properties
+			 uses -dot- instead of '.' when using secondary subdomains.<br/>
+			Eg. http\://4-30<span class="bold">-dot-</span>teammates-john.appspot.com <br/>
 		</li>
 	</ol>
 
@@ -1337,10 +1274,13 @@
 		<li>Start a new branch named <span class="code">Issue{IssueNumber}</span>.
 			If you are already working in a branch, remember to switch to trunk
 			(i.e. <span class="code">default</span> branch) before creating the
-			new branch. e.g., <br> <span class="code"> #switch to
-				trunk (if required)<br> hg update default<br> #create new
-				branch<br> hg branch {issue number} <br> #e.g. hg branch
-				Issue236
+			new branch. e.g., <br> <span class="code"> 
+				#switch to
+				trunk (if required)<br> 
+				hg update default<br> 
+				#create new	branch<br> 
+				hg branch Issue{issue number} <br> 
+				#e.g. hg branch	Issue236
 		</span>
 		</li>
 		<br>
@@ -1357,9 +1297,7 @@
 					issue, others might have pushed new code to the committer repo. In
 					that case, update your repo with any new changes from committer
 					repo and merge those updates to your branch<br> <span
-					class="code"> hg pull
-						https://code.google.com/p/teammatespes/<br> 
-						hg update<br>
+					class="code"> hg pull https://code.google.com/p/teammatespes/<br> 
 						hg merge default<br> 
 						hg commit -m "your commit message"
 				</span>
@@ -1378,7 +1316,7 @@
 				<li>Upload the changes as a patch to code review system. <br>
 					<span class="code">upload.py --rev=default -t Issue "{issue
 						number} : {branch description as given in Issue tracker}"<br>
-						#e.g., upload.py --rev=default -t "Issue 829 : Remoe unused
+						#e.g., upload.py --rev=default -t "Issue 829 : Remove unused
 						constants from Attributes classes"
 				</span><br> See <a
 					href="https://code.google.com/p/rietveld/wiki/UploadPyUsage">here</a>
@@ -1465,9 +1403,9 @@
 				<span class="code">Issue 829 : Remoe unused constants from *Attributes classes <br>
 				Update Issue 829	</span>
 				</li>
-				<li>Push the merged branch to the committer repo. <br> <span
+				<li>Push the default branch to the committer repo. <br> <span
 					class="code">hg push {committer repo URL} -b
-						defalut </span>
+						default </span>
 				</li>
 			</ul>
 		</li>
@@ -1532,25 +1470,41 @@
 			'module', 'class'. A course here means an offering of a course in a
 			particular semester/term. If the course is offered twice in two
 			semesters, they are considered two courses.</li>
-		<li><span class="bold">Contribution scale</span>:<br> <span
-			class="blue"> [equal share]+100%<br> [equal share]+90%<br>
-				...<br> [equal share]<br> [NOT SURE]<br> [equal
-				share]-10%<br> ...<br> [equal share]-90%<br> [0%]
+		<li><span class="bold">Contribution scale</span>:<br> 
+			<span class="blue"> 
+				[equal share]+100%<br> 
+				[equal share]+90%<br>
+				...<br> 
+				[equal share]<br> 
+				[NOT SURE]<br> 
+				[equal share]-10%<br> 
+				...<br> 
+				[equal share]-90%<br> 
+				[0%]
 				(did nothing at all)<br>
-		</span></li>
+			</span></li>
 		<li><span class="bold">DevMan</span>: Developer manual (this
-			document)</li>
+			document).</li>
 		<li><span class="bold">DevSite</span>: <a
-			href='http://teammatespes.gogolecode.com'>Our developer web site</a></li>
+			href='http://teammatespes.gogolecode.com'>Our developer web site.</a></li>
 		<li><span class="bold">Dev green</span>: All tests are passing on
-			the dev server (i.e. localhost)</li>
+			the dev server.</li>
+		<li><span class="bold">Dev server</span>: The Development server
+			running on your Computer.</li>
 		<li><span class="bold">Enrollment, Enroll </span>(NOT enrolment,
-			enrol)</li>
+			enrol).</li>
 		<li><span class="bold">Live green</span>: All tests are passing
-			on live app</li>
-		<li><span class="bold">Spec</span>: System Specification</li>
+			against the app running on the live server.</li>
+		<li><span class="bold">Live server</span>: The server running the
+			released public version of the app (i.e.
+			http://teammatesv4.appspot.com).</li>
+		<li><span class="bold">Productions server</span>: A server on
+			AppSpot. Can be the live server or a staging server.</li>
+		<li><span class="bold">Spec</span>: System Specification.</li>
 		<li><span class="bold">Staging green</span>: All test are passing
-			against you own deployment on the GAE</li>
+			against you own deployment on the GAE.</li>
+		<li><span class="bold">Staging server</span>: The server instance
+			you created on AppSpot.</li>
 	</ul>
 	<br> ---End of document---
 

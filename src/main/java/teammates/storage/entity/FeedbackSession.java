@@ -29,7 +29,7 @@ public class FeedbackSession {
 	private String courseId;
 	
 	@Persistent
-	private String creatorEmail;
+	private String creatorEmail; //TODO: should this be googleId?
 	
 	@Persistent
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
