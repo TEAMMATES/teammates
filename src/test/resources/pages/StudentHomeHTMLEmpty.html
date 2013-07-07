@@ -35,10 +35,10 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li class="current"><a href="/page/studentHome" class='nav home' data-link="studentHome">Home</a></li>
+					<li class="current"><a href="/page/studentHomePage?user={$test.unreg}" class='nav home' data-link="studentHome">Home</a></li>
 					<li><a target="_blank" href="/studentHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <b>(alice.tmms)</b></li>
+					 <b>({$test.unreg})</b></li>
 								</ul>
 			</div>
 		</div>
@@ -65,7 +65,7 @@
 						</td>
 					</tr>
 				 </tbody></table>
-				
+			<input type="hidden" value="{$test.unreg}" name="user" />	
 			</form>
 			
 			<br />
@@ -77,7 +77,9 @@
 		<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? That can happen if you changed the primary email from a non-Gmail address to a Gmail address recently. 
 		<br/>In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address.
 	</div>
-
+	<script type="text/javascript">
+    	document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
 			<br />
 			
 			
@@ -88,8 +90,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{version}</span>]</span>
-	[for <span class="color_white">National University of Singapore</span>]
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>
 

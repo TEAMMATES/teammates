@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
+import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.datastore.Datastore;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
 
 /**
@@ -23,68 +24,20 @@ import teammates.storage.entity.Instructor;
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  * 
  */
-public class InstructorsDb {
-	public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
-	public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
-	public static final String ERROR_CREATE_ACCOUNT_ALREADY_EXISTS = "Trying to create an Account that exists: ";
-	public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
-	public static final String ERROR_CREATE_STUDENT_ALREADY_EXISTS = "Trying to create a Student that exists: ";
+public class InstructorsDb extends EntitiesDb{
+	
 	public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 	
-	private static final Logger log = Common.getLogger();
-
-	//TODO: add an updateStudent(StudentAttributes) version and make the above private
-	
-	/**
-	  * Preconditions: 
-	 * <br> * {@code instructorToAdd} is not null and has valid data.
-	 * @throws InvalidParametersException 
-	 */
-	public void createInstructor(InstructorAttributes instructorToAdd)
-			throws EntityAlreadyExistsException, InvalidParametersException {
+	private static final Logger log = Utils.getLogger();
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorToAdd);
-
-		if (!instructorToAdd.isValid()) {
-			throw new InvalidParametersException(
-					"Invalid parameter detected while adding instructor :"
-					+instructorToAdd.getInvalidStateInfo() 
-					+ "values received :\n"+ instructorToAdd.toString());
-		}
-
-		if (getInstructorEntityForGoogleId(instructorToAdd.courseId, instructorToAdd.googleId) != null) {
-			String error = ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS
-					+ instructorToAdd.googleId + ", " + instructorToAdd.courseId;
-			throw new EntityAlreadyExistsException(error);
-		}
-
-		Instructor newInstructor = instructorToAdd.toEntity();
-		getPM().makePersistent(newInstructor);
-		getPM().flush();
-
-		// Wait for the operation to persist
-		int elapsedTime = 0;
-		Instructor instructorCheck = getInstructorEntityForGoogleId(instructorToAdd.courseId, instructorToAdd.googleId);
-		while ((instructorCheck == null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			instructorCheck = getInstructorEntityForGoogleId(instructorToAdd.courseId, instructorToAdd.googleId);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createInstructor->"
-					+ instructorToAdd.googleId);
-		}
-	}
-	
 	/**
 	 * Preconditions: <br>
 	 *  * All parameters are non-null.
 	 * @return empty list if no matching objects. 
 	 */
 	public InstructorAttributes getInstructorForEmail(String courseId, String email) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, email);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 	
 		Instructor i = getInstructorEntityForEmail(courseId, email);
 	
@@ -103,8 +56,8 @@ public class InstructorsDb {
 	 * @return empty list if no matching objects. 
 	 */
 	public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 	
 		Instructor i = getInstructorEntityForGoogleId(courseId, googleId);
 	
@@ -122,13 +75,15 @@ public class InstructorsDb {
 	 * @return empty list if no matching objects. 
 	 */
 	public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 		
 		List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
 		
 		List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
 		for (Instructor i : instructorList) {
-			instructorDataList.add(new InstructorAttributes(i));
+			if(!JDOHelper.isDeleted(i)){
+				instructorDataList.add(new InstructorAttributes(i));
+			}
 		}
 		
 		return instructorDataList;
@@ -140,13 +95,15 @@ public class InstructorsDb {
 	 * @return empty list if no matching objects. 
 	 */
 	public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
 		
 		List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
 		for (Instructor i : instructorList) {
-			instructorDataList.add(new InstructorAttributes(i));
+			if(!JDOHelper.isDeleted(i)){
+				instructorDataList.add(new InstructorAttributes(i));
+			}
 		}
 		
 		return instructorDataList;
@@ -178,10 +135,10 @@ public class InstructorsDb {
 	 * @throws InvalidParametersException 
 	 */
 	public void updateInstructor(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
 		
 		if (!instructorAttributesToUpdate.isValid()) {
-			throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidStateInfo());
+			throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidityInfo());
 		}
 		
 		Instructor instructorToUpdate = getInstructorEntityForGoogleId(
@@ -190,7 +147,7 @@ public class InstructorsDb {
 		
 		//TODO: this should be an exception instead?
 		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.googleId
-				+ Common.getCurrentThreadStack(), instructorToUpdate);
+				+ ThreadHelper.getCurrentThreadStack(), instructorToUpdate);
 		
 		instructorToUpdate.setName(instructorAttributesToUpdate.name);
 		instructorToUpdate.setEmail(instructorAttributesToUpdate.email);
@@ -209,8 +166,8 @@ public class InstructorsDb {
 	public void deleteInstructor(String courseId, String googleId) {
 		//TODO: in future, courseId+email should be the key, not courseId+googleId
 
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
 		Instructor instructorToDelete = getInstructorEntityForGoogleId(courseId, googleId);
 
@@ -225,12 +182,12 @@ public class InstructorsDb {
 		int elapsedTime = 0;
 		Instructor instructorCheck = getInstructorEntityForGoogleId(courseId, googleId);
 		while ((instructorCheck != null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+			ThreadHelper.waitBriefly();
 			instructorCheck = getInstructorEntityForGoogleId(courseId, googleId);
-			elapsedTime += Common.WAIT_DURATION;
+			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteInstructor->"
 					+ googleId);
 		}
@@ -242,7 +199,7 @@ public class InstructorsDb {
 	 *  * All parameters are non-null.
 	 */
 	public void deleteInstructorsForGoogleId(String googleId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
 		List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
 
@@ -256,7 +213,7 @@ public class InstructorsDb {
 	 *  * All parameters are non-null.
 	 */
 	public void deleteInstructorsForCourse(String courseId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
 		List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
 
@@ -264,11 +221,6 @@ public class InstructorsDb {
 		getPM().flush();
 	}
 	
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
-
-
 	private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
 		
 		Query q = getPM().newQuery(Instructor.class);
@@ -335,6 +287,14 @@ public class InstructorsDb {
 				.newQuery(query).execute();
 	
 		return instructorList;
+	}
+
+	@Override
+	protected Object getEntity(EntityAttributes attributes) {
+		
+		InstructorAttributes instructorToGet = (InstructorAttributes) attributes;	
+			
+		return getInstructorForGoogleId(instructorToGet.courseId, instructorToGet.googleId);
 	}
 	
 

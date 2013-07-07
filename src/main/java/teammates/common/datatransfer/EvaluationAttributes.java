@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.FieldValidator;
-import teammates.common.FieldValidator.FieldType;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.TimeHelper;
+import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Evaluation;
 
 /**
@@ -22,9 +26,9 @@ public class EvaluationAttributes extends EntityAttributes {
 	}
 		
 	//Note: be careful when changing these variables as their names are used in *.json files.
-	public String course; //TODO: rename to courseId
+	public String courseId;
 	public String name;
-	public String instructions = "";
+	public String instructions = ""; // TODO: Change to Text?
 	public Date startTime;
 	public Date endTime;
 	public double timeZone;
@@ -33,22 +37,29 @@ public class EvaluationAttributes extends EntityAttributes {
 	public boolean published = false;
 	public boolean activated = false;
 
-	private static Logger log = Common.getLogger();
+	private static Logger log = Utils.getLogger();
 
-	//TODO: move these to FieldValidator. All filed validation error messages should be in that class.
-	public static final String ERROR_END_BEFORE_START = "Evaluation end time cannot be earlier than start time";
-	public static final String ERROR_PUBLISHED_BEFORE_END = "Evaluation cannot be published before end time";
-	public static final String ERROR_ACTIVATED_BEFORE_START = "Evaluation cannot be activated before start time";
-
-
-	//TODO: add a constructor that takes all parameters. Provide sanitization.
-	
 	public EvaluationAttributes() {
 
 	}
+	
+	public EvaluationAttributes(String courseId, String name, String instructions,
+			Date startTime, Date endTime, double timeZone, int gracePeriod,
+			boolean p2pEnabled, boolean published, boolean activated) {
+		this.courseId = Sanitizer.sanitizeTitle(courseId);
+		this.name = Sanitizer.sanitizeName(name);
+		this.instructions = Sanitizer.sanitizeTextField(instructions);
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.timeZone = timeZone;
+		this.gracePeriod = gracePeriod;
+		this.p2pEnabled = p2pEnabled;
+		this.published = published;
+		this.activated = activated;
+	}
 
 	public EvaluationAttributes(Evaluation e) {
-		this.course = e.getCourseId();
+		this.courseId = e.getCourseId();
 		this.name = e.getName();
 		this.instructions = e.getInstructions();
 		this.startTime = e.getStart();
@@ -61,7 +72,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	}
 
 	public Evaluation toEntity() {
-		Evaluation evaluation = new Evaluation(course, name, instructions,
+		Evaluation evaluation = new Evaluation(courseId, name, instructions,
 				p2pEnabled, startTime, endTime, timeZone, gracePeriod);
 		evaluation.setActivated(activated);
 		evaluation.setPublished(published);
@@ -69,19 +80,19 @@ public class EvaluationAttributes extends EntityAttributes {
 	}
 
 	public EvalStatus getStatus() {
-		Calendar now = Calendar.getInstance();
-		Common.convertToUserTimeZone(now, timeZone);
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		TimeHelper.convertToUserTimeZone(now, timeZone);
 
-		Calendar start = Calendar.getInstance();
+		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		start.setTime(startTime);
 
-		Calendar end = Calendar.getInstance();
+		Calendar end = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		end.setTime(endTime);
 		end.add(Calendar.MINUTE, gracePeriod);
 
-		log.fine(Common.EOL + "Now  : " + Common.calendarToString(now)
-				+ Common.EOL + "Start: " + Common.calendarToString(start)
-				+ Common.EOL + "End  : " + Common.calendarToString(end));
+		log.fine(Const.EOL + "Now  : " + TimeHelper.calendarToString(now)
+				+ Const.EOL + "Start: " + TimeHelper.calendarToString(start)
+				+ Const.EOL + "End  : " + TimeHelper.calendarToString(end));
 
 		if (published) {
 			return EvalStatus.PUBLISHED;
@@ -99,15 +110,15 @@ public class EvaluationAttributes extends EntityAttributes {
 	 *         the evaluation has not been activated yet.
 	 */
 	public boolean isReadyToActivate() {
-		Calendar currentTimeInUserTimeZone = Common.convertToUserTimeZone(
-				Calendar.getInstance(), timeZone);
+		Calendar currentTimeInUserTimeZone = TimeHelper.convertToUserTimeZone(
+				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
 
-		Calendar evalStartTime = Calendar.getInstance();
+		Calendar evalStartTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		evalStartTime.setTime(startTime);
 
 		log.fine("current:"
-				+ Common.calendarToString(currentTimeInUserTimeZone)
-				+ "|start:" + Common.calendarToString(evalStartTime));
+				+ TimeHelper.calendarToString(currentTimeInUserTimeZone)
+				+ "|start:" + TimeHelper.calendarToString(evalStartTime));
 
 		if (currentTimeInUserTimeZone.before(evalStartTime)) {
 			return false;
@@ -116,18 +127,32 @@ public class EvaluationAttributes extends EntityAttributes {
 		}
 	}
 	
+	/**
+	 * @return true if the evaluation start time is in the future, after accounting
+	 * for time zone differences.
+	 */
+	public boolean isOpeningInFuture() {
+		Calendar currentTimeInUserTimeZone = TimeHelper.convertToUserTimeZone(
+				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
+
+		Calendar evalStartTime = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		evalStartTime.setTime(startTime);
+
+		return currentTimeInUserTimeZone.before(evalStartTime);
+	}
+
 	//TODO: unit test this
 	public boolean isClosingWithinTimeLimit(int hours) {
 
-		Calendar now = Calendar.getInstance();
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		// Fix the time zone accordingly
 		now.add(Calendar.MILLISECOND,
 				(int) (60 * 60 * 1000 * timeZone));
 		
-		Calendar start = Calendar.getInstance();
+		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		start.setTime(startTime);
 		
-		Calendar deadline = Calendar.getInstance();
+		Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		deadline.setTime(endTime);
 
 		long nowMillis = now.getTimeInMillis();
@@ -143,12 +168,29 @@ public class EvaluationAttributes extends EntityAttributes {
 				&& differenceBetweenDeadlineAndNow < hours);
 	}
 
-	@Override
-	public boolean isValid() {
-		return getInvalidStateInfo().isEmpty();
+
+	/**
+	 * @return true if the evaluation closing time is in the future, after accounting
+	 * for time zone differences and grace period.
+	 */
+	public boolean isClosingInFuture() {
+		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		TimeHelper.convertToUserTimeZone(now, timeZone);
+
+		Calendar end = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		end.setTime(endTime);
+		end.add(Calendar.MINUTE, gracePeriod);
+		
+		return now.before(end);
+	
 	}
 
-	public List<String> getInvalidStateInfo() {
+	@Override
+	public boolean isValid() {
+		return getInvalidityInfo().isEmpty();
+	}
+
+	public List<String> getInvalidityInfo() {
 		
 		Assumption.assertTrue(startTime!=null);
 		Assumption.assertTrue(endTime!=null);
@@ -157,34 +199,31 @@ public class EvaluationAttributes extends EntityAttributes {
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
-		error= validator.getValidityInfo(FieldType.COURSE_ID, course);
+		error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.EVALUATION_NAME, name);
+		error= validator.getInvalidityInfo(FieldType.EVALUATION_NAME, name);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions);
-		if(!error.isEmpty()) { errors.add(error); }
+		error= validator.getInvalidityInfo(FieldType.EVALUATION_INSTRUCTIONS, instructions);
+		if(!error.isEmpty()) { errors.add(error); }		
 		
+		error= validator.getValidityInfoForTimeFrame(FieldType.EVALUATION_TIME_FRAME,
+				FieldType.START_TIME, FieldType.END_TIME, startTime, endTime);
+		if(!error.isEmpty()) { errors.add(error); }	
 		
-		if (endTime.before(startTime)) {
-			errors.add(ERROR_END_BEFORE_START);
-		}
-
-		if (Common.isCurrentTimeInUsersTimezoneEarlierThan(endTime,	timeZone) && published) {
-			errors.add(ERROR_PUBLISHED_BEFORE_END);
-		}
-
-		if (Common.isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
-			errors.add(ERROR_ACTIVATED_BEFORE_START);
-		}
+		error= validator.getValidityInfoForEvalStartTime(startTime, timeZone, activated);
+		if(!error.isEmpty()) { errors.add(error); }	
+		
+		error= validator.getValidityInfoForEvalEndTime(endTime, timeZone, published);
+		if(!error.isEmpty()) { errors.add(error); }	
 
 		return errors;
 	}
 
 	@Override
 	public String toString() {
-		return Common.getTeammatesGson()
+		return Utils.getTeammatesGson()
 				.toJson(this, EvaluationAttributes.class);
 	}
 
@@ -196,6 +235,73 @@ public class EvaluationAttributes extends EntityAttributes {
 			attributesList.add(new EvaluationAttributes(e));
 		}
 		return attributesList;
+	}
+
+	@Override
+	public String getIdentificationString() {
+		return this.courseId + " | " + this.name;
+	}
+
+	@Override
+	public String getEntityTypeAsString() {
+		return "Evaluation";
+	}
+
+	public boolean isSimilar(EvaluationAttributes e) {
+		if(e==null){
+			return false;
+		}
+		return this.courseId.equals(e.courseId)
+				&& this.name.equals(e.name)
+				&& this.instructions.equals(e.instructions)
+				&& this.activated == e.activated
+				&& this.published == e.published
+				&& this.p2pEnabled == e.p2pEnabled
+				&& this.gracePeriod == e.gracePeriod
+				&& this.timeZone == e.timeZone
+				&& this.startTime.equals(e.startTime)
+				&& this.endTime.equals(e.endTime);
+	}
+
+	/**
+	 * Sets derived attributes 'activated' and 'published' based on other
+	 * attributes. <br>
+	 * * If the opening time is in the future (after accounting for timezone differences),
+	 *   'activated' is set to false. <br>
+	 * * If the closing time is in the future (after accounting for timezone differences
+	 *   and the grace period), published is set to false.<br>
+	 * * If already closed, 'activated' is set to true. <br>
+	 */
+	public void setDerivedAttributes() {
+		// Set derived attributes.
+		if(isOpeningInFuture()){
+			activated = false;
+		}		
+		if(isClosingInFuture()){
+			published = false;
+		}
+		
+		//If already closed, we want to prevent any activation emails from going out.
+		// This is useful when an update changes the state from AWAITING to CLOSED.
+		if(!isClosingInFuture()){ 
+			activated = true;
+		}
+		
+	}
+
+	public EvaluationAttributes getCopy() {
+		EvaluationAttributes copy = new EvaluationAttributes();
+		copy.courseId = this.courseId;
+		copy.name = this.name;
+		copy.instructions = this.instructions; 
+		copy.startTime = this.startTime;
+		copy.endTime = this.endTime;
+		copy.timeZone = this.timeZone;
+		copy.gracePeriod = this.gracePeriod;
+		copy.p2pEnabled = this.p2pEnabled;
+		copy.published = this.published;
+		copy.activated = this.activated;
+		return copy;
 	}
 
 }

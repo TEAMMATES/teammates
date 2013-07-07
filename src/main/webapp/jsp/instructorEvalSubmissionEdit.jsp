@@ -1,9 +1,11 @@
-<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorEvalSubmissionEditHelper"%>
-<%	InstructorEvalSubmissionEditHelper helper = (InstructorEvalSubmissionEditHelper)request.getAttribute("helper"); %>
+<%@ page import="teammates.ui.controller.InstructorEvalSubmissionEditPageData"%>
+<%
+	InstructorEvalSubmissionEditPageData data = (InstructorEvalSubmissionEditPageData)request.getAttribute("data");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +33,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -44,34 +46,30 @@
 			<table class="inputTable" id="studentEvaluationInfo">
 				<tr>
 					<td class="label rightalign bold" width="30%">Course ID:</td>
-					<td class="leftalign"><%= helper.eval.course %></td>
+					<td class="leftalign"><%=data.eval.courseId%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Evaluation Name:</td>
-					<td class="leftalign"><%=InstructorEvalSubmissionEditHelper.escapeForHTML(helper.eval.name)%></td>
+					<td class="leftalign"><%=InstructorEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></td>
 				</tr>
 			</table>
 			
 			<br>
 			<div id="studentEvaluationSubmissions">
 				<form name="form_submitevaluation" id="form_submitevaluation" method="post"
-						action="<%= Common.PAGE_INSTRUCTOR_EVAL_SUBMISSION_EDIT_HANDLER %>">
-					<jsp:include page="<%= Common.JSP_EVAL_SUBMISSION_EDIT %>">
+						action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE%>">
+					<jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
 					<jsp:param name="isStudent" value="false" />
 					</jsp:include>
 					<br>
-					<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+					<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 					<br>
 					<div class="centeralign">
-						<input type="button" class="button" id="button_back"
-								onclick="window.close(); opener.setStatusMessage('')" value="Cancel">
 						<input type="submit" class="button" name="submitEvaluation"
 								onclick="return checkEvaluationForm(this.form)"
 								id="button_submit" value="Save Changes">
 					</div>
-					<% if(helper.isMasqueradeMode()){ %>
-						<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">
-					<% } %>
+					<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 				</form>
 		 		<br><br>
 			</div>
@@ -79,7 +77,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

@@ -9,7 +9,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import teammates.common.Common;
+import teammates.common.util.Utils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -19,7 +19,8 @@ import com.google.gson.annotations.SerializedName;
 @PersistenceCapable
 public class Evaluation {
 
-	private static Logger log = Common.getLogger();
+	@SuppressWarnings("unused")
+	private static Logger log = Utils.getLogger();
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

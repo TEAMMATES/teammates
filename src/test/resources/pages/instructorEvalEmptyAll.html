@@ -43,12 +43,12 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=CEvalUiT.instructor" class='nav home' data-link="instructorHome">Home</a></li>
-					<li><a href="/page/instructorCourse?user=CEvalUiT.instructor" class='nav courses' data-link="instructorCourse">Courses</a></li>
-					<li class="current"><a href="/page/instructorEval?user=CEvalUiT.instructor" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a href="/page/instructorHomePage?user=CEvalUiT.nocourses" class='nav home' data-link="instructorHome">Home</a></li>
+					<li><a href="/page/instructorCoursesPage?user=CEvalUiT.nocourses" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li class="current"><a href="/page/instructorEvalsPage?user=CEvalUiT.nocourses" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <b>(CEvalUiT.instructor)</b></li>
+					 <b>(CEvalUiT.nocourses)</b></li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -63,7 +63,20 @@
 				<h1>Add New Evaluation</h1>
 			</div>
 			
-			<form name="form_addevaluation" action="" method="post">
+			<p class="bold centeralign middlealign">
+				<span style="padding-right: 10px"> Session Type </span> <select
+					id="feedbackchangetype" name="feedbackchangetype"
+					onmouseout="hideddrivetip()"
+					onmouseover="ddrivetip('Select a different type of session here.')"
+					style="width: 730px" tabindex="0">
+					<option value="/page/instructorFeedbacksPage">Class Feedback Session with customizable questions</option>
+					{*}
+					<option selected="selected" value="/page/instructorEvalsPage">Standard Peer Evaluation Session</option>
+				</select>
+			</p>
+			<br /> <br />
+			
+			<form name="form_addevaluation" action="/page/instructorEvalAdd" method="post">
 				<table id="instructorEvaluationManagement" class="inputTable">
 					<tbody><tr>
 						<td class="label bold">Course ID:</td>
@@ -71,7 +84,7 @@
 							
 							</select></td>
 						<td class="label bold">Opening time:</td>
-						<td><input type="text" tabindex="3" readonly="readonly" value="{*}" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
+						<td><input type="text" tabindex="3" readonly="readonly" value={*} onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
 									@
 							<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
 								<option value="1">0100H</option>
@@ -143,7 +156,7 @@
 							<label for="commentsstatus_disabled">Disabled</label>
 						</td>
 						<td class="label bold">Time zone:</td>
-						<td><select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
+						<td><select tabindex="7" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
 							<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
 <option value="-10">UTC -10:00</option>
@@ -211,6 +224,7 @@
 							<input type="submit" tabindex="9" value="Create Evaluation" onclick="return checkAddEvaluation(this.form);" class="button" id="button_submit" /></td>
 					</tr>
 				</tbody></table>
+				<input name="user" type="hidden" value="CEvalUiT.nocourses">
 			</form>
 			
 			<br />
@@ -218,8 +232,10 @@
 
 
 	<div style="display: block;" id="statusMessage">
-		You have not created any courses yet. Go <a href="/page/instructorCourse?user=CEvalUiT.instructor">here</a> to create one.</div>
-
+		You have not created any courses yet. Go <a href="/page/instructorCoursesPage?user=CEvalUiT.nocourses">here</a> to create one.</div>
+	<script type="text/javascript">
+    	document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
 			<br />
 			
 
@@ -256,7 +272,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{version}</span>]</span>
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
 	[for <span class="color_white">National University of Singapore</span>]
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>

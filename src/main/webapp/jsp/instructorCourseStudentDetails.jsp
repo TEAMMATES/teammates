@@ -1,8 +1,11 @@
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorCourseStudentDetailsHelper"%>
-<%	InstructorCourseStudentDetailsHelper helper = (InstructorCourseStudentDetailsHelper)request.getAttribute("helper"); %>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
+<%@ page import="teammates.ui.controller.InstructorCourseStudentDetailsPageData"%>
+<%
+	InstructorCourseStudentDetailsPageData data = (InstructorCourseStudentDetailsPageData)request.getAttribute("data");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +33,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 
@@ -41,32 +44,32 @@
 				<h1>Student Details</h1>
 			</div>
 			
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			
 			<table class="inputTable" id="studentInfomationTable">
 				<tr>
 		 			<td class="label rightalign bold" width="30%">Student Name:</td>
-		 			<td id="<%= Common.PARAM_STUDENT_NAME %>"><%= helper.student.name %></td>
+		 			<td id="<%=Const.ParamsNames.STUDENT_NAME%>"><%=data.student.name%></td>
 					</tr>
 			 	<tr>
 					<td class="label rightalign bold" width="30%">Team Name:</td>
-			 		<td id="<%= Common.PARAM_TEAM_NAME %>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.team)%></td>
+			 		<td id="<%=Const.ParamsNames.TEAM_NAME%>"><%=sanitizeForHtml(data.student.team)%></td>
 			 	</tr>
 			 	<tr>
 			 		<td class="label rightalign bold" width="30%">E-mail Address:</td>
-			 		<td id="<%=Common.PARAM_STUDENT_EMAIL%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.email)%></td>
+			 		<td id="<%=Const.ParamsNames.STUDENT_EMAIL%>"><%=sanitizeForHtml(data.student.email)%></td>
 			 	</tr>
 			 	<tr>
 					<td class="label rightalign bold" width="30%">Google ID:</td>
-					<td id="<%=Common.PARAM_USER_ID%>"><%=(helper.student.id!= null ? InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.id) : "")%></td>
+					<td id="<%=Const.ParamsNames.USER_ID%>"><%=(data.student.googleId!= null ? sanitizeForHtml(data.student.googleId) : "")%></td>
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Registration Key:</td>
-					<td id="<%=Common.PARAM_REGKEY%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.regKey)%></td>
+					<td id="<%=Const.ParamsNames.REGKEY%>"><%=sanitizeForHtml(data.regKey)%></td>
 				</tr>
 			 	<tr>
 			 		<td class="label rightalign bold" width="30%">Comments:</td>
-			 		<td id="<%=Common.PARAM_COMMENTS%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.comments)%></td>
+			 		<td id="<%=Const.ParamsNames.COMMENTS%>"><%=sanitizeForHtml(data.student.comments)%></td>
 			 	</tr>
 			 </table>
 			 <br>
@@ -77,7 +80,7 @@
 
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

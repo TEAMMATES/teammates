@@ -1,6 +1,6 @@
 package teammates.common.datatransfer;
 
-import teammates.common.Common;
+import teammates.common.util.Const;
 
 /**
  * Represents submission statistics for the evaluation.
@@ -9,6 +9,6 @@ import teammates.common.Common;
  * <br> * The total number of students who submitted .
  */
 public class EvaluationStats {
-	public int submittedTotal = Common.UNINITIALIZED_INT;
-	public int expectedTotal = Common.UNINITIALIZED_INT;
+	public int submittedTotal = Const.INT_UNINITIALIZED;
+	public int expectedTotal = Const.INT_UNINITIALIZED;
 }

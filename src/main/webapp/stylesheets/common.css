@@ -94,7 +94,6 @@ h2 {
 	text-align: center;
 }
 
-
 .leftalign {
 	text-align: left;
 }
@@ -113,6 +112,10 @@ h2 {
 
 .middlealign {
 	vertical-align: middle;
+}
+
+.nowrap{
+	white-space: nowrap;
 }
 
 .bold {
@@ -165,6 +168,10 @@ h2 {
 
 .color_gray {
 	color: gray;
+}
+
+.pad_right {
+	padding-right: 10px;
 }
 
 /*---------------------  Frame Top  --------------------------------------------------- */
@@ -415,7 +422,6 @@ div#statusMessage {
 }*/
 
 
-
 /*---------------------  Result Table  --------------------------------------------------- */
 .resultTable {
 	background: #036;
@@ -447,8 +453,31 @@ div#statusMessage {
 	background-color: #D0D8E8;
 }
 
+/*---------------------  Feedback Response Tables  --------------------------------------------------- */
+.responseTable {
+	width: 900px;
+	background-color: #D0D8E8;
+}
 
+.responseTable ul {
+	padding: 0px 0px 10px 20px;
+	list-style: disc;
+}
 
+.responseTable th {
+	font-weight: bold;
+	color: white;
+	background-color: #4E80BB;
+	border-bottom: 3px dotted white;
+}
+
+.responseTable textarea {
+	width: 98%;
+}
+
+.responseTable .responseText {
+	width: 700px;
+}
 
 /*---------------------  Button  --------------------------------------------------- */
 .button {

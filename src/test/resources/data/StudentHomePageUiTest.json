@@ -1,0 +1,293 @@
+{
+  "accounts": {
+    "SHomeUiT.instr": {
+      "googleId": "SHomeUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "SHomeUiT.instr@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "alice.tmms": {
+      "googleId": "{$test.student1}",
+      "name": "Alice B",
+      "isInstructor": false,
+      "email": "{$test.student1}@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "courses": {
+    "SHomeUiT.CS2104": {
+      "id": "SHomeUiT.CS2104",
+      "name": "Programming Language Concepts"
+    },
+    "SHomeUiT.CS1101": {
+      "id": "SHomeUiT.CS1101",
+      "name": "Programming Methodology"
+    }
+  },
+  
+  "instructors": {
+    "SHomeUiT.instr.CS2104": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.com"
+    },
+    "SHomeUiT.instr.CS1101": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.com"
+    }
+  },
+  
+  "students": {
+    "alice.tmms@SHomeUiT.CS2104": {
+      "email": "{$test.student1}@gmail.com",
+      "course": "SHomeUiT.CS2104",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "profile": {"value": "My name is Amy Betsy, and I'm a student in SHomeUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "SHomeUiT.benny.c@SHomeUiT.CS2104": {
+      "googleId": "SHomeUiT.benny.c",
+      "email": "SHomeUiT.benny.c@gmail.com",
+      "course": "SHomeUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in SHomeUiT.CS2104"},
+      "team": "Team 1"
+    },
+    "SHomeUiT.charlie.d@SHomeUiT.CS2104": {
+      "googleId": "SHomeUiT.charlie.d",
+      "email": "SHomeUiT.charlie.d@gmail.com",
+      "course": "SHomeUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in SHomeUiT.CS2104"},
+      "team": "Team 2"
+    },
+    "SHomeUiT.danny.e@SHomeUiT.CS2104": {
+      "googleId": "SHomeUiT.danny.e",
+      "email": "SHomeUiT.danny.e@gmail.com",
+      "course": "SHomeUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in SHomeUiT.CS2104"},
+      "team": "Team 2"
+    },
+    "alice.tmms@SHomeUiT.CS1101": {
+      "googleId": "{$test.student1}",
+      "email": "{$test.student1}@gmail.com",
+      "course": "SHomeUiT.CS1101",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "profile": {"value": "My name is Amy Betsy, and I'm a student in SHomeUiT.CS1101"},
+      "team": "Team 1"
+    },
+    "SHomeUiT.benny.c@SHomeUiT.CS1101": {
+      "googleId": "SHomeUiT.benny.c",
+      "email": "SHomeUiT.benny.c@gmail.com",
+      "course": "SHomeUiT.CS1101",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "profile": {"value": "My name is Benny Charles, and I'm a student in SHomeUiT.CS1101"},
+      "team": "Team 1"
+    },
+    "SHomeUiT.charlie.d@SHomeUiT.CS1101": {
+      "googleId": "SHomeUiT.charlie.d",
+      "email": "SHomeUiT.charlie.d@gmail.com",
+      "course": "SHomeUiT.CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "profile": {"value": "My name is Charlie Davis, and I'm a student in SHomeUiT.CS1101"},
+      "team": "Team 2"
+    },
+    "SHomeUiT.danny.e@SHomeUiT.CS1101": {
+      "googleId": "SHomeUiT.danny.e",
+      "email": "SHomeUiT.danny.e@gmail.com",
+      "course": "SHomeUiT.CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "profile": {"value": "My name is Danny Engrid, and I'm a student in SHomeUiT.CS1101"},
+      "team": "Team 2"
+    }
+  },
+  
+  "evaluations": {
+    "SHomeUiT.CS2104:First Eval": {
+      "courseId": "SHomeUiT.CS2104",
+      "name": "First Eval",
+      "instructions": "Please please fill it in",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2015-04-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
+    },
+    "SHomeUiT.CS2104:Second Eval": {
+      "courseId": "SHomeUiT.CS2104",
+      "name": "Second Eval",
+      "instructions": "Please please fill in the second evaluation",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2012-04-02 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": true,
+      "activated": true
+    },
+    "SHomeUiT.CS1101:Third Eval": {
+      "courseId": "SHomeUiT.CS1101",
+      "name": "Third Eval",
+      "instructions": "Please please fill in the third evaluation",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2012-04-02 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
+    },
+    "SHomeUiT.CS1101:Fourth Eval": {
+      "courseId": "SHomeUiT.CS1101",
+      "name": "Fourth Eval",
+      "instructions": "Please please fill in the fourth evaluation",
+      "startTime": "2015-04-01 11:59 PM UTC",
+      "endTime": "2015-04-02 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": false
+    },
+    "SHomeUiT.CS1101:Fifth Eval": {
+      "courseId": "SHomeUiT.CS1101",
+      "name": "Fifth Eval",
+      "instructions": "Please please fill in the fifth evaluation",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2015-04-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "p2pEnabled": true,
+      "published": false,
+      "activated": true
+    }
+  },
+  
+  "submissions" : {
+    "submissionFromAmyToBennyFirstEval": {
+      "reviewer" : "{$test.student1}@gmail.com",
+      "reviewee" : "SHomeUiT.benny.c@gmail.com",
+      "course" : "SHomeUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from {$test.student1}@gmail.com to SHomeUiT.benny.c@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from {$test.student1}@gmail.com to SHomeUiT.benny.c@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromBennyToAmyFirstEval": {
+      "reviewer" : "SHomeUiT.benny.c@gmail.com",
+      "reviewee" : "{$test.student1}@gmail.com",
+      "course" : "SHomeUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SHomeUiT.benny.c@gmail.com to {$test.student1}@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.benny.c@gmail.com to {$test.student1}@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromCharlieToDannyFirstEval": {
+      "reviewer" : "SHomeUiT.charlie.d@gmail.com",
+      "reviewee" : "SHomeUiT.danny.e@gmail.com",
+      "course" : "SHomeUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SHomeUiT.charlie.d@gmail.com to SHomeUiT.danny.e@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.charlie.d@gmail.com to SHomeUiT.danny.e@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromDannyToCharlieFirstEval": {
+      "reviewer" : "SHomeUiT.danny.e@gmail.com",
+      "reviewee" : "SHomeUiT.charlie.d@gmail.com",
+      "course" : "SHomeUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SHomeUiT.danny.e@gmail.com to SHomeUiT.charlie.d@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.danny.e@gmail.com to SHomeUiT.charlie.d@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromBennyToAmySecondEval": {
+      "reviewer" : "SHomeUiT.benny.c@gmail.com",
+      "reviewee" : "{$test.student1}@gmail.com",
+      "course" : "SHomeUiT.CS2104",
+      "evaluation" : "Second Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SHomeUiT.benny.c@gmail.com to {$test.student1}@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.benny.c@gmail.com to {$test.student1}@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromCharlieToDannySecondEval": {
+      "reviewer" : "SHomeUiT.charlie.d@gmail.com",
+      "reviewee" : "SHomeUiT.danny.e@gmail.com",
+      "course" : "SHomeUiT.CS2104",
+      "evaluation" : "Second Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SHomeUiT.charlie.d@gmail.com to SHomeUiT.danny.e@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.charlie.d@gmail.com to SHomeUiT.danny.e@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromDannyToCharlieSecondEval": {
+      "reviewer" : "SHomeUiT.danny.e@gmail.com",
+      "reviewee" : "SHomeUiT.charlie.d@gmail.com",
+      "course" : "SHomeUiT.CS2104",
+      "evaluation" : "Second Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SHomeUiT.danny.e@gmail.com to SHomeUiT.charlie.d@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.danny.e@gmail.com to SHomeUiT.charlie.d@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromAmyToBennyThirdEval": {
+      "reviewer" : "{$test.student1}@gmail.com",
+      "reviewee" : "SHomeUiT.benny.c@gmail.com",
+      "course" : "SHomeUiT.CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from {$test.student1}@gmail.com to SHomeUiT.benny.c@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from {$test.student1}@gmail.com to SHomeUiT.benny.c@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromBennyToAmyThirdEval": {
+      "reviewer" : "SHomeUiT.benny.c@gmail.com",
+      "reviewee" : "{$test.student1}@gmail.com",
+      "course" : "SHomeUiT.CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SHomeUiT.benny.c@gmail.com to {$test.student1}@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.benny.c@gmail.com to {$test.student1}@gmail.com"},
+      "team" : "Team 1"
+    },
+    "submissionFromCharlieToDannyThirdEval": {
+      "reviewer" : "SHomeUiT.charlie.d@gmail.com",
+      "reviewee" : "SHomeUiT.danny.e@gmail.com",
+      "course" : "SHomeUiT.CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SHomeUiT.charlie.d@gmail.com to SHomeUiT.danny.e@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.charlie.d@gmail.com to SHomeUiT.danny.e@gmail.com"},
+      "team" : "Team 2"
+    },
+    "submissionFromDannyToCharlieThirdEval": {
+      "reviewer" : "SHomeUiT.danny.e@gmail.com",
+      "reviewee" : "SHomeUiT.charlie.d@gmail.com",
+      "course" : "SHomeUiT.CS1101",
+      "evaluation" : "Third Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SHomeUiT.danny.e@gmail.com to SHomeUiT.charlie.d@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.danny.e@gmail.com to SHomeUiT.charlie.d@gmail.com"},
+      "team" : "Team 2"
+    }
+  }
+}

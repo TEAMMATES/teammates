@@ -1,0 +1,56 @@
+.sessionTable {
+	width: 900px;
+}
+
+.sessionTable td {
+	vertical-align: middle;
+}
+
+.questionTable {
+	width: 900px;
+}
+
+#instructionsTable {
+	width: 900px;
+}
+
+.questionTable td {
+	vertical-align: middle;
+}
+
+.participantTable {
+	width: 880px;
+}
+
+.participantTable td+td {
+	text-align: center;
+}
+
+.participantSelect {
+	width: 200px;
+}
+
+.sortTypeTable {
+	width: 900px;
+	background-color: #D0D8E8;
+}
+
+.visibilityCheckbox {
+}
+
+#fsname {
+	width: 620px;
+}
+
+#courseid {
+	width: 260px;
+}
+
+#timezone {
+	width: 100px;
+}
+
+.numberOfEntitiesBox {
+	width: 50px;
+	padding-right: 10px;
+}

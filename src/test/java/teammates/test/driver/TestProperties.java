@@ -4,7 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import teammates.common.Common;
+import teammates.common.util.FileHelper;
+import teammates.common.util.Url;
 
 /** 
  * Represents properties in test.properties file
@@ -19,13 +20,14 @@ public class TestProperties {
 
 	public String TEAMMATES_URL_IN_EMAILS;
 
-	public String TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS;
-
 	public String TEST_INSTRUCTOR_ACCOUNT;
 	public String TEST_INSTRUCTOR_PASSWORD;
 
-	public String TEST_STUDENT_ACCOUNT;
-	public String TEST_STUDENT_PASSWORD;
+	public String TEST_STUDENT1_ACCOUNT;
+	public String TEST_STUDENT1_PASSWORD;
+	
+	public String TEST_STUDENT2_ACCOUNT;
+	public String TEST_STUDENT2_PASSWORD;
 	
 	public String TEST_ADMIN_ACCOUNT;
 	public String TEST_ADMIN_PASSWORD;
@@ -42,6 +44,10 @@ public class TestProperties {
 	
 	private static TestProperties instance;
 	private Properties prop;
+	public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
+	/// TODO: create a subclass (e.g., TestDriverCo) and move all internal utility
+	// functions to that sub class. It should be in util package.
+	public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 	
 	private TestProperties() {
 		prop = new Properties();
@@ -49,7 +55,7 @@ public class TestProperties {
 			
 			prop.load(new FileInputStream("src/test/resources/test.properties"));
 			
-			TEAMMATES_URL = Common.trimTrailingSlash(prop
+			TEAMMATES_URL = Url.trimTrailingSlash(prop
 					.getProperty("test.app.url"));
 
 			String remoteApiDomain = TEAMMATES_URL.substring(TEAMMATES_URL
@@ -58,12 +64,9 @@ public class TestProperties {
 			TEAMMATES_REMOTEAPI_APP_PORT = remoteApiDomain.contains(":") ? 
 					Integer.parseInt(remoteApiDomain.split(":")[1]) : 443;
 		
-			TEAMMATES_VERSION = extractVersionNumber(Common.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
+			TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 			
-			TEAMMATES_URL_IN_EMAILS = Common.trimTrailingSlash(prop.getProperty("test.app.urlInEmails"));
-			
-			//TODO: abolish the use of common password and find a better alternative
-			TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS = prop.getProperty("test.common.password");
+			TEAMMATES_URL_IN_EMAILS = Url.trimTrailingSlash(prop.getProperty("test.app.urlInEmails"));
 			
 			TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
 			TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
@@ -71,8 +74,11 @@ public class TestProperties {
 			TEST_INSTRUCTOR_ACCOUNT = prop.getProperty("test.instructor.account");
 			TEST_INSTRUCTOR_PASSWORD = prop.getProperty("test.instructor.password");
 			
-			TEST_STUDENT_ACCOUNT = prop.getProperty("test.student.account");
-			TEST_STUDENT_PASSWORD = prop.getProperty("test.student.password");
+			TEST_STUDENT1_ACCOUNT = prop.getProperty("test.student1.account");
+			TEST_STUDENT1_PASSWORD = prop.getProperty("test.student1.password");
+			
+			TEST_STUDENT2_ACCOUNT = prop.getProperty("test.student2.account");
+			TEST_STUDENT2_PASSWORD = prop.getProperty("test.student2.password");
 			
 			TEST_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
 			TEST_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
@@ -111,7 +117,7 @@ public class TestProperties {
 			return "./src/test/resources/lib/selenium/IEDriverServer.exe";
 	}
 	
-	public boolean isLocalHost(){
+	public boolean isDevServer(){
 		return TEAMMATES_URL.contains("localhost");
 	}
 

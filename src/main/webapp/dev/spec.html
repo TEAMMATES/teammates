@@ -134,6 +134,8 @@
 					<li><a
 						href="#instructorfeatures-manageevaluationreports-detailedreportbystudent">DetailedReportByStudent</a></li>
 					<li><a
+						href="#instructorfeatures-manageevaluationreports-printerfriendlyview">PrinterFriendlyView</a></li>
+					<li><a
 						href="#instructorfeatures-manageevaluationreports-editsubmissions">EditSubmissions</a></li>
 					<li><a
 						href="#instructorfeatures-manageevaluationreports-publish">Publish</a></li>
@@ -144,6 +146,24 @@
 					<li><a href="#instructorfeatures-manageevaluationreports-peek">Peek</a></li>
 					<li><a
 						href="#instructorfeatures-manageevaluationreports-printselectively">PrintSelectively</a></li>
+				</ul></li>
+				<li><a href="#instructorfeatures-managefeedbacksessions">ManageFeedbackSessions</a>
+				<ul>
+					<li><a href="#instructorfeatures-managefeedbacksessions-create">Create</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessions-viewlist">ViewList</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessions-edit">Edit</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessions-delete">Delete</a></li>
+				</ul></li>
+			<li><a href="#instructorfeatures-managefeedbacksessionreports">ManageFeedbackSessionReports</a>
+				<ul>
+					<li><a href="#instructorfeatures-managefeedbacksessionreports-byrecipient">ByRecipient</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessionreports-bygiver">ByGiver</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessionreports-astable">AsTable</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessionreports-printerfriendlyview">PrinterFriendlyView</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessionreports-download">Download</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessionreports-editsubmissions">EditSubmissions</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessionreports-publish">Publish</a></li>
+					<li><a href="#instructorfeatures-managefeedbacksessionreports-unpublish">Unpublish</a></li>
 				</ul></li>
 		</ul>
 		<li><a href="#studentfeatures">StudentFeatures</a></li>
@@ -167,7 +187,6 @@
 					<li><a href="#studentfeatures-manageevaluations-viewreport">ViewReport</a></li>
 				</ul></li>
 		</ul>
-		<li><a href="#evaluatorfeatures">EvaluatorFeatures</a></li>
 		<li><a href="#adminfeatures">AdminFeatures</a>
 			<ul>
 				<li><a href="#adminfeatures-managesystem">ManageSystem</a>
@@ -194,16 +213,16 @@
 			<ul>
 				<li><a href="#automationfeatures-emailalerts">EmailAlerts</a>
 					<ul>
-						<li><a
-							href="#automationfeatures-emailalerts-evaluationopeningalert">EvaluationOpeningAlert</a></li>
-						<li><a
-							href="#automationfeatures-emailalerts-evaluationclosingalert">EvlauationClosingAlert</a></li>
-						<li><a
-							href="#automationfeatures-emailalerts-resultspublishedalert">ResultsPublishedAlert</a></li>
+						<li><a href="#automationfeatures-emailalerts-evaluationopeningalert">EvaluationOpeningAlert</a></li>
+						<li><a href="#automationfeatures-emailalerts-evaluationclosingalert">EvlauationClosingAlert</a></li>
+						<li><a href="#automationfeatures-emailalerts-evaluationresultspublishedalert">EvaluationResultsPublishedAlert</a></li>
+						<li><a href="#automationfeatures-emailalerts-feedbacksessionopeningalert">FeedabackSessionOpeningAlert</a></li>
+						<li><a href="#automationfeatures-emailalerts-feedbacksessionclosingalert">FeedabackSessionClosingAlert</a></li>
+						<li><a href="#automationfeatures-emailalerts-feedbacksessionresultspublishedalert">FeedabackSessionResultsPublishedAlert</a></li>
 					</ul>
 				<li><a href="#automationfeatures-other">Other</a>
 					<ul>
-						<li><a href="#automationfeatures-other-autocloseevaluations">AutoCloseEvaluations</a></li>
+						<li><a href="#automationfeatures-other-autoclosesessions">AutoCloseSessions</a></li>
 						<li><a href="#automationfeatures-other-autopurgeolddata">AutoPurgeOldData</a></li>
 						<li><a href="#automationfeatures-other-contextualhelp">ContextualHelp</a></li>
 					</ul></li>
@@ -226,18 +245,21 @@
 	<h1 id="product">TheProduct</h1>
 	<h2 id="product-vision">Vision</h2>
 	<p>
-		TEAMMATES is a tool to <span class="bold">help teachers manage
-			peer evaluations and peer feedback in student teams.</span><br> Our
-		target users are teachers running team-based courses. Their students
-		are secondary users.<br>i.e., Teachers decide to use the system,
+		TEAMMATES is a tool to <span class="bold">help instructors
+			manage various forms of feedback in a class</span>, including peer
+		evaluations.<br>
+		Our target users are instructors. Their students are
+		secondary users. i.e., Instructors decide to use the system,
 		not students.<br>
 	</p>
 	<h2 id="product-identity">Identity</h2>
-	<span class="bold">Tag line</span> :Helping teachers manage student
-	peer evaluations
-	<br> {Should convey the vision. Should try to include key concepts
-	such as ‘teachers’, ‘students’, ‘teams’, ‘help’, ‘peer feedback’, ‘peer
-	evaluation’}
+	<span class="bold">Name</span> : The name TEAMMATES was chosen beause the
+	original focus of the system was managing peer feedback/evaluations in team
+	projects. Since then, our scope has expanded to other forms of feedback. 
+	However, we are going to stick with this name for now until we reach a
+	point of 'rebranding' in the future.
+	<br>
+	<span class="bold">Tag line</span> : Manage feedback in your class.
 	<br>
 	<span class="bold">Logo</span>:
 	<img src="../images/teammateslogo-black.png" alt="TEAMMATES logo">
@@ -246,14 +268,9 @@
 	<h2 id="product-users">Users</h2>
 	<img src="images/Actors.png" alt="usersTypes" height="300">
 	<ul>
-		<li>Instructor [<span class="pending">pending</span>]</li>
-		<li>Instructor(module owner)</li>
+		<li>Instructor</li>
 		<li>Student</li>
 		<li>Adminstrator {Adminstrator of the system}</li>
-		<li>Evaluator [<span class="pending">pending</span>] {Those who
-			can give feedback about students, but cannot view any reports e.g.,
-			tutors}
-		</li>
 	</ul>
 
 	<!--  ================================================================= -->
@@ -261,7 +278,7 @@
 	<h1 id="commonfeatures">CommonFeatures</h1>
 	<p>These are the features common to all users.</p>
 	<h2 id="commonfeatures-login" class="level1feature">Login</h2>
-	: Users use Google ID to log in
+	Users use Google ID to log in
 	<h2 id="commonfeatures-logout" class="level1feature">Logout</h2>
 	<h2 id="commonfeatures-website" class="level1feature">Website</h2>
 	{'Website' refers to static pages describing our product, which is a
@@ -671,9 +688,8 @@
 			This can be used for printing report for individual students.</li>
 
 		<li><span
-			id="instructorfeatures-manageevaluationreports-editsubmissions"
-			class="level2feature"> PrinterFriendlyView </span> 
-			[<span class="pending">pending</span>]</li>
+			id="instructorfeatures-manageevaluationreports-printerfriendlyview"
+			class="level2feature"> PrinterFriendlyView </span></li>
 
 		<li><span
 			id="instructorfeatures-manageevaluationreports-editsubmissions"
@@ -699,9 +715,9 @@
 
 		<li><span
 			id="instructorfeatures-manageevaluationreports-download"
-			class="level2feature">Download [<span class="pending">pending</span>]
-		</span> <br> [priority=medium] <br> {May be as a tab separated file
-			that can be opened in excel?}</li>
+			class="level2feature">Download [<span class="pending">partial</span>]
+		</span> <br> [priority=medium] <br> {Only the summary report can be
+			downloaded at this time.}</li>
 
 		<li><span id="instructorfeatures-manageevaluationreports-peek"
 			class="level2feature">Peek</span> <br> Can view any report for
@@ -711,6 +727,65 @@
 			id="instructorfeatures-manageevaluationreports-printselectively"
 			class="level2feature">PrintSelectively [<span class="pending">pending</span>]
 		</span> [priority=medium]</li>
+	</ul>
+	
+	<!--  ----------------------------------------------------------------- -->
+	
+
+	<h2 id="instructorfeatures-managefeedbacksessions" class="level1feature">
+		ManageFeedbackSessions</h2>
+	<ul>
+		<li><span id="instructorfeatures-managefeedbacksessions-create"
+			class="level2feature">Create</span> </li>
+		
+		<li><span id="instructorfeatures-managefeedbacksessions-viewlist"
+			class="level2feature">ViewList</span></li> 
+		
+		<li><span id="instructorfeatures-managefeedbacksessions-edit"
+			class="level2feature">Edit</span></li> 
+		
+
+		<li><span id="instructorfeatures-managefeedbacksessions-delete"
+			class="level2feature">Delete</span></li> 
+		
+	</ul>
+
+	<!-- ------------------------------------------------------------------- -->
+
+	<h2 id="instructorfeatures-managefeedbacksessionreports"
+		class="level1feature">ManageFeedbackSessionReports</h2>
+	All reports are viewable at any time.
+	<ul>
+		<li><span
+			id="instructorfeatures-managefeedbacksessionreports-byrecipient"
+			class="level2feature">ByRecipient</span></li>
+
+		<li><span
+			id="instructorfeatures-managefeedbacksessionreports-bygiver"
+			class="level2feature">ByGiver</span></li>
+
+		<li><span
+			id="instructorfeatures-managefeedbacksessionreports-astable"
+			class="level2feature">AsTable</span></li>
+
+		<li><span
+			id="instructorfeatures-managefeedbacksessionreports-printerfriendlyview"
+			class="level2feature">PrinterFriendlyView</span></li>
+
+		<li><span
+			id="instructorfeatures-managefeedbacksessionreports-download"
+			class="level2feature">Download</span></li>
+		
+		<li><span
+			id="instructorfeatures-managefeedbacksessionreports-editsubmissions"
+			class="level2feature">EditSubmissions</span></li>
+
+		<li><span id="instructorfeatures-managefeedbacksessionreports-publish"
+			class="level2feature">Publish</span> </li>
+
+		<li><span
+			id="instructorfeatures-managefeedbacksessionreports-unpublish"
+			class="level2feature">Unpublish</span></li> 
 	</ul>
 
 	<!-- ================================================================== -->
@@ -805,14 +880,6 @@
 	<!-- ================================================================== -->
 	<hr>
 
-	<h1 id="evaluatorfeatures">EvaluatorFeatures [<span class="pending">pending</span>]
-	</h1>
-	<br> [priority=medium]
-	<p>Features TBD</p>
-
-	<!-- ================================================================== -->
-	<hr>
-
 	<h1 id="adminfeatures">AdminFeatures</h1>
 
 	<h2 id="adminfeatures-managesystem" class="level1feature">ManageSystem</h2>
@@ -843,17 +910,22 @@
 			data when we reach the storage limit.</li>
 
 		<li><span id="adminfeatures-managedata-createinstructor"
-			class="level2feature">CreateInstructor</span> <br>Create an
-			instructor and add some sample data for the new instructor to see.<br>
-			Send automatic email about approval. [<span class="pending">pending</span>]
+			class="level2feature">CreateInstructor</span>
+			<ul>
+				<li>instructor and add some sample data for the new instructor to see.</li>
+				<li>Send automatic email about approval. [<span class="pending">pending</span>]</li>
+			</ul> 
 		</li>
 		<li><span id="adminfeatures-managedata-editinstructor"
 			class="level2feature">EditInstructor [<span class="pending">pending</span>]
 		</span></li>
 
 		<li><span id="adminfeatures-managedata-deleteinstructor"
-			class="level2feature">DeleteInstructor [<span class="pending">pending</span>]
-		</span></li>
+			class="level2feature">DeleteInstructor </span>
+			<ul>
+				<li>Delete instructor status only.</li>
+				<li>Delete entire account.</li>
+			</ul></li>
 
 		<li><span id="adminfeatures-managedata-findentity"
 			class="level2feature">FindEntity</span><br> To find an entity
@@ -862,7 +934,7 @@
 		<li><span id="adminfeatures-managedata-manageentity"
 			class="level2feature">ManageEntity</span><br> This will
 			edit/delete any entity (student, evaluation, course, etc.) while
-			taking care of cascading deletes as well</li>
+			taking care of cascading deletes as well.</li>
 	</ul>
 
 	<!-- ----------------------------------------------------------- -->
@@ -924,10 +996,20 @@
 
 
 		<li><span
-			id="automationfeatures-emailalerts-resultspublishedalert"
-			class="level2feature">ResultsPublishedAlert</span><br>
+			id="automationfeatures-emailalerts-evaluationresultspublishedalert"
+			class="level2feature">EvaluationResultsPublishedAlert</span><br>
 			Automatically email students to inform that results have been
 			published.</li>
+			
+			<li><span
+			id="automationfeatures-emailalerts-feedbacksessionopeningalert"
+			class="level2feature">FeedbackSesssionOpeningAlert</span></li>
+			<li><span
+			id="automationfeatures-emailalerts-feedbacksessionclosingalert"
+			class="level2feature">FeedbackSesssionClosingAlert</span></li>
+			<li><span
+			id="automationfeatures-emailalerts-feedbacksessionresultspublishedalert"
+			class="level2feature">FeedbackSesssionResultsPublishedAlert</span></li>
 	</ul>
 
 	<!-- ----------------------------------------------------------- -->
@@ -936,9 +1018,9 @@
 
 	<ul>
 
-		<li><span id="automationfeatures-other-autocloseevaluations"
-			class="level2feature">AutoCloseEvaluations</span><br>
-			Automatically closes evaluations at closeTime (=endTime+gracePeriod).</li>
+		<li><span id="automationfeatures-other-autoclosesessions"
+			class="level2feature">AutoCloseSessions</span><br>
+			Automatically closes evaluations and feedback sessions at closeTime (=endTime+gracePeriod).</li>
 		<li><span id="automationfeatures-other-autopurgeolddata"
 			class="level2feature">AutoPurgeOldData [<span class="pending">pending</span>]
 		</span><br> Periodically purge old data.</li>

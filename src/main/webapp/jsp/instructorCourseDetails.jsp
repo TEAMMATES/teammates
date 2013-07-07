@@ -1,11 +1,13 @@
-<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
-<%@ page import="teammates.ui.controller.InstructorCourseDetailsHelper"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
+<%@ page import="teammates.ui.controller.InstructorCourseDetailsPageData"%>
 <%
-	InstructorCourseDetailsHelper helper = (InstructorCourseDetailsHelper)request.getAttribute("helper");
+	InstructorCourseDetailsPageData data = (InstructorCourseDetailsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -35,7 +37,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_INSTRUCTOR_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -48,44 +50,44 @@
 			<table class="inputTable" id="courseInformationHeader">
 				<tr>
 	 				<td class="label rightalign bold" width="30%">Course ID:</td>
-	 				<td id="courseid"><%=helper.courseDetails.course.id%></td>
+	 				<td id="courseid"><%=sanitizeForHtml(data.courseDetails.course.id)%></td>
 	 			</tr>
 	 			<tr>
 		 			<td class="label rightalign bold" width="30%">Course name:</td>
-		 			<td id="coursename"><%=InstructorCourseDetailsHelper.escapeForHTML(helper.courseDetails.course.name)%></td>
+		 			<td id="coursename"><%=sanitizeForHtml(data.courseDetails.course.name)%></td>
 				</tr>
 				<tr>
 		 			<td class="label rightalign bold" width="30%">Teams:</td>
-		 			<td id="total_teams"><%=helper.courseDetails.teamsTotal%></td>
+		 			<td id="total_teams"><%=data.courseDetails.stats.teamsTotal%></td>
 		 		</tr>
 		 		<tr>
 		 			<td class="label rightalign bold" width="30%">Total students:</td>
-		 			<td id="total_students"><%=helper.courseDetails.studentsTotal%></td>
+		 			<td id="total_students"><%=data.courseDetails.stats.studentsTotal%></td>
 		 		</tr>
 		 		<tr>
 		 			<td class="label rightalign bold" width="30%">Instructors:</td>
 		 			<td id="instructors">
 		 			<%
-		 				for (int i = 0; i < helper.instructors.size(); i++){
-		 					 					 					 					InstructorAttributes instructor = helper.instructors.get(i);
-		 					 					 					 					String instructorInfo = instructor.name + " (" + instructor.email + ")";
+		 				for (int i = 0; i < data.instructors.size(); i++){
+		 					 					 				 					 	InstructorAttributes instructor = data.instructors.get(i);
+		 					 					 				 					 	String instructorInfo = instructor.name + " (" + instructor.email + ")";
 		 			%>
-		 				<%=instructorInfo%><br><br>
-		 			<%
-		 				}
-		 			%>
+				 				<%=sanitizeForHtml(instructorInfo)%><br><br>
+				 			<%
+				 				}
+				 			%>
 					</td>
 		 		</tr>
 		 		<%
-		 			if(helper.courseDetails.studentsTotal>1){
+		 			if(data.courseDetails.stats.studentsTotal>1){
 		 		%>
 		 		<tr>
 		 			<td class="centeralign" colspan="2">
 		 				<input type="button" class="button t_remind_students"
 		 						id="button_remind"
-		 						onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_COURSE_REMIND%>')" 
+		 						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_REMIND%>')" 
 		 						onmouseout="hideddrivetip();"
-		 						onclick="hideddrivetip(); if(toggleSendRegistrationKeysConfirmation('<%=helper.courseDetails.course.id%>')) window.location.href='<%=helper.getInstructorCourseRemindLink()%>';"
+		 						onclick="hideddrivetip(); if(toggleSendRegistrationKeysConfirmation('<%=data.courseDetails.course.id%>')) window.location.href='<%=data.getInstructorCourseRemindLink()%>';"
 		 						value="Remind Students to Join" tabindex="1">
 		 			</td>
 		 		</tr>
@@ -95,7 +97,7 @@
 			</table>
 			
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 
 			<table class="dataTable">
@@ -110,38 +112,46 @@
 				</tr>
 				<%
 					int idx = -1;
-										for(StudentAttributes student: helper.students){ idx++;
+																for(StudentAttributes student: data.students){ idx++;
 				%>
 						<tr class="student_row" id="student<%=idx%>">
-							<td id="<%=Common.PARAM_TEAM_NAME%>"><%=InstructorCourseDetailsHelper.escapeForHTML(student.team)%></td>
-							<td id="<%=Common.PARAM_STUDENT_NAME%>"><%=student.name%></td>
-	 						<td class="centeralign"><%= helper.status(student) %></td>
+							<td id="<%=Const.ParamsNames.TEAM_NAME%>"><%=sanitizeForHtml(student.team)%></td>
+							<td id="<%=Const.ParamsNames.STUDENT_NAME%>"><%=sanitizeForHtml(student.name)%></td>
+	 						<td class="centeralign"><%=data.getStudentStatus(student)%></td>
 	 						<td class="centeralign no-print">
-								<a class="color_black t_student_details<%= idx %>"
-										href="<%= helper.getCourseStudentDetailsLink(student) %>"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_DETAILS %>')"
+								<a class="color_black t_student_details<%=idx%>"
+										href="<%=data.getCourseStudentDetailsLink(student)%>"
+										onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>')"
 										onmouseout="hideddrivetip()">
 										View</a>
-								<a class="color_black t_student_edit<%= idx %>" href="<%= helper.getCourseStudentEditLink(student) %>"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_EDIT %>')"
+								<a class="color_black t_student_edit<%=idx%>" href="<%=data.getCourseStudentEditLink(student)%>"
+										onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_EDIT%>')"
 										onmouseout="hideddrivetip()">
 										Edit</a>
-								<%	if(helper.status(student).equals(Common.STUDENT_STATUS_YET_TO_JOIN)){ %>
-									<a class="color_black t_student_resend<%= idx %>" href="<%= helper.getCourseStudentRemindLink(student) %>"
+								<%
+									if(data.getStudentStatus(student).equals(Const.STUDENT_COURSE_STATUS_YET_TO_JOIN)){
+								%>
+									<a class="color_black t_student_resend<%=idx%>" href="<%=data.getCourseStudentRemindLink(student)%>"
 											onclick="return toggleSendRegistrationKey()"
-											onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_REMIND %>')"
+											onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_REMIND%>')"
 											onmouseout="hideddrivetip()">
 											Send Invite</a>
-								<%	} %>
-								<a class="color_black t_student_delete<%= idx %>" href="<%= helper.getCourseStudentDeleteLink(student) %>"
-										onclick="return toggleDeleteStudentConfirmation('<%=InstructorCourseDetailsHelper.escapeForJavaScript(student.name)%>')"
-										onmouseover="ddrivetip('<%= Common.HOVER_MESSAGE_COURSE_STUDENT_DELETE %>')"
+								<%
+									}
+								%>
+								<a class="color_black t_student_delete<%=idx%>" href="<%=data.getCourseStudentDeleteLink(student)%>"
+										onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
+										onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DELETE%>')"
 										onmouseout="hideddrivetip()">
 										Delete</a>
 							</td>
 	 					</tr>
-	 				<% if(idx%10==0) out.flush(); %>
-				<%	} %>
+	 				<%
+	 					if(idx%10==0) out.flush();
+	 				%>
+				<%
+					}
+				%>
 			</table>
 			<br>
 			<br>
@@ -151,7 +161,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

@@ -38,12 +38,12 @@
             </div>          
             <div id="contentLinks">
                 <ul id="navbar">
-                    <li><a href="/page/instructorHome?user=CCDetailsUiT.test" class='nav home' data-link="instructorHome">Home</a></li>
-                    <li class="current"><a href="/page/instructorCourse?user=CCDetailsUiT.test" class='nav courses' data-link="instructorCourse">Courses</a></li>
-                    <li><a href="/page/instructorEval?user=CCDetailsUiT.test" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+                    <li><a href="/page/instructorHomePage?user=InsCrsEdit.test" class='nav home' data-link="instructorHome">Home</a></li>
+                    <li class="current"><a href="/page/instructorCoursesPage?user=InsCrsEdit.test" class='nav courses' data-link="instructorCourse">Courses</a></li>
+                    <li><a href="/page/instructorEvalsPage?user=InsCrsEdit.test" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
                     <li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
                     <li><a href="/logout.jsp" class='nav logout'>Logout</a>
-                     <b>(CCDetailsUiT.test)</b></li>
+                     <b>(InsCrsEdit.test)</b></li>
                 </ul>
             </div>
 			<div style="clear: both;"></div>
@@ -59,15 +59,15 @@
                 <h1>Edit Course Details</h1>
             </div>
                 
-            <form method="post" action="/page/instructorCourseEdit">
-                <input type="hidden" value="CCDetailsUiT.CS2104" name="courseid" />
-                <input type="hidden" value="CCDetailsUiT.test" name="instructorid" id="instructorid" />
+            <form method="post" action="/page/instructorCourseEditSave">
+                <input type="hidden" value="InsCrsEdit.CS2104" name="courseid" />
+                <input type="hidden" value="InsCrsEdit.test" name="instructorid" id="instructorid" />
                 <table class="inputTable" id="addform">
                     <tbody><tr>
                         <td class="label bold">Course ID:</td>
                     </tr>
                     <tr>
-                        <td><input type="text" disabled="disabled" tabindex="1" maxlength="40" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Identifier of the course, e.g.CS3215-Sem1.')" value="CCDetailsUiT.CS2104" id="courseid" name="courseid" class="addinput" /></td>
+                        <td><input type="text" disabled="disabled" tabindex="1" maxlength="40" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Identifier of the course, e.g.CS3215-Sem1.')" value="InsCrsEdit.CS2104" id="courseid" name="courseid" class="addinput" /></td>
                     </tr>
                     <tr>
                         <td class="label bold">Course Name:</td>
@@ -81,8 +81,8 @@
                     <tr>
                         <td colspan="2">
                             <span class="bold" id="instructorformat">Format: Google ID | Instructor Name | Instructor Email</span>
-                            <textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">CCDetailsUiT.coord|Teammates Coord|CCDetailsUiT.coord@gmail.com
-CCDetailsUiT.test|Teammates Test|CCDetailsUiT.test@gmail.com
+                            <textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">InsCrsEdit.coord|Teammates Coord|InsCrsEdit.coord@gmail.com
+InsCrsEdit.test|Teammates Test|InsCrsEdit.test@gmail.com
 </textarea>
                         </td>
                     </tr>
@@ -103,7 +103,7 @@ CCDetailsUiT.test|Teammates Test|CCDetailsUiT.test@gmail.com
                 <br />
                 <br />
                 
-                    <input type="hidden" value="CCDetailsUiT.test" name="user" />
+                    <input type="hidden" value="InsCrsEdit.test" name="user" />
                 
             </form>
             
@@ -113,7 +113,7 @@ CCDetailsUiT.test|Teammates Test|CCDetailsUiT.test@gmail.com
     <div id="frameBottom">
         
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{version}</span>]</span>
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
 	[for <span class="color_white">National University of Singapore</span>]
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>

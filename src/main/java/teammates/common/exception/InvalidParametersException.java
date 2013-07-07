@@ -2,7 +2,7 @@ package teammates.common.exception;
 
 import java.util.List;
 
-import teammates.common.Common;
+import teammates.common.util.StringHelper;
 
 
 @SuppressWarnings("serial")
@@ -13,10 +13,11 @@ public class InvalidParametersException extends TeammatesException {
 	}
 	
 	public InvalidParametersException(List<String> messages) {
-		super(Common.toString(messages));
+		super(StringHelper.toString(messages));
 	}
 
 	public InvalidParametersException(String specificErrorcode,	String message) {
 		super(specificErrorcode, message);
 	}
+
 }

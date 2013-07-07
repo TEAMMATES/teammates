@@ -47,3 +47,4 @@ src/main/webapp/WEB-INF/classes/CommonTestFunctions.js
 src/test/resources/data/ResultFileName.json
 .launches/TM - Start dev server.launch
 test-output/*
+src/test/current testng.xml

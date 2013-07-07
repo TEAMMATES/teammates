@@ -5,64 +5,40 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.datastore.Datastore;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 
 /**
  * Handles CRUD Operations for accounts.
- * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
+ * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
  * 
  */
-public class AccountsDb {
-	public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
-	public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
-	public static final String ERROR_CREATE_ACCOUNT_ALREADY_EXISTS = "Trying to create an Account that exists: ";
-	public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
-	public static final String ERROR_CREATE_STUDENT_ALREADY_EXISTS = "Trying to create a Student that exists: ";
-	public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
-	
-	private static final Logger log = Common.getLogger();
+public class AccountsDb extends EntitiesDb {
 
+	private static final Logger log = Utils.getLogger();
+	
 	/**
 	 * Preconditions: 
 	 * <br> * {@code accountToAdd} is not null and has valid data.
 	 */
 	public void createAccount(AccountAttributes accountToAdd) throws InvalidParametersException {
-		
-		//TODO: why doesn't this throw EntityAlreadyExistsException?
-		
-		Assumption.assertNotNull(
-				Common.ERROR_DBLEVEL_NULL_INPUT, accountToAdd);
-		
-		if (!accountToAdd.isValid()) {
-			throw new InvalidParametersException("Invalid parameter detected while adding account :" 
-						+ accountToAdd.getInvalidStateInfo() + "\n" 
-						+ "values received :\n"+ accountToAdd.toString());
-		}
-		
-		Account newAccount = accountToAdd.toEntity();
-		getPM().makePersistent(newAccount);
-		getPM().flush();
-
-		// Wait for the operation to persist
-		int elapsedTime = 0;
-		Account accountCheck = getAccountEntity(accountToAdd.googleId);
-		while ((accountCheck == null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			accountCheck = getAccountEntity(accountToAdd.googleId);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createAccount->"
-					+ accountToAdd.googleId);
+		// TODO: use createEntity once there is a proper way to add instructor accounts.
+		try {
+			createEntity((EntityAttributes)accountToAdd);
+		} catch (EntityAlreadyExistsException e) {
+			// We update the account instead if it already exists. This is due to how
+			// adding of instructor accounts work.
+			updateAccount(accountToAdd);
 		}
 	}
 	
@@ -72,7 +48,7 @@ public class AccountsDb {
 	 * @return Null if not found.
 	 */
 	public AccountAttributes getAccount(String googleId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 	
 		Account a = getAccountEntity(googleId);
 	
@@ -109,16 +85,16 @@ public class AccountsDb {
 	 * <br> * {@code accountToAdd} is not null and has valid data.
 	 */
 	public void updateAccount(AccountAttributes a) throws InvalidParametersException {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, a);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, a);
 		
 		if (!a.isValid()) {
-			throw new InvalidParametersException(a.getInvalidStateInfo());
+			throw new InvalidParametersException(a.getInvalidityInfo());
 		}
 		
 		Account accountToUpdate = getAccountEntity(a.googleId);
 		//TODO: this should be an exception instead?
 		Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
-				+ Common.getCurrentThreadStack(), accountToUpdate);
+				+ ThreadHelper.getCurrentThreadStack(), accountToUpdate);
 		
 		accountToUpdate.setName(a.name);
 		accountToUpdate.setEmail(a.email);
@@ -135,7 +111,7 @@ public class AccountsDb {
 	 * <br> * {@code googleId} is not null.
 	 */
 	public void deleteAccount(String googleId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, googleId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 	
 		Account accountToDelete = getAccountEntity(googleId);
 	
@@ -150,12 +126,12 @@ public class AccountsDb {
 		int elapsedTime = 0;
 		Account accountCheck = getAccountEntity(googleId);
 		while ((accountCheck != null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+			ThreadHelper.waitBriefly();
 			accountCheck = getAccountEntity(googleId);
-			elapsedTime += Common.WAIT_DURATION;
+			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteAccount->"
 					+ googleId);
 		}
@@ -166,11 +142,6 @@ public class AccountsDb {
 
 	//TODO: add an updateStudent(StudentAttributes) version and make the above private
 	
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
-
-
 	private Account getAccountEntity(String googleId) {
 		
 		Query q = getPM().newQuery(Account.class);
@@ -185,6 +156,11 @@ public class AccountsDb {
 		}
 	
 		return accountsList.get(0);
+	}
+
+	@Override
+	protected Object getEntity(EntityAttributes entity) {
+		return getAccountEntity(((AccountAttributes)entity).googleId);
 	}
 	
 

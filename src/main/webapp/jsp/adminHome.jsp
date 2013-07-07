@@ -1,7 +1,9 @@
-<%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.ui.controller.AdminHomeHelper"%>
+<%@ page import="teammates.common.util.Const" %>
+<%@ page import="teammates.ui.controller.AdminHomePageData"%>
 
-<% AdminHomeHelper helper = (AdminHomeHelper)request.getAttribute("helper"); %>
+<%
+	AdminHomePageData data = (AdminHomePageData)request.getAttribute("data");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +24,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-	<jsp:include page="<%= Common.JSP_ADMIN_HEADER %>" />
+	<jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 	</div>
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
@@ -31,34 +33,34 @@
 			<h1>Add New Instructor</h1>
 			</div>
 			<div id="adminManagement">
-				<form action="">
+				<form method="post" action="<%=Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD%>" name="form_addinstructoraccount">
 					<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold">Google ID:</td>
 					</tr>
 					<tr>
-					   <td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_ID %>"></td>
+					   <td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>"></td>
 					</tr>
 					<tr>
 						<td class="label bold">Name:</td>
 					</tr>
 					<tr>
-						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_NAME %>"></td>
+						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>"></td>
 				    </tr>
 				    <tr>
 					    <td class="label bold">Email: </td>
 					</tr>
 					<tr>
-						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_EMAIL %>"></td>
+						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"></td>
 				    </tr>
    				    <tr>
 					    <td class="label bold">Institution: </td>
 					</tr>
 					<tr>
-						<td><input class="addinput" type="text" name="<%= Common.PARAM_INSTRUCTOR_INSTITUTION %>"></td>
+						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_INSTITUTION%>"></td>
 				    </tr>
 				    <tr>
-						<td class="centeralign"><input type="checkbox" name="<%= Common.PARAM_INSTRUCTOR_IMPORT_SAMPLE %>" value="importsample">Import sample data</td>
+						<td class="centeralign"><input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE%>" value="importsample">Import sample data</td>
 				    </tr>
 				    <tr>
 						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor" onclick="return verifyInstructorData();"></td>
@@ -66,14 +68,14 @@
 				    </table>
 				</form>
 			</div>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			<br>
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

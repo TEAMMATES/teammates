@@ -38,9 +38,9 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=CCDetailsUiT.instr" class='nav home' data-link="instructorHome">Home</a></li>
-					<li class="current"><a href="/page/instructorCourse?user=CCDetailsUiT.instr" class='nav courses' data-link="instructorCourse">Courses</a></li>
-					<li><a href="/page/instructorEval?user=CCDetailsUiT.instr" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a href="/page/instructorHomePage?user=CCDetailsUiT.instr" class='nav home' data-link="instructorHome">Home</a></li>
+					<li class="current"><a href="/page/instructorCoursesPage?user=CCDetailsUiT.instr" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li><a href="/page/instructorEvalsPage?user=CCDetailsUiT.instr" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
 					 <b>(CCDetailsUiT.instr)</b></li>
@@ -99,6 +99,9 @@
 
 	<div style="display: block;" id="statusMessage">
 		The student has been removed from the course</div>
+		<script type="text/javascript">
+    		document.getElementById( 'statusMessage' ).scrollIntoView();
+    	</script>
 
 			<br />
 
@@ -115,12 +118,12 @@
                             <td id="studentname">Alice Betsy</td>
 	 						<td class="centeralign">Joined</td>
 	 						<td class="centeralign no-print">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_details0">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_details0">
 										View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_edit0">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_edit0">
 										Edit</a>
 								
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Alice Betsy')" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=alice.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_delete0">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Alice Betsy')" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_delete0">
 										Delete</a>
 							</td>
 	 					</tr>
@@ -131,15 +134,15 @@
 							<td id="studentname">Charlie Davis</td>
 	 						<td class="centeralign">Yet to join</td>
 	 						<td class="centeralign no-print">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_details1">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_details1">
 										View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_edit1">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_edit1">
 										Edit</a>
 								
-									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('E-mail the registration key to the student')" onclick="return toggleSendRegistrationKey()" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_resend1">
+									<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('E-mail the registration key to the student')" onclick="return toggleSendRegistrationKey()" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_resend1">
 											Send Invite</a>
 								
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Charlie Davis')" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=charlie.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_delete1">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Charlie Davis')" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_delete1">
 										Delete</a>
 							</td>
 	 					</tr>
@@ -150,9 +153,9 @@
 							<td id="studentname">Danny Engrid</td>
 	 						<td class="centeralign">Joined</td>
 	 						<td class="centeralign no-print">
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetails?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_details2">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the details of the student')" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_details2">
 										View</a>
-								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')" href="/page/instructorCourseStudentEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_edit2">
+								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_edit2">
 										Edit</a>
 								
 								<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" onclick="return toggleDeleteStudentConfirmation('Danny Engrid')" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" class="color_black t_student_delete2">
@@ -172,7 +175,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{version}</span>]</span>
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
 	[for <span class="color_white">National University of Singapore</span>]
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>

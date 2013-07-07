@@ -12,7 +12,7 @@ public abstract class EntityAttributes {
 	 * @return true if the attributes represent a valid state for the entity.
 	 */
 	public boolean isValid() {
-		return getInvalidStateInfo().isEmpty();
+		return getInvalidityInfo().isEmpty();
 	}
 
 	/**
@@ -22,5 +22,23 @@ public abstract class EntityAttributes {
 	 *         good enough to show to the user. Returns an empty {@code List} if
 	 *         all attributes are valid.
 	 */
-	public abstract List<String> getInvalidStateInfo();
+	public abstract List<String> getInvalidityInfo();
+	
+	/**
+	 * @return a {@code Object} corresponding to the attributes defined by {@code this}
+	 * 		   {@link EntityAttributes} class.
+	 */
+	public abstract Object toEntity();
+	
+	/**
+	 * @return an abridged string which can sufficiently identify the entity
+	 * 		   this class represents for use in error messages / exceptions.
+	 */
+	public abstract String getIdentificationString();
+	
+	/**
+	 * @return the type of entity this Attribute class represents as a human
+	 * 		   readable string.
+	 */
+	public abstract String getEntityTypeAsString();
 }

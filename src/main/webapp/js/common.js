@@ -1,7 +1,9 @@
 var COURSE_ID_MAX_LENGTH = 40;
 var COURSE_NAME_MAX_LENGTH = 64;
 var EVAL_NAME_MAX_LENGTH = 38;
-var EVAL_INSTRUCTIONS_MAX_LENGTH = 500; 
+var EVAL_INSTRUCTIONS_MAX_LENGTH = 500;
+var FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
+var FEEDBACK_SESSION_INSTRUCTIONS_MAX_LENGTH = 500;
 
 // Field names
 var COURSE_ID = "courseid"; // Used in instructorCourse.js
@@ -13,6 +15,33 @@ var EVALUATION_START = "start"; // Used in instructorEval.js
 var EVALUATION_STARTTIME = "starttime"; // Used in instructorEval.js
 var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
 
+// Move to instructorFeedback.js?
+var FEEDBACK_SESSION_STARTDATE = "startdate";
+var FEEDBACK_SESSION_STARTTIME = "starttime"; 
+var FEEDBACK_SESSION_TIMEZONE = "timezone";
+var FEEDBACK_SESSION_CHANGETYPE = "feedbackchangetype";
+var FEEDBACK_SESSION_VISIBLEDATE = "visibledate";
+var FEEDBACK_SESSION_VISIBLETIME = "visibletime";
+var FEEDBACK_SESSION_PUBLISHDATE = "publishdate";
+var FEEDBACK_SESSION_PUBLISHTIME = "publishtime";
+var FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
+var FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
+
+// Move to instructorFeedbackEdit.js?
+var FEEDBACK_QUESTION_GIVERTYPE ="givertype";
+var FEEDBACK_QUESTION_RECIPIENTTYPE ="recipienttype";
+var FEEDBACK_QUESTION_NUMBEROFENTITIES ="numofrecipients";
+var FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
+var FEEDBACK_QUESTION_TYPE ="questiontype";
+var FEEDBACK_QUESTION_NUMBER ="questionnum";
+var FEEDBACK_QUESTION_TEXT ="questiontext";
+var FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
+var FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
+var FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
+var FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
+var FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
+var FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
+
 // Display messages
 // Used for validating input
 var DISPLAY_INPUT_FIELDS_EXTRA = "There are too many fields.";
@@ -23,13 +52,14 @@ var DISPLAY_NAME_INVALID = "Name should only consist of alphanumerics or hyphens
 var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
 
 // Used in instructorCourse.js only
-var DISPLAY_COURSE_MISSING_FIELD = "Course ID and Course Name are compulsory fields.";
 var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed "
 		+ COURSE_ID_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed "
 		+ COURSE_NAME_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
-var DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY = "You must add at least 1 instructor in the course.";
+var DISPLAY_COURSE_COURSE_ID_EMPTY = "Course ID cannot be empty.";
+var DISPLAY_COURSE_COURSE_NAME_EMPTY = "Course name cannot be empty";
+var DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY = "Instructor list cannot be empty";
 var MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST = "You are NOT in the list of instructors for the new course. You will NOT be able to access the new course once it is created. Do you wish to continue?";
 
 // Used in instructorCourseEnroll.js only
@@ -43,6 +73,14 @@ var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadlin
 var DISPLAY_EVALUATION_INSTRUCTIONS_LENGTHINVALID = "Instructions to students should not exceed 500 characters.";
 var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
+
+//Used in instructorFeedback.js only
+var DISPLAY_FEEDBACK_SESSION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in feedback session name.";
+var DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
+var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
+		+ "The start time should be in the future, and the end time should be after start time.";
+var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to.";
+var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 
 // Max length for input
 var TEAMNAME_MAX_LENGTH = 24;
@@ -60,8 +98,8 @@ var INSTITUTION_MAX_LENGTH = 64;
 function toggleSort(divElement, colIdx, comparator) {
 	if ($(divElement).attr("class") == "buttonSortNone") {
 		sortTable(divElement, colIdx, comparator, true);
-		$(".buttonSortAscending").attr("class", "buttonSortNone");
-		$(".buttonSortDescending").attr("class", "buttonSortNone");
+		$(divElement).parent().parent().find(".buttonSortAscending").attr("class", "buttonSortNone");
+		$(divElement).parent().parent().find(".buttonSortDescending").attr("class", "buttonSortNone");
 		$(divElement).attr("class", "buttonSortAscending");
 	} else if ($(divElement).attr("class") == "buttonSortAscending") {
 		sortTable(divElement, colIdx, comparator, false);
@@ -312,6 +350,7 @@ function setStatusMessage(message, error) {
 		$(DIV_STATUS_MESSAGE).attr("style",
 				"display: block; ");
 	}
+	document.getElementById( 'statusMessage' ).scrollIntoView();
 }
 
 /**

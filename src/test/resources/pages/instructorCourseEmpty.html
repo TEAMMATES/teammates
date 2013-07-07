@@ -38,13 +38,13 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li ><a class='nav home' data-link="instructorHome" href="/page/instructorHome?user=CCAddUiTest.instructor">Home</a></li>
-					<li class="current"><a class='nav courses' data-link="instructorCourse" href="/page/instructorCourse?user=CCAddUiTest.instructor">Courses</a></li>
-					<li><a class='nav evaluations' data-link="instructorEval" href="/page/instructorEval?user=CCAddUiTest.instructor">Evaluations</a></li>
+					<li ><a class='nav home' data-link="instructorHome" href="/page/instructorHomePage?user=CCAddUiTest.instr2">Home</a></li>
+					<li class="current"><a class='nav courses' data-link="instructorCourse" href="/page/instructorCoursesPage?user=CCAddUiTest.instr2">Courses</a></li>
+					<li><a class='nav evaluations' data-link="instructorEval" href="/page/instructorEvalsPage?user=CCAddUiTest.instr2">Evaluations</a></li>
 					<li><a class='nav help' href="/instructorHelp.html" target="_blank">Help</a></li>
 					<li><a class='nav logout' href="/logout.jsp">Logout</a>
 					
-					<b>(CCAddUiTest.instructor)</b>
+					<b>(CCAddUiTest.instr2)</b>
 					</li>
 				</ul>
 			</div>
@@ -61,8 +61,8 @@
 				<h1>Add New Course</h1>
 			</div>
 
-			<form name="form_addcourse" action="/page/instructorCourse" method="get">
-				<input type="hidden" value="CCAddUiTest.instructor" name="instructorid" id="instructorid" />
+			<form name="form_addcourse" action="/page/instructorCourseAdd" method="get">
+				<input type="hidden" value="CCAddUiTest.instr2" name="instructorid" id="instructorid" />
 				<table id="addform" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
@@ -90,7 +90,7 @@
 					<tr>
 						<td colspan="2">
 							<span class="bold" id="instructorformat">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">CCAddUiTest.instructor|Teammates Demo Instr|CCAddUiTest.instructor@gmail.com</textarea>
+							<textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">CCAddUiTest.instr2|Teammates Demo Instr 2|CCAddUiTest.instr2@gmail.com</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -99,7 +99,7 @@
 					</tr>
 				</table>
 				
-					<input type="hidden" value="CCAddUiTest.instructor" name="user" />
+					<input type="hidden" value="CCAddUiTest.instr2" name="user" />
 				
 			</form>
 			<br />
@@ -108,7 +108,9 @@
 
 	<div style="display: block;" id="statusMessage">
 		You have not created any courses yet. Use the form above to create a course.</div>
-
+	<script type="text/javascript">
+    	document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
 			<br />
 			<table class="dataTable">
 				<tbody><tr>
@@ -147,7 +149,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{version}</span>]</span>
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
 	[for <span class="color_white">Some Other University With a Long Name, South Africa</span>]
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>

@@ -1,8 +1,11 @@
-<%@ page import="teammates.common.Common"%>
+<%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorEvalEditHelper"%>
-<%	InstructorEvalEditHelper helper = (InstructorEvalEditHelper)request.getAttribute("helper"); %>
+<%@ page import="teammates.ui.controller.InstructorEvalEditPageData"%>
+<%
+	InstructorEvalEditPageData data = (InstructorEvalEditPageData)request.getAttribute("data");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +34,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -41,81 +44,81 @@
 				<h1>Edit Evaluation</h1>
 			</div>
 			
-			<form method="post" action="<%= Common.PAGE_INSTRUCTOR_EVAL_EDIT %>" name="form_addevaluation">
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_SAVE%>" name="form_addevaluation">
 				<table class="inputTable" id="instructorEvaluationManagement">
 					<tr>
 						<td class="label bold" >Course ID:</td>
 						<td style="vertical-align: middle;">
-							<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%=helper.newEvaluationToBeCreated.course%>">
-							<%=helper.newEvaluationToBeCreated.course%>
+							<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.evaluation.courseId%>">
+							<%=data.evaluation.courseId%>
 						</td>
 						<td class="label bold" >Opening time:</td>
 						<td><input style="width: 100px;" type="text"
-									name="<%=Common.PARAM_EVALUATION_START%>"
-									id="<%=Common.PARAM_EVALUATION_START%>" 
-									onclick ="cal.select(this,'<%=Common.PARAM_EVALUATION_START%>','dd/MM/yyyy')"
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_START%>')"
+									name="<%=Const.ParamsNames.EVALUATION_START%>"
+									id="<%=Const.ParamsNames.EVALUATION_START%>" 
+									onclick ="cal.select(this,'<%=Const.ParamsNames.EVALUATION_START%>','dd/MM/yyyy')"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_START%>')"
 									onmouseout="hideddrivetip()"
-									value="<%=Common.formatDate(helper.newEvaluationToBeCreated.startTime)%>"
+									value="<%=TimeHelper.formatDate(data.evaluation.startTime)%>"
 									readonly="readonly" tabindex="3">
 									@
 							<select style="width: 70px;"
-									name="<%=Common.PARAM_EVALUATION_STARTTIME%>"
-									id="<%=Common.PARAM_EVALUATION_STARTTIME%>"
+									name="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"
+									id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"
 									tabindex="4">
 								<%
-									for(String opt: helper.getTimeOptions(true)) out.println(opt);
+									for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
 								%>
 							</select></td>
 					</tr>
 					<tr>
 						<td class="label bold" >Evaluation name:</td>
 						<td style="vertical-align: middle;">
-							<input type="hidden" name="<%=Common.PARAM_EVALUATION_NAME%>" value="<%=InstructorEvalEditHelper.escapeForHTML(helper.newEvaluationToBeCreated.name)%>">
-							<%=InstructorEvalEditHelper.escapeForHTML(helper.newEvaluationToBeCreated.name)%>
+							<input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.name)%>">
+							<%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.name)%>
 						</td>
 						<td class="label bold" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
-									name="<%=Common.PARAM_EVALUATION_DEADLINE%>" id="<%=Common.PARAM_EVALUATION_DEADLINE%>"
-									onclick ="cal.select(this,'<%=Common.PARAM_EVALUATION_DEADLINE%>','dd/MM/yyyy')"
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_DEADLINE%>')"
+									name="<%=Const.ParamsNames.EVALUATION_DEADLINE%>" id="<%=Const.ParamsNames.EVALUATION_DEADLINE%>"
+									onclick ="cal.select(this,'<%=Const.ParamsNames.EVALUATION_DEADLINE%>','dd/MM/yyyy')"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_DEADLINE%>')"
 									onmouseout="hideddrivetip()"
-									value="<%=Common.formatDate(helper.newEvaluationToBeCreated.endTime)%>"
+									value="<%=TimeHelper.formatDate(data.evaluation.endTime)%>"
 									readonly="readonly" tabindex="5">
 									@
 							<select style="width: 70px;"
-									name="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"
-									id="<%=Common.PARAM_EVALUATION_DEADLINETIME%>"
+									name="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"
+									id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"
 									tabindex="6">
 								<%
-									for(String opt: helper.getTimeOptions(false)) out.println(opt);
+									for(String opt: data.getTimeOptionsAsHtml(false)) out.println(opt);
 								%>
 							</select></td>
 					</tr>
 					<tr>
 						<td class="label bold" >Peer feedback:</td>
-						<td><input type="radio" name="<%=Common.PARAM_EVALUATION_COMMENTSENABLED%>"
+						<td><input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
 									id="commentsstatus_enabled" value="true"
-									<%=helper.newEvaluationToBeCreated.p2pEnabled ? "checked=\"checked\"" : ""%>
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
+									<%=data.evaluation.p2pEnabled ? "checked=\"checked\"" : ""%>
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>')"
 									onmouseout="hideddrivetip()">
 							<label for="commentsstatus_enabled">Enabled</label>
-							<input type="radio" name="<%=Common.PARAM_EVALUATION_COMMENTSENABLED%>"
+							<input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
 									id="commentsstatus_disabled" value="false"
-									<%=!helper.newEvaluationToBeCreated.p2pEnabled ? "checked=\"checked\"" : ""%>
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_COMMENTSSTATUS%>')"
+									<%=!data.evaluation.p2pEnabled ? "checked=\"checked\"" : ""%>
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>')"
 									onmouseout="hideddrivetip()">
 							<label for="commentsstatus_disabled">Disabled</label>
 						</td>
 						<td class="bold label" >Time zone:</td>
-						<td><select style="width: 100px;" name="<%=Common.PARAM_EVALUATION_TIMEZONE%>" id="<%=Common.PARAM_EVALUATION_TIMEZONE%>"
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_TIMEZONE%>')"
+						<td><select style="width: 100px;" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>" id="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>')"
 									onmouseout="hideddrivetip()" disabled="disabled" tabindex="7">
 							<%
-								for(String opt: helper.getTimeZoneOptions()) out.println(opt);
+								for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
 							%>
 							</select>
-							<input type="hidden" name="<%=Common.PARAM_EVALUATION_TIMEZONE%>" value="<%=helper.newEvaluationToBeCreated.timeZone%>">
+							<input type="hidden" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>" value="<%=data.evaluation.timeZone%>">
 						</td>
 					</tr>
 					<tr>
@@ -123,12 +126,12 @@
 					<td></td>
 					<td class="bold label" >Grace Period:</td>
 					<td class="inputField">
-						<select style="width: 70px;" name="<%=Common.PARAM_EVALUATION_GRACEPERIOD%>"
-								id="<%=Common.PARAM_EVALUATION_GRACEPERIOD%>"
-								onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_GRACEPERIOD%>')"
+						<select style="width: 70px;" name="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
+								id="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
 								onmouseout="hideddrivetip()" tabindex="7">
 							<%
-								for(String opt: helper.getGracePeriodOptions()) out.println(opt);
+								for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
 							%>
 						</select></td>
 					</tr>
@@ -136,9 +139,9 @@
 						<td class="label bold middlealign">Instructions to students:</td>
 						<td colspan="3">
 						<table><tr><td>
-							<textarea rows="3" cols="90" class="textvalue" name="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>" id="<%=Common.PARAM_EVALUATION_INSTRUCTIONS%>"
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_EVALUATION_INPUT_INSTRUCTIONS%>')"
-									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditHelper.escapeForHTML(helper.newEvaluationToBeCreated.instructions)%></textarea>
+							<textarea rows="3" cols="90" class="textvalue" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"
+									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>')"
+									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.instructions)%></textarea>
 							<p align=right><font color=grey>[maximum length = 500 characters]</font></p>
 						</td></tr></table>
 						</td>
@@ -149,17 +152,15 @@
 									onclick="return checkEditEvaluation(this.form);"
 									value="Save Changes" tabindex="9">
 							<input id="button_back" type="button" class="button"
-									onclick="window.location.href='<%= helper.getInstructorEvaluationLink() %>'"
+									onclick="window.location.href='<%=data.getInstructorEvaluationLink()%>'"
 									value="Cancel" tabindex="10"></td>
 					</tr>
 				</table>
-				<% if(helper.isMasqueradeMode()){ %>
-					<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">
-				<% } %>
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 			<br>
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			<br>
 			<br>
@@ -167,7 +168,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

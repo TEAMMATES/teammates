@@ -1,13 +1,15 @@
 package teammates.common.datatransfer;
 
-import static teammates.common.Common.EOL;
+import static teammates.common.util.Const.EOL;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Logger;
 
-import teammates.common.Common;
+import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Utils;
 
 /**
  *  Represents detailed results of one student for one evaluation. 
@@ -27,7 +29,7 @@ public class StudentResultBundle {
 	public StudentResultSummary summary;
 
 	@SuppressWarnings("unused")
-	private static final Logger log = Common.getLogger();
+	private static final Logger log = Utils.getLogger();
 	
 	public StudentResultBundle(StudentAttributes student){
 		this.student = student;
@@ -51,8 +53,8 @@ public class StudentResultBundle {
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				// email is appended to avoid mix ups due to two students with
 				// same name.
-				return (s1.revieweeName + s1.reviewee)
-						.compareTo(s2.revieweeName + s2.reviewee);
+				return (s1.details.revieweeName + s1.reviewee)
+						.compareTo(s2.details.revieweeName + s2.reviewee);
 			}
 		});
 	}
@@ -62,8 +64,8 @@ public class StudentResultBundle {
 			public int compare(SubmissionAttributes s1, SubmissionAttributes s2) {
 				// email is appended to avoid mix ups due to two students with
 				// same name.
-				return (s1.reviewerName + s1.reviewer)
-						.compareTo(s2.reviewerName + s2.reviewer);
+				return (s1.details.reviewerName + s1.reviewer)
+						.compareTo(s2.details.reviewerName + s2.reviewer);
 			}
 		});
 	}
@@ -92,7 +94,7 @@ public class StudentResultBundle {
 
 	//TODO: unit test this
 	public String toString(int indent) {
-		String indentString = Common.getIndent(indent);
+		String indentString = StringHelper.getIndent(indent);
 		StringBuilder sb = new StringBuilder();
 		sb.append(indentString + "claimedFromStudent:" + summary.claimedFromStudent
 				+ EOL);
@@ -120,10 +122,10 @@ public class StudentResultBundle {
 	}
 	
 	private String replaceMagicNumbers(String input){
-		return input.replace(Common.UNINITIALIZED_INT + ".0", " NA")
-				.replace(Common.UNINITIALIZED_INT + "", " NA")
-				.replace(Common.POINTS_NOT_SUBMITTED + "", "NSB")
-				.replace(Common.POINTS_NOT_SURE + "", "NSU");
+		return input.replace(Const.INT_UNINITIALIZED + ".0", " NA")
+				.replace(Const.INT_UNINITIALIZED + "", " NA")
+				.replace(Const.POINTS_NOT_SUBMITTED + "", "NSB")
+				.replace(Const.POINTS_NOT_SURE + "", "NSU");
 	}
 
 }

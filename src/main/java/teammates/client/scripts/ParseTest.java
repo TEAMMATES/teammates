@@ -11,7 +11,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import teammates.common.Common;
+
+import teammates.common.util.FileHelper;
+import teammates.test.driver.TestProperties;
 
 public class ParseTest {
 	private static void eliminateEmptyTextNodes(Node n){
@@ -123,8 +125,8 @@ public class ParseTest {
 	public static void main(String args[]) throws SAXException, IOException{
 		String webpage, testpage;
 		
-		webpage = Common.readFile(Common.TEST_PAGES_FOLDER+"/test1.html");
-		testpage = Common.readFile(Common.TEST_PAGES_FOLDER+"/test2.html");
+		webpage = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER+"/test1.html");
+		testpage = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER+"/test2.html");
 				
 		DOMParser parser = new DOMParser();
 		

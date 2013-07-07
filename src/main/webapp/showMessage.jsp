@@ -1,9 +1,9 @@
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Const" %>
 <html>
 <head>
 	<script>
 		if(typeof opener != 'undefined' || typeof opener != null){
-			opener.setStatusMessage("<%= request.getParameter(Common.PARAM_STATUS_MESSAGE) %>",<%= request.getParameter(Common.PARAM_ERROR) %>);
+			opener.setStatusMessage("<%=request.getParameter(Const.ParamsNames.STATUS_MESSAGE)%>",<%=request.getParameter(Const.ParamsNames.ERROR)%>);
 			top.close();
 			opener.scrollToTop();
 		} else {
@@ -19,7 +19,7 @@
 					}
 				}
 			}
-			var nextUrl = "<%= Common.PAGE_INSTRUCTOR_EVAL %>";
+			var nextUrl = "<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>";
 			if(user!==null){
 				nextUrl += "?user="+user;
 			}

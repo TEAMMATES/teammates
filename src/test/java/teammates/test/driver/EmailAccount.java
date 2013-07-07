@@ -15,7 +15,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
 
-import teammates.logic.Emails;
+import teammates.logic.core.Emails;
 
 public class EmailAccount {
 
@@ -66,6 +66,11 @@ public class EmailAccount {
 				// .compile("^TEAMMATES: Registration Invitation: Register in the course (\\w+)$");
 				// Matcher m = pattern.matcher(message.getSubject());
 				String subject = message.getSubject();
+				
+				if(subject == null){ //in case there are subject-less messages
+					continue;
+				}
+				
 				boolean isCorrectEmail = subject
 						.contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
 						&& (subject.contains(courseId));
@@ -325,8 +330,8 @@ public class EmailAccount {
 		try {
 			System.out
 					.println(EmailAccount.getRegistrationKeyFromGmail(
-							"benny.tmms@gmail.com",
-							TestProperties.inst().TEAMMATES_COMMON_PASSWORD_FOR_STUDENT_ACCOUNTS,
+							TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+							TestProperties.inst().TEST_STUDENT1_PASSWORD,
 							"CCDetailsUiT.CS2104"));
 		} catch (Exception e) {
 			e.printStackTrace();

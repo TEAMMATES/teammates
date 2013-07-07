@@ -1,10 +1,10 @@
 <%@ page import="java.util.List" %>
-<%@ page import="teammates.common.Common" %>
-<%@ page import="teammates.ui.controller.AdminActivityLogHelper"%>
-<%@ page import="teammates.ui.controller.ActivityLogEntry" %>
+<%@ page import="teammates.common.util.Const" %>
+<%@ page import="teammates.common.util.ActivityLogEntry" %>
+<%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
 
 <%
-    AdminActivityLogHelper helper = (AdminActivityLogHelper)request.getAttribute("helper");
+	AdminActivityLogPageData data = (AdminActivityLogPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -26,7 +26,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-	<jsp:include page="<%=Common.JSP_ADMIN_HEADER%>" />
+	<jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 	</div>
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
@@ -38,7 +38,7 @@
 		    <table class="inputTable" id="filterForm">
 		      <tr>
 		          <td class="label bold">Filter:</td>
-		          <td><input type="text" id="filterQuery" name="filterQuery" value="<%=helper.filterQuery %>"></td>
+		          <td><input type="text" id="filterQuery" name="filterQuery" value="<%=data.filterQuery%>"></td>
 		          <td><input class="button" type="submit" name="search_submit" value="Filter"></td>
 		      </tr>
 		      <tr>
@@ -153,20 +153,20 @@
 		          </td>
 		      </tr>
 		      <%
-                if (helper.queryMessage != null){
-                    out.println("<tr><td colspan=\"3\" class=\"color_red bold\">" + helper.queryMessage + "</td></tr>");
-                }
-            %>
+		      	if (data.queryMessage != null){
+		      		      		                          out.println("<tr><td colspan=\"3\" class=\"color_red bold\">" + data.queryMessage + "</td></tr>");
+		      		      		                      }
+		      %>
 		    </table>
-		    <input type="hidden" name="offset" value="<%=helper.offset %>">
+		    <input type="hidden" name="offset" value="<%=data.offset%>">
 		    <input type="hidden" name="pageChange" value="false">
 		    
 		    </form>
 		    <br>
 		    <br>
 			<%
-			    List<ActivityLogEntry> appLogs = (List<ActivityLogEntry>) request.getAttribute("appLogs");
-						  if (appLogs != null) {
+				List<ActivityLogEntry> appLogs = data.logs;
+									  if (appLogs != null) {
 			%>
 			<table class="dataTable">
 		        <tr>
@@ -177,32 +177,32 @@
 		          <th width="50%">Information</th>
 		        </tr>
 		    <%
-		        if (appLogs.isEmpty()) {
+		    	if (appLogs.isEmpty()) {
 		    %>
 		        <tr>
 		          <td colspan='5'><i>No application logs found</i></td>
 		        </tr>
 		    <%
-		        } else {
-		    		            for (ActivityLogEntry log : appLogs){
+		    	} else {
+		    		    		    		    		            for (ActivityLogEntry log : appLogs){
 		    %>
 		        <tr>
-		          <td><%= log.getDateInfo() %></td>
-		          <td><%= log.getRoleInfo() %></td>
-		          <td><%= log.getPersonInfo() %></td>
-		          <td><%= log.getActionInfo() %></td>
-		          <td><%= log.getMessageInfo() %></td>
+		          <td><%=log.getDateInfo()%></td>
+		          <td><%=log.getRoleInfo()%></td>
+		          <td><%=log.getPersonInfo()%></td>
+		          <td><%=log.getActionInfo()%></td>
+		          <td><%=log.getMessageInfo()%></td>
 		        </tr>
 		    <%
-		          }
-		        }
+		    	}
+		    		    		    		        }
 		    %>
 		      </table>
 		      <%
-			      }
-			  %>
+		      	}
+		      %>
 			    
-			<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			<div class="rightalign"><a href="#frameBodyWrapper">Back To Top</a></div>
 			<br>
@@ -211,7 +211,7 @@
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

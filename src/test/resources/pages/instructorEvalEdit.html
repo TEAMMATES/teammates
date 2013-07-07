@@ -38,9 +38,9 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a href="/page/instructorHome?user=CEvEditUiTest.instr" class='nav home' data-link="instructorHome">Home</a></li>
-					<li><a href="/page/instructorCourse?user=CEvEditUiTest.instr" class='nav courses' data-link="instructorCourse">Courses</a></li>
-					<li class="current"><a href="/page/instructorEval?user=CEvEditUiTest.instr" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
+					<li><a href="/page/instructorHomePage?user=CEvEditUiTest.instr" class='nav home' data-link="instructorHome">Home</a></li>
+					<li><a href="/page/instructorCoursesPage?user=CEvEditUiTest.instr" class='nav courses' data-link="instructorCourse">Courses</a></li>
+					<li class="current"><a href="/page/instructorEvalsPage?user=CEvEditUiTest.instr" class='nav evaluations' data-link="instructorEval">Evaluations</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
 					 <b>(CEvEditUiTest.instr)</b></li>
@@ -59,7 +59,7 @@
 				<h1>Edit Evaluation</h1>
 			</div>
 			
-			<form name="form_addevaluation" action="/page/instructorEvalEdit" method="post">
+			<form name="form_addevaluation" action="/page/instructorEvalEditSave" method="post">
 				<table id="instructorEvaluationManagement" class="inputTable">
 					<tbody><tr>
 						<td class="label bold">Course ID:</td>
@@ -143,7 +143,7 @@
 							<label for="commentsstatus_disabled">Disabled</label>
 						</td>
 						<td class="bold label">Time zone:</td>
-						<td><select tabindex="7" disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
+						<td><select tabindex="7" disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" style="width: 100px;">
 							<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
 <option value="-10">UTC -10:00</option>
@@ -209,7 +209,7 @@
 					<tr>
 					<td class="centeralign" colspan="4">
 							<input type="submit" tabindex="9" value="Save Changes" onclick="return checkEditEvaluation(this.form);" class="button" id="button_submit" />
-							<input type="button" tabindex="10" value="Cancel" onclick="window.location.href='/page/instructorEval?user=CEvEditUiTest.instr'" class="button" id="button_back" /></td>
+							<input type="button" tabindex="10" value="Cancel" onclick="window.location.href='/page/instructorEvalsPage?user=CEvEditUiTest.instr'" class="button" id="button_back" /></td>
 					</tr>
 				</tbody></table>
 				
@@ -232,7 +232,7 @@
 	<div id="frameBottom">
 		
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{version}</span>]</span>
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
 	[for <span class="color_white">National University of Singapore</span>]
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>

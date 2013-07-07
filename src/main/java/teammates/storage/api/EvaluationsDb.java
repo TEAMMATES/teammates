@@ -4,73 +4,29 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
+import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.datastore.Datastore;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Evaluation;
 
 /**
  * Handles CRUD Operations for submission entities.
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  */
-public class EvaluationsDb {
+public class EvaluationsDb extends EntitiesDb {
 
-	public static final String ERROR_CREATE_EVALUATION_ALREADY_EXISTS = "Trying to create an Evaluation that exists: ";
 	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Evaluation: ";
 	
-	private static final Logger log = Common.getLogger();
-
-	/**
-	 * Preconditions: <br>
-	 * * {@code evaluationToAdd} is not null and has valid data.
-	 * @throws InvalidParametersException 
-	 */
-	public void createEvaluation(EvaluationAttributes evaluationToAdd)
-			throws EntityAlreadyExistsException, InvalidParametersException {
-		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationToAdd);
-		
-		if (!evaluationToAdd.isValid()) {
-			throw new InvalidParametersException(evaluationToAdd.getInvalidStateInfo());
-		}
-		
-		if (getEvaluationEntity(evaluationToAdd.course, evaluationToAdd.name) != null) {
-			String error = ERROR_CREATE_EVALUATION_ALREADY_EXISTS
-					+ evaluationToAdd.course + " | " + evaluationToAdd.name;
-			log.warning(error);
-			throw new EntityAlreadyExistsException(error);
-		}
-
-		Evaluation evaluation = evaluationToAdd.toEntity();
-
-		getPM().makePersistent(evaluation);
-		getPM().flush();
-
-		// Wait for the operation to persist
-		int elapsedTime = 0;
-		Evaluation evaluationCheck = getEvaluationEntity(
-				evaluationToAdd.course, evaluationToAdd.name);
-		while ((evaluationCheck == null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			evaluationCheck = getEvaluationEntity(evaluationToAdd.course,
-					evaluationToAdd.name);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createEvaluation->"
-					+ evaluationToAdd.course + "/" + evaluationToAdd.name);
-		}
-	}
-	
+	private static final Logger log = Utils.getLogger();
 
 	/**
 	 * Preconditions: <br>
@@ -79,8 +35,8 @@ public class EvaluationsDb {
 	 */
 	public EvaluationAttributes getEvaluation(String courseId, String name) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 
@@ -98,7 +54,7 @@ public class EvaluationsDb {
 	 */
 	public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 
@@ -122,20 +78,19 @@ public class EvaluationsDb {
 	 * Does not follow the 'Keep existing' policy. <br>
 	 * Preconditions: <br> 
 	 * * The given list is not null and contains valid {@link SubmissionAttributes} objects. <br>
-	 * @throws InvalidParametersException 
 	 */
 	public void updateEvaluation(EvaluationAttributes newEvaluationAttributes) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
 		Assumption.assertNotNull(
-				Common.ERROR_DBLEVEL_NULL_INPUT, 
+				Const.StatusCodes.DBLEVEL_NULL_INPUT, 
 				newEvaluationAttributes);
 		
 		if (!newEvaluationAttributes.isValid()) {
-			throw new InvalidParametersException(newEvaluationAttributes.getInvalidStateInfo());
+			throw new InvalidParametersException(newEvaluationAttributes.getInvalidityInfo());
 		}
 		
-		Evaluation e = getEvaluationEntity(newEvaluationAttributes.course, newEvaluationAttributes.name);
+		Evaluation e = getEvaluationEntity(newEvaluationAttributes.courseId, newEvaluationAttributes.name);
 		
 		if (e == null) {
 			throw new EntityDoesNotExistException(
@@ -164,8 +119,8 @@ public class EvaluationsDb {
 	 */
 	public void deleteEvaluation(String courseId, String name) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, name);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, name);
 
 		Evaluation e = getEvaluationEntity(courseId, name);
 		if (e == null) {
@@ -179,12 +134,12 @@ public class EvaluationsDb {
 		int elapsedTime = 0;
 		Evaluation evaluationCheck = getEvaluationEntity(courseId, name);
 		while ((evaluationCheck != null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+			ThreadHelper.waitBriefly();
 			evaluationCheck = getEvaluationEntity(courseId, name);
-			elapsedTime += Common.WAIT_DURATION;
+			elapsedTime += ThreadHelper.WAIT_DURATION;
 		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
 			log.severe("Operation did not persist in time: deleteEvaluation->"
 					+ courseId + "/" + name);
 		}
@@ -199,16 +154,12 @@ public class EvaluationsDb {
 	 */
 	public void deleteAllEvaluationsForCourse(String courseId) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
 		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 
 		getPM().deletePersistentAll(evaluationList);
 		getPM().flush();
-	}
-
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
 	}
 
 	private Evaluation getEvaluationEntity(String courseId, String evaluationName) {
@@ -246,6 +197,12 @@ public class EvaluationsDb {
 		List<Evaluation> evaluationList = (List<Evaluation>) q.execute();
 
 		return evaluationList;
+	}
+
+	@Override
+	protected Object getEntity(EntityAttributes attributes) {
+		EvaluationAttributes evaluationToAdd = (EvaluationAttributes) attributes;
+		return getEvaluationEntity(evaluationToAdd.courseId, evaluationToAdd.name);
 	}
 	
 }

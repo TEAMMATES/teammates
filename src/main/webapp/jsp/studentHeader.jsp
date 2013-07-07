@@ -1,6 +1,8 @@
-<%@page import="teammates.common.Common"%>
-<%@ page import="teammates.ui.controller.Helper" %>
-<% Helper helper = (Helper)request.getAttribute("helper"); %>
+<%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.ui.controller.PageData"%>
+<%
+	PageData data = (PageData)request.getAttribute("data");
+%>
 		<div id="frameTopWrapper">
 			<div id="logo">
 				<a href="/index.html">
@@ -11,13 +13,17 @@
 			</div>			
 			<div id="contentLinks">
 				<ul id="navbar">
-					<li><a class='nav home' data-link="studentHome" href="<%= helper.getStudentHomeLink() %>">Home</a></li>
+					<li><a class='nav home' data-link="studentHome" href="<%=data.getStudentHomeLink()%>">Home</a></li>
 					<li><a class='nav help' href="/studentHelp.html" target="_blank">Help</a></li>
-					<li><a class='nav logout' href="<%= Common.JSP_LOGOUT %>">Logout</a>
-					<b><%if(helper.userId.length()>=Common.USER_ID_MAX_DISPLAY_LENGTH){ %>
-					<span onmouseover="ddrivetip('<%=helper.userId %>')" onmouseout="hideddrivetip()">
-							(<%=Helper.truncate(helper.userId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%}else{%>
-							(<%=Helper.truncate(helper.userId,Common.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %></b>
+					<li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout</a>
+					<b><%
+						if(data.account.googleId.length()>=Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH){
+					%>
+					<span onmouseover="ddrivetip('<%=data.account.googleId%>')" onmouseout="hideddrivetip()">
+							(<%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%
+						}else{
+					%>
+							(<%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %></b>
 					</li>
 				</ul>
 			</div>

@@ -1,9 +1,12 @@
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Const" %>
+<%@ page import="teammates.common.util.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle" %>
-<%@ page import="teammates.ui.controller.StudentHomeHelper"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
+<%@ page import="teammates.ui.controller.PageData"%>
+<%@ page import="teammates.ui.controller.StudentHomePageData"%>
 <%
-	StudentHomeHelper helper = (StudentHomeHelper)request.getAttribute("helper");
+	StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +32,7 @@
 	<div id="dhtmltooltip"></div>
 
 	<div id="frameTop">
-		<jsp:include page="<%=Common.JSP_STUDENT_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -39,53 +42,48 @@
 				<h1>Student Home</h1>
 			</div>
 		
-			<form method="post" action="<%=Common.PAGE_STUDENT_JOIN_COURSE%>" name="form_joincourse">
+			<form method="post" action="<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>" name="form_joincourse">
 				<table class="inputTable" id="result_addOrJoinCourse">
 					<tr>
 						<td class="label bold">Registration Key:</td>
 						<td>
 							<input class="keyvalue" type="text"
-									name="<%=Common.PARAM_REGKEY%>"
-									id="<%=Common.PARAM_REGKEY%>"
-									onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_JOIN_COURSE%>')"
+									name="<%=Const.ParamsNames.REGKEY%>"
+									id="<%=Const.ParamsNames.REGKEY%>"
+									onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_JOIN_COURSE%>')"
 									onmouseout="hideddrivetip()" tabindex="1">
 						</td>
 						<td>
 							<input id="button_join_course" type="submit" class="button"
-									onclick="return this.form.<%=Common.PARAM_REGKEY%>.value!=''"
+									onclick="return this.form.<%=Const.ParamsNames.REGKEY%>.value!=''"
 									value="Join Course" tabindex="2">
 						</td>
 					</tr>
 				 </table>
-				<%
-					if(helper.isMasqueradeMode()){
-				%>
-					<input type="hidden" name="<%=Common.PARAM_USER_ID%>" value="<%=helper.requestedUser%>">
-				<%
-					}
-				%>
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 			<br>
-			<jsp:include page="<%=Common.JSP_STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			
 			<%
 							int idx = -1;
-																				int evalIdx = -1;
-																				for (CourseDetailsBundle courseDetails: helper.courses) { idx++;
+																int evalIdx = -1;
+																int fsIdx = -1;
+																for (CourseDetailsBundle courseDetails: data.courses) { idx++;
 						%>
 			<div class="backgroundBlock">
 				<div class="result_team home_courses_div" id="course<%=idx%>">
 					<div class="result_homeTitle">
 						<h2 class="color_white">[<%=courseDetails.course.id%>] :
-							<%=StudentHomeHelper.escapeForHTML(courseDetails.course.name)%>
+							<%=PageData.sanitizeForHtml(courseDetails.course.name)%>
 						</h2>
 					</div>
 					<div class="result_homeLinks blockLink rightalign">
 						<a class="t_course_view<%=idx%> color_white"
-							href="<%=helper.getStudentCourseDetailsLink(courseDetails.course.id)%>"
-							onmouseover="ddrivetip('<%=Common.HOVER_MESSAGE_STUDENT_COURSE_DETAILS%>')"
+							href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
+							onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>')"
 							onmouseout="hideddrivetip()">
 							View Team
 						</a>
@@ -103,35 +101,71 @@
 								<th class="centeralign bold color_white">Action(s)</th>
 							</tr>
 							<%
-								for (EvaluationDetailsBundle edd: courseDetails.evaluations) { evalIdx++;
+								for (EvaluationDetailsBundle edd: courseDetails.evaluations) { 
+																								evalIdx++;
 							%>
 								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
-									<td class="t_eval_name"><%=StudentHomeHelper.escapeForHTML(edd.evaluation.name)%></td>
-									<td class="t_eval_deadline centeralign"><%= Common.formatTime(edd.evaluation.endTime) %></td>
+									<td class="t_eval_name"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
+									<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
 									<td class="t_eval_status centeralign"><span
-										onmouseover="ddrivetip(' <%= helper.getStudentHoverMessageForEval(edd.evaluation)%>')"
-										onmouseout="hideddrivetip()"><%= helper.getStudentStatusForEval(edd.evaluation)%></span></td>
-									<td class="centeralign"><%= helper.getStudentEvaluationActions(edd.evaluation,evalIdx) %>
+										onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
+										onmouseout="hideddrivetip()"><%=data.getStudentStatusForEval(edd.evaluation)%></span></td>
+									<td class="centeralign"><%=data.getStudentEvaluationActions(edd.evaluation,evalIdx)%>
 									</td>
 								</tr>
-							<%	} %>
+							<%
+								}
+							%>
 						</table>
-						
-					<%	} %>
+						<br>					
+					<%
+											} 
+																														if (courseDetails.feedbackSessions.size() > 0) {
+										%>
+						<br>
+						<table class="dataTable">
+							<tr>
+								<th class="leftalign bold color_white">Feedback Session Name</th>
+								<th class="centeralign bold color_white">Submission Closing Time</th>
+								<th class="centeralign bold color_white">Status</th>
+								<th class="centeralign bold color_white">Action(s)</th>
+							</tr>
+							<%
+								for (FeedbackSessionDetailsBundle fsd: courseDetails.feedbackSessions) { 
+																								fsIdx++;
+							%>
+								<tr class="home_evaluations_row" id="evaluation<%=fsIdx%>">
+									<td class="t_eval_name"><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
+									<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
+									<td class="t_eval_status centeralign"><span
+										onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"
+										onmouseout="hideddrivetip()"><%=data.getStudentStatusForSession(fsd.feedbackSession)%></span></td>
+									<td class="centeralign"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,fsIdx)%>
+									</td>
+								</tr>
+							<%
+								}
+							%>
+						</table>
+						<br>				
+					<%
+										}
+									%>
 				</div>
 			</div>
 			<br>
 			<br>
 			<br>
-			<%		out.flush();
-				}
+			<%
+				out.flush();
+							}
 			%>
 		</div>
 		
 	</div>
 	
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

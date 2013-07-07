@@ -68,6 +68,16 @@ function toggleDeleteEvaluationConfirmation(courseID, name) {
 }
 
 /**
+ * Pops up confirmation dialog whether to delete specified evaluation
+ * @param courseID
+ * @param name
+ * @returns
+ */
+function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
+	return confirm("Are you sure you want to delete the feedback session " + name + " in " + courseID + "?");
+}
+
+/**
  * Pops up confirmation dialog whether to publish the specified
  * evaluation
  * @param name 

@@ -13,16 +13,22 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NotImplementedException;
+import teammates.common.exception.TeammatesException;
+import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
+import teammates.common.util.ThreadHelper;
+import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorServlet;
 
 import com.google.gson.Gson;
@@ -37,6 +43,8 @@ import com.google.gson.Gson;
  * 
  */
 public class BackDoor {
+
+	private static final int RETRY_DELAY_IN_MILLISECONDS = 5000;
 
 	@SuppressWarnings("unused")
 	private void ____SYSTEM_level_methods______________________________() {
@@ -67,6 +75,15 @@ public class BackDoor {
 		deleteInstructors(dataBundleJason);
 		return persistNewDataBundle(dataBundleJason);
 	}
+	
+	/**
+	 * Persists given data. If given entities already exist in the data store,
+	 * they will be overwritten.
+	 */
+	public static String restoreDataBundle(DataBundle dataBundle) {
+		String json = Utils.getTeammatesGson().toJson(dataBundle);
+		return persistNewDataBundle(json);
+	}
 
 	/**
 	 * Deletes instructors contained in the jsonString
@@ -74,8 +91,12 @@ public class BackDoor {
 	 * @param jsonString
 	 */
 	public static void deleteInstructors(String jsonString) {
-		Gson gson = Common.getTeammatesGson();
+		Gson gson = Utils.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+		deleteInstructors(data);
+	}
+
+	private static void deleteInstructors(DataBundle data) {
 		HashMap<String, InstructorAttributes> instructors = data.instructors;
 		for (InstructorAttributes instructor : instructors.values()) {
 			deleteInstructor(instructor.googleId);
@@ -90,11 +111,27 @@ public class BackDoor {
 	 * @param jsonString
 	 */
 	public static void deleteCourses(String jsonString) {
-		Gson gson = Common.getTeammatesGson();
+		Gson gson = Utils.getTeammatesGson();
 		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 		HashMap<String, CourseAttributes> courses = data.courses;
 		for (CourseAttributes course : courses.values()) {
 			deleteCourse(course.id);
+		}
+	}
+	
+	/**
+	 * Deletes FEEDBACK SESSIONS contained in the jsonString
+	 * 
+	 * This should recursively delete all FEEDBACK QUESIONS AND RESPONSES related to the session.
+	 * 
+	 * @param jsonString
+	 */
+	public static void deleteFeedbackSessions(DataBundle data) {
+		HashMap<String, FeedbackSessionAttributes> feedbackSessions = data.feedbackSessions;
+		for (FeedbackSessionAttributes feedbackSession : feedbackSessions.values()) {
+			deleteFeedbackSession(
+					feedbackSession.feedbackSessionName,
+					feedbackSession.courseId);
 		}
 	}
 	
@@ -107,8 +144,24 @@ public class BackDoor {
 	public static String createAccount(AccountAttributes account) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.accounts.put(account.googleId, account);
-		return persistNewDataBundle(Common.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
+	}
+	
+	public static AccountAttributes getAccount(String googleId) {
+		return Utils.getTeammatesGson().fromJson(getAccountAsJson(googleId), AccountAttributes.class);
+	}
+	
+	/**
+	 * If object not found in the first try, it will retry once more after a delay.
+	 */
+	public static AccountAttributes getAccountWithRetry(String googleId) {
+		AccountAttributes a = getAccount(googleId);
+		if(a == null){
+			ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
+			a = getAccount(googleId);
+		}
+		return a;
 	}
 	
 	public static String getAccountAsJson(String googleId) {
@@ -120,7 +173,7 @@ public class BackDoor {
 
 	public static String editAccount(AccountAttributes account) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_ACCOUNT);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
 				.getTeammatesGson().toJson(account));
 		String status = makePOSTRequest(params);
 		return status;
@@ -140,7 +193,7 @@ public class BackDoor {
 	public static String createInstructor(InstructorAttributes instructor) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.instructors.put(instructor.googleId, instructor);
-		return persistNewDataBundle(Common.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
@@ -150,6 +203,11 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String instructorJsonString = makePOSTRequest(params);
 		return instructorJsonString;
+	}
+	
+	public static InstructorAttributes getInstructor(String instructorId, String courseId) {
+		String json = getInstructorAsJson(instructorId, courseId);
+		return Utils.getTeammatesGson().fromJson(json, InstructorAttributes.class);
 	}
 
 	public static String editInstructor(InstructorAttributes instructor)
@@ -174,7 +232,7 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_ID, instructorId);
 		String courseString = makePOSTRequest(params);
 		String[] coursesArray = {};
-		if (Common.isWhiteSpace(courseString)) {
+		if (StringHelper.isWhiteSpace(courseString)) {
 			return coursesArray;
 		}
 		coursesArray = courseString.trim().split(" ");
@@ -189,7 +247,7 @@ public class BackDoor {
 	public static String createCourse(CourseAttributes course) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.courses.put("dummy-key", course);
-		return persistNewDataBundle(Common.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
@@ -198,6 +256,23 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String courseJsonString = makePOSTRequest(params);
 		return courseJsonString;
+	}
+	
+	public static CourseAttributes getCourse(String courseId) {
+		return Utils.getTeammatesGson().fromJson(getCourseAsJson(courseId), CourseAttributes.class);
+	}
+	
+	/**
+	 * Checks existence with a bias for non existence. If object found in the
+	 * first try, it will retry once more after a delay.
+	 */
+	public static boolean isCourseNonExistent(String courseId) {
+		CourseAttributes c = getCourse(courseId);
+		if(c != null){
+			ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
+			c = getCourse(courseId);
+		}
+		return c == null;
 	}
 
 	public static String editCourse(CourseAttributes course)
@@ -220,7 +295,7 @@ public class BackDoor {
 	public static String createStudent(StudentAttributes student) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.students.put("dummy-key", student);
-		return persistNewDataBundle(Common.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
@@ -230,6 +305,11 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
 		String studentJson = makePOSTRequest(params);
 		return studentJson;
+	}
+	
+	public static StudentAttributes getStudent(String courseId, String studentEmail) {
+		String studentJson = getStudentAsJson(courseId, studentEmail);
+		return Utils.getTeammatesGson().fromJson(studentJson, StudentAttributes.class);
 	}
 
 	public static String getKeyForStudent(String courseId, String studentEmail) {
@@ -244,7 +324,7 @@ public class BackDoor {
 	public static String editStudent(String originalEmail, StudentAttributes student) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT);
 		params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
 				.getTeammatesGson().toJson(student));
 		String status = makePOSTRequest(params);
 		return status;
@@ -265,7 +345,7 @@ public class BackDoor {
 	public static String createEvaluation(EvaluationAttributes evaluation) {
 		DataBundle dataBundle = new DataBundle();
 		dataBundle.evaluations.put("dummy-key", evaluation);
-		return persistNewDataBundle(Common.getTeammatesGson()
+		return persistNewDataBundle(Utils.getTeammatesGson()
 				.toJson(dataBundle));
 	}
 
@@ -277,10 +357,29 @@ public class BackDoor {
 		String evaluationJson = makePOSTRequest(params);
 		return evaluationJson;
 	}
+	
+	/**
+	 * Checks existence with a bias for non existence. If object found in the
+	 * first try, it will retry once more after a delay.
+	 */
+	public static boolean isEvaluationNonExistent(String courseID, String evaluationName) {
+		EvaluationAttributes e = getEvaluation(courseID, evaluationName);
+		if(e != null){
+			ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
+			e = getEvaluation(courseID, evaluationName);
+		}
+		return (e == null) ;
+	}
+	
+	public static EvaluationAttributes getEvaluation(String courseID,
+			String evaluationName) {
+		String jsonString = getEvaluationAsJson(courseID, evaluationName);
+		return Utils.getTeammatesGson().fromJson(jsonString, EvaluationAttributes.class);
+	}
 
 	public static String editEvaluation(EvaluationAttributes evaluation) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_EVALUATION);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
 				.getTeammatesGson().toJson(evaluation));
 		String status = makePOSTRequest(params);
 		return status;
@@ -303,6 +402,14 @@ public class BackDoor {
 		throw new NotImplementedException(
 				"Not implemented because creating submissions is automatically done");
 	}
+	
+	public static SubmissionAttributes getSubmission(String courseID,
+			String evaluationName, String reviewerEmail, String revieweeEmail) {
+		return Utils.getTeammatesGson()
+				.fromJson(
+						getSubmissionAsJson(courseID, evaluationName, reviewerEmail, revieweeEmail),
+						SubmissionAttributes.class);
+	}
 
 	public static String getSubmissionAsJson(String courseID,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
@@ -317,7 +424,7 @@ public class BackDoor {
 
 	public static String editSubmission(SubmissionAttributes submission) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_SUBMISSION);
-		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Common
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
 				.getTeammatesGson().toJson(submission));
 		String status = makePOSTRequest(params);
 		return status;
@@ -328,6 +435,76 @@ public class BackDoor {
 			throws NotImplementedException {
 		throw new NotImplementedException(
 				"not implemented yet because submissions do not need to be deleted via the API");
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____FEEDBACK_SESSION_level_methods______________________________() {
+	}
+
+	public static FeedbackSessionAttributes getFeedbackSession(String courseID,
+			String feedbackSessionName) {
+		String jsonString = getFeedbackSessionAsJson(feedbackSessionName, courseID);
+		return Utils.getTeammatesGson().fromJson(jsonString, FeedbackSessionAttributes.class);
+	}
+	
+	public static String getFeedbackSessionAsJson(String feedbackSessionName,
+			String courseId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_SESSION_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		String feedbackSessionJson = makePOSTRequest(params);
+		return feedbackSessionJson;
+	}
+	
+	public static String deleteFeedbackSession(String feedbackSessionName,
+			String courseId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_FEEDBACK_SESSION);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____FEEDBACK_QUESTION_level_methods______________________________() {
+	}
+
+	public static FeedbackQuestionAttributes getFeedbackQuestion(String courseID,
+			String feedbackSessionName, int qnNumber) {
+		String jsonString = getFeedbackQuestionAsJson(feedbackSessionName, courseID, qnNumber);
+		Utils.getLogger().info(jsonString);
+		return Utils.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
+	}
+	
+	public static String getFeedbackQuestionAsJson(String feedbackSessionName,
+			String courseId, int qnNumber) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_QUESTION_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_NUMBER, qnNumber);
+		String feedbackQuestionJson = makePOSTRequest(params);
+		return feedbackQuestionJson;
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
+	}
+	
+	public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
+			String giverEmail, String recipient) {
+		String jsonString = getFeedbackResponseAsJson(feedbackQuestionId, giverEmail, recipient);
+		Utils.getLogger().info(jsonString);
+		return Utils.getTeammatesGson().fromJson(jsonString, FeedbackResponseAttributes.class);
+	}
+
+	public static String getFeedbackResponseAsJson(String feedbackQuestionId,
+			String giverEmail, String recipient) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);
+		params.put(BackDoorServlet.PARAMETER_GIVER_EMAIL, giverEmail);
+		params.put(BackDoorServlet.PARAMETER_RECIPIENT, recipient);
+		String feedbackResponseJson = makePOSTRequest(params);
+		return feedbackResponseJson;
 	}
 	
 	@SuppressWarnings("unused")
@@ -349,12 +526,12 @@ public class BackDoor {
 		try {
 			String paramString = encodeParameters(map);
 			String urlString = TestProperties.inst().TEAMMATES_URL
-					+ Common.PAGE_BACKDOOR;
+					+ Const.ActionURIs.BACKDOOR;
 			URLConnection conn = getConnectionToUrl(urlString);
 			sendRequest(paramString, conn);
 			return readResponse(conn);
 		} catch (Exception e) {
-			return Common.stackTraceToString(e);
+			return TeammatesException.toStringWithStackTrace(e);
 		}
 	}
 

@@ -5,85 +5,27 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import teammates.common.Assumption;
-import teammates.common.Common;
-import teammates.common.FieldValidator;
-import teammates.common.FieldValidator.FieldType;
+import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.datastore.Datastore;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Submission;
 
 /**
  * Handles CRUD Operations for submission entities.
  * The API uses data transfer classes (i.e. *Attributes) instead of presistable classes.
  */
-public class SubmissionsDb {
+public class SubmissionsDb extends EntitiesDb {
 
-	public static final String ERROR_CREATE_SUBMISSION_ALREADY_EXISTS = "Trying to create a Submission that exists: ";
-	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Submission: ";
-	
-	private static final Logger log = Common.getLogger();
-
-	/**
-	 * Preconditions: <br>
-	 * * {@code submissionToAdd} is not null and has valid data.
-	 */
-	public void createSubmission(SubmissionAttributes submissionToAdd) throws EntityAlreadyExistsException, InvalidParametersException {
-		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionToAdd);
-
-		if (!submissionToAdd.isValid()) {
-			throw new InvalidParametersException(submissionToAdd.getInvalidStateInfo());
-		}
-		
-		if (getSubmissionEntity(
-				submissionToAdd.course,
-				submissionToAdd.evaluation, 
-				submissionToAdd.reviewee,
-				submissionToAdd.reviewer) != null) {
-			
-			String error = ERROR_CREATE_SUBMISSION_ALREADY_EXISTS
-					+ "course: " + submissionToAdd.course + ", evaluation: "
-					+ submissionToAdd.evaluation + ", toStudent: "
-					+ submissionToAdd.reviewee + ", fromStudent: "
-					+ submissionToAdd.reviewer;
-			
-			log.warning(error);
-
-			throw new EntityAlreadyExistsException(error);
-		}
-
-		Submission newSubmission = submissionToAdd.toEntity();
-
-		getPM().makePersistent(newSubmission);
-		getPM().flush();
-
-		// wait for the operation to persist
-		int elapsedTime = 0;
-		Submission submissionCheck = getSubmissionEntity(
-				submissionToAdd.course, submissionToAdd.evaluation,
-				submissionToAdd.reviewee, submissionToAdd.reviewer);
-		while ((submissionCheck == null)
-				&& (elapsedTime < Common.PERSISTENCE_CHECK_DURATION)) {
-			Common.waitBriefly();
-			submissionCheck = getSubmissionEntity(submissionToAdd.course,
-					submissionToAdd.evaluation, submissionToAdd.reviewee,
-					submissionToAdd.reviewer);
-			elapsedTime += Common.WAIT_DURATION;
-		}
-		if (elapsedTime == Common.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: createSubmission->"
-					+ submissionToAdd.course + "/" + submissionToAdd.evaluation
-					+ " | to: " + submissionToAdd.reviewee + " | from: "
-					+ submissionToAdd.reviewer);
-		}
-	}
+	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Submission: ";	
+	private static final Logger log = Utils.getLogger();
 	
 	/**
 	 * Preconditions: <br>
@@ -91,13 +33,13 @@ public class SubmissionsDb {
 	 */
 	public void createSubmissions(List<SubmissionAttributes> newList) throws InvalidParametersException {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newList);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newList);
 		
 		List<Submission> newEntityList = new ArrayList<Submission>();
 		
 		for (SubmissionAttributes sd : newList) {
 			if (!sd.isValid()) {
-				throw new InvalidParametersException(sd.getInvalidStateInfo());
+				throw new InvalidParametersException(sd.getInvalidityInfo());
 			}
 			//Existence check omitted to save time
 			newEntityList.add(sd.toEntity());
@@ -117,10 +59,10 @@ public class SubmissionsDb {
 	public SubmissionAttributes getSubmission(String courseId, String evaluationName,
 			String toStudent, String fromStudent) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, toStudent);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, fromStudent);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, toStudent);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, fromStudent);
 
 		Submission s = getSubmissionEntity(courseId, evaluationName, toStudent, fromStudent);
 
@@ -140,7 +82,7 @@ public class SubmissionsDb {
 	 */
 	public List<SubmissionAttributes> getSubmissionsForCourse(String courseId) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Submission> submissionList = getSubmissionEntitiesForCourse(courseId);
 
@@ -162,8 +104,8 @@ public class SubmissionsDb {
 	public List<SubmissionAttributes> getSubmissionsForEvaluation(
 			String courseId, String evaluationName) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, evaluationName);
 		
 		List<Submission> submissionList = getSubmissionEntititesForEvaluation(
 				courseId, evaluationName);
@@ -186,9 +128,9 @@ public class SubmissionsDb {
 	public List<SubmissionAttributes> getSubmissionsForEvaluationFromStudent(
 			String courseId, String evaluationName, String reviewerEmail) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, reviewerEmail);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, reviewerEmail);
 
 		List<Submission> submissionList = getSubmissionEntitiesForEvaluationFromStudent(
 				courseId, evaluationName, reviewerEmail);
@@ -205,15 +147,14 @@ public class SubmissionsDb {
 	 * Does not follow the 'Keep existing' policy. <br>
 	 * Preconditions: <br> 
 	 * * {@code newSubmissionAttributes} is not null and has valid data. <br>
-	 * @throws InvalidParametersException 
 	 */
 	public void updateSubmission(SubmissionAttributes newSubmissionAttributes) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newSubmissionAttributes);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newSubmissionAttributes);
 
 		if (!newSubmissionAttributes.isValid()) {
-			throw new InvalidParametersException(newSubmissionAttributes.getInvalidStateInfo());
+			throw new InvalidParametersException(newSubmissionAttributes.getInvalidityInfo());
 		}
 
 		Submission submission = getSubmissionEntity(newSubmissionAttributes.course, newSubmissionAttributes.evaluation,
@@ -221,7 +162,7 @@ public class SubmissionsDb {
 
 		if (submission == null) {
 			throw new EntityDoesNotExistException(
-					ERROR_UPDATE_NON_EXISTENT + Common.EOL
+					ERROR_UPDATE_NON_EXISTENT + Const.EOL
 					+ newSubmissionAttributes.toString());
 		}
 
@@ -243,7 +184,7 @@ public class SubmissionsDb {
 	public void updateSubmissions(List<SubmissionAttributes> submissionsList) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, submissionsList);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, submissionsList);
 
 		for (SubmissionAttributes sd : submissionsList) {
 			updateSubmission(sd);
@@ -261,10 +202,10 @@ public class SubmissionsDb {
 	public void updateStudentEmailForSubmissionsInCourse(String courseId,
 			String originalEmail, String newEmail) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, originalEmail);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, newEmail);
-		Assumption.assertTrue(new FieldValidator().getValidityInfo(FieldType.EMAIL, newEmail).isEmpty());
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, originalEmail);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newEmail);
+		Assumption.assertTrue(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, newEmail).isEmpty());
 	
 		List<Submission> submissionsFromStudent = 
 				getSubmissionEntitiesForCourseFromStudent(courseId, originalEmail);
@@ -287,7 +228,7 @@ public class SubmissionsDb {
 	 * * all parameters are non-null.
 	 */
 	public void deleteAllSubmissionsForCourse(String courseId) {
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 		
 		List<Submission> submissionList = getSubmissionEntitiesForCourse(courseId);
 
@@ -305,8 +246,8 @@ public class SubmissionsDb {
 	public void deleteAllSubmissionsForEvaluation(String courseId,
 			String evaluationName) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, evaluationName);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, evaluationName);
 		
 		List<Submission> submissionList = getSubmissionEntititesForEvaluation(courseId, evaluationName);
 
@@ -322,8 +263,8 @@ public class SubmissionsDb {
 	public void deleteAllSubmissionsForStudent(String courseId,
 			String studentEmail) {
 		
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Common.ERROR_DBLEVEL_NULL_INPUT, studentEmail);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, studentEmail);
 
 		List<Submission> submissionsFromStudent = 
 				getSubmissionEntitiesForCourseFromStudent(courseId, studentEmail);
@@ -335,13 +276,6 @@ public class SubmissionsDb {
 		
 		getPM().flush();
 	}
-
-
-
-	private PersistenceManager getPM() {
-		return Datastore.getPersistenceManager();
-	}
-
 	
 	private Submission getSubmissionEntity(String courseId,
 			String evaluationName, String toStudent, String fromStudent) {
@@ -383,14 +317,15 @@ public class SubmissionsDb {
 		return submissionList;
 	}
 
-private List<Submission> getSubmissionEntititesForEvaluation(
+	private List<Submission> getSubmissionEntititesForEvaluation(
 			String courseId, String evaluationName) {
 		Query q = getPM().newQuery(Submission.class);
 		q.declareParameters("String courseIdParam, String evaluationNameParam");
 		q.setFilter("courseID == courseIdParam && evaluationName == evaluationNameParam");
-	
+
 		@SuppressWarnings("unchecked")
-		List<Submission> submissionList = (List<Submission>) q.execute(courseId, evaluationName);
+		List<Submission> submissionList = (List<Submission>) q.execute(
+				courseId, evaluationName);
 		return submissionList;
 	}
 
@@ -439,6 +374,16 @@ private List<Submission> getSubmissionEntititesForEvaluation(
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) q.execute(courseId, evaluationName, reviewerEmail);
 		return submissionList;
+	}
+
+	@Override
+	protected Object getEntity(EntityAttributes attributes) {
+		SubmissionAttributes submissionToAdd = (SubmissionAttributes)attributes;
+		return getSubmissionEntity(
+				submissionToAdd.course,
+				submissionToAdd.evaluation, 
+				submissionToAdd.reviewee,
+				submissionToAdd.reviewer);
 	}
 
 }

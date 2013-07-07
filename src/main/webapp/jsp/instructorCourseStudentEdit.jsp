@@ -1,8 +1,11 @@
-<%@ page import="teammates.common.Common" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorCourseStudentDetailsHelper"%>
-<%	InstructorCourseStudentDetailsHelper helper = (InstructorCourseStudentDetailsHelper)request.getAttribute("helper"); %>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
+<%@ page import="teammates.ui.controller.InstructorCourseStudentDetailsEditPageData"%>
+<%
+	InstructorCourseStudentDetailsEditPageData data = (InstructorCourseStudentDetailsEditPageData)request.getAttribute("data");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +32,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%= Common.JSP_INSTRUCTOR_HEADER %>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -39,69 +42,71 @@
 				<h1>Edit Student Details</h1>
 			</div>
 				
-			<form action="<%= Common.PAGE_INSTRUCTOR_COURSE_STUDENT_EDIT %>" method="post">
-				<input type="hidden" name="<%= Common.PARAM_COURSE_ID %>" value="<%= helper.student.course %>">
+			<form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE%>" method="post">
+				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.student.course%>">
 				<table class="inputTable" id="studentEditForm">
 					<tr>
 			 			<td class="label bold">Student Name:</td>
 			 			<td>
-			 				<input class="fieldvalue" name="<%= Common.PARAM_STUDENT_NAME %>" id="<%= Common.PARAM_STUDENT_NAME %>"
-			 						value="<%= helper.student.name %>">
+			 				<input class="fieldvalue" name="<%=Const.ParamsNames.STUDENT_NAME%>" 
+			 						id="<%=Const.ParamsNames.STUDENT_NAME%>"
+			 						value="<%=sanitizeForHtml(data.student.name)%>">
 			 			</td>
 			 		</tr>
 				 	<tr>
 				 		<td class="label bold">Team Name:</td>
 				 		<td>
-				 			<input class="fieldvalue" name="<%= Common.PARAM_TEAM_NAME %>" id="<%= Common.PARAM_TEAM_NAME %>"
-				 					value="<%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.team)%>">
+				 			<input class="fieldvalue" name="<%=Const.ParamsNames.TEAM_NAME%>" 
+				 					id="<%=Const.ParamsNames.TEAM_NAME%>"
+				 					value="<%=sanitizeForHtml(data.student.team)%>">
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td class="label bold">E-mail Address:
-				 			<input type="hidden" name="<%=Common.PARAM_STUDENT_EMAIL%>" id="<%=Common.PARAM_STUDENT_EMAIL%>"
-				 					value="<%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.email)%>">
+				 			<input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" 
+				 					id="<%=Const.ParamsNames.STUDENT_EMAIL%>"
+				 					value="<%=sanitizeForHtml(data.student.email)%>">
 				 		</td>
 				 		<td>
-				 			<input class="fieldvalue" name="<%=Common.PARAM_NEW_STUDENT_EMAIL%>" id="<%=Common.PARAM_NEW_STUDENT_EMAIL%>"
-				 					value="<%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.email)%>">
+				 			<input class="fieldvalue" name="<%=Const.ParamsNames.NEW_STUDENT_EMAIL%>" 
+				 					id="<%=Const.ParamsNames.NEW_STUDENT_EMAIL%>"
+				 					value="<%=sanitizeForHtml(data.student.email)%>">
 				 		</td>
 				 	</tr>
 				 	<tr>
 						<td class="label bold">Google ID:</td>
-						<td id="<%=Common.PARAM_USER_ID%>"><%=(helper.student.id!= null ? InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.id) : "")%></td>
+						<td id="<%=Const.ParamsNames.USER_ID%>"><%=(data.student.googleId!= null ? sanitizeForHtml(data.student.googleId) : "")%></td>
 					</tr>
 					<tr>
 						<td class="label bold">Registration Key:</td>
-						<td id="<%=Common.PARAM_REGKEY%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.regKey)%></td>
+						<td id="<%=Const.ParamsNames.REGKEY%>"><%=sanitizeForHtml(data.regKey)%></td>
 					</tr>
 				 	<tr>
 				 		<td class="label bold middlealign">Comments:</td>
 				 		<td>
-				 			<textarea class="textvalue" rows="6" cols="80" name="<%=Common.PARAM_COMMENTS%>" id="<%=Common.PARAM_COMMENTS%>"><%=InstructorCourseStudentDetailsHelper.escapeForHTML(helper.student.comments)%></textarea>
+				 			<textarea class="textvalue" rows="6" cols="80" 
+				 				name="<%=Const.ParamsNames.COMMENTS%>" 
+				 				id="<%=Const.ParamsNames.COMMENTS%>"><%=sanitizeForHtml(data.student.comments)%></textarea>
 				 		</td>
 				 	</tr>
 				</table>
 				
-				<jsp:include page="<%= Common.JSP_STATUS_MESSAGE %>" />
+				<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 				<br>
 				<div class="centeralign">
-					<input type="button" class="button centeralign" id="button_back" value="Cancel"
-						onclick="window.location.href='<%= helper.getInstructorCourseDetailsLink(helper.student.course) %>'">
 					<input type="submit" class="button centeralign" id="button_submit" name="submit" value="Save Changes"
-						onclick="return isStudentInputValid(this.form.<%= Common.PARAM_STUDENT_NAME %>.value,this.form.<%= Common.PARAM_TEAM_NAME %>.value,this.form.<%= Common.PARAM_NEW_STUDENT_EMAIL %>.value)">
+						onclick="return isStudentInputValid(this.form.<%=Const.ParamsNames.STUDENT_NAME%>.value,this.form.<%=Const.ParamsNames.TEAM_NAME%>.value,this.form.<%=Const.ParamsNames.NEW_STUDENT_EMAIL%>.value)">
 				</div>
 				<br>
 				<br>
-				<% if(helper.isMasqueradeMode()){ %>
-					<input type="hidden" name="<%= Common.PARAM_USER_ID %>" value="<%= helper.requestedUser %>">
-				<% } %>
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		<jsp:include page="<%= Common.JSP_FOOTER %>" />
+		<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 	</div>
 </body>
 </html>

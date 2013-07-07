@@ -1,0 +1,94 @@
+{
+  "accounts": {
+  	"SCDetailsUiT.instr": {
+  	  "googleId": "SCDetailsUiT.instr",
+  	  "name": "Instructor",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.com",
+  	  "institute": "National University of Singapore"
+  	},
+    "SCDetailsUiT.coord": {
+      "googleId": "SCDetailsUiT.coord",
+      "name": "Instructor",
+      "isInstructor": true,
+      "email": "tmms.coord@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "SCDetailsUiT.alice": {
+      "googleId": "SCDetailsUiT.alice",
+      "email": "SCDetailsUiT.alice@gmail.com",
+      "name": "Alice Betsy",
+      "isInstructor": false,
+      "institute": "National University of Singapore"
+    },
+    "SCDetailsUiT.charlie": {
+      "googleId": "SCDetailsUiT.charlie",
+      "email": "SCDetailsUiT.charlie@gmail.com",
+      "name": "Charlie Davis",
+      "institute": "National University of Singapore"
+    },
+    "SCDetailsUiT.danny": {
+      "googleId": "SCDetailsUiT.danny",
+      "email": "SCDetailsUiT.danny@gmail.com",
+      "name": "Danny Engrid",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "courses": {
+    "SCDetailsUiT.CS2104": {
+      "id": "SCDetailsUiT.CS2104",
+      "name": "Programming Language Concepts"
+    }
+  },
+  
+  "instructors": {
+    "SCDetailsUiT.instr": {
+      "googleId": "SCDetailsUiT.instr",
+      "courseId": "SCDetailsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SCDetailsUiT.instr@gmail.com"
+    },
+    "SCDetailsUiT.coord": {
+      "googleId": "SCDetailsUiT.coord",
+      "courseId": "SCDetailsUiT.CS2104",
+      "name": "Teammates Coord",
+      "email": "SCDetailsUiT.coord@gmail.com"
+    }
+  },
+  
+  "students": {
+    "SCDetailsUiT.alice": {
+      "googleId": "SCDetailsUiT.alice",
+      "email": "SCDetailsUiT.alice@gmail.com",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1"
+    },
+    "SCDetailsUiT.benny": {
+      "googleId": "SCDetailsUiT.benny",
+      "email": "SCDetailsUiT.benny@gmail.com",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1"
+    },
+    "SCDetailsUiT.charlie": {
+      "googleId": "SCDetailsUiT.charlie",
+      "email": "SCDetailsUiT.charlie@gmail.com",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "SCDetailsUiT.danny": {
+      "googleId": "SCDetailsUiT.danny",
+      "email": "SCDetailsUiT.danny@gmail.com",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": ""
+    }
+  }
+}

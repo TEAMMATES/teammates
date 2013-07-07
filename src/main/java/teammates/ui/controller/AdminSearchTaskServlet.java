@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -9,24 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.Common;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.storage.api.AccountsDb;
+import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
-import com.google.appengine.api.search.ListRequest;
-import com.google.appengine.api.search.ListResponse;
 import com.google.appengine.api.search.SearchServiceFactory;
 
 public class AdminSearchTaskServlet extends HttpServlet {
 	
-	protected static final Logger log = Common.getLogger();
+	protected static final Logger log = Utils.getLogger();
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,26 +50,29 @@ public class AdminSearchTaskServlet extends HttpServlet {
 	 * Indexes student and instructor entries to build the table for search
 	 */
 	private void buildNewSearchIndexes() {
+		//TODO: this method should not access the storage layer directly
 
 		/**
 		 * Insert instructors
 		 */
+		@SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
 		List<InstructorAttributes> instructors = new InstructorsDb().getAllInstructors();
 		
 		Iterator<InstructorAttributes> it = instructors.iterator();
 		while (it.hasNext()) {
 			InstructorAttributes instructor = it.next();
-			addDocument(instructor.name, instructor.email, instructor.googleId, Common.PAGE_INSTRUCTOR_HOME);
+			addDocument(instructor.name, instructor.email, instructor.googleId, Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
 		}
 		
 		/**
 		 * Insert students
 		 */
+		@SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
 		List<StudentAttributes> students = new StudentsDb().getAllStudents();
 		Iterator<StudentAttributes> it2 = students.iterator();
 		while (it2.hasNext()) {
 			StudentAttributes stu = it2.next();
-			addDocument(stu.name, stu.email, stu.id, Common.PAGE_STUDENT_HOME);
+			addDocument(stu.name, stu.email, stu.googleId, Const.ActionURIs.STUDENT_HOME_PAGE);
 		}
 
 	}
@@ -98,7 +96,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 								.setText(id))
 				.addField(
 						Field.newBuilder().setName("link").setHTML(
-							String.format("<a href=\"%s\">View</a>",url+"?"+Common.PARAM_USER_ID+"="+id)
+							String.format("<a href=\"%s\">View</a>",url+"?"+Common.Params.USER_ID+"="+id)
 								))
 				;
 

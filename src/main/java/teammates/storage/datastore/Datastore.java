@@ -7,16 +7,17 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
-import teammates.common.Common;
+import teammates.common.util.Utils;
 
 //TODO: we might not really need this class. To be reconsidered.
 /**
+ * Represents the Datastore.
  * Code taken from:
  * http://stackoverflow.com/questions/4185382/how-to-use-jdo-persistence-manager
  */
 public class Datastore {
 	private static PersistenceManagerFactory PMF = null;
-	private static Logger log = Common.getLogger();
+	private static Logger log = Utils.getLogger();
 	private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
 
 	public static void initialize() {

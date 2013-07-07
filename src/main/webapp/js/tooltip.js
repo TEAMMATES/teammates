@@ -52,7 +52,7 @@ function positiontip(e) {
 		} else {
 			// Position the horizontal position of the menu where the mouse is
 			// positioned
-			tipobj.style.left = curX + offsetxpoint + "px"
+			tipobj.style.left = curX + offsetxpoint + "px";
 		}
 		
 		// Same concept with the vertical position
