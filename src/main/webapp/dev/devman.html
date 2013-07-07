@@ -1012,10 +1012,28 @@
 	</ol>
 
 	<h3>Running the test suite</h3>
+	Before running the test suite, we need to change the time zone of the
+	dev server to UTC, as expected by test cases. Here is the procedure.
+	<ul>
+		<li>Stop the dev server, if it is running already.</li>
+		<li>Specify timezone as a VM argument:<br> 
+			Go to the 'run configuration' you used to start the dev server.<br> 
+			Click on the to the "Arguments" and add 
+			<span class="code">-Duser.timezone=UTC</span>
+			to the "VM arguments" text box.
+		</li>
+		<li>Save the configuration for future use:<br> Go to the
+			"Common" tab (the last one) and make sure you have selected <br>
+			"Save as --> Local file" and <br>
+			"Display in favorites menu --> Run, Debug".
+		</li>
+		<li>Start the server.</li>
+	</ul>
+
 	This can be done using the "All tests" option under the
 	green "Run" button in the Eclipse toolbar. If this option is not available
 	(sometimes, Eclipse does not show this option immediately after you set
-	up the project. In will appear in subsequent runs. 
+	up the project. It will appear in subsequent runs. 
 	'Refreshing' will make it appear too.), run
 	<span class="bold code">src/test/testing.xml</span> (right click and
 	choose 'Run as → TestNG Suite'). Most of the tests should pass. <br> 
