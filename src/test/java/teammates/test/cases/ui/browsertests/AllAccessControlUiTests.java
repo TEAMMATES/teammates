@@ -25,9 +25,11 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.DevServerLoginPage;
+import teammates.test.pageobjects.GenericAppPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
+import teammates.test.pageobjects.NotFoundPage;
 
 /**
  * We do not test all access control at UI level. This class contains a few
@@ -126,6 +128,11 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		//cannot access admin while logged in as student
 		verifyCannotAccessAdminPages();
 		
+		______TS("incorrect URL");
+		
+		Url nonExistentActionUrl = new Url(TestProperties.inst().TEAMMATES_URL + "/page/nonExistentAction");
+		@SuppressWarnings("unused") //We simply ensures it is the right page type
+		NotFoundPage notFoundPage = AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
 
 	}
 
@@ -281,9 +288,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		verifyCannotMasquerade(link, otherInstructor.googleId);
 		
 		deleteSpecialTestData();
-	
 	}
-
 	
 
 	private void loginStudent(String userName, String password) {

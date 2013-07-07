@@ -96,15 +96,16 @@ public class ActionFactory {
 	private static Action getAction(String uri) {
 		Class<? extends Action> controllerClass = actionMappings.get(uri);
 		
-		Action c = null;
+		if(controllerClass == null){
+			return new NonExistentAction();
+		}
 		
 		try {
-			c = (Action)controllerClass.newInstance();
+			return (Action)controllerClass.newInstance();
 		} catch (Exception e) {
 			throw new RuntimeException("Could not create the action for :" + uri);
 		}
 		
-		return c;
 	}
 
 

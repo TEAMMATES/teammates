@@ -27,7 +27,7 @@
 					style="float: left; margin: 0 10px 10px 0; height: 90px;">
 				<p>
 					The page you are looking for is not there.<br><br>
-					Make sure that the URL is correct, or go to <a href="/login.jsp">main page</a>
+					Make sure that the URL is correct, or go to <a href="/">main page</a>
 				</p>
 			</div>
 		</div>
