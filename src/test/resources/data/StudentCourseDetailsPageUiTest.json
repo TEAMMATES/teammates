@@ -13,6 +13,25 @@
       "isInstructor": true,
       "email": "tmms.coord@gmail.com",
       "institute": "National University of Singapore"
+    },
+    "SCDetailsUiT.alice": {
+      "googleId": "SCDetailsUiT.alice",
+      "email": "SCDetailsUiT.alice@gmail.com",
+      "name": "Alice Betsy",
+      "isInstructor": false,
+      "institute": "National University of Singapore"
+    },
+    "SCDetailsUiT.charlie": {
+      "googleId": "SCDetailsUiT.charlie",
+      "email": "SCDetailsUiT.charlie@gmail.com",
+      "name": "Charlie Davis",
+      "institute": "National University of Singapore"
+    },
+    "SCDetailsUiT.danny": {
+      "googleId": "SCDetailsUiT.danny",
+      "email": "SCDetailsUiT.danny@gmail.com",
+      "name": "Danny Engrid",
+      "institute": "National University of Singapore"
     }
   },
 
@@ -45,7 +64,6 @@
       "course": "SCDetailsUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in SCDetailsUiT.CS2104"},
       "team": "Team 1"
     },
     "SCDetailsUiT.benny": {
@@ -54,7 +72,6 @@
       "course": "SCDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in SCDetailsUiT.CS2104"},
       "team": "Team 1"
     },
     "SCDetailsUiT.charlie": {
@@ -63,7 +80,6 @@
       "course": "SCDetailsUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in SCDetailsUiT.CS2104"},
       "team": "Team 2"
     },
     "SCDetailsUiT.danny": {
@@ -72,7 +88,6 @@
       "course": "SCDetailsUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in SCDetailsUiT.CS2104"},
       "team": ""
     }
   }
