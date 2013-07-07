@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
 
-	<test name="occasional-tests">
+	<test name="occasional-tests" parallel="classes">
 	<!-- These need not to run often unless the modification relates to them
 	directly. But they should be run before pushing new code to the repo. -->
 		<classes>
@@ -18,7 +18,6 @@
 		<classes>
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
@@ -43,6 +42,7 @@
 		<classes>
 			<class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
