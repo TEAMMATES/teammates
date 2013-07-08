@@ -167,12 +167,12 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentEdit.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEval.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvals.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalResults.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionView.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionEdit.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/instructorFeedback.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorFeedbacks.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentHome.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentCourseDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');

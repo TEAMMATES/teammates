@@ -23,7 +23,7 @@
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
-	<script type="text/javascript" src="/js/studentFeedback.js"></script>
+	<script type="text/javascript" src="/js/studentFeedbacks.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
