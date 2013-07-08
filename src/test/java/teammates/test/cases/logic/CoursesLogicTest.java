@@ -30,9 +30,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 		turnLoggingUp(CoursesLogic.class);
 	}
 
-	@SuppressWarnings("unused")
-	private void ____COURSE_________________________________________() {
-	}
 	
 	@Test
 	public void testCreateCourse() throws Exception {
@@ -42,6 +39,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 		 * should typically have 1 test cases here.
 		 */
 		______TS("typical case");
+		
 		CourseAttributes c = new CourseAttributes();
 		c.id = "Computing101-fresh";
 		c.name = "Basic Computing";
@@ -86,6 +84,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 		
 		
 		______TS("fails: account doesn't have instructor privileges");
+		
 		AccountAttributes a = new AccountAttributes();
 		a.googleId = i.googleId;
 		a.name = i.name;
@@ -102,7 +101,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 		LogicTest.verifyAbsentInDatastore(c);
 		LogicTest.verifyAbsentInDatastore(i);
 		
-		______TS("fails: error during account creation");
+		______TS("fails: error during course creation");
 		
 		a.isInstructor = true;
 		accountsDb.updateAccount(a);
@@ -162,7 +161,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 	}
 			
 	//TODO: add missing test cases
-	
 
 
 }

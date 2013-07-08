@@ -31,14 +31,24 @@ import teammates.storage.api.CoursesDb;
  * Handles  operations related to courses.
  */
 public class CoursesLogic {
-	//The API of this class doesn't have header comments because it sits behind
-	//  the API of the logic class. Those who use this class is expected to be
-	//  familiar with the its code and Logic's code. Hence, no need for header 
-	//  comments.
+	/* Explanation: Most methods in the API of this class doesn't have header 
+	 *  comments because it sits behind the API of the logic class. 
+	 *  Those who use this class is expected to be familiar with the its code 
+	 *  and Logic's code. Hence, no need for header comments.
+	 */ 
 	
-	
+	//TODO: There's no need for this class to be a Singleton.
 	private static CoursesLogic instance = null;
+	
 	private static final Logger log = Utils.getLogger();
+	
+	/* Explanation: This class depends on CoursesDb class but no other *Db classes.
+	 * That is because reading/writing entities from/to the datastore is the 
+	 * responsibility of the matching *Logic class.
+	 * However, this class can talk to other *Logic classes. That is because
+	 * the logic related to one entity type can involve the logic related to
+	 * other entity types.
+	 */
 
 	private static final CoursesDb coursesDb = new CoursesDb();
 	
@@ -58,10 +68,12 @@ public class CoursesLogic {
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		
 		CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName);
-	
 		coursesDb.createEntity(courseToAdd);
 	}
 	
+	/**
+	 * Creates a Course object and an Instructor object for the Course.
+	 */
 	public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		
@@ -157,7 +169,7 @@ public class CoursesLogic {
 
 	public CourseDetailsBundle getTeamsForCourse(String courseId) 
 			throws EntityDoesNotExistException {
-		//TODO: change the return value to List<TeamDetailsBundle>
+		//TODO: change the return type to List<TeamDetailsBundle>
 		
 		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
 		StudentAttributes.sortByTeamName(students);
@@ -228,7 +240,6 @@ public class CoursesLogic {
 		return studentsLogic.getUnregisteredStudentsForCourse(courseID).size();
 	}
 
-	
 
 	public CourseDetailsBundle getCourseSummary(String courseId)
 			throws EntityDoesNotExistException {
