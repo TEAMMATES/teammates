@@ -25,7 +25,6 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.DevServerLoginPage;
-import teammates.test.pageobjects.GenericAppPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;

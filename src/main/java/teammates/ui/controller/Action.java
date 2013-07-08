@@ -143,6 +143,14 @@ public abstract class Action {
 		return response;
 	}
 
+	/**
+	 * The method is expected to: <br>
+	 * 1. Check if the user has rights to execute this action. <br>
+	 * 2. Execute the action.<br>
+	 * 3. If the action requires showing a page, prepare the matching PageData object.<br>
+	 * 4. Set the status messages to be shown to the user (if any) and to the admin (compulsory).
+	 *    The latter is used for generating the adminActivityLogPage.
+	 */
 	protected abstract ActionResult execute() 
 			throws EntityDoesNotExistException, InvalidParametersException;
 

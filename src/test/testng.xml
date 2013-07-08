@@ -79,6 +79,7 @@
 			<class name="teammates.test.cases.logic.FeedbackSessionsLogicTest" />
 			<class name="teammates.test.cases.logic.EmailsTest" />
 			<class name="teammates.test.cases.logic.TeamEvalResultTest" />
+			<class name="teammates.test.cases.storage.EntitiesDbTest" />
 			<class name="teammates.test.cases.storage.AccountsDbTest" />
 			<class name="teammates.test.cases.storage.StudentsDbTest" />
 			<class name="teammates.test.cases.storage.InstructorsDbTest" />

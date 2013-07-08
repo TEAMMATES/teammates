@@ -36,7 +36,6 @@ public class CoursesLogic {
 	//  familiar with the its code and Logic's code. Hence, no need for header 
 	//  comments.
 	
-	//TODO: add a test class for this class. Some of the test content can be transferred from LogicTest.
 	
 	private static CoursesLogic instance = null;
 	private static final Logger log = Utils.getLogger();
@@ -46,8 +45,6 @@ public class CoursesLogic {
 	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-	
-	//TODO: remove this dependency to AccountsLogic
 	private static final AccountsLogic accountsLogic = AccountsLogic.inst();
 
 	
@@ -315,12 +312,6 @@ public class CoursesLogic {
 		return courseList;
 	}
 
-	public void updateCourse(CourseAttributes course) 
-			throws InvalidParametersException, EntityDoesNotExistException {
-		
-		coursesDb.updateCourse(course);
-	}
-	
 
 	public void deleteCourseCascade(String courseId) {
 		evaluationsLogic.deleteEvaluationsForCourse(courseId);
