@@ -6,8 +6,9 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.EnrollException;
+import teammates.test.cases.BaseTestCase;
 
-public class TeamResultBundleTest {
+public class TeamResultBundleTest extends BaseTestCase{
 	
 	@Test
 	public void testSortByStudentNameAscending() throws EnrollException{
