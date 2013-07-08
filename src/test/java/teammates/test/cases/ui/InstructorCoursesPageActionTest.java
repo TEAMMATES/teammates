@@ -16,24 +16,46 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCoursesPageActionTest extends BaseActionTest {
 
+	/* Explanation: The parent class has method for @BeforeTest and @AfterTest
+	 */
+	
 	DataBundle dataBundle;
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
+		
+		/* Explanation: This is just to display the test class name in the console */
 		printTestClassHeader();
+		
+		/* Explanation: we set the Action URI once as a static variable, to avoid passing
+		 * it as a parameter multiple times. This is for convenience. Any other
+		 * test code can pick up the URI from this variable.
+		 */
 		uri = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
 	}
 
 	@BeforeMethod
 	public void methodSetUp() throws Exception {
+		
+		/* Explanation: Before every test, we put a standard set of test data into the
+		 * simulated GAE datastore.
+		 */
 		dataBundle = getTypicalDataBundle();
 		restoreTypicalDataInDatastore();
 	}
 	
 	@Test
 	public void testAccessControl() throws Exception{
-		
+		/* Explanation: In this case, we use an empty array because this action does not 
+		 * require any parameters. When the action does need parameters, we
+		 * can put them in this array as pairs of strings (parameter name, value).
+		 * e.g., new String[]{Const.ParamsNames.COURSE_ID, "course101"}
+		 */
 		String[] submissionParams = new String[]{};
+		
+		/* Explanation: Here, we use one of the access control test methods available in the
+		 * parent class. 
+		 */
 		verifyOnlyInstructorsCanAccess(submissionParams);
 		
 	}

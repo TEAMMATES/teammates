@@ -27,7 +27,7 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
-	<script type="text/javascript" src="/js/instructorCourse.js"></script>
+	<script type="text/javascript" src="/js/instructorCourses.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 

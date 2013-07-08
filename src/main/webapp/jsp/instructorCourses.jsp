@@ -14,9 +14,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Instructor</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="/stylesheets/instructorCourse.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorCourses.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-	<link rel="stylesheet" href="/stylesheets/instructorCourse-print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="/stylesheets/instructorCourses-print.css" type="text/css" media="print">
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -27,7 +27,7 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
-	<script type="text/javascript" src="/js/instructorCourse.js"></script>
+	<script type="text/javascript" src="/js/instructorCourses.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -106,8 +106,8 @@
 				</tr>
 				<%
 					int idx = -1;
-											for(CourseDetailsBundle courseDetails: data.currentCourses){ 
-												idx++;
+					for(CourseDetailsBundle courseDetails: data.currentCourses){ 
+						idx++;
 				%>
 					<tr class="courses_row">
 						<td id="courseid<%=idx%>"><%=sanitizeForHtml(courseDetails.course.id)%></td>
@@ -137,7 +137,7 @@
 					</tr>
 				<%
 					}
-											if(idx==-1){ // Print empty row
+					if(idx==-1){ // Print empty row
 				%>
 					<tr>
 						<td></td>

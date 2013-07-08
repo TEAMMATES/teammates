@@ -12,9 +12,13 @@ public class InstructorCoursePageData extends PageData {
 		super(account);
 	}
 	
+	/** Used when adding a course. Null if not adding a course. */
 	public CourseAttributes newCourse;
+	
 	public List<CourseDetailsBundle> currentCourses;
 	
+	/* Values to show in the form fields (in case reloading the page after a 
+	 *   failed attempt to create a course)*/
 	public String courseIdToShow;
 	public String courseNameToShow;
 	public String instructorListToShow;
