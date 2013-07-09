@@ -6,9 +6,9 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 
-public class InstructorCoursePageData extends PageData {
+public class InstructorCoursesPageData extends PageData {
 	
-	public InstructorCoursePageData(AccountAttributes account) {
+	public InstructorCoursesPageData(AccountAttributes account) {
 		super(account);
 	}
 	

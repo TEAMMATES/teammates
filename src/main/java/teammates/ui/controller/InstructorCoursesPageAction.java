@@ -30,7 +30,7 @@ public class InstructorCoursesPageAction extends Action {
 		/* Explanation: This is a 'show page' type action. Therefore, we 
 		 * prepare the matching PageData object, accessing the Logic 
 		 * component if necessary.*/
-		InstructorCoursePageData data = new InstructorCoursePageData(account);
+		InstructorCoursesPageData data = new InstructorCoursesPageData(account);
 		data.newCourse = null;
 		data.instructorListToShow = account.googleId + "|" + account.name + "|" + account.email;
 		data.courseIdToShow = "";

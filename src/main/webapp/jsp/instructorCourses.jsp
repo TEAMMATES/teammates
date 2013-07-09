@@ -3,9 +3,9 @@
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
-<%@ page import="teammates.ui.controller.InstructorCoursePageData"%>
+<%@ page import="teammates.ui.controller.InstructorCoursesPageData"%>
 <%
-	InstructorCoursePageData data = (InstructorCoursePageData)request.getAttribute("data");
+	InstructorCoursesPageData data = (InstructorCoursesPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>

@@ -11,7 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.InstructorCoursesPageAction;
-import teammates.ui.controller.InstructorCoursePageData;
+import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCoursesPageActionTest extends BaseActionTest {
@@ -81,7 +81,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 		assertEquals(false, r.isError);
 		assertEquals("", r.getStatusMessage());
 		
-		InstructorCoursePageData pageData = (InstructorCoursePageData)r.data;
+		InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);
@@ -108,7 +108,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 		assertEquals("You have not created any courses yet. Use the form above to create a course.", r.getStatusMessage());
 		assertEquals(false, r.isError);
 		
-		pageData = (InstructorCoursePageData) r.data;
+		pageData = (InstructorCoursesPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(0, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);

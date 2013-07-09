@@ -33,7 +33,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
 		statusToUser.add(Const.StatusMessages.COURSE_DELETED);
 		statusToAdmin = "Course deleted: " + idOfCourseToDelete;
 
-		InstructorCoursePageData data = new InstructorCoursePageData(account);
+		InstructorCoursesPageData data = new InstructorCoursesPageData(account);
 		data.newCourse = null;
 		data.instructorListToShow = data.account.googleId + "|"	+ data.account.name + "|" + data.account.email;
 		data.courseIdToShow = "";

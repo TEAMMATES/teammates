@@ -14,7 +14,7 @@ import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseAddAction extends Action {
 	
-	private InstructorCoursePageData data;
+	private InstructorCoursesPageData data;
 	
 
 	@Override
@@ -29,7 +29,7 @@ public class InstructorCourseAddAction extends Action {
 		
 		new GateKeeper().verifyInstructorPrivileges(account);
 		
-		data = new InstructorCoursePageData(account);
+		data = new InstructorCoursesPageData(account);
 		
 		data.newCourse = new CourseAttributes();
 		data.newCourse.id = newCourseId;

@@ -11,7 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.InstructorCourseAddAction;
-import teammates.ui.controller.InstructorCoursePageData;
+import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
 
 
@@ -76,7 +76,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		assertEquals(false, r.isError);
 		assertEquals(Const.StatusMessages.COURSE_ADDED, r.getStatusMessage());
 		
-		InstructorCoursePageData pageData = (InstructorCoursePageData)r.data;
+		InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);
@@ -103,7 +103,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		assertEquals(true, r.isError);
 		assertEquals(Const.StatusMessages.COURSE_EXISTS, r.getStatusMessage());
 		
-		pageData = (InstructorCoursePageData)r.data;
+		pageData = (InstructorCoursesPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.currentCourses.size());
 		assertEquals("ticac.tpa1.id", pageData.courseIdToShow);
@@ -134,7 +134,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		assertEquals(false, r.isError);
 		assertEquals(Const.StatusMessages.COURSE_ADDED, r.getStatusMessage());
 		
-		pageData = (InstructorCoursePageData)r.data;
+		pageData = (InstructorCoursesPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(1, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);
