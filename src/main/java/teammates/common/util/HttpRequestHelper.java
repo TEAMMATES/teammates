@@ -40,7 +40,7 @@ public class HttpRequestHelper {
 			}
 			requestParameters = requestParameters.substring(0, requestParameters.length() - 2) + ", ";
 		}
-		if (requestParameters != "{") {
+		if (!requestParameters.equals("{")) {
 			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
 		}
 		requestParameters += "}";

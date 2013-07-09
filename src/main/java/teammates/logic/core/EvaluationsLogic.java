@@ -242,7 +242,7 @@ public class EvaluationsLogic {
 				});
 				for(SubmissionAttributes sub: srb.incoming){
 					if(sub.reviewee.equals(sub.reviewer)) continue;
-					if(result!="") result+=",";
+					if(!result.isEmpty()) result+=",";
 					result += sub.details.normalizedToInstructor;
 				}
 				

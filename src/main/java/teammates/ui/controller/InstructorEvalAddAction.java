@@ -34,7 +34,7 @@ public class InstructorEvalAddAction extends InstructorEvalsPageAction {
 			statusToUser.add(Const.StatusMessages.EVALUATION_ADDED);
 			statusToAdmin = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.courseId + "]</span> created.<br>" +
 					"<span class=\"bold\">From:</span> " + eval.startTime + "<span class=\"bold\"> to</span> " + eval.endTime + "<br>" +
-					"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled== true ? "enabled" : "disabled") + "<br><br>" + 
+					"<span class=\"bold\">Peer feedback:</span> " + (eval.p2pEnabled ? "enabled" : "disabled") + "<br><br>" + 
 					"<span class=\"bold\">Instructions:</span> " + eval.instructions;
 			
 		} catch (EntityAlreadyExistsException e) {

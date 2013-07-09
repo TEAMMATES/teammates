@@ -34,7 +34,7 @@ public class AccountsDb extends EntitiesDb {
 	public void createAccount(AccountAttributes accountToAdd) throws InvalidParametersException {
 		// TODO: use createEntity once there is a proper way to add instructor accounts.
 		try {
-			createEntity((EntityAttributes)accountToAdd);
+			createEntity(accountToAdd);
 		} catch (EntityAlreadyExistsException e) {
 			// We update the account instead if it already exists. This is due to how
 			// adding of instructor accounts work.

@@ -36,7 +36,7 @@ public class InstructorEvalResultsPageData extends PageData {
 		SubmissionAttributes.sortByNormalizedPointsDescending(subs);
 		for(SubmissionAttributes sub: subs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
-			if(result!="") result+=", ";
+			if(!result.isEmpty()) result+=", ";
 			result+=getPointsAsColorizedHtml(sub.details.normalizedToInstructor);
 		}
 		return result;

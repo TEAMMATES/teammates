@@ -37,7 +37,7 @@ public class InstructorEvalEditPageAction extends Action {
 				")</span> for Course <span class=\"bold\">[" + data.evaluation.courseId + "]</span>.<br>" +
 				"<span class=\"bold\">From:</span> " + data.evaluation.startTime + 
 				"<span class=\"bold\"> to</span> " + data.evaluation.endTime + "<br>" +
-				"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled== true ? "enabled" : "disabled") + 
+				"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled ? "enabled" : "disabled") + 
 				"<br><br><span class=\"bold\">Instructions:</span> " + data.evaluation.instructions;
 		
 		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_EDIT, data);

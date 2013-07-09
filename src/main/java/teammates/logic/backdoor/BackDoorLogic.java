@@ -351,7 +351,7 @@ public class BackDoorLogic extends Logic {
 					break;
 				}else {
 					retryCount++;
-					if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); };
+					if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); }
 					ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
 				}
 			}
@@ -369,7 +369,7 @@ public class BackDoorLogic extends Logic {
 					break;
 				}else {
 					retryCount++;
-					if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); };
+					if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); }
 					ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
 				}
 			}

@@ -151,7 +151,7 @@ public class ActivityLogEntry {
 	 */
 	public String generateLogMessage(){
 		//TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL
-		return "TEAMMATESLOG|||" + servletName + "|||" + action + "|||" + (toShow == true ? "true" : "false") + "|||" 
+		return "TEAMMATESLOG|||" + servletName + "|||" + action + "|||" + (toShow ? "true" : "false") + "|||" 
 				+ role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message + "|||" + url;
 	}
 	

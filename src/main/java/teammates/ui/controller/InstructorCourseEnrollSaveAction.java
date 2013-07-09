@@ -62,8 +62,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
 	@SuppressWarnings("unchecked")
 	private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
 		if (students == null)
-			return (List<StudentAttributes>[]) new List[6];
-		List<StudentAttributes>[] lists = (List<StudentAttributes>[]) new List[6];
+			return new List[6];
+		List<StudentAttributes>[] lists = new List[6];
 		int prevIdx = 0;
 		int nextIdx = 0;
 		int id = 0;

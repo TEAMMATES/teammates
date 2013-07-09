@@ -101,7 +101,7 @@ public class ActionFactory {
 		}
 		
 		try {
-			return (Action)controllerClass.newInstance();
+			return controllerClass.newInstance();
 		} catch (Exception e) {
 			throw new RuntimeException("Could not create the action for :" + uri);
 		}

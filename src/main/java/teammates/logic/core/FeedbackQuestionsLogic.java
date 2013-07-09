@@ -260,9 +260,8 @@ public class FeedbackQuestionsLogic {
 		Assumption.assertNotNull("Student disappeared!", student);
 				
 		for (FeedbackQuestionAttributes question : teamQuestions) {
-			if (isQuestionAnsweredByTeam(question, student.team) == true) {
-				if (frLogic.getFeedbackResponsesFromGiverForQuestion(
-						question.getId(), studentEmail).isEmpty() == false) {
+			if (isQuestionAnsweredByTeam(question, student.team)) {
+				if (frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), studentEmail).isEmpty() == false) {
 					// question has at least one response by this student
 					unstolenQuestions.add(question);
 				}

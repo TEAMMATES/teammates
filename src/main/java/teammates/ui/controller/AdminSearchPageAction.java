@@ -67,6 +67,7 @@ public class AdminSearchPageAction extends Action {
 			try {
 				limit = Integer.parseInt(limitStr);
 			} catch (NumberFormatException e) {
+				//TODO: handle this exception
 			}
 		}
 		

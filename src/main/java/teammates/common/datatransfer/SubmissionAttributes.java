@@ -48,7 +48,7 @@ public class SubmissionAttributes extends EntityAttributes {
 		this.evaluation = Sanitizer.sanitizeTitle(evalName);
 		this.team = Sanitizer.sanitizeTitle(teamName);
 		this.reviewee = Sanitizer.sanitizeName(toStudent);
-		this.reviewer = Sanitizer.sanitizeName(fromStudent);;
+		this.reviewer = Sanitizer.sanitizeName(fromStudent);
 		this.justification = Sanitizer.sanitizeTextField(justification);
 		this.p2pFeedback = Sanitizer.sanitizeTextField(p2pFeedback);
 	}

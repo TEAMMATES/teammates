@@ -108,7 +108,7 @@ public class FeedbackSessionsLogic {
 				fsDb.getFeedbackSessionsForCourse(courseId);
 		List<FeedbackSessionAttributes> viewableSessions = new ArrayList<FeedbackSessionAttributes>();
 		for (FeedbackSessionAttributes session : sessions) {
-			if (isFeedbackSessionViewableTo(session, userEmail) == true) {
+			if (isFeedbackSessionViewableTo(session, userEmail)) {
 				viewableSessions.add(session);
 				log.info(session.getIdentificationString() + " is viewable!");
 			}
@@ -416,7 +416,7 @@ public class FeedbackSessionsLogic {
 		
 		// reset sentOpenEmail if the session has opened but is being closed and
 		// postponed.
-		if (oldSession.sentOpenEmail == true
+		if (oldSession.sentOpenEmail
 				&& newSession.startTime.after(oldSession.startTime)
 				&& newSession.isOpened() == false) {
 			newSession.sentOpenEmail = false;
@@ -427,7 +427,7 @@ public class FeedbackSessionsLogic {
 
 		// reset sentPublishedEmail if the session has been published but is
 		// going to be unpublished now.
-		if (oldSession.sentPublishedEmail == true
+		if (oldSession.sentPublishedEmail
 				&& newSession.resultsVisibleFromTime
 						.after(oldSession.resultsVisibleFromTime)
 				&& newSession.isPublished() == false) {
@@ -604,20 +604,14 @@ public class FeedbackSessionsLogic {
 		
 		// Check for private type first.
 		if (session.feedbackSessionType == FeedbackSessionType.PRIVATE) {
-			if (session.creatorEmail.equals(userEmail)) {
-				return true;
-			} else {
-				return false;
-			}
+			return session.creatorEmail.equals(userEmail);
 		}
 		
 		// Allow all instructors to view
 		InstructorAttributes instructor = instructorsLogic.
 				getInstructorForEmail(session.courseId, userEmail);
 		if (instructor != null) {
-			if (instructorsLogic.isInstructorOfCourse(instructor.googleId, session.courseId)) {
-				return true;
-			}
+			return instructorsLogic.isInstructorOfCourse(instructor.googleId, session.courseId);
 		}
 
 		if (session.isPublished() == false) {
