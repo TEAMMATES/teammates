@@ -21,30 +21,12 @@ chromedriver*
 test.txt
 doc/*
 src/main/webapp/WEB-INF/classes/META-INF/persistence.xml
-src/main/webapp/WEB-INF/classes/studentEmailEvaluationOpening.html
-src/main/webapp/WEB-INF/classes/studentEmailTemplate-evaluationOpening.html
-src/main/webapp/WEB-INF/classes/studentEmailFragment-joinCourse.html
-src/main/webapp/WEB-INF/classes/studentEmailTemplate-evaluation_.html
-src/main/webapp/WEB-INF/classes/studentEmailTemplate-evaluationPublished.html
-src/main/webapp/WEB-INF/classes/studentEmailFragment-courseJoin.html
-src/main/webapp/WEB-INF/classes/studentEmailTemplate-courseJoin.html
-src/main/webapp/WEB-INF/classes/systemErrorEmailTemplate.html
-src/main/webapp/WEB-INF/classes/build.properties.template
-src/main/webapp/WEB-INF/classes/qunit.js
-src/main/webapp/WEB-INF/classes/AllJsUnitTests.html
-src/main/webapp/WEB-INF/classes/CommonJsTest.js
-src/main/webapp/WEB-INF/classes/InstructorCourseDetailsJsTest.js
-src/main/webapp/WEB-INF/classes/InstructorCourseEnrollJsTest.js
-src/main/webapp/WEB-INF/classes/InstructorCourseJsTest.js
-src/main/webapp/WEB-INF/classes/InstructorEvalJsTest.js
-src/main/webapp/WEB-INF/classes/InstructorEvalResultsJsTest.js
-src/main/webapp/WEB-INF/classes/InstructorJsTest.js
-src/main/webapp/WEB-INF/classes/MockHttpRequest.js
-src/main/webapp/WEB-INF/classes/StudentJsTest.js
-src/main/webapp/WEB-INF/classes/qunit.css
-src/main/webapp/WEB-INF/classes/InstructorSampleData.json
-src/main/webapp/WEB-INF/classes/CommonTestFunctions.js
-src/test/resources/data/ResultFileName.json
+src/main/webapp/WEB-INF/classes/*.html
+src/main/webapp/WEB-INF/classes/*.template
+src/main/webapp/WEB-INF/classes/*.js
+src/main/webapp/WEB-INF/classes/*.css
+src/main/webapp/WEB-INF/classes/*.json
+
 .launches/TM - Start dev server.launch
 test-output/*
 src/test/current testng.xml
