@@ -2,52 +2,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
 
-	<test name="occasional-tests" parallel="classes">
-	<!-- These need not to run often unless the modification relates to them
-	directly. But they should be run before pushing new code to the repo. -->
-		<classes>
-			<class name="teammates.test.cases.testdriver.BackDoorTest" />
-			<class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
-			<class name="teammates.test.cases.ui.browsertests.TableSortTest" />
-			<class name="teammates.test.cases.ui.browsertests.AllJsTests" />
-			<class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
-		</classes>
-	</test>
-	<test name="parallel-ui-tests" parallel="classes">
-	<!-- These cover the important UI functionality. Can be run in parallel. -->
-		<classes>
-			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionViewPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionEditPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.StudentFeedbackSubmitPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
-		</classes>
-	</test>
-	<test name="sequential-ui-tests">
-	<!--  Theses cases use real Google accounts and need to be run sequentially to avoid state leaks between tests -->
-		<classes>
-			<class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
-		</classes>
-	</test>
 	<test name="component-tests">
 	<!--  Theses can be run without starting the server. Should be run often. -->
 		<classes>
@@ -145,4 +99,51 @@
 			<class name="teammates.test.cases.ui.StudentHomePageActionTest" />
 		</classes>
 	</test>
+	<test name="occasional-tests" parallel="classes">
+	<!-- These need not to run often unless the modification relates to them
+	directly. But they should be run before pushing new code to the repo. -->
+		<classes>
+			<class name="teammates.test.cases.testdriver.BackDoorTest" />
+			<class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
+			<class name="teammates.test.cases.ui.browsertests.TableSortTest" />
+			<class name="teammates.test.cases.ui.browsertests.AllJsTests" />
+			<class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
+		</classes>
+	</test>
+	<test name="parallel-ui-tests" parallel="classes">
+	<!-- These cover the important UI functionality. Can be run in parallel. -->
+		<classes>
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionViewPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentFeedbackSubmitPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
+		</classes>
+	</test>
+	<test name="sequential-ui-tests">
+	<!--  Theses cases use real Google accounts and need to be run sequentially to avoid state leaks between tests -->
+		<classes>
+			<class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
+		</classes>
+	</test>
+
 </suite> 

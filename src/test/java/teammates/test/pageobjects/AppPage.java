@@ -31,6 +31,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 
@@ -446,8 +447,12 @@ public abstract class AppPage {
 		return this;
 	}
 	
+	/**
+	 * Also supports the expression "{*}" which will match any text.
+	 * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
+	 */
 	public AppPage verifyContains(String searchString) {
-		assertTrue(getPageSource().contains(searchString));
+		AssertHelper.assertContainsRegex(searchString, getPageSource());
 		return this;
 	}
 	
