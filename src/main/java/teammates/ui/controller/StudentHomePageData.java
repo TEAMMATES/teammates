@@ -116,7 +116,7 @@ public class StudentHomePageData extends PageData {
 	}
 	
 	public String getStudentEvaluationResultsLink(String courseID, String evalName){
-		String link = Const.ActionURIs.STUDENT_EVAL_RESULTS;
+		String link = Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
 		link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
 		return link;

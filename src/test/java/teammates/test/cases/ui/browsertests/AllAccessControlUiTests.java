@@ -254,7 +254,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 	
-		link = Const.ActionURIs.STUDENT_EVAL_RESULTS;
+		link = Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
 		link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, ownCourse.id);
 		link = Url.addParamToUrl(link, Const.ParamsNames.EVALUATION_NAME,
 				ownEvaluation.name);

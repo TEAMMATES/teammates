@@ -201,7 +201,7 @@ public class Emails {
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
 		String reportUrl = Config.APP_URL
-				+ Const.ActionURIs.STUDENT_EVAL_RESULTS;
+				+ Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
 		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
 				c.id);
 		reportUrl = Url.addParamToUrl(reportUrl,

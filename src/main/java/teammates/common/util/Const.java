@@ -297,7 +297,7 @@ public class Const {
 		public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT_PAGE = "/page/studentEvalSubmissionEditPage";
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT_SAVE = "/page/studentEvalSubmissionEditSave";
-		public static final String STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
+		public static final String STUDENT_EVAL_RESULTS_PAGE = "/page/studentEvalResultsPage";
 		
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
