@@ -312,6 +312,9 @@ public class Const {
 		public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
 		public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
 		
+		public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
+		public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";
+		
 		public static final String BACKDOOR = "/backdoor";
 	}
 

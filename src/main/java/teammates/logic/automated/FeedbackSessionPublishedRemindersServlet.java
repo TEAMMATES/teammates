@@ -16,6 +16,9 @@ public class FeedbackSessionPublishedRemindersServlet extends AutomatedReminders
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		
+		servletName = "feedbackSessionPublishedReminders";
+		action = "send published alert";
+		
 		FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
 		
 		try {
