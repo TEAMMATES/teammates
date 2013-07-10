@@ -22,14 +22,6 @@ public class EvaluationDetailsBundle {
 		this.stats = new EvaluationStats();
 	}
 
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("course:" + evaluation.courseId + ", name:" + evaluation.name
-				+ Const.EOL);
-		sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
-		return sb.toString();
-	}
-	
 	/**
 	 * Sorts evaluations based courseID (ascending), then by deadline
 	 * (ascending), then by start time (ascending), then by evaluation name
@@ -38,7 +30,6 @@ public class EvaluationDetailsBundle {
 	 * 
 	 * @param evals
 	 */
-	//TODO: move this to Helper
 	public static void sortEvaluationsByDeadline(List<EvaluationDetailsBundle> evals) {
 		Collections.sort(evals, new Comparator<EvaluationDetailsBundle>() {
 			public int compare(EvaluationDetailsBundle edd1, EvaluationDetailsBundle edd2) {
@@ -58,6 +49,14 @@ public class EvaluationDetailsBundle {
 				return result;
 			}
 		});
+	}
+
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("course:" + evaluation.courseId + ", name:" + evaluation.name
+				+ Const.EOL);
+		sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
+		return sb.toString();
 	}
 
 }

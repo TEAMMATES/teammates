@@ -15,6 +15,7 @@ public class InstructorFeedbackEditPageAction extends Action {
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
+		//TODO: This should be an Assumption failure?
 		if (courseId==null || feedbackSessionName==null) {
 			statusToAdmin = "instructorFeedbackEdit Page Redirect<br>"
 					+ "Tried to edit feedback session with null parameters";

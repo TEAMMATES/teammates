@@ -33,6 +33,7 @@ public class StudentEvalResultsPageData extends PageData {
 		return getPointsList(subs, false);
 	}
 	
+	//TODO: This method doesn't seem to be used
 	public static String getPointsListNormalized(List<SubmissionAttributes> subs){
 		return getPointsList(subs, true);
 	}

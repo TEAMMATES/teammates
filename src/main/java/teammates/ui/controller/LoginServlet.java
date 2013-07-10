@@ -44,6 +44,7 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
 			}
+		//TODO: do we need this branch?
 		} else if(req.getParameter(Const.ParamsNames.LOGIN_ADMIN)!=null){
 			if(isMasqueradeMode(user)){
 				resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
