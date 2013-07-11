@@ -145,7 +145,7 @@
 							onmouseout="hideddrivetip()">Diff</span></th>
 						<th class="centeralign color_white bold" width="20%"><span
 							onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_POINTS_RECEIVED%>')"
-							onmouseout="hideddrivetip()"> Points Received</span></th>
+							onmouseout="hideddrivetip()"> Ratings Received</span></th>
 						<th class="centeralign color_white bold no-print" width="11%">Action(s)</th>
 					</tr>
 					<%
