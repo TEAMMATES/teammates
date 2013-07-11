@@ -37,6 +37,9 @@ public class InstructorEvalResultsPage extends AppPage {
 	@FindBy (id = "button_publish")
 	private WebElement publishButton;
 	
+	@FindBy (id = "interpret_help_link")
+	public WebElement interpretHelpLink;
+	
 
 	public InstructorEvalResultsPage(Browser browser) {
 		super(browser);
@@ -121,6 +124,13 @@ public class InstructorEvalResultsPage extends AppPage {
 		waitForPageToLoad();
 		switchToNewWindow();
 		return changePageType(InstructorEvalSubmissionViewPage.class);
+	}
+
+	public InstructorHelpPage clickInterpretHelpLink() {
+		interpretHelpLink.click();
+		waitForPageToLoad();
+		switchToNewWindow();
+		return changePageType(InstructorHelpPage.class);
 	}
 
 	private int getRowIdForReviewee(String studentName) {
