@@ -1,13 +1,11 @@
 package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 
 public class InstructorFeedbackResultsDownloadAction extends Action {
 
 	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException,
-			InvalidParametersException {
+	protected ActionResult execute()  throws EntityDoesNotExistException {
 		// TODO Auto-generated method stub
 		return null;
 	}

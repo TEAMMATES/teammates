@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class AdminAccountDetailsPageAction extends Action {
 
 	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException,
-			InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException{
 		
 		new GateKeeper().verifyAdminPrivileges(account);
 		
@@ -33,6 +33,8 @@ public class AdminAccountDetailsPageAction extends Action {
 		} catch(EntityDoesNotExistException e){
 			//Not a student of any course
 			data.studentCourseList = null;
+		} catch (InvalidParametersException e) {
+			Assumption.fail("InvalidParametersException exception is not expected at this point");
 		}
 		
 		statusToAdmin = "adminAccountDetails Page Load<br>"+ 

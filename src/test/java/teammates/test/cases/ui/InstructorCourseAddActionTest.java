@@ -10,7 +10,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
-import teammates.ui.controller.InstructorCourseAddAction;
+import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
 
@@ -64,7 +64,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		
 		______TS("Typical case, 1 existing course");
 		
-		InstructorCourseAddAction a = getAction(
+		Action a = getAction(
 				Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
 				Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
 				Const.ParamsNames.COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
@@ -148,8 +148,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		assertEquals(expectedLogMessage, a.getLogMessage());
 	}
 	
-	private InstructorCourseAddAction getAction(String... parameters) throws Exception {
-		return (InstructorCourseAddAction)gaeSimulation.getActionObject(uri, parameters);
+	private Action getAction(String... parameters) throws Exception {
+		return (Action)gaeSimulation.getActionObject(uri, parameters);
 	}
 
 }

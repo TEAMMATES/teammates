@@ -18,8 +18,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
 	@Override
-	protected ActionResult execute() 
-			throws EntityDoesNotExistException,	InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		
@@ -60,9 +59,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 			isError = true;
 			
 		} catch (InvalidParametersException e) {
-			statusToUser.add(e.getMessage());
-			statusToAdmin = e.getMessage();
-			isError = true;
+			setStatusForException(e);
 		} 
 		
 		// Reload same page if fail.

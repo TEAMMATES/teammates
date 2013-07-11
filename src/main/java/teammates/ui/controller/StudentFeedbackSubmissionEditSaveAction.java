@@ -57,17 +57,13 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 					try {
 						logic.updateFeedbackResponse(response);
 					} catch (InvalidParametersException e) {
-						statusToUser.add(e.getMessage());
-						statusToAdmin = e.getMessage();
-						isError = true;
+						setStatusForException(e);
 					}
 				} else if (response.answer.getValue().isEmpty() == false){
 					try {
 						logic.createFeedbackResponse(response);
 					} catch (EntityAlreadyExistsException | InvalidParametersException e) {
-						statusToUser.add(e.getMessage());
-						statusToAdmin = e.getMessage();
-						isError = true;
+						setStatusForException(e);
 					}
 				}
 			}

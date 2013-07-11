@@ -10,8 +10,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorEvalAddAction extends InstructorEvalsPageAction {
 	
 	@Override
-	protected ActionResult execute() 
-			throws EntityDoesNotExistException,	InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		
@@ -38,14 +37,11 @@ public class InstructorEvalAddAction extends InstructorEvalsPageAction {
 					"<span class=\"bold\">Instructions:</span> " + eval.instructions;
 			
 		} catch (EntityAlreadyExistsException e) {
-			statusToUser.add(Const.StatusMessages.EVALUATION_EXISTS);
-			isError = true;
-			statusToAdmin = e.getMessage();
+			setStatusForException(e, Const.StatusMessages.EVALUATION_EXISTS);
 			
 		} catch (InvalidParametersException e) {
-			statusToUser.add(e.getMessage());
-			isError = true;
-			statusToAdmin = e.getMessage();
+			setStatusForException(e);
+			
 		} 
 		
 		data.courses = loadCoursesList(account.googleId);

@@ -51,9 +51,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 						"<span class=\"bold\">Feedback Question Text:</span> " + updatedQuestion.questionText;
 			}
 		} catch (InvalidParametersException e) {
-			statusToUser.add(e.getMessage());
-			statusToAdmin = e.getMessage();
-			isError = true;
+			setStatusForException(e);
 		}
 
 		

@@ -39,9 +39,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
 					"<span class=\"bold\">Results visible from:</span> " + data.session.resultsVisibleFromTime + "<br><br>" +
 					"<span class=\"bold\">Instructions:</span> " + data.session.instructions;
 		} catch (InvalidParametersException e) {
-			statusToUser.add(e.getMessage());
-			statusToAdmin = e.getMessage();
-			isError = true;
+			setStatusForException(e);
 		}
 		
 		// Get updated results and show same page

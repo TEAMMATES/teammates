@@ -67,11 +67,10 @@ public class InstructorCourseAddAction extends Action {
 			isError = false;
 			
 		} catch (EntityAlreadyExistsException e) {
-			statusToUser.add(Const.StatusMessages.COURSE_EXISTS);
-			isError = true;
+			setStatusForException(e, Const.StatusMessages.COURSE_EXISTS);
+
 		} catch (InvalidParametersException e) {
-			statusToUser.add(e.getMessage());
-			isError = true;
+			setStatusForException(e);
 		}
 		
 		if(isError){ 
@@ -81,8 +80,7 @@ public class InstructorCourseAddAction extends Action {
 		try{
 			logic.updateCourseInstructors(data.newCourse.id, instructorListForNewCourse, data.account.institute);
 		} catch (InvalidParametersException e){
-			statusToUser.add(e.getMessage());
-			isError = true;
+			setStatusForException(e);
 		} catch (EntityDoesNotExistException e) {
 			Assumption.fail("The course created did not persist properly :"+ data.newCourse.id);
 		}

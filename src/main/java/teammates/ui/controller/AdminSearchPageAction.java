@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.api.GateKeeper;
@@ -28,8 +27,7 @@ public class AdminSearchPageAction extends Action {
 			.getIndex(IndexSpec.newBuilder().setName("instructor_search_index"));
 
 	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException,
-			InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException{
 		
 		new GateKeeper().verifyAdminPrivileges(account);
 		

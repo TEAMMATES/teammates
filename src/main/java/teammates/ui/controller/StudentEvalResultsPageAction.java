@@ -6,6 +6,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -16,7 +17,7 @@ public class StudentEvalResultsPageAction extends Action {
 	
 
 	@Override
-	public ActionResult execute() throws EntityDoesNotExistException, InvalidParametersException {
+	public ActionResult execute() throws EntityDoesNotExistException {
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
@@ -40,7 +41,7 @@ public class StudentEvalResultsPageAction extends Action {
 		data.eval = logic.getEvaluation(courseId, evalName);
 		
 		if(data.eval.getStatus() != EvalStatus.PUBLISHED ){
-			throw new InvalidParametersException("Results of this evaluation are not yet published");
+			throw new UnauthorizedAccessException("Results of this evaluation are not yet published");
 		}
 		
 		try{

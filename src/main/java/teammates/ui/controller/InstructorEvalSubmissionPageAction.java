@@ -42,11 +42,7 @@ public class InstructorEvalSubmissionPageAction extends Action {
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_SUBMISSION, data);
 			
 		} catch (InvalidParametersException e) {
-			//TODO: some parts of this block can be extracted into a method and pulled up
-			isError = true;
-			statusToUser.add(e.getMessage());
-			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage(); 
-			
+			setStatusForException(e); 
 			return createShowPageResult(Const.ViewURIs.STATUS_MESSAGE, data);
 		}
 		

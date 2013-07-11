@@ -258,7 +258,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, ownCourse.id);
 		link = Url.addParamToUrl(link, Const.ParamsNames.EVALUATION_NAME,
 				ownEvaluation.name);
-		verifyRedirectedToServerErrorPage(link); //TODO: this error should be handled better.
+		verifyRedirectToNotAuthorized(link); //TODO: this error should be handled better.
 	
 		______TS("student can view own evaluation result after publishing");
 	
