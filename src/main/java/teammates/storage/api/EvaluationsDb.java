@@ -143,6 +143,8 @@ public class EvaluationsDb extends EntitiesDb {
 			log.severe("Operation did not persist in time: deleteEvaluation->"
 					+ courseId + "/" + name);
 		}
+		
+		//TODO: use the method in the parent class instead.
 
 	}
 
@@ -201,8 +203,8 @@ public class EvaluationsDb extends EntitiesDb {
 
 	@Override
 	protected Object getEntity(EntityAttributes attributes) {
-		EvaluationAttributes evaluationToAdd = (EvaluationAttributes) attributes;
-		return getEvaluationEntity(evaluationToAdd.courseId, evaluationToAdd.name);
+		EvaluationAttributes evaluationToGet = (EvaluationAttributes) attributes;
+		return getEvaluationEntity(evaluationToGet.courseId, evaluationToGet.name);
 	}
 	
 }

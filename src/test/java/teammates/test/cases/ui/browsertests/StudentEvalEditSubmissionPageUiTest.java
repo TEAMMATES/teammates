@@ -40,6 +40,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		
 		// Next, we edit some student data to cover editing of students
 		// after creating evaluations.
+		//TODO: The effect of editing student data should be checked at Logic level, not here.
 
 		// move one student out of Team 2
 		StudentAttributes extraGuy = testData.students.get("ExtraGuy");
@@ -89,7 +90,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		
 		______TS("action: submit");
 		
-		//TODO:
+		//TODO: implement this
 
 	}
 

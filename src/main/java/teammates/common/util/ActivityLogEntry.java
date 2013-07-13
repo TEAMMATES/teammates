@@ -1,7 +1,6 @@
 package teammates.common.util;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -13,6 +12,7 @@ import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
 
+/** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
 	private long time;
 	private String servletName;
@@ -47,7 +47,6 @@ public class ActivityLogEntry {
 	/**
 	 * Constructor that creates an ActivityLog object from a app log on the server.
 	 * Used in AdminActivityLogServlet.
-	 * @param appLog
 	 */
 	public ActivityLogEntry(AppLogLine appLog){
 		time = appLog.getTimeUsec() / 1000;
@@ -83,10 +82,6 @@ public class ActivityLogEntry {
 	/**
 	 * Constructor that creates an ActivityLog object from scratch
 	 * Used in the various servlets in the application
-	 * @param servlet
-	 * @param params
-	 * @param response
-	 * @param toShow
 	 */
 	public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params,  String link){
 		time = System.currentTimeMillis();
@@ -147,7 +142,6 @@ public class ActivityLogEntry {
 
 	/**
 	 * Generates a log message that will be logged in the server
-	 * @return
 	 */
 	public String generateLogMessage(){
 		//TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL
@@ -275,17 +269,5 @@ public class ActivityLogEntry {
 		return emailReportLog.generateLogMessage();
 	}
 	
-	//TODO: remove if not used
-	public static String generateActivityLogEntryErrorMessage(
-			String servletName, String action, ArrayList<Object> data){
-		String message;
-		if (action.equals(Const.ACTION_RESULT_FAILURE)) {
-            String e = data.get(0).toString();
-            message = "<span class=\"color_red\">Servlet Action failure in " + servletName + "<br>";
-            message += e + "</span>";
-        } else {
-        	message = "<span class=\"color_red\">Unknown Action - " + servletName + ": " + action + ".</span>";
-		}
-		return message;
-	}
+
 }

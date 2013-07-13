@@ -52,7 +52,6 @@ public class TeamResultBundle {
 		return toString(0);
 	}
 	
-	//TODO: unit test this
 	public String toString(int indent){
 		String indentString = StringHelper.getIndent(indent);
 		StringBuilder sb = new StringBuilder();

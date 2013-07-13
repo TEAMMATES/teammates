@@ -24,7 +24,6 @@ public class FeedbackSessionQuestionsBundle {
 	
 	/**
 	 * Gets the list of questions in this bundle, sorted by question number. 
-	 * @param
 	 * @return A {@code List} of {@code FeedackQuestionAttributes}.
 	 */
 	public List<FeedbackQuestionAttributes> getSortedQuestions() {

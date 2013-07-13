@@ -81,6 +81,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		newQuestion.questionType = FeedbackQuestionType.TEXT;
 		
 		newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
+		//TODO: arrowhead code. reduce nesting.
 		if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
 			if (param.equals("custom")) {
 				if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {

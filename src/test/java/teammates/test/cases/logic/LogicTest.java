@@ -204,6 +204,7 @@ public class LogicTest extends BaseComponentTestCase {
 	private void ____ACCOUNT_level_methods____________________________________() {
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testGetInstructorAccounts() throws Exception{
 		

@@ -136,12 +136,9 @@ public class AccountsDb extends EntitiesDb {
 					+ googleId);
 		}
 		
-		//TODO: the above piece of code is duplicated in many places. 
-		//  Eliminate using anonymous classes? e.g., similar to the way sorting works
+		//TODO: Use the delete operation in the parent class instead.
 	}
 
-	//TODO: add an updateStudent(StudentAttributes) version and make the above private
-	
 	private Account getAccountEntity(String googleId) {
 		
 		Query q = getPM().newQuery(Account.class);

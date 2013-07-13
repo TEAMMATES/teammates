@@ -41,6 +41,7 @@ public class FeedbackSessionResultsBundle {
 		}
 	}
 	
+	//TODO: use /** */ format for this comment
 	// TODO: make responses to student always on top.
 	// Method returns an ordered map with keys sorted by questionNumber. 
 	// Values are sorted by recipientName > giverName
@@ -197,7 +198,7 @@ public class FeedbackSessionResultsBundle {
 	// Sorts by giverName > recipientName > qnNumber
 	public Comparator<FeedbackResponseAttributes> compareByGiverName
 		= new Comparator<FeedbackResponseAttributes>() {
-//		@Override
+//		@Override  //TODO: remove or uncomment
 		public int compare(FeedbackResponseAttributes o1,
 				FeedbackResponseAttributes o2) {
 			String giverName1 = emailNameTable.get(o1.giverEmail);

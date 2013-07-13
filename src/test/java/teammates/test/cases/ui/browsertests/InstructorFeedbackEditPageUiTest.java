@@ -19,7 +19,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
-import teammates.test.pageobjects.InstructorFeedbackPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 
 /**
  * Covers the 'Edit Feedback Session' page for instructors. 
@@ -207,7 +207,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		______TS("session delete then accept");
 		
 		// check redirect to main feedback page
-		InstructorFeedbackPage feedbackPage = feedbackEditPage.deleteSession();
+		InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
 		AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
 		assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
 		

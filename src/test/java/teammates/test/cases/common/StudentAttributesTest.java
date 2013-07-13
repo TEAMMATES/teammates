@@ -251,7 +251,7 @@ public class StudentAttributesTest extends BaseTestCase {
 	
 	@Test
 	public void testToString(){
-		//TODO:
+		//TODO: implement this method
 	}
 
 	private Student generateTypicalStudentObject() {

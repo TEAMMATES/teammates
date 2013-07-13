@@ -132,6 +132,7 @@ public class Logic {
 	 * @return Details of accounts with instruction privileges. Returns empty
 	 *         list if no such accounts are found.
 	 */
+	@Deprecated //Not scalable.
 	public List<AccountAttributes> getInstructorAccounts() {
 		
 		return accountsLogic.getInstructorAccounts();
@@ -911,8 +912,6 @@ public class Logic {
 	 * Does not affect the questions and responses associated with it.
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
-	 * @throws EntityDoesNotExistException 
-	 * @throws InvalidParametersException 
 	 */
 	public void updateFeedbackSession(FeedbackSessionAttributes updatedSession) 
 			throws InvalidParametersException, EntityDoesNotExistException {
@@ -985,7 +984,6 @@ public class Logic {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
-	 * @throws EntityDoesNotExistException 
 	 */
 	public boolean hasStudentSubmittedFeedback(
 			String courseId, String feedbackSessionName, String studentEmail)
@@ -1022,9 +1020,6 @@ public class Logic {
 	 * attributes.
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
-	 * @throws EntityAlreadyExistsException 
-	 * @throws EntityDoesNotExistException 
-	 * @throws InvalidParametersException 
 	 */
 	public void updateFeedbackQuestion(FeedbackQuestionAttributes updatedQuestion)
 			throws InvalidParametersException, EntityDoesNotExistException {
@@ -1085,8 +1080,6 @@ public class Logic {
 	 * is visible to the user for a feedback session.
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
-	 * @throws EntityDoesNotExistException 
-	 * @throws UnauthorizedAccessException 
 	 */
 	public FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
 			String feedbackSessionName, String courseId, String userEmail)

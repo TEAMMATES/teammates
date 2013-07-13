@@ -21,6 +21,7 @@ public class AdminAccountManagementPageAction extends Action {
 		
 		@SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
 		List<InstructorAttributes> allInstructorsList = logic.getAllInstructors();
+		@SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
 		List<AccountAttributes> allInstructorAccountsList = logic.getInstructorAccounts();
 		
 		data.instructorCoursesTable = new HashMap<String, ArrayList<InstructorAttributes>>();

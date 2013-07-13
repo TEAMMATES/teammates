@@ -16,6 +16,8 @@ import teammates.common.datatransfer.FeedbackQuestionType;
 @PersistenceCapable
 public class FeedbackQuestion {
 	
+	//TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes. 
+	
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")

@@ -36,7 +36,6 @@ public class InstructorsLogic {
 		return instance;
 	}
 	
-	//TODO: have a deleteStudentCascade here?
 
 	public void createInstructor(String googleId, String courseId, String name, String email) 
 			throws InvalidParametersException, EntityAlreadyExistsException {

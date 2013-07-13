@@ -56,6 +56,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 	@Test
 	public void testAccessControl() throws Exception{
 		
+		//TODO: Shouldn't this be the standard verifyOnlyInstructorsCanAccess(submissionParams)?
+		
 		String[] submissionParams = new String[]{};
 		
 		gaeSimulation.logoutUser();
@@ -74,7 +76,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 		verifyCanAccess(submissionParams);
 		verifyCannotMasquerade(addUserIdToParams(otherInstructorId,submissionParams));
 		submissionParams = new String[]{Const.ParamsNames.COURSE_ID, "idOfTypicalCourse2"};
-		verifyCannotAccess(submissionParams); //trying to create evaluation for someone else's course
+		verifyCannotAccess(submissionParams); //trying to create feedback session for someone else's course
 		
 		gaeSimulation.loginAsAdmin(adminUserId);
 		//not checking for non-masquerade mode because admin may not be an instructor

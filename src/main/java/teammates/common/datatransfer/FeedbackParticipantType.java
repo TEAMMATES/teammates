@@ -1,6 +1,6 @@
 package teammates.common.datatransfer;
 
-public enum FeedbackParticipantType {
+public enum FeedbackParticipantType { 
 	// booleans represent: isValidGiver?, isValidRecipient?
 	// Strings represents: option shown in giver select box, option shown in recipient select box, 
 	// text displayed during feedback submission.
@@ -57,6 +57,7 @@ public enum FeedbackParticipantType {
 		return displayNameVisibility;
 	}
 	
+	//TODO: add header comment
 	public String toSingletonString() {
 		switch (this) {
 		case INSTRUCTORS:

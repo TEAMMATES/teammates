@@ -389,10 +389,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		assertTrue(isLoginPage(currentPage));
 	}
 
-	private void verifyRedirectedToServerErrorPage(String url) {
-		verifyPageContains(url, "There was an error in our server.");
-	}
-
 	private boolean isLoginPage(AppPage currentPage) {
 		return GoogleLoginPage.containsExpectedPageContents(currentPage.getPageSource())
 				|| DevServerLoginPage.containsExpectedPageContents(currentPage.getPageSource());

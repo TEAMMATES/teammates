@@ -208,6 +208,7 @@ public class BackDoorLogic extends Logic {
 		new EvaluationsDb().updateEvaluation(evaluation);
 	}
 	
+	//TODO: use /** */ style comment here.
 	// This method is necessary to generate the feedbackQuestionId of the
 	// question the response is for.
 	// Normally, the ID is already passed in the attributes on creation,
@@ -233,30 +234,6 @@ public class BackDoorLogic extends Logic {
 		super.createFeedbackResponse(response);
 	}
 	
-	// Deprecated. Production delete now cascades as well.
-	// This cascades deleting feedbackQuestion and feedbackResponses for testing purposes.
-	// We do not do it in production to preserve question/responses for future repo.
-	/*
-	@Override
-	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
-		//TODO: change parameter order. Our general practice is to give courseId first
-		List<FeedbackQuestionAttributes> questionsToCascadeDelete;
-		try {			
-			questionsToCascadeDelete = feedbackQuestionsLogic
-					.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-			while(questionsToCascadeDelete.isEmpty() == false) {
-				feedbackQuestionsLogic.deleteFeedbackQuestionCascade(
-						feedbackSessionName, courseId, questionsToCascadeDelete.get(0).questionNumber);
-				// Have to keep getting as question number will change and json file does not have qn id.
-				questionsToCascadeDelete = feedbackQuestionsLogic
-						.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-			}
-		} catch (Exception e) {
-			log.info(e.getMessage());
-		}
-		super.deleteFeedbackSession(feedbackSessionName, courseId);
-	}
-	*/
 
 	/**
 	 * Creates a COURSE without an INSTRUCTOR relation
@@ -307,7 +284,7 @@ public class BackDoorLogic extends Logic {
 
 	private void waitUntilDeletePersists(DataBundle dataBundle) {
 		
-		//TODO: this method has too much duplication. Remove using anonymous classes?
+		//TODO: this method has too much duplication. 
 		for (AccountAttributes a : dataBundle.accounts.values()) {
 			Object retreived = null;
 			int retryCount = 0;

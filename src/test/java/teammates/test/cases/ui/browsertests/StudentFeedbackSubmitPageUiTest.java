@@ -134,6 +134,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 	
 	private void testModifyData() throws EnrollException{
 		
+		//TODO: This should be tested at Logic level instead?
+		
 		______TS("modify data");
 		
 		// Next, we edit some student data to cover editing of students
@@ -155,7 +157,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
 		// move Benny out of team 1 into team 2 and change his email
 		// This should cause the team mates question to disappear completely as 
-		// noone else is in Team 1, but other responses to Benny should remain.
+		// no one else is in Team 1, but other responses to Benny should remain.
 		StudentAttributes Benny = testData.students.get("Benny");
 		moveToTeam(Benny, "Team 2");
 		
@@ -164,11 +166,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		
 	}
 
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		BrowserPool.release(browser);
-	}
-	
 	private StudentFeedbackSubmitPage loginToStudentFeedbackSubmitPage(
 			String studentName, String fsName) {
 		Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -184,6 +181,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		student.team = newTeam;
 		backDoorOperationStatus = BackDoor.editStudent(student.email, student);
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+	}
+
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		BrowserPool.release(browser);
 	}
 
 }

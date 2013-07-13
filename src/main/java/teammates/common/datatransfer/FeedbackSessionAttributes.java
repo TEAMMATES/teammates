@@ -122,6 +122,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 				FieldType.START_TIME, FieldType.END_TIME, startTime, endTime);
 		if(!error.isEmpty()) { errors.add(error); }	
 		
+		//TODO: uncomment or remove.
 		/* Allow? Since visible time < start time is allowed, and publish time can follow visible time.
 		error= validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
 				FieldType.START_TIME, FieldType.RESULTS_VISIBLE_TIME, startTime, resultsVisibleFromTime);
@@ -140,6 +141,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		return getInvalidityInfo().isEmpty();
 	}
 	
+	//TODO: if both methods are similar, we can extract it to TimeHelper class.
 	// Copied from EvaluationsAttributes. To Unit Test.
 	public boolean isClosingWithinTimeLimit(int hours) {
 

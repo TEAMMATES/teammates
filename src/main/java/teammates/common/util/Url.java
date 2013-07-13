@@ -11,6 +11,10 @@ public class Url {
 		this.urlString = url;
 	}
 
+	/**
+	 * @return The value of the {@code parameterName} parameter. Null if no
+	 * such parameter.
+	 */
 	public String get(String parameterName) {
 		String returnValue = null;
 		String startIndicator = "?"+parameterName+"=";
@@ -99,11 +103,6 @@ public class Url {
 	 * <li><code>addParam("index.jsp","message",null)</code> returns
 	 * <code>index.jsp</code></li>
 	 * </ul>
-	 * 
-	 * @param url
-	 * @param key
-	 * @param value
-	 * @return
 	 */
 	public static String addParamToUrl(String url, String key, String value) {
 		if (key == null || value == null)

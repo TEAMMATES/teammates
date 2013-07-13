@@ -12,7 +12,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
-public class InstructorFeedbackPage extends AppPage {
+public class InstructorFeedbacksPage extends AppPage {
 	
 	@FindBy(id = "courseid")
 	private WebElement courseIdDropdown;
@@ -63,7 +63,7 @@ public class InstructorFeedbackPage extends AppPage {
 	private WebElement sortByIdIcon;
 	
 
-	public InstructorFeedbackPage(Browser browser) {
+	public InstructorFeedbacksPage(Browser browser) {
 		super(browser);
 	}
 

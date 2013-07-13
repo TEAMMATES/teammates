@@ -234,6 +234,7 @@ public class EvaluationsLogic {
 		for (TeamResultBundle td : evaluationResults.teamResults.values()) {
 			for (StudentResultBundle srb : td.studentResults) {
 				String result = "";
+				//TODO: Extract this sorting into a method and push to the appropriat class.
 				Collections.sort(srb.incoming, new Comparator<SubmissionAttributes>(){
 					@Override
 					public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
@@ -303,6 +304,7 @@ public class EvaluationsLogic {
 		List<EvaluationAttributes> evaluations = getReadyEvaluations(); 
 		
 		for (EvaluationAttributes ed: evaluations) {
+			//TODO: Try to extract the below to a private method.
 			try {
 				CourseAttributes course = coursesLogic.getCourse(ed.courseId);
 				
@@ -330,6 +332,7 @@ public class EvaluationsLogic {
 				getEvaluationsClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 	
 		for (EvaluationAttributes ed : evaluationDataList) {
+			//TODO: try to extract the below to a private method
 			try {
 	
 				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.courseId);
@@ -553,11 +556,6 @@ public class EvaluationsLogic {
 	}
 	
 	/**
-	 * Returns submissions for the evaluation
-	 */
-	
-	
-	/**
 	 * Returns how many students have submitted at least one submission.
 	 */
 	private int countSubmittedStudents(Collection<SubmissionAttributes> submissions) {
@@ -698,6 +696,7 @@ public class EvaluationsLogic {
 	}
 
 	//TODO: unit test this
+	//TODO: move this to TeamResultBundle?
 	private void populateSubmissionsAndNames(
 			HashMap<String, SubmissionAttributes> submissions, 
 			TeamResultBundle teamResultBundle,

@@ -35,6 +35,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 		// Set creator email as instructors' email
 		InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, data.account.googleId);		
 		if (instructor == null) {
+			//TODO: can reuse the instructor retrieved previously
 			Assumption.fail("Could not find instructor after passing through gatekeeper.");
 		}
 		fs.creatorEmail = instructor.email;
@@ -62,7 +63,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 			setStatusForException(e);
 		} 
 		
-		// Reload same page if fail.
+		// Reload same page if fail. 
+		//TODO: is the above comment correct?
 		data.courses = loadCoursesList(account.googleId);
 		data.existingEvals = loadEvaluationsList(account.googleId);
 		data.existingSessions = loadFeedbackSessionsList(account.googleId);
