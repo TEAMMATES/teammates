@@ -89,7 +89,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
 
 	private void testViewTeamLinks() {
-		// TODO:
+		// TODO: implement this
 		
 	}
 

@@ -22,14 +22,6 @@ public class FeedbackSessionDetailsBundle {
 		this.stats = new FeedbackSessionStats();
 	}
 
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName
-				+ Const.EOL);
-		sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
-		return sb.toString();
-	}
-
 	/**
 	 * Sorts feedback session based courseID (ascending), then by create time (ascending), deadline
 	 * (ascending), then by start time (ascending), then by feedback session name
@@ -60,5 +52,13 @@ public class FeedbackSessionDetailsBundle {
 				return result;
 			}
 		});
+	}
+
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("course:" + feedbackSession.courseId + ", name:" + feedbackSession.feedbackSessionName
+				+ Const.EOL);
+		sb.append("submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal);
+		return sb.toString();
 	}
 }

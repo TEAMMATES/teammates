@@ -174,7 +174,7 @@ public class AccountsLogic {
 	public void deleteAccountCascade(String googleId) {
 		InstructorsLogic.inst().deleteInstructorsForGoogleId(googleId);
 		StudentsLogic.inst().deleteStudentsForGoogleId(googleId);
-		accountsDb.deleteAccount(googleId); //TODO: shouldn't we use deleteAccountCascade here?
+		accountsDb.deleteAccount(googleId); 
 		//TODO: deal with orphan courses, submissions etc.
 	}
 	

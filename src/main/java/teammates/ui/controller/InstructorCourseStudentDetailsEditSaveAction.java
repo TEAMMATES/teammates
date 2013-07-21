@@ -45,11 +45,8 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
 			return result;
 			
 		} catch (InvalidParametersException e) {
-			isError = true;
-			statusToUser.add(e.getMessage());
-			statusToAdmin = Const.ACTION_RESULT_FAILURE+ " : " + e.getMessage();
-			ShowPageResult result = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
-			return result;
+			setStatusForException(e);
+			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
 		}
 		
 	}

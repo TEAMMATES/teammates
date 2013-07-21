@@ -7,15 +7,13 @@ import java.util.List;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class AdminAccountManagementPageAction extends Action {
 
 	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException,
-			InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		new GateKeeper().verifyAdminPrivileges(account);
 		
@@ -23,6 +21,7 @@ public class AdminAccountManagementPageAction extends Action {
 		
 		@SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
 		List<InstructorAttributes> allInstructorsList = logic.getAllInstructors();
+		@SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
 		List<AccountAttributes> allInstructorAccountsList = logic.getInstructorAccounts();
 		
 		data.instructorCoursesTable = new HashMap<String, ArrayList<InstructorAttributes>>();

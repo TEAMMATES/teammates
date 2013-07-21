@@ -67,12 +67,18 @@ public class ActionFactory {
 		map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
 		map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
 		map(STUDENT_EVAL_SUBMISSION_EDIT_PAGE, StudentEvalSubmissionEditPageAction.class);
-		map(STUDENT_EVAL_RESULTS, StudentEvalResultsPageAction.class);
+		map(STUDENT_EVAL_RESULTS_PAGE, StudentEvalResultsPageAction.class);
 		map(STUDENT_EVAL_SUBMISSION_EDIT_SAVE, StudentEvalSubmissionEditSaveAction.class);
 		map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
 		map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
 		map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
 		map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
+		
+		//These are here for backward compatibility reasons. We used these URIs
+		//  before V4.55 and some users have these URIs in emails they 
+		//  received from TEAMMATES.
+		map("/page/studentEvalResults", StudentEvalResultsPageAction.class);
+		map("/page/studentEvalEdit", StudentEvalSubmissionEditPageAction.class);
 	}
 
 
@@ -96,15 +102,16 @@ public class ActionFactory {
 	private static Action getAction(String uri) {
 		Class<? extends Action> controllerClass = actionMappings.get(uri);
 		
-		Action c = null;
+		if(controllerClass == null){
+			return new NonExistentAction();
+		}
 		
 		try {
-			c = (Action)controllerClass.newInstance();
+			return controllerClass.newInstance();
 		} catch (Exception e) {
 			throw new RuntimeException("Could not create the action for :" + uri);
 		}
 		
-		return c;
 	}
 
 

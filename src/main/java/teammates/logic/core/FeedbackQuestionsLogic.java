@@ -68,6 +68,9 @@ public class FeedbackQuestionsLogic {
 					"Trying to update a feedback question that does not exist.");
 		}
 		
+		//TODO: The block of code below can be extracted to a method in FeedbackQuestionAttributes.
+		//      e.g., oldQuestion.updateValues(newAttributes)
+		
 		// These can't be changed anyway. Copy values to defensively avoid invalid parameters.
 		newAttributes.feedbackSessionName = oldQuestion.feedbackSessionName;
 		newAttributes.courseId = oldQuestion.courseId;
@@ -109,6 +112,7 @@ public class FeedbackQuestionsLogic {
 		
 	}
 	
+	//TODO: Convert the code below to Javadoc format. /**... */
 	// Deletes a question by it's ID.
 	// Cascade deletes all responses for the question and then 
 	// shifts higher question numbers down by one to preserve order
@@ -124,6 +128,7 @@ public class FeedbackQuestionsLogic {
 		
 	}
 	
+	//TODO: Convert the code below to Javadoc format. /**... */
 	// Cascade deletes all responses for the question and then 
 	// shifts higher question numbers down by one to preserve order
 	public void deleteFeedbackQuestionCascade(
@@ -244,7 +249,7 @@ public class FeedbackQuestionsLogic {
 		return questions;
 	}
 
-	private List<FeedbackQuestionAttributes> getUnstolenTeamQuestions(
+	private List<FeedbackQuestionAttributes> getUnstolenTeamQuestions( //TODO: 'unstolen' is not clear. explain further.
 			String feedbackSessionName,	String courseId, String studentEmail)
 					throws EntityDoesNotExistException {
 
@@ -260,9 +265,8 @@ public class FeedbackQuestionsLogic {
 		Assumption.assertNotNull("Student disappeared!", student);
 				
 		for (FeedbackQuestionAttributes question : teamQuestions) {
-			if (isQuestionAnsweredByTeam(question, student.team) == true) {
-				if (frLogic.getFeedbackResponsesFromGiverForQuestion(
-						question.getId(), studentEmail).isEmpty() == false) {
+			if (isQuestionAnsweredByTeam(question, student.team)) {
+				if (frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), studentEmail).isEmpty() == false) {
 					// question has at least one response by this student
 					unstolenQuestions.add(question);
 				}
@@ -351,7 +355,6 @@ public class FeedbackQuestionsLogic {
 	 * @param teamName
 	 * @return {@code True} if there are no more recipients to give feedback to for the given
 	 * {@code teamName}. {@code False} if not.
-	 * @throws EntityDoesNotExistException
 	 */
 	public boolean isQuestionAnsweredByTeam(FeedbackQuestionAttributes question, 
 			String teamName) throws EntityDoesNotExistException {

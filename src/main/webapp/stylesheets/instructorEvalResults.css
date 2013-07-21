@@ -3,8 +3,9 @@
 }
 
 #tablecaption {
-	padding: 3px 35px;
-	text-align: right;
+	color: gray;
 	font-size: small;
 	font-style: italic;
+	text-align: right;
+	padding: 0px 35px 20px;
 }

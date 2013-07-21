@@ -7,6 +7,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
@@ -18,7 +19,7 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 	
 
 	@Override
-	public ActionResult execute() throws EntityDoesNotExistException, InvalidParametersException {
+	public ActionResult execute() throws EntityDoesNotExistException {
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
@@ -38,7 +39,7 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		EvaluationAttributes eval = logic.getEvaluation(courseId, evalName);
 		
 		if(eval.getStatus() != EvalStatus.OPEN){
-			throw new InvalidParametersException("This evalutions is not currently open for editing");
+			throw new UnauthorizedAccessException("This evalutions is not currently open for editing");
 		}
 		
 		//extract submission data
@@ -72,9 +73,7 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 			
 		} catch (InvalidParametersException e) {
 			//TODO: redirect to the same page?
-			statusToUser.add(e.getMessage());
-			isError = true;
-			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+			setStatusForException(e);
 		}		
 		
 		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);

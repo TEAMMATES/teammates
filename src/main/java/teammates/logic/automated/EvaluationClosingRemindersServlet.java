@@ -15,6 +15,8 @@ public class EvaluationClosingRemindersServlet extends AutomatedRemindersServlet
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+		servletName = "evaluationClosingReminders";
+		action = "send closing reminders";
 		
 		EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 		

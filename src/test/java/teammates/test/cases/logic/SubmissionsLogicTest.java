@@ -82,11 +82,12 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
 				evaluation.name, students, new ArrayList<SubmissionAttributes>(
 						submissions.values()));
 
-		______TS("evaluation in empty class");
+		______TS("evaluation in empty course");
 		
 		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
-		logic.createCourseAndInstructor("instructor1", "course1", "Course 1");
-		evaluation.courseId = "course1";
+		String idOfEmptyCourse = "emptycourse1";
+		logic.createCourseAndInstructor("instructor1", idOfEmptyCourse, "Course 1");
+		evaluation.courseId = idOfEmptyCourse;
 		logic.createEvaluation(evaluation);
 
 		submissions = invokeGetSubmissionsForEvaluation(evaluation.courseId,

@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -11,8 +10,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackDeleteAction extends Action {
 
 	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException,
-			InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 				
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);

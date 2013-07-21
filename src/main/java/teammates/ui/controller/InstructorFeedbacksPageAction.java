@@ -8,15 +8,13 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbacksPageAction extends Action {
 
 	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException,
-			InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		//This can be null. Non-null value indicates the page is being loaded 
 		//   to add a feedback to the specified course
 		String courseIdForNewSession = getRequestParam(Const.ParamsNames.COURSE_ID);

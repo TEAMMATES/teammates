@@ -24,9 +24,7 @@ public class StudentCourseJoinAction extends Action {
 		} catch (JoinCourseException 
 				| InvalidParametersException
 				| EntityAlreadyExistsException e) {
-			isError = true;
-			statusToUser.add(Sanitizer.sanitizeForHtml(e.getMessage()));
-			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+			setStatusForException(e, Sanitizer.sanitizeForHtml(e.getMessage()));
 		}
 
 		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);

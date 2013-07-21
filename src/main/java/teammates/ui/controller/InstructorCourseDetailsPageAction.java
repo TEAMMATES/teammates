@@ -4,7 +4,6 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -15,8 +14,7 @@ public class InstructorCourseDetailsPageAction extends Action {
 	
 	
 	@Override
-	public ActionResult execute()
-			throws EntityDoesNotExistException, InvalidParametersException {
+	public ActionResult execute() throws EntityDoesNotExistException{
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);

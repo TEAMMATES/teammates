@@ -38,15 +38,11 @@ public class Logic {
 	@SuppressWarnings("unused")
 	private static Logger log = Utils.getLogger();
 
+	//TODO: remove this constant
 	public static final String ERROR_NULL_PARAMETER = "The supplied parameter was null\n";
-	public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
-	public static final String ERROR_COURSE_CREATOR_NO_ACCOUNT = "An instructor with no ACCOUNT was able to create a course\n";
 	
-	/** Used for access control checking */
 	protected static GateKeeper gateKeeper = GateKeeper.inst();
-	
 	protected static Emails emailManager = new Emails();
-	
 	protected static AccountsLogic accountsLogic = AccountsLogic.inst();
 	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
 	protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -100,7 +96,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: Admin only <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
@@ -120,7 +115,6 @@ public class Logic {
 	}
 	
 	/**
-	 * Access: any logged in user <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -132,20 +126,19 @@ public class Logic {
 	}
 	
 	/**
-	 * Access: Admin only.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
 	 * @return Details of accounts with instruction privileges. Returns empty
 	 *         list if no such accounts are found.
 	 */
+	@Deprecated //Not scalable.
 	public List<AccountAttributes> getInstructorAccounts() {
 		
 		return accountsLogic.getInstructorAccounts();
 	}
 	
 	/**
-	 * Access: Admin only. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.<br>
 	 * * {@code newAccountAttributes} represents an existing account.
@@ -162,7 +155,6 @@ public class Logic {
 	 * Does not delete courses. Can result in orphan courses 
 	 * (to be rectified in future).
 	 * Fails silently if no such account. <br>
-	 * Access: Admin only. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -179,7 +171,6 @@ public class Logic {
 
 	/**
 	 * Creates an account and an instructor. <br>
-	 * Access: admin only. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -196,7 +187,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: any logged in user. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * @return null if not found.
@@ -210,7 +200,6 @@ public class Logic {
 	}
 	
 	/**
-	 * Access: admin, instructor using own google id. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 * @return Empty list if none found.
@@ -223,7 +212,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, course owner, student in course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 * @return Empty list if none found.
@@ -236,7 +224,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin only
 	 * @deprecated Not scalable. Don't use unless in admin features.
 	 */
 	@Deprecated
@@ -257,7 +244,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructor using own google id. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 */
@@ -270,7 +256,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructors of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * @throws EntityDoesNotExistException 
@@ -292,7 +277,6 @@ public class Logic {
 	 * Removes instructor access but does not delete the account. 
 	 * The account will continue to have student access. <br>
 	 * Fails silently if no match found.<br>
-	 * Access: admin. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 */
@@ -305,7 +289,6 @@ public class Logic {
 
 	/**
 	 * Fails silently if no match found.
-	 * Access: admin. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 */
@@ -323,7 +306,6 @@ public class Logic {
 
 	/**
 	 * Creates a course and an instructor for it. <br>
-	 * Access: admin, instructor. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 * * {@code instructorGoogleId} already has instructor privileges.
@@ -339,8 +321,6 @@ public class Logic {
 	}
 	
 	/**
-	 * Access: any registered in user (because it is too expensive to check
--	 * if a student is in the course). <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * @return null if not found.
@@ -355,7 +335,6 @@ public class Logic {
 	
 	/**
 	 * Returns a detailed version of course data, including evaluation data. <br>
-	 * Access: admin, instructors of the course, students in the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -369,7 +348,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, a student who owns the googleId. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -382,7 +360,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructor using own google id. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 * @return A less deatailed version of courses for this instructor. 
@@ -399,7 +376,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructor using own google id. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 * @return A more deatailed version of courses for this instructor. 
@@ -417,7 +393,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: student who owns the googleId, admin<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
@@ -444,7 +419,6 @@ public class Logic {
 	 * Deletes the course and all data related to the course 
 	 * (instructors, students, evaluations).
 	 * Fails silently if no such account. <br>
-	 * Access: admin, instructors of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -461,7 +435,6 @@ public class Logic {
 
 	/**
 	 * Creates a student and adjust existing evaluations to accommodate the new student. <br> 
-	 * Access: admin, instructors of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -476,7 +449,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: any registered user (to minimize cost of checking). <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
@@ -492,7 +464,6 @@ public class Logic {
 
 	
 	/**
-	 * Access: admin, same student. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
@@ -507,7 +478,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, same student. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
@@ -522,7 +492,6 @@ public class Logic {
 
 	
 	/**
-	 * Access: admin, instructors of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * @return Empty list if none found.
@@ -536,7 +505,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructors of the course, students in the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -550,7 +518,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructor of course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
@@ -571,7 +538,6 @@ public class Logic {
 	 * Cascade logic: Email changed-> changes email in all existing submissions <br>
 	 * Team changed-> creates new submissions for the new team, deletes
 	 * submissions for previous team structure. <br>
-	 * Access: instructor of course and above.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -585,7 +551,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, owner of id. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -606,7 +571,6 @@ public class Logic {
 	 * student will be treated as a new student.<br>
 	 * If there is an error in the enrollLines, there will be no changes to the
 	 * datastore <br>
-	 * Access: course owner and above<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
@@ -626,7 +590,6 @@ public class Logic {
 
 	/**
 	 * Sends the registration invite to unregistered students in the course.
-	 * Access: admin, instructors of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
@@ -642,7 +605,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, an instructor of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -657,7 +619,6 @@ public class Logic {
 
 	/**
 	 * Sends reminders to students who haven't submitted yet. <br>
-	 * Access: admin, instructors of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 */
@@ -674,7 +635,6 @@ public class Logic {
 	 * Deletes the student from the course including any submissions to/from
 	 * for this student in this course.
 	 * Fails silently if no match found. <br>
-	 * Access: admin, an instructor of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -691,7 +651,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, an instructor of the course. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -704,7 +663,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: all registered users. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -717,7 +675,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access level: admin, instructors using own id.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 * 
@@ -735,7 +692,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructors of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 */
@@ -752,7 +708,6 @@ public class Logic {
 
 	/**
 	 * Generates summary results (without comments) in CSV format. <br>
-	 * Access: admin, instructors of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 */
@@ -766,7 +721,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access level: admin, instructors of the course, students of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 * 
@@ -781,7 +735,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructors of the course, owner of result (when PUBLISHED).<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -798,7 +751,6 @@ public class Logic {
 
 	/**
 	 * Can be used to change instructions, p2pEnabled, start/end times, grace period and time zone. <br>
-	 * Access: admin, instructors of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 * 
@@ -833,7 +785,6 @@ public class Logic {
 
 	/**
 	 * Publishes the evaluation and send email alerts to students.
-	 * Access: admin, instructors of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 * @throws InvalidParametersException
@@ -851,7 +802,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructors of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 * @throws InvalidParametersException
@@ -868,7 +818,6 @@ public class Logic {
 
 	/**
 	 * Deletes the evaluation and all its submissions.
-	 * Access: admin, instructors of the course.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -892,7 +841,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructors of the course, student who submitted the submissions.<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 */
@@ -909,7 +857,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: any logged in user (to minimize cost of checking)<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -926,7 +873,6 @@ public class Logic {
 	}
 
 	/**
-	 * Access: admin, instructors of the course, student who submitted the submissions (if evaluation is OPEN).<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 */
@@ -966,8 +912,6 @@ public class Logic {
 	 * Does not affect the questions and responses associated with it.
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
-	 * @throws EntityDoesNotExistException 
-	 * @throws InvalidParametersException 
 	 */
 	public void updateFeedbackSession(FeedbackSessionAttributes updatedSession) 
 			throws InvalidParametersException, EntityDoesNotExistException {
@@ -1038,10 +982,8 @@ public class Logic {
 	}
 	
 	/**
-	 * Access: any logged in user (to minimize cost of checking)<br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
-	 * @throws EntityDoesNotExistException 
 	 */
 	public boolean hasStudentSubmittedFeedback(
 			String courseId, String feedbackSessionName, String studentEmail)
@@ -1078,9 +1020,6 @@ public class Logic {
 	 * attributes.
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
-	 * @throws EntityAlreadyExistsException 
-	 * @throws EntityDoesNotExistException 
-	 * @throws InvalidParametersException 
 	 */
 	public void updateFeedbackQuestion(FeedbackQuestionAttributes updatedQuestion)
 			throws InvalidParametersException, EntityDoesNotExistException {
@@ -1141,8 +1080,6 @@ public class Logic {
 	 * is visible to the user for a feedback session.
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
-	 * @throws EntityDoesNotExistException 
-	 * @throws UnauthorizedAccessException 
 	 */
 	public FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
 			String feedbackSessionName, String courseId, String userEmail)

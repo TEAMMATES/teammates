@@ -18,8 +18,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackQuestionAddAction extends Action {
 
 	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException,
-			InvalidParametersException {
+	protected ActionResult execute()  throws EntityDoesNotExistException {
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -58,6 +57,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 				new FeedbackQuestionAttributes();
 		
 		// TODO: is instructor.email always == account.email?
+		// Answer: No. An instructor can have different emails for different courses.
 		newQuestion.creatorEmail = account.email;
 		newQuestion.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		newQuestion.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -78,6 +78,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 				FeedbackQuestionType.TEXT;
 		
 		newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
+		//TODO: 'Arrowhead code'. Reduce nesting.
 		if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
 			if (param.equals("custom")) {
 				if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {

@@ -3,8 +3,6 @@ package teammates.test.cases.storage;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
-import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -15,62 +13,36 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.logic.LogicTest;
-import teammates.test.driver.AssertHelper;
 
-public class CoursesDbTest extends BaseTestCase {
+public class CoursesDbTest extends BaseComponentTestCase {
 
 	private CoursesDb coursesDb = new CoursesDb();
 	
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
-		turnLoggingUp(CoursesDb.class);
 	}
 
 	@Test
 	public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {
 		
 		/*Explanation:
-		 * The SUT (i.e. CoursesDb::createCourse) has 4 paths. Therefore, we
-		 * have 4 test cases here, one for each path.
+		 * This is an inherited method from EntitiesDb and should be tested in
+		 * EntitiesDbTest class. We test it here too because the method in
+		 * the parent class actually calls an overridden method from the SUT.
 		 */
 
 		______TS("success: typical case");
+		
 		CourseAttributes c = new CourseAttributes();
-		c.id = "Computing101-fresh";
+		c.id = "CDbT.tCC.newCourse";
 		c.name = "Basic Computing";
 		coursesDb.createEntity(c);
 		LogicTest.verifyPresentInDatastore(c);
 		
-		______TS("fails: entity already exists");
-		try {
-			coursesDb.createEntity(c);
-			signalFailureToDetectException();
-		} catch (EntityAlreadyExistsException e) {
-			AssertHelper.assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.getEntityTypeAsString())
-					+ c.getIdentificationString(), e.getMessage());
-		}
 		
-		______TS("fails: invalid parameters");
-		c.id = "invalid id spaces";
-		try {
-			coursesDb.createEntity(c);
-			signalFailureToDetectException();
-		} catch (InvalidParametersException e) {
-			AssertHelper.assertContains(
-					String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
-					e.getMessage());
-		} 
-		
-		______TS("fails: null parameter");
-		try {
-			coursesDb.createEntity(null);
-			signalFailureToDetectException();
-		} catch (AssertionError a) {
-			assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
-		}
 	}
 	
 	@Test
@@ -129,7 +101,8 @@ public class CoursesDbTest extends BaseTestCase {
 		try {
 			coursesDb.createEntity(c);
 		} catch (EntityAlreadyExistsException e) {
-			// Okay if it's already inside
+			//It is ok if it already exists.
+			ignoreExpectedException();
 		}
 		
 		return c;

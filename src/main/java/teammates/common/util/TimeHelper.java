@@ -164,14 +164,10 @@ public class TimeHelper {
 			return false;
 		}
 		
-		if (date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) ||
+		return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) ||
 			date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
 			date.equals(Const.TIME_REPRESENTS_LATER) ||
-			date.equals(Const.TIME_REPRESENTS_NEVER)) {
-			return true;
-		} else {
-			return false;
-		}
+			date.equals(Const.TIME_REPRESENTS_NEVER);
 		
 	}
 

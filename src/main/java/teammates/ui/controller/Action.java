@@ -11,7 +11,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
@@ -117,7 +116,7 @@ public abstract class Action {
 	 *    to be encoded into the URL. The error flag is also added to the
 	 *    {@code isError} flag in the {@link ActionResult} object.
 	 */
-	public ActionResult executeAndPostProcess() throws EntityDoesNotExistException, InvalidParametersException{
+	public ActionResult executeAndPostProcess() throws EntityDoesNotExistException{
 		
 		//get the result from the child class.
 		ActionResult response =  execute();
@@ -143,8 +142,16 @@ public abstract class Action {
 		return response;
 	}
 
+	/**
+	 * The method is expected to: <br>
+	 * 1. Check if the user has rights to execute this action. <br>
+	 * 2. Execute the action.<br>
+	 * 3. If the action requires showing a page, prepare the matching PageData object.<br>
+	 * 4. Set the status messages to be shown to the user (if any) and to the admin (compulsory).
+	 *    The latter is used for generating the adminActivityLogPage.
+	 */
 	protected abstract ActionResult execute() 
-			throws EntityDoesNotExistException, InvalidParametersException;
+			throws EntityDoesNotExistException;
 
 	/**
 	 * @return The log message in the special format used for generating 
@@ -224,6 +231,29 @@ public abstract class Action {
 		isError = true;
 		statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage; 
 		return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+	}
+
+	/**
+	 * Status messages to be shown to the user and the admin will be set based
+	 * on the error message in the exception {@code e}.<br>
+	 * {@code isError} is also set to true.
+	 */
+	protected void setStatusForException(Exception e) {
+		statusToUser.add(e.getMessage());
+		isError = true;
+		statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+	}
+	
+	/**
+	 * Status messages to be shown to the admin will be set based
+	 * on the error message in the exception {@code e}.<br>
+	 * Status message to be shown to the user will be set as {@code statusMessageToUser}.<br>
+	 * {@code isError} is also set to true.
+	 */
+	protected void setStatusForException(Exception e, String statusMessageToUser) {
+		statusToUser.add(statusMessageToUser);
+		isError = true;
+		statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
 	}
 
 	private boolean isInMasqueradeMode() {

@@ -110,6 +110,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	}
 	
 	// TODO: move following methods to PageData?
+	// Answer: OK to move to the respective PageData class. Unit test this thoroughly.
 	public List<String> getVisibilityMessage(){
 		
 		List<String> message = new ArrayList<String>();

@@ -1,0 +1,66 @@
+{
+  "accounts": {
+  	"instructorWithEvals": {
+  	  "googleId": "AutEvalRem.instructor",
+  	  "name": "Test Ins for Aut Eval Reminder",
+  	  "isInstructor": true,
+  	  "email": "{$support.email}",
+  	  "institute": "National University of Singapore"
+  	}
+  },
+
+  "courses": {
+    "course": {
+      "id": "AutEvalRem.course",
+      "name": "Test Course for Aut Eval Reminder"
+    }
+  },
+  
+  "instructors": {
+    "AutEvalRem.instructor": {
+      "googleId": "AutEvalRem.instructor",
+      "courseId": "AutEvalRem.course",
+      "name": "Test Ins for Aut Eval Reminder",
+      "email": "{$support.email}"
+    }
+  },
+  
+  "students": {
+    "alice.tmms@AutEvalRem.course": {
+      "googleId": "alice.b.tmms",
+      "email": "{$support.email}",
+      "course": "AutEvalRem.course",
+      "name": "Alice Betsy",
+      "comments" : "dummy comment",
+      "team": "Team 1"
+    }
+  },
+  
+  "evaluations" : {
+  
+    "openingEval": {
+      "courseId" : "AutEvalRem.course",
+      "name" : "Opening Eval",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2014-04-30 11:59 PM UTC",
+      "timeZone" : 0.0,
+      "p2pEnabled" : true,
+      "instructions": "This is instruction for first eval",
+      "gracePeriod": 0,
+      "published" : false,
+      "activated" : false
+    },
+    "closingEval": {
+      "courseId" : "AutEvalRem.course",
+      "name": "Closing Eval",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2014-04-02 11:59 PM UTC",
+      "timeZone": 0.0,
+      "p2pEnabled": true,
+      "instructions": "Please please fill in the second evaluation",
+      "gracePeriod": 0,
+      "published": false,
+      "activated": true
+    }
+  }
+}

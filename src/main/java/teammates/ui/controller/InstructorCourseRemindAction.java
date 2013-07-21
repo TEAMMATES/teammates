@@ -13,8 +13,7 @@ public class InstructorCourseRemindAction extends Action {
 	protected static final Logger log = Utils.getLogger();
 	
 	@Override
-	public ActionResult execute()
-			throws EntityDoesNotExistException, InvalidParametersException {
+	public ActionResult execute() throws EntityDoesNotExistException{
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
@@ -25,8 +24,8 @@ public class InstructorCourseRemindAction extends Action {
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getCourse(courseId));
 		
-		RedirectResult response;
-		try{
+		
+		try {
 			if(studentEmail != null){
 				logic.sendRegistrationInviteToStudent(courseId, studentEmail);
 				statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO+studentEmail);
@@ -38,16 +37,12 @@ public class InstructorCourseRemindAction extends Action {
 				statusToAdmin = "Registration Key sent to all unregistered students " +
 						"in Course <span class=\"bold\">[" + courseId + "]</span>";
 			}
-			
-			
-		} catch (InvalidParametersException e){
-			statusToUser.add(e.getMessage());
-			statusToAdmin = e.getMessage();
-			
-		} finally {
-			response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
-			response.addResponseParam(Const.ParamsNames.COURSE_ID,courseId); 
+		} catch (InvalidParametersException e) {
+			Assumption.fail("InvalidParametersException not expected at this point");
 		}
+		
+		RedirectResult response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
+		response.addResponseParam(Const.ParamsNames.COURSE_ID,courseId); 
 		return response;
 
 	}

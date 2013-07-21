@@ -18,8 +18,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
 	@Override
-	protected ActionResult execute() 
-			throws EntityDoesNotExistException,	InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		
@@ -36,6 +35,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 		// Set creator email as instructors' email
 		InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, data.account.googleId);		
 		if (instructor == null) {
+			//TODO: can reuse the instructor retrieved previously
 			Assumption.fail("Could not find instructor after passing through gatekeeper.");
 		}
 		fs.creatorEmail = instructor.email;
@@ -60,12 +60,11 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 			isError = true;
 			
 		} catch (InvalidParametersException e) {
-			statusToUser.add(e.getMessage());
-			statusToAdmin = e.getMessage();
-			isError = true;
+			setStatusForException(e);
 		} 
 		
-		// Reload same page if fail.
+		// Reload same page if fail. 
+		//TODO: is the above comment correct?
 		data.courses = loadCoursesList(account.googleId);
 		data.existingEvals = loadEvaluationsList(account.googleId);
 		data.existingSessions = loadFeedbackSessionsList(account.googleId);

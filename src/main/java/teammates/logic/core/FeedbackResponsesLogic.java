@@ -117,6 +117,7 @@ public class FeedbackResponsesLogic {
 		return count;
 	}
 	
+	//TODO: This method is too long and nesting is too deep.
 	public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestion(
 			String feedbackQuestionId, String userEmail) {
 

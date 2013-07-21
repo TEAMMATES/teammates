@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
@@ -17,8 +16,7 @@ public class InstructorEvalsPageAction extends Action {
 	Logger log = Utils.getLogger();
 
 	@Override
-	protected ActionResult execute() 
-			throws EntityDoesNotExistException,	InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		//This can be null. Non-null value indicates the page is being loaded 
 		//   to add an evaluation to the specified course

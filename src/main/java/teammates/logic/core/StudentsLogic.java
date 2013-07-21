@@ -116,8 +116,10 @@ public class StudentsLogic {
 		
 		StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
 		
-		// prepare new student
+		//TODO: The block of code below can be extracted to a method in StudentAttributes.
+		//      e.g., originalStudent.updateValues(student)
 		
+		// prepare new student
 		if(student.email == null){
 			student.email = originalStudent.email;
 		}
@@ -237,8 +239,7 @@ public class StudentsLogic {
 		//TODO: sending mail should be moved to somewhere else.
 		for (StudentAttributes s : studentDataList) {
 			try {
-				MimeMessage email = sendRegistrationInviteToStudent(courseId,
-						s.email);
+				MimeMessage email = sendRegistrationInviteToStudent(courseId, s.email);
 				emailsSent.add(email);
 			} catch (EntityDoesNotExistException e) {
 				Assumption

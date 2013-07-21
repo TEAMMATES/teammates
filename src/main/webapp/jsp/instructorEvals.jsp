@@ -16,9 +16,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Teammates - Instructor</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="/stylesheets/instructorEval.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorEvals.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/instructorEval-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorEvals-print.css" type="text/css" media="print">
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -29,7 +29,7 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
-	<script type="text/javascript" src="/js/instructorEval.js"></script>
+	<script type="text/javascript" src="/js/instructorEvals.js"></script>
 	<%
 		if(data.newEvaluationToBeCreated==null){
 	%>

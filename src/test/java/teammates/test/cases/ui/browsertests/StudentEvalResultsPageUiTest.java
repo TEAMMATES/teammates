@@ -73,7 +73,7 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
 
 	private void verifyResultContent(String evalObjectId, String studentObjectId, String filePath) {
 		
-		Url resultsUrl = createUrl(Const.ActionURIs.STUDENT_EVAL_RESULTS)
+		Url resultsUrl = createUrl(Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE)
 			.withUserId(testData.students.get(studentObjectId).googleId)
 			.withCourseId(testData.evaluations.get(evalObjectId).courseId)
 			.withEvalName(testData.evaluations.get(evalObjectId).name);

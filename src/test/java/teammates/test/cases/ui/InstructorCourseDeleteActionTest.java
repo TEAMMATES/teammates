@@ -12,7 +12,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.InstructorCourseDeleteAction;
 import teammates.ui.controller.InstructorCoursesPageAction;
-import teammates.ui.controller.InstructorCoursePageData;
+import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
@@ -87,7 +87,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		assertEquals(false, r.isError);
 		assertEquals("The course has been deleted.", r.getStatusMessage());
 		
-		InstructorCoursePageData pageData = (InstructorCoursePageData)r.data;
+		InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(1, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);
@@ -115,7 +115,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		assertEquals(false, r.isError);
 		assertEquals("The course has been deleted.", r.getStatusMessage());
 		
-		pageData = (InstructorCoursePageData) r.data;
+		pageData = (InstructorCoursesPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(0, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);

@@ -2,14 +2,14 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorEvalUnpublishAction extends InstructorEvalsPageAction {
 	
 	@Override
-	protected ActionResult execute() 
-			throws EntityDoesNotExistException,	InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
@@ -18,7 +18,11 @@ public class InstructorEvalUnpublishAction extends InstructorEvalsPageAction {
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getEvaluation(courseId, evalName));
 		
-		logic.unpublishEvaluation(courseId,evalName);
+		try {
+			logic.unpublishEvaluation(courseId,evalName);
+		} catch (InvalidParametersException e) {
+			Assumption.fail("InvalidParametersException not expected at this point");
+		}
 		
 		statusToUser.add(Const.StatusMessages.EVALUATION_UNPUBLISHED);
 		statusToAdmin = "Evaluation <span class=\"bold\">(" + evalName + ")</span> " +

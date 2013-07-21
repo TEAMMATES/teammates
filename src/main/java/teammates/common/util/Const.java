@@ -297,7 +297,7 @@ public class Const {
 		public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT_PAGE = "/page/studentEvalSubmissionEditPage";
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT_SAVE = "/page/studentEvalSubmissionEditSave";
-		public static final String STUDENT_EVAL_RESULTS = "/page/studentEvalResults";
+		public static final String STUDENT_EVAL_RESULTS_PAGE = "/page/studentEvalResultsPage";
 		
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
@@ -311,6 +311,9 @@ public class Const {
 		public static final String ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
 		public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
 		public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
+		
+		public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
+		public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";
 		
 		public static final String BACKDOOR = "/backdoor";
 	}

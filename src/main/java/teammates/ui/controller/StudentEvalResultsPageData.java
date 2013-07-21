@@ -33,6 +33,7 @@ public class StudentEvalResultsPageData extends PageData {
 		return getPointsList(subs, false);
 	}
 	
+	//TODO: This method doesn't seem to be used
 	public static String getPointsListNormalized(List<SubmissionAttributes> subs){
 		return getPointsList(subs, true);
 	}
@@ -55,7 +56,7 @@ public class StudentEvalResultsPageData extends PageData {
 		});
 		for(SubmissionAttributes sub: subs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
-			if(result!="") result+=", ";
+			if(!result.isEmpty()) result+=", ";
 			if(normalized){
 				result+=getPointsAsColorizedHtml(sub.details.normalizedToInstructor);
 			} else{
@@ -82,7 +83,7 @@ public class StudentEvalResultsPageData extends PageData {
 		});
 		for(SubmissionAttributes sub: tempSubs){
 			if(sub.reviewee.equals(sub.reviewer)) continue;
-			if(result!="") result+=", ";
+			if(!result.isEmpty()) result+=", ";
 			result+=InstructorEvalResultsPageData.getPointsAsColorizedHtml(sub.details.normalizedToStudent);
 		}
 		return result;

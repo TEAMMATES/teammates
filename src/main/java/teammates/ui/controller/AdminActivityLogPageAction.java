@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -24,8 +23,7 @@ public class AdminActivityLogPageAction extends Action {
 	private static final int MAX_LOGSEARCH_LIMIT = 7000;
 
 	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException,
-			InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException{
 		
 		new GateKeeper().verifyAdminPrivileges(account);
 		

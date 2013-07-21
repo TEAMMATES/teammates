@@ -15,6 +15,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalSubmissionViewPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorHelpPage;
 
 /**
  * Tests 'Evaluation Results' view of Instructors.
@@ -107,6 +108,11 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
 		InstructorEvalSubmissionViewPage viewPage = resultsPage.clickViewLinkForStudent("Alice Betsy");
 		viewPage.verifyIsCorrectPage("Alice Betsy");
 		viewPage.closeCurrentWindowAndSwitchToParentWindow();
+		
+		______TS("link: interpreting help");
+		
+		InstructorHelpPage helpPage = resultsPage.clickInterpretHelpLink();
+		helpPage.closeCurrentWindowAndSwitchToParentWindow();
 		
 		______TS("action: download report");
 		

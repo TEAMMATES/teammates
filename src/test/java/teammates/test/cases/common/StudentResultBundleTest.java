@@ -8,8 +8,9 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
+import teammates.test.cases.BaseTestCase;
 
-public class StudentResultBundleTest {
+public class StudentResultBundleTest extends BaseTestCase{
 
 	@Test
 	public void testSortOutgoingByStudentNameAscending()

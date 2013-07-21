@@ -127,7 +127,8 @@ public class SubmissionsDb extends EntitiesDb {
 	 */
 	public List<SubmissionAttributes> getSubmissionsForEvaluationFromStudent(
 			String courseId, String evaluationName, String reviewerEmail) {
-		
+		//TODO: There is not much use in using Const.StatusCodes.DBLEVEL_NULL_INPUT here.
+		//  We can omit that parameter altogether, in all other places similar to the below.
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, evaluationName);
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, reviewerEmail);
@@ -218,6 +219,8 @@ public class SubmissionsDb extends EntitiesDb {
 		for (Submission s : submissionsToStudent) {
 			s.setRevieweeEmail(newEmail);
 		}
+		
+		//TODO: We need to update feedback submissions too.
 	
 		getPM().close();
 	}

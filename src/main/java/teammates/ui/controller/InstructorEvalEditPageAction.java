@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.logging.Logger;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -13,8 +12,7 @@ public class InstructorEvalEditPageAction extends Action {
 	Logger log = Utils.getLogger();
 
 	@Override
-	protected ActionResult execute() 
-			throws EntityDoesNotExistException,	InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
@@ -37,7 +35,7 @@ public class InstructorEvalEditPageAction extends Action {
 				")</span> for Course <span class=\"bold\">[" + data.evaluation.courseId + "]</span>.<br>" +
 				"<span class=\"bold\">From:</span> " + data.evaluation.startTime + 
 				"<span class=\"bold\"> to</span> " + data.evaluation.endTime + "<br>" +
-				"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled== true ? "enabled" : "disabled") + 
+				"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled ? "enabled" : "disabled") + 
 				"<br><br><span class=\"bold\">Instructions:</span> " + data.evaluation.instructions;
 		
 		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_EDIT, data);

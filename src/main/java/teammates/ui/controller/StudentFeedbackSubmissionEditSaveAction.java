@@ -43,7 +43,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		}
 		
 		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
-		
+		//TODO: nesting too deep
 		for(int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
 			String totalResponsesForQuestion = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL+"-"+questionIndx);
 			if (totalResponsesForQuestion == null) {
@@ -57,17 +57,13 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 					try {
 						logic.updateFeedbackResponse(response);
 					} catch (InvalidParametersException e) {
-						statusToUser.add(e.getMessage());
-						statusToAdmin = e.getMessage();
-						isError = true;
+						setStatusForException(e);
 					}
 				} else if (response.answer.getValue().isEmpty() == false){
 					try {
 						logic.createFeedbackResponse(response);
 					} catch (EntityAlreadyExistsException | InvalidParametersException e) {
-						statusToUser.add(e.getMessage());
-						statusToAdmin = e.getMessage();
-						isError = true;
+						setStatusForException(e);
 					}
 				}
 			}

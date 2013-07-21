@@ -1,20 +1,19 @@
 package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackEditPageAction extends Action {
 
 	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException,
-			InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
+		//TODO: This should be an Assumption failure?
 		if (courseId==null || feedbackSessionName==null) {
 			statusToAdmin = "instructorFeedbackEdit Page Redirect<br>"
 					+ "Tried to edit feedback session with null parameters";

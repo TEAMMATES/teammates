@@ -29,6 +29,7 @@ public class HttpRequestHelper {
 		return values == null ? null : values;
 	}
 
+	//TODO: rename to a better name
 	public static String printRequestParameters(HttpServletRequest request) {
 		String requestParameters = "{";
 		for (Enumeration<?> f = request.getParameterNames(); f.hasMoreElements();) {
@@ -40,7 +41,7 @@ public class HttpRequestHelper {
 			}
 			requestParameters = requestParameters.substring(0, requestParameters.length() - 2) + ", ";
 		}
-		if (requestParameters != "{") {
+		if (!requestParameters.equals("{")) {
 			requestParameters = requestParameters.substring(0, requestParameters.length() - 2);
 		}
 		requestParameters += "}";

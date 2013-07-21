@@ -28,6 +28,7 @@ import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
+import teammates.test.pageobjects.NotFoundPage;
 
 /**
  * We do not test all access control at UI level. This class contains a few
@@ -126,6 +127,11 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		//cannot access admin while logged in as student
 		verifyCannotAccessAdminPages();
 		
+		______TS("incorrect URL");
+		
+		Url nonExistentActionUrl = new Url(TestProperties.inst().TEAMMATES_URL + "/page/nonExistentAction");
+		@SuppressWarnings("unused") //We simply ensures it is the right page type
+		NotFoundPage notFoundPage = AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
 
 	}
 
@@ -248,11 +254,11 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 	
-		link = Const.ActionURIs.STUDENT_EVAL_RESULTS;
+		link = Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
 		link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, ownCourse.id);
 		link = Url.addParamToUrl(link, Const.ParamsNames.EVALUATION_NAME,
 				ownEvaluation.name);
-		verifyRedirectedToServerErrorPage(link); //TODO: this error should be handled better.
+		verifyRedirectToNotAuthorized(link); //TODO: this error should be handled better.
 	
 		______TS("student can view own evaluation result after publishing");
 	
@@ -281,9 +287,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		verifyCannotMasquerade(link, otherInstructor.googleId);
 		
 		deleteSpecialTestData();
-	
 	}
-
 	
 
 	private void loginStudent(String userName, String password) {
@@ -383,10 +387,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		printUrl(appUrl + path);
 		currentPage.navigateTo(createUrl(path));
 		assertTrue(isLoginPage(currentPage));
-	}
-
-	private void verifyRedirectedToServerErrorPage(String url) {
-		verifyPageContains(url, "There was an error in our server.");
 	}
 
 	private boolean isLoginPage(AppPage currentPage) {

@@ -71,9 +71,7 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
 			
 		} catch (InvalidParametersException e) {
 			//TODO: redirect to the same page?
-			statusToUser.add(e.getMessage());
-			isError = true;
-			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+			setStatusForException(e);
 		}		
 		
 		RedirectResult response = createRedirectResult(Const.ViewURIs.SHOW_MESSAGE);

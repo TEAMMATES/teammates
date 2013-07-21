@@ -220,9 +220,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 		waitForPageToLoad();
 	}
 	
-	public InstructorFeedbackPage deleteSession() {
+	public InstructorFeedbacksPage deleteSession() {
 		clickAndConfirm(getDeleteSessionLink());
 		waitForPageToLoad();
-		return changePageType(InstructorFeedbackPage.class);
+		return changePageType(InstructorFeedbacksPage.class);
 	}
 }

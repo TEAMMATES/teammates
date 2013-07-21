@@ -115,8 +115,6 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 	 * Preconditions: <br>
 	 * * {@code newAttributes.getId()} is non-null and
 	 *  correspond to an existing feedback question. <br>
-	 * @throws InvalidParametersException 
-	 * @throws EntityDoesNotExistException 
 	 */
 	public void updateFeedbackQuestion (FeedbackQuestionAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException {
 		Assumption.assertNotNull(

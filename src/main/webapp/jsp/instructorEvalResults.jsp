@@ -123,7 +123,8 @@
 				out.flush();
 			%>
 			<div id="instructorEvaluationSummaryTable" class="evaluation_result">
-				<div id="tablecaption">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share</div>
+				<div id="tablecaption">CC = Claimed Contribution; PC = Perceived Contribution; E = Equal Share &nbsp;&nbsp;&nbsp;&nbsp; 
+				[ <a href="/instructorHelp.html#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a> ]</div>
 				<table class="dataTable">
 					<tr>
 						<th class="centeralign color_white bold" width="13%"><input
@@ -145,7 +146,7 @@
 							onmouseout="hideddrivetip()">Diff</span></th>
 						<th class="centeralign color_white bold" width="20%"><span
 							onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_POINTS_RECEIVED%>')"
-							onmouseout="hideddrivetip()"> Points Received</span></th>
+							onmouseout="hideddrivetip()"> Ratings Received</span></th>
 						<th class="centeralign color_white bold no-print" width="11%">Action(s)</th>
 					</tr>
 					<%

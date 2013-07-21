@@ -14,7 +14,7 @@
 	<title>Teammates - Feedback Session Results</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-	<link rel="stylesheet" href="/stylesheets/instructorFeedback.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorFeedbacks.css" type="text/css" media="screen">
 	
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>

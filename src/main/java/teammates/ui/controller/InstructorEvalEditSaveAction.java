@@ -13,8 +13,7 @@ public class InstructorEvalEditSaveAction extends Action {
 	Logger log = Utils.getLogger();
 
 	@Override
-	protected ActionResult execute() 
-			throws EntityDoesNotExistException,	InvalidParametersException {
+	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
@@ -41,16 +40,13 @@ public class InstructorEvalEditSaveAction extends Action {
 					")</span> for Course <span class=\"bold\">[" + data.evaluation.courseId + "]</span>.<br>" +
 					"<span class=\"bold\">From:</span> " + data.evaluation.startTime + 
 					"<span class=\"bold\"> to</span> " + data.evaluation.endTime + "<br>" +
-					"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled== true ? "enabled" : "disabled") + 
+					"<span class=\"bold\">Peer feedback:</span> " + (data.evaluation.p2pEnabled ? "enabled" : "disabled") + 
 					"<br><br><span class=\"bold\">Instructions:</span> " + data.evaluation.instructions;
 			
 			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE);
 			
 		} catch (InvalidParametersException e) {
-			isError = true;
-			statusToUser.add(e.getMessage());
-			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
-			
+			setStatusForException(e);
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_EDIT, data);
 		}
 		

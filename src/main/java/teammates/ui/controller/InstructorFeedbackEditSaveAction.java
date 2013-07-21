@@ -39,9 +39,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
 					"<span class=\"bold\">Results visible from:</span> " + data.session.resultsVisibleFromTime + "<br><br>" +
 					"<span class=\"bold\">Instructions:</span> " + data.session.instructions;
 		} catch (InvalidParametersException e) {
-			statusToUser.add(e.getMessage());
-			statusToAdmin = e.getMessage();
-			isError = true;
+			setStatusForException(e);
 		}
 		
 		// Get updated results and show same page
@@ -73,7 +71,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
 		newSession.instructions = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
 		String type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
 		switch (type) {
-		case "custom":
+		case "custom": //Magic strings. Use enums to prevent potentila bugs caused by typos.
 			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
 					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
 					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));

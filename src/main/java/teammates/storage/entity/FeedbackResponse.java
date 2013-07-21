@@ -35,7 +35,7 @@ public class FeedbackResponse {
 	private String giverEmail;
 		
 	@Persistent
-	private String receiver;
+	private String receiver; //TODO: this might need an explanatory comment. is it email, id, ...?
 	
 	@Persistent
 	private Text answer;

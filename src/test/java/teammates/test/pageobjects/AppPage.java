@@ -1,7 +1,6 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +30,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 
@@ -50,6 +50,7 @@ public abstract class AppPage {
 	/** Browser instance the page is loaded into */
 	protected Browser browser;
 	
+	/** These are elements common to most pages in our app */
 	@SuppressWarnings("unused")
 	private void ____Common_page_elements___________________________________() {
 	}
@@ -262,6 +263,31 @@ public abstract class AppPage {
 	}
 
 	
+	/**
+	 * This can be used to save pages which can later be used as the 'expected'
+	 * in UI test cases. After saving the file, remember to edit it manually and
+	 *  replace the version number in the page footer with the string 
+	 * "{$version}". so that the test can insert the correct version number 
+	 * before comparing the 'expected' with the 'actual.
+	 *  e.g., replace "V4.55" in the page footer by "V{$version}".
+	 *  @param filePath If the full path is not given, it will be saved in the
+	 *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
+	 *  value should start with "/". e.g., "/instructorHomePage.html".
+	 */
+	public void saveCurrentPage(String filePath) {
+		if(filePath.startsWith("/")){
+			filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
+		}
+		try {
+		String pageSource = getPageSource();
+		FileWriter output = new FileWriter(new File(filePath));
+		output.write(pageSource);
+			output.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public void click(By by) {
 		WebElement element = browser.driver.findElement(by);
 		element.click();
@@ -420,8 +446,12 @@ public abstract class AppPage {
 		return this;
 	}
 	
+	/**
+	 * Also supports the expression "{*}" which will match any text.
+	 * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
+	 */
 	public AppPage verifyContains(String searchString) {
-		assertTrue(getPageSource().contains(searchString));
+		AssertHelper.assertContainsRegex(searchString, getPageSource());
 		return this;
 	}
 	
@@ -498,31 +528,6 @@ public abstract class AppPage {
 	
 	@SuppressWarnings("unused")
 	private void ____private_utility_methods________________________________() {
-	}
-
-	/**
-	 * This can be used to save pages which can later be used as the 'expected'
-	 * in UI test cases. After saving the file, remember to edit it manually and
-	 *  replace the version number in the page footer with the string 
-	 * "{$version}". so that the test can insert the correct version number 
-	 * before comparing the 'expected' with the 'actual.
-	 *  e.g., replace "V4.55" in the page footer by "V{$version}".
-	 *  @param filePath If the full path is not given, it will be saved in the
-	 *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
-	 *  value should start with "/". e.g., "/instructorHomePage.html".
-	 */
-	public void saveCurrentPage(String filePath) {
-		if(filePath.startsWith("/")){
-			filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-		}
-		try {
-		String pageSource = getPageSource();
-		FileWriter output = new FileWriter(new File(filePath));
-		output.write(pageSource);
-			output.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	private static <T extends AppPage> T createNewPage(Browser currentBrowser,	Class<T> typeOfPage) {

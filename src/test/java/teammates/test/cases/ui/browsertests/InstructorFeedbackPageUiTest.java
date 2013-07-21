@@ -20,15 +20,15 @@ import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.InstructorFeedbackPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 
 /**
  * Covers the 'Feedback Session' page for instructors. 
- * SUT is {@link InstructorFeedbackPage}.
+ * SUT is {@link InstructorFeedbacksPage}.
  */
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 	private static Browser browser;
-	private static InstructorFeedbackPage feedbackPage;
+	private static InstructorFeedbacksPage feedbackPage;
 	private static DataBundle testData;
 	/** This contains data for the new feedback session to be created during testing */
 	private static FeedbackSessionAttributes newSession;
@@ -207,9 +207,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		BrowserPool.release(browser);
 	}
 
-	private InstructorFeedbackPage getFeedbackPageForInstructor(String instructorId) {
+	private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
 		Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
-		return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackPage.class);
+		return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
 	}
 
 }

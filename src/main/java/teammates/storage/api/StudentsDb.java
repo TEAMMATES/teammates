@@ -100,6 +100,7 @@ public class StudentsDb extends EntitiesDb {
 			try {
 				//Failing that, we try to retrieve assuming the given registrationKey is unencrypted 
 				//  (early versions of the system sent unencrypted keys).
+				//TODO: This branch can be removed after Dec 2013
 				Student student = getPM().getObjectById(Student.class,
 						KeyFactory.stringToKey(originalKey));
 				studentAttributes = new StudentAttributes(student);
@@ -167,6 +168,8 @@ public class StudentsDb extends EntitiesDb {
 		
 		List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 	
+		//TODO: See if we can use a generic method to convert a list of entities to a list of attributes.
+		//  e.g., convertToAttributes(entityList, new ArrayList<StudentAttributes>())
 		for (Student s : studentList) {
 			if (!JDOHelper.isDeleted(s)) {
 				studentDataList.add(new StudentAttributes(s));
@@ -278,6 +281,8 @@ public class StudentsDb extends EntitiesDb {
 			log.severe("Operation did not persist in time: deleteStudent->"
 					+ courseId + "/" + email);
 		}
+		
+		//TODO: use the method in the parent class instead.
 	}
 
 	/**

@@ -53,6 +53,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		
 		gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 		verifyAssumptionFailure();
+		//TODO: Uncomment or remove.
 		//verifyAssumptionFailure(Common.Params.COURSE_ID, instructor1ofCourse1.courseId);
 		
 		______TS("Typical case");

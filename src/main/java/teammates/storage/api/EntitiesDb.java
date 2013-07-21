@@ -39,7 +39,8 @@ public abstract class EntitiesDb {
 			throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
 		}
 		
-		// TODO: Do we really need special identifiers? Can just use ToString()?
+		// TODO: Do we really need special identifiers? Can just use ToString()? 
+		// Answer: Yes. We can use toString.
 		if (getEntity(entityToAdd) != null) {
 			String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
 					+ entityToAdd.getIdentificationString();
@@ -114,5 +115,5 @@ public abstract class EntitiesDb {
 	
 	protected PersistenceManager getPM() {
 		return Datastore.getPersistenceManager();
-	};
+	}
 }

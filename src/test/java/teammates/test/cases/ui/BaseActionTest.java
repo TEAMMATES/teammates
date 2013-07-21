@@ -27,13 +27,17 @@ public class BaseActionTest extends BaseComponentTestCase {
 	/**URI that matches with the action being tested */
 	protected static String uri;
 
+	/** Executes the action and returns the result.
+	 * Assumption: The action returns a ShowPageResult.
+	 */
 	protected ShowPageResult getShowPageResult(Action a)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		return (ShowPageResult) a.executeAndPostProcess();
 	}
 
 	/**
-	 * @return The {@code params} array with the {@code userId} inserted at the beginning.
+	 * @return The {@code params} array with the {@code userId} 
+	 * (together with the parameter name) inserted at the beginning.
 	 */
 	protected String[] addUserIdToParams(String userId, String[] params) {
 		List<String> list = new ArrayList<String>();

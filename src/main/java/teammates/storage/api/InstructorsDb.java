@@ -26,8 +26,6 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorsDb extends EntitiesDb{
 	
-	public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
-	
 	private static final Logger log = Utils.getLogger();
 		
 	/**
@@ -191,6 +189,8 @@ public class InstructorsDb extends EntitiesDb{
 			log.severe("Operation did not persist in time: deleteInstructor->"
 					+ googleId);
 		}
+		
+		//TODO: reuse the method in the parent class instead
 	}
 	
 	/**
