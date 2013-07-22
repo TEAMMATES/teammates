@@ -993,7 +993,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 	
-		return feedbackSessionsLogic.isFeedbackSessionFullyCompletedByUser(
+		return feedbackSessionsLogic.isFeedbackSessionCompletedByUser(
 				feedbackSessionName, courseId, studentEmail);
 	}
 	

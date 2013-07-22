@@ -190,16 +190,13 @@ public class StudentHomePageData extends PageData {
 		
 		Boolean hasSubmitted = sessionSubmissionStatusMap.get(fs.courseId+"%"+fs.feedbackSessionName);
 		
-		boolean hasView = fs.isPublished();
-		boolean hasEdit = fs.isOpened();
-		
 		// @formatter:off
 		String result = "<a class=\"color_black\" href=\""
 				+ getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName)
 				+ "\" " + "name=\"viewFeedbackResults"
 				+ idx + "\" " + " id=\"viewFeedbackResults" + idx + "\" "
 				+ "onmouseover=\"ddrivetip('" + Const.Tooltips.FEEDBACK_SESSION_RESULTS
-				+ "')\" " + "onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED)
+				+ "')\" " + "onmouseout=\"hideddrivetip()\" " + (fs.isPublished() ? "" : DISABLED)
 				+ ">" + "View Responses</a>";
 				
 		if (hasSubmitted) {
@@ -210,8 +207,8 @@ public class StudentHomePageData extends PageData {
 					+ "onmouseover=\"ddrivetip('"
 					+ Const.Tooltips.FEEDBACK_SESSION_EDIT_RESPONSE
 					+ "')\" onmouseout=\"hideddrivetip()\" "
-					+ (hasEdit ? "" : DISABLED) + ">Edit/View Submission</a>";
-		} else {
+					+ (fs.isOpened() ? "" : "Edit/") + ">View Submission</a>";
+		} else if (fs.isOpened()) {
 			result += "<a class=\"color_black\" id=\"submitEvaluation"
 					+ idx
 					+ "\" "

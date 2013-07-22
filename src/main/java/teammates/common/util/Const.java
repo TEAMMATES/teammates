@@ -136,15 +136,13 @@ public class Const {
 		public static final String FEEDBACK_SESSION_EDIT = "Edit feedback session details";
 		public static final String FEEDBACK_SESSION_DELETE = "Delete the feedback session";
 		public static final String FEEDBACK_SESSION_SUBMIT = "Start submitting feedback";
-		public static final String FEEDBACK_SESSION_EDIT_RESPONSE = "Edit submitted feedback";
-		
+		public static final String FEEDBACK_SESSION_EDIT_RESPONSE = "View/Edit submitted feedback";
+
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
 		public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
 		public static final String FEEDBACK_QUESTION_VISBILITY = "Here you can select how each question's response will be visible to the different types of users in your course.";
 	
-		public static final String FEEDBACK_SUBMIT_NOT_YET_OPEN = "You can view the questions for this feedback session but cannot submit responses yet as the session is not yet opened.";
-		
 		public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" +
 				"<br />in the course once the results are published.";
 		public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
@@ -428,6 +426,9 @@ public class Const {
 		
 		public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
 		
+		public static final String FEEDBACK_SUBMISSIONS_NOT_YET_OPEN = "You can view the questions for this feedback session but cannot submit responses yet as the session is not yet opened.";
+		public static final String FEEDBACK_SUBMISSIONS_CLOSED = "You can view the questions for this feedback session and any previously submitted responses but cannot further edit them as the session is already closed.";
+		
 		//TODO: these status messages are from used for input validation testing only. Move to test driver side? 
 		
 		public static final String COURSE_INPUT_FIELDS_EXTRA = "There are too many fields.";
@@ -532,6 +533,8 @@ public class Const {
 	public static final int POINTS_NOT_SUBMITTED = -999;
 	
 	public static final String GENERAL_QUESTION = "%GENERAL%";
+	public static final String USER_IS_TEAM = "%TEAM%";
+	public static final String USER_IS_NOBODY = "%NOBODY%";
 	
 	public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
 	public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;

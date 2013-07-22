@@ -41,10 +41,26 @@ public class FeedbackSessionResultsBundle {
 		}
 	}
 	
-	//TODO: use /** */ format for this comment
-	// TODO: make responses to student always on top.
-	// Method returns an ordered map with keys sorted by questionNumber. 
-	// Values are sorted by recipientName > giverName
+	public String getNameForEmail(String email) {
+		String name = emailNameTable.get(email);		
+		if (name.equals(Const.USER_IS_NOBODY)) {
+			return "Class";
+		} else if (name.equals(Const.USER_IS_TEAM)) {
+			return "Unknown user";
+		} else {
+			return name;
+		}
+	}
+	
+	// TODO: make responses to the student calling this method always on top.
+	/**
+	 * Gets the questions and responses in this bundle as a map. 
+	 * 
+	 * @return An ordered {@code Map} with keys as {@link FeedbackQuestionAttributes}
+	 *  sorted by questionNumber.
+	 * The mapped values for each key are the corresponding
+	 *  {@link FeedbackResponseAttributes} as a {@code List}. 
+	 */
 	public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseMap() {
 		
 		if (questions == null || responses == null) {
@@ -102,10 +118,10 @@ public class FeedbackSessionResultsBundle {
 			// New recipient, add response package to map.
 			if (response.recipient.equals(prevRecipient) == false
 					&& prevRecipient != null) {
-				// Put final giver responses
+				// Put previous giver responses into inner map. 
 				responsesToOneRecipient.put(prevGiver,
 						responsesFromOneGiverToOneRecipient);
-				// Put responses for previous recipient into map
+				// Put all responses for previous recipient into outer map.
 				sortedMap.put(prevRecipient, responsesToOneRecipient);
 				// Clear responses
 				responsesToOneRecipient = new LinkedHashMap<String,
@@ -127,6 +143,13 @@ public class FeedbackSessionResultsBundle {
 
 			prevGiver = response.giverEmail;
 			prevRecipient = response.recipient;
+		}
+		
+		if (responses.isEmpty() == false ) {
+			// Put responses for final giver
+			responsesToOneRecipient.put(prevGiver,
+					responsesFromOneGiverToOneRecipient);
+			sortedMap.put(prevRecipient, responsesToOneRecipient);
 		}
 
 		return sortedMap;
@@ -161,10 +184,10 @@ public class FeedbackSessionResultsBundle {
 			// New recipient, add response package to map.
 			if (response.giverEmail.equals(prevGiver) == false
 					&& prevGiver != null) {
-				// Put final recipient responses
+				// Put previous recipient responses into inner map. 
 				responsesFromOneGiver.put(prevRecipient,
 						responsesFromOneGiverToOneRecipient);
-				// Put responses for previous giver into map
+				// Put all responses for previous giver into outer map.
 				sortedMap.put(prevGiver, responsesFromOneGiver);
 				// Clear responses
 				responsesFromOneGiver = new LinkedHashMap<String,
@@ -187,6 +210,13 @@ public class FeedbackSessionResultsBundle {
 			prevRecipient = response.recipient;
 			prevGiver = response.giverEmail;
 		}
+		
+		if (responses.isEmpty() == false ) {
+			// Put responses for final recipient
+			responsesFromOneGiver.put(prevRecipient,
+					responsesFromOneGiverToOneRecipient);
+			sortedMap.put(prevGiver, responsesFromOneGiver);
+		}
 
 		return sortedMap;
 	}
@@ -196,17 +226,19 @@ public class FeedbackSessionResultsBundle {
 	private void ________________COMPARATORS_____________(){}
 	
 	// Sorts by giverName > recipientName > qnNumber
+	// General questions and team questions at the bottom.
 	public Comparator<FeedbackResponseAttributes> compareByGiverName
 		= new Comparator<FeedbackResponseAttributes>() {
-//		@Override  //TODO: remove or uncomment
+		@Override
 		public int compare(FeedbackResponseAttributes o1,
 				FeedbackResponseAttributes o2) {
 			String giverName1 = emailNameTable.get(o1.giverEmail);
 			String giverName2 = emailNameTable.get(o2.giverEmail);
 			String recipientName1 = emailNameTable.get(o1.recipient);
-			String recipientName2 = emailNameTable.get(o2.recipient);
-			int order = giverName1.compareTo(giverName2);
-			order = (order == 0 ? recipientName1.compareTo(recipientName2) : order);
+			String recipientName2 = emailNameTable.get(o2.recipient);			
+				
+			int order = compareByNames(giverName1, giverName2);
+			order = (order == 0 ? compareByNames(recipientName1, recipientName2) : order);
 			return order == 0? compareByQuestionNumber(o1, o2) : order; 
 		}
 	};
@@ -221,8 +253,8 @@ public class FeedbackSessionResultsBundle {
 			String giverName2 = emailNameTable.get(o2.giverEmail);
 			String recipientName1 = emailNameTable.get(o1.recipient);
 			String recipientName2 = emailNameTable.get(o2.recipient);
-			int order = recipientName1.compareTo(recipientName2);
-			order = (order == 0 ? giverName1.compareTo(giverName2) : order);
+			int order = compareByNames(recipientName1, recipientName2);
+			order = (order == 0 ? compareByNames(giverName1, giverName2) : order);
 			return order == 0 ? compareByQuestionNumber(o1, o2) : order; 
 		}
 	};
@@ -236,5 +268,25 @@ public class FeedbackSessionResultsBundle {
 			return q1.compareTo(q2);
 		}
 	}
+	
+	private int compareByNames(String n1, String n2) {
+		
+		// Make class feedback always appear on top, and team responses at bottom.
+		int n1Priority = 0;
+		int n2Priority = 0;
+		
+		if (n1.equals(Const.USER_IS_NOBODY)) {
+			n1Priority = -1;
+		} else if(n1.equals(Const.USER_IS_TEAM)) {
+			n1Priority = 1;
+		}
+		if (n2.equals(Const.USER_IS_NOBODY)) {
+			n2Priority = -1;
+		} else if(n2.equals(Const.USER_IS_TEAM)) {
+			n2Priority = 1;
+		}
+		
+		int order = Integer.compare(n1Priority, n2Priority);
+		return order == 0 ? n1.compareTo(n2) : order; 
+	}
 }
-

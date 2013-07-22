@@ -61,8 +61,8 @@
 							for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
 						%>
 						<tr>
-							<td><%=data.bundle.emailNameTable.get(responseEntry.giverEmail)%></td>
-							<td><%=data.bundle.emailNameTable.get(responseEntry.recipient)%></td>
+							<td><%=data.bundle.getNameForEmail(responseEntry.giverEmail)%></td>
+							<td><%=data.bundle.getNameForEmail(responseEntry.recipient)%></td>
 							<td><%=responseEntry.answer.getValue()%></td>
 						</tr>		
 						<%

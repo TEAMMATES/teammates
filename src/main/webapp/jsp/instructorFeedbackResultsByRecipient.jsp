@@ -46,7 +46,7 @@
 												responsesForRecipient : allResponses.entrySet()) {
 			%>
 			<div class="backgroundBlock">
-				<h2 class="color_white">To: <%=data.bundle.emailNameTable.get(responsesForRecipient.getKey())%></h2>
+				<h2 class="color_white">To: <%=data.bundle.getNameForEmail(responsesForRecipient.getKey())%></h2>
 
 				<%
 					for (Map.Entry<String, List<FeedbackResponseAttributes>>
@@ -54,7 +54,7 @@
 				%>			
 					<table class="resultTable" style="width:100%">
 						<thead>
-							<tr><th><span class="bold">From: </span><%=data.bundle.emailNameTable.get(responsesForRecipientFromGiver.getKey())%></th></tr>
+							<tr><th><span class="bold">From: </span><%=data.bundle.getNameForEmail(responsesForRecipientFromGiver.getKey())%></th></tr>
 						</thead>
 				<%
 					int qnIndx = 1;

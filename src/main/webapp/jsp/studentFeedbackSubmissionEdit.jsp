@@ -122,15 +122,15 @@
 					</td>					
 					<td>
 						<textarea rows="4" cols="100%" class="textvalue" 
-						<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\" onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SUBMIT_NOT_YET_OPEN+"')\" onmouseout=\"hideddrivetip()\""%>
+						<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\")\""%>
 						name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=existingResponse.answer.getValue()%></textarea>
 						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
 					</td>
 				</tr>
 				<%
 					responseIndx++;
-													}
-													while(responseIndx < numOfResponseBoxes) {
+															}
+															while(responseIndx < numOfResponseBoxes) {
 				%>
 				<tr>
 				<td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
@@ -143,17 +143,21 @@
 					%>
 					</select>
 				</td>
-				<td class="responseText"><textarea rows="4" class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"></textarea></td>
+				<td class="responseText">
+					<textarea rows="4" class="textvalue" 
+					name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+					<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>
+					></textarea></td>
 				</tr>
 				<%
 					responseIndx++;
-														}
+																}
 				%>
 			</table>
 			<br><br>
 			<%
 				qnIndx++;
-									}
+										}
 			%>
 			<div class="bold centeralign">
 			<%
@@ -165,9 +169,13 @@
 			%>
 			<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
 			<%
+				} else if (data.bundle.feedbackSession.isClosed()){
+			%>
+			<%=Const.StatusMessages.FEEDBACK_SUBMISSIONS_CLOSED%>
+			<%
 				} else {
 			%>
-			<%=Const.Tooltips.FEEDBACK_SUBMIT_NOT_YET_OPEN%>
+			<%=Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_YET_OPEN%>
 			<%
 				}
 			%>

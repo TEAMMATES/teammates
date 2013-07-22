@@ -313,11 +313,11 @@ public class FeedbackSessionsLogic {
 			if (instructor == null) {
 				if(email.equals(Const.GENERAL_QUESTION)) {
 					// Email represents that there is no specific recipient. 
-					name = "Nobody";
+					name = Const.USER_IS_NOBODY;
 					team = email;
 				} else {
 					// Assume that the email is actually a team name.
-					name = "Unknown user";
+					name = Const.USER_IS_TEAM;
 					team = email;
 				}
 			} else {

@@ -77,9 +77,11 @@
 										FeedbackResponseAttributes responseForQn = itr.next();
 			%>
 			<%
-				String recipient = data.bundle.emailNameTable.get(responseForQn.recipient);
+										String recipient = data.bundle.getNameForEmail(responseForQn.recipient);
+										FeedbackParticipantType recipientType = questionWithResponses.getKey().recipientType;
 										if (data.bundle.visibilityTable.get(responseForQn.getId())[1] == false &&
-												questionWithResponses.getKey().recipientType != FeedbackParticipantType.SELF) {
+												recipientType != FeedbackParticipantType.SELF && 
+												recipientType != FeedbackParticipantType.NONE) {
 											String hash = Integer.toString(Math.abs(recipient.hashCode()));
 											recipient = questionWithResponses.getKey().recipientType.toSingletonString();
 											recipient = "Anonymous " + recipient + " " + hash;
@@ -107,7 +109,7 @@
 					}
 				%>
 				<tr class="resultSubheader"><td><span class="bold">From: </span><%
-					String giver = data.bundle.emailNameTable.get(responseForQn.giverEmail);
+					String giver = data.bundle.getNameForEmail(responseForQn.giverEmail);
 												if (data.bundle.visibilityTable.get(responseForQn.getId())[0] == false &&
 														questionWithResponses.getKey().recipientType != FeedbackParticipantType.SELF) {
 													String hash = Integer.toString(Math.abs(giver.hashCode()));
