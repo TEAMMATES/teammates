@@ -392,21 +392,20 @@ public class FeedbackQuestionsLogic {
 		String giverName = null;
 		String giverTeam = null;
 		
-		InstructorAttributes instructor =
+		InstructorAttributes instructorGiver =
 				instructorsLogic.getInstructorForEmail(question.courseId, giver);
-		if(instructor == null) {
-			StudentAttributes student = 
-					studentsLogic.getStudentForEmail(question.courseId, giver);
-			if (student == null) {
-				giverName = giver;
-				giverTeam = giver;
-			} else {
-				giverName = student.name;
-				giverTeam = student.team;
-			}
-		} else {
-			giverName = instructor.name;
+		StudentAttributes studentGiver = 
+				studentsLogic.getStudentForEmail(question.courseId, giver);
+		
+		if (studentGiver != null) {
+			giverName = studentGiver.name;
+			giverTeam = studentGiver.team;
+		} else if (instructorGiver != null) {
+			giverName = instructorGiver.name;
 			giverTeam = "Instructors";
+		} else {
+			giverName = giver;
+			giverTeam = giver;			
 		}
 		
 		switch (recipientType) {

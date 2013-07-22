@@ -469,6 +469,19 @@
 		"showResponsesTo" : [ ],
 		"showGiverNameTo" : [ ],
 		"showRecipientNameTo" : [ ]
+    },
+    "qn2InSession2InCourse2": {
+		"feedbackSessionName" : "Instructor feedback session",
+		"courseId" : "idOfTypicalCourse2",
+		"creatorEmail" : "instructor1@course2.com",
+		"questionText" : {"value" : "Please rate your fellow instructors"},
+		"questionNumber" : "2",
+		"giverType" : "INSTRUCTORS",
+		"recipientType" : "INSTRUCTORS",
+		"numberOfEntitiesToGiveFeedbackTo" : 1,
+		"showResponsesTo" : [ ],
+		"showGiverNameTo" : [ ],
+		"showRecipientNameTo" : [ ]
     }
    },
   "feedbackResponses" : {
