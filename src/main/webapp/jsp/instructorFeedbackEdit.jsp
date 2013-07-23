@@ -266,7 +266,11 @@
 			<%
 							for(FeedbackQuestionAttributes question : data.questions) {
 						%>
-			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>" id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions" class="form_question" onsubmit="tallyCheckboxes(<%=question.questionNumber%>)">
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>" 
+			id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions" class="form_question" 
+			onsubmit="tallyCheckboxes(<%=question.questionNumber%>)"
+			<%=data.questionHasResponses.get(question.getId()) ? "editStatus=\"hasResponses\"" : "" %>
+			>
 			<table class="inputTable questionTable" id="questionTable<%=question.questionNumber%>">
 			<tr>
 				<td class="bold">Question <%=question.questionNumber%></td>
@@ -284,7 +288,7 @@
 			</tr>
 			<tr>
 					<td colspan="4"><textarea rows="5" style="width:100%"
-							class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
+							class="textvalue nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
 							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
 							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
 							onmouseout="hideddrivetip()" tabindex="9"
@@ -310,9 +314,9 @@
 					<td></td>
 					<td class="numberOfEntitiesElements<%=question.questionNumber%>"><span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="bold">The maximum number of <span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-<%=question.questionNumber%>" class="bold"></span> each<br>respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements<%=question.questionNumber%>">
-					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ? "" : "checked=\"checked\""%> value="custom" disabled="disabled"> 
-					<input type="number" class="numberOfEntitiesBox" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>-<%=question.questionNumber%>"  min="1" max="250" value=<%=question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ? 1 : question.numberOfEntitiesToGiveFeedbackTo%> disabled="disabled"> 
-					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ? "checked=\"checked\"" : ""%> value="max" disabled="disabled"> 
+					<input class="nonDestructive" type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ? "" : "checked=\"checked\""%> value="custom" disabled="disabled"> 
+					<input class="nonDestructive numberOfEntitiesBox" type="number" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>-<%=question.questionNumber%>"  min="1" max="250" value=<%=question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ? 1 : question.numberOfEntitiesToGiveFeedbackTo%> disabled="disabled"> 
+					<input class="nonDestructive" type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" <%=question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ? "checked=\"checked\"" : ""%> value="max" disabled="disabled"> 
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -321,9 +325,9 @@
 						<table class="dataTable participantTable">
 							<tr>
 								<th class="bold">User/Group</th>
-								<th>Show answer to</th>
-								<th>Show giver name to</th>
-								<th>Show recipient name to</th>
+								<th>Can see answer</th>
+								<th>Can see giver's name</th>
+								<th>Can see recipient's name</th>
 							</tr>
 							<tr>
 								<td>Recipient(s)</td>
@@ -433,9 +437,9 @@
 					<td></td><td></td>
 					<td class="numberOfEntitiesElements"><span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="bold">The maximum number of <span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-" class="bold"></span> <br>each respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements">
-					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="custom" checked="checked"> 
+					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="custom"> 
 					<input type="number" class="numberOfEntitiesBox" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>-" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>" min="1" max="250" value="1"> 
-					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="max"> 					
+					<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="max" checked="checked"> 					
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -445,9 +449,9 @@
 						<table class="dataTable participantTable">
 							<tr>
 								<th>User/Group</th>
-								<th>Show answer to</th>
-								<th>Show giver name to</th>
-								<th>Show receiver name to</th>
+								<th>Can see answer</th>
+								<th>Can see giver's name</th>
+								<th>Can see recipient's name</th>
 							</tr>
 							<tr>
 								<td>Recipient(s)</td>

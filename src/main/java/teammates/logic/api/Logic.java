@@ -1046,6 +1046,18 @@ public class Logic {
 	}
 	
 	/**
+	 * Returns true if there is at least one response for the given feedback question,
+	 * false if not.
+	 * for the session.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	
+	public boolean isQuestionHasResponses(String feedbackQuestionId){
+			return feedbackQuestionsLogic.isQuestionHasResponses(feedbackQuestionId);
+	}
+	
+	/**
 	 * Gets all questions for a feedback session.<br>
 	 * Returns an empty list if they are no questions
 	 * for the session.

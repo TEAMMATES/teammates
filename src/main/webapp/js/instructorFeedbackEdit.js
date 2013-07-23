@@ -19,10 +19,27 @@ function readyFeedbackEditPage(){
 	$('#form_editfeedbacksession').submit(function(event) {
 		return checkEditFeedbackSession();
 	});	
+	$('form[id|=form_editquestion]').submit(function(event) {
+		if($(this).attr('editStatus') == "mustDeleteResponses") {
+			if (confirm("Editing these fields will result in all existing responses for" +
+					" this question to be deleted. Are you sure you want to continue?") == false) {
+				event.stopImmediatePropagation();
+				return false;
+			}
+		}
+	});
 	$('form.form_question').submit(function(){
 		return checkFeedbackQuestion(this);		
 	});
 
+	// Bind destructive changes
+	$('form[id|=form_editquestion]').find(":input").not('.nonDestructive').change(function() {
+		var editStatus = $(this).parents('form').attr('editStatus');
+		if(editStatus == "hasResponses") {
+			$(this).parents('form').attr('editStatus', "mustDeleteResponses");
+		}
+	});
+	
 	// Additional formatting & bindings.
 	formatNumberBoxes();
 	formatCheckBoxes();
@@ -34,7 +51,7 @@ function readyFeedbackEditPage(){
  */
 function enableEditFS(){
 	// TODO: Bind state of visibility time fields to buttons so this reenables properly all the time.
-	// Move onclick events out of jsp page.
+	// TODO: Move onclick events out of jsp page.
 	$('#form_editfeedbacksession').find("text,input,button,textarea,select").removeAttr("disabled");
 	$('#fsEditLink').hide();
 	$('#fsSaveLink').show();

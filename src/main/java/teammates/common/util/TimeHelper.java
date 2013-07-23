@@ -114,7 +114,9 @@ public class TimeHelper {
 	public static String formatDate(Date date) {
 		if (date == null)
 			return "";
-		return new SimpleDateFormat("dd/MM/yyyy").format(date);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+		return sdf.format(date);
 	}
 
 	/**

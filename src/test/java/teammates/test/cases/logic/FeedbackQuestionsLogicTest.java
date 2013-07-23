@@ -1,25 +1,34 @@
 package teammates.test.cases.logic;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 
 public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 	
 	private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-
+	private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+	private DataBundle typicalBundle = getTypicalDataBundle();
+	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
@@ -30,8 +39,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 	@Test
 	public void testGetRecipientsForQuestion() throws Exception {
 	
-		restoreTypicalDataInDatastore();	
-		DataBundle typicalBundle = getTypicalDataBundle();
+		restoreTypicalDataInDatastore();		
 	
 		FeedbackQuestionAttributes question;
 		String email;
@@ -39,9 +47,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		______TS("response to students, total 5");
 		
-		question = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1");
-		question = fqLogic.getFeedbackQuestion(
-				question.feedbackSessionName, question.courseId, question.questionNumber);
+		question = getQuestion("qn2InSession1InCourse1");
 		email = typicalBundle.students.get("student1InCourse1").email;		
 		recipients = fqLogic.getRecipientsForQuestion(question, email);		
 		assertEquals(recipients.size(), 4); // 5 students minus giver himself
@@ -52,26 +58,20 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		______TS("response to instructors, total 3");
 		
-		question = typicalBundle.feedbackQuestions.get("qn2InSession2InCourse2");
-		question = fqLogic.getFeedbackQuestion(
-				question.feedbackSessionName, question.courseId, question.questionNumber);
+		question = getQuestion("qn2InSession2InCourse2");
 		email = typicalBundle.instructors.get("instructor1OfCourse2").email;
 		recipients = fqLogic.getRecipientsForQuestion(question, email);
 		assertEquals(recipients.size(), 2); // 3 - giver = 2
 		
 		______TS("empty case: response to team members, but alone");
 
-		question = typicalBundle.feedbackQuestions.get("qn2InSession2InCourse1");
-		question = fqLogic.getFeedbackQuestion(
-				question.feedbackSessionName, question.courseId, question.questionNumber);
+		question = getQuestion("qn2InSession2InCourse1");
 		email = typicalBundle.students.get("student5InCourse1").email;
 		recipients = fqLogic.getRecipientsForQuestion(question, email);
 		assertEquals(recipients.size(), 0);
 						
 		______TS("special case: response to other team, instructor is also student");
-		question = typicalBundle.feedbackQuestions.get("qn1InSession2InCourse1");
-		question = fqLogic.getFeedbackQuestion(
-				question.feedbackSessionName, question.courseId, question.questionNumber);
+		question = getQuestion("qn1InSession2InCourse1");
 		email = typicalBundle.students.get("student1InCourse1").email;
 		AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
 		
@@ -80,9 +80,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		assertEquals(recipients.size(), 1);
 		
 		______TS("to nobody (general feedback)");
-		question = typicalBundle.feedbackQuestions.get("qn3InSession1InCourse1");
-		question = fqLogic.getFeedbackQuestion(
-				question.feedbackSessionName, question.courseId, question.questionNumber);
+		question = getQuestion("qn3InSession1InCourse1");
 		email = typicalBundle.students.get("student1InCourse1").email;
 		AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
 		
@@ -91,9 +89,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		assertEquals(recipients.size(), 1);
 		
 		______TS("to self");
-		question = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-		question = fqLogic.getFeedbackQuestion(
-				question.feedbackSessionName, question.courseId, question.questionNumber);
+		question = getQuestion("qn1InSession1InCourse1");
 		email = typicalBundle.students.get("student1InCourse1").email;
 		AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
 		
@@ -103,7 +99,84 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 
 	}
 	
+	@Test
+	public void testUpdateQuestion() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("standard update, no existing responses, with 'keep existing' policy");
+		FeedbackQuestionAttributes questionToUpdate = getQuestion("qn2InSession2InCourse2");
+		questionToUpdate.questionText = new Text("new question text");
+		questionToUpdate.questionNumber = 3;
+		List<FeedbackParticipantType> newVisibility = 
+				new LinkedList<FeedbackParticipantType>();
+		newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
+		questionToUpdate.showResponsesTo = newVisibility;
+		// Check keep existing policy.
+		String originalCourseId = questionToUpdate.courseId;
+		questionToUpdate.courseId = null;
+		
+		fqLogic.updateFeedbackQuestion(questionToUpdate);
+		
+		questionToUpdate.courseId = originalCourseId;
 
+		FeedbackQuestionAttributes updatedQuestion =
+				fqLogic.getFeedbackQuestion(questionToUpdate.getId());		
+		assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
+		
+		______TS("cascading update, non-destructive changes, existing responses are preserved");
+		questionToUpdate = getQuestion("qn2InSession1InCourse1");
+		questionToUpdate.questionText = new Text("new question text 2");
+		questionToUpdate.numberOfEntitiesToGiveFeedbackTo = 2;
+		
+		int numberOfResponses =
+				frLogic.getFeedbackResponsesForQuestion(
+						questionToUpdate.getId()).size();
+		
+		fqLogic.updateFeedbackQuestion(questionToUpdate);
+		updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+		
+		assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
+		assertEquals(
+				frLogic.getFeedbackResponsesForQuestion(
+						questionToUpdate.getId()).size(), numberOfResponses);
+		
+		______TS("cascading update, destructive changes, delete all existing responses");
+		questionToUpdate = getQuestion("qn2InSession1InCourse1");
+		questionToUpdate.questionText = new Text("new question text 3");
+		questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
+		
+		assertTrue(frLogic.getFeedbackResponsesForQuestion(
+						questionToUpdate.getId()).isEmpty() == false);
+		
+		fqLogic.updateFeedbackQuestion(questionToUpdate);
+		updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+		
+		assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
+		assertEquals(frLogic.getFeedbackResponsesForQuestion(
+				questionToUpdate.getId()).size(), 0);
+
+		______TS("failure: question does not exist");
+		
+		questionToUpdate = getQuestion("qn3InSession1InCourse1");
+		fqLogic.deleteFeedbackQuestionCascade(questionToUpdate.getId());
+		
+		try {
+			fqLogic.updateFeedbackQuestion(questionToUpdate);
+			 signalFailureToDetectException("Expected EntityDoesNotExistException not caught.");
+		} catch (EntityDoesNotExistException e){
+			assertEquals(e.getMessage(), "Trying to update a feedback question that does not exist.");
+		}
+		
+	}
+
+	private FeedbackQuestionAttributes getQuestion(String questionKey) {
+		FeedbackQuestionAttributes question;
+		question = typicalBundle.feedbackQuestions.get(questionKey);
+		question = fqLogic.getFeedbackQuestion(
+				question.feedbackSessionName, question.courseId, question.questionNumber);
+		return question;
+	}
+	
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();

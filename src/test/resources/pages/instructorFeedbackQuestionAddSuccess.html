@@ -312,7 +312,7 @@
 				</td>
 			</tr>
 			<tr>
-					<td colspan="4"><textarea disabled="disabled" tabindex="9" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')" id="questiontext-1" name="questiontext" class="textvalue" style="width:100%" rows="5">filled qn</textarea>
+					<td colspan="4"><textarea disabled="disabled" tabindex="9" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')" id="questiontext-1" name="questiontext" class="textvalue nonDestructive" style="width:100%" rows="5">filled qn</textarea>
 					</td>
 				</tr>
 				<tr>
@@ -341,9 +341,9 @@
 					<td></td>
 					<td class="numberOfEntitiesElements1"><span class="bold" id="numofrecipients_text-1">The maximum number of <span class="bold" id="numofrecipients_text_inner-1">students</span> each<br />respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements1">
-					<input type="radio" disabled="disabled" value="custom" name="numofrecipientstype" /> 
-					<input type="number" disabled="disabled" value="1" max="250" min="1" id="numofrecipients-1" name="numofrecipients" class="numberOfEntitiesBox" /> 
-					<input type="radio" disabled="disabled" value="max" checked="checked" name="numofrecipientstype" /> 
+					<input class="nonDestructive" type="radio" disabled="disabled" value="custom" name="numofrecipientstype" /> 
+					<input class="nonDestructive numberOfEntitiesBox" type="number" disabled="disabled" value="1" max="250" min="1" id="numofrecipients-1" name="numofrecipients" /> 
+					<input class="nonDestructive" type="radio" disabled="disabled" value="max" checked="checked" name="numofrecipientstype" /> 
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -352,9 +352,9 @@
 						<table class="dataTable participantTable">
 							<tbody><tr>
 								<th class="bold">User/Group</th>
-								<th>Show answer to</th>
-								<th>Show giver name to</th>
-								<th>Show recipient name to</th>
+								<th>Can see answer</th>
+								<th>Can see giver's name</th>
+								<th>Can see recipient's name</th>
 							</tr>
 							<tr>
 								<td>Recipient(s)</td>
@@ -446,9 +446,9 @@
 					<td></td><td></td>
 					<td class="numberOfEntitiesElements" style="display: none;"><span class="bold" id="numofrecipients_text-">The maximum number of <span class="bold" id="numofrecipients_text_inner-"></span> <br />each respondant should give feedback to:</span></td>
 					<td class="numberOfEntitiesElements" style="display: none;">
-					<input type="radio" checked="checked" value="custom" name="numofrecipientstype" /> 
+					<input type="radio" value="custom" name="numofrecipientstype" /> 
 					<input type="number" value="1" max="250" min="1" name="numofrecipients" id="numofrecipients-" class="numberOfEntitiesBox" /> 
-					<input type="radio" value="max" name="numofrecipientstype" /> 					
+					<input type="radio" checked="checked" value="max" name="numofrecipientstype" /> 					
 					<span class="label">Unlimited</span>
 					</td>
 				</tr>
@@ -458,9 +458,9 @@
 						<table class="dataTable participantTable">
 							<tbody><tr>
 								<th>User/Group</th>
-								<th>Show answer to</th>
-								<th>Show giver name to</th>
-								<th>Show receiver name to</th>
+								<th>Can see answer</th>
+								<th>Can see giver's name</th>
+								<th>Can see recipient's name</th>
 							</tr>
 							<tr>
 								<td>Recipient(s)</td>

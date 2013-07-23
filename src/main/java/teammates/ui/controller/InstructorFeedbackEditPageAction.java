@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -42,6 +43,10 @@ public class InstructorFeedbackEditPageAction extends Action {
 		
 		data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
 		
+		for(FeedbackQuestionAttributes question : data.questions) {			
+			data.questionHasResponses.put(question.getId(),
+					logic.isQuestionHasResponses(question.getId()));
+		}
 		statusToAdmin = "instructorFeedbackEdit Page Load<br>"
 				+ "Editing information for Feedback Session <span class=\"bold\">["
 				+ feedbackSessionName + "]</span>" + "in Course: <span class=\"bold\">" + courseId + "]</span>";

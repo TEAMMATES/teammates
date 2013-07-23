@@ -80,17 +80,11 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		newQuestion.questionText = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
 		newQuestion.questionType = FeedbackQuestionType.TEXT;
 		
-		newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
-		//TODO: arrowhead code. reduce nesting.
-		if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
-			if (param.equals("custom")) {
-				if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {
-					if (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
-						newQuestion.recipientType == FeedbackParticipantType.TEAMS) {
-						newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
-					}
-				}
-			}
+		if (numberOfEntitiesIsUserDefined(newQuestion.recipientType)) {
+			param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+			newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
+		} else {
+			newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
 		}
 		
 		newQuestion.showResponsesTo = getParticipantListFromParams(
@@ -101,6 +95,25 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
 		
 		return newQuestion;
+	}
+	
+	private boolean numberOfEntitiesIsUserDefined(FeedbackParticipantType recipientType) {
+		if (recipientType != FeedbackParticipantType.STUDENTS &&
+				recipientType != FeedbackParticipantType.TEAMS) {
+			return false;
+		}
+		
+		String param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+		if (param == null || param.equals("custom") == false) {
+			return false;
+		}
+		
+		param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);		
+		if (param == null) {
+			return false;
+		}
+		
+		return true;
 	}
 
 	private List<FeedbackParticipantType> getParticipantListFromParams(String params) {

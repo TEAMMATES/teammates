@@ -109,6 +109,57 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 				showResponsesTo, showGiverNameTo, showRecipientNameTo);
 	}
 	
+	/**
+	 * Checks if updating this question to the {@code newAttributes} will
+	 * require the responses to be deleted for consistency.
+	 * Does not check if any responses exist.
+	 * @param newAttributes
+	 * @return
+	 */
+	public boolean isChangesRequiresResponseDeletion(
+			FeedbackQuestionAttributes newAttributes) {
+		if( newAttributes.giverType.equals(this.giverType) == false ||
+			newAttributes.recipientType.equals(this.recipientType) == false	) {
+			return true;
+		}
+		if( this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false || 
+			this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo) == false ||
+			this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo) == false ) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void updateValues(FeedbackQuestionAttributes newAttributes) {
+		// These can't be changed anyway. Copy values to defensively avoid
+		// invalid parameters.
+		newAttributes.feedbackSessionName = this.feedbackSessionName;
+		newAttributes.courseId = this.courseId;
+		newAttributes.creatorEmail = this.creatorEmail;
+
+		if (newAttributes.questionText == null) {
+			newAttributes.questionText = this.questionText;
+		}
+		if (newAttributes.questionType == null) {
+			newAttributes.questionType = this.questionType;
+		}
+		if (newAttributes.giverType == null) {
+			newAttributes.giverType = this.giverType;
+		}
+		if (newAttributes.recipientType == null) {
+			newAttributes.recipientType = this.recipientType;
+		}
+		if (newAttributes.showResponsesTo == null) {
+			newAttributes.showResponsesTo = this.showResponsesTo;
+		}
+		if (newAttributes.showGiverNameTo == null) {
+			newAttributes.showGiverNameTo = this.showGiverNameTo;
+		}
+		if (newAttributes.showRecipientNameTo == null) {
+			newAttributes.showRecipientNameTo = this.showRecipientNameTo;
+		}
+	}
+	
 	// TODO: move following methods to PageData?
 	// Answer: OK to move to the respective PageData class. Unit test this thoroughly.
 	public List<String> getVisibilityMessage(){

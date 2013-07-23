@@ -48,11 +48,12 @@ public class FeedbackQuestionsLogic {
 		fqDb.createEntity(fqa);
 	}
 	
-	// TODO: cascade deletion of responses if changing to incompatible giver/recipient type?
 	/**
 	 * Updates the feedback session identified by {@code newAttributes.getId()}.
 	 * For the remaining parameters, the existing value is preserved 
 	 *   if the parameter is null (due to 'keep existing' policy).<br> 
+	 * Existing responses for the question are automatically deleted if giverType/recipientType
+	 * are changed, or if the response visibility is increased.
 	 * Preconditions: <br>
 	 * * {@code newAttributes} is non-null and it's ID corresponds to an 
 	 * existing feedback question. <br>
@@ -68,36 +69,11 @@ public class FeedbackQuestionsLogic {
 					"Trying to update a feedback question that does not exist.");
 		}
 		
-		//TODO: The block of code below can be extracted to a method in FeedbackQuestionAttributes.
-		//      e.g., oldQuestion.updateValues(newAttributes)
-		
-		// These can't be changed anyway. Copy values to defensively avoid invalid parameters.
-		newAttributes.feedbackSessionName = oldQuestion.feedbackSessionName;
-		newAttributes.courseId = oldQuestion.courseId;
-		newAttributes.creatorEmail = oldQuestion.creatorEmail;
-		
-		if(newAttributes.questionText == null) {
-			newAttributes.questionText = oldQuestion.questionText;
-		}
-		if(newAttributes.questionType == null){
-			newAttributes.questionType = oldQuestion.questionType;
-		}
-		if(newAttributes.giverType == null){
-			newAttributes.giverType = oldQuestion.giverType;
-		}
-		if(newAttributes.recipientType == null){
-			newAttributes.recipientType = oldQuestion.recipientType;
-		}
-		if(newAttributes.showResponsesTo == null){
-			newAttributes.showResponsesTo = oldQuestion.showResponsesTo;
-		}
-		if(newAttributes.showGiverNameTo == null){
-			newAttributes.showGiverNameTo = oldQuestion.showGiverNameTo;
-		}
-		if(newAttributes.showRecipientNameTo == null){
-			newAttributes.showRecipientNameTo = oldQuestion.showRecipientNameTo;
+		if(oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
+			frLogic.deleteFeedbackResponsesForQuestion(newAttributes.getId());
 		}
 		
+		oldQuestion.updateValues(newAttributes);
 		fqDb.updateFeedbackQuestion(newAttributes);
 	}
 	
@@ -112,10 +88,12 @@ public class FeedbackQuestionsLogic {
 		
 	}
 	
-	//TODO: Convert the code below to Javadoc format. /**... */
-	// Deletes a question by it's ID.
-	// Cascade deletes all responses for the question and then 
-	// shifts higher question numbers down by one to preserve order
+	/**
+	 * Deletes a question by it's auto-generated ID. <br>
+	 * Cascade the deletion of all existing responses for the question and then 
+	 * shifts larger question numbers down by one to preserve number order.
+	 * @param feedbackQuestionId
+	 */
 	public void deleteFeedbackQuestionCascade(String feedbackQuestionId){
 		FeedbackQuestionAttributes questionToDeleteById = 
 						getFeedbackQuestion(feedbackQuestionId);
@@ -128,9 +106,13 @@ public class FeedbackQuestionsLogic {
 		
 	}
 	
-	//TODO: Convert the code below to Javadoc format. /**... */
-	// Cascade deletes all responses for the question and then 
-	// shifts higher question numbers down by one to preserve order
+	/**
+	 * Deletes a question.<br> Question is identified by it's question number, and
+	 * the feedback session name and course ID of the question.<br>
+	 * Can be used when the question ID is unknown. <br>
+	 * Cascade the deletion of all existing responses for the question and then 
+	 * shifts larger question numbers down by one to preserve number order.
+	 */
 	public void deleteFeedbackQuestionCascade(
 			String feedbackSessionName, String courseId, int questionNumber) {
 		
@@ -175,13 +157,19 @@ public class FeedbackQuestionsLogic {
 		}
 	}
 	
-	// gets a single qn using questionId
-	// NOTE: can only be used if the question has already been created in datastore.
+	/**
+	 * Gets a single question corresponding to the given parameters. <br><br>
+	 * <b>Note:</b><br>
+	 * *	This method should only be used if the question already exists in the<br>
+	 * datastore and has an ID already generated.
+	 */
 	public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {	
 		return fqDb.getFeedbackQuestion(feedbackQuestionId);
 	}
 	
-	// gets a single qn using feedbackSession and questionNumber
+	/**
+	 * Gets a single question corresponding to the given parameters.
+	 */
 	public FeedbackQuestionAttributes getFeedbackQuestion(
 			String feedbackSessionName,
 			String courseId,
@@ -191,7 +179,9 @@ public class FeedbackQuestionsLogic {
 	}
 	
 	
-	// gets qns available for user to do
+	/**
+	 * Gets a {@code List} of all questions corresponding to the given parameters for the given user.
+	 */
 	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForUser(
 			String feedbackSessionName, String courseId, String userEmail)
 			throws EntityDoesNotExistException {
@@ -230,8 +220,10 @@ public class FeedbackQuestionsLogic {
 		
 		return questions;
 	}
-	
+
 	// This method tries to optimize page loading time by skipping querying email for instructors.
+	// TODO: doesn't seem to make much of a difference.
+	// Probably have to split all other user-wide methods as well? To test.
 	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudent(
 			String feedbackSessionName, String courseId, String userEmail) 
 					throws EntityDoesNotExistException {
@@ -313,6 +305,10 @@ public class FeedbackQuestionsLogic {
 		Collections.sort(questions);
 		
 		return questions;
+	}
+	
+	public boolean isQuestionHasResponses(String feedbackQuestionId) {
+		return (frLogic.getFeedbackResponsesForQuestion(feedbackQuestionId).isEmpty() == false);
 	}
 	
 	public boolean isQuestionAnswersVisibleTo (

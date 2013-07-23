@@ -94,10 +94,14 @@ function checkEditFeedbackSession(){
  * @returns {Boolean}
  */
 function checkFeedbackQuestion(form) {
-	if($(form).find('[name='+FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE+']:checked').val() == "custom" &&
-			$(form).find('[name='+FEEDBACK_QUESTION_NUMBEROFENTITIES+']').val() == "") {
-		setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID,true);
-		return false;
+	var recipientType =
+		$(form).find('select[name|='+FEEDBACK_QUESTION_RECIPIENTTYPE+']').find(":selected").val();
+	if(recipientType == "STUDENTS" || recipientType == "TEAMS") {
+		if($(form).find('[name|='+FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE+']:checked').val() == "custom" &&
+				$(form).find('.numberOfEntitiesBox').val() == "") {
+			setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID,true);
+			return false;
+		}
 	}
 	if ($(form).find('[name='+FEEDBACK_QUESTION_TEXT+']').val() == "") {
 		setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID,true);

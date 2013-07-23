@@ -266,7 +266,7 @@ public class FeedbackResponsesLogic {
 		}
 		return false;
 	}
-
+	
 	public void updateFeedbackResponsesForChangingTeam(
 			String courseId, String userEmail, String oldTeam, String newTeam)
 					throws EntityDoesNotExistException {
