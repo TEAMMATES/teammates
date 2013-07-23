@@ -290,6 +290,9 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
 		
+		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
+		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
+		
 		public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
 		public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
 		public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
@@ -339,7 +342,8 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER = "/jsp/instructorFeedbackResultsByGiver.jsp";
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT = "/jsp/instructorFeedbackResultsByRecipient.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
-	
+		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
+
 		public static final String STUDENT_HOME = "/jsp/studentHome.jsp"; 
 		public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
@@ -425,9 +429,9 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 		
 		public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
+				
+		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not opened.";
 		
-		public static final String FEEDBACK_SUBMISSIONS_NOT_YET_OPEN = "You can view the questions for this feedback session but cannot submit responses yet as the session is not yet opened.";
-		public static final String FEEDBACK_SUBMISSIONS_CLOSED = "You can view the questions for this feedback session and any previously submitted responses but cannot further edit them as the session is already closed.";
 		
 		//TODO: these status messages are from used for input validation testing only. Move to test driver side? 
 		
@@ -514,6 +518,9 @@ public class Const {
 
 	public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
 	public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
+	
+	public static final String USER_NAME_FOR_SELF = "Myself";
+	public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
 	
 	public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
 	public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";

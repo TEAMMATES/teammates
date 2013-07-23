@@ -214,9 +214,6 @@ public class FeedbackResponsesLogic {
 		
 		if(question == null) {
 			return false;
-		} else if (question.creatorEmail.equals(userEmail)) {
-			// Always fully visible to creator.
-			return true;
 		}
 		
 		List<FeedbackParticipantType> showNameTo =

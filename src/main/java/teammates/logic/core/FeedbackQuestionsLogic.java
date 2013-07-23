@@ -389,7 +389,6 @@ public class FeedbackQuestionsLogic {
 		
 		FeedbackParticipantType recipientType = question.recipientType;
 		
-		String giverName = null;
 		String giverTeam = null;
 		
 		InstructorAttributes instructorGiver =
@@ -398,19 +397,16 @@ public class FeedbackQuestionsLogic {
 				studentsLogic.getStudentForEmail(question.courseId, giver);
 		
 		if (studentGiver != null) {
-			giverName = studentGiver.name;
 			giverTeam = studentGiver.team;
 		} else if (instructorGiver != null) {
-			giverName = instructorGiver.name;
-			giverTeam = "Instructors";
+			giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
 		} else {
-			giverName = giver;
-			giverTeam = giver;			
+			giverTeam = giver;
 		}
 		
 		switch (recipientType) {
 		case SELF:
-			recipients.put(giver, giverName);
+			recipients.put(giver, Const.USER_NAME_FOR_SELF);
 			break;
 		case STUDENTS:
 			List<StudentAttributes> studentsInCourse =

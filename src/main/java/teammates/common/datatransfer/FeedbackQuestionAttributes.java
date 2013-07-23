@@ -129,14 +129,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 				message.add("You can see your own feedback in the results page later on.");
 				break;
 			}
-			line += participant.toDisplayNameVisibility() + " ";
+			line = participant.toDisplayNameVisibility() + " ";
 			if(participant == FeedbackParticipantType.RECEIVER) {
-				line += (recipientType.toString().toLowerCase());
-				if(numberOfEntitiesToGiveFeedbackTo < 2) {
-					// remove letter 's'.
-					line = line.substring(0, line.length()-1);
+				if (recipientType == FeedbackParticipantType.OWN_TEAM ||
+						recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+					line = recipientType.toDisplayNameVisibility() + " ";
+				} else {
+					line += (recipientType.toSingletonString());
+					if(numberOfEntitiesToGiveFeedbackTo > 1) {
+						line += "s";
+					}
+					line += " ";
 				}
-				line += " ";
 			}
 			line += "can see your response";
 			if(showRecipientNameTo.contains(participant) == false) {
@@ -162,9 +166,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		}
 		
 		if (message.isEmpty()) {
-			message.add("No-one but the feedback session creator can see your responses.");
-		} else if (message.size() < FeedbackParticipantType.MAX_VISIBILITY_ENTITIES) {
-			message.add("<span class=\"bold color_brown\">No-one else can see your response.</span>");
+			message.add("No-one can see your responses.");
 		}
 		
 		return message;

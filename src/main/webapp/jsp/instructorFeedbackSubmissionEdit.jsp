@@ -5,9 +5,9 @@
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
-<%@ page import="teammates.ui.controller.StudentFeedbackSubmissionEditPageData"%>
+<%@ page import="teammates.ui.controller.InstructorFeedbackSubmissionEditPageData"%>
 <%
-	StudentFeedbackSubmissionEditPageData data = (StudentFeedbackSubmissionEditPageData)request.getAttribute("data");
+	InstructorFeedbackSubmissionEditPageData data = (InstructorFeedbackSubmissionEditPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -24,14 +24,14 @@
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
-	<script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
+	<script type="text/javascript" src="/js/feedbackSubmissionEdit.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
+		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 	</div>
 
 	<div id="frameBody">
@@ -41,7 +41,7 @@
 				<h1>Submit Feedback</h1>
 			</div>
 			
-			<form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_student_submit_response">
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">
 			<table class="inputTable">
 			<tr>
 				<td class="bold">Course:</td>

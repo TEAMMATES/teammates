@@ -449,6 +449,13 @@ public class PageData {
 		return link;
 	}
 	
+	public String getInstructorFeedbackSessionSubmitLink(String courseId, String feedbackSessionName){
+		String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+		link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = addUserIdToUrl(link);
+		return link;
+	}
 	
 	public String getInstructorFeedbackSessionResultsLink(String courseId, String feedbackSessionName){
 		String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
@@ -626,7 +633,8 @@ public class PageData {
 		// Allowing ALL instructors to view results regardless of publish state.
 		// TODO: allow creator only?
 		boolean hasView = true;
-	
+		boolean hasSubmit = session.isOpened();
+				
 		result.append(
 			"<a class=\"color_green t_fs_view"+ position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
@@ -637,6 +645,12 @@ public class PageData {
 			"<a class=\"color_brown t_fs_edit" + position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
 			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_EDIT+"')\" onmouseout=\"hideddrivetip()\">Edit</a>"
+		);
+		result.append(
+				"<a class=\"t_fs_edit" + position + "\" " +
+				"href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
+				"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_SUBMIT+"')\" onmouseout=\"hideddrivetip()\" +" +
+				(hasSubmit ? "" : DISABLED) + ">Submit</a>"
 		);
 		result.append(
 			"<a class=\"color_red t_fs_delete" + position + "\" " +

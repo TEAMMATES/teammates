@@ -171,6 +171,11 @@ public class GateKeeper {
 					"Feedback session [" + feedbacksession.feedbackSessionName + 
 					"] is not accessible to student ["+ student.email + "]");
 		}
+		
+		if(feedbacksession.isVisible() == false) {
+			throw new UnauthorizedAccessException(
+					"This feedback session is not yet visible.");
+		}
 	}
 	
 	public void verifyAccessible(StudentAttributes student, List<SubmissionAttributes> submissions){
@@ -226,6 +231,7 @@ public class GateKeeper {
 					"Feedback session [" + feedbacksession.feedbackSessionName + 
 					"] is not accessible to instructor ["+ instructor.email + "]");
 		}
+			
 	}
 	
 	/*These methods ensures that the nominal user specified can perform the 

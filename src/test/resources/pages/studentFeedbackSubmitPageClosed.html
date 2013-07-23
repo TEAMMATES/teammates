@@ -12,8 +12,9 @@
 	<script src="/js/tooltip.js" type="text/javascript"></script>
 	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
 	<script src="/js/common.js" type="text/javascript"></script>
-	<script src="/js/studentFeedbacks.js" type="text/javascript"></script>
-    <noscript>{*}</noscript>
+	<script src="/js/feedbackSubmissionsEdit.js" type="text/javascript"></script>
+    <noscript>{*}
+</noscript>
 
 
 </head>
@@ -62,9 +63,13 @@
 			</tr>
 			<tr>
 				<td class="bold">Open from:</td>
-				<td>Wed Apr 02 23:59:00 UTC 2014</td>
+				<td>Apr 2, 2014 11:59:00 PM</td>
 				<td class="bold">To:</td>
-				<td>Wed Apr 30 23:59:00 UTC 2014</td>
+				<td>Apr 30, 2014 11:59:00 PM</td>
+			</tr>
+			<tr>
+				<td class="bold">Instructions:</td>
+				<td colspan="3">Please please fill in the second feedback session</td>
 			</tr>
 			</tbody></table>
 			<br />
@@ -76,30 +81,26 @@
 	<div style="display: none;" id="statusMessage"></div>
 
 			<br />
-			<table style="width:900px" class="inputTable responseTable">
-			<tbody><tr><td><span style="padding-right:10px" class="bold">Instructions: </span>Please please fill in the second feedback session</td></tr>
-			</tbody></table>
-			<br />
 			
 			<input type="hidden" value="TEXT" name="questiontype-1" />
-			<input type="hidden" value={*} name="questionid-1" />
+			<input type="hidden" value="{*}" name="questionid-1" />
 			<input type="hidden" value="1" name="questionresponsetotal-1" />
 			<table class="inputTable responseTable">
 				<tbody><tr><td colspan="2" class="bold">Question 1</td></tr>
-				<tr style="border-bottom: dotted 3px white;"><td colspan="2">Give feedback to your instructors</td></tr>
-				<tr><td colspan="2" class="bold">The visibility of your response:</td></tr>
-				<tr style="border-bottom: 3px solid black;"><td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Here you can see the visibility of your feedback to the various users<br />in the course once the results are published.')" colspan="2">
-					<ul>
+				<tr style="border-bottom: 3px dotted white;"><td colspan="2">Give feedback to your instructors</td></tr>
+				<tr><td colspan="2" class="bold">Only the following persons can see your responses:</td></tr>
+					<tr style="border-bottom: 3px dotted white;">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Here you can see the visibility of your feedback to the various users<br />in the course once the results are published.')" colspan="2">
+							<ul>
+								
+								<li>The receiving instructor can see your response, and your name.</li>
+								
+							</ul>
+						</td>
+					</tr>
+					<tr><td colspan="3" style="padding-top: 15px; padding-bottom: 0px" class="bold centeralign">Your Response</td></tr>
 					
-					<li>The receiving instructor can see your response, and your name.</li>
-					
-					<li><span class="bold color_brown">No-one else can see your response.</span></li>
-					
-					</ul>	
-				</td></tr>
-				<tr><td colspan="3" style="padding-top: 15px; padding-bottom: 0px" class="bold centeralign">Your Feedback</td></tr>
-				
-				<tr>
+					<tr>
 				<td class="middlealign nowrap">
 					<span class="label bold">To: </span> 
 					<select style="display:none" name="responserecipient-1-0" class="participantSelect middlealign newResponse">
@@ -107,7 +108,8 @@
 
 					</select><span> Teammates Test</span>
 				</td>
-				<td class="responseText"><textarea name="responsetext-1-0" disabled="disabled" class="textvalue" rows="4"></textarea></td>
+				<td class="responseText">
+					<textarea disabled="disabled" name="responsetext-1-0" class="textvalue" rows="4"></textarea></td>
 				</tr>
 				
 			</tbody></table>
@@ -115,12 +117,12 @@
 			
 			<div class="bold centeralign">
 			
-			You can view the questions for this feedback session but cannot submit responses yet as the session is not yet opened.
+			You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not opened.
 			
 			</div>
 			<input type="hidden" value="Second Session" name="fsname" />
 			<input type="hidden" value="SFSubmitUiT.CS2104" name="courseid" />
-			<input name="user"  type="hidden"  value="SFSubmitUiT.alice.b" />
+			<input type="hidden" value="SFSubmitUiT.alice.b" name="user" />
 			<br /><br />	
 			</form>
 		</div>

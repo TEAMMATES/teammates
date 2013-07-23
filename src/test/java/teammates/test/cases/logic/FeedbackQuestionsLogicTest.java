@@ -98,7 +98,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
 		
 		recipients = fqLogic.getRecipientsForQuestion(question, email);	
-		assertEquals(recipients.get(email), typicalBundle.students.get("student1InCourse1").name);
+		assertEquals(recipients.get(email), Const.USER_NAME_FOR_SELF);
 		assertEquals(recipients.size(), 1);
 
 	}

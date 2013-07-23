@@ -16,6 +16,14 @@ import teammates.common.util.Const.SystemParams;
 public class TimeHelper {
 	
 	/**
+	 * Returns the current date and time as a {@code Calendar} object for the given timezone.
+	 */
+	public static Calendar now(int timeZone) {
+		return TimeHelper.convertToUserTimeZone(
+				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
+	}
+	
+	/**
 	 * Convert a date string and time string into a Date object. Returns null on error.
 	 * 
 	 * @param date

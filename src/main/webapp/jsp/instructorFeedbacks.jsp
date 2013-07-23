@@ -59,7 +59,7 @@
 									id="feedbackchangetype"
 									onmouseover="ddrivetip('Select a different type of session here.')"
 									onmouseout="hideddrivetip()" tabindex="0">
-									<option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>" selected="selected">Class Feedback Session with customizable questions</option>
+									<option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>" selected="selected">Feedback Session with customizable questions</option>
 									<!-- <option value="TEAM">Team Feedback Session</option> -->
 									<!-- <option value="PRIVATE">Private Feedback Session</option> -->
 									<option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>">Standard Peer Evaluation Session</option>			

@@ -12,8 +12,9 @@
 	<script src="/js/tooltip.js" type="text/javascript"></script>
 	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
 	<script src="/js/common.js" type="text/javascript"></script>
-	<script src="/js/studentFeedbacks.js" type="text/javascript"></script>
-    <noscript>{*}</noscript>
+	<script src="/js/feedbackSubmissionsEdit.js" type="text/javascript"></script>
+    <noscript>{*}
+</noscript>
 
 
 </head>
@@ -62,9 +63,13 @@
 			</tr>
 			<tr>
 				<td class="bold">Open from:</td>
-				<td>Mon Apr 02 23:59:00 UTC 2012</td>
+				<td>Apr 2, 2012 11:59:00 PM</td>
 				<td class="bold">To:</td>
-				<td>Wed Apr 30 23:59:00 UTC 2014</td>
+				<td>Apr 30, 2014 11:59:00 PM</td>
+			</tr>
+			<tr>
+				<td class="bold">Instructions:</td>
+				<td colspan="3">Please please fill in the last feedback session</td>
 			</tr>
 			</tbody></table>
 			<br />
@@ -76,10 +81,6 @@
 	<div style="display: none;" id="statusMessage"></div>
 
 			<br />
-			<table style="width:900px" class="inputTable responseTable">
-			<tbody><tr><td><span style="padding-right:10px" class="bold">Instructions: </span>Please please fill in the last feedback session</td></tr>
-			</tbody></table>
-			<br />
 			
 			<div class="bold centeralign">
 			
@@ -88,7 +89,7 @@
 			</div>
 			<input type="hidden" value="Third Session" name="fsname" />
 			<input type="hidden" value="SFSubmitUiT.CS2104" name="courseid" />
-			<input name="user"  type="hidden"  value="SFSubmitUiT.alice.b" />
+			<input type="hidden" value="SFSubmitUiT.alice.b" name="user" />
 			<br /><br />	
 			</form>
 		</div>

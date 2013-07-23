@@ -215,7 +215,6 @@ public class FeedbackSessionsLogic {
 					"Trying to view non-existent feedback session.");
 		}
 		
-		boolean userIsCreator = session.creatorEmail.equals(userEmail);
 		boolean userIsInstructor = instructorsLogic.getInstructorForEmail(courseId, userEmail) != null ? true : false;
 		
 		List<FeedbackQuestionAttributes> allQuestions = 
@@ -231,14 +230,9 @@ public class FeedbackSessionsLogic {
 		
 		for (FeedbackQuestionAttributes question : allQuestions) {
 			
-			List<FeedbackResponseAttributes> responsesForThisQn;
-			if (userIsCreator) {
-				// Allowing session creator to see all responses regardless of visibility.
-				responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
-			} else {
-				responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestion(
+			List<FeedbackResponseAttributes> responsesForThisQn =
+					frLogic.getViewableFeedbackResponsesForQuestion(
 						question.getId(), userEmail);
-			}
 
 			if (responsesForThisQn.isEmpty() == false) {
 				relevantQuestions.put(question.getId(), question);

@@ -17,7 +17,9 @@
 	
 	<script src="/js/instructor.js" type="text/javascript"></script>
 	<script src="/js/instructorFeedbacks.js" type="text/javascript"></script>
-    <noscript>{*}</noscript>
+	<script src="/js/instructorFeedbackEdit.js" type="text/javascript"></script>
+    <noscript>{*}
+</noscript>
 
 
 </head>
@@ -195,7 +197,7 @@
 					</tr>
 					<tr>
 						<td class="label bold">Opening time:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')" class="nowrap"><input type="text" tabindex="7" readonly="readonly" value="01/04/2012" onclick="cal.select(this,'startdate','dd/MM/yyyy')" id="startdate" name="startdate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')" class="nowrap"><input type="text" tabindex="7" readonly="readonly" value="01/04/2012" onclick="cal.select(this,'startdate','dd/MM/yyyy')" id="startdate" name="startdate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="starttime" name="starttime" style="width: 70px;" disabled="disabled">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -224,8 +226,8 @@
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')" class="nowrap">
 							<span class="label bold">Closing Time: </span> 
-							<input type="text" tabindex="8" readonly="readonly" value="30/04/2014" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="endtime" name="endtime" style="width: 70px;">							
-								<option value="1">0100H</option>
+							<input type="text" tabindex="8" readonly="readonly" value="30/04/2014" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="endtime" name="endtime" style="width: 70px;" disabled="disabled">							
+							<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
 <option value="4">0400H</option>
@@ -253,7 +255,7 @@
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" class="label bold rightalign nowrap">Grace Period:</td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')">
-							<select tabindex="7" id="graceperiod" name="graceperiod" style="width: 75px;">
+							<select tabindex="7" id="graceperiod" name="graceperiod" style="width: 75px;" disabled="disabled">
 									<option value="0">0 mins</option>
 <option value="5">5 mins</option>
 <option value="10">10 mins</option>
@@ -277,7 +279,7 @@
 				</tbody></table>
 				<input type="hidden" value="First Session" name="fsname" disabled="disabled" />
 				<input type="hidden" value="CFeedbackEditUiT.CS2104" name="courseid" disabled="disabled" />
-				<input disabled="disabled"  name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
+				<input type="hidden" value="CFeedbackEditUiT.instructor" name="user" disabled="disabled" />
 			</form>
 			
 			<br />
@@ -393,13 +395,13 @@
 			</tbody></table>
 			<input type="hidden" value="First Session" name="fsname" />
 			<input type="hidden" value="CFeedbackEditUiT.CS2104" name="courseid" />
-			<input type="hidden" value={*} name="questionid" />
+			<input type="hidden" value="{*}" name="questionid" />
 			<input type="hidden" value="1" name="questionnum" />
 			<input type="hidden" value="edit" id="questionedittype-1" name="questionedittype" />
 			<input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS" />
 			<input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS" />
 			<input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS" />
-			<input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
+			<input type="hidden" value="CFeedbackEditUiT.instructor" name="user" />
 			</form>
 			<br /><br />
 			
@@ -504,7 +506,7 @@
 			<input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS" />
 			<input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS" />
 			<input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS" />
-			<input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
+			<input type="hidden" value="CFeedbackEditUiT.instructor" name="user" />
 		</form>			
 		<br /><br />
 		</div>
