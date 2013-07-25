@@ -18,7 +18,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
-				logic.getFeedbackSession(feedbackSessionName, courseId));
+				logic.getFeedbackSession(feedbackSessionName, courseId),
+				false);
 		
 		InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
 		data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);

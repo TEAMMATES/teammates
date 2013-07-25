@@ -10,35 +10,22 @@ public class InstructorFeedbackEditPageAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
-
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-		
-		//TODO: This should be an Assumption failure?
-		if (courseId==null || feedbackSessionName==null) {
-			statusToAdmin = "instructorFeedbackEdit Page Redirect<br>"
-					+ "Tried to edit feedback session with null parameters";
-			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
-		}
-		
-		new GateKeeper().verifyAccessible(
-				logic.getInstructorForGoogleId(courseId, account.googleId), 
-				logic.getFeedbackSession(feedbackSessionName, courseId));
-		
+
 		InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
 		
 		data.session = logic.getFeedbackSession(feedbackSessionName, courseId);
+				
+		new GateKeeper().verifyAccessible(
+				logic.getInstructorForGoogleId(courseId, account.googleId), 
+				data.session,
+				true);		
 		
 		if (data.session == null) {
 			throw new EntityDoesNotExistException("Feedback session: " +
 					feedbackSessionName + "does not exist in course: "
 					+ courseId + ".");
-		}
-		if (data.session.creatorEmail.equals(
-				logic.getInstructorForGoogleId(courseId, data.account.googleId).email) == false) {
-			statusToUser.add("Only the creator of the feedback session is" +
-					" allowed to edit it.");
-			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
 		}
 		
 		data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);

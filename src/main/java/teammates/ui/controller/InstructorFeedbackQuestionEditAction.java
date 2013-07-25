@@ -28,7 +28,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
-				logic.getFeedbackSession(feedbackSessionName, courseId));
+				logic.getFeedbackSession(feedbackSessionName, courseId),
+				true);
 
 		String editType = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
 		

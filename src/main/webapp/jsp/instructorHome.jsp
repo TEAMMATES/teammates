@@ -65,7 +65,8 @@
 			<br>
 			<div class="backgroundBlock home_courses_div" id="course<%=idx%>">
 				<div class="result_homeTitle">
-					<h2 class="color_white">[<%=courseDetails.course.id%>] :
+					<h2 class="color_white">
+						[<%=courseDetails.course.id%>] :
 						<%=PageData.sanitizeForHtml(courseDetails.course.name)%>
 					</h2>
 				</div>
@@ -73,70 +74,65 @@
 					<a class="t_course_enroll<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL%>')"
-						onmouseout="hideddrivetip()">
-						Enroll</a>
-					<a class="t_course_view<%=idx%> color_white bold"
+						onmouseout="hideddrivetip()"> Enroll</a> <a
+						class="t_course_view<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DETAILS%>')"
-						onmouseout="hideddrivetip()">
-						View</a>
-					<a class="t_course_edit<%=idx%> color_white bold"
+						onmouseout="hideddrivetip()"> View</a> <a
+						class="t_course_edit<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_EDIT%>')"
-						onmouseout="hideddrivetip()">
-						Edit</a>
-					<a class="t_course_add_eval<%=idx%> color_white bold"
+						onmouseout="hideddrivetip()"> Edit</a> <a
+						class="t_course_add_eval<%=idx%> color_white bold"
 						href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ADD_EVALUATION%>')"
-						onmouseout="hideddrivetip()">
-						Add Evaluation</a>
-					<a class="t_course_delete<%=idx%> color_white bold"
+						onmouseout="hideddrivetip()"> Add Evaluation</a> <a
+						class="t_course_delete<%=idx%> color_white bold"
 						href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
 						onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
 						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
-						onmouseout="hideddrivetip()">
-						Delete</a>
+						onmouseout="hideddrivetip()"> Delete</a>
 				</div>
 				<div style="clear: both;"></div>
 				<br>
 				<%
 					if (courseDetails.evaluations.size() > 0) {
 				%>
-					<table class="dataTable">
-						<tr>
-							<th class="leftalign color_white bold">Evaluation Name</th>
-							<th class="centeralign color_white bold">Status</th>
-							<th class="centeralign color_white bold"><span
-								onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>')"
-								onmouseout="hideddrivetip()">Response Rate</span></th>
-							<th class="centeralign color_white bold no-print">Action(s)</th>
-						</tr>
-						<%
+				<table class="dataTable">
+					<tr>
+						<th class="leftalign color_white bold">Evaluation Name</th>
+						<th class="centeralign color_white bold">Status</th>
+						<th class="centeralign color_white bold"><span
+							onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>')"
+							onmouseout="hideddrivetip()">Response Rate</span></th>
+						<th class="centeralign color_white bold no-print">Action(s)</th>
+					</tr>
+					<%
 							for (EvaluationDetailsBundle edd: courseDetails.evaluations){ evalIdx++;
 						%>
-							<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
-								<td class="t_eval_name<%=idx%>"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
-								<td class="t_eval_status<%=idx%> centeralign"><span
-									onmouseover="ddrivetip('<%=PageData.getInstructorHoverMessageForEval(edd.evaluation)%>')"
-									onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForEval(edd.evaluation)%></span></td>
-								<td class="t_eval_response<%=idx%> centeralign"><%=edd.stats.submittedTotal%>
-									/ <%=edd.stats.expectedTotal%></td>
-								<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(edd.evaluation,evalIdx, true)%>
-								</td>
-							</tr>
-						<%
+					<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
+						<td class="t_eval_name<%=idx%>"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
+						<td class="t_eval_status<%=idx%> centeralign"><span
+							onmouseover="ddrivetip('<%=PageData.getInstructorHoverMessageForEval(edd.evaluation)%>')"
+							onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForEval(edd.evaluation)%></span></td>
+						<td class="t_eval_response<%=idx%> centeralign"><%=edd.stats.submittedTotal%>
+							/ <%=edd.stats.expectedTotal%></td>
+						<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(edd.evaluation,evalIdx, true)%>
+						</td>
+					</tr>
+					<%
 							}
 						%>
-					</table>
-					<br>
+				</table>
+				<br>
 				<%
 					}
 				%>
 				<%
 					if (courseDetails.feedbackSessions.size() > 0) {
 				%>
-					<br>
-					<table class="dataTable">
+				<br>
+				<table class="dataTable">
 					<tr>
 						<th class="leftalign color_white bold">Feedback Session Name</th>
 						<th class="centeralign color_white bold">Status</th>
@@ -145,32 +141,35 @@
 							onmouseout="hideddrivetip()">Response Rate</span></th>
 						<th class="centeralign color_white bold no-print">Action(s)</th>
 					</tr>
-				<%
-					for(FeedbackSessionDetailsBundle fdb: courseDetails.feedbackSessions){ 
-													fsIdx++;
-				%>
-							<tr class="evaluations_row" id="evaluation<%=fsIdx%>">
-								<td class="t_eval_name"><%=PageData.sanitizeForHtml(fdb.feedbackSession.feedbackSessionName)%></td>
-								<td class="t_eval_status centeralign"><span
-									onmouseover="ddrivetip(' <%=PageData.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
-									onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>
-								<td class="t_eval_response centeralign"><%=fdb.stats.submittedTotal%>
-									/ <%=fdb.stats.expectedTotal%></td>
-								<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(fdb.feedbackSession,fsIdx, false)%>
-								</td>
-							</tr>
-						<%
-							}
-						%>
-					</table>
-					<br>
+					<%
+						for(FeedbackSessionDetailsBundle fdb: courseDetails.feedbackSessions) {
+									fsIdx++;
+					%>
+					<tr class="evaluations_row" id="evaluation<%=fsIdx%>">
+						<td class="t_eval_name"><%=PageData
+								.sanitizeForHtml(fdb.feedbackSession.feedbackSessionName)%></td>
+						<td class="t_eval_status centeralign"><span
+							onmouseover="ddrivetip(' <%=PageData
+								.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
+							onmouseout="hideddrivetip()"><%=PageData
+								.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>
+						<td class="t_eval_response centeralign"><%=fdb.stats.submittedTotal%>
+							/ <%=fdb.stats.expectedTotal%></td>
+						<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
+								fdb.feedbackSession, fsIdx, false)%></td>
+					</tr>
 					<%
 						}
 					%>
+				</table>
+				<br>
+				<%
+					}
+				%>
 			</div>
 			<%
 				out.flush();
-							}
+				}
 			%>
 		</div>	
 		<br>

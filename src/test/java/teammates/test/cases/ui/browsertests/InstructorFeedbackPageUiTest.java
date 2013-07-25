@@ -44,7 +44,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		newSession.feedbackSessionName = "New Session";
 		newSession.startTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
 		newSession.endTime = TimeHelper.convertToDate("2014-04-30 11:59 PM UTC");
-		newSession.creatorEmail = "teammates.test3@gmail.com";
+		newSession.creatorEmail = "teammates.test1@gmail.com";
 		newSession.createdTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
 		newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
 		newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
@@ -63,13 +63,16 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 	public void allTests() throws Exception{
 		testContent();
 		
-		testEditLink();
 		testViewResultsLink();
-		
+		testEditLink();
+		testSubmitLink();		
 		testInputValidation();
 		
 		testAddAction();
 		testDeleteAction();
+		testPublishAction();
+		testUnpublishAction();
+
 	}
 
 	public void testContent() throws Exception{
@@ -92,29 +95,34 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		______TS("sort by name");
 		
 		feedbackPage.sortByName()
-			.verifyTablePattern(1,"{*}First Session{*}Second Session{*}Third Session");
+			.verifyTablePattern(1,"{*}First Eval{*}First Session{*}Manual Session{*}Private Session");
 		feedbackPage.verifyHtml("/instructorFeedbackByName.html");
 		
 		feedbackPage.sortByName()
-			.verifyTablePattern( 1,"{*}Third Session{*}Second Session{*}First Session");
+			.verifyTablePattern(1,"{*}Private Session{*}Manual Session{*}First Session{*}First Eval");
 		
 		______TS("sort by course id");
 		
 		feedbackPage.sortById()
-		.verifyTablePattern(0,"{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
+		.verifyTablePattern(0,"{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
 		feedbackPage.verifyHtml("/instructorFeedbackById.html");
 		
 		feedbackPage.sortById()
-			.verifyTablePattern(0,"{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS1101");
+			.verifyTablePattern(0,"{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
 	
 	}
 
-	public void testEditLink(){
-		//TODO: implement this (also check for disabling of the link at right times)
-	}
-
+	//TODO: implement these (also check for disabling of the link at right times)
 	public void testViewResultsLink(){
-		//TODO: implement this (also check for disabling of the link at right times)
+		
+	}
+	
+	public void testEditLink(){
+		
+	}
+	
+	public void testSubmitLink(){
+		
 	}
 
 	public void testInputValidation() throws ParseException {
@@ -199,6 +207,83 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 	
 		feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, sessionName));
 		feedbackPage.verifyHtml("/instructorFeedbackDeleteSuccessful.html");
+		
+	}
+	
+	public void testPublishAction(){		
+	    // refresh page
+		feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+		
+		______TS("AUTOMATIC: publish link unclickable");
+		
+		String courseId = testData.feedbackSessions.get("publishedSession").courseId;
+		String sessionName = testData.feedbackSessions.get("publishedSession").feedbackSessionName;
+		
+		feedbackPage.verifyUnclickable(feedbackPage.getPublishLink(courseId, sessionName));
+		feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+		
+		______TS("PRIVATE: publish link unclickable");
+		
+		courseId = testData.feedbackSessions.get("privateSession").courseId;
+		sessionName = testData.feedbackSessions.get("privateSession").feedbackSessionName;
+
+		feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
+		feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+		
+		______TS("MANUAL: publish link clickable");
+		
+		courseId = testData.feedbackSessions.get("manualSession").courseId;
+		sessionName = testData.feedbackSessions.get("manualSession").feedbackSessionName;
+		
+		feedbackPage.clickAndCancel(feedbackPage.getPublishLink(courseId, sessionName));
+		assertEquals(false, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+		
+		feedbackPage.clickAndConfirm(feedbackPage.getPublishLink(courseId, sessionName));
+		feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
+		assertEquals(true, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+		feedbackPage.verifyHtml("/instructorFeedbackPublishSuccessful.html");
+		
+		______TS("PUBLISHED: publish link hidden");
+		
+		feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
+	}
+	
+	public void testUnpublishAction(){
+	    // refresh page
+		feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+		
+		______TS("AUTOMATIC: unpublish link hidden");
+		
+		String courseId = testData.feedbackSessions.get("publishedSession").courseId;
+		String sessionName = testData.feedbackSessions.get("publishedSession").feedbackSessionName;
+		
+		feedbackPage.verifyUnclickable(feedbackPage.getPublishLink(courseId, sessionName));
+		feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+		
+		______TS("PRIVATE: unpublish link unclickable");
+		
+		courseId = testData.feedbackSessions.get("privateSession").courseId;
+		sessionName = testData.feedbackSessions.get("privateSession").feedbackSessionName;
+
+		feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
+		feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+		
+		______TS("MANUAL: unpublish link clickable");
+		
+		courseId = testData.feedbackSessions.get("manualSession").courseId;
+		sessionName = testData.feedbackSessions.get("manualSession").feedbackSessionName;
+		
+		feedbackPage.clickAndCancel(feedbackPage.getUnpublishLink(courseId, sessionName));
+		assertEquals(true, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+		
+		feedbackPage.clickAndConfirm(feedbackPage.getUnpublishLink(courseId, sessionName));
+		feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
+		assertEquals(false, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
+		feedbackPage.verifyHtml("/instructorFeedbackUnpublishSuccessful.html");
+		
+		______TS("PUBLISHED: unpublish link hidden");
+		
+		feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
 		
 	}
 

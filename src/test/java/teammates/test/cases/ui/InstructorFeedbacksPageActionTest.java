@@ -106,8 +106,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 		InstructorFeedbacksPageData pageData = (InstructorFeedbacksPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.courses.size());
-		assertEquals(2, pageData.existingEvals.size());
-		assertEquals(3, pageData.existingSessions.size());
+		assertEquals(2, pageData.existingEvalSessions.size());
+		assertEquals(3, pageData.existingFeedbackSessions.size());
 		assertEquals(null, pageData.newFeedbackSession);
 		assertEquals(null, pageData.courseIdForNewSession);
 		
@@ -136,8 +136,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 		pageData = (InstructorFeedbacksPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.courses.size());
-		assertEquals(2, pageData.existingEvals.size());
-		assertEquals(0, pageData.existingSessions.size());
+		assertEquals(2, pageData.existingEvalSessions.size());
+		assertEquals(0, pageData.existingFeedbackSessions.size());
 		assertEquals(null, pageData.newFeedbackSession);
 		assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewSession);
 		
@@ -165,8 +165,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 		pageData = (InstructorFeedbacksPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(0, pageData.courses.size());
-		assertEquals(0, pageData.existingEvals.size());
-		assertEquals(0, pageData.existingSessions.size());
+		assertEquals(0, pageData.existingEvalSessions.size());
+		assertEquals(0, pageData.existingFeedbackSessions.size());
 		assertEquals(null, pageData.newFeedbackSession);
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +

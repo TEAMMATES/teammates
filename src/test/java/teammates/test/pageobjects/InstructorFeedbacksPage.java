@@ -4,8 +4,10 @@ import java.util.Date;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -147,21 +149,61 @@ public class InstructorFeedbacksPage extends AppPage {
 		clickSubmitButton();
 	}
 
-	public WebElement getDeleteLink(String courseId, String evalName) {
-		int evalRowId = getFeedbackSessionRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_fs_delete" + evalRowId));
+	public WebElement getViewResultsLink(String courseId, String sessionName) {
+		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+		return browser.driver.findElement(By.className("t_session_view" + sessionRowId));
 	}
 	
-	public WebElement getEditLink(String courseId, String evalName) {
-		int evalRowId = getFeedbackSessionRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_fs_edit" + evalRowId));
+	public WebElement getEditLink(String courseId, String sessionName) {
+		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+		return browser.driver.findElement(By.className("t_session_edit" + sessionRowId));
 	}
 	
-	private int getFeedbackSessionRowId(String courseId, String evalName) {
+	public WebElement getDeleteLink(String courseId, String sessionName) {
+		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+		return browser.driver.findElement(By.className("t_session_delete" + sessionRowId));
+	}
+	
+	public WebElement getSubmitLink(String courseId, String sessionName) {
+		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+		return browser.driver.findElement(By.className("t_session_submit" + sessionRowId));
+	}
+	
+	public WebElement getPublishLink(String courseId, String sessionName) {
+		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+		return browser.driver.findElement(By.className("t_session_publish" + sessionRowId));
+	}
+	
+	public WebElement getUnpublishLink(String courseId, String sessionName) {
+		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+		return browser.driver.findElement(By.className("t_session_unpublish" + sessionRowId));
+	}
+	
+	public void verifyPublishLinkHidden(String courseId, String sessionName) {
+		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+		try {
+			browser.driver.findElement(By.className("t_session_publish" + sessionRowId));
+			Assert.fail("This element should be hidden.");
+		} catch (NoSuchElementException e) {
+			return;
+		}
+	}
+	
+	public void verifyUnpublishLinkHidden(String courseId, String sessionName) {
+		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+		try {
+			browser.driver.findElement(By.className("t_session_unpublish" + sessionRowId));
+			Assert.fail("This element should be hidden.");
+		} catch (NoSuchElementException e) {
+			return;
+		}
+	}
+	
+	private int getFeedbackSessionRowId(String courseId, String sessionName) {
 		int i = 0;
 		while (i < getFeedbackSessionsCount()) {
 			if (getFeedbackSessionCourseId(i).equals(courseId)
-					&& getFeedbackSessionName(i).equals(evalName)) {
+					&& getFeedbackSessionName(i).equals(sessionName)) {
 				return i;
 			}
 			i++;
@@ -170,7 +212,7 @@ public class InstructorFeedbacksPage extends AppPage {
 	}
 	
 	private int getFeedbackSessionsCount() {
-		return browser.driver.findElements(By.className("evaluations_row")).size();
+		return browser.driver.findElements(By.className("sessions_row")).size();
 	}
 	
 	private String getFeedbackSessionCourseId(int rowId) {

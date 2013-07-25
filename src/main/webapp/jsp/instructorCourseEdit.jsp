@@ -83,7 +83,7 @@
 																													instructorInfo += instructor.googleId + "|" + instructor.name + "|" + instructor.email + "\n";
 																												}
 							%>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>" id="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>"><%=sanitizeForHtml(instructorInfo.trim())%></textarea>
+							<textarea rows="6" cols="110" class ="textvalue" name="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>" id="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>"><%=instructorInfo.trim()%></textarea>
 						</td>
 					</tr>
 					<tr>

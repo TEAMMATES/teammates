@@ -17,7 +17,7 @@ function isFeedbackSessionNameValid(name) {
 }
 
 /**
- * Check whether the feedback session input (which is passed as a form) is valid
+ * Check whether the parameters of a new feedback session (which is passed as a form) is valid.
  * @param form
  * @returns {Boolean}
  */
@@ -28,20 +28,28 @@ function checkAddFeedbackSession(form){
 	var startTime = form.starttime.value;
 	var endDate = form.enddate.value;
 	var endTime = form.endtime.value;
+	var sessionVisibility = $('input:radio[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']:checked').val();
+	var resultsVisibility = $('input:radio[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']:checked').val();
+	var sessionDate = $('#'+FEEDBACK_SESSION_VISIBLEDATE).val();
+	var sessionTime = $('#'+FEEDBACK_SESSION_VISIBLETIME).val();
+	var resultsDate = $('#'+FEEDBACK_SESSION_PUBLISHDATE).val();
+	var resultsTime = $('#'+FEEDBACK_SESSION_PUBLISHTIME).val();
 	var timeZone = form.timezone.value;
 	var gracePeriod = form.graceperiod.value;
 	var instructions = form.instructions.value;
 
-	if (courseId == "" || name == "" || startDate == "" || startTime == ""
-		|| endDate == "" || endTime == "" || timeZone == "" || gracePeriod == "" || instructions == "") {
+	if (courseId == "" || name == "" || timeZone == "") {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
-	} else if ($('input:radio[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']:checked').val() == "custom" &&
-			($('#'+FEEDBACK_SESSION_VISIBLEDATE).val() == "" || $('#'+FEEDBACK_SESSION_VISIBLETIME).val() == "")) {
+	} else if (sessionVisibility != "never" && 
+			(startDate == "" || startTime == "" || endDate == "" || endTime == "" ||
+			 gracePeriod == "" || instructions == "")){
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
-	} else if ($('input:radio[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']:checked').val() == "custom" &&
-			($('#'+FEEDBACK_SESSION_PUBLISHDATE).val() == "" || $('#'+FEEDBACK_SESSION_PUBLISHTIME).val() == "")) {
+	} else if (sessionVisibility == "custom" && (sessionDate == "" || sessionTime == "")) {
+		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
+		return false;
+	} else if (resultsVisibility == "custom" && (resultsDate == "" || resultsTime == "")) {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
 	} else if (!isFeedbackSessionNameValid(name)) {
@@ -55,8 +63,7 @@ function checkAddFeedbackSession(form){
 }
 
 /**
- * Check whether the edited feedback session input (which is passed as a form) is valid
- * Uses jQuery instead of native JS.
+ * Check whether the edited feedback session parameter inputs (which is passed as a form) are valid.
  * @returns {Boolean}
  */
 function checkEditFeedbackSession(){
@@ -66,21 +73,22 @@ function checkEditFeedbackSession(){
 	var endTime = $('#endtime').val();
 	var gracePeriod = $('#graceperiod').val();
 	var instructions = $('#instructions').val();
-	var sessionCustom = $('input:radio[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']:checked').val();
-	var resultsCustom = $('input:radio[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']:checked').val();
+	var sessionVisibility = $('input:radio[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']:checked').val();
+	var resultsVisibility = $('input:radio[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']:checked').val();
 	var sessionDate = $('#'+FEEDBACK_SESSION_VISIBLEDATE).val();
 	var sessionTime = $('#'+FEEDBACK_SESSION_VISIBLETIME).val();
 	var resultsDate = $('#'+FEEDBACK_SESSION_PUBLISHDATE).val();
 	var resultsTime = $('#'+FEEDBACK_SESSION_PUBLISHTIME).val();
 	
-	if (startDate == "" || startTime == "" || endDate == "" || endTime == "" 
-		 || gracePeriod == "" || instructions == "") {
+	if (sessionVisibility != "never" && 
+			(startDate == "" || startTime == "" || endDate == "" || endTime == "" ||
+			 gracePeriod == "" || instructions == "")) {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
-	} else if (sessionCustom == "custom" && (sessionDate == "" || sessionTime == "")) {
+	} else if (sessionVisibility == "custom" && (sessionDate == "" || sessionTime == "")) {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
-	} else if (resultsCustom == "custom" && (resultsDate == "" || resultsTime == "")) {
+	} else if (resultsVisibility == "custom" && (resultsDate == "" || resultsTime == "")) {
 		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
 		return false;
 	}
@@ -155,9 +163,45 @@ function convertDateToHHMM(date) {
 	return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
 }
 
-function readyFeedbackPage (){ 
+function readyFeedbackPage (){
+	
+	// Defaults
+	$('#'+FEEDBACK_SESSION_VISIBLEDATE).prop('disabled', true);
+	$('#'+FEEDBACK_SESSION_VISIBLETIME).prop('disabled', true);
+	
     $("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
     	document.location.href = $(this).val();
     });
+    
+	var $sessionVisibilityBtnGroup = $('[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']');
+	$sessionVisibilityBtnGroup.change(function() {
+		if ($sessionVisibilityBtnGroup.filter(':checked').val() == "never") {
+			$('#timeFrameTable').hide();
+			$('#instructionsTable').hide();
+			$('#response_visible_from_row').hide();
+		} else {
+			$('#timeFrameTable').show();
+			$('#instructionsTable').show();
+			$('#response_visible_from_row').show();
+		}
+		
+		if ($sessionVisibilityBtnGroup.filter(':checked').val() == "custom") {
+			$('#'+FEEDBACK_SESSION_VISIBLEDATE).prop('disabled', false);
+			$('#'+FEEDBACK_SESSION_VISIBLETIME).prop('disabled', false);
+		} else {
+			$('#'+FEEDBACK_SESSION_VISIBLEDATE).prop('disabled', true);
+			$('#'+FEEDBACK_SESSION_VISIBLETIME).prop('disabled', true);
+		}
+	});
+	
     window.doPageSpecificOnload = selectDefaultTimeOptions();
+}
+
+/**
+ * Hides / shows the "Submissions Opening/Closing Time" and "Grace Period" options 
+ * depending on whether a private session is selected.
+ * @param $privateBtn
+ */
+function togglePrivateSession() {
+	
 }

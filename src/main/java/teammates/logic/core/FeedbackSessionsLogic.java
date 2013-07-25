@@ -55,42 +55,11 @@ public class FeedbackSessionsLogic {
 		return instance;
 	}
 	
-	//TODO: we list methods in CRUD order. i.e., Create-related methods come first and so on.
-	
 	//TODO: in general, try to reduce method length and nesting-level in Feedback*Logic classes.
 
 	public void createFeedbackSession(FeedbackSessionAttributes fsa)
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		fsDb.createEntity(fsa);
-	}
-	
-	public void deleteFeedbackSessionsForCourse(String courseId) {
-		List<FeedbackSessionAttributes> sessionsToDelete =
-				fsDb.getFeedbackSessionsForCourse(courseId);
-		
-		for (FeedbackSessionAttributes session : sessionsToDelete){
-			deleteFeedbackSessionCascade(
-					session.feedbackSessionName,
-					session.courseId);
-		}
-	}
-
-	// This method deletes a specific feedback session, and all it's question and responses
-	public void deleteFeedbackSessionCascade(String feedbackSessionName,
-			String courseId) {
-
-		try {
-			fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName, courseId);
-		} catch (EntityDoesNotExistException e) {
-			// Silently fail if session does not exist
-		}
-		
-		FeedbackSessionAttributes sessionToDelete = new FeedbackSessionAttributes();
-		sessionToDelete.feedbackSessionName = feedbackSessionName;
-		sessionToDelete.courseId = courseId;
-		
-		fsDb.deleteEntity(sessionToDelete);
-
 	}
 
 	// This method returns a single feedback session. Returns null if not found.
@@ -121,8 +90,14 @@ public class FeedbackSessionsLogic {
 		return viewableSessions;
 	}
 	
-	// This method returns a list of feedback session with stats for
-	// instructors.
+	/**
+	 * Returns a {@code List} of all feedback sessions bundled with their response statistics for
+	 * a instructor given by his googleId.<br>Does not return private sessions unless the instructor is
+	 * the creator.
+	 * @param googleId
+	 * @return
+	 * @throws EntityDoesNotExistException
+	 */
 	public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
 			String googleId)
 			throws EntityDoesNotExistException {
@@ -132,7 +107,7 @@ public class FeedbackSessionsLogic {
 				instructorsLogic.getInstructorsForGoogleId(googleId);
 
 		for (InstructorAttributes instructor : instructors) {
-			fsDetails.addAll(getFeedbackSessionDetailsForCourse(instructor.courseId));
+			fsDetails.addAll(getFeedbackSessionDetailsForCourse(instructor.courseId, instructor.email));
 		}
 
 		return fsDetails;
@@ -176,29 +151,6 @@ public class FeedbackSessionsLogic {
 		}
 		
 		return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
-	}
-
-	//TODO: The usual practice is to move private methods to the bottom of the class.
-	private void normalizeMaximumResponseEntities(String courseId,
-			String userEmail, FeedbackQuestionAttributes question,
-			List<FeedbackResponseAttributes> responses,
-			Map<String, String> recipients) {
-		
-		// change constant to actual maximum size.
-		if (question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
-			question.numberOfEntitiesToGiveFeedbackTo = recipients.size();
-		}	
-		
-		if (question.giverType == FeedbackParticipantType.TEAMS) {
-			// reduce max response count depending on other members' feedback 
-			// to account for the multi-giver question.
-			StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
-			int studentCount = responses.size();
-			int teamCount = frLogic.getNumberOfResponsesFromTeamForQuestion(question.courseId, question.getId(), student.team );
-			
-			question.numberOfEntitiesToGiveFeedbackTo -= (teamCount - studentCount);
-		}
-		
 	}
 
 	// This method gets the ResultsBundle i.e attributes + question + responses
@@ -255,89 +207,7 @@ public class FeedbackSessionsLogic {
 
 		return results;
 	}
-
-	private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
-			List<FeedbackResponseAttributes> responses,
-			String userEmail) {
-		for (FeedbackResponseAttributes response  : responses) {
-			boolean[] visibility = new boolean[2];
-			visibility[0] = frLogic.isNameVisibleTo(response, userEmail, true);
-			visibility[1] = frLogic.isNameVisibleTo(response, userEmail, false);
-			visibilityTable.put(response.getId(), visibility);
-		}
-	}
-
-	private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
-			List<FeedbackResponseAttributes> responsesForThisQn,
-			FeedbackQuestionAttributes question) throws EntityDoesNotExistException {
-		
-		for (FeedbackResponseAttributes response : responsesForThisQn) {
-			if (question.giverType == FeedbackParticipantType.TEAMS){
-				if (emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER) == false) {
-					emailNameTable.put(
-							response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
-							getNameForEmail(question.giverType, response.giverEmail, question.courseId));
-				}
-			} else if(emailNameTable.containsKey(response.giverEmail) == false) {
-				emailNameTable.put(
-						response.giverEmail,
-						getNameForEmail(question.giverType, response.giverEmail, question.courseId));
-			}
-			
-			if(emailNameTable.containsKey(response.recipient) == false) {
-				emailNameTable.put(
-						response.recipient,
-						getNameForEmail(question.recipientType, response.recipient, question.courseId));
-			}
-		}
-		
-	}
-
-	private String getNameForEmail(FeedbackParticipantType type, String email, String courseId)
-			throws EntityDoesNotExistException {
-		
-		String name = null;
-		String team = null;
-		
-		StudentAttributes student = 
-				studentsLogic.getStudentForEmail(courseId, email);
-		if(student == null) {
-			InstructorAttributes instructor =
-					instructorsLogic.getInstructorForEmail(courseId, email);
-			if (instructor == null) {
-				if(email.equals(Const.GENERAL_QUESTION)) {
-					// Email represents that there is no specific recipient. 
-					name = Const.USER_IS_NOBODY;
-					team = email;
-				} else {
-					// Assume that the email is actually a team name.
-					name = Const.USER_IS_TEAM;
-					team = email;
-				}
-			} else {
-				name = instructor.name;
-				team = "Instructors";
-			}
-		} else {
-			name = student.name;
-			team = student.team;
-		}
-		
-		if (type == FeedbackParticipantType.TEAMS || type == FeedbackParticipantType.OWN_TEAM){
-			return team;
-		} else {
-			return name;
-		}
-	}
-
-	// This method is for manual adding of additional responses to a FS.
-	public void addResponsesToFeedbackSession(List<FeedbackResponse> responses,
-			String feedbackSessionName, String courseId)
-			throws NotImplementedException {
-		throw new NotImplementedException(
-				"Can't do manual adding of responses yet");
-	}
-
+	
 	public String getFeedbackSessionResultsSummaryAsCsv(
 			String feedbackSessionName, String courseId, String userEmail) 
 					throws UnauthorizedAccessException, EntityDoesNotExistException {
@@ -368,6 +238,100 @@ public class FeedbackSessionsLogic {
 		}
 				
 		return export;
+	}
+	
+	public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedPublishedEmailsToBeSent() {
+		List<FeedbackSessionAttributes> sessions =
+				fsDb.getAllFeedbackSessions();
+		List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
+				new ArrayList<FeedbackSessionAttributes>();
+		
+		for (FeedbackSessionAttributes session : sessions){
+			if(session.isPublished() && !session.sentPublishedEmail && 
+					// Don't send email if publish time is same as open time
+					// or not automated.
+					!TimeHelper.isSpecialTime(session.resultsVisibleFromTime) &&
+					session.isPrivateSession() == false) {
+				sessionsToSendEmailsFor.add(session);
+			}
+		}		
+		return sessionsToSendEmailsFor;
+	}
+	
+	public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent(){
+		List<FeedbackSessionAttributes> sessions =
+				fsDb.getAllFeedbackSessions();
+		List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
+				new ArrayList<FeedbackSessionAttributes>();
+		
+		for (FeedbackSessionAttributes session : sessions){
+			if(session.isOpened() && !session.sentOpenEmail &&
+					session.isPrivateSession() == false) {
+				sessionsToSendEmailsFor.add(session);
+			}
+		}		
+		return sessionsToSendEmailsFor;		
+	}
+
+	public boolean isCreatorOfSession(String feedbackSessionName, String courseId, String userEmail) {
+		FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
+		return (fs.creatorEmail.equals(userEmail));
+	}
+	
+	public boolean isFeedbackSessionExists(String feedbackSessionName, String courseId) {
+		return fsDb.getFeedbackSession(feedbackSessionName, courseId) != null;
+	}
+	
+	public boolean isFeedbackSessionCompletedByUser(String feedbackSessionName,
+			String courseId, String userEmail)
+			throws EntityDoesNotExistException {
+
+		if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+			throw new EntityDoesNotExistException(
+					"Trying to check a feedback session that does not exist.");
+		}
+
+		List<FeedbackQuestionAttributes> allQuestions =
+				fqLogic.getFeedbackQuestionsForUser(feedbackSessionName, courseId,
+						userEmail);
+		
+		for (FeedbackQuestionAttributes question : allQuestions) {
+			if(fqLogic.isQuestionAnsweredByUser(question, userEmail)){
+				// If any question is answered, session is complete.
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isFeedbackSessionFullyCompletedByUser(String feedbackSessionName,
+			String courseId, String userEmail)
+			throws EntityDoesNotExistException {
+
+		if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+			throw new EntityDoesNotExistException(
+					"Trying to check a feedback session that does not exist.");
+		}
+
+		List<FeedbackQuestionAttributes> allQuestions =
+				fqLogic.getFeedbackQuestionsForUser(feedbackSessionName, courseId,
+						userEmail);
+		
+		for (FeedbackQuestionAttributes question : allQuestions) {
+			if(!fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)){
+				// If any question is not completely answered, session is not completed
+				return false;
+			}
+		}
+		return true;
+	}
+
+	// This method is for manual adding of additional responses to a FS.
+	public void addResponsesToFeedbackSession(List<FeedbackResponse> responses,
+			String feedbackSessionName, String courseId)
+			throws NotImplementedException {
+		throw new NotImplementedException(
+				"Can't do manual adding of responses yet");
 	}
 		
 	public void updateFeedbackSession(FeedbackSessionAttributes newSession)
@@ -404,39 +368,75 @@ public class FeedbackSessionsLogic {
 		if (newSession.feedbackSessionType == null) {
 			newSession.feedbackSessionType = oldSession.feedbackSessionType; 
 		}
+		
 		makeEmailStateConsistent(oldSession, newSession);
 		
 		fsDb.updateFeedbackSession(newSession);
 	}
 
-	private void makeEmailStateConsistent(FeedbackSessionAttributes oldSession,
-			FeedbackSessionAttributes newSession) {
+	/**
+	 * This method is called when the user publishes a feedback session manually.
+	 * Preconditions:
+	 * *	The feedback session has to be set as manually published.
+	 */
+	public void publishFeedbackSession(String feedbackSessionName, String courseId)
+			throws EntityDoesNotExistException, InvalidParametersException {
+
+		FeedbackSessionAttributes sessionToPublish =
+				getFeedbackSession(feedbackSessionName, courseId);
+
+		if(sessionToPublish == null) {
+			throw new EntityDoesNotExistException("Trying to publish a non-existant session.");
+		}
 		
-		// reset sentOpenEmail if the session has opened but is being closed and
-		// postponed.
-		if (oldSession.sentOpenEmail
-				&& newSession.startTime.after(oldSession.startTime)
-				&& newSession.isOpened() == false) {
-			newSession.sentOpenEmail = false;
-		} else { 
-			// or else the sent state should remain the same.
-			newSession.sentOpenEmail = oldSession.sentOpenEmail;
+		if (sessionToPublish.isManuallyPublished() == false) {
+			throw new InvalidParametersException(
+					"Session should be published automatically.");
 		}
 
-		// reset sentPublishedEmail if the session has been published but is
-		// going to be unpublished now.
-		if (oldSession.sentPublishedEmail
-				&& newSession.resultsVisibleFromTime
-						.after(oldSession.resultsVisibleFromTime)
-				&& newSession.isPublished() == false) {
-			newSession.sentPublishedEmail = false;
-		} else {
-			// or else the sent state should remain the same.
-			newSession.sentPublishedEmail = oldSession.sentPublishedEmail;
+		if (sessionToPublish.isPublished()) {
+			throw new InvalidParametersException(
+					"Session is already published.");
 		}
+		
+		sessionToPublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
+
+		updateFeedbackSession(sessionToPublish);
+
+		sendFeedbackSessionPublishedEmail(sessionToPublish);
 	}
 
-	public  ArrayList<MimeMessage> sendFeedbackSessionClosingEmails() {
+	/**
+	 * This method is called when the user unpublishes a feedback session manually.
+	 * Preconditions:
+	 * *	The feedback session has to be set as manually published.
+	 */
+	public void unpublishFeedbackSession(String feedbackSessionName, String courseId)
+			throws EntityDoesNotExistException, InvalidParametersException {
+
+		FeedbackSessionAttributes sessionToUnpublish =
+				getFeedbackSession(feedbackSessionName, courseId);
+
+		if(sessionToUnpublish == null) {
+			throw new EntityDoesNotExistException("Trying to publish a non-existant session.");
+		}
+		
+		if (sessionToUnpublish.isManuallyPublished() == false) {
+			throw new InvalidParametersException(
+					"Session should be not be unpublished in this manner.");
+		}
+		
+		if (sessionToUnpublish.isPublished() == false) {
+			throw new InvalidParametersException(
+					"Session is not currently published.");
+		}
+
+		sessionToUnpublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+
+		updateFeedbackSession(sessionToUnpublish);
+	}
+	
+	public ArrayList<MimeMessage> sendFeedbackSessionClosingEmails() {
 		
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
 		List<FeedbackSessionAttributes> sessions = fsDb.getAllFeedbackSessions();
@@ -477,37 +477,11 @@ public class FeedbackSessionsLogic {
 	}
 
 	public ArrayList<MimeMessage> sendFeedbackSessionPublishedEmails() {
-		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
+		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();		
 		List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedPublishedEmailsToBeSent();
 		
 		for(FeedbackSessionAttributes session : sessions){
-			try {
-				CourseAttributes course = coursesLogic
-						.getCourse(session.courseId);
-				List<StudentAttributes> allStudents = studentsLogic
-						.getStudentsForCourse(session.courseId);
-				List<InstructorAttributes> instructors = instructorsLogic
-						.getInstructorsForCourse(session.courseId);
-				List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-				for (StudentAttributes student : allStudents) {
-					if (isFeedbackSessionViewableTo(session, student.email)) {
-						students.add(student);
-					}
-				}
-
-				Emails emails = new Emails();
-				List<MimeMessage> messages = emails
-						.generateFeedbackSessionPublishedEmails(course, session,
-								students, instructors);
-				emails.sendEmails(messages);
-				messagesSent.addAll(messages);
-
-				// mark evaluation as activated
-				session.sentPublishedEmail = true;
-				updateFeedbackSession(session);
-			} catch (Exception e) {
-				log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
-			}
+			messagesSent = sendFeedbackSessionPublishedEmail(session);
 		}
 		return messagesSent;
 	}
@@ -548,102 +522,74 @@ public class FeedbackSessionsLogic {
 		return messagesSent;
 	}
 	
-	public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedPublishedEmailsToBeSent() {
-		List<FeedbackSessionAttributes> sessions =
-				fsDb.getAllFeedbackSessions();
-		List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
-				new ArrayList<FeedbackSessionAttributes>();
+	public void deleteFeedbackSessionsForCourse(String courseId) {
+		List<FeedbackSessionAttributes> sessionsToDelete =
+				fsDb.getFeedbackSessionsForCourse(courseId);
 		
-		for (FeedbackSessionAttributes session : sessions){
-			if(session.isPublished() && !session.sentPublishedEmail && 
-					// Don't send email if publish time is same as open time.
-					!TimeHelper.isSpecialTime(session.resultsVisibleFromTime) &&
-					session.feedbackSessionType != FeedbackSessionType.PRIVATE) {
-				sessionsToSendEmailsFor.add(session);
-			}
-		}		
-		return sessionsToSendEmailsFor;
-	}
-	
-	public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent(){
-		List<FeedbackSessionAttributes> sessions =
-				fsDb.getAllFeedbackSessions();
-		List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
-				new ArrayList<FeedbackSessionAttributes>();
-		
-		for (FeedbackSessionAttributes session : sessions){
-			if(session.isOpened() && !session.sentOpenEmail &&
-					session.feedbackSessionType != FeedbackSessionType.PRIVATE) {
-				sessionsToSendEmailsFor.add(session);
-			}
-		}		
-		return sessionsToSendEmailsFor;		
-	}
-	
-	public boolean isCreatorOfSession(String feedbackSessionName, String courseId, String userEmail) {
-		FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
-		return (fs.creatorEmail.equals(userEmail));
+		for (FeedbackSessionAttributes session : sessionsToDelete){
+			deleteFeedbackSessionCascade(
+					session.feedbackSessionName,
+					session.courseId);
+		}
 	}
 
-	public boolean isFeedbackSessionExists(String feedbackSessionName, String courseId) {
-		return fsDb.getFeedbackSession(feedbackSessionName, courseId) != null;
+	// This method deletes a specific feedback session, and all it's question and responses
+	public void deleteFeedbackSessionCascade(String feedbackSessionName,
+			String courseId) {
+
+		try {
+			fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName, courseId);
+		} catch (EntityDoesNotExistException e) {
+			// Silently fail if session does not exist
+		}
+		
+		FeedbackSessionAttributes sessionToDelete = new FeedbackSessionAttributes();
+		sessionToDelete.feedbackSessionName = feedbackSessionName;
+		sessionToDelete.courseId = courseId;
+		
+		fsDb.deleteEntity(sessionToDelete);
+
 	}
 	
-	// This method returns a list of feedback sessions which are relevant for a user.
-	private boolean isFeedbackSessionViewableTo(FeedbackSessionAttributes session,
-			String userEmail) throws EntityDoesNotExistException {
-				
-		if (fsDb.getFeedbackSession(
-				session.feedbackSessionName,
-				session.courseId) == null) {
-			throw new EntityDoesNotExistException(
-					"Trying to get a feedback session that does not exist.");
+	private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
+			List<FeedbackResponseAttributes> responses,
+			String userEmail) {
+		for (FeedbackResponseAttributes response  : responses) {
+			boolean[] visibility = new boolean[2];
+			visibility[0] = frLogic.isNameVisibleTo(response, userEmail, true);
+			visibility[1] = frLogic.isNameVisibleTo(response, userEmail, false);
+			visibilityTable.put(response.getId(), visibility);
 		}
-		
-		// Check for private type first.
-		if (session.feedbackSessionType == FeedbackSessionType.PRIVATE) {
-			return session.creatorEmail.equals(userEmail);
-		}
-		
-		// Allow all instructors to view
-		InstructorAttributes instructor = instructorsLogic.
-				getInstructorForEmail(session.courseId, userEmail);
-		if (instructor != null) {
-			return instructorsLogic.isInstructorOfCourse(instructor.googleId, session.courseId);
-		}
+	}
 
-		if (session.isPublished() == false) {
+	private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
+			List<FeedbackResponseAttributes> responsesForThisQn,
+			FeedbackQuestionAttributes question) throws EntityDoesNotExistException {
+		
+		for (FeedbackResponseAttributes response : responsesForThisQn) {
+			if (question.giverType == FeedbackParticipantType.TEAMS){
+				if (emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER) == false) {
+					emailNameTable.put(
+							response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
+							getNameForEmail(question.giverType, response.giverEmail, question.courseId));
+				}
+			} else if(emailNameTable.containsKey(response.giverEmail) == false) {
+				emailNameTable.put(
+						response.giverEmail,
+						getNameForEmail(question.giverType, response.giverEmail, question.courseId));
+			}
 			
-			List<FeedbackQuestionAttributes> questions = 
-					fqLogic.getFeedbackQuestionsForUser(
-							session.feedbackSessionName,
-							session.courseId, userEmail);
-			
-			if (questions.isEmpty() == false) {
-				// Session should be visible only if there are questions
-				// available for this student/feedback session.
-				return true;
+			if(emailNameTable.containsKey(response.recipient) == false) {
+				emailNameTable.put(
+						response.recipient,
+						getNameForEmail(question.recipientType, response.recipient, question.courseId));
 			}
-
-		} else {
-			// After publishing, only list if there are
-			// non-zero viewable responses			
-			try {
-				getFeedbackSessionResultsForUser(session.feedbackSessionName,
-						session.courseId, userEmail);
-			} catch (UnauthorizedAccessException e) {
-				// We will not be given access if there are zero
-				// viewable responses.
-				return false;
-			}			
-			return true;
 		}
-
-		return false;
+		
 	}
-	
+		
 	private List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForCourse(
-			String courseId)
+			String courseId, String instructorEmail)
 			throws EntityDoesNotExistException {
 
 		List<FeedbackSessionDetailsBundle> fsDetails =
@@ -652,7 +598,8 @@ public class FeedbackSessionsLogic {
 				fsDb.getFeedbackSessionsForCourse(courseId);
 
 		for (FeedbackSessionAttributes fsa : fsInCourse) {
-			fsDetails.add(getFeedbackSessionDetails(fsa));
+			if((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
+				fsDetails.add(getFeedbackSessionDetails(fsa));
 		}
 
 		return fsDetails;
@@ -721,51 +668,44 @@ public class FeedbackSessionsLogic {
 
 		return details;
 	}
-
-	public boolean isFeedbackSessionCompletedByUser(String feedbackSessionName,
-			String courseId, String userEmail)
+	
+	private String getNameForEmail(FeedbackParticipantType type, String email, String courseId)
 			throws EntityDoesNotExistException {
-
-		if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
-			throw new EntityDoesNotExistException(
-					"Trying to check a feedback session that does not exist.");
-		}
-
-		List<FeedbackQuestionAttributes> allQuestions =
-				fqLogic.getFeedbackQuestionsForUser(feedbackSessionName, courseId,
-						userEmail);
 		
-		for (FeedbackQuestionAttributes question : allQuestions) {
-			if(fqLogic.isQuestionAnsweredByUser(question, userEmail)){
-				// If any question is answered, session is complete.
-				return true;
+		String name = null;
+		String team = null;
+		
+		StudentAttributes student = 
+				studentsLogic.getStudentForEmail(courseId, email);
+		if(student != null) {
+			name = student.name;
+			team = student.team;
+		} else {
+			InstructorAttributes instructor =
+					instructorsLogic.getInstructorForEmail(courseId, email);
+			if (instructor == null) {
+				if(email.equals(Const.GENERAL_QUESTION)) {
+					// Email represents that there is no specific recipient. 
+					name = Const.USER_IS_NOBODY;
+					team = email;
+				} else {
+					// Assume that the email is actually a team name.
+					name = Const.USER_IS_TEAM;
+					team = email;
+				}
+			} else {
+				name = instructor.name;
+				team = "Instructors";
 			}
 		}
-		return false;
+		
+		if (type == FeedbackParticipantType.TEAMS || type == FeedbackParticipantType.OWN_TEAM){
+			return team;
+		} else {
+			return name;
+		}
 	}
 	
-	public boolean isFeedbackSessionFullyCompletedByUser(String feedbackSessionName,
-			String courseId, String userEmail)
-			throws EntityDoesNotExistException {
-
-		if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
-			throw new EntityDoesNotExistException(
-					"Trying to check a feedback session that does not exist.");
-		}
-
-		List<FeedbackQuestionAttributes> allQuestions =
-				fqLogic.getFeedbackQuestionsForUser(feedbackSessionName, courseId,
-						userEmail);
-		
-		for (FeedbackQuestionAttributes question : allQuestions) {
-			if(!fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)){
-				// If any question is not completely answered, session is not completed
-				return false;
-			}
-		}
-		return true;
-	}
-
 	private boolean isFeedbackSessionCompletedByTeam(String feedbackSessionName,
 			String courseId, String teamName)
 			throws EntityDoesNotExistException {
@@ -780,5 +720,135 @@ public class FeedbackSessionsLogic {
 						feedbackSessionName, courseId, teamName);
 		
 		return questions.isEmpty();
+	}
+	
+	// This method returns a list of feedback sessions which are relevant for a user.
+	private boolean isFeedbackSessionViewableTo(FeedbackSessionAttributes session,
+			String userEmail) throws EntityDoesNotExistException {
+				
+		if (fsDb.getFeedbackSession(
+				session.feedbackSessionName,
+				session.courseId) == null) {
+			throw new EntityDoesNotExistException(
+					"Trying to get a feedback session that does not exist.");
+		}
+		
+		// Check for private type first.
+		if (session.feedbackSessionType == FeedbackSessionType.PRIVATE) {
+			return session.creatorEmail.equals(userEmail);
+		}
+		
+		// Allow all instructors to view
+		InstructorAttributes instructor = instructorsLogic.
+				getInstructorForEmail(session.courseId, userEmail);
+		if (instructor != null) {
+			return instructorsLogic.isInstructorOfCourse(instructor.googleId, session.courseId);
+		}
+
+		if (session.isPublished() == false) {
+			
+			List<FeedbackQuestionAttributes> questions = 
+					fqLogic.getFeedbackQuestionsForUser(
+							session.feedbackSessionName,
+							session.courseId, userEmail);
+			
+			if (questions.isEmpty() == false) {
+				// Session should be visible only if there are questions
+				// available for this student/feedback session.
+				return true;
+			}
+
+		} else {
+			// After publishing, only list if there are
+			// non-zero viewable responses			
+			try {
+				getFeedbackSessionResultsForUser(session.feedbackSessionName,
+						session.courseId, userEmail);
+			} catch (UnauthorizedAccessException e) {
+				// We will not be given access if there are zero
+				// viewable responses.
+				return false;
+			}			
+			return true;
+		}
+
+		return false;
+	}
+	
+	private void normalizeMaximumResponseEntities(String courseId,
+			String userEmail, FeedbackQuestionAttributes question,
+			List<FeedbackResponseAttributes> responses,
+			Map<String, String> recipients) {
+
+		// change constant to actual maximum size.
+		if (question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
+			question.numberOfEntitiesToGiveFeedbackTo = recipients.size();
+		}
+
+		if (question.giverType == FeedbackParticipantType.TEAMS) {
+			// reduce max response count depending on other members' feedback
+			// to account for the multi-giver question.
+			StudentAttributes student = studentsLogic.getStudentForEmail(
+					courseId, userEmail);
+			int studentCount = responses.size();
+			int teamCount = frLogic.getNumberOfResponsesFromTeamForQuestion(
+					question.courseId, question.getId(), student.team);
+
+			question.numberOfEntitiesToGiveFeedbackTo -= (teamCount - studentCount);
+		}
+
+	}
+	
+	private void makeEmailStateConsistent(FeedbackSessionAttributes oldSession,
+			FeedbackSessionAttributes newSession) {
+		
+		// reset sentOpenEmail if the session has opened but is being closed now.
+		if (oldSession.sentOpenEmail && newSession.isOpened() == false) {
+			newSession.sentOpenEmail = false;
+		} else if(oldSession.sentOpenEmail){ 
+			// or else leave it as sent if so.
+			newSession.sentOpenEmail = true;
+		}
+		
+		// reset sentPublishedEmail if the session has been published but is
+		// going to be unpublished now.
+		if (oldSession.sentPublishedEmail && newSession.isPublished() == false) {
+			newSession.sentPublishedEmail = false;
+		} else if(oldSession.sentPublishedEmail) {
+			// or else leave it as sent if so.
+			newSession.sentPublishedEmail = true;
+		}
+	}
+	
+	private ArrayList<MimeMessage> sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
+		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
+		try {
+			CourseAttributes course = coursesLogic
+					.getCourse(session.courseId);
+			List<StudentAttributes> allStudents = studentsLogic
+					.getStudentsForCourse(session.courseId);
+			List<InstructorAttributes> instructors = instructorsLogic
+					.getInstructorsForCourse(session.courseId);
+			List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+			for (StudentAttributes student : allStudents) {
+				if (isFeedbackSessionViewableTo(session, student.email)) {
+					students.add(student);
+				}
+			}
+
+			Emails emails = new Emails();
+			List<MimeMessage> messages = emails
+					.generateFeedbackSessionPublishedEmails(course, session,
+							students, instructors);
+			emails.sendEmails(messages);
+			messagesSent.addAll(messages);
+
+			session.sentPublishedEmail = true;
+			updateFeedbackSession(session);
+		} catch (Exception e) {
+			log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
+		}
+		
+		return messagesSent;
 	}
 }

@@ -114,7 +114,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLELABEL = "Please select when you want the questions for the feedback session to be visible to users who need to participate.<br />Note that users cannot submit their responses until the submissions opening time set below.";
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLECUSTOM = "Select this option to use a custom time for when the session will become visible to users. ";
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLEATOPEN = "Select this option to have the feedback session become visible<br />"
-				+ "when it is open for submissions (as selected below).";
+				+ "when it is open for submissions (as selected above).";
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLENEVER = "Select this option if you want the feedback session to never be visible.<br />"
 				+ "Use this option if you want to use this as a private feedback session.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL = "Please select when the responses for the feedback session will be visible to the designated recipients."
@@ -126,6 +126,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to choose when the responses will be visible at a later time.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend never to publish the responses.";
 		public static final String FEEDBACK_SESSION_INSTRUCTIONS = "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.";
+		public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
 		public static final String FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
 		public static final String FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
 		public static final String FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
@@ -136,6 +137,9 @@ public class Const {
 		public static final String FEEDBACK_SESSION_EDIT = "Edit feedback session details";
 		public static final String FEEDBACK_SESSION_DELETE = "Delete the feedback session";
 		public static final String FEEDBACK_SESSION_SUBMIT = "Start submitting feedback";
+		public static final String FEEDBACK_SESSION_PUBLISH = "Make session responses available for viewing";
+		public static final String FEEDBACK_SESSION_UNPUBLISH = "Make responses no longer visible";
+		public static final String FEEDBACK_SESSION_AUTOPUBLISH = "This session will be published automatically at the specified time";
 		public static final String FEEDBACK_SESSION_EDIT_RESPONSE = "View/Edit submitted feedback";
 
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
@@ -282,6 +286,8 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
 		public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
 		public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
+		public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
+		public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
 		public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
 		public static final String INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
@@ -417,6 +423,8 @@ public class Const {
 		public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
 		public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
 		public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
+		public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";
+		public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
 		public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";
 		public static final String FEEDBACK_SESSION_EMPTY = "You have not created any feedback sessions yet. Use the form above to create a new feedback session.";
 	
@@ -547,6 +555,7 @@ public class Const {
 	public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
 	public static final Date TIME_REPRESENTS_NEVER;
 	public static final Date TIME_REPRESENTS_LATER;
+	public static final Date TIME_REPRESENTS_NOW;
 	
 	static {
 		//TODO: Can be simplified using TimeHelper
@@ -563,6 +572,8 @@ public class Const {
 		TIME_REPRESENTS_NEVER = calendar.getTime();
 		calendar.set(1970, 00, 01);
 		TIME_REPRESENTS_LATER = calendar.getTime();
+		calendar.set(1970, 01, 14);
+		TIME_REPRESENTS_NOW = calendar.getTime();
 	}
  	
 }

@@ -66,9 +66,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 		// Reload same page if fail. 
 		//TODO: is the above comment correct?
 		data.courses = loadCoursesList(account.googleId);
-		data.existingEvals = loadEvaluationsList(account.googleId);
-		data.existingSessions = loadFeedbackSessionsList(account.googleId);
-		if (data.existingSessions.size() == 0) {
+		data.existingEvalSessions = loadEvaluationsList(account.googleId);
+		data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
+		if (data.existingFeedbackSessions.size() == 0) {
 			statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
 		}
 		
@@ -99,23 +99,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 		newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
 		newSession.instructions = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
 		
-		String type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-		switch (type) {
-		case "custom":
-			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
-			break;
-		case "atopen":
-			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-			break;
-		case "never":
-			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-			newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
-			break;
-		}
-		
-		type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+		String type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
 		switch (type) {
 		case "custom":
 			newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
@@ -130,6 +114,24 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 			break;
 		case "never":
 			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			break;
+		}
+		
+		type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+		switch (type) {
+		case "custom": //Magic strings. Use enums to prevent potentila bugs caused by typos.
+			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
+			break;
+		case "atopen":
+			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+			break;
+		case "never":
+			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			// overwrite if private
+			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
 			break;
 		}
 		

@@ -1,11 +1,11 @@
 <%@ page import="java.util.List"%>
-<%@ page import="java.text.DateFormat"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const"%>
-<%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackSubmissionEditPageData"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
 	InstructorFeedbackSubmissionEditPageData data = (InstructorFeedbackSubmissionEditPageData)request.getAttribute("data");
 %>
@@ -24,7 +24,7 @@
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
-	<script type="text/javascript" src="/js/feedbackSubmissionEdit.js"></script>
+	<script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -45,21 +45,21 @@
 			<table class="inputTable">
 			<tr>
 				<td class="bold">Course:</td>
-				<td colspan="2"><%=data.bundle.feedbackSession.courseId%></td>
+				<td colspan="2"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></td>
 			</tr>
 			<tr>
 				<td class="bold">Session Name:</td>
-				<td colspan="3"><%=data.bundle.feedbackSession.feedbackSessionName%></td>				
+				<td colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></td>				
 			</tr>
 			<tr>
 				<td class="bold">Open from:</td>
-				<td><%=DateFormat.getDateTimeInstance().format(data.bundle.feedbackSession.startTime)%></td>
+				<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></td>
 				<td class="bold">To:</td>
-				<td><%=DateFormat.getDateTimeInstance().format(data.bundle.feedbackSession.endTime)%></td>
+				<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></td>
 			</tr>
 			<tr>
-				<td class="bold">Instructions:</td>
-				<td colspan="3"><%=data.bundle.feedbackSession.instructions.getValue()%></td>
+				<td class="bold middlealign">Instructions:</td>
+				<td colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></td>
 			</tr>
 			</table>
 			<br>
@@ -85,7 +85,7 @@
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
 			<table class="inputTable responseTable">
 				<tr><td class="bold" colspan="2">Question <%=qnIndx%></td></tr>
-				<tr style="border-bottom: 3px dotted white;"><td colspan="2"><%=question.questionText.getValue()%></td></tr>
+				<tr style="border-bottom: 3px dotted white;"><td colspan="2"><%=sanitizeForHtml(question.questionText.getValue())%></td></tr>
 				<tr><td class="bold" colspan="2">Only the following persons can see your responses:</tr>
 					<tr style="border-bottom: 3px dotted white;">
 						<td colspan="2"
@@ -127,7 +127,7 @@
 					</td>					
 					<td>
 						<textarea rows="4" cols="100%" class="textvalue" 
-						<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\")\""%>
+						<%=data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession()  ? "" : "disabled=\"disabled\")\""%>
 						name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=existingResponse.answer.getValue()%></textarea>
 						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
 					</td>
@@ -151,7 +151,7 @@
 				<td class="responseText">
 					<textarea rows="4" class="textvalue" 
 					name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-					<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>
+					<%=data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession() ? "" : "disabled=\"disabled\""%>
 					></textarea></td>
 				</tr>
 				<%
@@ -170,7 +170,7 @@
 			%>
 			There are no questions for you to answer here!
 			<%
-				} else if (data.bundle.feedbackSession.isOpened()) {
+				} else if (data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession()) {
 			%>
 			<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
 			<%

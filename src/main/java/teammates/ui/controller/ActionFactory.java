@@ -56,6 +56,8 @@ public class ActionFactory {
 		map(INSTRUCTOR_FEEDBACKS_PAGE, InstructorFeedbacksPageAction.class);
 		map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
 		map(INSTRUCTOR_FEEDBACK_DELETE, InstructorFeedbackDeleteAction.class);
+		map(INSTRUCTOR_FEEDBACK_PUBLISH, InstructorFeedbackPublishAction.class);
+		map(INSTRUCTOR_FEEDBACK_UNPUBLISH, InstructorFeedbackUnpublishAction.class);
 		map(INSTRUCTOR_FEEDBACK_EDIT_PAGE, InstructorFeedbackEditPageAction.class);
 		map(INSTRUCTOR_FEEDBACK_EDIT_SAVE, InstructorFeedbackEditSaveAction.class);
 		map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);

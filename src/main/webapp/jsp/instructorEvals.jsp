@@ -216,33 +216,38 @@
 				</tr>
 				<%
 					int evalIdx = -1;
-																if (data.evaluations.size() > 0) {
-																	for(EvaluationDetailsBundle edd: data.evaluations){ evalIdx++;
+					if (data.evaluations.size() > 0) {
+						for (EvaluationDetailsBundle edd : data.evaluations) {
+							evalIdx++;
 				%>
-							<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
-								<td class="t_eval_coursecode"><%=edd.evaluation.courseId%></td>
-								<td class="t_eval_name"><%=InstructorEvalPageData.sanitizeForHtml(edd.evaluation.name)%></td>
-								<td class="t_eval_status centeralign"><span
-									onmouseover="ddrivetip(' <%=InstructorEvalPageData.getInstructorHoverMessageForEval(edd.evaluation)%>')"
-									onmouseout="hideddrivetip()"><%=InstructorEvalPageData.getInstructorStatusForEval(edd.evaluation)%></span></td>
-								<td class="t_eval_response centeralign"><%=edd.stats.submittedTotal%>
-									/ <%=edd.stats.expectedTotal%></td>
-								<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(edd.evaluation,evalIdx, false)%>
-								</td>
-							</tr>
-						<%
-							}
-						%>
+				<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
+					<td class="t_eval_coursecode"><%=edd.evaluation.courseId%></td>
+					<td class="t_eval_name"><%=InstructorEvalPageData
+							.sanitizeForHtml(edd.evaluation.name)%></td>
+					<td class="t_eval_status centeralign"><span
+						onmouseover="ddrivetip(' <%=InstructorEvalPageData
+							.getInstructorHoverMessageForEval(edd.evaluation)%>')"
+						onmouseout="hideddrivetip()"><%=InstructorEvalPageData
+							.getInstructorStatusForEval(edd.evaluation)%></span></td>
+					<td class="t_eval_response centeralign"><%=edd.stats.submittedTotal%>
+						/ <%=edd.stats.expectedTotal%></td>
+					<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(
+							edd.evaluation, evalIdx, false)%>
+					</td>
+				</tr>
+				<%
+					}
+				%>
 				<%
 					} else {
 				%>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
 				<%
 					}
 				%>

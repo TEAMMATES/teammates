@@ -16,6 +16,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -27,6 +28,7 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	
 	private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+	private DataBundle dataBundle = getTypicalDataBundle();
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -58,7 +60,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	public void testGetFeedbackSessionsForCourse() throws Exception {
 		
 		restoreTypicalDataInDatastore();
-		DataBundle dataBundle = getTypicalDataBundle();
 		
 		List<FeedbackSessionAttributes> actualSessions = null;
 		
@@ -123,7 +124,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		______TS("Student submit feedback test");
 
 		restoreTypicalDataInDatastore();
-		DataBundle dataBundle = getTypicalDataBundle();
 		
 		FeedbackSessionQuestionsBundle actual =
 				fsLogic.getFeedbackSessionQuestionsForUser("First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.com");
@@ -152,6 +152,143 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	
 	public void testUpdateFeedbackSession() {
 		
+	}
+	
+	@Test
+	public void testPublishUnpublishFeedbackSession() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("failure: not manual type");
+		
+		FeedbackSessionAttributes
+			sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse1");
+		
+		try{
+			fsLogic.publishFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+			signalFailureToDetectException(
+					"Did not catch exception signalling that session should " +
+					"be published automatically.");
+		} catch (InvalidParametersException e) {
+			assertEquals(e.getMessage(),
+					"Session should be published automatically.");
+		}
+		
+		try{
+			fsLogic.unpublishFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+			signalFailureToDetectException(
+					"Did not catch exception signalling that session should " +
+					"be published automatically.");
+		} catch (InvalidParametersException e) {
+			assertEquals(e.getMessage(),
+					"Session should be not be unpublished in this manner.");
+		}
+		
+		______TS("success: publish");
+		
+		// set as manual publish
+		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+		fsLogic.updateFeedbackSession(sessionUnderTest);
+		
+		fsLogic.publishFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+		
+		sessionUnderTest.sentPublishedEmail = true;
+		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
+		
+		assertEquals(
+				fsLogic.getFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId).toString(),
+				sessionUnderTest.toString());
+		
+		
+		______TS("failure: already published");
+		
+		try{
+			fsLogic.publishFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+			signalFailureToDetectException(
+					"Did not catch exception signalling that session is already published.");
+		} catch (InvalidParametersException e) {
+			assertEquals(e.getMessage(),
+					"Session is already published.");
+		}
+		
+		______TS("success: publish");
+		
+		fsLogic.unpublishFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+		
+		sessionUnderTest.sentPublishedEmail = false;
+		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+		
+		assertEquals(
+				fsLogic.getFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId).toString(),
+				sessionUnderTest.toString());
+		
+		______TS("failure: not published");
+		
+		try{
+			fsLogic.unpublishFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+			signalFailureToDetectException(
+					"Did not catch exception signalling that session is not published.");
+		} catch (InvalidParametersException e) {
+			assertEquals(e.getMessage(),
+					"Session is not currently published.");
+		}
+		
+		______TS("failure: private session");
+		
+		sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse2");
+
+		try{
+			fsLogic.publishFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+			signalFailureToDetectException(
+					"Did not catch exception signalling that session should " +
+					"be published automatically.");
+		} catch (InvalidParametersException e) {
+			assertEquals(e.getMessage(),
+					"Session should be published automatically.");
+		}
+		
+		try{
+			fsLogic.unpublishFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+			signalFailureToDetectException(
+					"Did not catch exception signalling that session should " +
+					"be published automatically.");
+		} catch (InvalidParametersException e) {
+			assertEquals(e.getMessage(),
+					"Session should be not be unpublished in this manner.");
+		}
+				
+		______TS("failure: session does not exist");
+
+		sessionUnderTest.feedbackSessionName = "non-existant session";
+		
+		try{
+			fsLogic.publishFeedbackSession(
+				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+			signalFailureToDetectException(
+					"Did not catch exception signalling that session does not exist.");
+		} catch (EntityDoesNotExistException e) {
+			assertEquals(e.getMessage(),
+					"Trying to publish a non-existant session.");
+		}
+		
+		try{
+			fsLogic.unpublishFeedbackSession(
+					sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
+			signalFailureToDetectException(
+					"Did not catch exception signalling that session does not exist.");
+		} catch (EntityDoesNotExistException e) {
+			assertEquals(e.getMessage(),
+					"Trying to publish a non-existant session.");
+		}
 	}
 	
 	private FeedbackSessionAttributes getNewFeedbackSession() {

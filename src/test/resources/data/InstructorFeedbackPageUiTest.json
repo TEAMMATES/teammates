@@ -4,21 +4,21 @@
   	  "googleId": "CFeedbackUiT.instructor",
   	  "name": "Teammates Test",
   	  "isInstructor": true,
-  	  "email": "tmms.test@gmail.com",
+  	  "email": "teammates.test1@gmail.com",
   	  "institute": "National University of Singapore"
   	},
   	"instructorWithoutCourses": {
   	  "googleId": "CFeedbackUiT.nocourses",
   	  "name": "instructor Without Courses",
   	  "isInstructor": true,
-  	  "email": "tmms.test@gmail.com",
+  	  "email": "teammates.test2@gmail.com",
   	  "institute": "National University of Singapore"
   	},
   	"instructorWithoutSessions": {
   	  "googleId": "CFeedbackUiT.nosessions",
   	  "name": "Instructor Without Sessions",
   	  "isInstructor": true,
-  	  "email": "tmms.test@gmail.com",
+  	  "email": "teammates.test3@gmail.com",
   	  "institute": "National University of Singapore"
   	}
   },
@@ -49,13 +49,13 @@
       "googleId": "CFeedbackUiT.nosessions",
       "courseId": "CFeedbackUiT.coursewithoutsessions",
       "name": "Instructor Without Sessions",
-      "email": "teammates.test2@gmail.com"
+      "email": "teammates.test3@gmail.com"
     },
-    "teammates.test.anotherInstructor": {
+    "teammates.test.instructor.for.different.course": {
       "googleId": "CFeedbackUiT.instructor",
       "courseId": "CFeedbackUiT.CS1101",
       "name": "Teammates Test",
-      "email": "teammates.test3@gmail.com"
+      "email": "teammates.test1@gmail.com"
     }
   },
   
@@ -98,54 +98,69 @@
     }
   },
   
+  "evaluations" : {
+  	"openEval": {
+      "courseId" : "CFeedbackUiT.CS1101",
+      "name" : "First Eval",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2014-04-30 11:59 PM UTC",
+      "timeZone" : 2.0,
+      "p2pEnabled" : true,
+      "instructions": "This is instruction for first eval",
+      "gracePeriod": 10,
+      "published" : false,
+      "activated" : true
+    }
+  },
+   
   "feedbackSessions" : {  
-    "openSession": {
+    "publishedSession": {
       "feedbackSessionName" : "First Session",
       "courseId" : "CFeedbackUiT.CS2104",
-      "creatorEmail" : "teammates.test3@gmail.com",
+      "creatorEmail" : "teammates.test2@gmail.com",
       "instructions": {"value" : "Instructions for first session"},
       "createdTime" : "2012-04-01 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2014-04-30 11:59 PM UTC",
+      "endTime" : "2012-04-30 11:59 PM UTC",
       "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2014-05-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2012-05-01 11:59 PM UTC",
       "timeZone" : 2.0,
       "gracePeriod": 10,
       "feedbackSessionType" : "STANDARD",
       "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
+      "sentPublishedEmail" : true
     },
-    "publishedSession": {
-      "feedbackSessionName" : "Second Session",
+    "privateSession": {
+      "feedbackSessionName" : "Private Session",
       "courseId" : "CFeedbackUiT.CS2104",
-      "creatorEmail" : "teammates.test3@gmail.com",
+      "creatorEmail" : "teammates.test1@gmail.com",
       "instructions": {"value" : "Please please fill in the second feedback session"},
       "createdTime" : "2012-04-01 11:59 PM UTC",
       "startTime" : "2012-04-02 11:59 PM UTC",
-      "endTime" : "2014-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2012-05-01 11:59 PM UTC",
+      "endTime" : null,
+      "sessionVisibleFromTime" : "1970-11-27 00:00 AM UTC",
+      "resultsVisibleFromTime" : "1970-11-27 00:00 AM UTC",
       "timeZone" : 2.0,
       "gracePeriod": 20,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : true
+      "feedbackSessionType" : "PRIVATE",
+      "sentOpenEmail" : false,
+      "sentPublishedEmail" : false
     },
-    "closedSession": {
-      "feedbackSessionName" : "Third Session",
+    "manualSession": {
+      "feedbackSessionName" : "Manual Session",
       "courseId" : "CFeedbackUiT.CS1101",
-      "creatorEmail" : "teammates.test3@gmail.com",
+      "creatorEmail" : "teammates.test1@gmail.com",
       "instructions": {"value" : "Please please fill in the third feedback session"},
       "createdTime" : "2012-04-01 11:59 PM UTC",
       "startTime" : "2012-04-02 11:59 PM UTC",
       "endTime" : "2012-04-29 11:59 PM UTC",
       "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2012-04-30 11:59 PM UTC",
+      "resultsVisibleFromTime" : "1970-01-01 00:00 AM UTC",
       "timeZone" : 2.0,
       "gracePeriod": 10,
       "feedbackSessionType" : "STANDARD",
       "sentOpenEmail" : true,
-      "sentPublishedEmail" : true
+      "sentPublishedEmail" : false
     }
   }
 }

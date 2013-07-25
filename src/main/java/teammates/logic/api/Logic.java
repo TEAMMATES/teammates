@@ -937,6 +937,39 @@ public class Logic {
 	}
 	
 	/**
+	 * Publishes the evaluation and send email alerts to students.
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * @throws InvalidParametersException
+	 *             if the evaluation is not ready to be published.
+	 * @throws EntityDoesNotExistException
+	 */
+	public void publishFeedbackSession(String feedbackSessionName, String courseId)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+	
+		feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+		
+	}
+
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * @throws InvalidParametersException
+	 *             if the evaluation is not ready to be unpublished.
+	 */
+	public void unpublishFeedbackSession(String feedbackSessionName, String courseId)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+	
+		feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
+	}
+	
+	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */

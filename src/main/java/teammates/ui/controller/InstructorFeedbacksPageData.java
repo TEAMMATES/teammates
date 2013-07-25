@@ -8,6 +8,7 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 
 public class InstructorFeedbacksPageData extends PageData {
@@ -19,8 +20,8 @@ public class InstructorFeedbacksPageData extends PageData {
 	public String courseIdForNewSession;
 	public FeedbackSessionAttributes newFeedbackSession;
 	public List<CourseDetailsBundle> courses;
-	public List<EvaluationDetailsBundle> existingEvals;
-	public List<FeedbackSessionDetailsBundle> existingSessions;		
+	public List<EvaluationDetailsBundle> existingEvalSessions;
+	public List<FeedbackSessionDetailsBundle> existingFeedbackSessions;		
 	
 	
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){

@@ -122,11 +122,10 @@
 						<td colspan="2" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never"
-							<%if(data.session.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) 
-									out.print("checked=\"checked\"");%>
+							<%if(data.session.isPrivateSession()) out.print("checked=\"checked\"");%>
 							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>').disabled='disabled'
 							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>').disabled='disabled';">
-							 Never</td>
+							 Never (Private Session)</td>
 					</tr>
 					<tr>
 						<td class="label bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELABEL%>')"
@@ -173,11 +172,11 @@
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
-							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) 
+							<%if(data.session.isManuallyPublished()) 
 									out.print("checked=\"checked\"");%>
 							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
 							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
-							 Decide later </td>
+							 Publish manually </td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
 							onmouseout="hideddrivetip()"><input type="radio"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
@@ -236,7 +235,7 @@
 						<td colspan="4" style="padding-right:15px;">
 							<textarea rows="4" style="width:100%;" class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
 								onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>')"
-								onmouseout="hideddrivetip()" tabindex="8"><%=InstructorFeedbackEditPageData.sanitizeForHtml(data.session.instructions.getValue())%></textarea>
+								onmouseout="hideddrivetip()" tabindex="8"><%=data.session.instructions.getValue()%></textarea>
 							
 						</td>
 					</tr>

@@ -20,7 +20,7 @@ public class InstructorFeedbacksPageAction extends Action {
 		String courseIdForNewSession = getRequestParam(Const.ParamsNames.COURSE_ID);
 		
 		new GateKeeper().verifyInstructorPrivileges(account);
-		
+				
 		if(courseIdForNewSession!=null){
 			new GateKeeper().verifyAccessible(
 					logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId), 
@@ -35,18 +35,18 @@ public class InstructorFeedbacksPageAction extends Action {
 		data.courses = loadCoursesList(account.googleId);
 		if (data.courses.size() == 0) {
 			statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
-			data.existingEvals = new ArrayList<EvaluationDetailsBundle>();
-			data.existingSessions = new ArrayList<FeedbackSessionDetailsBundle>();
+			data.existingEvalSessions = new ArrayList<EvaluationDetailsBundle>();
+			data.existingFeedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
 		
 		} else {
-			data.existingEvals = loadEvaluationsList(account.googleId);			
-			data.existingSessions = loadFeedbackSessionsList(account.googleId);
-			if (data.existingSessions.size() == 0) {
+			data.existingEvalSessions = loadEvaluationsList(account.googleId);			
+			data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
+			if (data.existingFeedbackSessions.size() == 0) {
 				statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
 			}
 		}	
 		
-		statusToAdmin = "Number of feedback sessions: "+data.existingSessions.size();
+		statusToAdmin = "Number of feedback sessions: "+data.existingFeedbackSessions.size();
 		
 		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
 	}

@@ -27,7 +27,7 @@ public class InstructorFeedbackSubmissionEditPageData extends PageData {
 			result.add("<option value=\""+pair.getKey()+"\"" +
 					(pair.getKey().equals(currentlySelectedOption) 
 						? " selected=\"selected\"" : "") +
-					">"+pair.getValue()+"</option>");			
+					">"+sanitizeForHtml(pair.getValue())+"</option>");			
 		}
 
 		return result;

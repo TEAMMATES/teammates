@@ -438,8 +438,7 @@ public class PageData {
 		link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,addUserIdToUrl(nextURL));
 		link = addUserIdToUrl(link);
 		return link;
-	}
-	
+	}	
 	
 	public String getInstructorFeedbackSessionEditLink(String courseId, String feedbackSessionName){
 		String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
@@ -464,7 +463,25 @@ public class PageData {
 		link = addUserIdToUrl(link);
 		return link;
 	}
-		
+	
+	public String getInstructorFeedbackSessionPublishLink(String courseID, String feedbackSessionName, boolean isHome){
+		String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
+		link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+		link = addUserIdToUrl(link);
+		return link;
+	}
+	
+	
+	public String getInstructorFeedbackSessionUnpublishLink(String courseID, String feedbackSessionName, boolean isHome){
+		String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
+		link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+		link = addUserIdToUrl(link);
+		return link;
+	}
 
 	
 	@SuppressWarnings("unused")
@@ -577,7 +594,9 @@ public class PageData {
 	}
 
 	public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session){
-		if (session.isOpened()) {
+		if (session.isPrivateSession()) {
+			 return "Private";
+		} else if (session.isOpened()) {
 			return "Open";
 		} else if (session.isWaitingToOpen()) {
 			if (session.isVisible()) {
@@ -593,6 +612,10 @@ public class PageData {
 	}
 
 	public static String getInstructorHoverMessageForFeedbackSession(FeedbackSessionAttributes session){
+		
+		if (session.isPrivateSession()) {
+			return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
+		}
 		
 		String msg = "The feedback session has been created";
 		
@@ -627,37 +650,63 @@ public class PageData {
 	 * 		Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
 	 * @return
 	 */
-	public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session, int position, boolean isHome){
+	public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
+			int position, boolean isHome){
 		StringBuffer result = new StringBuffer();
 		
 		// Allowing ALL instructors to view results regardless of publish state.
-		// TODO: allow creator only?
 		boolean hasView = true;
-		boolean hasSubmit = session.isOpened();
+		boolean isCreator = session.isCreator(this.account.email); 
+		boolean hasPublish = session.isManuallyPublished() && !session.isPublished() && isCreator;
+		boolean hasUnpublish = session.isManuallyPublished() && session.isPublished() && isCreator;
 				
 		result.append(
-			"<a class=\"color_green t_fs_view"+ position + "\" " +
+			"<a class=\"color_green t_session_view"+ position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
 			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_RESULTS+"')\" "+
-			"onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
+			"onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED) + ">View Results</a>"
 		);
 		result.append(
-			"<a class=\"color_brown t_fs_edit" + position + "\" " +
+			"<a class=\"color_brown t_session_edit" + position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
-			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_EDIT+"')\" onmouseout=\"hideddrivetip()\">Edit</a>"
-		);
+			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_EDIT+"')\" " +
+			"onmouseout=\"hideddrivetip()\" " + (isCreator ? "" : DISABLED) + ">Edit</a>"
+		);		
 		result.append(
-				"<a class=\"t_fs_edit" + position + "\" " +
-				"href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
-				"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_SUBMIT+"')\" onmouseout=\"hideddrivetip()\" +" +
-				(hasSubmit ? "" : DISABLED) + ">Submit</a>"
-		);
-		result.append(
-			"<a class=\"color_red t_fs_delete" + position + "\" " +
+			"<a class=\"color_red t_session_delete" + position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
 			"onclick=\"hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
-			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
+			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_DELETE+"')\" " +
+			"onmouseout=\"hideddrivetip()\" " + (isCreator ? "" : DISABLED) + ">Delete</a>"
 		);
+		result.append(
+			"<a class=\"color_blue t_session_submit" + position + "\" " +
+			"href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
+			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_SUBMIT+"')\" onmouseout=\"hideddrivetip()\">Submit</a>"
+		);
+		
+		// Don't need to show any other links if private
+		if(session.isPrivateSession())
+			return result.toString();
+		
+		if (hasUnpublish) {
+			result.append(
+				"<a class=\"color_black t_session_unpublish" + position + "\" " +
+				"href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
+				"onclick=\"hideddrivetip(); return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " +
+				"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
+				"Unpublish</a>"
+			);
+		} else {
+			result.append(
+				"<a class=\"color_black t_session_publish" + position + "\" " +
+				"href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
+				(hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : "") +
+				"onmouseover=\"ddrivetip('"+ (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH : Const.Tooltips.FEEDBACK_SESSION_AUTOPUBLISH)+"')\" " +
+				"onmouseout=\"hideddrivetip()\" " + (hasPublish ? "" : DISABLED) + ">Publish</a>"
+			);
+		}
+		
 		return result.toString();
 	}
 

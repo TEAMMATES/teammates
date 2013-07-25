@@ -300,7 +300,11 @@
 
 
 
-	<div style="display: none;" id="statusMessage"></div>
+	<div style="display: block;" id="statusMessage">
+		The feedback session has been published.</div>
+	<script type="text/javascript">
+    	document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
 
 			<br />
 			
@@ -318,10 +322,10 @@
 				<tr id="session0" class="sessions_row">
 					<td class="t_session_coursecode">CFeedbackUiT.CS1101</td>
 					<td class="t_session_name">Manual Session</td>
-					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.')">Closed</span></td>
+					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.<br />The responses for this session are visible.')">Published</span></td>
 					<td class="t_session_response centeralign">0
 						/ 0</td>
-					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view0">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Manual Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete0">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit0">Submit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make session responses available for viewing')" onclick="hideddrivetip(); return togglePublishEvaluation('Manual Session');" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish0">Publish</a>
+					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view0">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Manual Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete0">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit0">Submit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make responses no longer visible')" onclick="hideddrivetip(); return toggleUnpublishEvaluation('Manual Session');" href="/page/instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_unpublish0">Unpublish</a>
 					</td>
 				</tr>
 				

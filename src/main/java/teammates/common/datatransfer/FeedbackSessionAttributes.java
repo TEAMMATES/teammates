@@ -118,6 +118,11 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		error= validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
 		if(!error.isEmpty()) { errors.add(error); }
 		
+		// Skip time frame checks if session type is private.
+		if (this.isPrivateSession()) {
+			return errors;
+		}
+		
 		error= validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
 				FieldType.START_TIME, FieldType.END_TIME, startTime, endTime);
 		if(!error.isEmpty()) { errors.add(error); }	
@@ -223,9 +228,19 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 			return false;
 		} else if (publishTime.equals(Const.TIME_REPRESENTS_NEVER)) {
 			return false;
-		}  else {
+		} else if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
+			return true;
+		} else {
 			return (publishTime.before(now));
 		}
+	}
+	
+	/**
+	 * @return {@code true} if the session has been set by the creator to be manually published. 
+	 */
+	public boolean isManuallyPublished(){
+		return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER) || 
+				 resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
 	}
 	
 	/** 
@@ -233,7 +248,12 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 *  {@code false} if not.
 	 */
 	public boolean isPrivateSession() {
-		return sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER);
+		return sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER) || 
+				feedbackSessionType.equals(FeedbackSessionType.PRIVATE);
+	}
+	
+	public boolean isCreator(String instructorEmail) {
+		return creatorEmail.equals(instructorEmail);
 	}
 	
 	@Override

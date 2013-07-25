@@ -1,11 +1,11 @@
 <%@ page import="java.util.List"%>
-<%@ page import="java.text.DateFormat"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const"%>
-<%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.StudentFeedbackSubmissionEditPageData"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
 	StudentFeedbackSubmissionEditPageData data = (StudentFeedbackSubmissionEditPageData)request.getAttribute("data");
 %>
@@ -45,21 +45,21 @@
 			<table class="inputTable">
 			<tr>
 				<td class="bold">Course:</td>
-				<td colspan="2"><%=data.bundle.feedbackSession.courseId%></td>
+				<td colspan="2"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></td>
 			</tr>
 			<tr>
 				<td class="bold">Session Name:</td>
-				<td colspan="3"><%=data.bundle.feedbackSession.feedbackSessionName%></td>				
+				<td colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></td>				
 			</tr>
 			<tr>
 				<td class="bold">Open from:</td>
-				<td><%=DateFormat.getDateTimeInstance().format(data.bundle.feedbackSession.startTime)%></td>
+				<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></td>
 				<td class="bold">To:</td>
-				<td><%=DateFormat.getDateTimeInstance().format(data.bundle.feedbackSession.endTime)%></td>
+				<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></td>
 			</tr>
 			<tr>
-				<td class="bold">Instructions:</td>
-				<td colspan="3"><%=data.bundle.feedbackSession.instructions.getValue()%></td>
+				<td class="bold middlealign">Instructions:</td>
+				<td colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></td>
 			</tr>
 			</table>
 			<br>
@@ -85,7 +85,7 @@
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
 			<table class="inputTable responseTable">
 				<tr><td class="bold" colspan="2">Question <%=qnIndx%></td></tr>
-				<tr style="border-bottom: 3px dotted white;"><td colspan="2"><%=question.questionText.getValue()%></td></tr>
+				<tr style="border-bottom: 3px dotted white;"><td colspan="2"><%=sanitizeForHtml(question.questionText.getValue())%></td></tr>
 				<tr><td class="bold" colspan="2">Only the following persons can see your responses:</tr>
 					<tr style="border-bottom: 3px dotted white;">
 						<td colspan="2"
