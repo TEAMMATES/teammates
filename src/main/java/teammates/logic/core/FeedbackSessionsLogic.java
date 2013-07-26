@@ -220,23 +220,24 @@ public class FeedbackSessionsLogic {
 		
 		String export = "";
 		
-		export += "Course" + ",," + results.feedbackSession.courseId + Const.EOL
-				+ "Evaluation Name" + ",," + results.feedbackSession.feedbackSessionName + Const.EOL
-				+ Const.EOL;
+		export += "Course" + "," + results.feedbackSession.courseId + Const.EOL
+				+ "Evaluation Name" + "," + results.feedbackSession.feedbackSessionName + Const.EOL
+				+ Const.EOL + Const.EOL;
 		
 		for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry :
 								results.getQuestionResponseMap().entrySet()) {
-			export += "Question " + Integer.toString(entry.getKey().questionNumber) + ",," +
-						entry.getKey().questionText.getValue() + Const.EOL;
-			export += "Giver" + ",," + "Recipient" + ",," + "Feedback" + Const.EOL;
+			export += "Question " + Integer.toString(entry.getKey().questionNumber) + Const.EOL +
+						entry.getKey().questionText.getValue() + Const.EOL + Const.EOL;
+			export += "Giver" + "," + "Recipient" + "," + "Feedback" + Const.EOL;
 			
-			for(FeedbackResponseAttributes response : results.responses){
-				export += results.emailNameTable.get(response.giverEmail) + ",," + 
-						results.emailNameTable.get(response.recipient) + ",," +
-						response.answer.getValue();
+			for(FeedbackResponseAttributes response : entry.getValue()){
+				export += results.getNameForEmail(response.giverEmail) + "," + 
+						results.getNameForEmail(response.recipient) + "," +
+						response.answer.getValue() + Const.EOL;
 			}
+			export += Const.EOL + Const.EOL;
 		}
-				
+		// TODO: handle line breaks, commas, quotes (special chars) and test.
 		return export;
 	}
 	

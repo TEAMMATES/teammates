@@ -16,6 +16,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 
 /**
@@ -57,6 +58,9 @@ public class PageData {
 		return StringHelper.truncate(untruncatedString, truncateLength);
 	}
 	
+	public static String displayDateTime (Date date){
+		return TimeHelper.formatTime(date);
+	}
 	
 	public String addUserIdToUrl(String link){
 		return Url.addParamToUrl(link,Const.ParamsNames.USER_ID,account.googleId);
@@ -656,10 +660,11 @@ public class PageData {
 		
 		// Allowing ALL instructors to view results regardless of publish state.
 		boolean hasView = true;
-		boolean isCreator = session.isCreator(this.account.email); 
+		boolean isCreator = session.isCreator(this.account.email);
+		boolean hasSubmit = session.isVisible() || session.isPrivateSession();
 		boolean hasPublish = session.isManuallyPublished() && !session.isPublished() && isCreator;
 		boolean hasUnpublish = session.isManuallyPublished() && session.isPublished() && isCreator;
-				
+		
 		result.append(
 			"<a class=\"color_green t_session_view"+ position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
@@ -682,7 +687,8 @@ public class PageData {
 		result.append(
 			"<a class=\"color_blue t_session_submit" + position + "\" " +
 			"href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
-			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_SUBMIT+"')\" onmouseout=\"hideddrivetip()\">Submit</a>"
+			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_SUBMIT+"')\" " +
+			"onmouseout=\"hideddrivetip()\" " + (hasSubmit ? "" : DISABLED) + ">Submit</a>"
 		);
 		
 		// Don't need to show any other links if private

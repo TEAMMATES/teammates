@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%
 	InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
@@ -7,20 +8,20 @@
 <table class="inputTable">
 	<tr>
 		<td class="bold">Course:</td>
-		<td><%=data.bundle.feedbackSession.courseId%></td>
+		<td><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.courseId)%></td>
 		<td colspan="2" class="rightalign"><a
 			href="<%=data.getInstructorFeedbackSessionEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">[Edit]</a>
 		</td>
 	</tr>
 	<tr>
 		<td class="bold">Session Name:</td>
-		<td colspan="3"><%=data.bundle.feedbackSession.feedbackSessionName%></td>
+		<td colspan="3"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></td>
 	</tr>
 	<tr>
 		<td class="bold">Open from:</td>
-		<td><%=data.bundle.feedbackSession.startTime.toString()%></td>
+		<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></td>
 		<td class="bold">To:</td>
-		<td><%=data.bundle.feedbackSession.endTime.toString()%></td>
+		<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></td>
 	</tr>
 	<tr>
 		<td class="bold">Results visible from:</td>
@@ -29,30 +30,30 @@
 				if (data.bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
 								if (data.bundle.feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
 			%>
-						<%=data.bundle.feedbackSession.startTime.toString()%>
+						<%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>
 					<%
 						} else if (data.bundle.feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
 					%>
-						Never.
+						Never
 					<%
 						} else {
 					%>
-						<%=data.bundle.feedbackSession.sessionVisibleFromTime.toString()%>
+						<%=TimeHelper.formatTime(data.bundle.feedbackSession.sessionVisibleFromTime)%>
 					<%
 						}
 					%>
 			<%
 				} else if (data.bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) {
 			%>
-				I'll make it visible later.
+				I want to manually publish the results.
 			<%
 				} else if (data.bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
 			%>
-				Never.
+				Never
 			<%
 				} else {
 			%>
-				<%=data.bundle.feedbackSession.resultsVisibleFromTime.toString()%>
+				<%=TimeHelper.formatTime(data.bundle.feedbackSession.resultsVisibleFromTime)%>
 			<%
 				} 
 						boolean noResponses = data.bundle.responses.isEmpty();
@@ -63,14 +64,18 @@
 <br><br>
 <form method="post"
 	action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-	<div id="feedbackDataButtons" style="float:right; padding-right: <%=noResponses ? "40%;" : "5%;"%>">
+	<div id="feedbackDataButtons" style="float:right; padding-right: <%=noResponses ? "28%;" : "5%;"%>">
 		<input id="button_download" type="submit" class="button"
 			name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-			value="Download"> <input id="button_upload" type="submit"
+			value="Download results">
+			<!-- Disabling button (NYI)  
+			<input id="button_upload" type="submit"
 			class="button"
 			name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-			value="Upload more data">
+			value="Upload more data"> -->
 	</div>
+<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
 </form>
 <br>
 <br>

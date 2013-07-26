@@ -51,108 +51,98 @@
 			</tr>
 			<tr>
 				<td class="bold">Open from:</td>
-				<td><%=data.bundle.feedbackSession.startTime.toString()%></td>
+				<td><%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.startTime)%></td>
 				<td class="bold">To:</td>
-				<td><%=data.bundle.feedbackSession.endTime.toString()%></td>
+				<td><%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.endTime)%></td>
 			</tr>
 			</table>
 			<br>
 			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			<%
-				int qnIndx = 1;
-								Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = 
-										data.bundle.getQuestionResponseMap();
-								
-									for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
-													questionWithResponses : questionsWithResponses.entrySet()) {
+				int qnIndx = 0;
+				Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = data.bundle
+						.getQuestionResponseMap();
+
+				for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionWithResponses : questionsWithResponses
+						.entrySet()) {
+					qnIndx++;
 			%>
-			<table class="inputTable responseTable">
-			<tr style="border-bottom: 3px solid black;"><td colspan="2"><span class="bold" >Question <%=qnIndx%>: </span>[<%=questionWithResponses.getKey().questionText.getValue()%>]</td></tr>
-			<%
-				int responseIndx = 1;
-									String prevRecipient = null;
-									ListIterator<FeedbackResponseAttributes> itr = questionWithResponses.getValue().listIterator();
-									while (itr.hasNext()) {
-										FeedbackResponseAttributes responseForQn = itr.next();
-			%>
-			<%
-										String recipient = data.bundle.getNameForEmail(responseForQn.recipient);
-										FeedbackParticipantType recipientType = questionWithResponses.getKey().recipientType;
-										if (data.bundle.visibilityTable.get(responseForQn.getId())[1] == false &&
-												recipientType != FeedbackParticipantType.SELF && 
-												recipientType != FeedbackParticipantType.NONE) {
-											String hash = Integer.toString(Math.abs(recipient.hashCode()));
-											recipient = questionWithResponses.getKey().recipientType.toSingletonString();
-											recipient = "Anonymous " + recipient + " " + hash;
-										} else if(data.student.email!=null) {
-											if(questionWithResponses.getKey().recipientType ==  FeedbackParticipantType.TEAMS) {
-												if(data.student.team.equals(responseForQn.recipient)) {
-													recipient = "Your Team ("+ recipient +")";
-												}
-											} else if (data.student.email.equals(responseForQn.recipient)) {
-												recipient = "You";
-											}
-										}
-										if (recipient.equals(prevRecipient) == false) {
-											if(prevRecipient != null) {
-			%>
-			</table>
-			</td></tr>
-			<%
-				}
-			%>
-			<tr><td>
-				<table class="resultTable" style="width:90%">
-				<tr><th>To: <%=recipient%></th></tr>
+			<div class="backgroundBlock">
+				<h2 class="color_white">
+					Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(
+							questionWithResponses.getKey().questionText.getValue())%></h2>
 				<%
-					}
+					ListIterator<FeedbackResponseAttributes> itr = questionWithResponses.getValue().listIterator();
+					String previousRecipientEmail = null;
+					while(itr.hasNext()) {
+						FeedbackResponseAttributes singleResponse = itr.next();
+						// New table if previous recipient != current or is first response					
+						if(previousRecipientEmail == null || previousRecipientEmail.equals(singleResponse.recipient) == false) {
+							previousRecipientEmail = singleResponse.recipient;
 				%>
-				<tr class="resultSubheader"><td><span class="bold">From: </span><%
-					String giver = data.bundle.getNameForEmail(responseForQn.giverEmail);
-												if (data.bundle.visibilityTable.get(responseForQn.getId())[0] == false &&
-														questionWithResponses.getKey().recipientType != FeedbackParticipantType.SELF) {
-													String hash = Integer.toString(Math.abs(giver.hashCode()));
-													giver = questionWithResponses.getKey().giverType.toSingletonString();
-													giver = "Anonymous " + giver + " " + hash;
-												} else if(data.student.email!=null) {
-													if(questionWithResponses.getKey().giverType ==  FeedbackParticipantType.TEAMS) {
-														if(data.student.team.equals(responseForQn.giverEmail)) {
-															giver = "Your Team ("+ giver +")";
-														}
-													} else if (data.student.email.equals(responseForQn.giverEmail)) {
-														giver = "You";
-													}
-												}
-				%><%=giver%>
-				</td></tr>
-				<tr <%if (itr.hasNext()) {
-							if(itr.next().recipient.equals(responseForQn.recipient)) {%>style="border-bottom: dotted 1px grey" 
-					<%}
-							itr.previous();
-						}%>>
-					<td colspan="2" style="width:110px"><%=responseForQn.answer.getValue()%></td>
-				</tr>
-				<%
-					prevRecipient = recipient;
-													responseIndx++;
-													}
-				%>			
-				</td></tr>
-				</table>
-			</table>
-			<br>
-			<%
-				qnIndx++;
+				<table class="resultTable" style="width: 100%">
+					<thead>
+						<tr>
+							<th class="leftalign"><span class="bold">To: </span><%
+								String recipientName = data.bundle.getRecipientNameForResponse(
+															questionWithResponses.getKey(),
+															singleResponse);
+								if(questionWithResponses.getKey().recipientType ==  FeedbackParticipantType.TEAMS) {
+									if(data.student.team.equals(singleResponse.recipient)) {
+										recipientName = "Your Team ("+ recipientName +")";
+									}
+								} else if (
+										data.student.email.equals(singleResponse.recipient) &&
+										data.student.name.equals(recipientName)) {
+									recipientName = "You";
 								}
-								if (questionsWithResponses.size() == 0) {
-			%>
-			<div class="centeralign color_red bold">There are no responses for you to view yet.</div>	
-			<%
+							%><%=recipientName%></th>
+						</tr>
+					</thead>
+					<%
+						}
+					%>
+					<tr class="resultSubheader">
+						<td><span class="bold">From: <%
+							String giverName = data.bundle.getGiverNameForResponse(
+									questionWithResponses.getKey(),
+									singleResponse);
+							if(questionWithResponses.getKey().giverType ==  FeedbackParticipantType.TEAMS) {
+								if(data.student.team.equals(giverName)) {
+									giverName = "Your Team ("+ giverName +")";
+								}
+							} else if (data.student.email.equals(singleResponse.giverEmail)) {
+								giverName = "You";
+							}
+						%><%=giverName %>
+						</span></td>
+					</tr>
+					<tr>
+						<td><%=StudentFeedbackResultsPageData.sanitizeForHtml(singleResponse.answer.getValue())%></td>
+					</tr>
+					<%
+						// Close table if going to be new recipient
+						boolean closeTable = true;
+						if(!itr.hasNext()) {
+							closeTable = true;
+						} else if (itr.next().recipient.equals(singleResponse.recipient)) {
+							itr.previous();
+							closeTable = false;
+						} else {
+							itr.previous();
+						}
+						if (closeTable) {
+					%>
+				</table>
+				<br>
+				<%
+						}
 					}
 				%>
-			
-			
+			</div>
+			<br>
+				<% } %>
 		</div>
 	</div>
 

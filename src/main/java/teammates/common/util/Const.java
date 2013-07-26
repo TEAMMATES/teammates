@@ -512,7 +512,9 @@ public class Const {
 	
 	public static final String EOL = System.getProperty("line.separator");
 	
-	public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
+	public static final String USER_NOBODY_TEXT = "Class";
+	public static final String USER_UNKNOWN_TEXT = "Unknown user";
+	public static final String TEAM_OF_EMAIL_OWNER = "'s Team";	
 	
 	public static final String INSTRUCTOR_EVALUATION_STATUS_AWAITING = "Awaiting";
 	public static final String INSTRUCTOR_EVALUATION_STATUS_OPEN = "Open";

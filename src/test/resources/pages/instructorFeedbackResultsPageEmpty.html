@@ -69,24 +69,27 @@
 	</tr>
 	<tr>
 		<td class="bold">Open from:</td>
-		<td>Mon Apr 02 23:59:00 UTC 2012</td>
+		<td>02 Apr 2012, 23:59</td>
 		<td class="bold">To:</td>
-		<td>Wed Apr 30 23:59:00 UTC 2014</td>
+		<td>30 Apr 2014, 23:59</td>
 	</tr>
 	<tr>
 		<td class="bold">Results visible from:</td>
 		<td>
 			
-				Tue May 01 23:59:00 UTC 2012
+				01 May 2012, 23:59
 			
 		</td>
 	</tr>
 </tbody></table>
 <br /><br />
 <form action="/page/instructorFeedbackResultsDownload" method="post">
-	<div style="float:right; padding-right: 40%;" id="feedbackDataButtons">
-		<input type="submit" value="Download" name="fruploaddownloadbtn" class="button" id="button_download" /> <input type="submit" value="Upload more data" name="fruploaddownloadbtn" class="button" id="button_upload" />
-	</div>
+	<div style="float:right; padding-right: 28%;" id="feedbackDataButtons">
+		<input class="button"  id="button_download"  name="fruploaddownloadbtn"  type="submit"  value="Download results" />
+		{*}
+    </div>
+    <input name="fsname"  type="hidden"  value="Third Session" />
+    <input name="courseid"  type="hidden"  value="CFResultsUiT.CS2104" />
 </form>
 <br />
 <br />

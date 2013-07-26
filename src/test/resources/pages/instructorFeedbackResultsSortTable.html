@@ -69,15 +69,15 @@
 	</tr>
 	<tr>
 		<td class="bold">Open from:</td>
-		<td>Sun Apr 01 23:59:00 UTC 2012</td>
+		<td>01 Apr 2012, 23:59</td>
 		<td class="bold">To:</td>
-		<td>Wed Apr 30 23:59:00 UTC 2014</td>
+		<td>30 Apr 2014, 23:59</td>
 	</tr>
 	<tr>
 		<td class="bold">Results visible from:</td>
 		<td>
 			
-				Tue May 01 23:59:00 UTC 2012
+				01 May 2012, 23:59
 			
 		</td>
 	</tr>
@@ -85,8 +85,11 @@
 <br /><br />
 <form action="/page/instructorFeedbackResultsDownload" method="post">
 	<div style="float:right; padding-right: 5%;" id="feedbackDataButtons">
-		<input type="submit" value="Download" name="fruploaddownloadbtn" class="button" id="button_download" /> <input type="submit" value="Upload more data" name="fruploaddownloadbtn" class="button" id="button_upload" />
-	</div>
+		<input class="button"  id="button_download"  name="fruploaddownloadbtn"  type="submit"  value="Download results" />
+		{*}
+    </div>
+    <input name="fsname"  type="hidden"  value="First Session" />
+    <input name="courseid"  type="hidden"  value="CFResultsUiT.CS2104" />
 </form>
 <br />
 <br />
@@ -110,15 +113,11 @@
 
 
 
-	<div style="display: block;" id="statusMessage">
-		Displaying feedback session results as a table.</div>
-	<script type="text/javascript">
-    	document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+	<div style="display: none;" id="statusMessage"></div>
 
 
 
-			
+			<br>
 				
 				<div class="backgroundBlock">
 					<h2 style="padding-left: 20px;" class="color_white">Question 1: [Rate 3 other students' products]</h2>

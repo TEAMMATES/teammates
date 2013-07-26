@@ -180,13 +180,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 				message.add("You can see your own feedback in the results page later on.");
 				break;
 			}
-			line = participant.toDisplayNameVisibility() + " ";
+			line = participant.toVisibilityString() + " ";
 			if(participant == FeedbackParticipantType.RECEIVER) {
 				if (recipientType == FeedbackParticipantType.OWN_TEAM ||
 						recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-					line = recipientType.toDisplayNameVisibility() + " ";
+					line = recipientType.toVisibilityString() + " ";
 				} else {
-					line += (recipientType.toSingletonString());
+					line += (recipientType.toSingularFormString());
 					if(numberOfEntitiesToGiveFeedbackTo > 1) {
 						line += "s";
 					}

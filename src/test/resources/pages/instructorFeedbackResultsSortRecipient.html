@@ -69,15 +69,15 @@
 	</tr>
 	<tr>
 		<td class="bold">Open from:</td>
-		<td>Sun Apr 01 23:59:00 UTC 2012</td>
+		<td>01 Apr 2012, 23:59</td>
 		<td class="bold">To:</td>
-		<td>Wed Apr 30 23:59:00 UTC 2014</td>
+		<td>30 Apr 2014, 23:59</td>
 	</tr>
 	<tr>
 		<td class="bold">Results visible from:</td>
 		<td>
 			
-				Tue May 01 23:59:00 UTC 2012
+				01 May 2012, 23:59
 			
 		</td>
 	</tr>
@@ -85,8 +85,11 @@
 <br /><br />
 <form action="/page/instructorFeedbackResultsDownload" method="post">
 	<div style="float:right; padding-right: 5%;" id="feedbackDataButtons">
-		<input type="submit" value="Download" name="fruploaddownloadbtn" class="button" id="button_download" /> <input type="submit" value="Upload more data" name="fruploaddownloadbtn" class="button" id="button_upload" />
-	</div>
+		<input class="button"  id="button_download"  name="fruploaddownloadbtn"  type="submit"  value="Download results" />
+		{*}
+    </div>
+    <input name="fsname"  type="hidden"  value="First Session" />
+    <input name="courseid"  type="hidden"  value="CFResultsUiT.CS2104" />
 </form>
 <br />
 <br />
@@ -110,11 +113,7 @@
 
 
 
-	<div style="display: block;" id="statusMessage">
-		Sorting results by feedback recipient's name in paragraph format.</div>
-	<script type="text/javascript">
-    	document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+	<div style="display: none;" id="statusMessage"></div>
 
 
 
@@ -124,13 +123,13 @@
 				<h2 class="color_white">To: Alice Betsy</h2>
 
 							
-					<table style="width:100%" class="resultTable">
+					<table style="width: 100%" class="resultTable">
 						<thead>
-							<tr><th><span class="bold">From: </span>Alice Betsy</th></tr>
+							<tr><th class="leftalign"><span class="bold">From: </span>Alice Betsy</th></tr>
 						</thead>
 				
 						<tbody><tr class="resultSubheader"><td>
-							<span class="bold">Question 1: </span>[What is the best selling point of your product?]
+							<span class="bold">Question 2: </span>[What is the best selling point of your product?]
 						</td></tr>
 						<tr><td><span class="bold">Response: </span>Alice self feedback.</td></tr>
 				
@@ -144,9 +143,9 @@
 				<h2 class="color_white">To: Benny Charles</h2>
 
 							
-					<table style="width:100%" class="resultTable">
+					<table style="width: 100%" class="resultTable">
 						<thead>
-							<tr><th><span class="bold">From: </span>Alice Betsy</th></tr>
+							<tr><th class="leftalign"><span class="bold">From: </span>Alice Betsy</th></tr>
 						</thead>
 				
 						<tbody><tr class="resultSubheader"><td>
@@ -164,9 +163,9 @@
 				<h2 class="color_white">To: Charlie Davis</h2>
 
 							
-					<table style="width:100%" class="resultTable">
+					<table style="width: 100%" class="resultTable">
 						<thead>
-							<tr><th><span class="bold">From: </span>Benny Charles</th></tr>
+							<tr><th class="leftalign"><span class="bold">From: </span>Benny Charles</th></tr>
 						</thead>
 				
 						<tbody><tr class="resultSubheader"><td>
@@ -184,9 +183,9 @@
 				<h2 class="color_white">To: Danny Engrid</h2>
 
 							
-					<table style="width:100%" class="resultTable">
+					<table style="width: 100%" class="resultTable">
 						<thead>
-							<tr><th><span class="bold">From: </span>Benny Charles</th></tr>
+							<tr><th class="leftalign"><span class="bold">From: </span>Benny Charles</th></tr>
 						</thead>
 				
 						<tbody><tr class="resultSubheader"><td>
@@ -204,10 +203,10 @@
                   <h2 class="color_white" >
                      To: Emily
                   </h2>
-                  <table class="resultTable"  style="width:100%" >
+                  <table class="resultTable"  style="width: 100%" >
                      <thead>
                         <tr>
-                           <th>
+                           <th class="leftalign">
                               <span class="bold" >
                                  From:
                               </span>

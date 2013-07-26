@@ -63,7 +63,7 @@ public enum FeedbackParticipantType {
 	 * @return A user-friendly {@code String} representing this participant directed to users who are
 	 * responding to a feedback.
 	 */
-	public String toDisplayNameVisibility(){
+	public String toVisibilityString(){
 		return displayNameVisibility;
 	}
 	
@@ -71,13 +71,15 @@ public enum FeedbackParticipantType {
 	 * Formats the participant type as a singular noun.
 	 * @return A user-friendly {@code String} representing this participant in singular form.
 	 */
-	public String toSingletonString() {
+	public String toSingularFormString() {
 		switch (this) {
 		case INSTRUCTORS:
 			return "instructor";
 		case STUDENTS:
 			return "student";
 		case TEAMS:
+			return "team";
+		case OWN_TEAM:
 			return "team";
 		default:
 			return super.toString();

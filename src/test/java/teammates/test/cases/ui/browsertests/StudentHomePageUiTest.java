@@ -76,6 +76,11 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		______TS("content: multiple courses");
 		
 		studentHome.verifyHtml("/studentHomeHTML.html");
+		
+		// TODO: test feedback session visibility
+		// (i.e, same course but no qns for student to submit or view responses => NOT VISIBLE,
+		// same course but closed, no submissions and will nvr have responses to view => NOT VISIBLE,
+		// same course, all other conditions => VISIBLE, must test links)
 	}
 
 

@@ -62,7 +62,7 @@
   "students": {
     "alice.tmms@CFeedbackUiT.CS2104": {
       "googleId": "CFeedbackUiT.alice.tmms",
-      "email": "alice.b.tmms@gmail.com",
+      "email": "CFeedbackUiT.alice.b.tmms@gmail.com",
       "course": "CFeedbackUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -71,7 +71,7 @@
     },
     "benny.tmms@CFeedbackUiT.CS2104": {
       "googleId": "CFeedbackUiT.benny.tmms",
-      "email": "benny.tmms@gmail.com",
+      "email": "CFeedbackUiT.benny.tmms@gmail.com",
       "course": "CFeedbackUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",

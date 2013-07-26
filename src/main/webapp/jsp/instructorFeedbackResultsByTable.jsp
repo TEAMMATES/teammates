@@ -38,13 +38,13 @@
 				<h1>Feedback Results - Instructor</h1>
 			</div>			
 			<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
+			<br>
 			<%
-				for(Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries :
-																data.bundle.getQuestionResponseMap().entrySet()) {
+				for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
+						.getQuestionResponseMap().entrySet()) {
 			%>
-				
-				<div class="backgroundBlock">
-					<h2 class="color_white" style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>: [<%=responseEntries.getKey().questionText.getValue()%>]</h2>
+			<div class="backgroundBlock">
+					<h2 class="color_white" style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>: [<%=InstructorFeedbackResultsPageData.sanitizeForHtml(responseEntries.getKey().questionText.getValue())%>]</h2>
 					<table class="dataTable">
 						<tr>
 							<th class="leftalign color_white bold">
@@ -61,9 +61,9 @@
 							for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
 						%>
 						<tr>
-							<td><%=data.bundle.getNameForEmail(responseEntry.giverEmail)%></td>
-							<td><%=data.bundle.getNameForEmail(responseEntry.recipient)%></td>
-							<td><%=responseEntry.answer.getValue()%></td>
+							<td><%=data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry)%></td>
+							<td><%=data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry)%></td>
+							<td><%=InstructorFeedbackResultsPageData.sanitizeForHtml(responseEntry.answer.getValue())%></td>
 						</tr>		
 						<%
 									}
