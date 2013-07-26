@@ -3,6 +3,7 @@
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationStats"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.ui.controller.InstructorEvalPageData"%>
@@ -52,7 +53,7 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>Add New Evaluation</h1>
+				<h1>Add New Evaluation Session</h1>
 			</div>
 			
 			<p class="bold centeralign middlealign"><span style="padding-right: 10px">Session Type</span>
@@ -215,50 +216,70 @@
 					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
 				<%
-					int evalIdx = -1;
-					if (data.evaluations.size() > 0) {
-						for (EvaluationDetailsBundle edd : data.evaluations) {
-							evalIdx++;
+					int sessionIdx = -1;
+					if (data.existingEvalSessions.size() > 0
+							|| data.existingFeedbackSessions.size() > 0) {
+						for (EvaluationDetailsBundle edd : data.existingEvalSessions) {
+							sessionIdx++;
 				%>
-				<tr class="evaluations_row" id="evaluation<%=evalIdx%>">
-					<td class="t_eval_coursecode"><%=edd.evaluation.courseId%></td>
-					<td class="t_eval_name"><%=InstructorEvalPageData
+				<tr class="sessions_row" id="evaluation<%=sessionIdx%>">
+					<td class="t_session_coursecode"><%=edd.evaluation.courseId%></td>
+					<td class="t_session_name"><%=InstructorEvalPageData
 							.sanitizeForHtml(edd.evaluation.name)%></td>
-					<td class="t_eval_status centeralign"><span
+					<td class="t_session_status centeralign"><span
 						onmouseover="ddrivetip(' <%=InstructorEvalPageData
 							.getInstructorHoverMessageForEval(edd.evaluation)%>')"
 						onmouseout="hideddrivetip()"><%=InstructorEvalPageData
 							.getInstructorStatusForEval(edd.evaluation)%></span></td>
-					<td class="t_eval_response centeralign"><%=edd.stats.submittedTotal%>
+					<td class="t_session_response centeralign"><%=edd.stats.submittedTotal%>
 						/ <%=edd.stats.expectedTotal%></td>
 					<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(
-							edd.evaluation, evalIdx, false)%>
+							edd.evaluation, sessionIdx, false)%>
 					</td>
 				</tr>
 				<%
-					}
-				%>
+						}
+						for (FeedbackSessionDetailsBundle fdb : data.existingFeedbackSessions) {
+							sessionIdx++;
+				%>				
+				<tr class="sessions_row" id="session<%=sessionIdx%>">
+					<td class="t_session_coursecode"><%=fdb.feedbackSession.courseId%></td>
+					<td class="t_session_name"><%=InstructorEvalPageData
+							.sanitizeForHtml(fdb.feedbackSession.feedbackSessionName)%></td>
+					<td class="t_session_status centeralign"><span
+						onmouseover="ddrivetip(' <%=InstructorEvalPageData
+							.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
+						onmouseout="hideddrivetip()"><%=InstructorEvalPageData
+							.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>
+					<td class="t_session_response centeralign"><%=fdb.stats.submittedTotal%>
+						/ <%=fdb.stats.expectedTotal%></td>
+					<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
+							fdb.feedbackSession, sessionIdx, false)%>
+					</td>
+				</tr>
 				<%
+						}
 					} else {
 				%>
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
 				<%
 					}
 				%>
 			</table>
-			<br
-			><br>
+			<br>
+			<br>
 			<br>
 			<%
-				if(evalIdx==-1){
+				if(sessionIdx==-1){
 			%>
-				No records found.<br>
+				<div class="centeralign">No records found.</div>
+				<br>
 				<br>
 				<br>
 			<%

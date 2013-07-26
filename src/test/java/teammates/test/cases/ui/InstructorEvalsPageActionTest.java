@@ -11,6 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EvaluationsLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.InstructorEvalsPageAction;
 import teammates.ui.controller.InstructorEvalPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -64,7 +65,7 @@ public class InstructorEvalsPageActionTest extends BaseActionTest {
 		InstructorEvalPageData pageData = (InstructorEvalPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.courses.size());
-		assertEquals(2, pageData.evaluations.size());
+		assertEquals(2, pageData.existingEvalSessions.size());
 		assertEquals(null, pageData.newEvaluationToBeCreated);
 		assertEquals(null, pageData.courseIdForNewEvaluation);
 		
@@ -76,24 +77,24 @@ public class InstructorEvalsPageActionTest extends BaseActionTest {
 		______TS("Masquerade mode, 0 evaluations");
 		
 		EvaluationsLogic.inst().deleteEvaluationsForCourse(instructor1ofCourse1.courseId);
-		
+		FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1OfCourse1.courseId);
 		gaeSimulation.loginAsAdmin("admin.user");
 		submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId};
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ViewURIs.INSTRUCTOR_EVALS+"?message=You+have+not+created+any+evaluations+yet." +
-						"+Use+the+form+above+to+create+a+new+evaluation.&error=false&user=idOfInstructor1OfCourse1", 
+				Const.ViewURIs.INSTRUCTOR_EVALS+"?message=You+have+not+created+any+sessions+yet." +
+						"+Use+the+form+above+to+create+a+session.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
-		assertEquals("You have not created any evaluations yet. Use the form above to create a new evaluation.", 
+		assertEquals(Const.StatusMessages.EVALUATION_EMPTY,
 				r.getStatusMessage());
 		assertEquals(false, r.isError);
 		
 		pageData = (InstructorEvalPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.courses.size());
-		assertEquals(0, pageData.evaluations.size());
+		assertEquals(0, pageData.existingEvalSessions.size());
 		assertEquals(null, pageData.newEvaluationToBeCreated);
 		assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewEvaluation);
 		
@@ -121,7 +122,7 @@ public class InstructorEvalsPageActionTest extends BaseActionTest {
 		pageData = (InstructorEvalPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(0, pageData.courses.size());
-		assertEquals(0, pageData.evaluations.size());
+		assertEquals(0, pageData.existingEvalSessions.size());
 		assertEquals(null, pageData.newEvaluationToBeCreated);
 		assertEquals(null, pageData.courseIdForNewEvaluation);
 		

@@ -177,11 +177,11 @@ function readyFeedbackPage (){
 	$sessionVisibilityBtnGroup.change(function() {
 		if ($sessionVisibilityBtnGroup.filter(':checked').val() == "never") {
 			$('#timeFrameTable').hide();
-			$('#instructionsTable').hide();
+			$('#instructionsTable').find('tr:first').hide();
 			$('#response_visible_from_row').hide();
 		} else {
 			$('#timeFrameTable').show();
-			$('#instructionsTable').show();
+			$('#instructionsTable').find('tr:first').show();
 			$('#response_visible_from_row').show();
 		}
 		

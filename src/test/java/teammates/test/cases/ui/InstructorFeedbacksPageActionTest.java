@@ -11,6 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.InstructorFeedbacksPageAction;
 import teammates.ui.controller.InstructorFeedbacksPageData;
@@ -56,33 +57,11 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 	@Test
 	public void testAccessControl() throws Exception{
 		
-		//TODO: Shouldn't this be the standard verifyOnlyInstructorsCanAccess(submissionParams)?
-		
-		String[] submissionParams = new String[]{};
-		
-		gaeSimulation.logoutUser();
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
-		
-		gaeSimulation.loginUser(unregUserId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
-		
-		gaeSimulation.loginAsStudent(studentId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructorId,submissionParams));
-		
-		gaeSimulation.loginAsInstructor(instructorId);
-		verifyCanAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(otherInstructorId,submissionParams));
-		submissionParams = new String[]{Const.ParamsNames.COURSE_ID, "idOfTypicalCourse2"};
-		verifyCannotAccess(submissionParams); //trying to create feedback session for someone else's course
-		
-		gaeSimulation.loginAsAdmin(adminUserId);
-		//not checking for non-masquerade mode because admin may not be an instructor
-		submissionParams = new String[]{Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"};
-		verifyCanMasquerade(addUserIdToParams(instructorId,submissionParams));
-		
+		String[] submissionParams = new String[]{
+				Const.ParamsNames.COURSE_ID, 
+				dataBundle.instructors.get("instructor1OfCourse1").courseId
+		};
+		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 	}
 	
 	@Test
@@ -119,6 +98,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 		______TS("Masquerade mode, 0 sessions");
 		
 		FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
+		EvaluationsLogic.inst().deleteEvaluationsForCourse(instructor1ofCourse1.courseId);
 		
 		gaeSimulation.loginAsAdmin(adminUserId);
 		submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId};
@@ -126,17 +106,17 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=You+have+not+created+any+feedback+sessions+yet." +
-						"+Use+the+form+above+to+create+a+new+feedback+session.&error=false&user=idOfInstructor1OfCourse1", 
+				Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=You+have+not+created+any+sessions+yet." +
+						"+Use+the+form+above+to+create+a+session.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
-		assertEquals("You have not created any feedback sessions yet. Use the form above to create a new feedback session.", 
+		assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, 
 				r.getStatusMessage());
 		assertEquals(false, r.isError);
 		
 		pageData = (InstructorFeedbacksPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.courses.size());
-		assertEquals(2, pageData.existingEvalSessions.size());
+		assertEquals(0, pageData.existingEvalSessions.size());
 		assertEquals(0, pageData.existingFeedbackSessions.size());
 		assertEquals(null, pageData.newFeedbackSession);
 		assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewSession);

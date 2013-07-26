@@ -41,8 +41,9 @@ public class InstructorFeedbacksPageAction extends Action {
 		} else {
 			data.existingEvalSessions = loadEvaluationsList(account.googleId);			
 			data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
-			if (data.existingFeedbackSessions.size() == 0) {
-				statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
+			if (data.existingFeedbackSessions.isEmpty() &&
+				data.existingEvalSessions.isEmpty()) {
+				statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
 			}
 		}	
 		

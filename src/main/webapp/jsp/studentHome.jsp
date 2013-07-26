@@ -25,6 +25,7 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/student.js"></script>
+	<script type="text/javascript" src="/js/studentHome.js"></script>
 	<jsp:include page="../enableJS.jsp"></jsp:include>	
 </head>
 
@@ -66,22 +67,22 @@
 			<br>
 			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
-			
+
 			<%
-							int idx = -1;
-																int evalIdx = -1;
-																int fsIdx = -1;
-																for (CourseDetailsBundle courseDetails: data.courses) { idx++;
-						%>
+				int courseIdx = -1;
+				int sessionIdx = -1;
+				for (CourseDetailsBundle courseDetails : data.courses) {
+					courseIdx++;
+			%>
 			<div class="backgroundBlock">
-				<div class="result_team home_courses_div" id="course<%=idx%>">
+				<div class="result_team home_courses_div" id="course<%=courseIdx%>">
 					<div class="result_homeTitle">
 						<h2 class="color_white">[<%=courseDetails.course.id%>] :
 							<%=PageData.sanitizeForHtml(courseDetails.course.name)%>
 						</h2>
 					</div>
 					<div class="result_homeLinks blockLink rightalign">
-						<a class="t_course_view<%=idx%> color_white"
+						<a class="t_course_view<%=courseIdx%> color_white"
 							href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
 							onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>')"
 							onmouseout="hideddrivetip()">
@@ -91,66 +92,50 @@
 					<div style="clear: both;"></div>
 					<br>
 					<%
-						if (courseDetails.evaluations.size() > 0) {
+						if (courseDetails.evaluations.size() > 0 ||
+								courseDetails.feedbackSessions.size() > 0) {
 					%>
 						<table class="dataTable">
 							<tr>
-								<th class="leftalign bold color_white">Evaluation Name</th>
+								<th class="leftalign bold color_white">Session Name</th>
 								<th class="centeralign bold color_white">Deadline</th>
 								<th class="centeralign bold color_white">Status</th>
 								<th class="centeralign bold color_white">Action(s)</th>
 							</tr>
-							<%
-								for (EvaluationDetailsBundle edd: courseDetails.evaluations) { 
-																								evalIdx++;
-							%>
-								<tr class="home_evaluations_row" id="evaluation<%=evalIdx%>">
+						<%
+							for (EvaluationDetailsBundle edd : courseDetails.evaluations) {
+								sessionIdx++;
+						%>
+						<tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
 									<td class="t_eval_name"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
 									<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
 									<td class="t_eval_status centeralign"><span
 										onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
 										onmouseout="hideddrivetip()"><%=data.getStudentStatusForEval(edd.evaluation)%></span></td>
-									<td class="centeralign"><%=data.getStudentEvaluationActions(edd.evaluation,evalIdx)%>
+									<td class="centeralign"><%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
 									</td>
 								</tr>
-							<%
-								}
-							%>
-						</table>
-						<br>					
-					<%
-											} 
-																														if (courseDetails.feedbackSessions.size() > 0) {
-										%>
-						<br>
-						<table class="dataTable">
-							<tr>
-								<th class="leftalign bold color_white">Feedback Session Name</th>
-								<th class="centeralign bold color_white">Submission Closing Time</th>
-								<th class="centeralign bold color_white">Status</th>
-								<th class="centeralign bold color_white">Action(s)</th>
-							</tr>
-							<%
-								for (FeedbackSessionDetailsBundle fsd: courseDetails.feedbackSessions) { 
-																								fsIdx++;
-							%>
-								<tr class="home_evaluations_row" id="evaluation<%=fsIdx%>">
+						<%
+							}
+							for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
+								sessionIdx++;
+						%>
+						<tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
 									<td class="t_eval_name"><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
 									<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
 									<td class="t_eval_status centeralign"><span
 										onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"
 										onmouseout="hideddrivetip()"><%=data.getStudentStatusForSession(fsd.feedbackSession)%></span></td>
-									<td class="centeralign"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,fsIdx)%>
+									<td class="centeralign"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
 									</td>
 								</tr>
-							<%
-								}
-							%>
-						</table>
-						<br>				
+						<%
+							}
+						%>
+					</table>
 					<%
-										}
-									%>
+						}
+					%>
 				</div>
 			</div>
 			<br>

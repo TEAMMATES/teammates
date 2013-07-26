@@ -140,7 +140,8 @@ public class Const {
 		public static final String FEEDBACK_SESSION_PUBLISH = "Make session responses available for viewing";
 		public static final String FEEDBACK_SESSION_UNPUBLISH = "Make responses no longer visible";
 		public static final String FEEDBACK_SESSION_AUTOPUBLISH = "This session will be published automatically at the specified time";
-		public static final String FEEDBACK_SESSION_EDIT_RESPONSE = "View/Edit submitted feedback";
+		public static final String FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE = "Edit submitted feedback";
+		public static final String FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE = "View submitted feedback";
 
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
@@ -416,7 +417,7 @@ public class Const {
 		public static final String EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 		public static final String EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
 		public static final String EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
-		public static final String EVALUATION_EMPTY = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
+		public static final String EVALUATION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
 		public static final String EVALUATION_NOT_OPEN = "This evaluation is not open at this time. You are not allowed to edit your submission.";
 		public static final String EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 		
@@ -425,8 +426,8 @@ public class Const {
 		public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
 		public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";
 		public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
-		public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";
-		public static final String FEEDBACK_SESSION_EMPTY = "You have not created any feedback sessions yet. Use the form above to create a new feedback session.";
+		public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";		
+		public static final String FEEDBACK_SESSION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
 	
 		public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
 		public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question has been updated.";
