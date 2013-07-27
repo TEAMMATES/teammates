@@ -50,10 +50,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 					"<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
 					"<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
 					"<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
-					"<span class=\"bold\">Instructions:</span> " + fs.instructions;
-			
-			return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
-			
+					"<span class=\"bold\">Instructions:</span> " + fs.instructions;			
 		} catch (EntityAlreadyExistsException e) {
 			statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
 			statusToAdmin = e.getMessage();
@@ -63,16 +60,18 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 			setStatusForException(e);
 		} 
 		
-		// Reload same page if fail. 
-		//TODO: is the above comment correct?
-		data.courses = loadCoursesList(account.googleId);
-		data.existingEvals = loadEvaluationsList(account.googleId);
-		data.existingSessions = loadFeedbackSessionsList(account.googleId);
-		if (data.existingSessions.size() == 0) {
-			statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
+		if (!isError) {
+			// Go to the edit page if successful
+			return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
+		} else {
+			data.courses = loadCoursesList(account.googleId);
+			data.existingEvalSessions = loadEvaluationsList(account.googleId);
+			data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
+			if (data.existingFeedbackSessions.size() == 0) {
+				statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
+			}			
+			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
 		}
-		
-		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
 	}
 	
 	private FeedbackSessionAttributes extractFeedbackSessionData() {
@@ -99,23 +98,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 		newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
 		newSession.instructions = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
 		
-		String type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-		switch (type) {
-		case "custom":
-			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
-			break;
-		case "atopen":
-			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-			break;
-		case "never":
-			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-			newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
-			break;
-		}
-		
-		type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+		String type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
 		switch (type) {
 		case "custom":
 			newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
@@ -130,6 +113,24 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 			break;
 		case "never":
 			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			break;
+		}
+		
+		type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+		switch (type) {
+		case "custom": //Magic strings. Use enums to prevent potentila bugs caused by typos.
+			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
+			break;
+		case "atopen":
+			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+			break;
+		case "never":
+			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			// overwrite if private
+			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
 			break;
 		}
 		

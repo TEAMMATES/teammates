@@ -85,6 +85,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 	@FindBy(xpath = "//input[@name='numofrecipientstype' and @value='max']")
 	private WebElement maxNumOfRecipients;
 	
+	@FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
+	private WebElement customNumOfRecipients;
+	
 	public InstructorFeedbackEditPage(Browser browser) {
 		super(browser);
 	}
@@ -112,6 +115,10 @@ public class InstructorFeedbackEditPage extends AppPage {
 	
 	public void clickMaxNumberOfRecipientsButton() {
 		maxNumOfRecipients.click();
+	}
+	
+	public void clickCustomNumberOfRecipientsButton() {
+		customNumOfRecipients.click();
 	}
 	
 	public void clickCustomVisibleTimeButton(){

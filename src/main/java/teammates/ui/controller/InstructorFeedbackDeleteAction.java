@@ -1,7 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -18,19 +16,10 @@ public class InstructorFeedbackDeleteAction extends Action {
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
 
-		FeedbackSessionAttributes sessionToDelete =
-				logic.getFeedbackSession(feedbackSessionName, courseId);
-		InstructorAttributes instructorDoingDelete = 
-				logic.getInstructorForGoogleId(courseId, account.googleId);
-		
 		new GateKeeper().verifyAccessible(
-				instructorDoingDelete, sessionToDelete);
-		
-		if (sessionToDelete.creatorEmail.equals(instructorDoingDelete.email) == false) {
-			statusToUser.add("Only the creator of this feedback session is" +
-					" allowed to delete it.");
-			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
-		}
+				logic.getInstructorForGoogleId(courseId, account.googleId),
+				logic.getFeedbackSession(feedbackSessionName, courseId),
+				true);
 		
 		logic.deleteFeedbackSession(feedbackSessionName, courseId);
 		statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_DELETED);

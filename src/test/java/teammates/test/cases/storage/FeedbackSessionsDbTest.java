@@ -102,7 +102,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 		FeedbackSessionAttributes actual =
 				fsDb.getFeedbackSession("Private feedback session", "idOfTypicalCourse2");
 		
-		assertEquals(actual.toString(), expected.toString());
+		assertEquals(expected.toString(), actual.toString());
 		
 		______TS("non-existant session");
 		

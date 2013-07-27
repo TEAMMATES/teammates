@@ -19,8 +19,8 @@ public class InstructorFeedbacksPageData extends PageData {
 	public String courseIdForNewSession;
 	public FeedbackSessionAttributes newFeedbackSession;
 	public List<CourseDetailsBundle> courses;
-	public List<EvaluationDetailsBundle> existingEvals;
-	public List<FeedbackSessionDetailsBundle> existingSessions;		
+	public List<EvaluationDetailsBundle> existingEvalSessions;
+	public List<FeedbackSessionDetailsBundle> existingFeedbackSessions;		
 	
 	
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){

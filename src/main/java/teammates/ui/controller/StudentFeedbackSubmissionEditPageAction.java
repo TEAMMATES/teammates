@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -37,10 +36,6 @@ public class StudentFeedbackSubmissionEditPageAction extends Action {
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
-		}
-		if (data.bundle.feedbackSession.isVisible() == false) {
-			throw new UnauthorizedAccessException(
-					"This feedback session is not yet visible.");
 		}
 		
 		return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);

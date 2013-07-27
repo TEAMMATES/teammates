@@ -1,7 +1,9 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -14,9 +16,11 @@ public class InstructorFeedbackEditPageData extends PageData {
 	public FeedbackSessionAttributes session;
 	public FeedbackQuestionAttributes newQuestion;
 	public List<FeedbackQuestionAttributes> questions;
+	public Map<String, Boolean> questionHasResponses;
 	
 	public InstructorFeedbackEditPageData(AccountAttributes account) {
 		super(account);
+		questionHasResponses = new HashMap<String, Boolean>();
 	}
 	
 	public List<String> getParticipantOptions(

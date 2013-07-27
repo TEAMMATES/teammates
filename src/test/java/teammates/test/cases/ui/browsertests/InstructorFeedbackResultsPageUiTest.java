@@ -86,6 +86,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testLink() {
+		// TODO: test download link
 		resultsPage.clickEditLink();
 	}
 

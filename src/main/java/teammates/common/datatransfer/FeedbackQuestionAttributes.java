@@ -109,6 +109,57 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 				showResponsesTo, showGiverNameTo, showRecipientNameTo);
 	}
 	
+	/**
+	 * Checks if updating this question to the {@code newAttributes} will
+	 * require the responses to be deleted for consistency.
+	 * Does not check if any responses exist.
+	 * @param newAttributes
+	 * @return
+	 */
+	public boolean isChangesRequiresResponseDeletion(
+			FeedbackQuestionAttributes newAttributes) {
+		if( newAttributes.giverType.equals(this.giverType) == false ||
+			newAttributes.recipientType.equals(this.recipientType) == false	) {
+			return true;
+		}
+		if( this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false || 
+			this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo) == false ||
+			this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo) == false ) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void updateValues(FeedbackQuestionAttributes newAttributes) {
+		// These can't be changed anyway. Copy values to defensively avoid
+		// invalid parameters.
+		newAttributes.feedbackSessionName = this.feedbackSessionName;
+		newAttributes.courseId = this.courseId;
+		newAttributes.creatorEmail = this.creatorEmail;
+
+		if (newAttributes.questionText == null) {
+			newAttributes.questionText = this.questionText;
+		}
+		if (newAttributes.questionType == null) {
+			newAttributes.questionType = this.questionType;
+		}
+		if (newAttributes.giverType == null) {
+			newAttributes.giverType = this.giverType;
+		}
+		if (newAttributes.recipientType == null) {
+			newAttributes.recipientType = this.recipientType;
+		}
+		if (newAttributes.showResponsesTo == null) {
+			newAttributes.showResponsesTo = this.showResponsesTo;
+		}
+		if (newAttributes.showGiverNameTo == null) {
+			newAttributes.showGiverNameTo = this.showGiverNameTo;
+		}
+		if (newAttributes.showRecipientNameTo == null) {
+			newAttributes.showRecipientNameTo = this.showRecipientNameTo;
+		}
+	}
+	
 	// TODO: move following methods to PageData?
 	// Answer: OK to move to the respective PageData class. Unit test this thoroughly.
 	public List<String> getVisibilityMessage(){
@@ -129,14 +180,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 				message.add("You can see your own feedback in the results page later on.");
 				break;
 			}
-			line += participant.toDisplayNameVisibility() + " ";
+			line = participant.toVisibilityString() + " ";
 			if(participant == FeedbackParticipantType.RECEIVER) {
-				line += (recipientType.toString().toLowerCase());
-				if(numberOfEntitiesToGiveFeedbackTo < 2) {
-					// remove letter 's'.
-					line = line.substring(0, line.length()-1);
+				if (recipientType == FeedbackParticipantType.OWN_TEAM ||
+						recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+					line = recipientType.toVisibilityString() + " ";
+				} else {
+					line += (recipientType.toSingularFormString());
+					if(numberOfEntitiesToGiveFeedbackTo > 1) {
+						line += "s";
+					}
+					line += " ";
 				}
-				line += " ";
 			}
 			line += "can see your response";
 			if(showRecipientNameTo.contains(participant) == false) {
@@ -162,9 +217,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		}
 		
 		if (message.isEmpty()) {
-			message.add("No-one but the feedback session creator can see your responses.");
-		} else if (message.size() < FeedbackParticipantType.MAX_VISIBILITY_ENTITIES) {
-			message.add("<span class=\"bold color_brown\">No-one else can see your response.</span>");
+			message.add("No-one can see your responses.");
 		}
 		
 		return message;

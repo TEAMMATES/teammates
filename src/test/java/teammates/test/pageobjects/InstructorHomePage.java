@@ -34,19 +34,19 @@ public class InstructorHomePage extends AppPage {
 	}
 
 	public WebElement getRemindLink(String courseId, String evalName) {
-		return getLinkInRow("t_eval_remind", getEvaluationRowId(courseId, evalName));
+		return getLinkInRow("t_session_remind", getEvaluationRowId(courseId, evalName));
 	}
 	
 	public WebElement getPublishLink(String courseId, String evalName){
-		return getLinkInRow("t_eval_publish", getEvaluationRowId(courseId, evalName));
+		return getLinkInRow("t_session_publish", getEvaluationRowId(courseId, evalName));
 	}
 	
 	public WebElement getUnpublishLink(String courseId, String evalName){
-		return getLinkInRow("t_eval_unpublish", getEvaluationRowId(courseId, evalName));
+		return getLinkInRow("t_session_unpublish", getEvaluationRowId(courseId, evalName));
 	}
 	
 	public WebElement getDeleteEvalLink(String courseId, String evalName){
-		return getLinkInRow("t_eval_delete", getEvaluationRowId(courseId, evalName));
+		return getLinkInRow("t_session_delete", getEvaluationRowId(courseId, evalName));
 	}
 	
 	public WebElement getDeleteCourseLink(String courseId){
@@ -61,7 +61,7 @@ public class InstructorHomePage extends AppPage {
 		int courseRowID = getCourseRowId(courseId);
 		if (courseRowID == -1)
 			return -2;
-		String template = "//div[@id='course%d']//table[@class='dataTable']//tr[@id='evaluation%d']";
+		String template = "//div[@id='course%d']//table[@class='dataTable']//tr[@id='session%d']";
 		int max = (Integer) (browser.selenium)
 				.getXpathCount("//div//table[@class='dataTable']//tr");
 		for (int id = 0; id < max; id++) {

@@ -282,5 +282,41 @@
       "p2pFeedback" : {"value" :"This is a public comment from CHomeUiT.danny.e.tmms@gmail.com to CHomeUiT.charlie.d.tmms@gmail.com"},
       "team" : "Team 2"
     }
-  }
+  },
+  
+    "feedbackSessions" : {
+  	 "CHomeUiT.CS2104:First Feedback Session": {
+      "feedbackSessionName" : "First Feedback Session",
+      "courseId" : "CHomeUiT.CS2104",
+      "creatorEmail": "{$test.instructor}@gmail.com",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2012-03-20 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2015-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2015-05-01 11:59 PM UTC",
+      "timeZone" : 8.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    }
+  },
+  
+  "feedbackQuestions" : {
+    "CHomeUiT.CS2104:First Feedback Session:Q1": {
+		"feedbackSessionName" : "First Feedback Session",
+		"courseId" : "CHomeUiT.CS2104",
+		"creatorEmail" : "{$test.instructor}@gmail.com",
+		"questionText" : {"value" : "Rate 5 other students' products"},
+		"questionNumber" : "1",
+		"questionType" : "TEXT",
+		"giverType" : "STUDENTS",
+		"recipientType" : "STUDENTS",
+		"numberOfEntitiesToGiveFeedbackTo" : 5,
+		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
+		"showGiverNameTo" : [ "INSTRUCTORS" ],
+		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
+    }
+   }
 }

@@ -15,7 +15,7 @@
 				<ul id="navbar">
 					<li ><a class='nav home' data-link="instructorHome" href="<%=data.getInstructorHomeLink()%>">Home</a></li>
 					<li><a class='nav courses' data-link="instructorCourse" href="<%=data.getInstructorCourseLink()%>">Courses</a></li>
-					<li><a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorEvaluationLink()%>">Evaluations</a></li>
+					<li><a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorEvaluationLink()%>">Sessions</a></li>
 					<li><a class='nav help' href="/instructorHelp.html" target="_blank">Help</a></li>
 					<li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout</a>
 					<b><%

@@ -18,7 +18,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
-				logic.getFeedbackSession(feedbackSessionName, courseId));
+				logic.getFeedbackSession(feedbackSessionName, courseId),
+				false);
 		
 		InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
 		data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -34,13 +35,10 @@ public class InstructorFeedbackResultsPageAction extends Action {
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
 		}
 		if (data.sortType.equals("table")){
-			statusToUser.add("Displaying feedback session results as a table.");
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE, data);
 		} else if (data.sortType.equals("recipient")) {
-			statusToUser.add("Sorting results by feedback recipient's name in paragraph format.");
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
 		} else if (data.sortType.equals("giver")) {
-			statusToUser.add("Sorting results by feedback giver's name in paragraph format.");
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER, data);
 		} else {
 			// default: sort by recipients

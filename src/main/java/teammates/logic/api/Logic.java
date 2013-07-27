@@ -906,36 +906,6 @@ public class Logic {
 
 		feedbackSessionsLogic.createFeedbackSession(feedbackSession);
 	}
-	
-	/**
-	 * Updates the details of a feedback session <br>
-	 * Does not affect the questions and responses associated with it.
-	 * Preconditions: <br>
-	 * * All parameters are non-null.
-	 */
-	public void updateFeedbackSession(FeedbackSessionAttributes updatedSession) 
-			throws InvalidParametersException, EntityDoesNotExistException {
-		
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedSession);
-
-		feedbackSessionsLogic.updateFeedbackSession(updatedSession);
-	}
-	
-	/**
-	 * Deletes the feedback session but not the questions and
-	 * responses associated to it.
-	 * Fails silently if no such feedback session. <br>
-	 * Preconditions: <br>
-	 * * All parameters are non-null.
-	 */
-	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
-		
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-		feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
-	}
-	
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
@@ -982,6 +952,20 @@ public class Logic {
 	}
 	
 	/**
+	 * Generates summary results (without comments) in CSV format. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 */
+	public String getFeedbackSessionResultSummaryAsCsv(String courseId, String feedbackSessionName, String instructorEmail) 
+			throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		
+		return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(feedbackSessionName, courseId, instructorEmail);
+	}
+	
+	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -993,8 +977,70 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 	
-		return feedbackSessionsLogic.isFeedbackSessionFullyCompletedByUser(
+		return feedbackSessionsLogic.isFeedbackSessionCompletedByUser(
 				feedbackSessionName, courseId, studentEmail);
+	}
+	
+	/**
+	 * Updates the details of a feedback session <br>
+	 * Does not affect the questions and responses associated with it.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void updateFeedbackSession(FeedbackSessionAttributes updatedSession) 
+			throws InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedSession);
+
+		feedbackSessionsLogic.updateFeedbackSession(updatedSession);
+	}
+	
+	/**
+	 * Publishes the evaluation and send email alerts to students.
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * @throws InvalidParametersException
+	 *             if the evaluation is not ready to be published.
+	 * @throws EntityDoesNotExistException
+	 */
+	public void publishFeedbackSession(String feedbackSessionName, String courseId)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+	
+		feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+		
+	}
+
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * @throws InvalidParametersException
+	 *             if the evaluation is not ready to be unpublished.
+	 */
+	public void unpublishFeedbackSession(String feedbackSessionName, String courseId)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+	
+		feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
+	}
+
+	/**
+	 * Deletes the feedback session but not the questions and
+	 * responses associated to it.
+	 * Fails silently if no such feedback session. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+		feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
 	}
 	
 	@SuppressWarnings("unused")
@@ -1043,6 +1089,18 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionNumber);
 
 		feedbackQuestionsLogic.deleteFeedbackQuestionCascade(feedbackSessionName, courseId, questionNumber);
+	}
+	
+	/**
+	 * Returns true if there is at least one response for the given feedback question,
+	 * false if not.
+	 * for the session.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	
+	public boolean isQuestionHasResponses(String feedbackQuestionId){
+			return feedbackQuestionsLogic.isQuestionHasResponses(feedbackQuestionId);
 	}
 	
 	/**

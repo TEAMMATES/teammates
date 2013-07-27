@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -38,20 +39,31 @@ public class InstructorEvalsPageAction extends Action {
 		data.courses = loadCoursesList(account.googleId);
 		if (data.courses.size() == 0) {
 			statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
-			data.evaluations = new ArrayList<EvaluationDetailsBundle>();
+			data.existingEvalSessions = new ArrayList<EvaluationDetailsBundle>();
+			data.existingFeedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
 		
 		} else {
-			data.evaluations = loadEvaluationsList(account.googleId);
-			if (data.evaluations.size() == 0) {
-				statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
+			data.existingEvalSessions = loadEvaluationsList(account.googleId);			
+			data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
+			if (data.existingFeedbackSessions.isEmpty() &&
+					data.existingEvalSessions.isEmpty()) {
+				statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
 			}
-		}
+		}	
 		
-		statusToAdmin = "Number of evaluations :"+data.evaluations.size();
+		statusToAdmin = "Number of evaluations :"+data.existingEvalSessions.size();
 		
 		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVALS, data);
 	}
 
+	protected List<FeedbackSessionDetailsBundle> loadFeedbackSessionsList(
+			String googleId) throws EntityDoesNotExistException {
+		List<FeedbackSessionDetailsBundle> sessions =
+				logic.getFeedbackSessionDetailsForInstructor(googleId);
+		
+		return sessions;
+	}
+	
 	protected List<EvaluationDetailsBundle> loadEvaluationsList(String userId)
 			throws EntityDoesNotExistException {
 		List<EvaluationDetailsBundle> evaluations =

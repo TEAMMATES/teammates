@@ -166,10 +166,16 @@ public class GateKeeper {
 		verifyNotNull(feedbacksession, "feedback session");
 		verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
 		
-		if(!student.course.equals(feedbacksession.courseId)){
+		if(!student.course.equals(feedbacksession.courseId) ||
+			feedbacksession.isPrivateSession() == true){
 			throw new UnauthorizedAccessException(
 					"Feedback session [" + feedbacksession.feedbackSessionName + 
 					"] is not accessible to student ["+ student.email + "]");
+		}
+		
+		if(feedbacksession.isVisible() == false) {
+			throw new UnauthorizedAccessException(
+					"This feedback session is not yet visible.");
 		}
 	}
 	
@@ -215,7 +221,8 @@ public class GateKeeper {
 		}
 	}
 	
-	public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession){
+	public void verifyAccessible(InstructorAttributes instructor, 
+			FeedbackSessionAttributes feedbacksession, boolean creatorOnly){
 		verifyNotNull(instructor, "instructor");
 		verifyNotNull(instructor.courseId, "instructor's course ID");
 		verifyNotNull(feedbacksession, "feedback session");
@@ -226,6 +233,15 @@ public class GateKeeper {
 					"Feedback session [" + feedbacksession.feedbackSessionName + 
 					"] is not accessible to instructor ["+ instructor.email + "]");
 		}
+
+		if (creatorOnly &&
+				!feedbacksession.creatorEmail.equals(
+				instructor.email)) {
+			throw new UnauthorizedAccessException(
+					"Feedback session [" + feedbacksession.feedbackSessionName + 
+					"] is not accessible to instructor ["+ instructor.email + "] for this purpose");
+		}
+			
 	}
 	
 	/*These methods ensures that the nominal user specified can perform the 

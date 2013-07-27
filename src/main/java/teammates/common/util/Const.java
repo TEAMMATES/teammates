@@ -114,7 +114,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLELABEL = "Please select when you want the questions for the feedback session to be visible to users who need to participate.<br />Note that users cannot submit their responses until the submissions opening time set below.";
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLECUSTOM = "Select this option to use a custom time for when the session will become visible to users. ";
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLEATOPEN = "Select this option to have the feedback session become visible<br />"
-				+ "when it is open for submissions (as selected below).";
+				+ "when it is open for submissions (as selected above).";
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLENEVER = "Select this option if you want the feedback session to never be visible.<br />"
 				+ "Use this option if you want to use this as a private feedback session.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL = "Please select when the responses for the feedback session will be visible to the designated recipients."
@@ -126,6 +126,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to choose when the responses will be visible at a later time.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend never to publish the responses.";
 		public static final String FEEDBACK_SESSION_INSTRUCTIONS = "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.";
+		public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
 		public static final String FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
 		public static final String FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
 		public static final String FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
@@ -136,15 +137,17 @@ public class Const {
 		public static final String FEEDBACK_SESSION_EDIT = "Edit feedback session details";
 		public static final String FEEDBACK_SESSION_DELETE = "Delete the feedback session";
 		public static final String FEEDBACK_SESSION_SUBMIT = "Start submitting feedback";
-		public static final String FEEDBACK_SESSION_EDIT_RESPONSE = "Edit submitted feedback";
-		
+		public static final String FEEDBACK_SESSION_PUBLISH = "Make session responses available for viewing";
+		public static final String FEEDBACK_SESSION_UNPUBLISH = "Make responses no longer visible";
+		public static final String FEEDBACK_SESSION_AUTOPUBLISH = "This session will be published automatically at the specified time";
+		public static final String FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE = "Edit submitted feedback";
+		public static final String FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE = "View submitted feedback";
+
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
 		public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
 		public static final String FEEDBACK_QUESTION_VISBILITY = "Here you can select how each question's response will be visible to the different types of users in your course.";
 	
-		public static final String FEEDBACK_SUBMIT_NOT_YET_OPEN = "You can view the questions for this feedback session but cannot submit responses yet as the session is not yet opened.";
-		
 		public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" +
 				"<br />in the course once the results are published.";
 		public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
@@ -284,6 +287,8 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
 		public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
 		public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
+		public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
+		public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
 		public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
 		public static final String INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
@@ -291,6 +296,9 @@ public class Const {
 		
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
+		
+		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
+		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
 		
 		public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
 		public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
@@ -341,7 +349,8 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER = "/jsp/instructorFeedbackResultsByGiver.jsp";
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT = "/jsp/instructorFeedbackResultsByRecipient.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
-	
+		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
+
 		public static final String STUDENT_HOME = "/jsp/studentHome.jsp"; 
 		public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
@@ -408,15 +417,17 @@ public class Const {
 		public static final String EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
 		public static final String EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
 		public static final String EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
-		public static final String EVALUATION_EMPTY = "You have not created any evaluations yet. Use the form above to create a new evaluation.";
+		public static final String EVALUATION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
 		public static final String EVALUATION_NOT_OPEN = "This evaluation is not open at this time. You are not allowed to edit your submission.";
 		public static final String EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
 		
 		public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
 		public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
 		public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
-		public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";
-		public static final String FEEDBACK_SESSION_EMPTY = "You have not created any feedback sessions yet. Use the form above to create a new feedback session.";
+		public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";
+		public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
+		public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";		
+		public static final String FEEDBACK_SESSION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
 	
 		public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
 		public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question has been updated.";
@@ -427,6 +438,9 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 		
 		public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
+				
+		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not opened.";
+		
 		
 		//TODO: these status messages are from used for input validation testing only. Move to test driver side? 
 		
@@ -498,7 +512,9 @@ public class Const {
 	
 	public static final String EOL = System.getProperty("line.separator");
 	
-	public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
+	public static final String USER_NOBODY_TEXT = "Class";
+	public static final String USER_UNKNOWN_TEXT = "Unknown user";
+	public static final String TEAM_OF_EMAIL_OWNER = "'s Team";	
 	
 	public static final String INSTRUCTOR_EVALUATION_STATUS_AWAITING = "Awaiting";
 	public static final String INSTRUCTOR_EVALUATION_STATUS_OPEN = "Open";
@@ -513,6 +529,9 @@ public class Const {
 
 	public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
 	public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
+	
+	public static final String USER_NAME_FOR_SELF = "Myself";
+	public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
 	
 	public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
 	public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
@@ -532,11 +551,14 @@ public class Const {
 	public static final int POINTS_NOT_SUBMITTED = -999;
 	
 	public static final String GENERAL_QUESTION = "%GENERAL%";
+	public static final String USER_IS_TEAM = "%TEAM%";
+	public static final String USER_IS_NOBODY = "%NOBODY%";
 	
 	public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
 	public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
 	public static final Date TIME_REPRESENTS_NEVER;
 	public static final Date TIME_REPRESENTS_LATER;
+	public static final Date TIME_REPRESENTS_NOW;
 	
 	static {
 		//TODO: Can be simplified using TimeHelper
@@ -553,6 +575,8 @@ public class Const {
 		TIME_REPRESENTS_NEVER = calendar.getTime();
 		calendar.set(1970, 00, 01);
 		TIME_REPRESENTS_LATER = calendar.getTime();
+		calendar.set(1970, 01, 14);
+		TIME_REPRESENTS_NOW = calendar.getTime();
 	}
  	
 }

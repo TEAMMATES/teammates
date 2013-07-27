@@ -45,8 +45,9 @@ public class InstructorEvalAddAction extends InstructorEvalsPageAction {
 		} 
 		
 		data.courses = loadCoursesList(account.googleId);
-		data.evaluations = loadEvaluationsList(account.googleId);
-		if (data.evaluations.size() == 0) {
+		data.existingEvalSessions = loadEvaluationsList(account.googleId);
+		data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
+		if (data.existingEvalSessions.size() == 0) {
 			statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
 		}
 		

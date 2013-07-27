@@ -54,7 +54,7 @@ public class InstructorEvalsPage extends AppPage {
 
 	@Override
 	protected boolean containsExpectedPageContents() {
-		return getPageSource().contains("<h1>Add New Evaluation</h1>");
+		return getPageSource().contains("<h1>Add New Evaluation Session</h1>");
 	}
 
 	public AppPage sortByName() {
@@ -124,27 +124,27 @@ public class InstructorEvalsPage extends AppPage {
 
 	public WebElement getPublishLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_eval_publish" + evalRowId));
+		return browser.driver.findElement(By.className("t_session_publish" + evalRowId));
 	}
 	
 	public WebElement getUnpublishLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_eval_unpublish" + evalRowId));
+		return browser.driver.findElement(By.className("t_session_unpublish" + evalRowId));
 	}
 
 	public WebElement getRemindLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_eval_remind" + evalRowId));
+		return browser.driver.findElement(By.className("t_session_remind" + evalRowId));
 	}
 	
 	public WebElement getDeleteLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_eval_delete" + evalRowId));
+		return browser.driver.findElement(By.className("t_session_delete" + evalRowId));
 	}
 	
 	public WebElement getEditLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_eval_edit" + evalRowId));
+		return browser.driver.findElement(By.className("t_session_edit" + evalRowId));
 	}
 	
 	private int getEvaluationRowId(String courseId, String evalName) {
@@ -160,7 +160,7 @@ public class InstructorEvalsPage extends AppPage {
 	}
 	
 	private int getEvaluationsCount() {
-		return browser.driver.findElements(By.className("evaluations_row")).size();
+		return browser.driver.findElements(By.className("sessions_row")).size();
 	}
 	
 	private String getEvaluationCourseId(int rowId) {

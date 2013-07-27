@@ -6,7 +6,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
@@ -16,16 +15,13 @@ public class InstructorFeedbackEditSaveAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
-		//TODO: do we need this?
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
-		Assumption.assertNotNull(courseId);
-		Assumption.assertNotNull(feedbackSessionName);
-		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
-				logic.getFeedbackSession(feedbackSessionName, courseId));
+				logic.getFeedbackSession(feedbackSessionName, courseId),
+				true);
 		
 		InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
 		data.session = extractFeedbackSessionData();
@@ -42,10 +38,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
 			setStatusForException(e);
 		}
 		
-		// Get updated results and show same page
-		data.session = logic.getFeedbackSession(feedbackSessionName, courseId);
-		data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
+		return createRedirectResult(data.getInstructorFeedbackSessionEditLink(courseId, feedbackSessionName));
 	}
 
 	private FeedbackSessionAttributes extractFeedbackSessionData() {
@@ -69,23 +62,8 @@ public class InstructorFeedbackEditSaveAction extends Action {
 		}
 		newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
 		newSession.instructions = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
-		String type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-		switch (type) {
-		case "custom": //Magic strings. Use enums to prevent potentila bugs caused by typos.
-			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
-			break;
-		case "atopen":
-			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-			break;
-		case "never":
-			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
-			newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
-			break;
-		}
-		
-		type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+
+		String type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
 		switch (type) {
 		case "custom":
 			newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
@@ -100,6 +78,24 @@ public class InstructorFeedbackEditSaveAction extends Action {
 			break;
 		case "never":
 			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			break;
+		}
+		
+		type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+		switch (type) {
+		case "custom": //Magic strings. Use enums to prevent potentila bugs caused by typos.
+			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
+			break;
+		case "atopen":
+			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+			break;
+		case "never":
+			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			// overwrite if private
+			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
 			break;
 		}
 		

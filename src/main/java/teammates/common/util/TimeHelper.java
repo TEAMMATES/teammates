@@ -16,6 +16,14 @@ import teammates.common.util.Const.SystemParams;
 public class TimeHelper {
 	
 	/**
+	 * Returns the current date and time as a {@code Calendar} object for the given timezone.
+	 */
+	public static Calendar now(int timeZone) {
+		return TimeHelper.convertToUserTimeZone(
+				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
+	}
+	
+	/**
 	 * Convert a date string and time string into a Date object. Returns null on error.
 	 * 
 	 * @param date
@@ -106,7 +114,9 @@ public class TimeHelper {
 	public static String formatDate(Date date) {
 		if (date == null)
 			return "";
-		return new SimpleDateFormat("dd/MM/yyyy").format(date);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+		return sdf.format(date);
 	}
 
 	/**

@@ -89,7 +89,7 @@
 				<tr>
 					<td colspan=2 class="centeralign">
 						<form id="download_eval_report" method="GET"
-							action="instructorEvalExport">
+							action=<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD%>>
 							<%
 								if(InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Const.INSTRUCTOR_EVALUATION_STATUS_CLOSED)) {
 							%>

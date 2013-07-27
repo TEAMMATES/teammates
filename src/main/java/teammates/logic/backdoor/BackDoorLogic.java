@@ -12,6 +12,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -103,8 +104,8 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
 		for (FeedbackSessionAttributes session : sessions.values()) {
 			log.info("API Servlet adding feedback session :" + session.feedbackSessionName
-					+ " to course " + session.courseId);
-			super.createFeedbackSession(session);
+					+ " to course " + session.courseId);			
+			this.createFeedbackSession(session);
 		}
 		
 		HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
@@ -208,14 +209,31 @@ public class BackDoorLogic extends Logic {
 		new EvaluationsDb().updateEvaluation(evaluation);
 	}
 	
-	//TODO: use /** */ style comment here.
-	// This method is necessary to generate the feedbackQuestionId of the
-	// question the response is for.
-	// Normally, the ID is already passed in the attributes on creation,
-	// but the json file does not contain the actual ID and so an additional step
-	// must be performed to add the correct ID.
-	// So we put the question number of the response in it instead and get
-	// the questionId if the question exists.
+	/**
+	 * This method ensures consistency for private feedback sessions
+	 * between the type and visibility times. This allows easier creation
+	 * of private sessions by setting the feedbackSessionType field as PRIVATE
+	 * in the json file.
+	 */
+	@Override
+	public void createFeedbackSession(FeedbackSessionAttributes session) 
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+		if (session.feedbackSessionType.equals(FeedbackSessionType.PRIVATE)) {
+			session.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+			session.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+		}
+		super.createFeedbackSession(session);
+	}
+				
+	/**
+	* This method is necessary to generate the feedbackQuestionId of the
+	* question the response is for.<br />
+	* Normally, the ID is already generated on creation,
+	* but the json file does not contain the actual response ID. <br />
+	* Therefore the question number corresponding to the created response 
+	* should be inserted in the json file in place of the actual response ID.<br />
+	* This method will then generate the correct ID and replace the field.
+	**/
 	@Override
 	public void createFeedbackResponse(FeedbackResponseAttributes response) 
 			throws InvalidParametersException, EntityAlreadyExistsException {

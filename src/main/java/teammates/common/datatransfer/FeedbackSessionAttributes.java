@@ -118,17 +118,15 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		error= validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
 		if(!error.isEmpty()) { errors.add(error); }
 		
+		// Skip time frame checks if session type is private.
+		if (this.isPrivateSession()) {
+			return errors;
+		}
+		
 		error= validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
 				FieldType.START_TIME, FieldType.END_TIME, startTime, endTime);
 		if(!error.isEmpty()) { errors.add(error); }	
-		
-		//TODO: uncomment or remove.
-		/* Allow? Since visible time < start time is allowed, and publish time can follow visible time.
-		error= validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
-				FieldType.START_TIME, FieldType.RESULTS_VISIBLE_TIME, startTime, resultsVisibleFromTime);
-		if(!error.isEmpty()) { errors.add(error); }
-		*/
-		
+				
 		error= validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
 				FieldType.SESSION_VISIBLE_TIME, FieldType.START_TIME, sessionVisibleFromTime, startTime);
 		if(!error.isEmpty()) { errors.add(error); }	
@@ -173,25 +171,21 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * @return {@code true} if it is after the closing time of this feedback session; {@code false} if not.
 	 */
 	public boolean isClosed() {
-		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		TimeHelper.convertToUserTimeZone(now, timeZone);
-
+		Calendar now = TimeHelper.now(timeZone);
 		Calendar end = TimeHelper.dateToCalendar(endTime);
 		end.add(Calendar.MINUTE, gracePeriod);
-
 		return (now.after(end));
 	}
 	
 	/**
 	 * @return {@code true} is currently open and accepting responses.
 	 */
-	public boolean isOpened() {
-		Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		TimeHelper.convertToUserTimeZone(now, timeZone);
-
+	public boolean isOpened() {		
+		Calendar now = TimeHelper.now(timeZone);		
 		Calendar start = TimeHelper.dateToCalendar(startTime);
-
-		return (now.after(start) && !isClosed());
+		Calendar end = TimeHelper.dateToCalendar(endTime);
+		end.add(Calendar.MINUTE, gracePeriod);
+		return (now.after(start) && now.before(end));
 	}
 	
 	/**
@@ -199,7 +193,9 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * {@code false} if session has opened before.
 	 */
 	public boolean isWaitingToOpen() {
-		return (!isOpened() && !isClosed());
+		Calendar now = TimeHelper.now(timeZone);		
+		Calendar start = TimeHelper.dateToCalendar(startTime);
+		return (now.before(start));
 	}
 	
 	/**
@@ -207,7 +203,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * Does not care if the session has started or not.
 	 */
 	public boolean isVisible() {
-		Date now = TimeHelper.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
+		Date now = TimeHelper.now(timeZone).getTime();
 		Date visibleTime = this.sessionVisibleFromTime;
 		
 		if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
@@ -223,7 +219,7 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	 * Does not care if the session has ended or not.
 	 */
 	public boolean isPublished() {
-		Date now = TimeHelper.convertToUserTimeZone(Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
+		Date now = TimeHelper.now(timeZone).getTime();
 		Date publishTime = this.resultsVisibleFromTime;
 		
 		if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
@@ -232,9 +228,32 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 			return false;
 		} else if (publishTime.equals(Const.TIME_REPRESENTS_NEVER)) {
 			return false;
-		}  else {
+		} else if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
+			return true;
+		} else {
 			return (publishTime.before(now));
 		}
+	}
+	
+	/**
+	 * @return {@code true} if the session has been set by the creator to be manually published. 
+	 */
+	public boolean isManuallyPublished(){
+		return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER) || 
+				 resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
+	}
+	
+	/** 
+	 * @return {@code true} if session is a private session (only open to the session creator),
+	 *  {@code false} if not.
+	 */
+	public boolean isPrivateSession() {
+		return sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER) || 
+				feedbackSessionType.equals(FeedbackSessionType.PRIVATE);
+	}
+	
+	public boolean isCreator(String instructorEmail) {
+		return creatorEmail.equals(instructorEmail);
 	}
 	
 	@Override

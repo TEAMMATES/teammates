@@ -6,11 +6,33 @@
 	vertical-align: middle;
 }
 
-.questionTable {
-	width: 900px;
+#sessionViewableTable tr+tr {
+	 border-top: 3px #D0D8E8 solid;
+}
+
+#timeFrameTable td:nth-child(even):not(:last-child) {
+	border-right: 3px #D0D8E8 solid;
 }
 
 #instructionsTable {
+	width: 900px;
+}
+
+#fsname {
+	width: 620px;
+}
+
+#courseid {
+	width: 260px;
+}
+
+#timezone {
+	width: 100px;
+}
+
+/* Move below to separate css page */
+
+.questionTable {
 	width: 900px;
 }
 
@@ -33,21 +55,6 @@
 .sortTypeTable {
 	width: 900px;
 	background-color: #D0D8E8;
-}
-
-.visibilityCheckbox {
-}
-
-#fsname {
-	width: 620px;
-}
-
-#courseid {
-	width: 260px;
-}
-
-#timezone {
-	width: 100px;
 }
 
 .numberOfEntitiesBox {

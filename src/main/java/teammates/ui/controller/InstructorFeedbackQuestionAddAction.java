@@ -11,7 +11,6 @@ import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -25,10 +24,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
-				logic.getFeedbackSession(feedbackSessionName, courseId));
-		
-		Assumption.assertNotNull(courseId);
-		Assumption.assertNotNull(feedbackSessionName);
+				logic.getFeedbackSession(feedbackSessionName, courseId),
+				true);
 		
 		FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData();
 		
