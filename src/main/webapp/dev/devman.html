@@ -1406,16 +1406,15 @@
 	<ol>
 		<li>Pull the latest code from the committer repo</li>
 		<li> Download the patch from Rietveld@GoogleCode to the project root folder.</li>
-		<li>Apply the patch.<br> <span class="code">hg import patch_file_name --no-commit</span>
+		<li>Apply the patch.<br> 
+		<span class="code">hg import patch_file_name --no-commit</span><br>
+		<span class="code gray">#e.g. hg import 1245.diff --no-commit</span><br><br>
 		</li>
-		<br>
 		<li>Verify 'dev green'. If the change does not involve automated
-			tests, do a manual test. e.g., changes to documentation.</li>
-		<br>
-		<li>Verify 'staging green' (i.e. use your own app on appengine as
-			the 'staging site') if the changed code could potentially behave
-			differently on a remote server.</li>
-		<br>
+			tests, do a manual test. e.g., changes to documentation.<br><br></li>
+		<li>if the changed code could potentially behave differently on a
+			remote server, verify 'staging green' (i.e. use your own app on
+			appengine as the 'staging site')<br><br></li>
 		<li>If not green: <br>
 			<ul>
 				<li>Inform Developer of any broken code by changing the Issue status.</li>
@@ -1424,16 +1423,24 @@
 				</li>
 			</ul> <br> If green:
 			<ul>
-				<li>Commit the patch. The commit message should be<br> 
+				<li>Commit the patch. <br>
+				Use the -u option to specify the issue owner name. 
+				<span class="code gray">e.g. -u "Jim Davis"</span><br>
+				The commit message should be<br> 
 				<span class="code">Issue {issue number} : {branch description as given in Issue tracker} <br>
 				Update Issue {issue number}	</span><br>
-				Example:<br>
-				<span class="code">Issue 829 : Remoe unused constants from *Attributes classes <br>
-				Update Issue 829	</span>
+				Example : <br>
+				<span class="code">Issue 829 : Remove unused constants from *Attributes classes <br>
+				Update Issue 829	</span><br>
+				Here's how to use multi-line commit message from command line: <br>
+				<span class="code">hg commit -u "User name" -m "</span>{press enter}<br>
+					This will pause the commit operation and pop up a text file in your
+					text editer with some comments inside. Insert the commit message at
+					the beginning of that text file, save, and close the file. The
+					commit operation will complete at that point.
 				</li>
-				<li>Push the default branch to the committer repo. <br> <span
-					class="code">hg push {committer repo URL} -b
-						default </span>
+				<li>Push the default branch to the committer repo. <br> 
+				<span class="code">hg push {committer repo URL} -b default </span>
 				</li>
 			</ul>
 		</li>
@@ -1445,37 +1452,49 @@
 	<h2 id="process-deployingfixes">Deploying fixes</h2>
 	Role: PM
 	<ol>
+		<li>Merge default branch to the release branch.
+		</li>
 		<li>Deploy to live site as a new version.<br> Version
 			numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow '.')
 			<br> x: major version, yy: feature release, zz: builds for
 			feature yy or updates that doesn't affect functionality<br>
 			e.g., 4.01.02
 		</li>
-		<br>
 		<li>Verify 'live green'.</li>
-		<br>
 		<li>Set new version as default.</li>
-		<br>
-
-		<li>Mark issues as <span class="code">Deployed</span></li>
-		<li>Update version history</li>
-		<li>Tag repo with version number<br> <span class="code">hg
-				tag V4.18</span>
+		<li>Mark issues as <span class="code">Deployed</span>.</li>
+		<li>Tag repo with version number.<br> 
+		<span class="code">hg tag V4.18</span>
 		</li>
-		<li>Push to the contributor repo (to send the tag to the repo).<br>
+		<li>Merge the release branch back to the default branch 
+		(to sync the tag back to the default branch).</li>
+		<li>Update version history.</li>
 	</ol>
 
 	<h2 id="process-issuelifecycle">Issue Lifecycle</h2>
 	<span class="bold">Issue classification:</span>
 	<ul>
-		<li><span class="bold">Urgent</span>: would like to handle in the
+		<li><span class="bold">Priority-Urgent</span>: Would like to handle in the
 			very next release.</li>
-		<li><span class="bold">High</span>: enhances user experience
+		<li><span class="bold">Priority-High</span>: Enhances user experience
 			significantly, would like to do in the next few releases.</li>
-		<li><span class="bold">Medium</span>: marginal impact on user
+		<li><span class="bold">Priority-Medium</span>: Marginal impact on user
 			experience.</li>
-		<li><span class="bold">Low</span>: very little impact, unlikely
+		<li><span class="bold">Priority-Low</span>: Very little impact, unlikely
 			to do in the near future.</li>
+		<li><span class="bold">Priority-Zero</span>: Unlikely to do, ever.</li>
+	</ul>
+
+	<ul>
+		<li><span class="bold">Difficulty-Low</span>: Minor change. No
+			need to modify tests.</li>
+		<li><span class="bold">Difficulty-Medium</span>: Small,
+			mostly-localized change. Usually requires changes to tests.</li>
+		<li><span class="bold">Difficulty-High</span>: Requires multiple,
+			possibly non-localized changes. Requires changes to tests and
+			possibly new tests.</li>
+		<li><span class="bold">Difficulty-High</span>: Requires wide
+			ranging tests, new tests and possibly, changes to the data schema.</li>
 	</ul>
 
 	<div class="image-holder">
