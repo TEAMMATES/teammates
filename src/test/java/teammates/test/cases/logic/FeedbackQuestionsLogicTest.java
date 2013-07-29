@@ -65,13 +65,13 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		______TS("empty case: response to team members, but alone");
 
-		question = getQuestion("qn2InSession2InCourse1");
+		question = getQuestion("team.members.feedback");
 		email = typicalBundle.students.get("student5InCourse1").email;
 		recipients = fqLogic.getRecipientsForQuestion(question, email);
 		assertEquals(recipients.size(), 0);
 						
 		______TS("special case: response to other team, instructor is also student");
-		question = getQuestion("qn1InSession2InCourse1");
+		question = getQuestion("team.feedback");
 		email = typicalBundle.students.get("student1InCourse1").email;
 		AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
 		

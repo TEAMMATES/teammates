@@ -251,9 +251,10 @@ public class StudentsLogic {
 	}
 
 	public void deleteStudentCascade(String courseId, String studentEmail) {
+		// delete responses first as we need to know the student's team.
+		frLogic.deleteFeedbackResponsesForStudent(courseId, studentEmail);
 		studentsDb.deleteStudent(courseId, studentEmail);
 		SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
-		frLogic.deleteFeedbackResponsesForStudent(courseId, studentEmail);
 	}
 
 	public void deleteStudentsForGoogleId(String googleId) {
