@@ -140,6 +140,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_PUBLISH = "Make session responses available for viewing";
 		public static final String FEEDBACK_SESSION_UNPUBLISH = "Make responses no longer visible";
 		public static final String FEEDBACK_SESSION_AUTOPUBLISH = "This session will be published automatically at the specified time";
+		public static final String FEEDBACK_SESSION_AWAITING = "This session is not yet opened";
 		public static final String FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE = "Edit submitted feedback";
 		public static final String FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE = "View submitted feedback";
 

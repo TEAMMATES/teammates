@@ -210,15 +210,14 @@ public class StudentHomePageData extends PageData {
 						Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE)			
 					+ "')\" onmouseout=\"hideddrivetip()\">"
 					+ (fs.isOpened() ? "Edit" : "View") + " Submission</a>";
-		} else if (fs.isOpened()) {
-			result += "<a class=\"color_black\" id=\"submitEvaluation"
-					+ idx
-					+ "\" "
-					+ "href=\""
+		} else {
+			result += "<a class=\"color_black\" id=\"submitFeedback"
+					+ idx + "\" " + "href=\"" 
 					+ getStudentFeedbackResponseEditLink(fs.courseId,
 						fs.feedbackSessionName) + "\" " + "onmouseover=\"ddrivetip('"
-					+ Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "')\" "
-					+ "onmouseout=\"hideddrivetip()\">Submit</a>";	
+					+ (fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING :
+						Const.Tooltips.FEEDBACK_SESSION_SUBMIT) + "')\" "
+					+ "onmouseout=\"hideddrivetip()\" " + (fs.isOpened() ? "" : DISABLED) + ">Submit</a>";	
 		}
 		// @formatter:off
 		

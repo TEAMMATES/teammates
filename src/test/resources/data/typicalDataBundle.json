@@ -327,8 +327,8 @@
       "sentOpenEmail" : false,
       "sentPublishedEmail" : false
     },
-    "session3InCourse1": {
-      "feedbackSessionName" : "3rd feedback session",
+    "empty.session": {
+      "feedbackSessionName" : "Empty session",
       "courseId" : "idOfTypicalCourse1",
       "creatorEmail": "instructor2@course1.com",
       "instructions": {"value" : "Please please fill in the following questions."},
@@ -337,6 +337,22 @@
       "endTime" : "2013-04-28 11:57 PM UTC",
       "sessionVisibleFromTime" : "2013-01-20 11:57 PM UTC",
       "resultsVisibleFromTime" : "2013-04-29 11:57 PM UTC",
+      "timeZone" : 0,
+      "gracePeriod": 5,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : false,
+      "sentPublishedEmail" : false
+    },
+    "awaiting.session": {
+      "feedbackSessionName" : "non visible session",
+      "courseId" : "idOfTypicalCourse1",
+      "creatorEmail": "instructor2@course1.com",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2013-01-20 11:00 PM UTC",
+      "startTime" : "2016-02-01 11:00 PM UTC",
+      "endTime" : "2016-04-28 11:00 PM UTC",
+      "sessionVisibleFromTime" : "2016-02-01 11:00 PM UTC",
+      "resultsVisibleFromTime" : "2016-04-29 11:00 PM UTC",
       "timeZone" : 0,
       "gracePeriod": 5,
       "feedbackSessionType" : "STANDARD",
@@ -440,6 +456,19 @@
 		"giverType" : "STUDENTS",
 		"recipientType" : "OWN_TEAM_MEMBERS",
 		"numberOfEntitiesToGiveFeedbackTo" : 1,
+		"showResponsesTo" : [ "RECEIVER" ],
+		"showGiverNameTo" : [ "RECEIVER" ],
+		"showRecipientNameTo" : [ "RECEIVER" ]
+    },
+    "qn1InSession4InCourse1": {
+		"feedbackSessionName" : "non visible session",
+		"courseId" : "idOfTypicalCourse1",
+		"creatorEmail" : "instructor1@course1.com",
+		"questionText" : {"value" : "Give feedback to 4 other students"},
+		"questionNumber" : "1",
+		"giverType" : "STUDENTS",
+		"recipientType" : "STUDENTS",
+		"numberOfEntitiesToGiveFeedbackTo" : 4,
 		"showResponsesTo" : [ "RECEIVER" ],
 		"showGiverNameTo" : [ "RECEIVER" ],
 		"showRecipientNameTo" : [ "RECEIVER" ]

@@ -753,7 +753,7 @@ public class FeedbackSessionsLogic {
 							session.feedbackSessionName,
 							session.courseId, userEmail);
 			
-			if (questions.isEmpty() == false) {
+			if (session.isVisible() && questions.isEmpty() == false) {
 				// Session should be visible only if there are questions
 				// available for this student/feedback session.
 				return true;
