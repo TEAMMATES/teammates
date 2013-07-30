@@ -83,7 +83,6 @@ public class FeedbackSessionsLogic {
 		for (FeedbackSessionAttributes session : sessions) {
 			if (isFeedbackSessionViewableTo(session, userEmail)) {
 				viewableSessions.add(session);
-				log.info(session.getIdentificationString() + " is viewable!");
 			}
 		}
 
@@ -157,7 +156,7 @@ public class FeedbackSessionsLogic {
 	// for a single FS.
 	public FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
 			String feedbackSessionName, String courseId, String userEmail)
-			throws EntityDoesNotExistException, UnauthorizedAccessException {
+			throws EntityDoesNotExistException {
 
 		FeedbackSessionAttributes session = fsDb.getFeedbackSession(
 				feedbackSessionName, courseId);
@@ -166,8 +165,6 @@ public class FeedbackSessionsLogic {
 			throw new EntityDoesNotExistException(
 					"Trying to view non-existent feedback session.");
 		}
-		
-		boolean userIsInstructor = instructorsLogic.getInstructorForEmail(courseId, userEmail) != null ? true : false;
 		
 		List<FeedbackQuestionAttributes> allQuestions = 
 				fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
@@ -180,12 +177,23 @@ public class FeedbackSessionsLogic {
 		Map<String, boolean[]> visibilityTable =
 				new HashMap<String, boolean[]>();
 		
+		if (session.isPrivateSession() && !session.isCreator(userEmail)) {
+			return new FeedbackSessionResultsBundle(
+					session, responses, relevantQuestions,
+					emailNameTable, visibilityTable);
+		}
+				
 		for (FeedbackQuestionAttributes question : allQuestions) {
 			
-			List<FeedbackResponseAttributes> responsesForThisQn =
-					frLogic.getViewableFeedbackResponsesForQuestion(
-						question.getId(), userEmail);
+			List<FeedbackResponseAttributes> responsesForThisQn;
 
+			if(session.isCreator(userEmail) && session.isPrivateSession()) {
+				responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
+			} else {
+				responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestion(
+						question.getId(), userEmail);
+			}
+			
 			if (responsesForThisQn.isEmpty() == false) {
 				relevantQuestions.put(question.getId(), question);
 				responses.addAll(responsesForThisQn);
@@ -193,13 +201,6 @@ public class FeedbackSessionsLogic {
 				addVisibilityToTable(visibilityTable, responsesForThisQn, userEmail);
 			}
 			
-		}
-		
-		// TODO: move this up to Access Control layer in actions.
-		if (relevantQuestions.isEmpty() && userIsInstructor == false) {
-			throw new UnauthorizedAccessException(
-					"There are no questions that "+ userEmail +" can view the result of for feedback session:" +
-					feedbackSessionName + "/" + courseId);
 		}
 		
 		FeedbackSessionResultsBundle results = 
@@ -557,8 +558,8 @@ public class FeedbackSessionsLogic {
 			String userEmail) {
 		for (FeedbackResponseAttributes response  : responses) {
 			boolean[] visibility = new boolean[2];
-			visibility[0] = frLogic.isNameVisibleTo(response, userEmail, true);
-			visibility[1] = frLogic.isNameVisibleTo(response, userEmail, false);
+			visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.isNameVisibleTo(response, userEmail, true);
+			visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.isNameVisibleTo(response, userEmail, false);
 			visibilityTable.put(response.getId(), visibility);
 		}
 	}
@@ -662,7 +663,19 @@ public class FeedbackSessionsLogic {
 			}
 			details.stats.submittedTotal = teamsSubmitted;
 			break;
-						
+		
+		case PRIVATE:
+			if(fqLogic.getFeedbackQuestionsForSession(
+					fsa.feedbackSessionName, fsa.courseId).isEmpty()) {
+				break;
+			}
+			details.stats.expectedTotal = 1;
+			if(this.isFeedbackSessionFullyCompletedByUser(
+					fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail)) {
+				details.stats.submittedTotal = 1;
+			}
+			break;
+
 		default:
 			break;
 		}
@@ -746,33 +759,31 @@ public class FeedbackSessionsLogic {
 			return instructorsLogic.isInstructorOfCourse(instructor.googleId, session.courseId);
 		}
 
-		if (session.isPublished() == false) {
-			
+		if (session.isPublished() == false) {			
 			List<FeedbackQuestionAttributes> questions = 
 					fqLogic.getFeedbackQuestionsForUser(
 							session.feedbackSessionName,
 							session.courseId, userEmail);
 			
-			if (session.isVisible() && questions.isEmpty() == false) {
+			if (session.isVisible() && !questions.isEmpty()) {
 				// Session should be visible only if there are questions
 				// available for this student/feedback session.
 				return true;
 			}
-
-		} else {
-			// After publishing, only list if there are
-			// non-zero viewable responses			
-			try {
-				getFeedbackSessionResultsForUser(session.feedbackSessionName,
-						session.courseId, userEmail);
-			} catch (UnauthorizedAccessException e) {
-				// We will not be given access if there are zero
-				// viewable responses.
-				return false;
-			}			
-			return true;
+			
+		} else {			
+			List<FeedbackResponseAttributes> responses = 
+					getFeedbackSessionResultsForUser(
+							session.feedbackSessionName,
+							session.courseId, userEmail).responses;
+			
+			if(session.isOpened() || !responses.isEmpty()) {
+				// After publishing, only list if there are non-zero viewable responses or
+				// still accepting responses.
+				return true;
+			}
 		}
-
+		
 		return false;
 	}
 	

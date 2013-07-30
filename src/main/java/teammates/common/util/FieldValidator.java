@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -406,6 +407,46 @@ public class FieldValidator {
 		
 		return error;
 	}
+	
+	public String getValidityInfoForFeedbackResponseVisibility(
+			List<FeedbackParticipantType> showResponsesTo, 
+			List<FeedbackParticipantType> showGiverNameTo, 
+			List<FeedbackParticipantType> showRecipientNameTo) {
+		
+		Assumption.assertTrue("Non-null value expected", showResponsesTo != null);
+		Assumption.assertTrue("Non-null value expected", showGiverNameTo != null);
+		Assumption.assertTrue("Non-null value expected", showRecipientNameTo != null);		
+		Assumption.assertTrue("Non-null value expected", !showResponsesTo.contains(null));
+		Assumption.assertTrue("Non-null value expected", !showGiverNameTo.contains(null));
+		Assumption.assertTrue("Non-null value expected", !showRecipientNameTo.contains(null));
+		
+		String error = "";
+		
+		for (FeedbackParticipantType type : showGiverNameTo) {
+			if (showResponsesTo.contains(type) == false) {
+				error += "Trying to show giver name to "
+						+ type.toString()
+						+ " without showing response first.";
+			}
+		}
+		
+		for (FeedbackParticipantType type : showRecipientNameTo) {
+			if (showResponsesTo.contains(type) == false) {
+				error += "Trying to show recipient name to "
+						+ type.toString()
+						+ " without showing response first.";
+			}
+		}
+
+		if (showResponsesTo.contains(FeedbackParticipantType.SELF) &&
+				!showRecipientNameTo.contains(FeedbackParticipantType.SELF)) {
+			error += "Cannot show response to feedback recipient without" +
+					" showing recipient's own name to himself.";
+		}
+		
+		return error;
+	}
+	
 	
 	private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {
 		Date nowInUserTimeZone = TimeHelper.convertToUserTimeZone(

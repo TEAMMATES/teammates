@@ -160,7 +160,21 @@
       "sentPublishedEmail" : true
     }
   },
-  "feedbackQuestions" : {
+  "feedbackQuestions" : {  
+    "qn1InSession1": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "CFResultsUiT.CS2104",
+		"creatorEmail" : "CFResultsUiT.instr@gmail.com",
+		"questionText" : {"value" : "Rate 3 other students' products"},
+		"questionNumber" : "1",
+		"questionType" : "TEXT",
+		"giverType" : "STUDENTS",
+		"recipientType" : "STUDENTS",
+		"numberOfEntitiesToGiveFeedbackTo" : 3,
+		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER", "STUDENTS", "OWN_TEAM_MEMBERS" ],
+		"showGiverNameTo" : [ "INSTRUCTORS", "OWN_TEAM_MEMBERS" ],
+		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
+    },
   	 "qn2InSession1": {
 		"feedbackSessionName" : "First Session",
 		"courseId" : "CFResultsUiT.CS2104",
@@ -174,20 +188,6 @@
 		"showResponsesTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
 		"showGiverNameTo" : [ "INSTRUCTORS" ],
 		"showRecipientNameTo" : [ "INSTRUCTORS" ]
-    },
-    "qn1InSession1": {
-		"feedbackSessionName" : "First Session",
-		"courseId" : "CFResultsUiT.CS2104",
-		"creatorEmail" : "CFResultsUiT.instr@gmail.com",
-		"questionText" : {"value" : "Rate 3 other students' products"},
-		"questionNumber" : "1",
-		"questionType" : "TEXT",
-		"giverType" : "STUDENTS",
-		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 3,
-		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER", "STUDENTS" ],
-		"showGiverNameTo" : [ "INSTRUCTORS", "OWN_TEAM_MEMBERS" ],
-		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
     },
     "qn3InSession1": {
 		"feedbackSessionName" : "First Session",

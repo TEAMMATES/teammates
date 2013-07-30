@@ -153,26 +153,9 @@ public class FeedbackResponsesLogic {
 			// Use "Else If" because it is a subset of STUDENTS, don't need to add twice.
 			else if (fqLogic.isQuestionAnswersVisibleTo(question,
 					FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
-
-				List<FeedbackResponseAttributes> responses =
-						getFeedbackResponsesForQuestion(feedbackQuestionId);
-				List<FeedbackResponseAttributes> teamResponses =
-						new ArrayList<FeedbackResponseAttributes>();
-
-				for (FeedbackResponseAttributes response : responses) {
-					
-					List<StudentAttributes> studentsInTeam =
-							studentsLogic.getStudentsForTeam(
-									response.giverEmail, question.courseId);
-					
-					for (StudentAttributes student : studentsInTeam) {
-						if (student.email.equals(userEmail)) {
-							teamResponses.add(response);
-						}
-					}
-					
-				}				
-				addNewResponses(viewableResponses, teamResponses);
+				addNewResponses(viewableResponses,
+						getFeedbackResponsesFromTeamMembersOfUser(
+								feedbackQuestionId, userEmail));
 			}
 		}
 
@@ -185,6 +168,26 @@ public class FeedbackResponsesLogic {
 		}
 		
 		return viewableResponses;
+	}
+
+	private List<FeedbackResponseAttributes> getFeedbackResponsesFromTeamMembersOfUser(
+			String feedbackQuestionId, String userEmail) {
+		List<FeedbackResponseAttributes> responses =
+				getFeedbackResponsesForQuestion(feedbackQuestionId);
+		List<FeedbackResponseAttributes> teamResponses =
+				new ArrayList<FeedbackResponseAttributes>();
+
+		for (FeedbackResponseAttributes response : responses) {					
+			StudentAttributes student =
+					studentsLogic.getStudentForEmail(
+							response.courseId, response.giverEmail);
+			
+			if(studentsLogic.isStudentInTeam(
+					response.courseId, student.team, userEmail)) {
+				teamResponses.add(response);
+			}
+		}
+		return teamResponses;
 	}
 	
 	// Adds FeedbackResponseAttributes in newResponses that are not already
@@ -212,7 +215,7 @@ public class FeedbackResponsesLogic {
 	}
 	
 	public boolean isNameVisibleTo(FeedbackResponseAttributes response,
-			String userEmail, boolean nameIsGiver){
+			String userEmail, boolean isGiverName){
 		
 		FeedbackQuestionAttributes question = 
 				fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
@@ -222,7 +225,7 @@ public class FeedbackResponsesLogic {
 		}
 		
 		List<FeedbackParticipantType> showNameTo =
-				nameIsGiver ? question.showGiverNameTo : question.showRecipientNameTo;
+				isGiverName ? question.showGiverNameTo : question.showRecipientNameTo;
 		
 		for (FeedbackParticipantType type : showNameTo) {
 			switch (type) {
@@ -234,7 +237,7 @@ public class FeedbackResponsesLogic {
 				}
 			case OWN_TEAM_MEMBERS:
 				// Refers to Giver's Team Members
-				if (studentsLogic.isStudentInTeam(response.courseId, response.giverEmail, userEmail)) {
+				if (studentsLogic.isStudentsInSameTeam(response.courseId, response.giverEmail, userEmail)) {
 					return true;
 				} else {
 					break;
@@ -252,7 +255,13 @@ public class FeedbackResponsesLogic {
 					break;
 				}
 			case RECEIVER_TEAM_MEMBERS:
-				if (studentsLogic.isStudentInTeam(response.courseId, response.recipient, userEmail)) {
+				// Response to team; recipient = teamName
+				if (question.recipientType == FeedbackParticipantType.TEAMS) {
+					if (studentsLogic.isStudentInTeam(response.courseId, response.recipient, userEmail)) {
+						return true;
+					}
+				// Response to individual
+				} else if (studentsLogic.isStudentsInSameTeam(response.courseId, response.recipient, userEmail)) {
 					return true;
 				} else {
 					break;
