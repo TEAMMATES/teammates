@@ -71,13 +71,14 @@
 										.getValue()) {
 					%>
 					<tr class="resultSubheader">
-						<td><span class="bold">Question <%=data.bundle.questions
+						<td class="multiline"><span class="bold">Question <%=data.bundle.questions
 								.get(singleResponse.feedbackQuestionId).questionNumber%>: [<%=
-								data.bundle.getQuestionText(singleResponse.feedbackQuestionId)%>]
+										data.bundle.getQuestionText(singleResponse.feedbackQuestionId)%>]
 						</span></td>
 					</tr>
 					<tr>
-						<td><span class="bold">Response: </span><%=singleResponse.answer.getValue()%></td>
+						<td class="multiline"><span class="bold">Response: </span><%=
+						InstructorFeedbackResultsPageData.sanitizeForHtml(singleResponse.answer.getValue())%></td>
 					</tr>
 					<%
 						qnIndx++;

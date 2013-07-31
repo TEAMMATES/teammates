@@ -290,7 +290,7 @@
 							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
 							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
 							onmouseout="hideddrivetip()" tabindex="9"
-							disabled="disabled"><%=question.questionText.getValue()%></textarea>
+							disabled="disabled"><%=InstructorFeedbackEditPageData.sanitizeForHtml(question.questionText.getValue())%></textarea>
 					</td>
 				</tr>
 				<tr>
