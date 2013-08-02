@@ -26,7 +26,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends Action {
 		// Get login details
 		InstructorFeedbackSubmissionEditPageData data = new InstructorFeedbackSubmissionEditPageData(account);
 				
-		data.bundle = logic.getFeedbackSessionQuestionsBundle(feedbackSessionName, courseId, instructor.email);
+		data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(feedbackSessionName, courseId, instructor.email);
 		
 		// Check that session is open or private
 		if ( session.isOpened() == false &&

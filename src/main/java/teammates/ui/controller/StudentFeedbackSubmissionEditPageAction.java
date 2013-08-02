@@ -32,7 +32,7 @@ public class StudentFeedbackSubmissionEditPageAction extends Action {
 		// Set login email
 		String email = logic.getStudentForGoogleId(courseId, account.googleId).email;
 		
-		data.bundle = logic.getFeedbackSessionQuestionsBundle(feedbackSessionName, courseId, email);
+		data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(feedbackSessionName, courseId, email);
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");

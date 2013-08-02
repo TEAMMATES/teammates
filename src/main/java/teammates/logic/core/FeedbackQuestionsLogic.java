@@ -48,6 +48,276 @@ public class FeedbackQuestionsLogic {
 		fqDb.createEntity(fqa);
 	}
 	
+	
+	
+	/**
+	 * Gets a single question corresponding to the given parameters. <br><br>
+	 * <b>Note:</b><br>
+	 * *	This method should only be used if the question already exists in the<br>
+	 * datastore and has an ID already generated.
+	 */
+	public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {	
+		return fqDb.getFeedbackQuestion(feedbackQuestionId);
+	}
+	
+	/**
+	 * Gets a single question corresponding to the given parameters.
+	 */
+	public FeedbackQuestionAttributes getFeedbackQuestion(
+			String feedbackSessionName,
+			String courseId,
+			int questionNumber) {	
+		return fqDb.getFeedbackQuestion(feedbackSessionName,
+				courseId, questionNumber);
+	}
+	
+	/**
+	 * Gets a {@link List} of every FeedbackQuestion in the given session.
+	 */
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
+			String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
+		
+		if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+			throw new EntityDoesNotExistException(
+					"Trying to get questions for a feedback session that does not exist.");
+		}
+		List<FeedbackQuestionAttributes> questions =
+				fqDb.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+		Collections.sort(questions);
+		
+		return questions;
+	}
+	
+	/**
+	 * Gets a {@code List} of all questions for the given session for a
+	 * instructor to view/submit.
+	 */
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
+			String feedbackSessionName, String courseId, String userEmail)
+			throws EntityDoesNotExistException {
+
+		if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+			throw new EntityDoesNotExistException(
+					"Trying to get questions for a feedback session that does not exist.");
+		}
+
+		List<FeedbackQuestionAttributes> questions =
+				new ArrayList<FeedbackQuestionAttributes>();
+		
+		// Return instructor questions if instructor.
+		InstructorAttributes instructor = 
+				instructorsLogic.getInstructorForEmail(courseId, userEmail);
+		
+		if (instructor != null) {
+			questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+						feedbackSessionName, courseId, INSTRUCTORS));
+		}
+		
+		// Return all self (creator) questions if creator.
+		if (fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
+			questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
+					courseId, SELF));
+		}
+		
+		return questions;
+	}
+
+	/**
+	 * Gets a {@code List} of all questions for the given session for a
+	 * student to view/submit.
+	 */
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudent(
+			String feedbackSessionName, String courseId, String studentEmail) 
+					throws EntityDoesNotExistException {
+
+		List<FeedbackQuestionAttributes> questions =
+				new ArrayList<FeedbackQuestionAttributes>();
+		
+		questions.addAll(
+				fqDb.getFeedbackQuestionsForGiverType(
+						feedbackSessionName, courseId, STUDENTS));
+		questions.addAll(
+				fqDb.getFeedbackQuestionsForGiverType(
+						feedbackSessionName, courseId, TEAMS));
+		
+		return questions;
+	}
+
+	/**
+	 * Gets a {@code List} of all <b>unanswered</b> questions corresponding to
+	 *  the given session and team.
+	 */
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForTeam(
+			String feedbackSessionName, String courseId, String teamName)
+					throws EntityDoesNotExistException {
+		
+		List<FeedbackQuestionAttributes> questions =
+				fqDb.getFeedbackQuestionsForGiverType(
+				feedbackSessionName, courseId, TEAMS);
+		
+		List<FeedbackQuestionAttributes> unansweredQuestions =
+				new ArrayList<FeedbackQuestionAttributes>();
+		
+		for (FeedbackQuestionAttributes question : questions) {
+			if (isQuestionAnsweredByTeam(
+					question, teamName) == false)
+				unansweredQuestions.add(question);
+		}
+		
+		return unansweredQuestions;
+	}
+
+	public Map<String,String> getRecipientsForQuestion(
+			FeedbackQuestionAttributes question, String giver)
+					throws EntityDoesNotExistException {
+
+		Map<String,String> recipients = new HashMap<String,String>();
+		
+		FeedbackParticipantType recipientType = question.recipientType;
+		
+		String giverTeam = null;
+		
+		InstructorAttributes instructorGiver =
+				instructorsLogic.getInstructorForEmail(question.courseId, giver);
+		StudentAttributes studentGiver = 
+				studentsLogic.getStudentForEmail(question.courseId, giver);
+		
+		if (studentGiver != null) {
+			giverTeam = studentGiver.team;
+		} else if (instructorGiver != null) {
+			giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+		} else {
+			giverTeam = giver;
+		}
+		
+		switch (recipientType) {
+		case SELF:
+			recipients.put(giver, Const.USER_NAME_FOR_SELF);
+			break;
+		case STUDENTS:
+			List<StudentAttributes> studentsInCourse =
+				studentsLogic.getStudentsForCourse(question.courseId);
+			for(StudentAttributes student : studentsInCourse) {
+				// Ensure student does not evaluate himself
+				if(giver.equals(student.email) == false) {
+					recipients.put(student.email, student.name);
+				}
+			}
+			break;
+		case INSTRUCTORS:
+			List<InstructorAttributes> instructorsInCourse =
+				instructorsLogic.getInstructorsForCourse(question.courseId);
+			for(InstructorAttributes instr : instructorsInCourse) {
+				// Ensure instructor does not evaluate himself
+				if(giver.equals(instr.email) == false) {
+					recipients.put(instr.email, instr.name);
+				}
+			}
+			break;
+		case TEAMS:
+			List<TeamDetailsBundle> teams =
+				coursesLogic.getTeamsForCourse(question.courseId).teams;
+			for(TeamDetailsBundle team : teams) {
+				// Ensure student('s team) does not evaluate own team.
+				if (giverTeam.equals(team.name) == false) {
+					// recipientEmail doubles as team name in this case.
+					recipients.put(team.name, team.name);
+				}
+			}
+			break;
+		case OWN_TEAM:
+			recipients.put(giverTeam, giverTeam);
+			break;
+		case OWN_TEAM_MEMBERS:
+			List<StudentAttributes> students = 
+				studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
+			for (StudentAttributes student : students) {
+				if(student.email.equals(giver) == false) {
+					recipients.put(student.email, student.name);
+				}
+			}
+			break;
+		case NONE:
+			recipients.put(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION);
+			break;
+		default:
+			break;
+		}
+		return recipients;
+	}
+	
+	public boolean isQuestionHasResponses(String feedbackQuestionId) {
+		return (frLogic.getFeedbackResponsesForQuestion(feedbackQuestionId).isEmpty() == false);
+	}
+	
+	public boolean isQuestionAnswersVisibleTo (
+			FeedbackQuestionAttributes question,
+			FeedbackParticipantType userType) {
+		
+		return (question.showResponsesTo.contains(userType) || 
+				// general feedback; everyone can see results. TODO: hide visibility options in UI.
+				question.recipientType == FeedbackParticipantType.NONE);
+	}
+	
+	public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email) 
+			throws EntityDoesNotExistException {
+		
+		int numberOfResponsesGiven = 
+				frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), email).size();
+		
+		// As long as a user has responded, we count the question as answered.
+		return numberOfResponsesGiven > 0 ? true : false;
+	}
+	
+	public boolean isQuestionFullyAnsweredByUser(FeedbackQuestionAttributes question, String email) 
+			throws EntityDoesNotExistException {
+		
+		int numberOfResponsesGiven = 
+				frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), email).size();
+		int numberOfResponsesNeeded =
+				question.numberOfEntitiesToGiveFeedbackTo;
+		
+		if (numberOfResponsesNeeded == Const.MAX_POSSIBLE_RECIPIENTS) {
+			numberOfResponsesNeeded = getRecipientsForQuestion(question, email).size();
+		}
+		
+		return numberOfResponsesGiven >= numberOfResponsesNeeded ? true : false;
+	}
+
+	/**
+	 * Checks if a question has been fully answered by a team.
+	 * @param question
+	 * @param teamName
+	 * @return {@code True} if there are no more recipients to give feedback to for the given
+	 * {@code teamName}. {@code False} if not.
+	 */
+	public boolean isQuestionAnsweredByTeam(FeedbackQuestionAttributes question, 
+			String teamName) throws EntityDoesNotExistException {
+
+		List<StudentAttributes> studentsInTeam =
+				studentsLogic.getStudentsForTeam(question.courseId, teamName);
+		
+		int numberOfResponsesNeeded =
+				question.numberOfEntitiesToGiveFeedbackTo;
+		
+		if (numberOfResponsesNeeded == Const.MAX_POSSIBLE_RECIPIENTS) {
+			numberOfResponsesNeeded = getRecipientsForQuestion(question, teamName).size();
+		}
+				
+		for (StudentAttributes student : studentsInTeam) {
+			List<FeedbackResponseAttributes> responses = 
+					frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
+			for (FeedbackResponseAttributes response : responses) {
+				if (response.giverEmail.equals(student.email)) {
+					numberOfResponsesNeeded -= 1;
+				}
+			}
+		}
+		return numberOfResponsesNeeded <= 0 ? true : false;
+	}
+	
+	
+	
 	/**
 	 * Updates the feedback session identified by {@code newAttributes.getId()}.
 	 * For the remaining parameters, the existing value is preserved 
@@ -139,7 +409,7 @@ public class FeedbackQuestionsLogic {
 			shiftQuestionNumbersDown(questionToDelete.questionNumber, questionsToShiftQnNumber);
 		}
 	}
-
+	
 	// Shifts all question numbers after questionNumberToShiftFrom down by one.
 	private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
 			List<FeedbackQuestionAttributes> questionsToShift) {
@@ -155,304 +425,5 @@ public class FeedbackQuestionsLogic {
 				}
 			}
 		}
-	}
-	
-	/**
-	 * Gets a single question corresponding to the given parameters. <br><br>
-	 * <b>Note:</b><br>
-	 * *	This method should only be used if the question already exists in the<br>
-	 * datastore and has an ID already generated.
-	 */
-	public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {	
-		return fqDb.getFeedbackQuestion(feedbackQuestionId);
-	}
-	
-	/**
-	 * Gets a single question corresponding to the given parameters.
-	 */
-	public FeedbackQuestionAttributes getFeedbackQuestion(
-			String feedbackSessionName,
-			String courseId,
-			int questionNumber) {	
-		return fqDb.getFeedbackQuestion(feedbackSessionName,
-				courseId, questionNumber);
-	}
-	
-	
-	/**
-	 * Gets a {@code List} of all questions corresponding to the given parameters for the given user.
-	 */
-	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForUser(
-			String feedbackSessionName, String courseId, String userEmail)
-			throws EntityDoesNotExistException {
-
-		if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-			throw new EntityDoesNotExistException(
-					"Trying to get questions for a feedback session that does not exist.");
-		}
-
-		List<FeedbackQuestionAttributes> questions =
-				new ArrayList<FeedbackQuestionAttributes>();
-		
-		// Return all self-only questions if creator.
-		if (fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
-			questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
-					courseId, SELF));
-		}
-
-		// Return student questions and team questions 
-		// that aren't answered by others if student.
-		if (studentsLogic.isStudentInCourse(courseId, userEmail)) {
-			questions.addAll(
-					getFeedbackQuestionsForStudent(feedbackSessionName, courseId, userEmail));
-		}
-
-		// Return instructor questions if instructor.
-		InstructorAttributes instructor = 
-				instructorsLogic.getInstructorForEmail(courseId, userEmail);
-		
-		if (instructor != null) {
-			if (instructorsLogic.isInstructorOfCourse(instructor.googleId, courseId)) {
-				questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
-						feedbackSessionName, courseId, INSTRUCTORS));
-			}
-		}
-		
-		return questions;
-	}
-
-	// This method tries to optimize page loading time by skipping querying email for instructors.
-	// TODO: doesn't seem to make much of a difference.
-	// Probably have to split all other user-wide methods as well? To test.
-	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudent(
-			String feedbackSessionName, String courseId, String userEmail) 
-					throws EntityDoesNotExistException {
-
-		List<FeedbackQuestionAttributes> questions =
-				new ArrayList<FeedbackQuestionAttributes>();
-		
-		questions.addAll(
-				fqDb.getFeedbackQuestionsForGiverType(
-						feedbackSessionName, courseId, STUDENTS));
-		questions.addAll(
-				getUnstolenTeamQuestions(
-						feedbackSessionName, courseId, userEmail));
-		
-		return questions;
-	}
-
-	private List<FeedbackQuestionAttributes> getUnstolenTeamQuestions( //TODO: 'unstolen' is not clear. explain further.
-			String feedbackSessionName,	String courseId, String studentEmail)
-					throws EntityDoesNotExistException {
-
-		List<FeedbackQuestionAttributes> teamQuestions =
-				fqDb.getFeedbackQuestionsForGiverType(
-						feedbackSessionName, courseId, TEAMS);
-		List<FeedbackQuestionAttributes> unstolenQuestions =
-				new ArrayList<FeedbackQuestionAttributes>();
-		
-		StudentAttributes student =
-				studentsLogic.getStudentForEmail(courseId, studentEmail);
-		
-		Assumption.assertNotNull("Student disappeared!", student);
-				
-		for (FeedbackQuestionAttributes question : teamQuestions) {
-			if (isQuestionAnsweredByTeam(question, student.team)) {
-				if (frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), studentEmail).isEmpty() == false) {
-					// question has at least one response by this student
-					unstolenQuestions.add(question);
-				}
-			} else {
-				// question has not been answered
-				unstolenQuestions.add(question);
-			}
-		}
-
-		return unstolenQuestions;
-	}
-
-	// gets undone qns available for a team to do
-	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForTeam(
-			String feedbackSessionName, String courseId, String teamName)
-					throws EntityDoesNotExistException {
-		
-		List<FeedbackQuestionAttributes> questions =
-				fqDb.getFeedbackQuestionsForGiverType(
-				feedbackSessionName, courseId, TEAMS);
-		
-		List<FeedbackQuestionAttributes> unansweredQuestions =
-				new ArrayList<FeedbackQuestionAttributes>();
-		
-		for (FeedbackQuestionAttributes question : questions) {
-			if (isQuestionAnsweredByTeam(
-					question, teamName) == false)
-				unansweredQuestions.add(question);
-		}
-		
-		return unansweredQuestions;
-	}
-	
-	// gets all qns for a FS (for editing / instructor results viewing etc.)
-	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
-			String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
-		
-		if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-			throw new EntityDoesNotExistException(
-					"Trying to get questions for a feedback session that does not exist.");
-		}
-		List<FeedbackQuestionAttributes> questions =
-				fqDb.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-		Collections.sort(questions);
-		
-		return questions;
-	}
-	
-	public boolean isQuestionHasResponses(String feedbackQuestionId) {
-		return (frLogic.getFeedbackResponsesForQuestion(feedbackQuestionId).isEmpty() == false);
-	}
-	
-	public boolean isQuestionAnswersVisibleTo (
-			FeedbackQuestionAttributes question,
-			FeedbackParticipantType userType) {
-		
-		return (question.showResponsesTo.contains(userType) || 
-				// general feedback; everyone can see results. TODO: hide visibility options in UI.
-				question.recipientType == FeedbackParticipantType.NONE);
-	}
-	
-	public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email) 
-			throws EntityDoesNotExistException {
-		
-		int numberOfResponsesGiven = 
-				frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), email).size();
-		
-		// As long as a user has responded, we count the question as answered.
-		return numberOfResponsesGiven > 0 ? true : false;
-	}
-	
-	public boolean isQuestionFullyAnsweredByUser(FeedbackQuestionAttributes question, String email) 
-			throws EntityDoesNotExistException {
-		
-		int numberOfResponsesGiven = 
-				frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), email).size();
-		int numberOfResponsesNeeded =
-				question.numberOfEntitiesToGiveFeedbackTo;
-		
-		if (numberOfResponsesNeeded == Const.MAX_POSSIBLE_RECIPIENTS) {
-			numberOfResponsesNeeded = getRecipientsForQuestion(question, email).size();
-		}
-		
-		return numberOfResponsesGiven >= numberOfResponsesNeeded ? true : false;
-	}
-
-	/**
-	 * Checks if a question has been fully answered by a team.
-	 * @param question
-	 * @param teamName
-	 * @return {@code True} if there are no more recipients to give feedback to for the given
-	 * {@code teamName}. {@code False} if not.
-	 */
-	public boolean isQuestionAnsweredByTeam(FeedbackQuestionAttributes question, 
-			String teamName) throws EntityDoesNotExistException {
-
-		List<StudentAttributes> studentsInTeam =
-				studentsLogic.getStudentsForTeam(question.courseId, teamName);
-		
-		int numberOfResponsesNeeded =
-				question.numberOfEntitiesToGiveFeedbackTo;
-		
-		if (numberOfResponsesNeeded == Const.MAX_POSSIBLE_RECIPIENTS) {
-			numberOfResponsesNeeded = getRecipientsForQuestion(question, teamName).size();
-		}
-				
-		for (StudentAttributes student : studentsInTeam) {
-			List<FeedbackResponseAttributes> responses = 
-					frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
-			for (FeedbackResponseAttributes response : responses) {
-				if (response.giverEmail.equals(student.email)) {
-					numberOfResponsesNeeded -= 1;
-				}
-			}
-		}
-		return numberOfResponsesNeeded <= 0 ? true : false;
-	}
-	
-	public Map<String,String> getRecipientsForQuestion(
-			FeedbackQuestionAttributes question, String giver)
-					throws EntityDoesNotExistException {
-
-		Map<String,String> recipients = new HashMap<String,String>();
-		
-		FeedbackParticipantType recipientType = question.recipientType;
-		
-		String giverTeam = null;
-		
-		InstructorAttributes instructorGiver =
-				instructorsLogic.getInstructorForEmail(question.courseId, giver);
-		StudentAttributes studentGiver = 
-				studentsLogic.getStudentForEmail(question.courseId, giver);
-		
-		if (studentGiver != null) {
-			giverTeam = studentGiver.team;
-		} else if (instructorGiver != null) {
-			giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-		} else {
-			giverTeam = giver;
-		}
-		
-		switch (recipientType) {
-		case SELF:
-			recipients.put(giver, Const.USER_NAME_FOR_SELF);
-			break;
-		case STUDENTS:
-			List<StudentAttributes> studentsInCourse =
-				studentsLogic.getStudentsForCourse(question.courseId);
-			for(StudentAttributes student : studentsInCourse) {
-				// Ensure student does not evaluate himself
-				if(giver.equals(student.email) == false) {
-					recipients.put(student.email, student.name);
-				}
-			}
-			break;
-		case INSTRUCTORS:
-			List<InstructorAttributes> instructorsInCourse =
-				instructorsLogic.getInstructorsForCourse(question.courseId);
-			for(InstructorAttributes instr : instructorsInCourse) {
-				// Ensure instructor does not evaluate himself
-				if(giver.equals(instr.email) == false) {
-					recipients.put(instr.email, instr.name);
-				}
-			}
-			break;
-		case TEAMS:
-			List<TeamDetailsBundle> teams =
-				coursesLogic.getTeamsForCourse(question.courseId).teams;
-			for(TeamDetailsBundle team : teams) {
-				// Ensure student('s team) does not evaluate own team.
-				if (giverTeam.equals(team.name) == false) {
-					// recipientEmail doubles as team name in this case.
-					recipients.put(team.name, team.name);
-				}
-			}
-			break;
-		case OWN_TEAM:
-			recipients.put(giverTeam, giverTeam);
-			break;
-		case OWN_TEAM_MEMBERS:
-			List<StudentAttributes> students = 
-				studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
-			for (StudentAttributes student : students) {
-				if(student.email.equals(giver) == false) {
-					recipients.put(student.email, student.name);
-				}
-			}
-			break;
-		case NONE:
-			recipients.put(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION);
-			break;
-		default:
-			break;
-		}
-		return recipients;
 	}
 }

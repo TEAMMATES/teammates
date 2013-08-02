@@ -29,7 +29,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 		// Get instructor email instead of account email.
 		String instructorEmail = logic.getInstructorForGoogleId(courseId, account.googleId).email;
 
-		data.bundle = logic.getFeedbackSessionQuestionsBundle(feedbackSessionName, courseId, instructorEmail);
+		data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(feedbackSessionName, courseId, instructorEmail);
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
