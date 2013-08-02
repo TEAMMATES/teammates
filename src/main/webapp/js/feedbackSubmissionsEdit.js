@@ -22,46 +22,54 @@ $(document).ready(function () {
 	document.onmousemove = positiontip;
 });
 
-// Ensures a single question cannot have two identical recipients selected
-// (Assuming recipients in dropdown list <= number of response boxes).
-// This function also assumes that responses that already exist will be placed
-// above new ones.
+/**
+ * Removes already selected options for recipients
+ * from other select dropdowns within the same question.
+ * Binds further changes to show/hide options such that duplicates
+ * cannot be selected.
+ */
 function formatRecipientLists(){
-	// Makes initial selections distinct for each question
-	$('select.newResponse').reverse().each(function(){		
-		// Assign option of each select box based on order
-		var responseIndx = $(this).attr('name').split('-')[2];
-		$(this).find('option:eq('+responseIndx+')').prop('selected',true);		
-		// Check for option collision (with existing responses that are untouched)
-		var defensiveCheck = $(this).find('option').size();
-		while(isCollides($(this)) && defensiveCheck > 0){
-			$(this).find('option:selected').prev().prop('selected',true);
-			defensiveCheck--;
+	$('select.participantSelect').each(function(){
+		if (!$(this).hasClass(".newResponse")) {
+			// Remove options from existing responses
+			var questionNumber = 
+				$(this).attr('name').split('-')[1];
+			var selectedOption = $(this).find('option:selected').val();
+			
+			if (selectedOption != "") {
+				$("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
+					find("option[value='"+selectedOption+"']").hide();
+			}
 		}
-	});
-	
-	$('select.participantSelect').each(function () {
 		// Save initial data.
 		$(this).data('previouslySelected',$(this).val());
 	}).change(function() {
-		// Binds further changes such that a swap will occur
-		// if selecting an option that has already been selected elsewhere. 
-		var $select = $(this);
-    	var $previouslySelected = $(this).data('previouslySelected');
-    	$(this).parents('table').find('select').each(function(){
-			if($select.val() == $(this).val() && $select.attr('name') != $(this).attr('name')){
-				$(this).find('option[value="'+$previouslySelected+'"]').prop('selected',true);
-				$(this).data('previouslySelected',$(this).val());
-			}
-		});
-		$(this).data('previouslySelected',$(this).val());
-    });
-}
+		var questionNumber = $(this).attr('name').split('-')[1];
+    	var lastSelectedOption = $(this).data('previouslySelected');
+		var curSelectedOption = $(this).find('option:selected').val();
 
-function isCollides($select) {
-	return ($select.parents('table').find('select').filter(function(){
-		return ($select.val() == $(this).val() && $select.attr('name') != $(this).attr('name'));
-		}).size() > 0);
+    	if(lastSelectedOption != "") {
+			$("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
+			find("option[value='"+lastSelectedOption+"']").show();
+    	}
+		if (curSelectedOption != "") {
+			$("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
+				find("option[value='"+curSelectedOption+"']").hide();
+		}
+		// Save new data
+		$(this).data('previouslySelected',$(this).val());
+	});
+	
+	// Auto-select first valid option.
+	$('select.participantSelect.newResponse').each(function(){
+		var firstUnhidden = "";
+		$(this).children().reverse().each(function(){
+		    if (this.style.display != 'none' && $(this).val() != "") {
+			    firstUnhidden = this;
+		    }
+		});
+		$(this).val($(firstUnhidden).val()).change();
+	});
 }
 
 function reenableFieldsForSubmission() {

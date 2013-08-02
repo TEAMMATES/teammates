@@ -66,12 +66,19 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 	private void saveResponse(FeedbackResponseAttributes response)
 			throws EntityDoesNotExistException {
 		if (response.getId() != null) {
+			// Delete away response if any empty fields
+			if (response.answer.getValue().isEmpty() || 
+				response.recipient.isEmpty()) {
+				logic.deleteFeedbackResponse(response);
+				return;
+			}
 			try {
 				logic.updateFeedbackResponse(response);
-			} catch (InvalidParametersException e) {
+			} catch (EntityAlreadyExistsException | InvalidParametersException e) {
 				setStatusForException(e);
 			}
-		} else if (response.answer.getValue().isEmpty() == false){
+		} else if (!response.answer.getValue().isEmpty() &&
+					!response.recipient.isEmpty()){
 			try {
 				logic.createFeedbackResponse(response);
 			} catch (EntityAlreadyExistsException | InvalidParametersException e) {

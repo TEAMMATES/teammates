@@ -12,12 +12,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponsesDb;
 
 public class FeedbackResponsesLogic {
 
-	@SuppressWarnings("unused")
 	private static final Logger log = Utils.getLogger();
 	
 	private static FeedbackResponsesLogic instance = null;
@@ -37,9 +37,11 @@ public class FeedbackResponsesLogic {
 		frDb.createEntity(fra);
 	}
 	
-	public void updateFeedbackResponse(FeedbackResponseAttributes newResponse)
-			throws InvalidParametersException, EntityDoesNotExistException {
+	public void updateFeedbackResponse(FeedbackResponseAttributes responseToUpdate)
+			throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 		
+		// Create a copy.
+		FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(responseToUpdate);
 		FeedbackResponseAttributes oldResponse = frDb.getFeedbackResponse(newResponse.getId());
 		
 		if (oldResponse == null) {
@@ -61,7 +63,25 @@ public class FeedbackResponsesLogic {
 			newResponse.recipient = oldResponse.recipient;
 		}
 		
-		frDb.updateFeedbackResponse(newResponse);
+		if (!newResponse.recipient.equals(oldResponse.recipient)) {
+			// Recreate response to prevent possible future id conflict.
+			try {
+				newResponse.setId(null);
+				frDb.createEntity(newResponse);
+				frDb.deleteEntity(oldResponse);
+			} catch (EntityAlreadyExistsException e){
+				log.warning("Trying to update an existing response to one that already exists.");
+				throw new EntityAlreadyExistsException(
+						e.getMessage() + Const.EOL +
+						"Trying to update recipient for response to one that already exists for this giver.");
+			}
+		} else {
+			frDb.updateFeedbackResponse(newResponse);
+		}
+	}
+	
+	public void deleteFeedbackResponse(FeedbackResponseAttributes responseToDelete) {
+		frDb.deleteEntity(responseToDelete);
 	}
 	
 	public void deleteFeedbackResponsesForQuestion(String feedbackQuestionId) {
@@ -321,7 +341,6 @@ public class FeedbackResponsesLogic {
 		}
 	}
 
-
 	/**
 	 * Updates responses for a student when his email changes. This is done by recreating
 	 * all responses from the student to prevent an id clash if
@@ -335,14 +354,15 @@ public class FeedbackResponsesLogic {
 				getFeedbackResponsesFromGiverForCourse(courseId, oldEmail);
 		
 		for (FeedbackResponseAttributes response : responsesFromUser) {
-			frDb.deleteEntity(response);
 			response.giverEmail = newEmail;
 			response.setId(null); // so that persistence checks do not use old id.
 			try {
 				frDb.createEntity(response);
+				response.giverEmail = oldEmail;
+				frDb.deleteEntity(response);
 			} catch (EntityAlreadyExistsException e) {
 				Assumption.fail("Feedback response failed to update successfully" +
-						"as response was not deleted properly.");
+						"as email was already in use.");
 			}
 		}
 		
@@ -350,14 +370,12 @@ public class FeedbackResponsesLogic {
 				getFeedbackResponsesForReceiverForCourse(courseId, oldEmail);
 		
 		for (FeedbackResponseAttributes response : responsesToUser) {
-			frDb.deleteEntity(response);
 			response.recipient = newEmail;
-			response.setId(null);
 			try {
-				frDb.createEntity(response);
+				updateFeedbackResponse(response);
 			} catch (EntityAlreadyExistsException e) {
 				Assumption.fail("Feedback response failed to update successfully" +
-						"as response was not deleted properly.");
+						"as email was already in use.");
 			}
 		}
 	}

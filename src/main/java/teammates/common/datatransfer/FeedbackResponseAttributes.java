@@ -47,6 +47,17 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		this.recipient = fr.getRecipient();
 		this.answer = fr.getAnswer();
 	}
+	
+	public FeedbackResponseAttributes(FeedbackResponseAttributes copy) {
+		this.feedbackResponseId = copy.getId();
+		this.feedbackSessionName = copy.feedbackSessionName;
+		this.courseId = copy.courseId;
+		this.feedbackQuestionId = copy.feedbackQuestionId;
+		this.feedbackQuestionType = copy.feedbackQuestionType;
+		this.giverEmail = copy.giverEmail;
+		this.recipient = copy.recipient;
+		this.answer = copy.answer;
+	}
 
 	public String getId() {
 		return feedbackResponseId;

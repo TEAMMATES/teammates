@@ -9,18 +9,24 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 
 public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 	
+	private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 	private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 	private static FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 	private DataBundle typicalBundle = getTypicalDataBundle();
@@ -31,6 +37,86 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		turnLoggingUp(FeedbackResponsesLogic.class);
 	}
 
+	@Test
+	public void testUpdateFeedbackResponse() throws Exception {
+		
+		______TS("success: standard update with carried params ");
+		restoreTypicalDataInDatastore();
+		
+		FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
+		
+		responseToUpdate.answer = new Text("Updated Response");
+		responseToUpdate.feedbackSessionName = "copy over";
+		responseToUpdate.recipient = null;
+		
+		frLogic.updateFeedbackResponse(responseToUpdate);
+		
+		responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
+		responseToUpdate.answer = new Text("Updated Response");
+		
+		assertEquals(frLogic.getFeedbackResponse(
+				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipient).toString(),
+				responseToUpdate.toString());
+		
+		______TS("success: recipient changed to something else");
+		
+		responseToUpdate.recipient = "student5InCourse1@gmail.com";
+		
+		frLogic.updateFeedbackResponse(responseToUpdate);
+		
+		assertEquals(frLogic.getFeedbackResponse(
+				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipient).toString(),
+				responseToUpdate.toString());
+		assertNull(frLogic.getFeedbackResponse(
+				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, "student2InCourse1@gmail.com"));
+		
+		______TS("failure: recipient one that is already exists");
+
+		restoreTypicalDataInDatastore();		
+		responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
+		
+		FeedbackResponseAttributes existingResponse = 
+				new FeedbackResponseAttributes(
+						responseToUpdate.feedbackSessionName, 
+						responseToUpdate.courseId, 
+						responseToUpdate.feedbackQuestionId, 
+						responseToUpdate.feedbackQuestionType, 
+						responseToUpdate.giverEmail, 
+						"student3InCourse1@gmail.com", 
+						responseToUpdate.answer);
+		
+		frLogic.createFeedbackResponse(existingResponse);
+		
+		responseToUpdate.recipient = "student3InCourse1@gmail.com";
+		
+		try {
+			frLogic.updateFeedbackResponse(responseToUpdate);
+			signalFailureToDetectException("Should have detected that same giver->recipient response alr exists");
+		} catch (EntityAlreadyExistsException e){
+			AssertHelper.assertContains(
+						"Trying to update recipient for response to one that already exists for this giver.", 
+						e.getMessage());
+		}
+		
+		______TS("failure: invalid params");
+		
+		// Cannot have invalid params as all possible invalid params
+		// are copied over from an existing response.
+		
+		______TS("failure: no such response");
+		
+		responseToUpdate.setId("invalidId");
+		
+		try {
+			frLogic.updateFeedbackResponse(responseToUpdate);
+			signalFailureToDetectException("Should have detected that this response does not exist");
+		} catch (EntityDoesNotExistException e){
+			AssertHelper.assertContains(
+						"Trying to update a feedback response that does not exist.", 
+						e.getMessage());
+		}
+	}
+	
 	@Test
 	public void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
 		
@@ -146,10 +232,24 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 	
 	private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {
 		FeedbackQuestionAttributes questionToGet = typicalBundle.feedbackQuestions.get(jsonId);
-		questionToGet = FeedbackQuestionsLogic.inst().getFeedbackQuestion(
-				questionToGet.feedbackSessionName, questionToGet.courseId, questionToGet.questionNumber);
+		questionToGet = fqLogic.getFeedbackQuestion(questionToGet.feedbackSessionName, 
+													questionToGet.courseId,
+													questionToGet.questionNumber);
 		
 		return questionToGet;
+	}
+	
+	private FeedbackResponseAttributes getResponseFromDatastore(String jsonId){
+		FeedbackResponseAttributes response =
+				typicalBundle.feedbackResponses.get(jsonId);
+		
+		int qnNumber = Integer.parseInt(response.feedbackQuestionId);
+		
+		String qnId = fqLogic.getFeedbackQuestion(
+				response.feedbackSessionName, response.courseId, qnNumber).getId();
+		
+		return frLogic.getFeedbackResponse(
+				qnId, response.giverEmail, response.recipient);
 	}
 	
 	@AfterClass
