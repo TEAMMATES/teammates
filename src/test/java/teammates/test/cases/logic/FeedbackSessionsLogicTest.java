@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -319,6 +320,83 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 			fsLogic.getFeedbackSessionResultsForUser("invalid session", 
 				session.courseId, instructor.email);
 			signalFailureToDetectException("Did not detect that session does not exist.");
+		} catch (EntityDoesNotExistException e) {
+			assertEquals(e.getMessage(), "Trying to view non-existent feedback session.");
+		}
+	}
+	
+	@Test
+	public void testGetFeedbackSessionResultsSummaryAsCsv() throws Exception {
+	
+		restoreTypicalDataInDatastore();
+	
+		______TS("typical case");
+	
+		FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+		InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		
+		String export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+				session.feedbackSessionName, session.courseId, instructor.email);
+		
+		// This is what export should look like:
+		// ==================================
+		//Course,idOfTypicalCourse1
+		//Session Name,First feedback session
+		//
+		//
+		//Question 1,"What is the best selling point of your product?"
+		//
+		//Giver,Recipient,Feedback
+		//"student1 In Course1","student1 In Course1","Student 1 self feedback."
+		//"student2 In Course1","student2 In Course1","I'm cool'"
+		//
+		//
+		//Question 2,"Rate 5 other students' products",
+		//Giver,Recipient,Feedback
+		//"student1 In Course1","student1 In Course1","Response from student 1 to student 2."
+		//"student2 In Course1","student1 In Course1","Response from student 2 to student 1."
+		//"student3 In Course1","student2 In Course1","Response from student 3 ""to"" student 2.
+		//Multiline test."
+		//
+		//
+		//Question 3,"My comments on the class",
+		//Giver,Recipient,Feedback
+		//"Instructor1 Course1","Instructor1 Course1","Good work, keep it up!"
+		
+		String[] exportLines = export.split(Const.EOL);
+		assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+		assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+		assertEquals(exportLines[2], "");
+		assertEquals(exportLines[3], "");
+		assertEquals(exportLines[4], "Question 1,\"What is the best selling point of your product?\"");
+		assertEquals(exportLines[5], "");
+		assertEquals(exportLines[6], "Giver,Recipient,Feedback");
+		assertEquals(exportLines[7], "\"student1 In Course1\",\"student1 In Course1\",\"Student 1 self feedback.\"");
+		// checking single quotes inside cell
+		assertEquals(exportLines[8], "\"student2 In Course1\",\"student2 In Course1\",\"I'm cool'\"");
+		assertEquals(exportLines[9], "");
+		assertEquals(exportLines[10], "");
+		assertEquals(exportLines[11], "Question 2,\"Rate 5 other students' products\"");
+		assertEquals(exportLines[12], "");
+		assertEquals(exportLines[13], "Giver,Recipient,Feedback");
+		assertEquals(exportLines[14], "\"student2 In Course1\",\"student1 In Course1\",\"Response from student 2 to student 1.\"");
+		assertEquals(exportLines[15], "\"student1 In Course1\",\"student2 In Course1\",\"Response from student 1 to student 2.\"");
+		// checking double quotes inside cell + multiline cell
+		assertEquals(exportLines[16], "\"student3 In Course1\",\"student2 In Course1\",\"Response from student 3 \"\"to\"\" student 2.");
+		assertEquals(exportLines[17], "Multiline test.\"");
+		assertEquals(exportLines[18], "");
+		assertEquals(exportLines[19], "");
+		assertEquals(exportLines[20], "Question 3,\"My comments on the class\"");
+		assertEquals(exportLines[21], "");
+		assertEquals(exportLines[22], "Giver,Recipient,Feedback");
+		// checking comma inside cell
+		assertEquals(exportLines[23], "\"Instructor1 Course1\",\"Instructor1 Course1\",\"Good work, keep it up!\"");
+		
+		______TS("Non-existent Course/Session");
+		
+		try {
+			fsLogic.getFeedbackSessionResultsSummaryAsCsv("non.existent", "no course", instructor.email);
+			signalFailureToDetectException("Failed to detect non-existent feedback session.");
 		} catch (EntityDoesNotExistException e) {
 			assertEquals(e.getMessage(), "Trying to view non-existent feedback session.");
 		}

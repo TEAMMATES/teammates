@@ -29,6 +29,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -221,24 +222,24 @@ public class FeedbackSessionsLogic {
 		
 		String export = "";
 		
-		export += "Course" + "," + results.feedbackSession.courseId + Const.EOL
-				+ "Evaluation Name" + "," + results.feedbackSession.feedbackSessionName + Const.EOL
-				+ Const.EOL + Const.EOL;
+		export += "Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
+				+ "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName) 
+				+ Const.EOL + Const.EOL + Const.EOL;
 		
 		for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry :
 								results.getQuestionResponseMap().entrySet()) {
-			export += "Question " + Integer.toString(entry.getKey().questionNumber) + Const.EOL +
-						entry.getKey().questionText.getValue() + Const.EOL + Const.EOL;
+			export += "Question " + Integer.toString(entry.getKey().questionNumber) + "," +
+					 Sanitizer.sanitizeForCsv(entry.getKey().questionText.getValue()) 
+					+ Const.EOL + Const.EOL;
 			export += "Giver" + "," + "Recipient" + "," + "Feedback" + Const.EOL;
 			
 			for(FeedbackResponseAttributes response : entry.getValue()){
-				export += results.getNameForEmail(response.giverEmail) + "," + 
-						results.getNameForEmail(response.recipient) + "," +
-						response.answer.getValue() + Const.EOL;
+				export += Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail)) + "," + 
+						Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipient)) + "," +
+						Sanitizer.sanitizeForCsv(response.answer.getValue()) + Const.EOL;
 			}
 			export += Const.EOL + Const.EOL;
 		}
-		// TODO: handle line breaks, commas, quotes (special chars) and test.
 		return export;
 	}
 	

@@ -164,7 +164,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		// Student 1 currently has 3 responses to him and 3 from himself.
 		StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
 		assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
-				studentToUpdate.course, studentToUpdate.email).size(), 3);
+				studentToUpdate.course, studentToUpdate.email).size(), 2);
 		assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
 				studentToUpdate.course, studentToUpdate.email).size(), 3);
 		
@@ -176,7 +176,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
 				studentToUpdate.course, studentToUpdate.email).size(), 0);
 		assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
-				studentToUpdate.course, "new@email.com").size(), 3);
+				studentToUpdate.course, "new@email.com").size(), 2);
 		assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
 				studentToUpdate.course, "new@email.com").size(), 3);
 	}
