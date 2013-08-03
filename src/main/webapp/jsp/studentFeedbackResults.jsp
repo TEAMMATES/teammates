@@ -119,7 +119,7 @@
 						</span></td>
 					</tr>
 					<tr>
-						<td><%=StudentFeedbackResultsPageData.sanitizeForHtml(singleResponse.answer.getValue())%></td>
+						<td class="multiline"><%=StudentFeedbackResultsPageData.sanitizeForHtml(singleResponse.answer.getValue())%></td>
 					</tr>
 					<%
 						// Close table if going to be new recipient

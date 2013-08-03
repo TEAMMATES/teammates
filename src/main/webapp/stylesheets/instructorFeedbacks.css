@@ -32,6 +32,13 @@
 
 /* Move below to separate css page */
 
+.sessionDetailsBackground {
+	background: #007EA8;
+	margin: 0 auto;
+	width: 920px;
+	padding: 20px;
+}
+
 .questionTable {
 	width: 900px;
 }

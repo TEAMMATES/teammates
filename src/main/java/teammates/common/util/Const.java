@@ -140,6 +140,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_PUBLISH = "Make session responses available for viewing";
 		public static final String FEEDBACK_SESSION_UNPUBLISH = "Make responses no longer visible";
 		public static final String FEEDBACK_SESSION_AUTOPUBLISH = "This session will be published automatically at the specified time";
+		public static final String FEEDBACK_SESSION_AWAITING = "This session is not yet opened";
 		public static final String FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE = "Edit submitted feedback";
 		public static final String FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE = "View submitted feedback";
 
@@ -549,6 +550,9 @@ public class Const {
 	
 	public static final int POINTS_NOT_SURE = -101;
 	public static final int POINTS_NOT_SUBMITTED = -999;
+	
+	public static final int VISIBILITY_TABLE_GIVER = 0;
+	public static final int VISIBILITY_TABLE_RECIPIENT = 1;
 	
 	public static final String GENERAL_QUESTION = "%GENERAL%";
 	public static final String USER_IS_TEAM = "%TEAM%";

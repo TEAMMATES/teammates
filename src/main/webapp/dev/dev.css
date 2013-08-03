@@ -102,6 +102,10 @@ hr {
 	color:#00AA00;
 }
 
+.gray {
+	color:gray;
+}
+
 .image-holder {
 	width: 800px;
 	margin: 0 auto;

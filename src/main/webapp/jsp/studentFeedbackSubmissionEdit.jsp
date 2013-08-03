@@ -59,7 +59,7 @@
 			</tr>
 			<tr>
 				<td class="bold middlealign">Instructions:</td>
-				<td colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></td>
+				<td class="multiline" colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></td>
 			</tr>
 			</table>
 			<br>
@@ -128,7 +128,7 @@
 					<td>
 						<textarea rows="4" cols="100%" class="textvalue" 
 						<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\")\""%>
-						name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=existingResponse.answer.getValue()%></textarea>
+						name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=StudentFeedbackSubmissionEditPageData.sanitizeForHtml(existingResponse.answer.getValue())%></textarea>
 						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
 					</td>
 				</tr>

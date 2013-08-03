@@ -1170,11 +1170,22 @@ public class Logic {
 	 * * All parameters are non-null.
 	 */
 	public void updateFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
-			throws InvalidParametersException, EntityDoesNotExistException {
+			throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
 
 		feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void deleteFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
+
+		feedbackResponsesLogic.deleteFeedbackResponse(feedbackResponse);
 	}
 	
 	@SuppressWarnings("unused")

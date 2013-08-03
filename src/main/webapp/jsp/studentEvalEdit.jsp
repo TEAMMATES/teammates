@@ -63,7 +63,7 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold" width="30%">Instructions:</td>
-					<td id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.instructions)%></td>
+					<td class="multiline" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.instructions)%></td>
 				</tr>
 			</table>
 			

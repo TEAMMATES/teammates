@@ -118,6 +118,10 @@ h2 {
 	white-space: nowrap;
 }
 
+.multiline {
+	white-space: pre-line;
+}
+
 .bold {
 	font-weight: bold;
 }

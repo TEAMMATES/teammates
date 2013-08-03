@@ -114,8 +114,8 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		//create new values of all submissions
 		for(int i=0; i<3; i++){
 			subs[i].points-=10;
-			subs[i].justification = new Text(subs[i].justification.getValue()+"(edited)");
-			subs[i].p2pFeedback= new Text(subs[i].p2pFeedback.getValue()+"(edited)");
+			subs[i].justification = new Text(subs[i].justification.getValue()+Const.EOL+"(edited)");
+			subs[i].p2pFeedback= new Text(subs[i].p2pFeedback.getValue()+Const.EOL+"multilinetest"+Const.EOL+Const.EOL+"(edited)");
 		}
 		SubmissionAttributes subForNewGuy = new SubmissionAttributes();
 		//Fill review for "New Guy" with same values as given for Emily above.
@@ -138,6 +138,9 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		verifyEditSaved(subs[0], BackDoor.getSubmission(eval.courseId, eval.name, dannyEmail, charlieEmail));
 		verifyEditSaved(subs[1], BackDoor.getSubmission(eval.courseId, eval.name, dannyEmail, dannyEmail));
 		verifyEditSaved(subs[2], BackDoor.getSubmission(eval.courseId, eval.name, dannyEmail, emilyEmail));
+		
+		editPage = loginToEvalEditPage("Danny", eval.name);
+		editPage.verifyHtml("/StudentEvalEditResubmittedHTML.html");
 		
 		//TODO: more tests are needed to cover the disabling of editing when the evaluation is CLOSED.
 		// In particular, timezone differences should be considered in such testing. Currently, these

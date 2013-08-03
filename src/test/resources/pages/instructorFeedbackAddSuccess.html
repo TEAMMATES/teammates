@@ -61,11 +61,11 @@
 			</div>
 			
 			<form id="form_editfeedbacksession" action="/page/instructorFeedbackEditSave" method="post">
+				<div class="sessionDetailsBackground">
 				<table id="sessionNameTable" class="inputTable sessionTable">
 					<tbody><tr>
 						<td class="label bold">Course:</td>
 						<td>CFeedbackUiT.CS1101</td>
-						<td></td>
 						<td colspan="2" class="rightalign">
 							<a onclick="enableEditFS()" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" id="fsEditLink" class="color_blue pad_right" href="#">Edit</a>
 							<a id="fsSaveLink" style="display:none;" class="color_green pad_right" href="#">Save Changes</a>
@@ -73,12 +73,11 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="label bold">Feedback session name:</td>
+						<td class="label bold" style="width:200px">Feedback session name:</td>
 						<td>New Session</td>
-						<td></td>
-						<td class="label bold">Time zone: </td>
-						<td><select disabled="disabled" tabindex="3" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone">
-										<option value="-12">UTC -12:00</option>
+						
+						<td class="rightalign"><span style="padding-right:10px" class="label bold">Time zone: </span> <select tabindex="3" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" disabled="disabled">
+								<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
 <option value="-10">UTC -10:00</option>
 <option value="-9">UTC -09:00</option>
@@ -113,11 +112,13 @@
 
 						</select></td>
 					</tr>
-					<tr>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when you want the questions for the feedback session to be visible to users who need to participate.<br />Note that users cannot submit their responses until the submissions opening time set below.')" class="label bold">Session visible<br /> from:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions.')" class="nowrap"><input type="radio" onclick="document.getElementById('visibledate').disabled='';
-							document.getElementById('visibletime').disabled=''" value="custom" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" disabled="disabled" />
-							<input type="text" disabled="disabled" tabindex="3" readonly="readonly" value="" onclick="cal.select(this,'visibledate','dd/MM/yyyy')" id="visibledate" name="visibledate" style="width: 100px;" /> @ <select disabled="disabled" tabindex="4" id="visibletime" name="visibletime" style="width: 70px;">
+				</tbody></table>
+				<br />
+				<table id="timeFrameTable" class="inputTable sessionTable">
+					<tbody><tr>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')" class="label bold middlealign">Submission<br />Opening Time:</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')">
+							<input type="text" tabindex="7" readonly="readonly" value="01/04/2014" onclick="cal.select(this,'startdate','dd/MM/yyyy')" id="startdate" name="startdate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="starttime" name="starttime" style="width: 70px;" disabled="disabled">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -144,89 +145,10 @@
 <option selected="selected" value="24">2359H</option>
 
 						</select></td>
-						<td class="nowrap" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback session become visible<br />when it is open for submissions (as selected above).')">
-							<input type="radio" onclick="document.getElementById('visibledate').disabled='disabled';
-							document.getElementById('visibletime').disabled='disabled';" checked="checked" value="atopen" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" disabled="disabled" />
-							 At submission opening time</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you want the feedback session to never be visible.<br />Use this option if you want to use this as a private feedback session.')" colspan="2"><input type="radio" onclick="document.getElementById('visibledate').disabled='disabled'
-							document.getElementById('visibletime').disabled='disabled';" value="never" id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" disabled="disabled" />
-							 Never (Private Session)</td>
-					</tr>
-					<tr>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later.')" class="label bold">Responses visible from:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" onclick="document.getElementById('publishdate').disabled=''
-							document.getElementById('publishtime').disabled=''" value="custom" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" disabled="disabled" /> 
-							<input type="text" disabled="disabled" tabindex="5" readonly="readonly" value="" onclick="if(document.getElementById('resultsVisibleFromButton_custom').checked){cal.select(this,'publishdate','dd/MM/yyyy');}
-							else{return false;}" id="publishdate" name="publishdate" style="width: 100px;" /> @ <select disabled="disabled" tabindex="6" id="publishtime" name="publishtime" style="width: 70px;">
-								<option value="1">0100H</option>
-<option value="2">0200H</option>
-<option value="3">0300H</option>
-<option value="4">0400H</option>
-<option value="5">0500H</option>
-<option value="6">0600H</option>
-<option value="7">0700H</option>
-<option value="8">0800H</option>
-<option value="9">0900H</option>
-<option value="10">1000H</option>
-<option value="11">1100H</option>
-<option value="12">1200H</option>
-<option value="13">1300H</option>
-<option value="14">1400H</option>
-<option value="15">1500H</option>
-<option value="16">1600H</option>
-<option value="17">1700H</option>
-<option value="18">1800H</option>
-<option value="19">1900H</option>
-<option value="20">2000H</option>
-<option value="21">2100H</option>
-<option value="22">2200H</option>
-<option value="23">2300H</option>
-<option selected="selected" value="24">2359H</option>
-
-						</select></td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users.')"><input type="radio" onclick="document.getElementById('publishdate').disabled='disabled';
-							document.getElementById('publishtime').disabled='disabled'" checked="checked" value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" disabled="disabled" />
-							 Once the session is visible</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend to choose when the responses will be visible at a later time.')"><input type="radio" onclick="document.getElementById('publishdate').disabled='disabled';
-							document.getElementById('publishtime').disabled='disabled'" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" disabled="disabled" />
-							 Publish manually </td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" onclick="document.getElementById('publishdate').disabled='disabled'
-							document.getElementById('publishtime').disabled='disabled'" value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" disabled="disabled" />
-							 Never</td>
-					</tr>
-					<tr>
-						<td class="label bold">Opening time:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')" class="nowrap"><input type="text" tabindex="7" readonly="readonly" value="01/04/2014" onclick="cal.select(this,'startdate','dd/MM/yyyy')" id="startdate" name="startdate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="starttime" name="starttime" style="width: 70px;" disabled="disabled">
-								<option value="1">0100H</option>
-<option value="2">0200H</option>
-<option value="3">0300H</option>
-<option value="4">0400H</option>
-<option value="5">0500H</option>
-<option value="6">0600H</option>
-<option value="7">0700H</option>
-<option value="8">0800H</option>
-<option value="9">0900H</option>
-<option value="10">1000H</option>
-<option value="11">1100H</option>
-<option value="12">1200H</option>
-<option value="13">1300H</option>
-<option value="14">1400H</option>
-<option value="15">1500H</option>
-<option value="16">1600H</option>
-<option value="17">1700H</option>
-<option value="18">1800H</option>
-<option value="19">1900H</option>
-<option value="20">2000H</option>
-<option value="21">2100H</option>
-<option value="22">2200H</option>
-<option value="23">2300H</option>
-<option selected="selected" value="24">2359H</option>
-
-						</select></td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')" class="label bold middlealign">Submission<br />Closing Time:</td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')" class="nowrap">
-							<span class="label bold">Closing Time: </span> 
-							<input type="text" tabindex="8" readonly="readonly" value="30/04/2014" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="endtime" name="endtime" style="width: 70px;" disabled="disabled">							
-							<option value="1">0100H</option>
+							<input type="text" tabindex="8" readonly="readonly" value="30/04/2014" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="endtime" name="endtime" style="width: 70px;" disabled="disabled">
+								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
 <option value="4">0400H</option>
@@ -252,7 +174,7 @@
 <option selected="selected" value="24">2359H</option>
 
 						</select></td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" class="label bold rightalign nowrap">Grace Period:</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" class="label bold">Grace Period:</td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')">
 							<select tabindex="7" id="graceperiod" name="graceperiod" style="width: 75px;" disabled="disabled">
 									<option value="0">0 mins</option>
@@ -265,17 +187,97 @@
 
 						</select></td>
 					</tr>
-					<tr>
-						<td class="label bold">Instructions to students:</td>
-						<td style="padding-right:15px;" colspan="4">
-							<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" style="width:100%;" rows="4" disabled="disabled">Please fill in the new feedback session.</textarea>
-							
+				</tbody></table>
+				<br />
+				<table id="sessionViewableTable" class="inputTable sessionTable">
+					<tbody><tr>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when you want the questions for the feedback session to be visible to users who need to participate.<br />Note that users cannot submit their responses until the submissions opening time set below.')" class="label bold">Session visible from:</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions.')"><input type="radio" value="custom" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" disabled="disabled" /> <input type="text" tabindex="3" readonly="readonly" value="" onclick="cal.select(this,'visibledate','dd/MM/yyyy')" id="visibledate" name="visibledate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="visibletime" name="visibletime" style="width: 70px;" disabled="disabled">
+								<option value="1">0100H</option>
+<option value="2">0200H</option>
+<option value="3">0300H</option>
+<option value="4">0400H</option>
+<option value="5">0500H</option>
+<option value="6">0600H</option>
+<option value="7">0700H</option>
+<option value="8">0800H</option>
+<option value="9">0900H</option>
+<option value="10">1000H</option>
+<option value="11">1100H</option>
+<option value="12">1200H</option>
+<option value="13">1300H</option>
+<option value="14">1400H</option>
+<option value="15">1500H</option>
+<option value="16">1600H</option>
+<option value="17">1700H</option>
+<option value="18">1800H</option>
+<option value="19">1900H</option>
+<option value="20">2000H</option>
+<option value="21">2100H</option>
+<option value="22">2200H</option>
+<option value="23">2300H</option>
+<option selected="selected" value="24">2359H</option>
+
+						</select></td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback session become visible<br />when it is open for submissions (as selected above).')">
+							<input type="radio" checked="checked" value="atopen" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" disabled="disabled" />
+							 Submissions opening time</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you want the feedback session to never be visible.<br />Use this option if you want to use this as a private feedback session.')" colspan="2">
+							<input type="radio" value="never" id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" disabled="disabled" />
+							 Never (This is a private session)</td>
+					</tr>
+					<tr id="response_visible_from_row">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later.')" class="label bold">Responses visible from:</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" value="custom" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" disabled="disabled" />
+							<input type="text" onclick="cal.select(this,'publishdate','dd/MM/yyyy')" disabled="disabled" tabindex="5" readonly="readonly" value="" id="publishdate" name="publishdate" style="width: 100px;" />
+							@ <select disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')" tabindex="6" id="publishtime" name="publishtime" style="width: 70px;">
+								<option value="1">0100H</option>
+<option value="2">0200H</option>
+<option value="3">0300H</option>
+<option value="4">0400H</option>
+<option value="5">0500H</option>
+<option value="6">0600H</option>
+<option value="7">0700H</option>
+<option value="8">0800H</option>
+<option value="9">0900H</option>
+<option value="10">1000H</option>
+<option value="11">1100H</option>
+<option value="12">1200H</option>
+<option value="13">1300H</option>
+<option value="14">1400H</option>
+<option value="15">1500H</option>
+<option value="16">1600H</option>
+<option value="17">1700H</option>
+<option value="18">1800H</option>
+<option value="19">1900H</option>
+<option value="20">2000H</option>
+<option value="21">2100H</option>
+<option value="22">2200H</option>
+<option value="23">2300H</option>
+<option selected="selected" value="24">2359H</option>
+
+						</select></td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users.')">
+							<input type="radio" checked="checked" value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" disabled="disabled" />
+							 Once the session is visible</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" disabled="disabled" />
+							 Publish manually </td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" disabled="disabled" />
+							 Never</td>
+					</tr>
+				</tbody></table>
+				<br />
+				<table id="instructionsTable" class="inputTable">
+					<tbody><tr>
+						<td class="label bold middlealign">Instructions to students:</td>
+						<td><textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4" disabled="disabled">Please fill in the new feedback session.</textarea>							
 						</td>
 					</tr>
 					<tr>
-						<td class="rightalign" colspan="5"><input type="submit" value="Save Changes" style="display:none;" class="button" id="button_submit_edit" disabled="disabled" /></td>
+						<td class="rightalign" colspan="2"><input type="submit" value="Save Changes" style="display:none;" class="button" id="button_submit_edit" disabled="disabled" /></td>
 					</tr>
 				</tbody></table>
+				</div>
 				<input type="hidden" value="New Session" name="fsname" disabled="disabled" />
 				<input type="hidden" value="CFeedbackUiT.CS1101" name="courseid" disabled="disabled" />
 				<input type="hidden" value="CFeedbackUiT.instructor" name="user" disabled="disabled" />

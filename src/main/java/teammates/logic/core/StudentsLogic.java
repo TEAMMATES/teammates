@@ -102,9 +102,27 @@ public class StudentsLogic {
 	}
 	
 	public boolean isStudentInTeam(String courseId, String teamName, String studentEmail) {
+		
 		StudentAttributes student = getStudentForEmail(courseId, studentEmail);
-		List<StudentAttributes> teammates = getStudentsForTeam(teamName, courseId);	
-		return teammates.contains(student) ? true : false;
+		if (student == null) {
+			return false;
+		}
+		
+		List<StudentAttributes> teammates = getStudentsForTeam(teamName, courseId);		
+		for(StudentAttributes teammate : teammates) {
+			if (teammate.email.equals(student.email)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
+		StudentAttributes student1 = getStudentForEmail(courseId, student1Email);
+		if(student1 == null) {
+			return false;
+		}
+		return isStudentInTeam(courseId, student1.team, student2Email);
 	}
 	
 	public void updateStudentCascade(String originalEmail, StudentAttributes student) 
@@ -251,9 +269,10 @@ public class StudentsLogic {
 	}
 
 	public void deleteStudentCascade(String courseId, String studentEmail) {
+		// delete responses first as we need to know the student's team.
+		frLogic.deleteFeedbackResponsesForStudent(courseId, studentEmail);
 		studentsDb.deleteStudent(courseId, studentEmail);
 		SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
-		frLogic.deleteFeedbackResponsesForStudent(courseId, studentEmail);
 	}
 
 	public void deleteStudentsForGoogleId(String googleId) {

@@ -4,8 +4,6 @@
 function readyFeedbackEditPage(){
 	// Hide option tables
 	$('.visibilityOptions').hide();
-	// Disable fields
-	$('#form_editfeedbacksession').find("text,input,button,textarea,select").attr("disabled", "disabled");
 	
 	// Bind submit text links
 	$('#fsSaveLink').click(function(){
@@ -41,21 +39,51 @@ function readyFeedbackEditPage(){
 	});
 	
 	// Additional formatting & bindings.
+	disableEditFS();
+	formatSessionVisibilityGroup();
+	formatResponsesVisibilityGroup();
 	formatNumberBoxes();
 	formatCheckBoxes();
 	document.onmousemove = positiontip;
 }
 
 /**
+ * Disables the editing of feedback session details.
+ */
+function disableEditFS(){	
+	// Save then disable fields
+	getCustomDateTimeFields().each(function(){
+		$(this).data('last', $(this).prop('disabled'));
+		console.log($(this)+": ",$(this).prop('disabled'));
+	});
+	$('#form_editfeedbacksession').
+		find("text,input,button,textarea,select").prop('disabled', true);
+}
+
+/**
  * Enables the editing of feedback session details.
  */
 function enableEditFS(){
-	// TODO: Bind state of visibility time fields to buttons so this reenables properly all the time.
-	// TODO: Move onclick events out of jsp page.
-	$('#form_editfeedbacksession').find("text,input,button,textarea,select").removeAttr("disabled");
+	var $customDateTimeFields = getCustomDateTimeFields();
+
+	$($customDateTimeFields).each(function(){
+		$(this).prop('disabled',
+				$(this).data('last'));
+	});
+	$('#form_editfeedbacksession').
+		find("text,input,button,textarea,select").
+		not($customDateTimeFields).not("#"+FEEDBACK_SESSION_TIMEZONE).
+		prop('disabled', false);
 	$('#fsEditLink').hide();
 	$('#fsSaveLink').show();
 	$('#button_submit_edit').show();
+}
+
+function getCustomDateTimeFields(){
+	return $('#'+FEEDBACK_SESSION_PUBLISHDATE).
+				add('#'+FEEDBACK_SESSION_PUBLISHTIME).
+				add('#'+FEEDBACK_SESSION_VISIBLEDATE).
+				add('#'+FEEDBACK_SESSION_VISIBLETIME);
 }
 
 /**
@@ -143,20 +171,22 @@ function deleteQuestion(number){
 function formatNumberBoxes(){
 	
 	// Disallow non-numeric entries [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
-	$('input.numberOfEntitiesBox').keydown(function(){
+	$('input.numberOfEntitiesBox').keydown(function(event){
+		var key = event.which;
         // Allow: backspace, delete, tab, escape, and enter
-        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || 
+        if ( key == 46 || key == 8 || key == 9 || key == 27 || key == 13 || 
              // Allow: Ctrl+A
-            (event.keyCode == 65 && event.ctrlKey === true) || 
+            (key == 65 && event.ctrlKey === true) || 
              // Allow: home, end, left, right
-            (event.keyCode >= 35 && event.keyCode <= 39)) {
+            (key >= 35 && key <= 39)) {
                  // let it happen, don't do anything
                  return;
         }
         else {
             // Ensure that it is a number and stop the keypress
-            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-                event.preventDefault(); 
+            if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105 )) {
+                event.preventDefault();
+                return false;
             }   
         }		
 	});

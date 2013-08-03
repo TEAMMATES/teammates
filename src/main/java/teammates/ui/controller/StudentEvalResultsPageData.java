@@ -103,7 +103,7 @@ public class StudentEvalResultsPageData extends PageData {
 		return feedbackGiven.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", "<span class=\"bold\">What I appreciate about you as a team member:</span>")
 				.replace("&lt;&lt;Areas you can improve further&gt;&gt;:", "<span class=\"bold\">Areas you can improve further:</span>")
 				.replace("&lt;&lt;Other comments&gt;&gt;:", "<span class=\"bold\">Other comments:</span>")
-				.replace("\n", "<br>");
+				.replace("&#010;", "<br>");
 	}
 
 }

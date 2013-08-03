@@ -47,10 +47,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	}
 	
 	public FeedbackQuestionAttributes(
-			String feedbackQuestionText, String feedbackSessionName,
-			String courseId, String creatorEmail, Text questionText,
+			String feedbackSessionName,
+			String courseId,
+			String creatorEmail,
+			Text questionText,
 			int questionNumber,
-			FeedbackQuestionType questionType, FeedbackParticipantType giverType,
+			FeedbackQuestionType questionType,
+			FeedbackParticipantType giverType,
 			FeedbackParticipantType recipientType,
 			int numberOfEntitiesToGiveFeedbackTo,
 			List<FeedbackParticipantType> showResponsesTo,
@@ -96,6 +99,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		if(!error.isEmpty()) { errors.add(error); }
 		
 		error= validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfoForFeedbackResponseVisibility(showResponsesTo, showGiverNameTo, showRecipientNameTo);
 		if(!error.isEmpty()) { errors.add(error); }
 		
 		return errors;

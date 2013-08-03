@@ -166,13 +166,29 @@ function convertDateToHHMM(date) {
 function readyFeedbackPage (){
 	
 	// Defaults
-	$('#'+FEEDBACK_SESSION_VISIBLEDATE).prop('disabled', true);
-	$('#'+FEEDBACK_SESSION_VISIBLETIME).prop('disabled', true);
+	toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, true);
+	toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, true);
+	toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, true);
+	toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, true);
 	
     $("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
     	document.location.href = $(this).val();
     });
-    
+
+    formatSessionVisibilityGroup();
+    formatResponsesVisibilityGroup();
+	
+    window.doPageSpecificOnload = selectDefaultTimeOptions();
+}
+
+/**
+ * Hides / shows the "Submissions Opening/Closing Time" and "Grace Period" options 
+ * depending on whether a private session is selected.<br>
+ * Toggles whether custom fields are enabled or not for session visible time based
+ * on checkbox selection.
+ * @param $privateBtn
+ */
+function formatSessionVisibilityGroup() {
 	var $sessionVisibilityBtnGroup = $('[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']');
 	$sessionVisibilityBtnGroup.change(function() {
 		if ($sessionVisibilityBtnGroup.filter(':checked').val() == "never") {
@@ -186,22 +202,41 @@ function readyFeedbackPage (){
 		}
 		
 		if ($sessionVisibilityBtnGroup.filter(':checked').val() == "custom") {
-			$('#'+FEEDBACK_SESSION_VISIBLEDATE).prop('disabled', false);
-			$('#'+FEEDBACK_SESSION_VISIBLETIME).prop('disabled', false);
+			toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, false);
+			toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, false);
 		} else {
-			$('#'+FEEDBACK_SESSION_VISIBLEDATE).prop('disabled', true);
-			$('#'+FEEDBACK_SESSION_VISIBLETIME).prop('disabled', true);
+			toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, true);
+			toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, true);
 		}
 	});
-	
-    window.doPageSpecificOnload = selectDefaultTimeOptions();
 }
 
 /**
- * Hides / shows the "Submissions Opening/Closing Time" and "Grace Period" options 
- * depending on whether a private session is selected.
+ * Toggles whether custom fields are enabled or not for session visible time based
+ * on checkbox selection.
  * @param $privateBtn
  */
-function togglePrivateSession() {
+function formatResponsesVisibilityGroup() {
+	var $responsesVisibilityBtnGroup = $('[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']');
 	
+	$responsesVisibilityBtnGroup.change(function() {
+		if ($responsesVisibilityBtnGroup.filter(':checked').val() == "custom") {
+			toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, false);
+			toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, false);
+		} else {
+			toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, true);
+			toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, true);
+		}
+	});
+}
+
+/**
+ * Saves the (disabled) state of the element in attribute data-last.<br>
+ * Toggles whether the given element {@code id} is disabled or not based on
+ * {@code bool}.<br>
+ * Disabled if true, enabled if false.
+ */
+function toggleDisabledAndStoreLast(id, bool) {
+	$('#'+id).prop('disabled', bool);
+	$('#'+id).data('last',$('#'+id).prop('disabled'));
 }

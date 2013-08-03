@@ -205,12 +205,8 @@
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom"
 							value="custom"
 							<%if(data.newFeedbackSession!=null &&
-									 data.newFeedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE) == false &&
-									 data.newFeedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER) == false &&
-									 data.newFeedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER) == false) 
-									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>').disabled=''
-							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>').disabled=''">
+								!TimeHelper.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime)) 
+									out.print("checked=\"checked\"");%>>
 							<input style="width: 100px;" type="text"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
@@ -239,26 +235,20 @@
 							<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
 							<%if(data.newFeedbackSession!=null && data.newFeedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) 
-									out.print("checked=\"checked\"");%>							
-							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled';
-							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
+									out.print("checked=\"checked\"");%>>
 							 Once the session is visible</td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
 							<%if(data.newFeedbackSession==null || data.newFeedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) 
-									out.print("checked=\"checked\"");%>							
-							onclick="document.getElementById('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>').disabled='disabled';
-							document.getElementById('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>').disabled='disabled'">
+									out.print("checked=\"checked\"");%>>
 							 Publish manually </td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
 							onmouseout="hideddrivetip()"><input type="radio"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
 							<%if(data.newFeedbackSession!=null && data.newFeedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) 
-									out.print("checked=\"checked\"");%>
-							onclick="document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>').disabled='disabled'
-							document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>').disabled='disabled'">
+									out.print("checked=\"checked\"");%>>
 							 Never</td>
 					</tr>
 				</table>

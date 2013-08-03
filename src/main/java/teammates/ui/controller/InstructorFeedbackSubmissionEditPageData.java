@@ -22,7 +22,12 @@ public class InstructorFeedbackSubmissionEditPageData extends PageData {
 		}
 		
 		Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(feedbackQuestionId);
-				
+		
+		// Add an empty option first.
+		result.add("<option value=\"\" " +
+				(currentlySelectedOption==null ? "selected=\"selected\">" : ">") +
+				"</option>");
+		
 		for(Map.Entry<String, String> pair : emailNamePair.entrySet()) {
 			result.add("<option value=\""+pair.getKey()+"\"" +
 					(pair.getKey().equals(currentlySelectedOption) 

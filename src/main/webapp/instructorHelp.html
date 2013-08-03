@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="stylesheets/teammates.css" type="text/css">
@@ -81,40 +81,41 @@
 			<div style="margin: 0 auto; padding: 0 50px;">
 				<br>
 				<ol>
-					<li>Go to the ‘Courses’ page and <b>create a course</b>.<br>Some
+					<li>Go to the ‘Courses’ page and <span class="bold">create a course</span>.<br>Some
 						of the elements in the user interface (e.g., a text box) have
 						hover over tips to tell you what the element does.<br>
 						<center>
 							<img alt="Instructor add course" src="images/instructor-help.png">
 						</center> <br>
 					</li>
-					<li><b>Enrol students</b> for that course by clicking the
+					<li><span class="bold">Enrol students</span> for that course by clicking the
 						‘Enrol’ link for the relevant course.<br> <br></li>
-					<li>After enrolling students, go to the ‘Evaluations’ page and
-						<b>create an evaluation</b>.<br> <br>
+					<li>After enrolling students, go to the ‘Sessions’ page and
+						<span class="bold">create a session</span> (there are different session types to choose from).<br> <br>
 					</li>
-					<li>When it is time to open the evaluation (based on the
-						‘opening time’ you specified), the system automatically emails
+					<li>When it is time to open the session (based on the
+						‘opening time’ you specified), TEAMMATES automatically emails
 						students,
 						<div style="margin: 0 auto; padding: 0 50px;">
 							<ol type="a">
-								<li>a ‘key’ that they can use to register for the course.</li>
-								<li>instructions for submitting peer evaluations.</li>
+								<li>a ‘key’ that they can use to join the course.</li>
+								<li>instructions for submitting responses for the session.</li>
 							</ol>
 						</div> <br>
 					</li>
-					<li>You can <b>view evaluation results</b> any time after the
-						evaluation is open, even when the evaluation is still going on.
-						Just go to the ‘Evaluations’ page and click the corresponding
-						‘View results’ link.<br> <br></li>
-					<li>You can <b>publish results</b> (i.e. make it visible to
+					<li>You can <span class="bold">view responses</span> any time after the
+						session is open, even when the session is still ongoing.
+						Just go to the ‘Sessions’ page and click the corresponding
+						‘View results/respnses’ link.<br> <br></li>
+					<li>You can <span class="bold">publish results</span> (i.e. make it visible to
 						students) using the ‘publish’ link in the ‘Evaluations’ page.<br>
 						<br></li>
-					<li>You can <b>edit student submissions</b> after an
-						evaluation is closed, up to the point you publish the evaluation.
+					<li>For 'standard team peer evaluation' type sessions,
+						you can <span class="bold">edit student submissions</span> after a
+						session is closed, up to the point you publish the results.
 						An ‘Edit’ link is available in the summary view, when sorted ‘by
 						reviewer’.<br>This feature is useful for moderating student
-						comments and entering an evaluation on behalf of a student who
+						comments and submitting responses on behalf of a student who
 						cannot access the system for some reason.
 					</li>
 				</ol>
@@ -139,7 +140,7 @@
 						student list (see ‘How do I view a list of students in a course?’
 						given above).<br> <br>Note: Moving a student to a
 						different team (i.e. changing a students team id) will affect all
-						existing evaluations in that course. <br> <br></li>
+						existing sessions in that course. <br> <br></li>
 					<li><b><a name="faq3" id="question">How do I add more students to a
 								course?</a></b><br>You can use the ‘Enrol’ feature to add more
 						students. If a student you are adding has the same email address
@@ -170,11 +171,11 @@
 								relative measure. e.g. For a 3-person team, an ‘Equal
 								share’ means ‘a third of the total work done’.</li>
 							<li><span class="bold gray">CC (Claimed Contribution)</span>
-								: This is what the student claimed he contributed. Ratings
-								Received: These are the peer opinions as to how much the student
-								contributed. These values have been adjusted to neutralize any
-								attempts by students to boost their own standing by rating
-								others low.</li>
+								: This is what the student claimed he contributed.</li>
+							<li><span class="bold gray">Ratings Received </span>: These
+								are the peer opinions as to how much the student contributed.
+								These values have been adjusted to neutralize any attempts by
+								students to boost their own standing by rating others low.</li>
 							<li><span class="bold gray">PC (Perceived
 									Contribution)</span>: This is the average value of the ‘Ratings
 								Received’. This can be considered as the <span class="italic">team’s
@@ -195,16 +196,17 @@
 						you can enter the details into the system using the ‘edit student
 						submissions’ feature, as explained in the ‘Getting started’ guide
 						above.<br> <br></li>
-					<li><b><a name="faq9" id="question">How come the actual contribution
-								values entered by the student is different from the values shown
-								in the results?</a></b><br>This is because the system ‘normalizes’
-						those values so that there is no artificial inflation of
-						contribution. For example, if a student says everyone contributed
-						‘Equal share + 10%’, the system automatically normalize it to
-						‘Equal share’ because in reality that is what the student means.<br>‘Normalize’
-						here means scale up/down the values so that the (sum of
-						contributions) = (<i>n</i> x Equal Share) where <i>n</i> is number
-						of students being reviewed.<br> <br></li>
+					<li><b><a name="faq9" id="question">How come the
+								actual contribution values entered by the student is different
+								from the values shown in the results?</a></b><br>This is because
+						the system ‘normalizes’ those values so that there is no
+						artificial inflation of contribution. For example, if a student
+						says everyone contributed ‘Equal share + 10%’, the system
+						automatically normalize it to ‘Equal share’ because in reality
+						that is what the student means.<br>‘Normalize’ here means
+						scale up/down the values so that the (sum of contributions) = (<span
+						class="italic">n</span> x Equal Share) where <span class="italic">n</span>
+						is the number of students being reviewed.<br> <br></li>
 					<li><b><a name="faq10" id="question">Can a student influence his
 								‘perceived contribution’ value by awarding himself a larger
 								contribution?</a></b><br>No. The perceived contribution is
@@ -221,7 +223,7 @@
 
 			<div id="caption">
 				<div id="captionText">
-					<span><a name="tips">Tips for using the system</a></span>
+					<span><a name="tips">Tips for using 'team peer evaluation' sessions</a></span>
 				</div>
 			</div>
 
@@ -240,22 +242,22 @@
 						course, have several peer evaluations at different points of the
 						course. This way, students get frequent peer-feedback about their
 						contribution, giving them plenty of chances to correct their
-						conduct as necessary.</li>
-					<br>
+						conduct as necessary.<br>
+					<br></li>
 					<li><span id="question">Ignore early peer evaluations.<br></span>Consider
 						not using initial peer evaluations for grading. Let students know
 						that in advance. This gives students time to get used to the
-						system and be more relaxed in giving early feedback to peers.</li>
-					<br>
+						system and be more relaxed in giving early feedback to peers.<br>
+					<br></li>
 					<li><span id="question">Interpret contribution numbers
 							with care.<br>
 					</span>Keep in mind the contribution numbers reported by TEAMMATES are
 						based on student perceptions and may not reflect the real
 						contribution of a student. Therefore, use those numbers primarily
-						for identifying cases that need further investigation.<br>
-						You may ignore minor variations in the contribution numbers
-						reported by TEAMMATES. The difference between [Equal share] and
-						[Equal share - 2%] is not significant and can very well be due to
+						to identify cases that need further investigation.<br> You
+						may ignore minor variations in the contribution numbers reported
+						by TEAMMATES. The difference between [Equal share] and [Equal
+						share - 2%] is not significant and can very well be due to
 						rounding off within the system. <br> Keep in mind that it is
 						human nature for one to downplay the value of contributions from
 						others when one’s own contribution is being compared to that of
@@ -265,26 +267,28 @@
 						attention to the team’s consensus level about the contribution of
 						a student. For example, you can take further actions with more
 						confidence if all team members rated a certain student’s
-						contribution low.</li>
-					<br>
+						contribution low.<br>
+					<br></li>
 					<li><span id="question">Tolerate unequal contributions.<br></span>This
 						may be a good policy to adopt (If students know this policy, they
-						will be more honest in reporting contribution values):<br> It
-						is OK to do less than an equal share of the the work, as long as
-						you are willing to accept a lower grade than your team members. It
-						is your right to decide how much time you allocate to this course.
-						How you prioritize your work is your own business.</li>
-					<br>
-					<li><span id="question">Announce a 'cooling off' period.<br></span>This
-						may be a good guidelines to give to students: <br>If you are
-						unhappy about the peer-feedback received, please allow at least
-						one day to lapse before you fire off a response email. You are
-						likely to respond more rationally when you had some time to think
-						it over. Also keep in mind that we do take note of how well you
-						handle such a situation. You need to act professionally when
-						facing conflicting views, opposition, and even deliberate
-						sabotage.</li>
-					<br>
+						will be more honest in reporting contribution values):<br>
+					<br> <span class="italic">It is OK to do less than an
+							equal share of the the work, as long as you are willing to accept
+							a lower grade than your team members. It is your right to decide
+							how much time you allocate to this course. How you prioritize
+							your work is your own business.</span><br>
+					<br></li>
+					<li><span id="question">Announce a 'cooling off'
+							period.<br>
+					</span>This may be a good guidelines to give to students: <br>
+					<br> <span class="italic">If you are unhappy about the
+							peer-feedback received, please allow at least one day to lapse
+							before you fire off a response email. You are likely to respond
+							more rationally when you had some time to think it over. Also
+							keep in mind that we do take note of how well you handle such a
+							situation. You need to act professionally when facing conflicting
+							views, opposition, and even deliberate sabotage.</span><br>
+					<br></li>
 				</ul>
 				<p align = right><a href="#Top">Back to Top</p>
 			</div>

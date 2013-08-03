@@ -105,7 +105,18 @@ public class Sanitizer {
 				.replace(">", "&gt;")
 				.replace("\"", "&quot;")
 				.replace("'", "&#39;")
-				.replace("\n", "<br>");
+				.replace("\n", "&#010;")
+				.replace("\r", "&#013;");
+	}
+	
+	/**
+	 * Sanitizes the string for comma-separated values (CSV) file output.<br>
+	 * We follow the definition described by RFC 4180:<br>
+	 * {@link http://tools.ietf.org/html/rfc4180}
+	 */
+	
+	public static String sanitizeForCsv(String str){ 
+		return "\"" + str.replace("\"", "\"\"") + "\"";
 	}
 
 	/**

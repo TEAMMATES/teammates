@@ -236,11 +236,11 @@
 					</tr>
 					<tr id="response_visible_from_row">
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later.')" class="label bold">Responses visible from:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" onclick="document.getElementById('publishdate').disabled=''
-							document.getElementById('publishtime').disabled=''" value="custom" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" />
-							<input type="text" disabled="if(document.getElementById('resultsVisibleFromButton_custom').checked){'disabled'}else{''}" tabindex="5" readonly="readonly" value="" onclick="if(document.getElementById('resultsVisibleFromButton_custom').checked){cal.select(this,'publishdate','dd/MM/yyyy');}
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" 
+							value="custom" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" />
+							<input type="text" disabled="disabled" tabindex="5" readonly="readonly" value="" onclick="if(document.getElementById('resultsVisibleFromButton_custom').checked){cal.select(this,'publishdate','dd/MM/yyyy');}
 							else{return false;}" id="publishdate" name="publishdate" style="width: 100px;" />
-							@ <select disabled="if(document.getElementById('resultsVisibleFromButton_custom').checked){'disabled'}else{''}" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')" tabindex="6" id="publishtime" name="publishtime" style="width: 70px;">
+							@ <select disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')" tabindex="6" id="publishtime" name="publishtime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -268,14 +268,14 @@
 
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users.')">
-							<input type="radio" onclick="document.getElementById('publishdate').disabled='disabled';
-							document.getElementById('publishtime').disabled='disabled'" value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" />
+							<input type="radio" 
+							 value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" />
 							 Once the session is visible</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" onclick="document.getElementById('Select this option if you intend to choose when the responses will be visible at a later time.').disabled='disabled';
-							document.getElementById('Select this option if you intend to choose when the responses will be visible at a later time.').disabled='disabled'" checked="checked" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" />
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" 
+							checked="checked" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" />
 							 Publish manually </td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" onclick="document.getElementById('publishdate').disabled='disabled'
-							document.getElementById('publishtime').disabled='disabled'" value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" />
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" 
+							 value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" />
 							 Never</td>
 					</tr>
 				</tbody></table>

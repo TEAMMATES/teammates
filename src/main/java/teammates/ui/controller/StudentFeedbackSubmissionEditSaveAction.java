@@ -43,7 +43,6 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		}
 		
 		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
-		//TODO: nesting too deep
 		for(int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
 			String totalResponsesForQuestion = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL+"-"+questionIndx);
 			if (totalResponsesForQuestion == null) {
@@ -53,19 +52,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 			for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
 				FeedbackResponseAttributes response = extractFeedbackResponseData(questionIndx,responseIndx);
 				response.giverEmail = studentEmail;
-				if (response.getId() != null) {
-					try {
-						logic.updateFeedbackResponse(response);
-					} catch (InvalidParametersException e) {
-						setStatusForException(e);
-					}
-				} else if (response.answer.getValue().isEmpty() == false){
-					try {
-						logic.createFeedbackResponse(response);
-					} catch (EntityAlreadyExistsException | InvalidParametersException e) {
-						setStatusForException(e);
-					}
-				}
+				saveResponse(response);
 			}
 		}
 		
@@ -76,6 +63,30 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		// TODO: what happens if qn is deleted as response is being submitted?
 		// what happens if team/etc change such that receiver / response in general is invalid?
 		return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+	}
+	
+	private void saveResponse(FeedbackResponseAttributes response)
+			throws EntityDoesNotExistException {
+		if (response.getId() != null) {
+			// Delete away response if any empty fields
+			if (response.answer.getValue().isEmpty() || 
+				response.recipient.isEmpty()) {
+				logic.deleteFeedbackResponse(response);
+				return;
+			}
+			try {
+				logic.updateFeedbackResponse(response);
+			} catch (EntityAlreadyExistsException | InvalidParametersException e) {
+				setStatusForException(e);
+			}
+		} else if (!response.answer.getValue().isEmpty() &&
+					!response.recipient.isEmpty()){
+			try {
+				logic.createFeedbackResponse(response);
+			} catch (EntityAlreadyExistsException | InvalidParametersException e) {
+				setStatusForException(e);
+			}
+		}
 	}
 	
 	private FeedbackResponseAttributes extractFeedbackResponseData(int questionIndx, int responseIndx) {

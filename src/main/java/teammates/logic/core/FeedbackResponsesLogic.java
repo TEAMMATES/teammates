@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -11,9 +12,13 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponsesDb;
 
 public class FeedbackResponsesLogic {
+
+	private static final Logger log = Utils.getLogger();
 	
 	private static FeedbackResponsesLogic instance = null;
 	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -32,9 +37,11 @@ public class FeedbackResponsesLogic {
 		frDb.createEntity(fra);
 	}
 	
-	public void updateFeedbackResponse(FeedbackResponseAttributes newResponse)
-			throws InvalidParametersException, EntityDoesNotExistException {
+	public void updateFeedbackResponse(FeedbackResponseAttributes responseToUpdate)
+			throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 		
+		// Create a copy.
+		FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(responseToUpdate);
 		FeedbackResponseAttributes oldResponse = frDb.getFeedbackResponse(newResponse.getId());
 		
 		if (oldResponse == null) {
@@ -56,7 +63,25 @@ public class FeedbackResponsesLogic {
 			newResponse.recipient = oldResponse.recipient;
 		}
 		
-		frDb.updateFeedbackResponse(newResponse);
+		if (!newResponse.recipient.equals(oldResponse.recipient)) {
+			// Recreate response to prevent possible future id conflict.
+			try {
+				newResponse.setId(null);
+				frDb.createEntity(newResponse);
+				frDb.deleteEntity(oldResponse);
+			} catch (EntityAlreadyExistsException e){
+				log.warning("Trying to update an existing response to one that already exists.");
+				throw new EntityAlreadyExistsException(
+						e.getMessage() + Const.EOL +
+						"Trying to update recipient for response to one that already exists for this giver.");
+			}
+		} else {
+			frDb.updateFeedbackResponse(newResponse);
+		}
+	}
+	
+	public void deleteFeedbackResponse(FeedbackResponseAttributes responseToDelete) {
+		frDb.deleteEntity(responseToDelete);
 	}
 	
 	public void deleteFeedbackResponsesForQuestion(String feedbackQuestionId) {
@@ -99,7 +124,7 @@ public class FeedbackResponsesLogic {
 	
 	public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
 			String courseId, String userEmail) {
-		return frDb.getFeedbackResponsesFromGiverForQuestion(courseId, userEmail);
+		return frDb.getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
 	}
 	
 	public int getNumberOfResponsesFromTeamForQuestion(
@@ -148,26 +173,9 @@ public class FeedbackResponsesLogic {
 			// Use "Else If" because it is a subset of STUDENTS, don't need to add twice.
 			else if (fqLogic.isQuestionAnswersVisibleTo(question,
 					FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
-
-				List<FeedbackResponseAttributes> responses =
-						getFeedbackResponsesForQuestion(feedbackQuestionId);
-				List<FeedbackResponseAttributes> teamResponses =
-						new ArrayList<FeedbackResponseAttributes>();
-
-				for (FeedbackResponseAttributes response : responses) {
-					
-					List<StudentAttributes> studentsInTeam =
-							studentsLogic.getStudentsForTeam(
-									response.giverEmail, question.courseId);
-					
-					for (StudentAttributes student : studentsInTeam) {
-						if (student.email.equals(userEmail)) {
-							teamResponses.add(response);
-						}
-					}
-					
-				}				
-				addNewResponses(viewableResponses, teamResponses);
+				addNewResponses(viewableResponses,
+						getFeedbackResponsesFromTeamMembersOfUser(
+								feedbackQuestionId, userEmail));
 			}
 		}
 
@@ -180,6 +188,26 @@ public class FeedbackResponsesLogic {
 		}
 		
 		return viewableResponses;
+	}
+
+	private List<FeedbackResponseAttributes> getFeedbackResponsesFromTeamMembersOfUser(
+			String feedbackQuestionId, String userEmail) {
+		List<FeedbackResponseAttributes> responses =
+				getFeedbackResponsesForQuestion(feedbackQuestionId);
+		List<FeedbackResponseAttributes> teamResponses =
+				new ArrayList<FeedbackResponseAttributes>();
+
+		for (FeedbackResponseAttributes response : responses) {					
+			StudentAttributes student =
+					studentsLogic.getStudentForEmail(
+							response.courseId, response.giverEmail);
+			
+			if(studentsLogic.isStudentInTeam(
+					response.courseId, student.team, userEmail)) {
+				teamResponses.add(response);
+			}
+		}
+		return teamResponses;
 	}
 	
 	// Adds FeedbackResponseAttributes in newResponses that are not already
@@ -207,7 +235,7 @@ public class FeedbackResponsesLogic {
 	}
 	
 	public boolean isNameVisibleTo(FeedbackResponseAttributes response,
-			String userEmail, boolean nameIsGiver){
+			String userEmail, boolean isGiverName){
 		
 		FeedbackQuestionAttributes question = 
 				fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
@@ -217,7 +245,7 @@ public class FeedbackResponsesLogic {
 		}
 		
 		List<FeedbackParticipantType> showNameTo =
-				nameIsGiver ? question.showGiverNameTo : question.showRecipientNameTo;
+				isGiverName ? question.showGiverNameTo : question.showRecipientNameTo;
 		
 		for (FeedbackParticipantType type : showNameTo) {
 			switch (type) {
@@ -229,7 +257,7 @@ public class FeedbackResponsesLogic {
 				}
 			case OWN_TEAM_MEMBERS:
 				// Refers to Giver's Team Members
-				if (studentsLogic.isStudentInTeam(response.courseId, response.giverEmail, userEmail)) {
+				if (studentsLogic.isStudentsInSameTeam(response.courseId, response.giverEmail, userEmail)) {
 					return true;
 				} else {
 					break;
@@ -247,7 +275,13 @@ public class FeedbackResponsesLogic {
 					break;
 				}
 			case RECEIVER_TEAM_MEMBERS:
-				if (studentsLogic.isStudentInTeam(response.courseId, response.recipient, userEmail)) {
+				// Response to team; recipient = teamName
+				if (question.recipientType == FeedbackParticipantType.TEAMS) {
+					if (studentsLogic.isStudentInTeam(response.courseId, response.recipient, userEmail)) {
+						return true;
+					}
+				// Response to individual
+				} else if (studentsLogic.isStudentsInSameTeam(response.courseId, response.recipient, userEmail)) {
 					return true;
 				} else {
 					break;
@@ -267,6 +301,10 @@ public class FeedbackResponsesLogic {
 		return false;
 	}
 	
+	/**
+	 * Updates responses for a student when his team changes. This is done by deleting
+	 * responses that are no longer relevant to him in his new team.
+	 */
 	public void updateFeedbackResponsesForChangingTeam(
 			String courseId, String userEmail, String oldTeam, String newTeam)
 					throws EntityDoesNotExistException {
@@ -293,8 +331,21 @@ public class FeedbackResponsesLogic {
 				frDb.deleteEntity(response);
 			}
 		}
+		
+		if(studentsLogic.getStudentsForTeam(oldTeam, courseId).isEmpty()){
+			List<FeedbackResponseAttributes> responsesToTeam =
+					getFeedbackResponsesForReceiverForCourse(courseId, oldTeam);
+			for (FeedbackResponseAttributes response : responsesToTeam) {
+				frDb.deleteEntity(response);
+			}
+		}
 	}
 
+	/**
+	 * Updates responses for a student when his email changes. This is done by recreating
+	 * all responses from the student to prevent an id clash if
+	 * the previous email is reused later on.
+	 */
 	public void updateFeedbackResponsesForChangingEmail(
 			String courseId, String oldEmail, String newEmail)
 					throws InvalidParametersException, EntityDoesNotExistException {	
@@ -303,13 +354,15 @@ public class FeedbackResponsesLogic {
 				getFeedbackResponsesFromGiverForCourse(courseId, oldEmail);
 		
 		for (FeedbackResponseAttributes response : responsesFromUser) {
-			FeedbackQuestionAttributes question =
-					fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
-			if (question.giverType == FeedbackParticipantType.TEAMS) {
+			response.giverEmail = newEmail;
+			response.setId(null); // so that persistence checks do not use old id.
+			try {
+				frDb.createEntity(response);
+				response.giverEmail = oldEmail;
 				frDb.deleteEntity(response);
-			} else {
-				response.giverEmail = newEmail;
-				updateFeedbackResponse(response);
+			} catch (EntityAlreadyExistsException e) {
+				Assumption.fail("Feedback response failed to update successfully" +
+						"as email was already in use.");
 			}
 		}
 		
@@ -317,15 +370,35 @@ public class FeedbackResponsesLogic {
 				getFeedbackResponsesForReceiverForCourse(courseId, oldEmail);
 		
 		for (FeedbackResponseAttributes response : responsesToUser) {
-				response.giverEmail = newEmail;
+			response.recipient = newEmail;
+			try {
 				updateFeedbackResponse(response);
+			} catch (EntityAlreadyExistsException e) {
+				Assumption.fail("Feedback response failed to update successfully" +
+						"as email was already in use.");
+			}
 		}
 	}
 
 	public void deleteFeedbackResponsesForStudent(String courseId,
 			String studentEmail) {
-		List<FeedbackResponseAttributes> responses = getFeedbackResponsesFromGiverForCourse(courseId, studentEmail);
-		responses.addAll(getFeedbackResponsesForReceiverForCourse(courseId, studentEmail));
+		
+		String studentTeam = "";
+		StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEmail);
+		
+		if (student != null) {
+			studentTeam = student.team;
+		}
+		
+		List<FeedbackResponseAttributes> responses =
+				getFeedbackResponsesFromGiverForCourse(courseId, studentEmail);
+		responses.addAll(
+				getFeedbackResponsesForReceiverForCourse(courseId, studentEmail));		
+		// Delete responses to team as well if student is last person in team.
+		if(studentsLogic.getStudentsForTeam(studentTeam, courseId).size() <= 1) {
+			responses.addAll(getFeedbackResponsesForReceiverForCourse(courseId, studentTeam));
+		}
+		
 		for(FeedbackResponseAttributes response : responses){
 			frDb.deleteEntity(response);
 		}

@@ -185,7 +185,7 @@
 		"giverType" : "STUDENTS",
 		"recipientType" : "STUDENTS",
 		"numberOfEntitiesToGiveFeedbackTo" : 3,
-		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER", "STUDENTS" ],
+		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER", "STUDENTS", "OWN_TEAM_MEMBERS" ],
 		"showGiverNameTo" : [ "INSTRUCTORS", "OWN_TEAM_MEMBERS" ],
 		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
     },

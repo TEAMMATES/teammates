@@ -187,7 +187,7 @@ public class PageData {
 		return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", "<span class=\"bold\">What I appreciate about you as a team member:</span>")
 				.replace("&lt;&lt;Areas you can improve further&gt;&gt;:", "<span class=\"bold\">Areas you can improve further:</span>")
 				.replace("&lt;&lt;Other comments&gt;&gt;:", "<span class=\"bold\">Other comments:</span>")
-				.replace("\n", "<br>");
+				.replace("&#010;", "<br>");
 	}
 	
 	/**
@@ -662,8 +662,8 @@ public class PageData {
 		boolean hasView = true;
 		boolean isCreator = session.isCreator(this.account.email);
 		boolean hasSubmit = session.isVisible() || session.isPrivateSession();
-		boolean hasPublish = session.isManuallyPublished() && !session.isPublished() && isCreator;
-		boolean hasUnpublish = session.isManuallyPublished() && session.isPublished() && isCreator;
+		boolean hasPublish = !session.isWaitingToOpen() && session.isManuallyPublished() && !session.isPublished() && isCreator;
+		boolean hasUnpublish = !session.isWaitingToOpen() && session.isManuallyPublished() && session.isPublished() && isCreator;
 		
 		result.append(
 			"<a class=\"color_green t_session_view"+ position + "\" " +
@@ -708,7 +708,8 @@ public class PageData {
 				"<a class=\"color_black t_session_publish" + position + "\" " +
 				"href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
 				(hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : "") +
-				"onmouseover=\"ddrivetip('"+ (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH : Const.Tooltips.FEEDBACK_SESSION_AUTOPUBLISH)+"')\" " +
+				"onmouseover=\"ddrivetip('"+ (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH : 
+					session.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING : Const.Tooltips.FEEDBACK_SESSION_AUTOPUBLISH)+"')\" " +
 				"onmouseout=\"hideddrivetip()\" " + (hasPublish ? "" : DISABLED) + ">Publish</a>"
 			);
 		}
