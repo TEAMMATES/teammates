@@ -47,7 +47,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		______TS("response to students, total 5");
 		
-		question = getQuestion("qn2InSession1InCourse1");
+		question = getQuestionFromDatastore("qn2InSession1InCourse1");
 		email = typicalBundle.students.get("student1InCourse1").email;		
 		recipients = fqLogic.getRecipientsForQuestion(question, email);		
 		assertEquals(recipients.size(), 4); // 5 students minus giver himself
@@ -58,20 +58,20 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		______TS("response to instructors, total 3");
 		
-		question = getQuestion("qn2InSession2InCourse2");
+		question = getQuestionFromDatastore("qn2InSession2InCourse2");
 		email = typicalBundle.instructors.get("instructor1OfCourse2").email;
 		recipients = fqLogic.getRecipientsForQuestion(question, email);
 		assertEquals(recipients.size(), 2); // 3 - giver = 2
 		
 		______TS("empty case: response to team members, but alone");
 
-		question = getQuestion("team.members.feedback");
+		question = getQuestionFromDatastore("team.members.feedback");
 		email = typicalBundle.students.get("student5InCourse1").email;
 		recipients = fqLogic.getRecipientsForQuestion(question, email);
 		assertEquals(recipients.size(), 0);
 						
 		______TS("special case: response to other team, instructor is also student");
-		question = getQuestion("team.feedback");
+		question = getQuestionFromDatastore("team.feedback");
 		email = typicalBundle.students.get("student1InCourse1").email;
 		AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
 		
@@ -80,7 +80,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		assertEquals(recipients.size(), 1);
 		
 		______TS("to nobody (general feedback)");
-		question = getQuestion("qn3InSession1InCourse1");
+		question = getQuestionFromDatastore("qn3InSession1InCourse1");
 		email = typicalBundle.students.get("student1InCourse1").email;
 		AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
 		
@@ -89,7 +89,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		assertEquals(recipients.size(), 1);
 		
 		______TS("to self");
-		question = getQuestion("qn1InSession1InCourse1");
+		question = getQuestionFromDatastore("qn1InSession1InCourse1");
 		email = typicalBundle.students.get("student1InCourse1").email;
 		AccountsLogic.inst().makeAccountInstructor(typicalBundle.students.get("student1InCourse1").googleId);
 		
@@ -104,7 +104,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		restoreTypicalDataInDatastore();
 		
 		______TS("standard update, no existing responses, with 'keep existing' policy");
-		FeedbackQuestionAttributes questionToUpdate = getQuestion("qn2InSession2InCourse2");
+		FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
 		questionToUpdate.questionText = new Text("new question text");
 		questionToUpdate.questionNumber = 3;
 		List<FeedbackParticipantType> newVisibility = 
@@ -124,7 +124,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
 		
 		______TS("cascading update, non-destructive changes, existing responses are preserved");
-		questionToUpdate = getQuestion("qn2InSession1InCourse1");
+		questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
 		questionToUpdate.questionText = new Text("new question text 2");
 		questionToUpdate.numberOfEntitiesToGiveFeedbackTo = 2;
 		
@@ -141,7 +141,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 						questionToUpdate.getId()).size(), numberOfResponses);
 		
 		______TS("cascading update, destructive changes, delete all existing responses");
-		questionToUpdate = getQuestion("qn2InSession1InCourse1");
+		questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
 		questionToUpdate.questionText = new Text("new question text 3");
 		questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
 		
@@ -157,7 +157,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 
 		______TS("failure: question does not exist");
 		
-		questionToUpdate = getQuestion("qn3InSession1InCourse1");
+		questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
 		fqLogic.deleteFeedbackQuestionCascade(questionToUpdate.getId());
 		
 		try {
@@ -169,7 +169,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 	}
 
-	private FeedbackQuestionAttributes getQuestion(String questionKey) {
+	private FeedbackQuestionAttributes getQuestionFromDatastore(String questionKey) {
 		FeedbackQuestionAttributes question;
 		question = typicalBundle.feedbackQuestions.get(questionKey);
 		question = fqLogic.getFeedbackQuestion(

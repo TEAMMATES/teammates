@@ -941,14 +941,32 @@ public class Logic {
 	 * Returns an empty list if none found.
 	 */
 	public FeedbackSessionQuestionsBundle
-		getFeedbackSessionQuestionsBundle(String feedbackSessionName, String courseId, String userEmail)
+		getFeedbackSessionQuestionsBundleForInstructor(String feedbackSessionName, String courseId, String userEmail)
 				throws EntityDoesNotExistException{
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
 		
-		return feedbackSessionsLogic.getFeedbackSessionQuestionsForUser(feedbackSessionName, courseId, userEmail);
+		return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * 
+	 * @return Feedback session information, question + responses bundle for user <br>
+	 * Returns an empty list if none found.
+	 */
+	public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForStudent(
+			String feedbackSessionName, String courseId, String userEmail)
+				throws EntityDoesNotExistException{
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+		
+		return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
 	}
 	
 	/**
@@ -1130,7 +1148,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
 		
-		return feedbackQuestionsLogic.getFeedbackQuestionsForUser(feedbackSessionName, courseId, userEmail);
+		return feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
 	}
 	
 	/**

@@ -270,5 +270,118 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 			return Integer.compare(this.questionNumber, o.questionNumber);
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((courseId == null) ? 0 : courseId.hashCode());
+		result = prime * result
+				+ ((creatorEmail == null) ? 0 : creatorEmail.hashCode());
+		result = prime
+				* result
+				+ ((feedbackSessionName == null) ? 0 : feedbackSessionName
+						.hashCode());
+		result = prime * result
+				+ ((giverType == null) ? 0 : giverType.hashCode());
+		result = prime * result + numberOfEntitiesToGiveFeedbackTo;
+		result = prime * result + questionNumber;
+		result = prime * result
+				+ ((questionText == null) ? 0 : questionText.hashCode());
+		result = prime * result
+				+ ((questionType == null) ? 0 : questionType.hashCode());
+		result = prime * result
+				+ ((recipientType == null) ? 0 : recipientType.hashCode());
+		result = prime * result
+				+ ((showGiverNameTo == null) ? 0 : showGiverNameTo.hashCode());
+		result = prime
+				* result
+				+ ((showRecipientNameTo == null) ? 0 : showRecipientNameTo
+						.hashCode());
+		result = prime * result
+				+ ((showResponsesTo == null) ? 0 : showResponsesTo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		FeedbackQuestionAttributes other = (FeedbackQuestionAttributes) obj;
+		if (courseId == null) {
+			if (other.courseId != null) {
+				return false;
+			}
+		} else if (!courseId.equals(other.courseId)) {
+			return false;
+		}
+		if (creatorEmail == null) {
+			if (other.creatorEmail != null) {
+				return false;
+			}
+		} else if (!creatorEmail.equals(other.creatorEmail)) {
+			return false;
+		}
+		if (feedbackSessionName == null) {
+			if (other.feedbackSessionName != null) {
+				return false;
+			}
+		} else if (!feedbackSessionName.equals(other.feedbackSessionName)) {
+			return false;
+		}
+		if (giverType != other.giverType) {
+			return false;
+		}
+		if (numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo) {
+			return false;
+		}
+		if (questionNumber != other.questionNumber) {
+			return false;
+		}
+		if (questionText == null) {
+			if (other.questionText != null) {
+				return false;
+			}
+		} else if (!questionText.equals(other.questionText)) {
+			return false;
+		}
+		if (questionType != other.questionType) {
+			return false;
+		}
+		if (recipientType != other.recipientType) {
+			return false;
+		}
+		if (showGiverNameTo == null) {
+			if (other.showGiverNameTo != null) {
+				return false;
+			}
+		} else if (!showGiverNameTo.equals(other.showGiverNameTo)) {
+			return false;
+		}
+		if (showRecipientNameTo == null) {
+			if (other.showRecipientNameTo != null) {
+				return false;
+			}
+		} else if (!showRecipientNameTo.equals(other.showRecipientNameTo)) {
+			return false;
+		}
+		if (showResponsesTo == null) {
+			if (other.showResponsesTo != null) {
+				return false;
+			}
+		} else if (!showResponsesTo.equals(other.showResponsesTo)) {
+			return false;
+		}
+		return true;
+	}
+
 	
 }

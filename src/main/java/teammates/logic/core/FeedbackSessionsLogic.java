@@ -113,9 +113,12 @@ public class FeedbackSessionsLogic {
 		return fsDetails;
 	}
 	
-	// This method returns a single feedback session with
-	// it's questions for the user to fill up responses.
-	public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForUser(
+	/**
+	 * Gets {@code FeedbackQuestions} and previously filled {@code FeedbackResponses} 
+	 * that an instructor can view/submit as
+	 * a {@link FeedbackSessionQuestionsBundle}
+	 */
+	public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForInstructor(
 			String feedbackSessionName, String courseId, String userEmail)
 			throws EntityDoesNotExistException {
 
@@ -133,7 +136,7 @@ public class FeedbackSessionsLogic {
 			= new HashMap<String, Map<String,String>>();
 		
 		List<FeedbackQuestionAttributes> questions =
-				fqLogic.getFeedbackQuestionsForUser(feedbackSessionName,
+				fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
 					courseId, userEmail);
 		
 		for (FeedbackQuestionAttributes question : questions) {
@@ -141,10 +144,54 @@ public class FeedbackSessionsLogic {
 			List<FeedbackResponseAttributes> responses = 
 					frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), userEmail);
 			Map<String, String> recipients =
-					fqLogic.getRecipientsForQuestion(question, userEmail);
+					fqLogic.getRecipientsForQuestion(question, userEmail);			
+			normalizeMaximumResponseEntities(question, recipients);			
 			
-			normalizeMaximumResponseEntities(courseId, userEmail, question,
-					responses, recipients);
+			bundle.put(question, responses);
+			recipientList.put(question.getId(), recipients);
+		}
+		
+		return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+	}
+	
+	/**
+	 * Gets {@code FeedbackQuestions} and previously filled {@code FeedbackResponses} 
+	 * that a student can view/submit as
+	 * a {@link FeedbackSessionQuestionsBundle}
+	 */
+	public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
+			String feedbackSessionName, String courseId, String userEmail)
+			throws EntityDoesNotExistException {
+
+		FeedbackSessionAttributes fsa = fsDb.getFeedbackSession(
+				feedbackSessionName, courseId);
+		StudentAttributes student = studentsLogic.getStudentForEmail(courseId, userEmail);
+		
+		if (fsa == null) {
+			throw new EntityDoesNotExistException(
+					"Trying to get a feedback session that does not exist.");
+		}
+		if (student == null) {
+			throw new EntityDoesNotExistException(
+					"Trying to get a feedback session for student that does not exist.");
+		}
+		
+		Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle
+			= new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
+		Map<String, Map<String,String>> recipientList
+			= new HashMap<String, Map<String,String>>();
+		
+		List<FeedbackQuestionAttributes> questions =
+				fqLogic.getFeedbackQuestionsForStudent(feedbackSessionName,
+					courseId, userEmail);
+		
+		for (FeedbackQuestionAttributes question : questions) {
+			
+			List<FeedbackResponseAttributes> responses =
+					frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(question, student);			
+			Map<String, String> recipients =
+					fqLogic.getRecipientsForQuestion(question, userEmail);
+			normalizeMaximumResponseEntities(question, recipients);			
 			
 			bundle.put(question, responses);
 			recipientList.put(question.getId(), recipients);
@@ -295,7 +342,7 @@ public class FeedbackSessionsLogic {
 		}
 
 		List<FeedbackQuestionAttributes> allQuestions =
-				fqLogic.getFeedbackQuestionsForUser(feedbackSessionName, courseId,
+				fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId,
 						userEmail);
 		
 		for (FeedbackQuestionAttributes question : allQuestions) {
@@ -317,7 +364,7 @@ public class FeedbackSessionsLogic {
 		}
 
 		List<FeedbackQuestionAttributes> allQuestions =
-				fqLogic.getFeedbackQuestionsForUser(feedbackSessionName, courseId,
+				fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId,
 						userEmail);
 		
 		for (FeedbackQuestionAttributes question : allQuestions) {
@@ -637,7 +684,7 @@ public class FeedbackSessionsLogic {
 				}				
 			}
 			for(InstructorAttributes instructor : instructors) {
-				List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForUser(
+				List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForInstructor(
 						fsa.feedbackSessionName, fsa.courseId, instructor.email);
 				if (questions.isEmpty() == false) {
 					details.stats.expectedTotal += 1;
@@ -762,7 +809,7 @@ public class FeedbackSessionsLogic {
 
 		if (session.isPublished() == false) {			
 			List<FeedbackQuestionAttributes> questions = 
-					fqLogic.getFeedbackQuestionsForUser(
+					fqLogic.getFeedbackQuestionsForStudent(
 							session.feedbackSessionName,
 							session.courseId, userEmail);
 			
@@ -788,28 +835,13 @@ public class FeedbackSessionsLogic {
 		return false;
 	}
 	
-	private void normalizeMaximumResponseEntities(String courseId,
-			String userEmail, FeedbackQuestionAttributes question,
-			List<FeedbackResponseAttributes> responses,
+	private void normalizeMaximumResponseEntities(FeedbackQuestionAttributes question,
 			Map<String, String> recipients) {
 
 		// change constant to actual maximum size.
 		if (question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
 			question.numberOfEntitiesToGiveFeedbackTo = recipients.size();
 		}
-
-		if (question.giverType == FeedbackParticipantType.TEAMS) {
-			// reduce max response count depending on other members' feedback
-			// to account for the multi-giver question.
-			StudentAttributes student = studentsLogic.getStudentForEmail(
-					courseId, userEmail);
-			int studentCount = responses.size();
-			int teamCount = frLogic.getNumberOfResponsesFromTeamForQuestion(
-					question.courseId, question.getId(), student.team);
-
-			question.numberOfEntitiesToGiveFeedbackTo -= (teamCount - studentCount);
-		}
-
 	}
 	
 	private void makeEmailStateConsistent(FeedbackSessionAttributes oldSession,
