@@ -46,6 +46,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_atvisible")
 	private WebElement defaultResultsVisibleTimeButton;
 	
+	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_later")
+	private WebElement manualResultsVisibleTimeButton;
+	
 	@FindBy(id = "fsEditLink")
 	private WebElement fsEditLink;	
 	
@@ -135,6 +138,10 @@ public class InstructorFeedbackEditPage extends AppPage {
 	
 	public void clickDefaultPublishTimeButton(){
 		defaultResultsVisibleTimeButton.click();
+	}
+	
+	public void clickManualPublishTimeButton(){
+		manualResultsVisibleTimeButton.click();
 	}
 	
 	public WebElement getDeleteSessionLink(){

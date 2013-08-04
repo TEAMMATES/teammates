@@ -38,6 +38,7 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_DELETE_FEEDBACK_SESSION = "OPERATION_DELETE_FEEDBACK_SESSION";
 	public static final String OPERATION_EDIT_ACCOUNT = "OPERATION_EDIT_ACCOUNT";
 	public static final String OPERATION_EDIT_EVALUATION = "OPERATION_EDIT_EVALUATION";
+	public static final String OPERATION_EDIT_FEEDBACK_SESSION = "OPERATION_EDIT_FEEDBACK_SESSION";
 	public static final String OPERATION_EDIT_STUDENT = "OPERATION_EDIT_STUDENT";
 	public static final String OPERATION_EDIT_SUBMISSION = "OPERATION_EDIT_SUBMISSION";
 	public static final String OPERATION_EDIT_TEAM_PROFILE = "OPERATION_EDIT_TEAM_PROFILE";
@@ -182,6 +183,9 @@ public class BackDoorServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_EDIT_EVALUATION)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editEvaluationAsJson(newValues);
+		} else if (action.equals(OPERATION_EDIT_FEEDBACK_SESSION)) {
+			String newValues = req.getParameter(PARAMETER_JASON_STRING);
+			backDoorLogic.editFeedbackSessionAsJson(newValues);
 		} else if (action.equals(OPERATION_EDIT_SUBMISSION)) {
 			String newValues = req.getParameter(PARAMETER_JASON_STRING);
 			backDoorLogic.editSubmissionAsJson(newValues);

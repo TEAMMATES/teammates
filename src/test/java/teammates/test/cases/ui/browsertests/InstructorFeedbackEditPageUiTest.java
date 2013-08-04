@@ -45,7 +45,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		editedSession = testData.feedbackSessions.get("openSession");
 		editedSession.gracePeriod = 30;
 		editedSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-		editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
+		editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
 		editedSession.instructions = new Text("Please fill in the edited feedback session.");
 		editedSession.endTime = TimeHelper.convertToDate("2014-05-01 10:00 PM UTC");
 		
@@ -120,7 +120,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("typical success case");
 		
-		feedbackEditPage.clickDefaultPublishTimeButton();
+		feedbackEditPage.clickManualPublishTimeButton();
 		feedbackEditPage.clickDefaultVisibleTimeButton();
 		feedbackEditPage.editFeedbackSession(editedSession.startTime, editedSession.endTime,
 				editedSession.instructions,
@@ -130,6 +130,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 				BackDoor.getFeedbackSession(editedSession.courseId, editedSession.feedbackSessionName);
 		assertEquals(editedSession.toString(), savedSession.toString());
 		feedbackEditPage.verifyHtml("/instructorFeedbackEditSuccess.html");
+		
+		
+		______TS("test edit page after manual publish");
+		
+		// Do a backdoor 'manual' publish.
+		editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
+		String status = BackDoor.editFeedbackSession(editedSession);
+		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+		
+		feedbackEditPage = getFeedbackEditPage();
+		feedbackEditPage.verifyHtml("/instructorFeedbackEditPublished.html");
+		// Restore defaults
+		feedbackEditPage.clickEditSessionButton();
+		feedbackEditPage.clickDefaultPublishTimeButton();
+		feedbackEditPage.clickSaveSessionButton();
+
 	}
 
 	

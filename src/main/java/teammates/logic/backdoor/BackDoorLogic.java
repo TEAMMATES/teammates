@@ -194,6 +194,13 @@ public class BackDoorLogic extends Logic {
 				evaluationJson, EvaluationAttributes.class);
 		updateEvaluation(evaluation);
 	}
+	
+	public void editFeedbackSessionAsJson(String feedbackSessionJson)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		FeedbackSessionAttributes feedbackSession = Utils.getTeammatesGson().fromJson(
+				feedbackSessionJson, FeedbackSessionAttributes.class);
+		updateFeedbackSession(feedbackSession);
+	}
 
 	public void editSubmissionAsJson(String submissionJson) throws InvalidParametersException, EntityDoesNotExistException {
 		SubmissionAttributes submission = Utils.getTeammatesGson().fromJson(

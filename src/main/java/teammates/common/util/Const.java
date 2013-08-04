@@ -1,8 +1,6 @@
 package teammates.common.util;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 /**
@@ -565,22 +563,11 @@ public class Const {
 	public static final Date TIME_REPRESENTS_NOW;
 	
 	static {
-		//TODO: Can be simplified using TimeHelper
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		calendar.clear();
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		calendar.set(1970, 11, 31);
-		TIME_REPRESENTS_FOLLOW_OPENING = calendar.getTime();
-		calendar.set(1970, 05, 22);
-		TIME_REPRESENTS_FOLLOW_VISIBLE = calendar.getTime();
-		calendar.set(1970, 10, 27);
-		TIME_REPRESENTS_NEVER = calendar.getTime();
-		calendar.set(1970, 00, 01);
-		TIME_REPRESENTS_LATER = calendar.getTime();
-		calendar.set(1970, 01, 14);
-		TIME_REPRESENTS_NOW = calendar.getTime();
+		TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
+		TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
+		TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 00:00 AM UTC");
+		TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
+		TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
 	}
  	
 }

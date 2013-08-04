@@ -183,7 +183,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		//Note: This can fail at times because Firefox fails to choose the correct value from the dropdown.
 		//  in that case, rerun in Chrome.
 		assertEquals(newSession.toString(), savedSession.toString());
-		feedbackPage.verifyHtml("/instructorFeedbackAddSuccess.html");
 
 		______TS("duplicate session name");
 		

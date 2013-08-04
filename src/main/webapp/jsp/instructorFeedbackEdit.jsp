@@ -216,7 +216,8 @@
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
-							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) 
+							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER) ||
+								 data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW)) 
 									out.print("checked=\"checked\"");%>>
 							 Publish manually </td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
