@@ -43,7 +43,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		newSession.courseId = "CFeedbackUiT.CS1101";
 		newSession.feedbackSessionName = "New Session";
 		newSession.startTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
-		newSession.endTime = TimeHelper.convertToDate("2014-04-30 11:59 PM UTC");
+		newSession.endTime = TimeHelper.convertToDate("2014-04-30 10:00 PM UTC");
 		newSession.creatorEmail = "teammates.test1@gmail.com";
 		newSession.createdTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
 		newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;

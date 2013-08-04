@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
@@ -46,6 +47,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		editedSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
 		editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
 		editedSession.instructions = new Text("Please fill in the edited feedback session.");
+		editedSession.endTime = TimeHelper.convertToDate("2014-05-01 10:00 PM UTC");
 		
 		instructorId = testData.accounts.get("instructorWithSessions").googleId;
 		courseId = testData.courses.get("course").id;

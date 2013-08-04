@@ -112,7 +112,7 @@
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>" tabindex="4">
 								<%
-									for (String opt : data.getTimeOptionsAsHtml(data.session.startTime))
+									for (String opt : data.getTimeOptionsAsHtml(data.session.endTime))
 										out.println(opt);
 								%>
 						</select></td>
