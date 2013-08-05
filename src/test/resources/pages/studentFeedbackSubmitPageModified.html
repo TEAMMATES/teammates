@@ -200,10 +200,70 @@
 			
 			<input type="hidden" value="TEXT" name="questiontype-3" />
 			<input type="hidden" value="{*}" name="questionid-3" />
-			<input type="hidden" value="3" name="questionresponsetotal-3" />
+			<input type="hidden" value="1" name="questionresponsetotal-3" />
 			<table class="inputTable responseTable">
 				<tbody><tr><td colspan="2" class="bold">Question 3</td></tr>
-				<tr style="border-bottom: 3px dotted white;"><td colspan="2">Give feedback to 3 other teams.</td></tr>
+				<tr style="border-bottom: 3px dotted white;"><td colspan="2">Comments about the class</td></tr>
+                        <tr>
+                           <td class="bold"  colspan="2" >
+                              Only the following persons can see your responses:
+                           </td>
+                        </tr>
+                        <tr style="border-bottom: 3px dotted white;" >
+                           <td colspan="2"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Here you can see the visibility of your feedback to the various users<br />in the course once the results are published.')" >
+                              <ul>
+                                 <li>
+                                    Instructors in this course can see your response, the name of the recipient, but
+                                    <span class="bold color_red" >
+                                       not
+                                    </span>
+                                    your name.
+                                 </li>
+                              </ul>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="bold centeralign"  colspan="3"  style="padding-top: 15px; padding-bottom: 0px" >
+                              Your Response
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="middlealign nowrap"  style="display:none" >
+                              <span class="label bold" >
+                                 To:
+                              </span>
+                              <select class="participantSelect middlealign newResponse"  name="responserecipient-3-0"  style="display:none" >
+                                 <option selected="selected"  value="" >
+                                 </option>
+                                 <option value="%GENERAL%" >
+                                    %GENERAL%
+                                 </option>
+                              </select>
+                              <span>
+                                 %GENERAL%
+                              </span>
+                           </td>
+                           <td class="responseText" >
+                              <textarea class="textvalue"  name="responsetext-3-0"  rows="4" >
+                              </textarea>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <br/>
+                                    <br/>
+                                    <input name="questiontype-4"  type="hidden"  value="TEXT" />
+                                    <input name="questionid-4"  type="hidden"  value="{*}" />
+                                    <input name="questionresponsetotal-4"  type="hidden"  value="3" />
+                                    <table class="inputTable responseTable" >
+                     <tbody>
+                        <tr>
+                           <td class="bold"  colspan="2" >
+                              Question 4
+                           </td>
+                        </tr>
+                        <tr style="border-bottom: 3px dotted white;" >
+                           <td colspan="2" >Give feedback to 3 other teams.</td></tr>
 				<tr><td colspan="2" class="bold">Only the following persons can see your responses:</td></tr>
 					<tr style="border-bottom: 3px dotted white;">
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Here you can see the visibility of your feedback to the various users<br />in the course once the results are published.')" colspan="2">
@@ -219,7 +279,7 @@
 					<tr>
 					<td class="middlealign nowrap">
 						<span class="label bold">To: </span> 
-						<select style="display:none" name="responserecipient-3-0" class="participantSelect middlealign">
+						<select style="display:none" name="responserecipient-4-0" class="participantSelect middlealign">
 						<option value="" ></option>
 						<option style="display: none;" value="New Team">New Team</option>
 <option selected="selected" value="Team 2">Team 2</option>
@@ -228,15 +288,15 @@
 						</select><span> Team 2</span>
 					</td>					
 					<td>
-						<textarea name="responsetext-3-0" class="textvalue" cols="100%" rows="4">Feedback to team 2.</textarea>
-						<input type="hidden" value="{*}%SFSubmitUiT.alice.b@gmail.com%Team 2" name="responseid-3-0" />
+						<textarea name="responsetext-4-0" class="textvalue" cols="100%" rows="4">Feedback to team 2.</textarea>
+						<input type="hidden" value="{*}%SFSubmitUiT.alice.b@gmail.com%Team 2" name="responseid-4-0" />
 					</td>
 				</tr>
 					
 					<tr>
 					<td class="middlealign nowrap">
 						<span class="label bold">To: </span> 
-						<select style="display:none" name="responserecipient-3-1" class="participantSelect middlealign">
+						<select style="display:none" name="responserecipient-4-1" class="participantSelect middlealign">
 						<option value="" ></option>
 						<option style="display: none;" value="New Team">New Team</option>
 <option style="display: none;" value="Team 2">Team 2</option>
@@ -245,15 +305,15 @@
 						</select><span> Team 3</span>
 					</td>					
 					<td>
-						<textarea name="responsetext-3-1" class="textvalue" cols="100%" rows="4">Feedback to team 3</textarea>
-						<input type="hidden" value="{*}%SFSubmitUiT.alice.b@gmail.com%Team 3" name="responseid-3-1" />
+						<textarea name="responsetext-4-1" class="textvalue" cols="100%" rows="4">Feedback to team 3</textarea>
+						<input type="hidden" value="{*}%SFSubmitUiT.alice.b@gmail.com%Team 3" name="responseid-4-1" />
 					</td>
 				</tr>
 					
 					<tr>
 				<td class="middlealign nowrap">
 					<span class="label bold">To: </span> 
-					<select style="display:none" name="responserecipient-3-2" class="participantSelect middlealign newResponse">
+					<select style="display:none" name="responserecipient-4-2" class="participantSelect middlealign newResponse">
 					<option selected="selected" value="" ></option>
 					<option value="New Team">New Team</option>
 <option style="display: none;" value="Team 2">Team 2</option>
@@ -262,7 +322,7 @@
 					</select><span> New Team</span>
 				</td>
 				<td class="responseText">
-					<textarea name="responsetext-3-2" class="textvalue" rows="4"></textarea></td>
+					<textarea name="responsetext-4-2" class="textvalue" rows="4"></textarea></td>
 				</tr>
 				
 			</tbody></table>

@@ -45,11 +45,10 @@ public class FeedbackQuestionsLogic {
 	
 	public void createFeedbackQuestion(FeedbackQuestionAttributes fqa)
 			throws InvalidParametersException, EntityAlreadyExistsException {
+		fqa.removeIrrelevantVisibilityOptions();
 		fqDb.createEntity(fqa);
-	}
-	
-	
-	
+	}	
+
 	/**
 	 * Gets a single question corresponding to the given parameters. <br><br>
 	 * <b>Note:</b><br>
@@ -250,15 +249,6 @@ public class FeedbackQuestionsLogic {
 		return (frLogic.getFeedbackResponsesForQuestion(feedbackQuestionId).isEmpty() == false);
 	}
 	
-	public boolean isQuestionAnswersVisibleTo (
-			FeedbackQuestionAttributes question,
-			FeedbackParticipantType userType) {
-		
-		return (question.showResponsesTo.contains(userType) || 
-				// general feedback; everyone can see results. TODO: hide visibility options in UI.
-				question.recipientType == FeedbackParticipantType.NONE);
-	}
-	
 	public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email) 
 			throws EntityDoesNotExistException {
 		
@@ -344,6 +334,7 @@ public class FeedbackQuestionsLogic {
 		}
 		
 		oldQuestion.updateValues(newAttributes);
+		newAttributes.removeIrrelevantVisibilityOptions();
 		fqDb.updateFeedbackQuestion(newAttributes);
 	}
 	

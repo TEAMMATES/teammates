@@ -243,15 +243,15 @@
 		"feedbackSessionName" : "Standard feedback session",
 		"courseId" : "FSRTest.idOfTypicalCourse1",
 		"creatorEmail" : "FSRTest.instructor1@course1.com",
-		"questionText" : {"value" : "instructor to class. but no checkboxes were ticked."},
+		"questionText" : {"value" : "instructor to none. only instructors can see."},
 		"questionNumber" : "6",
 		"questionType" : "TEXT",
 		"giverType" : "INSTRUCTORS",
 		"recipientType" : "NONE",
 		"numberOfEntitiesToGiveFeedbackTo" : -100,
-		"showResponsesTo" : [ ],
-		"showGiverNameTo" : [ ],
-		"showRecipientNameTo" : [ ]
+		"showResponsesTo" : [ "INSTRUCTORS" ],
+		"showGiverNameTo" : [ "INSTRUCTORS" ],
+		"showRecipientNameTo" : [ "INSTRUCTORS" ]
     },
     "qn7.standard.session": {
 		"feedbackSessionName" : "Standard feedback session",
@@ -267,7 +267,20 @@
 		"showGiverNameTo" : [ "STUDENTS" ],
 		"showRecipientNameTo" : [ "STUDENTS" ]
     },
-    
+    "qn8.standard.session": {
+		"feedbackSessionName" : "Standard feedback session",
+		"courseId" : "FSRTest.idOfTypicalCourse1",
+		"creatorEmail" : "FSRTest.instructor1@course1.com",
+		"questionText" : {"value" : "teams to teams test."},
+		"questionNumber" : "8",
+		"questionType" : "TEXT",
+		"giverType" : "TEAMS",
+		"recipientType" : "TEAMS",
+		"numberOfEntitiesToGiveFeedbackTo" : 3,
+		"showResponsesTo" : [ "RECEIVER" ],
+		"showGiverNameTo" : [ "RECEIVER" ],
+		"showRecipientNameTo" : [ "RECEIVER" ]
+    },
     "qn1.private.session": {
 		"feedbackSessionName" : "Private feedback session",
 		"courseId" : "FSRTest.idOfTypicalCourse1",
@@ -395,7 +408,7 @@
 		"feedbackQuestionId" : "6",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "FSRTest.instr1@course1.com",
-		"recipient" : "FSRTest.instr1@course1.com",
+		"recipient" : "%GENERAL%",
 		"answer" : {"value" : "instr > all"}
     },
     "qn7.resp1": {
@@ -415,6 +428,24 @@
 		"giverEmail" : "FSRTest.student2InCourse1@gmail.com",
 		"recipient" : "FSRTest.student4InCourse1@gmail.com",
 		"answer" : {"value" : "team 1.1 > student (in Team 1.2)"}
+    },
+    "qn8.resp1": {
+		"feedbackSessionName" : "Standard feedback session",
+		"courseId" : "FSRTest.idOfTypicalCourse1",
+		"feedbackQuestionId" : "8",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "FSRTest.student1InCourse1@gmail.com",
+		"recipient" : "Team 1.2",
+		"answer" : {"value" : "team 1.1 > team 1.2"}
+    },
+    "qn8.resp2": {
+		"feedbackSessionName" : "Standard feedback session",
+		"courseId" : "FSRTest.idOfTypicalCourse1",
+		"feedbackQuestionId" : "8",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "FSRTest.student4InCourse1@gmail.com",
+		"recipient" : "Team 1.1",
+		"answer" : {"value" : "team 1.2 > team 1.1"}
     },
     "p.qn1.resp1": {
 		"feedbackSessionName" : "Private feedback session",

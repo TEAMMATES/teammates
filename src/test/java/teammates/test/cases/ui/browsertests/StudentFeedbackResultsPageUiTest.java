@@ -33,13 +33,16 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 	
 	@Test
 	public void testAll() throws Exception {
+		
+		______TS("no responses");
+		
+		resultsPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
+		resultsPage.verifyHtml("/studentFeedbackResultsPageEmpty.html");
 			
 		______TS("standard session results");
 		
 		resultsPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 		resultsPage.verifyHtml("/studentFeedbackResultsPageOpen.html");
-		
-		//TODO: More cases to cover? e.g., no responses at all.
 	}
 
 	@AfterClass

@@ -98,8 +98,7 @@ public class FeedbackResponsesLogic {
 				fqLogic.getFeedbackQuestion(feedbackQuestionId);
 		
 		// Add responses that user is a receiver of when question is visible to receiver.
-		if (fqLogic.isQuestionAnswersVisibleTo(question,
-				FeedbackParticipantType.RECEIVER)) {
+		if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
 			addNewResponses (viewableResponses,
 					frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId,	userEmail));
 		}
@@ -113,8 +112,7 @@ public class FeedbackResponsesLogic {
 
 		// Add all responses if user is instructor and question is visible to instructors.
 		if (instructorsLogic.getInstructorForEmail(question.courseId, userEmail) != null &&
-				fqLogic.isQuestionAnswersVisibleTo(question,
-						FeedbackParticipantType.INSTRUCTORS)) {
+				question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
 			addNewResponses(viewableResponses,
 					getFeedbackResponsesForQuestion(feedbackQuestionId));
 		}
@@ -420,8 +418,7 @@ public class FeedbackResponsesLogic {
 		StudentAttributes student = 
 				studentsLogic.getStudentForEmail(question.courseId, studentEmail);
 		
-		if (fqLogic.isQuestionAnswersVisibleTo(question,
-				FeedbackParticipantType.STUDENTS)) {
+		if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
 			addNewResponses(viewableResponses,
 					getFeedbackResponsesForQuestion(question.getId()));
 			
@@ -429,14 +426,18 @@ public class FeedbackResponsesLogic {
 			return viewableResponses;
 		}
 		
-		if (fqLogic.isQuestionAnswersVisibleTo(question,
-				FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+		if (question.recipientType == FeedbackParticipantType.TEAMS &&
+			question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+				addNewResponses(viewableResponses,
+						getFeedbackResponsesForReceiverForQuestion(question.getId(), student.team));
+		}
+		
+		if (question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
 			addNewResponses(viewableResponses,
 					getFeedbackResponsesFromTeamForQuestion(
 							question.getId(), question.courseId, student.team));
 		} 
-		if (fqLogic.isQuestionAnswersVisibleTo(question,
-				FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
+		if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
 			addNewResponses(viewableResponses,
 					getFeedbackResponsesForTeamMembersOfStudent(question.getId(), studentEmail));
 		}

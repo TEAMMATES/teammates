@@ -298,7 +298,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		assertEquals(results.feedbackSession.toString(), 
 				session.toString());	
 		
-		// Student can see responses: q1r1, q2r3, q3r1, qr4r2-3, q5r1, q6r1, q7r1-2
+		// Student can see responses: q1r1, q2r3, q3r1, qr4r2-3, q5r1, q7r1-2, q8r2
 		// We don't check the actual IDs as this is also implicitly tested
 		// later when checking the visibility table.
 		assertEquals(results.responses.size(), 9);
@@ -311,13 +311,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				"FSRTest.student1InCourse1@gmail.com=student1 In Course1",
 				"FSRTest.student2InCourse1@gmail.com=student2 In Course1",
 				"FSRTest.student4InCourse1@gmail.com=student4 In Course1",
+				"Team 1.1=Team 1.1",
 				"Team 1.3=Team 1.3",
 				"Team 1.4=Team 1.4",
 				"FSRTest.instr1@course1.com=Instructor1 Course1",
 				"FSRTest.student1InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
-				"FSRTest.student2InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1");
+				"FSRTest.student2InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
+				"FSRTest.student4InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.2");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailNameTable.size(), 8);
+		assertEquals(results.emailNameTable.size(), 10);
 		
 		// Test the generated response visibilityTable for userNames.		
 		mapString = tableToString(results.visibilityTable);
@@ -329,9 +331,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				getResponseId("qn4.resp2",responseBundle)+"={false,true}",
 				getResponseId("qn4.resp3",responseBundle)+"={false,true}",
 				getResponseId("qn5.resp1",responseBundle)+"={true,false}",
-				getResponseId("qn6.resp1",responseBundle)+"={false,false}",
 				getResponseId("qn7.resp1",responseBundle)+"={true,true}",
-				getResponseId("qn7.resp2",responseBundle)+"={true,true}");
+				getResponseId("qn7.resp2",responseBundle)+"={true,true}",
+				getResponseId("qn8.resp2",responseBundle)+"={true,true}");
 		AssertHelper.assertContains(expectedStrings, mapString);
 		assertEquals(results.visibilityTable.size(), 9);
 		
@@ -351,6 +353,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		mapString = results.emailNameTable.toString();
 		expectedStrings.clear();
 		Collections.addAll(expectedStrings,
+				"%GENERAL%=%NOBODY%",
 				"FSRTest.student1InCourse1@gmail.com=student1 In Course1",
 				"FSRTest.student2InCourse1@gmail.com=student2 In Course1",
 				"FSRTest.student3InCourse1@gmail.com=student3 In Course1",
@@ -363,7 +366,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				"FSRTest.instr1@course1.com=Instructor1 Course1",
 				"FSRTest.instr2@course1.com=Instructor2 Course1");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailNameTable.size(), 11);
+		assertEquals(results.emailNameTable.size(), 12);
 		
 		// Test the generated response visibilityTable for userNames.		
 		mapString = tableToString(results.visibilityTable);
@@ -378,7 +381,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				getResponseId("qn4.resp2",responseBundle)+"={true,true}",
 				getResponseId("qn4.resp3",responseBundle)+"={true,true}",
 				getResponseId("qn5.resp1",responseBundle)+"={false,true}",
-				getResponseId("qn6.resp1",responseBundle)+"={false,false}");
+				getResponseId("qn6.resp1",responseBundle)+"={true,true}");
 		AssertHelper.assertContains(expectedStrings, mapString);
 		assertEquals(results.visibilityTable.size(), 10);
 		
@@ -477,7 +480,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		//
 		//Question 3,"My comments on the class",
 		//Giver,Recipient,Feedback
-		//"Instructor1 Course1","Instructor1 Course1","Good work, keep it up!"
+		//"Instructor1 Course1","-","Good work, keep it up!"
 		
 		String[] exportLines = export.split(Const.EOL);
 		assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
@@ -506,7 +509,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		assertEquals(exportLines[21], "");
 		assertEquals(exportLines[22], "Giver,Recipient,Feedback");
 		// checking comma inside cell
-		assertEquals(exportLines[23], "\"Instructor1 Course1\",\"Instructor1 Course1\",\"Good work, keep it up!\"");
+		assertEquals(exportLines[23], "\"Instructor1 Course1\",\"-\",\"Good work, keep it up!\"");
 		
 		______TS("Non-existent Course/Session");
 		

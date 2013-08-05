@@ -83,6 +83,38 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		this.feedbackQuestionId = id;
 	}
 	
+	public FeedbackQuestion toEntity() {
+		return new FeedbackQuestion(
+				feedbackSessionName, courseId, creatorEmail,
+				questionText, questionNumber, questionType, giverType,
+				recipientType, numberOfEntitiesToGiveFeedbackTo,
+				showResponsesTo, showGiverNameTo, showRecipientNameTo);
+	}
+	
+	@Override
+	public String toString() {
+		return "FeedbackQuestionAttributes [feedbackSessionName="
+				+ feedbackSessionName + ", courseId=" + courseId
+				+ ", creatorEmail=" + creatorEmail + ", questionText="
+				+ questionText + ", questionNumber=" + questionNumber
+				+ ", questionType=" + questionType + ", giverType=" + giverType
+				+ ", recipientType=" + recipientType
+				+ ", numberOfEntitiesToGiveFeedbackTo="
+				+ numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
+				+ showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
+				+ ", showRecipientNameTo=" + showRecipientNameTo + "]";
+	}
+
+	@Override
+	public String getIdentificationString() {
+		return this.questionNumber + ". " + this.questionText.toString() + "/" + this.feedbackSessionName + "/" + this.courseId;
+	}
+
+	@Override
+	public String getEntityTypeAsString() {
+		return "Feedback Question";
+	}
+	
 	public List<String> getInvalidityInfo() {
 
 		FieldValidator validator = new FieldValidator();
@@ -107,77 +139,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		return errors;
 	}
 	
-	public FeedbackQuestion toEntity() {
-		return new FeedbackQuestion(
-				feedbackSessionName, courseId, creatorEmail,
-				questionText, questionNumber, questionType, giverType,
-				recipientType, numberOfEntitiesToGiveFeedbackTo,
-				showResponsesTo, showGiverNameTo, showRecipientNameTo);
-	}
-	
-	/**
-	 * Checks if updating this question to the {@code newAttributes} will
-	 * require the responses to be deleted for consistency.
-	 * Does not check if any responses exist.
-	 * @param newAttributes
-	 * @return
-	 */
-	public boolean isChangesRequiresResponseDeletion(
-			FeedbackQuestionAttributes newAttributes) {
-		if( newAttributes.giverType.equals(this.giverType) == false ||
-			newAttributes.recipientType.equals(this.recipientType) == false	) {
-			return true;
-		}
-		if( this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false || 
-			this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo) == false ||
-			this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo) == false ) {
-			return true;
-		}
-		return false;
-	}
-	
-	public void updateValues(FeedbackQuestionAttributes newAttributes) {
-		// These can't be changed anyway. Copy values to defensively avoid
-		// invalid parameters.
-		newAttributes.feedbackSessionName = this.feedbackSessionName;
-		newAttributes.courseId = this.courseId;
-		newAttributes.creatorEmail = this.creatorEmail;
-
-		if (newAttributes.questionText == null) {
-			newAttributes.questionText = this.questionText;
-		}
-		if (newAttributes.questionType == null) {
-			newAttributes.questionType = this.questionType;
-		}
-		if (newAttributes.giverType == null) {
-			newAttributes.giverType = this.giverType;
-		}
-		if (newAttributes.recipientType == null) {
-			newAttributes.recipientType = this.recipientType;
-		}
-		if (newAttributes.showResponsesTo == null) {
-			newAttributes.showResponsesTo = this.showResponsesTo;
-		}
-		if (newAttributes.showGiverNameTo == null) {
-			newAttributes.showGiverNameTo = this.showGiverNameTo;
-		}
-		if (newAttributes.showRecipientNameTo == null) {
-			newAttributes.showRecipientNameTo = this.showRecipientNameTo;
-		}
-	}
-	
 	// TODO: move following methods to PageData?
 	// Answer: OK to move to the respective PageData class. Unit test this thoroughly.
 	public List<String> getVisibilityMessage(){
 		
 		List<String> message = new ArrayList<String>();
-		
-		// General feedback message.
-		if (this.recipientType == FeedbackParticipantType.NONE) {
-			message.add("Everyone can see your feedback and your name as this is a general feedback question.");
-			return message;
-		}
-		
+				
 		for(FeedbackParticipantType participant : showResponsesTo) {
 			String line = "";
 			// Self feedback message.
@@ -229,39 +196,40 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		return message;
 	}
 	
-	public boolean isRecipientNameHidden() {
-		return (recipientType == FeedbackParticipantType.NONE || recipientType == FeedbackParticipantType.SELF);
-	}
-	
 	@Override
 	public boolean isValid() {
 		return getInvalidityInfo().isEmpty();
 	}
-
-	@Override
-	public String toString() {
-		return "FeedbackQuestionAttributes [feedbackSessionName="
-				+ feedbackSessionName + ", courseId=" + courseId
-				+ ", creatorEmail=" + creatorEmail + ", questionText="
-				+ questionText + ", questionNumber=" + questionNumber
-				+ ", questionType=" + questionType + ", giverType=" + giverType
-				+ ", recipientType=" + recipientType
-				+ ", numberOfEntitiesToGiveFeedbackTo="
-				+ numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
-				+ showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
-				+ ", showRecipientNameTo=" + showRecipientNameTo + "]";
-	}
-
-	@Override
-	public String getIdentificationString() {
-		return this.questionNumber + ". " + this.questionText.toString() + "/" + this.feedbackSessionName + "/" + this.courseId;
-	}
-
-	@Override
-	public String getEntityTypeAsString() {
-		return "Feedback Question";
+	
+	public boolean isRecipientNameHidden() {
+		return (recipientType == FeedbackParticipantType.NONE || recipientType == FeedbackParticipantType.SELF);
 	}
 	
+	public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
+		return showResponsesTo.contains(userType);
+	}
+	
+	/**
+	 * Checks if updating this question to the {@code newAttributes} will
+	 * require the responses to be deleted for consistency.
+	 * Does not check if any responses exist.
+	 * @param newAttributes
+	 * @return
+	 */
+	public boolean isChangesRequiresResponseDeletion(
+			FeedbackQuestionAttributes newAttributes) {
+		if( newAttributes.giverType.equals(this.giverType) == false ||
+			newAttributes.recipientType.equals(this.recipientType) == false	) {
+			return true;
+		}
+		if( this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false || 
+			this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo) == false ||
+			this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo) == false ) {
+			return true;
+		}
+		return false;
+	}
+		
 	@Override
 	public int compareTo(FeedbackQuestionAttributes o) {
 		if (o == null) {
@@ -383,5 +351,64 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		return true;
 	}
 
+	public void updateValues(FeedbackQuestionAttributes newAttributes) {
+		// These can't be changed anyway. Copy values to defensively avoid
+		// invalid parameters.
+		newAttributes.feedbackSessionName = this.feedbackSessionName;
+		newAttributes.courseId = this.courseId;
+		newAttributes.creatorEmail = this.creatorEmail;
+
+		if (newAttributes.questionText == null) {
+			newAttributes.questionText = this.questionText;
+		}
+		if (newAttributes.questionType == null) {
+			newAttributes.questionType = this.questionType;
+		}
+		if (newAttributes.giverType == null) {
+			newAttributes.giverType = this.giverType;
+		}
+		if (newAttributes.recipientType == null) {
+			newAttributes.recipientType = this.recipientType;
+		}
+		if (newAttributes.showResponsesTo == null) {
+			newAttributes.showResponsesTo = this.showResponsesTo;
+		}
+		if (newAttributes.showGiverNameTo == null) {
+			newAttributes.showGiverNameTo = this.showGiverNameTo;
+		}
+		if (newAttributes.showRecipientNameTo == null) {
+			newAttributes.showRecipientNameTo = this.showRecipientNameTo;
+		}
+	}
 	
+	public void removeIrrelevantVisibilityOptions() {
+		List<FeedbackParticipantType> optionsToRemove = 
+				new ArrayList<FeedbackParticipantType>();
+		switch(recipientType) {
+		case NONE:
+			optionsToRemove.add(FeedbackParticipantType.RECEIVER);
+			optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+			break;
+		case TEAMS:
+			optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+			break;
+		default:
+			break;
+		}
+		switch(giverType) {
+		case TEAMS:
+			optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+			break;
+		default:
+			break;
+		}
+		removeVisibilities(optionsToRemove);
+	}
+	
+	private void removeVisibilities(
+			List<FeedbackParticipantType> optionsToRemove) {
+			showResponsesTo.removeAll(optionsToRemove);
+			showGiverNameTo.removeAll(optionsToRemove);
+			showRecipientNameTo.removeAll(optionsToRemove);		
+	}
 }

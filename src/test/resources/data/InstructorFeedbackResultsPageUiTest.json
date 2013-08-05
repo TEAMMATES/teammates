@@ -197,7 +197,7 @@
 		"questionNumber" : "3",
 		"giverType" : "SELF",
 		"recipientType" : "NONE",
-		"numberOfEntitiesToGiveFeedbackTo" : 0,
+		"numberOfEntitiesToGiveFeedbackTo" : -100,
 		"showResponsesTo" : [  ],
 		"showGiverNameTo" : [  ],
 		"showRecipientNameTo" : [  ]

@@ -148,6 +148,7 @@ public class FieldValidator {
 	public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
 	public static final String GIVER_TYPE_NAME = "feedback giver.";
 	public static final String RECIPIENT_TYPE_NAME = "feedback recipient.";
+	public static final String VIEWER_TYPE_NAME = "feedback viewer.";
 	public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE = "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". Did you mean to use \"Self\" instead?";
 	
 	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
@@ -423,6 +424,10 @@ public class FieldValidator {
 		String error = "";
 		
 		for (FeedbackParticipantType type : showGiverNameTo) {
+			if (type.isValidViewer() == false) {
+				error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
+						type.toString(), VIEWER_TYPE_NAME);
+			}			
 			if (showResponsesTo.contains(type) == false) {
 				error += "Trying to show giver name to "
 						+ type.toString()
@@ -431,10 +436,21 @@ public class FieldValidator {
 		}
 		
 		for (FeedbackParticipantType type : showRecipientNameTo) {
+			if (type.isValidViewer() == false) {
+				error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
+						type.toString(), VIEWER_TYPE_NAME);
+			}			
 			if (showResponsesTo.contains(type) == false) {
 				error += "Trying to show recipient name to "
 						+ type.toString()
 						+ " without showing response first.";
+			}
+		}
+		
+		for (FeedbackParticipantType type : showResponsesTo) {
+			if (type.isValidViewer() == false) {
+				error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
+						type.toString(), VIEWER_TYPE_NAME);
 			}
 		}
 
