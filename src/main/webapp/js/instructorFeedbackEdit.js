@@ -44,6 +44,7 @@ function readyFeedbackEditPage(){
 	formatResponsesVisibilityGroup();
 	formatNumberBoxes();
 	formatCheckBoxes();
+	collapseIfPrivateSession();
 	document.onmousemove = positiontip;
 }
 
@@ -54,7 +55,6 @@ function disableEditFS(){
 	// Save then disable fields
 	getCustomDateTimeFields().each(function(){
 		$(this).data('last', $(this).prop('disabled'));
-		console.log($(this)+": ",$(this).prop('disabled'));
 	});
 	$('#form_editfeedbacksession').
 		find("text,input,button,textarea,select").prop('disabled', true);

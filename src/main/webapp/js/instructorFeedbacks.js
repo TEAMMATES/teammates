@@ -191,16 +191,7 @@ function readyFeedbackPage (){
 function formatSessionVisibilityGroup() {
 	var $sessionVisibilityBtnGroup = $('[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']');
 	$sessionVisibilityBtnGroup.change(function() {
-		if ($sessionVisibilityBtnGroup.filter(':checked').val() == "never") {
-			$('#timeFrameTable').hide();
-			$('#instructionsTable').find('tr:first').hide();
-			$('#response_visible_from_row').hide();
-		} else {
-			$('#timeFrameTable').show();
-			$('#instructionsTable').find('tr:first').show();
-			$('#response_visible_from_row').show();
-		}
-		
+		collapseIfPrivateSession();		
 		if ($sessionVisibilityBtnGroup.filter(':checked').val() == "custom") {
 			toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, false);
 			toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, false);
@@ -239,4 +230,23 @@ function formatResponsesVisibilityGroup() {
 function toggleDisabledAndStoreLast(id, bool) {
 	$('#'+id).prop('disabled', bool);
 	$('#'+id).data('last',$('#'+id).prop('disabled'));
+}
+
+/**
+ * Collapses/hides unnecessary fields/cells/tables if private session option is selected.
+ */
+function collapseIfPrivateSession() {
+	if ($('[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']').filter(':checked').val() == "never") {
+		$('#timeFrameTable').hide();
+		$('#instructionsTable').find('tr:first').hide();
+		if($('#instructionsTable').find(':visible').size()==0) {
+			$('#instructionsTable').hide();
+		}
+		$('#response_visible_from_row').hide();
+	} else {
+		$('#timeFrameTable').show();
+		$('#instructionsTable').show();
+		$('#instructionsTable').find('tr:first').show();
+		$('#response_visible_from_row').show();
+	}
 }
