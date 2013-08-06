@@ -121,7 +121,7 @@ public class Const {
 				+ "will be visible to the designated recipients.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE = "Select this option to have the feedback responses be immediately visible<br />"
 				+ "when the session becomes visible to users.";
-		public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to choose when the responses will be visible at a later time.";
+		public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to manually publish the session later on.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend never to publish the responses.";
 		public static final String FEEDBACK_SESSION_INSTRUCTIONS = "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.";
 		public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
@@ -459,11 +459,6 @@ public class Const {
 				+ "The start time should be in the future, and the deadline should be after start time.";
 		public static final String FIELDS_EMPTY = "Please fill in all the relevant fields.";
 	
-		public static final String FEEDBACK_SESSION_NAME_INVALID = "Please use only alphabets, numbers and whitespace in feedback session name.";
-		public static final String FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
-		public static final String FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
-				+ "The start time should be in the future, and the end time should be after start time.";
-		
 		public static final String INSTRUCTOR_STATUS_DELETED = "The Instructor status has been deleted";
 		public static final String INSTRUCTOR_ACCOUNT_DELETED = "The Account has been deleted";
 		public static final String INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";

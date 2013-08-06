@@ -62,7 +62,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		testContent();
 		
 		testEditSessionLink();
-		testInputValidationForSession();		
+		// testInputValidationForSession();		
 		testEditSessionAction();
 		
 		testNewQuestionLink();

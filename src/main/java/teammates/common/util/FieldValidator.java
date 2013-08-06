@@ -66,7 +66,7 @@ public class FieldValidator {
 					"The value of "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" should be no longer than "+
 					EVALUATION_INSTRUCTIONS_MAX_LENGTH+" characters.";	
 	
-	private static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "a feedback session name";
+	public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "a feedback session name";
 	public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
 	public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
@@ -125,7 +125,14 @@ public class FieldValidator {
 	public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
 					"The value of %s should be no longer than %d characters.";
-		
+	
+	public static final String ALPHANUMERIC_STRING_ERROR_MESSAGE = 
+			"\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. " +
+					"Please only use alphabets, numbers and whitespace in %s.";
+	
+	public static final String NON_NULL_FIELD_ERROR_MESSAGE = 
+			"The provided %s is not acceptable to TEAMMATES as it cannot be empty.";
+	
 	private static final String TEAM_NAME_FIELD_NAME = "a team name";
 	public static final int TEAM_NAME_MAX_LENGTH = 25;
 	public static final String TEAM_NAME_ERROR_MESSAGE = 
@@ -193,7 +200,7 @@ public class FieldValidator {
 	 */
 	public String getInvalidityInfo(FieldType fieldType, String fieldName, Object value) {
 		//TODO: should be break this into individual methods? We already have some methods like that in this class.
-		String returnValue = null;
+		String returnValue = "";
 		switch (fieldType) {
 		case PERSON_NAME:
 			returnValue = getValidityInfoForSizeCappedNonEmptyString(
@@ -216,7 +223,7 @@ public class FieldValidator {
 					EVALUATION_INSTRUCTIONS_FIELD_NAME, EVALUATION_INSTRUCTIONS_MAX_LENGTH, (String)value);
 			break;
 		case FEEDBACK_SESSION_NAME:
-			returnValue = getValidityInfoForSizeCappedNonEmptyString(
+			returnValue = getValidityInfoForSizeCappedAlphanumericNonEmptyString(
 					FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
 			break;
 		case FEEDBACK_QUESTION_TEXT:
@@ -250,6 +257,36 @@ public class FieldValidator {
 			return returnValue;
 		}
 	}
+	
+	/**
+	 * Checks if the given string is a non-null non-empty string no longer than
+	 * the specified length {@code maxLength}.
+	 * 
+	 * @param fieldName
+	 *            A descriptive name of the field e.g., "student name", to be
+	 *            used in the return value to make the explanation more
+	 *            descriptive. 
+	 * @param maxLength
+	 * @param value
+	 *            The string to be checked.
+	 * @return An explanation of why the {@code value} is not acceptable.
+	 *         Returns an empty string "" if the {@code value} is acceptable.
+	 */
+	public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
+		
+		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
+		
+		if (value.isEmpty()) {
+			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+		} else if(value.length()>maxLength){
+			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+		} else if (value.matches("^.*[^a-zA-Z0-9 ].*$")){
+			return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, value, fieldName, fieldName);
+		}
+		return "";
+	}
+	
 
 	/**
 	 * Checks if the given string is a non-null non-empty string no longer than
@@ -313,6 +350,7 @@ public class FieldValidator {
 		if(TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
 			return "";
 		}
+		
 		
 		String mainFieldName, earlierFieldName, laterFieldName;
 		
@@ -463,6 +501,9 @@ public class FieldValidator {
 		return error;
 	}
 	
+	public String getValidityInfoForNonNullField(String fieldName, Object value) {
+		return (value == null) ? String.format(NON_NULL_FIELD_ERROR_MESSAGE, fieldName) : "";
+	}
 	
 	private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {
 		Date nowInUserTimeZone = TimeHelper.convertToUserTimeZone(

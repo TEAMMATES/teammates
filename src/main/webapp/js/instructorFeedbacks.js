@@ -1,101 +1,5 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
 
-function isFeedbackSessionNameLengthValid(name) {
-	//Constant is kept in Common.java file, but checking is done in Javascript
-	return name.length <= FEEDBACK_SESSION_NAME_MAX_LENGTH;
-}
-
-function isFeedbackSessionNameValid(name) {
-	if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
-			|| name.indexOf("\"") >= 0) {
-		return false;
-	}
-	if (name.match(/^[a-zA-Z0-9 ]*$/) == null) {
-		return false;
-	}
-	return true;
-}
-
-/**
- * Check whether the parameters of a new feedback session (which is passed as a form) is valid.
- * @param form
- * @returns {Boolean}
- */
-function checkAddFeedbackSession(form){
-	var courseId = form.courseid.value;
-	var name = form.fsname.value;
-	var startDate = form.startdate.value;
-	var startTime = form.starttime.value;
-	var endDate = form.enddate.value;
-	var endTime = form.endtime.value;
-	var sessionVisibility = $('input:radio[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']:checked').val();
-	var resultsVisibility = $('input:radio[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']:checked').val();
-	var sessionDate = $('#'+FEEDBACK_SESSION_VISIBLEDATE).val();
-	var sessionTime = $('#'+FEEDBACK_SESSION_VISIBLETIME).val();
-	var resultsDate = $('#'+FEEDBACK_SESSION_PUBLISHDATE).val();
-	var resultsTime = $('#'+FEEDBACK_SESSION_PUBLISHTIME).val();
-	var timeZone = form.timezone.value;
-	var gracePeriod = form.graceperiod.value;
-	var instructions = form.instructions.value;
-
-	if (courseId == "" || name == "" || timeZone == "") {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	} else if (sessionVisibility != "never" && 
-			(startDate == "" || startTime == "" || endDate == "" || endTime == "" ||
-			 gracePeriod == "" || instructions == "")){
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	} else if (sessionVisibility == "custom" && (sessionDate == "" || sessionTime == "")) {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	} else if (resultsVisibility == "custom" && (resultsDate == "" || resultsTime == "")) {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	} else if (!isFeedbackSessionNameValid(name)) {
-		setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAMEINVALID, true);
-		return false;
-	} else if (!isFeedbackSessionNameLengthValid(name)) {
-		setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID, true);
-		return false;
-	}
-	return true;
-}
-
-/**
- * Check whether the edited feedback session parameter inputs (which is passed as a form) are valid.
- * @returns {Boolean}
- */
-function checkEditFeedbackSession(){
-	var startDate = $('#startdate').val();
-	var startTime = $('#starttime').val();
-	var endDate = $('#enddate').val();
-	var endTime = $('#endtime').val();
-	var gracePeriod = $('#graceperiod').val();
-	var instructions = $('#instructions').val();
-	var sessionVisibility = $('input:radio[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']:checked').val();
-	var resultsVisibility = $('input:radio[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']:checked').val();
-	var sessionDate = $('#'+FEEDBACK_SESSION_VISIBLEDATE).val();
-	var sessionTime = $('#'+FEEDBACK_SESSION_VISIBLETIME).val();
-	var resultsDate = $('#'+FEEDBACK_SESSION_PUBLISHDATE).val();
-	var resultsTime = $('#'+FEEDBACK_SESSION_PUBLISHTIME).val();
-	
-	if (sessionVisibility != "never" && 
-			(startDate == "" || startTime == "" || endDate == "" || endTime == "" ||
-			 gracePeriod == "" || instructions == "")) {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	} else if (sessionVisibility == "custom" && (sessionDate == "" || sessionTime == "")) {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	} else if (resultsVisibility == "custom" && (resultsDate == "" || resultsTime == "")) {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
-		return false;
-	}
-	return true;
-}
-
-
 /**
  * Check whether the feedback question input is valid
  * @param form
@@ -165,18 +69,13 @@ function convertDateToHHMM(date) {
 
 function readyFeedbackPage (){
 	
-	// Defaults
-	toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, true);
-	toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, true);
-	toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, true);
-	toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, true);
-	
     $("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
     	document.location.href = $(this).val();
     });
 
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
+    collapseIfPrivateSession();
 	
     window.doPageSpecificOnload = selectDefaultTimeOptions();
 }

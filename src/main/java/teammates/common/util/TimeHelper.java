@@ -165,6 +165,8 @@ public class TimeHelper {
 		Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
 	}
 

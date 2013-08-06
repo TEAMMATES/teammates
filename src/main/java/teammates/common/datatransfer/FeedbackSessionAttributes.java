@@ -109,6 +109,31 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
+		// Check for null fields.
+
+		error= validator.getValidityInfoForNonNullField("feedback session name", feedbackSessionName);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfoForNonNullField("course ID", courseId);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfoForNonNullField("instructions to students", instructions);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfoForNonNullField("time for the session to become visible", sessionVisibleFromTime);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfoForNonNullField("creator's email", creatorEmail);
+		if(!error.isEmpty()) { errors.add(error); }
+			
+		error= validator.getValidityInfoForNonNullField("session creation time", createdTime);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		// Early return if any null fields
+		if (!errors.isEmpty()) {
+			return errors;
+		}
+		
 		error= validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
 		if(!error.isEmpty()) { errors.add(error); }
 		
@@ -123,12 +148,34 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 			return errors;
 		}
 		
+		error= validator.getValidityInfoForNonNullField("submission opening time", startTime);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfoForNonNullField("submission closing time", endTime);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		error= validator.getValidityInfoForNonNullField("time for the responses to become visible", resultsVisibleFromTime);
+		if(!error.isEmpty()) { errors.add(error); }
+		
+		// Early return if any null fields
+		if (!errors.isEmpty()) {
+			return errors;
+		}		
+		
 		error= validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
 				FieldType.START_TIME, FieldType.END_TIME, startTime, endTime);
 		if(!error.isEmpty()) { errors.add(error); }	
 				
 		error= validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
 				FieldType.SESSION_VISIBLE_TIME, FieldType.START_TIME, sessionVisibleFromTime, startTime);
+		if(!error.isEmpty()) { errors.add(error); }	
+		
+		Date actualSessionVisibleFromTime = sessionVisibleFromTime;
+		if (actualSessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+			actualSessionVisibleFromTime = startTime;
+		}
+		error= validator.getValidityInfoForTimeFrame(FieldType.FEEDBACK_SESSION_TIME_FRAME,
+				FieldType.SESSION_VISIBLE_TIME, FieldType.RESULTS_VISIBLE_TIME, actualSessionVisibleFromTime, resultsVisibleFromTime);
 		if(!error.isEmpty()) { errors.add(error); }	
 		
 		return errors;

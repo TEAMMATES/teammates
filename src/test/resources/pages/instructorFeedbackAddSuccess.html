@@ -192,7 +192,7 @@
 				<table id="sessionViewableTable" class="inputTable sessionTable">
 					<tbody><tr>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when you want the questions for the feedback session to be visible to users who need to participate.<br />Note that users cannot submit their responses until the submissions opening time set below.')" class="label bold">Session visible from:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions.')"><input type="radio" value="custom" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" disabled="disabled" /> <input type="text" tabindex="3" readonly="readonly" value="" onclick="cal.select(this,'visibledate','dd/MM/yyyy')" id="visibledate" name="visibledate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="visibletime" name="visibletime" style="width: 70px;" disabled="disabled">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions.')"><input type="radio" value="custom" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" disabled="disabled" /> <input type="text" tabindex="3" readonly="readonly" disabled="disabled" value="" onclick="cal.select(this,'visibledate','dd/MM/yyyy')" id="visibledate" name="visibledate" style="width: 100px;" /> @ <select disabled="disabled" tabindex="4" id="visibletime" name="visibletime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -258,9 +258,9 @@
 
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users.')">
-							<input type="radio" checked="checked" value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" disabled="disabled" />
+							<input type="radio" value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" disabled="disabled" />
 							 Once the session is visible</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" disabled="disabled" />
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend to manually publish the session later on.')"><input type="radio" checked="checked" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" disabled="disabled" />
 							 Publish manually </td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" disabled="disabled" />
 							 Never</td>
@@ -273,10 +273,8 @@
 						<td><textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4" disabled="disabled">Please fill in the new feedback session.</textarea>							
 						</td>
 					</tr>
-					<tr>
-						<td class="rightalign" colspan="2"><input type="submit" value="Save Changes" style="display:none;" class="button" id="button_submit_edit" disabled="disabled" /></td>
-					</tr>
 				</tbody></table>
+				<br /><div class="rightalign"><input type="submit" value="Save Changes" style="display:none;" class="button" id="button_submit_edit" disabled="disabled" /></div>
 				</div>
 				<input type="hidden" value="New Session" name="fsname" disabled="disabled" />
 				<input type="hidden" value="CFeedbackUiT.CS1101" name="courseid" disabled="disabled" />

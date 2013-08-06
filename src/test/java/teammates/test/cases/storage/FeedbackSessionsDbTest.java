@@ -187,8 +187,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 		}
 		______TS("feedback session does not exist");
 		FeedbackSessionAttributes nonexistantFs = getNewFeedbackSession();
-		nonexistantFs.feedbackSessionName = "non-existant fs";
-		nonexistantFs.courseId = "non-existantCourse";
+		nonexistantFs.feedbackSessionName = "non existant fs";
+		nonexistantFs.courseId = "non.existant.course";
 		try {
 			fsDb.updateFeedbackSession(nonexistantFs);
 			signalFailureToDetectException();

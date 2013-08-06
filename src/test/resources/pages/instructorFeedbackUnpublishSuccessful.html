@@ -18,11 +18,6 @@
 	
 	<script src="/js/instructor.js" type="text/javascript"></script>
 	<script src="/js/instructorFeedbacks.js" type="text/javascript"></script>
-	
-	<script type="text/javascript">
-		var doPageSpecificOnload = selectDefaultTimeOptions;
-	</script>
-	
     <noscript>{*}</noscript>
 
 
@@ -83,7 +78,7 @@
 
 							</select></td>
 						<td class="label bold">Time zone:</td>
-						<td><select tabindex="3" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone">
+						<td><select tabindex="2" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone">
 										<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
 <option value="-10">UTC -10:00</option>
@@ -121,7 +116,7 @@
 					</tr>
 					<tr>
 						<td class="label bold">Feedback session name:</td>
-						<td colspan="3"><input type="text" placeholder="e.g. Feedback for Project Presentation 1" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the feedback session e.g. Feedback Session 1.')" id="fsname" name="fsname" /></td>
+						<td colspan="3"><input type="text" placeholder="e.g. Feedback for Project Presentation 1" tabindex="3" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the feedback session e.g. Feedback Session 1.')" id="fsname" name="fsname" /></td>
 					</tr>
 				</tbody></table>
 				<br />
@@ -129,7 +124,7 @@
 					<tbody><tr>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')" class="label bold middlealign">Submission<br />Opening Time:</td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')">
-							<input type="text" tabindex="7" readonly="readonly" value="{*}" onclick="cal.select(this,'startdate','dd/MM/yyyy')" id="startdate" name="startdate" style="width: 100px;" /> @ <select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
+							<input type="text" tabindex="4" readonly="readonly" value="{*}" onclick="cal.select(this,'startdate','dd/MM/yyyy')" id="startdate" name="startdate" style="width: 100px;" /> @ <select tabindex="5" id="starttime" name="starttime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -157,7 +152,7 @@
 
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')" class="label bold middlealign">Submission<br />Closing Time:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')"><input type="text" tabindex="8" readonly="readonly" value="" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" /> @ <select tabindex="4" id="endtime" name="endtime" style="width: 70px;">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')"><input type="text" tabindex="6" readonly="readonly" value="" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" /> @ <select tabindex="7" id="endtime" name="endtime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -186,7 +181,7 @@
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" class="label bold">Grace Period:</td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')">
-							<select tabindex="7" id="graceperiod" name="graceperiod" style="width: 75px;">
+							<select tabindex="8" id="graceperiod" name="graceperiod" style="width: 75px;">
 									<option value="0">0 mins</option>
 <option value="5">5 mins</option>
 <option value="10">10 mins</option>
@@ -202,7 +197,7 @@
 				<table id="sessionViewableTable" class="inputTable sessionTable">
 					<tbody><tr>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when you want the questions for the feedback session to be visible to users who need to participate.<br />Note that users cannot submit their responses until the submissions opening time set below.')" class="label bold">Session visible from:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions.')"><input type="radio" value="custom" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" /> <input type="text" tabindex="3" readonly="readonly" value="" onclick="cal.select(this,'visibledate','dd/MM/yyyy')" id="visibledate" name="visibledate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="visibletime" name="visibletime" style="width: 70px;" disabled="disabled">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions.')"><input type="radio" value="custom" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" /> <input type="text" tabindex="9" readonly="readonly" disabled="disabled" value="" onclick="cal.select(this,'visibledate','dd/MM/yyyy')" id="visibledate" name="visibledate" style="width: 100px;" /> @ <select tabindex="10" disabled="disabled" id="visibletime" name="visibletime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -238,11 +233,9 @@
 					</tr>
 					<tr id="response_visible_from_row">
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later.')" class="label bold">Responses visible from:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" 
-							value="custom" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" />
-							<input type="text" disabled="disabled" tabindex="5" readonly="readonly" value="" onclick="if(document.getElementById('resultsVisibleFromButton_custom').checked){cal.select(this,'publishdate','dd/MM/yyyy');}
-							else{return false;}" id="publishdate" name="publishdate" style="width: 100px;" />
-							@ <select disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')" tabindex="6" id="publishtime" name="publishtime" style="width: 70px;">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" value="custom" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" />
+							<input type="text" disabled="disabled" tabindex="11" readonly="readonly" value="" onclick="cal.select(this,'publishdate','dd/MM/yyyy');" id="publishdate" name="publishdate" style="width: 100px;" />
+							@ <select disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')" tabindex="12" id="publishtime" name="publishtime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -270,14 +263,11 @@
 
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users.')">
-							<input type="radio" 
-							 value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" />
+							<input type="radio" value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" />
 							 Once the session is visible</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" 
-							checked="checked" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" />
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend to manually publish the session later on.')"><input type="radio" checked="checked" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" />
 							 Publish manually </td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" 
-							 value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" />
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" />
 							 Never</td>
 					</tr>
 				</tbody></table>
@@ -285,16 +275,17 @@
 				<table id="instructionsTable" class="inputTable">
 					<tbody><tr>
 						<td class="label bold middlealign">Instructions to students:</td>
-						<td><textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4">Please answer all the given questions.</textarea>							
+						<td><textarea tabindex="13" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4">Please answer all the given questions.</textarea>							
 						</td>
 					</tr>
 					<tr>
-						<td class="centeralign" colspan="2"><input type="submit" tabindex="9" value="Create Feedback Session" onclick="return checkAddFeedbackSession(this.form);" class="button" id="button_submit" /></td>
+						<td class="centeralign" colspan="2"><input type="submit" tabindex="14" value="Create Feedback Session" onclick="return checkAddFeedbackSession(this.form);" class="button" id="button_submit" /></td>
 					</tr>
 				</tbody></table>
 				<input type="hidden" value="CFeedbackUiT.instructor" name="user" />
 			</form>
 			
+			<br />
 			
 
 
@@ -321,41 +312,81 @@
 				
 				<tr id="session0" class="sessions_row">
 					<td class="t_session_coursecode">CFeedbackUiT.CS1101</td>
-					<td class="t_session_name">Manual Session</td>
-					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.')">Closed</span></td>
+					<td class="t_session_name">Allow Early Viewing Session</td>
+					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session has been created, and is waiting to open.')">Awaiting</span></td>
 					<td class="t_session_response centeralign">0
 						/ 0</td>
-					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view0">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Manual Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete0">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit0">Submit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make session responses available for viewing')" onclick="hideddrivetip(); return togglePublishEvaluation('Manual Session');" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish0">Publish</a>
+					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view0">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit0">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Allow Early Viewing Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete0">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit0">Submit</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('This session is not yet opened')" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish0">Publish</a>
 					</td>
 				</tr>
 				
 				<tr id="session1" class="sessions_row">
+					<td class="t_session_coursecode">CFeedbackUiT.CS1101</td>
+					<td class="t_session_name">Manual Session</td>
+					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.')">Closed</span></td>
+					<td class="t_session_response centeralign">0
+						/ 0</td>
+					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view1">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit1">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Manual Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete1">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit1">Submit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make session responses available for viewing')" onclick="hideddrivetip(); return togglePublishEvaluation('Manual Session');" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish1">Publish</a>
+					</td>
+				</tr>
+				
+				<tr id="session2" class="sessions_row">
+					<td class="t_session_coursecode">CFeedbackUiT.CS1101</td>
+					<td class="t_session_name">Private Session</td>
+					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' This is a private session. Nobody can see it but you.')">Private</span></td>
+					<td class="t_session_response centeralign">0
+						/ 0</td>
+					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view2">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit2">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Private Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Private+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete2">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit2">Submit</a>
+					</td>
+				</tr>
+				
+				<tr id="session3" class="sessions_row">
+					<td class="t_session_coursecode">CFeedbackUiT.CS1101</td>
+					<td class="t_session_name">boundary number of characters123456789</td>
+					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.')">Closed</span></td>
+					<td class="t_session_response centeralign">0
+						/ 0</td>
+					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=boundary+number+of+characters123456789&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view3">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=boundary+number+of+characters123456789&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit3">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','boundary number of characters123456789');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=boundary+number+of+characters123456789&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete3">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=boundary+number+of+characters123456789&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit3">Submit</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('This session will be published automatically at the specified time')" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=boundary+number+of+characters123456789&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish3">Publish</a>
+					</td>
+				</tr>
+				
+				<tr id="session4" class="sessions_row">
+					<td class="t_session_coursecode">CFeedbackUiT.CS1101</td>
+					<td class="t_session_name">responses cant be seen my students 1</td>
+					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session has been created, is visible, and is open for submissions.')">Open</span></td>
+					<td class="t_session_response centeralign">0
+						/ 0</td>
+					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view4">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit4">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','responses cant be seen my students 1');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete4">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit4">Submit</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('This session will be published automatically at the specified time')" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish4">Publish</a>
+					</td>
+				</tr>
+				
+				<tr id="session5" class="sessions_row">
 					<td class="t_session_coursecode">CFeedbackUiT.CS2104</td>
 					<td class="t_session_name">First Session</td>
 					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.<br />The responses for this session are visible.')">Published</span></td>
 					<td class="t_session_response centeralign">0
 						/ 0</td>
-					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view1">View Results</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit1">Edit</a><a style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','First Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete1">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit1">Submit</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('This session will be published automatically at the specified time')" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish1">Publish</a>
+					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view5">View Results</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit5">Edit</a><a style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','First Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete5">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit5">Submit</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('This session will be published automatically at the specified time')" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish5">Publish</a>
 					</td>
 				</tr>
 				
-				<tr id="session2" class="sessions_row">
+				<tr id="session6" class="sessions_row">
 					<td class="t_session_coursecode">CFeedbackUiT.CS2104</td>
 					<td class="t_session_name">Private Session</td>
 					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' This is a private session. Nobody can see it but you.')">Private</span></td>
 					<td class="t_session_response centeralign">0
 						/ 0</td>
-					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view2">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit2">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','Private Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete2">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit2">Submit</a>
+					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view6">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit6">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','Private Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete6">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" class="color_blue t_session_submit6">Submit</a>
 					</td>
 				</tr>
 				
-				<tr id="evaluation3" class="sessions_row">
+				<tr id="evaluation7" class="sessions_row">
 					<td class="t_session_coursecode">CFeedbackUiT.CS1101</td>
 					<td class="t_session_name">First Eval</td>
 					<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has started and students can submit feedback until the closing time')">Open</span></td>
 					<td class="t_session_response centeralign">0
 						/ 2</td>
-					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResultsPage?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view3">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEditPage?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit3">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CFeedbackUiT.CS1101','First Eval');" href="/page/instructorEvalDelete?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEvalsPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete3">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('First Eval');" href="/page/instructorEvalRemind?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" class="color_black t_session_remind3">Remind</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/instructorEvalPublish?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEvalsPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish3">Publish</a>
+					<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResultsPage?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" class="color_green t_session_view7">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEditPage?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" class="color_brown t_session_edit7">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CFeedbackUiT.CS1101','First Eval');" href="/page/instructorEvalDelete?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEvalsPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_red t_session_delete7">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('First Eval');" href="/page/instructorEvalRemind?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" class="color_black t_session_remind7">Remind</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/instructorEvalPublish?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEvalsPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" class="color_black t_session_publish7">Publish</a>
 					</td>
 				</tr>
 				

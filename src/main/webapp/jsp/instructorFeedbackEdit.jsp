@@ -168,7 +168,7 @@
 							<input type="radio" 
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" value="atopen"
-							<%if(data.session.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) 
+							<%if(Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(data.session.sessionVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Submissions opening time</td>
 						<td colspan="2" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
@@ -176,7 +176,7 @@
 							<%if(data.session.isPrivateSession()) out.print("checked=\"checked\"");%>>
 							<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never"
-							<%if(data.session.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) 
+							<%if(Const.TIME_REPRESENTS_NEVER.equals(data.session.sessionVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Never (This is a private session)</td>
 					</tr>
@@ -218,21 +218,21 @@
 							onmouseout="hideddrivetip()">
 							<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
-							<%if(data.session!=null && data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) 
+							<%if(data.session!=null && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(data.session.resultsVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Once the session is visible</td>
-						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE%>')"
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
-							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER) ||
-								 data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW)) 
+							<%if(Const.TIME_REPRESENTS_LATER.equals(data.session.resultsVisibleFromTime) ||
+								 Const.TIME_REPRESENTS_NOW.equals(data.session.resultsVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Publish manually </td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
 							onmouseout="hideddrivetip()"><input type="radio"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
-							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) 
+							<%if(Const.TIME_REPRESENTS_NEVER.equals(data.session.resultsVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Never</td>
 					</tr>

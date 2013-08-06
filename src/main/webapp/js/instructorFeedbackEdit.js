@@ -14,9 +14,6 @@ function readyFeedbackEditPage(){
 	});
 	
 	// Bind submit actions
-	$('#form_editfeedbacksession').submit(function(event) {
-		return checkEditFeedbackSession();
-	});	
 	$('form[id|=form_editquestion]').submit(function(event) {
 		if($(this).attr('editStatus') == "mustDeleteResponses") {
 			if (confirm("Editing these fields will result in all existing responses for" +
