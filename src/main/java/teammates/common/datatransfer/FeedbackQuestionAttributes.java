@@ -147,13 +147,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 				
 		for(FeedbackParticipantType participant : showResponsesTo) {
 			String line = "";
-			// Self feedback message.
+			
+			// Exceptional case: self feedback
 			if(participant == FeedbackParticipantType.RECEIVER && 
-					this.recipientType == FeedbackParticipantType.SELF) {
+					recipientType == FeedbackParticipantType.SELF) {
 				message.add("You can see your own feedback in the results page later on.");
 				break;
 			}
+			
+			// Front fragment: e.g. Other students in the course..., The receiving.., etc.
 			line = participant.toVisibilityString() + " ";
+			
+			// Recipient fragment: e.g. student, instructor, etc.
 			if(participant == FeedbackParticipantType.RECEIVER) {
 				if (recipientType == FeedbackParticipantType.OWN_TEAM ||
 						recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
@@ -166,17 +171,23 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 					line += " ";
 				}
 			}
+			
 			line += "can see your response";
+			
+			// Visibility fragment: e.g. can see your name, but not...
 			if(showRecipientNameTo.contains(participant) == false) {
 				if(showGiverNameTo.contains(participant) == true) {
 					line += ", and your name";
 				} 
-				line += ", but <span class=\"bold color_red\">not</span> the name of the recipient";
+				if(recipientType != FeedbackParticipantType.NONE) {
+					line += ", but <span class=\"bold color_red\">not</span> the name of the recipient";
+				}
 				if(showGiverNameTo.contains(participant) == false) {
 					line += ", or your name";
 				}
 			} else if (showRecipientNameTo.contains(participant) == true) {
-				if(participant != FeedbackParticipantType.RECEIVER) {
+				if(participant != FeedbackParticipantType.RECEIVER &&
+						recipientType != FeedbackParticipantType.NONE) {
 					line += ", the name of the recipient";
 				}
 				if(showGiverNameTo.contains(participant)) {

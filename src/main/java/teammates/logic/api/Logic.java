@@ -995,7 +995,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 	
-		return feedbackSessionsLogic.isFeedbackSessionCompletedByUser(
+		return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(
 				feedbackSessionName, courseId, studentEmail);
 	}
 	

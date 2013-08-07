@@ -158,7 +158,7 @@ public class FeedbackQuestionsLogic {
 				new ArrayList<FeedbackQuestionAttributes>();
 		
 		for (FeedbackQuestionAttributes question : questions) {
-			if (isQuestionAnsweredByTeam(
+			if (isQuestionFullyAnsweredByTeam(
 					question, teamName) == false)
 				unansweredQuestions.add(question);
 		}
@@ -281,7 +281,7 @@ public class FeedbackQuestionsLogic {
 	 * @return {@code True} if there are no more recipients to give feedback to for the given
 	 * {@code teamName}. {@code False} if not.
 	 */
-	public boolean isQuestionAnsweredByTeam(FeedbackQuestionAttributes question, 
+	public boolean isQuestionFullyAnsweredByTeam(FeedbackQuestionAttributes question, 
 			String teamName) throws EntityDoesNotExistException {
 
 		List<StudentAttributes> studentsInTeam =

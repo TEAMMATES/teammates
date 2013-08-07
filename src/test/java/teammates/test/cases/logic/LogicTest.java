@@ -40,6 +40,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.EvaluationResultsBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -64,6 +65,7 @@ import teammates.logic.core.Emails;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -83,6 +85,7 @@ public class LogicTest extends BaseComponentTestCase {
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	private static final StudentsDb studentsDb = new StudentsDb();
 	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+	private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
 	private static Gson gson = Utils.getTeammatesGson();
 
@@ -2873,7 +2876,12 @@ public class LogicTest extends BaseComponentTestCase {
 	
 	public static void verifyAbsentInDatastore(FeedbackSessionAttributes fsa) {
 		assertEquals(null,
-				logic.getFeedbackSession(fsa.feedbackSessionName, fsa.courseId));	
+				fsDb.getFeedbackSession(fsa.feedbackSessionName, fsa.courseId));	
+	}
+	
+	public static void verifyAbsentInDatastore(FeedbackQuestionAttributes fqa) {
+		assertEquals(null,
+				fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber));	
 	}
 	
 	//TODO: move these verify methods to a utility class
@@ -2924,6 +2932,12 @@ public class LogicTest extends BaseComponentTestCase {
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
+	public static void verifyPresentInDatastore(FeedbackQuestionAttributes expected) {
+		FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
+				expected.feedbackSessionName, expected.courseId, expected.questionNumber);
+		assertEquals(gson.toJson(expected), gson.toJson(actual));
+	}
+	
 	public static void verifySameEvaluationData(EvaluationAttributes expected,
 			EvaluationAttributes actual) {
 		assertEquals(expected.courseId, actual.courseId);

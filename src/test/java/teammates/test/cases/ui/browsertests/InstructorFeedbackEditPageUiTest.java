@@ -2,8 +2,6 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.*;
 
-import java.text.ParseException;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -61,8 +59,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 	public void allTests() throws Exception{
 		testContent();
 		
-		testEditSessionLink();
-		// testInputValidationForSession();		
+		testEditSessionLink();	
 		testEditSessionAction();
 		
 		testNewQuestionLink();
@@ -88,32 +85,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 	private void testEditSessionLink(){
 		______TS("edit session link");
 		assertEquals(true, feedbackEditPage.clickEditSessionButton());		
-	}
-
-	private void testInputValidationForSession() throws ParseException {
-		
-		______TS("client-side input validation");
-		
-		// They are to be removed after confirming coverage by JS tests.
-		
-		// Empty instructions
-		feedbackEditPage.fillInstructionsBox("");
-		feedbackEditPage.clickSaveSessionButton();
-		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackEditPage.getStatus());
-
-		// Empty custom publishTime	
-		feedbackEditPage.fillInstructionsBox("instructions filled.");
-		feedbackEditPage.clearField(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-		feedbackEditPage.clickSaveSessionButton();
-		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackEditPage.getStatus());
-
-		// Empty custom visibleTime
-		feedbackEditPage.clickDefaultPublishTimeButton();
-		feedbackEditPage.clearField(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-		feedbackEditPage.clickSaveSessionButton();
-		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackEditPage.getStatus());
-
-
 	}
 
 	private void testEditSessionAction() throws Exception{

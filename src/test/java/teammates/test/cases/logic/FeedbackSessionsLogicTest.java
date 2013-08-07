@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,11 +15,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.FeedbackSessionStats;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -26,6 +31,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -51,21 +57,132 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	
 	@Test
 	public void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {		
-		______TS("Standard success case");
+		______TS("test create");
 		
 		FeedbackSessionAttributes fs = getNewFeedbackSession();
 		fsLogic.createFeedbackSession(fs);
 		LogicTest.verifyPresentInDatastore(fs);
+
+		______TS("test delete");
+		// Create a question under the session to test for cascading during delete.
+		FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
+		fq.feedbackSessionName = fs.feedbackSessionName;
+		fq.courseId = fs.courseId;
+		fq.questionNumber = 1;
+		fq.creatorEmail = fs.creatorEmail;
+		fq.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
+		fq.giverType = FeedbackParticipantType.STUDENTS;
+		fq.recipientType = FeedbackParticipantType.TEAMS;
+		fq.questionText = new Text("question to be deleted through cascade");
+		fq.questionType = FeedbackQuestionType.TEXT;
+		fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+		fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
+		fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+		
+		fqLogic.createFeedbackQuestion(fq);
 		
 		fsLogic.deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
 		LogicTest.verifyAbsentInDatastore(fs);
+		LogicTest.verifyAbsentInDatastore(fq);
 	}
 	
+	@Test
 	public void testGetFeedbackSessionDetailsForInstructor() throws Exception {
-		______TS("Standard success case");
 		
-		// TODO: implement this.
+		// This file contains a session with a private session + a standard
+		// session + a special session with all questions without recipients.
+		DataBundle dataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
+		new BackDoorLogic().persistDataBundle(dataBundle);
 		
+		Map<String,FeedbackSessionDetailsBundle> detailsMap =
+				new HashMap<String,FeedbackSessionDetailsBundle>();
+		
+		______TS("standard success case");
+		
+		List<FeedbackSessionDetailsBundle> detailsList = 
+				fsLogic.getFeedbackSessionDetailsForInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
+		
+		List<String> expectedSessions = new ArrayList<String>();
+		expectedSessions.add(dataBundle.feedbackSessions.get("standard.session").toString());
+		expectedSessions.add(dataBundle.feedbackSessions.get("no.responses.session").toString());
+		expectedSessions.add(dataBundle.feedbackSessions.get("no.recipients.session").toString());
+		expectedSessions.add(dataBundle.feedbackSessions.get("private.session").toString());
+		
+		String actualSessions = "";
+		for (FeedbackSessionDetailsBundle details : detailsList) {
+			actualSessions += details.feedbackSession.toString();
+			detailsMap.put(
+					details.feedbackSession.feedbackSessionName + "%" +
+					details.feedbackSession.courseId,
+					details);
+		}
+		
+		assertEquals(detailsList.size(), 4);
+		AssertHelper.assertContains(expectedSessions, actualSessions);
+		
+		/** Standard session **/
+		FeedbackSessionStats stats =
+				detailsMap.get(dataBundle.feedbackSessions.get("standard.session").feedbackSessionName + "%" +
+								dataBundle.feedbackSessions.get("standard.session").courseId).stats;
+		
+		// 2 instructors, 6 students = 8
+		assertEquals(stats.expectedTotal, 8);
+		// 1 instructor, 1 student, did not respond => 8-2=6
+		assertEquals(stats.submittedTotal, 6);
+		
+		
+		/** No recipients session **/
+		stats = detailsMap.get(dataBundle.feedbackSessions.get("no.recipients.session").feedbackSessionName + "%" +
+								dataBundle.feedbackSessions.get("no.recipients.session").courseId).stats;
+		
+		// 2 instructors, 6 students = 8
+		assertEquals(stats.expectedTotal, 8);
+		// only 1 student responded
+		assertEquals(stats.submittedTotal, 1);
+		
+		/** No responses session **/
+		stats = detailsMap.get(dataBundle.feedbackSessions.get("no.responses.session").feedbackSessionName + "%" +
+								dataBundle.feedbackSessions.get("no.responses.session").courseId).stats;
+		
+		// 1 instructors, 1 students = 2
+		assertEquals(stats.expectedTotal, 2);
+		// no responses
+		assertEquals(stats.submittedTotal, 0);
+		
+		/** Private session **/
+		stats = detailsMap.get(dataBundle.feedbackSessions.get("private.session").feedbackSessionName + "%" +
+				dataBundle.feedbackSessions.get("private.session").courseId).stats;
+		assertEquals(stats.expectedTotal, 1);
+		// For private sessions, we mark as completed only when creator has finished all questions.
+		assertEquals(stats.submittedTotal, 0);
+		
+		// Make session non-private
+		FeedbackSessionAttributes privateSession = 
+				dataBundle.feedbackSessions.get("private.session");
+		privateSession.sessionVisibleFromTime = privateSession.startTime;
+		privateSession.endTime = TimeHelper.convertToDate("2015-04-01 10:00 PM UTC");
+		privateSession.feedbackSessionType = FeedbackSessionType.STANDARD;
+		fsLogic.updateFeedbackSession(privateSession);
+		
+		// Re-read details
+		detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
+				dataBundle.instructors.get("instructor1OfCourse1").googleId);
+		for (FeedbackSessionDetailsBundle details : detailsList) {
+			if(details.feedbackSession.feedbackSessionName.equals(
+					dataBundle.feedbackSessions.get("private.session").feedbackSessionName)){
+				stats = details.stats;
+				break;
+			}
+		}
+		// 1 instructor (creator only), 6 students = 8
+		assertEquals(stats.expectedTotal, 7);
+		// 1 instructor, 1 student responded
+		assertEquals(stats.submittedTotal, 2);
+		
+		______TS("instructor does not exist");
+			
+		assertTrue(fsLogic.getFeedbackSessionDetailsForInstructor("non-existent.google.id").isEmpty());
+					
 	}
 	
 	@Test

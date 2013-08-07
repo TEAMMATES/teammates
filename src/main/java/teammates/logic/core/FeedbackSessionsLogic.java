@@ -35,8 +35,6 @@ import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackResponse;
 
-// TODO: Split all "User" type methods into Instructor & Student for more direct access?
-// Can select appropriate method at Action level.
 public class FeedbackSessionsLogic {
 
 	private static final Logger log = Utils.getLogger();
@@ -332,7 +330,7 @@ public class FeedbackSessionsLogic {
 		return fsDb.getFeedbackSession(feedbackSessionName, courseId) != null;
 	}
 	
-	public boolean isFeedbackSessionCompletedByUser(String feedbackSessionName,
+	public boolean isFeedbackSessionCompletedByStudent(String feedbackSessionName,
 			String courseId, String userEmail)
 			throws EntityDoesNotExistException {
 
@@ -342,7 +340,7 @@ public class FeedbackSessionsLogic {
 		}
 
 		List<FeedbackQuestionAttributes> allQuestions =
-				fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId,
+				fqLogic.getFeedbackQuestionsForStudent(feedbackSessionName, courseId,
 						userEmail);
 		
 		for (FeedbackQuestionAttributes question : allQuestions) {
@@ -352,28 +350,6 @@ public class FeedbackSessionsLogic {
 			}
 		}
 		return false;
-	}
-	
-	public boolean isFeedbackSessionFullyCompletedByUser(String feedbackSessionName,
-			String courseId, String userEmail)
-			throws EntityDoesNotExistException {
-
-		if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
-			throw new EntityDoesNotExistException(
-					"Trying to check a feedback session that does not exist.");
-		}
-
-		List<FeedbackQuestionAttributes> allQuestions =
-				fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId,
-						userEmail);
-		
-		for (FeedbackQuestionAttributes question : allQuestions) {
-			if(!fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)){
-				// If any question is not completely answered, session is not completed
-				return false;
-			}
-		}
-		return true;
 	}
 
 	// This method is for manual adding of additional responses to a FS.
@@ -409,14 +385,14 @@ public class FeedbackSessionsLogic {
 		if (newSession.endTime == null) {
 			newSession.endTime = oldSession.endTime;
 		}
+		if (newSession.feedbackSessionType == null) {
+			newSession.feedbackSessionType = oldSession.feedbackSessionType;
+		}
 		if (newSession.sessionVisibleFromTime == null) {
 			newSession.sessionVisibleFromTime = oldSession.sessionVisibleFromTime; 
 		}
 		if (newSession.resultsVisibleFromTime == null) {
 			newSession.resultsVisibleFromTime = oldSession.resultsVisibleFromTime; 
-		}
-		if (newSession.feedbackSessionType == null) {
-			newSession.feedbackSessionType = oldSession.feedbackSessionType; 
 		}
 		
 		makeEmailStateConsistent(oldSession, newSession);
@@ -505,7 +481,7 @@ public class FeedbackSessionsLogic {
 				List<StudentAttributes> students = new ArrayList<StudentAttributes>();
 				for (StudentAttributes student : allStudents) {
 					if (isFeedbackSessionViewableTo(session, student.email) &&
-						isFeedbackSessionFullyCompletedByUser(session.feedbackSessionName,
+						isFeedbackSessionFullyCompletedByInstructor(session.feedbackSessionName,
 								session.courseId, student.email) == false) {
 						students.add(student);
 					}
@@ -677,7 +653,7 @@ public class FeedbackSessionsLogic {
 						fsa.feedbackSessionName, fsa.courseId, student.email);
 				if (questions.isEmpty() == false) {
 					details.stats.expectedTotal += 1;
-					if (isFeedbackSessionCompletedByUser(fsa.feedbackSessionName,
+					if (isFeedbackSessionCompletedByStudent(fsa.feedbackSessionName,
 							fsa.courseId, student.email)) {
 						details.stats.submittedTotal += 1;
 					}
@@ -688,7 +664,7 @@ public class FeedbackSessionsLogic {
 						fsa.feedbackSessionName, fsa.courseId, instructor.email);
 				if (questions.isEmpty() == false) {
 					details.stats.expectedTotal += 1;
-					if (isFeedbackSessionCompletedByUser(fsa.feedbackSessionName,
+					if (isFeedbackSessionCompletedByInstructor(fsa.feedbackSessionName,
 							fsa.courseId, instructor.email)) {
 						details.stats.submittedTotal += 1;
 					}
@@ -704,7 +680,7 @@ public class FeedbackSessionsLogic {
 
 			int teamsSubmitted = 0;
 			for (TeamDetailsBundle team : teams) {
-				if (isFeedbackSessionCompletedByTeam(fsa.feedbackSessionName,
+				if (isFeedbackSessionFullyCompletedByTeam(fsa.feedbackSessionName,
 						fsa.courseId, team.name)) {
 					teamsSubmitted += 1;
 				}
@@ -718,7 +694,7 @@ public class FeedbackSessionsLogic {
 				break;
 			}
 			details.stats.expectedTotal = 1;
-			if(this.isFeedbackSessionFullyCompletedByUser(
+			if(this.isFeedbackSessionFullyCompletedByInstructor(
 					fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail)) {
 				details.stats.submittedTotal = 1;
 			}
@@ -768,7 +744,51 @@ public class FeedbackSessionsLogic {
 		}
 	}
 	
-	private boolean isFeedbackSessionCompletedByTeam(String feedbackSessionName,
+	private boolean isFeedbackSessionCompletedByInstructor(String feedbackSessionName,
+			String courseId, String userEmail)
+			throws EntityDoesNotExistException {
+
+		if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+			throw new EntityDoesNotExistException(
+					"Trying to check a feedback session that does not exist.");
+		}
+
+		List<FeedbackQuestionAttributes> allQuestions =
+				fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId,
+						userEmail);
+		
+		for (FeedbackQuestionAttributes question : allQuestions) {
+			if(fqLogic.isQuestionAnsweredByUser(question, userEmail)){
+				// If any question is answered, session is complete.
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean isFeedbackSessionFullyCompletedByInstructor(String feedbackSessionName,
+			String courseId, String userEmail)
+			throws EntityDoesNotExistException {
+
+		if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+			throw new EntityDoesNotExistException(
+					"Trying to check a feedback session that does not exist.");
+		}
+
+		List<FeedbackQuestionAttributes> allQuestions =
+				fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId,
+						userEmail);
+		
+		for (FeedbackQuestionAttributes question : allQuestions) {
+			if(!fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)){
+				// If any question is not completely answered, session is not completed
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean isFeedbackSessionFullyCompletedByTeam(String feedbackSessionName,
 			String courseId, String teamName)
 			throws EntityDoesNotExistException {
 
