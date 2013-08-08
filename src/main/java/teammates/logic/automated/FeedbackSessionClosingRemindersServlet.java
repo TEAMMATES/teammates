@@ -22,7 +22,7 @@ public class FeedbackSessionClosingRemindersServlet extends AutomatedRemindersSe
 		FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
 		
 		try {
-			ArrayList<MimeMessage> emails = feedbackSessionsLogic.sendFeedbackSessionOpenEmails();
+			ArrayList<MimeMessage> emails = feedbackSessionsLogic.sendFeedbackSessionOpeningEmails();
 			logActivitySuccess(req, emails);
 		}  catch (Throwable e) {
 			String reqParam = HttpRequestHelper.printRequestParameters(req);

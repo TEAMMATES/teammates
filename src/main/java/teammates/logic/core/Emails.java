@@ -365,7 +365,7 @@ public class Emails {
 		emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
 		emailBody = emailBody.replace("${deadline}",
 				TimeHelper.formatTime(fs.endTime));
-		emailBody = emailBody.replace("${instructorFragment}", "The email below has also been sent to students of course: "+c.id+".<br/>");
+		emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<br/>");
 		
 		String submitUrl = Config.APP_URL
 				+ Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
@@ -376,7 +376,7 @@ public class Emails {
 		emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
 		String reportUrl = Config.APP_URL
-				+ Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
+				+ Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
 		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
 				c.id);
 		reportUrl = Url.addParamToUrl(reportUrl,

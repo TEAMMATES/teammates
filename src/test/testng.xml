@@ -115,7 +115,7 @@
 	<test name="parallel-ui-tests" parallel="classes">
 	<!-- These cover the important UI functionality. Can be run in parallel. -->
 		<classes>
-			<class name="teammates.test.cases.ui.browsertests.AutomatedEvaluationRemindersTest" />
+			<class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />

@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -16,7 +17,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.GenericAppPage;
 
 /** This is considered a UI test case because it uses a Browser */
-public class AutomatedEvaluationRemindersTest extends BaseUiTestCase {
+public class AutomatedSessionRemindersTest extends BaseUiTestCase {
 	
 	private static Browser browser;
 	private static DataBundle testData;
@@ -24,9 +25,9 @@ public class AutomatedEvaluationRemindersTest extends BaseUiTestCase {
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testData = loadDataBundle("/AutomatedEvaluationRemindersTest.json");
+		testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
 		
-		//Set opening time of one evaluation within next last hour
+		//Set opening time of one evaluation within last hour
 		EvaluationAttributes openingEval = testData.evaluations.get("openingEval");
 		openingEval.startTime = TimeHelper.getMsOffsetToCurrentTime(-1);
 		
@@ -34,6 +35,14 @@ public class AutomatedEvaluationRemindersTest extends BaseUiTestCase {
 		EvaluationAttributes closingEval = testData.evaluations.get("closingEval");
 		int _23hours59min_InMilliSeconds = (60*23+59)*60*1000;
 		closingEval.endTime = TimeHelper.getMsOffsetToCurrentTime(_23hours59min_InMilliSeconds);
+		
+		//Set closing time of one feedback session in 23+ hours ahead of now.
+		FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
+		closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(_23hours59min_InMilliSeconds);
+
+		//Opening time for one feedback session already set to some time in the past.
+		
+		//Published time for one feedback session already set to some time in the past.
 		
 		restoreTestDataOnServer(testData);
 		browser = BrowserPool.getBrowser();
@@ -59,6 +68,29 @@ public class AutomatedEvaluationRemindersTest extends BaseUiTestCase {
 		Url closingRemindersUrl = new Url(TestProperties.inst().TEAMMATES_URL+
 				Const.ActionURIs.AUTOMATED_EVAL_CLOSING_REMINDERS);
 		loginAdminToPage(browser, closingRemindersUrl, GenericAppPage.class);
+	}
+	
+	@Test
+	public void testFeedbackSessionOpeningReminders(){
+		Url openingRemindersUrl = new Url(
+				TestProperties.inst().TEAMMATES_URL+ 
+				Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
+		loginAdminToPage(browser, openingRemindersUrl, GenericAppPage.class);
+	}
+	
+	@Test
+	public void testFeedbackSesssionClosingReminders(){
+		Url closingRemindersUrl = new Url(TestProperties.inst().TEAMMATES_URL+
+				Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
+		loginAdminToPage(browser, closingRemindersUrl, GenericAppPage.class);
+	}
+	
+	@Test
+	public void testFeedbackSessionPublishedReminders(){
+		Url publishedRemindersUrl = new Url(
+				TestProperties.inst().TEAMMATES_URL+ 
+				Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
+		loginAdminToPage(browser, publishedRemindersUrl, GenericAppPage.class);
 	}
 	
 	@AfterClass

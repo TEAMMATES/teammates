@@ -69,7 +69,7 @@ function enableEditFS(){
 	});
 	$('#form_editfeedbacksession').
 		find("text,input,button,textarea,select").
-		not($customDateTimeFields).not("#"+FEEDBACK_SESSION_TIMEZONE).
+		not($customDateTimeFields).
 		prop('disabled', false);
 	$('#fsEditLink').hide();
 	$('#fsSaveLink').show();

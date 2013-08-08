@@ -320,7 +320,10 @@ public class Const {
 		public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
 		
 		public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
-		public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";
+		public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";		
+		public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/feedbackSessionOpeningReminders";
+		public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/feedbackSessionClosingReminders";
+		public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/feedbackSessionPublishedReminders";
 		
 		public static final String BACKDOOR = "/backdoor";
 	}

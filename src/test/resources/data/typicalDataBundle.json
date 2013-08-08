@@ -324,7 +324,7 @@
       "timeZone" : 2.0,
       "gracePeriod": 5,
       "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : false,
+      "sentOpenEmail" : true,
       "sentPublishedEmail" : false
     },
     "empty.session": {
@@ -411,12 +411,12 @@
 		"feedbackSessionName" : "First feedback session",
 		"courseId" : "idOfTypicalCourse1",
 		"creatorEmail" : "instructor1@course1.com",
-		"questionText" : {"value" : "Rate 5 other students' products"},
+		"questionText" : {"value" : "Rate 1 other student's product"},
 		"questionNumber" : "2",
 		"questionType" : "TEXT",
 		"giverType" : "STUDENTS",
 		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 5,
+		"numberOfEntitiesToGiveFeedbackTo" : 1,
 		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
 		"showGiverNameTo" : [ "INSTRUCTORS" ],
 		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]

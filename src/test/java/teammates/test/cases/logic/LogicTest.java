@@ -2876,7 +2876,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 	public static void verifyAbsentInDatastore(FeedbackSessionAttributes fsa) {
 		assertEquals(null,
-				fsDb.getFeedbackSession(fsa.feedbackSessionName, fsa.courseId));	
+				fsDb.getFeedbackSession(fsa.courseId, fsa.feedbackSessionName));	
 	}
 	
 	public static void verifyAbsentInDatastore(FeedbackQuestionAttributes fqa) {
@@ -2928,7 +2928,7 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 	
 	public static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
-		FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.feedbackSessionName, expected.courseId);
+		FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.courseId, expected.feedbackSessionName);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 
