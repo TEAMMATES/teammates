@@ -17,7 +17,7 @@ public class FeedbackSessionOpeningRemindersServlet extends AutomatedRemindersSe
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		
 		servletName = "feedbackSessionOpeningReminders";
-		action = "send closing reminders";
+		action = "send opening reminders";
 		
 		FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
 		

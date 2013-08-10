@@ -91,7 +91,7 @@
       "endTime" : "2015-04-30 11:59 PM UTC",
       "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
       "resultsVisibleFromTime" : "2015-05-01 11:59 PM UTC",
-      "timeZone" : 5,
+      "timeZone" : 0,
       "gracePeriod": 15,
       "feedbackSessionType" : "STANDARD",
       "sentOpenEmail" : true,
@@ -107,11 +107,27 @@
       "endTime" : "2013-04-30 11:59 PM UTC",
       "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
       "resultsVisibleFromTime" : "2012-05-01 11:59 PM UTC",
-      "timeZone" : 0,
+      "timeZone" : 2,
       "gracePeriod": 0,
       "feedbackSessionType" : "STANDARD",
       "sentOpenEmail" : true,
       "sentPublishedEmail" : false
+    }
+   },
+    "feedbackQuestions" : {
+  	 "question": {
+		"feedbackSessionName" : "AutSessRem Closing Session",
+		"courseId" : "AutSessRem.course",
+		"creatorEmail" : "{$support.email}",
+		"questionText" : {"value" : "This question is so that closing reminders will be sent to students as it is unanswered."},
+		"questionNumber" : "1",
+		"questionType" : "TEXT",
+		"giverType" : "STUDENTS",
+		"recipientType" : "SELF",
+		"numberOfEntitiesToGiveFeedbackTo" : -100,
+		"showResponsesTo" : [ "INSTRUCTORS" ],
+		"showGiverNameTo" : [ "INSTRUCTORS" ],
+		"showRecipientNameTo" : [ "INSTRUCTORS" ]
     }
    }
 }
