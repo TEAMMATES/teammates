@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -26,15 +25,8 @@ public class InstructorFeedbackSubmissionEditPageAction extends Action {
 		// Get login details
 		InstructorFeedbackSubmissionEditPageData data = new InstructorFeedbackSubmissionEditPageData(account);
 				
-		data.bundle = logic.getFeedbackSessionQuestionsBundle(feedbackSessionName, courseId, instructor.email);
-		
-		// Check that session is open or private
-		if ( session.isOpened() == false &&
-			(session.isPrivateSession() && session.creatorEmail.equals(instructor.email)) == false) {
-			throw new UnauthorizedAccessException(
-					"This feedback session is not yet opened for submissions.");
-		}
-		
+		data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(feedbackSessionName, courseId, instructor.email);
+				
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
 		}

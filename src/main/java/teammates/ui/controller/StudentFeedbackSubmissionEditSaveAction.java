@@ -31,8 +31,8 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 
 		// Get student email instead of account email.
 		String studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
-				
-		data.bundle = logic.getFeedbackSessionQuestionsBundle(feedbackSessionName, courseId, studentEmail);
+
+		data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(feedbackSessionName, courseId, studentEmail);
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");

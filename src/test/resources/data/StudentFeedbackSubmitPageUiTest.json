@@ -193,14 +193,14 @@
 		"feedbackSessionName" : "First Session",
 		"courseId" : "SFSubmitUiT.CS2104",
 		"creatorEmail" : "SFSubmitUiT.instr@gmail.com",
-		"questionText" : {"value" : "My comments on the class"},
+		"questionText" : {"value" : "Comments about the class"},
 		"questionNumber" : "3",
-		"giverType" : "SELF",
+		"giverType" : "STUDENTS",
 		"recipientType" : "NONE",
-		"numberOfEntitiesToGiveFeedbackTo" : 0,
-		"showResponsesTo" : [  ],
+		"numberOfEntitiesToGiveFeedbackTo" : -100,
+		"showResponsesTo" : [ "INSTRUCTORS" ],
 		"showGiverNameTo" : [  ],
-		"showRecipientNameTo" : [  ]
+		"showRecipientNameTo" : [ "INSTRUCTORS" ]
     },
     "qn4InSession1": {
 		"feedbackSessionName" : "First Session",

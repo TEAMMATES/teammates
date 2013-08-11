@@ -456,6 +456,14 @@ public class BackDoor {
 		return feedbackSessionJson;
 	}
 	
+	public static String editFeedbackSession(FeedbackSessionAttributes updatedFeedbackSession) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_FEEDBACK_SESSION);
+		params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
+				.getTeammatesGson().toJson(updatedFeedbackSession));
+		String status = makePOSTRequest(params);
+		return status;
+	}
+	
 	public static String deleteFeedbackSession(String feedbackSessionName,
 			String courseId) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_FEEDBACK_SESSION);

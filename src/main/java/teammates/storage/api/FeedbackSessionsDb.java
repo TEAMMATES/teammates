@@ -9,6 +9,7 @@ import javax.jdo.Query;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -26,8 +27,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 	 * * All parameters are non-null. 
 	 * @return Null if not found.
 	 */
-	public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
-		//TODO: change parameter order. Our general practice is to give courseId first 
+	public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
 		
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -45,11 +45,29 @@ public class FeedbackSessionsDb extends EntitiesDb {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
-	 * @return An empty list if no sessions are found.
+	 * @return An empty list if no non-private sessions are found.
 	 */
-	public List<FeedbackSessionAttributes> getAllFeedbackSessions() {
+	public List<FeedbackSessionAttributes> getNonPrivateFeedbackSessions() {
 		
-		List<FeedbackSession> fsList = getAllFeedbackSessionEntities();
+		List<FeedbackSession> fsList = getNonPrivateFeedbackSessionEntities();
+		List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+		
+		for (FeedbackSession fs : fsList) {
+			fsaList.add(new FeedbackSessionAttributes(fs));
+		}
+		return fsaList;
+	}
+		
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return An empty list if no sessions are found for the given course.
+	 */
+	public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
+		
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		
+		List<FeedbackSession> fsList = getFeedbackSessionEntitiesForCourse(courseId);
 		List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
 		
 		for (FeedbackSession fs : fsList) {
@@ -61,13 +79,28 @@ public class FeedbackSessionsDb extends EntitiesDb {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
-	 * @return An empty list if no sessions are found for the given course.
+	 * @return An empty list if no sessions are found that have unsent open emails.
 	 */
-	public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
+	public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentOpenEmail() {
+				
+		List<FeedbackSession> fsList = getFeedbackSessionEntitiesWithUnsentOpenEmail();
+		List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
 		
-		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		for (FeedbackSession fs : fsList) {
+			fsaList.add(new FeedbackSessionAttributes(fs));
+		}
+		return fsaList;
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return An empty list if no sessions are found that have unsent published emails.
+	 */
+	public List<FeedbackSessionAttributes> getFeedbackSessionsWithUnsentPublishedEmail() {
 		
-		List<FeedbackSession> fsList = getFeedbackSessionEntitiesForCourse(courseId);
+		
+		List<FeedbackSession> fsList = getFeedbackSessionEntitiesWithUnsentPublishedEmail();
 		List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
 		
 		for (FeedbackSession fs : fsList) {
@@ -107,6 +140,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 		fs.setEndTime(newAttributes.endTime);
 		fs.setSessionVisibleFromTime(newAttributes.sessionVisibleFromTime);
 		fs.setResultsVisibleFromTime(newAttributes.resultsVisibleFromTime);
+		fs.setTimeZone(newAttributes.timeZone);
 		fs.setGracePeriod(newAttributes.gracePeriod);
 		fs.setFeedbackSessionType(newAttributes.feedbackSessionType);
 		fs.setSentOpenEmail(newAttributes.sentOpenEmail);
@@ -115,15 +149,16 @@ public class FeedbackSessionsDb extends EntitiesDb {
 		getPM().close();
 	}
 	
-	private List<FeedbackSession> getAllFeedbackSessionEntities() {		
+	private List<FeedbackSession> getNonPrivateFeedbackSessionEntities() {		
 		Query q = getPM().newQuery(FeedbackSession.class);
-		q.setFilter("");
+		q.declareParameters("Enum private");
+		q.setFilter("feedbackSessionType != private");
 		
 		@SuppressWarnings("unchecked")
-		List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute();
+		List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute(FeedbackSessionType.PRIVATE);
 		return fsList;
-	}	
-		
+	}
+	
 	private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {		
 		Query q = getPM().newQuery(FeedbackSession.class);
 		q.declareParameters("String courseIdParam");
@@ -132,7 +167,27 @@ public class FeedbackSessionsDb extends EntitiesDb {
 		@SuppressWarnings("unchecked")
 		List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute(courseId);
 		return fsList;
+	}
+	
+	private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentOpenEmail() {
+		Query q = getPM().newQuery(FeedbackSession.class);
+		q.declareParameters("boolean sentParam, Enum notTypeParam");
+		q.setFilter("sentOpenEmail == sentParam && feedbackSessionType != notTypeParam");
+		
+		@SuppressWarnings("unchecked")
+		List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
+		return fsList;
 	}	
+	
+	private List<FeedbackSession> getFeedbackSessionEntitiesWithUnsentPublishedEmail() {		
+		Query q = getPM().newQuery(FeedbackSession.class);
+		q.declareParameters("boolean sentParam, Enum notTypeParam");
+		q.setFilter("sentPublishedEmail == sentParam && feedbackSessionType != notTypeParam");
+		
+		@SuppressWarnings("unchecked")
+		List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute(false, FeedbackSessionType.PRIVATE);
+		return fsList;
+	}
 	
 	private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {
 		

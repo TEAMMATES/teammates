@@ -100,18 +100,18 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 		FeedbackSessionAttributes expected =
 				dataBundle.feedbackSessions.get("session1InCourse2");
 		FeedbackSessionAttributes actual =
-				fsDb.getFeedbackSession("Private feedback session", "idOfTypicalCourse2");
+				fsDb.getFeedbackSession("idOfTypicalCourse2", "Private feedback session");
 		
 		assertEquals(expected.toString(), actual.toString());
 		
 		______TS("non-existant session");
 		
-		assertNull(fsDb.getFeedbackSession("Non-existant feedback session", "non-course"));
+		assertNull(fsDb.getFeedbackSession("non-course", "Non-existant feedback session"));
 		
 		______TS("null params");
 		
 		try {
-			fsDb.getFeedbackSession(null, "idOfTypicalCourse1");
+			fsDb.getFeedbackSession("idOfTypicalCourse1", null);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
 			AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -187,8 +187,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 		}
 		______TS("feedback session does not exist");
 		FeedbackSessionAttributes nonexistantFs = getNewFeedbackSession();
-		nonexistantFs.feedbackSessionName = "non-existant fs";
-		nonexistantFs.courseId = "non-existantCourse";
+		nonexistantFs.feedbackSessionName = "non existant fs";
+		nonexistantFs.courseId = "non.existant.course";
 		try {
 			fsDb.updateFeedbackSession(nonexistantFs);
 			signalFailureToDetectException();

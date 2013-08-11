@@ -1,8 +1,6 @@
 package teammates.common.util;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 /**
@@ -123,7 +121,7 @@ public class Const {
 				+ "will be visible to the designated recipients.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE = "Select this option to have the feedback responses be immediately visible<br />"
 				+ "when the session becomes visible to users.";
-		public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to choose when the responses will be visible at a later time.";
+		public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to manually publish the session later on.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend never to publish the responses.";
 		public static final String FEEDBACK_SESSION_INSTRUCTIONS = "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.";
 		public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
@@ -322,7 +320,10 @@ public class Const {
 		public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
 		
 		public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
-		public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";
+		public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";		
+		public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/feedbackSessionOpeningReminders";
+		public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/feedbackSessionClosingReminders";
+		public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/feedbackSessionPublishedReminders";
 		
 		public static final String BACKDOOR = "/backdoor";
 	}
@@ -461,11 +462,6 @@ public class Const {
 				+ "The start time should be in the future, and the deadline should be after start time.";
 		public static final String FIELDS_EMPTY = "Please fill in all the relevant fields.";
 	
-		public static final String FEEDBACK_SESSION_NAME_INVALID = "Please use only alphabets, numbers and whitespace in feedback session name.";
-		public static final String FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
-		public static final String FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
-				+ "The start time should be in the future, and the end time should be after start time.";
-		
 		public static final String INSTRUCTOR_STATUS_DELETED = "The Instructor status has been deleted";
 		public static final String INSTRUCTOR_ACCOUNT_DELETED = "The Account has been deleted";
 		public static final String INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";
@@ -513,7 +509,7 @@ public class Const {
 	
 	public static final String EOL = System.getProperty("line.separator");
 	
-	public static final String USER_NOBODY_TEXT = "Class";
+	public static final String USER_NOBODY_TEXT = "-";
 	public static final String USER_UNKNOWN_TEXT = "Unknown user";
 	public static final String TEAM_OF_EMAIL_OWNER = "'s Team";	
 	
@@ -565,22 +561,11 @@ public class Const {
 	public static final Date TIME_REPRESENTS_NOW;
 	
 	static {
-		//TODO: Can be simplified using TimeHelper
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		calendar.clear();
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		calendar.set(1970, 11, 31);
-		TIME_REPRESENTS_FOLLOW_OPENING = calendar.getTime();
-		calendar.set(1970, 05, 22);
-		TIME_REPRESENTS_FOLLOW_VISIBLE = calendar.getTime();
-		calendar.set(1970, 10, 27);
-		TIME_REPRESENTS_NEVER = calendar.getTime();
-		calendar.set(1970, 00, 01);
-		TIME_REPRESENTS_LATER = calendar.getTime();
-		calendar.set(1970, 01, 14);
-		TIME_REPRESENTS_NOW = calendar.getTime();
+		TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
+		TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
+		TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 00:00 AM UTC");
+		TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
+		TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
 	}
  	
 }

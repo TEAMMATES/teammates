@@ -112,7 +112,7 @@
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>" tabindex="4">
 								<%
-									for (String opt : data.getTimeOptionsAsHtml(data.session.startTime))
+									for (String opt : data.getTimeOptionsAsHtml(data.session.endTime))
 										out.println(opt);
 								%>
 						</select></td>
@@ -146,11 +146,15 @@
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
 							onclick="cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>','dd/MM/yyyy')"
 							value="<%=TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.sessionVisibleFromTime)%>"
+							<%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime))
+									out.print("disabled=\"disabled\"");%>
 							readonly="readonly" tabindex="3"> @ <select
 							style="width: 70px;"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
-							tabindex="4">
+							tabindex="4"
+							<%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime))
+									out.print("disabled=\"disabled\"");%>>
 								<%
 									Date date = TimeHelper.isSpecialTime(
 											data.session.sessionVisibleFromTime) ? null
@@ -164,14 +168,16 @@
 							<input type="radio" 
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" value="atopen"
-							<%if(data.session.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) 
+							<%if(Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(data.session.sessionVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Submissions opening time</td>
 						<td colspan="2" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
 							onmouseout="hideddrivetip()"
 							<%if(data.session.isPrivateSession()) out.print("checked=\"checked\"");%>>
 							<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-							id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never">
+							id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never"
+							<%if(Const.TIME_REPRESENTS_NEVER.equals(data.session.sessionVisibleFromTime)) 
+									out.print("checked=\"checked\"");%>>
 							 Never (This is a private session)</td>
 					</tr>
 					<tr id="response_visible_from_row">
@@ -190,7 +196,8 @@
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"							
 							value="<%=TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.resultsVisibleFromTime)%>"
 							readonly="readonly" tabindex="5"
-							disabled="if(document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){'disabled'}else{''}"
+							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
+									out.print("disabled=\"disabled\"");%>
 							onclick="cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>','dd/MM/yyyy')">
 							@ <select style="width: 70px;"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>"
@@ -198,7 +205,8 @@
 							tabindex="6"
 							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE%>')"
 							onmouseout="hideddrivetip()"
-							disabled="if(document.getElementById('<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom').checked){'disabled'}else{''}">
+							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
+									out.print("disabled=\"disabled\"");%>>
 								<%
 									date = ((TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime)) ? null
 											: data.session.sessionVisibleFromTime);
@@ -210,20 +218,21 @@
 							onmouseout="hideddrivetip()">
 							<input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
-							<%if(data.session!=null && data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) 
+							<%if(data.session!=null && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(data.session.resultsVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Once the session is visible</td>
-						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE%>')"
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
-							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) 
+							<%if(Const.TIME_REPRESENTS_LATER.equals(data.session.resultsVisibleFromTime) ||
+								 Const.TIME_REPRESENTS_NOW.equals(data.session.resultsVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Publish manually </td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
 							onmouseout="hideddrivetip()"><input type="radio"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
-							<%if(data.session.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) 
+							<%if(Const.TIME_REPRESENTS_NEVER.equals(data.session.resultsVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Never</td>
 					</tr>
@@ -237,12 +246,10 @@
 								onmouseout="hideddrivetip()" tabindex="8"><%=InstructorFeedbacksPageData.sanitizeForHtml(data.session.instructions.getValue())%></textarea>							
 						</td>
 					</tr>
-					<tr>
-						<td colspan="2" class="rightalign"><input id="button_submit_edit"
-							type="submit" class="button" style="display:none;"
-							value="Save Changes"></td>
-					</tr>
 				</table>
+				<br><div class="rightalign"><input id="button_submit_edit"
+							type="submit" class="button" style="display:none;"
+							value="Save Changes"></div>
 				</div>
 				<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
 				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">

@@ -324,7 +324,7 @@
       "timeZone" : 2.0,
       "gracePeriod": 5,
       "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : false,
+      "sentOpenEmail" : true,
       "sentPublishedEmail" : false
     },
     "empty.session": {
@@ -411,12 +411,12 @@
 		"feedbackSessionName" : "First feedback session",
 		"courseId" : "idOfTypicalCourse1",
 		"creatorEmail" : "instructor1@course1.com",
-		"questionText" : {"value" : "Rate 5 other students' products"},
+		"questionText" : {"value" : "Rate 1 other student's product"},
 		"questionNumber" : "2",
 		"questionType" : "TEXT",
 		"giverType" : "STUDENTS",
 		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 5,
+		"numberOfEntitiesToGiveFeedbackTo" : 1,
 		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
 		"showGiverNameTo" : [ "INSTRUCTORS" ],
 		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
@@ -429,7 +429,7 @@
 		"questionNumber" : "3",
 		"giverType" : "SELF",
 		"recipientType" : "NONE",
-		"numberOfEntitiesToGiveFeedbackTo" : 0,
+		"numberOfEntitiesToGiveFeedbackTo" : -100,
 		"showResponsesTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
 		"showGiverNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
 		"showRecipientNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ]
@@ -565,7 +565,7 @@
 		"feedbackQuestionId" : "3",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "instructor1@course1.com",
-		"recipient" : "instructor1@course1.com",
+		"recipient" : "%GENERAL%",
 		"answer" : {"value" : "Good work, keep it up!"}
     },
     "response1ForQ1S2C1": {

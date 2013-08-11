@@ -90,6 +90,7 @@
 			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionEditActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackResultsPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalUnpublishActionTest" />
 			<class name="teammates.test.cases.ui.InstructorHomePageActionTest" />
 			<class name="teammates.test.cases.ui.StudentCourseDetailsPageActionTest" />
@@ -98,6 +99,7 @@
 			<class name="teammates.test.cases.ui.StudentEvalSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentEvalSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.StudentFeedbackResultsPageActionTest" />
+			<class name="teammates.test.cases.ui.StudentFeedbackSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentHomePageActionTest" />
 		</classes>
 	</test>
@@ -115,7 +117,7 @@
 	<test name="parallel-ui-tests" parallel="classes">
 	<!-- These cover the important UI functionality. Can be run in parallel. -->
 		<classes>
-			<class name="teammates.test.cases.ui.browsertests.AutomatedEvaluationRemindersTest" />
+			<class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />

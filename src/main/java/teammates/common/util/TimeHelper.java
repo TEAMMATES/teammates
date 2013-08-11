@@ -139,9 +139,14 @@ public class TimeHelper {
 	/**
 	 * @param dateInStringFormat should be in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
 	 */
-	public static Date convertToDate(String dateInStringFormat) throws ParseException {
-		DateFormat df = new SimpleDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT);
-		return df.parse(dateInStringFormat);
+	public static Date convertToDate(String dateInStringFormat) {
+		try {
+			DateFormat df = new SimpleDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT);
+			return df.parse(dateInStringFormat);
+		} catch (ParseException e) {
+			Assumption.fail("Date in String is in wrong format.");
+			return null;
+		}
 	}
 
 	public static Calendar dateToCalendar(Date date) {
@@ -160,6 +165,8 @@ public class TimeHelper {
 		Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
 	}
 
@@ -177,7 +184,8 @@ public class TimeHelper {
 		return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) ||
 			date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
 			date.equals(Const.TIME_REPRESENTS_LATER) ||
-			date.equals(Const.TIME_REPRESENTS_NEVER);
+			date.equals(Const.TIME_REPRESENTS_NEVER) ||
+			date.equals(Const.TIME_REPRESENTS_NOW);
 		
 	}
 

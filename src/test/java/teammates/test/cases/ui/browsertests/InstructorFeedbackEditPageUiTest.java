@@ -2,8 +2,6 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.*;
 
-import java.text.ParseException;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,6 +11,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
@@ -44,8 +43,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		editedSession = testData.feedbackSessions.get("openSession");
 		editedSession.gracePeriod = 30;
 		editedSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-		editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
+		editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
 		editedSession.instructions = new Text("Please fill in the edited feedback session.");
+		editedSession.endTime = TimeHelper.convertToDate("2014-05-01 10:00 PM UTC");
 		
 		instructorId = testData.accounts.get("instructorWithSessions").googleId;
 		courseId = testData.courses.get("course").id;
@@ -59,8 +59,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 	public void allTests() throws Exception{
 		testContent();
 		
-		testEditSessionLink();
-		testInputValidationForSession();		
+		testEditSessionLink();	
 		testEditSessionAction();
 		
 		testNewQuestionLink();
@@ -88,37 +87,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		assertEquals(true, feedbackEditPage.clickEditSessionButton());		
 	}
 
-	private void testInputValidationForSession() throws ParseException {
-		
-		______TS("client-side input validation");
-		
-		// They are to be removed after confirming coverage by JS tests.
-		
-		// Empty instructions
-		feedbackEditPage.fillInstructionsBox("");
-		feedbackEditPage.clickSaveSessionButton();
-		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackEditPage.getStatus());
-
-		// Empty custom publishTime	
-		feedbackEditPage.fillInstructionsBox("instructions filled.");
-		feedbackEditPage.clearField(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-		feedbackEditPage.clickSaveSessionButton();
-		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackEditPage.getStatus());
-
-		// Empty custom visibleTime
-		feedbackEditPage.clickDefaultPublishTimeButton();
-		feedbackEditPage.clearField(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-		feedbackEditPage.clickSaveSessionButton();
-		assertEquals(Const.StatusMessages.FIELDS_EMPTY, feedbackEditPage.getStatus());
-
-
-	}
-
 	private void testEditSessionAction() throws Exception{
 		
 		______TS("typical success case");
 		
-		feedbackEditPage.clickDefaultPublishTimeButton();
+		feedbackEditPage.clickManualPublishTimeButton();
 		feedbackEditPage.clickDefaultVisibleTimeButton();
 		feedbackEditPage.editFeedbackSession(editedSession.startTime, editedSession.endTime,
 				editedSession.instructions,
@@ -128,6 +101,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 				BackDoor.getFeedbackSession(editedSession.courseId, editedSession.feedbackSessionName);
 		assertEquals(editedSession.toString(), savedSession.toString());
 		feedbackEditPage.verifyHtml("/instructorFeedbackEditSuccess.html");
+		
+		
+		______TS("test edit page after manual publish");
+		
+		// Do a backdoor 'manual' publish.
+		editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
+		String status = BackDoor.editFeedbackSession(editedSession);
+		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+		
+		feedbackEditPage = getFeedbackEditPage();
+		feedbackEditPage.verifyHtml("/instructorFeedbackEditPublished.html");
+		// Restore defaults
+		feedbackEditPage.clickEditSessionButton();
+		feedbackEditPage.clickDefaultPublishTimeButton();
+		feedbackEditPage.clickSaveSessionButton();
+
 	}
 
 	

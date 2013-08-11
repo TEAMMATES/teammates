@@ -49,15 +49,24 @@ public class InstructorFeedbacksPage extends AppPage {
 	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_custom")
 	private WebElement customResultsVisibleTimeButton;
 	
+	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
+	private WebElement neverSessionVisibleTimeButton;
+	
+	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
+	private WebElement neverResultsVisibleTimeButton;
+	
 	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_atopen")
 	private WebElement defaultSessionVisibleTimeButton;
 	
 	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_atvisible")
 	private WebElement defaultResultsVisibleTimeButton;
 	
+	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_later")
+	private WebElement manualResultsVisibleTimeButton;
+	
 	@FindBy(id = "button_submit")
 	private WebElement submitButton;
-	
+		
 	@FindBy(id = "button_sortname")
 	private WebElement sortByNameIcon;
 	
@@ -72,6 +81,12 @@ public class InstructorFeedbacksPage extends AppPage {
 	@Override
 	protected boolean containsExpectedPageContents() {
 		return getPageSource().contains("<h1>Add New Feedback Session</h1>");
+	}
+	
+	public AppPage sortByDeadline() {
+		sortByNameIcon.click();
+		waitForPageToLoad();
+		return this;
 	}
 
 	public AppPage sortByName() {
@@ -103,6 +118,18 @@ public class InstructorFeedbacksPage extends AppPage {
 		customResultsVisibleTimeButton.click();
 	}
 	
+	public void clickNeverVisibleTimeButton(){
+		neverSessionVisibleTimeButton.click();
+	}
+	
+	public void clickNeverPublishTimeButton(){
+		neverResultsVisibleTimeButton.click();
+	}
+	
+	public void clickManualPublishTimeButton(){
+		manualResultsVisibleTimeButton.click();
+	}
+	
 	public void clickDefaultVisibleTimeButton(){
 		defaultSessionVisibleTimeButton.click();
 	}
@@ -125,26 +152,48 @@ public class InstructorFeedbacksPage extends AppPage {
 	
 		selectDropdownByVisibleValue(courseIdDropdown, courseId);
 		
-		// Select start date
+		// Select start date/time
 		JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-		js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE
-				+ "')[0].value='" + TimeHelper.formatDate(startTime) + "';");
-		selectDropdownByVisibleValue(startTimeDropdown,
-				TimeHelper.convertToDisplayValueInTimeDropDown(startTime));
+		if (startTime != null) {
+			js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE
+					+ "')[0].value='" + TimeHelper.formatDate(startTime) + "';");
+			selectDropdownByVisibleValue(startTimeDropdown,
+					TimeHelper.convertToDisplayValueInTimeDropDown(startTime));
+		}
 	
-		// Select deadline date
-		js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE
-				+ "')[0].value='" + TimeHelper.formatDate(endTime) + "';");
-		selectDropdownByVisibleValue(endTimeDropdown,
-				TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
+		// Select deadline date/time
+		if (endTime != null) {
+			js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE
+					+ "')[0].value='" + TimeHelper.formatDate(endTime) + "';");
+			selectDropdownByVisibleValue(endTimeDropdown,
+					TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
+		}
 		
-
+		// Select custom visible date/time
+		if (visibleTime != null) {
+			js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE
+					+ "')[0].value='" + TimeHelper.formatDate(visibleTime) + "';");
+			selectDropdownByVisibleValue(visibleTimeDropDown,
+					TimeHelper.convertToDisplayValueInTimeDropDown(visibleTime));
+		}
+	
+		// Select custom publish date/time
+		if (publishTime != null) {
+			js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE
+					+ "')[0].value='" + TimeHelper.formatDate(publishTime) + "';");
+			selectDropdownByVisibleValue(publishTimeDropDown,
+				TimeHelper.convertToDisplayValueInTimeDropDown(publishTime));
+		}	
 		
 		// Fill in instructions
-		fillTextBox(instructionsTextBox, instructions.getValue());
+		if (instructions != null) {
+			fillTextBox(instructionsTextBox, instructions.getValue());
+		}
 	
 		// Select grace period
-		selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod)+ " mins");		
+		if (gracePeriod != -1) {
+			selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod)+ " mins");
+		}
 	
 		clickSubmitButton();
 	}

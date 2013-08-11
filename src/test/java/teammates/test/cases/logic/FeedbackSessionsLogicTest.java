@@ -6,19 +6,26 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.FeedbackSessionStats;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -26,7 +33,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.logic.core.Emails;
+import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.cases.BaseComponentTestCase;
@@ -37,6 +47,7 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	
 	private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+	private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 	private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 	private DataBundle dataBundle = getTypicalDataBundle();
 	
@@ -49,21 +60,132 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	
 	@Test
 	public void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {		
-		______TS("Standard success case");
+		______TS("test create");
 		
 		FeedbackSessionAttributes fs = getNewFeedbackSession();
 		fsLogic.createFeedbackSession(fs);
 		LogicTest.verifyPresentInDatastore(fs);
+
+		______TS("test delete");
+		// Create a question under the session to test for cascading during delete.
+		FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
+		fq.feedbackSessionName = fs.feedbackSessionName;
+		fq.courseId = fs.courseId;
+		fq.questionNumber = 1;
+		fq.creatorEmail = fs.creatorEmail;
+		fq.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
+		fq.giverType = FeedbackParticipantType.STUDENTS;
+		fq.recipientType = FeedbackParticipantType.TEAMS;
+		fq.questionText = new Text("question to be deleted through cascade");
+		fq.questionType = FeedbackQuestionType.TEXT;
+		fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+		fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
+		fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+		
+		fqLogic.createFeedbackQuestion(fq);
 		
 		fsLogic.deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
 		LogicTest.verifyAbsentInDatastore(fs);
+		LogicTest.verifyAbsentInDatastore(fq);
 	}
 	
+	@Test
 	public void testGetFeedbackSessionDetailsForInstructor() throws Exception {
-		______TS("Standard success case");
 		
-		// TODO: need Responses to test properly.
+		// This file contains a session with a private session + a standard
+		// session + a special session with all questions without recipients.
+		DataBundle dataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
+		new BackDoorLogic().persistDataBundle(dataBundle);
 		
+		Map<String,FeedbackSessionDetailsBundle> detailsMap =
+				new HashMap<String,FeedbackSessionDetailsBundle>();
+		
+		______TS("standard success case");
+		
+		List<FeedbackSessionDetailsBundle> detailsList = 
+				fsLogic.getFeedbackSessionDetailsForInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
+		
+		List<String> expectedSessions = new ArrayList<String>();
+		expectedSessions.add(dataBundle.feedbackSessions.get("standard.session").toString());
+		expectedSessions.add(dataBundle.feedbackSessions.get("no.responses.session").toString());
+		expectedSessions.add(dataBundle.feedbackSessions.get("no.recipients.session").toString());
+		expectedSessions.add(dataBundle.feedbackSessions.get("private.session").toString());
+		
+		String actualSessions = "";
+		for (FeedbackSessionDetailsBundle details : detailsList) {
+			actualSessions += details.feedbackSession.toString();
+			detailsMap.put(
+					details.feedbackSession.feedbackSessionName + "%" +
+					details.feedbackSession.courseId,
+					details);
+		}
+		
+		assertEquals(detailsList.size(), 4);
+		AssertHelper.assertContains(expectedSessions, actualSessions);
+		
+		/** Standard session **/
+		FeedbackSessionStats stats =
+				detailsMap.get(dataBundle.feedbackSessions.get("standard.session").feedbackSessionName + "%" +
+								dataBundle.feedbackSessions.get("standard.session").courseId).stats;
+		
+		// 2 instructors, 6 students = 8
+		assertEquals(stats.expectedTotal, 8);
+		// 1 instructor, 1 student, did not respond => 8-2=6
+		assertEquals(stats.submittedTotal, 6);
+		
+		
+		/** No recipients session **/
+		stats = detailsMap.get(dataBundle.feedbackSessions.get("no.recipients.session").feedbackSessionName + "%" +
+								dataBundle.feedbackSessions.get("no.recipients.session").courseId).stats;
+		
+		// 2 instructors, 6 students = 8
+		assertEquals(stats.expectedTotal, 8);
+		// only 1 student responded
+		assertEquals(stats.submittedTotal, 1);
+		
+		/** No responses session **/
+		stats = detailsMap.get(dataBundle.feedbackSessions.get("no.responses.session").feedbackSessionName + "%" +
+								dataBundle.feedbackSessions.get("no.responses.session").courseId).stats;
+		
+		// 1 instructors, 1 students = 2
+		assertEquals(stats.expectedTotal, 2);
+		// no responses
+		assertEquals(stats.submittedTotal, 0);
+		
+		/** Private session **/
+		stats = detailsMap.get(dataBundle.feedbackSessions.get("private.session").feedbackSessionName + "%" +
+				dataBundle.feedbackSessions.get("private.session").courseId).stats;
+		assertEquals(stats.expectedTotal, 1);
+		// For private sessions, we mark as completed only when creator has finished all questions.
+		assertEquals(stats.submittedTotal, 0);
+		
+		// Make session non-private
+		FeedbackSessionAttributes privateSession = 
+				dataBundle.feedbackSessions.get("private.session");
+		privateSession.sessionVisibleFromTime = privateSession.startTime;
+		privateSession.endTime = TimeHelper.convertToDate("2015-04-01 10:00 PM UTC");
+		privateSession.feedbackSessionType = FeedbackSessionType.STANDARD;
+		fsLogic.updateFeedbackSession(privateSession);
+		
+		// Re-read details
+		detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
+				dataBundle.instructors.get("instructor1OfCourse1").googleId);
+		for (FeedbackSessionDetailsBundle details : detailsList) {
+			if(details.feedbackSession.feedbackSessionName.equals(
+					dataBundle.feedbackSessions.get("private.session").feedbackSessionName)){
+				stats = details.stats;
+				break;
+			}
+		}
+		// 1 instructor (creator only), 6 students = 8
+		assertEquals(stats.expectedTotal, 7);
+		// 1 instructor, 1 student responded
+		assertEquals(stats.submittedTotal, 2);
+		
+		______TS("instructor does not exist");
+			
+		assertTrue(fsLogic.getFeedbackSessionDetailsForInstructor("non-existent.google.id").isEmpty());
+					
 	}
 	
 	@Test
@@ -130,31 +252,145 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	}
 	
 	@Test
-	public void testGetFeedbackSessionBundleForUser() throws Exception {
+	public void testGetFeedbackSessionQuestionsForStudent() throws Exception {
 		
-		______TS("Student submit feedback test");
+		______TS("standard test");
 
 		restoreTypicalDataInDatastore();
 		
 		FeedbackSessionQuestionsBundle actual =
-				fsLogic.getFeedbackSessionQuestionsForUser("First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.com");
+				fsLogic.getFeedbackSessionQuestionsForStudent(
+						"First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.com");
 		
-		// There should be 2 question for students to do in session 1.
-		// The final question is set for SELF (creator) only.
-		assertTrue(actual.questionResponseBundle.size() == 2);
-		
-		String expected =
-				dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").toString() + Const.EOL +
-				dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").toString();
-		
+		// We just test this once.
 		assertEquals(actual.feedbackSession.toString(), 
 				dataBundle.feedbackSessions.get("session1InCourse1").toString());
 		
-		for (FeedbackQuestionAttributes key : actual.questionResponseBundle.keySet()) {
-		    AssertHelper.assertContains(key.toString(), expected);
+		// There should be 2 question for students to do in session 1.
+		// The final question is set for SELF (creator) only.
+		assertEquals(actual.questionResponseBundle.size(),2);
+		
+		// Question 1
+		FeedbackQuestionAttributes expectedQuestion = 
+				getQuestionFromDatastore("qn1InSession1InCourse1");
+		assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
+		
+		String expectedResponsesString = getResponseFromDatastore("response1ForQ1S1C1", dataBundle).toString();
+		List<String> actualResponses = new ArrayList<String>();		
+		for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
+			actualResponses.add(responsesForQn.toString());
+		}
+		assertEquals(actualResponses.size(), 1);
+		AssertHelper.assertContains(actualResponses, expectedResponsesString);
+		
+		// Question 2
+		expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse1");
+		assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
+		
+		expectedResponsesString = getResponseFromDatastore("response2ForQ2S1C1",dataBundle).toString();	
+		actualResponses.clear();		
+		for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
+			actualResponses.add(responsesForQn.toString());
+		}
+		assertEquals(actualResponses.size(), 1);
+		AssertHelper.assertContains(actualResponses, expectedResponsesString);
+		
+		______TS("team feedback test");
+
+		// Check that student3 get team member's (student4) feedback response as well (for team question).
+		actual = fsLogic.getFeedbackSessionQuestionsForStudent(
+						"Second feedback session", "idOfTypicalCourse1", "student3InCourse1@gmail.com");
+
+		assertEquals(actual.questionResponseBundle.size(),2);
+		
+		// Question 1
+		expectedQuestion = getQuestionFromDatastore("team.feedback");
+		assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
+
+		expectedResponsesString = getResponseFromDatastore(
+				"response1ForQ1S2C1", dataBundle).toString();
+		actualResponses.clear();
+		for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle
+				.get(expectedQuestion)) {
+			actualResponses.add(responsesForQn.toString());
+		}
+		assertEquals(actualResponses.size(), 1);
+		AssertHelper.assertContains(actualResponses, expectedResponsesString);
+		
+		// Question 2, no responses from this student yet
+		expectedQuestion = getQuestionFromDatastore("team.members.feedback");
+		assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
+		assertTrue(actual.questionResponseBundle.get(expectedQuestion).isEmpty());
+		
+		______TS("failure: invalid session");
+		
+		try {
+			fsLogic.getFeedbackSessionQuestionsForStudent(
+					"invalid session", "idOfTypicalCourse1", "student3InCourse1@gmail.com");
+			signalFailureToDetectException("Did not detect that session does not exist.");
+		} catch (EntityDoesNotExistException e) {
+			assertEquals(e.getMessage(), "Trying to get a feedback session that does not exist.");
 		}
 		
-		// TODO: test responses (valueSet)
+	}
+	
+	@Test
+	public void testGetFeedbackSessionQuestionsForInstructor() throws Exception {
+		______TS("standard test");
+
+		restoreTypicalDataInDatastore();
+		
+		FeedbackSessionQuestionsBundle actual =
+				fsLogic.getFeedbackSessionQuestionsForInstructor(
+						"Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.com");
+		
+		// We just test this once.
+		assertEquals(actual.feedbackSession.toString(), 
+				dataBundle.feedbackSessions.get("session2InCourse2").toString());
+		
+		// There should be 2 question for students to do in session 1.
+		// The final question is set for SELF (creator) only.
+		assertEquals(actual.questionResponseBundle.size(),2);
+		
+		// Question 1
+		FeedbackQuestionAttributes expectedQuestion = 
+				getQuestionFromDatastore("qn1InSession2InCourse2");
+		assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
+		
+		String expectedResponsesString = getResponseFromDatastore("response1ForQ1S2C2", dataBundle).toString();
+		List<String> actualResponses = new ArrayList<String>();		
+		for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
+			actualResponses.add(responsesForQn.toString());
+		}
+		assertEquals(actualResponses.size(), 1);
+		AssertHelper.assertContains(actualResponses, expectedResponsesString);
+		
+		// Question 2
+		expectedQuestion = getQuestionFromDatastore("qn2InSession2InCourse2");
+		assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
+		assertTrue(actual.questionResponseBundle.get(expectedQuestion).isEmpty());
+		
+		______TS("private test: not creator");
+		actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
+						"Private feedback session", "idOfTypicalCourse2", "instructor2@course2.com");
+		assertEquals(actual.questionResponseBundle.size(),0);
+		
+		______TS("private test: is creator");
+		actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
+						"Private feedback session", "idOfTypicalCourse2", "instructor1@course2.com");
+		assertEquals(actual.questionResponseBundle.size(),1);
+		expectedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
+		assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
+		
+		______TS("failure: invalid session");
+		
+		try {
+			fsLogic.getFeedbackSessionQuestionsForInstructor(
+					"invalid session", "idOfTypicalCourse1", "instructor1@course1.com");
+			signalFailureToDetectException("Did not detect that session does not exist.");
+		} catch (EntityDoesNotExistException e) {
+			assertEquals(e.getMessage(), "Trying to get a feedback session that does not exist.");
+		}
 	}
 	
 	@Test
@@ -182,7 +418,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		assertEquals(results.feedbackSession.toString(), 
 				session.toString());	
 		
-		// Student can see responses: q1r1, q2r3, q3r1, qr4r2-3, q5r1, q6r1, q7r1-2
+		// Student can see responses: q1r1, q2r3, q3r1, qr4r2-3, q5r1, q7r1-2, q8r2
 		// We don't check the actual IDs as this is also implicitly tested
 		// later when checking the visibility table.
 		assertEquals(results.responses.size(), 9);
@@ -195,13 +431,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				"FSRTest.student1InCourse1@gmail.com=student1 In Course1",
 				"FSRTest.student2InCourse1@gmail.com=student2 In Course1",
 				"FSRTest.student4InCourse1@gmail.com=student4 In Course1",
+				"Team 1.1=Team 1.1",
 				"Team 1.3=Team 1.3",
 				"Team 1.4=Team 1.4",
 				"FSRTest.instr1@course1.com=Instructor1 Course1",
 				"FSRTest.student1InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
-				"FSRTest.student2InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1");
+				"FSRTest.student2InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
+				"FSRTest.student4InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.2");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailNameTable.size(), 8);
+		assertEquals(results.emailNameTable.size(), 10);
 		
 		// Test the generated response visibilityTable for userNames.		
 		mapString = tableToString(results.visibilityTable);
@@ -213,9 +451,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				getResponseId("qn4.resp2",responseBundle)+"={false,true}",
 				getResponseId("qn4.resp3",responseBundle)+"={false,true}",
 				getResponseId("qn5.resp1",responseBundle)+"={true,false}",
-				getResponseId("qn6.resp1",responseBundle)+"={false,false}",
 				getResponseId("qn7.resp1",responseBundle)+"={true,true}",
-				getResponseId("qn7.resp2",responseBundle)+"={true,true}");
+				getResponseId("qn7.resp2",responseBundle)+"={true,true}",
+				getResponseId("qn8.resp2",responseBundle)+"={true,true}");
 		AssertHelper.assertContains(expectedStrings, mapString);
 		assertEquals(results.visibilityTable.size(), 9);
 		
@@ -235,6 +473,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		mapString = results.emailNameTable.toString();
 		expectedStrings.clear();
 		Collections.addAll(expectedStrings,
+				"%GENERAL%=%NOBODY%",
 				"FSRTest.student1InCourse1@gmail.com=student1 In Course1",
 				"FSRTest.student2InCourse1@gmail.com=student2 In Course1",
 				"FSRTest.student3InCourse1@gmail.com=student3 In Course1",
@@ -247,7 +486,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				"FSRTest.instr1@course1.com=Instructor1 Course1",
 				"FSRTest.instr2@course1.com=Instructor2 Course1");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailNameTable.size(), 11);
+		assertEquals(results.emailNameTable.size(), 12);
 		
 		// Test the generated response visibilityTable for userNames.		
 		mapString = tableToString(results.visibilityTable);
@@ -262,7 +501,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				getResponseId("qn4.resp2",responseBundle)+"={true,true}",
 				getResponseId("qn4.resp3",responseBundle)+"={true,true}",
 				getResponseId("qn5.resp1",responseBundle)+"={false,true}",
-				getResponseId("qn6.resp1",responseBundle)+"={false,false}");
+				getResponseId("qn6.resp1",responseBundle)+"={true,true}");
 		AssertHelper.assertContains(expectedStrings, mapString);
 		assertEquals(results.visibilityTable.size(), 10);
 		
@@ -361,7 +600,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		//
 		//Question 3,"My comments on the class",
 		//Giver,Recipient,Feedback
-		//"Instructor1 Course1","Instructor1 Course1","Good work, keep it up!"
+		//"Instructor1 Course1","-","Good work, keep it up!"
 		
 		String[] exportLines = export.split(Const.EOL);
 		assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
@@ -376,7 +615,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		assertEquals(exportLines[8], "\"student2 In Course1\",\"student2 In Course1\",\"I'm cool'\"");
 		assertEquals(exportLines[9], "");
 		assertEquals(exportLines[10], "");
-		assertEquals(exportLines[11], "Question 2,\"Rate 5 other students' products\"");
+		assertEquals(exportLines[11], "Question 2,\"Rate 1 other student's product\"");
 		assertEquals(exportLines[12], "");
 		assertEquals(exportLines[13], "Giver,Recipient,Feedback");
 		assertEquals(exportLines[14], "\"student2 In Course1\",\"student1 In Course1\",\"Response from student 2 to student 1.\"");
@@ -390,7 +629,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		assertEquals(exportLines[21], "");
 		assertEquals(exportLines[22], "Giver,Recipient,Feedback");
 		// checking comma inside cell
-		assertEquals(exportLines[23], "\"Instructor1 Course1\",\"Instructor1 Course1\",\"Good work, keep it up!\"");
+		assertEquals(exportLines[23], "\"Instructor1 Course1\",\"-\",\"Good work, keep it up!\"");
 		
 		______TS("Non-existent Course/Session");
 		
@@ -543,6 +782,142 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		}
 	}
 	
+	@Test
+	public void testSendFeedbackSessionOpeningEmails() throws Exception{
+		DataBundle dataBundle = getTypicalDataBundle();
+		restoreTypicalDataInDatastore();
+		
+		______TS("3 sessions opened and emails sent, 1 awaiting");
+		List<MimeMessage> emailsSent = fsLogic.sendFeedbackSessionOpeningEmails();
+		assertEquals(emailsSent.size(), 0);
+		
+		______TS("3 sessions opened and emails sent, 1 session opened without emails sent");
+		// Modify session to set emails as unsent but still open
+		// by closing and opening the session.
+		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
+				.get("session1InCourse1");
+		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
+		session1.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
+		fsLogic.updateFeedbackSession(session1);
+		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		fsLogic.updateFeedbackSession(session1);
+		
+		emailsSent = fsLogic.sendFeedbackSessionOpeningEmails();
+		assertEquals(emailsSent.size(), 8); // 5 students + 3 instructors in course1.
+
+		for (MimeMessage m : emailsSent) {
+			String subject = m.getSubject();
+			assertTrue(subject.contains(session1.feedbackSessionName));
+			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+		}
+	}
+	
+	@Test
+	public void testSendFeedbackSessionClosingEmails() throws Exception{
+		DataBundle dataBundle = getTypicalDataBundle();
+		restoreTypicalDataInDatastore();
+		
+		______TS("typical case, 0 sessions closing soon");
+		List<MimeMessage> emailsSent = fsLogic.sendFeedbackSessionClosingEmails();
+		assertEquals(emailsSent.size(), 0);
+		
+		______TS("typical case, two sessions closing soon");
+		// Modify session to close in 24 hours.
+		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
+				.get("session1InCourse1");
+		session1.timeZone = 0;
+		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		session1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		fsLogic.updateFeedbackSession(session1);
+		LogicTest.verifyPresentInDatastore(session1);
+		
+		// Reuse an existing session to create a new one that is
+		// closing in 24 hours.
+		FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
+				.get("session2InCourse2");
+		String nameOfSessionInCourse2 = "new session in course 2 tSFSCE";
+		session2.feedbackSessionName = nameOfSessionInCourse2;
+		session2.timeZone = 0;
+		session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		session2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		fsLogic.createFeedbackSession(session2);
+		LogicTest.verifyPresentInDatastore(session2);
+		
+		emailsSent = fsLogic.sendFeedbackSessionClosingEmails();
+		
+		int course1StudentCount = 5-2; // 2 students have already completed the session 
+		int course1InstructorCount = 3;
+		int course2StudentCount = 0; // there are no questions, so no students can see the session
+		int course2InstructorCount = 3;
+
+		assertEquals(emailsSent.size(),
+				course1StudentCount + course1InstructorCount +
+				course2StudentCount + course2InstructorCount);
+
+		for (MimeMessage m : emailsSent) {
+			String subject = m.getSubject();
+			assertTrue(subject.contains(session1.feedbackSessionName)
+					|| subject.contains(session2.feedbackSessionName));
+			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+		}
+
+	}
+	
+	@Test
+	public void testSendFeedbackSessionPublishedEmails() throws Exception{
+		DataBundle dataBundle = getTypicalDataBundle();
+		restoreTypicalDataInDatastore();
+		
+		______TS("3 sessions unpublished, 1 published and emails unsent");
+		List<MimeMessage> emailsSent = fsLogic.sendFeedbackSessionPublishedEmails();
+		assertEquals(emailsSent.size(), 3); // 3 instructors, none sent to students as there is no questions.
+		
+		______TS("publish sessions");
+		/** 1 sessions unpublished, 1 published and email sent,
+		    1 published by changing publish time, 1 manually published **/
+		
+		// Check that we do not resent published session emails
+		emailsSent = fsLogic.sendFeedbackSessionPublishedEmails();
+		assertEquals(emailsSent.size(), 0);
+		
+		// Publish session by moving automated publish time
+		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
+		session1.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		fsLogic.updateFeedbackSession(session1);
+		
+		// Do a manual publish
+		FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse1");
+		session2.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+		fsLogic.updateFeedbackSession(session2);
+		fsLogic.publishFeedbackSession(session2.feedbackSessionName, session2.courseId);
+		
+		// Check that only 1 published sessions will have emails sent as
+		// manually publish sessions have emails sent immediately already.
+		emailsSent = fsLogic.sendFeedbackSessionPublishedEmails();
+		assertEquals(emailsSent.size(), 8); // 5 students + 3 instructors for session 1 in course 1.
+		
+		for (MimeMessage m : emailsSent) {
+			String subject = m.getSubject();
+			assertTrue(subject.contains(session1.feedbackSessionName)
+					|| subject.contains(session2.feedbackSessionName));
+			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
+		}
+		
+		______TS("unpublished a session and publish again");
+		fsLogic.unpublishFeedbackSession(session2.feedbackSessionName, session2.courseId);
+		session2.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		fsLogic.updateFeedbackSession(session2);
+		emailsSent = fsLogic.sendFeedbackSessionPublishedEmails();
+		assertEquals(emailsSent.size(), 8); // 5 students + 3 instructors for session 2 in course 1.
+		
+		for (MimeMessage m : emailsSent) {
+			String subject = m.getSubject();
+			assertTrue(subject.contains(session1.feedbackSessionName)
+					|| subject.contains(session2.feedbackSessionName));
+			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
+		}
+	}
+	
 	private FeedbackSessionAttributes getNewFeedbackSession() {
 		FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
 		fsa.feedbackSessionType = FeedbackSessionType.STANDARD;
@@ -559,13 +934,37 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		fsa.instructions = new Text("Give feedback.");
 		return fsa;
 	}
+	
+	private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {
+		FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
+		questionToGet = fqLogic.getFeedbackQuestion(
+				questionToGet.feedbackSessionName, 
+				questionToGet.courseId,
+				questionToGet.questionNumber);
+		
+		return questionToGet;
+	}
 
 	// Extract response id from datastore based on json key.
 	private String getResponseId(String jsonId, DataBundle bundle) {
+		return getResponseFromDatastore(jsonId, bundle).getId();
+	}
+	
+	private FeedbackResponseAttributes getResponseFromDatastore(String jsonId, DataBundle bundle) {
 		FeedbackResponseAttributes response = bundle.feedbackResponses.get(jsonId);
-		String responseId = frLogic.getFeedbackResponse(response.feedbackQuestionId, 
-				response.giverEmail, response.recipient).getId();		
-		return responseId;
+		
+		String questionId = null;		
+		try {
+			int qnNumber = Integer.parseInt(response.feedbackQuestionId);		
+			questionId = fqLogic.getFeedbackQuestion(
+						response.feedbackSessionName, response.courseId,
+						qnNumber).getId();
+		} catch (NumberFormatException e) {
+			questionId = response.feedbackQuestionId;
+		}
+		
+		return frLogic.getFeedbackResponse(questionId, 
+				response.giverEmail, response.recipient);
 	}
 
 	// Stringifies the visibility table for easy testing/comparison.

@@ -193,12 +193,12 @@
 		"feedbackSessionName" : "First Session",
 		"courseId" : "SFResultsUiT.CS2104",
 		"creatorEmail" : "SFResultsUiT.instr@gmail.com",
-		"questionText" : {"value" : "My comments on the class"},
+		"questionText" : {"value" : "Feedback to class"},
 		"questionNumber" : "3",
-		"giverType" : "SELF",
+		"giverType" : "STUDENTS",
 		"recipientType" : "NONE",
-		"numberOfEntitiesToGiveFeedbackTo" : 0,
-		"showResponsesTo" : [  ],
+		"numberOfEntitiesToGiveFeedbackTo" : -100,
+		"showResponsesTo" : [ "OWN_TEAM_MEMBERS" ],
 		"showGiverNameTo" : [  ],
 		"showRecipientNameTo" : [  ]
     },
@@ -211,7 +211,7 @@
 		"giverType" : "TEAMS",
 		"recipientType" : "TEAMS",
 		"numberOfEntitiesToGiveFeedbackTo" : 3,
-		"showResponsesTo" : [ "RECEIVER" ],
+		"showResponsesTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS" ],
 		"showGiverNameTo" : [ "RECEIVER" ],
 		"showRecipientNameTo" : [ "RECEIVER" ]
     },
@@ -282,6 +282,60 @@
 		"giverEmail" : "SFResultsUiT.alice.b@gmail.com",
 		"recipient" : "SFResultsUiT.danny.e@gmail.com",
 		"answer" : {"value" : "Response to Danny."}
+    },    
+    "response4": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "SFResultsUiT.CS2104",
+		"feedbackQuestionId" : "3",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "SFResultsUiT.benny.c@gmail.com",
+		"recipient" : "%GENERAL%",
+		"answer" : {"value" : "Secret feedback about class. (to nobody test)"}
+    },
+    "response5": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "SFResultsUiT.CS2104",
+		"feedbackQuestionId" : "4",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "SFResultsUiT.charlie.d@gmail.com",
+		"recipient" : "Team 1",
+		"answer" : {"value" : "Team 2 (charlie) to team 1"}
+    },
+    "response6": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "SFResultsUiT.CS2104",
+		"feedbackQuestionId" : "4",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "SFResultsUiT.danny.e@gmail.com",
+		"recipient" : "Team 1",
+		"answer" : {"value" : "Team 2 (danny) to team 1"}
+    },
+    "response7": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "SFResultsUiT.CS2104",
+		"feedbackQuestionId" : "4",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "SFResultsUiT.emily.f@gmail.com",
+		"recipient" : "Team 1",
+		"answer" : {"value" : "Team 3 to Team 1 \r\n multiline special char test </textarea>xss<textarea> test"}
+    },
+    "response8": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "SFResultsUiT.CS2104",
+		"feedbackQuestionId" : "4",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "SFResultsUiT.alice.b@gmail.com",
+		"recipient" : "Team 2",
+		"answer" : {"value" : "alice to team 2"}
+    },
+    "response9": {
+		"feedbackSessionName" : "First Session",
+		"courseId" : "SFResultsUiT.CS2104",
+		"feedbackQuestionId" : "5",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "SFResultsUiT.benny.c@gmail.com",
+		"recipient" : "SFResultsUiT.alice.b@gmail.com",
+		"answer" : {"value" : "Teammate feedback from benny"}
     }
   }
 }

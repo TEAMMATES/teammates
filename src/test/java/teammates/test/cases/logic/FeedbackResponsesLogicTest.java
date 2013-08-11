@@ -70,6 +70,23 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		assertNull(frLogic.getFeedbackResponse(
 				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, "student2InCourse1@gmail.com"));
 		
+		______TS("success: both giver and recipient changed (teammate changed response)");
+		
+		responseToUpdate = getResponseFromDatastore("response1ForQ1S2C1");
+		responseToUpdate.giverEmail = "student5InCourse1@gmail.com";
+		responseToUpdate.recipient = "Team 1.1";
+		
+		assertNotNull(frLogic.getFeedbackResponse(
+				responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.com","Team 1.2"));
+		
+		frLogic.updateFeedbackResponse(responseToUpdate);
+		
+		assertEquals(frLogic.getFeedbackResponse(
+				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipient).toString(),
+				responseToUpdate.toString());
+		assertNull(frLogic.getFeedbackResponse(
+				responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.com","Team 1.2"));
+		
 		______TS("failure: recipient one that is already exists");
 
 		restoreTypicalDataInDatastore();		
@@ -119,6 +136,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 	
 	@Test
 	public void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
+		
+		// TODO: test that non team questions are preserved.
 		
 		______TS("standard update team case");
 

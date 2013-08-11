@@ -147,7 +147,7 @@
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')" class="label bold middlealign">Submission<br />Closing Time:</td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')" class="nowrap">
-							<input type="text" tabindex="8" readonly="readonly" value="30/04/2014" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="endtime" name="endtime" style="width: 70px;" disabled="disabled">
+							<input type="text" tabindex="8" readonly="readonly" value="01/05/2014" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="endtime" name="endtime" style="width: 70px;" disabled="disabled">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -169,9 +169,9 @@
 <option value="19">1900H</option>
 <option value="20">2000H</option>
 <option value="21">2100H</option>
-<option value="22">2200H</option>
+<option selected="selected" value="22">2200H</option>
 <option value="23">2300H</option>
-<option selected="selected" value="24">2359H</option>
+<option value="24">2359H</option>
 
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" class="label bold">Grace Period:</td>
@@ -260,7 +260,7 @@
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users.')">
 							<input type="radio" checked="checked" value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" disabled="disabled" />
 							 Once the session is visible</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" disabled="disabled" />
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend to manually publish the session later on.')"><input type="radio" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" disabled="disabled" />
 							 Publish manually </td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" disabled="disabled" />
 							 Never</td>
@@ -273,10 +273,11 @@
 						<td><textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4" disabled="disabled">Please fill in the edited feedback session.</textarea>							
 						</td>
 					</tr>
-					<tr>
-						<td class="rightalign" colspan="2"><input type="submit" value="Save Changes" style="display:none;" class="button" id="button_submit_edit" disabled="disabled" /></td>
-					</tr>
 				</tbody></table>
+					<br/>
+	                <div class="rightalign" >
+	                        <input class="button"  disabled="disabled"  id="button_submit_edit"  style="display:none;"  type="submit"  value="Save Changes" />
+	                </div>				
 				</div>
 				<input type="hidden" value="First Session" name="fsname" disabled="disabled" />
 				<input type="hidden" value="CFeedbackEditUiT.CS2104" name="courseid" disabled="disabled" />

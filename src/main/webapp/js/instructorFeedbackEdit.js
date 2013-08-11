@@ -14,9 +14,6 @@ function readyFeedbackEditPage(){
 	});
 	
 	// Bind submit actions
-	$('#form_editfeedbacksession').submit(function(event) {
-		return checkEditFeedbackSession();
-	});	
 	$('form[id|=form_editquestion]').submit(function(event) {
 		if($(this).attr('editStatus') == "mustDeleteResponses") {
 			if (confirm("Editing these fields will result in all existing responses for" +
@@ -44,6 +41,7 @@ function readyFeedbackEditPage(){
 	formatResponsesVisibilityGroup();
 	formatNumberBoxes();
 	formatCheckBoxes();
+	collapseIfPrivateSession();
 	document.onmousemove = positiontip;
 }
 
@@ -54,7 +52,6 @@ function disableEditFS(){
 	// Save then disable fields
 	getCustomDateTimeFields().each(function(){
 		$(this).data('last', $(this).prop('disabled'));
-		console.log($(this)+": ",$(this).prop('disabled'));
 	});
 	$('#form_editfeedbacksession').
 		find("text,input,button,textarea,select").prop('disabled', true);
@@ -72,7 +69,7 @@ function enableEditFS(){
 	});
 	$('#form_editfeedbacksession').
 		find("text,input,button,textarea,select").
-		not($customDateTimeFields).not("#"+FEEDBACK_SESSION_TIMEZONE).
+		not($customDateTimeFields).
 		prop('disabled', false);
 	$('#fsEditLink').hide();
 	$('#fsSaveLink').show();

@@ -81,7 +81,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		submitPage.fillQuestionTextBox(2, 2, "Response to extra guy.");
 		
 		// Test partial response for question		
-		submitPage.fillQuestionTextBox(3, 1, "Feedback to team 3");
+		submitPage.fillQuestionTextBox(4, 1, "Feedback to team 3");
 		
 		// Just check that one of the responses persisted.
 		FeedbackQuestionAttributes fq =
@@ -107,8 +107,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		// + fill up rest of responses at the same time
 		String editedResponse = "Edited response to Benny.";
 		submitPage.fillQuestionTextBox(2, 0, editedResponse);
-		submitPage.fillQuestionTextBox(3, 1, "Feedback to team 2.");
-		submitPage.fillQuestionTextBox(4, 0, "Feedback to teammate.");
+		submitPage.fillQuestionTextBox(4, 1, "Feedback to team 2.");
+		submitPage.fillQuestionTextBox(5, 0, "Feedback to teammate.");
 		
 		// Just check the edited response, and one new response.
 		assertNull(BackDoor.getFeedbackResponse(fq.getId(),

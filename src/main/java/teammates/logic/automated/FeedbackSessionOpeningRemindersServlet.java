@@ -17,12 +17,12 @@ public class FeedbackSessionOpeningRemindersServlet extends AutomatedRemindersSe
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		
 		servletName = "feedbackSessionOpeningReminders";
-		action = "send closing reminders";
+		action = "send opening reminders";
 		
 		FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
 		
 		try {
-			ArrayList<MimeMessage> emails = feedbackSessionsLogic.sendFeedbackSessionOpenEmails();
+			ArrayList<MimeMessage> emails = feedbackSessionsLogic.sendFeedbackSessionOpeningEmails();
 			logActivitySuccess(req, emails);
 		}  catch (Throwable e) {
 			String reqParam = HttpRequestHelper.printRequestParameters(req);
