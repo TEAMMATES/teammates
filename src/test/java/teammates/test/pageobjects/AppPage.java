@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.net.URL;
@@ -484,12 +483,11 @@ public abstract class AppPage {
 	
 	/**
 	 * Verify if a file is downloadable based on the given url. If its downloadable,
-	 * download the file and get the SHA-1 hex of it and verify the hex with the given 
-	 * expected hash.
+	 * download the file and read its contents and verify the read content with the
+	 * expected content.
 	 * 
-	 * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1) 
 	 */
-	public void verifyDownloadableFile(String url,String expectedHash) throws Exception {
+	public void verifyDownloadableFile(String url,String expectedContent) throws Exception {
 		
 		if (!url.startsWith("http") ){
 			url = HOMEPAGE + url;
@@ -521,9 +519,8 @@ public abstract class AppPage {
         String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
 		assertEquals(new File(downloadedFileAbsolutePath).exists(), true);
 		
-		String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
-    	assertEquals(actualHash.toLowerCase(),expectedHash.toLowerCase());
-
+		String actualContent = FileHelper.readFile(downloadedFileAbsolutePath);
+		assertEquals(actualContent,expectedContent);
 	}
 	
 	@SuppressWarnings("unused")
