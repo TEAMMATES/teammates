@@ -530,6 +530,20 @@ public class Logic {
 	
 		return studentsLogic.getKeyForStudent(courseId, email);
 	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * 
+	 * @return null if no match found.
+	 */
+	public String getEncryptedKeyForStudent(String courseId, String email) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+	
+		return studentsLogic.getEncryptedKeyForStudent(courseId, email);
+	}
 
 	/**
 	 * All attributes except courseId be changed. Trying to change courseId will
