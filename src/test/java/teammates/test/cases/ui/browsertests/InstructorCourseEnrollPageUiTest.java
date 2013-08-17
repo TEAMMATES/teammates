@@ -74,11 +74,11 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		
 		______TS("link for the sample spreadsheet");
 		
-		String sampleSpreadsheetContent = "Team 1,Tom Jacobs,tom@email.com,\n"+
-					"Team 1,Jean Wong,jean@email.com,Exchange Student\n"+
-					"Team 1,Ravi Kumar,ravi@email.com,\n"+
-					"Team 2,Chun Ling,ling@coolmai.com,\n"+
-					"Team 2,Desmond Wu,desmond@email.com,\n"+
+		String sampleSpreadsheetContent = "Team 1,Tom Jacobs,tom@email.com," + Const.EOL +
+					"Team 1,Jean Wong,jean@email.com,Exchange Student" + Const.EOL +
+					"Team 1,Ravi Kumar,ravi@email.com," + Const.EOL +
+					"Team 2,Chun Ling,ling@coolmai.com," + Const.EOL +
+					"Team 2,Desmond Wu,desmond@email.com," + Const.EOL +
 					"Team 2,Harsha Silva,harsha@school.com,";
 		enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),sampleSpreadsheetContent);
 	}
