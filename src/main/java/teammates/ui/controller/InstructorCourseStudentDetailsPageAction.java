@@ -24,7 +24,7 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
 		InstructorCourseStudentDetailsPageData data = new InstructorCourseStudentDetailsPageData(account);
 		
 		data.student = logic.getStudentForEmail(courseId, studentEmail);
-		data.regKey = logic.getKeyForStudent(courseId, studentEmail);
+		data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
 		
 		
 		statusToAdmin = "instructorCourseStudentDetails Page Load<br>" + 

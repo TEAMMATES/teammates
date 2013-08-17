@@ -92,6 +92,17 @@ public class StudentsLogic {
 	
 		return studentData.key;
 	}
+	
+	public String getEncryptedKeyForStudent(String courseId, String email) {
+		
+		StudentAttributes studentData = getStudentForEmail(courseId, email);
+		
+		if (studentData == null) {
+			return null; //TODO: throw EntityDoesNotExistException?
+		}
+	
+		return StringHelper.encrypt(studentData.key);
+	}
 
 	public boolean isStudentInAnyCourse(String googleId) {
 		return studentsDb.getStudentsForGoogleId(googleId).size()!=0;

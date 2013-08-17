@@ -24,7 +24,7 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
 		InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
 		
 		data.student = logic.getStudentForEmail(courseId, studentEmail);
-		data.regKey = logic.getKeyForStudent(courseId, studentEmail);
+		data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
 		
 		statusToAdmin = "instructorCourseStudentEdit Page Load<br>" + 
 				"Editing Student <span class=\"bold\">" + studentEmail +"'s</span> details " +

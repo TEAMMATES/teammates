@@ -25,7 +25,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
 		InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
 		
 		data.student = logic.getStudentForEmail(courseId, studentEmail);
-		data.regKey = logic.getKeyForStudent(courseId, studentEmail);
+		data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
 		
 		data.student.name = getRequestParam(Const.ParamsNames.STUDENT_NAME);
 		data.student.email = getRequestParam(Const.ParamsNames.NEW_STUDENT_EMAIL);
