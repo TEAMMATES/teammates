@@ -1346,7 +1346,14 @@
 						number} : {branch description as given in Issue tracker}"<br>
 						#e.g., upload.py --rev=default -t "Issue 829 : Remove unused
 						constants from Attributes classes"
-				</span><br> See <a
+				</span><br> 
+				Linux/Unix users need to change the permission of upload.py. <br>
+				<span class="code">chmod +x upload.py<br>
+				./upload.py --rev=default -t Issue "{issue
+						number} : {branch description as given in Issue tracker}"
+						
+				</span><br>
+				See <a
 					href="https://code.google.com/p/rietveld/wiki/UploadPyUsage">here</a>
 					for more about <span class="code">upload.py</span> usage.<br>
 				</li>
