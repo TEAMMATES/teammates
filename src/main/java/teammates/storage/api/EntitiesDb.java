@@ -31,9 +31,11 @@ public abstract class EntitiesDb {
 	 */
 	public void createEntity(EntityAttributes entityToAdd) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
-
+		
 		Assumption.assertNotNull(
 				Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
+		
+		entityToAdd.sanitizeForSaving();
 		
 		if (!entityToAdd.isValid()) {
 			throw new InvalidParametersException(entityToAdd.getInvalidityInfo());

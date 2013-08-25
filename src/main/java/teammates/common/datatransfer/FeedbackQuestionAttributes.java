@@ -422,4 +422,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 			showGiverNameTo.removeAll(optionsToRemove);
 			showRecipientNameTo.removeAll(optionsToRemove);		
 	}
+
+	@Override
+	public void sanitizeForSaving() {
+		// TODO implement this
+	}
 }

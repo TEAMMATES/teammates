@@ -240,4 +240,9 @@ public class StudentAttributes extends EntityAttributes {
 	public String getEntityTypeAsString() {
 		return "Student";
 	}
+	
+	@Override
+	public void sanitizeForSaving() {
+		// TODO implement this
+	}
 }

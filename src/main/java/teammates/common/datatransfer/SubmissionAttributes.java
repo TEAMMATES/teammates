@@ -208,5 +208,10 @@ public class SubmissionAttributes extends EntityAttributes {
 	public String getEntityTypeAsString() {
 		return "Submission";
 	}
+	
+	@Override
+	public void sanitizeForSaving() {
+		// TODO implement this
+	}
 
 }

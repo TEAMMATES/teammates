@@ -67,4 +67,9 @@ public class CourseAttributes extends EntityAttributes {
 	public String getEntityTypeAsString() {
 		return "Course";
 	}
+
+	@Override
+	public void sanitizeForSaving() {
+		// TODO implement this
+	}
 }

@@ -86,6 +86,8 @@ public class EvaluationsDb extends EntitiesDb {
 				Const.StatusCodes.DBLEVEL_NULL_INPUT, 
 				newEvaluationAttributes);
 		
+		newEvaluationAttributes.sanitizeForSaving();
+		
 		if (!newEvaluationAttributes.isValid()) {
 			throw new InvalidParametersException(newEvaluationAttributes.getInvalidityInfo());
 		}

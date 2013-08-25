@@ -117,4 +117,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 				+ ", giverEmail=" + giverEmail + ", recipient=" + recipient
 				+ ", answer=" + answer + "]";
 	}
+
+	@Override
+	public void sanitizeForSaving() {
+		// TODO implement this
+	}
 }

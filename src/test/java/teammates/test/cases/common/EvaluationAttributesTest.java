@@ -362,6 +362,21 @@ public class EvaluationAttributesTest extends BaseTestCase {
 	}
 	
 	@Test
+	public void testSanitizeForSaving(){
+		EvaluationAttributes e = generateValidEvaluationAttributesObject();
+		EvaluationAttributes original = e.getCopy(); 
+		
+		//make it unsanitized
+		e.courseId = "  "+e.courseId+ "   ";
+		e.name = "\t "+ e.name+ "  \t";
+		e.instructions = "   "+e.instructions + "\n\t  ";
+		
+		e.sanitizeForSaving();
+		
+		assertEquals(original.toString(), e.toString());
+	}
+	
+	@Test
 	public void testToString() {
 		EvaluationAttributes e ;
 		e = generateValidEvaluationAttributesObject();

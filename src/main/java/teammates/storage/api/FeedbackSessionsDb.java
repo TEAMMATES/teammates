@@ -125,6 +125,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
 				Const.StatusCodes.DBLEVEL_NULL_INPUT, 
 				newAttributes);
 		
+		//TODO: Sanitize values and update tests accordingly
+		
 		if (!newAttributes.isValid()) {
 			throw new InvalidParametersException(newAttributes.getInvalidityInfo());
 		}
