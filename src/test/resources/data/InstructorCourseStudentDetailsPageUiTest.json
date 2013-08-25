@@ -32,7 +32,6 @@
       "course": "CCSDetailsUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in CCSDetailsUiT.CS2104"},
       "team": "Team 1"
     },
     "unregisteredStudent": {
@@ -41,7 +40,6 @@
       "course": "CCSDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CCSDetailsUiT.CS2104"},
       "team": "Team 1"
     }
   }

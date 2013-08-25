@@ -35,7 +35,6 @@
       "course": "CS2104-TESTING",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in CS2104-TESTING"},
       "team": "Team 1"
     },
     "benny.c.tmms@CS2104-TESTING": {
@@ -44,7 +43,6 @@
       "course": "CS2104-TESTING",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CS2104-TESTING"},
       "team": "Team 1"
     },
     "charlie.d.tmms@CS2104-TESTING": {
@@ -53,7 +51,6 @@
       "course": "CS2104-TESTING",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CS2104-TESTING"},
       "team": "Team 2"
     },
     "danny.e.tmms@CS2104-TESTING": {
@@ -62,7 +59,6 @@
       "course": "CS2104-TESTING",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CS2104-TESTING"},
       "team": "Team 2"
     },
     "alice.b.tmms@CS1101-TESTING": {
@@ -71,7 +67,6 @@
       "course": "CS1101-TESTING",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in CS1101-TESTING"},
       "team": "Team 1"
     },
     "benny.c.tmms@CS1101-TESTING": {
@@ -80,7 +75,6 @@
       "course": "CS1101-TESTING",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CS1101-TESTING"},
       "team": "Team 1"
     },
     "charlie.d.tmms@CS1101-TESTING": {
@@ -89,7 +83,6 @@
       "course": "CS1101-TESTING",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CS1101-TESTING"},
       "team": "Team 2"
     },
     "danny.e.tmms@CS1101-TESTING": {
@@ -98,7 +91,6 @@
       "course": "CS1101-TESTING",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CS1101-TESTING"},
       "team": "Team 2"
     }
   },

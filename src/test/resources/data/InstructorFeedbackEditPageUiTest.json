@@ -32,7 +32,6 @@
       "course": "CFeedbackEditUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in CFeedbackEditUiT.CS2104"},
       "team": "Team 1"
     },
     "benny.tmms@CFeedbackEditUiT.CS2104": {
@@ -41,7 +40,6 @@
       "course": "CFeedbackEditUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CFeedbackEditUiT.CS2104"},
       "team": "Team 1"
     },
     "charlie.tmms@CFeedbackEditUiT.CS1101": {
@@ -50,7 +48,6 @@
       "course": "CFeedbackEditUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CFeedbackEditUiT.CS1101"},
       "team": "Team 2"
     },
     "danny.tmms@CFeedbackEditUiT.CS1101": {
@@ -59,7 +56,6 @@
       "course": "CFeedbackEditUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CFeedbackEditUiT.CS1101"},
       "team": "Team 2"
     }
   },

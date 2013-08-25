@@ -21,7 +21,6 @@
       "course": "demo.course",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in demo.course"},
       "team": "Team 1"
     },
     "benny.c.tmms@demo.course": {
@@ -30,7 +29,6 @@
       "course": "demo.course",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in demo.course"},
       "team": "Team 1"
     },
      "danny.e.tmms@demo.course": {
@@ -39,7 +37,6 @@
       "course": "demo.course",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in demo.course"},
       "team": "Team 1"
     },
     
@@ -49,7 +46,6 @@
       "course": "demo.course",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in demo.course"},
       "team": "Team 2"
     },
    
@@ -59,7 +55,6 @@
       "course": "demo.course",
       "name": "Demo_Instructor",
       "comments": "This student's name is Demo_Instructor",
-      "profile": {"value": "My name is Demo_Instructor, and I'm a student in demo.course"},
       "team": "Team 2"
     },
     "emily.f.tmms@demo.course": {
@@ -68,7 +63,6 @@
       "course": "demo.course",
       "name": "Emily Fowler",
       "comments": "This student's name is Emily Fowler",
-      "profile": {"value": "My name is Emily Fowler, and I'm a student in demo.course"},
       "team": "Team 2"
     }
   },

@@ -53,7 +53,6 @@
       "course": "SFResultsUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in SFResultsUiT.CS2104"},
       "team": "Team 1"
     },
     "Benny": {
@@ -62,7 +61,6 @@
       "course": "SFResultsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in SFResultsUiT.CS2104"},
       "team": "Team 1"
     },
     "ExtraGuy": {
@@ -87,7 +85,6 @@
       "course": "SFResultsUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in SFResultsUiT.CS2104"},
       "team": "Team 2"
     },
     "Danny": {
@@ -96,7 +93,6 @@
       "course": "SFResultsUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in SFResultsUiT.CS2104"},
       "team": "Team 2"
     },
     "Emily": {
@@ -105,7 +101,6 @@
       "course": "SFResultsUiT.CS2104",
       "name": "Emily",
       "comments": "This student's name is Emily",
-      "profile": {"value": "My name is Emily, and I'm a student in SFResultsUiT.CS2104"},
       "team": "Team 3"
     }
   },

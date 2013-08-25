@@ -48,7 +48,6 @@
       "course": "SHomeUiT.CS2104",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
-      "profile": {"value": "My name is Amy Betsy, and I'm a student in SHomeUiT.CS2104"},
       "team": "Team 1"
     },
     "SHomeUiT.benny.c@SHomeUiT.CS2104": {
@@ -57,7 +56,6 @@
       "course": "SHomeUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in SHomeUiT.CS2104"},
       "team": "Team 1"
     },
     "SHomeUiT.charlie.d@SHomeUiT.CS2104": {
@@ -66,7 +64,6 @@
       "course": "SHomeUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in SHomeUiT.CS2104"},
       "team": "Team 2"
     },
     "SHomeUiT.danny.e@SHomeUiT.CS2104": {
@@ -75,7 +72,6 @@
       "course": "SHomeUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in SHomeUiT.CS2104"},
       "team": "Team 2"
     },
     "alice.tmms@SHomeUiT.CS1101": {
@@ -84,7 +80,6 @@
       "course": "SHomeUiT.CS1101",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
-      "profile": {"value": "My name is Amy Betsy, and I'm a student in SHomeUiT.CS1101"},
       "team": "Team 1"
     },
     "SHomeUiT.benny.c@SHomeUiT.CS1101": {
@@ -93,7 +88,6 @@
       "course": "SHomeUiT.CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in SHomeUiT.CS1101"},
       "team": "Team 1"
     },
     "SHomeUiT.charlie.d@SHomeUiT.CS1101": {
@@ -102,7 +96,6 @@
       "course": "SHomeUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in SHomeUiT.CS1101"},
       "team": "Team 2"
     },
     "SHomeUiT.danny.e@SHomeUiT.CS1101": {
@@ -111,7 +104,6 @@
       "course": "SHomeUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in SHomeUiT.CS1101"},
       "team": "Team 2"
     }
   },

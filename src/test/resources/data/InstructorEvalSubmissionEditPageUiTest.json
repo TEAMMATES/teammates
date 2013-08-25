@@ -22,7 +22,6 @@
       "course": "CESubEditUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CESubEditUiT.CS1101"},
       "team": "Team 2"
     },
     "Danny": {
@@ -31,7 +30,6 @@
       "course": "CESubEditUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CESubEditUiT.CS1101"},
       "team": "Team 2"
     },
     "Emily": {
@@ -40,7 +38,6 @@
       "course": "CESubEditUiT.CS1101",
       "name": "Emily",
       "comments": "This student's name is Emily",
-      "profile": {"value": "My name is Emily, and I'm a student in CESubEditUiT.CS1101"},
       "team": "Team 2"
     }
   },
