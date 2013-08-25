@@ -721,7 +721,7 @@
 		environment</h2>
 	<ul>
 		<li><span class="bold">Eclipse</span> IDE for EE developers
-			[version juno]</li>
+			[version Kepler]</li>
 		<li><span class="bold">Google App Engine Plugin for
 				Eclipse</span> [version 4.2]</li>
 		<li><span class="bold">Google App Engine SDK</span> [version
@@ -878,7 +878,7 @@
 		</li>
 		<li>Install the latest JDK.</li>
 		<li>Download <i>Eclipse IDE for Java EE Developers</i> (version:
-			Juno) from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/
+			Kepler) from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/
 		</a>
 		</li>
 		<li>Install <i>Google Plugin for Eclipse</i> version 4.2. Be
@@ -1035,7 +1035,7 @@
 	(sometimes, Eclipse does not show this option immediately after you set
 	up the project. It will appear in subsequent runs. 
 	'Refreshing' will make it appear too.), run
-	<span class="bold code">src/test/testing.xml</span> (right click and
+	<span class="bold code">src/test/testng.xml</span> (right click and
 	choose 'Run as → TestNG Suite'). Most of the tests should pass. <br> 
 	If a few cases fail (this can happen due to timing issues), run the failed
 	cases using the "Run Failed Test" icon in the TestNG tab in Eclipse until
@@ -1346,7 +1346,14 @@
 						number} : {branch description as given in Issue tracker}"<br>
 						#e.g., upload.py --rev=default -t "Issue 829 : Remove unused
 						constants from Attributes classes"
-				</span><br> See <a
+				</span><br> 
+				Linux/Unix users need to change the permission of upload.py. <br>
+				<span class="code">chmod +x upload.py<br>
+				./upload.py --rev=default -t Issue "{issue
+						number} : {branch description as given in Issue tracker}"
+						
+				</span><br>
+				See <a
 					href="https://code.google.com/p/rietveld/wiki/UploadPyUsage">here</a>
 					for more about <span class="code">upload.py</span> usage.<br>
 				</li>

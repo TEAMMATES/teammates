@@ -45,6 +45,8 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		e.startTime = new Date();
 		e.endTime = new Date();
 		evaluationsDb.createEntity(e);
+		//TODO: retrieve and verify
+		//TODO: check of sanitization of fields
 		
 		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380)
 		e = new EvaluationAttributes();
@@ -145,6 +147,8 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		} catch (AssertionError a) {
 			assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
 		}
+		
+		//TODO: check for stanitization of input
 		
 	}
 	

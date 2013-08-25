@@ -86,5 +86,10 @@ public class AccountAttributes extends EntityAttributes {
 	public String getEntityTypeAsString() {
 		return "Account";
 	}
+
+	@Override
+	public void sanitizeForSaving() {
+		// TODO implement this
+	}
 	
 }

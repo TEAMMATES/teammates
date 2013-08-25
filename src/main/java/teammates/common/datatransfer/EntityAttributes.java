@@ -41,4 +41,10 @@ public abstract class EntityAttributes {
 	 * 		   readable string.
 	 */
 	public abstract String getEntityTypeAsString();
+
+	/**
+	 * Perform any sanitization that needs to be done before saving. 
+	 * e.g. trim strings
+	 */
+	public abstract void sanitizeForSaving() ;
 }

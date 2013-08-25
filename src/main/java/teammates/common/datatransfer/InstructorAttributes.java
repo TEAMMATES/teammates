@@ -99,4 +99,9 @@ public class InstructorAttributes extends EntityAttributes {
 	public String getEntityTypeAsString() {
 		return "Instructor";
 	}
+
+	@Override
+	public void sanitizeForSaving() {
+		// TODO implement this
+	}
 }

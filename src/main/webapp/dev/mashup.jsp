@@ -161,7 +161,7 @@
 		$(document).ready(function(){
 			$('head').append('<link rel=stylesheet href="/stylesheets/common.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorHome.css" type="text/css">');
-			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourse.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourses.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEnroll.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseDetails.css" type="text/css">');

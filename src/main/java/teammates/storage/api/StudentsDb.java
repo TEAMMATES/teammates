@@ -227,6 +227,8 @@ public class StudentsDb extends EntitiesDb {
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
 		
+		//TODO: Sanitize values and update tests accordingly
+		
 		verifyStudentExists(courseId, email);
 		
 		Student student = getStudentEntityForEmail(courseId, email);

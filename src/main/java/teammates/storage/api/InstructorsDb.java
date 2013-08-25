@@ -135,6 +135,8 @@ public class InstructorsDb extends EntitiesDb{
 	public void updateInstructor(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException {
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
 		
+		//TODO: Sanitize values and update tests accordingly
+		
 		if (!instructorAttributesToUpdate.isValid()) {
 			throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidityInfo());
 		}

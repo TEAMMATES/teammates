@@ -304,6 +304,11 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	}
 	
 	@Override
+	public void sanitizeForSaving() {
+		// TODO implement this
+	}
+
+	@Override
 	public String toString() {
 		return "FeedbackSessionAttributes [feedbackSessionName="
 				+ feedbackSessionName + ", courseId=" + courseId

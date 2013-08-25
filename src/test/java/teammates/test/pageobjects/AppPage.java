@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

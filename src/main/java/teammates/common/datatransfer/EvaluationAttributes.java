@@ -304,4 +304,11 @@ public class EvaluationAttributes extends EntityAttributes {
 		return copy;
 	}
 
+	@Override
+	public void sanitizeForSaving() {
+		this.courseId = this.courseId.trim();
+		this.name = this.name.trim();
+		this.instructions = this.instructions.trim();
+	}
+
 }
