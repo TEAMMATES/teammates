@@ -9,7 +9,7 @@
 <head>
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teammates - Administrator</title>
+	<title>TEAMMATES - Administrator</title>
 	<link rel="stylesheet" href="/stylesheets/adminHome.css" type="text/css">
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 
