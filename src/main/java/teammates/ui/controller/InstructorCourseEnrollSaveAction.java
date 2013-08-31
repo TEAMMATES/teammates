@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -32,22 +33,26 @@ public class InstructorCourseEnrollSaveAction extends Action {
 		InstructorCourseEnrollResultPageData data = new InstructorCourseEnrollResultPageData(account);
 		data.courseId = courseId;
 		try {
-			data.students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
+			data.students = enrollAndProcessResultForDisplay(studentsInfo.trim(), courseId);
 			statusToAdmin = "Students Enrolled in Course <span class=\"bold\">[" 
 					+ courseId + "]:</span><br> - " + (studentsInfo).replace("\n", "<br> - ");
 			
-		} catch (EnrollException e) {
-			statusToUser.add(e.getMessage());
-			isError = true;
-			statusToAdmin = e.getMessage();
+			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, data);
+			
+		} catch (EnrollException | InvalidParametersException e) {
+			setStatusForException(e);
+			
+			InstructorCourseEnrollPageData d = new InstructorCourseEnrollPageData(account);
+			d.courseId = courseId;
+			d.enrollStudents = studentsInfo;
+			
+			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, d);
 		}
-		
-		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, data);
 	}
 
 	
 	private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
-			throws EnrollException, EntityDoesNotExistException {
+			throws EnrollException, EntityDoesNotExistException, InvalidParametersException {
 		List<StudentAttributes> students = logic.enrollStudents(studentsInfo, courseId);
 		Collections.sort(students, new Comparator<StudentAttributes>() {
 			@Override
@@ -59,6 +64,17 @@ public class InstructorCourseEnrollSaveAction extends Action {
 
 	}
 
+	/**
+	 * Separate the StudentData objects in the list into different categories based
+	 * on their updateStatus. Each category is put into a separate list.<br>
+	 * 
+	 * Precondition:<br>
+	 * * The list of StudentData objects passed in as argument has to be sorted in
+	 * ascending order of their updateStatus first
+	 * 
+	 * @return An array of lists of StudentData objects in which each list contains
+	 * student with the same updateStatus
+	 */
 	@SuppressWarnings("unchecked")
 	private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
 		if (students == null)
