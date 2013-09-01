@@ -55,7 +55,6 @@
       "course": "CS2104",
       "name": "Teammates Test",
       "comments": "This student's name is Teammates Test",
-      "profile": {"value": "My name is Teammates Test, and I'm a student in CS2104"},
       "team": "Team 1"
     },
     "benny.c.tmms@CS2104": {
@@ -64,7 +63,6 @@
       "course": "CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CS2104"},
       "team": "Team 1"
     },
     "charlie.d.tmms@CS2104": {
@@ -73,7 +71,6 @@
       "course": "CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CS2104"},
       "team": "Team 1"
     },
     "alice.b.tmms@CS2104": {
@@ -82,7 +79,6 @@
       "course": "CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in CS2104"},
       "team": "Team 2"
     },
 	"danny.e.tmms@CS2104": {
@@ -91,7 +87,6 @@
       "course": "CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CS2104"},
       "team": "Team 2"
     },
     "teammates.test@CS1101": {
@@ -100,7 +95,6 @@
       "course": "CS1101",
       "name": "Teammates Test",
       "comments": "This student's name is Teammates Test",
-      "profile": {"value": "My name is Teammates Test, and I'm a student in CS1101"},
       "team": "Team 1"
     },
     "benny.c.tmms@CS1101": {
@@ -109,7 +103,6 @@
       "course": "CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CS1101"},
       "team": "Team 1"
     },
     "charlie.d.tmms@CS1101": {
@@ -118,7 +111,6 @@
       "course": "CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CS1101"},
       "team": "Team 2"
     },
     "danny.e.tmms@CS1101": {
@@ -127,7 +119,6 @@
       "course": "CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CS1101"},
       "team": "Team 2"
     }
   },

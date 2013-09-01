@@ -32,7 +32,6 @@
       "course": "CEvalRUiT.CS1101",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 1"
     },
     "CEvalRUiT.benny.c@CEvalRUiT.CS1101": {
@@ -41,7 +40,6 @@
       "course": "CEvalRUiT.CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 1"
     },
     "CEvalRUiT.charlie.d@CEvalRUiT.CS1101": {
@@ -50,7 +48,6 @@
       "course": "CEvalRUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 2"
     },
     "CEvalRUiT.danny.e@CEvalRUiT.CS1101": {
@@ -59,7 +56,6 @@
       "course": "CEvalRUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 2"
     },
     "CEvalRUiT.emily.f@CEvalRUiT.CS1101": {
@@ -68,7 +64,6 @@
       "course": "CEvalRUiT.CS1101",
       "name": "Emily",
       "comments": "This student's name is Emily",
-      "profile": {"value": "My name is Emily, and I'm a student in CEvalRUiT.CS1101"},
       "team": "Team 2"
     }
   },

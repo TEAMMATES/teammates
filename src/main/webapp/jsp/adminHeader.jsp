@@ -2,7 +2,7 @@
 <div id="frameTopWrapper">
 	<div id="logo">
 		<a href="/index.html">
-		<img alt="Teammates" height="47px"
+		<img alt="TEAMMATES" height="47px"
 			src="/images/teammateslogo.jpg"
 			width="150px">
 		</a>

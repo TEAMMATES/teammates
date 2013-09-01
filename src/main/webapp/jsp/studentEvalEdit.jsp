@@ -14,7 +14,7 @@
 <head>
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teammates - Student</title>
+	<title>TEAMMATES - Student</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/studentEvalEdit.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">

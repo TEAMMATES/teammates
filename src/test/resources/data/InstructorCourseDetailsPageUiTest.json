@@ -59,7 +59,6 @@
       "course": "CCDetailsUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "profile": {"value": "My name is Alice Betsy, and I'm a student in CCDetailsUiT.CS2104"},
       "team": "Team 1"
     },
     "benny.tmms@CCDetailsUiT.CS2104": {
@@ -68,7 +67,6 @@
       "course": "CCDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "profile": {"value": "My name is Benny Charles, and I'm a student in CCDetailsUiT.CS2104"},
       "team": "Team 2"
     },
     "charlie.tmms@CCDetailsUiT.CS2104": {
@@ -77,7 +75,6 @@
       "course": "CCDetailsUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "profile": {"value": "My name is Charlie Davis, and I'm a student in CCDetailsUiT.CS2104"},
       "team": "Team 1"
     },
     "danny.tmms@CCDetailsUiT.CS2104": {
@@ -86,7 +83,6 @@
       "course": "CCDetailsUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "profile": {"value": "My name is Danny Engrid, and I'm a student in CCDetailsUiT.CS2104"},
       "team": "Team 2"
     }
   }

@@ -27,7 +27,7 @@
 <head>
 <link rel="shortcut icon" href="/favicon.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
-<title>Teammates - Administrator</title>
+<title>TEAMMATES - Administrator</title>
 <link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
 <link rel=stylesheet href="/stylesheets/adminSearch.css" type="text/css" />
 

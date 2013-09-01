@@ -11,7 +11,7 @@
 <head>
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Teammates - Administrator Account Details</title>
+    <title>TEAMMATES - Administrator Account Details</title>
     <link rel="stylesheet" href="/stylesheets/adminAccountDetails.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
 

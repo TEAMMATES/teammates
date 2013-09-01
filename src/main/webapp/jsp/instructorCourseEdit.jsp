@@ -12,7 +12,7 @@
 <head>
 	<link rel="shortcut icon" href="/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teammates - Instructor</title>
+	<title>TEAMMATES - Instructor</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/instructorCourseEdit.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
@@ -49,9 +49,8 @@
 				<input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
 				<table id="addform" class="inputTable">
 					<tr>
-						<td class="label bold">Course ID:</td>
-					</tr>
-					<tr>
+						<td class="label bold" margin="20%">Course ID:</td>
+						
 						<td><input class="addinput" type="text"
 							name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
 							value="<%=(data.course.id==null ? "" : sanitizeForHtml(data.course.id))%>"
@@ -60,9 +59,8 @@
 							maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1" disabled="disabled"></td>
 					</tr>
 					<tr>
-						<td class="label bold">Course Name:</td>
-					</tr>
-					<tr>
+						<td class="label bold" margin="20%">Course Name:</td>
+					
 						<td><input class="addinput" type="text"
 							name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
 							value="<%=(data.course.name==null ? "" : sanitizeForHtml(data.course.name))%>"
