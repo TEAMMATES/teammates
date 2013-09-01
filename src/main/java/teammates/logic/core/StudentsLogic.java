@@ -184,9 +184,10 @@ public class StudentsLogic {
 		}
 	}
 	
+	//TODO: add better error reporting and validity checks
 	public List<StudentAttributes> enrollStudents(String enrollLines,
 			String courseId)
-			throws EntityDoesNotExistException, EnrollException, InvalidParametersException {
+			throws EntityDoesNotExistException, EnrollException {
 
 		if (!coursesLogic.isCoursePresent(courseId)) {
 			throw new EntityDoesNotExistException("Course does not exist :"
@@ -195,29 +196,22 @@ public class StudentsLogic {
 
 		Assumption.assertNotNull(StudentAttributes.ERROR_ENROLL_LINE_NULL,
 				enrollLines);
-		
-		if (enrollLines.isEmpty()) {
-			throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
-		}
-		
-		List<String> invalidityInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
-		if (!invalidityInfo.isEmpty()) {
-			throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
-		}
 
 		ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
 		String[] linesArray = enrollLines.split(Const.EOL);
 		ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
 
+		// check if all non-empty lines are formatted correctly
 		for (int i = 0; i < linesArray.length; i++) {
 			String line = linesArray[i];
-			
-			if (StringHelper.isWhiteSpace(line)) {
-				continue;
+			try {
+				if (StringHelper.isWhiteSpace(line))
+					continue;
+				studentList.add(new StudentAttributes(line, courseId));
+			} catch (EnrollException e) {
+				throw new EnrollException(e.errorCode, "Problem in line : "
+						+ line + Const.EOL + e.getMessage());
 			}
-			
-			StudentAttributes student = new StudentAttributes(line, courseId);
-			studentList.add(student);
 		}
 
 		// TODO: can we use a batch persist operation here?
@@ -239,7 +233,7 @@ public class StudentsLogic {
 
 		return returnList;
 	}
-
+	
 	public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail) 
 			throws EntityDoesNotExistException {
 		
@@ -301,6 +295,7 @@ public class StudentsLogic {
 		
 	}
 	
+	
 	private StudentAttributes enrollStudent(StudentAttributes validStudentAttributes) {
 		StudentAttributes.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
 		try {
@@ -315,9 +310,6 @@ public class StudentsLogic {
 			}
 		} catch (Exception e) {
 			//TODO: need better error handling here. This error is not 'unexpected'. e.g., invalid student data
-			/* Note: If this method is only called by the public method enrollStudents(String,String),
-			* then there won't be any invalid student data, since validity check has been done in that method
-			*/
 			updateStatus = UpdateStatus.ERROR;
 			String errorMessage = "Exception thrown unexpectedly while enrolling student: " 
 					+ validStudentAttributes.toString() + Const.EOL + TeammatesException.toStringWithStackTrace(e);
@@ -325,35 +317,6 @@ public class StudentsLogic {
 		}
 		validStudentAttributes.updateStatus = updateStatus;
 		return validStudentAttributes;
-	}
-	
-	/* All empty lines or lines with only whitespaces will be skipped.
-	 * The invalidity info returned are in HTML format.
-	 */
-	private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) {
-		List<String> invalidityInfo = new ArrayList<String>();
-		String[] linesArray = lines.split(Const.EOL);
-		
-		for (int i = 0; i < linesArray.length; i++) {
-			String line = linesArray[i];
-			try {
-				if (StringHelper.isWhiteSpace(line)) {
-					continue;
-				}
-				StudentAttributes student = new StudentAttributes(line, courseId);
-				
-				if (!student.isValid()) {
-					String info = StringHelper.toString(student.getInvalidityInfo(),
-													"<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-					invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info));
-				}
-			} catch (EnrollException e) {
-				String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, e.getMessage());
-				invalidityInfo.add(info);
-			}
-		}
-		
-		return invalidityInfo;
 	}
 	
 	private boolean isInEnrollList(StudentAttributes student,

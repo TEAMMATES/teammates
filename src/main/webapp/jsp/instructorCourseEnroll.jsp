@@ -26,6 +26,7 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
+	<script type="text/javascript" src="/js/instructorCourseEnroll.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -60,14 +61,15 @@
 									placeholder="This box can be used for enrolling new students and editing details 
 									(except email address) of students already enrolled. To EDIT, simply enroll students using 
 									the updated data and existing data will be updated accordingly. To DELETE students or to 
-									UPDATE EMAIL address of a student,please use the 'view' page of the course."><%=data.enrollStudents%></textarea>
+									UPDATE EMAIL address of a student,please use the 'view' page of the course."></textarea>
 							</td>
 						</tr>
 					</table>
 					<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 					<br>
 					<div id="instructorCourseEnrollmentButtons" class="centeralign">
-						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students">
+						<input type="submit" class="button" name="button_enroll" id="button_enroll" value="Enroll students"
+							onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)">
 					</div>
 				</form>
 				<br>

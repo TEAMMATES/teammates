@@ -18,6 +18,7 @@
 	<script src="/js/common.js" type="text/javascript"></script>
 	
 	<script src="/js/instructor.js" type="text/javascript"></script>
+	<script src="/js/instructorCourseEnroll.js" type="text/javascript"></script>
     <noscript>{*}</noscript>
 
 
@@ -87,7 +88,7 @@
 
 					<br />
 					<div class="centeralign" id="instructorCourseEnrollmentButtons">
-						<input type="submit" value="Enroll students" id="button_enroll" name="button_enroll" class="button" />
+						<input type="submit" onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)" value="Enroll students" id="button_enroll" name="button_enroll" class="button" />
 					</div>
 				</form>
 				<br />

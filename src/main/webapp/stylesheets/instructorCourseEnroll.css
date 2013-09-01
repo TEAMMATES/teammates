@@ -4,17 +4,10 @@
 }
 
 .spreadsheetLink {
-   margin-right: 5.5em;
+   margin-right:5.5em;
 }
 
-.enrollStudentTable {
-	margin-right: 70px;
+.enrollStudentTable{
+	margin-right:70px;
 }
-
-.invalidLine {
-	font-style: italic;
-}
-
-.problemDetail {
-	text-align: left;
-}
+	
