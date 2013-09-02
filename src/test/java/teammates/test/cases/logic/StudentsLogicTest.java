@@ -3,6 +3,7 @@ package teammates.test.cases.logic;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -16,7 +17,9 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EvaluationsLogic;
@@ -228,6 +231,130 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		assertEquals(key, reverseKey);
 		assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
 	}
+	
+	@Test
+	public void testEnrollLinesChecking() throws Exception {
+		String info;
+		String enrollLines;
+		String courseId = "CourseID";
+		coursesLogic.createCourse(courseId, "CourseName");
+		
+		List<String> invalidInfo;
+		List<String> expectedInvalidInfo = new ArrayList<String>();
+		
+		______TS("enrollLines with invalid parameters");
+		String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
+		String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+		String invalidEmail = "invalid_email.com";
+		
+		String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.com";
+		String lineWithInvalidStudentName = "Team 1 |" + invalidStudentName + "| student@email.com";
+		String lineWithInvalidEmail = "Team 1 | James |" + invalidEmail;
+		String lineWithInvalidStudentNameAndEmail = "Team 2 |" + invalidStudentName + "|" + invalidEmail;
+		String lineWithInvalidTeamNameAndEmail = invalidTeamName + "| Paul |" + invalidEmail;
+		String lineWithInvalidTeamNameAndStudentNameAndEmail = invalidTeamName + "|" + invalidStudentName + "|" + invalidEmail;;
+		
+		enrollLines = lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName + Const.EOL +
+					lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL +
+					lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
+		
+		invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+
+		expectedInvalidInfo.clear();
+		info = StringHelper.toString((new StudentAttributes(lineWithInvalidTeamName, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamName, info));
+		info = StringHelper.toString((new StudentAttributes(lineWithInvalidStudentName, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidStudentName, info));
+		info = StringHelper.toString((new StudentAttributes(lineWithInvalidEmail, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidEmail, info));
+		info = StringHelper.toString((new StudentAttributes(lineWithInvalidStudentNameAndEmail, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidStudentNameAndEmail, info));
+		info = StringHelper.toString((new StudentAttributes(lineWithInvalidTeamNameAndEmail, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndEmail, info));
+		info = StringHelper.toString((new StudentAttributes(lineWithInvalidTeamNameAndStudentNameAndEmail, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndStudentNameAndEmail, info));
+		
+		for (int i = 0; i < invalidInfo.size(); i++) {
+			assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
+		}
+		
+		______TS("enrollLines with too few or extra parameters");
+		String lineWithNoEmailInput = "Team 4 | StudentWithNoEmailInput";
+		String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | student@email.com | comment | extra_parameter";
+		
+		enrollLines = lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
+		
+		invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+
+		expectedInvalidInfo.clear();
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithNoEmailInput, StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS));
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithExtraParameters, StudentAttributes.ERROR_ENROLL_LINE_TOOMANYPARTS));
+		
+		for (int i = 0; i < invalidInfo.size(); i++) {
+			assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
+		}
+		
+		______TS("enrollLines with some empty fields");
+		String lineWithTeamNameEmpty = "    | StudentWithTeamFieldEmpty | student@email.com";
+		String lineWithStudentNameEmpty = "Team 5 |  | no_name@email.com";
+		String lineWithEmailEmpty = "Team 5 | StudentWithEmailFieldEmpty | |";
+		
+		enrollLines = lineWithTeamNameEmpty + Const.EOL + lineWithStudentNameEmpty + Const.EOL + lineWithEmailEmpty;
+
+		invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+		expectedInvalidInfo.clear();
+		info = StringHelper.toString((new StudentAttributes(lineWithStudentNameEmpty, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithStudentNameEmpty, info));
+		info = StringHelper.toString((new StudentAttributes(lineWithEmailEmpty, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithEmailEmpty, info));
+
+		for (int i = 0; i < invalidInfo.size(); i++) {
+			assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
+		}
+
+		______TS("enrollLines with correct input");
+		String lineWithCorrectInput = "Team 3 | Mary | mary@email.com";
+		String lineWithCorrectInputWithComment = "Team 4 | Benjamin | benjamin@email.com | Foreign student";
+		
+		enrollLines = lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
+		
+		invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+
+		assertEquals(0, invalidInfo.size());
+		
+		______TS("enrollLines with only whitespaces");
+		String lineWithOnlyTab = "\t";
+		String lineWithOnlySpaces = "    ";
+		String lineWithEmptyLength = "";
+		
+		enrollLines = lineWithOnlyTab + Const.EOL + lineWithOnlySpaces + Const.EOL + lineWithEmptyLength;
+		
+		invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+
+		assertEquals(0, invalidInfo.size());
+		
+		______TS("enrollLines with a mix of all above cases");
+		enrollLines = lineWithInvalidTeamName + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail + Const.EOL + lineWithExtraParameters + Const.EOL +
+				lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithOnlyTab;
+
+		invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+		
+		expectedInvalidInfo.clear();
+		info = StringHelper.toString((new StudentAttributes(lineWithInvalidTeamName, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamName, info));
+		info = StringHelper.toString((new StudentAttributes(lineWithInvalidTeamNameAndStudentNameAndEmail, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndStudentNameAndEmail, info));
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithExtraParameters, StudentAttributes.ERROR_ENROLL_LINE_TOOMANYPARTS));
+		info = StringHelper.toString((new StudentAttributes(lineWithTeamNameEmpty, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
+		info = StringHelper.toString((new StudentAttributes(lineWithCorrectInput, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithCorrectInput, info));
+		
+		for (int i = 0; i < invalidInfo.size(); i++) {
+			assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
+		}
+		
+	}
 
 	private static StudentAttributes invokeEnrollStudent(StudentAttributes student)
 			throws Exception {
@@ -236,6 +363,16 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { student };
 		return (StudentAttributes) privateMethod.invoke(StudentsLogic.inst(), params);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static List<String> invokeGetInvalidityInfoInEnrollLines(String lines, String courseID)
+			throws Exception {
+		Method privateMethod = StudentsLogic.class.getDeclaredMethod("getInvalidityInfoInEnrollLines",
+									new Class[] { String.class, String.class });
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] { lines, courseID };
+		return (List<String>) privateMethod.invoke(StudentsLogic.inst(), params);
 	}
 		
 	private void verifyCascasedToSubmissions(String instructorCourse)
