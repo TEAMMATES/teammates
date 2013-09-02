@@ -11,6 +11,8 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -44,12 +46,76 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 	public void runTestsInOrder() throws Exception{
 		testContent();
 		testInputValidation();
-		testCancelAction();
+		//testCancelAction();
 		testEditAction();
 	}
 	
 	public void testContent() throws Exception{
 		
+		______TS("content: summary view");
+		
+		gotoInstructorEvalEditPage();
+		editPage.verifyHtml("/instructorEvalEdit.html");
+	}
+	
+	public void testEditAction() throws Exception{
+		gotoInstructorEvalEditPage();
+		
+		String validInstructions = StringHelper
+				.generateStringOfLength(FieldValidator.EVALUATION_INSTRUCTIONS_MAX_LENGTH);
+		
+		______TS("action: edit with valid parameters");
+		
+		existingEval.p2pEnabled = !existingEval.p2pEnabled; 
+		existingEval.instructions = validInstructions; 
+		existingEval.gracePeriod = existingEval.gracePeriod + 5;
+		existingEval.startTime = TimeHelper.convertToDate("2012-04-01 11:59 PM UTC"); 
+		existingEval.endTime = TimeHelper.convertToDate("2015-04-01 10:00 PM UTC"); 
+		
+		editPage.submitUpdate(
+				existingEval.startTime, 
+				existingEval.endTime, 
+				existingEval.p2pEnabled, 
+				existingEval.instructions, 
+				existingEval.gracePeriod)
+				.verifyStatus(Const.StatusMessages.EVALUATION_EDITED);
+		
+		EvaluationAttributes updated = BackDoor.getEvaluation(existingEval.courseId, existingEval.name);
+		assertEquals(existingEval.toString(), updated.toString());
+	}
+	
+	public void testCancelAction(){
+		//TODO: Cancel button to be removed from the Evaluation Edit page in the future
+	}
+
+	private void testInputValidation() {
+		
+		String sampleValidInstructions = StringHelper
+				.generateStringOfLength(FieldValidator.EVALUATION_INSTRUCTIONS_MAX_LENGTH);
+		
+		existingEval.p2pEnabled = !existingEval.p2pEnabled; 
+		existingEval.instructions = sampleValidInstructions; 
+		existingEval.gracePeriod = existingEval.gracePeriod + 5;
+		
+		______TS("input: testing with invalid time");
+		
+		existingEval.startTime = TimeHelper.convertToDate("2012-04-01 11:59 PM UTC"); 
+		existingEval.endTime = TimeHelper.convertToDate("2012-03-01 10:00 PM UTC"); 
+		
+		String invalidTimeStatusMessage = "The evaluation schedule (start/deadline) is not valid.\n" +
+				"The start time should be in the future, and the deadline should be after start time.";
+		
+		editPage.submitUpdate(
+				existingEval.startTime, 
+				existingEval.endTime, 
+				existingEval.p2pEnabled, 
+				existingEval.instructions, 
+				existingEval.gracePeriod)
+				.verifyStatus(invalidTimeStatusMessage);
+		
+	}
+	
+	private void gotoInstructorEvalEditPage() throws Exception{
 		String instructorId = testData.instructors.get("instructor").googleId;
 		Url editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE)
 		.withUserId(instructorId)
@@ -57,38 +123,8 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 		.withEvalName(existingEval.name);
 		
 		editPage = loginAdminToPage(browser, editPageUrl, InstructorEvalEditPage.class);
-		editPage.verifyHtml("/instructorEvalEdit.html");
 	}
 	
-	public void testEditAction() throws Exception{
-		
-		//these will be the updated values
-		//TODO: make the start time a future time (after Issue 897 is fixed)
-		existingEval.startTime = TimeHelper.convertToDate("2012-04-01 11:59 PM UTC"); 
-		existingEval.endTime = TimeHelper.convertToDate("2015-04-01 10:00 PM UTC"); 
-		existingEval.p2pEnabled = !existingEval.p2pEnabled; 
-		existingEval.instructions = existingEval.instructions+"(edited)"; 
-		existingEval.gracePeriod = existingEval.gracePeriod + 5;
-		
-		editPage.submitUpdate(
-				existingEval.startTime, 
-				existingEval.endTime, 
-				existingEval.p2pEnabled, 
-				existingEval.instructions, 
-				existingEval.gracePeriod).verifyStatus(Const.StatusMessages.EVALUATION_EDITED);
-		
-		EvaluationAttributes updated = BackDoor.getEvaluation(existingEval.courseId, existingEval.name);
-		assertEquals(existingEval.toString(), updated.toString());
-	}
-	
-	public void testCancelAction(){
-		//TODO: implement this, or remove the 'Cancel' button (preferred).
-	}
-
-	private void testInputValidation() {
-		// TODO: implement this
-	}
-
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserPool.release(browser);
