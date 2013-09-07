@@ -30,6 +30,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
 				logic.getCourse(courseId));
 		
+		studentsInfo = removeHeaderRowIfExist(studentsInfo);
+		
 		InstructorCourseEnrollResultPageData data = new InstructorCourseEnrollResultPageData(account);
 		data.courseId = courseId;
 		try {
@@ -50,7 +52,6 @@ public class InstructorCourseEnrollSaveAction extends Action {
 		}
 	}
 
-	
 	private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
 			throws EnrollException, EntityDoesNotExistException, InvalidParametersException {
 		List<StudentAttributes> students = logic.enrollStudents(studentsInfo, courseId);
@@ -103,5 +104,44 @@ public class InstructorCourseEnrollSaveAction extends Action {
 		return lists;
 	}
 
+	private String removeHeaderRowIfExist(String studentsInfo) {
+		Assumption.assertNotNull(studentsInfo);
+		
+		String[] lines = studentsInfo.split(Const.EOL);
+		
+		if (isHeaderRow(lines[0])) {
+			studentsInfo = studentsInfo.substring(lines[0].length() + Const.EOL.length());
+		}
+		
+		return studentsInfo;
+	}
+
+	/**
+	 * Check if a row is a header row by checking each column name
+	 * Rules for a header row (case-insensitive):
+	 * <br>-First column name is "team"
+	 * <br>-Second column name contains the word "name"
+	 * <br>-Third column name is the word "email"
+	 */
+	private boolean isHeaderRow(String row) {
+		Assumption.assertNotNull(row);
+		
+		String[] fields = row.replace("|", "\t").split("\t");
+		if (fields.length < 3) {
+			return false;
+		}
+		
+		String firstColumn = fields[0].trim();
+		String secondColumn = fields[1].trim();
+		String thirdColumn = fields[2].trim();
+		
+		if (firstColumn.equalsIgnoreCase("team") &&
+				secondColumn.toLowerCase().contains("name") &&
+				thirdColumn.equalsIgnoreCase("email")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }
