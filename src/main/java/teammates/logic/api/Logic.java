@@ -593,7 +593,7 @@ public class Logic {
 	 *         course that were not touched by the operation.
 	 */
 	public List<StudentAttributes> enrollStudents(String enrollLines, String courseId)
-			throws EnrollException, EntityDoesNotExistException {
+			throws EnrollException, EntityDoesNotExistException, InvalidParametersException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, enrollLines);

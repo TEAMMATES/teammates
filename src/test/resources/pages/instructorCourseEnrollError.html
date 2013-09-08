@@ -18,7 +18,6 @@
 	<script src="/js/common.js" type="text/javascript"></script>
 	
 	<script src="/js/instructor.js" type="text/javascript"></script>
-	<script src="/js/instructorCourseEnroll.js" type="text/javascript"></script>
     <noscript>{*}</noscript>
 
 
@@ -76,17 +75,24 @@
 					<table class="inputTable enrollStudentTable">
 						<tbody><tr>
 							<td id="studentDetails" class="label bold middlealign"> Student details: </td>
-							<td><textarea id="enrollstudents" name="enrollstudents" class="textvalue" cols="120" placeholder="This box can be used for enrolling new students and editing details (except email address) of students already enrolled. To EDIT, simply enroll students using the updated data and existing data will be updated accordingly. To DELETE students or to UPDATE EMAIL address of a student,please use the 'view' page of the course." rows="6"></textarea></td>
+							<td><textarea id="enrollstudents" name="enrollstudents" class="textvalue" cols="120" placeholder="This box can be used for enrolling new students and editing details (except email address) of students already enrolled. To EDIT, simply enroll students using the updated data and existing data will be updated accordingly. To DELETE students or to UPDATE EMAIL address of a student,please use the 'view' page of the course." rows="6">
+								a|b|c|d
+								</textarea>
+							</td>
 						</tr>
 					</tbody></table>
-					
 
-
-	<div style="display: block; background-color: rgb(255, 153, 153);" id="statusMessage">The e-mail address is invalid.</div>
-
+					<div style="display: block; background-color: rgb(255, 153, 153);" id="statusMessage">
+						<p><span class="bold">Problem in line : <span class="invalidLine">a|b|c|d</span></span>
+						<br><span class="problemDetail">&bull; "c" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces.</span>
+						</p>
+					</div>
+					<script type="text/javascript">
+    					document.getElementById( 'statusMessage' ).scrollIntoView();
+    				</script>
 					<br />
 					<div class="centeralign" id="instructorCourseEnrollmentButtons">
-						<input type="submit" onclick="return checkEnrollmentInput(document.getElementById('enrollstudents').value)" value="Enroll students" id="button_enroll" name="button_enroll" class="button" />
+						<input type="submit" value="Enroll students" id="button_enroll" name="button_enroll" class="button" />
 					</div>
 				</form>
 				<br />
