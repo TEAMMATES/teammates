@@ -35,15 +35,15 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		
-		// NEW
+		// A new student
 		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
-		// Student with no comment
+		// A new student with no comment
 		enrollString += "Team 3 | Frank Galoe | frank.g.tmms@gmail.com\n";
-		// Student with no team
+		// A new student with no team
 		enrollString += " | Gary Harbine | gary.h.tmms@gmail.com | This student has no team\n";
-		// MODIFIED
+		// A student to be modified
 		enrollString += "Team 1 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
-		// UNMODIFIED
+		// An existing student with no modification
 		enrollString += "Team 1 | Benny Charles | benny.c.tmms@gmail.com | This student's name is Benny Charles";
 		
 		browser = BrowserPool.getBrowser();
@@ -54,7 +54,6 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 	public void testInstructorCourseEnrollPage() throws Exception{
 		testContent();
 		testSampleLink();
-		testInputValidation();
 		testEnrollAction();
 	}
 
@@ -75,18 +74,6 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		______TS("link for the sample spreadsheet");
 		
 		enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),"B2F8A93F24ACAC5713BCBC42DAF1FDA59F7AE04B");
-	}
-
-	private void testInputValidation() {
-		
-		______TS("input validation");
-		
-		enrollPage.enrollUnsuccessfully("a|b|c|d")
-			.verifyHtml("/instructorCourseEnrollError.html");
-		
-		/* We test only one invalid case here. The rest should be covered
-		 * by JS tests.
-		 */
 	}
 
 	private void testEnrollAction() throws Exception {

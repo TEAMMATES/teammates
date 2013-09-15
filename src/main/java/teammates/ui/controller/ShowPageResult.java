@@ -48,7 +48,7 @@ public class ShowPageResult extends ActionResult{
 		/* These two are required for the 'status message' section of the page
 		 * Although these two are also sent as parameters in the URL,
 		 *  they should be set as attributes too, because the status message
-		 *  section is a {@code jsp:inclde} and cannot see parameters encoded 
+		 *  section is a {@code jsp:include} and cannot see parameters encoded 
 		 *  in the URL
 		 */ 
 		req.setAttribute(Const.ParamsNames.ERROR, ""+isError); 
