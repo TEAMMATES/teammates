@@ -85,7 +85,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 		
 		______TS("action success : create instructor account with demo course");
 		
-		String demoCourseId = account.googleId + "-demo";
+		String demoCourseId = "AHPUiT.instr1.gma-demo";
 		BackDoor.deleteCourse(demoCourseId);
 		
 		//with sample course

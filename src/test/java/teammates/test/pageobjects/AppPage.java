@@ -3,10 +3,12 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -482,11 +484,12 @@ public abstract class AppPage {
 	
 	/**
 	 * Verify if a file is downloadable based on the given url. If its downloadable,
-	 * download the file and read its contents and verify the read content with the
-	 * expected content.
+	 * download the file and get the SHA-1 hex of it and verify the hex with the given 
+	 * expected hash.
 	 * 
+	 * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1)
 	 */
-	public void verifyDownloadableFile(String url,String expectedContent) throws Exception {
+	public void verifyDownloadableFile(String url,String expectedHash) throws Exception {
 		
 		if (!url.startsWith("http") ){
 			url = HOMEPAGE + url;
@@ -518,8 +521,8 @@ public abstract class AppPage {
         String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
 		assertEquals(new File(downloadedFileAbsolutePath).exists(), true);
 		
-		String actualContent = FileHelper.readFile(downloadedFileAbsolutePath);
-		//assertEquals(actualContent,expectedContent);
+		String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
+    	assertEquals(actualHash,expectedHash.toLowerCase());
 	}
 	
 	@SuppressWarnings("unused")

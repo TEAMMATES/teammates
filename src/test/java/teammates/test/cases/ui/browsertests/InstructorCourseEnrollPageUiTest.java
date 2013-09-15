@@ -35,15 +35,15 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		
-		// NEW
+		// A new student
 		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
-		// Student with no comment
+		// A new student with no comment
 		enrollString += "Team 3 | Frank Galoe | frank.g.tmms@gmail.com\n";
-		// Student with no team
+		// A new student with no team
 		enrollString += " | Gary Harbine | gary.h.tmms@gmail.com | This student has no team\n";
-		// MODIFIED
+		// A student to be modified
 		enrollString += "Team 1 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
-		// UNMODIFIED
+		// An existing student with no modification
 		enrollString += "Team 1 | Benny Charles | benny.c.tmms@gmail.com | This student's name is Benny Charles";
 		
 		browser = BrowserPool.getBrowser();
@@ -54,7 +54,6 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 	public void testInstructorCourseEnrollPage() throws Exception{
 		testContent();
 		testSampleLink();
-		testInputValidation();
 		testEnrollAction();
 	}
 
@@ -73,29 +72,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 	private void testSampleLink() throws Exception {
 		
 		______TS("link for the sample spreadsheet");
-		/*
-		 * TODO: The "\n" used below are just used temporarily for passing the test cases.
-		 * 	Originally the line break character should be Const.EOL
-		 */
-		String sampleSpreadsheetContent = "Team 1,Tom Jacobs,tom@email.com,\n" +
-					"Team 1,Jean Wong,jean@email.com,Exchange Student\n" +
-					"Team 1,Ravi Kumar,ravi@email.com,\n" +
-					"Team 2,Chun Ling,ling@coolmai.com,\n" +
-					"Team 2,Desmond Wu,desmond@email.com,\n" +
-					"Team 2,Harsha Silva,harsha@school.com,";
-		enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),sampleSpreadsheetContent);
-	}
-
-	private void testInputValidation() {
 		
-		______TS("input validation");
-		
-		enrollPage.enrollUnsuccessfully("a|b|c|d")
-			.verifyHtml("/instructorCourseEnrollError.html");
-		
-		/* We test only one invalid case here. The rest should be covered
-		 * by JS tests.
-		 */
+		enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),"B2F8A93F24ACAC5713BCBC42DAF1FDA59F7AE04B");
 	}
 
 	private void testEnrollAction() throws Exception {
