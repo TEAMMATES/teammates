@@ -72,3 +72,45 @@ function getXMLObject()
    }
    return xmlHttp; 
 }
+
+function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) {
+	var errorMsg = "Thousands of"
+	if (!currentDate || !baseDate) {
+		return errorMsg;
+	}
+	var CurrBaseDateDifference = new Date(currentDate - baseDate);
+	if (CurrBaseDateDifference < 0) {
+		return errorMsg;
+	}
+
+	var dd = CurrBaseDateDifference.getDate();
+	var mm = CurrBaseDateDifference.getMonth();
+	var yyyy = CurrBaseDateDifference.getFullYear() - 1970;
+	var month = mm + yyyy * 12;
+	var days = dd + month * 30;
+	var hr = days * 24;
+	var numberOfSubmissions = hr * submissionPerHour;
+	numberOfSubmissions += baseCount;
+	return formatNumber(numberOfSubmissions);
+}
+
+// Function is executed on loading the page
+onload = function() {
+	var currentDate = new Date();
+	// Submission Variables
+	var baseCount = 36000;
+	var baseDate = new Date(2013, 07, 01);
+	var submissionPerHour = 2;
+	var e = document.getElementById('submissionsNumber');
+	e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour,
+			baseCount);
+}
+// Format large number with commas
+function formatNumber(number) {
+	number += '';
+	var expression = /(\d+)(\d{3})/;
+	while (expression.test(number)) {
+		number = number.replace(expression, '$1' + ',' + '$2');
+	}
+	return number;
+}
