@@ -493,7 +493,7 @@
 				</tr>
 				<tr>
 					<td class="centeralign" colspan="4"><input id="button_submit_add"
-						type="submit" class="button" value="Add Question" tabindex="9">
+						type="submit" class="button" value="Save Question" tabindex="9">
 					</td>					
 				</tr>
 			</table>
