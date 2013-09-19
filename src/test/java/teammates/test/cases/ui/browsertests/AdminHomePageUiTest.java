@@ -38,7 +38,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 		//no links to check
 		testInputValidation();
 		testCreateInstructorAction();
-		testInputSanitization();
 	}
 
 	private void testContent() {
@@ -115,27 +114,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 		assertNull(BackDoor.getCourse(demoCourseId));
 		
 
-	}
-
-	private void testInputSanitization() {
-		
-		//TODO: remove this. Input sanitization should be done/tested on the server-side
-		
-		______TS("input sanitization : extra spaces around values");
-		
-		account.googleId = "AHPUiT.instr3";
-		BackDoor.deleteAccount(account.googleId);
-		
-		AccountAttributes accountWithSpaces = new AccountAttributes();
-		accountWithSpaces.googleId = "  "+ account.googleId + "   ";
-		accountWithSpaces.name = "  "+ account.name + "   ";
-		accountWithSpaces.email = "  "+ account.email + "   ";
-		accountWithSpaces.institute = "  "+ account.institute + "   ";
-		accountWithSpaces.isInstructor = true;
-		
-		homePage.createInstructor(accountWithSpaces, false)
-			.verifyStatus("Instructor New Instructor has been successfully created");
-		verifyAccountCreated(account);
 	}
 
 	private void verifyAccountCreated(AccountAttributes expected) {
