@@ -7,6 +7,7 @@ import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 
 import java.util.Date;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
@@ -24,9 +25,6 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 public class EvaluationsDbTest extends BaseComponentTestCase {
-	
-	//TODO: add missing test cases, refine existing ones. Follow the example
-	//  of CoursesDbTest::testCreateCourse().
 
 	private EvaluationsDb evaluationsDb = new EvaluationsDb();
 	
@@ -38,17 +36,27 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 
 	@Test
 	public void testCreateEvaluation() throws EntityAlreadyExistsException, InvalidParametersException {
-		// SUCCESS
+		
+		______TS("typical: create evaluation with valid attributes");
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.courseId = "Computing101";
 		e.name = "Very First Evaluation";
 		e.startTime = new Date();
 		e.endTime = new Date();
 		evaluationsDb.createEntity(e);
-		//TODO: retrieve and verify
-		//TODO: check of sanitization of fields
 		
-		// SUCCESS even if keyword 'group' appears in the middle of the name (see Issue 380)
+		______TS("success: confirm sanitization of fields while creating an evaluation");
+		e.courseId = "  Computing101  ";
+		e.name = "\tSecond Evaluation\t";
+		e.instructions = "\t\ntypical instructions\t\n";
+		e.startTime = new Date();
+		e.endTime = new Date();
+		evaluationsDb.createEntity(e);
+		
+		e = evaluationsDb.getEvaluation("Computing101", "Second Evaluation");
+		assertEquals("typical instructions",e.instructions);
+		
+		______TS("success: create evaluation even if keyword 'group' appears in the middle of the name (see Issue 380");
 		e = new EvaluationAttributes();
 		e.courseId = "Computing102";
 		e.name = "text group text";
@@ -56,7 +64,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		e.endTime = new Date();
 		evaluationsDb.createEntity(e);
 		
-		// FAIL : duplicate
+		______TS("fail: create duplicate evaluation");
 		try {
 			evaluationsDb.createEntity(e);
 			signalFailureToDetectException();
@@ -65,7 +73,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 					+ e.getIdentificationString(), ex.getMessage());
 		}
 		
-		// FAIL : invalid params
+		______TS("fail: create evaluation with invalid parameters");
 		e.startTime = null;
 		try {
 			evaluationsDb.createEntity(e);
@@ -75,7 +83,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		}
 	
 		
-		// Null params check:
+		______TS("fail: create evaluation with null params");
 		try {
 			evaluationsDb.createEntity(null);
 			signalFailureToDetectException();
@@ -88,15 +96,21 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 	public void testGetEvaluation() throws InvalidParametersException {
 		EvaluationAttributes e = createNewEvaluation();
 		
-		// Get existent
+		______TS("typical: retrieve existing evaluation");
 		EvaluationAttributes retrieved = evaluationsDb.getEvaluation(e.courseId, e.name);
 		AssertJUnit.assertNotNull(retrieved);
 		
-		// Get non-existent - just return null
+		______TS("typical: retrieve multiple evaluations of a course");
+		List<EvaluationAttributes> retrievedList = evaluationsDb.getEvaluationsForCourse("Computing101");
+		AssertJUnit.assertEquals(retrievedList.get(0).name, "Very First Evaluation");
+		AssertJUnit.assertEquals(retrievedList.get(1).name, "Second Evaluation");
+		AssertJUnit.assertEquals(retrievedList.size(), 2);
+		
+		______TS("fail: retrieve non-existing evaluation");
 		retrieved = evaluationsDb.getEvaluation("non-existent-course", "Non existent Evaluation");
 		AssertJUnit.assertNull(retrieved);
 		
-		// Null params check:
+		______TS("fail: retrieve existing evaluation with null params");
 		try {
 			evaluationsDb.getEvaluation(e.courseId, null);
 			Assert.fail();
@@ -109,12 +123,11 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 	public void testUpdateEvaluation() throws EntityDoesNotExistException, InvalidParametersException {
 		EvaluationAttributes e = createNewEvaluation();
 				
-		______TS("typical");
-		
+		______TS("typical: update an evaluation");
 		e.instructions = "Foo Bar";
 		evaluationsDb.updateEvaluation(e);
 		
-		______TS("invalid parameters");
+		______TS("fail: invalid parameters");
 		
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
@@ -126,8 +139,17 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 					END_TIME_FIELD_NAME, EVALUATION_NAME, START_TIME_FIELD_NAME) ;
 			AssertHelper.assertContains(errorMessage, i.getMessage());
 		}
-				
-		______TS("non existent");
+		
+		______TS("success: confirm sanitization during update of an evaluation");
+		e.instructions = "\t\n New Instructions\t \n ";
+		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		evaluationsDb.updateEvaluation(e);
+		
+		e = evaluationsDb.getEvaluation(e.courseId, e.name);
+		assertEquals("New Instructions", e.instructions);
+		
+		______TS("fail: attempt to update a non-existent evaluation");
 		
 		e.name = "Non existent Evaluation";
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
@@ -139,7 +161,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 			AssertHelper.assertContains(EvaluationsDb.ERROR_UPDATE_NON_EXISTENT, a.getMessage());
 		}
 		
-		______TS("null parameters");
+		______TS("fail: attempt to update by passing null parameters");
 		
 		try {
 			evaluationsDb.updateEvaluation(null);
@@ -147,25 +169,44 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		} catch (AssertionError a) {
 			assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
 		}
-		
-		//TODO: check for stanitization of input
-		
 	}
 	
 	@Test
 	public void testDeleteEvaluation() throws InvalidParametersException {
 		EvaluationAttributes e = createNewEvaluation();
 		
-		// Delete
+		______TS("typical: delete existing evaluation");
 		evaluationsDb.deleteEvaluation(e.courseId, e.name);
 		
 		EvaluationAttributes deleted = evaluationsDb.getEvaluation(e.courseId, e.name);
 		AssertJUnit.assertNull(deleted);
 		
-		// delete again - should fail silently
+		______TS("fail: delete an already deleted(now non-existing) evaluation");
 		evaluationsDb.deleteEvaluation(e.courseId, e.name);
 		
-		// Null params check:
+		______TS("success: delete all evaluations belonging to a course");
+		//Create first evaluation
+		e = createNewEvaluation();
+		
+		//Create second evaluation for same course by changing name
+		e.name = "Second Evaluation";
+		
+		try {
+			evaluationsDb.createEntity(e);
+		} catch (EntityAlreadyExistsException e1) {
+			Assert.fail();
+		}
+		
+		List<EvaluationAttributes> retrievedList = evaluationsDb.getEvaluationsForCourse(e.courseId);
+		assertEquals(retrievedList.size(),2);
+		
+		evaluationsDb.deleteAllEvaluationsForCourse(e.courseId);
+		
+		retrievedList = evaluationsDb.getEvaluationsForCourse(e.courseId);
+		assertEquals(retrievedList.size(),0);
+		
+		
+		______TS("fail: delete an evaluation by passing null params");
 		try {
 			evaluationsDb.deleteEvaluation(null, e.name);
 			Assert.fail();
@@ -202,7 +243,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 
 	private EvaluationAttributes createNewEvaluation() throws InvalidParametersException {
 		EvaluationAttributes e = new EvaluationAttributes();
-		e.courseId = "Computing101";
+		e.courseId = "Computing104";
 		e.name = "Basic Computing Evaluation1";
 		e.startTime = new Date();
 		e.endTime = new Date();

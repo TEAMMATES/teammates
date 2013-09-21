@@ -220,7 +220,7 @@
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
 							<%if(data.session!=null && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(data.session.resultsVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
-							 Once the session is visible</td>
+							 Immediately</td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
 							onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
@@ -493,7 +493,7 @@
 				</tr>
 				<tr>
 					<td class="centeralign" colspan="4"><input id="button_submit_add"
-						type="submit" class="button" value="Add Question" tabindex="9">
+						type="submit" class="button" value="Save Question" tabindex="9">
 					</td>					
 				</tr>
 			</table>

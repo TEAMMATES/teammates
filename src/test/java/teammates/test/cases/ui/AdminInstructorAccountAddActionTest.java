@@ -20,7 +20,7 @@ import teammates.ui.controller.ShowPageResult;
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
 	DataBundle dataBundle;
-	
+	//TODO: move all the input validation/sanitization js code to server side
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -76,13 +76,18 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 				Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
 		
 		
-		______TS("Normal case: not importing demo couse");
+		______TS("Normal case: not importing demo couse, extra spaces around values");
+		final String newInstructorIdWithSpaces = "   " + newInstructorId + "   ";
+		final String nameWithSpaces = "   " + name + "   ";
+		final String emailWithSpaces = "   " + email + "   ";
+		final String instituteWithSpaces = "   " + institute + "   ";
+		
 		
 		Action a = getAction(
-				Const.ParamsNames.INSTRUCTOR_ID, newInstructorId,
-				Const.ParamsNames.INSTRUCTOR_NAME, name,
-				Const.ParamsNames.INSTRUCTOR_EMAIL, email,
-				Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+				Const.ParamsNames.INSTRUCTOR_ID, newInstructorIdWithSpaces,
+				Const.ParamsNames.INSTRUCTOR_NAME, nameWithSpaces,
+				Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
+				Const.ParamsNames.INSTRUCTOR_INSTITUTION, instituteWithSpaces);
 		
 		RedirectResult r = (RedirectResult) a.executeAndPostProcess();
 		
