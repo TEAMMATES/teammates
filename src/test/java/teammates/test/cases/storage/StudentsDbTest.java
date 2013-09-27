@@ -17,14 +17,14 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.cases.logic.LogicTest;
 import teammates.test.driver.AssertHelper;
 
 public class StudentsDbTest extends BaseComponentTestCase {
 	
-	//TODO: add missing test cases, refine existing ones. Follow the example
-	//  of CoursesDbTest::testCreateCourse().
 
 	private StudentsDb studentsDb = new StudentsDb();
 	
@@ -36,38 +36,50 @@ public class StudentsDbTest extends BaseComponentTestCase {
 	
 	@Test
 	public void testCreateStudent() throws EntityAlreadyExistsException, InvalidParametersException {
-		// SUCCESS
+		
 		StudentAttributes s = new StudentAttributes();
 		s.name = "valid student";
-		s.course = "valid-course";
 		s.email = "valid-fresh@email.com";
 		s.team = "";
-		s.comments="";
-		s.googleId="";
-		studentsDb.createEntity(s);
-			
-		// FAIL : duplicate
-		try {
-			studentsDb.createEntity(s);
-			Assert.fail();
-		} catch (EntityAlreadyExistsException e) {
-			AssertHelper.assertContains(String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
-			+ s.getIdentificationString(), e.getMessage());
-		}
-		
-		// FAIL : invalid params
+		s.comments = "";
+		s.googleId = "validGoogleId";
+
+		______TS("fail : invalid params"); 
 		s.course = "invalid id space";
 		try {
 			studentsDb.createEntity(s);
 			Assert.fail();
 		} catch (InvalidParametersException e) {
 			AssertHelper.assertContains(
-					String.format(COURSE_ID_ERROR_MESSAGE, s.course, REASON_INCORRECT_FORMAT),
+					String.format(COURSE_ID_ERROR_MESSAGE, s.course,
+							REASON_INCORRECT_FORMAT),
 					e.getMessage());
-			
-		} 
+		}
+		LogicTest.verifyAbsentInDatastore(s);
+
+		______TS("success : valid params");
+		s.course = "valid-course";
+		studentsDb.createEntity(s);
+		LogicTest.verifyPresentInDatastore(s);
+		StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+		assertEquals(true, retrievedStudent.isEnrollInfoSameAs(s));
+		assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));
+		assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId + "not existing"));
+		assertEquals(null, studentsDb.getStudentForGoogleId(s.course+ "not existing", s.googleId + "not existing"));
 		
-		// Null params check:
+		______TS("fail : duplicate");
+		try {
+			studentsDb.createEntity(s);
+			Assert.fail();
+		} catch (EntityAlreadyExistsException e) {
+			AssertHelper.assertContains(
+					String.format(
+							StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+							s.getEntityTypeAsString())
+							+ s.getIdentificationString(), e.getMessage());
+		}
+
+		______TS("null params check");
 		try {
 			studentsDb.createEntity(null);
 			Assert.fail();
@@ -77,16 +89,40 @@ public class StudentsDbTest extends BaseComponentTestCase {
 	}
 	
 	@Test
-	public void testGetStudent() throws InvalidParametersException {
+	public void testGetStudent() throws InvalidParametersException, EntityDoesNotExistException {
 		StudentAttributes s = createNewStudent();
+		s.googleId = "validGoogleId";
+		s.googleId = "validTeam";
+		studentsDb.updateStudent(s.course, s.email, s.name, s.team, s.email, s.googleId, s.comments);
 		
-		______TS("typical success case");
+		______TS("typical success case: existent");
 		StudentAttributes retrieved = studentsDb.getStudentForEmail(s.course, s.email);
 		assertNotNull(retrieved);
-		
+		assertNotNull(studentsDb.getStudentForRegistrationKey(retrieved.key));
+		assertNotNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(retrieved.key)));
+		assertNull(studentsDb.getStudentForRegistrationKey("notExistingKey"));
 		______TS("non existant student case");
 		retrieved = studentsDb.getStudentForEmail("any-course-id", "non-existent@email.com");
 		assertNull(retrieved);
+		
+		StudentAttributes s2 = createNewStudent("one.new@gmail.com");
+		s2.googleId = "validGoogleId2";
+		studentsDb.updateStudent(s2.course, s2.email, s2.name, s2.team, s2.email, s2.googleId, s2.comments);
+		studentsDb.deleteStudentsForGoogleId(s2.googleId);
+		assertNull(studentsDb.getStudentForGoogleId(s2.course, s2.googleId));
+		
+		s2 = createNewStudent("one.new@gmail.com");
+		assertEquals(true, studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
+		
+		s2.googleId = null;
+		studentsDb.updateStudent(s2.course, s2.email, s2.name, s2.team, s2.email, s2.googleId, s2.comments);
+		assertEquals(true, studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
+		
+		assertTrue(s.isEnrollInfoSameAs(studentsDb.getStudentsForGoogleId(s.googleId).get(0)));
+		assertEquals(true, studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s));
+		assertEquals(true, studentsDb.getStudentsForTeam(s.team, s.course).get(0).isEnrollInfoSameAs(s));
+		assertEquals(2, studentsDb.getAllStudents().size());
+		
 		
 		______TS("null params case");
 		try {
@@ -161,15 +197,23 @@ public class StudentsDbTest extends BaseComponentTestCase {
 	}
 	
 	@Test
-	public void testDeleteStudent() throws InvalidParametersException {
+	public void testDeleteStudent() throws InvalidParametersException, EntityDoesNotExistException {
 		StudentAttributes s = createNewStudent();
-		
+		s.googleId = "validGoogleId";
+		studentsDb.updateStudent(s.course, s.email, s.name, s.team, s.email, s.googleId, s.comments);
 		// Delete
 		studentsDb.deleteStudent(s.course, s.email);
 		
 		StudentAttributes deleted = studentsDb.getStudentForEmail(s.course, s.email);
-		assertNull(deleted);
 		
+		assertNull(deleted);
+		studentsDb.deleteStudentsForGoogleId(s.googleId);
+		assertEquals(null, studentsDb.getStudentForGoogleId(s.course , s.googleId));
+		s = createNewStudent();
+		createNewStudent("secondStudent@mail.com");
+		assertEquals(2, studentsDb.getAllStudents().size());
+		studentsDb.deleteStudentsForCourse(s.course);
+		assertEquals(0, studentsDb.getAllStudents().size());
 		// delete again - should fail silently
 		studentsDb.deleteStudent(s.course, s.email);
 		
