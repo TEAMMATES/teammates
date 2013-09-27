@@ -99,24 +99,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		InstructorCourseDetailsPage courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
 		courseDetailsPage.verifyHtml("/instructorCourseDetailsAddInstructor.html" );
 		
-		______TS("success: test edit existing instructor"); //TODO: this case should be removed. It should be covered by a lower level test
-		
-		courseEditPage = courseDetailsPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
-		coursesPage = courseEditPage.editCourse(originalInformation + "\nInsCrsEdit.instructor|Teammates Instructor New|InsCrsEdit.instructor.new@gmail.com");
-		assertEquals("The course has been edited.", coursesPage.getStatus());
-		
-		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
-		courseDetailsPage.verifyHtml("/instructorCourseDetailsEditInstructor.html");
-		
-		______TS("success: delete existing instructor"); //TODO: this case should be covered by a lower level test
-		
-		courseEditPage = courseDetailsPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
-		coursesPage = courseEditPage.editCourse(originalInformation);
-		assertEquals("The course has been edited.", coursesPage.getStatus());
-		
-		courseDetailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
-		courseDetailsPage.verifyHtml("/instructorCourseDetailsDeleteInstructor.html");
-		
 		______TS("success: instructor list without logged-in instructor");
 		
 		courseEditPage = courseDetailsPage.navigateTo(courseEditPageUrl, InstructorCourseEditPage.class);
