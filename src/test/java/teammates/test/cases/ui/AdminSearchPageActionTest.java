@@ -33,9 +33,8 @@ public class AdminSearchPageActionTest extends BaseActionTest {
 	
 	@Test
 	public void testExecuteAndPostProcess() throws Exception{
-		
-		//TODO: implement this
+		// TODO : Test is done as a browser test,
+		// cuz gaeSimulation gives problems when rebuilding the document
 	}
 	
-
 }
