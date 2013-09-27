@@ -78,6 +78,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
 	 */
 	@SuppressWarnings("unchecked")
 	private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
+		// TODO: Refine and add unit testing for this method
 		if (students == null)
 			return new List[6];
 		List<StudentAttributes>[] lists = new List[6];
