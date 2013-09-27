@@ -15,6 +15,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -35,7 +36,6 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 public class StudentsLogicTest extends BaseComponentTestCase{
 	
-	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
 	
 	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
@@ -49,7 +49,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		printTestClassHeader();
 		turnLoggingUp(StudentsLogic.class);
 	}
-	
 	
 	@Test
 	public void testEnrollStudent() throws Exception {
@@ -70,7 +69,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		______TS("add student into empty course");
 
 		StudentAttributes student1 = new StudentAttributes("t1|n|e@g|c", instructorCourse);
-
+		student1.googleId = "googleIdForStudent1";
 		// check if the course is empty
 		assertEquals(0, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
@@ -88,7 +87,18 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		LogicTest.verifyEnrollmentResultForStudent(student1, enrollmentResult,
 				StudentAttributes.UpdateStatus.UNMODIFIED);
 		assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
-
+		// Testing getter
+		StudentAttributes retrievedStudent = studentsLogic.getStudentForGoogleId(instructorCourse, "googleIdForStudent1");
+		assertEquals(true, retrievedStudent.isEnrollInfoSameAs(student1));
+		assertEquals(true, studentsLogic.getStudentsForGoogleId("googleIdForStudent1").get(0).isEnrollInfoSameAs(student1));
+		final String registrationKeyForStudent1 = studentsLogic.getKeyForStudent(instructorCourse, "e@g");
+		assertEquals(true, retrievedStudent.isEnrollInfoSameAs(studentsLogic.getStudentForRegistrationKey(registrationKeyForStudent1)));
+		assertEquals(true, studentsLogic.isStudentInAnyCourse("googleIdForStudent1"));
+		assertEquals(false, studentsLogic.isStudentInAnyCourse("googleIdForStudentNotExisting"));
+		assertEquals(null, studentsLogic.getKeyForStudent(instructorCourse, "emailForStudentNotExisting"));
+		assertEquals(null, studentsLogic.getEncryptedKeyForStudent(instructorCourse, "emailForStudentNotExisting"));
+		assertEquals(true, StringHelper.encrypt(registrationKeyForStudent1).equals(studentsLogic.getEncryptedKeyForStudent(instructorCourse, student1.email)));
+		
 		______TS("add student into non-empty course");
 		StudentAttributes student2 = new StudentAttributes("t1|n2|e2@g|c", instructorCourse);
 		enrollmentResult = invokeEnrollStudent(student2);
@@ -124,21 +134,75 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
 		______TS("add student without team");
 
-		StudentAttributes student4 = new StudentAttributes("|n6|e6@g", instructorCourse);
-		enrollmentResult = invokeEnrollStudent(student4);
+		StudentAttributes student5 = new StudentAttributes("|n6|e6@g", instructorCourse);
+		enrollmentResult = invokeEnrollStudent(student5);
 		assertEquals(5, studentsLogic.getStudentsForCourse(instructorCourse).size());
-		LogicTest.verifyEnrollmentResultForStudent(student4, enrollmentResult,
+		LogicTest.verifyEnrollmentResultForStudent(student5, enrollmentResult,
 				StudentAttributes.UpdateStatus.NEW);
 		
 		verifyCascasedToSubmissions(instructorCourse);
 		
 		______TS("error during enrollment");
 
-		StudentAttributes student5 = new StudentAttributes("|n6|e6@g@", instructorCourse);
-		enrollmentResult = invokeEnrollStudent(student5);
+		StudentAttributes student5wrong = new StudentAttributes("|n6|e6@g@", instructorCourse);
+		enrollmentResult = invokeEnrollStudent(student5wrong);
 		assertEquals (StudentAttributes.UpdateStatus.ERROR, enrollmentResult.updateStatus);
 		assertEquals(5, studentsLogic.getStudentsForCourse(instructorCourse).size());
 		
+		______TS("test enroll multiple students");
+		studentsLogic.enrollStudents("t2|n8|e8@g|c\n" +
+				"t2|n9|e9@g|c\n" +
+				"\n" +
+				"t2|n10|e10@g|c\n", instructorCourse);
+		assertEquals(8, studentsLogic.getStudentsForCourse(instructorCourse).size());
+		
+		try {
+			studentsLogic.enrollStudents("t2|n8|e8@g|c\n" +
+					"t2|n9|e9@g|c\n" +
+					"\n" +
+					"t2|n10|e10@g|c\n", instructorCourse + "CourseNotExisting");
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException entityNotExisting) {
+			AssertHelper.assertContains("Course does not exist :"
+					+ instructorCourse + "CourseNotExisting",
+					entityNotExisting.getMessage());
+		}
+		
+		try {
+			studentsLogic.enrollStudents("|n8|e8@@@gNotValid|c\n", instructorCourse);
+			signalFailureToDetectException();
+		} catch (EnrollException enrollException) {
+			AssertHelper.assertContains(invokeGetInvalidityInfoInEnrollLines("t2|n8|e8@gNotValid|c\n", instructorCourse),
+					enrollException.getMessage());
+		}
+		
+		try {
+			studentsLogic.enrollStudents("", instructorCourse);
+			signalFailureToDetectException();
+		} catch (EnrollException enrollException) {
+			AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY,
+					enrollException.getMessage());
+		}
+		
+		assertEquals(8, studentsLogic.getStudentsForCourse(instructorCourse).size());
+		
+		______TS("test student is in course");
+		assertEquals(true, StudentsLogic.inst().isStudentInCourse(instructorCourse, "e3@g"));
+		assertEquals(false, StudentsLogic.inst().isStudentInCourse(instructorCourse, "e3@ggg"));
+		
+		______TS("test student is in team");
+		assertEquals(true, StudentsLogic.inst().isStudentInTeam(instructorCourse, "t2", "e3@g"));
+		assertEquals(false, StudentsLogic.inst().isStudentInTeam(instructorCourse, "non-existent-team", "e3@g"));
+		assertEquals(false, StudentsLogic.inst().isStudentInTeam(instructorCourse, "t2", "non-existent-student"));
+	
+		______TS("test student is in the same team");
+		assertEquals(true, StudentsLogic.inst().isStudentsInSameTeam(instructorCourse, "e3@g", "e4@g"));
+		assertEquals(false, StudentsLogic.inst().isStudentsInSameTeam(instructorCourse, "e3@g", "e6@g"));
+		assertEquals(false, StudentsLogic.inst().isStudentsInSameTeam(instructorCourse, "e3@NotExisting", "e6@g"));
+		
+		______TS("test delete students for course");
+		StudentsLogic.inst().deleteStudentsForCourse(instructorCourse);
+		assertEquals(0, studentsLogic.getStudentsForCourse(instructorCourse).size());
 	}
 
 	@Test
@@ -355,6 +419,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		}
 		
 	}
+	
 
 	private static StudentAttributes invokeEnrollStudent(StudentAttributes student)
 			throws Exception {
