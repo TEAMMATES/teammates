@@ -2,6 +2,8 @@ package teammates.ui.controller;
 
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -14,21 +16,23 @@ public class InstructorCourseEditPageAction extends Action {
 
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException { 
-		
-		InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
+				
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		new GateKeeper().verifyAccessible(
-				logic.getInstructorForGoogleId(courseId, account.googleId), 
-				logic.getCourse(courseId));
+		InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+		CourseAttributes courseToEdit = logic.getCourse(courseId);
 		
-		data.course = logic.getCourse(courseId);
-		data.instructorList = logic.getInstructorsForCourse(courseId);
-		if(data.course == null || data.instructorList == null){
+		if (courseToEdit == null) {
 			throw new EntityDoesNotExistException("Course "+courseId+" does not exist");
 		} 
-
+		
+		new GateKeeper().verifyAccessible(instructor, courseToEdit);
+		
+		InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
+		data.course = courseToEdit;
+		data.instructorList = logic.getInstructorsForCourse(courseId);
+		
 		statusToAdmin = "instructorCourseEdit Page Load<br>"
 				+ "Editing information for Course <span class=\"bold\">["
 				+ courseId + "]</span>";
@@ -36,6 +40,5 @@ public class InstructorCourseEditPageAction extends Action {
 		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, data);
 		
 	}
-
 
 }

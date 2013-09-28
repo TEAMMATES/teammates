@@ -19,7 +19,8 @@ public class Const {
 		public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
 		/** Number to trim the Google ID when displaying to the user*/
 		public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
-		
+		/** Maximum number to do Batching puts/delete documents from a index in the appengine  */
+		public static final int MAX_NUM_OF_INPUT_FOR_APP_ENGINE_BATCH = 200;
 		/* Field sizes and error messages for invalid fields can be found 
 		 * in the FieldValidator class.
 		 */
@@ -163,6 +164,8 @@ public class Const {
 		public static final String INSTRUCTOR_NAME = "instructorname";
 		public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 		public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
+		
+		public static final String ADMIN_SEARCH_REBUILD_DOC = "build_doc";
 	
 		public static final String EVALUATION_NAME = "evaluationname";
 	

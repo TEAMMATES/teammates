@@ -14,7 +14,7 @@ public class InstructorCourseEditSaveAction extends Action {
 	
 
 	@Override
-	public ActionResult execute() throws EntityDoesNotExistException {
+	public ActionResult execute() {
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		String instructorList = getRequestParam(Const.ParamsNames.COURSE_INSTRUCTOR_LIST);
@@ -36,6 +36,12 @@ public class InstructorCourseEditSaveAction extends Action {
 			statusToUser.add(e.getMessage());
 			statusToAdmin = e.getMessage();
 			isError = true;
+		} catch (EntityDoesNotExistException edne) {
+			/* This exception case is impossible to occur.
+			 * If a course doesn't exist, it is not possible for an edit action to happen
+			 * due to prior accessiblity check (the user doesn't have access right)
+			 */
+			Assumption.fail("Unexpected exception");
 		}
 		
 		return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);

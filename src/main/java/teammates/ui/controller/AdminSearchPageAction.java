@@ -6,6 +6,7 @@ import java.util.List;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.Const.ParamsNames;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.search.Document;
@@ -31,7 +32,7 @@ public class AdminSearchPageAction extends Action {
 		
 		new GateKeeper().verifyAdminPrivileges(account);
 		
-		String rebuildDoc = getRequestParam("build_doc");
+		String rebuildDoc = getRequestParam(ParamsNames.ADMIN_SEARCH_REBUILD_DOC);
 		
 		AdminSearchPageData data = new AdminSearchPageData(account);
 		
@@ -57,7 +58,7 @@ public class AdminSearchPageAction extends Action {
 	
 	private List<Document> search(String queryStr, String limitStr) {
 		List<Document> found = new ArrayList<Document>();
-		if (queryStr == null) {
+		if (queryStr == null || queryStr.trim().isEmpty()) {
 			return found;
 		}
 		int limit = 50;
