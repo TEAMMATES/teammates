@@ -226,6 +226,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		coursesPage.verifyHtml("/instructorCourseAddSuccessful.html");
 
 		______TS("add action fail: duplicate course ID");
+		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		
 		coursesPage.addCourse(validCourse.id, "different course name", null)
 			.verifyHtml("/instructorCourseAddDupIdFailed.html");

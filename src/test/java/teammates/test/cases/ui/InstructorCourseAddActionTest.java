@@ -11,6 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.Action;
+import teammates.ui.controller.InstructorCourseEnrollPageData;
 import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
 
@@ -70,19 +71,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 				Const.ParamsNames.COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
 		ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
 		
-		assertEquals(
-				Const.ViewURIs.INSTRUCTOR_COURSES+"?message=The+course+has+been+added.+Click+the+%27Enroll%27+link+in+the+table+below+to+add+students+to+the+course.+If+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1", 
-				r.getDestinationWithParams());
-		assertEquals(false, r.isError);
-		assertEquals(Const.StatusMessages.COURSE_ADDED, r.getStatusMessage());
-		
-		InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
-		assertEquals(instructorId, pageData.account.googleId);
-		assertEquals(2, pageData.currentCourses.size());
-		assertEquals("", pageData.courseIdToShow);
-		assertEquals("", pageData.courseNameToShow);
-		assertEquals("idOfInstructor1OfCourse1|Instructor 1 of Course 1|instr1@course1.com", pageData.instructorListToShow);
-		
+		InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData)r.data;
 		String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd" +
 				"|||instructorCourseAdd|||true|||Instructor|||Instructor 1 of Course 1" +
 				"|||idOfInstructor1OfCourse1|||instr1@course1.com" +
@@ -103,20 +92,12 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		assertEquals(true, r.isError);
 		assertEquals(Const.StatusMessages.COURSE_EXISTS, r.getStatusMessage());
 		
-		pageData = (InstructorCoursesPageData)r.data;
-		assertEquals(instructorId, pageData.account.googleId);
-		assertEquals(2, pageData.currentCourses.size());
-		assertEquals("ticac.tpa1.id", pageData.courseIdToShow);
-		assertEquals("ticac tpa1 name", pageData.courseNameToShow);
-		assertEquals(instructorId+"|name|email@email.com", pageData.instructorListToShow);
-		
-		expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd" +
-				"|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-				"|||instr1@course1.com|||A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID<br>Total courses: 2" +
-				"|||/page/instructorCourseAdd";
+		expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd"
+				+ "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
+				+ "|||instr1@course1.com|||A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID"
+				+ "|||/page/instructorCourseAdd";
 		assertEquals(expectedLogMessage, a.getLogMessage());
-		
-		______TS("Masquerade mode, 0 courses");
+		  ______TS("Masquerade mode, 0 courses");
 		
 		CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
 		CoursesLogic.inst().deleteCourseCascade("ticac.tpa1.id");
@@ -129,17 +110,10 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ViewURIs.INSTRUCTOR_COURSES+"?message=The+course+has+been+added.+Click+the+%27Enroll%27+link+in+the+table+below+to+add+students+to+the+course.+If+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1", 
+				Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL+"?message=The+course+has+been+added.+Click+the+%27Enroll%27+link+in+the+table+below+to+add+students+to+the+course.+If+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(false, r.isError);
 		assertEquals(Const.StatusMessages.COURSE_ADDED, r.getStatusMessage());
-		
-		pageData = (InstructorCoursesPageData)r.data;
-		assertEquals(instructorId, pageData.account.googleId);
-		assertEquals(1, pageData.currentCourses.size());
-		assertEquals("", pageData.courseIdToShow);
-		assertEquals("", pageData.courseNameToShow);
-		assertEquals(instructorId+"|Instructor 1 of Course 1|instr1@course1.com", pageData.instructorListToShow);
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1" +
