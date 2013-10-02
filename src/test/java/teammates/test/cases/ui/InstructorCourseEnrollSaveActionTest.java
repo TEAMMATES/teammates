@@ -220,7 +220,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		assertEquals(enrollString, enrollPageData.enrollStudents);
 		
 		AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY, action.getLogMessage());
-		
+		CoursesLogic.inst().deleteCourseCascade("new-course");
+
 	}
 	
 	/**
