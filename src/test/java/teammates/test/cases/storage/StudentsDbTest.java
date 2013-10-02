@@ -90,6 +90,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
 	
 	@Test
 	public void testGetStudent() throws InvalidParametersException, EntityDoesNotExistException {
+		int currentNumberOfStudent = studentsDb.getAllStudents().size();
 		StudentAttributes s = createNewStudent();
 		s.googleId = "validGoogleId";
 		s.googleId = "validTeam";
@@ -121,7 +122,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
 		assertTrue(s.isEnrollInfoSameAs(studentsDb.getStudentsForGoogleId(s.googleId).get(0)));
 		assertEquals(true, studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s));
 		assertEquals(true, studentsDb.getStudentsForTeam(s.team, s.course).get(0).isEnrollInfoSameAs(s));
-		assertEquals(2, studentsDb.getAllStudents().size());
+		assertEquals(2 + currentNumberOfStudent, studentsDb.getAllStudents().size()); 
 		
 		
 		______TS("null params case");
@@ -209,11 +210,12 @@ public class StudentsDbTest extends BaseComponentTestCase {
 		assertNull(deleted);
 		studentsDb.deleteStudentsForGoogleId(s.googleId);
 		assertEquals(null, studentsDb.getStudentForGoogleId(s.course , s.googleId));
+		int currentStudentNum = studentsDb.getAllStudents().size();
 		s = createNewStudent();
 		createNewStudent("secondStudent@mail.com");
-		assertEquals(2, studentsDb.getAllStudents().size());
+		assertEquals(2 + currentStudentNum, studentsDb.getAllStudents().size());
 		studentsDb.deleteStudentsForCourse(s.course);
-		assertEquals(0, studentsDb.getAllStudents().size());
+		assertEquals(currentStudentNum, studentsDb.getAllStudents().size());
 		// delete again - should fail silently
 		studentsDb.deleteStudent(s.course, s.email);
 		
