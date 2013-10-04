@@ -77,7 +77,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 	private FeedbackSessionAttributes extractFeedbackSessionData() {
 		FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
 		newSession.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		newSession.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		newSession.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME).trim();
 		newSession.createdTime = new Date();
 		newSession.startTime = TimeHelper.combineDateTime(
 				getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
