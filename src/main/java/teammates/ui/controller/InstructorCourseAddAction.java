@@ -30,9 +30,7 @@ public class InstructorCourseAddAction extends Action {
 
 		data = new InstructorCoursesPageData(account);
 
-		data.newCourse = new CourseAttributes();
-		data.newCourse.id = newCourseId;
-		data.newCourse.name = newCourseName;
+		data.newCourse = new CourseAttributes(newCourseId, newCourseName);
 		createCourse(data.newCourse, newCourseInstructorList);
 
 		if (isError) {
