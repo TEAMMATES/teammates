@@ -18,6 +18,7 @@ import teammates.test.driver.EmailAccount;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
 
 /**
@@ -109,7 +110,16 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	}
 
 	public void testViewResultsLink(){
-		//TODO: implement this (also check for disabling of the link at right times)
+		
+		______TS("view results link always enabled");
+		
+		String courseId = "CEvalUiT.CS2104";
+		String evalName = "First Eval";
+		
+		InstructorEvalResultsPage resultPage = evalsPage.loadViewResultsLink(courseId, evalName);
+		resultPage.verifyIsCorrectPage();
+		
+		evalsPage = resultPage.goToPreviousPage(InstructorEvalsPage.class);
 	}
 
 	public void testInputValidation() {

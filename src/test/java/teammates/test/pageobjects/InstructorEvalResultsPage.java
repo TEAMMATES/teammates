@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -49,7 +50,11 @@ public class InstructorEvalResultsPage extends AppPage {
 	protected boolean containsExpectedPageContents() {
 		return getPageSource().contains("<h1>Evaluation Results</h1>");
 	}
-
+	
+	public void verifyIsCorrectPage() {
+		assertTrue(containsExpectedPageContents());
+	}
+	
 	public AppPage sortByName() {
 		sortByNameIcon.click();
 		return this;

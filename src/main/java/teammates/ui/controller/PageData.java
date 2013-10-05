@@ -529,6 +529,7 @@ public class PageData {
 		
 		switch(eval.getStatus()){
 		case AWAITING:
+			hasView = true;
 			hasEdit = true;
 			break;
 		case OPEN:
