@@ -121,6 +121,12 @@ public class InstructorEvalsPage extends AppPage {
 	
 		clickSubmitButton();
 	}
+	
+	public InstructorEvalResultsPage loadViewResultsLink(String courseId, String evalName) {
+		getViewResultsLink(courseId, evalName).click();
+		waitForPageToLoad();
+		return changePageType(InstructorEvalResultsPage.class);
+	}
 
 	public WebElement getPublishLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
@@ -145,6 +151,11 @@ public class InstructorEvalsPage extends AppPage {
 	public WebElement getEditLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
 		return browser.driver.findElement(By.className("t_session_edit" + evalRowId));
+	}
+	
+	public WebElement getViewResultsLink(String courseId, String evalName) {
+		int evalRowId = getEvaluationRowId(courseId, evalName);
+		return browser.driver.findElement(By.className("t_session_view" + evalRowId));
 	}
 	
 	private int getEvaluationRowId(String courseId, String evalName) {

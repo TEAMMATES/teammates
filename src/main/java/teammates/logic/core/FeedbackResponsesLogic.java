@@ -44,7 +44,7 @@ public class FeedbackResponsesLogic {
 		return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
 	}
 		
-	public List<FeedbackResponseAttributes> getFeedbackResponsesForFeedbackSession(
+	public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
 			String feedbackSessionName, String courseId) {
 		return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
 	}

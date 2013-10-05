@@ -4,9 +4,9 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 	<title>TEAMMATES - Instructor</title>
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="/stylesheets/instructorCourses.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-	<link rel="stylesheet" href="/stylesheets/instructorCourses-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll-print.css" type="text/css" media="print">
 	
 	<script async=""  type="text/javascript" src="https://ssl.google-analytics.com/ga.js"></script>
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
@@ -18,7 +18,6 @@
 	<script src="/js/common.js" type="text/javascript"></script>
 	
 	<script src="/js/instructor.js" type="text/javascript"></script>
-	<script src="/js/instructorCourses.js" type="text/javascript"></script>
     <noscript>{*}</noscript>
 
 
@@ -43,8 +42,10 @@
 					<li><a href="/page/instructorEvalsPage?user=CCAddUiTest.instructor" class='nav evaluations' data-link="instructorEval">Sessions</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <b>(CCAddUiTest.instructor)</b>
-					 </li>
+					 <b>
+						 (CCAddUiTest.instructor)
+					</b>
+					</li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -57,119 +58,47 @@
 	<div id="frameBody">
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
-			<div id="headerOperation">
-				<h1>Add New Course</h1>
-			</div>
-
-			<form name="form_addcourse" action="/page/instructorCourseAdd" method="get">
-				<input type="hidden" value="CCAddUiTest.instructor" name="instructorid" id="instructorid" />
-				<table id="addform" class="inputTable">
-					<tr>
-						<td class="label bold" width="20%">Course ID:</td>
-						<td><input class="addinput" type="text"
-							name="courseid" id="courseid"
-							value=""
-							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
-							onmouseout="hideddrivetip()"
-							maxlength=40 tabindex="1"
-							placeholder="e.g. CS3215-2013Semester1" /></td>
-					</tr>
-					<tr>
-						<td class="label bold">Course Name:</td>
-						<td><input class="addinput" type="text"
-							name="coursename" id="coursename"
-							value=""
-							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
-							onmouseout="hideddrivetip()"
-							maxlength=64 tabindex=2
-							placeholder="e.g. Software Engineering" /></td>
-					</tr>
-					<tr>
-						<td colspan=2 class="label bold">Instructors:</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<span class="bold" id="instructorformat">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">CCAddUiTest.instructor|Teammates Demo Instr|CCAddUiTest.instructor@gmail.com</textarea>
-						</td>
-					</tr>
-					<tr>
-						<td colspan=2 class="centeralign"><input id="btnAddCourse" type="submit" class="button"
-							onclick="return verifyCourseData();" value="Add Course" tabindex="3"></td>
-					</tr>
-				</table>
-				
-					<input type="hidden" value="CCAddUiTest.instructor" name="user" />
-				
-			</form>
-			<br />
 			
+				<div id="headerOperation">
+					<h1>Enroll Students for CCAddUiTest.course1</h1>
+				</div>
+				
+				<form method="post" action="/page/instructorCourseEnrollSave?courseid=CCAddUiTest.course1&amp;user=CCAddUiTest.instructor">
+					<p class ="bold rightalign spreadsheetLink">		
+						[ <a id ="spreadsheet_download" 	 
+							class="color_black t_course_enroll"
+							href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv"
+							onmouseover="ddrivetip('Download a sample team data spreadsheet')"
+							onmouseout="hideddrivetip()">Sample spreadsheet</a> ]
+					</p>
+					<img src="/images/enrollInstructions.png" border="0"> 
+					<p class="info centeralign bold">Recommended maximum class size : 250 students</p>
+					<br />
+					<table class="inputTable enrollStudentTable">
+						<tbody><tr>
+							<td id="studentDetails" class="label bold middlealign"> Student details: </td>
+							<td><textarea id="enrollstudents" name="enrollstudents" class="textvalue" cols="120" placeholder="This box can be used for enrolling new students and editing details (except email address) of students already enrolled. To EDIT, simply enroll students using the updated data and existing data will be updated accordingly. To DELETE students or to UPDATE EMAIL address of a student,please use the 'view' page of the course." rows="6"></textarea></td>
+						</tr>
+					</tbody></table>
+					
 
 
-	<div style="display: block;" id="statusMessage">
-		The course has been added. Click the 'Enroll' link in the table below to add students to the course. If you don't see the course in the list below, please refresh the page after a few moments.</div>
-	<script type="text/javascript">
-    	document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
-			<br />
-			<table class="dataTable">
-				<tbody><tr>
-					<th class="color_white bold"><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
-						Course ID</th>
-					<th class="color_white bold"><input type="button" onclick="toggleSort(this,2);" id="button_sortcoursename" class="buttonSortNone" />
-						Course Name</th>
-					<th class="centeralign color_white bold">Teams</th>
-					<th class="centeralign color_white bold">Total Students</th>
-					<th class="centeralign color_white bold">Total Unregistered</th>
-					<th class="centeralign color_white bold no-print">Action(s)</th>
-				</tr>
-				
-					<tr class="courses_row">
-						<td id="courseid0">CCAddUiTest.CS1101</td>
-						<td id="coursename0">Programming Methodology</td>
-						<td class="t_course_teams centeralign">0</td>
-						<td class="centeralign">0</td>
-						<td class="centeralign">0</td>
-						<td class="centeralign no-print">
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_enroll0">Enroll</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_view0">View</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit0">Edit</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS1101');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete0">Delete</a>
-						</td>
-					</tr>
-				
-					<tr class="courses_row">
-						<td id="courseid1">CCAddUiTest.CS2104</td>
-						<td id="coursename1">Programming Language Concept</td>
-						<td class="t_course_teams centeralign">0</td>
-						<td class="centeralign">0</td>
-						<td class="centeralign">0</td>
-						<td class="centeralign no-print">
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_enroll1">Enroll</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_view1">View</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit1">Edit</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS2104');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete1">Delete</a>
-						</td>
-					</tr>
-				
-					<tr class="courses_row">
-						<td id="courseid2">CCAddUiTest.course1</td>
-						<td id="coursename2">Software Engineering $%^&amp;*()</td>
-						<td class="t_course_teams centeralign">0</td>
-						<td class="centeralign">0</td>
-						<td class="centeralign">0</td>
-						<td class="centeralign no-print">
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.course1&amp;user=CCAddUiTest.instructor" class="color_black t_course_enroll2">Enroll</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.course1&amp;user=CCAddUiTest.instructor" class="color_black t_course_view2">View</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.course1&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit2">Edit</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.course1');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.course1&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete2">Delete</a>
-						</td>
-					</tr>
-				
-			</tbody></table>
-			<br />
-			<br />
-			<br />
+	  <div id="statusMessage"  style="display: block;" >
+                     The course has been added. Click the 'Enroll' link in the table below to add students to the course. If you don't see the course in the list below, please refresh the page after a few moments.
+                  </div>
+                  <script type="text/javascript" >
+                     document.getElementById( 'statusMessage' ).scrollIntoView();
+                  </script>
+
+
+					<br />
+					<div class="centeralign" id="instructorCourseEnrollmentButtons">
+						<input type="submit" value="Enroll students" id="button_enroll" name="button_enroll" class="button" />
+					</div>
+				</form>
+				<br />
+				<br />
+				<br />
 			
 		</div>
 	</div>

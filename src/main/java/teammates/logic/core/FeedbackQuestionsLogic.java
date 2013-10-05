@@ -88,7 +88,7 @@ public class FeedbackQuestionsLogic {
 	}
 	
 	/**
-	 * Gets a {@code List} of all questions for the given session for a
+	 * Gets a {@code List} of all questions for the given session for an
 	 * instructor to view/submit.
 	 */
 	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
@@ -120,13 +120,34 @@ public class FeedbackQuestionsLogic {
 		
 		return questions;
 	}
+	
+	/**
+	 * Gets a {@code List} of all questions for the list of questions that an
+	 * instructor can view/submit
+	 */
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
+			List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) 
+					throws EntityDoesNotExistException {
+		
+		List<FeedbackQuestionAttributes> questions =
+				new ArrayList<FeedbackQuestionAttributes>();
+		
+		for (FeedbackQuestionAttributes question : allQuestions) {
+			if (question.giverType == FeedbackParticipantType.INSTRUCTORS || 
+				(question.giverType == FeedbackParticipantType.SELF && isCreator) ) {
+				questions.add(question);
+			}
+		}
+		
+		return questions;
+	}
 
 	/**
-	 * Gets a {@code List} of all questions for the given session for a
-	 * student to view/submit.
+	 * Gets a {@code List} of all questions for the given session that
+	 * students can view/submit.
 	 */
-	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudent(
-			String feedbackSessionName, String courseId, String studentEmail) 
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
+			String feedbackSessionName, String courseId) 
 					throws EntityDoesNotExistException {
 
 		List<FeedbackQuestionAttributes> questions =
@@ -138,6 +159,27 @@ public class FeedbackQuestionsLogic {
 		questions.addAll(
 				fqDb.getFeedbackQuestionsForGiverType(
 						feedbackSessionName, courseId, TEAMS));
+		
+		return questions;
+	}
+	
+	/**
+	 * Gets a {@code List} of all questions from the given list of questions 
+	 * that students can view/submit
+	 */
+	public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
+			List<FeedbackQuestionAttributes> allQuestions) 
+					throws EntityDoesNotExistException {
+		
+		List<FeedbackQuestionAttributes> questions =
+				new ArrayList<FeedbackQuestionAttributes>();
+		
+		for (FeedbackQuestionAttributes question : allQuestions) {
+			if (question.giverType == FeedbackParticipantType.STUDENTS ||
+				question.giverType == FeedbackParticipantType.TEAMS) {
+				questions.add(question);
+			}
+		}
 		
 		return questions;
 	}
@@ -257,6 +299,17 @@ public class FeedbackQuestionsLogic {
 		
 		// As long as a user has responded, we count the question as answered.
 		return numberOfResponsesGiven > 0 ? true : false;
+	}
+	
+	public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email,
+			List<FeedbackResponseAttributes> responses) {
+		for (FeedbackResponseAttributes response : responses) {
+			if (response.giverEmail.equals(email) &&
+				response.feedbackQuestionId.equals(question.getId())) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public boolean isQuestionFullyAnsweredByUser(FeedbackQuestionAttributes question, String email) 

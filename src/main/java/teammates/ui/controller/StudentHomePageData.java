@@ -40,12 +40,20 @@ public class StudentHomePageData extends PageData {
 	 * Returns the submission status of the student for a given feedback session.
 	 */
 	public String getStudentStatusForSession(FeedbackSessionAttributes session){
-		String status = PageData.getInstructorStatusForFeedbackSession(session);
-		if (status.equals("Open")) {
+		if(session.isOpened()) {
 			Boolean hasSubmitted = sessionSubmissionStatusMap.get(session.courseId+"%"+session.feedbackSessionName);
-			status = hasSubmitted ? "Submitted" : "Pending";
+			return hasSubmitted ? "Submitted" : "Pending";
 		}
-		return status;
+		
+		if(session.isWaitingToOpen()) {
+			return "Awaiting";
+		}
+		
+		if (session.isPublished()) {
+			return "Published";
+		}
+		
+		return "Closed";
 	}
 	
 	/**

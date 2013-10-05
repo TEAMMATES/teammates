@@ -255,6 +255,7 @@ function showNewQuestionFrame(){
 	$('#button_openframe').hide();
 	$('#empty_message').hide(); 
     $('#frameBody').animate({scrollTop: $('#frameBody')[0].scrollHeight}, 1000);
+    copyOptions();
 }
 
 /**
@@ -286,5 +287,50 @@ function formatCheckBoxes() {
 			$(this).parent().parent().find("input[name=receiverFollowerCheckbox]").
 									prop('checked', $(this).prop('checked'));
 		});
+	});
+}
+
+/**
+ * Copy options(Feedback giver, recipient, and all check boxes 
+ * from the previous question
+ */
+function copyOptions() {
+	//There's no need to previous question to copy options from.
+	if($("table[class*='questionTable']").size() < 2){
+		return;
+	}
+	
+	//FEEDBACK GIVER SETUP
+	var $prevGiver = $("select[name='givertype']").eq(-2);
+	var $currGiver = $("select[name='givertype']").last();
+	
+	$currGiver.val($prevGiver.val());
+	
+	//FEEDBACK RECIPIENT SETUP
+	var $prevRecipient = $("select[name='recipienttype']").eq(-2);
+	var $currRecipient = $("select[name='recipienttype']").last();
+	
+	$currRecipient.val($prevRecipient.val());
+	
+	//NUMBER OF RECIPIENT SETUP
+	formatNumberBox($currRecipient.val(), '');
+	var $prevRadioButtons = $("table[class*='questionTable']").eq(-2).find("input[name='numofrecipientstype']");
+	var $currRadioButtons = $("table[class*='questionTable']").last().find("input[name='numofrecipientstype']");
+	
+	$currRadioButtons.each(function (index){
+		$(this).prop('checked', $prevRadioButtons.eq(index).prop('checked'));
+	});
+	
+	var $prevNumOfRecipients = $("input[name='numofrecipients']").eq(-2);
+	var $currNumOfRecipients = $("input[name='numofrecipients']").last();
+	
+	$currNumOfRecipients.val($prevNumOfRecipients.val());
+	
+	//CHECK BOXES SETUP
+	var $prevTable = $(".dataTable").eq(-2).find('.visibilityCheckbox');
+	var $currTable = $(".dataTable").last().find('.visibilityCheckbox');
+	
+	$currTable.each(function (index) {
+		$(this).prop('checked', $prevTable.eq(index).prop('checked'));
 	});
 }
