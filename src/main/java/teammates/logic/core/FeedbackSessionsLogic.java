@@ -465,15 +465,14 @@ public class FeedbackSessionsLogic {
 			try {
 				CourseAttributes course = coursesLogic
 						.getCourse(session.courseId);
-				List<StudentAttributes> allStudents = studentsLogic
-						.getStudentsForCourse(session.courseId);
 				List<InstructorAttributes> instructors = instructorsLogic
 						.getInstructorsForCourse(session.courseId);
-				List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-				for (StudentAttributes student : allStudents) {
-					if (isFeedbackSessionViewableTo(session, student.email)) {
-						students.add(student);
-					}
+				List<StudentAttributes> students;
+				
+				if (isFeedbackSessionViewableToStudents(session)) {
+					students = studentsLogic.getStudentsForCourse(session.courseId);
+				} else {
+					students = new ArrayList<StudentAttributes>();
 				}
 
 				Emails emails = new Emails();
@@ -498,23 +497,28 @@ public class FeedbackSessionsLogic {
 		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
 		List<FeedbackSessionAttributes> sessions = fsDb.getNonPrivateFeedbackSessions();
 		
-		for(FeedbackSessionAttributes session : sessions){
-			if(session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
+		for (FeedbackSessionAttributes session : sessions) {
+			if (session.isClosingWithinTimeLimit(
+					SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
 				continue;
 			}
 			try {
 				CourseAttributes course = coursesLogic
 						.getCourse(session.courseId);
-				List<StudentAttributes> allStudents = studentsLogic
-						.getStudentsForCourse(session.courseId);
 				List<InstructorAttributes> instructors = instructorsLogic
 						.getInstructorsForCourse(session.courseId);
 				List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-				for (StudentAttributes student : allStudents) {
-					if (isFeedbackSessionViewableTo(session, student.email) &&
-						!isFeedbackSessionFullyCompletedByStudent(
-								session.feedbackSessionName, session.courseId, student.email)) {
-						students.add(student);
+
+				if (isFeedbackSessionViewableToStudents(session) == true) {
+					List<StudentAttributes> allStudents = studentsLogic.
+							getStudentsForCourse(session.courseId);
+
+					for (StudentAttributes student : allStudents) {
+						if (!isFeedbackSessionFullyCompletedByStudent(
+								session.feedbackSessionName, session.courseId,
+								student.email)) {
+							students.add(student);
+						}
 					}
 				}
 
@@ -524,11 +528,12 @@ public class FeedbackSessionsLogic {
 								students, instructors);
 				emails.sendEmails(messages);
 				messagesSent.addAll(messages);
-				
+
 			} catch (Exception e) {
-				log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
+				log.severe("Unexpected error "
+						+ TeammatesException.toStringWithStackTrace(e));
 			}
-			
+
 		}
 		return messagesSent;
 	}
@@ -868,38 +873,25 @@ public class FeedbackSessionsLogic {
 			return session.creatorEmail.equals(userEmail);
 		}
 		
-		// Allow all instructors to view
+		// Allow all instructors to view always
 		InstructorAttributes instructor = instructorsLogic.
 				getInstructorForEmail(session.courseId, userEmail);
 		if (instructor != null) {
 			return instructorsLogic.isInstructorOfCourse(instructor.googleId, session.courseId);
 		}
-
-		if (session.isPublished() == false) {			
-			List<FeedbackQuestionAttributes> questions = 
-					fqLogic.getFeedbackQuestionsForStudents(
-							session.feedbackSessionName, session.courseId);
-			
-			if (session.isVisible() && !questions.isEmpty()) {
-				// Session should be visible only if there are questions
-				// available for this student/feedback session.
-				return true;
-			}
-			
-		} else {			
-			List<FeedbackResponseAttributes> responses = 
-					getFeedbackSessionResultsForUser(
-							session.feedbackSessionName,
-							session.courseId, userEmail).responses;
-			
-			if(session.isOpened() || !responses.isEmpty()) {
-				// After publishing, only list if there are non-zero viewable responses or
-				// still accepting responses.
-				return true;
-			}
-		}
-		
-		return false;
+	
+		// Allow viewing if session is viewable to students
+		return isFeedbackSessionViewableToStudents(session);
+	}
+	
+	private boolean isFeedbackSessionViewableToStudents(FeedbackSessionAttributes session) 
+			throws EntityDoesNotExistException {
+		// Allow students to view if there are questions for them
+		List<FeedbackQuestionAttributes> questions = 
+				fqLogic.getFeedbackQuestionsForStudents(
+					session.feedbackSessionName, session.courseId);
+					
+		return (session.isVisible() && !questions.isEmpty()) ? true : false;
 	}
 	
 	private void normalizeMaximumResponseEntities(FeedbackQuestionAttributes question,
@@ -937,15 +929,14 @@ public class FeedbackSessionsLogic {
 		try {
 			CourseAttributes course = coursesLogic
 					.getCourse(session.courseId);
-			List<StudentAttributes> allStudents = studentsLogic
-					.getStudentsForCourse(session.courseId);
+			List<StudentAttributes> students;
 			List<InstructorAttributes> instructors = instructorsLogic
 					.getInstructorsForCourse(session.courseId);
-			List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-			for (StudentAttributes student : allStudents) {
-				if (isFeedbackSessionViewableTo(session, student.email)) {
-					students.add(student);
-				}
+			
+			if (isFeedbackSessionViewableToStudents(session)) {
+				students = studentsLogic.getStudentsForCourse(session.courseId);
+			} else {
+				students = new ArrayList<StudentAttributes>();
 			}
 
 			Emails emails = new Emails();
