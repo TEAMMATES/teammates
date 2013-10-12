@@ -202,7 +202,7 @@
 		      	}
 		      %>
 			    
-			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE_WITHOUT_FOCUS%>" />
 			<br>
 			<div class="rightalign"><a href="#frameBodyWrapper">Back To Top</a></div>
 			<br>
