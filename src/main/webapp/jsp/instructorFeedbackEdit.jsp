@@ -208,10 +208,11 @@
 							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
 									out.print("disabled=\"disabled\"");%>>
 								<%
-									date = ((TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime)) ? null
-											: data.session.sessionVisibleFromTime);
-									for (String opt : data.getTimeOptionsAsHtml(date))
+									date = ((TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime)) ? null
+											: data.session.resultsVisibleFromTime);
+									for (String opt : data.getTimeOptionsAsHtml(date)){
 										out.println(opt);
+									}
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
