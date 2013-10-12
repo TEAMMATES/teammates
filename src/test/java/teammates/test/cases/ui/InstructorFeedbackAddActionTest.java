@@ -98,6 +98,39 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		assertEquals(true, pr.isError);
 		assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
 		
+
+		______TS("Add course with trailing space");
+		
+		params =
+				createParamsForTypicalFeedbackSession(
+						instructor1ofCourse1.courseId, "Course with trailing space ");
+		
+		a = getAction(params);
+		rr = (RedirectResult) a.executeAndPostProcess();
+		
+		assertEquals(
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+						+ "?courseid="
+						+ instructor1ofCourse1.courseId
+						+ "&fsname=Course+with+trailing+space"
+						+ "&user="
+						+ instructor1ofCourse1.googleId
+						+ "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
+						+ "&error=false",
+				rr.getDestinationWithParams());
+		
+		expectedLogMessage =
+				"TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||" +
+				"Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +
+				"instr1@course1.com|||New Feedback Session <span class=\"bold\">(Course with trailing space)</span>" +
+				" for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created." +
+				"<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
+				"<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
+				"<span class=\"bold\">Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br>" +
+				"<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br>" +
+				"<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
+		assertEquals(expectedLogMessage, a.getLogMessage());
+		
 		______TS("Masquerade mode");
 		
 		gaeSimulation.loginAsAdmin("admin.user");
