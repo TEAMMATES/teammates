@@ -197,7 +197,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		assertEquals(courseId, enrollPageData.courseId);
 		assertEquals(enrollString, enrollPageData.enrollStudents);
 		
-		expectedLogSegment = expectedStatusMessage;
+		expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>" + (enrollString).replace("\n", "<br>");
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 		
 		______TS("Failure case: empty input");

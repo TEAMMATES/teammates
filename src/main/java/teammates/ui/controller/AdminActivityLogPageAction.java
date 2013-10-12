@@ -116,7 +116,7 @@ public class AdminActivityLogPageAction extends Action {
 			statusToUser.add("<br><span class=\"red\">Maximum amount of logs searched.</span><br>");
 		}
 		if (currentLogsInPage >= LOGS_PER_PAGE) {			
-			statusToUser.add("<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Next</a>");
+			statusToUser.add("<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Older</a>");
 		}
 		
 		return appLogs;

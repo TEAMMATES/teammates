@@ -208,10 +208,11 @@
 							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
 									out.print("disabled=\"disabled\"");%>>
 								<%
-									date = ((TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime)) ? null
-											: data.session.sessionVisibleFromTime);
-									for (String opt : data.getTimeOptionsAsHtml(date))
+									date = ((TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime)) ? null
+											: data.session.resultsVisibleFromTime);
+									for (String opt : data.getTimeOptionsAsHtml(date)){
 										out.println(opt);
+									}
 								%>
 						</select></td>
 						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
@@ -307,7 +308,9 @@
 							for(String opt: data.getParticipantOptions(question, true)) out.println(opt);
 						%>
 					</select></td>
-					<td class="bold nowrap">Feedback Recipient:</td>
+					<td class="bold nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
+					Feedback Recipient:
+					</td>
 					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" disabled="disabled">
 						<%
 							for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
@@ -430,7 +433,9 @@
 							for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
 						%>
 					</select></td>
-					<td class="bold nowrap">Feedback Recipient:</td>
+					<td class="bold nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
+					Feedback Recipient:
+					</td>
 					<td><select class="participantSelect" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>">
 						<%
 							for(String opt: data.getParticipantOptions(null, false)) out.println(opt);

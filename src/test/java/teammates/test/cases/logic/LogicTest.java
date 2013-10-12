@@ -53,6 +53,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -259,7 +260,7 @@ public class LogicTest extends BaseComponentTestCase {
 		logic.createCourseAndInstructor(instructor.googleId, cd.id, cd.name);
 		try {
 			logic.createInstructorAccount(instructor.googleId, instructor.courseId, instructor.name, instructor.email, "National University of Singapore");
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (EntityAlreadyExistsException eaee) {
 			// Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
 		}
@@ -298,7 +299,7 @@ public class LogicTest extends BaseComponentTestCase {
 		// Ensure the exception is thrown at logic level
 		try {
 			logic.createInstructorAccount(googleId, "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
 			AssertHelper.assertContains(
 					String.format(COURSE_ID_ERROR_MESSAGE, "invalid courseId" , REASON_INCORRECT_FORMAT),
@@ -312,143 +313,218 @@ public class LogicTest extends BaseComponentTestCase {
 		
 		try {
 			logic.createInstructorAccount(null, "valid.courseId", "Valid Name", "valid@email.com", "National University of Singapore");
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 		
 		try {
 			logic.createInstructorAccount("valid.id", null, "Valid Name", "valid@email.com", "National University of Singapore");
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 	}
-
+	
 	@Test
 	public void testGetInstructorForGoogleId() throws Exception {
-		// mostly tested in testCreateInstructor
-
-		restoreTypicalDataInDatastore();
-
-		______TS("null parameter");
+		
+		______TS("invalid case: null parameters");
 
 		try {
-			logic.getInstructorForGoogleId(null, null);
-			Assert.fail();
-		} catch (AssertionError a) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+			logic.getInstructorForGoogleId(null, "instructorId");
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
 		}
+		
+		try {
+			logic.getInstructorForGoogleId("course-id", null);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		______TS("success: get instructor with specific googleId");
+		
+		restoreTypicalDataInDatastore();
+
+		String courseId = "idOfTypicalCourse1";
+		String googleId = "idOfInstructor1OfCourse1";
+		
+		InstructorAttributes instr = logic.getInstructorForGoogleId(courseId, googleId);
+		
+		assertEquals(courseId, instr.courseId);
+		assertEquals(googleId, instr.googleId);
+		assertEquals("instructor1@course1.com", instr.email);
+		assertEquals("Instructor1 Course1", instr.name);
+	}
+	
+	@Test
+	public void testGetInstructorsForGoogleId() throws Exception {
+	
+		______TS("invalid case: null parameters");
+
+		try {
+			logic.getInstructorsForGoogleId(null);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		______TS("success: get all instructors for a google id");
+		
+		restoreTypicalDataInDatastore();
+		
+		String googleId = "idOfInstructor3";
+		
+		List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(googleId);
+		assertEquals(2, instructors.size());
+		
+	}
+	
+	@Test
+	public void testGetInstructorsForCourse() throws Exception {
+		
+		______TS("invalid case: null parameters");
+
+		try {
+			logic.getInstructorsForCourse(null);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		______TS("success: get all instructors for a course");
+
+		restoreTypicalDataInDatastore();
+		
+		String courseId = "idOfTypicalCourse1";
+		
+		List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+		assertEquals(3, instructors.size());
+	}
+	
+	@Test
+	public void testDeleteInstructor() throws Exception {
+		
+		______TS("invalid case: null parameters");
+
+		try {
+			logic.deleteInstructor(null, "instructor-id");
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		try {
+			logic.deleteInstructor("course-id", null);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		______TS("success: delete an instructor for specific course");
+		
+		restoreTypicalDataInDatastore();
+		
+		String courseId = "idOfTypicalCourse1";
+		String googleId = "idOfInstructor1OfCourse1";
+		
+		InstructorAttributes instructorDeleted = logic.getInstructorForGoogleId(courseId, googleId);
+		
+		logic.deleteInstructor(courseId, googleId);
+		
+		LogicTest.verifyAbsentInDatastore(instructorDeleted);
+		
 	}
 
 	@Test
-	public void testUpdateInstructor() {
-		//TODO: implement this
+	public void testUpdateInstructor() throws Exception {
+		
+		______TS("invalid case: null parameters");
+
+		try {
+			logic.updateInstructor(null);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		______TS("success: update an instructor");
+		
+		restoreTypicalDataInDatastore();
+		
+		String courseId = "idOfTypicalCourse1";
+		String googleId = "idOfInstructor1OfCourse1";
+		
+		InstructorAttributes instructorToBeUpdated = logic.getInstructorForGoogleId(courseId, googleId);
+		instructorToBeUpdated.email = "new-email@course1.com";
+		
+		logic.updateInstructor(instructorToBeUpdated);
+		
+		InstructorAttributes instructorUpdated = logic.getInstructorForGoogleId(courseId, googleId);
+		assertEquals(instructorToBeUpdated.email, instructorUpdated.email);
 	}
 
 	@Test
 	public void testUpdateCourseInstructors() throws Exception {
 		
-		______TS("typical case");
-		
-		// Reset environment
-		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-		AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
-		AccountAttributes instructor2Account = dataBundle.accounts.get("instructor2OfCourse1");
-		AccountAttributes instructor3Account = dataBundle.accounts.get("instructor3");
-		InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-		InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
-		InstructorAttributes instructor3 = dataBundle.instructors.get("instructor3OfCourse1");
-		instructor.name = creator.name;
-		instructor.email = creator.email;
-		
-		logic.deleteCourse(instructor.courseId);
-		logic.deleteAccount(instructor.googleId);
-		logic.deleteAccount(instructor2.googleId);
-		logic.deleteAccount(instructor3.googleId);
-		verifyAbsentInDatastore(course);
-		verifyAbsentInDatastore(instructor);
-		verifyAbsentInDatastore(instructor2);
-		verifyAbsentInDatastore(instructor3);
-		verifyAbsentInDatastore(creator);
-		verifyAbsentInDatastore(instructor2Account);
-		verifyAbsentInDatastore(instructor3Account);
-	
-		// Have the admin create an empty instructor account
-		logic.createAccount(creator.googleId, creator.name, true, creator.email, creator.institute);
-		
-		logic.createCourseAndInstructor(instructor.googleId, course.id, course.name);
-		logic.updateCourseInstructors(course.id,
-				instructor.googleId + "|" + instructor.name + "|" + instructor.email + Const.EOL
-			+	instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email + Const.EOL
-			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
-			creator.institute);
-		verifyPresentInDatastore(course);
-		verifyPresentInDatastore(instructor);
-		verifyPresentInDatastore(instructor2);
-		verifyPresentInDatastore(instructor3);
-		verifyPresentInDatastore(creator);				// Check that Accounts are created for the new Instructors
-		verifyPresentInDatastore(instructor2Account);
-		verifyPresentInDatastore(instructor3Account);
-		assertEquals(creator.institute, instructor2Account.institute);	// Ensure new accounts have the correct Institute
-		assertEquals(creator.institute, instructor3Account.institute);	// Ensure new accounts have the correct Institute
-		
-		______TS("Remove one Instructor");
-		
-		logic.updateCourseInstructors(course.id,
-				instructor.googleId + "\t" + instructor.name + "|" + instructor.email + Const.EOL
-			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
-			creator.institute);
-		verifyPresentInDatastore(instructor);
-		verifyAbsentInDatastore(instructor2);
-		verifyPresentInDatastore(instructor3);
-		
-		______TS("Remove one Instructor and add another Instructor");
-		
-		logic.updateCourseInstructors(course.id,
-				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Const.EOL
-			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
-			instructor2Account.institute);
-		verifyAbsentInDatastore(instructor); // Creator can be deleted too
-		verifyPresentInDatastore(instructor2);
-		verifyPresentInDatastore(instructor3);
-		
-		______TS("Update Instructor information");
-		
-		instructor2.name = "New name";
-		instructor3.email = "new@email.com";
-		
-		logic.updateCourseInstructors(course.id,
-				instructor2.googleId + "\t" + instructor2.name + "|" + instructor2.email + Const.EOL
-			+	instructor3.googleId + "\t" + instructor3.name + "\t" + instructor3.email,
-			creator.institute);
-		verifyPresentInDatastore(instructor2);
-		verifyPresentInDatastore(instructor3);
-		
-		______TS("Update non-existent course");
+		______TS("invalid case: null parameters");
 		
 		try {
+			logic.updateCourseInstructors(null, "a|b|c@d.e", "University of Foo");
+			signalFailureToDetectException();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+		
+		try {
+			logic.updateCourseInstructors("new-course", null, "University of Foo");
+			signalFailureToDetectException();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+		
+		try {
+			logic.updateCourseInstructors("new-course", "a|b|c@d.e", null);
+			signalFailureToDetectException();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+		
+		______TS("invalid case: update non-existent course");
+
+		try {
 			logic.updateCourseInstructors("non.existent", "a|b|c@d.e", "University of Foo");
-			Assert.fail();
+			signalFailureToDetectException();
 		} catch (EntityDoesNotExistException e) {
 			assertEquals("Course does not exist :non.existent", e.getMessage());
 		}
 		
-		______TS("Null parameters");
+		______TS("success: update course instructors");
 		
-		try {
-			logic.updateCourseInstructors(null, "a|b|c@d.e", "University of Foo");
-			Assert.fail();
-		} catch (AssertionError ae) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
-		}
+		restoreTypicalDataInDatastore();
 		
-		try {
-			logic.updateCourseInstructors(course.id, null, "University of Foo");
-			Assert.fail();
-		} catch (AssertionError ae) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
-		}
+		String instructorLines = "idOfInstructor1OfCourse1|Instructor1 Course1|newEmail@course1.com"
+							+ Const.EOL + "idOfInstructor3|Instructor3 Course1|instructor3@course1.com"
+							+ Const.EOL + "LogicT.newInstrOfCourse1|New Instructor|new@course1.com";
+		String courseId = "idOfTypicalCourse1";
+		String courseInstitute = "National University of Singapore";
+
+		logic.updateCourseInstructors(courseId, instructorLines, courseInstitute);
+		
+		List<InstructorAttributes> instructorsList = logic.getInstructorsForCourse(courseId);
+		assertEquals(3, instructorsList.size());
+		
+		InstructorAttributes instructorUpdated = logic.getInstructorForGoogleId(courseId, "idOfInstructor1OfCourse1");
+		InstructorAttributes instructorAdded = logic.getInstructorForGoogleId(courseId, "LogicT.newInstrOfCourse1");
+		
+		assertEquals("newEmail@course1.com", instructorUpdated.email);
+		assertEquals(null, logic.getInstructorForGoogleId(courseId, "idOfInstructor2OfCourse1"));
+		Assumption.assertNotNull(instructorAdded);
+		assertEquals("New Instructor", instructorAdded.name);
+		assertEquals("new@course1.com", instructorAdded.email);
 	}
 
 	@Test
@@ -487,12 +563,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 	//TODO: implement tests for these methods
 	/*
-	 	getInstructorsForGoogleId(String)
-		getInstructorsForCourse(String)
-		getAllInstructors()
-		isInstructor(String)
-		isInstructorOfCourse(String, String)
-		updateInstructor(InstructorAttributes)
+
 		deleteInstructor(String, String)
 	 */
 

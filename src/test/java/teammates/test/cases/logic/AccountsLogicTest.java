@@ -51,7 +51,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
 		// Create correct student with original@email.com
 		StudentAttributes studentData = new StudentAttributes(null,
-				originalEmail, "name", null, courseId, null);
+				originalEmail, "name", "", courseId, "");
 		logic.createStudent(studentData);
 		studentData = StudentsLogic.inst().getStudentForEmail(courseId,
 				originalEmail);
@@ -114,8 +114,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 		______TS("success: with encryption and new account to be created");
 
 		originalEmail = "email2@gmail.com";
-		studentData = new StudentAttributes(null, originalEmail, "name", null,
-				courseId, null);
+		studentData = new StudentAttributes(null, originalEmail, "name", "",
+				courseId, "");
 		logic.createStudent(studentData);
 		studentData = StudentsLogic.inst().getStudentForEmail(courseId,
 				originalEmail);
@@ -168,7 +168,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
 		// Make instructor account id a student too.
 		StudentAttributes student = new StudentAttributes("googleId",
-				"email@com", "name", null,
+				"email@com", "name", "",
 				"courseId", "team");
 		logic.createStudent(student);
 

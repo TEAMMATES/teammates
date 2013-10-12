@@ -35,8 +35,23 @@ public class FeedbackResponsesLogic {
 	}
 	
 	public void createFeedbackResponse(FeedbackResponseAttributes fra)
-			throws InvalidParametersException, EntityAlreadyExistsException {
-		frDb.createEntity(fra);
+		throws InvalidParametersException{
+			try {
+				frDb.createEntity(fra);
+			} catch(Exception EntityAlreadyExistsException){
+					
+			try{
+				FeedbackResponseAttributes existingFeedback = new FeedbackResponseAttributes();
+				
+				existingFeedback = frDb.getFeedbackResponse(fra.feedbackQuestionId, fra.giverEmail, fra.recipient);
+				fra.setId(existingFeedback.getId());
+				
+				frDb.updateFeedbackResponse(fra);
+				
+			} catch(Exception EntityDoesNotExistException){
+				Assumption.fail();
+			}
+		}
 	}
 	
 	public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,

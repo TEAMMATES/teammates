@@ -5,6 +5,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -24,6 +26,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 	private static Browser browser;
 	private static DataBundle testData;
 	private StudentHomePage studentHome;
+	private static FeedbackSessionAttributes gracedFeedbackSession;
 	
 	
 	@BeforeClass
@@ -31,6 +34,11 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		printTestClassHeader();
 		testData = loadDataBundle("/StudentHomePageUiTest.json");
 		restoreTestDataOnServer(testData);
+		
+		gracedFeedbackSession = BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
+		gracedFeedbackSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+		BackDoor.editFeedbackSession(gracedFeedbackSession);
+
 		browser = BrowserPool.getBrowser();
 	}
 

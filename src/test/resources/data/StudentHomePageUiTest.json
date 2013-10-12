@@ -284,7 +284,7 @@
   },
   
   "feedbackSessions" : {
-  	 "SHomeUiT.CS2104:First Feedback Session": {
+  	"SHomeUiT.CS2104:First Feedback Session": {
       "feedbackSessionName" : "First Feedback Session",
       "courseId" : "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.com",
@@ -299,12 +299,42 @@
       "feedbackSessionType" : "STANDARD",
       "sentOpenEmail" : true,
       "sentPublishedEmail" : false
+    },
+	"SHomeUiT.CS2104:Graced Feedback Session": {
+      "feedbackSessionName" : "Graced Feedback Session",
+      "courseId" : "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.com",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2012-03-20 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2013-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2015-05-01 11:59 PM UTC",
+      "timeZone" : 8.0,
+      "gracePeriod": 1440,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
     }
   },
   
   "feedbackQuestions" : {
     "SHomeUiT.CS2104:First Feedback Session:Q1": {
 		"feedbackSessionName" : "First Feedback Session",
+		"courseId" : "SHomeUiT.CS2104",
+		"creatorEmail" : "SHomeUiT.instr@gmail.com",
+		"questionText" : {"value" : "Rate 5 other students' products"},
+		"questionNumber" : "1",
+		"questionType" : "TEXT",
+		"giverType" : "STUDENTS",
+		"recipientType" : "STUDENTS",
+		"numberOfEntitiesToGiveFeedbackTo" : 5,
+		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
+		"showGiverNameTo" : [ "INSTRUCTORS" ],
+		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
+    },
+	"SHomeUiT.CS2104:Graced Feedback Session:Q1": {
+		"feedbackSessionName" : "Graced Feedback Session",
 		"courseId" : "SHomeUiT.CS2104",
 		"creatorEmail" : "SHomeUiT.instr@gmail.com",
 		"questionText" : {"value" : "Rate 5 other students' products"},

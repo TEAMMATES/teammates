@@ -43,6 +43,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
 			
 		} catch (EnrollException | InvalidParametersException e) {
 			setStatusForException(e);
+			statusToAdmin += "<br>Enrollment string entered by user:<br>" + (studentsInfo).replace("\n", "<br>");
 			
 			InstructorCourseEnrollPageData d = new InstructorCourseEnrollPageData(account);
 			d.courseId = courseId;
