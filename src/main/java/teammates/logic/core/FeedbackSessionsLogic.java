@@ -113,6 +113,29 @@ public class FeedbackSessionsLogic {
 	}
 	
 	/**
+	 * Returns a {@code List} of all feedback sessions WITHOUT their response statistics for
+	 * a instructor given by his googleId.<br>Does not return private sessions unless the instructor is
+	 * the creator.
+	 * @param googleId
+	 * @return
+	 * @throws EntityDoesNotExistException
+	 */
+	public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
+			String googleId)
+			throws EntityDoesNotExistException {
+
+		List<FeedbackSessionAttributes> fsList = new ArrayList<FeedbackSessionAttributes>();
+		List<InstructorAttributes> instructors = 
+				instructorsLogic.getInstructorsForGoogleId(googleId);
+
+		for (InstructorAttributes instructor : instructors) {
+			fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId, instructor.email));
+		}
+
+		return fsList;
+	}
+	
+	/**
 	 * Gets {@code FeedbackQuestions} and previously filled {@code FeedbackResponses} 
 	 * that an instructor can view/submit as
 	 * a {@link FeedbackSessionQuestionsBundle}
@@ -578,61 +601,7 @@ public class FeedbackSessionsLogic {
 
 	}
 	
-	private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
-			List<FeedbackResponseAttributes> responses,
-			String userEmail) {
-		for (FeedbackResponseAttributes response  : responses) {
-			boolean[] visibility = new boolean[2];
-			visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.isNameVisibleTo(response, userEmail, true);
-			visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.isNameVisibleTo(response, userEmail, false);
-			visibilityTable.put(response.getId(), visibility);
-		}
-	}
-
-	private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
-			List<FeedbackResponseAttributes> responsesForThisQn,
-			FeedbackQuestionAttributes question) throws EntityDoesNotExistException {
-		
-		for (FeedbackResponseAttributes response : responsesForThisQn) {
-			if (question.giverType == FeedbackParticipantType.TEAMS){
-				if (emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER) == false) {
-					emailNameTable.put(
-							response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
-							getNameForEmail(question.giverType, response.giverEmail, question.courseId));
-				}
-			} else if(emailNameTable.containsKey(response.giverEmail) == false) {
-				emailNameTable.put(
-						response.giverEmail,
-						getNameForEmail(question.giverType, response.giverEmail, question.courseId));
-			}
-			
-			if(emailNameTable.containsKey(response.recipient) == false) {
-				emailNameTable.put(
-						response.recipient,
-						getNameForEmail(question.recipientType, response.recipient, question.courseId));
-			}
-		}
-		
-	}
-		
-	private List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForCourse(
-			String courseId, String instructorEmail)
-			throws EntityDoesNotExistException {
-
-		List<FeedbackSessionDetailsBundle> fsDetails =
-				new ArrayList<FeedbackSessionDetailsBundle>();
-		List<FeedbackSessionAttributes> fsInCourse =
-				fsDb.getFeedbackSessionsForCourse(courseId);
-
-		for (FeedbackSessionAttributes fsa : fsInCourse) {
-			if((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
-				fsDetails.add(getFeedbackSessionDetails(fsa));
-		}
-
-		return fsDetails;
-	}
-
-	private FeedbackSessionDetailsBundle getFeedbackSessionDetails(
+	public FeedbackSessionDetailsBundle getFeedbackSessionDetails(
 			FeedbackSessionAttributes fsa) throws EntityDoesNotExistException {
 
 		FeedbackSessionDetailsBundle details =
@@ -717,7 +686,72 @@ public class FeedbackSessionsLogic {
 
 		return details;
 	}
+	
+	private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
+			List<FeedbackResponseAttributes> responses,
+			String userEmail) {
+		for (FeedbackResponseAttributes response  : responses) {
+			boolean[] visibility = new boolean[2];
+			visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.isNameVisibleTo(response, userEmail, true);
+			visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.isNameVisibleTo(response, userEmail, false);
+			visibilityTable.put(response.getId(), visibility);
+		}
+	}
 
+	private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
+			List<FeedbackResponseAttributes> responsesForThisQn,
+			FeedbackQuestionAttributes question) throws EntityDoesNotExistException {
+		
+		for (FeedbackResponseAttributes response : responsesForThisQn) {
+			if (question.giverType == FeedbackParticipantType.TEAMS){
+				if (emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER) == false) {
+					emailNameTable.put(
+							response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
+							getNameForEmail(question.giverType, response.giverEmail, question.courseId));
+				}
+			} else if(emailNameTable.containsKey(response.giverEmail) == false) {
+				emailNameTable.put(
+						response.giverEmail,
+						getNameForEmail(question.giverType, response.giverEmail, question.courseId));
+			}
+			
+			if(emailNameTable.containsKey(response.recipient) == false) {
+				emailNameTable.put(
+						response.recipient,
+						getNameForEmail(question.recipientType, response.recipient, question.courseId));
+			}
+		}
+		
+	}
+		
+	private List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForCourse(
+			String courseId, String instructorEmail)
+			throws EntityDoesNotExistException {
+
+		List<FeedbackSessionDetailsBundle> fsDetails =
+				new ArrayList<FeedbackSessionDetailsBundle>();
+		List<FeedbackSessionAttributes> fsInCourse =
+				fsDb.getFeedbackSessionsForCourse(courseId);
+
+		for (FeedbackSessionAttributes fsa : fsInCourse) {
+			if((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
+				fsDetails.add(getFeedbackSessionDetails(fsa));
+		}
+
+		return fsDetails;
+	}
+	
+	private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
+			String courseId, String instructorEmail)
+			throws EntityDoesNotExistException {
+		
+		List<FeedbackSessionAttributes> fsInCourse =
+				fsDb.getFeedbackSessionsForCourse(courseId);
+
+		return fsInCourse;
+	}
+
+	
 	// Note: This method is for use in Issue 1061. Can be further refactored.
 	private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
 			FeedbackSessionAttributes fsa)

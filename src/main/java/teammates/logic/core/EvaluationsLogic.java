@@ -145,6 +145,17 @@ public class EvaluationsLogic {
 		return evaluationSummaryList;
 	}
 	
+	public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(
+			String instructorId) throws EntityDoesNotExistException {
+		ArrayList<EvaluationAttributes> evaluationSummaryList = new ArrayList<EvaluationAttributes>();
+
+		List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId);
+		for (InstructorAttributes id : instructorList) {
+			evaluationSummaryList.addAll(getEvaluationsForCourse(id.courseId));
+		}
+		return evaluationSummaryList;
+	}
+	
 	public ArrayList<EvaluationDetailsBundle> getEvaluationsDetailsForCourse(String courseId) throws EntityDoesNotExistException{
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
@@ -157,6 +168,14 @@ public class EvaluationsLogic {
 		}
 		
 		return evaluationSummaryList;
+	}
+	
+	public EvaluationDetailsBundle getEvaluationsDetailsForCourseAndEval(EvaluationAttributes evaluation) 
+			throws EntityDoesNotExistException{
+
+		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(evaluation.courseId);
+
+		return getEvaluationDetails(students, evaluation);
 	}
 
 	public EvaluationResultsBundle getEvaluationResult(String courseId,

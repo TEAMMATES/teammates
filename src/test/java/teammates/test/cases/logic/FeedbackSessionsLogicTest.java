@@ -46,6 +46,10 @@ import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	
+	/* TODO: implement tests for the following:
+	 * 1. getFeedbackSessionsListForInstructor()
+	 * 2. getFeedbackSessionsListForCourse()
+	 */
 	private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 	private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 	private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();

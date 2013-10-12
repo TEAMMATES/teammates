@@ -56,6 +56,8 @@
 			<class name="teammates.test.cases.ui.AdminHomePageActionTest" />
 			<class name="teammates.test.cases.ui.AdminInstructorAccountAddActionTest" />
 			<class name="teammates.test.cases.ui.AdminSearchPageActionTest" />
+			<class name="teammates.test.cases.ui.EvaluationStatsPageActionTest" />
+			<class name="teammates.test.cases.ui.FeedbackSessionStatsPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCoursesPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseDeleteActionTest" />

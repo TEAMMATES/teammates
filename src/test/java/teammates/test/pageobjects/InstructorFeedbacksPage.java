@@ -198,6 +198,11 @@ public class InstructorFeedbacksPage extends AppPage {
 		clickSubmitButton();
 	}
 
+	public WebElement getViewResponseLink(String courseId, String sessionName) {
+		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+		return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]/td[contains(@class,'t_session_response')]/a"));
+	}
+	
 	public WebElement getViewResultsLink(String courseId, String sessionName) {
 		int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
 		return browser.driver.findElement(By.className("t_session_view" + sessionRowId));

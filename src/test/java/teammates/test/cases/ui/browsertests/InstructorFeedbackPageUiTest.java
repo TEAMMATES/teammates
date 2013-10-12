@@ -65,12 +65,28 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		testViewResultsLink();
 		testEditLink();
 		testSubmitLink();
+		testShowFeedbackStatsLink();
+		testShowEvaluationStatsLink();
 		
 		testAddAction();
 		testDeleteAction();
 		testPublishAction();
 		testUnpublishAction();
 
+	}
+
+	private void testShowFeedbackStatsLink() {
+		
+		feedbackPage.getViewResponseLink("CFeedbackUiT.CS1101", "Manual Session").click();
+		
+		feedbackPage.verifyPopupHtml("TEAMMATES-Feedback Stats", "/InstructorFeedbackUIPageFeedbackStats.html");
+	}
+	
+	private void testShowEvaluationStatsLink() {
+		
+		feedbackPage.getViewResponseLink("CFeedbackUiT.CS1101", "First Eval").click();
+		
+		feedbackPage.verifyPopupHtml("TEAMMATES-Evaluation Stats", "/InstructorFeedbackUIPageEvaluationStats.html");
 	}
 
 	public void testContent() throws Exception{

@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.util.Iterator;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -20,6 +21,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -443,6 +445,53 @@ public abstract class AppPage {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		return this;
+	}
+	
+	/**
+	 * Verifies that the popup opened in a currently loaded page has the same HTML content as 
+	 * the content given in the file at {@code filePath}. <br>
+	 * The HTML is checked for logical equivalence, not text equivalence. 
+	 * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
+	 * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+	 * @return The page (for chaining method calls).
+	 */
+	public AppPage verifyPopupHtml(String popupTitle,String filePath) {
+		
+		Iterator<String> windowIterator = browser.driver.getWindowHandles().iterator();
+		String parentWindowHandle = browser.driver.getWindowHandle();
+		String currentWindowHandle;
+		WebDriver showStatsPopup;
+		boolean popupFound = false;
+		
+		while(windowIterator.hasNext()) {
+			currentWindowHandle = windowIterator.next();
+			showStatsPopup = browser.driver.switchTo().window(currentWindowHandle);
+			if(showStatsPopup.getTitle().equals(popupTitle)) {
+				popupFound = true;
+				
+				if(filePath.startsWith("/")){
+					filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
+				}
+				try {
+					String actual = showStatsPopup.getPageSource();
+					String expected = FileHelper.readFile(filePath);
+					HtmlHelper.assertSameHtml(actual, expected);
+					
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+				
+				browser.driver.close();
+				break;
+			}
+		}
+		
+		browser.driver.switchTo().window(parentWindowHandle);
+		
+		assertEquals(true, popupFound);
+		
+		
 		return this;
 	}
 	

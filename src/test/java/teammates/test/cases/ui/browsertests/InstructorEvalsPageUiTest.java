@@ -57,6 +57,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	public void allTests() throws Exception{
 		testContent();
 		
+		testShowEvaluationStatsLink();
 		testEditLink();
 		testViewResultsLink();
 		
@@ -105,6 +106,12 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	
 	}
 
+	private void testShowEvaluationStatsLink() {
+		evalsPage.getViewResponseLink("CEvalUiT.CS2104", "First Eval").click();
+		
+		evalsPage.verifyPopupHtml("TEAMMATES-Evaluation Stats", "/InstructorEvalsUIPageEvaluationStats.html");
+	}
+	
 	public void testEditLink(){
 		//TODO: implement this (also check for disabling of the link at right times)
 	}

@@ -49,6 +49,7 @@ public class ActionFactory {
 		map(INSTRUCTOR_EVAL_PUBLISH, InstructorEvalPublishAction.class);
 		map(INSTRUCTOR_EVAL_REMIND, InstructorEvalRemindAction.class);
 		map(INSTRUCTOR_EVAL_RESULTS_PAGE, InstructorEvalResultsPageAction.class);
+		map(INSTRUCTOR_EVAL_STATS_PAGE, EvaluationStatsPageAction.class);
 		map(INSTRUCTOR_EVAL_SUBMISSION_EDIT, InstructorEvalSubmissionEditPageAction.class);
 		map(INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE, InstructorEvalSubmissionEditSaveAction.class);
 		map(INSTRUCTOR_EVAL_SUBMISSION_PAGE, InstructorEvalSubmissionPageAction.class);
@@ -64,6 +65,7 @@ public class ActionFactory {
 		map(INSTRUCTOR_FEEDBACK_QUESTION_EDIT, InstructorFeedbackQuestionEditAction.class);
 		map(INSTRUCTOR_FEEDBACK_RESULTS_PAGE, InstructorFeedbackResultsPageAction.class);
 		map(INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD, InstructorFeedbackResultsDownloadAction.class);
+		map(INSTRUCTOR_FEEDBACK_STATS_PAGE, FeedbackSessionStatsPageAction.class);
 		map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE, InstructorFeedbackSubmissionEditPageAction.class);
 		map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE, InstructorFeedbackSubmissionEditSaveAction.class);
 		map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);

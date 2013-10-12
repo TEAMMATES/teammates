@@ -5,9 +5,8 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 
 public class InstructorFeedbacksPageData extends PageData {
@@ -19,8 +18,8 @@ public class InstructorFeedbacksPageData extends PageData {
 	public String courseIdForNewSession;
 	public FeedbackSessionAttributes newFeedbackSession;
 	public List<CourseDetailsBundle> courses;
-	public List<EvaluationDetailsBundle> existingEvalSessions;
-	public List<FeedbackSessionDetailsBundle> existingFeedbackSessions;		
+	public List<EvaluationAttributes> existingEvalSessions;
+	public List<FeedbackSessionAttributes> existingFeedbackSessions;		
 	
 	
 	public ArrayList<String> getTimeZoneOptionsAsHtml(){

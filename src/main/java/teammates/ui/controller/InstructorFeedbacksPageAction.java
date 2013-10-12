@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -35,8 +35,8 @@ public class InstructorFeedbacksPageAction extends Action {
 		data.courses = loadCoursesList(account.googleId);
 		if (data.courses.size() == 0) {
 			statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
-			data.existingEvalSessions = new ArrayList<EvaluationDetailsBundle>();
-			data.existingFeedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
+			data.existingEvalSessions = new ArrayList<EvaluationAttributes>();
+			data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
 		
 		} else {
 			data.existingEvalSessions = loadEvaluationsList(account.googleId);			
@@ -52,19 +52,19 @@ public class InstructorFeedbacksPageAction extends Action {
 		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
 	}
 	
-	protected List<FeedbackSessionDetailsBundle> loadFeedbackSessionsList(
+	protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
 			String googleId) throws EntityDoesNotExistException {
-		List<FeedbackSessionDetailsBundle> sessions =
-				logic.getFeedbackSessionDetailsForInstructor(googleId);
+		List<FeedbackSessionAttributes> sessions =
+				logic.getFeedbackSessionsListForInstructor(googleId);
 		
 		return sessions;
 	}
 
-	protected List<EvaluationDetailsBundle> loadEvaluationsList(String userId)
+	protected List<EvaluationAttributes> loadEvaluationsList(String userId)
 			throws EntityDoesNotExistException {
-		List<EvaluationDetailsBundle> evaluations =
-				logic.getEvaluationsDetailsForInstructor(userId);
-		EvaluationDetailsBundle.sortEvaluationsByDeadline(evaluations);
+		List<EvaluationAttributes> evaluations =
+				logic.getEvaluationsListForInstructor(userId);
+		EvaluationAttributes.sortEvaluationsByDeadline(evaluations);
 
 		return evaluations;
 	}

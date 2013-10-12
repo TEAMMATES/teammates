@@ -2,6 +2,8 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -333,5 +335,42 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 				+ ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
 				+ feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
 				+ ", sentPublishedEmail=" + sentPublishedEmail + "]";
+	}
+	
+	/**
+	 * Sorts feedback session based courseID (ascending), then by create time (ascending), deadline
+	 * (ascending), then by start time (ascending), then by feedback session name
+	 * (ascending). The sort by CourseID part is to cater the case when this
+	 * method is called with combined feedback sessions from many courses
+	 * 
+	 * @param evals
+	 */
+	public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> evals) {
+		Collections.sort(evals, new Comparator<FeedbackSessionAttributes>() {
+			public int compare(FeedbackSessionAttributes fsd1, FeedbackSessionAttributes fsd2) {
+				FeedbackSessionAttributes session1 = fsd1;
+				FeedbackSessionAttributes session2 = fsd2;
+				int result = 0;
+				if (result == 0) {
+					result = session1.courseId.compareTo(session2.courseId);
+				}
+				if (result == 0) {
+					result = session1.createdTime.after(session2.createdTime) ? 1
+							: (session1.createdTime.before(session2.createdTime) ? -1 : 0);
+				}
+				if (result == 0) {
+					result = session1.endTime.after(session2.endTime) ? 1
+							: (session1.endTime.before(session2.endTime) ? -1 : 0);
+				}
+				if (result == 0) {
+					result = session1.startTime.after(session2.startTime) ? 1
+							: (session1.startTime.before(session2.startTime) ? -1 : 0);
+				}
+				if (result == 0) {
+					result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
+				}
+				return result;
+			}
+		});
 	}
 }

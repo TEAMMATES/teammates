@@ -128,6 +128,11 @@ public class InstructorEvalsPage extends AppPage {
 		return changePageType(InstructorEvalResultsPage.class);
 	}
 
+	public WebElement getViewResponseLink(String courseId, String sessionName) {
+		int sessionRowId = getEvaluationRowId(courseId, sessionName);
+		return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]/td[contains(@class,'t_session_response')]/a"));
+	}
+	
 	public WebElement getPublishLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
 		return browser.driver.findElement(By.className("t_session_publish" + evalRowId));

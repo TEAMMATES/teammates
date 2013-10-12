@@ -6,15 +6,14 @@ import java.util.List;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 
 public class InstructorEvalPageData extends PageData {
 	public String courseIdForNewEvaluation;
 	public EvaluationAttributes newEvaluationToBeCreated;
-	public List<EvaluationDetailsBundle> existingEvalSessions;
-	public List<FeedbackSessionDetailsBundle> existingFeedbackSessions;
+	public List<EvaluationAttributes> existingEvalSessions;
+	public List<FeedbackSessionAttributes> existingFeedbackSessions;
 	public List<CourseDetailsBundle> courses; //TODO: can we use a lighter data structure here?
 
 	public InstructorEvalPageData(AccountAttributes account) {

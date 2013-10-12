@@ -32,6 +32,13 @@ public class InstructorHomePage extends AppPage {
 		instructorHomeTab.click();
 		waitForPageToLoad();
 	}
+	
+	public WebElement getViewResponseLink(String courseId, String evalName) {
+		int evaluationRowId = getEvaluationRowId(courseId, evalName);
+		String xpathExp = "//tr[@id='session"+ evaluationRowId +"']/td[contains(@class,'t_session_response')]/a";
+
+		return browser.driver.findElement(By.xpath(xpathExp));
+	}
 
 	public WebElement getRemindLink(String courseId, String evalName) {
 		return getLinkInRow("t_session_remind", getEvaluationRowId(courseId, evalName));

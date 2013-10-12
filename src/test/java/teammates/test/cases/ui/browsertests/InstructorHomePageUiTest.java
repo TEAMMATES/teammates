@@ -55,6 +55,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 	public void allTests() throws Exception{
 		testLogin();
 		testContent();
+		testShowFeedbackStatsLink();
+		testShowEvaluationStatsLink();
 		testHelpLink();
 		testCourseLinks();
 		testEvaluationLinks();
@@ -64,6 +66,20 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		testDeleteCourseAction();
 	}
 	
+	private void testShowFeedbackStatsLink() {
+		homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session").click();
+		
+		homePage.verifyPopupHtml("TEAMMATES-Feedback Stats", "/InstructorHomeUIPageFeedbackStats.html");
+	}
+
+
+	private void testShowEvaluationStatsLink() {
+		homePage.getViewResponseLink("CHomeUiT.CS1101", "Fifth Eval").click();
+		
+		homePage.verifyPopupHtml("TEAMMATES-Evaluation Stats", "/InstructorHomeUIPageEvaluationStats.html");
+	}
+
+
 	public void testLogin(){
 		
 		______TS("login");

@@ -337,6 +337,21 @@ public class PageData {
 		return link;
 	}
 	
+	public String getFeedbackSessionStatsLink(String courseID, String feedbackSessionName){
+		String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName); 
+		link = addUserIdToUrl(link);
+		return link;
+	}
+	
+	public String getEvaluationStatsLink(String courseID, String evalName){
+		String link = Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName); 
+		link = addUserIdToUrl(link);
+		return link;
+	}
 	/**
 	 * @param isHome True if the Browser should redirect to the Home page after the operation. 
 	 */

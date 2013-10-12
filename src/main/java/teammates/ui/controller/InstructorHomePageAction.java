@@ -3,9 +3,9 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.CourseSummaryBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -22,15 +22,15 @@ public class InstructorHomePageAction extends Action {
 		
 		data = new InstructorHomePageData(account);
 		
-		HashMap<String, CourseDetailsBundle> courses = logic.getCourseDetailsListForInstructor(account.googleId);
+		HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(account.googleId);
 		
-		data.courses = new ArrayList<CourseDetailsBundle>(courses.values());
-		CourseDetailsBundle.sortDetailedCourses(data.courses);
-		for(CourseDetailsBundle course: data.courses){
-			EvaluationDetailsBundle.sortEvaluationsByDeadline(course.evaluations);
+		data.courses = new ArrayList<CourseSummaryBundle>(courses.values());
+		CourseSummaryBundle.sortSummarizedCourses(data.courses);
+		for(CourseSummaryBundle course: data.courses){
+			EvaluationAttributes.sortEvaluationsByDeadline(course.evaluations);
 		}
-		for(CourseDetailsBundle course: data.courses){
-			FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
+		for(CourseSummaryBundle course: data.courses){
+			FeedbackSessionAttributes.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
 		}
 		   
 		statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + data.courses.size();
