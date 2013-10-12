@@ -217,22 +217,35 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 	/**
 	 * @return {@code true} if it is after the closing time of this feedback session; {@code false} if not.
 	 */
-	public boolean isClosed() {
+	public boolean isClosed() {	
 		Calendar now = TimeHelper.now(timeZone);
 		Calendar end = TimeHelper.dateToCalendar(endTime);
 		end.add(Calendar.MINUTE, gracePeriod);
+		
 		return (now.after(end));
 	}
 	
 	/**
-	 * @return {@code true} is currently open and accepting responses.
+	 * @return {@code true} is currently open and accepting responses
 	 */
-	public boolean isOpened() {		
-		Calendar now = TimeHelper.now(timeZone);		
+	public boolean isOpened() {	
+		Calendar now = TimeHelper.now(timeZone);
 		Calendar start = TimeHelper.dateToCalendar(startTime);
 		Calendar end = TimeHelper.dateToCalendar(endTime);
-		end.add(Calendar.MINUTE, gracePeriod);
+		
 		return (now.after(start) && now.before(end));
+	}
+	
+	/**
+	 * @return {@code true} is currently close but is still accept responses
+	 */
+	public boolean isInGracePeriod() {	
+		Calendar now = TimeHelper.now(timeZone);
+		Calendar end = TimeHelper.dateToCalendar(endTime);
+		Calendar gracedEnd = TimeHelper.dateToCalendar(endTime);
+		gracedEnd.add(Calendar.MINUTE, gracePeriod);
+		
+		return (now.after(end) && now.before(gracedEnd));
 	}
 	
 	/**

@@ -37,7 +37,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
 		}
-		if (data.bundle.feedbackSession.isOpened() == false) {
+		if (data.bundle.feedbackSession.isOpened() == false && data.bundle.feedbackSession.isInGracePeriod() == false) {
 			throw new UnauthorizedAccessException(
 					"This feedback session is not yet opened.");
 		}

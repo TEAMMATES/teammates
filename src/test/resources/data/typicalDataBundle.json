@@ -77,6 +77,10 @@
 		"courseNoEvals": {
 			"id": "idOfCourseNoEvals",
 			"name": "Typical Course 3 with 0 Evals" 
+		},
+		"courseWithSessionInGracePeriod": {
+			"id": "SessionInGracePeriod",
+			"name": "Course with session in grace period" 
 		}
 	},
 	
@@ -182,6 +186,15 @@
       "team": "Team 2.1",
       "comments" : "",
       "course" : "idOfTypicalCourse2"
+    },
+    "studentInGraceCourse":{
+      "email": "studentInGraceCourse@gmail.com",
+      "name": "student In SessionInGracePeriod course",
+      "googleId": "studentInGraceCourse",
+      "comments": "#####student In Course with feedback session in grace period#####",
+      "team": "Team 2.1",
+      "comments" : "",
+      "course" : "SessionInGracePeriod"
     }
   },
   
@@ -327,6 +340,22 @@
       "sentOpenEmail" : true,
       "sentPublishedEmail" : false
     },
+    "gracePeriod.session": {
+      "feedbackSessionName" : "Session in Grace Period",
+      "courseId" : "SessionInGracePeriod",
+      "creatorEmail": "instructor1@SessionInGracePeriod.com",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2013-03-20 11:59 PM UTC",
+      "startTime" : "2013-06-01 11:59 PM UTC",
+      "endTime" : "2014-04-28 11:59 PM UTC",
+	  "sessionVisibleFromTime" : "2013-03-20 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2014-04-29 11:59 PM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 1440,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    },
     "empty.session": {
       "feedbackSessionName" : "Empty session",
       "courseId" : "idOfTypicalCourse1",
@@ -460,6 +489,19 @@
 		"showGiverNameTo" : [ "RECEIVER" ],
 		"showRecipientNameTo" : [ "RECEIVER" ]
     },
+	 "graceperiod.session.feedback": {
+		"feedbackSessionName" : "Session in Grace Period",
+		"courseId" : "SessionInGracePeriod",
+		"creatorEmail" : "instructor1@course1.com",
+		"questionText" : {"value" : "Give feedback to 2 other teams."},
+		"questionNumber" : "1",
+		"giverType" : "TEAMS",
+		"recipientType" : "TEAMS",
+		"numberOfEntitiesToGiveFeedbackTo" : 2,
+		"showResponsesTo" : [ "RECEIVER" ],
+		"showGiverNameTo" : [ "RECEIVER" ],
+		"showRecipientNameTo" : [ "RECEIVER" ]
+    },
     "qn1InSession4InCourse1": {
 		"feedbackSessionName" : "non visible session",
 		"courseId" : "idOfTypicalCourse1",
@@ -571,6 +613,15 @@
     "response1ForQ1S2C1": {
 		"feedbackSessionName" : "Second feedback session",
 		"courseId" : "idOfTypicalCourse1",
+		"feedbackQuestionId" : "1",
+		"feedbackQuestionType" : "TEXT",
+		"giverEmail" : "student4InCourse1@gmail.com",
+		"recipient" : "Team 1.2",
+		"answer" : {"value" : "Response from team 1 by (student 4) to team 1.2."}
+    },
+    "response1GracePeriodFeedback": {
+		"feedbackSessionName" : "Session in Grace Period",
+		"courseId" : "SessionInGracePeriod",
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student4InCourse1@gmail.com",

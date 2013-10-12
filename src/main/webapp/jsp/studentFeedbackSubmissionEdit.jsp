@@ -169,7 +169,7 @@
 			%>
 			There are no questions for you to answer here!
 			<%
-				} else if (data.bundle.feedbackSession.isOpened()) {
+				} else if (data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isInGracePeriod()) {
 			%>
 			<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
 			<%
