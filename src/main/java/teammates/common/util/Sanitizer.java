@@ -10,8 +10,6 @@ import com.google.appengine.api.datastore.Text;
  */
 public class Sanitizer {
 	
-	//TODO: add more info to method header comments. i.e., how is the value santized?
-	
 	/**
 	 * Sanitizes a google ID by removing any whitespaces at the start/end
 	 * and the trailing "@gmail.com".
@@ -31,7 +29,7 @@ public class Sanitizer {
 	}
 	
 	/**
-	 * Sanitizes an email address.
+	 * Sanitizes an email address by removing leading/trailing whitespace.
 	 * 
 	 * @param rawGoogleId
 	 * @return the sanitized google ID or null (if the parameter was null).
@@ -41,7 +39,7 @@ public class Sanitizer {
 	}	
 	
 	/**
-	 * Sanitizes a Instructor or Student's name.
+	 * Sanitizes a Instructor or Student's name by removing leading/trailing whitespace.
 	 * 
 	 * @param string
 	 * @return the sanitized string or null (if the parameter was null).
@@ -51,7 +49,7 @@ public class Sanitizer {
 	}
 	
 	/**
-	 * Sanitizes a Course or Team's name.
+	 * Sanitizes a Course or Team's name by removing leading/trailing whitespace.
 	 * 
 	 * @param string
 	 * @return the sanitized string or null (if the parameter was null).
@@ -61,7 +59,7 @@ public class Sanitizer {
 	}
 	
 	/**
-	 * Sanitizes a user input text field.
+	 * Sanitizes a user input text field by removing leading/trailing whitespace.
 	 * i.e. comments, instructions, etc.
 	 * 
 	 * @param string
@@ -72,14 +70,14 @@ public class Sanitizer {
 	}
 	
 	/**
-	 * Sanitizes a user input text field.
+	 * Sanitizes a user input text field by removing leading/trailing whitespace.
 	 * i.e. comments, instructions, etc.
 	 * 
 	 * @param string
 	 * @return the sanitized string or null (if the parameter was null).
 	 */
 	public static Text sanitizeTextField(Text rawText) {
-		return (rawText==null) ? new Text("") :  new Text(trimIfNotNull(rawText.getValue()));
+		return (rawText==null) ? null :  new Text(trimIfNotNull(rawText.getValue()));
 	}
 
 	/**
@@ -126,6 +124,6 @@ public class Sanitizer {
 	 * @return the trimmed string or null (if the parameter was null).
 	 */
 	private static String trimIfNotNull(String string) {
-		return ((string == null) ? "" : string.trim());
+		return ((string == null) ? null : string.trim());
 	}
 }
