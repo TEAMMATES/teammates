@@ -1,5 +1,61 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
 
+function isFeedbackSessionNameValid(name) {
+	if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
+			|| name.indexOf("\"") >= 0) {
+		return false;
+	}
+	if (name.match(/^[a-zA-Z0-9 ]*$/) == null) {
+		return false;
+	}
+	return true;
+}
+
+function isFeedbackSessionNameLengthValid(name) {
+	//Constant is kept in Common.java file, but checking is done in Javascript
+	return name.length <= EVAL_NAME_MAX_LENGTH;
+}
+
+function isAddFeedbackSessionValid(startdate, startTime, enddate, endtime) {
+	startdate = convertDateFromDDMMYYYYToMMDDYYYY(startdate);
+	enddate = convertDateFromDDMMYYYYToMMDDYYYY(enddate);
+
+	var now = new Date();
+
+	startdate = new Date(startdate);
+	enddate = new Date(enddate);
+
+	// If the hour value is 24, then set time to 23:59
+	if (startTime != 24) {
+		startdate.setHours(startTime);
+	} else {
+		startdate.setHours(23);
+		startdate.setMinutes(59);
+	}
+	if (endtime != 24) {
+		enddate.setHours(endtime);
+	} else {
+		enddate.setHours(23);
+		enddate.setMinutes(59);
+	}
+
+	if (startdate > enddate) {
+		return false;
+	} else if (now > startdate) {
+		return false;
+	} else if (!(startdate > enddate || enddate > startdate)) {
+		if (startTime >= endtime) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+function isFeedbackSessionInstructionsLengthValid(instructions) {
+	return instructions.length <= EVAL_INSTRUCTIONS_MAX_LENGTH;
+}
+
 /**
  * Check whether the feedback question input is valid
  * @param form
@@ -17,6 +73,43 @@ function checkFeedbackQuestion(form) {
 	}
 	if ($(form).find('[name='+FEEDBACK_QUESTION_TEXT+']').val() == "") {
 		setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID,true);
+		return false;
+	}
+	return true;
+}
+
+/**
+ * Check whether the feedback session input (which is passed as a form) is valid
+ * @param form
+ * @returns {Boolean}
+ */
+function checkAddFeedbackSession(form){	
+	var courseID = form.courseid.value;
+	var timezone = form.timezone.value;
+	var fsname = form.fsname.value;
+	var startdate = form.startdate.value;
+	var startTime = form.starttime.value;
+	var enddate = form.enddate.value;
+	var endtime = form.endtime.value;
+	var gracePeriod = form.graceperiod.value;
+	var publishtime = form.publishtime.value;
+	var instructions = form.instructions.value;
+	
+	if (fsname == "" || courseID == "" || timezone == "" || startdate ==""
+		|| starttime == "" ||instructions == "" || gracePeriod == "" || publishtime == "") {
+		setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
+		return false;
+	}else if (!isFeedbackSessionNameValid(fsname)) {
+		setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAMEINVALID, true);
+		return false;
+	} else if (!isFeedbackSessionNameLengthValid(fsanme)) {
+		setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID, true);
+		return false;
+	} else if (!isAddFeedbackSessionValid(startdate, startTime, enddate, endtime)) {
+		setStatusMessage(DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID, true);
+		return false;
+	} else if (!isFeedbackSessionInstructionsLengthValid(instructions)) {
+		setStatusMessage(DISPLAY_FEEDBACK_SESSION_INSTRUCTIONS_LENGTHINVALID, true);
 		return false;
 	}
 	return true;
