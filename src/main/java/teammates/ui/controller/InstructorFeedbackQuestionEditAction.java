@@ -37,14 +37,19 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		
 		try {
 			if(editType.equals("edit")) {
-				logic.updateFeedbackQuestion(updatedQuestion);	
-				statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-				statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
-						updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-						updatedQuestion.courseId + "]</span> edited.<br>" +
-						"<span class=\"bold\">Feedback Question Text:</span> " + updatedQuestion.questionText;
+				if(updatedQuestion.questionNumber != 0){ //Question number was updated
+					logic.updateFeedbackQuestionNumber(updatedQuestion);
+					statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+				} else{
+					logic.updateFeedbackQuestion(updatedQuestion);	
+					statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+					statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
+							updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
+							updatedQuestion.courseId + "]</span> edited.<br>" +
+							"<span class=\"bold\">Feedback Question Text:</span> " + updatedQuestion.questionText;
+				}
 			} else if (editType.equals("delete")) {
-				logic.deleteFeedbackQuestion(updatedQuestion.feedbackSessionName, updatedQuestion.courseId, updatedQuestion.questionNumber);
+				logic.deleteFeedbackQuestion(updatedQuestion.getId());
 				statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
 				statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
 						updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +

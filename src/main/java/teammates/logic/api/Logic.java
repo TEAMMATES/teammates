@@ -1092,6 +1092,18 @@ public class Logic {
 	}
 	
 	/**
+	 * Updates the question number of a Feedback Question.<br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes updatedQuestion)
+		throws InvalidParametersException, EntityDoesNotExistException {
+
+			Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
+			feedbackQuestionsLogic.updateFeedbackQuestionNumber(updatedQuestion);
+	}
+	
+	/**
 	 * Updates the details of a Feedback Question.<br>
 	 * The FeedbackQuestionAttributes should have the updated attributes
 	 * together with the original ID of the question. Preserves null
@@ -1114,13 +1126,10 @@ public class Logic {
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
-	public void deleteFeedbackQuestion(String feedbackSessionName, String courseId, int questionNumber) {
+	public void deleteFeedbackQuestion(String questionId) {
 		
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionNumber);
-
-		feedbackQuestionsLogic.deleteFeedbackQuestionCascade(feedbackSessionName, courseId, questionNumber);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
+		feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
 	}
 	
 	/**
