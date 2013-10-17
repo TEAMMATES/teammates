@@ -161,10 +161,6 @@ function convertDateToHHMM(date) {
 }
 
 function readyFeedbackPage (){
-	
-    $("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
-    	document.location.href = $(this).val();
-    });
 
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();

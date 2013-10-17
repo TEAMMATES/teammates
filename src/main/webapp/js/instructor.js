@@ -39,6 +39,22 @@ window.onload = function() {
 	}
 };
 
+$(document).ready(function(){
+	$("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
+    	var query = window.location.search.substring(1);
+		var params = {};
+		
+		var param_values = query.split("&");
+		for(var i=0;i<param_values.length;i++){
+			var param_value = param_values[i].split("=");
+			params[param_value[0]] = param_value[1];
+		}
+		
+		console.log($(this).val()+"?user="+params["user"]);
+    	window.location.href = $(this).val()+"?user="+params["user"];
+    });
+});
+
 //DynamicDrive JS mouse-hover
 document.onmousemove = positiontip;
 
