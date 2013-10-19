@@ -41,6 +41,7 @@ function readyFeedbackEditPage(){
 	formatResponsesVisibilityGroup();
 	formatNumberBoxes();
 	formatCheckBoxes();
+	formatQuestionNumbers();
 	collapseIfPrivateSession();
 	document.onmousemove = positiontip;
 }
@@ -332,5 +333,20 @@ function copyOptions() {
 	
 	$currTable.each(function (index) {
 		$(this).prop('checked', $prevTable.eq(index).prop('checked'));
+	});
+}
+
+/**
+ * Sets the correct initial question number from the value field
+ */
+function formatQuestionNumbers(){
+	var $questions = $("table[class*='questionTable']");
+	
+	$questions.each(function (index){
+		var $selector = $(this).find('.questionNumber');
+		$selector.val(index+1);
+		if(index != $questions.size()-1){
+			$selector.prop('disabled', true);
+		}
 	});
 }

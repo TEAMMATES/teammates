@@ -11,6 +11,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
+import com.sun.mail.handlers.message_rfc822;
 
 /** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
@@ -187,6 +188,10 @@ public class ActivityLogEntry {
 			} else {
 				urlToShow += "&user=" + googleId;
 			}
+		}
+		
+		if (message.contains("Servlet Action Failure")){
+			message = message.replace("Servlet Action Failure", "<span class=\"color_red bold\">Servlet Action Failure</span><br>");
 		}
 		return message + "<br><br><a href=\"" + urlToShow + "\" target=\"blank\" title=\"" + urlToShow + "\">URL</a>";
 	}

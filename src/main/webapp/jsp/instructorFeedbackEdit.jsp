@@ -279,7 +279,16 @@
 			>
 			<table class="inputTable questionTable" id="questionTable<%=question.questionNumber%>">
 			<tr>
-				<td class="bold">Question <%=question.questionNumber%></td>
+				<td class="bold">Question
+				<select class="questionNumber" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>-<%=question.questionNumber%>">
+				<%
+					for(int opt = 1; opt < data.questions.size()+1; opt++){
+						out.println("<option value=" + opt +">" + opt + "</option>");
+						
+					}
+				%>
+				</select>
+				</td>
 				<td></td>
 				<td></td>
 				<td class="rightalign">
@@ -413,7 +422,15 @@
 			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
 			<table class="inputTable questionTable" id="questionTableNew" hidden="hidden">
 				<tr>
-					<td class="bold">Question <%=data.questions.size()+1%></td>
+					<td class="bold">Question <select class="questionNumber" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
+					<%
+						for(int opt = 1; opt < data.questions.size()+2; opt++){
+							out.println("<option value=" + opt +">" + opt + "</option>");
+							
+						}
+					%>
+					</select>
+					</td>
 					<td></td>
 					<td></td>
 					<td></td>
