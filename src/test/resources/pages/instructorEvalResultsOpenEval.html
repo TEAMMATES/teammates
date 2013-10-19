@@ -90,6 +90,8 @@
 				<tr>
 					<td class="centeralign" colspan="2">
 							<form action="/page/instructorEvalResultsDownload" id="download_eval_report" method="GET">
+								<input class="button" type="button" value="Publish" id="button_publish" onclick="if(togglePublishEvaluation('First Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&next=%2Fpage%2FinstructorEvalsPage%3Fuser%3DCEvalRUiT.instr&user=CEvalRUiT.instr';" disabled="disabled" style="background: #66727A;" />
+								
 								<input name="courseid" type="hidden" value="CEvalRUiT.CS1101" />
 								<input name="evaluationname" type="hidden" value="First Eval" />
 								<input class="button" type="submit" value="Download Report" />
