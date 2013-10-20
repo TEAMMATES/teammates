@@ -324,7 +324,7 @@
 				</tr>
 				<tr>
 					<td class="bold">Feedback Giver:</td>
-					<td><select name="givertype" class="participantSelect">
+					<td><select name="givertype" class="participantSelect" onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<option value="SELF">Me (Session creator)</option>
 <option value="STUDENTS">Students in this course</option>
 <option value="INSTRUCTORS">Instructors in this course</option>
@@ -332,7 +332,7 @@
 
 					</select></td>
 					<td class="bold nowrap" onmouseover="ddrivetip('Who the feedback is about')" onmouseout="hideddrivetip()">Feedback Recipient:</td>
-					<td><select name="recipienttype" id="recipienttype" class="participantSelect">
+					<td><select name="recipienttype" id="recipienttype" class="participantSelect" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
 						<option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
