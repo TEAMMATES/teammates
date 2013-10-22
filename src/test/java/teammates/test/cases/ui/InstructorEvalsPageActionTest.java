@@ -53,6 +53,9 @@ public class InstructorEvalsPageActionTest extends BaseActionTest {
 		
 		______TS("Typical case, 2 courses");
 		
+		if (CoursesLogic.inst().isCoursePresent("new-course")){
+			CoursesLogic.inst().deleteCourseCascade("new-course");
+		}
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course");
 		gaeSimulation.loginAsInstructor(instructorId);
 		InstructorEvalsPageAction a = getAction(submissionParams);

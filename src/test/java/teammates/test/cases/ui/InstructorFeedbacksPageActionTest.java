@@ -72,6 +72,9 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 		InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 		
 		______TS("Typical case, 2 courses");
+		if (CoursesLogic.inst().isCoursePresent("new-course")){
+			CoursesLogic.inst().deleteCourseCascade("new-course");
+		}
 		
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course");
 		gaeSimulation.loginAsInstructor(instructorId);
