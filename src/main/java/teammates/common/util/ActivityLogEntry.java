@@ -11,7 +11,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
-import com.sun.mail.handlers.message_rfc822;
 
 /** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
@@ -154,6 +153,7 @@ public class ActivityLogEntry {
 	public String getDateInfo(){
 		Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
         appCal.setTimeInMillis(time);
 
 		return sdf.format(appCal.getTime());

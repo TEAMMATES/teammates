@@ -24,7 +24,7 @@ public class Const {
 		/* Field sizes and error messages for invalid fields can be found 
 		 * in the FieldValidator class.
 		 */
-		
+		public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
 	}
 
 	/* Text displayed to the user when the mouse hover over certain elements in
