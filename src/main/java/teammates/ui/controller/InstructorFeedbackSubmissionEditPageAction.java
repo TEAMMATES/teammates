@@ -30,7 +30,9 @@ public class InstructorFeedbackSubmissionEditPageAction extends Action {
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
 		}
-		
+		statusToAdmin = "Show instructor feedback submission edit page<br>" +
+				"Session Name: " + feedbackSessionName + "<br>" + 
+				"Course ID: " + courseId;
 		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
 	}
 

@@ -28,7 +28,10 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 				logic.getFeedbackSession(feedbackSessionName, courseId));
 		
 		StudentFeedbackSubmissionEditPageData data = new StudentFeedbackSubmissionEditPageData(account);
-
+		
+		statusToAdmin = "Show student feedback edit result page<br>" +
+				"Session Name: " + feedbackSessionName + "<br>" + 
+				"Course ID: " + courseId;
 		// Get student email instead of account email.
 		String studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
 
