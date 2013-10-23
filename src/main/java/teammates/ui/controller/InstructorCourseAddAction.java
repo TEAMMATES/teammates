@@ -23,49 +23,47 @@ public class InstructorCourseAddAction extends Action {
 		Assumption.assertNotNull(newCourseId);
 		String newCourseName = getRequestParam(Const.ParamsNames.COURSE_NAME);
 		Assumption.assertNotNull(newCourseName);
-		String newCourseInstructorList = getRequestParam(Const.ParamsNames.COURSE_INSTRUCTOR_LIST);
-		Assumption.assertNotNull(newCourseInstructorList);
 
 		new GateKeeper().verifyInstructorPrivileges(account);
 
 		data = new InstructorCoursesPageData(account);
 
 		data.newCourse = new CourseAttributes(newCourseId, newCourseName);
-		createCourse(data.newCourse, newCourseInstructorList);
+		createCourse(data.newCourse);
 
 		if (isError) {
-			data.instructorListToShow = newCourseInstructorList;
 			data.courseIdToShow = data.newCourse.id;
 			data.courseNameToShow = data.newCourse.name;
-			statusToAdmin = StringHelper.toString(statusToUser, "<br>");
 			data.currentCourses = new ArrayList<CourseDetailsBundle>(
-					logic.getCourseSummariesForInstructor(data.account.googleId)
-							.values());
-			CourseDetailsBundle
-					.sortDetailedCoursesByCourseId(data.currentCourses);
+					logic.getCourseSummariesForInstructor(data.account.googleId).values());
+			CourseDetailsBundle.sortDetailedCoursesByCourseId(data.currentCourses);
+			
+			statusToAdmin = StringHelper.toString(statusToUser, "<br>");
+			
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
 		} else {
+			data.courseIdToShow = "";
+			data.courseNameToShow = "";
 			data.currentCourses = new ArrayList<CourseDetailsBundle>(
                     logic.getCourseSummariesForInstructor(data.account.googleId).values());
+			CourseDetailsBundle.sortDetailedCoursesByCourseId(data.currentCourses);
+			
 			statusToAdmin = "Course added : " + data.newCourse.id;
 			statusToAdmin += "<br>Total courses: " + data.currentCourses.size();
-
-			InstructorCourseEnrollPageData enrollPageData = new InstructorCourseEnrollPageData(
-					account);
-			enrollPageData.courseId = newCourseId;
-
-			return createShowPageResult(
-					Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, enrollPageData);
+			
+			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
 		}
 	}
 
-	private void createCourse(CourseAttributes course,
-			String instructorListForNewCourse) {
+	private void createCourse(CourseAttributes course) {
 
 		try {
 			logic.createCourseAndInstructor(data.account.googleId, course.id,
 					course.name);
-			statusToUser.add(Const.StatusMessages.COURSE_ADDED);
+			String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
+					data.getInstructorCourseEnrollLink(course.id))
+					.replace("${courseEditLink}", data.getInstructorCourseEditLink(course.id));
+			statusToUser.add(statusMessage);
 			isError = false;
 
 		} catch (EntityAlreadyExistsException e) {
@@ -78,17 +76,6 @@ public class InstructorCourseAddAction extends Action {
 		if (isError) {
 			return;
 		}
-
-		try {
-			logic.updateCourseInstructors(data.newCourse.id,
-					instructorListForNewCourse, data.account.institute);
-		} catch (InvalidParametersException e) {
-			setStatusForException(e);
-		} catch (EntityDoesNotExistException e) {
-			Assumption.fail("The course created did not persist properly :"
-					+ data.newCourse.id);
-		}
-
 	}
 
 }

@@ -32,7 +32,6 @@ public class InstructorCoursesPageAction extends Action {
 		 * component if necessary.*/
 		InstructorCoursesPageData data = new InstructorCoursesPageData(account);
 		data.newCourse = null;
-		data.instructorListToShow = account.googleId + "|" + account.name + "|" + account.email;
 		data.courseIdToShow = "";
 		data.courseNameToShow = "";
 		

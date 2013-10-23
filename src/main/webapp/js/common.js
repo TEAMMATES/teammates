@@ -8,7 +8,8 @@ var FEEDBACK_SESSION_INSTRUCTIONS_MAX_LENGTH = 500;
 // Field names
 var COURSE_ID = "courseid"; // Used in instructorCourse.js
 var COURSE_NAME = "coursename"; // Used in instructorCourse.js
-var COURSE_INSTRUCTOR_LIST = "instructorlist"; // Used in instructorCourse.js
+var COURSE_INSTRUCTOR_NAME = "instructorname"; // Used in instructorCourse.js
+var COURSE_INSTRUCTOR_EMAIL = "instructoremail"; // Used in instructorCourse.js
 var COURSE_INSTRUCTOR_ID = "instructorid"; // Used in instructorCourse.js
 
 var EVALUATION_START = "start"; // Used in instructorEval.js
@@ -59,8 +60,12 @@ var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed "
 var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
 var DISPLAY_COURSE_COURSE_ID_EMPTY = "Course ID cannot be empty.";
 var DISPLAY_COURSE_COURSE_NAME_EMPTY = "Course name cannot be empty";
-var DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY = "Instructor list cannot be empty";
-var MESSAGE_INSTRUCTOR_NOT_WHTHIN_INSTRUCTOR_LIST = "You are NOT in the list of instructors for the new course. You will NOT be able to access the new course once it is created. Do you wish to continue?";
+
+//Used in instructorCourseEdit.js
+var DISPLAY_INSTRUCTOR_ID_EMPTY = "Instructor ID cannot be empty.";
+var DISPLAY_INSTRUCTOR_NAME_EMPTY = "Instructor name cannot be empty.";
+var DISPLAY_INSTRUCTOR_EMAIL_EMPTY = "Instructor email cannot be empty.";
+var DISPLAY_CANNOT_DELETE_LAST_INSTRUCTOR = "There is only ONE instructor left in the course. You are not allowed to delete this instructor.";
 
 // Used in instructorCourseEnroll.js only
 var DISPLAY_ENROLLMENT_INPUT_EMPTY = "Please input at least one student detail.";
@@ -423,8 +428,8 @@ function isValidGoogleId(googleId) {
 }
 
 /**
- * Checks whether an e-mail is valid. Used in instructorCourseEnroll page
- * (through instructorCourseEnroll.js)
+ * Checks whether an e-mail is valid.
+ * (Used in instructorCourseEdit.js)
  * 
  * @param email
  * @returns {Boolean}
@@ -435,8 +440,8 @@ function isEmailValid(email) {
 }
 
 /**
- * Checks whether a student's name is valid Used in instructorCourseEnroll page
- * (through instructorCourseEnroll.js)
+ * Checks whether a person's name is valid.
+ * (Used in instructorCourseEdit.js)
  * 
  * @param name
  * @returns {Boolean}

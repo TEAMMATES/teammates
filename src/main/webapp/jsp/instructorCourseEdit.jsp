@@ -27,11 +27,11 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
-	<script type="text/javascript" src="/js/instructorCourses.js"></script>
+	<script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body>
+<body onload="readyCourseEditPage(); initializetooltip();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
 		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
@@ -44,13 +44,13 @@
 				<h1>Edit Course Details</h1>
 			</div>
 				
-			<form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE%>" method="post">
+			<form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE%>" method="post" id="formEditcourse">
 				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.course.id%>">
-				<input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
-				<table id="addform" class="inputTable">
+				<input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
+				
+				<table id="courseDetailTable" class="inputTable">
 					<tr>
-						<td class="label bold" margin="20%">Course ID:</td>
-						
+						<td class="label bold">Course ID:</td>
 						<td><input class="addinput" type="text"
 							name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
 							value="<%=(data.course.id==null ? "" : sanitizeForHtml(data.course.id))%>"
@@ -59,8 +59,7 @@
 							maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1" disabled="disabled"></td>
 					</tr>
 					<tr>
-						<td class="label bold" margin="20%">Course Name:</td>
-					
+						<td class="label bold">Course Name:</td>
 						<td><input class="addinput" type="text"
 							name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
 							value="<%=(data.course.name==null ? "" : sanitizeForHtml(data.course.name))%>"
@@ -69,28 +68,20 @@
 							maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2 disabled="disabled"/></td>
 					</tr>
 					<tr>
-						<td class="label bold">Instructors:</td>
-					</tr>
-					<tr>
-						<td colspan=2>
-							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
-							<%
-								String instructorInfo = "";
-																												for (int i = 0; i < data.instructorList.size(); i++){
-																													InstructorAttributes instructor = data.instructorList.get(i);
-																													instructorInfo += instructor.googleId + "|" + instructor.name + "|" + instructor.email + "\n";
-																												}
-							%>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>" id="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>"><%=instructorInfo.trim()%></textarea>
+						<td colspan=2 class="rightalign">
+							<a href="<%=data.getInstructorCourseDeleteLink(data.course.id, false)%>" class="color_red" id="courseDeleteLink"
+							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')" onmouseout="hideddrivetip()"
+							onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=data.course.id%>');">Delete Course</a>
 						</td>
 					</tr>
 					<tr>
 						<td colspan=2 class="centeralign">
-							<input type="submit" class="button" id="button_submit" name="submit" value="Save Changes" onclick="return verifyCourseData();">
+							<input type="submit" class="button" id="btnSaveCourse" name="btnSaveCourse"
+							style="display:none;" value="Save Changes" onclick="return verifyCourseData();">
 						</td>
 					</tr>
 				</table>
-				
+
 				<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 				<br>
 				
@@ -99,6 +90,115 @@
 				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 			
+			<%
+				for (int i = 0; i < data.instructorList.size(); i++) {
+					InstructorAttributes instructor = data.instructorList.get(i);
+					int index = i+1;
+			%>
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE%>"
+			id="formEditInstructor<%=index%>>" name="formEditInstructors" class="formInstructor" >
+				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=instructor.courseId%>">
+				<input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=instructor.googleId%>">
+				
+				<table id="instructorTable<%=index%>" class="inputTable instructorTable">
+					<tr>
+						<td class="label bold">Instructor <%=index%>:</td>
+						<td class="rightalign">
+							<a href="#" class="color_blue pad_right" id="instrEditLink<%=index%>" 
+							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>')" onmouseout="hideddrivetip()" 
+							onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)">Edit</a>
+							<a href="<%=data.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.googleId)%>" class="color_red" id="instrDeleteLink<%=index%>"
+							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_INSTRUCTOR_DELETE%>')" onmouseout="hideddrivetip()"
+							onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('<%=instructor.courseId%>','<%=instructor.googleId%>');">Delete</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="label bold">Google ID:</td>
+						<td><input class="addinput immutable" type="text"
+							name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
+							value="<%=instructor.googleId%>"
+							onmouseover="ddrivetip('Enter the google id of the instructor.')"
+							onmouseout="hideddrivetip()"
+							maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=3
+							disabled="disabled"></td>
+					</tr>
+					<tr>
+						<td class="label bold">Name:</td>
+						<td><input class="addinput" type="text"
+							name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_NAME+index%>"
+							value="<%=instructor.name%>"
+							onmouseover="ddrivetip('Enter the name of the instructor.')"
+							onmouseout="hideddrivetip()"
+							maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex=4
+							disabled="disabled"></td>
+					</tr>
+					<tr>
+						<td class="label bold">Email:</td>
+						<td><input class="addinput" type="text"
+							name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL+index%>"
+							value="<%=instructor.email%>"
+							onmouseover="ddrivetip('Enter the name of the instructor.')"
+							onmouseout="hideddrivetip()"
+							maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=5
+							disabled="disabled"></td>
+					</tr>
+					<tr>
+						<td colspan=2 class="centeralign"><input id="btnSaveInstructor<%=index%>" type="submit" class="button"
+							style="display:none;" value="Save changes" tabindex="6"></td>
+					</tr>
+				</table>
+			</form>
+			
+			<br>
+			<br>
+			<%
+				}
+			%>
+			
+			<div class="centeralign">
+				<input id="btnShowNewInstructorForm" class="button centeralign" value="Add New Instructor" 
+					onclick="showNewInstructorForm()">
+			</div>
+			
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD%>"
+			id="formAddInstructor" name="formAddInstructor" class="formInstructor" >
+				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.course.id%>">
+				
+				<table id="instructorAddTable" class="inputTable instructorTable">
+					<tr>
+						<td colspan=2 class="label bold">Instructors <%=data.instructorList.size()+1%>:</td>
+					</tr>
+					<tr>
+						<td class="label bold">Google ID:</td>
+						<td><input class="addinput" type="text"
+							name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>"
+							onmouseover="ddrivetip('Enter the google id of the instructor.')"
+							onmouseout="hideddrivetip()"
+							maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=7/></td>
+					</tr>
+					<tr>
+						<td class="label bold">Name:</td>
+						<td><input class="addinput" type="text"
+							name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>"
+							onmouseover="ddrivetip('Enter the name of the instructor.')"
+							onmouseout="hideddrivetip()"
+							maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex=8/></td>
+					</tr>
+					<tr>
+						<td class="label bold">Email:</td>
+						<td><input class="addinput" type="text"
+							name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"
+							onmouseover="ddrivetip('Enter the name of the instructor.')"
+							onmouseout="hideddrivetip()"
+							maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=9/></td>
+					</tr>
+					<tr>
+						<td colspan=2 class="centeralign"><input id="btnAddInstructor" type="submit" class="button"
+							value="Add Instructor" tabindex="10"></td>
+					</tr>
+				</table>
+			</form>
+			<br><br>
 		</div>
 	</div>
 

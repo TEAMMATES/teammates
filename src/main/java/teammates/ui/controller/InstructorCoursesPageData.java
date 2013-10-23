@@ -21,6 +21,5 @@ public class InstructorCoursesPageData extends PageData {
 	 *   failed attempt to create a course)*/
 	public String courseIdToShow;
 	public String courseNameToShow;
-	public String instructorListToShow;
 
 }

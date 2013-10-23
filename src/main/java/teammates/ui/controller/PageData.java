@@ -350,6 +350,21 @@ public class PageData {
 		return link;
 	}
 	
+	public String getInstructorCourseInstructorEditLink(String courseId, String instructorId) {
+		String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
+		link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_ID, instructorId);
+		link = addUserIdToUrl(link);
+		return link;
+	}
+	
+	public String getInstructorCourseInstructorDeleteLink(String courseId, String instructorId) {
+		String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
+		link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_ID, instructorId);
+		link = addUserIdToUrl(link);
+		return link;
+	}
 	
 	public String getInstructorEvaluationLink(){
 		String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;

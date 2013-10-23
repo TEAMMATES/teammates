@@ -35,7 +35,6 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
 
 		InstructorCoursesPageData data = new InstructorCoursesPageData(account);
 		data.newCourse = null;
-		data.instructorListToShow = data.account.googleId + "|"	+ data.account.name + "|" + data.account.email;
 		data.courseIdToShow = "";
 		data.courseNameToShow = "";
 

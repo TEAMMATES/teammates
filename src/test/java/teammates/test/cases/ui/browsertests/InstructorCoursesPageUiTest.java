@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -10,7 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -180,10 +178,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		______TS("input validation");
 		
 		//one invalid case
-		coursesPage.addCourse("", "", "")
+		coursesPage.addCourse("", "")
 			.verifyStatus(Const.StatusMessages.COURSE_COURSE_ID_EMPTY + "\n"
-					+ Const.StatusMessages.COURSE_COURSE_NAME_EMPTY + "\n"
-					+ Const.StatusMessages.COURSE_INSTRUCTOR_LIST_EMPTY);
+					+ Const.StatusMessages.COURSE_COURSE_NAME_EMPTY);
 		
 		//Checking max-length enforcement by the text boxes
 		String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
@@ -220,59 +217,17 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		 * created in a previous test run).
 		 */
 		BackDoor.deleteCourse(validCourse.id); //delete if it exists
-		coursesPage.addCourse(validCourse.id, validCourse.name, null)
-			.verifyStatus(Const.StatusMessages.COURSE_ADDED);
+		coursesPage.addCourse(validCourse.id, validCourse.name)
+			.verifyStatus("The course has been added.. Click here to add students to the course or click here to add other instructors."
+						+ "\nIf you don't see the course in the list below, please refresh the page after a few moments.");
 
 		coursesPage.verifyHtml("/instructorCourseAddSuccessful.html");
 
 		______TS("add action fail: duplicate course ID");
 		coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
 		
-		coursesPage.addCourse(validCourse.id, "different course name", null)
+		coursesPage.addCourse(validCourse.id, "different course name")
 			.verifyHtml("/instructorCourseAddDupIdFailed.html");
-		
-		______TS("add action success: add course with multiple instructors");
-		
-		/* Explanation: This test case is unnecessary because we have already
-		 * tested a success case. It is OK to throw in a few 'interesting' 
-		 * test cases on top of the minimum required test cases. Such 'wild
-		 * card' test cases can uncover bugs that we may have missed otherwise.
-		 * However, we should not add too many redundant test cases.
-		 */
-		
-		String instructorList = coursesPage.getInstructorList();
-		InstructorAttributes instructor2 = testData.instructors.get("instructor2CS1101");
-		instructorList += "\n" + instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email;
-		BackDoor.deleteCourse("MultipleInstructorsCourse"); //delete if it exists
-		coursesPage.addCourse("MultipleInstructorsCourse", "Course with multiple instructors", instructorList)
-			.verifyStatus(Const.StatusMessages.COURSE_ADDED);
-
-		Url courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-			.withUserId(testData.accounts.get("instructorWithCourses").googleId)
-			.withCourseId("MultipleInstructorsCourse");
-		
-		InstructorCourseDetailsPage detailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
-		detailsPage.verifyHtml("/instructorCourseDetailsMultipleInstructors.html");
-		
-		BackDoor.deleteCourse("MultipleInstructorsCourse"); // no longer used
-		
-		______TS("add action success: omit logged in instructor");
-		
-		coursesPage = detailsPage.navigateTo(coursesUrl, InstructorCoursesPage.class);
-		BackDoor.deleteCourse("OmitInstructor"); //delete if it exists
-		coursesPage.fillCourseIdTextBox("OmitInstructor");
-		coursesPage.fillCourseNameTextBox("Omit Instructor");
-		coursesPage.fillInstructorListTextBox(instructor2.googleId + "|" + instructor2.name + "|" + instructor2.email);
-		coursesPage.submitAndCancel();
-		assertNull(BackDoor.getCourse("OmitInstructor"));
-		coursesPage.submitAndConfirm();
-		
-		courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-			.withUserId(instructor2.googleId)
-			.withCourseId("OmitInstructor");
-		
-		detailsPage = coursesPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
-		detailsPage.verifyHtml("/instructorCourseDetailsVerifyInstructorList.html");
 		
 		______TS("add action input sanitizatin");
 		

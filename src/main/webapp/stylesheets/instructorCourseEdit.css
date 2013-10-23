@@ -8,8 +8,10 @@
 	width: 450px;
 }
 
-#instructorformat {
-    float: right;
-    font-size: 12px;
-    font-style: italic;
+#courseDetailTable{
+	width: 690px; 
+}
+
+#instructorTable {
+	width: 690px; 
 }

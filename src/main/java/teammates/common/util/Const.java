@@ -42,6 +42,9 @@ public class Const {
 		public static final String PERCEIVED = "This is the average of what other team members think this student contributed to the project";
 		public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
 	
+		public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
+		public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
+		
 		public static final String COURSE_STUDENT_DETAILS = "View the details of the student";
 		public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
 		public static final String COURSE_STUDENT_REMIND = "E-mail the registration key to the student";
@@ -158,7 +161,6 @@ public class Const {
 	public class ParamsNames{
 		public static final String COURSE_ID = "courseid";
 		public static final String COURSE_NAME = "coursename";
-		public static final String COURSE_INSTRUCTOR_LIST = "instructorlist";
 		public static final String INSTRUCTOR_ID = "instructorid";
 		public static final String INSTRUCTOR_EMAIL = "instructoremail";
 		public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
@@ -273,6 +275,9 @@ public class Const {
 		public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
 		public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
 		public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
+		public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
+		public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
+		public static final String INSTRUCTOR_COURSE_INSTRUCTOR_DELETE = "/page/instructorCourseInstructorDelete";
 		public static final String INSTRUCTOR_EVALS_PAGE = "/page/instructorEvalsPage";
 		public static final String INSTRUCTOR_EVAL_ADD = "/page/instructorEvalAdd";
 		public static final String INSTRUCTOR_EVAL_DELETE = "/page/instructorEvalDelete";
@@ -403,7 +408,9 @@ public class Const {
 				+ "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? That can happen if you changed the primary email from a non-Gmail address to a Gmail address recently. " 
 				+ "<br/>In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address. ";
 		
-		public static final String COURSE_ADDED = "The course has been added. Click the 'Enroll' link in the table below to add students to the course. If you don't see the course in the list below, please refresh the page after a few moments.";
+		public static final String COURSE_ADDED = "The course has been added.. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
+				+ "or click <a href=\"${courseEditLink}\">here</a> to add other instructors.<br>"
+				+ "If you don't see the course in the list below, please refresh the page after a few moments.";
 		public static final String COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
 		public static final String COURSE_EDITED = "The course has been edited.";
 		public static final String COURSE_DELETED = "The course has been deleted.";
@@ -413,6 +420,11 @@ public class Const {
 		public static final String COURSE_REMINDER_SENT_TO = "Registration key has been sent to ";
 		public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 	
+		public static final String COURSE_INSTRUCTOR_ADDED = "The instructor has been added successfully.";
+		public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same ID already exists in the course.";
+		public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
+		public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
+		
 		public static final String STUDENT_EDITED = "The student has been edited successfully";
 		public static final String STUDENT_DELETED = "The student has been removed from the course";
 	

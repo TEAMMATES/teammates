@@ -89,7 +89,6 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 		assertEquals(2, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);
 		assertEquals("", pageData.courseNameToShow);
-		assertEquals("idOfInstructor1OfCourse1|Instructor 1 of Course 1|instr1@course1.com", pageData.instructorListToShow);
 		
 		String expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
 				"|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
@@ -116,7 +115,6 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 		assertEquals(0, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);
 		assertEquals("", pageData.courseNameToShow);
-		assertEquals("idOfInstructor1OfCourse1|Instructor 1 of Course 1|instr1@course1.com", pageData.instructorListToShow);
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
