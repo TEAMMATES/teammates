@@ -130,6 +130,10 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		
 		______TS("Masquerade mode, enrollment into empty course, with header row");
 		
+		if (CoursesLogic.inst().isCoursePresent("new-course")){
+			CoursesLogic.inst().deleteCourseCascade("new-course");
+		}
+					
 		courseId = "new-course";
 		CoursesLogic.inst().createCourseAndInstructor(instructorId, courseId, "New course");
 		

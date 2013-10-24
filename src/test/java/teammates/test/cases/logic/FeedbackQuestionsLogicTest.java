@@ -2,6 +2,7 @@ package teammates.test.cases.logic;
 
 import static org.testng.Assert.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +98,92 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		assertEquals(recipients.get(email), Const.USER_NAME_FOR_SELF);
 		assertEquals(recipients.size(), 1);
 
+	}
+	
+	@Test
+	public void testUpdateQuestionNumber() throws Exception{
+		restoreTypicalDataInDatastore();
+		
+		______TS("shift question up");
+		List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
+		FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+		q1.questionNumber = 2;
+		FeedbackQuestionAttributes q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
+		q2.questionNumber = 3;
+		FeedbackQuestionAttributes q3 = getQuestionFromDatastore("qn3InSession1InCourse1");
+		q3.questionNumber = 1;
+		
+		expectedList.add(q3);
+		expectedList.add(q1);
+		expectedList.add(q2);
+		
+		FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
+		questionToUpdate.questionNumber = 1;
+		fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
+		
+		List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
+		
+		assertEquals(expectedList.size(), actualList.size());
+		for(int i = 0; i < actualList.size(); i++){
+			assertEquals(expectedList.get(i), actualList.get(i));
+		}
+		
+		______TS("shift question down");
+		expectedList = new ArrayList<FeedbackQuestionAttributes>();
+		q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+		q1.questionNumber = 2;
+		q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
+		q2.questionNumber = 1;
+		q3 = getQuestionFromDatastore("qn3InSession1InCourse1");
+		q3.questionNumber = 3;
+		
+		expectedList.add(q2);
+		expectedList.add(q1);
+		expectedList.add(q3);
+		
+		questionToUpdate = getQuestionFromDatastore("qn1InSession1InCourse1");
+		questionToUpdate.questionNumber = 2;
+		fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
+		
+		actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
+		
+		assertEquals(expectedList.size(), actualList.size());
+		for(int i = 0; i < actualList.size(); i++){
+			assertEquals(expectedList.get(i), actualList.get(i));
+		}
+	}
+	
+	@Test
+	public void testAddQuestion() throws Exception{
+		restoreTypicalDataInDatastore();
+		
+		______TS("add new question in between");
+		List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
+		FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+		FeedbackQuestionAttributes q2 = getQuestionFromDatastore("qn1InSession1InCourse1");
+		q2.questionNumber = 2;
+		FeedbackQuestionAttributes q3 = getQuestionFromDatastore("qn2InSession1InCourse1");
+		q3.questionNumber = 3;
+		FeedbackQuestionAttributes q4 = getQuestionFromDatastore("qn3InSession1InCourse1");
+		q4.questionNumber = 4;
+		
+		expectedList.add(q1);
+		expectedList.add(q2);
+		expectedList.add(q3);
+		expectedList.add(q4);
+		
+		//Add a question to session1course1, set it to #2 (with 3 question already existing)
+		FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
+		newQuestion.questionNumber = 2;
+		newQuestion.setId(null); //new question should not have an ID.
+		fqLogic.createFeedbackQuestion(newQuestion);
+		
+		List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+		
+		assertEquals(expectedList.size(), actualList.size());
+		for(int i = 0; i < actualList.size(); i++){
+			assertEquals(expectedList.get(i), actualList.get(i));
+		}
 	}
 	
 	@Test

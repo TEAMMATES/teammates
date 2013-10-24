@@ -12,7 +12,9 @@ public class StudentFeedbackSubmissionEditPageAction extends Action {
 		// Check for empty parameters
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-		
+		statusToAdmin = "Show student feedback edit result page<br>" +
+				"Session Name: " + feedbackSessionName + "<br>" + 
+				"Course ID: " + courseId;
 		if(courseId==null || feedbackSessionName == null) {
 			return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
 		}

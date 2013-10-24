@@ -30,9 +30,6 @@ public class InstructorCoursesPage extends AppPage {
 	@FindBy(id = "coursename")
 	private WebElement courseNameTextBox;
 	
-	@FindBy(id = "instructorlist")
-	private WebElement instructorListTextBox;
-	
 	@FindBy(id = "btnAddCourse")
 	private WebElement submitButton;
 
@@ -49,12 +46,10 @@ public class InstructorCoursesPage extends AppPage {
 	/**
 	 * If instructorsList is null, the current value in the page will be used instead.
 	 */
-	public InstructorCoursesPage addCourse(String courseId, String courseName, String instructorsList) {
+	public InstructorCoursesPage addCourse(String courseId, String courseName) {
 		fillTextBox(courseIdTextBox, courseId);
 		fillTextBox(courseNameTextBox, courseName);
-		if(instructorsList!=null){
-			fillTextBox(instructorListTextBox, instructorsList);
-		}
+
 		submitButton.click();
 		waitForPageToLoad();
 		return this;
@@ -68,15 +63,6 @@ public class InstructorCoursesPage extends AppPage {
 	public String fillCourseNameTextBox(String value){
 		fillTextBox(courseNameTextBox, value);
 		return getTextBoxValue(courseNameTextBox);
-	}
-
-	public String getInstructorList() {
-		return getTextBoxValue(instructorListTextBox);
-	}
-
-	public String fillInstructorListTextBox(String value) {
-		fillTextBox(instructorListTextBox, value);
-		return getTextBoxValue(instructorListTextBox);
 	}
 
 	public void submitAndConfirm() {

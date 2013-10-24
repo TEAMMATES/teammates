@@ -1,8 +1,3 @@
-$(document).ready(function(){
-	$("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
-    	document.location.href = $(this).val();
-    });
-});
 
 function isEvaluationNameLengthValid(name) {
 	//Constant is kept in Common.java file, but checking is done in Javascript

@@ -45,6 +45,19 @@ public class FeedbackQuestionsLogic {
 	
 	public void createFeedbackQuestion(FeedbackQuestionAttributes fqa)
 			throws InvalidParametersException, EntityAlreadyExistsException {
+		
+		String feedbackSessionName = fqa.feedbackSessionName;
+		String courseId = fqa.courseId;
+		List<FeedbackQuestionAttributes> questions = null;
+		
+		try {
+			questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+		} catch (EntityDoesNotExistException e) {
+			Assumption.fail("Session disappeared.");
+		}
+		
+		adjustQuestionNumbers(questions.size()+1, fqa.questionNumber, questions);
+		
 		fqa.removeIrrelevantVisibilityOptions();
 		fqDb.createEntity(fqa);
 	}	
@@ -360,6 +373,70 @@ public class FeedbackQuestionsLogic {
 	}
 	
 	
+	/**
+	 * Updates the feedback question number, shifts other questions up/down
+	 * depending on the change.
+	 */
+	public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes newQuestion)
+		throws InvalidParametersException, EntityDoesNotExistException {
+		
+		FeedbackQuestionAttributes oldQuestion = 
+				fqDb.getFeedbackQuestion(newQuestion.getId());
+		
+		int oldQuestionNumber = oldQuestion.questionNumber;
+		int newQuestionNumber = newQuestion.questionNumber;
+		String feedbackSessionName = oldQuestion.feedbackSessionName;
+		String courseId = oldQuestion.courseId;
+		List<FeedbackQuestionAttributes> questions = null;
+		
+		try {
+			questions = getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+		} catch (EntityDoesNotExistException e) {
+			Assumption.fail("Session disappeared.");
+		}
+		
+		adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
+		updateFeedbackQuestion(newQuestion);
+	}
+	
+	
+	/**
+	 * Adjust questions between the old and new number,
+	 * if the new number is smaller, then shift up (increase qn#) all questions in between.
+	 * if the new number is bigger, then shift down(decrease qn#) all questions in between.
+	 * @param oldQuestionNumber
+	 * @param newQuestionNumber
+	 * @param questions
+	 */
+	private void adjustQuestionNumbers(int oldQuestionNumber,
+			int newQuestionNumber, List<FeedbackQuestionAttributes> questions){
+		
+		if(oldQuestionNumber > newQuestionNumber && oldQuestionNumber >= 1){
+			for(int i = oldQuestionNumber-1; i >= newQuestionNumber; i--){
+				FeedbackQuestionAttributes question = questions.get(i-1);
+				question.questionNumber += 1;
+				try {
+					updateFeedbackQuestion(question);
+				} catch (InvalidParametersException e) {
+					Assumption.fail("Invalid question.");
+				} catch (EntityDoesNotExistException e) {
+					Assumption.fail("Question disappeared.");
+				}
+			}
+		} else if(oldQuestionNumber < newQuestionNumber && oldQuestionNumber < questions.size()){
+			for(int i = oldQuestionNumber+1; i <= newQuestionNumber; i++){
+				FeedbackQuestionAttributes question = questions.get(i-1);
+				question.questionNumber -= 1;
+				try {
+					updateFeedbackQuestion(question);
+				} catch (InvalidParametersException e) {
+					Assumption.fail("Invalid question.");
+				} catch (EntityDoesNotExistException e) {
+					Assumption.fail("Question disappeared.");
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Updates the feedback session identified by {@code newAttributes.getId()}.

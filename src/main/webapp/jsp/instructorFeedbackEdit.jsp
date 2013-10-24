@@ -279,7 +279,16 @@
 			>
 			<table class="inputTable questionTable" id="questionTable<%=question.questionNumber%>">
 			<tr>
-				<td class="bold">Question <%=question.questionNumber%></td>
+				<td class="bold">Question
+				<select class="questionNumber" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>-<%=question.questionNumber%>">
+				<%
+					for(int opt = 1; opt < data.questions.size()+1; opt++){
+						out.println("<option value=" + opt +">" + opt + "</option>");
+						
+					}
+				%>
+				</select>
+				</td>
 				<td></td>
 				<td></td>
 				<td class="rightalign">
@@ -303,7 +312,8 @@
 				</tr>
 				<tr>
 					<td class="bold">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled">
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled"
+								onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(question, true)) out.println(opt);
 						%>
@@ -311,7 +321,8 @@
 					<td class="bold nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
 					Feedback Recipient:
 					</td>
-					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" disabled="disabled">
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" 
+						disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
 						%>
@@ -406,6 +417,7 @@
 			<%
 				}
 			%>
+			
 			<div class="centeralign">
 			<input id="button_openframe" class="button centeralign" value="Add New Question" 
 						onclick="showNewQuestionFrame()">
@@ -413,7 +425,15 @@
 			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
 			<table class="inputTable questionTable" id="questionTableNew" hidden="hidden">
 				<tr>
-					<td class="bold">Question <%=data.questions.size()+1%></td>
+					<td class="bold">Question <select class="questionNumber" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
+					<%
+						for(int opt = 1; opt < data.questions.size()+2; opt++){
+							out.println("<option value=" + opt +">" + opt + "</option>");
+							
+						}
+					%>
+					</select>
+					</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -428,7 +448,8 @@
 				</tr>
 				<tr>
 					<td class="bold">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>">
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>"
+								onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
 						%>
@@ -436,7 +457,8 @@
 					<td class="bold nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
 					Feedback Recipient:
 					</td>
-					<td><select class="participantSelect" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>">
+					<td><select class="participantSelect" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" 
+								onchange="feedbackRecipientUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
 						%>

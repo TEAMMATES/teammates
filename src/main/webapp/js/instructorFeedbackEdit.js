@@ -41,6 +41,7 @@ function readyFeedbackEditPage(){
 	formatResponsesVisibilityGroup();
 	formatNumberBoxes();
 	formatCheckBoxes();
+	formatQuestionNumbers();
 	collapseIfPrivateSession();
 	document.onmousemove = positiontip;
 }
@@ -332,5 +333,62 @@ function copyOptions() {
 	
 	$currTable.each(function (index) {
 		$(this).prop('checked', $prevTable.eq(index).prop('checked'));
+	});
+}
+function enableRow(el,row){
+	var visibilityOptions = ($(el).parent().parent().next().next());
+	var table = visibilityOptions.children().children();
+	var tdElements = $($(table).children().children()[row]).children();
+	if($(tdElements).parent().prop("tagName") == "tr"){
+		return; 
+	}
+	$(tdElements).unwrap().wrapAll("<tr>");
+}
+function disableRow(el,row){
+	var visibilityOptions = ($(el).parent().parent().next().next());
+	var table = visibilityOptions.children().children();
+	var tdElements = $($(table).children().children()[row]).children();
+	if($(tdElements).parent().prop("tagName") == "hide"){
+		return; 
+	}
+	$(tdElements).unwrap().wrapAll("<hide>");
+	$(tdElements).parent().hide();
+}
+
+function feedbackRecipientUpdateVisibilityOptions(el){
+	if($(el).val() == "OWN_TEAM" || $(el).val() == "TEAMS" || $(el).val() == "INSTRUCTORS" || $(el).val() == "OWN_TEAM_MEMBERS"){
+		enableRow(el, 1);
+		disableRow(el, 3);
+		return;
+	}else if($(el).val() == "NONE"){
+		disableRow(el, 3);
+		disableRow(el, 1);
+		return;
+	}
+	
+	enableRow(el, 1);
+	enableRow(el, 3);
+}
+
+function feedbackGiverUpdateVisibilityOptions(el){
+	if($(el).val() == "INSTRUCTORS"){
+		disableRow(el, 2);
+		return;
+	}
+	enableRow(el, 2);
+}
+
+/**
+ * Sets the correct initial question number from the value field
+ */
+function formatQuestionNumbers(){
+	var $questions = $("table[class*='questionTable']");
+	
+	$questions.each(function (index){
+		var $selector = $(this).find('.questionNumber');
+		$selector.val(index+1);
+		if(index != $questions.size()-1){
+			$selector.prop('disabled', true);
+		}
 	});
 }

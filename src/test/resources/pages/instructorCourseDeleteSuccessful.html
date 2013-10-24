@@ -63,7 +63,9 @@
 
 			<form name="form_addcourse" action="/page/instructorCourseAdd" method="get">
 				<input type="hidden" value="CCAddUiTest.instructor" name="instructorid" id="instructorid" />
-				<table id="addform" class="inputTable">
+				<input type="hidden" value="CCAddUiTest.instructor" name="user" />
+				
+				<table id="courseDetailTable" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
 						<td><input class="addinput" type="text"
@@ -85,22 +87,12 @@
 							placeholder="e.g. Software Engineering" /></td>
 					</tr>
 					<tr>
-						<td colspan=2 class="label bold">Instructors:</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<span class="bold" id="instructorformat">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea id="instructorlist" name="instructorlist" class="textvalue" cols="110" rows="6">CCAddUiTest.instructor|Teammates Demo Instr|CCAddUiTest.instructor@gmail.com</textarea>
-						</td>
-					</tr>
-					<tr>
 						<td colspan=2 class="centeralign"><input id="btnAddCourse" type="submit" class="button"
 							onclick="return verifyCourseData();" value="Add Course" tabindex="3"></td>
 					</tr>
 				</table>
-				
-					<input type="hidden" value="CCAddUiTest.instructor" name="user" />
-				
+				<br />
+
 			</form>
 			<br />
 			

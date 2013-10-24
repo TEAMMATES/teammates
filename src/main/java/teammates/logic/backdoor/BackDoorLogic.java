@@ -1,6 +1,7 @@
 package teammates.logic.backdoor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -109,7 +110,10 @@ public class BackDoorLogic extends Logic {
 		}
 		
 		HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
-		for (FeedbackQuestionAttributes question : questions.values()) {
+		List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
+		Collections.sort(questionList);
+
+		for (FeedbackQuestionAttributes question : questionList) {
 			log.fine("API Servlet adding feedback question :" + question.getId()
 					+ " to session " + question.feedbackSessionName);
 			super.createFeedbackQuestion(question);

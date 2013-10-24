@@ -185,6 +185,22 @@ public class Logic {
 
 		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
 	}
+	
+	/**
+	 * Creates a new instructor for a course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void createInstructor(String googleId, String courseId, String name, String email) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+
+		instructorsLogic.createInstructor(googleId, courseId, name, email);
+	}
 
 	/**
 	 * Preconditions: <br>
@@ -246,31 +262,21 @@ public class Logic {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
-	 */
-	public void updateInstructor(InstructorAttributes instructor) 
-			throws InvalidParametersException {
-		
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
-		
-		instructorsLogic.updateInstructor(instructor);
-	}
-
-	/**
-	 * Preconditions: <br>
-	 * * All parameters are non-null.
+	 * @throws InvalidParametersException 
 	 * @throws EntityDoesNotExistException 
 	 */
-	public void updateCourseInstructors(String courseId, String instructorLines, String courseInstitute) 
+	public void updateInstructor(String courseId, String googleId, String name, String email) 
 			throws InvalidParametersException, EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseInstitute);
-	
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		
 		coursesLogic.verifyCourseIsPresent(courseId);
+		instructorsLogic.verifyInstructorExists(googleId);
 		
-		instructorsLogic.updateCourseInstructors(courseId, instructorLines, courseInstitute); 
-		
+		instructorsLogic.updateInstructor(courseId, googleId, name, email);
 	}
 
 	/**
@@ -294,8 +300,8 @@ public class Logic {
 	 */
 	public void deleteInstructor(String courseId, String googleId) {
 		
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
 		instructorsLogic.deleteInstructor(courseId, googleId);
 	}
@@ -1167,6 +1173,18 @@ public class Logic {
 	}
 	
 	/**
+	 * Updates the question number of a Feedback Question.<br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes updatedQuestion)
+		throws InvalidParametersException, EntityDoesNotExistException {
+
+			Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
+			feedbackQuestionsLogic.updateFeedbackQuestionNumber(updatedQuestion);
+	}
+	
+	/**
 	 * Updates the details of a Feedback Question.<br>
 	 * The FeedbackQuestionAttributes should have the updated attributes
 	 * together with the original ID of the question. Preserves null
@@ -1189,13 +1207,10 @@ public class Logic {
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
-	public void deleteFeedbackQuestion(String feedbackSessionName, String courseId, int questionNumber) {
+	public void deleteFeedbackQuestion(String questionId) {
 		
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionNumber);
-
-		feedbackQuestionsLogic.deleteFeedbackQuestionCascade(feedbackSessionName, courseId, questionNumber);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
+		feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
 	}
 	
 	/**

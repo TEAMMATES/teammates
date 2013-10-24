@@ -153,6 +153,7 @@ public class ActivityLogEntry {
 	public String getDateInfo(){
 		Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
         appCal.setTimeInMillis(time);
 
 		return sdf.format(appCal.getTime());
@@ -187,6 +188,10 @@ public class ActivityLogEntry {
 			} else {
 				urlToShow += "&user=" + googleId;
 			}
+		}
+		
+		if (message.contains("Servlet Action Failure")){
+			message = message.replace("Servlet Action Failure", "<span class=\"color_red bold\">Servlet Action Failure</span><br>");
 		}
 		return message + "<br><br><a href=\"" + urlToShow + "\" target=\"blank\" title=\"" + urlToShow + "\">URL</a>";
 	}

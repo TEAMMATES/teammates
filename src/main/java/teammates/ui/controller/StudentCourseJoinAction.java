@@ -26,7 +26,9 @@ public class StudentCourseJoinAction extends Action {
 				| EntityAlreadyExistsException e) {
 			setStatusForException(e, Sanitizer.sanitizeForHtml(e.getMessage()));
 		}
-
+		statusToAdmin = "Action Student joins course<br>" +
+				"Student (GoogleID): " + account.googleId + "<br>" +
+				"With Key : " + key;
 		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
 		return response;
 	}

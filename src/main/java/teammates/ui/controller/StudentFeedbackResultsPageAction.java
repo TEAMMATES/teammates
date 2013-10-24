@@ -37,7 +37,9 @@ public class StudentFeedbackResultsPageAction extends Action {
 			throw new UnauthorizedAccessException(
 					"This feedback session is not yet visible.");
 		}
-		
+		statusToAdmin = "Show student feedback result page<br>" +
+				"Session Name: " + feedbackSessionName + "<br>" + 
+				"Course ID: " + courseId;
 		return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_RESULTS, data);
 	}
 }

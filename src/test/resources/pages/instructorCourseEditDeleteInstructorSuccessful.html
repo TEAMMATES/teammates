@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html><head>
+	<link rel="shortcut icon" href="/favicon.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>TEAMMATES - Instructor</title>
+	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/instructorCourseEdit.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/instructorCourseEdit-print.css" type="text/css" media="print">
+	
+	<script src="https://ssl.google-analytics.com/ga.js" async="" type="text/javascript"></script>
+	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
+	<script type="text/javascript" src="/js/jquery-minified.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/date.js"></script>
+	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	
+	<script type="text/javascript" src="/js/instructor.js"></script>
+	<script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
+    <noscript>{*}</noscript>
+
+</head>
+
+<body onload="readyCourseEditPage(); initializetooltip();">
+	<div id="dhtmltooltip"></div>
+	<div id="frameTop">
+		
+
+
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<a href="/index.html">
+				<img alt="TEAMMATES" src="/images/teammateslogo.jpg" height="47px" width="150px">
+				</a>
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li><a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=InsCrsEdit.test">Home</a></li>
+					<li><a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=InsCrsEdit.test">Courses</a></li>
+					<li><a class="nav evaluations" data-link="instructorEval" href="/page/instructorEvalsPage?user=InsCrsEdit.test">Sessions</a></li>
+					<li><a class="nav help" href="/instructorHelp.html" target="_blank">Help</a></li>
+					<li><a class="nav logout" href="/logout.jsp">Logout</a>
+					<b>
+							(InsCrsEdit.test)</b>
+					</li>
+				</ul>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+
+	</div>
+
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>Edit Course Details</h1>
+			</div>
+				
+			<form action="/page/instructorCourseEditSave" method="post" id="formEditcourse">
+				<input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
+				<input name="instructorid" value="InsCrsEdit.test" type="hidden">
+				
+				<table id="courseDetailTable" class="inputTable">
+					<tbody><tr>
+						<td class="label bold">Course ID:</td>
+						<td><input class="addinput" name="courseid" id="courseid" value="InsCrsEdit.CS2104" onmouseover="ddrivetip('Identifier of the course, e.g.CS3215-Sem1.')" onmouseout="hideddrivetip()" maxlength="40" tabindex="1" disabled="disabled" type="text"></td>
+					</tr>
+					<tr>
+						<td class="label bold">Course Name:</td>
+						<td><input class="addinput" name="coursename" id="coursename" value="Programming Language Concepts" onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')" onmouseout="hideddrivetip()" maxlength="64" tabindex="2" disabled="disabled" type="text"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="rightalign">
+							<a href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=InsCrsEdit.test" class="color_red" id="courseDeleteLink" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');">Delete Course</a>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="centeralign">
+							<input class="button" id="btnSaveCourse" name="btnSaveCourse" style="display:none;" value="Save Changes" onclick="return verifyCourseData();" type="submit">
+						</td>
+					</tr>
+				</tbody></table>
+
+				
+
+
+
+
+	<div id="statusMessage" style="display: block;">
+		The instructor has been deleted from the course.</div>
+	<script type="text/javascript">
+    	document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
+
+				<br>
+				
+				<br>
+				<br>
+				<input name="user" value="InsCrsEdit.test" type="hidden">
+			</form>
+			
+			
+			<form method="post" action="/page/instructorCourseInstructorEditSave" id="formEditInstructor1&gt;" name="formEditInstructors" class="formInstructor" >
+				<input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
+				<input name="instructorid" value="InsCrsEdit.newInstrId" type="hidden">
+				
+				<table id="instructorTable1" class="inputTable instructorTable">
+					<tbody><tr>
+						<td class="label bold">Instructor 1:</td>
+						<td class="rightalign">
+							<a href="#" class="color_blue pad_right" id="instrEditLink1" onmouseover="ddrivetip('Edit instructor details')" onmouseout="hideddrivetip()" onclick="enableEditInstructor(1, 2)">Edit</a>
+							<a href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructorid=InsCrsEdit.newInstrId&amp;user=InsCrsEdit.test" class="color_red" id="instrDeleteLink1" onmouseover="ddrivetip('Delete the instructor from the course')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.newInstrId');">Delete</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="label bold">Google ID:</td>
+						<td><input class="addinput immutable" name="instructorid" id="instructorid1" value="InsCrsEdit.newInstrId" onmouseover="ddrivetip('Enter the google id of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="3" disabled="disabled" type="text"></td>
+					</tr>
+					<tr>
+						<td class="label bold">Name:</td>
+						<td><input class="addinput" name="instructorname" id="instructorname1" value="Teammates Instructor" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="40" tabindex="4" disabled="disabled" type="text"></td>
+					</tr>
+					<tr>
+						<td class="label bold">Email:</td>
+						<td><input class="addinput" name="instructoremail" id="instructoremail1" value="InsCrsEdit.instructor@gmail.com" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="5" disabled="disabled" type="text"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="centeralign"><input id="btnSaveInstructor1" class="button" style="display:none;" value="Save changes" tabindex="6" type="submit"></td>
+					</tr>
+				</tbody></table>
+			</form>
+			
+			<br>
+			<br>
+			
+			<form method="post" action="/page/instructorCourseInstructorEditSave" id="formEditInstructor2&gt;" name="formEditInstructors" class="formInstructor" >
+				<input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
+				<input name="instructorid" value="InsCrsEdit.test" type="hidden">
+				
+				<table id="instructorTable2" class="inputTable instructorTable">
+					<tbody><tr>
+						<td class="label bold">Instructor 2:</td>
+						<td class="rightalign">
+							<a href="#" class="color_blue pad_right" id="instrEditLink2" onmouseover="ddrivetip('Edit instructor details')" onmouseout="hideddrivetip()" onclick="enableEditInstructor(2, 2)">Edit</a>
+							<a href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructorid=InsCrsEdit.test&amp;user=InsCrsEdit.test" class="color_red" id="instrDeleteLink2" onmouseover="ddrivetip('Delete the instructor from the course')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test');">Delete</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="label bold">Google ID:</td>
+						<td><input class="addinput immutable" name="instructorid" id="instructorid2" value="InsCrsEdit.test" onmouseover="ddrivetip('Enter the google id of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="3" disabled="disabled" type="text"></td>
+					</tr>
+					<tr>
+						<td class="label bold">Name:</td>
+						<td><input class="addinput" name="instructorname" id="instructorname2" value="Teammates Test" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="40" tabindex="4" disabled="disabled" type="text"></td>
+					</tr>
+					<tr>
+						<td class="label bold">Email:</td>
+						<td><input class="addinput" name="instructoremail" id="instructoremail2" value="InsCrsEdit.test@gmail.com" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="5" disabled="disabled" type="text"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="centeralign"><input id="btnSaveInstructor2" class="button" style="display:none;" value="Save changes" tabindex="6" type="submit"></td>
+					</tr>
+				</tbody></table>
+			</form>
+			
+			<br>
+			<br>
+			
+			
+			<div class="centeralign">
+				<input id="btnShowNewInstructorForm" class="button centeralign" value="Add New Instructor" onclick="showNewInstructorForm()">
+			</div>
+			
+			<form style="display: none;" method="post" action="/page/instructorCourseInstructorAdd" id="formAddInstructor" name="formAddInstructor" class="formInstructor" >
+				<input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
+				
+				<table id="instructorAddTable" class="inputTable instructorTable">
+					<tbody><tr>
+						<td colspan="2" class="label bold">Instructors 3:</td>
+					</tr>
+					<tr>
+						<td class="label bold">Google ID:</td>
+						<td><input class="addinput" name="instructorid" id="instructorid" onmouseover="ddrivetip('Enter the google id of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="7/" type="text"></td>
+					</tr>
+					<tr>
+						<td class="label bold">Name:</td>
+						<td><input class="addinput" name="instructorname" id="instructorname" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="40" tabindex="8/" type="text"></td>
+					</tr>
+					<tr>
+						<td class="label bold">Email:</td>
+						<td><input class="addinput" name="instructoremail" id="instructoremail" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="9/" type="text"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="centeralign"><input id="btnAddInstructor" class="button" value="Add Instructor" tabindex="10" type="submit"></td>
+					</tr>
+				</tbody></table>
+			</form>
+			<br><br>
+		</div>
+	</div>
+
+	<div id="frameBottom">
+		
+
+
+
+<div id="contentFooter">
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
+	[for <span class="color_white">National University of Singapore</span>]
+	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
+</div>
+	</div>
+
+</body></html>
