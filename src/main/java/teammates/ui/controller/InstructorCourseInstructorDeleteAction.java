@@ -19,11 +19,22 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getCourse(courseId));
 
-		logic.deleteInstructor(courseId, instructorId);
+		int numberOfInstructorsForCourse = logic.getInstructorsForCourse(courseId).size();
 		
-		statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
-		statusToAdmin = "Instructor <span class=\"bold\"> " + instructorId + "</span>"
-				+ " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
+		// Only delete if it is not the last instructor in course
+		if (numberOfInstructorsForCourse != 1) {
+			logic.deleteInstructor(courseId, instructorId);
+			
+			statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
+			statusToAdmin = "Instructor <span class=\"bold\"> " + instructorId + "</span>"
+					+ " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
+		} else {
+			isError = true;
+			statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
+			statusToAdmin = "Instructor <span class=\"bold\"> " + instructorId + "</span>"
+					+ " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
+					+ "as there is only one instructor left.<br>";
+		}
 		
 		RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
 		result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);

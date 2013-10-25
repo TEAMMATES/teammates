@@ -11,7 +11,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.BackDoor;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.RedirectResult;
 
@@ -82,9 +81,11 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 				+ " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
-		______TS("Masquerade mode: delete instructor successfully");
-		// Recreate the instructor that has been deleted previously
-		BackDoor.createInstructor(instructorToDelete);
+		______TS("Masquerade mode: delete instructor failed due to last instructor in course");
+
+		instructorToDelete = dataBundle.instructors.get("instructor4");
+		instructorId = instructorToDelete.googleId;
+		courseId = instructorToDelete.courseId;	
 		
 		gaeSimulation.loginAsAdmin(adminUserId);
 		
@@ -93,17 +94,18 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 				Const.ParamsNames.INSTRUCTOR_ID, instructorId
 		};
 		
-		action = getAction(addUserIdToParams("idOfInstructor1OfCourse1", submissionParams));
+		action = getAction(addUserIdToParams(instructorId, submissionParams));
 		result = (RedirectResult) action.executeAndPostProcess();
 		
 		assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
-		assertEquals(false, result.isError);
-		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, result.getStatusMessage());
+		assertEquals(true, result.isError);
+		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, result.getStatusMessage());
 
-		assertEquals(false, instructorsLogic.isInstructorOfCourse(instructorId, courseId));
+		assertEquals(true, instructorsLogic.isInstructorOfCourse(instructorId, courseId));
 		
 		expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorId + "</span>"
-				+ " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
+				+ " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
+				+ "as there is only one instructor left.<br>";
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 	}
 	
