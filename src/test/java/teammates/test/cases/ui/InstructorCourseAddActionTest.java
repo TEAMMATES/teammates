@@ -37,8 +37,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		
 		String[] submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, "ticac.tac.id",
-				Const.ParamsNames.COURSE_NAME, "ticac tac name",
-				Const.ParamsNames.COURSE_INSTRUCTOR_LIST, "gid|name|email@email.com"};
+				Const.ParamsNames.COURSE_NAME, "ticac tac name"};
 		
 		verifyOnlyInstructorsCanAccess(submissionParams);
 	}
@@ -58,20 +57,16 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		
 		verifyAssumptionFailure();
 		verifyAssumptionFailure(
-				Const.ParamsNames.COURSE_INSTRUCTOR_LIST, "gid|name|email@email.com");
-		verifyAssumptionFailure(
-				Const.ParamsNames.COURSE_NAME, "ticac tac name",
-				Const.ParamsNames.COURSE_INSTRUCTOR_LIST, "gid|name|email@email.com");
+				Const.ParamsNames.COURSE_NAME, "ticac tac name");
 		
 		______TS("Typical case, 1 existing course");
 		
 		Action a = getAction(
 				Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
-				Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
-				Const.ParamsNames.COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
+				Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
 		ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
 		
-		InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData)r.data;
+		InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
 		String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd" +
 				"|||instructorCourseAdd|||true|||Instructor|||Instructor 1 of Course 1" +
 				"|||idOfInstructor1OfCourse1|||instr1@course1.com" +
@@ -82,8 +77,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		
 		a = getAction(
 				Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
-				Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
-				Const.ParamsNames.COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
+				Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
 		r = (ShowPageResult)a.executeAndPostProcess();
 		
 		assertEquals(
@@ -105,15 +99,18 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		a = getAction(
 				Const.ParamsNames.USER_ID, instructorId,
 				Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
-				Const.ParamsNames.COURSE_NAME, "ticac tpa2 name",
-				Const.ParamsNames.COURSE_INSTRUCTOR_LIST, instructorId+"|name|email@email.com");
+				Const.ParamsNames.COURSE_NAME, "ticac tpa2 name");
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
-		assertEquals(
-				Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL+"?message=The+course+has+been+added.+Click+the+%27Enroll%27+link+in+the+table+below+to+add+students+to+the+course.+If+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1", 
-				r.getDestinationWithParams());
+		String expectedDestination = Const.ViewURIs.INSTRUCTOR_COURSES + "?message=The+course+has+been+added.." +
+				"+Click+%3Ca+href%3D%22%2Fpage%2FinstructorCourseEnrollPage%3Fcourseid%3Dticac.tpa2.id%26user%3DidOfInstructor1OfCourse1%22%3Ehere" +
+				"%3C%2Fa%3E+to+add+students+to+the+course+or+click+%3Ca+href%3D%22%2Fpage%2FinstructorCourseEditPage%3Fcourseid%3Dticac.tpa2.id%26user%3DidOfInstructor1OfCourse1" +
+				"%22%3Ehere%3C%2Fa%3E+to+add+other+instructors.%3Cbr%3EIf+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1";
+		assertEquals(expectedDestination, r.getDestinationWithParams());
 		assertEquals(false, r.isError);
-		assertEquals(Const.StatusMessages.COURSE_ADDED, r.getStatusMessage());
+		String expectedStatus = "The course has been added.. Click <a href=\"/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add students to the course or " +
+						"click <a href=\"/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add other instructors.<br>If you don't see the course in the list below, please refresh the page after a few moments.";
+		assertEquals(expectedStatus, r.getStatusMessage());
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1" +

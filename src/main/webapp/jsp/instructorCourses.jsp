@@ -43,52 +43,43 @@
 			<div id="headerOperation">
 				<h1>Add New Course</h1>
 			</div>
+				<form method="get" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_ADD%>" name="form_addcourse">
+					<input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
+					<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+					
+					<table id="courseDetailTable" class="inputTable">
+						<tr>
+							<td class="label bold" width="20%">Course ID:</td>
+							<td><input class="addinput" type="text"
+								name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
+								value="<%=(sanitizeForHtml(data.courseIdToShow))%>"
+								onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
+								onmouseout="hideddrivetip()"
+								maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
+								placeholder="e.g. CS3215-2013Semester1" /></td>
+						</tr>
+						<tr>
+							<td class="label bold">Course Name:</td>
+							<td><input class="addinput" type="text"
+								name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
+								value="<%=(sanitizeForHtml(data.courseNameToShow))%>"
+								onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
+								onmouseout="hideddrivetip()"
+								maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
+								placeholder="e.g. Software Engineering" /></td>
+						</tr>
+						<tr>
+							<td colspan=2 class="centeralign"><input id="btnAddCourse" type="submit" class="button"
+									onclick="return verifyCourseData();" value="Add Course" tabindex="3"></td>
+						</tr>
+					</table>
+					<br>
+				</form>
 
-			<form method="get" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_ADD%>" name="form_addcourse">
-				<input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
-				<table id="addform" class="inputTable">
-					<tr>
-						<td class="label bold" width="20%">Course ID:</td>
-						<td><input class="addinput" type="text"
-							name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
-							value="<%=(sanitizeForHtml(data.courseIdToShow))%>"
-							onmouseover="ddrivetip('Enter the identifier of the course, e.g.CS3215-2013Semester1.')"
-							onmouseout="hideddrivetip()"
-							maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
-							placeholder="e.g. CS3215-2013Semester1" /></td>
-					</tr>
-					<tr>
-						<td class="label bold">Course Name:</td>
-						<td><input class="addinput" type="text"
-							name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
-							value="<%=(sanitizeForHtml(data.courseNameToShow))%>"
-							onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')"
-							onmouseout="hideddrivetip()"
-							maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
-							placeholder="e.g. Software Engineering" /></td>
-					</tr>
-					<tr>
-						<td colspan=2 class="label bold">Instructors:</td>
-					</tr>
-					<tr>
-						<td colspan=2>
-							<span id="instructorformat" class="bold">Format: Google ID | Instructor Name | Instructor Email</span>
-							<textarea rows="6" cols="110" class ="textvalue" name="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>" 
-							id="<%=Const.ParamsNames.COURSE_INSTRUCTOR_LIST%>"><%=sanitizeForHtml(data.instructorListToShow)%></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td colspan=2 class="centeralign"><input id="btnAddCourse" type="submit" class="button"
-							onclick="return verifyCourseData();" value="Add Course" tabindex="3"></td>
-					</tr>
-				</table>
-				
-				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-				
-			</form>
 			<br>
 			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
+			
 			<table class="dataTable">
 				<tr>
 					<th class="color_white bold"><input class="buttonSortAscending" type="button"

@@ -66,13 +66,16 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 		System.out.println("Format=> Instructors + Students = Total [Institute]");
 		System.out.println("===================================================");
 		int i = 0;
+		int runningTotal = 0;
 		for (InstituteStats stats : statList) {
 			i++;
 			int numInstructors = stats.instructorTotal;
 			int numStudents = stats.studentTotal;
 			int total = numInstructors + numStudents;
+			runningTotal += total; 
 			System.out.println(
-					"["+i+"]" + numInstructors + "+" + numStudents + "=" + total	+ "\t[" + stats.name + "]");
+					"["+i+"]" + numInstructors + "+" + numStudents + "=" 
+							+ total	+ "{" + runningTotal + "}\t[" + stats.name + "]");
 		}
 		
 	}

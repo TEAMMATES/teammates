@@ -44,7 +44,7 @@
 						.getQuestionResponseMap().entrySet()) {
 			%>
 			<div class="backgroundBlock">
-					<h2 class="color_white" style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>: [<%=data.bundle.getQuestionText(responseEntries.getKey().getId())%>]</h2>
+					<h2 class="color_white multiline" style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>:<br><%=data.bundle.getQuestionText(responseEntries.getKey().getId())%></h2>
 					<table class="dataTable">
 						<tr>
 							<th class="leftalign color_white bold">

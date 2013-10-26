@@ -442,10 +442,37 @@ public class LogicTest extends BaseComponentTestCase {
 	@Test
 	public void testUpdateInstructor() throws Exception {
 		
-		______TS("invalid case: null parameters");
+		______TS("invalid case: course id is null");
 
 		try {
-			logic.updateInstructor(null);
+			logic.updateInstructor(null, "idOfInstructor1OfCourse1", "Instructor Name", "instr@email.com");
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		______TS("invalid case: instructor id is null");
+
+		try {
+			logic.updateInstructor("idOfTypicalCourse1", null, "Instructor Name", "instr@email.com");
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		______TS("invalid case: instructor name is null");
+
+		try {
+			logic.updateInstructor("idOfTypicalCourse1", "idOfInstructor1OfCourse1", null, "instr@email.com");
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		______TS("invalid case: instructor email is null");
+
+		try {
+			logic.updateInstructor("idOfTypicalCourse1", "idOfInstructor1OfCourse1", "Instructor Name", null);
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
@@ -461,70 +488,10 @@ public class LogicTest extends BaseComponentTestCase {
 		InstructorAttributes instructorToBeUpdated = logic.getInstructorForGoogleId(courseId, googleId);
 		instructorToBeUpdated.email = "new-email@course1.com";
 		
-		logic.updateInstructor(instructorToBeUpdated);
+		logic.updateInstructor(courseId, instructorToBeUpdated.googleId, instructorToBeUpdated.name, instructorToBeUpdated.email);
 		
 		InstructorAttributes instructorUpdated = logic.getInstructorForGoogleId(courseId, googleId);
 		assertEquals(instructorToBeUpdated.email, instructorUpdated.email);
-	}
-
-	@Test
-	public void testUpdateCourseInstructors() throws Exception {
-		
-		______TS("invalid case: null parameters");
-		
-		try {
-			logic.updateCourseInstructors(null, "a|b|c@d.e", "University of Foo");
-			signalFailureToDetectException();
-		} catch (AssertionError ae) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
-		}
-		
-		try {
-			logic.updateCourseInstructors("new-course", null, "University of Foo");
-			signalFailureToDetectException();
-		} catch (AssertionError ae) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
-		}
-		
-		try {
-			logic.updateCourseInstructors("new-course", "a|b|c@d.e", null);
-			signalFailureToDetectException();
-		} catch (AssertionError ae) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
-		}
-		
-		______TS("invalid case: update non-existent course");
-
-		try {
-			logic.updateCourseInstructors("non.existent", "a|b|c@d.e", "University of Foo");
-			signalFailureToDetectException();
-		} catch (EntityDoesNotExistException e) {
-			assertEquals("Course does not exist :non.existent", e.getMessage());
-		}
-		
-		______TS("success: update course instructors");
-		
-		restoreTypicalDataInDatastore();
-		
-		String instructorLines = "idOfInstructor1OfCourse1|Instructor1 Course1|newEmail@course1.com"
-							+ Const.EOL + "idOfInstructor3|Instructor3 Course1|instructor3@course1.com"
-							+ Const.EOL + "LogicT.newInstrOfCourse1|New Instructor|new@course1.com";
-		String courseId = "idOfTypicalCourse1";
-		String courseInstitute = "National University of Singapore";
-
-		logic.updateCourseInstructors(courseId, instructorLines, courseInstitute);
-		
-		List<InstructorAttributes> instructorsList = logic.getInstructorsForCourse(courseId);
-		assertEquals(3, instructorsList.size());
-		
-		InstructorAttributes instructorUpdated = logic.getInstructorForGoogleId(courseId, "idOfInstructor1OfCourse1");
-		InstructorAttributes instructorAdded = logic.getInstructorForGoogleId(courseId, "LogicT.newInstrOfCourse1");
-		
-		assertEquals("newEmail@course1.com", instructorUpdated.email);
-		assertEquals(null, logic.getInstructorForGoogleId(courseId, "idOfInstructor2OfCourse1"));
-		Assumption.assertNotNull(instructorAdded);
-		assertEquals("New Instructor", instructorAdded.name);
-		assertEquals("new@course1.com", instructorAdded.email);
 	}
 
 	@Test

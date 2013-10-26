@@ -71,28 +71,6 @@ test('getCourseIdInvalidityInfo(courseId)', function(){
 			"Course Id too long");
 });
 
-function testDoesInstructorListIncludesLoggedInUser(){}; 
-
-test('doesInstructorListIncludesLoggedInUser(instructorId, instructorList)', function(){
-	
-	equal(doesInstructorListIncludesLoggedInUser("googleId", "googleId|Name|email@com.sg"), 
-			true, 
-			"included, only one instructor in list");
-	
-	equal(doesInstructorListIncludesLoggedInUser("googleId", "googleId1|Name|email@com.sg \n googleId  |Name|email@com.sg \n googleId3|Name|email@com.sg"), 
-			true, 
-			"included, multiple instructors in list");
-	
-	equal(doesInstructorListIncludesLoggedInUser("googleId", "googleId1|Name|email@com.sg \n googleId3|Name|email@com.sg"), 
-			false, 
-			"not included, multiple instructors in list with almost similar IDs");
-	
-	equal(doesInstructorListIncludesLoggedInUser("googleId", "abc|googleId|email@com.sg "), 
-			false, 
-			"not included, one instructor, name matches the ID");
-	
-});
-
 function testGetCourseNameInvalidityInfo(){}; 
 
 test('getCourseNameInvalidityInfo(courseId)', function(){
@@ -111,107 +89,31 @@ test('getCourseNameInvalidityInfo(courseId)', function(){
 			"Course name too long");
 });
 
-function testGetInstructorLineInvalidityInfo(){}; 
-
-test('getInstructorLineInvalidityInfo(instructorLine)', function(){
-	
-	//valid cases
-	equal(getInstructorLineInvalidityInfo("googid|Instructor1|I1@gmail.com"), 
-			"", 
-			"valid line with no spaces");
-	equal(getInstructorLineInvalidityInfo("  googid  |  Instructor 1  |  I1@gmail.com  "), 
-			"", 
-			"valid line  with extra white space");
-	equal(getInstructorLineInvalidityInfo("   "), 
-			"", 
-			"empty line, should be ignored");
-	
-	//invalid cases
-	incorrectLine = "googid|Instructor1";
-	equal(getInstructorLineInvalidityInfo(incorrectLine), 
-			DISPLAY_INPUT_FIELDS_MISSING + " Incorrect line : "+ incorrectLine + "<br>", 
-			"not enough fields");
-	
-	incorrectLine = "googid|Instructor1|i1@gmail.com|extra";
-	equal(getInstructorLineInvalidityInfo(incorrectLine), 
-			DISPLAY_INPUT_FIELDS_EXTRA + " Incorrect line : "+ incorrectLine + "<br>", 
-			"too many fields");
-	
-	incorrectLine = "incorrect google id|Instructor1|i1@gmail.com";
-	equal(getInstructorLineInvalidityInfo(incorrectLine), 
-			DISPLAY_GOOGLEID_INVALID + " Incorrect line : "+ incorrectLine + "<br>", 
-			"incorrect google id");
-	
-	incorrectLine = "googid|"+generateRandomString(NAME_MAX_LENGTH+1)+"|i1@gmail.com";
-	equal(getInstructorLineInvalidityInfo(incorrectLine), 
-			DISPLAY_NAME_INVALID + " Incorrect line : "+ incorrectLine + "<br>", 
-			"incorrect name");
-
-	incorrectLine = "googid|Instructor1|invalid.email";
-	equal(getInstructorLineInvalidityInfo(incorrectLine), 
-			DISPLAY_EMAIL_INVALID + " Incorrect line : "+ incorrectLine + "<br>", 
-			"invalid email");
-
-});
-
-function testGetInstructorListInvalidityInfo(){}; 
-
-test('getInstructorListInvalidityInfo(instructorLine)', function(){
-	
-	//valid cases
-	equal(getInstructorListInvalidityInfo("googid|Instructor1|I1@gmail.com"), 
-			"", 
-			"one valid line with no spaces");
-	
-	equal(getInstructorListInvalidityInfo("  googid|Instructor1|I1@gmail.com   \n  \n googid2|  Instructor  2|I1@gmail.com\n"), 
-			"", 
-			"two valid lines with spaces and blank lines");
-	
-	//invalid cases
-	incorrectList = "invalid google id|Instructor1|I1@gmail.com\n" +
-		"  googid|Instructor1|I1@gmail.com   \n  \n" +
-		"  googid|Instructor1|invalid.email   \n" +
-		" googid2|  Instructor  2|I1@gmail.com\n";
-	expectedError = DISPLAY_GOOGLEID_INVALID + " Incorrect line : invalid google id|Instructor1|I1@gmail.com<br>"+
-		DISPLAY_EMAIL_INVALID + " Incorrect line : googid|Instructor1|invalid.email<br>";
-		
-	equal(getInstructorListInvalidityInfo(incorrectList), 
-			expectedError, 
-			"multiple valid lines and multiple invlid lines");
-
-});
-
 function testCheckAddCourseParam(){}; 
 
-test('checkAddCourseParam(courseID, courseName, instructorList)', function(){
+test('checkAddCourseParam(courseID, courseName)', function(){
 
-	equal(checkAddCourseParam("valid.course.id", "Software Engineering", "googid|Instructor1|I1@gmail.com \n googid2|Instructor2|I2@gmail.com"), 
+	equal(checkAddCourseParam("valid.course.id", "Software Engineering"), 
 			"", 
 			"All valid values");
 	
-	equal(checkAddCourseParam("", "Software Engineering", "googid|Instructor1|I1@gmail.com"), 
+	equal(checkAddCourseParam("", "Software Engineering"), 
 			DISPLAY_COURSE_COURSE_ID_EMPTY+"<br>", 
 			"Course ID empty");
 		
-	equal(checkAddCourseParam("valid.course-id", generateRandomString(COURSE_NAME_MAX_LENGTH + 1), "googid|Instructor1|I1@gmail.com"), 
+	equal(checkAddCourseParam("valid.course-id", generateRandomString(COURSE_NAME_MAX_LENGTH + 1)), 
 			DISPLAY_COURSE_LONG_NAME + "<br>", 
 			"Course name too long");
 	
-	equal(checkAddCourseParam("valid.course.id", "Software Engineering", ""), 
-			DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY+"<br>", 
-			"Instructor list empty");
-	
 	equal(checkAddCourseParam("", "", ""), 
 			DISPLAY_COURSE_COURSE_ID_EMPTY + "<br>" 
-			+ DISPLAY_COURSE_COURSE_NAME_EMPTY + "<br>"
-			+ DISPLAY_COURSE_INSTRUCTOR_LIST_EMPTY + "<br>",
-			"all three values are invalid");
+			+ DISPLAY_COURSE_COURSE_NAME_EMPTY + "<br>",
+			"both values are invalid");
 	
 	equal(checkAddCourseParam("invalid course id", generateRandomString(COURSE_NAME_MAX_LENGTH + 1), "googid|Instructor1|"), 
 			DISPLAY_COURSE_INVALID_ID + "<br>" 
-			+ DISPLAY_COURSE_LONG_NAME + "<br>"
-			+ DISPLAY_EMAIL_INVALID + " Incorrect line : googid|Instructor1|"+"<br>",
-			"all three values are invalid");
+			+ DISPLAY_COURSE_LONG_NAME + "<br>",
+			"both values are invalid");
 
 });
 

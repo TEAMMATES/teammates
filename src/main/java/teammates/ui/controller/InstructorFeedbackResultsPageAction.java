@@ -12,6 +12,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
+		statusToAdmin = "Show instructor feedback result page<br>" +
+				"Session Name: " + feedbackSessionName + "<br>" + 
+				"Course ID: " + courseId;
 		if(courseId==null || feedbackSessionName == null) {
 			return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
 		}

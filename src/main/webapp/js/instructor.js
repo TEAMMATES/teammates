@@ -72,7 +72,6 @@ function toggleDeleteCourseConfirmation(courseID) {
 			"All instructors of this course will not be able to access it hereafter as well.");
 }
 
-
 /**
  * Pops up confirmation dialog whether to delete specified evaluation
  * @param courseID

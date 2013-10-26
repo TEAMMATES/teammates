@@ -61,7 +61,9 @@
 			<class name="teammates.test.cases.ui.InstructorCourseDeleteActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseDetailsPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseEditPageActionTest" />
-			<class name="teammates.test.cases.ui.InstructorCourseEditSaveActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseInstructorAddActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseInstructorEditSaveActionTest" />
+			<class name="teammates.test.cases.ui.InstructorCourseInstructorDeleteActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseEnrollPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseEnrollSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorCourseRemindActionTest" />

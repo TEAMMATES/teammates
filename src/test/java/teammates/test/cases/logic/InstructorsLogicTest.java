@@ -17,7 +17,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -222,39 +221,12 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		InstructorAttributes instructorToBeUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
 		instructorToBeUpdated.email = "new-email@course1.com";
 		
-		instructorsLogic.updateInstructor(instructorToBeUpdated);
+		instructorsLogic.updateInstructor(courseId, googleId, instructorToBeUpdated.name, instructorToBeUpdated.email);
 		
 		InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
 		verifySameInstructor(instructorToBeUpdated, instructorUpdated);
 	}
 	
-	@Test
-	public void testUpdateCourseInstructors() throws Exception {
-		restoreTypicalDataInDatastore();
-		
-		______TS("typical case: update course instructors");
-		
-		String instructorLines = "idOfInstructor1OfCourse1|Instructor1 Course1|newEmail@course1.com"
-							+ Const.EOL + "idOfInstructor3|Instructor3 Course1|instructor3@course1.com"
-							+ Const.EOL + "ILogicT.newInstrOfCourse1|New Instructor|new@course1.com";
-		String courseId = "idOfTypicalCourse1";
-		String courseInstitute = "National University of Singapore";
-
-		instructorsLogic.updateCourseInstructors(courseId, instructorLines, courseInstitute);
-		
-		List<InstructorAttributes> instructorsList = instructorsLogic.getInstructorsForCourse(courseId);
-		assertEquals(3, instructorsList.size());
-		
-		InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForGoogleId(courseId, "idOfInstructor1OfCourse1");
-		InstructorAttributes instructorAdded = instructorsLogic.getInstructorForGoogleId(courseId, "ILogicT.newInstrOfCourse1");
-		
-		assertEquals("newEmail@course1.com", instructorUpdated.email);
-		assertEquals(null, instructorsLogic.getInstructorForGoogleId(courseId, "idOfInstructor2OfCourse1"));
-		Assumption.assertNotNull(instructorAdded);
-		assertEquals("New Instructor", instructorAdded.name);
-		assertEquals("new@course1.com", instructorAdded.email);
-	}
-
 	@Test
 	public void testDeleteInstructor() throws Exception {
 		restoreTypicalDataInDatastore();

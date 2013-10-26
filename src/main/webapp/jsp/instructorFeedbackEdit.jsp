@@ -312,7 +312,8 @@
 				</tr>
 				<tr>
 					<td class="bold">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled">
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled"
+								onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(question, true)) out.println(opt);
 						%>
@@ -320,7 +321,8 @@
 					<td class="bold nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
 					Feedback Recipient:
 					</td>
-					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" disabled="disabled">
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>" 
+						disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
 						%>
@@ -415,6 +417,7 @@
 			<%
 				}
 			%>
+			
 			<div class="centeralign">
 			<input id="button_openframe" class="button centeralign" value="Add New Question" 
 						onclick="showNewQuestionFrame()">
@@ -445,7 +448,8 @@
 				</tr>
 				<tr>
 					<td class="bold">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>">
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>"
+								onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
 						%>
@@ -453,7 +457,8 @@
 					<td class="bold nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
 					Feedback Recipient:
 					</td>
-					<td><select class="participantSelect" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>">
+					<td><select class="participantSelect" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" 
+								onchange="feedbackRecipientUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
 						%>

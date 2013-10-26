@@ -8,8 +8,13 @@
 	width: 450px;
 }
 
-#instructorformat {
-    float: right;
-    font-size: 12px;
-    font-style: italic;
+#courseDetailTable {
+	width: 690px; 
+}
+
+.courseAddBackground {
+	background: #D0D8E8;
+	margin: 0 auto;
+	width: 700px;
+	padding: 15px;
 }

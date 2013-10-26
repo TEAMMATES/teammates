@@ -57,6 +57,9 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 		if (isError == false) {
 			statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 		}
+		statusToAdmin = "Show instructor feedback submission edit&save page<br>" +
+				"Session Name: " + feedbackSessionName + "<br>" + 
+				"Course ID: " + courseId;
 		
 		// TODO: what happens if qn is deleted as response is being submitted?
 		// what happens if team/etc change such that receiver / response in general is invalid?

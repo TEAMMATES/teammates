@@ -92,7 +92,6 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		assertEquals(1, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);
 		assertEquals("", pageData.courseNameToShow);
-		assertEquals("idOfInstructor1OfCourse1|Instructor 1 of Course 1|instr1@course1.com", pageData.instructorListToShow);
 		
 		String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete" +
 				"|||instructorCourseDelete|||true|||Instructor|||Instructor 1 of Course 1" +
@@ -120,7 +119,6 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		assertEquals(0, pageData.currentCourses.size());
 		assertEquals("", pageData.courseIdToShow);
 		assertEquals("", pageData.courseNameToShow);
-		assertEquals("idOfInstructor1OfCourse1|Instructor 1 of Course 1|instr1@course1.com", pageData.instructorListToShow);
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +

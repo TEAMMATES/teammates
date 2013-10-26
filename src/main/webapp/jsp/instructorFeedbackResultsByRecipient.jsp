@@ -73,8 +73,8 @@
 					%>
 					<tr class="resultSubheader">
 						<td class="multiline"><span class="bold">Question <%=data.bundle.questions
-								.get(singleResponse.feedbackQuestionId).questionNumber%>: </span>[<%=
-										data.bundle.getQuestionText(singleResponse.feedbackQuestionId)%>]
+								.get(singleResponse.feedbackQuestionId).questionNumber%>: </span><%=
+										data.bundle.getQuestionText(singleResponse.feedbackQuestionId)%>
 						</td>
 					</tr>
 					<tr>

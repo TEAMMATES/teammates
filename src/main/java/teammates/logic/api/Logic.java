@@ -185,6 +185,22 @@ public class Logic {
 
 		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
 	}
+	
+	/**
+	 * Creates a new instructor for a course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void createInstructor(String googleId, String courseId, String name, String email) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+
+		instructorsLogic.createInstructor(googleId, courseId, name, email);
+	}
 
 	/**
 	 * Preconditions: <br>
@@ -246,31 +262,21 @@ public class Logic {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
-	 */
-	public void updateInstructor(InstructorAttributes instructor) 
-			throws InvalidParametersException {
-		
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
-		
-		instructorsLogic.updateInstructor(instructor);
-	}
-
-	/**
-	 * Preconditions: <br>
-	 * * All parameters are non-null.
+	 * @throws InvalidParametersException 
 	 * @throws EntityDoesNotExistException 
 	 */
-	public void updateCourseInstructors(String courseId, String instructorLines, String courseInstitute) 
+	public void updateInstructor(String courseId, String googleId, String name, String email) 
 			throws InvalidParametersException, EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorLines);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseInstitute);
-	
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		
 		coursesLogic.verifyCourseIsPresent(courseId);
+		instructorsLogic.verifyInstructorExists(googleId);
 		
-		instructorsLogic.updateCourseInstructors(courseId, instructorLines, courseInstitute); 
-		
+		instructorsLogic.updateInstructor(courseId, googleId, name, email);
 	}
 
 	/**
@@ -294,8 +300,8 @@ public class Logic {
 	 */
 	public void deleteInstructor(String courseId, String googleId) {
 		
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 
 		instructorsLogic.deleteInstructor(courseId, googleId);
 	}

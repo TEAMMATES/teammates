@@ -90,72 +90,14 @@ public class InstructorsLogic {
 		}
 	}
 
-	public void updateInstructor(InstructorAttributes instructor) 
+	public void updateInstructor(String courseId, String googleId, String name, String email) 
 			throws InvalidParametersException {
-		instructorsDb.updateInstructor(instructor);
-	}
-
-	public void updateCourseInstructors(
-			String courseId, String instructorLines, String courseInstitute) 
-					throws InvalidParametersException {
 		
-		// Prepare the list to be updated
-		List<InstructorAttributes> instructorsList = 
-				parseInstructorLines(courseId, instructorLines);
-	
-		// Retrieve the current list of instructors
-		// Remove those that are not in the list and persist the new ones
-		// Edit the ones that are found in both lists
-		List<InstructorAttributes> currentInstructors = getInstructorsForCourse(courseId);
-	
-		List<InstructorAttributes> toAdd = new ArrayList<InstructorAttributes>();
-		List<InstructorAttributes> toRemove = new ArrayList<InstructorAttributes>();
-		List<InstructorAttributes> toEdit = new ArrayList<InstructorAttributes>();
-	
-		// Find new names
-		for (InstructorAttributes id : instructorsList) {
-			boolean found = false;
-			for (InstructorAttributes currentInstructor : currentInstructors) {
-				if (id.googleId.equals(currentInstructor.googleId)) {
-					toEdit.add(id);
-					found = true;
-				}
-			}
-			if (!found) {
-				toAdd.add(id);
-			}
-		}
-	
-		// Find lost names
-		for (InstructorAttributes currentInstructor : currentInstructors) {
-			boolean found = false;
-			for (InstructorAttributes id : instructorsList) {
-				if (id.googleId.equals(currentInstructor.googleId)) {
-					found = true;
-				}
-			}
-			if (!found) {
-				toRemove.add(currentInstructor);
-			}
-		}
-	
-		// Operate on each of the lists respectively
-		for (InstructorAttributes add : toAdd) {
-			try {
-				accountsLogic.createInstructorAccount(add.googleId, courseId,
-						add.name, add.email, courseInstitute);
-			} catch (EntityAlreadyExistsException e) {
-				// This should happens when a row was accidentally entered twice
-				// When that happens we continue silently
-			}
-		}
-		for (InstructorAttributes remove : toRemove) {
-			deleteInstructor(remove.courseId, remove.googleId);
-		}
-		for (InstructorAttributes edit : toEdit) {
-			updateInstructor(edit);
-		}
-	
+		InstructorAttributes instructorToUpdate = getInstructorForGoogleId(courseId, googleId);
+		instructorToUpdate.name = name;
+		instructorToUpdate.email = email;
+		
+		instructorsDb.updateInstructor(instructorToUpdate);
 	}
 
 	public void deleteInstructor(String courseId, String googleId) {
