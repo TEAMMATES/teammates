@@ -5,76 +5,66 @@ var xmlhttp = new getXMLObject();
 var OPERATION_INSTRUCTORINATOR_LOGIN = "instructor_login";
 var OPERATION_STUDENT_LOGIN = "student_login";
 
-
-function instructorLogin()
-{
-	//send request
+function instructorLogin() {
+	// send request
 	requestInstructorLogin();
-	//handle response
+	// handle response
 	handleInstructorLogin();
 }
 
 function requestInstructorLogin() {
-	if(xmlhttp)
-	{
-		xmlhttp.open("POST","/teammates",false); 
-		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+	if (xmlhttp) {
+		xmlhttp.open("POST", "/teammates", false);
+		xmlhttp.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded;");
 		xmlhttp.send("operation=" + OPERATION_INSTRUCTORINATOR_LOGIN);
 	}
 }
 
-function handleInstructorLogin()
-{
-	if (xmlhttp.status == 200) 
-	{
+function handleInstructorLogin() {
+	if (xmlhttp.status == 200) {
 		var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
 		window.location = url.firstChild.nodeValue;
 	}
 }
 
-function handleStudentLogin()
-{
-	if (xmlhttp.status == 200) 
-	{
+function handleStudentLogin() {
+	if (xmlhttp.status == 200) {
 		var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
 		window.location = url.firstChild.nodeValue;
 	}
 }
 
-function studentLogin()
-{
-	if(xmlhttp)
-	{
-		xmlhttp.open("POST","teammates",false); 
-		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+function studentLogin() {
+	if (xmlhttp) {
+		xmlhttp.open("POST", "teammates", false);
+		xmlhttp.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded;");
 		xmlhttp.send("operation=" + OPERATION_STUDENT_LOGIN);
 	}
-	
+
 	handleStudentLogin();
 }
 
-function getXMLObject()  
-{
-   var xmlHttp = false;
-   try {
-     xmlHttp = new ActiveXObject("Msxml2.XMLHTTP")  
-   }
-   catch (e) {
-     try {
-       xmlHttp = new ActiveXObject("Microsoft.XMLHTTP")  
-     }
-     catch (e2) {
-       xmlHttp = false  
-     }
-   }
-   if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
-     xmlHttp = new XMLHttpRequest();        
-   }
-   return xmlHttp; 
+function getXMLObject() {
+	var xmlHttp = false;
+	try {
+		xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+	} catch (e) {
+		try {
+			xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (e2) {
+			xmlHttp = false;
+		}
+	}
+	if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+		xmlHttp = new XMLHttpRequest();
+	}
+	return xmlHttp;
 }
 
 function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) {
-	var errorMsg = "Thousands of"
+	var errorMsg = "Thousands of";
 	if (!currentDate || !baseDate) {
 		return errorMsg;
 	}
@@ -94,17 +84,20 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
 	return formatNumber(numberOfSubmissions);
 }
 
-// Function is executed on loading the page
+//Setting submission count at page load
 onload = function() {
-	var currentDate = new Date();
-	// Submission Variables
-	var baseCount = 36000;
-	var baseDate = new Date(2013, 07, 01);
-	var submissionPerHour = 2;
+	
+	// Parameters for the estimation calculation
+	var baseDate = new Date('October 25, 2013 00:00:00');  //The date the parameters were adjusted
+	var baseCount = 51000;     //The submission count on the above date
+	var submissionPerHour = 3; //The rate at which the submission count is growing
+	
+	//set the submission count in the page
 	var e = document.getElementById('submissionsNumber');
-	e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour,
-			baseCount);
-}
+	var currentDate = new Date();
+	e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour, baseCount);
+};
+
 // Format large number with commas
 function formatNumber(number) {
 	number += '';
