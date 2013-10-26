@@ -28,6 +28,7 @@
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
 	<script type="text/javascript" src="/js/instructorHome.js"></script>
+	<script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 
 </head>
@@ -118,7 +119,7 @@
 							onmouseover="ddrivetip('<%=PageData.getInstructorHoverMessageForEval(edd)%>')"
 							onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForEval(edd)%></span></td>
 						<td class="t_session_response<%=courseIdx%> centeralign">
-							<a href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>" target="_blank">Show</a>
+							<a href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
 						</td>
 						<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(edd,sessionIdx, true)%>
 						</td>
@@ -139,7 +140,7 @@
 							onmouseout="hideddrivetip()"><%=PageData
 								.getInstructorStatusForFeedbackSession(fdb)%></span></td>
 						<td class="t_session_response centeralign">
-							<a href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>" target="_blank">Show</a>
+							<a href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
 						</td>
 						<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
 								fdb, sessionIdx, false)%></td>

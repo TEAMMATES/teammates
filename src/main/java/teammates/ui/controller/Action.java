@@ -197,6 +197,18 @@ public abstract class Action {
 				statusToUser);
 	}
 	
+	/**
+	 * Generates a {@link ShowPageResult} with the information in this object.
+	 */
+	public AjaxResult createAjaxResult(String destination, PageData pageData) {
+		return new AjaxResult(
+				destination, 
+				account,
+				requestParameters,
+				statusToUser,
+				pageData);
+	}
+	
 	protected boolean notYetJoinedCourse(String courseId, String googleId) {
 		return logic.getStudentForGoogleId(courseId, account.googleId) == null;
 	}

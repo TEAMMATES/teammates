@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 
@@ -38,6 +39,11 @@ public class InstructorHomePage extends AppPage {
 		String xpathExp = "//tr[@id='session"+ evaluationRowId +"']/td[contains(@class,'t_session_response')]/a";
 
 		return browser.driver.findElement(By.xpath(xpathExp));
+	}
+	
+	public void setViewResponseLinkValue(WebElement element, String newValue) {
+		JavascriptExecutor js = (JavascriptExecutor) browser.driver; 
+		js.executeScript("arguments[0].href=arguments[1]", element, newValue );
 	}
 
 	public WebElement getRemindLink(String courseId, String evalName) {

@@ -4,10 +4,10 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.net.URL;
-import java.util.Iterator;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -21,7 +21,6 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -449,50 +448,45 @@ public abstract class AppPage {
 	}
 	
 	/**
-	 * Verifies that the popup opened in a currently loaded page has the same HTML content as 
+	 * Verifies that the currently loaded page has the same HTML content as 
 	 * the content given in the file at {@code filePath}. <br>
-	 * The HTML is checked for logical equivalence, not text equivalence. 
+	 * Since the verification is done after making an Ajax Request, the HTML is checked
+	 * after "waitDuration", for "maxRetryCount" number of times.
 	 * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
 	 * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
 	 * @return The page (for chaining method calls).
 	 */
-	public AppPage verifyPopupHtml(String popupTitle,String filePath) {
+	public AppPage verifyHtmlAjax(String filePath) {
+		int maxRetryCount = 5;
+		int waitDuration = 1000;
 		
-		Iterator<String> windowIterator = browser.driver.getWindowHandles().iterator();
-		String parentWindowHandle = browser.driver.getWindowHandle();
-		String currentWindowHandle;
-		WebDriver showStatsPopup;
-		boolean popupFound = false;
+		if(filePath.startsWith("/")){
+			filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
+		}
 		
-		while(windowIterator.hasNext()) {
-			currentWindowHandle = windowIterator.next();
-			showStatsPopup = browser.driver.switchTo().window(currentWindowHandle);
-			if(showStatsPopup.getTitle().equals(popupTitle)) {
-				popupFound = true;
-				
-				if(filePath.startsWith("/")){
-					filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-				}
-				try {
-					String actual = showStatsPopup.getPageSource();
-					String expected = FileHelper.readFile(filePath);
-					HtmlHelper.assertSameHtml(actual, expected);
-					
-				} catch (Exception e) {
-					throw new RuntimeException(e);
+		String expectedString = "";
+		
+		try {
+			expectedString = FileHelper.readFile(filePath);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
+		for(int i =0; i < maxRetryCount; i++) {
+			ThreadHelper.waitFor(waitDuration);	
+			try {
+				String actual = getPageSource();
+				if(HtmlHelper.areSameHtml(actual, expectedString)) {
+					break;
 				}
 				
-				browser.driver.close();
-				break;
+			} catch (Exception e) {
+				throw new RuntimeException(e);
 			}
 		}
 		
-		browser.driver.switchTo().window(parentWindowHandle);
 		
-		assertEquals(true, popupFound);
-		
-		
-		return this;
+		return verifyHtml(filePath);
 	}
 	
 	/**

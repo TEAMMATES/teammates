@@ -11,9 +11,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.FeedbackSessionStatsPageAction;
 import teammates.ui.controller.FeedbackSessionStatsPageData;
-import teammates.ui.controller.ShowPageResult;
 
 public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
 	DataBundle dataBundle;
@@ -57,7 +57,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
 				  						  Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId};
 		
 		FeedbackSessionStatsPageAction a = getAction(addUserIdToParams(instructorId, submissionParams));
-		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
+		AjaxResult  r = (AjaxResult)a.executeAndPostProcess();
 		FeedbackSessionStatsPageData data = (FeedbackSessionStatsPageData) r.data;
 		
 		assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_STATS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
@@ -73,7 +73,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
 		
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		try {
-			r = (ShowPageResult)a.executeAndPostProcess();
+			r = (AjaxResult)a.executeAndPostProcess();
 		} catch (UnauthorizedAccessException e) {
 			doesThrowUnauthorizedAccessException = true;
 			exceptionMessage = e.getMessage();

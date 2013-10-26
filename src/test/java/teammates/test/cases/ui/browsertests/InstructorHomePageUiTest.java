@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -67,16 +68,32 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 	}
 	
 	private void testShowFeedbackStatsLink() {
-		homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session").click();
+		WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
 		
-		homePage.verifyPopupHtml("TEAMMATES-Feedback Stats", "/InstructorHomeUIPageFeedbackStats.html");
+		String currentValidUrl = viewResponseLink.getAttribute("href");
+		
+		______TS("test case: fail, fetch response rate of invalid url");
+		homePage.setViewResponseLinkValue(viewResponseLink, "/invalid/url");
+		viewResponseLink.click();
+		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRateFail.html");
+		
+		______TS("test case: fail to fetch response rate again, check consistency of fail message");
+		viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
+		viewResponseLink.click();
+		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRateFail.html");
+		
+		______TS("test case: pass with valid url after multiple fails");
+		viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
+		homePage.setViewResponseLinkValue(viewResponseLink, currentValidUrl);
+		viewResponseLink.click();
+		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRatePass.html");
 	}
 
 
 	private void testShowEvaluationStatsLink() {
+		______TS("test case: typical, check response rate of existing eval");
 		homePage.getViewResponseLink("CHomeUiT.CS1101", "Fifth Eval").click();
-		
-		homePage.verifyPopupHtml("TEAMMATES-Evaluation Stats", "/InstructorHomeUIPageEvaluationStats.html");
+		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRateEvalPass.html");
 	}
 
 

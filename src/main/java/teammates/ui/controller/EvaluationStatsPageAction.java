@@ -11,7 +11,7 @@ public class EvaluationStatsPageAction extends Action {
 
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
-		
+ 
 		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
@@ -28,7 +28,7 @@ public class EvaluationStatsPageAction extends Action {
 		
 		data.evaluationDetails = logic.getEvaluationDetails(courseId,evalName);
 		
-		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVAL_STATS, data);
+		return createAjaxResult(Const.ViewURIs.INSTRUCTOR_EVAL_STATS, data);
 	}
 
 }

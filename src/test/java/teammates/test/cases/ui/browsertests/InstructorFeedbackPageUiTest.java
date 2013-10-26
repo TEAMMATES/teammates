@@ -62,31 +62,30 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 	public void allTests() throws Exception{
 		testContent();
 		
+		testAddAction();
+		testDeleteAction();
+		testPublishAction();
+		testUnpublishAction();
+		
+		//testing response rate links due to page source problems encountered after testContent()
 		testViewResultsLink();
 		testEditLink();
 		testSubmitLink();
 		testShowFeedbackStatsLink();
 		testShowEvaluationStatsLink();
-		
-		testAddAction();
-		testDeleteAction();
-		testPublishAction();
-		testUnpublishAction();
 
 	}
 
 	private void testShowFeedbackStatsLink() {
-		
+		______TS("test case: typical, check response rate of existing feedback session");
 		feedbackPage.getViewResponseLink("CFeedbackUiT.CS1101", "Manual Session").click();
-		
-		feedbackPage.verifyPopupHtml("TEAMMATES-Feedback Stats", "/InstructorFeedbackUIPageFeedbackStats.html");
+		feedbackPage.verifyHtmlAjax("/InstructorFeedbackUIPageFeedbackStats.html");
 	}
 	
 	private void testShowEvaluationStatsLink() {
-		
+		______TS("test case: typical, check response rate of existing evaluation");
 		feedbackPage.getViewResponseLink("CFeedbackUiT.CS1101", "First Eval").click();
-		
-		feedbackPage.verifyPopupHtml("TEAMMATES-Evaluation Stats", "/InstructorFeedbackUIPageEvaluationStats.html");
+		feedbackPage.verifyHtmlAjax("/InstructorFeedbackUIPageEvaluationStats.html");
 	}
 
 	public void testContent() throws Exception{

@@ -11,9 +11,9 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.EvaluationStatsPageAction;
 import teammates.ui.controller.EvaluationStatsPageData;
-import teammates.ui.controller.ShowPageResult;
 
 public class EvaluationStatsPageActionTest extends BaseActionTest {
 	
@@ -57,7 +57,7 @@ public class EvaluationStatsPageActionTest extends BaseActionTest {
 										  Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId};
 		
 		EvaluationStatsPageAction a = getAction(addUserIdToParams(instructorId, submissionParams));
-		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
+		AjaxResult r = (AjaxResult)a.executeAndPostProcess();
 		EvaluationStatsPageData data = (EvaluationStatsPageData) r.data;
 		
 		assertEquals(Const.ViewURIs.INSTRUCTOR_EVAL_STATS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
@@ -73,7 +73,7 @@ public class EvaluationStatsPageActionTest extends BaseActionTest {
 		
 		a = getAction(addUserIdToParams(instructorId, submissionParams));
 		try {
-			r = (ShowPageResult)a.executeAndPostProcess();
+			r = (AjaxResult)a.executeAndPostProcess();
 		} catch (UnauthorizedAccessException e) {
 			doesThrowUnauthorizedAccessException = true;
 			exceptionMessage = e.getMessage();

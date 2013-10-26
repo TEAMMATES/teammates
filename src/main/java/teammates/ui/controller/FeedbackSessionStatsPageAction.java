@@ -31,7 +31,7 @@ public class FeedbackSessionStatsPageAction extends Action {
 		
 		data.sessionDetails = logic.getFeedbackSessionDetails(feedbackSessionName, courseId);
 		
-		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_STATS, data);
+		return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_STATS, data);
 	}
 
 }

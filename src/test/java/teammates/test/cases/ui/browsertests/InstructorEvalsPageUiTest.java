@@ -108,8 +108,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 
 	private void testShowEvaluationStatsLink() {
 		evalsPage.getViewResponseLink("CEvalUiT.CS2104", "First Eval").click();
-		
-		evalsPage.verifyPopupHtml("TEAMMATES-Evaluation Stats", "/InstructorEvalsUIPageEvaluationStats.html");
+		evalsPage.verifyHtmlAjax("/InstructorEvalsUIPageEvaluationStats.html");
 	}
 	
 	public void testEditLink(){
