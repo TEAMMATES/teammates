@@ -103,7 +103,7 @@
       "endTime" : "2014-04-30 11:59 PM UTC",
       "timeZone" : 2.0,
       "p2pEnabled" : true,
-      "instructions": "This is instruction for first eval",
+      "instructions": {"value" : "This is instruction for first eval"},
       "gracePeriod": 10,
       "published" : false,
       "activated" : true
@@ -116,7 +116,7 @@
       "timeZone": 8.0,
       "p2pEnabled": true,
       "gracePeriod": 20,
-      "instructions": "Please please fill in the second evaluation",
+      "instructions": {"value" : "Please please fill in the second evaluation"},
       "gracePeriod": 5,
       "published": true,
       "activated": true
@@ -127,7 +127,7 @@
       "startTime" : "2012-04-01 11:59 PM UTC",
       "endTime" : "2012-04-30 11:59 PM UTC",
       "gracePeriod": 10,
-      "instructions": "Please please fill in the third evaluation",
+      "instructions": {"value" : "Please please fill in the third evaluation"},
       "p2pEnabled": true,
       "published": false,
       "activated": false

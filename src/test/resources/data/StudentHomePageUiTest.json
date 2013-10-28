@@ -112,7 +112,7 @@
     "SHomeUiT.CS2104:First Eval": {
       "courseId": "SHomeUiT.CS2104",
       "name": "First Eval",
-      "instructions": "Please please fill it in",
+      "instructions": {"value" : "Please please fill it in"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2015-04-01 11:59 PM UTC",
       "timeZone": 8.0,
@@ -124,7 +124,7 @@
     "SHomeUiT.CS2104:Second Eval": {
       "courseId": "SHomeUiT.CS2104",
       "name": "Second Eval",
-      "instructions": "Please please fill in the second evaluation",
+      "instructions": {"value" : "Please please fill in the second evaluation"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2012-04-02 11:59 PM UTC",
       "timeZone": 8.0,
@@ -136,7 +136,7 @@
     "SHomeUiT.CS1101:Third Eval": {
       "courseId": "SHomeUiT.CS1101",
       "name": "Third Eval",
-      "instructions": "Please please fill in the third evaluation",
+      "instructions": {"value" : "Please please fill in the third evaluation"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2012-04-02 11:59 PM UTC",
       "timeZone": 8.0,
@@ -148,7 +148,7 @@
     "SHomeUiT.CS1101:Fourth Eval": {
       "courseId": "SHomeUiT.CS1101",
       "name": "Fourth Eval",
-      "instructions": "Please please fill in the fourth evaluation",
+      "instructions": {"value" : "Please please fill in the fourth evaluation"},
       "startTime": "2015-04-01 11:59 PM UTC",
       "endTime": "2015-04-02 11:59 PM UTC",
       "timeZone": 8.0,
@@ -159,7 +159,7 @@
     "SHomeUiT.CS1101:Fifth Eval": {
       "courseId": "SHomeUiT.CS1101",
       "name": "Fifth Eval",
-      "instructions": "Please please fill in the fifth evaluation",
+      "instructions": {"value" : "Please please fill in the fifth evaluation"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2015-04-01 11:59 PM UTC",
       "timeZone": 8.0,

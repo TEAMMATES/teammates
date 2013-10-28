@@ -141,8 +141,7 @@
 						<table><tr><td>
 							<textarea rows="3" cols="90" class="textvalue" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"
 									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>')"
-									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.instructions)%></textarea>
-							<p align=right><font color=grey>[maximum length = 500 characters]</font></p>
+									onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.instructions.getValue())%></textarea>
 						</td></tr></table>
 						</td>
 					</tr>

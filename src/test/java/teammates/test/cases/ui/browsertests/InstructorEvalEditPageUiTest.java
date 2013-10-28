@@ -6,13 +6,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -61,13 +61,10 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 	public void testEditAction() throws Exception{
 		gotoInstructorEvalEditPage();
 		
-		String validInstructions = StringHelper
-				.generateStringOfLength(FieldValidator.EVALUATION_INSTRUCTIONS_MAX_LENGTH);
-		
 		______TS("action: edit with valid parameters");
 		
 		existingEval.p2pEnabled = !existingEval.p2pEnabled; 
-		existingEval.instructions = validInstructions; 
+		existingEval.instructions = new Text("Instructions to student."); 
 		existingEval.gracePeriod = existingEval.gracePeriod + 5;
 		existingEval.startTime = TimeHelper.convertToDate("2012-04-01 11:59 PM UTC"); 
 		existingEval.endTime = TimeHelper.convertToDate("2015-04-01 10:00 PM UTC"); 
@@ -76,7 +73,7 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 				existingEval.startTime, 
 				existingEval.endTime, 
 				existingEval.p2pEnabled, 
-				existingEval.instructions, 
+				existingEval.instructions.getValue(), 
 				existingEval.gracePeriod)
 				.verifyStatus(Const.StatusMessages.EVALUATION_EDITED);
 		
@@ -89,12 +86,9 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 	}
 
 	private void testInputValidation() {
-		
-		String sampleValidInstructions = StringHelper
-				.generateStringOfLength(FieldValidator.EVALUATION_INSTRUCTIONS_MAX_LENGTH);
-		
+
 		existingEval.p2pEnabled = !existingEval.p2pEnabled; 
-		existingEval.instructions = sampleValidInstructions; 
+		existingEval.instructions = new Text("Instructions to student."); 
 		existingEval.gracePeriod = existingEval.gracePeriod + 5;
 		
 		______TS("input: testing with invalid time");
@@ -109,7 +103,7 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
 				existingEval.startTime, 
 				existingEval.endTime, 
 				existingEval.p2pEnabled, 
-				existingEval.instructions, 
+				existingEval.instructions.getValue(), 
 				existingEval.gracePeriod)
 				.verifyStatus(invalidTimeStatusMessage);
 		

@@ -419,7 +419,7 @@ public class BackDoorTest extends BaseTestCase {
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.courseId = "tmapit.tce.course";
 		e.name = "Eval for tmapit.tce.course";
-		e.instructions = "inst.";
+		e.instructions = new Text("inst.");
 		e.p2pEnabled = true;
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
@@ -448,7 +448,7 @@ public class BackDoorTest extends BaseTestCase {
 				.get("evaluation1InCourse1");
 
 		e.gracePeriod = e.gracePeriod + 1;
-		e.instructions = e.instructions + "x";
+		e.instructions = new Text(e.instructions + "x");
 		e.p2pEnabled = (!e.p2pEnabled);
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);

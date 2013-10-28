@@ -99,7 +99,7 @@ public class EvaluationsDb extends EntitiesDb {
 					ERROR_UPDATE_NON_EXISTENT + newEvaluationAttributes.toString());
 		}
 		
-		e.setInstructions(newEvaluationAttributes.instructions);
+		e.setLongInstructions(newEvaluationAttributes.instructions);
 		e.setStart(newEvaluationAttributes.startTime);
 		e.setDeadline(newEvaluationAttributes.endTime);
 		e.setGracePeriod(newEvaluationAttributes.gracePeriod);

@@ -79,7 +79,7 @@ public class DataBundleTest extends BaseTestCase {
 		assertEquals("evaluation1 In Course1", evaluation1.name);
 		assertEquals("idOfTypicalCourse1", evaluation1.courseId);
 		assertEquals("instructions for evaluation1InCourse1",
-				evaluation1.instructions);
+				evaluation1.instructions.getValue());
 		assertEquals(10, evaluation1.gracePeriod);
 		assertEquals(true, evaluation1.p2pEnabled);
 		assertEquals(TimeHelper.convertToDate("2012-04-01 11:59 PM UTC"),

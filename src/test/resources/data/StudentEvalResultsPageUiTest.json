@@ -107,7 +107,7 @@
     "Second Eval": {
       "courseId": "SEvalRUiT.CS1101",
       "name": "Second Eval",
-      "instructions": "Please please fill in the second evaluation",
+      "instructions": {"value" : "Please please fill in the second evaluation"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2012-04-02 11:59 PM UTC",
       "timeZone": 8.0,
@@ -119,7 +119,7 @@
     "Third Eval": {
       "courseId": "SEvalRUiT.CS1101",
       "name": "Third Eval",
-      "instructions": "Please please fill in the third evaluation",
+      "instructions": {"value" : "Please please fill in the third evaluation"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2012-04-02 11:59 PM UTC",
       "timeZone": 8.0,
@@ -131,7 +131,7 @@
     "P2P Disabled Eval": {
       "courseId": "SEvalRUiT.CS1101",
       "name": "P2P Disabled Eval",
-      "instructions": "Please please fill in the P2P Disabled Evaluation",
+      "instructions": {"value" : "Please please fill in the P2P Disabled Evaluation"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2012-04-02 11:59 PM UTC",
       "timeZone": 8.0,
