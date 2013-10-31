@@ -304,7 +304,7 @@
 			<form onsubmit="tallyCheckboxes(1)" class="form_question" name="form_editquestions" id="form_editquestion-1" action="/page/instructorFeedbackQuestionEdit" method="post">
 			<table id="questionTable1" class="inputTable questionTable">
 			<tbody><tr>
-				<td class="bold">Question <select class="questionNumber"  disabled="disabled"  id="questionnum-1"  name="questionnum" >
+				<td class="bold">Question <select class="questionNumber nonDestructive"  disabled="disabled"  id="questionnum-1"  name="questionnum" >
                                  <option value="1" >
                                     1
                                  </option>
@@ -418,7 +418,7 @@
 			<form onsubmit="tallyCheckboxes('')" class="form_question" name="form_addquestions" action="/page/instructorFeedbackQuestionAdd" method="post">			
 			<table hidden="hidden" id="questionTableNew" class="inputTable questionTable">
 				<tbody><tr>
-					<td class="bold">Question <select class="questionNumber"  name="questionnum" >
+					<td class="bold">Question <select class="questionNumber nonDestructive"  name="questionnum" >
                                  <option value="1" >
                                     1
                                  </option>
