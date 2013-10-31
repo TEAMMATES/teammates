@@ -398,7 +398,8 @@ public class FeedbackSessionsLogic {
 	/**
 	 * This method is called when the user publishes a feedback session manually.
 	 * Preconditions:
-	 * *	The feedback session has to be set as manually published.
+	 * *	The feedback session has to be set as manually/automatically published.
+	 *      The feedback session can't be private
 	 */
 	public void publishFeedbackSession(String feedbackSessionName, String courseId)
 			throws EntityDoesNotExistException, InvalidParametersException {
@@ -410,9 +411,9 @@ public class FeedbackSessionsLogic {
 			throw new EntityDoesNotExistException("Trying to publish a non-existant session.");
 		}
 		
-		if (sessionToPublish.isManuallyPublished() == false) {
+		if(sessionToPublish.isPrivateSession() == true) {
 			throw new InvalidParametersException(
-					"Session should be published automatically.");
+					"Private session can't be published.");
 		}
 
 		if (sessionToPublish.isPublished()) {
@@ -442,9 +443,9 @@ public class FeedbackSessionsLogic {
 			throw new EntityDoesNotExistException("Trying to publish a non-existant session.");
 		}
 		
-		if (sessionToUnpublish.isManuallyPublished() == false) {
+		if(sessionToUnpublish.isPrivateSession() == true) {
 			throw new InvalidParametersException(
-					"Session should be not be unpublished in this manner.");
+					"Private session can't be published.");
 		}
 		
 		if (sessionToUnpublish.isPublished() == false) {
