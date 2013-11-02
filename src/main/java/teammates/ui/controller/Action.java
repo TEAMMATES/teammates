@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.UserType;
@@ -293,7 +295,7 @@ public abstract class Action {
 			newEval.gracePeriod = Integer.parseInt(paramGracePeriod);
 		}
 
-		newEval.instructions = getRequestParam(Const.ParamsNames.EVALUATION_INSTRUCTIONS);
+		newEval.instructions = new Text(getRequestParam(Const.ParamsNames.EVALUATION_INSTRUCTIONS));
 
 		return newEval;
 	}

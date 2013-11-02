@@ -35,7 +35,7 @@ public class AllJsTests extends BaseUiTestCase{
 		 * tests added. This total case number should reflect the number of tests
 		 * in AllJsUnitTests.html.
 		 */
-		int totalCases = 169;
+		int totalCases = 164;
 		
 		int totalCasesExpectedToPass = totalCases;
 		

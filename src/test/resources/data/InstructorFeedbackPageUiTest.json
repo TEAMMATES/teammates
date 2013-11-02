@@ -102,7 +102,7 @@
       "endTime" : "2014-04-30 11:59 PM UTC",
       "timeZone" : 2.0,
       "p2pEnabled" : true,
-      "instructions": "This is instruction for first eval",
+      "instructions": {"value" : "This is instruction for first eval"},
       "gracePeriod": 10,
       "published" : false,
       "activated" : true

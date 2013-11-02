@@ -109,7 +109,7 @@
     "First Eval": {
       "courseId": "SEvalEditUiT.CS2104",
       "name": "First Eval",
-      "instructions": "Please please fill it in",
+      "instructions": {"value" : "Please please fill it in"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2015-04-01 11:59 PM UTC",
       "timeZone": 8.0,
@@ -121,7 +121,7 @@
     "Second Eval": {
       "courseId": "SEvalEditUiT.CS2104",
       "name": "Second Eval",
-      "instructions": "Please please fill it in",
+      "instructions": {"value" : "Please please fill it in"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2015-04-01 11:59 PM UTC",
       "timeZone": 8.0,
@@ -133,7 +133,7 @@
     "Closed Unpublished Eval": {
       "courseId": "SEvalEditUiT.CS2104",
       "name": "Closed Unpublished Eval",
-      "instructions": "Please please fill it in",
+      "instructions": {"value" : "Please please fill it in"},
       "startTime": "2011-04-01 11:59 PM UTC",
       "endTime": "2012-01-01 11:59 PM UTC",
       "timeZone": 8.0,

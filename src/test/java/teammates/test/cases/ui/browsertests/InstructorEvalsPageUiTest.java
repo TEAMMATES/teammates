@@ -7,9 +7,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -38,13 +41,15 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		testData = loadDataBundle("/InstructorEvalsPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		
+		int limitStringLengthForDatastore = 500;
+		
 		newEval = new EvaluationAttributes();
 		newEval.courseId = "CEvalUiT.CS1101";
 	    newEval.name = "New Evaluation";
 	    newEval.startTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
 	    newEval.endTime = TimeHelper.convertToDate("2014-04-30 11:59 PM UTC");
 	    newEval.gracePeriod = 10;
-	    newEval.instructions = "Please fill in the new evaluation";
+	    newEval.instructions = new Text(StringHelper.generateStringOfLength(limitStringLengthForDatastore+1));
 	    newEval.p2pEnabled = true;
 	    newEval.published = false;
 	    newEval.activated = false;
@@ -141,7 +146,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
 		
 		// Empty name
-		evalsPage.addEvaluation(eval.courseId, "", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, "", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
 		assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
 		
 		// Empty instructions
@@ -149,11 +154,11 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
 
 		// Invalid name
-		evalsPage.addEvaluation(eval.courseId, eval.name+"!@#$%^&*()_+", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, eval.name+"!@#$%^&*()_+", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
 		assertEquals(Const.StatusMessages.EVALUATION_NAMEINVALID, evalsPage.getStatus());
 		
 		// Invalid schedule
-		evalsPage.addEvaluation(eval.courseId, eval.name, eval.endTime, eval.startTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, eval.name, eval.endTime, eval.startTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
 		assertEquals(Const.StatusMessages.EVALUATION_SCHEDULEINVALID.replace("<br />", "\n"), evalsPage.getStatus());
 		
 	}
@@ -163,7 +168,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		______TS("typical success case");
 		
 		EvaluationAttributes eval = newEval;
-		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
 		evalsPage.verifyStatus(Const.StatusMessages.EVALUATION_ADDED);
 		EvaluationAttributes savedEvaluation = BackDoor.getEvaluation(eval.courseId, eval.name);
 		//Note: This can fail at times because Firefox fails to choose the correct value from the dropdown.
@@ -174,8 +179,9 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 
 		______TS("duplicate evalution name");
 
-		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions, eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
 		assertEquals(Const.StatusMessages.EVALUATION_EXISTS, evalsPage.getStatus());
+		
 	}
 
 	

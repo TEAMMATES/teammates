@@ -47,13 +47,13 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 	@Test
 	public void testExecuteAndPostProcess() throws Exception {
 		
-		InstructorAttributes instructorToDelete = dataBundle.instructors.get("instructor2OfCourse1");
-		String instructorId = instructorToDelete.googleId;
+		InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
+		String loginInstructorId = loginInstructor.googleId;
 
-		String courseId = instructorToDelete.courseId;	
+		String courseId = loginInstructor.courseId;	
 		String adminUserId = "admin.user";
 
-		gaeSimulation.loginAsInstructor(instructorId);
+		gaeSimulation.loginAsInstructor(loginInstructorId);
 		
 		______TS("Not enough parameters");
 
@@ -63,9 +63,11 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 		
 		______TS("Typical case: delete instructor successfully");
 		
+		String instructorIdToDelete = dataBundle.instructors.get("instructor2OfCourse1").googleId;
+		
 		String[] submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, courseId,
-				Const.ParamsNames.INSTRUCTOR_ID, instructorId
+				Const.ParamsNames.INSTRUCTOR_ID, instructorIdToDelete
 		};
 		
 		Action action = getAction(submissionParams);
@@ -75,35 +77,57 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 		assertEquals(false, result.isError);
 		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, result.getStatusMessage());
 
-		assertEquals(false, instructorsLogic.isInstructorOfCourse(instructorId, courseId));
+		assertEquals(false, instructorsLogic.isInstructorOfCourse(instructorIdToDelete, courseId));
 		
-		String expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorId + "</span>"
+		String expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorIdToDelete + "</span>"
 				+ " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
+		______TS("Success: delete own instructor role from course, redirect back to courses page");
+		
+		instructorIdToDelete = loginInstructorId;
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.COURSE_ID, courseId,
+				Const.ParamsNames.INSTRUCTOR_ID, instructorIdToDelete
+		};
+		
+		action = getAction(submissionParams);
+		result = (RedirectResult) action.executeAndPostProcess();
+		
+		assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, result.destination);
+		assertEquals(false, result.isError);
+		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, result.getStatusMessage());
+
+		assertEquals(false, instructorsLogic.isInstructorOfCourse(instructorIdToDelete, courseId));
+		
+		expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorIdToDelete + "</span>"
+				+ " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
+		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+		
 		______TS("Masquerade mode: delete instructor failed due to last instructor in course");
 
-		instructorToDelete = dataBundle.instructors.get("instructor4");
-		instructorId = instructorToDelete.googleId;
+		InstructorAttributes instructorToDelete = dataBundle.instructors.get("instructor4");
+		instructorIdToDelete = instructorToDelete.googleId;
 		courseId = instructorToDelete.courseId;	
 		
 		gaeSimulation.loginAsAdmin(adminUserId);
 		
 		submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, courseId,
-				Const.ParamsNames.INSTRUCTOR_ID, instructorId
+				Const.ParamsNames.INSTRUCTOR_ID, instructorIdToDelete
 		};
 		
-		action = getAction(addUserIdToParams(instructorId, submissionParams));
+		action = getAction(addUserIdToParams(instructorIdToDelete, submissionParams));
 		result = (RedirectResult) action.executeAndPostProcess();
 		
 		assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
 		assertEquals(true, result.isError);
 		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, result.getStatusMessage());
 
-		assertEquals(true, instructorsLogic.isInstructorOfCourse(instructorId, courseId));
+		assertEquals(true, instructorsLogic.isInstructorOfCourse(instructorIdToDelete, courseId));
 		
-		expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorId + "</span>"
+		expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorIdToDelete + "</span>"
 				+ " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
 				+ "as there is only one instructor left.<br>";
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());

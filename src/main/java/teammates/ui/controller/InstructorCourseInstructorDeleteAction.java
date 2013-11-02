@@ -36,8 +36,14 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 					+ "as there is only one instructor left.<br>";
 		}
 		
-		RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
-		result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+		RedirectResult result = null;
+		if (logic.isInstructorOfCourse(account.googleId, courseId)) {
+			result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+			result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+		} else {
+			result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+		}
+		
 		return result;
 	}
 

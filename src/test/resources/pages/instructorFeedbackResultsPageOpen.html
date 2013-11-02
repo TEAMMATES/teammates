@@ -81,20 +81,22 @@
 			
 		</td>
 	</tr>
+	<tr>
+		<td align="center" colspan="10">
+			<form method="post"
+			  		action="/page/instructorFeedbackResultsDownload">
+			<div id="feedbackDataButtons">
+			<input id="button_download" type="submit" class="button"
+					name="fruploaddownloadbtn"
+					value="Download results">
+			</div>
+			<input type="hidden" name="fsname" value="First Session">
+			<input type="hidden" name="courseid" value="CFResultsUiT.CS2104">
+			</form>
+		</td>
+	</tr>
 </tbody></table>
-<br /><br />
-<form action="/page/instructorFeedbackResultsDownload" method="post">
-	<div style="float:right; padding-right: 5%;" id="feedbackDataButtons">
-		<input class="button"  id="button_download"  name="fruploaddownloadbtn"  type="submit"  value="Download results" />
-		{*}
-    </div>
-    <input name="fsname"  type="hidden"  value="First Session" />
-    <input name="courseid"  type="hidden"  value="CFResultsUiT.CS2104" />
-</form>
-</form>
-<br />
-<br />
-<br />
+<br><br><br>
 
 <form action="/page/instructorFeedbackResultsPage" method="post">
 	<table class="inputTable sortTypeTable">
@@ -108,9 +110,6 @@
 	<input type="hidden" value="CFResultsUiT.CS2104" name="courseid" />
 	<input name="user"  type="hidden"  value="CFResultsUiT.instr" />
 </form>
-
-
-
 
 
 

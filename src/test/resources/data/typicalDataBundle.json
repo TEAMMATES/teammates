@@ -203,7 +203,7 @@
     "evaluation1InCourse1": {
       "courseId" : "idOfTypicalCourse1",
       "name" : "evaluation1 In Course1",
-      "instructions": "instructions for evaluation1InCourse1",
+      "instructions": {"value" : "instructions for evaluation1InCourse1"},
       "gracePeriod": 10,
       "p2pEnabled" : true,
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -217,7 +217,7 @@
       "startTime" : "2012-04-01 11:59 PM UTC",
       "endTime" : "2015-04-30 11:59 PM UTC",
       "gracePeriod": 20,
-      "instructions": "Please please fill in the second evaluation in Course1",
+      "instructions": {"value" : "Please please fill in the second evaluation in Course1"},
       "name": "evaluation2 In Course1",
       "p2pEnabled": true,
 	  "activated": true
@@ -227,7 +227,7 @@
       "startTime" : "2012-04-01 11:59 PM UTC",
       "endTime" : "2015-04-30 11:59 PM UTC",
       "gracePeriod": 20,
-      "instructions": "Please please fill in the first evaluation in Course2",
+      "instructions": {"value" : "Please please fill in the first evaluation in Course2"},
       "name": "evaluation1 In Course2",
       "p2pEnabled": true,
 	  "activated": true

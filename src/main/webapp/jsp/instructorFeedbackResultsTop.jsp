@@ -60,26 +60,24 @@
 			%>
 		</td>
 	</tr>
+	<tr>
+		<td align="center" colspan="10">
+			<form method="post"
+			  		action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
+			<div id="feedbackDataButtons">
+			<input id="button_download" type="submit" class="button"
+					name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
+					value="Download results">
+			</div>
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+			<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+			</form>
+		</td>
+	</tr>
 </table>
-<br><br>
-<form method="post"
-	action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-	<div id="feedbackDataButtons" style="float:right; padding-right: <%=noResponses ? "28%;" : "5%;"%>">
-		<input id="button_download" type="submit" class="button"
-			name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-			value="Download results">
-			<!-- Disabling button (NYI)  
-			<input id="button_upload" type="submit"
-			class="button"
-			name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-			value="Upload more data"> -->
-	</div>
-<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
-<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
-</form>
-<br>
-<br>
-<br>
+
+<br><br><br>
+
 <%
 	if (noResponses == false) {
 %>
@@ -117,6 +115,5 @@
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
 <% if (noResponses) { %>
-	<br><br><br>
 	<div class="bold color_red centeralign">There are no responses for this feedback session yet.</div>
 <% } %>

@@ -31,7 +31,7 @@ public class InstructorEvalEditSaveAction extends Action {
 		try {
 			
 			logic.updateEvaluation(data.evaluation.courseId, data.evaluation.name, 
-					data.evaluation.instructions, data.evaluation.startTime,
+					data.evaluation.instructions.getValue(), data.evaluation.startTime,
 					data.evaluation.endTime, data.evaluation.timeZone, 
 					data.evaluation.gracePeriod, data.evaluation.p2pEnabled);
 			

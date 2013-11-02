@@ -12,7 +12,7 @@
 },
 
 "evaluations":{
-	"idOf_Z3_Eval0_in_Cou0_of_Coo0":{"courseId":"idOf_Z3_Cou0_of_Coo0","name":"Z3_Eval0_in_Cou0_of_Coo0","instructions":"instructions for Z3_Eval0_in_Cou0_of_Coo0","gracePeriod":10,"p2pEnabled":true,"startTime":"2012-04-01 11:59 PM UTC","endTime":"2012-012-30 11:59 PM UTC","startTime":"2012-04-01 11:59 PM UTC","timeZone":8.0,"activated":true,"published":false}
+	"idOf_Z3_Eval0_in_Cou0_of_Coo0":{"courseId":"idOf_Z3_Cou0_of_Coo0","name":"Z3_Eval0_in_Cou0_of_Coo0","instructions":{"value":"instructions for Z3_Eval0_in_Cou0_of_Coo0"},"gracePeriod":10,"p2pEnabled":true,"startTime":"2012-04-01 11:59 PM UTC","endTime":"2012-012-30 11:59 PM UTC","startTime":"2012-04-01 11:59 PM UTC","timeZone":8.0,"activated":true,"published":false}
 },
 
 "submissions":{

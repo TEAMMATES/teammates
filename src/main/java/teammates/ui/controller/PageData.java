@@ -678,8 +678,8 @@ public class PageData {
 		boolean hasView = true;
 		boolean isCreator = session.isCreator(this.account.email);
 		boolean hasSubmit = session.isVisible() || session.isPrivateSession();
-		boolean hasPublish = !session.isWaitingToOpen() && session.isManuallyPublished() && !session.isPublished() && isCreator;
-		boolean hasUnpublish = !session.isWaitingToOpen() && session.isManuallyPublished() && session.isPublished() && isCreator;
+		boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished() && isCreator;
+		boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished() && isCreator;
 		
 		result.append(
 			"<a class=\"color_green t_session_view"+ position + "\" " +

@@ -58,7 +58,12 @@ function showNewInstructorForm() {
  * @param instructorID
  * @returns
  */
-function toggleDeleteInstructorConfirmation(courseID, instructorID) {
-	return confirm("Are you sure you want to delete the instructor " + instructorID + " from " + courseID + "? " +
+function toggleDeleteInstructorConfirmation(courseID, instructorID, userID) {
+	if (instructorID == userID) {
+		return confirm("Are you sure you want to delete your instructor role from the course " + courseID + "? " +
+		"You will not be able to access the course anymore.");
+	} else {
+		return confirm("Are you sure you want to delete the instructor " + instructorID + " from " + courseID + "? " +
 			"He/she will not be able to access the course anymore.");
+	}
 }
