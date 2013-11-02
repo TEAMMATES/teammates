@@ -139,9 +139,24 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		courseEditPage.clickDeleteInstructorLinkAndConfirm();
 		courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
 		
+		______TS("deleted own instructor role and redirect to courses page");
+		// Change login id to another instructor
+		BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.coord"));
+		instructorId = testData.instructors.get("InsCrsEdit.coord").googleId;
+		
+		courseEditPage = getCourseEditPage();
+		courseEditPage.clickDeleteInstructorLinkAndConfirm();
+
+		InstructorCoursesPage coursesPage = courseEditPage.changePageType(InstructorCoursesPage.class);
+		coursesPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED + "\n"
+							+ Const.StatusMessages.COURSE_EMPTY);
+		
+		// Change back login id to original instructor to ensure remaining test cases work properly
+		instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
 	}
 	
 	private void testDeleteCourseAction() {
+		courseEditPage = getCourseEditPage();
 		
 		______TS("delete course then cancel");
 		courseEditPage.clickDeleteCourseLinkAndCancel();
