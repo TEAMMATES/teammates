@@ -43,6 +43,11 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	
 	//TODO: add missing tests. Some of the test content can be transferred from LogicTest.
 	
+	/* TODO: implement tests for the following:
+	 * 1. getEvaluationsListForInstructor()
+	 * 2. getEvaluationsDetailsForCourseAndEval()
+	 */
+	
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	private static final SubmissionsLogic submissionsLogic = new SubmissionsLogic();

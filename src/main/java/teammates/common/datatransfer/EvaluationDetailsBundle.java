@@ -36,16 +36,20 @@ public class EvaluationDetailsBundle {
 				EvaluationAttributes eval1 = edd1.evaluation;
 				EvaluationAttributes eval2 = edd2.evaluation;
 				int result = 0;
-				if (result == 0)
+				if (result == 0) {
 					result = eval1.endTime.after(eval2.endTime) ? 1
 							: (eval1.endTime.before(eval2.endTime) ? -1 : 0);
-				if (result == 0)
+				}
+				if (result == 0) {
 					result = eval1.startTime.after(eval2.startTime) ? 1
 							: (eval1.startTime.before(eval2.startTime) ? -1 : 0);
-				if (result == 0)
+				}
+				if (result == 0) {
 					result = eval1.courseId.compareTo(eval2.courseId);
-				if (result == 0)
+				}
+				if (result == 0) {
 					result = eval1.name.compareTo(eval2.name);
+				}
 				return result;
 			}
 		});

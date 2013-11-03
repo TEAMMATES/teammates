@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -70,7 +71,11 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 			data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
 			if (data.existingFeedbackSessions.size() == 0) {
 				statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
-			}			
+			}
+			
+			EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
+			FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
+			
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
 		}
 	}

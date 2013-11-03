@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -55,6 +56,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 	public void allTests() throws Exception{
 		testLogin();
 		testContent();
+		testShowFeedbackStatsLink();
 		testHelpLink();
 		testCourseLinks();
 		testEvaluationLinks();
@@ -64,6 +66,29 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		testDeleteCourseAction();
 	}
 	
+	private void testShowFeedbackStatsLink() {
+		WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
+		
+		String currentValidUrl = viewResponseLink.getAttribute("href");
+		
+		______TS("test case: fail, fetch response rate of invalid url");
+		homePage.setViewResponseLinkValue(viewResponseLink, "/invalid/url");
+		viewResponseLink.click();
+		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRateFail.html");
+		
+		______TS("test case: fail to fetch response rate again, check consistency of fail message");
+		viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
+		viewResponseLink.click();
+		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRateFail.html");
+		
+		______TS("test case: pass with valid url after multiple fails");
+		viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
+		homePage.setViewResponseLinkValue(viewResponseLink, currentValidUrl);
+		viewResponseLink.click();
+		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRatePass.html");
+	}
+
+
 	public void testLogin(){
 		
 		______TS("login");
@@ -85,7 +110,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		______TS("content: multiple courses");
 		
 		//already logged in
-		homePage.verifyHtml("/instructorHomeHTML.html");
+		homePage.verifyHtmlAjax("/instructorHomeHTML.html");
 		
 	}
 	
@@ -172,7 +197,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		
 		homePage.clickAndConfirm(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
 		assertTrue(BackDoor.isEvaluationNonExistent(firstEval_OPEN.courseId, firstEval_OPEN.name));
-		homePage.verifyHtml("/instructorHomeEvalDeleteSuccessful.html");
+		homePage.verifyHtmlAjax("/instructorHomeEvalDeleteSuccessful.html");
 		
 	}
 
@@ -186,7 +211,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		
 		homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
 		assertTrue(BackDoor.isCourseNonExistent(courseId));
-		homePage.verifyHtml("/instructorHomeCourseDeleteSuccessful.html");
+		homePage.verifyHtmlAjax("/instructorHomeCourseDeleteSuccessful.html");
 		
 		//delete the other course as well
 		homePage.clickAndConfirm(homePage.getDeleteCourseLink(testData.courses.get("CHomeUiT.CS1101").id));

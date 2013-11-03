@@ -62,14 +62,15 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 	public void allTests() throws Exception{
 		testContent();
 		
-		testViewResultsLink();
-		testEditLink();
-		testSubmitLink();
-		
 		testAddAction();
 		testDeleteAction();
 		testPublishAction();
 		testUnpublishAction();
+		
+		//testing response rate links due to page source problems encountered after testContent()
+		testViewResultsLink();
+		testEditLink();
+		testSubmitLink();
 
 	}
 
@@ -310,7 +311,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		assertNotNull("session should not have been deleted", BackDoor.getFeedbackSession(courseId, sessionName));
 	
 		feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, sessionName));
-		feedbackPage.verifyHtml("/instructorFeedbackDeleteSuccessful.html");
+		feedbackPage.verifyHtmlAjax("/instructorFeedbackDeleteSuccessful.html");
 		
 	}
 	
@@ -345,7 +346,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		feedbackPage.clickAndConfirm(feedbackPage.getPublishLink(courseId, sessionName));
 		feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
 		assertEquals(true, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
-		feedbackPage.verifyHtml("/instructorFeedbackPublishSuccessful.html");
+		feedbackPage.verifyHtmlAjax("/instructorFeedbackPublishSuccessful.html");
 		
 		______TS("PUBLISHED: publish link hidden");
 		
@@ -383,7 +384,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		feedbackPage.clickAndConfirm(feedbackPage.getUnpublishLink(courseId, sessionName));
 		feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
 		assertEquals(false, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
-		feedbackPage.verifyHtml("/instructorFeedbackUnpublishSuccessful.html");
+		feedbackPage.verifyHtmlAjax("/instructorFeedbackUnpublishSuccessful.html");
 		
 		______TS("PUBLISHED: unpublish link hidden");
 		

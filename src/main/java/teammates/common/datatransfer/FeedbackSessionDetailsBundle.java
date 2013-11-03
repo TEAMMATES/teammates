@@ -36,19 +36,24 @@ public class FeedbackSessionDetailsBundle {
 				FeedbackSessionAttributes session1 = fsd1.feedbackSession;
 				FeedbackSessionAttributes session2 = fsd2.feedbackSession;
 				int result = 0;
-				if (result == 0)
+				if (result == 0) {
 					result = session1.courseId.compareTo(session2.courseId);
-				if (result == 0)
+				}
+				if (result == 0) {
 					result = session1.createdTime.after(session2.createdTime) ? 1
 							: (session1.createdTime.before(session2.createdTime) ? -1 : 0);
-				if (result == 0)
+				}
+				if (result == 0) {
 					result = session1.endTime.after(session2.endTime) ? 1
 							: (session1.endTime.before(session2.endTime) ? -1 : 0);
-				if (result == 0)
+				}
+				if (result == 0) {
 					result = session1.startTime.after(session2.startTime) ? 1
 							: (session1.startTime.before(session2.startTime) ? -1 : 0);
-				if (result == 0)
+				}
+				if (result == 0) {
 					result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
+				}
 				return result;
 			}
 		});

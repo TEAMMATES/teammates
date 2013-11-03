@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.net.URL;
@@ -444,6 +445,48 @@ public abstract class AppPage {
 			throw new RuntimeException(e);
 		}
 		return this;
+	}
+	
+	/**
+	 * Verifies that the currently loaded page has the same HTML content as 
+	 * the content given in the file at {@code filePath}. <br>
+	 * Since the verification is done after making an Ajax Request, the HTML is checked
+	 * after "waitDuration", for "maxRetryCount" number of times.
+	 * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
+	 * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+	 * @return The page (for chaining method calls).
+	 */
+	public AppPage verifyHtmlAjax(String filePath) {
+		int maxRetryCount = 5;
+		int waitDuration = 1000;
+		
+		if(filePath.startsWith("/")){
+			filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
+		}
+		
+		String expectedString = "";
+		
+		try {
+			expectedString = FileHelper.readFile(filePath);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
+		for(int i =0; i < maxRetryCount; i++) {
+			ThreadHelper.waitFor(waitDuration);	
+			try {
+				String actual = getPageSource();
+				if(HtmlHelper.areSameHtml(actual, expectedString)) {
+					break;
+				}
+				
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		
+		return verifyHtml(filePath);
 	}
 	
 	/**

@@ -19,6 +19,11 @@ import teammates.test.driver.AssertHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
 
+	//TODO: add missing test cases
+
+	//TODO: test getCourseSummaryWithoutStats 
+	//TODO: test getCoursesSummaryWithoutStatsForInstructor
+	
 	private CoursesLogic coursesLogic = new CoursesLogic();
 	private CoursesDb coursesDb = new CoursesDb();
 	private AccountsDb accountsDb = new AccountsDb();
@@ -160,7 +165,4 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
 	}
 			
-	//TODO: add missing test cases
-
-
 }

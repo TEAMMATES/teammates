@@ -88,13 +88,13 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		______TS("typical view, sort by deadline (default)");
 		
 		evalsPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithEvals").googleId);
-		evalsPage.verifyHtml("/instructorEvalByDeadline.html");
+		evalsPage.verifyHtmlAjax("/instructorEvalByDeadline.html");
 
 		______TS("sort by name");
 		
 		evalsPage.sortByName()
 			.verifyTablePattern(1,"{*}First Eval{*}Second Eval{*}Third Eval");
-		evalsPage.verifyHtml("/instructorEvalByName.html");
+		evalsPage.verifyHtmlAjax("/instructorEvalByName.html");
 		
 		evalsPage.sortByName()
 			.verifyTablePattern( 1,"{*}Third Eval{*}Second Eval{*}First Eval");
@@ -103,13 +103,13 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		
 		evalsPage.sortById()
 		.verifyTablePattern(0,"{*}CEvalUiT.CS1101{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104");
-		evalsPage.verifyHtml("/instructorEvalById.html");
+		evalsPage.verifyHtmlAjax("/instructorEvalById.html");
 		
 		evalsPage.sortById()
 			.verifyTablePattern(0,"{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104{*}CEvalUiT.CS1101");
 	
 	}
-
+	
 	public void testEditLink(){
 		//TODO: implement this (also check for disabling of the link at right times)
 	}
@@ -275,7 +275,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		assertNotNull(null, BackDoor.getEvaluation(courseId, evalName));
 	
 		evalsPage.clickAndConfirm(evalsPage.getDeleteLink(courseId, evalName));
-		evalsPage.verifyHtml("/instructorEvalDeleteSuccessful.html");
+		evalsPage.verifyHtmlAjax("/instructorEvalDeleteSuccessful.html");
 		
 	}
 

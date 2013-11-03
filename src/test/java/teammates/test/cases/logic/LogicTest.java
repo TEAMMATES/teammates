@@ -722,6 +722,8 @@ public class LogicTest extends BaseComponentTestCase {
 		}
 	}
 
+	//TODO: Test getCourseSummariesWithoutStatsForInstructor() method
+	
 	@Test
 	public void testGetCourseSummariesForInstructor() throws Exception {
 	
@@ -1910,6 +1912,11 @@ public class LogicTest extends BaseComponentTestCase {
 
 	}
 
+	/* TODO: implement tests for the following: 
+	 * 1. getEvaluationDetails()	
+	 * 2. getEvaluationsListForInstructor()
+	 * 3. getEvaluationDetailsForCourse()
+	 */
 	@Test
 	public void testGetEvaluationsDetailsForInstructor() throws Exception {
 	
@@ -1993,6 +2000,8 @@ public class LogicTest extends BaseComponentTestCase {
 				new Object[] { "non-existent" });
 	}
 
+	
+	
 	@Test
 	public void testGetEvaluationResult() throws Exception {
 	
@@ -2235,8 +2244,6 @@ public class LogicTest extends BaseComponentTestCase {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
 		}
 	}
-	
-	//TODO: unit test getEvaluationDetailsForCourse(String)
 
 	@Test
 	public void testGetEvauationResultForStudent() throws Exception {
@@ -2774,6 +2781,10 @@ public class LogicTest extends BaseComponentTestCase {
 		// method not implemented
 	}
 	
+	/* TODO: implement tests for the following :
+	 * 1. getFeedbackSessionDetails()
+	 * 2. getFeedbackSessionsListForInstructor()
+	 */
 	@SuppressWarnings("unused")
 	private void ____MISC_methods_________________________________________() {
 	}
