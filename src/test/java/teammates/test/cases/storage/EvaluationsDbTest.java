@@ -14,6 +14,8 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -41,6 +43,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.courseId = "Computing101";
 		e.name = "Very First Evaluation";
+		e.instructions = new Text("Instruction to students");
 		e.startTime = new Date();
 		e.endTime = new Date();
 		evaluationsDb.createEntity(e);
@@ -48,17 +51,18 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		______TS("success: confirm sanitization of fields while creating an evaluation");
 		e.courseId = "  Computing101  ";
 		e.name = "\tSecond Evaluation\t";
-		e.instructions = "\t\ntypical instructions\t\n";
+		e.instructions = new Text("\t\ntypical instructions\t\n");
 		e.startTime = new Date();
 		e.endTime = new Date();
 		evaluationsDb.createEntity(e);
 		
 		e = evaluationsDb.getEvaluation("Computing101", "Second Evaluation");
-		assertEquals("typical instructions",e.instructions);
+		assertEquals("typical instructions",e.instructions.getValue());
 		
 		______TS("success: create evaluation even if keyword 'group' appears in the middle of the name (see Issue 380");
 		e = new EvaluationAttributes();
 		e.courseId = "Computing102";
+		e.instructions = new Text("instructions");
 		e.name = "text group text";
 		e.startTime = new Date();
 		e.endTime = new Date();
@@ -124,7 +128,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		EvaluationAttributes e = createNewEvaluation();
 				
 		______TS("typical: update an evaluation");
-		e.instructions = "Foo Bar";
+		e.instructions = new Text("Foo Bar");
 		evaluationsDb.updateEvaluation(e);
 		
 		______TS("fail: invalid parameters");
@@ -141,13 +145,13 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		}
 		
 		______TS("success: confirm sanitization during update of an evaluation");
-		e.instructions = "\t\n New Instructions\t \n ";
+		e.instructions = new Text("\t\n New Instructions\t \n ");
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		evaluationsDb.updateEvaluation(e);
 		
 		e = evaluationsDb.getEvaluation(e.courseId, e.name);
-		assertEquals("New Instructions", e.instructions);
+		assertEquals("New Instructions", e.instructions.getValue());
 		
 		______TS("fail: attempt to update a non-existent evaluation");
 		
@@ -232,7 +236,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		e.name = "Typical Evaluation Name";
 		e.timeZone = 0.0;
 		e.gracePeriod = 0;
-		e.instructions = "typical instructions";
+		e.instructions = new Text("typical instructions");
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.p2pEnabled = true;
@@ -245,6 +249,7 @@ public class EvaluationsDbTest extends BaseComponentTestCase {
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.courseId = "Computing104";
 		e.name = "Basic Computing Evaluation1";
+		e.instructions = new Text("Instructions to student.");
 		e.startTime = new Date();
 		e.endTime = new Date();
 		

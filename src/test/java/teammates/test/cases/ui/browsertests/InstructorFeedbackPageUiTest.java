@@ -324,8 +324,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		String courseId = testData.feedbackSessions.get("publishedSession").courseId;
 		String sessionName = testData.feedbackSessions.get("publishedSession").feedbackSessionName;
 		
+		//The publish link still exist here because the session doesn't belong to the instructor.
 		feedbackPage.verifyUnclickable(feedbackPage.getPublishLink(courseId, sessionName));
-		feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
 		
 		______TS("PRIVATE: publish link unclickable");
 		

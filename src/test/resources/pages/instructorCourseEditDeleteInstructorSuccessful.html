@@ -105,19 +105,19 @@
 			
 			<form method="post" action="/page/instructorCourseInstructorEditSave" id="formEditInstructor1&gt;" name="formEditInstructors" class="formInstructor" >
 				<input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
-				<input name="instructorid" value="InsCrsEdit.newInstrId" type="hidden">
+				<input name="instructorid" value="InsCrsEdit.instructor" type="hidden">
 				
 				<table id="instructorTable1" class="inputTable instructorTable">
 					<tbody><tr>
 						<td class="label bold">Instructor 1:</td>
 						<td class="rightalign">
 							<a href="#" class="color_blue pad_right" id="instrEditLink1" onmouseover="ddrivetip('Edit instructor details')" onmouseout="hideddrivetip()" onclick="enableEditInstructor(1, 2)">Edit</a>
-							<a href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructorid=InsCrsEdit.newInstrId&amp;user=InsCrsEdit.test" class="color_red" id="instrDeleteLink1" onmouseover="ddrivetip('Delete the instructor from the course')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.newInstrId');">Delete</a>
+							<a href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructorid=InsCrsEdit.instructor&amp;user=InsCrsEdit.test" class="color_red" id="instrDeleteLink1" onmouseover="ddrivetip('Delete the instructor from the course')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.instructor', 'InsCrsEdit.test');">Delete</a>
 						</td>
 					</tr>
 					<tr>
 						<td class="label bold">Google ID:</td>
-						<td><input class="addinput immutable" name="instructorid" id="instructorid1" value="InsCrsEdit.newInstrId" onmouseover="ddrivetip('Enter the google id of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="3" disabled="disabled" type="text"></td>
+						<td><input class="addinput immutable" name="instructorid" id="instructorid1" value="InsCrsEdit.instructor" onmouseover="ddrivetip('Enter the google id of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="3" disabled="disabled" type="text"></td>
 					</tr>
 					<tr>
 						<td class="label bold">Name:</td>
@@ -145,7 +145,7 @@
 						<td class="label bold">Instructor 2:</td>
 						<td class="rightalign">
 							<a href="#" class="color_blue pad_right" id="instrEditLink2" onmouseover="ddrivetip('Edit instructor details')" onmouseout="hideddrivetip()" onclick="enableEditInstructor(2, 2)">Edit</a>
-							<a href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructorid=InsCrsEdit.test&amp;user=InsCrsEdit.test" class="color_red" id="instrDeleteLink2" onmouseover="ddrivetip('Delete the instructor from the course')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test');">Delete</a>
+							<a href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructorid=InsCrsEdit.test&amp;user=InsCrsEdit.test" class="color_red" id="instrDeleteLink2" onmouseover="ddrivetip('Delete the instructor from the course')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test', 'InsCrsEdit.test');">Delete</a>
 						</td>
 					</tr>
 					<tr>

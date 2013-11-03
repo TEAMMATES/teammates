@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -30,7 +32,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	//Note: be careful when changing these variables as their names are used in *.json files.
 	public String courseId;
 	public String name;
-	public String instructions = ""; // TODO: Change to Text?
+	public Text instructions;
 	public Date startTime;
 	public Date endTime;
 	public double timeZone;
@@ -45,7 +47,7 @@ public class EvaluationAttributes extends EntityAttributes {
 
 	}
 	
-	public EvaluationAttributes(String courseId, String name, String instructions,
+	public EvaluationAttributes(String courseId, String name, Text instructions,
 			Date startTime, Date endTime, double timeZone, int gracePeriod,
 			boolean p2pEnabled, boolean published, boolean activated) {
 		this.courseId = Sanitizer.sanitizeTitle(courseId);
@@ -63,7 +65,11 @@ public class EvaluationAttributes extends EntityAttributes {
 	public EvaluationAttributes(Evaluation e) {
 		this.courseId = e.getCourseId();
 		this.name = e.getName();
-		this.instructions = e.getInstructions();
+		this.instructions = e.getLongInstructions();
+		if (this.instructions == null) {
+			// for backward compatibility
+			this.instructions = new Text(e.getInstructions());
+		}
 		this.startTime = e.getStart();
 		this.endTime = e.getDeadline();
 		this.timeZone = e.getTimeZone();
@@ -310,7 +316,7 @@ public class EvaluationAttributes extends EntityAttributes {
 	public void sanitizeForSaving() {
 		this.courseId = this.courseId.trim();
 		this.name = this.name.trim();
-		this.instructions = this.instructions.trim();
+		this.instructions = Sanitizer.sanitizeTextField(this.instructions);
 	}
 	
 	/**

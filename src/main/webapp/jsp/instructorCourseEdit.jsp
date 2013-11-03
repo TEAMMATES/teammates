@@ -109,7 +109,7 @@
 							onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)">Edit</a>
 							<a href="<%=data.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.googleId)%>" class="color_red" id="instrDeleteLink<%=index%>"
 							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_INSTRUCTOR_DELETE%>')" onmouseout="hideddrivetip()"
-							onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('<%=instructor.courseId%>','<%=instructor.googleId%>');">Delete</a>
+							onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('<%=instructor.courseId%>','<%=instructor.googleId%>', '<%=data.account.googleId%>');">Delete</a>
 						</td>
 					</tr>
 					<tr>

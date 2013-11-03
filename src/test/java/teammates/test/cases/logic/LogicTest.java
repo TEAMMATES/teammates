@@ -53,7 +53,6 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -1681,6 +1680,7 @@ public class LogicTest extends BaseComponentTestCase {
 		EvaluationAttributes newEval = new EvaluationAttributes();
 		newEval.courseId = "course1";
 		newEval.name = "new eval";
+		newEval.instructions = new Text("instructions");
 		newEval.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		newEval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		logic.createEvaluation(newEval);
@@ -2390,7 +2390,7 @@ public class LogicTest extends BaseComponentTestCase {
 		EvaluationAttributes eval = new EvaluationAttributes();
 		eval.courseId = "idOfTypicalCourse1";
 		eval.name = "new evaluation";
-		eval.instructions = "inst";
+		eval.instructions = new Text("inst");
 		Date dummyTime = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime();
 		eval.startTime = dummyTime;
 		eval.endTime = dummyTime;
@@ -2403,7 +2403,7 @@ public class LogicTest extends BaseComponentTestCase {
 
 		eval = dataBundle.evaluations.get("evaluation1InCourse1");
 		eval.gracePeriod = eval.gracePeriod + 1;
-		eval.instructions = eval.instructions + "x";
+		eval.instructions = new Text(eval.instructions.getValue() + "x");
 		eval.p2pEnabled = (!eval.p2pEnabled);
 		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
@@ -3046,7 +3046,7 @@ public class LogicTest extends BaseComponentTestCase {
 
 	private void invokeEditEvaluation(EvaluationAttributes e)
 			throws InvalidParametersException, EntityDoesNotExistException {
-		logic.updateEvaluation(e.courseId, e.name, e.instructions, e.startTime,
+		logic.updateEvaluation(e.courseId, e.name, e.instructions.getValue(), e.startTime,
 				e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
 	}
 
@@ -3097,7 +3097,7 @@ public class LogicTest extends BaseComponentTestCase {
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.gracePeriod = 0;
-		e.instructions = "instructions for " + e.name;
+		e.instructions = new Text("instructions for " + e.name);
 		logic.createEvaluation(e);
 		// create submissions
 		ArrayList<SubmissionAttributes> submissions = new ArrayList<SubmissionAttributes>();

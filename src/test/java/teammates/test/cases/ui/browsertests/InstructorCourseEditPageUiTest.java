@@ -83,7 +83,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		______TS("success: add an instructor");
 		
 		courseEditPage = getCourseEditPage();
-		courseEditPage.addNewInstructor("InsCrsEdit.newInstrId", "Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
+		courseEditPage.addNewInstructor("InsCrsEdit.instructor", "Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
 		courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED);
 		
 		Url courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
@@ -96,14 +96,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		______TS("failure: add an existing instructor");
 		
 		courseEditPage = getCourseEditPage();
-		courseEditPage.addNewInstructor("InsCrsEdit.newInstrId", "Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
+		courseEditPage.addNewInstructor("InsCrsEdit.instructor", "Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
 		courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
 		
 		______TS("failure: add an instructor with an invalid parameter");
 		String invalidEmail = "InsCrsEdit.email.com";
 		
 		courseEditPage = getCourseEditPage();
-		courseEditPage.addNewInstructor("InsCrsEdit.newInstrId", "Teammates Instructor", invalidEmail);
+		courseEditPage.addNewInstructor("InsCrsEdit.instructor", "Teammates Instructor", invalidEmail);
 		courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
 	}
 
@@ -130,13 +130,33 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		courseEditPage.clickDeleteInstructorLinkAndCancel();
 		assertNotNull(BackDoor.getInstructorAsJson(instructorId, courseId));
 		
-		______TS("delete instructor then proceed");
+		______TS("delete instructor successfully");
 		courseEditPage.clickDeleteInstructorLinkAndConfirm();
 		courseEditPage.verifyHtml("/instructorCourseEditDeleteInstructorSuccessful.html");
 		
+		______TS("failed to delete the last instructor");
+		courseEditPage.clickDeleteInstructorLinkAndConfirm();
+		courseEditPage.clickDeleteInstructorLinkAndConfirm();
+		courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
+		
+		______TS("deleted own instructor role and redirect to courses page");
+		// Change login id to another instructor
+		BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.coord"));
+		instructorId = testData.instructors.get("InsCrsEdit.coord").googleId;
+		
+		courseEditPage = getCourseEditPage();
+		courseEditPage.clickDeleteInstructorLinkAndConfirm();
+
+		InstructorCoursesPage coursesPage = courseEditPage.changePageType(InstructorCoursesPage.class);
+		coursesPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED + "\n"
+							+ Const.StatusMessages.COURSE_EMPTY);
+		
+		// Change back login id to original instructor to ensure remaining test cases work properly
+		instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
 	}
 	
 	private void testDeleteCourseAction() {
+		courseEditPage = getCourseEditPage();
 		
 		______TS("delete course then cancel");
 		courseEditPage.clickDeleteCourseLinkAndCancel();

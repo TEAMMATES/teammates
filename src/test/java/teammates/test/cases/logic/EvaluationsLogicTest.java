@@ -13,6 +13,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
@@ -229,7 +231,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 		EvaluationAttributes eval = new EvaluationAttributes();
 		eval = dataBundle.evaluations.get("evaluation1InCourse1");
 		eval.gracePeriod = eval.gracePeriod + 1;
-		eval.instructions = eval.instructions + "x";
+		eval.instructions = new Text(eval.instructions + "x");
 		eval.p2pEnabled = (!eval.p2pEnabled);
 		eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
 		eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
@@ -345,6 +347,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 		EvaluationAttributes orphan = new EvaluationAttributes();
 		orphan.name = "Orphan Evaluation";
 		orphan.courseId = IdOftemporaryCourse;
+		orphan.instructions = new Text("instructions");
 		orphan.timeZone = evaluation2.timeZone;
 		orphan.startTime = evaluation2.startTime;
 		orphan.endTime = evaluation2.endTime;
@@ -422,6 +425,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 		EvaluationAttributes orphan = new EvaluationAttributes();
 		orphan.name = "Orphan Evaluation";
 		orphan.courseId = IdOftemporaryCourse;
+		orphan.instructions = new Text("Instructions");
 		orphan.timeZone = evaluation2.timeZone;
 		orphan.startTime = evaluation2.startTime;
 		orphan.endTime = evaluation2.endTime;

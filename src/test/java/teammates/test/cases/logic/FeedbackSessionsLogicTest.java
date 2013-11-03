@@ -653,34 +653,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	public void testPublishUnpublishFeedbackSession() throws Exception {
 		restoreTypicalDataInDatastore();
 		
-		______TS("failure: not manual type");
+		______TS("success: publish");
 		
 		FeedbackSessionAttributes
 			sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse1");
-		
-		try{
-			fsLogic.publishFeedbackSession(
-				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
-			signalFailureToDetectException(
-					"Did not catch exception signalling that session should " +
-					"be published automatically.");
-		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(),
-					"Session should be published automatically.");
-		}
-		
-		try{
-			fsLogic.unpublishFeedbackSession(
-				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
-			signalFailureToDetectException(
-					"Did not catch exception signalling that session should " +
-					"be published automatically.");
-		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(),
-					"Session should be not be unpublished in this manner.");
-		}
-		
-		______TS("success: publish");
 		
 		// set as manual publish
 		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
@@ -743,22 +719,22 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 			fsLogic.publishFeedbackSession(
 				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
 			signalFailureToDetectException(
-					"Did not catch exception signalling that session should " +
-					"be published automatically.");
+					"Did not catch exception signalling that private session can't " +
+					"be published.");
 		} catch (InvalidParametersException e) {
 			assertEquals(e.getMessage(),
-					"Session should be published automatically.");
+					"Private session can't be published.");
 		}
 		
 		try{
 			fsLogic.unpublishFeedbackSession(
 				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
 			signalFailureToDetectException(
-					"Did not catch exception signalling that session should " +
-					"be published automatically.");
+					"Did not catch exception signalling that private session should " +
+					"not be published");
 		} catch (InvalidParametersException e) {
 			assertEquals(e.getMessage(),
-					"Session should be not be unpublished in this manner.");
+					"Private session can't be published.");
 		}
 				
 		______TS("failure: session does not exist");

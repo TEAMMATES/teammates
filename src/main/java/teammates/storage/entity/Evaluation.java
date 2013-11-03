@@ -11,6 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.util.Utils;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -34,10 +35,19 @@ public class Evaluation {
 	@SerializedName("name")
 	private String name;
 
+	/**
+	 * This instructions field is just for backward-compatibility
+	 * (Some existing entities in Datastore still have String as the data type for instructions)
+	 */
 	@Persistent
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	@SerializedName("instr")
 	private String instructions;
+	
+	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+	@SerializedName("longInstr")
+	private Text longInstructions;
 
 	@Persistent
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
@@ -82,13 +92,14 @@ public class Evaluation {
 	@Persistent
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private boolean activated = false;
-
+	
 	public Evaluation(String courseId, String evaluationName,
-			String instructions, boolean commentsEnabled, Date start,
+			Text instructions, boolean commentsEnabled, Date start,
 			Date deadline, double timeZone, int gracePeriod) {
 		this.setCourseId(courseId);
 		this.setName(evaluationName);
-		this.setInstructions(instructions);
+		this.setInstructions(null);
+		this.setLongInstructions(instructions);
 		this.setCommentsEnabled(commentsEnabled);
 		this.setStart(start);
 		this.setDeadline(deadline);
@@ -116,9 +127,17 @@ public class Evaluation {
 	public String getInstructions() {
 		return instructions;
 	}
+	
+	public Text getLongInstructions() {
+		return longInstructions;
+	}
 
 	public void setInstructions(String instructions) {
-		this.instructions = instructions.trim();
+		this.instructions = instructions;
+	}
+	
+	public void setLongInstructions(Text instructions) {
+		this.longInstructions = instructions;
 	}
 
 	public Date getStart() {

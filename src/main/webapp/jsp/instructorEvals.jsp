@@ -180,11 +180,10 @@
 							%>
 								<textarea rows="3" cols="90" class="textvalue" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"
 										onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>')"
-										onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalPageData.sanitizeForHtml(data.newEvaluationToBeCreated.instructions)%></textarea>
+										onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalPageData.sanitizeForHtml(data.newEvaluationToBeCreated.instructions.getValue())%></textarea>
 							<%
 								}
 							%>
-							<p align=right><font color=grey>[maximum length = 500 characters]</font></p>
 						</td></tr></table>
 						</td>
 					</tr>

@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.*;
 import teammates.common.exception.*;
 import teammates.common.util.Assumption;
@@ -838,7 +840,7 @@ public class Logic {
 		EvaluationAttributes evaluation = new EvaluationAttributes();
 		evaluation.courseId = courseId;
 		evaluation.name = evaluationName;
-		evaluation.instructions = instructions;
+		evaluation.instructions = new Text(instructions);
 		evaluation.p2pEnabled = p2pEnabled;
 		evaluation.startTime = start;
 		evaluation.endTime = end;

@@ -81,30 +81,25 @@
 			
 		</td>
 	</tr>
+	<tr>
+		<td align="center" colspan="10">
+			<form method="post"
+			  		action="/page/instructorFeedbackResultsDownload">
+			<div id="feedbackDataButtons">
+			<input id="button_download" type="submit" class="button"
+					name="fruploaddownloadbtn"
+					value="Download results">
+			</div>
+			<input type="hidden" name="fsname" value="Third Session">
+			<input type="hidden" name="courseid" value="CFResultsUiT.CS2104">
+			</form>
+		</td>
+	</tr>
 </tbody></table>
-<br /><br />
-<form action="/page/instructorFeedbackResultsDownload" method="post">
-	<div style="float:right; padding-right: 28%;" id="feedbackDataButtons">
-		<input class="button"  id="button_download"  name="fruploaddownloadbtn"  type="submit"  value="Download results" />
-		{*}
-    </div>
-    <input name="fsname"  type="hidden"  value="Third Session" />
-    <input name="courseid"  type="hidden"  value="CFResultsUiT.CS2104" />
-</form>
-<br />
-<br />
-<br />
-
-
-
-
-
+<br><br><br>
 
 	<div style="display: none;" id="statusMessage"></div>
 
-
-
-	<br /><br /><br />
 	<div class="bold color_red centeralign">There are no responses for this feedback session yet.</div>
 
 			<br />

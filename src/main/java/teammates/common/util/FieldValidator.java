@@ -60,11 +60,6 @@ public class FieldValidator {
 			"It cannot be empty and it cannot have spaces.";
 	
 	private static final String EVALUATION_INSTRUCTIONS_FIELD_NAME = "instructions for an evaluation";
-	public static final int EVALUATION_INSTRUCTIONS_MAX_LENGTH = 500;
-	public static final String EVALUATION_INSTRUCTIONS_ERROR_MESSAGE = 
-			"\"%s\" is not acceptable to TEAMMATES as "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" because it %s. " +
-					"The value of "+EVALUATION_INSTRUCTIONS_FIELD_NAME+" should be no longer than "+
-					EVALUATION_INSTRUCTIONS_MAX_LENGTH+" characters.";	
 	
 	public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "a feedback session name";
 	public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
@@ -219,8 +214,8 @@ public class FieldValidator {
 			EVALUATION_NAME_FIELD_NAME, EVALUATION_NAME_MAX_LENGTH, (String)value);
 			break;
 		case EVALUATION_INSTRUCTIONS:
-			returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
-					EVALUATION_INSTRUCTIONS_FIELD_NAME, EVALUATION_INSTRUCTIONS_MAX_LENGTH, (String)value);
+			returnValue = getValidityInfoForNonNullField(
+					EVALUATION_INSTRUCTIONS_FIELD_NAME, value);
 			break;
 		case FEEDBACK_SESSION_NAME:
 			returnValue = getValidityInfoForSizeCappedAlphanumericNonEmptyString(

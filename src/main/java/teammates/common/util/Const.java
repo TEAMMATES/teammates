@@ -429,6 +429,8 @@ public class Const {
 		public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same ID already exists in the course.";
 		public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
 		public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
+		public static final String COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED = "The instructor you are trying to delete is the last instructor in the course. "
+				+ "Deleting the last instructor from the course is not allowed.";
 		
 		public static final String STUDENT_EDITED = "The student has been edited successfully";
 		public static final String STUDENT_DELETED = "The student has been removed from the course";

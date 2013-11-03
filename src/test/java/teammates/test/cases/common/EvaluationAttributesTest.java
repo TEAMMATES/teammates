@@ -6,12 +6,9 @@ import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.util.Const.EOL;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
-import static teammates.common.util.FieldValidator.EVALUATION_INSTRUCTIONS_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.EVALUATION_INSTRUCTIONS_MAX_LENGTH;
 import static teammates.common.util.FieldValidator.EVALUATION_NAME;
 import static teammates.common.util.FieldValidator.EVALUATION_NAME_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_EMPTY;
-import static teammates.common.util.FieldValidator.REASON_TOO_LONG;
 import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 
@@ -20,6 +17,8 @@ import java.util.TimeZone;
 
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
+
+import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
@@ -151,7 +150,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 
 		e.courseId = "";
 		e.name = "";
-		e.instructions = StringHelper.generateStringOfLength(EVALUATION_INSTRUCTIONS_MAX_LENGTH+1);
+		e.instructions = new Text("Instruction to students.");
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		e.activated = false;
@@ -163,13 +162,12 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		assertEquals("invalid values", false, e.isValid());
 		String errorMessage = 
 				String.format(COURSE_ID_ERROR_MESSAGE, e.courseId, REASON_EMPTY) + EOL 
-				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, e.name, REASON_EMPTY) + EOL 
-				+ String.format(EVALUATION_INSTRUCTIONS_ERROR_MESSAGE, e.instructions, REASON_TOO_LONG);
+				+ String.format(EVALUATION_NAME_ERROR_MESSAGE, e.name, REASON_EMPTY);
 		assertEquals("valid values", errorMessage, StringHelper.toString(e.getInvalidityInfo()));
 
 		e.courseId = "valid-course";
 		e.name = "valid name";
-		e.instructions = "valid instructions";
+		e.instructions = new Text("valid instructions");
 		assertTrue("valid, minimal properties", e.isValid());
 
 
@@ -287,7 +285,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		Calendar end = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		EvaluationAttributes e = new EvaluationAttributes(
-				new Evaluation("course1", "evalution 1", "instructions",
+				new Evaluation("course1", "evalution 1", new Text("instructions"),
 				true, start.getTime(), end.getTime(), 0.0, 0));
 		int oneSecInMilliSeconds = 1 * 1000;
 		double timeZone = 0.0;
@@ -369,7 +367,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 		//make it unsanitized
 		e.courseId = "  "+e.courseId+ "   ";
 		e.name = "\t "+ e.name+ "  \t";
-		e.instructions = "   "+e.instructions + "\n\t  ";
+		e.instructions = new Text("   " + e.instructions.getValue() + "\n\t  ");
 		
 		e.sanitizeForSaving();
 		
@@ -393,7 +391,7 @@ public class EvaluationAttributesTest extends BaseTestCase {
 
 		e.courseId = "valid-course";
 		e.name = "valid name";
-		e.instructions = "1st line of instructions \n 2nd line of instructions";
+		e.instructions = new Text("1st line of instructions \n 2nd line of instructions");
 		e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		e.activated = false;

@@ -191,8 +191,24 @@
 						<td class="t_session_response centeralign"><a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  >
                                  Show
                               </a></td>
-						<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&amp;fsname=First+Feedback+Session&amp;user={$test.instructor}" class="color_green t_session_view5">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&amp;fsname=First+Feedback+Session&amp;user={$test.instructor}" class="color_brown t_session_edit5">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','First Feedback Session');" href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&amp;fsname=First+Feedback+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_red t_session_delete5">Delete</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&amp;fsname=First+Feedback+Session&amp;user={$test.instructor}" class="color_blue t_session_submit5">Submit</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('This session will be published automatically at the specified time')" href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&amp;fsname=First+Feedback+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_black t_session_publish5">Publish</a></td>
-					</tr></tbody></table>
+						<td class="centeralign no-print" >
+                              <a class="color_green t_session_view5"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
+                                 View Results
+                              </a>
+                              <a class="color_brown t_session_edit5"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
+                                 Edit
+                              </a>
+                              <a class="color_red t_session_delete5"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
+                                 Delete
+                              </a>
+                              <a class="color_blue t_session_submit5"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
+                                 Submit
+                              </a>
+                              <a class="color_black t_session_publish5"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return togglePublishEvaluation('First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make session responses available for viewing')" >
+                                 Publish
+                              </a>
+                           </td>
+											</tr></tbody></table>
 				
 			</div>
 			

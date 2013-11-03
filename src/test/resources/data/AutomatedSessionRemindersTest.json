@@ -45,7 +45,7 @@
       "endTime" : "2014-04-30 11:59 PM UTC",
       "timeZone" : 0.0,
       "p2pEnabled" : true,
-      "instructions": "This is instruction for first eval",
+      "instructions": {"value" : "This is instruction for first eval"},
       "gracePeriod": 0,
       "published" : false,
       "activated" : false
@@ -57,7 +57,7 @@
       "endTime" : "2014-04-02 11:59 PM UTC",
       "timeZone": 0.0,
       "p2pEnabled": true,
-      "instructions": "Please please fill in the second evaluation",
+      "instructions": {"value" : "Please please fill in the second evaluation"},
       "gracePeriod": 0,
       "published": false,
       "activated": true

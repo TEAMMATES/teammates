@@ -46,7 +46,7 @@
     "First Eval": {
       "courseId": "CESubEditUiT.CS1101",
       "name": "First Eval",
-      "instructions": "Please please fill it in",
+      "instructions": {"value" : "Please please fill it in"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2015-04-01 11:59 PM UTC",
       "timeZone": 8.0,
@@ -58,7 +58,7 @@
     "Second Eval": {
       "courseId": "CESubEditUiT.CS1101",
       "name": "Second Eval",
-      "instructions": "Please please fill it in",
+      "instructions": {"value" : "Please please fill it in"},
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2015-04-01 11:59 PM UTC",
       "timeZone": 8.0,
