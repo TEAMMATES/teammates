@@ -50,7 +50,8 @@ public class InstructorEvalsPageAction extends Action {
 				statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
 			}
 		}	
-		
+		EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
+		FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
 		statusToAdmin = "Number of evaluations :"+data.existingEvalSessions.size();
 		
 		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVALS, data);

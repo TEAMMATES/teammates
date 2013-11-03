@@ -373,4 +373,49 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 			}
 		});
 	}
+	
+	/**
+	 * Sorts feedback session based on create time (descending), deadline
+	 * (descending), then by start time (descending),then by courseID (ascending),then by feedback session name
+	 * (ascending). The sort by CourseID part is to cater the case when this
+	 * method is called with combined feedback sessions from many courses
+	 * 
+	 * @param evals
+	 */
+	public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> evals) {
+		Collections.sort(evals, new Comparator<FeedbackSessionAttributes>() {
+			public int compare(FeedbackSessionAttributes fsd1, FeedbackSessionAttributes fsd2) {
+				FeedbackSessionAttributes session1 = fsd1;
+				FeedbackSessionAttributes session2 = fsd2;
+				int result = 0;
+				if (result == 0) {
+					result = session1.createdTime.after(session2.createdTime) ? -1
+							: (session1.createdTime.before(session2.createdTime) ? 1 : 0);
+				}
+				if (result == 0) {
+					if(session1.endTime == null && session2.endTime != null) {
+						result = -1;
+					} else if(session1.endTime != null && session2.endTime == null) {
+						result = 1;
+					} else if(session1.endTime == null && session2.endTime == null) {
+						result = 0;
+					} else {
+						result = session1.endTime.after(session2.endTime) ? -1
+								: (session1.endTime.before(session2.endTime) ? 1 : 0);
+					}
+				}
+				if (result == 0) {
+					result = session1.startTime.after(session2.startTime) ? -1
+							: (session1.startTime.before(session2.startTime) ? 1 : 0);
+				}
+				if (result == 0) {
+					result = session1.courseId.compareTo(session2.courseId);
+				}
+				if (result == 0) {
+					result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
+				}
+				return result;
+			}
+		});
+	}
 }

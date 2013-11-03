@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -45,8 +46,12 @@ public class InstructorEvalAddAction extends InstructorEvalsPageAction {
 		} 
 		
 		data.courses = loadCoursesList(account.googleId);
-		data.existingEvalSessions = loadEvaluationsList(account.googleId);
-		data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
+		data.existingEvalSessions = loadEvaluationsList(account.googleId); //apply sorting here
+		data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId); // apply sorting here
+
+		EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
+		FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
+		
 		if (data.existingEvalSessions.size() == 0) {
 			statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
 		}

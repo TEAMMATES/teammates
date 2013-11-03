@@ -57,7 +57,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		testLogin();
 		testContent();
 		testShowFeedbackStatsLink();
-		testShowEvaluationStatsLink();
 		testHelpLink();
 		testCourseLinks();
 		testEvaluationLinks();
@@ -90,13 +89,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 	}
 
 
-	private void testShowEvaluationStatsLink() {
-		______TS("test case: typical, check response rate of existing eval");
-		homePage.getViewResponseLink("CHomeUiT.CS1101", "Fifth Eval").click();
-		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRateEvalPass.html");
-	}
-
-
 	public void testLogin(){
 		
 		______TS("login");
@@ -118,7 +110,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		______TS("content: multiple courses");
 		
 		//already logged in
-		homePage.verifyHtml("/instructorHomeHTML.html");
+		homePage.verifyHtmlAjax("/instructorHomeHTML.html");
 		
 	}
 	
@@ -205,7 +197,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		
 		homePage.clickAndConfirm(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
 		assertTrue(BackDoor.isEvaluationNonExistent(firstEval_OPEN.courseId, firstEval_OPEN.name));
-		homePage.verifyHtml("/instructorHomeEvalDeleteSuccessful.html");
+		homePage.verifyHtmlAjax("/instructorHomeEvalDeleteSuccessful.html");
 		
 	}
 
@@ -219,7 +211,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		
 		homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
 		assertTrue(BackDoor.isCourseNonExistent(courseId));
-		homePage.verifyHtml("/instructorHomeCourseDeleteSuccessful.html");
+		homePage.verifyHtmlAjax("/instructorHomeCourseDeleteSuccessful.html");
 		
 		//delete the other course as well
 		homePage.clickAndConfirm(homePage.getDeleteCourseLink(testData.courses.get("CHomeUiT.CS1101").id));

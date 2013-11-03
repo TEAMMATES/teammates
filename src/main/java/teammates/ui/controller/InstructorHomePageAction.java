@@ -27,10 +27,10 @@ public class InstructorHomePageAction extends Action {
 		data.courses = new ArrayList<CourseSummaryBundle>(courses.values());
 		CourseSummaryBundle.sortSummarizedCourses(data.courses);
 		for(CourseSummaryBundle course: data.courses){
-			EvaluationAttributes.sortEvaluationsByDeadline(course.evaluations);
+			EvaluationAttributes.sortEvaluationsByDeadlineDescending(course.evaluations);
 		}
 		for(CourseSummaryBundle course: data.courses){
-			FeedbackSessionAttributes.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
+			FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
 		}
 		   
 		statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + data.courses.size();

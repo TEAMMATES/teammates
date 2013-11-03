@@ -45,7 +45,10 @@ public class InstructorFeedbacksPageAction extends Action {
 				data.existingEvalSessions.isEmpty()) {
 				statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
 			}
-		}	
+		}			
+		
+		EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
+		FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
 		
 		statusToAdmin = "Number of feedback sessions: "+data.existingFeedbackSessions.size();
 		

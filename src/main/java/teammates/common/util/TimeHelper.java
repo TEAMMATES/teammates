@@ -189,6 +189,15 @@ public class TimeHelper {
 		
 	}
 
+	public static boolean isOlderThanAYear(Date compareDate) {
+		Date currentDate = new Date();
+		int differenceInDays;
+		
+		differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000*60*60*24));
+		
+		return (differenceInDays > 365);
+	}
+	
 	private static Date convertToDate(String date, int time) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));

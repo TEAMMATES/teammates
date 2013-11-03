@@ -71,21 +71,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		testViewResultsLink();
 		testEditLink();
 		testSubmitLink();
-		testShowFeedbackStatsLink();
-		testShowEvaluationStatsLink();
 
-	}
-
-	private void testShowFeedbackStatsLink() {
-		______TS("test case: typical, check response rate of existing feedback session");
-		feedbackPage.getViewResponseLink("CFeedbackUiT.CS1101", "Manual Session").click();
-		feedbackPage.verifyHtmlAjax("/InstructorFeedbackUIPageFeedbackStats.html");
-	}
-	
-	private void testShowEvaluationStatsLink() {
-		______TS("test case: typical, check response rate of existing evaluation");
-		feedbackPage.getViewResponseLink("CFeedbackUiT.CS1101", "First Eval").click();
-		feedbackPage.verifyHtmlAjax("/InstructorFeedbackUIPageEvaluationStats.html");
 	}
 
 	public void testContent() throws Exception{
@@ -325,7 +311,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		assertNotNull("session should not have been deleted", BackDoor.getFeedbackSession(courseId, sessionName));
 	
 		feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, sessionName));
-		feedbackPage.verifyHtml("/instructorFeedbackDeleteSuccessful.html");
+		feedbackPage.verifyHtmlAjax("/instructorFeedbackDeleteSuccessful.html");
 		
 	}
 	
@@ -360,7 +346,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		feedbackPage.clickAndConfirm(feedbackPage.getPublishLink(courseId, sessionName));
 		feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
 		assertEquals(true, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
-		feedbackPage.verifyHtml("/instructorFeedbackPublishSuccessful.html");
+		feedbackPage.verifyHtmlAjax("/instructorFeedbackPublishSuccessful.html");
 		
 		______TS("PUBLISHED: publish link hidden");
 		
@@ -398,7 +384,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		feedbackPage.clickAndConfirm(feedbackPage.getUnpublishLink(courseId, sessionName));
 		feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
 		assertEquals(false, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
-		feedbackPage.verifyHtml("/instructorFeedbackUnpublishSuccessful.html");
+		feedbackPage.verifyHtmlAjax("/instructorFeedbackUnpublishSuccessful.html");
 		
 		______TS("PUBLISHED: unpublish link hidden");
 		

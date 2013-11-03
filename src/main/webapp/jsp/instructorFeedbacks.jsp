@@ -320,7 +320,8 @@
 							.getInstructorHoverMessageForFeedbackSession(fdb)%>')"
 						onmouseout="hideddrivetip()"><%=InstructorFeedbacksPageData
 							.getInstructorStatusForFeedbackSession(fdb)%></span></td>
-					<td class="t_session_response centeralign"><a href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a></td>
+					<td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
+						<a href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a></td>
 					<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
 							fdb, sessionIdx, false)%>
 					</td>
@@ -339,7 +340,8 @@
 							.getInstructorHoverMessageForEval(edd)%>')"
 						onmouseout="hideddrivetip()"><%=InstructorFeedbacksPageData
 							.getInstructorStatusForEval(edd)%></span></td>
-					<td class="t_session_response centeralign"><a href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a></td>
+					<td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
+						<a href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a></td>
 					<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(
 							edd, sessionIdx, false)%>
 					</td>

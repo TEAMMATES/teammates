@@ -326,12 +326,43 @@ public class EvaluationAttributes extends EntityAttributes {
 			public int compare(EvaluationAttributes eval1, EvaluationAttributes eval2) {
 				int result = 0;
 				if (result == 0) {
+					result = eval1.courseId.compareTo(eval2.courseId);
+				}
+				if (result == 0) {
 					result = eval1.endTime.after(eval2.endTime) ? 1
 							: (eval1.endTime.before(eval2.endTime) ? -1 : 0);
 				}
 				if (result == 0) {
 					result = eval1.startTime.after(eval2.startTime) ? 1
 							: (eval1.startTime.before(eval2.startTime) ? -1 : 0);
+				}
+				if (result == 0) {
+					result = eval1.name.compareTo(eval2.name);
+				}
+				return result;
+			}
+		});
+	}
+	
+	/**
+	 * Sorts evaluations based courseID (ascending), then by deadline
+	 * (descending), then by start time (descending), then by evaluation name
+	 * (ascending) The sort by CourseID part is to cater the case when this
+	 * method is called with combined evaluations from many courses
+	 * 
+	 * @param evals
+	 */
+	public static void sortEvaluationsByDeadlineDescending(List<EvaluationAttributes> evals) {
+		Collections.sort(evals, new Comparator<EvaluationAttributes>() {
+			public int compare(EvaluationAttributes eval1, EvaluationAttributes eval2) {
+				int result = 0;
+				if (result == 0) {
+					result = eval1.endTime.after(eval2.endTime) ? -1
+							: (eval1.endTime.before(eval2.endTime) ? 1 : 0);
+				}
+				if (result == 0) {
+					result = eval1.startTime.after(eval2.startTime) ? -1
+							: (eval1.startTime.before(eval2.startTime) ? 1 : 0);
 				}
 				if (result == 0) {
 					result = eval1.courseId.compareTo(eval2.courseId);

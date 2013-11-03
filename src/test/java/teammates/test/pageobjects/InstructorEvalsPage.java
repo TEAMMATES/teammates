@@ -135,32 +135,32 @@ public class InstructorEvalsPage extends AppPage {
 	
 	public WebElement getPublishLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_session_publish" + evalRowId));
+		return getLinkAtTableRow("t_session_publish", evalRowId);
 	}
 	
 	public WebElement getUnpublishLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_session_unpublish" + evalRowId));
+		return getLinkAtTableRow("t_session_unpublish", evalRowId);
 	}
 
 	public WebElement getRemindLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_session_remind" + evalRowId));
+		return getLinkAtTableRow("t_session_remind", evalRowId);
 	}
 	
 	public WebElement getDeleteLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_session_delete" + evalRowId));
+		return getLinkAtTableRow("t_session_delete", evalRowId);
 	}
 	
 	public WebElement getEditLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_session_edit" + evalRowId));
+		return getLinkAtTableRow("t_session_edit", evalRowId);
 	}
 	
 	public WebElement getViewResultsLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
-		return browser.driver.findElement(By.className("t_session_view" + evalRowId));
+		return getLinkAtTableRow("t_session_view", evalRowId);
 	}
 	
 	private int getEvaluationRowId(String courseId, String evalName) {
@@ -174,7 +174,10 @@ public class InstructorEvalsPage extends AppPage {
 		}
 		return -1;
 	}
-	
+	private WebElement getLinkAtTableRow(String className, int rowIndex) {
+		return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(rowIndex+2)+"]//a[contains(@class,'"+className+"')]"));
+	}
+
 	private int getEvaluationsCount() {
 		return browser.driver.findElements(By.className("sessions_row")).size();
 	}

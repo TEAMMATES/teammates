@@ -1,3 +1,4 @@
+<%@page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.CourseSummaryBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
@@ -118,16 +119,14 @@
 						<td class="t_session_status<%=courseIdx%> centeralign"><span
 							onmouseover="ddrivetip('<%=PageData.getInstructorHoverMessageForEval(edd)%>')"
 							onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForEval(edd)%></span></td>
-						<td class="t_session_response<%=courseIdx%> centeralign">
+						<td class="t_session_response<%=courseIdx%> centeralign<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
 							<a href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
 						</td>
 						<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(edd,sessionIdx, true)%>
 						</td>
 					</tr>
 					<%
-							}
-					%>
-					<%
+						}
 						for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
 									sessionIdx++;
 					%>
@@ -139,7 +138,7 @@
 								.getInstructorHoverMessageForFeedbackSession(fdb)%>')"
 							onmouseout="hideddrivetip()"><%=PageData
 								.getInstructorStatusForFeedbackSession(fdb)%></span></td>
-						<td class="t_session_response centeralign">
+						<td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
 							<a href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
 						</td>
 						<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(

@@ -32,4 +32,31 @@ $(document).ready(function(){
 		});
 	};
 	$("td[class*='t_session_response'] > a").click(responseRateClickHandler);
+	
+	$(".dataTable").each(function(idx) {
+	    //this is bound to current object in question
+	    var currentTable = $(this).has("tbody").length != 0 ? $(this).find("tbody") : $(this); 
+	        store = null;
+	    
+	    var allRows = currentTable.find("tr:has(td)");
+	    var recentElements = allRows.filter(function(i){
+	        return $(allRows[i]).find("td[class*='recent']").length != 0;
+	    }),
+	        nonRecentElements = allRows.filter(function(i){
+	        return $(allRows[i]).find("td[class*='recent']").length == 0;
+	    });
+	    
+	    store = $.merge(recentElements,nonRecentElements);
+	    
+	    for(var i=0; i < store.length; i++ ) {
+	        currentTable.get(0).appendChild(store[i]);
+	    }
+	});
+	
+	//recent class will only be appended to 'td' element with class 't_session_response'
+	$(".dataTable .recent a").each(function(idx) {
+	    var currentObject = $(this);
+	    
+	    currentObject.click();
+	});
 });
