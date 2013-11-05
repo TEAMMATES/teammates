@@ -146,6 +146,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE = "Edit submitted feedback";
 		public static final String FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE = "View submitted feedback";
 		public static final String  FEEDBACK_SESSION_RECIPIENT = "Who the feedback is about";
+		public static final String  FEEDBACK_SESSION_GIVER = "Who will give feedback";
 
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
@@ -156,6 +157,13 @@ public class Const {
 				"<br />in the course once the results are published.";
 		public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
 				"before the session closes.";
+		
+		
+		public static final String VISIBILITY_OPTIONS_RECIPIENT = "Control what feedback recipient(s) can view";
+		public static final String VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS = "Control what team members of feedback giver can view";
+		public static final String VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS = "Control what team members of feedback recipients can view";
+		public static final String VISIBILITY_OPTIONS_OTHER_STUDENTS = "Control what other students can view";
+		public static final String VISIBILITY_OPTIONS_INSTRUCTORS = "Control what instructors can view";
 	}
 
 	public class ParamsNames{

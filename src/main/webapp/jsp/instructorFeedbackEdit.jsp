@@ -311,7 +311,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="bold">Feedback Giver:</td>
+					<td class="bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">Feedback Giver:</td>
 					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled"
 								onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<%
@@ -348,7 +348,8 @@
 								<th>Can see giver's name</th>
 								<th>Can see recipient's name</th>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')"
+							onmouseout="hideddrivetip()">
 								<td>Recipient(s)</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
 								<%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/></td>
@@ -357,7 +358,8 @@
 								<td><input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
 								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>')"
+							onmouseout="hideddrivetip()">
 								<td>Giver's Team Members</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
 								<%if(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>								
@@ -366,7 +368,8 @@
 								<td><input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
 								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>')"
+							onmouseout="hideddrivetip()">
 								<td>Recipient's Team Members</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
 								<%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>								
@@ -375,7 +378,8 @@
 								<td><input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
 								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>')"
+							onmouseout="hideddrivetip()">
 								<td>Other students</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
 								<%if(question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/></td>								
@@ -384,7 +388,8 @@
 								<td><input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
 								<%if(question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>')"
+							onmouseout="hideddrivetip()">
 								<td>Instructors</td>
 								<td><input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
 								<%if(question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/></td>								
@@ -447,7 +452,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="bold">Feedback Giver:</td>
+					<td class="bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">Feedback Giver:</td>
 					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>"
 								onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<%
@@ -485,31 +490,36 @@
 								<th>Can see giver's name</th>
 								<th>Can see recipient's name</th>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')"
+							onmouseout="hideddrivetip()">
 								<td>Recipient(s)</td>
 								<td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" name="receiverLeaderCheckbox" checked="checked"/></td>
 								<td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" checked="checked"/></td>
 								<td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" name="receiverFollowerCheckbox" disabled="disabled" checked="checked"/></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>')"
+							onmouseout="hideddrivetip()">
 								<td>Giver's Team Members</td>
 								<td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/></td>
 								<td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/></td>
 								<td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>')"
+							onmouseout="hideddrivetip()">
 								<td>Recipient's Team Members</td>
 								<td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/></td>								
 								<td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/></td>
 								<td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>')"
+							onmouseout="hideddrivetip()">
 								<td>Other students</td>
 								<td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/></td>								
 								<td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/></td>
 								<td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>')"
+							onmouseout="hideddrivetip()">
 								<td>Instructors</td>
 								<td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/></td>								
 								<td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/></td>
