@@ -439,7 +439,7 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="4"><textarea rows="5" cols="140"
+					<td colspan="4"><textarea rows="5" style="width:100%"
 							class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
 							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
 							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
