@@ -10,6 +10,7 @@ public enum FeedbackParticipantType {
 	TEAMS (true, true, false, "Teams in this course", "Other teams in the course", ""),
 	OWN_TEAM (false, true, false, "", "Giver's team", "Your team"),
 	OWN_TEAM_MEMBERS (false, true, true, "", "Giver's team members", "Your team members"),
+	OWN_TEAM_MEMBERS_INCLUDING_SELF (false, true, true, "","Giver's team members and Giver", "Your team members"),
 	RECEIVER (false, false, true, "", "", "The receiving"),
 	RECEIVER_TEAM_MEMBERS (false, false, true, "", "", "The recipient's team members"),
 	NONE (false, true, false, "", "Nobody specific (For general class feedback)", "");
