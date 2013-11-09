@@ -24,6 +24,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
@@ -66,7 +67,7 @@ public class EmailsTest extends BaseComponentTestCase {
 		Session session = Session.getDefaultInstance(new Properties(), null);
 		MimeMessage message = new MimeMessage(session);
 
-		String email = "reciever@gmail.com";
+		String email = "receiver@gmail.com";
 		String from = "sender@gmail.com";
 
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
@@ -78,7 +79,7 @@ public class EmailsTest extends BaseComponentTestCase {
 		message.setContent("<h1>email body</h1>", "text/html");
 
 		assertEquals(
-				"[Email sent]to=reciever@gmail.com|from=sender@gmail.com|subject=email subject",
+				"[Email sent]to=receiver@gmail.com|from=sender@gmail.com|subject=email subject",
 				Emails.getEmailInfo(message));
 	}
 
@@ -98,11 +99,15 @@ public class EmailsTest extends BaseComponentTestCase {
 		s.name = "Student Name";
 		s.key = "skxxxxxxxxxks";
 		s.email = "student@email.com";
+		
+		InstructorAttributes i = new InstructorAttributes();
+		i.name = "Instructor Name";
+		i.email = "instructr@email.com";
 
 		______TS("generic template, student yet to join");
 
-		String template = EmailTemplates.STUDENT_EVALUATION_;
-		MimeMessage email = new Emails().generateEvaluationEmailBase(c, e, s,
+		String template = EmailTemplates.USER_EVALUATION_;
+		MimeMessage email = new Emails().generateEvaluationEmailBaseForStudent(c, e, s,
 				template);
 
 		// check receiver
@@ -145,8 +150,8 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("published template, student yet to join");
 
-		template = EmailTemplates.STUDENT_EVALUATION_PUBLISHED;
-		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
+		template = EmailTemplates.USER_EVALUATION_PUBLISHED;
+		email = new Emails().generateEvaluationEmailBaseForStudent(c, e, s, template);
 
 		emailBody = email.getContent().toString();
 
@@ -170,9 +175,9 @@ public class EmailsTest extends BaseComponentTestCase {
 		______TS("generic template, student joined");
 
 		s.googleId = "student1id"; // set student id to make him "joined"
-		template = EmailTemplates.STUDENT_EVALUATION_;
+		template = EmailTemplates.USER_EVALUATION_;
 
-		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
+		email = new Emails().generateEvaluationEmailBaseForStudent(c, e, s, template);
 
 		emailBody = email.getContent().toString();
 
@@ -185,8 +190,8 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		______TS("published template, student joined");
 
-		template = EmailTemplates.STUDENT_EVALUATION_PUBLISHED;
-		email = new Emails().generateEvaluationEmailBase(c, e, s, template);
+		template = EmailTemplates.USER_EVALUATION_PUBLISHED;
+		email = new Emails().generateEvaluationEmailBaseForStudent(c, e, s, template);
 
 		emailBody = email.getContent().toString();
 
@@ -199,6 +204,39 @@ public class EmailsTest extends BaseComponentTestCase {
 
 		printEmail(email);
 
+		______TS("generic template, sent to instructors");
+		
+		template = EmailTemplates.USER_EVALUATION_;
+		email = new Emails().generateEvaluationEmailBaseForInstructor(c, e, i, template);
+
+		emailBody = email.getContent().toString();
+
+		assertTrue(!emailBody.contains("${joinFragment}"));
+		
+		AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
+				+ "The email below has been sent to students of course: " + c.id
+				+ "{*}" + c.id + "{*}" + c.name
+				+ "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
+				+ submitUrl, emailBody);
+
+		printEmail(email);
+		
+		______TS("published template, sent to instructors");
+		
+		template = EmailTemplates.USER_EVALUATION_PUBLISHED;
+		email = new Emails().generateEvaluationEmailBaseForInstructor(c, e, i, template);
+
+		emailBody = email.getContent().toString();
+
+		assertTrue(!emailBody.contains("${joinFragment}"));
+		
+		AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
+				+ "The email below has been sent to students of course: " + c.id
+				+ "{*}is now ready for viewing{*}" + c.id + "{*}" + c.name
+				+ "{*}" + e.name + "{*}" + reportUrl + "{*}" + reportUrl,
+				emailBody);
+
+		printEmail(email);
 	}
 
 	@Test
@@ -262,6 +300,7 @@ public class EmailsTest extends BaseComponentTestCase {
 	public void testGenerateEvaluationEmails() throws MessagingException,
 			IOException {
 		List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+		List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
 
 		EvaluationAttributes e = new EvaluationAttributes();
 		e.name = "Evaluation Name";
@@ -282,37 +321,53 @@ public class EmailsTest extends BaseComponentTestCase {
 		s2.key = "skxxxxxxxxxks2";
 		s2.email = "student2@email.com";
 		students.add(s2);
-
+		
+		InstructorAttributes i1 = new InstructorAttributes();
+		i1.name = "Instructor1 Name";
+		i1.email = "instructor1@email.com";
+		instructors.add(i1);
+		
+		InstructorAttributes i2 = new InstructorAttributes();
+		i2.name = "Instructor2 Name";
+		i2.email = "instructor2@email.com";
+		instructors.add(i2);
+		
 		______TS("evaluation opening emails");
 
 		List<MimeMessage> emails = new Emails()
-				.generateEvaluationOpeningEmails(c, e, students);
-		assertEquals(2, emails.size());
+				.generateEvaluationOpeningEmails(c, e, students, instructors);
+		assertEquals(4, emails.size());
 
 		String prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING;
 		String status = "is now open";
 		verifyEvaluationEmail(s1, emails.get(0), prefix, status);
 		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
-
+		verifyEvaluationEmail(i1, emails.get(2), prefix, status);
+		verifyEvaluationEmail(i2, emails.get(3), prefix, status);
+		
 		______TS("evaluation reminders");
 
-		emails = new Emails().generateEvaluationReminderEmails(c, e, students);
-		assertEquals(2, emails.size());
+		emails = new Emails().generateEvaluationReminderEmails(c, e, students, instructors);
+		assertEquals(4, emails.size());
 
 		prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER;
 		status = "is still open for submissions";
 		verifyEvaluationEmail(s1, emails.get(0), prefix, status);
 		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
-
+		verifyEvaluationEmail(i1, emails.get(2), prefix, status);
+		verifyEvaluationEmail(i2, emails.get(3), prefix, status);
+		
 		______TS("evaluation closing alerts");
 
-		emails = new Emails().generateEvaluationClosingEmails(c, e, students);
-		assertEquals(2, emails.size());
+		emails = new Emails().generateEvaluationClosingEmails(c, e, students, instructors);
+		assertEquals(4, emails.size());
 
 		prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING;
 		status = "is closing soon";
 		verifyEvaluationEmail(s1, emails.get(0), prefix, status);
 		verifyEvaluationEmail(s2, emails.get(1), prefix, status);
+		verifyEvaluationEmail(i1, emails.get(2), prefix, status);
+		verifyEvaluationEmail(i2, emails.get(3), prefix, status);
 
 	}
 	
@@ -360,6 +415,16 @@ public class EmailsTest extends BaseComponentTestCase {
 			String prefix, String status) throws MessagingException,
 			IOException {
 		assertEquals(s.email, email.getAllRecipients()[0].toString());
+		assertTrue(email.getSubject().contains(prefix));
+		String emailBody = email.getContent().toString();
+		assertTrue(emailBody.contains(status));
+		assertTrue(!emailBody.contains("$"));
+	}
+	
+	private void verifyEvaluationEmail(InstructorAttributes i, MimeMessage email,
+			String prefix, String status) throws MessagingException,
+			IOException {
+		assertEquals(i.email, email.getAllRecipients()[0].toString());
 		assertTrue(email.getSubject().contains(prefix));
 		String emailBody = email.getContent().toString();
 		assertTrue(emailBody.contains(status));
