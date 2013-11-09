@@ -722,6 +722,8 @@ public class LogicTest extends BaseComponentTestCase {
 		}
 	}
 
+	//TODO: Test getCourseSummariesWithoutStatsForInstructor() method
+	
 	@Test
 	public void testGetCourseSummariesForInstructor() throws Exception {
 	
@@ -1685,15 +1687,18 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		List<MimeMessage> emailsSent = logic.sendReminderForEvaluation(
 				"course1", "new eval");
-		assertEquals(0, emailsSent.size());
+		
+		int numOfInstructor = logic.getInstructorsForCourse(newEval.courseId).size();
+		assertEquals(0+numOfInstructor, emailsSent.size());
 	
 		______TS("1 person submitted fully, 4 others have not");
 	
 		EvaluationAttributes eval = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 		emailsSent = logic.sendReminderForEvaluation(eval.courseId, eval.name);
-	
-		assertEquals(4, emailsSent.size());
+		
+		numOfInstructor = logic.getInstructorsForCourse(eval.courseId).size();
+		assertEquals(4+numOfInstructor, emailsSent.size());
 		List<StudentAttributes> studentList = logic
 				.getStudentsForCourse(eval.courseId);
 	
@@ -1728,7 +1733,8 @@ public class LogicTest extends BaseComponentTestCase {
 		logic.updateSubmissions(submissions);
 		emailsSent = logic.sendReminderForEvaluation(eval.courseId, eval.name);
 	
-		assertEquals(3, emailsSent.size());
+		numOfInstructor = logic.getInstructorsForCourse(eval.courseId).size();
+		assertEquals(3+numOfInstructor, emailsSent.size());
 	
 		studentList = logic.getStudentsForCourse(eval.courseId);
 	
@@ -1910,6 +1916,11 @@ public class LogicTest extends BaseComponentTestCase {
 
 	}
 
+	/* TODO: implement tests for the following: 
+	 * 1. getEvaluationDetails()	
+	 * 2. getEvaluationsListForInstructor()
+	 * 3. getEvaluationDetailsForCourse()
+	 */
 	@Test
 	public void testGetEvaluationsDetailsForInstructor() throws Exception {
 	
@@ -1993,6 +2004,8 @@ public class LogicTest extends BaseComponentTestCase {
 				new Object[] { "non-existent" });
 	}
 
+	
+	
 	@Test
 	public void testGetEvaluationResult() throws Exception {
 	
@@ -2235,8 +2248,6 @@ public class LogicTest extends BaseComponentTestCase {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
 		}
 	}
-	
-	//TODO: unit test getEvaluationDetailsForCourse(String)
 
 	@Test
 	public void testGetEvauationResultForStudent() throws Exception {
@@ -2774,6 +2785,10 @@ public class LogicTest extends BaseComponentTestCase {
 		// method not implemented
 	}
 	
+	/* TODO: implement tests for the following :
+	 * 1. getFeedbackSessionDetails()
+	 * 2. getFeedbackSessionsListForInstructor()
+	 */
 	@SuppressWarnings("unused")
 	private void ____MISC_methods_________________________________________() {
 	}

@@ -370,17 +370,17 @@ public class Logic {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
-	 * @return A less deatailed version of courses for this instructor. 
+	 * @return A less deatailed version of courses for this instructor without stats
 	 *   Returns an empty list if none found.
 	 */
-	public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) 
+	public HashMap<String, CourseSummaryBundle> getCourseSummariesWithoutStatsForInstructor(String googleId) 
 			throws EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 	
 		instructorsLogic.verifyInstructorExists(googleId);
 	
-		return coursesLogic.getCourseSummariesForInstructor(googleId);
+		return coursesLogic.getCoursesSummaryWithoutStatsForInstructor(googleId);
 	}
 
 	/**
@@ -399,7 +399,22 @@ public class Logic {
 		return coursesLogic.getCoursesDetailsForInstructor(instructorId);
 	
 	}
-
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return A less deatailed version of courses for this instructor. 
+	 *   Returns an empty list if none found.
+	 */
+	public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) 
+			throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+	
+		instructorsLogic.verifyInstructorExists(googleId);
+	
+		return coursesLogic.getCourseSummariesForInstructor(googleId);
+	}
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
@@ -695,6 +710,19 @@ public class Logic {
 
 		return evaluationsLogic.getEvaluation(courseId, evaluationName);
 	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @throws EntityDoesNotExistException 
+	 */
+	public EvaluationDetailsBundle getEvaluationDetails(String courseId, String evaluationName) 
+			throws EntityDoesNotExistException {
+
+		EvaluationAttributes ea = evaluationsLogic.getEvaluation(courseId, evaluationName);
+		
+		return evaluationsLogic.getEvaluationsDetailsForCourseAndEval(ea);
+	}
 
 	/**
 	 * Preconditions: <br>
@@ -711,6 +739,23 @@ public class Logic {
 		instructorsLogic.verifyInstructorExists(instructorId);
 	
 		return evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * 
+	 * @return List of Instructor's evaluations. <br>
+	 * Returns an empty list if none found.
+	 */
+	public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(String instructorId) 
+			throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
+	
+		instructorsLogic.verifyInstructorExists(instructorId);
+	
+		return evaluationsLogic.getEvaluationsListForInstructor(instructorId);
 	}
 
 	/**
@@ -741,7 +786,7 @@ public class Logic {
 		
 		return evaluationsLogic.getEvaluationResultSummaryAsCsv(courseId, evalName);
 	}
-
+	
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
@@ -939,7 +984,22 @@ public class Logic {
 		
 		return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
 	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @throws EntityDoesNotExistException 
+	 */
+	public FeedbackSessionDetailsBundle getFeedbackSessionDetails(String feedbackSessionName, String courseId) 
+			throws EntityDoesNotExistException {
 		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		
+		FeedbackSessionAttributes fsa = feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
+		
+		return feedbackSessionsLogic.getFeedbackSessionDetails(fsa);
+	}
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
@@ -953,6 +1013,21 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		
 		return feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(googleId);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * 
+	 * @return List(without details) of Instructor's feedback sessions. <br>
+	 * Returns an empty list if none found.
+	 */
+	public List<FeedbackSessionAttributes>
+		getFeedbackSessionsListForInstructor(String googleId) throws EntityDoesNotExistException{
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
+		return feedbackSessionsLogic.getFeedbackSessionsListForInstructor(googleId);
 	}
 	
 	/**

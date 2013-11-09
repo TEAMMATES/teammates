@@ -35,5 +35,10 @@ public class AdminAccountManagementPageData extends PageData {
 		link = Url.addParamToUrl(link,"account","true");
 		return link;
 	}
+	public String getInstructorHomePageViewLink(String googleId){
+		String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
+		link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
+		return link;
+	}
 
 }

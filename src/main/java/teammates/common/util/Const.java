@@ -146,6 +146,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE = "Edit submitted feedback";
 		public static final String FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE = "View submitted feedback";
 		public static final String  FEEDBACK_SESSION_RECIPIENT = "Who the feedback is about";
+		public static final String  FEEDBACK_SESSION_GIVER = "Who will give feedback";
 
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
@@ -156,6 +157,13 @@ public class Const {
 				"<br />in the course once the results are published.";
 		public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
 				"before the session closes.";
+		
+		
+		public static final String VISIBILITY_OPTIONS_RECIPIENT = "Control what feedback recipient(s) can view";
+		public static final String VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS = "Control what team members of feedback giver can view";
+		public static final String VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS = "Control what team members of feedback recipients can view";
+		public static final String VISIBILITY_OPTIONS_OTHER_STUDENTS = "Control what other students can view";
+		public static final String VISIBILITY_OPTIONS_INSTRUCTORS = "Control what instructors can view";
 	}
 
 	public class ParamsNames{
@@ -284,6 +292,7 @@ public class Const {
 		public static final String INSTRUCTOR_EVAL_EDIT_PAGE = "/page/instructorEvalEditPage";
 		public static final String INSTRUCTOR_EVAL_EDIT_SAVE = "/page/instructorEvalEditSave";
 		public static final String INSTRUCTOR_EVAL_RESULTS_PAGE = "/page/instructorEvalResultsPage";
+		public static final String INSTRUCTOR_EVAL_STATS_PAGE = "/page/instructorEvalStatsPage";
 		public static final String INSTRUCTOR_EVAL_SUBMISSION_PAGE = "/page/instructorEvalSubmissionPage";
 		public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/page/instructorEvalSubmissionEdit";
 		public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE = "/page/instructorEvalSubmissionEditSave";
@@ -304,6 +313,8 @@ public class Const {
 		
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
+		
+		public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
 		
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
@@ -352,6 +363,7 @@ public class Const {
 		public static final String INSTRUCTOR_EVALS = "/jsp/instructorEvals.jsp"; 
 		public static final String INSTRUCTOR_EVAL_EDIT = "/jsp/instructorEvalEdit.jsp"; 
 		public static final String INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; 
+		public static final String INSTRUCTOR_EVAL_STATS = "/jsp/instructorEvalStats.jsp";
 		public static final String INSTRUCTOR_EVAL_SUBMISSION = "/jsp/instructorEvalSubmission.jsp"; 
 		public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/jsp/instructorEvalSubmissionEdit.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
@@ -361,7 +373,8 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT = "/jsp/instructorFeedbackResultsByRecipient.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
-
+		public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
+		
 		public static final String STUDENT_HOME = "/jsp/studentHome.jsp"; 
 		public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 

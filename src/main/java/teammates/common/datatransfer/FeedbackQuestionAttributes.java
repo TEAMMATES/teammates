@@ -161,7 +161,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 			// Recipient fragment: e.g. student, instructor, etc.
 			if(participant == FeedbackParticipantType.RECEIVER) {
 				if (recipientType == FeedbackParticipantType.OWN_TEAM ||
-						recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+						recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS ||
+						recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
 					line = recipientType.toVisibilityString() + " ";
 				} else {
 					line += (recipientType.toSingularFormString());

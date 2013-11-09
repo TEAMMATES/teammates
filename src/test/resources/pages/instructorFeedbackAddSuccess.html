@@ -18,6 +18,7 @@
 	<script src="/js/instructor.js" type="text/javascript"></script>
 	<script src="/js/instructorFeedbacks.js" type="text/javascript"></script>
 	<script src="/js/instructorFeedbackEdit.js" type="text/javascript"></script>
+
     <noscript>{*}</noscript>
 
 
@@ -316,11 +317,11 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="4"><textarea tabindex="9" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')" id="questiontext" name="questiontext" class="textvalue" cols="140" rows="5"></textarea>
+					<td colspan="4"><textarea tabindex="9" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')" id="questiontext" name="questiontext" class="textvalue" style="width:100%" rows="5"></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td class="bold">Feedback Giver:</td>
+					<td class="bold" onmouseover="ddrivetip('Who will give feedback')" onmouseout="hideddrivetip()">Feedback Giver:</td>
 					<td><select name="givertype" class="participantSelect" onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<option value="SELF">Me (Session creator)</option>
 <option value="STUDENTS">Students in this course</option>
@@ -336,6 +337,7 @@
 <option value="TEAMS">Other teams in the course</option>
 <option value="OWN_TEAM">Giver's team</option>
 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+<option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" >Giver's team members and Giver</option>
 <option value="NONE">Nobody specific (For general class feedback)</option>
 
 					</select>
@@ -361,31 +363,31 @@
 								<th>Can see giver's name</th>
 								<th>Can see recipient's name</th>
 							</tr>
-							<tr>
+							<tr onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Control what feedback recipient(s) can view')" >
 								<td>Recipient(s)</td>
 								<td><input type="checkbox" checked="checked" name="receiverLeaderCheckbox" value="RECEIVER" class="visibilityCheckbox answerCheckbox" /></td>
 								<td><input type="checkbox" checked="checked" value="RECEIVER" class="visibilityCheckbox giverCheckbox" /></td>
 								<td><input type="checkbox" checked="checked" disabled="disabled" name="receiverFollowerCheckbox" value="RECEIVER" class="visibilityCheckbox recipientCheckbox" /></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('Control what team members of feedback giver can view')" onmouseout="hideddrivetip()">
 								<td>Giver's Team Members</td>
 								<td><input type="checkbox" value="OWN_TEAM_MEMBERS" class="visibilityCheckbox answerCheckbox" /></td>
 								<td><input type="checkbox" value="OWN_TEAM_MEMBERS" class="visibilityCheckbox giverCheckbox" /></td>
 								<td><input type="checkbox" value="OWN_TEAM_MEMBERS" class="visibilityCheckbox recipientCheckbox" /></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('Control what team members of feedback recipients can view')" onmouseout="hideddrivetip()">
 								<td>Recipient's Team Members</td>
 								<td><input type="checkbox" value="RECEIVER_TEAM_MEMBERS" class="visibilityCheckbox answerCheckbox" /></td>								
 								<td><input type="checkbox" value="RECEIVER_TEAM_MEMBERS" class="visibilityCheckbox giverCheckbox" /></td>
 								<td><input type="checkbox" value="RECEIVER_TEAM_MEMBERS" class="visibilityCheckbox recipientCheckbox" /></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('Control what other students can view')" onmouseout="hideddrivetip()">
 								<td>Other students</td>
 								<td><input type="checkbox" value="STUDENTS" class="visibilityCheckbox answerCheckbox" /></td>								
 								<td><input type="checkbox" value="STUDENTS" class="visibilityCheckbox giverCheckbox" /></td>
 								<td><input type="checkbox" value="STUDENTS" class="visibilityCheckbox recipientCheckbox" /></td>
 							</tr>
-							<tr>
+							<tr onmouseover="ddrivetip('Control what instructors can view')" onmouseout="hideddrivetip()">
 								<td>Instructors</td>
 								<td><input type="checkbox" checked="checked" value="INSTRUCTORS" class="visibilityCheckbox answerCheckbox" /></td>								
 								<td><input type="checkbox" checked="checked" value="INSTRUCTORS" class="visibilityCheckbox giverCheckbox" /></td>

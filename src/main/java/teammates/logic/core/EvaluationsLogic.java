@@ -145,6 +145,17 @@ public class EvaluationsLogic {
 		return evaluationSummaryList;
 	}
 	
+	public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(
+			String instructorId) throws EntityDoesNotExistException {
+		ArrayList<EvaluationAttributes> evaluationSummaryList = new ArrayList<EvaluationAttributes>();
+
+		List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId);
+		for (InstructorAttributes id : instructorList) {
+			evaluationSummaryList.addAll(getEvaluationsForCourse(id.courseId));
+		}
+		return evaluationSummaryList;
+	}
+	
 	public ArrayList<EvaluationDetailsBundle> getEvaluationsDetailsForCourse(String courseId) throws EntityDoesNotExistException{
 		ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
@@ -157,6 +168,14 @@ public class EvaluationsLogic {
 		}
 		
 		return evaluationSummaryList;
+	}
+	
+	public EvaluationDetailsBundle getEvaluationsDetailsForCourseAndEval(EvaluationAttributes evaluation) 
+			throws EntityDoesNotExistException{
+
+		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(evaluation.courseId);
+
+		return getEvaluationDetails(students, evaluation);
 	}
 
 	public EvaluationResultsBundle getEvaluationResult(String courseId,
@@ -309,9 +328,10 @@ public class EvaluationsLogic {
 				CourseAttributes course = coursesLogic.getCourse(ed.courseId);
 				
 				List<StudentAttributes> students = studentsLogic.getStudentsForCourse(ed.courseId);
+				List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(ed.courseId);
 				
 				Emails emails = new Emails();
-				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students);
+				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students, instructors);
 				emails.sendEmails(messages);
 				messagesSent.addAll(messages);
 				
@@ -336,7 +356,7 @@ public class EvaluationsLogic {
 			try {
 	
 				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.courseId);
-				
+				List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(ed.courseId);
 				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
 	
 				for (StudentAttributes sd : studentDataList) {
@@ -348,7 +368,7 @@ public class EvaluationsLogic {
 				CourseAttributes c = coursesLogic.getCourse(ed.courseId);
 	
 				Emails emailMgr = new Emails();
-				List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList);
+				List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList, instructorList);
 				emailMgr.sendEmails(emails);
 				emailsSent.addAll(emails);
 				
@@ -416,7 +436,7 @@ public class EvaluationsLogic {
 	
 		// Filter out students who have submitted the evaluation
 		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
-	
+		List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(courseId);
 		List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
 		for (StudentAttributes sd : studentDataList) {
 			if (!isEvaluationCompletedByStudent(evaluation,
@@ -432,7 +452,7 @@ public class EvaluationsLogic {
 		Emails emailMgr = new Emails();
 		try {
 			emails = emailMgr.generateEvaluationReminderEmails(course,
-					evaluation, studentsToRemindList);
+					evaluation, studentsToRemindList, instructorList);
 			emailMgr.sendEmails(emails);
 		} catch (Exception e) {
 			throw new RuntimeException("Error while sending emails :", e);
@@ -617,11 +637,12 @@ public class EvaluationsLogic {
 		CourseAttributes c = coursesLogic.getCourse(courseId);
 		EvaluationAttributes e = getEvaluation(courseId, evaluationName);
 		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+		List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
 
 		Emails emailMgr = new Emails();
 		try {
 			emailsSent = emailMgr.generateEvaluationPublishedEmails(c, e,
-					students);
+					students, instructors);
 			emailMgr.sendEmails(emailsSent);
 		} catch (Exception ex) {
 			throw new RuntimeException(

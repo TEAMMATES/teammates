@@ -157,6 +157,7 @@ public class FeedbackResponsesLogic {
 					break;
 				}
 			case OWN_TEAM_MEMBERS:
+			case OWN_TEAM_MEMBERS_INCLUDING_SELF:
 				// Refers to Giver's Team Members
 				if (studentsLogic.isStudentsInSameTeam(response.courseId, response.giverEmail, userEmail)) {
 					return true;

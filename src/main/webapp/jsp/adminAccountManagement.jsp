@@ -55,7 +55,7 @@
                                                         ArrayList<InstructorAttributes> coursesList = data.instructorCoursesTable.get(key);
             %>
                 <tr>
-                     <td><%="<span class=\"bold\">Google ID: </span>" + acc.googleId + " <br><span class=\"bold\">Name: </span>" + acc.name + "<br><span class=\"bold\">Email: </span>" + acc.email%></td>
+                     <td><%="<span class=\"bold\">Google ID: </span><a href=\""+ data.getInstructorHomePageViewLink(acc.googleId) +"\">" + acc.googleId + "</a><br><span class=\"bold\">Name: </span>" + acc.name + "<br><span class=\"bold\">Email: </span>" + acc.email%></td>
                      <td>
                      <%
                      	if(coursesList != null){

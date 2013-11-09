@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -257,6 +258,19 @@ public class CoursesLogic {
 		return cdd;
 	}
 	
+	public CourseSummaryBundle getCourseSummaryWithoutStats(String courseId)
+			throws EntityDoesNotExistException {
+		CourseAttributes cd = coursesDb.getCourse(courseId);
+
+		if (cd == null) {
+			throw new EntityDoesNotExistException("The course does not exist: "
+					+ courseId);
+		}
+
+		CourseSummaryBundle cdd = new CourseSummaryBundle(cd);
+		return cdd;
+	}
+	
 	public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
 		
 		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
@@ -322,7 +336,28 @@ public class CoursesLogic {
 		}
 		return courseList;
 	}
-
+	
+	public HashMap<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
+			String instructorId) throws EntityDoesNotExistException {
+		
+		HashMap<String, CourseSummaryBundle> courseList = 
+				getCourseSummaryWithoutStatsForInstructor(instructorId);
+		
+		ArrayList<EvaluationAttributes> evaluationList = 
+				evaluationsLogic.getEvaluationsListForInstructor(instructorId);
+		List<FeedbackSessionAttributes> feedbackSessionList = 
+				FeedbackSessionsLogic.inst().getFeedbackSessionsListForInstructor(instructorId);
+		
+		for (EvaluationAttributes edd : evaluationList) {
+			CourseSummaryBundle courseSummary = courseList.get(edd.courseId);
+			courseSummary.evaluations.add(edd);
+		}
+		for (FeedbackSessionAttributes fsb : feedbackSessionList) {
+			CourseSummaryBundle courseSummary = courseList.get(fsb.courseId);
+			courseSummary.feedbackSessions.add(fsb);
+		}
+		return courseList;
+	}
 
 	public void deleteCourseCascade(String courseId) {
 		evaluationsLogic.deleteEvaluationsForCourse(courseId);
@@ -332,5 +367,24 @@ public class CoursesLogic {
 		coursesDb.deleteCourse(courseId);
 	}
 	
+	private HashMap<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(String googleId) {
+		
+		List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
+		
+		HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
+		
+		for (InstructorAttributes ia : instructorAttributesList) {
+			CourseAttributes course = coursesDb.getCourse(ia.courseId);
+			
+			try {
+				courseSummaryList.put(course.id, getCourseSummaryWithoutStats(course.id));
+			} catch (EntityDoesNotExistException e) {
+				log.warning("Course was deleted but the Instructor still exists: "+Const.EOL 
+						+ ia.toString());
+			}
+		}
+		
+		return courseSummaryList;
+	}
 
 }

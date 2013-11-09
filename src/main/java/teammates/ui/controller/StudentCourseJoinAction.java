@@ -7,6 +7,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 public class StudentCourseJoinAction extends Action {
@@ -26,9 +27,17 @@ public class StudentCourseJoinAction extends Action {
 				| EntityAlreadyExistsException e) {
 			setStatusForException(e, Sanitizer.sanitizeForHtml(e.getMessage()));
 		}
-		statusToAdmin = "Action Student joins course<br>" +
+		
+		final String studentInfo = "Action Student joins course<br>" +
 				"Student (GoogleID): " + account.googleId + "<br>" +
 				"With Key : " + key;
+		if (statusToAdmin != null && !StringHelper.isWhiteSpace(statusToAdmin)){
+			statusToAdmin += ("<br>" + studentInfo);
+		} else {
+			statusToAdmin = studentInfo;	
+		}
+		
+
 		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
 		return response;
 	}

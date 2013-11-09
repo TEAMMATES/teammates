@@ -1,3 +1,5 @@
+<%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
+<%@page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
@@ -29,6 +31,7 @@
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
 	<script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
+	<script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -305,42 +308,42 @@
 					int sessionIdx = -1;
 					if (data.existingFeedbackSessions.size() > 0
 							|| data.existingEvalSessions.size() > 0) {
-						for (FeedbackSessionDetailsBundle fdb : data.existingFeedbackSessions) {
+						for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
 							sessionIdx++;
 				%>
 				<tr class="sessions_row" id="session<%=sessionIdx%>">
-					<td class="t_session_coursecode"><%=fdb.feedbackSession.courseId%></td>
+					<td class="t_session_coursecode"><%=fdb.courseId%></td>
 					<td class="t_session_name"><%=InstructorFeedbacksPageData
-							.sanitizeForHtml(fdb.feedbackSession.feedbackSessionName)%></td>
+							.sanitizeForHtml(fdb.feedbackSessionName)%></td>
 					<td class="t_session_status centeralign"><span
 						onmouseover="ddrivetip(' <%=InstructorFeedbacksPageData
-							.getInstructorHoverMessageForFeedbackSession(fdb.feedbackSession)%>')"
+							.getInstructorHoverMessageForFeedbackSession(fdb)%>')"
 						onmouseout="hideddrivetip()"><%=InstructorFeedbacksPageData
-							.getInstructorStatusForFeedbackSession(fdb.feedbackSession)%></span></td>
-					<td class="t_session_response centeralign"><%=fdb.stats.submittedTotal%>
-						/ <%=fdb.stats.expectedTotal%></td>
+							.getInstructorStatusForFeedbackSession(fdb)%></span></td>
+					<td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
+						<a href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a></td>
 					<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
-							fdb.feedbackSession, sessionIdx, false)%>
+							fdb, sessionIdx, false)%>
 					</td>
 				</tr>
 				<%
 						}
-						for (EvaluationDetailsBundle edd : data.existingEvalSessions) {
+						for (EvaluationAttributes edd : data.existingEvalSessions) {
 							sessionIdx++;
 				%>
 				<tr class="sessions_row" id="evaluation<%=sessionIdx%>">
-					<td class="t_session_coursecode"><%=edd.evaluation.courseId%></td>
+					<td class="t_session_coursecode"><%=edd.courseId%></td>
 					<td class="t_session_name"><%=InstructorFeedbacksPageData
-							.sanitizeForHtml(edd.evaluation.name)%></td>
+							.sanitizeForHtml(edd.name)%></td>
 					<td class="t_session_status centeralign"><span
 						onmouseover="ddrivetip(' <%=InstructorFeedbacksPageData
-							.getInstructorHoverMessageForEval(edd.evaluation)%>')"
+							.getInstructorHoverMessageForEval(edd)%>')"
 						onmouseout="hideddrivetip()"><%=InstructorFeedbacksPageData
-							.getInstructorStatusForEval(edd.evaluation)%></span></td>
-					<td class="t_session_response centeralign"><%=edd.stats.submittedTotal%>
-						/ <%=edd.stats.expectedTotal%></td>
+							.getInstructorStatusForEval(edd)%></span></td>
+					<td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
+						<a href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a></td>
 					<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(
-							edd.evaluation, sessionIdx, false)%>
+							edd, sessionIdx, false)%>
 					</td>
 				</tr>
 				<%

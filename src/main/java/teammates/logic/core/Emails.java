@@ -74,12 +74,13 @@ public class Emails {
 	public List<MimeMessage> generateEvaluationOpeningEmails(
 			CourseAttributes course,
 			EvaluationAttributes evaluation, 
-			List<StudentAttributes> students)
+			List<StudentAttributes> students,
+			List<InstructorAttributes> instructors)
 					throws MessagingException, IOException {
 
-		String template = EmailTemplates.STUDENT_EVALUATION_;
+		String template = EmailTemplates.USER_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
-				evaluation, students, template);
+				evaluation, students, instructors, template);
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING));
@@ -93,12 +94,13 @@ public class Emails {
 	public List<MimeMessage> generateEvaluationReminderEmails(
 			CourseAttributes course, 
 			EvaluationAttributes evaluation,
-			List<StudentAttributes> students) 
+			List<StudentAttributes> students,
+			List<InstructorAttributes> instructors) 
 					throws MessagingException, IOException {
 
-		String template = EmailTemplates.STUDENT_EVALUATION_;
+		String template = EmailTemplates.USER_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(course,
-				evaluation, students, template);
+				evaluation, students, instructors, template);
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER));
@@ -115,12 +117,13 @@ public class Emails {
 	public List<MimeMessage> generateEvaluationClosingEmails(
 			CourseAttributes c,
 			EvaluationAttributes e, 
-			List<StudentAttributes> students)
+			List<StudentAttributes> students, List<InstructorAttributes> instructors)
 					throws MessagingException, IOException {
 
-		String template = EmailTemplates.STUDENT_EVALUATION_;
+		String template = EmailTemplates.USER_EVALUATION_;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
-				template);
+				instructors, template);
+		
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING));
@@ -135,12 +138,13 @@ public class Emails {
 	public List<MimeMessage> generateEvaluationPublishedEmails(
 			CourseAttributes c,
 			EvaluationAttributes e, 
-			List<StudentAttributes> students)
+			List<StudentAttributes> students,
+			List<InstructorAttributes> instructors)
 					throws MessagingException, IOException {
 
-		String template = EmailTemplates.STUDENT_EVALUATION_PUBLISHED;
+		String template = EmailTemplates.USER_EVALUATION_PUBLISHED;
 		List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
-				template);
+				instructors, template);
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED));
@@ -152,26 +156,30 @@ public class Emails {
 			CourseAttributes course,
 			EvaluationAttributes evaluation, 
 			List<StudentAttributes> students,
+			List<InstructorAttributes> instructors,
 			String template) 
 					throws MessagingException, UnsupportedEncodingException {
 		
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
 		for (StudentAttributes s : students) {
-
-			emails.add(generateEvaluationEmailBase(course, evaluation, s,
+			emails.add(generateEvaluationEmailBaseForStudent(course, evaluation, s,
+					template));
+		}
+		for (InstructorAttributes i : instructors) {
+			emails.add(generateEvaluationEmailBaseForInstructor(course, evaluation, i,
 					template));
 		}
 		return emails;
 	}
 
-	public MimeMessage generateEvaluationEmailBase(
+	public MimeMessage generateEvaluationEmailBaseForStudent(
 			CourseAttributes c,
 			EvaluationAttributes e, 
 			StudentAttributes s, 
 			String template)
 					throws MessagingException, UnsupportedEncodingException {
 
-		MimeMessage message = getEmptyEmailAddressedToStudent(s);
+		MimeMessage message = getEmptyEmailAddressedToEmail(s.email);
 
 		message.setSubject(String
 				.format("${subjectPrefix} [Course: %s][Evaluation: %s]",
@@ -185,7 +193,55 @@ public class Emails {
 			emailBody = emailBody.replace("${joinFragment}", "");
 		}
 
-		emailBody = emailBody.replace("${studentName}", s.name);
+		emailBody = emailBody.replace("${userName}", s.name);
+		emailBody = emailBody.replace("${instructorFragment}", "");
+		emailBody = emailBody.replace("${courseName}", c.name);
+		emailBody = emailBody.replace("${courseId}", c.id);
+		emailBody = emailBody.replace("${evaluationName}", e.name);
+		emailBody = emailBody.replace("${deadline}",
+				TimeHelper.formatTime(e.endTime));
+
+		String submitUrl = Config.APP_URL
+				+ Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
+		submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
+				c.id);
+		submitUrl = Url.addParamToUrl(submitUrl,
+				Const.ParamsNames.EVALUATION_NAME, e.name);
+		emailBody = emailBody.replace("${submitUrl}", submitUrl);
+
+		String reportUrl = Config.APP_URL
+				+ Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
+		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
+				c.id);
+		reportUrl = Url.addParamToUrl(reportUrl,
+				Const.ParamsNames.EVALUATION_NAME, e.name);
+		emailBody = emailBody.replace("${reportUrl}", reportUrl);
+
+		message.setContent(emailBody, "text/html");
+
+		return message;
+	}
+	
+	public MimeMessage generateEvaluationEmailBaseForInstructor(
+			CourseAttributes c,
+			EvaluationAttributes e, 
+			InstructorAttributes i, 
+			String template)
+					throws MessagingException, UnsupportedEncodingException {
+
+		MimeMessage message = getEmptyEmailAddressedToEmail(i.email);
+
+		message.setSubject(String
+				.format("${subjectPrefix} [Course: %s][Evaluation: %s]",
+						c.name, e.name));
+
+		String emailBody = template;
+
+		emailBody = emailBody.replace("${userName}", i.name);
+		emailBody = emailBody.replace("${joinFragment}", "");
+		emailBody = emailBody.replace("${instructorFragment}",
+					"The email below has been sent to students of course: "+c.id+".<br/>");
+		
 		emailBody = emailBody.replace("${courseName}", c.name);
 		emailBody = emailBody.replace("${courseId}", c.id);
 		emailBody = emailBody.replace("${evaluationName}", e.name);
@@ -392,7 +448,7 @@ public class Emails {
 			CourseAttributes c,	StudentAttributes s) 
 					throws AddressException, MessagingException, UnsupportedEncodingException {
 
-		MimeMessage message = getEmptyEmailAddressedToStudent(s);
+		MimeMessage message = getEmptyEmailAddressedToEmail(s.email);
 		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
 				+ " [%s][Course ID: %s]", c.name, c.id));
 
@@ -489,19 +545,6 @@ public class Emails {
 
 		emailBody = emailBody.replace("${joinUrl}", joinUrl);
 		return emailBody;
-	}
-
-	private MimeMessage getEmptyEmailAddressedToStudent(StudentAttributes s)
-			throws MessagingException, AddressException,
-			UnsupportedEncodingException {
-		Session session = Session.getDefaultInstance(new Properties(), null);
-		MimeMessage message = new MimeMessage(session);
-
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-				s.email));
-		message.setFrom(new InternetAddress(senderEmail, senderName));
-		message.setReplyTo(new Address[] { new InternetAddress(replyTo) });
-		return message;
 	}
 
 	private MimeMessage getEmptyEmailAddressedToEmail(String email)

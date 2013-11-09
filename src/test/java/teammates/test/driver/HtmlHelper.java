@@ -34,6 +34,18 @@ public class HtmlHelper {
 		}
 	}
 
+	/**
+	 * Verifies that two HTML files are logically 
+	 * equivalent e.g., ignores differences in whitespace and attribute order.
+	 */
+	public static boolean areSameHtml(String actualString, String expectedString){
+		
+		String processedExpectedHtml = convertToStandardHtml(expectedString);
+		String processedActualHtml = convertToStandardHtml(actualString);
+		
+		return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
+	}
+	
 
 	/**
 	 * Transform the HTML text to follow a standard format. 

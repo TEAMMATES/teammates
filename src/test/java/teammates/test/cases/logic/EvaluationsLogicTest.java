@@ -31,6 +31,7 @@ import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.EvaluationsLogic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.logic.core.TeamEvalResult;
@@ -43,11 +44,17 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	
 	//TODO: add missing tests. Some of the test content can be transferred from LogicTest.
 	
+	/* TODO: implement tests for the following:
+	 * 1. getEvaluationsListForInstructor()
+	 * 2. getEvaluationsDetailsForCourseAndEval()
+	 */
+	
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	private static final SubmissionsLogic submissionsLogic = new SubmissionsLogic();
 	private static final CoursesLogic coursesLogic = new CoursesLogic();
 	private static final StudentsLogic studentsLogic = new StudentsLogic();
+	private static final InstructorsLogic instructorsLogic = new InstructorsLogic();
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -201,7 +208,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
 		List<MimeMessage> emailsSent = invokeSendEvaluationPublishedEmails(
 				e.courseId, e.name);
-		assertEquals(5, emailsSent.size());
+		assertEquals(8, emailsSent.size());
 
 		List<StudentAttributes> studentList = logic.getStudentsForCourse(e.courseId);
 
@@ -362,8 +369,14 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 				evaluation1.courseId).size();
 		int course2StudentCount = studentsLogic.getStudentsForCourse(
 				evaluation2.courseId).size();
+		int course1InstructorCount = instructorsLogic.getInstructorsForCourse(
+				evaluation1.courseId).size();
+		int course2InstructorCount = instructorsLogic.getInstructorsForCourse(
+				evaluation2.courseId).size();
 
-		assertEquals(course1StudentCount + course2StudentCount,	emailsSent.size());
+		assertEquals(course1StudentCount + course2StudentCount
+				+ course1InstructorCount + course2InstructorCount,
+				emailsSent.size());
 
 		//ensure both evaluations are activated now
 		emailsSent = evaluationsLogic.activateReadyEvaluations();
@@ -438,8 +451,13 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 				evaluation1.courseId).size();
 		int course2StudentCount = studentsLogic.getStudentsForCourse(
 				evaluation2.courseId).size();
-
-		assertEquals(course1StudentCount + course2StudentCount,
+		int course1InstructorCount = instructorsLogic.getInstructorsForCourse(
+				evaluation1.courseId).size();
+		int course2InstructorCount = instructorsLogic.getInstructorsForCourse(
+				evaluation2.courseId).size();
+		
+		assertEquals(course1StudentCount + course2StudentCount
+				+ course1InstructorCount + course2InstructorCount,
 				emailsSent.size());
 
 		for (MimeMessage m : emailsSent) {
