@@ -319,14 +319,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 	    // refresh page
 		feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
 		
-		______TS("AUTOMATIC: publish link unclickable");
-		
 		String courseId = testData.feedbackSessions.get("publishedSession").courseId;
 		String sessionName = testData.feedbackSessions.get("publishedSession").feedbackSessionName;
-		
-		//The publish link still exist here because the session doesn't belong to the instructor.
-		feedbackPage.verifyUnclickable(feedbackPage.getPublishLink(courseId, sessionName));
-		
+
 		______TS("PRIVATE: publish link unclickable");
 		
 		courseId = testData.feedbackSessions.get("privateSession").courseId;
@@ -357,13 +352,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 	    // refresh page
 		feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
 		
-		______TS("AUTOMATIC: unpublish link hidden");
+		______TS("PUBLISHED: unpublish link unclickable for other instructor");
 		
 		String courseId = testData.feedbackSessions.get("publishedSession").courseId;
 		String sessionName = testData.feedbackSessions.get("publishedSession").feedbackSessionName;
 		
-		feedbackPage.verifyUnclickable(feedbackPage.getPublishLink(courseId, sessionName));
-		feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+		feedbackPage.verifyUnclickable(feedbackPage.getUnpublishLink(courseId, sessionName));
+		feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
 		
 		______TS("PRIVATE: unpublish link unclickable");
 		
