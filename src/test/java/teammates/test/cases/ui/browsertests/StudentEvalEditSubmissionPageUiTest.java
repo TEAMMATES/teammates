@@ -114,8 +114,8 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 		//create new values of all submissions
 		for(int i=0; i<3; i++){
 			subs[i].points-=10;
-			subs[i].justification = new Text(subs[i].justification.getValue()+Const.EOL+"(edited)");
-			subs[i].p2pFeedback= new Text(subs[i].p2pFeedback.getValue()+Const.EOL+"multilinetest"+Const.EOL+Const.EOL+"(edited)");
+			subs[i].justification = new Text(subs[i].justification.getValue()+"\r\n"+"(edited)");
+			subs[i].p2pFeedback= new Text(subs[i].p2pFeedback.getValue()+"\r\n"+"multilinetest"+"\r\n"+"\r\n"+"(edited)");
 		}
 		SubmissionAttributes subForNewGuy = new SubmissionAttributes();
 		//Fill review for "New Guy" with same values as given for Emily above.
@@ -188,9 +188,9 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
 	}
 	
 	private void verifyEditSaved(SubmissionAttributes expected,	SubmissionAttributes actual) {
-		assertEquals(expected.points+"",actual.points+"");
-		assertEquals(expected.justification.getValue(),actual.justification.getValue());
-		assertEquals(expected.p2pFeedback.getValue(),actual.p2pFeedback.getValue());
+        assertEquals((expected.points+"").trim(),actual.points+"");
+		assertEquals(expected.justification.getValue().trim(),actual.justification.getValue());
+		assertEquals(expected.p2pFeedback.getValue().trim(),actual.p2pFeedback.getValue());
 	}
 
 	private StudentEvalEditPage loginToEvalEditPage(String studentName,	String evalName) {
