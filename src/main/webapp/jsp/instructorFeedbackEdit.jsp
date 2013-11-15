@@ -250,6 +250,7 @@
 				</table>
 				<br><div class="rightalign"><input id="button_submit_edit"
 							type="submit" class="button" style="display:none;"
+							onclick="return checkEditFeedbackSession(this.form);"
 							value="Save Changes"></div>
 				</div>
 				<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">

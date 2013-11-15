@@ -115,6 +115,24 @@ function checkAddFeedbackSession(form){
 	return true;
 }
 
+
+function checkEditFeedbackSession(form){
+	if(form.visibledate.getAttribute("disabled") != ""){
+		if(form.visibledate.value == ""){
+			setStatusMessage(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, true);
+			return false;
+		}
+	}
+	if(form.publishdate.getAttribute("disabled") != ""){
+		if(form.publishdate.value == ""){
+			setStatusMessage(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, true);
+			return false;
+		}
+	}
+	
+	return true;
+}
+
 /**
  * To be run on page finish loading, this will select the input: start date,
  * start time, and timezone based on client's time.
