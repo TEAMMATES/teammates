@@ -50,8 +50,8 @@ $(document).ready(function(){
 			params[param_value[0]] = param_value[1];
 		}
 		
-		console.log($(this).val()+"?user="+params["user"]);
-    	window.location.href = $(this).val()+"?user="+params["user"];
+		console.log($(this).val()+"?user="+params["user"])+"&courseid="+$("select#"+COURSE_ID).val();
+    	window.location.href = $(this).val()+"?user="+params["user"]+"&courseid="+$("select#courseid").val();
     });
 });
 
