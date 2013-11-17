@@ -7,31 +7,31 @@
     <cron>
       <url>/evaluationclosingreminders</url>
       <description>Checks for evaluations that are due in 24 hours and send reminders to students who have not submitted their evaluations.</description>
-      <schedule>every 60 minutes synchronized</schedule>
+      <schedule>every 60 minutes from 00:08 to 23:59</schedule>
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>
       <url>/feedbackSessionOpeningReminders</url>
       <description>Checks and sends out emails for feedback sessions which are about to open every hour.</description>
-      <schedule>every 60 minutes synchronized</schedule>
+      <schedule>every 60 minutes from 00:02 to 23:59</schedule>
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>
       <url>/feedbackSessionClosingReminders</url>
       <description>Checks for feedback sessions that are due in 24 hours and send reminders to students who have not submitted their responses in full.</description>
-      <schedule>every 60 minutes synchronized</schedule>
+      <schedule>every 60 minutes from 00:06 to 23:59</schedule>
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>
       <url>/feedbackSessionPublishedReminders</url>
       <description>Checks and sends out emails for feedback sessions which have just been published in the past hour.</description>
-      <schedule>every 60 minutes synchronized</schedule>
+      <schedule>every 60 minutes from 00:04 to 23:59</schedule>
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>
       <url>/_ah/datastore_admin/backup.create?name=BackupToCloud&amp;kind=Instructor&amp;kind=Course&amp;kind=Evaluation&amp;kind=Student&amp;kind=Submission&amp;filesystem=blobstore</url>
       <description>Weekly Backup</description>
-      <schedule>every monday 06:00</schedule>
+      <schedule>every monday 05:30</schedule>
       <target>ah-builtin-python-bundle</target>
       <timezone>Australia/Perth</timezone>
     </cron>
