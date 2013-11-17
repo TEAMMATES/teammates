@@ -38,8 +38,14 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		
 		EvaluationAttributes eval = logic.getEvaluation(courseId, evalName);
 		
-		if(eval.getStatus() != EvalStatus.OPEN){
-			throw new UnauthorizedAccessException("This evalutions is not currently open for editing");
+		if(eval.getStatus()==EvalStatus.PUBLISHED){
+			throw new UnauthorizedAccessException(Const.Tooltips.EVALUATION_STATUS_PUBLISHED);
+		}else if(eval.getStatus()==EvalStatus.CLOSED){
+			throw new UnauthorizedAccessException(Const.Tooltips.EVALUATION_STATUS_CLOSED);
+		}else if(eval.getStatus() ==EvalStatus.AWAITING){
+			throw new UnauthorizedAccessException(Const.Tooltips.EVALUATION_STATUS_AWAITING);
+		}else if(eval.getStatus() == EvalStatus.DOES_NOT_EXIST){
+			throw new UnauthorizedAccessException(Const.StatusMessages.EVALUATION_DELETED);
 		}
 		
 		//extract submission data

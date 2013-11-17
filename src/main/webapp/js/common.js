@@ -85,7 +85,8 @@ var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (st
 var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to.";
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 var DISPLAY_FEEDBACK_SESSION_INSTRUCTIONS_LENGTHINVALID = "Instructions to students should not exceed 500 characters.";
-
+var DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = "Feedback session visible date must not be empty";
+var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = "Feedback session publish date must not be empty";
 // Max length for input
 var TEAMNAME_MAX_LENGTH = 24;
 var NAME_MAX_LENGTH = 40;

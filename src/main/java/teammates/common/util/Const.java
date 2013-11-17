@@ -145,8 +145,12 @@ public class Const {
 		public static final String FEEDBACK_SESSION_AWAITING = "This session is not yet opened";
 		public static final String FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE = "Edit submitted feedback";
 		public static final String FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE = "View submitted feedback";
-		public static final String  FEEDBACK_SESSION_RECIPIENT = "Who the feedback is about";
-		public static final String  FEEDBACK_SESSION_GIVER = "Who will give feedback";
+		public static final String FEEDBACK_SESSION_RECIPIENT = "Who the feedback is about";
+		public static final String FEEDBACK_SESSION_GIVER = "Who will give feedback";
+		public static final String FEEDBACK_SESSION_NOT_CREATOR_EDIT = "Only the creator can edit this session";
+		public static final String FEEDBACK_SESSION_NOT_CREATOR_PUBLISH = "Only the creator can publish this session";
+		public static final String FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH = "Only the creator can unpublish this session";
+		public static final String FEEDBACK_SESSION_NOT_CREATOR_DELETE = "Only the creator can delete this session";
 
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";

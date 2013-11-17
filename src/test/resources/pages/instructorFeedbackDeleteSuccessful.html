@@ -539,17 +539,17 @@
                            <a class="color_green t_session_view5"  href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
                               View Results
                            </a>
-                           <a class="color_brown t_session_edit5"  href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')"  style="color: gray; text-decoration: none;" >
+                           <a class="color_brown t_session_edit5"  href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Only the creator can edit this session')"  style="color: gray; text-decoration: none;" >
                               Edit
                            </a>
-                           <a class="color_red t_session_delete5"  href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','First Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')"  style="color: gray; text-decoration: none;" >
+                           <a class="color_red t_session_delete5"  href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Only the creator can delete this session')"  style="color: gray; text-decoration: none;" >
                               Delete
                            </a>
                            <a class="color_blue t_session_submit5"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
                               Submit
                            </a>
-                           <a class="color_black t_session_publish5"  href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('This session will be published automatically at the specified time')"  style="color: gray; text-decoration: none;" >
-                              Publish
+                           <a class="color_black t_session_unpublish5"  href="/page/instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Only the creator can unpublish this session')"  style="color: gray; text-decoration: none;" >
+                              Unpublish
                            </a>
                         </td>
                      </tr>

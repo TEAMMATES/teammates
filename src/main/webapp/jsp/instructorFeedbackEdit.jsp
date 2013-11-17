@@ -250,6 +250,7 @@
 				</table>
 				<br><div class="rightalign"><input id="button_submit_edit"
 							type="submit" class="button" style="display:none;"
+							onclick="return checkEditFeedbackSession(this.form);"
 							value="Save Changes"></div>
 				</div>
 				<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
@@ -343,10 +344,10 @@
 					<td colspan="4">
 						<table class="dataTable participantTable">
 							<tr>
-								<th class="bold">User/Group</th>
-								<th>Can see answer</th>
-								<th>Can see giver's name</th>
-								<th>Can see recipient's name</th>
+								<th class="color_white bold">User/Group</th>
+								<th class="color_white bold">Can see answer</th>
+								<th class="color_white bold">Can see giver's name</th>
+								<th class="color_white bold">Can see recipient's name</th>
 							</tr>
 							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')"
 							onmouseout="hideddrivetip()">
@@ -485,10 +486,10 @@
 					<td colspan="4">
 						<table class="dataTable participantTable">
 							<tr>
-								<th>User/Group</th>
-								<th>Can see answer</th>
-								<th>Can see giver's name</th>
-								<th>Can see recipient's name</th>
+								<th class="color_white bold">User/Group</th>
+								<th class="color_white bold">Can see answer</th>
+								<th class="color_white bold">Can see giver's name</th>
+								<th class="color_white bold">Can see recipient's name</th>
 							</tr>
 							<tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')"
 							onmouseout="hideddrivetip()">
