@@ -25,8 +25,10 @@ public class InstructorCourseInstructorAddAction extends Action {
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getCourse(courseId));
 
+		String instructorInstitute = account.institute;
 		try {
-			logic.createInstructor(instructorId, courseId, instructorName, instructorEmail);
+			logic.createInstructorAccount(instructorId, courseId, instructorName, 
+									instructorEmail, instructorInstitute);
 			
 			statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED);
 			statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorId + "</span>)"

@@ -1,6 +1,5 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -8,8 +7,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 
@@ -110,28 +107,6 @@ public class InstructorsLogic {
 
 	public void deleteInstructorsForCourse(String courseId) {
 		instructorsDb.deleteInstructorsForCourse(courseId);
-	}
-
-
-	private List<InstructorAttributes> parseInstructorLines(String courseId, String instructorLines) 
-			throws InvalidParametersException {
-		String[] linesArray = instructorLines.split(Const.EOL);
-		
-		// check if all non-empty lines are formatted correctly
-		List<InstructorAttributes> instructorsList = new ArrayList<InstructorAttributes>();
-		for (int i = 0; i < linesArray.length; i++) {
-			String information = linesArray[i];
-			if (StringHelper.isWhiteSpace(information)) {
-				continue;
-			}
-			instructorsList.add(new InstructorAttributes(courseId, information));
-		}
-		
-		if (instructorsList.size() < 1) {
-			throw new InvalidParametersException(ERROR_NO_INSTRUCTOR_LINES);
-		}
-		
-		return instructorsList;
 	}
 
 }

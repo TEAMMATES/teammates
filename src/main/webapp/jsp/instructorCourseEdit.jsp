@@ -99,6 +99,7 @@
 			id="formEditInstructor<%=index%>>" name="formEditInstructors" class="formInstructor" >
 				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=instructor.courseId%>">
 				<input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=instructor.googleId%>">
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 				
 				<table id="instructorTable<%=index%>" class="inputTable instructorTable">
 					<tr>
@@ -163,6 +164,7 @@
 			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD%>"
 			id="formAddInstructor" name="formAddInstructor" class="formInstructor" >
 				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.course.id%>">
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 				
 				<table id="instructorAddTable" class="inputTable instructorTable">
 					<tr>
