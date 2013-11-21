@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -85,7 +86,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 		assertEquals(false, result.isError);
 		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, result.getStatusMessage());
 		
-		instructorsLogic.isInstructorOfCourse(newInstructorId, courseId);
+		assertEquals(true, instructorsLogic.isInstructorOfCourse(newInstructorId, courseId));
+		assertEquals(true, AccountsLogic.inst().isAccountAnInstructor(newInstructorId));
 		
 		InstructorAttributes instructorAdded = instructorsLogic.getInstructorForGoogleId(courseId, newInstructorId);
 		assertEquals(newInstructorName, instructorAdded.name);
@@ -124,7 +126,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 		assertEquals(false, result.isError);
 		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, result.getStatusMessage());
 		
-		instructorsLogic.isInstructorOfCourse(newInstructorId, courseId);
+		assertEquals(true, instructorsLogic.isInstructorOfCourse(newInstructorId, courseId));
+		assertEquals(true, AccountsLogic.inst().isAccountAnInstructor(newInstructorId));
 		
 		instructorAdded = instructorsLogic.getInstructorForGoogleId(courseId, newInstructorId);
 		assertEquals(newInstructorName, instructorAdded.name);
