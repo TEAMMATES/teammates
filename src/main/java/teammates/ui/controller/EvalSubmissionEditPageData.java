@@ -44,7 +44,7 @@ public class EvalSubmissionEditPageData extends PageData {
 	 */
 	public String getEvaluationSectionTitle(SubmissionAttributes sub){
 		if(sub.reviewee.equals(sub.reviewer)){
-			return "Self evaluation in Team [" + student.team + "]";
+			return "Self evaluation";
 		} else {
 			return "Evaluation for " + sub.details.revieweeName;
 		}
