@@ -13,7 +13,7 @@ public class InstructorEvalAddAction extends InstructorEvalsPageAction {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 

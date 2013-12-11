@@ -14,7 +14,7 @@ public class AdminExceptionTestAction extends Action {
 
 		new GateKeeper().verifyAdminPrivileges(account);
 
-		String error = getRequestParam(Const.ParamsNames.ERROR);
+		String error = getRequestParamValue(Const.ParamsNames.ERROR);
 
 		if (error.equals(AssertionError.class.getSimpleName())) {
 			throw new AssertionError("AssertionError Testing");

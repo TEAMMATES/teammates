@@ -19,8 +19,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 	@Override
 	protected ActionResult execute()  throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
@@ -56,29 +56,29 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		// TODO: is instructor.email always == account.email?
 		// Answer: No. An instructor can have different emails for different courses.
 		newQuestion.creatorEmail = account.email;
-		newQuestion.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		newQuestion.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		newQuestion.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		newQuestion.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		String param;
-		if((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE)) != null) {
+		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE)) != null) {
 			newQuestion.giverType = FeedbackParticipantType.valueOf(param);
 		}
-		if((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE)) != null){
+		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE)) != null){
 			newQuestion.recipientType = FeedbackParticipantType.valueOf(param);
 		}
-		if((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER)) != null){
+		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER)) != null){
 			newQuestion.questionNumber = Integer.parseInt(param);
 		}		
 		newQuestion.questionText = 
-				new Text(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
+				new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
 		newQuestion.questionType = 
 				FeedbackQuestionType.TEXT;
 		
 		newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
 		//TODO: 'Arrowhead code'. Reduce nesting.
-		if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
+		if ((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
 			if (param.equals("custom")) {
-				if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {
+				if ((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {
 					if (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
 						newQuestion.recipientType == FeedbackParticipantType.TEAMS) {
 						newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
@@ -87,11 +87,11 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 			}
 		}
 		newQuestion.showResponsesTo = getParticipantListFromParams(
-				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));				
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));				
 		newQuestion.showGiverNameTo = getParticipantListFromParams(
-				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));		
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));		
 		newQuestion.showRecipientNameTo = getParticipantListFromParams(
-				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
 		
 		return newQuestion;
 	}

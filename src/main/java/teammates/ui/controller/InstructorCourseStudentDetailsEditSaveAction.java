@@ -12,10 +12,10 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String studentEmail = getRequestParam(Const.ParamsNames.STUDENT_EMAIL);
+		String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 		Assumption.assertNotNull(studentEmail);
 		
 		new GateKeeper().verifyAccessible(
@@ -27,10 +27,10 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
 		data.student = logic.getStudentForEmail(courseId, studentEmail);
 		data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
 		
-		data.student.name = getRequestParam(Const.ParamsNames.STUDENT_NAME);
-		data.student.email = getRequestParam(Const.ParamsNames.NEW_STUDENT_EMAIL);
-		data.student.team = getRequestParam(Const.ParamsNames.TEAM_NAME);
-		data.student.comments = getRequestParam(Const.ParamsNames.COMMENTS);	
+		data.student.name = getRequestParamValue(Const.ParamsNames.STUDENT_NAME);
+		data.student.email = getRequestParamValue(Const.ParamsNames.NEW_STUDENT_EMAIL);
+		data.student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
+		data.student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);	
 		
 		try {
 			logic.updateStudent(studentEmail, data.student);

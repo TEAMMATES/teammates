@@ -22,7 +22,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
 	public ActionResult execute()
 			throws EntityDoesNotExistException {
 
-		idOfCourseToDelete = getRequestParam(Const.ParamsNames.COURSE_ID);
+		idOfCourseToDelete = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(idOfCourseToDelete);
 		
 		new GateKeeper().verifyAccessible(

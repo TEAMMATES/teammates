@@ -15,13 +15,13 @@ public class InstructorEvalSubmissionEditPageAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
+		String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
-		String studentEmail = getRequestParam(Const.ParamsNames.STUDENT_EMAIL); 
+		String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
 		//Note: in InstructorEvalSubmissionEditPageData we use Common.Params.FROM_EMAIL instead
 		Assumption.assertNotNull(studentEmail);
 		

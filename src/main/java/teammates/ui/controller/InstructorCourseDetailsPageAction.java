@@ -16,7 +16,7 @@ public class InstructorCourseDetailsPageAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException{
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
 		new GateKeeper().verifyAccessible(

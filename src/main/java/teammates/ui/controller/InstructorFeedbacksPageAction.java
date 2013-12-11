@@ -17,7 +17,7 @@ public class InstructorFeedbacksPageAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		//This can be null. Non-null value indicates the page is being loaded 
 		//   to add a feedback to the specified course
-		String courseIdForNewSession = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		
 		new GateKeeper().verifyInstructorPrivileges(account);
 				

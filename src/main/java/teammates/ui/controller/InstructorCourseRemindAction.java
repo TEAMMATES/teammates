@@ -15,10 +15,10 @@ public class InstructorCourseRemindAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException{
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String studentEmail = getRequestParam(Const.ParamsNames.STUDENT_EMAIL);
+		String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),

@@ -29,9 +29,9 @@ public class AdminActivityLogPageAction extends Action {
 		
 		AdminActivityLogPageData data = new AdminActivityLogPageData(account);
 		
-		data.offset = getRequestParam("offset");
-		data.pageChange = getRequestParam("pageChange");
-		data.filterQuery = getRequestParam("filterQuery");
+		data.offset = getRequestParamValue("offset");
+		data.pageChange = getRequestParamValue("pageChange");
+		data.filterQuery = getRequestParamValue("filterQuery");
 		
 		if(data.pageChange != null && !data.pageChange.equals("true")){
 			//Reset the offset because we are performing a new search, so we start from the beginning of the logs

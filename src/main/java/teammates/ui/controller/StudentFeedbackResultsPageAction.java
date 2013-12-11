@@ -10,8 +10,8 @@ public class StudentFeedbackResultsPageAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		if(courseId==null || feedbackSessionName == null) {
 			return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);

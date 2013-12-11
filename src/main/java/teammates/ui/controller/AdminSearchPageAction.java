@@ -32,7 +32,7 @@ public class AdminSearchPageAction extends Action {
 		
 		new GateKeeper().verifyAdminPrivileges(account);
 		
-		String rebuildDoc = getRequestParam(ParamsNames.ADMIN_SEARCH_REBUILD_DOC);
+		String rebuildDoc = getRequestParamValue(ParamsNames.ADMIN_SEARCH_REBUILD_DOC);
 		
 		AdminSearchPageData data = new AdminSearchPageData(account);
 		
@@ -43,12 +43,12 @@ public class AdminSearchPageAction extends Action {
 			queue.add(TaskOptions.Builder.withUrl("/searchTask").method(TaskOptions.Method.GET));
 			statusToUser.add("Rebuild task submitted, please check again in a few minutes.");
 			ThreadHelper.waitBriefly();
-			String queryStr = getRequestParam("query");
-			String limitStr = getRequestParam("limit");
+			String queryStr = getRequestParamValue("query");
+			String limitStr = getRequestParamValue("limit");
 			search(queryStr, limitStr);
 		}else {
-			String queryStr = getRequestParam("query");
-			String limitStr = getRequestParam("limit");
+			String queryStr = getRequestParamValue("query");
+			String limitStr = getRequestParamValue("limit");
 			data.results = search(queryStr, limitStr);
 			statusToUser.add("Found "+ data.results.size() + " results.");
 		}

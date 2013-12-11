@@ -18,7 +18,7 @@ public class AdminAccountDetailsPageAction extends Action {
 		
 		AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account);
 		
-		String googleId = getRequestParam(Const.ParamsNames.INSTRUCTOR_ID);
+		String googleId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 		
 		data.accountInformation = logic.getAccount(googleId);
 		

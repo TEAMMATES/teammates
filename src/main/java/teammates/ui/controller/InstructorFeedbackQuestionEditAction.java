@@ -20,8 +20,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		//TODO: Looks like this class is handling multiple actions. Break up?
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
@@ -31,7 +31,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 				logic.getFeedbackSession(feedbackSessionName, courseId),
 				true);
 
-		String editType = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
+		String editType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
 		
 		FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData();
 		
@@ -68,37 +68,37 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		FeedbackQuestionAttributes newQuestion =
 				new FeedbackQuestionAttributes();
 		
-		newQuestion.setId(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_ID));
+		newQuestion.setId(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID));
 		
-		newQuestion.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		newQuestion.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		newQuestion.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		newQuestion.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		String param;
-		if((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE)) != null) {
+		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE)) != null) {
 			newQuestion.giverType = FeedbackParticipantType.valueOf(param);
 		}
-		if((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE)) != null){
+		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE)) != null){
 			newQuestion.recipientType = FeedbackParticipantType.valueOf(param);
 		}
-		if((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER)) != null){
+		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER)) != null){
 			newQuestion.questionNumber = Integer.parseInt(param);
 		}
-		newQuestion.questionText = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
+		newQuestion.questionText = new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
 		newQuestion.questionType = FeedbackQuestionType.TEXT;
 		
 		if (numberOfEntitiesIsUserDefined(newQuestion.recipientType)) {
-			param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+			param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
 			newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
 		} else {
 			newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
 		}
 		
 		newQuestion.showResponsesTo = getParticipantListFromParams(
-				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));				
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));				
 		newQuestion.showGiverNameTo = getParticipantListFromParams(
-				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));		
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));		
 		newQuestion.showRecipientNameTo = getParticipantListFromParams(
-				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
 		
 		return newQuestion;
 	}
@@ -109,12 +109,12 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 			return false;
 		}
 		
-		String param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+		String param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
 		if (param == null || param.equals("custom") == false) {
 			return false;
 		}
 		
-		param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);		
+		param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);		
 		if (param == null) {
 			return false;
 		}

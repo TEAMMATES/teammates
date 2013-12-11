@@ -18,10 +18,10 @@ public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAc
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String studentEmail = getRequestParam(Const.ParamsNames.STUDENT_EMAIL);
+		String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 		Assumption.assertNotNull(studentEmail);
 		
 		new GateKeeper().verifyAccessible(

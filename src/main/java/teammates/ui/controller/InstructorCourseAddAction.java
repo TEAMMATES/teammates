@@ -19,9 +19,9 @@ public class InstructorCourseAddAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 
-		String newCourseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String newCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(newCourseId);
-		String newCourseName = getRequestParam(Const.ParamsNames.COURSE_NAME);
+		String newCourseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
 		Assumption.assertNotNull(newCourseName);
 
 		new GateKeeper().verifyInstructorPrivileges(account);
