@@ -74,29 +74,29 @@
 							questionWithResponses.getKey().questionText.getValue())%></h2>
 				<%
 					ListIterator<FeedbackResponseAttributes> itr = questionWithResponses.getValue().listIterator();
-					String previousRecipientEmail = null;
-					while(itr.hasNext()) {
-						FeedbackResponseAttributes singleResponse = itr.next();
-						// New table if previous recipient != current or is first response					
-						if(previousRecipientEmail == null || previousRecipientEmail.equals(singleResponse.recipient) == false) {
-							previousRecipientEmail = singleResponse.recipient;
+							String previousRecipientEmail = null;
+							while(itr.hasNext()) {
+								FeedbackResponseAttributes singleResponse = itr.next();
+								// New table if previous recipient != current or is first response					
+								if(previousRecipientEmail == null || previousRecipientEmail.equals(singleResponse.recipientEmail) == false) {
+									previousRecipientEmail = singleResponse.recipientEmail;
 				%>
 				<table class="resultTable" style="width: 100%">
 					<thead>
 						<tr>
 							<th class="leftalign"><span class="bold">To: </span><%
 								String recipientName = data.bundle.getRecipientNameForResponse(
-															questionWithResponses.getKey(),
-															singleResponse);
-								if(questionWithResponses.getKey().recipientType ==  FeedbackParticipantType.TEAMS) {
-									if(data.student.team.equals(singleResponse.recipient)) {
-										recipientName = "Your Team ("+ recipientName +")";
-									}
-								} else if (
-										data.student.email.equals(singleResponse.recipient) &&
-										data.student.name.equals(recipientName)) {
-									recipientName = "You";
-								}
+																				questionWithResponses.getKey(),
+																				singleResponse);
+													if(questionWithResponses.getKey().recipientType ==  FeedbackParticipantType.TEAMS) {
+														if(data.student.team.equals(singleResponse.recipientEmail)) {
+															recipientName = "Your Team ("+ recipientName +")";
+														}
+													} else if (
+															data.student.email.equals(singleResponse.recipientEmail) &&
+															data.student.name.equals(recipientName)) {
+														recipientName = "You";
+													}
 							%><%=recipientName%></th>
 						</tr>
 					</thead>
@@ -106,16 +106,16 @@
 					<tr class="resultSubheader">
 						<td><span class="bold">From: <%
 							String giverName = data.bundle.getGiverNameForResponse(
-									questionWithResponses.getKey(),
-									singleResponse);
-							if(questionWithResponses.getKey().giverType ==  FeedbackParticipantType.TEAMS) {
-								if(data.student.team.equals(giverName)) {
-									giverName = "Your Team ("+ giverName +")";
-								}
-							} else if (data.student.email.equals(singleResponse.giverEmail)) {
-								giverName = "You";
-							}
-						%><%=giverName %>
+													questionWithResponses.getKey(),
+													singleResponse);
+											if(questionWithResponses.getKey().giverType ==  FeedbackParticipantType.TEAMS) {
+												if(data.student.team.equals(giverName)) {
+													giverName = "Your Team ("+ giverName +")";
+												}
+											} else if (data.student.email.equals(singleResponse.giverEmail)) {
+												giverName = "You";
+											}
+						%><%=giverName%>
 						</span></td>
 					</tr>
 					<tr>
@@ -123,16 +123,16 @@
 					</tr>
 					<%
 						// Close table if going to be new recipient
-						boolean closeTable = true;
-						if(!itr.hasNext()) {
-							closeTable = true;
-						} else if (itr.next().recipient.equals(singleResponse.recipient)) {
-							itr.previous();
-							closeTable = false;
-						} else {
-							itr.previous();
-						}
-						if (closeTable) {
+									boolean closeTable = true;
+									if(!itr.hasNext()) {
+										closeTable = true;
+									} else if (itr.next().recipientEmail.equals(singleResponse.recipientEmail)) {
+										itr.previous();
+										closeTable = false;
+									} else {
+										itr.previous();
+									}
+									if (closeTable) {
 					%>
 				</table>
 				<br>

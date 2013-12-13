@@ -71,7 +71,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 		if (response.getId() != null) {
 			// Delete away response if any empty fields
 			if (response.answer.getValue().isEmpty() || 
-				response.recipient.isEmpty()) {
+				response.recipientEmail.isEmpty()) {
 				logic.deleteFeedbackResponse(response);
 				return;
 			}
@@ -81,7 +81,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 				setStatusForException(e);
 			}
 		} else if (!response.answer.getValue().isEmpty() &&
-					!response.recipient.isEmpty()){
+					!response.recipientEmail.isEmpty()){
 			try {
 				logic.createFeedbackResponse(response);
 			} catch (EntityAlreadyExistsException | InvalidParametersException e) {
@@ -99,7 +99,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 		response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		response.feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
 		response.feedbackQuestionType = FeedbackQuestionType.valueOf(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
-		response.recipient = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
+		response.recipientEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
 		response.answer = new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
 		return response;
 	}

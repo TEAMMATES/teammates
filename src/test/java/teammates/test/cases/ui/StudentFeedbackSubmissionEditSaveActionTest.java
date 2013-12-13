@@ -78,7 +78,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 				Const.ParamsNames.FROM_EMAIL, fr.giverEmail,
 				Const.ParamsNames.FEEDBACK_QUESTION_ID, fr.feedbackQuestionId,
 				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fr.feedbackQuestionType.toString(),
-				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT, fr.recipient,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT, fr.recipientEmail,
 				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT, fr.answer.toString()
 		};
 		

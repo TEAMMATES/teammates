@@ -944,7 +944,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		}
 		
 		return frLogic.getFeedbackResponse(questionId, 
-				response.giverEmail, response.recipient);
+				response.giverEmail, response.recipientEmail);
 	}
 
 	// Stringifies the visibility table for easy testing/comparison.

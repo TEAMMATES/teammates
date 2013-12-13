@@ -47,7 +47,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		
 		responseToUpdate.answer = new Text("Updated Response");
 		responseToUpdate.feedbackSessionName = "copy over";
-		responseToUpdate.recipient = null;
+		responseToUpdate.recipientEmail = null;
 		
 		frLogic.updateFeedbackResponse(responseToUpdate);
 		
@@ -55,17 +55,17 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		responseToUpdate.answer = new Text("Updated Response");
 		
 		assertEquals(frLogic.getFeedbackResponse(
-				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipient).toString(),
+				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
 				responseToUpdate.toString());
 		
 		______TS("success: recipient changed to something else");
 		
-		responseToUpdate.recipient = "student5InCourse1@gmail.com";
+		responseToUpdate.recipientEmail = "student5InCourse1@gmail.com";
 		
 		frLogic.updateFeedbackResponse(responseToUpdate);
 		
 		assertEquals(frLogic.getFeedbackResponse(
-				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipient).toString(),
+				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
 				responseToUpdate.toString());
 		assertNull(frLogic.getFeedbackResponse(
 				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, "student2InCourse1@gmail.com"));
@@ -74,7 +74,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		
 		responseToUpdate = getResponseFromDatastore("response1ForQ1S2C1");
 		responseToUpdate.giverEmail = "student5InCourse1@gmail.com";
-		responseToUpdate.recipient = "Team 1.1";
+		responseToUpdate.recipientEmail = "Team 1.1";
 		
 		assertNotNull(frLogic.getFeedbackResponse(
 				responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.com","Team 1.2"));
@@ -82,7 +82,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		frLogic.updateFeedbackResponse(responseToUpdate);
 		
 		assertEquals(frLogic.getFeedbackResponse(
-				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipient).toString(),
+				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
 				responseToUpdate.toString());
 		assertNull(frLogic.getFeedbackResponse(
 				responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.com","Team 1.2"));
@@ -104,7 +104,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		
 		frLogic.createFeedbackResponse(existingResponse);
 		
-		responseToUpdate.recipient = "student3InCourse1@gmail.com";
+		responseToUpdate.recipientEmail = "student3InCourse1@gmail.com";
 		
 		try {
 			frLogic.updateFeedbackResponse(responseToUpdate);
@@ -268,7 +268,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 				response.feedbackSessionName, response.courseId, qnNumber).getId();
 		
 		return frLogic.getFeedbackResponse(
-				qnId, response.giverEmail, response.recipient);
+				qnId, response.giverEmail, response.recipientEmail);
 	}
 	
 	@AfterClass

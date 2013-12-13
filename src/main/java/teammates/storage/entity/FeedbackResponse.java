@@ -36,6 +36,8 @@ public class FeedbackResponse {
 		
 	@Persistent
 	private String receiver; //TODO: this might need an explanatory comment. is it email, id, ...?
+							 //From the test this is email but won't change the variable name yet
+							 //to avoid data store problems
 	
 	@Persistent
 	private Text answer;
@@ -89,12 +91,12 @@ public class FeedbackResponse {
 		this.giverEmail = giverEmail;
 	}
 
-	public String getRecipient() {
+	public String getRecipientEmail() {
 		return receiver;
 	}
 
-	public void setRecipient(String receiver) {
-		this.receiver = receiver;
+	public void setRecipientEmail(String receiverEmail) {
+		this.receiver = receiverEmail;
 	}
 
 	public Text getAnswer() {

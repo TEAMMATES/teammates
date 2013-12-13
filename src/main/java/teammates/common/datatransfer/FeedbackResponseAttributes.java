@@ -17,7 +17,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public String feedbackQuestionId;
 	public FeedbackQuestionType feedbackQuestionType;
 	public String giverEmail;
-	public String recipient;
+	public String recipientEmail;
 	public Text answer;
 	
 	public FeedbackResponseAttributes() {
@@ -27,13 +27,13 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public FeedbackResponseAttributes(String feedbackSessionName,
 			String courseId, String feedbackQuestionId,
 			FeedbackQuestionType feedbackQuestionType, String giverEmail,
-			String recipient, Text answer) {
+			String recipientEmail, Text answer) {
 		this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
 		this.courseId = Sanitizer.sanitizeTitle(courseId);
 		this.feedbackQuestionId = feedbackQuestionId;
 		this.feedbackQuestionType = feedbackQuestionType;
 		this.giverEmail = Sanitizer.sanitizeEmail(giverEmail);
-		this.recipient = recipient;
+		this.recipientEmail = recipientEmail;
 		this.answer = Sanitizer.sanitizeTextField(answer);
 	}
 
@@ -44,7 +44,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		this.feedbackQuestionId = fr.getFeedbackQuestionId();
 		this.feedbackQuestionType = fr.getFeedbackQuestionType();
 		this.giverEmail = fr.getGiverEmail();
-		this.recipient = fr.getRecipient();
+		this.recipientEmail = fr.getRecipientEmail();
 		this.answer = fr.getAnswer();
 	}
 	
@@ -55,7 +55,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		this.feedbackQuestionId = copy.feedbackQuestionId;
 		this.feedbackQuestionType = copy.feedbackQuestionType;
 		this.giverEmail = copy.giverEmail;
-		this.recipient = copy.recipient;
+		this.recipientEmail = copy.recipientEmail;
 		this.answer = copy.answer;
 	}
 
@@ -95,12 +95,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public Object toEntity() {
 		return new FeedbackResponse(feedbackSessionName, courseId,
 				feedbackQuestionId, feedbackQuestionType,
-				giverEmail, recipient, answer);
+				giverEmail, recipientEmail, answer);
 	}
 	
 	@Override
 	public String getIdentificationString() {
-		return feedbackQuestionId + "/" + giverEmail + ":" + recipient;
+		return feedbackQuestionId + "/" + giverEmail + ":" + recipientEmail;
 	}
 	
 	@Override
@@ -114,7 +114,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 				+ feedbackSessionName + ", courseId=" + courseId
 				+ ", feedbackQuestionId=" + feedbackQuestionId
 				+ ", feedbackQuestionType=" + feedbackQuestionType
-				+ ", giverEmail=" + giverEmail + ", recipient=" + recipient
+				+ ", giverEmail=" + giverEmail + ", recipientEmail=" + recipientEmail
 				+ ", answer=" + answer + "]";
 	}
 
