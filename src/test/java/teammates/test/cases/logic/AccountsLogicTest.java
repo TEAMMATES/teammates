@@ -10,11 +10,16 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
+import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -22,6 +27,7 @@ import teammates.test.driver.AssertHelper;
 public class AccountsLogicTest extends BaseComponentTestCase {
 
 	private AccountsLogic accountsLogic = AccountsLogic.inst();
+	private InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	private Logic logic = new Logic();
 
 	@BeforeClass
@@ -40,6 +46,80 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 				true, "test@email", "dev");
 		accountsLogic.createAccount(accountToCreate);
 		LogicTest.verifyPresentInDatastore(accountToCreate);
+	}
+	
+	public void testCreateInstructorAccount() throws Exception {
+		
+		String courseId = "CInstrAccTest.courseId";
+		CoursesLogic.inst().createCourse(courseId, "CInstrAccTest.new-course");
+		String institute = "CInstrAccTest.instr.institute";
+		
+		______TS("no matching account exist");
+		
+		String googleId = "CInstrAccTest.instr.id";
+		String name = "CInstrAccTest.instr.name";
+		String email = "CInstrAccTest.instr@email.com";
+		
+		Assumption.assertNull(accountsLogic.getAccount(googleId));
+		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
+		
+		InstructorAttributes instructorCreated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
+		Assumption.assertNotNull(instructorCreated);
+		
+		AccountAttributes instructorAccount = accountsLogic.getAccount(googleId);
+		Assumption.assertNotNull(instructorAccount);
+		assertEquals(true, accountsLogic.isAccountAnInstructor(googleId));
+		
+		______TS("account already exists but only as student");
+		
+		AccountAttributes studentAccount = accountsLogic.getAccount("student1InCourse1");
+		
+		googleId = studentAccount.googleId;
+		name = studentAccount.name;
+		email = studentAccount.email;
+		
+		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
+		
+		instructorCreated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
+		Assumption.assertNotNull(instructorCreated);
+		
+		instructorAccount = accountsLogic.getAccount(googleId);
+		assertEquals(true, accountsLogic.isAccountAnInstructor(googleId));
+		
+		______TS("account already exists and already an instructor");
+		
+		instructorAccount = accountsLogic.getAccount("idOfInstructor1OfCourse1");
+		
+		googleId = instructorAccount.googleId;
+		name = instructorAccount.name;
+		email = instructorAccount.email;
+		
+		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
+		
+		instructorCreated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
+		Assumption.assertNotNull(instructorCreated);
+		
+		______TS("failure: instructor already exists");
+		
+		try {
+			accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
+			signalFailureToDetectException();
+		} catch (EntityAlreadyExistsException e) {
+			AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
+		}
+		
+		______TS("failure: invalid parameter");
+		// checking only one invalid case here because parameter checking is done outside SUT.
+		
+		email = "invalidEmail.com";
+		
+		try {
+			accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
+			signalFailureToDetectException();
+		} catch (InvalidParametersException e) {
+			AssertHelper.assertContains("\""+email+"\" is not acceptable to TEAMMATES as an email",
+								e.getMessage());
+		}
 	}
 
 	@Test

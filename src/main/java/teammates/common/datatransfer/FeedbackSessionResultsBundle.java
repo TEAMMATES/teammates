@@ -55,7 +55,7 @@ public class FeedbackSessionResultsBundle {
 	
 	public String getRecipientNameForResponse(FeedbackQuestionAttributes question,
 			FeedbackResponseAttributes response) {
-		String name = emailNameTable.get(response.recipient);
+		String name = emailNameTable.get(response.recipientEmail);
 		if (name == null || name.equals(Const.USER_IS_TEAM)) {
 			return Const.USER_UNKNOWN_TEXT;
 		} else if (name.equals(Const.USER_IS_NOBODY)) {
@@ -163,7 +163,7 @@ public class FeedbackSessionResultsBundle {
 
 		for (FeedbackResponseAttributes response : responses) {
 			// New recipient, add response package to map.
-			if (response.recipient.equals(prevRecipient) == false
+			if (response.recipientEmail.equals(prevRecipient) == false
 					&& prevRecipient != null) {
 				// Put previous giver responses into inner map. 
 				responsesToOneRecipient.put(giverName,
@@ -189,7 +189,7 @@ public class FeedbackSessionResultsBundle {
 			responsesFromOneGiverToOneRecipient.add(response);
 
 			prevGiver = response.giverEmail;
-			prevRecipient = response.recipient;
+			prevRecipient = response.recipientEmail;
 			recipientName = this.getRecipientNameForResponse(
 					questions.get(response.feedbackQuestionId), response);
 			giverName = this.getGiverNameForResponse(
@@ -247,7 +247,7 @@ public class FeedbackSessionResultsBundle {
 						List<FeedbackResponseAttributes>>();
 				responsesFromOneGiverToOneRecipient = new 
 						ArrayList<FeedbackResponseAttributes>();
-			} else if (response.recipient.equals(prevRecipient) == false 
+			} else if (response.recipientEmail.equals(prevRecipient) == false 
 					&& prevRecipient != null) {
 				// New recipient, add recipient responses to response package for
 				// one giver
@@ -260,7 +260,7 @@ public class FeedbackSessionResultsBundle {
 			
 			responsesFromOneGiverToOneRecipient.add(response);
 
-			prevRecipient = response.recipient;
+			prevRecipient = response.recipientEmail;
 			prevGiver = response.giverEmail;			
 			recipientName = this.getRecipientNameForResponse(
 					questions.get(response.feedbackQuestionId), response);
@@ -290,8 +290,8 @@ public class FeedbackSessionResultsBundle {
 				FeedbackResponseAttributes o2) {
 			String giverName1 = emailNameTable.get(o1.giverEmail);
 			String giverName2 = emailNameTable.get(o2.giverEmail);
-			String recipientName1 = emailNameTable.get(o1.recipient);
-			String recipientName2 = emailNameTable.get(o2.recipient);			
+			String recipientName1 = emailNameTable.get(o1.recipientEmail);
+			String recipientName2 = emailNameTable.get(o2.recipientEmail);			
 				
 			int order = compareByNames(giverName1, giverName2);
 			order = (order == 0 ? compareByNames(recipientName1, recipientName2) : order);
@@ -307,8 +307,8 @@ public class FeedbackSessionResultsBundle {
 				FeedbackResponseAttributes o2) {
 			String giverName1 = emailNameTable.get(o1.giverEmail);
 			String giverName2 = emailNameTable.get(o2.giverEmail);
-			String recipientName1 = emailNameTable.get(o1.recipient);
-			String recipientName2 = emailNameTable.get(o2.recipient);
+			String recipientName1 = emailNameTable.get(o1.recipientEmail);
+			String recipientName2 = emailNameTable.get(o2.recipientEmail);
 			int order = compareByNames(recipientName1, recipientName2);
 			order = (order == 0 ? compareByNames(giverName1, giverName2) : order);
 			return order == 0 ? compareByQuestionNumber(o1, o2) : order; 

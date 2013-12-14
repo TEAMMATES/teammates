@@ -15,10 +15,10 @@ public class StudentEvalSubmissionEditPageAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
+		String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
 		if(notYetJoinedCourse(courseId, account.googleId)){

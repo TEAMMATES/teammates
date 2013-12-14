@@ -10,8 +10,8 @@ public class InstructorFeedbackDeleteAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 				
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);

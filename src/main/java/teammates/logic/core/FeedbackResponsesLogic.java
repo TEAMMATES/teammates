@@ -43,7 +43,7 @@ public class FeedbackResponsesLogic {
 			try{
 				FeedbackResponseAttributes existingFeedback = new FeedbackResponseAttributes();
 				
-				existingFeedback = frDb.getFeedbackResponse(fra.feedbackQuestionId, fra.giverEmail, fra.recipient);
+				existingFeedback = frDb.getFeedbackResponse(fra.feedbackQuestionId, fra.giverEmail, fra.recipientEmail);
 				fra.setId(existingFeedback.getId());
 				
 				frDb.updateFeedbackResponse(fra);
@@ -167,11 +167,11 @@ public class FeedbackResponsesLogic {
 			case RECEIVER:
 				// Response to team
 				if (question.recipientType == FeedbackParticipantType.TEAMS) {
-					if (studentsLogic.isStudentInTeam(response.courseId, response.recipient, userEmail)) {
+					if (studentsLogic.isStudentInTeam(response.courseId, response.recipientEmail, userEmail)) {
 						return true;
 					}
 				// Response to individual
-				} else if (response.recipient.equals(userEmail)) {
+				} else if (response.recipientEmail.equals(userEmail)) {
 					return true;
 				} else {
 					break;
@@ -179,11 +179,11 @@ public class FeedbackResponsesLogic {
 			case RECEIVER_TEAM_MEMBERS:
 				// Response to team; recipient = teamName
 				if (question.recipientType == FeedbackParticipantType.TEAMS) {
-					if (studentsLogic.isStudentInTeam(response.courseId, response.recipient, userEmail)) {
+					if (studentsLogic.isStudentInTeam(response.courseId, response.recipientEmail, userEmail)) {
 						return true;
 					}
 				// Response to individual
-				} else if (studentsLogic.isStudentsInSameTeam(response.courseId, response.recipient, userEmail)) {
+				} else if (studentsLogic.isStudentsInSameTeam(response.courseId, response.recipientEmail, userEmail)) {
 					return true;
 				} else {
 					break;
@@ -233,11 +233,11 @@ public class FeedbackResponsesLogic {
 		if (newResponse.giverEmail == null) {
 			newResponse.giverEmail = oldResponse.giverEmail;
 		}
-		if (newResponse.recipient == null) {
-			newResponse.recipient = oldResponse.recipient;
+		if (newResponse.recipientEmail == null) {
+			newResponse.recipientEmail = oldResponse.recipientEmail;
 		}
 		
-		if (!newResponse.recipient.equals(oldResponse.recipient) ||
+		if (!newResponse.recipientEmail.equals(oldResponse.recipientEmail) ||
 			!newResponse.giverEmail.equals(oldResponse.giverEmail)) {
 			// Recreate response to prevent possible future id conflict.
 			try {
@@ -319,7 +319,7 @@ public class FeedbackResponsesLogic {
 				getFeedbackResponsesForReceiverForCourse(courseId, oldEmail);
 		
 		for (FeedbackResponseAttributes response : responsesToUser) {
-			response.recipient = newEmail;
+			response.recipientEmail = newEmail;
 			try {
 				updateFeedbackResponse(response);
 			} catch (EntityAlreadyExistsException e) {
@@ -415,7 +415,7 @@ public class FeedbackResponsesLogic {
 		for (FeedbackResponseAttributes response : responses) {					
 			StudentAttributes student =
 					studentsLogic.getStudentForEmail(
-							response.courseId, response.recipient);
+							response.courseId, response.recipientEmail);
 			
 			if(studentsLogic.isStudentInTeam(
 					response.courseId, student.team, userEmail)) {

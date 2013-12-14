@@ -121,7 +121,7 @@
 						name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
 						<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>>
 						<%
-							for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipient)) out.println(opt);
+							for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)) out.println(opt);
 						%>
 						</select>
 					</td>					

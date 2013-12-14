@@ -9,8 +9,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
 
 	@Override
 	protected ActionResult execute()  throws EntityDoesNotExistException {
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
 		

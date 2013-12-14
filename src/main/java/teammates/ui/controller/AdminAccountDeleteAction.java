@@ -12,10 +12,10 @@ public class AdminAccountDeleteAction extends Action {
 		
 		new GateKeeper().verifyAdminPrivileges(account);
 		
-		String instructorId = getRequestParam(Const.ParamsNames.INSTRUCTOR_ID);
-		String studentId = getRequestParam(Const.ParamsNames.STUDENT_ID);
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String account = getRequestParam("account");
+		String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+		String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String account = getRequestParamValue("account");
 		
 		ActionResult result = null;
 		

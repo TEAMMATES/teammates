@@ -21,18 +21,18 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String evalName = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
+		String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
 		Assumption.assertNotNull(evalName);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getEvaluation(courseId, evalName));
 		
-		String teamName = getRequestParam(Const.ParamsNames.TEAM_NAME);
-		String fromEmail = getRequestParam(Const.ParamsNames.FROM_EMAIL);
+		String teamName = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
+		String fromEmail = getRequestParamValue(Const.ParamsNames.FROM_EMAIL);
 		String[] toEmails = getRequestParamValues(Const.ParamsNames.TO_EMAIL);
 		String[] points = getRequestParamValues(Const.ParamsNames.POINTS);
 		String[] justifications = getRequestParamValues(Const.ParamsNames.JUSTIFICATION);

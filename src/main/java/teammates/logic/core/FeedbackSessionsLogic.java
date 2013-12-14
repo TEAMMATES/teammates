@@ -303,7 +303,7 @@ public class FeedbackSessionsLogic {
 			
 			for(FeedbackResponseAttributes response : entry.getValue()){
 				export += Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail)) + "," + 
-						Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipient)) + "," +
+						Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipientEmail)) + "," +
 						Sanitizer.sanitizeForCsv(response.answer.getValue()) + Const.EOL;
 			}
 			export += Const.EOL + Const.EOL;
@@ -716,10 +716,10 @@ public class FeedbackSessionsLogic {
 						getNameForEmail(question.giverType, response.giverEmail, question.courseId));
 			}
 			
-			if(emailNameTable.containsKey(response.recipient) == false) {
+			if(emailNameTable.containsKey(response.recipientEmail) == false) {
 				emailNameTable.put(
-						response.recipient,
-						getNameForEmail(question.recipientType, response.recipient, question.courseId));
+						response.recipientEmail,
+						getNameForEmail(question.recipientType, response.recipientEmail, question.courseId));
 			}
 		}
 		

@@ -92,47 +92,57 @@
 					<div style="clear: both;"></div>
 					<br>
 					<%
-						if (courseDetails.evaluations.size() > 0 ||
-								courseDetails.feedbackSessions.size() > 0) {
+						if (courseDetails.evaluations.size() > 0 || 
+							courseDetails.feedbackSessions.size() > 0) {
 					%>
-						<table class="dataTable">
-							<tr>
-								<th class="leftalign bold color_white">Session Name</th>
-								<th class="centeralign bold color_white">Deadline</th>
-								<th class="centeralign bold color_white">Status</th>
-								<th class="centeralign bold color_white">Action(s)</th>
-							</tr>
-						<%
-							for (EvaluationDetailsBundle edd : courseDetails.evaluations) {
-								sessionIdx++;
-						%>
-						<tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
-									<td class="t_eval_name"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
-									<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
-									<td class="t_eval_status centeralign"><span
-										onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
-										onmouseout="hideddrivetip()"><%=data.getStudentStatusForEval(edd.evaluation)%></span></td>
-									<td class="centeralign"><%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
-									</td>
+							<table class="dataTable">
+								<tr>
+									<th class="leftalign bold color_white">Session Name</th>
+									<th class="centeralign bold color_white">Deadline</th>
+									<th class="centeralign bold color_white">Status</th>
+									<th class="centeralign bold color_white">Action(s)</th>
 								</tr>
-						<%
-							}
-							for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
-								sessionIdx++;
-						%>
-						<tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
-									<td class="t_eval_name"><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
-									<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
-									<td class="t_eval_status centeralign"><span
-										onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"
-										onmouseout="hideddrivetip()"><%=data.getStudentStatusForSession(fsd.feedbackSession)%></span></td>
-									<td class="centeralign"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
-									</td>
+							<%
+								for (EvaluationDetailsBundle edd : courseDetails.evaluations) {
+									sessionIdx++;
+							%>
+									<tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
+										<td class="t_eval_name"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
+										<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
+										<td class="t_eval_status centeralign"><span
+											onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
+											onmouseout="hideddrivetip()"><%=data.getStudentStatusForEval(edd.evaluation)%></span></td>
+										<td class="centeralign"><%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
+										</td>
+									</tr>
+							<%
+								}
+								for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
+									sessionIdx++;
+							%>
+									<tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
+										<td class="t_eval_name"><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
+										<td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
+										<td class="t_eval_status centeralign"><span
+											onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"
+											onmouseout="hideddrivetip()"><%=data.getStudentStatusForSession(fsd.feedbackSession)%></span></td>
+										<td class="centeralign"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
+										</td>
+									</tr>
+							<%
+								}
+							%>
+							</table>
+					<%
+						} else {
+					%>
+							<table class="dataTable">
+								<tr>
+									<th class="centeralign bold color_white">
+										Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
+									</th>
 								</tr>
-						<%
-							}
-						%>
-					</table>
+							</table>
 					<%
 						}
 					%>

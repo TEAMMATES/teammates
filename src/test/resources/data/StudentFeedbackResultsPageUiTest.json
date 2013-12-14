@@ -257,7 +257,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "SFResultsUiT.alice.b@gmail.com",
-		"recipient" : "SFResultsUiT.alice.b@gmail.com",
+		"recipientEmail" : "SFResultsUiT.alice.b@gmail.com",
 		"answer" : {"value" : "Alice self feedback."}
     },
     "response2": {
@@ -266,7 +266,7 @@
 		"feedbackQuestionId" : "2",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "SFResultsUiT.alice.b@gmail.com",
-		"recipient" : "SFResultsUiT.benny.c@gmail.com",
+		"recipientEmail" : "SFResultsUiT.benny.c@gmail.com",
 		"answer" : {"value" : "Response to Benny."}
     },
     "response3": {
@@ -275,7 +275,7 @@
 		"feedbackQuestionId" : "2",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "SFResultsUiT.alice.b@gmail.com",
-		"recipient" : "SFResultsUiT.danny.e@gmail.com",
+		"recipientEmail" : "SFResultsUiT.danny.e@gmail.com",
 		"answer" : {"value" : "Response to Danny."}
     },    
     "response4": {
@@ -284,7 +284,7 @@
 		"feedbackQuestionId" : "3",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "SFResultsUiT.benny.c@gmail.com",
-		"recipient" : "%GENERAL%",
+		"recipientEmail" : "%GENERAL%",
 		"answer" : {"value" : "Secret feedback about class. (to nobody test)"}
     },
     "response5": {
@@ -293,7 +293,7 @@
 		"feedbackQuestionId" : "4",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "SFResultsUiT.charlie.d@gmail.com",
-		"recipient" : "Team 1",
+		"recipientEmail" : "Team 1",
 		"answer" : {"value" : "Team 2 (charlie) to team 1"}
     },
     "response6": {
@@ -302,7 +302,7 @@
 		"feedbackQuestionId" : "4",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "SFResultsUiT.danny.e@gmail.com",
-		"recipient" : "Team 1",
+		"recipientEmail" : "Team 1",
 		"answer" : {"value" : "Team 2 (danny) to team 1"}
     },
     "response7": {
@@ -311,7 +311,7 @@
 		"feedbackQuestionId" : "4",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "SFResultsUiT.emily.f@gmail.com",
-		"recipient" : "Team 1",
+		"recipientEmail" : "Team 1",
 		"answer" : {"value" : "Team 3 to Team 1 \r\n multiline special char test </textarea>xss<textarea> test"}
     },
     "response8": {
@@ -320,7 +320,7 @@
 		"feedbackQuestionId" : "4",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "SFResultsUiT.alice.b@gmail.com",
-		"recipient" : "Team 2",
+		"recipientEmail" : "Team 2",
 		"answer" : {"value" : "alice to team 2"}
     },
     "response9": {
@@ -329,7 +329,7 @@
 		"feedbackQuestionId" : "5",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "SFResultsUiT.benny.c@gmail.com",
-		"recipient" : "SFResultsUiT.alice.b@gmail.com",
+		"recipientEmail" : "SFResultsUiT.alice.b@gmail.com",
 		"answer" : {"value" : "Teammate feedback from benny"}
     }
   }

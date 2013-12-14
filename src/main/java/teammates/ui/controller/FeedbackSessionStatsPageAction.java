@@ -12,10 +12,10 @@ public class FeedbackSessionStatsPageAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		Assumption.assertNotNull(feedbackSessionName);
 		
 		FeedbackSessionStatsPageData data = new FeedbackSessionStatsPageData(account);

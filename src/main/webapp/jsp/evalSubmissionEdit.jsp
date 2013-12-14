@@ -22,10 +22,10 @@
 <table class="inputTable">
 	<%
 		int idx = 0;
-			for(SubmissionAttributes sub: data.submissions){
+		for(SubmissionAttributes sub: data.submissions){
 	%>
-		<tr style="display: none;">
-			<td>
+			<tr style="display: none;">
+				<td>
 					<input type="text" value="<%=sub.reviewee%>"
 							name="<%=Const.ParamsNames.TO_EMAIL%>"
 							id="<%=Const.ParamsNames.TO_EMAIL+idx%>">
@@ -37,9 +37,9 @@
 				</td>
 			</tr>
 			
-			<%
-							if(sub.reviewee.equals(sub.reviewer)){
-						%>
+		<%
+			if(sub.reviewee.equals(sub.reviewer)) {
+		%>
 				<tr>
 					<td class="label rightalign bold">My Estimated contribution:</td>
 					<td>
@@ -65,31 +65,39 @@
 				<%
 					if(data.eval.p2pEnabled){
 				%>
-					<td><textarea class = "textvalue"
-							rows="8" cols="100"
-							name="<%=Const.ParamsNames.COMMENTS%>"
-					 		id="<%=Const.ParamsNames.COMMENTS+idx%>"
-					 		<%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
-					</td>
+						<td><textarea class = "textvalue"
+								rows="8" cols="100"
+								name="<%=Const.ParamsNames.COMMENTS%>"
+						 		id="<%=Const.ParamsNames.COMMENTS+idx%>"
+						 		<%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
+						</td>
 				<%
 					} else {
 				%>
-					<td>
-						<font color="red">
-							<textarea class="textvalue"
-									rows="1" cols="100"
-									name="<%=Const.ParamsNames.COMMENTS%>"
-									id="<%=Const.ParamsNames.COMMENTS+idx%>"
-									disabled="disabled">N.A.</textarea>
-						</font>
-					</td>
+						<td>
+							<font color="red">
+								<textarea class="textvalue"
+										rows="1" cols="100"
+										name="<%=Const.ParamsNames.COMMENTS%>"
+										id="<%=Const.ParamsNames.COMMENTS+idx%>"
+										disabled="disabled">N.A.</textarea>
+							</font>
+						</td>
 				<%
 					}
 				%>
-			</tr>
-			<%
-				} else {
-			%>
+				</tr>
+			
+				<%-- Separate self-evaluation from peer-evaluation by creating a new table --%>
+				<tr><td colspan="2"></td></tr>
+				</table>
+				<br>
+				<br>
+				<br>
+				<table class="inputTable">
+		<%
+			} else {
+		%>
 				<tr>
 					<td class="label rightalign bold">His/Her Estimated contribution:</td>
 					<td>
@@ -103,18 +111,18 @@
 				</tr>
 				<tr>
 					<td class="label rightalign bold middlealign"><%=data.getCommentsInstr(sub)%></td>
-				<%
-					if(data.eval.p2pEnabled){
-				%>
+			<%
+				if(data.eval.p2pEnabled){
+			%>
 					<td><textarea class = "textvalue"
 							rows="8" cols="100"
 							name="<%=Const.ParamsNames.COMMENTS%>"
 					 		id="<%=Const.ParamsNames.COMMENTS+idx%>"
 					 		<%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
 					</td>
-				<%
-					} else {
-				%>
+			<%
+				} else {
+			%>
 					<td>
 						<font color="red">
 							<textarea class="textvalue"
@@ -124,11 +132,11 @@
 									disabled="disabled">N.A.</textarea>
 						</font>
 					</td>
-				<%
-					}
-				%>
-			</tr>
-			<tr>
+			<%
+				}
+			%>
+				</tr>
+				<tr>
 					<td class="label rightalign bold middlealign"><%=data.getJustificationInstr(sub)%></td>
 					<td>
 						<textarea class="textvalue" rows="8" cols="100" 
@@ -137,8 +145,11 @@
 								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue())%></textarea>
 					</td>
 				</tr>
-			<%	} %>
+			<%	
+				} 
+			%>
 			<tr><td colspan="2"></td></tr>
 	<%		idx++;
-		} %>
+		} 
+	%>
 </table>

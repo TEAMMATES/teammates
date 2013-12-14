@@ -28,16 +28,16 @@ public class AdminInstructorAccountAddAction extends Action {
 
 		AdminHomePageData data = new AdminHomePageData(account);
 
-		data.instructorId = getRequestParam(Const.ParamsNames.INSTRUCTOR_ID);
+		data.instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 		Assumption.assertNotNull(data.instructorId);
-		data.instructorName = getRequestParam(Const.ParamsNames.INSTRUCTOR_NAME);
+		data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
 		Assumption.assertNotNull(data.instructorName);
-		data.instructorEmail = getRequestParam(Const.ParamsNames.INSTRUCTOR_EMAIL);
+		data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 		Assumption.assertNotNull(data.instructorEmail);
-		data.instructorInstitution = getRequestParam(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+		data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 		Assumption.assertNotNull(data.instructorInstitution);
 
-		String importSampleData = getRequestParam(Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE);
+		String importSampleData = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE);
 
 		data.instructorId = data.instructorId.trim();
 		data.instructorName = data.instructorName.trim();

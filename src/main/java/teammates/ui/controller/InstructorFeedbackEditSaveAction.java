@@ -15,8 +15,8 @@ public class InstructorFeedbackEditSaveAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
@@ -43,32 +43,32 @@ public class InstructorFeedbackEditSaveAction extends Action {
 
 	private FeedbackSessionAttributes extractFeedbackSessionData() {
 		FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
-		newSession.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		newSession.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-		newSession.creatorEmail = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_CREATOR);
+		newSession.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		newSession.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		newSession.creatorEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR);
 		newSession.startTime = TimeHelper.combineDateTime(
-				getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
-				getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
 		newSession.endTime = TimeHelper.combineDateTime(
-				getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-				getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));		
-		String paramTimeZone = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));		
+		String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
 		if (paramTimeZone != null) {
 			newSession.timeZone = Integer.parseInt(paramTimeZone);
 		}
-		String paramGracePeriod = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
+		String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
 		if (paramGracePeriod != null) {
 			newSession.gracePeriod = Integer.parseInt(paramGracePeriod);
 		}
 		newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
-		newSession.instructions = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
+		newSession.instructions = new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
 
-		String type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+		String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
 		switch (type) {
 		case "custom":
 			newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
+					getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
+					getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
 			break;
 		case "atvisible":
 			newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
@@ -81,12 +81,12 @@ public class InstructorFeedbackEditSaveAction extends Action {
 			break;
 		}
 		
-		type = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+		type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
 		switch (type) {
 		case "custom": //Magic strings. Use enums to prevent potentila bugs caused by typos.
 			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-					getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
+					getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+					getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
 			break;
 		case "atopen":
 			newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;

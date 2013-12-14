@@ -562,7 +562,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student1InCourse1@gmail.com",
-		"recipient" : "student1InCourse1@gmail.com",
+		"recipientEmail" : "student1InCourse1@gmail.com",
 		"answer" : {"value" : "Student 1 self feedback."}
     },
     "response2ForQ1S1C1": {
@@ -571,7 +571,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student2InCourse1@gmail.com",
-		"recipient" : "student2InCourse1@gmail.com",
+		"recipientEmail" : "student2InCourse1@gmail.com",
 		"answer" : {"value" : "I'm cool'"}
     },
     "response1ForQ2S1C1": {
@@ -580,7 +580,7 @@
 		"feedbackQuestionId" : "2",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student2InCourse1@gmail.com",
-		"recipient" : "student1InCourse1@gmail.com",
+		"recipientEmail" : "student1InCourse1@gmail.com",
 		"answer" : {"value" : "Response from student 2 to student 1."}
     },
     "response2ForQ2S1C1": {
@@ -589,7 +589,7 @@
 		"feedbackQuestionId" : "2",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student1InCourse1@gmail.com",
-		"recipient" : "student2InCourse1@gmail.com",
+		"recipientEmail" : "student2InCourse1@gmail.com",
 		"answer" : {"value" : "Response from student 1 to student 2."}
     },
     "response3ForQ2S1C1": {
@@ -598,7 +598,7 @@
 		"feedbackQuestionId" : "2",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student3InCourse1@gmail.com",
-		"recipient" : "student2InCourse1@gmail.com",
+		"recipientEmail" : "student2InCourse1@gmail.com",
 		"answer" : {"value" : "Response from student 3 \"to\" student 2.\r\nMultiline test."}
     },
     "response1ForQ3S1C1": {
@@ -607,7 +607,7 @@
 		"feedbackQuestionId" : "3",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "instructor1@course1.com",
-		"recipient" : "%GENERAL%",
+		"recipientEmail" : "%GENERAL%",
 		"answer" : {"value" : "Good work, keep it up!"}
     },
     "response1ForQ1S2C1": {
@@ -616,7 +616,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student4InCourse1@gmail.com",
-		"recipient" : "Team 1.2",
+		"recipientEmail" : "Team 1.2",
 		"answer" : {"value" : "Response from team 1 by (student 4) to team 1.2."}
     },
     "response1GracePeriodFeedback": {
@@ -625,7 +625,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student4InCourse1@gmail.com",
-		"recipient" : "Team 1.2",
+		"recipientEmail" : "Team 1.2",
 		"answer" : {"value" : "Response from team 1 by (student 4) to team 1.2."}
     },
     "response1ForQ2S2C1": {
@@ -634,7 +634,7 @@
 		"feedbackQuestionId" : "2",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student4InCourse1@gmail.com",
-		"recipient" : "student2InCourse1@gmail.com",
+		"recipientEmail" : "student2InCourse1@gmail.com",
 		"answer" : {"value" : "Response from student 4 to team member (student 2)."}
     },
     "response2ForQ2S2C1": {
@@ -643,7 +643,7 @@
 		"feedbackQuestionId" : "2",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "student1InCourse1@gmail.com",
-		"recipient" : "student4InCourse1@gmail.com",
+		"recipientEmail" : "student4InCourse1@gmail.com",
 		"answer" : {"value" : "Response from student 1 to team member (student 4)."}
     },
     "response1ForQ1S2C2": {
@@ -652,7 +652,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "instructor1@course2.com",
-		"recipient" : "Team 2.1",
+		"recipientEmail" : "Team 2.1",
 		"answer" : {"value" : "Response from instr to Team 2.1"}
     }
    }

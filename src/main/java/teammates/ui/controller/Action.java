@@ -15,6 +15,7 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
@@ -127,7 +128,7 @@ public abstract class Action {
 		response.isError = isError;
 		
 		//Override the result if a redirect was requested by the action requester
-		String redirectUrl = getRequestParam(Const.ParamsNames.NEXT_URL);
+		String redirectUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
 		if(redirectUrl != null && new FieldValidator().isLegitimateRedirectUrl(redirectUrl)) {
 			RedirectResult rr = new RedirectResult(redirectUrl, response.account, requestParameters, response.statusToUser);
 			rr.isError = response.isError;
@@ -172,7 +173,7 @@ public abstract class Action {
 	/**
 	 * @return null if the specified parameter was not found in the request.
 	 */
-	public String getRequestParam(String paramName) { //TODO: rename to getRequestParamValue
+	public String getRequestParamValue(String paramName) {
 		return HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
 	}
 	
@@ -283,32 +284,40 @@ public abstract class Action {
 	//===================== Utility methods used by some child classes========
 	
 	protected EvaluationAttributes extractEvaluationData() {
-		//TODO: assert that values are not null
 		EvaluationAttributes newEval = new EvaluationAttributes();
-		newEval.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		newEval.name = getRequestParam(Const.ParamsNames.EVALUATION_NAME);
+		newEval.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		newEval.name = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
 		newEval.p2pEnabled = getRequestParamAsBoolean(Const.ParamsNames.EVALUATION_COMMENTSENABLED);
-
+		
 		newEval.startTime = TimeHelper.combineDateTime(
-				getRequestParam(Const.ParamsNames.EVALUATION_START),
-				getRequestParam(Const.ParamsNames.EVALUATION_STARTTIME));
+				getRequestParamValue(Const.ParamsNames.EVALUATION_START),
+				getRequestParamValue(Const.ParamsNames.EVALUATION_STARTTIME));
 
 		newEval.endTime = TimeHelper.combineDateTime(
-				getRequestParam(Const.ParamsNames.EVALUATION_DEADLINE),
-				getRequestParam(Const.ParamsNames.EVALUATION_DEADLINETIME));
+				getRequestParamValue(Const.ParamsNames.EVALUATION_DEADLINE),
+				getRequestParamValue(Const.ParamsNames.EVALUATION_DEADLINETIME));
 
-		String paramTimeZone = getRequestParam(Const.ParamsNames.EVALUATION_TIMEZONE);
+		String paramTimeZone = getRequestParamValue(Const.ParamsNames.EVALUATION_TIMEZONE);
 		if (paramTimeZone != null) {
 			newEval.timeZone = Double.parseDouble(paramTimeZone);
 		}
 
-		String paramGracePeriod = getRequestParam(Const.ParamsNames.EVALUATION_GRACEPERIOD);
+		String paramGracePeriod = getRequestParamValue(Const.ParamsNames.EVALUATION_GRACEPERIOD);
 		if (paramGracePeriod != null) {
 			newEval.gracePeriod = Integer.parseInt(paramGracePeriod);
 		}
 
-		newEval.instructions = new Text(getRequestParam(Const.ParamsNames.EVALUATION_INSTRUCTIONS));
+		newEval.instructions = new Text(getRequestParamValue(Const.ParamsNames.EVALUATION_INSTRUCTIONS));
 
+		Assumption.assertNotNull("courseId is null when extracting evaluation data", newEval.courseId);
+		Assumption.assertNotNull("Evaluation name is null when extracting evaluation data", newEval.name);
+		Assumption.assertNotNull("p2pEnabled is null when extracting evaluation data", newEval.p2pEnabled);
+		Assumption.assertNotNull("startTime is null when extracting evaluation data", newEval.startTime);
+		Assumption.assertNotNull("endTime is null when extracting evaluation data", newEval.endTime);
+		Assumption.assertNotNull("timeZone is null when extracting evaluation data", newEval.timeZone);
+		Assumption.assertNotNull("gracePeriod is null when extracting evaluation data", newEval.gracePeriod);
+		Assumption.assertNotNull("instructions is null when extracting evaluation data", newEval.instructions);
+				
 		return newEval;
 	}
 

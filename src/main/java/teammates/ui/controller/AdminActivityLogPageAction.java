@@ -19,8 +19,8 @@ public class AdminActivityLogPageAction extends Action {
 	
 	//We want to pull out the application logs
 	private boolean includeAppLogs = true;
-	private static final int LOGS_PER_PAGE = 30;
-	private static final int MAX_LOGSEARCH_LIMIT = 7000;
+	private static final int LOGS_PER_PAGE = 50;
+	private static final int MAX_LOGSEARCH_LIMIT = 15000;
 
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException{
@@ -29,9 +29,9 @@ public class AdminActivityLogPageAction extends Action {
 		
 		AdminActivityLogPageData data = new AdminActivityLogPageData(account);
 		
-		data.offset = getRequestParam("offset");
-		data.pageChange = getRequestParam("pageChange");
-		data.filterQuery = getRequestParam("filterQuery");
+		data.offset = getRequestParamValue("offset");
+		data.pageChange = getRequestParamValue("pageChange");
+		data.filterQuery = getRequestParamValue("filterQuery");
 		
 		if(data.pageChange != null && !data.pageChange.equals("true")){
 			//Reset the offset because we are performing a new search, so we start from the beginning of the logs
@@ -64,6 +64,7 @@ public class AdminActivityLogPageAction extends Action {
 		query.majorVersionIds(appVersions);
 		
 		query.includeAppLogs(includeAppLogs);
+		query.batchSize(1000);
 		
 		if (offset != null && !offset.equals("null")) {
 			query.offset(offset);

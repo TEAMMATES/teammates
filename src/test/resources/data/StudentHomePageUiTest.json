@@ -24,6 +24,10 @@
     "SHomeUiT.CS1101": {
       "id": "SHomeUiT.CS1101",
       "name": "Programming Methodology"
+    },
+    "SHomeUiT.CS4215": {
+      "id": "SHomeUiT.CS4215",
+      "name": "Programming Language Implementation"
     }
   },
   
@@ -37,6 +41,12 @@
     "SHomeUiT.instr.CS1101": {
       "googleId": "SHomeUiT.instr",
       "courseId": "SHomeUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.com"
+    },
+    "SHomeUiT.instr.CS4215": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS4215",
       "name": "Teammates Test",
       "email": "SHomeUiT.instr@gmail.com"
     }
@@ -105,6 +115,14 @@
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2"
+    },
+    "alice.tmms@SHomeUiT.CS4215": {
+      "googleId": "{$test.student1}",
+      "email": "{$test.student1}@gmail.com",
+      "course": "SHomeUiT.CS4215",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "team": "Team 1"
     }
   },
   

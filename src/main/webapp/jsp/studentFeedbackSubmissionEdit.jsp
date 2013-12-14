@@ -120,7 +120,7 @@
 						name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
 						<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>>
 						<%
-							for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipient)) out.println(opt);
+							for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)) out.println(opt);
 						%>
 						</select>
 					</td>					
@@ -169,7 +169,7 @@
 			%>
 			There are no questions for you to answer here!
 			<%
-				} else if (data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isInGracePeriod()) {
+				} else if (data.bundle.feedbackSession.isOpened()) {
 			%>
 			<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
 			<%

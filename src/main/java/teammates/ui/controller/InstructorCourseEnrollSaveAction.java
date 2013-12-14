@@ -21,9 +21,9 @@ public class InstructorCourseEnrollSaveAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String studentsInfo = getRequestParam(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
+		String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
 		Assumption.assertNotNull(studentsInfo);
 		
 		new GateKeeper().verifyAccessible(

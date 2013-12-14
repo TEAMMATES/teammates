@@ -9,8 +9,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		statusToAdmin = "Show instructor feedback result page<br>" +
 				"Session Name: " + feedbackSessionName + "<br>" + 
@@ -27,7 +27,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 		InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
 		data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
 		data.bundle = logic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, data.instructor.email);
-		data.sortType = getRequestParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
+		data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");

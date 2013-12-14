@@ -257,7 +257,7 @@
 		"feedbackQuestionId" : "2",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "CFResultsUiT.alice.b@gmail.com",
-		"recipient" : "CFResultsUiT.alice.b@gmail.com",
+		"recipientEmail" : "CFResultsUiT.alice.b@gmail.com",
 		"answer" : {"value" : "Alice self feedback."}
     },
     "response2": {
@@ -266,7 +266,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "CFResultsUiT.alice.b@gmail.com",
-		"recipient" : "CFResultsUiT.benny.c@gmail.com",
+		"recipientEmail" : "CFResultsUiT.benny.c@gmail.com",
 		"answer" : {"value" : "2 Response to Benny."}
     },
     "response3": {
@@ -275,7 +275,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "CFResultsUiT.benny.c@gmail.com",
-		"recipient" : "CFResultsUiT.danny.e@gmail.com",
+		"recipientEmail" : "CFResultsUiT.danny.e@gmail.com",
 		"answer" : {"value" : "1 Response to Danny."}
     },
     "response4": {
@@ -284,7 +284,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "CFResultsUiT.charlie.d@gmail.com",
-		"recipient" : "CFResultsUiT.emily.f@gmail.com",
+		"recipientEmail" : "CFResultsUiT.emily.f@gmail.com",
 		"answer" : {"value" : "3 Response to Emily."}
     },
     "response5": {
@@ -293,7 +293,7 @@
 		"feedbackQuestionId" : "1",
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "CFResultsUiT.benny.c@gmail.com",
-		"recipient" : "CFResultsUiT.charlie.d@gmail.com",
+		"recipientEmail" : "CFResultsUiT.charlie.d@gmail.com",
 		"answer" : {"value" : "4 Response to Charlie."}
     }
   }

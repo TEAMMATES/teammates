@@ -10,8 +10,8 @@ public class StudentFeedbackSubmissionEditPageAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		
 		// Check for empty parameters
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		statusToAdmin = "Show student feedback edit result page<br>" +
 				"Session Name: " + feedbackSessionName + "<br>" + 
 				"Course ID: " + courseId;

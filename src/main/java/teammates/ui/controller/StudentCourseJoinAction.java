@@ -16,7 +16,7 @@ public class StudentCourseJoinAction extends Action {
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
 
-		String key = getRequestParam(Const.ParamsNames.REGKEY);
+		String key = getRequestParamValue(Const.ParamsNames.REGKEY);
 		Assumption.assertNotNull(key);
 
 		new GateKeeper().verifyLoggedInUserPrivileges();

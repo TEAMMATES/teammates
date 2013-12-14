@@ -21,7 +21,7 @@ public class InstructorEvalsPageAction extends Action {
 		
 		//This can be null. Non-null value indicates the page is being loaded 
 		//   to add an evaluation to the specified course
-		String courseIdForNewEvaluation = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseIdForNewEvaluation = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		
 		new GateKeeper().verifyInstructorPrivileges(account);
 		

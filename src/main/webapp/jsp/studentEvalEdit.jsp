@@ -83,7 +83,15 @@
 				<div id="studentEvaluationSubmissionButtons" class="centeralign">
 					<input type="submit" class="button" name="submitEvaluation"
 							onclick="return checkEvaluationForm(this.form)"
-							id="button_submit" value="Submit Evaluation" <%=data.disableAttribute%>>
+							id="button_submit" value="Submit Evaluation" <%=data.disableAttribute%>
+							<%
+								if (!data.disableAttribute.isEmpty()) {
+							%>		
+								style="background: #66727A;"
+							<%
+								}
+							%>
+					>
 				</div>
 				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>

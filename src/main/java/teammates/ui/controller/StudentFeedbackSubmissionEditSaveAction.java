@@ -17,8 +17,8 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		Assumption.assertNotNull(courseId);
 		Assumption.assertNotNull(feedbackSessionName);
@@ -47,7 +47,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		
 		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
 		for(int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-			String totalResponsesForQuestion = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL+"-"+questionIndx);
+			String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL+"-"+questionIndx);
 			if (totalResponsesForQuestion == null) {
 				continue; // question has been skipped (not displayed).
 			}
@@ -73,7 +73,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		if (response.getId() != null) {
 			// Delete away response if any empty fields
 			if (response.answer.getValue().isEmpty() || 
-				response.recipient.isEmpty()) {
+				response.recipientEmail.isEmpty()) {
 				logic.deleteFeedbackResponse(response);
 				return;
 			}
@@ -83,7 +83,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 				setStatusForException(e);
 			}
 		} else if (!response.answer.getValue().isEmpty() &&
-					!response.recipient.isEmpty()){
+					!response.recipientEmail.isEmpty()){
 			try {
 				logic.createFeedbackResponse(response);
 			} catch (EntityAlreadyExistsException | InvalidParametersException e) {
@@ -96,13 +96,13 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		
 		FeedbackResponseAttributes response = new FeedbackResponseAttributes();
 
-		response.setId(getRequestParam(Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
-		response.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-		response.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		response.feedbackQuestionId = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
-		response.feedbackQuestionType = FeedbackQuestionType.valueOf(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
-		response.recipient = getRequestParam(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
-		response.answer = new Text(getRequestParam(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
+		response.setId(getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
+		response.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		response.feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
+		response.feedbackQuestionType = FeedbackQuestionType.valueOf(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
+		response.recipientEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
+		response.answer = new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
 		return response;
 	}
 

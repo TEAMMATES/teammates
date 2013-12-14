@@ -8,9 +8,11 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -19,8 +21,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 	@Override
 	protected ActionResult execute()  throws EntityDoesNotExistException {
 		
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId), 
@@ -50,48 +52,51 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 	}
 
 	private FeedbackQuestionAttributes extractFeedbackQuestionData() {
-		FeedbackQuestionAttributes newQuestion =
-				new FeedbackQuestionAttributes();
+		FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
+
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
+		Assumption.assertNotNull("Account trying to add feedback question is not an instructor of the course", instructorDetailForCourse);
 		
-		// TODO: is instructor.email always == account.email?
-		// Answer: No. An instructor can have different emails for different courses.
-		newQuestion.creatorEmail = account.email;
-		newQuestion.courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
-		newQuestion.feedbackSessionName = getRequestParam(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		newQuestion.creatorEmail = instructorDetailForCourse.email; 
+		newQuestion.courseId = courseId;
+		newQuestion.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
 		String param;
-		if((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE)) != null) {
+		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE)) != null) {
 			newQuestion.giverType = FeedbackParticipantType.valueOf(param);
 		}
-		if((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE)) != null){
+		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE)) != null){
 			newQuestion.recipientType = FeedbackParticipantType.valueOf(param);
 		}
-		if((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER)) != null){
+		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER)) != null){
 			newQuestion.questionNumber = Integer.parseInt(param);
 		}		
 		newQuestion.questionText = 
-				new Text(getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
+				new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
 		newQuestion.questionType = 
 				FeedbackQuestionType.TEXT;
 		
 		newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
 		//TODO: 'Arrowhead code'. Reduce nesting.
-		if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE)) != null) {
-			if (param.equals("custom")) {
-				if ((param = getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES)) != null) {
-					if (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
-						newQuestion.recipientType == FeedbackParticipantType.TEAMS) {
-						newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(param);
-					}
+		String numberOfEntitiyTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+		if (numberOfEntitiyTypes != null && numberOfEntitiyTypes.equals("custom")) {
+			String numberOfEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+			
+			if (numberOfEntities != null) {
+				if (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
+						|| newQuestion.recipientType == FeedbackParticipantType.TEAMS) {
+					newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
 				}
 			}
 		}
+		
 		newQuestion.showResponsesTo = getParticipantListFromParams(
-				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));				
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));				
 		newQuestion.showGiverNameTo = getParticipantListFromParams(
-				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));		
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));		
 		newQuestion.showRecipientNameTo = getParticipantListFromParams(
-				getRequestParam(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
+				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
 		
 		return newQuestion;
 	}

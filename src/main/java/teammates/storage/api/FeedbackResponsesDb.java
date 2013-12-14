@@ -233,7 +233,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 		}
 		
 		fr.setAnswer(newAttributes.answer);
-		fr.setRecipient(newAttributes.recipient);
+		fr.setRecipientEmail(newAttributes.recipientEmail);
 				
 		getPM().close();
 	}
@@ -373,7 +373,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 			return getFeedbackResponseEntity(
 				FeedbackResponseToGet.feedbackQuestionId,
 				FeedbackResponseToGet.giverEmail,
-				FeedbackResponseToGet.recipient);
+				FeedbackResponseToGet.recipientEmail);
 		}
 	}
 }

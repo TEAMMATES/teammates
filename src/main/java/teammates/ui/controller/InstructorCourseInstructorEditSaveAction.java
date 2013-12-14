@@ -11,13 +11,13 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 
-		String courseId = getRequestParam(Const.ParamsNames.COURSE_ID);
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String instructorId = getRequestParam(Const.ParamsNames.INSTRUCTOR_ID);
+		String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 		Assumption.assertNotNull(instructorId);
-		String instructorName = getRequestParam(Const.ParamsNames.INSTRUCTOR_NAME);
+		String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
 		Assumption.assertNotNull(instructorName);
-		String instructorEmail = getRequestParam(Const.ParamsNames.INSTRUCTOR_EMAIL);
+		String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 		Assumption.assertNotNull(instructorEmail);
 		
 		new GateKeeper().verifyAccessible(
