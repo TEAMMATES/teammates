@@ -170,17 +170,13 @@
 			%>
 			<table class="dataTable">
 		        <tr>
-		          <th width="10%">Date</th>
-		          <th width="5%">Role</th>
-		          <th width="20%">Person</th>
-		          <th width="10%">Action / Page</th>
-		          <th width="50%">Information</th>
+		          <th width="10%">Date</th><th>[Role][Google ID][Name][Email][Action]</th>
 		        </tr>
 		    <%
 		    	if (appLogs.isEmpty()) {
 		    %>
 		        <tr>
-		          <td colspan='5'><i>No application logs found</i></td>
+		          <td colspan='2'><i>No application logs found</i></td>
 		        </tr>
 		    <%
 		    	} else {
@@ -188,10 +184,9 @@
 		    %>
 		        <tr>
 		          <td><%=log.getDateInfo()%></td>
-		          <td><%=log.getRoleInfo()%></td>
-		          <td><%=log.getPersonInfo()%></td>
-		          <td><%=log.getActionInfo()%></td>
-		          <td><%=log.getMessageInfo()%></td>
+		          <td><%=log.getRoleInfo()%>&nbsp;&nbsp;<%=log.getPersonInfo()%>&nbsp;&nbsp;<%=log.getActionInfo()%> 
+		          <br><%=log.getMessageInfo()%>
+		          </td>
 		        </tr>
 		    <%
 		    	}

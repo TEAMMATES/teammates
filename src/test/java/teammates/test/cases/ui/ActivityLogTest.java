@@ -33,11 +33,11 @@ public class ActivityLogTest extends BaseTestCase{
 		appLog.setTimeUsec(0);
 		entry = new ActivityLogEntry(appLog);
 		
-		assertEquals("<span class=\"color_green bold\">instructorHome</span><br>Pageload", entry.getActionInfo());
+		assertEquals("<a href=\"URL?user=UserId\" class=\"color_green bold\" target=\"_blank\">instructorHome</a>", entry.getActionInfo());
 		assertEquals("01-01-1970 07:30:00", entry.getDateInfo());
-		assertEquals("Message<br><br><a href=\"URL?user=UserId\" target=\"blank\" title=\"URL?user=UserId\">URL</a>", entry.getMessageInfo());
-		assertEquals("<span class=\"bold\">Id: </span>UserId<br><span class=\"bold\">Name: </span>UserName<br>UserEmail<br>", entry.getPersonInfo());
-		assertEquals("<span class=\"bold\">Instructor</span>", entry.getRoleInfo());
+		assertEquals("Message", entry.getMessageInfo());
+		assertEquals("[UserName <a href=\"/page/instructorHomePage?user=UserId\" target=\"_blank\">UserId</a> <a href=\"mailto:UserEmail\" target=\"_blank\">UserEmail</a>]", entry.getPersonInfo());
+		assertEquals("Instructor", entry.getRoleInfo());
 	}
 	
 	@Test

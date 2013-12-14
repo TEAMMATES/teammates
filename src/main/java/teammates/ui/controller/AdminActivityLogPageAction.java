@@ -19,8 +19,8 @@ public class AdminActivityLogPageAction extends Action {
 	
 	//We want to pull out the application logs
 	private boolean includeAppLogs = true;
-	private static final int LOGS_PER_PAGE = 30;
-	private static final int MAX_LOGSEARCH_LIMIT = 7000;
+	private static final int LOGS_PER_PAGE = 50;
+	private static final int MAX_LOGSEARCH_LIMIT = 15000;
 
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException{
@@ -64,6 +64,7 @@ public class AdminActivityLogPageAction extends Action {
 		query.majorVersionIds(appVersions);
 		
 		query.includeAppLogs(includeAppLogs);
+		query.batchSize(1000);
 		
 		if (offset != null && !offset.equals("null")) {
 			query.offset(offset);

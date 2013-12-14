@@ -16,7 +16,7 @@ import com.google.appengine.api.log.AppLogLine;
 public class ActivityLogEntry {
 	private long time;
 	private String servletName;
-	private String action;
+	private String action; //TODO: remove if not needed (and rename servletName to action)
 	private String role;
 	private String name;
 	private String googleId;
@@ -160,26 +160,33 @@ public class ActivityLogEntry {
 	}
 	
 	public String getRoleInfo(){
-		return "<span class=\"bold\">" + role + "</span>";
+		return role ;
 	}
 	
 	public String getPersonInfo(){
-		return "<span class=\"bold\">Id: </span>" + googleId + "<br>"
-				+ "<span class=\"bold\">Name: </span>" + name + "<br>"
-				+ email + "<br>";
+		return "[" + name +
+				" <a href=\""+getInstructorHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
+				" <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
 	}
 	
 	public String getActionInfo(){
-		String act = "";
+		String style = "";
 		if(action.equals(Const.ACTION_RESULT_FAILURE) || action.equals(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT)) {
-			act = "<span class=\"color_red\">" + action + "</span>";
+			style = "color_red bold";
 		} else {
-			act = action;
+			style = "color_green bold";
 		}
-		return "<span class=\"color_green bold\">" + servletName + "</span><br>" + act;
+		return "<a href=\""+getUrlToShow()+"\" class=\""+style+"\" target=\"_blank\">"+servletName+"</a>";
 	}
 	
 	public String getMessageInfo(){
+		if (message.contains("Servlet Action Failure")){
+			message = message.replace("Servlet Action Failure", "<span class=\"color_red bold\">Servlet Action Failure</span><br>");
+		}
+		return message;
+	}
+	
+	public String getUrlToShow(){
 		String urlToShow = url;
 		//If not in masquerade mode, add masquerade mode
 		if(!urlToShow.contains("user=")){
@@ -189,11 +196,7 @@ public class ActivityLogEntry {
 				urlToShow += "&user=" + googleId;
 			}
 		}
-		
-		if (message.contains("Servlet Action Failure")){
-			message = message.replace("Servlet Action Failure", "<span class=\"color_red bold\">Servlet Action Failure</span><br>");
-		}
-		return message + "<br><br><a href=\"" + urlToShow + "\" target=\"blank\" title=\"" + urlToShow + "\">URL</a>";
+		return urlToShow;
 	}
 	
 	public boolean toShow(){
@@ -272,6 +275,12 @@ public class ActivityLogEntry {
 		ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null, message, url);
 		
 		return emailReportLog.generateLogMessage();
+	}
+	
+	private String getInstructorHomePageViewLink(String googleId){
+		String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
+		link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
+		return link;
 	}
 	
 
