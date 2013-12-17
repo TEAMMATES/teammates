@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -36,12 +37,13 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		turnLoggingUp(FeedbackSessionsLogic.class);
 	}
 	
+	@BeforeMethod
+	public void caseSetUp() throws Exception {
+		restoreTypicalDataInDatastore();
+	}
 	
 	@Test
 	public void testGetRecipientsForQuestion() throws Exception {
-	
-		restoreTypicalDataInDatastore();		
-	
 		FeedbackQuestionAttributes question;
 		String email;
 		Map<String, String> recipients;
@@ -102,8 +104,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 	
 	@Test
 	public void testUpdateQuestionNumber() throws Exception{
-		restoreTypicalDataInDatastore();
-		
 		______TS("shift question up");
 		List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
 		FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
@@ -155,8 +155,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 	
 	@Test
 	public void testAddQuestion() throws Exception{
-		restoreTypicalDataInDatastore();
-		
 		______TS("add new question in between");
 		List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
 		FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
@@ -188,8 +186,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 	
 	@Test
 	public void testUpdateQuestion() throws Exception {
-		restoreTypicalDataInDatastore();
-		
 		______TS("standard update, no existing responses, with 'keep existing' policy");
 		FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
 		questionToUpdate.questionText = new Text("new question text");
@@ -256,6 +252,163 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 	}
 
+	@Test
+	public void testGetFeedbackQuestionsForInstructor() throws Exception{
+		List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
+		
+		______TS("Get questions created for self");
+		
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
+		actualQuestions = 
+					fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1", "instructor1@course1.com");
+		
+		assertEquals(actualQuestions, expectedQuestions);
+				
+		______TS("Get questions created for self by another instructor");
+		
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		actualQuestions = 
+					fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1", "instructor2@course1.com");
+
+		assertEquals(actualQuestions, expectedQuestions);
+		
+		______TS("Get questions created for instructors by the creating instructor");
+		
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("qn1InSession2InCourse2"));
+		expectedQuestions.add(getQuestionFromDatastore("qn2InSession2InCourse2"));		
+		
+		actualQuestions = 
+					fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.com");
+		
+		assertEquals(actualQuestions, expectedQuestions);
+		
+		______TS("Get questions created for instructors not by the creating instructor");
+		
+		actualQuestions = 
+				fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2", "instructor2@course2.com");
+	
+		assertEquals(actualQuestions, expectedQuestions);
+		
+		______TS("Get questions created for instructors by non-instructor of the course");
+		
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		actualQuestions = 
+				fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2", "iwc@yahoo.com");
+		
+		assertEquals(actualQuestions, expectedQuestions);
+		
+		______TS("Failure: Getting questions for a non-existent session");
+		
+		try {
+			fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse1", "instructor1@course1.com");
+			fail("Allowed to get questions for a feedback session that does not exist.");
+		} catch (EntityDoesNotExistException e) {
+			assertEquals(e.getMessage(), "Trying to get questions for a feedback session that does not exist.");
+		}
+		
+		______TS("Get questions created for self  from list of all questions");
+		
+		
+		allQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		allQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
+		allQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
+		allQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
+		
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
+		
+		actualQuestions = fqLogic.getFeedbackQuestionsForInstructor(allQuestions, true);
+		
+		assertEquals(actualQuestions, expectedQuestions);
+		
+		//TODO add a test data where there are a mix of STUDENTS and INSTRUCTORS
+		//questions (not SELF) and test if getQuestionForInstructors return only the
+		//INSTRUCTORS questions
+	}
+	
+	@Test
+	public void testGetFeedbackQuestionsForStudents() throws Exception{
+		List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
+		
+		______TS("Get questions created for students");
+		
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
+		expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
+		actualQuestions = 
+					fqLogic.getFeedbackQuestionsForStudents("First feedback session", "idOfTypicalCourse1");
+		
+		assertEquals(actualQuestions, expectedQuestions);
+		
+		______TS("Get questions created for students and teams");
+		
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
+		expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
+		actualQuestions = 
+					fqLogic.getFeedbackQuestionsForStudents("Second feedback session", "idOfTypicalCourse1");
+		
+		assertEquals(actualQuestions, expectedQuestions);
+		
+		______TS("Get questions created for students from list of all questions");
+		
+		allQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		allQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
+		allQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
+		allQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
+				
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
+		expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
+		
+		actualQuestions = fqLogic.getFeedbackQuestionsForStudents(allQuestions);
+		
+		assertEquals(actualQuestions, expectedQuestions);
+		
+		______TS("Get questions created for students and teams from list of all questions");
+		
+		allQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		allQuestions.add(getQuestionFromDatastore("team.feedback"));
+		allQuestions.add(getQuestionFromDatastore("team.members.feedback"));
+				
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
+		expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
+		
+		actualQuestions = fqLogic.getFeedbackQuestionsForStudents(allQuestions);
+		
+		assertEquals(actualQuestions, expectedQuestions);
+	}
+	
+	@Test
+	public void testgetFeedbackQuestionsForTeam() throws Exception{
+		List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions;
+		
+		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
+		actualQuestions = 
+				fqLogic.getFeedbackQuestionsForTeam("Second feedback session", "idOfTypicalCourse1", "");
+		
+		assertEquals(actualQuestions, expectedQuestions);
+	}
+	
+	@Test
+	public void testIsQuestionHasResponses() {
+		FeedbackQuestionAttributes questionWithResponse, questionWithoutResponse;
+		
+		______TS("Check that a question has some responses");
+		
+		questionWithResponse = getQuestionFromDatastore("qn1InSession2InCourse2");
+		assertTrue(fqLogic.isQuestionHasResponses(questionWithResponse.getId()));
+		
+		______TS("Check that a question has no responses");
+		
+		questionWithoutResponse = getQuestionFromDatastore("qn2InSession2InCourse2");
+		assertFalse(fqLogic.isQuestionHasResponses(questionWithoutResponse.getId()));
+	}
+		
 	private FeedbackQuestionAttributes getQuestionFromDatastore(String questionKey) {
 		FeedbackQuestionAttributes question;
 		question = typicalBundle.feedbackQuestions.get(questionKey);
@@ -269,4 +422,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		printTestClassFooter();
 		turnLoggingDown(FeedbackSessionsLogic.class);
 	}
+	
+	
 }
