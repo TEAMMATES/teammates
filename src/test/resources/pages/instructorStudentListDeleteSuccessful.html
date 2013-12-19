@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="shortcut icon" href="/favicon.png" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TEAMMATES - Instructor</title>
+		<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="/stylesheets/instructorCourseDetails.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print" />
+		<link rel="stylesheet" href="/stylesheets/instructorCourseDetails-print.css" type="text/css" media="print" />
+
+		<script async=""  type="text/javascript" src="https://ssl.google-analytics.com/ga.js"></script>
+		<script type="text/javascript" src="/js/googleAnalytics.js"></script>
+		<script type="text/javascript" src="/js/jquery-minified.js"></script>
+		<script type="text/javascript" src="/js/tooltip.js"></script>
+		<script type="text/javascript" src="/js/date.js"></script>
+		<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+		<script type="text/javascript" src="/js/AnchorPosition.js"></script>
+		<script type="text/javascript" src="/js/common.js"></script>
+		
+		<script type="text/javascript" src="/js/instructor.js"></script>
+		<script type="text/javascript" src="/js/instructorCourseDetails.js"></script>
+
+	</head>
+
+	<body>
+    	<div id="frameTop" >
+         	<div id="frameTopWrapper" >
+             	<div id="logo" >
+                  	<a href="/index.html" >
+                     	<img alt="TEAMMATES"  height="47px"  src="/images/teammateslogo.jpg"  width="150px" />
+                 	</a>
+               	</div>
+               	<div id="contentLinks" >
+              		<ul id="navbar" >
+                     	<li>
+                        	<a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=instructorWith2Courses" >
+                           		Home
+                       		</a>
+                     	</li>
+                     	<li class="current" >
+                        	<a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=instructorWith2Courses" >
+                           		Courses
+                        	</a>
+                    	</li>
+                     	<li>
+                        	<a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=instructorWith2Courses" >
+                           		Sessions
+                        	</a>
+                     	</li>
+                   	 	<li>
+                        	<a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=instructorWith2Courses" >
+                           		Students
+                        	</a>
+                     	</li>
+                     	<li>
+                        	<a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                           		Help
+                        	</a>
+                     	</li>
+                     	<li>
+                        	<a class="nav logout"  href="/logout.jsp" >
+                           		Logout
+                        	</a>
+                        <b>(instructorWith2Courses)</b>
+                     	</li>
+                  	</ul>
+               	</div>
+               	<div style="clear: both;" ></div>
+           	</div>
+       	</div>
+        <div id="frameBody" >
+        	<div id="frameBodyWrapper" >
+          		<div id="topOfPage" ></div>
+               	<div id="headerOperation" >
+                  	<h1>Course Details</h1>
+               	</div>
+               	<table class="inputTable"  id="courseInformationHeader" >
+                  	<tbody>
+                   		<tr>
+                        	<td class="label rightalign bold"  width="30%" >
+                           		Course ID:
+                        	</td>
+                        	<td id="courseid" >
+                           		course2
+                        	</td>
+                     	</tr>
+                     	<tr>
+                        	<td class="label rightalign bold"  width="30%" >
+                           		Course name:
+                       		</td>
+                        	<td id="coursename" >
+                           		Name of Course 2
+                       		</td>
+                     	</tr>
+                     	<tr>
+                        	<td class="label rightalign bold"  width="30%" >
+                           		Teams:
+                        	</td>
+                        	<td id="total_teams" >
+                           		1
+                        	</td>
+                   		</tr>
+                     	<tr>
+                        	<td class="label rightalign bold"  width="30%" >
+                           		Total students:
+                        	</td>
+                        	<td id="total_students" >
+                           		1
+                        	</td>
+                     	</tr>
+                     	<tr>
+                        	<td class="label rightalign bold"  width="30%" >
+                           		Instructors:
+                       		</td>
+                        	<td id="instructors" >
+                           		Instructor1 Course2 (iwithtwoc@yahoo.com)
+                           		<br/>
+                            	<br/>
+                            </td>
+                     	</tr>
+                  	</tbody>
+               	</table>
+               	<br/>
+        		<div id="statusMessage"  style="display: block;" >
+                  	The student has been removed from the course
+               	</div>
+               	<script type="text/javascript" >
+                  	document.getElementById( 'statusMessage' ).scrollIntoView();
+               	</script>
+               	<br/>
+         		<table class="dataTable" >
+                  	<tbody>
+                     	<tr>
+                        	<th class="centeralign color_white bold" >
+                           		<input class="buttonSortNone"  id="button_sortstudentteam"  onclick="toggleSort(this,1)"  type="button" />
+                                	Team
+                        	</th>
+                        	<th class="centeralign color_white bold" >
+                           		<input class="buttonSortAscending"  id="button_sortstudentname"  onclick="toggleSort(this,2)"  type="button" />
+                                	Student Name
+                        	</th>
+                        	<th class="centeralign color_white bold" >
+                           		<input class="buttonSortNone"  id="button_sortstudentstatus"  onclick="toggleSort(this,3)"  type="button" />
+                                	Status
+                        	</th>
+                        	<th class="centeralign color_white bold no-print" >
+                           			Action(s)
+                        	</th>
+                     	</tr>
+                     	<tr class="student_row"  id="student0" >
+                        	<td id="teamname" >
+                           		Team 1
+                        	</td>
+                        	<td id="studentname" >
+                           		Alice Betsy
+                        	</td>
+                        	<td class="centeralign" >
+                           		Joined
+                        	</td>
+                        	<td class="centeralign no-print" >
+                           		<a class="color_black t_student_details0"  href="/page/instructorCourseStudentDetailsPage?courseid=course2&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorWith2Courses"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the details of the student')" >
+                              		View
+                           		</a>
+                           		<a class="color_black t_student_edit0"  href="/page/instructorCourseStudentDetailsEdit?courseid=course2&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorWith2Courses"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')" >
+                             		Edit
+                           		</a>
+                           		<a class="color_black t_student_delete0"  href="/page/instructorCourseStudentDelete?courseid=course2&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorWith2Courses"  onclick="return toggleDeleteStudentConfirmation('Alice Betsy')"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')" >
+                              		Delete
+                           		</a>
+                        	</td>
+                     	</tr>
+                  	</tbody>
+               	</table>
+               	<br/>
+                <br/>
+                <br/>
+        	</div>
+      	</div>
+      	<div id="frameBottom" >
+    		<div id="contentFooter" >
+               	<span class="floatleft" >
+                  [TEAMMATES<span class="color_white" >V{$version}</span>]
+               	</span>
+               	[for<span class="color_white" >NUS</span>]
+               	<span class="floatright" >[Send<span class="color_white" >
+               		<a href="../contact.html"  target="_blank" >Feedback</a>
+               		</span>]
+               	</span>
+           	</div>
+      	</div>
+  	</body>
+</html>

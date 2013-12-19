@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="shortcut icon" href="/favicon.png" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TEAMMATES - Instructor</title>
+		<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="/stylesheets/instructorStudentList.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print" />
+
+		<script async=""  type="text/javascript" src="https://ssl.google-analytics.com/ga.js"></script>
+		<script type="text/javascript" src="/js/googleAnalytics.js"></script>
+		<script type="text/javascript" src="/js/jquery-minified.js"></script>
+		<script type="text/javascript" src="/js/tooltip.js"></script>
+		<script type="text/javascript" src="/js/date.js"></script>
+		<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+		<script type="text/javascript" src="/js/AnchorPosition.js"></script>
+		<script type="text/javascript" src="/js/common.js"></script>
+		
+		<script type="text/javascript" src="/js/instructor.js"></script>
+		<script type="text/javascript" src="/js/instructorStudentList.js"></script>
+
+	</head>
+
+	<body>
+		<div id="dhtmltooltip"></div>
+        	<div id="frameTop" >
+            	<div id="frameTopWrapper" >
+               		<div id="logo" >
+                  		<a href="/index.html" >
+                     		<img alt="TEAMMATES"  height="47px"  src="/images/teammateslogo.jpg"  width="150px" />
+                      	</a>
+               		</div>
+               		<div id="contentLinks" >
+                  		<ul id="navbar" >
+                     	<li>
+                        	<a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=instructorWithoutCourses" >
+                           		Home
+                        	</a>
+                     	</li>
+                     	<li>
+                        	<a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=instructorWithoutCourses" >
+                           		Courses
+                        	</a>
+                     	</li>
+                     	<li>
+                        	<a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=instructorWithoutCourses" >
+                           		Sessions
+                       		</a>
+                     	</li>
+                     	<li class="current" >
+                        	<a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=instructorWithoutCourses" >
+                           		Students
+                       		</a>
+                     	</li>
+                     	<li>
+                        	<a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                           		Help
+                        	</a>
+                     	</li>
+                     	<li>
+                        	<a class="nav logout"  href="/logout.jsp" >
+                           		Logout
+                        	</a>
+                        <b>
+                           <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip('instructorWithoutCourses')" >
+                              (instructorWithoutCou...)
+                           </span>
+                        </b>
+                     	</li>
+                  	</ul>
+            		</div>
+              		<div style="clear: both;" ></div>
+            	</div>
+         	</div>
+         	<div id="frameBody" >
+            	<div id="frameBodyWrapper" >
+               		<div id="topOfPage" ></div>
+               		<div id="headerOperation" >
+                  		<h1>Student List</h1>
+               		</div>
+               		<table class="inputTable"  id="searchTable" >
+                  		<tbody>
+                     		<tr>
+                        		<td>
+                           			<input id="searchbox"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Search for student\'s name or course name')"  tabindex="1"  type="text" />
+                               	</td>
+                        		<td>
+                           			<input class="button"  id="button_search"  onclick="return search()"  tabindex="2"  type="submit"  value="Search" />
+                               	</td>
+                     		</tr>
+                  		</tbody>
+               		</table>
+               		<div id="statusMessage"  style="display: block;" >
+                  		There are no course or students information to be displayed
+               		</div>
+               		<script type="text/javascript" >
+                  		document.getElementById( 'statusMessage' ).scrollIntoView();
+               		</script>
+           		</div>
+            	<br/>
+                <br/>
+               	<br/>
+         	</div>
+         	<div id="frameBottom" >
+            	<div id="contentFooter" >
+               		<span class="floatleft" >[TEAMMATES<span class="color_white" >V{$version}</span>]</span>
+               		[for<span class="color_white" >NTU</span>]
+               		<span class="floatright" >[Send<span class="color_white" >
+						<a href="../contact.html"  target="_blank" >Feedback</a>
+                  	</span>]
+               		</span>
+            	</div>
+         	</div>
+      	</body>
+   </html>

@@ -68,9 +68,12 @@ public abstract class AppPage {
 	protected WebElement instructorEvaluationsTab;
 	
 	@FindBy(xpath = "//*[@id=\"navbar\"]/li[4]/a")
-	protected WebElement instructorHelpTab;
+	protected WebElement instructorStudentsTab;
 	
 	@FindBy(xpath = "//*[@id=\"navbar\"]/li[5]/a")
+	protected WebElement instructorHelpTab;
+	
+	@FindBy(xpath = "//*[@id=\"navbar\"]/li[6]/a")
 	protected WebElement instructorLogoutLink;
 	
 	@FindBy(xpath = "//*[@id=\"navbar\"]/li[1]/a")
