@@ -1,9 +1,16 @@
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
+<%@ page import="teammates.common.util.Assumption"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackTextQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackAbstractResponseDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackTextResponseDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackMcqResponseDetails"%>
 <%@ page import="teammates.ui.controller.StudentFeedbackSubmissionEditPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
@@ -42,148 +49,222 @@
 			</div>
 			
 			<form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_student_submit_response">
-			<table class="inputTable">
-			<tr>
-				<td class="bold">Course:</td>
-				<td colspan="2"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></td>
-			</tr>
-			<tr>
-				<td class="bold">Session Name:</td>
-				<td colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></td>				
-			</tr>
-			<tr>
-				<td class="bold">Open from:</td>
-				<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></td>
-				<td class="bold">To:</td>
-				<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></td>
-			</tr>
-			<tr>
-				<td class="bold middlealign">Instructions:</td>
-				<td class="multiline" colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></td>
-			</tr>
-			</table>
-			<br>
-			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-			<br>
+				<table class="inputTable">
+					<tr>
+						<td class="bold">Course:</td>
+						<td colspan="2"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></td>
+					</tr>
+					<tr>
+						<td class="bold">Session Name:</td>
+						<td colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></td>				
+					</tr>
+					<tr>
+						<td class="bold">Open from:</td>
+						<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></td>
+						<td class="bold">To:</td>
+						<td><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></td>
+					</tr>
+					<tr>
+						<td class="bold middlealign">Instructions:</td>
+						<td class="multiline" colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></td>
+					</tr>
+				</table>
+				<br>
+				<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+				<br>
 			<%
 				int qnIndx = 1;
-								List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
-								for (FeedbackQuestionAttributes question : questions) {
-									int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
-									int maxResponsesPossible = data.bundle.recipientList.get(question.getId()).size();
-									if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS ||
-											numOfResponseBoxes > maxResponsesPossible) {
-										numOfResponseBoxes = maxResponsesPossible;
-									}
-									if (numOfResponseBoxes == 0) {
-										// Don't display question if no recipients.
-										continue;
-									}
+				List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
+				for (FeedbackQuestionAttributes question : questions) {
+					int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
+					int maxResponsesPossible = data.bundle.recipientList.get(question.getId()).size();
+					if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS ||
+							numOfResponseBoxes > maxResponsesPossible) {
+						numOfResponseBoxes = maxResponsesPossible;
+					}
+					if (numOfResponseBoxes == 0) {
+						// Don't display question if no recipients.
+						continue;
+					}
+					
+					FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
 			%>
-			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="TEXT"/>
-			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
-			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
-			<table class="inputTable responseTable">
-				<tr style="border-bottom: 3px dotted white;"><td class="bold" colspan="2" style="white-space:pre-wrap;">Question <%=qnIndx%>:</br><%=sanitizeForHtml(question.questionText.getValue())%></td></tr>
-				<tr><td class="bold" colspan="2">Only the following persons can see your responses:</tr>
-					<tr style="border-bottom: 3px dotted white;">
-						<td colspan="2"
-							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_RESPONSE_VISIBILITY_INFO%>')"
-							onmouseout="hideddrivetip()">
-							<ul>
+					<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType.toString()%>"/>
+					<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
+					<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
+					<table class="inputTable responseTable">
+						<tr style="border-bottom: 3px dotted white;">
+							<td class="bold" colspan="2" style="white-space:pre-wrap;">Question <%=qnIndx%>:</br><%=sanitizeForHtml(questionDetails.questionText)%></td>
+						</tr>
+						<tr><td class="bold" colspan="2">Only the following persons can see your responses:</tr>
+						<tr style="border-bottom: 3px dotted white;">
+							<td colspan="2"
+								onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_RESPONSE_VISIBILITY_INFO%>')"
+								onmouseout="hideddrivetip()">
+								<ul>
 								<%
 									if (question.getVisibilityMessage().isEmpty()) {
 								%>
-								<li>No-one but the feedback session creator can see your responses.</li>
+										<li>No-one but the feedback session creator can see your responses.</li>
 								<%
 									}
-										for (String line : question.getVisibilityMessage()) {
+									for (String line : question.getVisibilityMessage()) {
 								%>
-								<li><%=line%></li>
+										<li><%=line%></li>
 								<%
 									}
 								%>
-							</ul>
-						</td>
-					</tr>
-					<tr><td class="bold centeralign" style="padding-top: 15px; padding-bottom: 0px" colspan="3">Your Response</td></tr>
+								</ul>
+							</td>
+						</tr>
+						<tr><td class="bold centeralign" style="padding-top: 15px; padding-bottom: 0px" colspan="3">Your Response</td></tr>
 					<%
 						int responseIndx = 0;
-							List<FeedbackResponseAttributes> existingResponses =
-									data.bundle.questionResponseBundle.get(question);
-							for (FeedbackResponseAttributes existingResponse : existingResponses) {
+						List<FeedbackResponseAttributes> existingResponses =
+								data.bundle.questionResponseBundle.get(question);
+						for (FeedbackResponseAttributes existingResponse : existingResponses) {
 					%>
-					<tr>
-					<td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
-						<span class="label bold">To: </span> 
-						<select class="participantSelect middlealign" 
-						name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-						<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>>
-						<%
-							for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)) out.println(opt);
-						%>
-						</select>
-					</td>					
-					<td>
-						<textarea rows="4" cols="100%" class="textvalue" 
-						<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\")\""%>
-						name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=StudentFeedbackSubmissionEditPageData.sanitizeForHtml(existingResponse.answer.getValue())%></textarea>
-						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
-					</td>
-				</tr>
-					<%
-						responseIndx++;
-							}
-							while (responseIndx < numOfResponseBoxes) {
-					%>
-					<tr>
-				<td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
-					<span class="label bold">To: </span> 
-					<select class="participantSelect middlealign newResponse" 
-					name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-					<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>>
-					<%
-						for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) out.println(opt);
-					%>
-					</select>
-				</td>
-				<td class="responseText">
-					<textarea rows="4" class="textvalue" 
-					name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-					<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>
-					></textarea></td>
-				</tr>
-				<%
-					responseIndx++;
-																}
-				%>
-			</table>
-			<br><br>
-			<%
-				qnIndx++;
+							<tr>
+								<td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
+									<span class="label bold">To: </span> 
+									<select class="participantSelect middlealign" 
+										name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+										<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>>
+									<%
+										for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)){
+											out.println(opt);
 										}
-			%>
-			<div class="bold centeralign">
+									%>
+									</select>
+								</td>
+								<td class="responseText">
+								<%
+									switch (question.questionType) {
+									case TEXT:
+								%>
+										<textarea rows="4" cols="100%" class="textvalue" 
+											<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\")\""%>
+											name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=StudentFeedbackSubmissionEditPageData.sanitizeForHtml(existingResponse.answer.getValue())%></textarea>
+								<%
+										break;
+									case MCQ:
+										FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
+										FeedbackMcqResponseDetails existingMcqResponseDetails = 
+												(FeedbackMcqResponseDetails) existingResponse.getResponseDetails();
+								%>
+										<table>
+										<%
+											for(int i = 0; i < mcqDetails.nChoices; i++) {
+										%>
+												<tr>
+													<td>
+														<input type="radio" 
+															name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+															<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>
+															value="<%=mcqDetails.mcqChoices.get(i)%>"
+															<%=existingMcqResponseDetails.answer.equals(mcqDetails.mcqChoices.get(i)) ? "checked" : ""%>> <%=mcqDetails.mcqChoices.get(i)%>
+													</td>
+												</tr>
+										<%
+											}
+										%>
+										</table>
+								<%
+										break;
+									default:
+										Assumption.fail("Question type not supported");
+										break;
+									}
+								%>
+									<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
+								</td>
+							</tr>
+					<%
+							responseIndx++;
+						}
+						while (responseIndx < numOfResponseBoxes) {
+					%>
+							<tr>
+								<td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
+									<span class="label bold">To: </span> 
+									<select class="participantSelect middlealign newResponse" 
+										name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+										<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>>
+									<%
+										for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) {
+											out.println(opt);
+										}
+									%>
+									</select>
+								</td>
+								<td class="responseText">
+								<%
+									switch(question.questionType) {
+									case TEXT:
+								%>
+										<textarea rows="4" class="textvalue" 
+											name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+											<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>></textarea>
+								<%
+										break;
+									case MCQ:
+										FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
+								%>
+										<table>
+										<%
+											for(int i = 0; i < mcqDetails.nChoices; i++) {
+										%>
+												<tr>
+													<td>
+														<input type="radio" 
+															name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+															<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>
+															value="<%=mcqDetails.mcqChoices.get(i)%>"> <%=mcqDetails.mcqChoices.get(i)%>
+													</td>
+												</tr>
+										<%
+											}
+										%>
+										</table>
+								<%
+										break;
+									default:
+										Assumption.fail("Question type not supported");
+									}
+								%>
+								</td>
+							</tr>
+					<%
+							responseIndx++;
+						}
+					%>
+					</table>
+					<br><br>
 			<%
-				if (data.bundle.questionResponseBundle.isEmpty()) {
-			%>
-			There are no questions for you to answer here!
-			<%
-				} else if (data.bundle.feedbackSession.isOpened()) {
-			%>
-			<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
-			<%
-				} else {
-			%>
-			<%=Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN%>
-			<%
+					qnIndx++;
 				}
 			%>
-			</div>
-			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
-			<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
-			<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-			<br><br>	
+				<div class="bold centeralign">
+				<%
+					if (data.bundle.questionResponseBundle.isEmpty()) {
+				%>
+						There are no questions for you to answer here!
+				<%
+					} else if (data.bundle.feedbackSession.isOpened()) {
+				%>
+						<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
+				<%
+					} else {
+				%>
+						<%=Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN%>
+				<%
+					}
+				%>
+				</div>
+				<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
+				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+				<br><br>	
 			</form>
 		</div>
 	</div>
