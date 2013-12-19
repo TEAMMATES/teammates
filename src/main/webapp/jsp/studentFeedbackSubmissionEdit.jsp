@@ -163,7 +163,7 @@
 																name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
 																<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>
 																value="<%=mcqDetails.mcqChoices.get(i)%>"
-																<%=existingMcqResponseDetails.answer.equals(mcqDetails.mcqChoices.get(i)) ? "checked" : ""%>> <%=mcqDetails.mcqChoices.get(i)%>
+																<%=existingMcqResponseDetails.answer.equals(mcqDetails.mcqChoices.get(i)) ? "checked=\"checked\"" : ""%>> <%=mcqDetails.mcqChoices.get(i)%>
 														</label>
 													</td>
 												</tr>
