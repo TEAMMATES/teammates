@@ -1,10 +1,12 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -65,6 +67,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 	}
 
 	private FeedbackQuestionAttributes extractFeedbackQuestionData() {
+		//TODO Assert parameter values are not null
 		FeedbackQuestionAttributes newQuestion =
 				new FeedbackQuestionAttributes();
 		
@@ -83,8 +86,6 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER)) != null){
 			newQuestion.questionNumber = Integer.parseInt(param);
 		}
-		newQuestion.questionText = new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
-		newQuestion.questionType = FeedbackQuestionType.TEXT;
 		
 		if (numberOfEntitiesIsUserDefined(newQuestion.recipientType)) {
 			param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
@@ -100,6 +101,40 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		newQuestion.showRecipientNameTo = getParticipantListFromParams(
 				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
 		
+		newQuestion.questionType = FeedbackQuestionType.valueOf(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE));
+		String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
+		
+		switch(newQuestion.questionType){
+		case TEXT:
+			newQuestion.questionText = new Text(questionText);
+			break;
+		case MCQ:
+			String numberOfChoicesCreatedString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+			Assumption.assertNotNull("Null number of choice for MCQ", numberOfChoicesCreatedString);
+			int numberOfChoicesCreated = Integer.parseInt(numberOfChoicesCreatedString);
+			
+			int nChoices = 0;
+			List<String> mcqChoices = new LinkedList<String>();
+			for(int i = 0; i < numberOfChoicesCreated; i++) {
+				String mcqChoice = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
+				if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
+					mcqChoices.add(mcqChoice);
+					nChoices++;
+				}
+			}
+			
+			boolean otherEnabled = false; // TODO change this when implementing "other, please specify" field
+			
+			FeedbackMcqQuestionDetails mcqDetails = 
+					new FeedbackMcqQuestionDetails(questionText, nChoices, mcqChoices, otherEnabled);
+			newQuestion.storeQuestionDetails(mcqDetails);
+			break;
+		default:
+			Assumption.fail("Question type not supported");
+			break;
+			
+		}
+				
 		return newQuestion;
 	}
 	

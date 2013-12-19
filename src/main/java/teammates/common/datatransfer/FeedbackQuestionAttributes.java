@@ -3,12 +3,14 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
+import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Sanitizer;
 import teammates.storage.entity.FeedbackQuestion;
+
+import com.google.appengine.api.datastore.Text;
+import com.google.gson.Gson;
 
 public class FeedbackQuestionAttributes extends EntityAttributes
 	implements Comparable<FeedbackQuestionAttributes>{
@@ -427,5 +429,65 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	@Override
 	public void sanitizeForSaving() {
 		// TODO implement this
+	}
+	
+	/** This method converts the given Feedback*QuestionDetails object to JSON for storing
+	 * @param questionDetails
+	 */
+	public void storeQuestionDetails(FeedbackAbstractQuestionDetails questionDetails) {
+		Gson gson = teammates.common.util.Utils.getTeammatesGson();
+		
+		switch(questionDetails.questionType){
+		case TEXT:
+			// For Text questions, the questionText simply contains the question, not a JSON
+			// This is due to legacy data in the data store before there are multiple question types
+			questionText = new Text(questionDetails.questionText);
+			break;
+		case MCQ:
+			questionText = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
+			break;
+		default:
+			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
+			break;
+		
+		}
+	}
+	
+	/** This method retrieves the Feedback*QuestionDetails object for this question
+	 * @return The Feedback*QuestionDetails object representing the question's details
+	 */
+	public FeedbackAbstractQuestionDetails getQuestionDetails(){
+		Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass = getFeedbackQuestionDetailsClass();
+		
+		// For Text questions, the questionText simply contains the question, not a JSON
+		// This is due to legacy data in the data store before there are multiple question types
+		if(questionDetailsClass == FeedbackTextQuestionDetails.class) {
+			return new FeedbackTextQuestionDetails(questionText.getValue());
+		} else {
+			Gson gson = teammates.common.util.Utils.getTeammatesGson();
+			return gson.fromJson(questionText.getValue(), questionDetailsClass);
+		}
+	}
+	
+	/** This method gets the appropriate class type for the Feedback*QuestionDetails object
+	 * for this question.
+	 * @return The Feedback*QuestionDetails class type appropriate for this question.
+	 */
+	private Class<? extends FeedbackAbstractQuestionDetails> getFeedbackQuestionDetailsClass(){
+		Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass = null;
+		
+		switch(questionType){
+		case TEXT:
+			questionDetailsClass = FeedbackTextQuestionDetails.class;
+			break;
+		case MCQ:
+			questionDetailsClass = FeedbackMcqQuestionDetails.class;
+			break;
+		default:
+			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
+			break;
+		}
+		
+		return questionDetailsClass;
 	}
 }

@@ -169,6 +169,11 @@ public class Const {
 		public static final String VISIBILITY_OPTIONS_OTHER_STUDENTS = "Control what other students can view";
 		public static final String VISIBILITY_OPTIONS_INSTRUCTORS = "Control what instructors can view";
 	}
+	
+	public class FeedbackQuestionTypeNames{
+		public static final String TEXT = "Essay question";
+		public static final String MCQ = "Multiple-choice question";
+	}
 
 	public class ParamsNames{
 		public static final String COURSE_ID = "courseid";
@@ -223,6 +228,8 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
 		public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
 		public static final String FEEDBACK_QUESTION_TYPE = "questiontype";
+		public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
+		public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";		
 		public static final String FEEDBACK_QUESTION_GIVERTYPE = "givertype";
 		public static final String FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";
 		public static final String FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";

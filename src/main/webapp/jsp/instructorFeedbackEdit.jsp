@@ -1,9 +1,14 @@
 <%@page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
 <%@ page import="java.util.Date"%>
+<%@ page import="teammates.common.util.Assumption"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackTextQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackEditPageData"%>
 <%
 	InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.getAttribute("data");
@@ -264,7 +269,7 @@
 			
 			<%
 							if (data.questions.isEmpty()) {
-						%>
+			%>
 				<div class="centeralign bold" id="empty_message"><%=Const.StatusMessages.FEEDBACK_QUESTION_EMPTY%></div><br><br>
 			<%
 				}
@@ -272,7 +277,8 @@
 			
 			<%
 							for(FeedbackQuestionAttributes question : data.questions) {
-						%>
+								FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();													
+			%>
 			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>" 
 			id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions" class="form_question" 
 			onsubmit="tallyCheckboxes(<%=question.questionNumber%>)"
@@ -281,37 +287,92 @@
 			<table class="inputTable questionTable" id="questionTable<%=question.questionNumber%>">
 			<tr>
 				<td class="bold">Question
-				<select class="questionNumber nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>-<%=question.questionNumber%>">
+					<select class="questionNumber nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>-<%=question.questionNumber%>">
 				<%
 					for(int opt = 1; opt < data.questions.size()+1; opt++){
 						out.println("<option value=" + opt +">" + opt + "</option>");
-						
 					}
 				%>
-				</select>
+					</select>
+				<%
+					switch(question.questionType){
+					case TEXT:
+						out.print(Const.FeedbackQuestionTypeNames.TEXT);
+						break;
+					case MCQ:
+						out.print(Const.FeedbackQuestionTypeNames.MCQ);
+						break;
+					default:
+						Assumption.fail("Question type not supported");
+						break;
+					}
+				%>
 				</td>
 				<td></td>
 				<td></td>
 				<td class="rightalign">
-				<a href="#" class="color_blue pad_right" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
-				onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
-				onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
-				<a href="#" class="color_green pad_right" style="display:none"
-				 id="<%=Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
-				<a href="#" class="color_red" onclick="deleteQuestion(<%=question.questionNumber%>)"
-				onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete</a>
+					<a href="#" class="color_blue pad_right" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
+					onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
+					onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
+					<a href="#" class="color_green pad_right" style="display:none"
+					 id="<%=Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
+					<a href="#" class="color_red" onclick="deleteQuestion(<%=question.questionNumber%>)"
+					onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete</a>
 				</td>
 			</tr>
 			<tr>
-					<td colspan="4"><textarea rows="5" style="width:100%"
-							class="textvalue nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
-							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
-							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
-							onmouseout="hideddrivetip()" tabindex="9"
-							disabled="disabled"><%=InstructorFeedbackEditPageData.sanitizeForHtml(question.questionText.getValue())%></textarea>
+				<td colspan="4">
+					<textarea rows="5" style="width:100%"
+						class="textvalue nonDestructive" 
+						name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
+						id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
+						onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
+						onmouseout="hideddrivetip()" tabindex="9"
+						disabled="disabled"><%=InstructorFeedbackEditPageData.sanitizeForHtml(questionDetails.questionText)%></textarea>
+				</td>
+			</tr>
+		<%
+			if (question.questionType == FeedbackQuestionType.MCQ) {
+				FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
+		%>
+				<tr>
+					<td colspan="4">
+						<table>
+						<%
+							for(int i = 0; i < mcqDetails.nChoices; i++) {
+						%>
+							<tr id="mcqOptionRow-<%=i%>-<%=question.questionNumber%>">
+								<td><input type="radio" class="disabled_radio" disabled="disabled"></td>
+								<td>
+									<input type="text" disabled="disabled"
+										name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-<%=i%>"
+										id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-<%=i%>-<%=question.questionNumber%>"
+										class="mcqOptionTextBox"
+										value="<%=mcqDetails.mcqChoices.get(i)%>">
+									<a href="#" class="removeOptionLink" 
+										id="mcqRemoveOptionLink" 
+										onclick="removeMcqOption(<%=i%>,<%=question.questionNumber%>)"
+										style="display:none" tabindex="-1"> x</a>
+								</td>
+							</tr>
+						<%
+							}
+						%>	
+							<tr id="mcqAddOptionRow-<%=question.questionNumber%>">
+								<td colspan="2">
+									<a href="#" class="color_blue" id="mcqAddOptionLink"
+										onclick="addMcqOption(<%=question.questionNumber%>)" style="display:none">
+										+add more options
+									</a>
+								</td>
+							</tr>
+						</table>
 					</td>
 				</tr>
-				<tr>
+		<%
+			}
+		%>			
+			<tr>
 					<td class="bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">Feedback Giver:</td>
 					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled"
 								onchange="feedbackGiverUpdateVisibilityOptions(this)">
@@ -413,6 +474,16 @@
 			<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="<%=question.getId()%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="<%=question.questionNumber%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>" value=<%=question.questionType.toString()%>>
+		<% 
+			if(question.questionType == FeedbackQuestionType.MCQ) {
+		%>
+				<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>"
+					id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>-<%=question.questionNumber%>" 
+					value=<%=((FeedbackMcqQuestionDetails) questionDetails).nChoices%>>
+		<%
+			}
+		%>
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE%>-<%=question.questionNumber%>" value="edit">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO%>" >
@@ -424,25 +495,49 @@
 				}
 			%>
 			
-			<div class="centeralign">
-			<input id="button_openframe" class="button centeralign" value="Add New Question" 
-						onclick="showNewQuestionFrame()">
-			</div>
+			<table class="inputTable" id="addNewQuestionTable">
+				<tr>
+					<td class="bold">
+						Question Type
+						<select class="questionType" 
+								name="questionTypeChoice"
+								id="questionTypeChoice">
+							<option value = "TEXT"><%=Const.FeedbackQuestionTypeNames.TEXT%></option>
+							<option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
+						</select>
+					</td>
+					<td>
+						<input id="button_openframe" class="button centeralign" value="Add New Question" 
+							onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
+					</td>
+				</tr>
+			</table>
+			
 			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
 			<table class="inputTable questionTable" id="questionTableNew" hidden="hidden">
 				<tr>
-					<td class="bold">Question <select class="questionNumber nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
-					<%
-						for(int opt = 1; opt < data.questions.size()+2; opt++){
-							out.println("<option value=" + opt +">" + opt + "</option>");
-							
-						}
-					%>
-					</select>
+					<td class="bold">
+						Question 
+						<select class="questionNumber nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
+						<%
+							for(int opt = 1; opt < data.questions.size()+2; opt++){
+								out.println("<option value=" + opt +">" + opt + "</option>");
+								
+							}
+						%>
+						</select>
+						<span id="questionTypeHeader"></span>
 					</td>
 					<td></td>
 					<td></td>
-					<td></td>
+					<td class="rightalign">
+						<a href="#" class="color_red" 
+							onclick="deleteQuestion(-1)"
+							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>')" 
+							onmouseout="hideddrivetip()">
+								Delete
+							</a>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="4"><textarea rows="5" style="width:100%"
@@ -450,6 +545,43 @@
 							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
 							onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
 							onmouseout="hideddrivetip()" tabindex="9"></textarea>
+					</td>
+				</tr>
+				<tr id="mcqForm">
+					<td colspan="4">
+						<table id="mcqChoiceTable">
+							<tr id="mcqOptionRow-0">
+								<td><input type="radio" disabled="disabled"></td>
+								<td>
+									<input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-0"
+										id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-0" class="mcqOptionTextBox">
+									<a href="#" class="removeOptionLink" 
+										id="mcqRemoveOptionLink" 
+										onclick="removeMcqOption(0,-1)"
+										tabindex="-1"> x</a>
+								</td>
+							</tr>
+							<tr id="mcqOptionRow-1">
+								<td><input type="radio" disabled="disabled"></td>
+								<td>
+									<input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-1"
+										id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-1"
+										class="mcqOptionTextBox">
+									<a href="#" class="removeOptionLink" 
+										id="mcqRemoveOptionLink" 
+										onclick="removeMcqOption(1,-1)"
+										tabindex="-1"> x</a>
+								</td>
+							</tr>
+							<tr id="mcqAddOptionRow">
+								<td colspan="2">
+									<a href="#" class="color_blue" id="mcqAddOptionLink"
+										onclick="addMcqOption(-1)">
+										+add more options
+									</a>
+								</td>
+							</tr>
+						</table>
 					</td>
 				</tr>
 				<tr>
@@ -538,6 +670,9 @@
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="<%=data.questions.size()+1%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
 			<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>">
+			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>" 
+				id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >

@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
+import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -15,6 +15,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackQuestionAddAction extends Action {
 
@@ -72,12 +74,6 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		Assumption.assertNotNull("Null question number", feedbackQuestionNumber);
 		newQuestion.questionNumber = Integer.parseInt(feedbackQuestionNumber);
 		
-		String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
-		Assumption.assertNotNull("Null question text", questionText);
-		newQuestion.questionText = new Text(questionText);
-		
-		newQuestion.questionType = FeedbackQuestionType.TEXT;
-		
 		newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
 
 		String numberOfEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
@@ -100,6 +96,44 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		newQuestion.showRecipientNameTo = getParticipantListFromParams(
 				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
 		
+		String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
+		Assumption.assertNotNull("Null question type", questionType);
+		newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
+		
+		String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
+		Assumption.assertNotNull("Null question text", questionText);
+				
+		switch(newQuestion.questionType){
+		case TEXT:
+			newQuestion.questionText = new Text(questionText);
+			break;
+		case MCQ:
+			String numberOfChoicesCreatedString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+			Assumption.assertNotNull("Null number of choice for MCQ", numberOfChoicesCreatedString);
+			int numberOfChoicesCreated = Integer.parseInt(numberOfChoicesCreatedString);
+			
+			int nChoices = 0;
+			List<String> mcqChoices = new LinkedList<String>();
+			for(int i = 0; i < numberOfChoicesCreated; i++) {
+				String mcqChoice = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
+				if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
+					mcqChoices.add(mcqChoice);
+					nChoices++;
+				}
+			}
+			
+			boolean otherEnabled = false; // TODO change this when implementing "other, please specify" field
+			
+			FeedbackMcqQuestionDetails mcqDetails = 
+					new FeedbackMcqQuestionDetails(questionText, nChoices, mcqChoices, otherEnabled);
+			newQuestion.storeQuestionDetails(mcqDetails);
+			break;
+		default:
+			Assumption.fail("Question type not supported");
+			break;
+			
+		}
+				
 		return newQuestion;
 	}
 

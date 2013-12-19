@@ -15,7 +15,7 @@ var EVALUATION_START = "start"; // Used in instructorEval.js
 var EVALUATION_STARTTIME = "starttime"; // Used in instructorEval.js
 var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
 
-// Move to instructorFeedback.js?
+// TODO Move to instructorFeedback.js?
 var FEEDBACK_SESSION_STARTDATE = "startdate";
 var FEEDBACK_SESSION_STARTTIME = "starttime"; 
 var FEEDBACK_SESSION_TIMEZONE = "timezone";
@@ -27,12 +27,14 @@ var FEEDBACK_SESSION_PUBLISHTIME = "publishtime";
 var FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
 var FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
 
-// Move to instructorFeedbackEdit.js?
+// TODO Move to instructorFeedbackEdit.js?
 var FEEDBACK_QUESTION_GIVERTYPE ="givertype";
 var FEEDBACK_QUESTION_RECIPIENTTYPE ="recipienttype";
 var FEEDBACK_QUESTION_NUMBEROFENTITIES ="numofrecipients";
 var FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
 var FEEDBACK_QUESTION_TYPE ="questiontype";
+var FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
+var FEEDBACK_QUESTION_NUMBEROFCHOICECREATED ="noofchoicecreated";
 var FEEDBACK_QUESTION_NUMBER ="questionnum";
 var FEEDBACK_QUESTION_TEXT ="questiontext";
 var FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
@@ -41,6 +43,8 @@ var FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
 var FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
 var FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 var FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
+var FEEDBACK_QUESTION_TYPENAME_TEXT = "Essay question";
+var FEEDBACK_QUESTION_TYPENAME_MCQ = "Multiple-choice question";
 
 // Display messages
 // Used for validating input
