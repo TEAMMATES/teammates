@@ -35,7 +35,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
 		try {
 			logic.updateStudent(studentEmail, data.student);
 			statusToUser.add(Const.StatusMessages.STUDENT_EDITED);
-			statusToAdmin = "Student <span class=\"bold\">" + data.student.email + 
+			statusToAdmin = "Student <span class=\"bold\">" + studentEmail + 
 					"'s</span> details in Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"+ 
 					"New Email: " + data.student.email + "<br>New Team: " + 
 					data.student.team + "<br>Comments: " + data.student.comments;

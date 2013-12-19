@@ -34,6 +34,15 @@ public class BaseActionTest extends BaseComponentTestCase {
 			throws EntityDoesNotExistException, InvalidParametersException {
 		return (ShowPageResult) a.executeAndPostProcess();
 	}
+	
+	/** Executes the action and returns the result.
+	 * Assumption: The action returns a RedirectResult.
+	 */
+	protected RedirectResult getRedirectResult(Action a)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		//TODO: check existing code to use this method instead of casting independently
+		return (RedirectResult) a.executeAndPostProcess();
+	}
 
 	/**
 	 * @return The {@code params} array with the {@code userId} 
