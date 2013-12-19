@@ -52,6 +52,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 	}
 
 	private FeedbackQuestionAttributes extractFeedbackQuestionData() {
+		//TODO Try to make this method stateless. i.e. pass input as a ParameterMap instead of
+		//depending on the instance variable. Easier to test that way.
 		FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
 
 		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -102,7 +104,9 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		
 		String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
 		Assumption.assertNotNull("Null question text", questionText);
-				
+		
+		//TODO consider using inheritance instead of switch
+		//i.e. type-specific code can be put in the corresponding question-type class
 		switch(newQuestion.questionType){
 		case TEXT:
 			newQuestion.questionText = new Text(questionText);
@@ -126,12 +130,11 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 			
 			FeedbackMcqQuestionDetails mcqDetails = 
 					new FeedbackMcqQuestionDetails(questionText, nChoices, mcqChoices, otherEnabled);
-			newQuestion.storeQuestionDetails(mcqDetails);
+			newQuestion.setQuestionDetails(mcqDetails);
 			break;
 		default:
 			Assumption.fail("Question type not supported");
 			break;
-			
 		}
 				
 		return newQuestion;

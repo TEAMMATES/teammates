@@ -159,8 +159,7 @@ function deleteQuestion(number){
 	if(number == -1){
 		location.reload();
 		return false;
-	}
-	else if (confirm("Are you sure you want to delete this question?")){
+	} else if (confirm("Are you sure you want to delete this question?")){
 		document.getElementById(FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="delete"; 
 		document.getElementById('form_editquestion-'+number).submit();
 		return true;

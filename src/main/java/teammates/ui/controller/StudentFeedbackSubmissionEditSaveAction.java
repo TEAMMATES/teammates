@@ -115,7 +115,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 			//TODO check whether other is chosen and construct accordingly when implementing other field
 			FeedbackMcqResponseDetails mcqResponseDetails = new FeedbackMcqResponseDetails(answer, false);
 			if (answer != null) {
-				response.storeQuestionDetails(mcqResponseDetails);
+				response.setQuestionDetails(mcqResponseDetails);
 			} else {  
 				//question was skipped
 				response.answer = new Text(new String());

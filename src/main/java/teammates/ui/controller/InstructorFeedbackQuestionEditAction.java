@@ -67,7 +67,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 	}
 
 	private FeedbackQuestionAttributes extractFeedbackQuestionData() {
-		//TODO Assert parameter values are not null
+		//TODO Try to make this method stateless. i.e. pass input as a ParameterMap instead of
+		//depending on the instance variable. Easier to test that way.
 		FeedbackQuestionAttributes newQuestion =
 				new FeedbackQuestionAttributes();
 		
@@ -127,7 +128,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 			
 			FeedbackMcqQuestionDetails mcqDetails = 
 					new FeedbackMcqQuestionDetails(questionText, nChoices, mcqChoices, otherEnabled);
-			newQuestion.storeQuestionDetails(mcqDetails);
+			newQuestion.setQuestionDetails(mcqDetails);
 			break;
 		default:
 			Assumption.fail("Question type not supported");
