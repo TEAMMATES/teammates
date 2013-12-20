@@ -12,4 +12,9 @@ public class FeedbackTextResponseDetails extends
 		this.answer = answer;
 	}
 
+	@Override
+	public String getAnswerString() {
+		return answer;
+	}
+
 }

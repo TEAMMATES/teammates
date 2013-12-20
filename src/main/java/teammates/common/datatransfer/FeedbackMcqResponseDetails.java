@@ -24,4 +24,9 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
 			this.otherFieldContent = "";
 		}
 	}
+
+	@Override
+	public String getAnswerString() {
+		return answer;
+	}
 }

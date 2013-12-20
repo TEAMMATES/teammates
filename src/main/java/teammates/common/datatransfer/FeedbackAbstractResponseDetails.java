@@ -6,4 +6,6 @@ public abstract class FeedbackAbstractResponseDetails {
 	public FeedbackAbstractResponseDetails(FeedbackQuestionType questionType){
 		this.questionType = questionType;
 	}
+	
+	public abstract String getAnswerString();
 }

@@ -50,7 +50,7 @@
 						.getResponsesSortedByRecipient();
 
 				for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesForRecipient : allResponses
-						.entrySet()) {
+						.entrySet()) {					
 			%>
 			<div class="backgroundBlock">
 				<h2 class="color_white">
@@ -79,7 +79,7 @@
 					</tr>
 					<tr>
 						<td class="multiline"><span class="bold">Response: </span><%=
-						InstructorFeedbackResultsPageData.sanitizeForHtml(singleResponse.answer.getValue())%></td>
+						InstructorFeedbackResultsPageData.sanitizeForHtml(singleResponse.getResponseDetails().getAnswerString())%></td>
 					</tr>
 					<%
 						qnIndx++;

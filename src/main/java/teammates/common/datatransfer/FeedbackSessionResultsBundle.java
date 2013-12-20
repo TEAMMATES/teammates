@@ -92,9 +92,8 @@ public class FeedbackSessionResultsBundle {
 	}
 	
 	public String getQuestionText(String feedbackQuestionId){
-		return PageData.sanitizeForHtml(questions
-				.get(feedbackQuestionId).questionText
-				.getValue());
+		return PageData.sanitizeForHtml(
+				questions.get(feedbackQuestionId).getQuestionDetails().questionText);
 	}
 	
 	// TODO: make responses to the student calling this method always on top.
