@@ -25,6 +25,9 @@ public class Const {
 		 * in the FieldValidator class.
 		 */
 		public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
+		
+		public static final String EMAIL_TASK_QUEUE = "email-queue";
+		public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
 	}
 
 	/* Text displayed to the user when the mouse hover over certain elements in
@@ -265,6 +268,14 @@ public class Const {
 		public static final String LOGIN_ADMIN = "admin";
 		public static final String LOGIN_INSTRUCTOR = "instructor";
 		public static final String LOGIN_STUDENT = "student";
+		
+		//Email parameters
+		public static final String EMAIL_RECEIVER = "user";
+		public static final String EMAIL_COURSE = "course";
+		public static final String EMAIL_EVAL = "evaluation";
+		public static final String EMAIL_FEEDBACK = "feedback";
+		public static final String EMAIL_TYPE = "type";
+		public static final String EMAIL_IS_STUDENT = "isStudent";
 	}
 
 	public class ActionURIs{
@@ -351,6 +362,9 @@ public class Const {
 		public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/feedbackSessionPublishedReminders";
 		
 		public static final String BACKDOOR = "/backdoor";
+		
+		//Email worker URI
+		public static final String EMAIL_WORKER = "/emailWorker";
 	}
 
 	public class ViewURIs{
@@ -544,6 +558,9 @@ public class Const {
 		
 		// Error message used across DB level
 		public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null\n";
+	
+		// Task Queue Response Success code
+		public static final int TASK_QUEUE_RESPONSE_OK = 200;
 	}
 
 	/* This section holds constants that are defined as constants primarily 

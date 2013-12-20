@@ -44,6 +44,16 @@ public class TimeHelper {
 	}
 
 	/**
+	 * Returns the date object with specified offset in number of hours from now
+	 */
+	public static Date getHoursOffsetToCurrentTime(int offsetHours) {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		cal.setTime(cal.getTime());
+		cal.add(Calendar.HOUR, +offsetHours);
+		return cal.getTime();
+	}
+	
+	/**
 	 * Returns the date object with specified offset in number of days from now
 	 */
 	public static Date getDateOffsetToCurrentTime(int offsetDays) {

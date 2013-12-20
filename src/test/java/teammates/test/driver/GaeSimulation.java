@@ -4,11 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.storage.datastore.Datastore;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
 
+import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -45,6 +47,28 @@ public class GaeSimulation {
 		System.out.println("Setting up GAE simulation");
 		
 		LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
+		localTasks.setQueueXmlPath(Const.SystemParams.QUEUE_XML_PATH);
+		
+		LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
+		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
+		LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
+		helper = new LocalServiceTestHelper(localDatastore, localMail,	localUserServices, localTasks);
+		helper.setUp();
+		
+		Datastore.initialize();
+		
+		sc = new ServletRunner().newClient();
+	}
+	
+	public synchronized void setupWithTaskQueueCallbackClass(
+			Class<? extends LocalTaskQueueCallback> className) {
+		System.out.println("Setting up GAE simulation");
+		
+		LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
+		localTasks.setQueueXmlPath(Const.SystemParams.QUEUE_XML_PATH)
+				  .setCallbackClass(className)
+				  .setDisableAutoTaskExecution(false);
+		
 		LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
 		LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
 		LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
