@@ -311,6 +311,7 @@ public class Const {
 		public static final String INSTRUCTOR_EVAL_PUBLISH = "/page/instructorEvalPublish";
 		public static final String INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
 		public static final String INSTRUCTOR_EVAL_RESULTS_DOWNLOAD = "/page/instructorEvalResultsDownload";
+		public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
 		
 		public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
 		public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
@@ -385,6 +386,7 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
+		public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp"; 
 		
 		public static final String STUDENT_HOME = "/jsp/studentHome.jsp"; 
 		public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
@@ -512,6 +514,9 @@ public class Const {
 		public static final String INSTRUCTOR_STATUS_DELETED = "The Instructor status has been deleted";
 		public static final String INSTRUCTOR_ACCOUNT_DELETED = "The Account has been deleted";
 		public static final String INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";
+		
+		public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course";
+		public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
 		
 		// Messages that are templates only
 		/** Template String. Parameters: Student's name, Evaluation name, Course ID */
