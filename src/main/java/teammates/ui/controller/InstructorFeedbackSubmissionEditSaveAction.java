@@ -2,12 +2,14 @@ package teammates.ui.controller;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -91,16 +93,38 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 	}
 	
 	private FeedbackResponseAttributes extractFeedbackResponseData(int questionIndx, int responseIndx) {
-		
+		//TODO assert parameter values are not null and make this method stateless. See issue 1371
 		FeedbackResponseAttributes response = new FeedbackResponseAttributes();
 
 		response.setId(getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
 		response.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		response.feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
-		response.feedbackQuestionType = FeedbackQuestionType.valueOf(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
 		response.recipientEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
-		response.answer = new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx));
+		
+		response.feedbackQuestionType = FeedbackQuestionType.valueOf(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
+		String answer = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
+		
+		switch(response.feedbackQuestionType) {
+		case TEXT:
+			//For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
+			response.answer = new Text(answer);
+			break;
+		case MCQ:
+			//TODO check whether other is chosen and construct accordingly when implementing other field
+			FeedbackMcqResponseDetails mcqResponseDetails = new FeedbackMcqResponseDetails(answer, false);
+			if (answer != null) {
+				response.setQuestionDetails(mcqResponseDetails);
+			} else {  
+				//question was skipped
+				response.answer = new Text(new String());
+			}
+			break;
+		default:
+			Assumption.fail("Question type not supported");
+			break;
+		}
+		
 		return response;
 	}
 
