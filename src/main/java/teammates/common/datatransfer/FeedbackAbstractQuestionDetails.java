@@ -13,4 +13,17 @@ public abstract class FeedbackAbstractQuestionDetails {
 		this.questionType = questionType;
 		this.questionText = questionText;
 	}
+	
+	public abstract String getQuestionTypeDisplayName();
+	
+	public abstract String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen,
+			int qnIdx, int responseIdx,
+			FeedbackAbstractResponseDetails existingResponseDetails,
+			FeedbackAbstractQuestionDetails questionDetails);
+	
+	public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(boolean sessionIsOpen,
+			int qnIdx, int responseIdx,
+			FeedbackAbstractQuestionDetails questionDetails);
+	
+	public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 }

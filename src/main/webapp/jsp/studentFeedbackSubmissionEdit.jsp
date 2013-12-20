@@ -138,53 +138,18 @@
 									</select>
 								</td>
 								<td class="responseText">
-								<%
-									switch (question.questionType) {
-									case TEXT:
-								%>
-										<textarea rows="4" cols="100%" class="textvalue" 
-											<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\")\""%>
-											name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"><%=StudentFeedbackSubmissionEditPageData.sanitizeForHtml(existingResponse.answer.getValue())%></textarea>
-								<%
-										break;
-									case MCQ:
-										FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
-										FeedbackMcqResponseDetails existingMcqResponseDetails = 
-												(FeedbackMcqResponseDetails) existingResponse.getResponseDetails();
-								%>
-										<table>
-										<%
-											for(int i = 0; i < mcqDetails.nChoices; i++) {
-										%>
-												<tr>
-													<td>
-														<label>
-															<input type="radio" 
-																name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-																<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>
-																value="<%=mcqDetails.mcqChoices.get(i)%>"
-																<%=existingMcqResponseDetails.answer.equals(mcqDetails.mcqChoices.get(i)) ? "checked=\"checked\"" : ""%>> <%=mcqDetails.mcqChoices.get(i)%>
-														</label>
-													</td>
-												</tr>
-										<%
-											}
-										%>
-										</table>
-								<%
-										break;
-									default:
-										Assumption.fail("Question type not supported");
-										break;
-									}
-								%>
+									<%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
+										data.bundle.feedbackSession.isOpened(), 
+										qnIndx, responseIndx, 
+										existingResponse.getResponseDetails(),
+										questionDetails)%>
 									<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
 								</td>
 							</tr>
 					<%
-							responseIndx++;
-						}
-						while (responseIndx < numOfResponseBoxes) {
+						responseIndx++;
+									}
+									while (responseIndx < numOfResponseBoxes) {
 					%>
 							<tr>
 								<td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
@@ -194,48 +159,16 @@
 										<%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>>
 									<%
 										for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) {
-											out.println(opt);
-										}
+																		out.println(opt);
+																	}
 									%>
 									</select>
 								</td>
 								<td class="responseText">
-								<%
-									switch(question.questionType) {
-									case TEXT:
-								%>
-										<textarea rows="4" class="textvalue" 
-											name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-											<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>></textarea>
-								<%
-										break;
-									case MCQ:
-										FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
-								%>
-										<table>
-										<%
-											for(int i = 0; i < mcqDetails.nChoices; i++) {
-										%>
-												<tr>
-													<td>
-														<label>
-															<input type="radio" 
-																name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_TEXT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-																<%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>
-																value="<%=mcqDetails.mcqChoices.get(i)%>"> <%=mcqDetails.mcqChoices.get(i)%>
-														</label>
-													</td>
-												</tr>
-										<%
-											}
-										%>
-										</table>
-								<%
-										break;
-									default:
-										Assumption.fail("Question type not supported");
-									}
-								%>
+								<%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
+										data.bundle.feedbackSession.isOpened(), 
+										qnIndx, responseIndx,
+										questionDetails)%>
 								</td>
 							</tr>
 					<%

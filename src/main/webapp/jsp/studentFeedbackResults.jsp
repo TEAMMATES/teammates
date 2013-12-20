@@ -138,24 +138,8 @@
 									</span>
 								</td>
 							</tr>
-						<%
-							FeedbackAbstractResponseDetails responseDetails = singleResponse.getResponseDetails();
-							String answerText = null;
-							
-							switch(singleResponse.feedbackQuestionType){
-							case TEXT:
-								answerText = singleResponse.answer.getValue();
-								break;
-							case MCQ:
-								answerText = ((FeedbackMcqResponseDetails) responseDetails).answer;
-								break;
-							default:
-								Assumption.fail("Question type not supported");
-								break;
-							}
-						%>	
 							<tr>
-								<td class="multiline"><%=StudentFeedbackResultsPageData.sanitizeForHtml(answerText)%></td>
+								<td class="multiline"><%=StudentFeedbackResultsPageData.sanitizeForHtml(singleResponse.getResponseDetails().getAnswerString())%></td>
 							</tr>
 						<%
 							// Close table if going to be new recipient

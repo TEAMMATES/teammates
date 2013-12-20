@@ -7,6 +7,11 @@ public class FeedbackTextResponseDetails extends
 	
 	public String answer;
 	
+	public FeedbackTextResponseDetails(){
+		super(FeedbackQuestionType.TEXT);
+		this.answer = "";
+	}
+	
 	public FeedbackTextResponseDetails(String answer) {
 		super(FeedbackQuestionType.TEXT);
 		this.answer = answer;

@@ -6,6 +6,8 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
 	
 	public FeedbackMcqResponseDetails() {
 		super(FeedbackQuestionType.MCQ);
+		answer = "";
+		otherFieldContent = "";
 	}
 	
 	/** Creates a new FeedbackMcqResponseDetails object

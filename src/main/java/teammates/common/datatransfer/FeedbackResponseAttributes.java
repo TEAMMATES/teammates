@@ -131,19 +131,12 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public void setQuestionDetails(FeedbackAbstractResponseDetails responseDetails) {
 		Gson gson = teammates.common.util.Utils.getTeammatesGson();
 		
-		switch(responseDetails.questionType){
-		case TEXT:
+		if(responseDetails.questionType == FeedbackQuestionType.TEXT) {
 			// For Text questions, the answer simply contains the response text, not a JSON
 			// This is due to legacy data in the data store before there were multiple question types
-			answer = new Text(((FeedbackTextResponseDetails) responseDetails).answer);
-			break;
-		case MCQ:
+			answer = new Text(responseDetails.getAnswerString());
+		} else {
 			answer = new Text(gson.toJson(responseDetails, getFeedbackResponseDetailsClass()));
-			break;
-		default:
-			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
-			break;
-		
 		}
 	}
 	
@@ -153,9 +146,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public FeedbackAbstractResponseDetails getResponseDetails(){
 		Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
 		
-		// For Text questions, the questionText simply contains the question, not a JSON
-		// This is due to legacy data in the data store before there are multiple question types
 		if(responseDetailsClass == FeedbackTextResponseDetails.class) {
+			// For Text questions, the questionText simply contains the question, not a JSON
+			// This is due to legacy data in the data store before there are multiple question types
 			return new FeedbackTextResponseDetails(answer.getValue());
 		} else {
 			Gson gson = teammates.common.util.Utils.getTeammatesGson();

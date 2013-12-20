@@ -288,25 +288,13 @@
 			<tr>
 				<td class="bold">Question
 					<select class="questionNumber nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>-<%=question.questionNumber%>">
-				<%
-					for(int opt = 1; opt < data.questions.size()+1; opt++){
-						out.println("<option value=" + opt +">" + opt + "</option>");
-					}
-				%>
+					<%
+						for(int opt = 1; opt < data.questions.size()+1; opt++){
+							out.println("<option value=" + opt +">" + opt + "</option>");
+						}
+					%>
 					</select>
-				<%
-					switch(question.questionType){
-					case TEXT:
-						out.print(Const.FeedbackQuestionTypeNames.TEXT);
-						break;
-					case MCQ:
-						out.print(Const.FeedbackQuestionTypeNames.MCQ);
-						break;
-					default:
-						Assumption.fail("Question type not supported");
-						break;
-					}
-				%>
+					<%=questionDetails.getQuestionTypeDisplayName()%>
 				</td>
 				<td></td>
 				<td></td>
@@ -331,47 +319,7 @@
 						disabled="disabled"><%=InstructorFeedbackEditPageData.sanitizeForHtml(questionDetails.questionText)%></textarea>
 				</td>
 			</tr>
-		<%
-			if (question.questionType == FeedbackQuestionType.MCQ) {
-				FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
-		%>
-				<tr>
-					<td colspan="4">
-						<table>
-						<%
-							for(int i = 0; i < mcqDetails.nChoices; i++) {
-						%>
-							<tr id="mcqOptionRow-<%=i%>-<%=question.questionNumber%>">
-								<td><input type="radio" class="disabled_radio" disabled="disabled"></td>
-								<td>
-									<input type="text" disabled="disabled"
-										name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-<%=i%>"
-										id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-<%=i%>-<%=question.questionNumber%>"
-										class="mcqOptionTextBox"
-										value="<%=mcqDetails.mcqChoices.get(i)%>">
-									<a href="#" class="removeOptionLink" 
-										id="mcqRemoveOptionLink" 
-										onclick="removeMcqOption(<%=i%>,<%=question.questionNumber%>)"
-										style="display:none" tabindex="-1"> x</a>
-								</td>
-							</tr>
-						<%
-							}
-						%>	
-							<tr id="mcqAddOptionRow-<%=question.questionNumber%>">
-								<td colspan="2">
-									<a href="#" class="color_blue" id="mcqAddOptionLink"
-										onclick="addMcqOption(<%=question.questionNumber%>)" style="display:none">
-										+add more options
-									</a>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-		<%
-			}
-		%>			
+			<%=questionDetails.getQuestionSpecificEditFormHtml(question.questionNumber)%>		
 			<tr>
 					<td class="bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">Feedback Giver:</td>
 					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled"
@@ -475,15 +423,6 @@
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="<%=question.getId()%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="<%=question.questionNumber%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>" value=<%=question.questionType.toString()%>>
-		<% 
-			if(question.questionType == FeedbackQuestionType.MCQ) {
-		%>
-				<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>"
-					id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>-<%=question.questionNumber%>" 
-					value=<%=((FeedbackMcqQuestionDetails) questionDetails).nChoices%>>
-		<%
-			}
-		%>
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE%>-<%=question.questionNumber%>" value="edit">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO%>" >
@@ -582,6 +521,8 @@
 								</td>
 							</tr>
 						</table>
+						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>" 
+							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
 					</td>
 				</tr>
 				<tr>
@@ -671,8 +612,6 @@
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
 			<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>">
-			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>" 
-				id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
