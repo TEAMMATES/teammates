@@ -70,6 +70,23 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 		
 		InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 		
+		/* Explanation: If the action is supposed to verify parameters, 
+		 * we should check here the correctness of parameter verification.
+		 * e.g.
+		 
+	         ______TS("Invalid parameters");
+	        //both parameters missing. 
+			verifyAssumptionFailure(new String[]{});
+			
+			//null student email, only course ID is set
+			String[] invalidParams = new String[]{
+					Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+			};
+			verifyAssumptionFailure(invalidParams);
+		 
+		 * In this action, there is no parameter verification.
+		 */
+		
 		______TS("Typical case, 2 courses");
 		if (CoursesLogic.inst().isCoursePresent("new-course")){
 			CoursesLogic.inst().deleteCourseCascade("new-course");

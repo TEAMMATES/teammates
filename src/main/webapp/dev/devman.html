@@ -1354,14 +1354,14 @@
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
 				<li>Upload the changes as a patch to code review system. <br>
-					<span class="code">upload.py --rev=default -t Issue "{issue
+					<span class="code">upload.py --rev=default -t "Issue {issue
 						number} : {branch description as given in Issue tracker}"<br>
 						#e.g., upload.py --rev=default -t "Issue 829 : Remove unused
 						constants from Attributes classes"
 				</span><br> 
 				Linux/Unix users need to change the permission of upload.py. <br>
 				<span class="code">chmod +x upload.py<br>
-				./upload.py --rev=default -t Issue "{issue
+				./upload.py --rev=default -t "Issue {issue
 						number} : {branch description as given in Issue tracker}"
 						
 				</span><br>
@@ -1389,7 +1389,7 @@
 			<br><span class="code">-i {issue number from the code review system 
 			(not from our issue tracker)} <br>
 			#example
-			<br>upload.py --rev=default -t "Issue 829 : Remoe unused constants from Attributes classes" 
+			<br>upload.py --rev=default -t "Issue 829 : Remove unused constants from Attributes classes" 
 			<span class="bold">-i 9045043 </span>
 			</span>                   
 		</li>
