@@ -107,6 +107,11 @@
 								onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(data.students.get(i).name)%>')"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DELETE%>')"
 								onmouseout="hideddrivetip()"> Delete</a>
+								
+								<a class="color_black t_student_records<%=i%>"
+								href="<%=data.getStudentRecordsLink(courseDetails.course.id, data.students.get(i))%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>')"
+								onmouseout="hideddrivetip()"> All Records</a>
 							</td>
 						</tr>
 						<%

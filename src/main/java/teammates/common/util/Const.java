@@ -52,7 +52,8 @@ public class Const {
 		public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
 		public static final String COURSE_STUDENT_REMIND = "E-mail the registration key to the student";
 		public static final String COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
-	
+		public static final String COURSE_STUDENT_RECORDS = "View all student's evaluations and feedbacks";
+		
 		public static final String COURSE_REMIND = "Send a reminder to all students yet to join the class";
 		public static final String COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course";
 	
@@ -316,6 +317,7 @@ public class Const {
 		public static final String INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
 		public static final String INSTRUCTOR_EVAL_RESULTS_DOWNLOAD = "/page/instructorEvalResultsDownload";
 		public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
+		public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
 		
 		public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
 		public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
@@ -393,7 +395,8 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
-		public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp"; 
+		public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
+		public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
 		
 		public static final String STUDENT_HOME = "/jsp/studentHome.jsp"; 
 		public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
@@ -524,6 +527,7 @@ public class Const {
 		
 		public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course";
 		public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
+		public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
 		
 		// Messages that are templates only
 		/** Template String. Parameters: Student's name, Evaluation name, Course ID */

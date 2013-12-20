@@ -37,6 +37,13 @@ public class InstructorStudentListPage extends AppPage {
 		return changePageType(InstructorCourseStudentDetailsEditPage.class);
 	}
 	
+	public InstructorStudentRecordsPage clickViewRecordsStudent(String studentName) {
+		int rowId = getStudentRowId(studentName);
+		getViewRecordsLink(rowId).click();
+		waitForPageToLoad();
+		return changePageType(InstructorStudentRecordsPage.class);
+	}
+	
 	public InstructorStudentListPage clickDeleteAndCancel(String studentName) {
 		int rowId = getStudentRowId(studentName);
 		clickAndCancel(getDeleteLink(rowId));
@@ -79,6 +86,10 @@ public class InstructorStudentListPage extends AppPage {
 	
 	private WebElement getEditLink(int rowId) {
 		return browser.driver.findElement(By.className("t_student_edit" + rowId));
+	}
+	
+	private WebElement getViewRecordsLink(int rowId) {
+		return browser.driver.findElement(By.className("t_student_records" + rowId));
 	}
 	
 	private WebElement getDeleteLink(int rowId) {

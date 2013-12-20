@@ -103,6 +103,7 @@
 			<class name="teammates.test.cases.ui.InstructorEvalUnpublishActionTest" />
 			<class name="teammates.test.cases.ui.InstructorHomePageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorStudentListPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorStudentRecordsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentCourseDetailsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentCourseJoinActionTest" />
 			<class name="teammates.test.cases.ui.StudentEvalResultsPageActionTest" />
@@ -142,6 +143,7 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorStudentListPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />

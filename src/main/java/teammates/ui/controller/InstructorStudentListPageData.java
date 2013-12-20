@@ -42,8 +42,8 @@ public class InstructorStudentListPageData extends PageData {
 		return link;
 	}
 	
-	public String getCourseStudentEvaluationLink(String courseId, StudentAttributes student){
-		String link = Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE;
+	public String getStudentRecordsLink(String courseId, StudentAttributes student){
+		String link = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
 		link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
 		link = addUserIdToUrl(link);
