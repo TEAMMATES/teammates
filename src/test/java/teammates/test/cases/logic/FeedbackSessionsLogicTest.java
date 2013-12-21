@@ -563,7 +563,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		StudentAttributes student = 
 				responseBundle.students.get("student1InCourse1");		
 		FeedbackSessionResultsBundle results =
-				fsLogic.getFeedbackSessionResultsForUser(session.feedbackSessionName, 
+				fsLogic.getFeedbackSessionResultsForStudent(session.feedbackSessionName, 
 						session.courseId, student.email);
 	
 		// We just check for correct session once
@@ -613,7 +613,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		/*** Test result bundle for instructor1 ***/
 		InstructorAttributes instructor =
 				responseBundle.instructors.get("instructor1OfCourse1");		
-		results = fsLogic.getFeedbackSessionResultsForUser(
+		results = fsLogic.getFeedbackSessionResultsForInstructor(
 				session.feedbackSessionName, 
 				session.courseId, instructor.email);
 		
@@ -665,7 +665,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		
 		/*** Test result bundle for student1 ***/
 		student =  responseBundle.students.get("student1InCourse1");		
-		results = fsLogic.getFeedbackSessionResultsForUser(session.feedbackSessionName, 
+		results = fsLogic.getFeedbackSessionResultsForStudent(session.feedbackSessionName, 
 						session.courseId, student.email);
 		
 		assertEquals(results.questions.size(),0);
@@ -677,7 +677,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		
 		instructor =
 				responseBundle.instructors.get("instructor1OfCourse1");		
-		results = fsLogic.getFeedbackSessionResultsForUser(
+		results = fsLogic.getFeedbackSessionResultsForInstructor(
 				session.feedbackSessionName, 
 				session.courseId, instructor.email);
 		
@@ -708,13 +708,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		______TS("failure: no session");
 				
 		try {
-			fsLogic.getFeedbackSessionResultsForUser("invalid session", 
+			fsLogic.getFeedbackSessionResultsForInstructor("invalid session", 
 				session.courseId, instructor.email);
 			signalFailureToDetectException("Did not detect that session does not exist.");
 		} catch (EntityDoesNotExistException e) {
 			assertEquals(e.getMessage(), "Trying to view non-existent feedback session.");
 		}
+		//TODO: check for cases where a person is both a student and an instructor
 	}
+	
 	
 	@Test
 	public void testGetFeedbackSessionResultsSummaryAsCsv() throws Exception {

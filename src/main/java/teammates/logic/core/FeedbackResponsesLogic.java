@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -104,42 +106,42 @@ public class FeedbackResponsesLogic {
 	}
 
 	public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestion(
-			String feedbackQuestionId, String userEmail) {
+			FeedbackQuestionAttributes question, String userEmail, UserType.Role role) {
 
 		List<FeedbackResponseAttributes> viewableResponses =
 				new ArrayList<FeedbackResponseAttributes>();
 
-		FeedbackQuestionAttributes question = 
-				fqLogic.getFeedbackQuestion(feedbackQuestionId);
-		
 		// Add responses that user is a receiver of when question is visible to receiver.
 		if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
-			addNewResponses (viewableResponses,
-					frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId,	userEmail));
+			addNewResponses (
+					viewableResponses,
+					frDb.getFeedbackResponsesForReceiverForQuestion(question.getId(),	userEmail));
 		}
 
-		// Add responses for if user is a student
-		if (studentsLogic.isStudentInCourse(question.courseId, userEmail)) {
-			addNewResponses(viewableResponses,
-					getViewableFeedbackResponsesForStudentForQuestion(question, userEmail));
-			
-		}
-
-		// Add all responses if user is instructor and question is visible to instructors.
-		if (instructorsLogic.getInstructorForEmail(question.courseId, userEmail) != null &&
-				question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
-			addNewResponses(viewableResponses,
-					getFeedbackResponsesForQuestion(feedbackQuestionId));
+		switch (role) {
+		case STUDENT:
+			addNewResponses(
+					viewableResponses,
+					//many queries
+					getViewableFeedbackResponsesForStudentForQuestion(question,	userEmail));
+			break;
+		case INSTRUCTOR:
+			if (question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
+				addNewResponses(viewableResponses,
+						getFeedbackResponsesForQuestion(question.getId()));
+			}
+			break;
+		default:
+			Assumption.fail("The role of the requesting use has to be Student or Instructor");
 		}
 		
 		return viewableResponses;
 	}
 	
-	public boolean isNameVisibleTo(FeedbackResponseAttributes response,
-			String userEmail, boolean isGiverName){
-		
-		FeedbackQuestionAttributes question = 
-				fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+	public boolean isNameVisibleTo(
+			FeedbackQuestionAttributes question, 
+			FeedbackResponseAttributes response,
+			String userEmail, boolean isGiverName, CourseRoster roster){
 		
 		if(question == null) {
 			return false;
@@ -151,7 +153,7 @@ public class FeedbackResponsesLogic {
 		for (FeedbackParticipantType type : showNameTo) {
 			switch (type) {
 			case INSTRUCTORS:
-				if (instructorsLogic.getInstructorForEmail(response.courseId, userEmail) != null) {
+				if (roster.getInstructorForEmail(userEmail) != null) {
 					return true;
 				} else {
 					break;
@@ -159,7 +161,7 @@ public class FeedbackResponsesLogic {
 			case OWN_TEAM_MEMBERS:
 			case OWN_TEAM_MEMBERS_INCLUDING_SELF:
 				// Refers to Giver's Team Members
-				if (studentsLogic.isStudentsInSameTeam(response.courseId, response.giverEmail, userEmail)) {
+				if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
 					return true;
 				} else {
 					break;
@@ -167,7 +169,7 @@ public class FeedbackResponsesLogic {
 			case RECEIVER:
 				// Response to team
 				if (question.recipientType == FeedbackParticipantType.TEAMS) {
-					if (studentsLogic.isStudentInTeam(response.courseId, response.recipientEmail, userEmail)) {
+					if (roster.isStudentInTeam(userEmail, /*this is a team name*/response.recipientEmail)) {
 						return true;
 					}
 				// Response to individual
@@ -179,17 +181,17 @@ public class FeedbackResponsesLogic {
 			case RECEIVER_TEAM_MEMBERS:
 				// Response to team; recipient = teamName
 				if (question.recipientType == FeedbackParticipantType.TEAMS) {
-					if (studentsLogic.isStudentInTeam(response.courseId, response.recipientEmail, userEmail)) {
+					if (roster.isStudentInTeam(userEmail, /*this is a team name*/response.recipientEmail)) {
 						return true;
 					}
 				// Response to individual
-				} else if (studentsLogic.isStudentsInSameTeam(response.courseId, response.recipientEmail, userEmail)) {
+				} else if (roster.isStudentsInSameTeam(response.recipientEmail, userEmail)) {
 					return true;
 				} else {
 					break;
 				}
 			case STUDENTS:
-				if (studentsLogic.isStudentInCourse(response.courseId, userEmail)) {
+				if (roster.isStudentInCourse(userEmail)) {
 					return true;
 				} else {
 					break;

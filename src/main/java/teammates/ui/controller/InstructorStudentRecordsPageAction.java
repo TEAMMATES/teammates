@@ -59,8 +59,9 @@ public class InstructorStudentRecordsPageAction extends Action {
 			
 			data.studentFeedbackResults = new ArrayList<FeedbackSessionResultsBundle>();
 			for(FeedbackSessionAttributes feedback: data.feedbacks){
+				//TODO: This method call is too costly. It generates the result for the all students.
 				data.studentFeedbackResults.add(
-						logic.getFeedbackSessionResultsForUser(feedback.feedbackSessionName, courseId, account.email));
+						logic.getFeedbackSessionResultsForInstructor(feedback.feedbackSessionName, courseId, account.email));
 			}
 			
 			if(data.evaluations.size() == 0 && data.feedbacks.size() == 0){
