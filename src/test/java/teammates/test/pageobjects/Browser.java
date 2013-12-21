@@ -63,6 +63,11 @@ public class Browser {
 
 		} else if (TestProperties.inst().BROWSER.equals("firefox")) {
 			System.out.println("Using Firefox.");
+			String firefoxPath = TestProperties.inst().FIREFOX_PATH;
+			if(!firefoxPath.isEmpty()){
+				System.out.println("Custom path: " + firefoxPath);
+				System.setProperty("webdriver.firefox.bin",firefoxPath);
+			}
 			return new FirefoxDriver();
 
 		} else if (TestProperties.inst().BROWSER.equals("chrome")) {

@@ -4,7 +4,16 @@
 <queue>  
   <name>default</name>  
   <rate>4/s</rate>  
-</queue> 
+</queue>
+<queue>  
+  <name>email-queue</name>  
+  <!-- Configuration allows for reminders for 
+       1 evaluation/feedback session to be queued 
+       for execution every second when the bucket is empty
+  -->
+  <rate>1/s</rate>
+  <bucket-size>1</bucket-size>  
+</queue>  
 <queue>  
   <name>search-document</name>  
   <rate>4/s</rate>  

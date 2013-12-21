@@ -1,6 +1,5 @@
 package teammates.logic.core;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,7 +11,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -29,7 +27,6 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
@@ -318,65 +315,23 @@ public class EvaluationsLogic {
 		evaluationsDb.updateEvaluation(newAttributes);
 	}
 	
-	public ArrayList<MimeMessage> activateReadyEvaluations() {
-		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<EvaluationAttributes> evaluations = getReadyEvaluations(); 
+	public void activateReadyEvaluations() {
+		List<EvaluationAttributes> evaluations = getReadyEvaluations();
 		
 		for (EvaluationAttributes ed: evaluations) {
-			//TODO: Try to extract the below to a private method.
-			try {
-				CourseAttributes course = coursesLogic.getCourse(ed.courseId);
-				
-				List<StudentAttributes> students = studentsLogic.getStudentsForCourse(ed.courseId);
-				List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(ed.courseId);
-				
-				Emails emails = new Emails();
-				List<MimeMessage> messages = emails.generateEvaluationOpeningEmails(course, ed, students, instructors);
-				emails.sendEmails(messages);
-				messagesSent.addAll(messages);
-				
-				//mark evaluation as activated
-				setEvaluationActivationStatus(ed.courseId, ed.name, true);
-			} catch (Exception e) {
-				log.severe("Unexpected error "+ TeammatesException.toStringWithStackTrace(e));
-			} 
+			Emails emails = new Emails();
+			emails.addEvaluationReminderToEmailsQueue(ed, Emails.EmailType.EVAL_OPENING);
 		}
-		return messagesSent;
 	}
 
-	public ArrayList<MimeMessage> sendRemindersForClosingEvaluations() 
-			throws MessagingException, IOException {
-		ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
-		
+	public void scheduleRemindersForClosingEvaluations() {
 		List<EvaluationAttributes> evaluationDataList = 
 				getEvaluationsClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
-	
+		
 		for (EvaluationAttributes ed : evaluationDataList) {
-			//TODO: try to extract the below to a private method
-			try {
-	
-				List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.courseId);
-				List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(ed.courseId);
-				List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
-	
-				for (StudentAttributes sd : studentDataList) {
-					if (!isEvaluationCompletedByStudent(ed, sd.email)) {
-						studentToRemindList.add(sd);
-					}
-				}
-	
-				CourseAttributes c = coursesLogic.getCourse(ed.courseId);
-	
-				Emails emailMgr = new Emails();
-				List<MimeMessage> emails = emailMgr.generateEvaluationClosingEmails(c, ed, studentToRemindList, instructorList);
-				emailMgr.sendEmails(emails);
-				emailsSent.addAll(emails);
-				
-			} catch (Exception e) {
-				log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
-			}
+				Emails emails = new Emails();
+				emails.addEvaluationReminderToEmailsQueue(ed, Emails.EmailType.EVAL_CLOSING);
 		}
-		return emailsSent;
 	}
 	
 	public void updateStudentEmailForSubmissionsInCourse(String course,
@@ -426,7 +381,6 @@ public class EvaluationsLogic {
 
 	public List<MimeMessage> sendReminderForEvaluation(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
-		
 		if (!isEvaluationExists(courseId, evaluationName)) {
 			throw new EntityDoesNotExistException(
 					"Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
@@ -510,6 +464,26 @@ public class EvaluationsLogic {
 		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
 		SubmissionsLogic.inst().deleteAllSubmissionsForCourse(courseId);
 	}
+	
+	public void setEvaluationActivationStatus(String courseId, String evaluationName, boolean isActivated) throws EntityDoesNotExistException {
+		EvaluationAttributes e = evaluationsDb.getEvaluation(courseId, evaluationName);
+	
+		if (e == null) {
+			throw new EntityDoesNotExistException("Trying to update non-existent Evaluation: "
+					+ courseId + " | " + evaluationName );
+		}
+		
+		e.activated = isActivated;
+		
+		try {
+			evaluationsDb.updateEvaluation(e);
+		} catch (InvalidParametersException e1) {
+			Assumption.fail("Invalid parameters detected while setting the " +
+					"published status of evaluation :"+e.toString());
+		}
+		
+	}
+
 	
 	private void addSubmissionsForIncomingMember(
 			String courseId, String evaluationName, String studentEmail, String newTeam) throws InvalidParametersException {
@@ -609,25 +583,6 @@ public class EvaluationsLogic {
 			Assumption.fail("Invalid parameters detected while setting the " +
 					"published status of evaluation :"+e.toString());
 		}
-	}
-
-	private void setEvaluationActivationStatus(String courseId, String evaluationName, boolean isActivated) throws EntityDoesNotExistException {
-		EvaluationAttributes e = evaluationsDb.getEvaluation(courseId, evaluationName);
-	
-		if (e == null) {
-			throw new EntityDoesNotExistException("Trying to update non-existent Evaluation: "
-					+ courseId + " | " + evaluationName );
-		}
-		
-		e.activated = isActivated;
-		
-		try {
-			evaluationsDb.updateEvaluation(e);
-		} catch (InvalidParametersException e1) {
-			Assumption.fail("Invalid parameters detected while setting the " +
-					"published status of evaluation :"+e.toString());
-		}
-		
 	}
 
 	private List<MimeMessage> sendEvaluationPublishedEmails(String courseId,

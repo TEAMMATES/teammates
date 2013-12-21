@@ -39,9 +39,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 					feedbackQuestion.courseId + "]</span> created.<br>" +
 					"<span class=\"bold\">Text:</span> " + feedbackQuestion.questionText;
 		} catch (EntityAlreadyExistsException e) {
-			statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EXISTS);
-			statusToAdmin = e.getMessage();
-			isError = true;
+			Assumption.fail("Creating a duplicate question should not be possible as GAE generates a new questionId every time\n");
 		} catch (InvalidParametersException e) {
 			statusToUser.add(e.getMessage());
 			statusToAdmin = e.getMessage();
@@ -62,33 +60,37 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		newQuestion.courseId = courseId;
 		newQuestion.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 		
-		String param;
-		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE)) != null) {
-			newQuestion.giverType = FeedbackParticipantType.valueOf(param);
-		}
-		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE)) != null){
-			newQuestion.recipientType = FeedbackParticipantType.valueOf(param);
-		}
-		if((param = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER)) != null){
-			newQuestion.questionNumber = Integer.parseInt(param);
-		}		
-		newQuestion.questionText = 
-				new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT));
-		newQuestion.questionType = 
-				FeedbackQuestionType.TEXT;
+		String feedbackQuestionGiverType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
+		Assumption.assertNotNull("Null giver type", feedbackQuestionGiverType);
+		newQuestion.giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);		
+		
+		String feedbackQuestionRecipientType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
+		Assumption.assertNotNull("Null recipient type", feedbackQuestionRecipientType);
+		newQuestion.recipientType = FeedbackParticipantType.valueOf(feedbackQuestionRecipientType);	
+		
+		String feedbackQuestionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+		Assumption.assertNotNull("Null question number", feedbackQuestionNumber);
+		newQuestion.questionNumber = Integer.parseInt(feedbackQuestionNumber);
+		
+		String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
+		Assumption.assertNotNull("Null question text", questionText);
+		newQuestion.questionText = new Text(questionText);
+		
+		newQuestion.questionType = FeedbackQuestionType.TEXT;
 		
 		newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
-		//TODO: 'Arrowhead code'. Reduce nesting.
-		String numberOfEntitiyTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
-		if (numberOfEntitiyTypes != null && numberOfEntitiyTypes.equals("custom")) {
-			String numberOfEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+
+		String numberOfEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+		Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
+		if (numberOfEntityTypes.equals("custom")) {
+			Assumption.assertTrue("Custom number is only for student or team recipient", 
+					newQuestion.recipientType == FeedbackParticipantType.STUDENTS
+					|| newQuestion.recipientType == FeedbackParticipantType.TEAMS);
 			
-			if (numberOfEntities != null) {
-				if (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
-						|| newQuestion.recipientType == FeedbackParticipantType.TEAMS) {
-					newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
-				}
-			}
+			String numberOfEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+			Assumption.assertNotNull("Null number of entities for custom entity number", numberOfEntities);
+
+			newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
 		}
 		
 		newQuestion.showResponsesTo = getParticipantListFromParams(
@@ -101,20 +103,21 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		return newQuestion;
 	}
 
-	private List<FeedbackParticipantType> getParticipantListFromParams(String params) {
+	private List<FeedbackParticipantType> getParticipantListFromParams(String participantListParam) {
 		
-		List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
+		List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
 		
-		if(params == null || params.isEmpty())
-			return list;
-		
-		String[] splitString = params.split(",");
-		
-		for (String str : splitString) {
-			list.add(FeedbackParticipantType.valueOf(str));
+		if(participantListParam == null || participantListParam.isEmpty()) {
+			return participantList;
 		}
 		
-		return list;
+		String[] splitString = participantListParam.split(",");
+		
+		for (String str : splitString) {
+			participantList.add(FeedbackParticipantType.valueOf(str));
+		}
+		
+		return participantList;
 	}
 
 }

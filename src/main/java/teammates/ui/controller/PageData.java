@@ -516,6 +516,12 @@ public class PageData {
 		link = addUserIdToUrl(link);
 		return link;
 	}
+	
+	public String getInstructorStudentListLink(){
+		String link = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
+		link = addUserIdToUrl(link);
+		return link;
+	}
 
 	
 	@SuppressWarnings("unused")

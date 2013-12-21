@@ -908,7 +908,10 @@
 		Chrome or IE, but FF is the most convenient of the three), downgrade to
 			Firefox 12.0 from <a
 			href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a>
-			{The web driver for later Firefox versions is terribly slow.}
+			{The web driver for later Firefox versions is terribly slow.} or
+			install multiple version of Firefox. To do this, grab Firefox 12.0 from the above link,
+			and choose a custom setup during install, in which you will be able to
+			specify a different path for this version (e.g. C:\Program Files\Mozilla Firefox 12)
 		</li>
 	</ul>
 
@@ -1060,6 +1063,10 @@
 		<li>If you are planning to test changes to JavaScript code,
 			disable javascript caching for Firefox - Enter "about:config" into
 			the Firefox address bar and set: network.http.use-cache = false</li>
+		<li>If you have installed a separate Firefox version, you can choose which
+			Firefox binary to use. You can specify the custom path in 
+			<span class="code">test.firefox.path</span> value inside the 
+			<span class="code">test.properties</span> file</li>
 	</ul>
 	<span class="bold">Chrome</span>
 	<ul>
@@ -1217,13 +1224,16 @@
 		<br>
 		<li>ERROR: Test failure message encountered when running full
 			test suite: “Selenium cannot find Firefox binary in PATH”.<br>
-			SOLUTION: Path to Firefox executable on local machine is incorrect.
+			SOLUTION 1: Path to Firefox executable on local machine is incorrect.
 			Specify the correct folder in system PATH variable.<br> -> Open
 			Windows Explorer<br> -> Right-click on Computer<br> ->
 			Advanced System Settings<br> -> “Advanced” tab<br> ->
 			Environment Variables…<br> -> Select “PATH” from the list<br>
 			-> Add directory of “Mozilla Firedox” folder to “Variable value”
-			field
+			field<br>
+			SOLUTION 2: Incorrect custom path in <span class="code">test.firefox.path</span>.
+			Make sure that the path is set correctly following the example from
+			<span class="code">test.template.properties</span>
 		</li>
 		<br>
 		<li>ERROR: A handful of failed test cases (<10)<br>
@@ -1344,14 +1354,14 @@
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
 				<li>Upload the changes as a patch to code review system. <br>
-					<span class="code">upload.py --rev=default -t Issue "{issue
+					<span class="code">upload.py --rev=default -t "Issue {issue
 						number} : {branch description as given in Issue tracker}"<br>
 						#e.g., upload.py --rev=default -t "Issue 829 : Remove unused
 						constants from Attributes classes"
 				</span><br> 
 				Linux/Unix users need to change the permission of upload.py. <br>
 				<span class="code">chmod +x upload.py<br>
-				./upload.py --rev=default -t Issue "{issue
+				./upload.py --rev=default -t "Issue {issue
 						number} : {branch description as given in Issue tracker}"
 						
 				</span><br>
@@ -1379,7 +1389,7 @@
 			<br><span class="code">-i {issue number from the code review system 
 			(not from our issue tracker)} <br>
 			#example
-			<br>upload.py --rev=default -t "Issue 829 : Remoe unused constants from Attributes classes" 
+			<br>upload.py --rev=default -t "Issue 829 : Remove unused constants from Attributes classes" 
 			<span class="bold">-i 9045043 </span>
 			</span>                   
 		</li>

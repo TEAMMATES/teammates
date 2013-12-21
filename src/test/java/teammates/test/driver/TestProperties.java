@@ -38,9 +38,9 @@ public class TestProperties {
 	public String BACKDOOR_KEY;
 
 	public String BROWSER;
+	public String FIREFOX_PATH;
 	public String SELENIUMRC_HOST;
 	public int SELENIUMRC_PORT;
-
 	
 	private static TestProperties instance;
 	private Properties prop;
@@ -86,6 +86,7 @@ public class TestProperties {
 			BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 			
 			BROWSER = prop.getProperty("test.selenium.browser");
+			FIREFOX_PATH = prop.getProperty("test.firefox.path");
 			SELENIUMRC_HOST = prop.getProperty("test.selenium.host");
 			SELENIUMRC_PORT = Integer.parseInt(prop.getProperty("test.selenium.port"));
 

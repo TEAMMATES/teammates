@@ -1,0 +1,112 @@
+{
+  "accounts": {
+    "instructorWithoutCourses": {
+		"googleId": "instructorWithoutCourses",
+		"name": "Instructor Without Courses",
+		"isInstructor": true,
+		"email": "iwc@yahoo.com",
+		"institute": "NTU"
+	},
+	"instructorWith2Courses": {
+		"googleId": "instructorWith2Courses",
+		"name": "Instructor With Two Courses",
+		"isInstructor": true,
+		"email": "iwithtwoc@yahoo.com",
+		"institute": "NUS"
+	},
+	"instructorOfCourse1": {
+		"googleId": "instructorOfCourse1",
+		"name": "Instructor of Course 1",
+		"isInstructor": true,
+		"email": "instr@course1.com",
+		"institute": "NTU"
+	}
+  },
+
+  "courses": {
+    "course1": {
+      "id": "course1",
+      "name": "Name of Course 1"
+    },
+    "course2": {
+      "id": "course2",
+      "name": "Name of Course 2"
+    },
+    "course3": {
+      "id": "course3",
+      "name": "Name of Course 3"
+    }
+  },
+
+  "instructors": {
+    "instructorOfCourse1": {
+      "googleId": "instructorOfCourse1",
+      "courseId": "course1",
+      "name": "Instructor1 Course1",
+      "email": "instr@course1.com"
+    },
+    "instructorOfCourse2": {
+      "googleId": "instructorWith2Courses",
+      "courseId": "course2",
+      "name": "Instructor1 Course2",
+      "email": "iwithtwoc@yahoo.com"
+    },
+    "instructorOfCourse3": {
+      "googleId": "instructorWith2Courses",
+      "courseId": "course3",
+      "name": "Instructor1 Course3",
+      "email": "iwithtwoc@yahoo.com"
+    }
+  },
+  
+  "students": {
+    "Student1Course2": {
+      "googleId": "CCSDetailsUiT.alice.tmms",
+      "email": "CCSDetailsUiT.alice.tmms@gmail.com",
+      "course": "course2",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1"
+    },
+    "Student2Course2": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.com",
+      "course": "course2",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 2"
+    },
+    "Student1Course3": {
+      "googleId": "CCSDetailsUiT.alice.tmms",
+      "email": "CCSDetailsUiT.alice.tmms@gmail.com",
+      "course": "course3",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1"
+    },
+    "Student2Course3": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.com",
+      "course": "course3",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1"
+    },
+    "Student3Course3": {
+      "googleId": "CCSDetailsUiT.charlie.tmms",
+      "email": "CCSDetailsUiT.charlie.tmms@gmail.com",
+      "course": "course3",
+      "name": "Charlie D",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 2"
+    },
+    "Student4Course3": {
+      "googleId": "",
+      "email": "denny.c.tmms@gmail.com",
+      "course": "course3",
+      "name": "Denny Charles",
+      "comments": "This student's name is Denny Charles",
+      "team": "Team 2"
+    }
+  }
+}

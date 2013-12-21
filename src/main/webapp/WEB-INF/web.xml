@@ -61,6 +61,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</welcome-file-list>
 	
 	<servlet>
+		<servlet-name>EmailWorkerServlet</servlet-name>
+		<servlet-class>teammates.logic.automated.EmailWorkerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EmailWorkerServlet</servlet-name>
+		<url-pattern>/emailWorker</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>EvaluationOpeningReminders</servlet-name>
 		<servlet-class>teammates.logic.automated.EvaluationOpeningRemindersServlet</servlet-class>
 	</servlet>
@@ -144,6 +153,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <url-pattern>/feedbackSessionOpeningReminders</url-pattern>
             <url-pattern>/feedbackSessionClosingReminders</url-pattern>
             <url-pattern>/feedbackSessionPublishedReminders</url-pattern>
+            <url-pattern>/emailWorker</url-pattern>
         </web-resource-collection>
          <web-resource-collection>
             <web-resource-name>TaskQueue</web-resource-name>

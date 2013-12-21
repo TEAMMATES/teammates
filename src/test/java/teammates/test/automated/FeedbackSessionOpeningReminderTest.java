@@ -1,0 +1,160 @@
+package teammates.test.automated;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.mail.internet.MimeMessage;
+
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
+
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.TimeHelper;
+import teammates.common.util.Const.ParamsNames;
+import teammates.logic.automated.EmailAction;
+import teammates.logic.automated.FeedbackSessionOpeningMailAction;
+import teammates.logic.core.Emails;
+import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.Emails.EmailType;
+import teammates.test.cases.BaseComponentUsingEmailQueueTestCase;
+
+public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingEmailQueueTestCase {
+
+	private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+	
+	@SuppressWarnings("serial")
+	public static class FeedbackSessionOpeningCallback implements LocalTaskQueueCallback {
+		private static int taskCount;
+		
+		@Override
+		public int execute(URLFetchRequest request) {
+			
+			HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
+			
+			assertTrue(paramMap.containsKey(ParamsNames.EMAIL_TYPE));
+			EmailType typeOfMail = EmailType.valueOf((String) paramMap.get(ParamsNames.EMAIL_TYPE));
+			assertEquals(EmailType.FEEDBACK_OPENING, typeOfMail);
+			
+			assertTrue(paramMap.containsKey(ParamsNames.EMAIL_FEEDBACK));
+			String fsName = (String) paramMap.get(ParamsNames.EMAIL_FEEDBACK); 
+			assertTrue(fsName.equals("First feedback session"));
+			
+			assertTrue(paramMap.containsKey(ParamsNames.EMAIL_COURSE));
+			String courseId = (String) paramMap.get(ParamsNames.EMAIL_COURSE);
+			assertEquals("idOfTypicalCourse1", courseId);
+			
+			FeedbackSessionOpeningCallback.taskCount++;
+			return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
+		}
+
+		@Override
+		public void initialize(Map<String, String> arg0) {
+			taskCount = 0;
+		}
+		
+		public static void resetTaskCount() {
+			taskCount = 0;
+		}
+	}
+	
+	@BeforeClass
+	public static void classSetUp() throws Exception {
+		printTestClassHeader();
+		gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionOpeningCallback.class);
+		gaeSimulation.resetDatastore();
+	}
+	
+	@Test
+	public void testAll() throws Exception {
+		testAdditionOfTaskToTaskQueue();
+		testFeedbackSessionOpeningMailAction();
+	}
+	
+	@AfterClass
+	public static void classTearDown() throws Exception {
+		printTestClassFooter();
+	}
+	
+	private void testAdditionOfTaskToTaskQueue() throws Exception {
+		DataBundle dataBundle = getTypicalDataBundle();
+		restoreTypicalDataInDatastore();
+		
+		______TS("3 sessions opened and emails sent, 1 awaiting");
+		fsLogic.scheduleFeedbackSessionOpeningEmails();
+		waitForTaskQueueExecution(0);
+		assertEquals(0, FeedbackSessionOpeningCallback.taskCount);
+		
+		______TS("3 sessions opened and emails sent, 1 session opened without emails sent");
+		// Modify session to set emails as unsent but still open
+		// by closing and opening the session.
+		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
+				.get("session1InCourse1");
+		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
+		session1.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
+		fsLogic.updateFeedbackSession(session1);
+		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		fsLogic.updateFeedbackSession(session1);
+		
+		fsLogic.scheduleFeedbackSessionOpeningEmails();
+		waitForTaskQueueExecution(1);
+		assertEquals(1, FeedbackSessionOpeningCallback.taskCount);
+	}
+
+	private void testFeedbackSessionOpeningMailAction() throws Exception{
+		DataBundle dataBundle = getTypicalDataBundle();
+		restoreTypicalDataInDatastore();
+		
+		______TS("MimeMessage Test : 3 sessions opened and emails sent, 1 session opened without emails sent");
+		// Modify session to set emails as unsent but still open
+		// by closing and opening the session.
+		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
+				.get("session1InCourse1");
+		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
+		session1.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
+		fsLogic.updateFeedbackSession(session1);
+		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		fsLogic.updateFeedbackSession(session1);
+		
+		HashMap<String, String> paramMap = createParamMapForAction(session1);
+		EmailAction fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
+		int course1StudentCount = 5; 
+		int course1InstructorCount = 3;
+		
+		List<MimeMessage> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
+		assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
+
+		for (MimeMessage m : preparedEmails) {
+			String subject = m.getSubject();
+			assertTrue(subject.contains(session1.feedbackSessionName));
+			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+		}
+		
+		______TS("testing whether no more mails are sent");
+		FeedbackSessionOpeningCallback.resetTaskCount();
+		fsLogic.scheduleFeedbackSessionOpeningEmails();
+		waitForTaskQueueExecution(0);
+		assertEquals(0, FeedbackSessionOpeningCallback.taskCount);	
+	}
+	
+	private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
+		//Prepare parameter map to be used with FeedbackSessionOpeningMailAction
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		
+		paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_OPENING.toString());
+		paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.feedbackSessionName);
+		paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
+		
+		return paramMap;
+	}
+}

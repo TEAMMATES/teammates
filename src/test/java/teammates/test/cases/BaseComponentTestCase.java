@@ -23,5 +23,4 @@ public class BaseComponentTestCase extends BaseTestCase {
 	public void testTearDown() throws Exception {
 		gaeSimulation.tearDown();
 	}
-	
 }

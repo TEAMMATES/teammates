@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -26,7 +23,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NotImplementedException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
@@ -38,9 +34,10 @@ import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackSessionsLogic {
 
-	private static final Logger log = Utils.getLogger();
-
 	private static FeedbackSessionsLogic instance = null;
+	@SuppressWarnings("unused")
+	private static Logger log = Utils.getLogger();
+	//Used by the FeedbackSessionsLogicTest for logging
 
 	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 	private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -481,95 +478,48 @@ public class FeedbackSessionsLogic {
 		updateFeedbackSession(sessionToUnpublish);
 	}
 	
-	public ArrayList<MimeMessage> sendFeedbackSessionOpeningEmails() {
-		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
+	public void scheduleFeedbackSessionOpeningEmails() {
 		List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 		
 		for(FeedbackSessionAttributes session : sessions){			
-			try {
-				CourseAttributes course = coursesLogic
-						.getCourse(session.courseId);
-				List<InstructorAttributes> instructors = instructorsLogic
-						.getInstructorsForCourse(session.courseId);
-				List<StudentAttributes> students;
-				
-				if (isFeedbackSessionViewableToStudents(session)) {
-					students = studentsLogic.getStudentsForCourse(session.courseId);
-				} else {
-					students = new ArrayList<StudentAttributes>();
-				}
-
-				Emails emails = new Emails();
-				List<MimeMessage> messages = emails
-						.generateFeedbackSessionOpeningEmails(course, session,
-								students, instructors);
-				emails.sendEmails(messages);
-				messagesSent.addAll(messages);
-
-				// mark session as "open email sent"
-				session.sentOpenEmail = true;
-				updateFeedbackSession(session);
-			} catch (Exception e) {
-				log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
-			}
+			Emails emails = new Emails();
+			emails.addFeedbackSessionReminderToEmailsQueue(session, Emails.EmailType.FEEDBACK_OPENING);
 		}
-		return messagesSent;
 	}
 	
-	public ArrayList<MimeMessage> sendFeedbackSessionClosingEmails() {
+	public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
+		ArrayList<FeedbackSessionAttributes> requiredSessions = new 
+				ArrayList<FeedbackSessionAttributes>();
 		
-		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		List<FeedbackSessionAttributes> sessions = fsDb.getNonPrivateFeedbackSessions();
+		List<FeedbackSessionAttributes> nonPrivateSessions = fsDb.getNonPrivateFeedbackSessions();
 		
-		for (FeedbackSessionAttributes session : sessions) {
+		for(FeedbackSessionAttributes session : nonPrivateSessions) {
 			if (session.isClosingWithinTimeLimit(
 					SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
 				continue;
 			}
-			try {
-				CourseAttributes course = coursesLogic
-						.getCourse(session.courseId);
-				List<InstructorAttributes> instructors = instructorsLogic
-						.getInstructorsForCourse(session.courseId);
-				List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-
-				if (isFeedbackSessionViewableToStudents(session) == true) {
-					List<StudentAttributes> allStudents = studentsLogic.
-							getStudentsForCourse(session.courseId);
-
-					for (StudentAttributes student : allStudents) {
-						if (!isFeedbackSessionFullyCompletedByStudent(
-								session.feedbackSessionName, session.courseId,
-								student.email)) {
-							students.add(student);
-						}
-					}
-				}
-
-				Emails emails = new Emails();
-				List<MimeMessage> messages = emails
-						.generateFeedbackSessionClosingEmails(course, session,
-								students, instructors);
-				emails.sendEmails(messages);
-				messagesSent.addAll(messages);
-
-			} catch (Exception e) {
-				log.severe("Unexpected error "
-						+ TeammatesException.toStringWithStackTrace(e));
-			}
-
+			requiredSessions.add(session);
 		}
-		return messagesSent;
+		
+		return requiredSessions;
+	}
+	
+	public void scheduleFeedbackSessionClosingEmails() {
+		
+		List<FeedbackSessionAttributes> sessions = getFeedbackSessionsClosingWithinTimeLimit();
+		
+		for (FeedbackSessionAttributes session : sessions) {
+			Emails emails = new Emails();
+			emails.addFeedbackSessionReminderToEmailsQueue(session, Emails.EmailType.FEEDBACK_CLOSING);
+		}
 	}
 
-	public ArrayList<MimeMessage> sendFeedbackSessionPublishedEmails() {
-		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();		
+	public void scheduleFeedbackSessionPublishedEmails() {		
 		List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedPublishedEmailsToBeSent();
 		
 		for(FeedbackSessionAttributes session : sessions){
-			messagesSent = sendFeedbackSessionPublishedEmail(session);
+			sendFeedbackSessionPublishedEmail(session);
 		}
-		return messagesSent;
 	}
 
 	
@@ -833,7 +783,7 @@ public class FeedbackSessionsLogic {
 		}
 	}
 	
-	private boolean isFeedbackSessionFullyCompletedByStudent(String feedbackSessionName,
+	public boolean isFeedbackSessionFullyCompletedByStudent(String feedbackSessionName,
 			String courseId, String userEmail)
 			throws EntityDoesNotExistException {
 
@@ -919,7 +869,7 @@ public class FeedbackSessionsLogic {
 		return isFeedbackSessionViewableToStudents(session);
 	}
 	
-	private boolean isFeedbackSessionViewableToStudents(FeedbackSessionAttributes session) 
+	public boolean isFeedbackSessionViewableToStudents(FeedbackSessionAttributes session) 
 			throws EntityDoesNotExistException {
 		// Allow students to view if there are questions for them
 		List<FeedbackQuestionAttributes> questions = 
@@ -959,34 +909,8 @@ public class FeedbackSessionsLogic {
 		}
 	}
 	
-	private ArrayList<MimeMessage> sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
-		ArrayList<MimeMessage> messagesSent = new ArrayList<MimeMessage>();
-		try {
-			CourseAttributes course = coursesLogic
-					.getCourse(session.courseId);
-			List<StudentAttributes> students;
-			List<InstructorAttributes> instructors = instructorsLogic
-					.getInstructorsForCourse(session.courseId);
-			
-			if (isFeedbackSessionViewableToStudents(session)) {
-				students = studentsLogic.getStudentsForCourse(session.courseId);
-			} else {
-				students = new ArrayList<StudentAttributes>();
-			}
-
-			Emails emails = new Emails();
-			List<MimeMessage> messages = emails
-					.generateFeedbackSessionPublishedEmails(course, session,
-							students, instructors);
-			emails.sendEmails(messages);
-			messagesSent.addAll(messages);
-
-			session.sentPublishedEmail = true;
-			updateFeedbackSession(session);
-		} catch (Exception e) {
-			log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
-		}
-		
-		return messagesSent;
+	private void sendFeedbackSessionPublishedEmail(FeedbackSessionAttributes session) {
+		Emails emails = new Emails();
+		emails.addFeedbackSessionReminderToEmailsQueue(session, Emails.EmailType.FEEDBACK_PUBLISHED);
 	}
 }

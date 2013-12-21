@@ -1,5 +1,7 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -8,6 +10,9 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.ui.controller.InstructorCourseStudentDetailsEditPageAction;
+import teammates.ui.controller.InstructorCourseStudentDetailsEditPageData;
+import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseStudentDetailsEditPageActionTest extends BaseActionTest {
 
@@ -44,7 +49,60 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
 	@Test
 	public void testExecuteAndPostProcess() throws Exception{
 		
-		//TODO: implement this
+		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		
+        String instructorId = instructor1OfCourse1.googleId;
+        gaeSimulation.loginAsInstructor(instructorId);
+        
+        ______TS("Invalid parameters");
+        
+        //no parameters
+		verifyAssumptionFailure();
+		
+		//null student email
+		String[] invalidParams = new String[]{
+				Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+		};
+		verifyAssumptionFailure(invalidParams);
+        
+		//null course id
+		invalidParams = new String[]{
+				Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+		};
+		verifyAssumptionFailure(invalidParams);
+        
+        
+        ______TS("Typical case, edit student detail page");
+
+        String[] submissionParams = new String[]{
+				Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+				Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+		};
+        
+        InstructorCourseStudentDetailsEditPageAction a = getAction(submissionParams);
+        ShowPageResult r = getShowPageResult(a);
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT+"?error=false&" +
+        		"user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertEquals(false, r.isError);
+        assertEquals("", r.getStatusMessage());
+        
+        InstructorCourseStudentDetailsEditPageData pageData = (InstructorCourseStudentDetailsEditPageData)r.data;
+        assertEquals(instructorId, pageData.account.googleId);
+        assertEquals(student1InCourse1.toString(), pageData.student.toString());
+        
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit" +
+                        "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
+                        "|||instr1@course1.com|||instructorCourseStudentEdit Page Load<br>Editing Student " +
+                        "<span class=\"bold\">student1InCourse1@gmail.com's</span> details in Course " +
+                        "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
+                        "|||/page/instructorCourseStudentDetailsEdit";
+        assertEquals(expectedLogMessage, a.getLogMessage());
+	}
+	
+	private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception{
+        return (InstructorCourseStudentDetailsEditPageAction) (gaeSimulation.getActionObject(uri, params));
 	}
 	
 

@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
@@ -22,6 +23,8 @@ public class InstructorCoursesPageAction extends Action {
 			throws EntityDoesNotExistException {
 		/* Explanation: First, we extract any parameters from the request object.
 		 * e.g., idOfCourseToDelete = getRequestParam(Const.ParamsNames.COURSE_ID);
+		 * After that, we may verify parameters.
+		 * e.g. Assumption.assertNotNull(courseId);
 		 * In this Action, there are no parameters.*/
 		
 		/* Explanation: Next, check if the user has rights to execute the action.*/

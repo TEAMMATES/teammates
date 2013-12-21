@@ -28,14 +28,10 @@ import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.EvaluationsLogic;
-import teammates.logic.core.InstructorsLogic;
-import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.logic.core.TeamEvalResult;
-import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -52,9 +48,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
 	private static final SubmissionsLogic submissionsLogic = new SubmissionsLogic();
-	private static final CoursesLogic coursesLogic = new CoursesLogic();
-	private static final StudentsLogic studentsLogic = new StudentsLogic();
-	private static final InstructorsLogic instructorsLogic = new InstructorsLogic();
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -63,8 +56,32 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	}
 	
 	@Test
+	public void testGetEvaluationsClosingWithinTimeLimit() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("case : no evaluations closing within a certain period");
+		DataBundle dataBundle = getTypicalDataBundle();
+		EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
+		int numberOfHoursToTimeLimit = 2; //arbitrary number of hours
+		
+		eval.timeZone = 0;
+		eval.endTime = TimeHelper.getHoursOffsetToCurrentTime(numberOfHoursToTimeLimit);
+		evaluationsLogic.updateEvaluation(eval);
+		
+		List<EvaluationAttributes> evaluationsList = evaluationsLogic
+				.getEvaluationsClosingWithinTimeLimit(numberOfHoursToTimeLimit-1);
+		assertEquals(0, evaluationsList.size());
+		
+		______TS("case : 1 evaluation closing within a certain period");
+		evaluationsList = evaluationsLogic
+				.getEvaluationsClosingWithinTimeLimit(numberOfHoursToTimeLimit);
+		assertEquals(1, evaluationsList.size());
+		assertEquals(eval.name, evaluationsList.get(0).name);
+		
+	}
+	
+	@Test
 	public void testGetReadyEvaluations() throws Exception {
-
 		______TS("no evaluations activated");
 		// ensure there are no existing evaluations ready for activation
 		restoreTypicalDataInDatastore();
@@ -197,9 +214,8 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	@Test
 	public void testSendEvaluationPublishedEmails() throws Exception {
 		// private method. no need to check for authentication.
-		
 		Logic logic = new Logic();
-
+		
 		restoreTypicalDataInDatastore();
 		DataBundle dataBundle = getTypicalDataBundle();
 
@@ -211,7 +227,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 		assertEquals(8, emailsSent.size());
 
 		List<StudentAttributes> studentList = logic.getStudentsForCourse(e.courseId);
-
+		
 		for (StudentAttributes s : studentList) {
 			String errorMessage = "No email sent to " + s.email;
 			MimeMessage emailToStudent = LogicTest.getEmailToStudent(s, emailsSent);
@@ -282,194 +298,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 		//Other state changes are tested at lower levels
 		
 	}
-	
-	@Test
-	public void testActivateReadyEvaluations() throws Exception {
-		
-		restoreTypicalDataInDatastore();
-		DataBundle dataBundle = getTypicalDataBundle();
-		
-		______TS("0 evaluations activated");
-		// ensure all existing evaluations are already activated.
-		for (EvaluationAttributes e : dataBundle.evaluations.values()) {
-			e.activated = true;
-			evaluationsLogic.updateEvaluation(e);
-			assertTrue(evaluationsLogic.getEvaluation(e.courseId, e.name).getStatus() != EvalStatus.AWAITING);
-		}
-		List<MimeMessage> emailsSent = evaluationsLogic.activateReadyEvaluations();
-		assertEquals(0, emailsSent.size());
-		
-		______TS("typical case, two evaluations activated");
-		// Reuse an existing evaluation to create a new one that is ready to
-		// activate. Put this evaluation in a negative time zone.
-		EvaluationAttributes evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1");
-		String nameOfEvalInCourse1 = "new-eval-in-course-1-tARE";
-		evaluation1.name = nameOfEvalInCourse1;
-
-		evaluation1.activated = false;
-
-		double timeZone = -1.0;
-		evaluation1.timeZone = timeZone;
-
-		evaluation1.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(0, timeZone);
-		evaluation1.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
-
-		evaluationsLogic.createEvaluationCascade(evaluation1);
-		assertEquals("This evaluation is not ready to activate as expected "+ evaluation1.toString(),
-				true, 
-				evaluationsLogic.getEvaluation(evaluation1.courseId, evaluation1.name).isReadyToActivate());
-
-		// Create another evaluation in another course in similar fashion.
-		// Put this evaluation in a positive time zone.
-		// This one too is ready to activate.
-		EvaluationAttributes evaluation2 = dataBundle.evaluations
-				.get("evaluation1InCourse2");
-		evaluation2.activated = false;
-		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
-		evaluation2.name = nameOfEvalInCourse2;
-
-		timeZone = 2.0;
-		evaluation2.timeZone = timeZone;
-
-		evaluation2.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(
-				0, timeZone);
-		evaluation2.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
-
-		evaluationsLogic.createEvaluationCascade(evaluation2);
-		assertEquals("This evaluation is not ready to activate as expected "+ evaluation2.toString(),
-				true, 
-				evaluationsLogic.getEvaluation(evaluation2.courseId, evaluation2.name).isReadyToActivate());
-		
-		//Create a course to hold the orphan evaluation.
-		String IdOftemporaryCourse = "non-existent-course-BDLT-causes-EDNEE";
-		coursesLogic.createCourse(IdOftemporaryCourse, "Course to be deleted soon");
-		
-		// Create an orphan evaluation (this should be ignored by SUT)
-		EvaluationAttributes orphan = new EvaluationAttributes();
-		orphan.name = "Orphan Evaluation";
-		orphan.courseId = IdOftemporaryCourse;
-		orphan.instructions = new Text("instructions");
-		orphan.timeZone = evaluation2.timeZone;
-		orphan.startTime = evaluation2.startTime;
-		orphan.endTime = evaluation2.endTime;
-		orphan.activated = evaluation2.activated;
-		orphan.published = evaluation2.published;
-		evaluationsLogic.createEvaluationCascade(orphan);
-		
-		//make the evaluation an orphan by deleting the course
-		new CoursesDb().deleteCourse(IdOftemporaryCourse);
-		
-		assertEquals("This evaluation is not ready to activate as expected "+ orphan.toString(),
-				true, 
-				evaluationsLogic.getEvaluation(orphan.courseId, orphan.name).isReadyToActivate());
-
-		emailsSent = evaluationsLogic.activateReadyEvaluations();
-		int course1StudentCount = studentsLogic.getStudentsForCourse(
-				evaluation1.courseId).size();
-		int course2StudentCount = studentsLogic.getStudentsForCourse(
-				evaluation2.courseId).size();
-		int course1InstructorCount = instructorsLogic.getInstructorsForCourse(
-				evaluation1.courseId).size();
-		int course2InstructorCount = instructorsLogic.getInstructorsForCourse(
-				evaluation2.courseId).size();
-
-		assertEquals(course1StudentCount + course2StudentCount
-				+ course1InstructorCount + course2InstructorCount,
-				emailsSent.size());
-
-		//ensure both evaluations are activated now
-		emailsSent = evaluationsLogic.activateReadyEvaluations();
-		assertEquals(0, emailsSent.size());
-
-	}
-
-	@Test
-	public void testSendRemindersForClosingEvaluations() throws Exception {
-		DataBundle dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-		
-		______TS("typical case, 0 evaluations closing soon");
-		List<MimeMessage> emailsSent = evaluationsLogic
-				.sendRemindersForClosingEvaluations();
-		assertEquals(0, emailsSent.size());
-		
-		______TS("typical case, two evaluations closing soon");
-		// Reuse an existing evaluation to create a new one that is
-		// closing in 24 hours.
-		EvaluationAttributes evaluation1 = dataBundle.evaluations
-				.get("evaluation1InCourse1");
-		String nameOfEvalInCourse1 = "new-eval-in-course-1-tSRFCE";
-		evaluation1.name = nameOfEvalInCourse1;
-
-		evaluation1.activated = true;
-
-		double timeZone = 0.0;
-		evaluation1.timeZone = timeZone;
-		evaluation1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-		evaluation1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-		evaluationsLogic.createEvaluationCascade(evaluation1);
-
-		// Create another evaluation in another course in similar fashion.
-		// This one too is closing in 24 hours.
-		EvaluationAttributes evaluation2 = dataBundle.evaluations
-				.get("evaluation1InCourse2");
-		evaluation2.activated = true;
-		String nameOfEvalInCourse2 = "new-evaluation-in-course-2-tARE";
-		evaluation2.name = nameOfEvalInCourse2;
-
-		evaluation2.timeZone = 0.0;
-
-		evaluation2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-		evaluation2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-
-		evaluationsLogic.createEvaluationCascade(evaluation2);
-		
-		//Create a course to hold the orphan evaluation.
-		String IdOftemporaryCourse = "non-existent-course-BDLT-causes-EDNEE";
-		coursesLogic.createCourse(IdOftemporaryCourse, "Course to be deleted soon");
-		
-		// Create an orphan evaluation (this should be ignored by SUT)
-		EvaluationAttributes orphan = new EvaluationAttributes();
-		orphan.name = "Orphan Evaluation";
-		orphan.courseId = IdOftemporaryCourse;
-		orphan.instructions = new Text("Instructions");
-		orphan.timeZone = evaluation2.timeZone;
-		orphan.startTime = evaluation2.startTime;
-		orphan.endTime = evaluation2.endTime;
-		orphan.activated = evaluation2.activated;
-		orphan.published = evaluation2.published;
-		evaluationsLogic.deleteEvaluationCascade(orphan.courseId, orphan.name);
-		evaluationsLogic.createEvaluationCascade(orphan);
-		
-		//make the evaluation an orphan by deleting the course
-		new CoursesDb().deleteCourse(IdOftemporaryCourse);
-		
-		emailsSent = evaluationsLogic.sendRemindersForClosingEvaluations();
-
-		int course1StudentCount = studentsLogic.getStudentsForCourse(
-				evaluation1.courseId).size();
-		int course2StudentCount = studentsLogic.getStudentsForCourse(
-				evaluation2.courseId).size();
-		int course1InstructorCount = instructorsLogic.getInstructorsForCourse(
-				evaluation1.courseId).size();
-		int course2InstructorCount = instructorsLogic.getInstructorsForCourse(
-				evaluation2.courseId).size();
-		
-		assertEquals(course1StudentCount + course2StudentCount
-				+ course1InstructorCount + course2InstructorCount,
-				emailsSent.size());
-
-		for (MimeMessage m : emailsSent) {
-			String subject = m.getSubject();
-			assertTrue(subject.contains(evaluation1.name)
-					|| subject.contains(evaluation2.name));
-			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING));
-		}
-
-	}
-
-
 	
 	@Test
 	public void testCalculateTeamResult() throws Exception {
@@ -677,5 +505,4 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
 	}
-
 }
