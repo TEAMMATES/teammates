@@ -14,6 +14,7 @@
 			<class name="teammates.test.cases.common.AccountAttributesTest" />
 			<class name="teammates.test.cases.common.BuildPropertiesTest" />
 			<class name="teammates.test.cases.common.CourseAttributesTest" />
+			<class name="teammates.test.cases.common.CourseRosterTest" />
 			<class name="teammates.test.cases.common.EvaluationAttributesTest" />
 			<class name="teammates.test.cases.common.FeedbackSessionAttributesTest" />
 			<class name="teammates.test.cases.common.FieldValidatorTest" />

@@ -26,7 +26,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 		
 		InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
 		data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-		data.bundle = logic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, data.instructor.email);
+		data.bundle = logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, data.instructor.email);
 		data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
 		
 		if(data.bundle == null) {
