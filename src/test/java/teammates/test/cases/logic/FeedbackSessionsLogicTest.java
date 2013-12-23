@@ -790,7 +790,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		______TS("MCQ Session");
 		
 		restoreDatastoreFromJson("FeedbackSessionQuestionTypeTest.json");
-		dataBundle = getDataBundle("FeedbackSessionQuestionTypeTest.json");
+		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 		session = dataBundle.feedbackSessions.get("mcqSession");
 		instructor = dataBundle.instructors.get("instructor1OfCourse1");
 		

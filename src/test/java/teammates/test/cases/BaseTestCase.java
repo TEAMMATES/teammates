@@ -104,13 +104,6 @@ public class BaseTestCase {
 		return loadDataBundle("/typicalDataBundle.json");
 	}
 	
-	/**
-	 * Creates a DataBundle as specified in the given json file
-	 */
-	protected static DataBundle getDataBundle(String jsonFileName) {
-		return loadDataBundle("/" + jsonFileName);
-	}
-	
 	protected static DataBundle loadDataBundle(String pathToJsonFile){
 		if(pathToJsonFile.startsWith("/")){
 			pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
