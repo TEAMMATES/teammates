@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -30,6 +31,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 				logic.getCourse(courseId));
 		
 		data = new InstructorStudentRecordsPageData(account);
+		InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
 		
 		try {
 			data.courseId = courseId;
@@ -61,7 +63,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 			for(FeedbackSessionAttributes feedback: data.feedbacks){
 				//TODO: This method call is too costly. It generates the result for the all students.
 				data.studentFeedbackResults.add(
-						logic.getFeedbackSessionResultsForInstructor(feedback.feedbackSessionName, courseId, account.email));
+						logic.getFeedbackSessionResultsForInstructor(feedback.feedbackSessionName, courseId, instructor.email));
 			}
 			
 			if(data.evaluations.size() == 0 && data.feedbacks.size() == 0){
