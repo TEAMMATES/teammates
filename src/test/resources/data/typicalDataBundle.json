@@ -1,659 +1,824 @@
 {
-	"accounts": {
-		"instructor1OfCourse1": {
-			"googleId": "idOfInstructor1OfCourse1",
-			"name": "Instructor 1 of Course 1",
-			"isInstructor": true,
-			"email": "instr1@course1.com",
-			"institute": "National University of Singapore"
+	"accounts":{
+		"instructor1OfCourse1":{
+			"googleId":"idOfInstructor1OfCourse1",
+			"name":"Instructor 1 of Course 1",
+			"isInstructor":true,
+			"email":"instr1@course1.com",
+			"institute":"National University of Singapore"
 		},
-		"instructor2OfCourse1": {
-			"googleId": "idOfInstructor2OfCourse1",
-			"name": "Instructor 2 of Course 1",
-			"isInstructor": true,
-			"email": "instr2@course1.com",
-			"institute": "National University of Singapore"
+		"instructor2OfCourse1":{
+			"googleId":"idOfInstructor2OfCourse1",
+			"name":"Instructor 2 of Course 1",
+			"isInstructor":true,
+			"email":"instr2@course1.com",
+			"institute":"National University of Singapore"
 		},
-		"instructor1OfCourse2": {
-			"googleId": "idOfInstructor1OfCourse2",
-			"name": "Instructor 1 of Course 2",
-			"isInstructor": true,
-			"email": "instr1@course2.com",
-			"institute": "National University of Singapore"
+		"instructor1OfCourse2":{
+			"googleId":"idOfInstructor1OfCourse2",
+			"name":"Instructor 1 of Course 2",
+			"isInstructor":true,
+			"email":"instr1@course2.com",
+			"institute":"National University of Singapore"
 		},
-		"instructor2OfCourse2": {
-			"googleId": "idOfInstructor2OfCourse2",
-			"name": "Instructor 2 of Course 2",
-			"isInstructor": true,
-			"email": "instr2@course2.com",
-			"institute": "National University of Singapore"
+		"instructor2OfCourse2":{
+			"googleId":"idOfInstructor2OfCourse2",
+			"name":"Instructor 2 of Course 2",
+			"isInstructor":true,
+			"email":"instr2@course2.com",
+			"institute":"National University of Singapore"
 		},
-		"instructor3": {
-			"googleId": "idOfInstructor3",
-			"name": "Instructor 3 of Course 1 and 2",
-			"isInstructor": true,
-			"email": "instr3@course1n2.com",
-			"institute": "National University of Singapore"
+		"instructor3":{
+			"googleId":"idOfInstructor3",
+			"name":"Instructor 3 of Course 1 and 2",
+			"isInstructor":true,
+			"email":"instr3@course1n2.com",
+			"institute":"National University of Singapore"
 		},
-		"instructor4": {
-			"googleId": "idOfInstructor4",
-			"name": "Instructor 4 of CourseNoEvals",
-			"isInstructor": true,
-			"email": "instr4@coursenoevals.com",
-			"institute": "National University of Singapore"
+		"instructor4":{
+			"googleId":"idOfInstructor4",
+			"name":"Instructor 4 of CourseNoEvals",
+			"isInstructor":true,
+			"email":"instr4@coursenoevals.com",
+			"institute":"National University of Singapore"
 		},
-		"instructorWithoutCourses": {
-			"googleId": "instructorWithoutCourses",
-			"name": "Instructor Without Courses",
-			"isInstructor": true,
-			"email": "iwc@yahoo.com",
-			"institute": "NTU"
+		"instructorWithoutCourses":{
+			"googleId":"instructorWithoutCourses",
+			"name":"Instructor Without Courses",
+			"isInstructor":true,
+			"email":"iwc@yahoo.com",
+			"institute":"NTU"
 		},
-		"student1InCourse1": {
-			"googleId": "student1InCourse1",
-			"name": "Student 1 in course 1",
-			"isInstructor": false,
-			"email": "sudent1inCourse1@gmail.com",
-			"institute": "National University of Singapore"
+		"student1InCourse1":{
+			"googleId":"student1InCourse1",
+			"name":"Student 1 in course 1",
+			"isInstructor":false,
+			"email":"sudent1inCourse1@gmail.com",
+			"institute":"National University of Singapore"
 		},
-		"student2InCourse1": {
-			"googleId": "student2InCourse1",
-			"name": "Student in two courses",
-			"isInstructor": false,
-			"email": "sudent2inCourse1@gmail.com",
-			"institute": "National University of Singapore"
+		"student2InCourse1":{
+			"googleId":"student2InCourse1",
+			"name":"Student in two courses",
+			"isInstructor":false,
+			"email":"sudent2inCourse1@gmail.com",
+			"institute":"National University of Singapore"
+		}
+		
+	},
+	"courses":{
+		"typicalCourse1":{
+			"id":"idOfTypicalCourse1",
+			"name":"Typical Course 1 with 2 Evals"
+		},
+		"typicalCourse2":{
+			"id":"idOfTypicalCourse2",
+			"name":"Typical Course 2 with 1 Evals"
+		},
+		"courseNoEvals":{
+			"id":"idOfCourseNoEvals",
+			"name":"Typical Course 3 with 0 Evals"
+		},
+		"courseWithSessionInGracePeriod":{
+			"id":"SessionInGracePeriod",
+			"name":"Course with session in grace period"
+		}
+		
+	},
+	"instructors":{
+		"instructor1OfCourse1":{
+			"googleId":"idOfInstructor1OfCourse1",
+			"courseId":"idOfTypicalCourse1",
+			"name":"Instructor1 Course1",
+			"email":"instructor1@course1.com"
+		},
+		"instructor2OfCourse1":{
+			"googleId":"idOfInstructor2OfCourse1",
+			"courseId":"idOfTypicalCourse1",
+			"name":"Instructor2 Course1",
+			"email":"instructor2@course1.com"
+		},
+		"instructor1OfCourse2":{
+			"googleId":"idOfInstructor1OfCourse2",
+			"courseId":"idOfTypicalCourse2",
+			"name":"Instructor1 Course2",
+			"email":"instructor1@course2.com"
+		},
+		"instructor2OfCourse2":{
+			"googleId":"idOfInstructor2OfCourse2",
+			"courseId":"idOfTypicalCourse2",
+			"name":"Instructor2 Course2",
+			"email":"instructor2@course2.com"
+		},
+		"instructor3OfCourse1":{
+			"googleId":"idOfInstructor3",
+			"courseId":"idOfTypicalCourse1",
+			"name":"Instructor3 Course1",
+			"email":"instructor3@course1.com"
+		},
+		"instructor3OfCourse2":{
+			"googleId":"idOfInstructor3",
+			"courseId":"idOfTypicalCourse2",
+			"name":"Instructor3 Course2",
+			"email":"instructor3@course2.com"
+		},
+		"instructor4":{
+			"googleId":"idOfInstructor4",
+			"courseId":"idOfCourseNoEvals",
+			"name":"Instructor4 name",
+			"email":"instructor4@courseNoEvals.com"
+		}
+		
+	},
+	"students":{
+		"student1InCourse1":{
+			"email":"student1InCourse1@gmail.com",
+			"name":"student1 In Course1",
+			"team":"Team 1.1",
+			"googleId":"student1InCourse1",
+			"comments":"comment for student1InCourse1",
+			"course":"idOfTypicalCourse1"
+		},
+		"student2InCourse1":{
+			"email":"student2InCourse1@gmail.com",
+			"name":"student2 In Course1",
+			"googleId":"student2InCourse1",
+			"team":"Team 1.1",
+			"comments":"",
+			"course":"idOfTypicalCourse1"
+		},
+		"student3InCourse1":{
+			"email":"student3InCourse1@gmail.com",
+			"name":"student3 In Course1",
+			"googleId":"student3InCourse1",
+			"team":"Team 1.1",
+			"comments":"",
+			"course":"idOfTypicalCourse1"
+		},
+		"student4InCourse1":{
+			"email":"student4InCourse1@gmail.com",
+			"name":"student4 In Course1",
+			"googleId":"student4InCourse1",
+			"team":"Team 1.1",
+			"comments":"",
+			"course":"idOfTypicalCourse1"
+		},
+		"student5InCourse1":{
+			"email":"student5InCourse1@gmail.com",
+			"name":"student5 In Course1",
+			"googleId":"student5InCourse1",
+			"team":"Team 1.2",
+			"comments":"",
+			"course":"idOfTypicalCourse1"
+		},
+		"student1InCourse2":{
+			"email":"student1InCourse2@gmail.com",
+			"name":"student1 In Course2",
+			"googleId":"student1InCourse2",
+			"team":"Team 2.1",
+			"comments":"",
+			"course":"idOfTypicalCourse2"
+		},
+		"student2InCourse2":{
+			"email":"student2InCourse1@gmail.com",
+			"name":"student2 In Course2",
+			"googleId":"student2InCourse1",
+			"comments":"#####This is the same student as student2InCourse1 but using different name and email #####",
+			"team":"Team 2.1",
+			"comments":"",
+			"course":"idOfTypicalCourse2"
+		},
+		"studentInGraceCourse":{
+			"email":"studentInGraceCourse@gmail.com",
+			"name":"student In SessionInGracePeriod course",
+			"googleId":"studentInGraceCourse",
+			"comments":"#####student In Course with feedback session in grace period#####",
+			"team":"Team 2.1",
+			"comments":"",
+			"course":"SessionInGracePeriod"
 		}
 	},
-
-	"courses": {
-		"typicalCourse1": {
-			"id": "idOfTypicalCourse1",
-			"name": "Typical Course 1 with 2 Evals"
+	"evaluations":{
+		"evaluation1InCourse1":{
+			"courseId":"idOfTypicalCourse1",
+			"name":"evaluation1 In Course1",
+			"instructions":{
+				"value":"instructions for evaluation1InCourse1"
+			},
+			"gracePeriod":10,
+			"p2pEnabled":true,
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"timeZone":2.0,
+			"activated":true,
+			"published":false
 		},
-		"typicalCourse2": {
-			"id": "idOfTypicalCourse2",
-			"name": "Typical Course 2 with 1 Evals"
+		"evaluation2InCourse1":{
+			"courseId":"idOfTypicalCourse1",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"gracePeriod":20,
+			"instructions":{
+				"value":"Please please fill in the second evaluation in Course1"
+			},
+			"name":"evaluation2 In Course1",
+			"p2pEnabled":true,
+			"activated":true
 		},
-		"courseNoEvals": {
-			"id": "idOfCourseNoEvals",
-			"name": "Typical Course 3 with 0 Evals" 
-		},
-		"courseWithSessionInGracePeriod": {
-			"id": "SessionInGracePeriod",
-			"name": "Course with session in grace period" 
+		"evaluation1InCourse2":{
+			"courseId":"idOfTypicalCourse2",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"gracePeriod":20,
+			"instructions":{
+				"value":"Please please fill in the first evaluation in Course2"
+			},
+			"name":"evaluation1 In Course2",
+			"p2pEnabled":true,
+			"activated":true
 		}
 	},
-	
-	"instructors": {
-		"instructor1OfCourse1": {
-			"googleId": "idOfInstructor1OfCourse1",
-			"courseId": "idOfTypicalCourse1",
-			"name": "Instructor1 Course1",
-			"email": "instructor1@course1.com"
+	"submissions":{
+		"submissionFromS1C1ToS1C1":{
+			"reviewer":"student1InCourse1@gmail.com",
+			"reviewee":"student1InCourse1@gmail.com",
+			"course":"idOfTypicalCourse1",
+			"evaluation":"evaluation1 In Course1",
+			"points":10,
+			"justification":{
+				"value":"justification of student1InCourse1 rating to student1InCourse1"
+			},
+			"p2pFeedback":{
+				"value":"student1InCourse1 view of team dynamics"
+			},
+			"team":"Team 1.1"
 		},
-		"instructor2OfCourse1": {
-			"googleId": "idOfInstructor2OfCourse1",
-			"courseId": "idOfTypicalCourse1",
-			"name": "Instructor2 Course1",
-			"email": "instructor2@course1.com"
+		"submissionFromS1C1ToS2C1":{
+			"reviewer":"student1InCourse1@gmail.com",
+			"reviewee":"student2InCourse1@gmail.com",
+			"course":"idOfTypicalCourse1",
+			"evaluation":"evaluation1 In Course1",
+			"points":10,
+			"justification":{
+				"value":"justification of student1InCourse1 rating to student2InCourse1"
+			},
+			"p2pFeedback":{
+				"value":"comments from student1InCourse1 to student2InCourse1"
+			},
+			"team":"Team 1.1"
 		},
-		"instructor1OfCourse2": {
-			"googleId": "idOfInstructor1OfCourse2",
-			"courseId": "idOfTypicalCourse2",
-			"name": "Instructor1 Course2",
-			"email": "instructor1@course2.com"
+		"submissionFromS1C1ToS3C1":{
+			"reviewer":"student1InCourse1@gmail.com",
+			"reviewee":"student3InCourse1@gmail.com",
+			"course":"idOfTypicalCourse1",
+			"evaluation":"evaluation1 In Course1",
+			"points":10,
+			"justification":{
+				"value":"justification of student1InCourse1 rating to student3InCourse1"
+			},
+			"p2pFeedback":{
+				"value":"comments from student1InCourse1 to student3InCourse1"
+			},
+			"team":"Team 1.1"
 		},
-		"instructor2OfCourse2": {
-			"googleId": "idOfInstructor2OfCourse2",
-			"courseId": "idOfTypicalCourse2",
-			"name": "Instructor2 Course2",
-			"email": "instructor2@course2.com"
+		"submissionFromS1C1ToS4C1":{
+			"reviewer":"student1InCourse1@gmail.com",
+			"reviewee":"student4InCourse1@gmail.com",
+			"course":"idOfTypicalCourse1",
+			"evaluation":"evaluation1 In Course1",
+			"points":10,
+			"justification":{
+				"value":"justification of student1InCourse1 rating to student4InCourse1"
+			},
+			"p2pFeedback":{
+				"value":"comments from student1InCourse1 to student4InCourse1"
+			},
+			"team":"Team 1.1"
 		},
-		"instructor3OfCourse1": {
-			"googleId": "idOfInstructor3",
-			"courseId": "idOfTypicalCourse1",
-			"name": "Instructor3 Course1",
-			"email": "instructor3@course1.com"
+		"submissionFromS2C1ToS1C1":{
+			"reviewer":"student2InCourse1@gmail.com",
+			"reviewee":"student1InCourse1@gmail.com",
+			"course":"idOfTypicalCourse1",
+			"evaluation":"evaluation1 In Course1",
+			"points":20,
+			"justification":{
+				"value":"justification of student2InCourse1 rating to student1InCourse1"
+			},
+			"p2pFeedback":{
+				"value":"comments from student2InCourse1 to student1InCourse1"
+			},
+			"team":"Team 1.1"
 		},
-		"instructor3OfCourse2": {
-			"googleId": "idOfInstructor3",
-			"courseId": "idOfTypicalCourse2",
-			"name": "Instructor3 Course2",
-			"email": "instructor3@course2.com"
+		"submissionFromS4C1ToS1C1":{
+			"reviewer":"student4InCourse1@gmail.com",
+			"reviewee":"student1InCourse1@gmail.com",
+			"course":"idOfTypicalCourse1",
+			"evaluation":"evaluation1 In Course1",
+			"points":150,
+			"justification":{
+				"value":"justification of student4InCourse1 rating to student1InCourse1"
+			},
+			"p2pFeedback":{
+				"value":"comments from student4InCourse1 to student1InCourse1"
+			},
+			"team":"Team 1.1"
 		},
-		"instructor4": {
-			"googleId": "idOfInstructor4",
-			"courseId": "idOfCourseNoEvals",
-			"name": "Instructor4 name",
-			"email": "instructor4@courseNoEvals.com"
+		"submissionFromS1C2ToS2C2":{
+			"reviewer":"student1InCourse2@gmail.com",
+			"reviewee":"student2InCourse1@gmail.com",
+			"course":"idOfTypicalCourse2",
+			"evaluation":"evaluation1 In Course2",
+			"points":20,
+			"justification":{
+				"value":"justification of student1InCourse2 rating to student2InCourse1(also in Course2)"
+			},
+			"p2pFeedback":{
+				"value":"comments from student1InCourse2 to student2InCourse2"
+			},
+			"team":"Team 2.1"
 		}
 	},
-
-  "students": {
-    "student1InCourse1":{
-      "email": "student1InCourse1@gmail.com",
-      "name": "student1 In Course1",
-      "team": "Team 1.1",
-      "googleId": "student1InCourse1",
-      "comments" : "comment for student1InCourse1",
-      "course" : "idOfTypicalCourse1"
-    },
-    "student2InCourse1":{
-      "email": "student2InCourse1@gmail.com",
-      "name": "student2 In Course1",
-      "googleId": "student2InCourse1",
-      "team": "Team 1.1",
-      "comments" : "",
- 	  "course" : "idOfTypicalCourse1"
-    },
-    "student3InCourse1":{
-      "email": "student3InCourse1@gmail.com",
-      "name": "student3 In Course1",
-      "googleId": "student3InCourse1",
-      "team": "Team 1.1",
-      "comments" : "",
-      "course" : "idOfTypicalCourse1"
-    },
-    "student4InCourse1":{
-      "email": "student4InCourse1@gmail.com",
-      "name": "student4 In Course1",
-      "googleId": "student4InCourse1",
-      "team": "Team 1.1",
-      "comments" : "",
- 	  "course" : "idOfTypicalCourse1"
-    },
-    "student5InCourse1":{
-      "email": "student5InCourse1@gmail.com",
-      "name": "student5 In Course1",
-      "googleId": "student5InCourse1",
-      "team": "Team 1.2",
-      "comments" : "",
-      "course" : "idOfTypicalCourse1"
-    },
-    "student1InCourse2":{
-      "email": "student1InCourse2@gmail.com",
-      "name": "student1 In Course2",
-      "googleId": "student1InCourse2",
-      "team": "Team 2.1",
-      "comments" : "",
-      "course" : "idOfTypicalCourse2"
-    },
-    "student2InCourse2":{
-      "email": "student2InCourse1@gmail.com",
-      "name": "student2 In Course2",
-      "googleId": "student2InCourse1",
-      "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
-      "team": "Team 2.1",
-      "comments" : "",
-      "course" : "idOfTypicalCourse2"
-    },
-    "studentInGraceCourse":{
-      "email": "studentInGraceCourse@gmail.com",
-      "name": "student In SessionInGracePeriod course",
-      "googleId": "studentInGraceCourse",
-      "comments": "#####student In Course with feedback session in grace period#####",
-      "team": "Team 2.1",
-      "comments" : "",
-      "course" : "SessionInGracePeriod"
-    }
-  },
-  
-  "evaluations" : {
-  
-    "evaluation1InCourse1": {
-      "courseId" : "idOfTypicalCourse1",
-      "name" : "evaluation1 In Course1",
-      "instructions": {"value" : "instructions for evaluation1InCourse1"},
-      "gracePeriod": 10,
-      "p2pEnabled" : true,
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2015-04-30 11:59 PM UTC",
-      "timeZone" : 2.0,
-      "activated" : true,
-      "published" : false
-    },
-    "evaluation2InCourse1": {
-      "courseId" : "idOfTypicalCourse1",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2015-04-30 11:59 PM UTC",
-      "gracePeriod": 20,
-      "instructions": {"value" : "Please please fill in the second evaluation in Course1"},
-      "name": "evaluation2 In Course1",
-      "p2pEnabled": true,
-	  "activated": true
-    },
-    "evaluation1InCourse2": {
-      "courseId" : "idOfTypicalCourse2",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2015-04-30 11:59 PM UTC",
-      "gracePeriod": 20,
-      "instructions": {"value" : "Please please fill in the first evaluation in Course2"},
-      "name": "evaluation1 In Course2",
-      "p2pEnabled": true,
-	  "activated": true
-    }
-  },
-  
-  "submissions" : {
-    "submissionFromS1C1ToS1C1" :{
-      "reviewer" : "student1InCourse1@gmail.com",
-      "reviewee" : "student1InCourse1@gmail.com",
-      "course" : "idOfTypicalCourse1",
-      "evaluation" : "evaluation1 In Course1",
-      "points" : 10,
-      "justification" : {"value" : "justification of student1InCourse1 rating to student1InCourse1"},
-      "p2pFeedback" : {"value" :"student1InCourse1 view of team dynamics"},
-      "team" : "Team 1.1"
-    },
-    "submissionFromS1C1ToS2C1" :{
-      "reviewer" : "student1InCourse1@gmail.com",
-      "reviewee" : "student2InCourse1@gmail.com",
-      "course" : "idOfTypicalCourse1",
-      "evaluation" : "evaluation1 In Course1",
-      "points" : 10,
-      "justification" : {"value" : "justification of student1InCourse1 rating to student2InCourse1"},
-      "p2pFeedback" : {"value" :"comments from student1InCourse1 to student2InCourse1"},
-      "team" : "Team 1.1"
-    },
-	"submissionFromS1C1ToS3C1" :{
-      "reviewer" : "student1InCourse1@gmail.com",
-      "reviewee" : "student3InCourse1@gmail.com",
-      "course" : "idOfTypicalCourse1",
-      "evaluation" : "evaluation1 In Course1",
-      "points" : 10,
-      "justification" : {"value" : "justification of student1InCourse1 rating to student3InCourse1"},
-      "p2pFeedback" : {"value" :"comments from student1InCourse1 to student3InCourse1"},
-      "team" : "Team 1.1"
-    },
-	"submissionFromS1C1ToS4C1" :{
-      "reviewer" : "student1InCourse1@gmail.com",
-      "reviewee" : "student4InCourse1@gmail.com",
-      "course" : "idOfTypicalCourse1",
-      "evaluation" : "evaluation1 In Course1",
-      "points" : 10,
-      "justification" : {"value" : "justification of student1InCourse1 rating to student4InCourse1"},
-      "p2pFeedback" : {"value" :"comments from student1InCourse1 to student4InCourse1"},
-      "team" : "Team 1.1"
-    },
-    "submissionFromS2C1ToS1C1" :{
-      "reviewer" : "student2InCourse1@gmail.com",
-      "reviewee" : "student1InCourse1@gmail.com",
-      "course" : "idOfTypicalCourse1",
-      "evaluation" : "evaluation1 In Course1",
-      "points" : 20,
-      "justification" : {"value" : "justification of student2InCourse1 rating to student1InCourse1"},
-      "p2pFeedback" : {"value" :"comments from student2InCourse1 to student1InCourse1"},
-      "team" : "Team 1.1"
-    },
-    "submissionFromS4C1ToS1C1" :{
-      "reviewer" : "student4InCourse1@gmail.com",
-      "reviewee" : "student1InCourse1@gmail.com",
-      "course" : "idOfTypicalCourse1",
-      "evaluation" : "evaluation1 In Course1",
-      "points" : 150,
-      "justification" : {"value" : "justification of student4InCourse1 rating to student1InCourse1"},
-      "p2pFeedback" : {"value" :"comments from student4InCourse1 to student1InCourse1"},
-      "team" : "Team 1.1"
-    },
-    "submissionFromS1C2ToS2C2" :{
-      "reviewer" : "student1InCourse2@gmail.com",
-      "reviewee" : "student2InCourse1@gmail.com",
-      "course" : "idOfTypicalCourse2",
-      "evaluation" : "evaluation1 In Course2",
-      "points" : 20,
-      "justification" : {"value" : "justification of student1InCourse2 rating to student2InCourse1(also in Course2)"},
-      "p2pFeedback" : {"value" :"comments from student1InCourse2 to student2InCourse2"},
-      "team" : "Team 2.1"
-    }  
-  },
-  
-  "feedbackSessions" : {
-  	 "session1InCourse1": {
-      "feedbackSessionName" : "First feedback session",
-      "courseId" : "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2012-03-20 11:59 PM UTC",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2015-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2015-05-01 11:59 PM UTC",
-      "timeZone" : 2.0,
-      "gracePeriod": 10,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
-    },
-    "session2InCourse1": {
-      "feedbackSessionName" : "Second feedback session",
-      "courseId" : "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2013-03-20 11:59 PM UTC",
-      "startTime" : "2013-06-01 11:59 PM UTC",
-      "endTime" : "2014-04-28 11:59 PM UTC",
-      "sessionVisibleFromTime" : "2013-03-20 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2014-04-29 11:59 PM UTC",
-      "timeZone" : 2.0,
-      "gracePeriod": 5,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
-    },
-    "gracePeriod.session": {
-      "feedbackSessionName" : "Session in Grace Period",
-      "courseId" : "SessionInGracePeriod",
-      "creatorEmail": "instructor1@SessionInGracePeriod.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2013-03-20 11:59 PM UTC",
-      "startTime" : "2013-06-01 11:59 PM UTC",
-      "endTime" : "2014-04-28 11:59 PM UTC",
-	  "sessionVisibleFromTime" : "2013-03-20 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2014-04-29 11:59 PM UTC",
-      "timeZone" : 2.0,
-      "gracePeriod": 1440,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
-    },
-    "empty.session": {
-      "feedbackSessionName" : "Empty session",
-      "courseId" : "idOfTypicalCourse1",
-      "creatorEmail": "instructor2@course1.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2013-01-20 11:57 PM UTC",
-      "startTime" : "2013-02-01 11:57 PM UTC",
-      "endTime" : "2013-04-28 11:57 PM UTC",
-      "sessionVisibleFromTime" : "2013-01-20 11:57 PM UTC",
-      "resultsVisibleFromTime" : "2013-04-29 11:57 PM UTC",
-      "timeZone" : 0,
-      "gracePeriod": 5,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : false,
-      "sentPublishedEmail" : false
-    },
-    "awaiting.session": {
-      "feedbackSessionName" : "non visible session",
-      "courseId" : "idOfTypicalCourse1",
-      "creatorEmail": "instructor2@course1.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2013-01-20 11:00 PM UTC",
-      "startTime" : "2016-02-01 11:00 PM UTC",
-      "endTime" : "2016-04-28 11:00 PM UTC",
-      "sessionVisibleFromTime" : "2016-02-01 11:00 PM UTC",
-      "resultsVisibleFromTime" : "2016-04-29 11:00 PM UTC",
-      "timeZone" : 0,
-      "gracePeriod": 5,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : false,
-      "sentPublishedEmail" : false
-    },
-    "session1InCourse2": {
-      "feedbackSessionName" : "Private feedback session",
-      "courseId" : "idOfTypicalCourse2",
-      "creatorEmail": "instructor1@course2.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2012-03-20 11:59 PM UTC",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : null,
-      "sessionVisibleFromTime" : "1970-11-27 00:00 AM UTC",
-      "resultsVisibleFromTime" : "1970-11-27 00:00 AM UTC",
-      "timeZone" : 8,
-      "gracePeriod": 0,
-      "feedbackSessionType" : "PRIVATE",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
-    },
-    "session2InCourse2": {
-      "feedbackSessionName" : "Instructor feedback session",
-      "courseId" : "idOfTypicalCourse2",
-      "creatorEmail": "instructor1@course2.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2012-03-20 11:59 PM UTC",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2015-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2015-05-01 11:59 PM UTC",
-      "timeZone" : 8,
-      "gracePeriod": 0,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
-    }   
-  },
-  "feedbackQuestions" : {
-  	 "qn1InSession1InCourse1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"creatorEmail" : "instructor1@course1.com",
-		"questionText" : {"value" : "What is the best selling point of your product?"},
-		"questionNumber" : "1",
-		"questionType" : "TEXT",
-		"giverType" : "STUDENTS",
-		"recipientType" : "SELF",
-		"numberOfEntitiesToGiveFeedbackTo" : 1,
-		"showResponsesTo" : [ "INSTRUCTORS" ],
-		"showGiverNameTo" : [ "INSTRUCTORS" ],
-		"showRecipientNameTo" : [ "INSTRUCTORS" ]
-    },
-    "qn2InSession1InCourse1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"creatorEmail" : "instructor1@course1.com",
-		"questionText" : {"value" : "Rate 1 other student's product"},
-		"questionNumber" : "2",
-		"questionType" : "TEXT",
-		"giverType" : "STUDENTS",
-		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 1,
-		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
-		"showGiverNameTo" : [ "INSTRUCTORS" ],
-		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
-    },
-    "qn3InSession1InCourse1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"creatorEmail" : "instructor1@course1.com",
-		"questionText" : {"value" : "My comments on the class"},
-		"questionNumber" : "3",
-		"giverType" : "SELF",
-		"recipientType" : "NONE",
-		"numberOfEntitiesToGiveFeedbackTo" : -100,
-		"showResponsesTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
-		"showGiverNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
-		"showRecipientNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ]
-    },
-    "team.feedback": {
-		"feedbackSessionName" : "Second feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"creatorEmail" : "instructor1@course1.com",
-		"questionText" : {"value" : "Give feedback to 2 other teams."},
-		"questionNumber" : "1",
-		"giverType" : "TEAMS",
-		"recipientType" : "TEAMS",
-		"numberOfEntitiesToGiveFeedbackTo" : 2,
-		"showResponsesTo" : [ "RECEIVER" ],
-		"showGiverNameTo" : [ "RECEIVER" ],
-		"showRecipientNameTo" : [ "RECEIVER" ]
-    },
-    "team.members.feedback": {
-		"feedbackSessionName" : "Second feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"creatorEmail" : "instructor1@course1.com",
-		"questionText" : {"value" : "Give feedback to 1 of your team mates"},
-		"questionNumber" : "2",
-		"giverType" : "STUDENTS",
-		"recipientType" : "OWN_TEAM_MEMBERS",
-		"numberOfEntitiesToGiveFeedbackTo" : 1,
-		"showResponsesTo" : [ "RECEIVER" ],
-		"showGiverNameTo" : [ "RECEIVER" ],
-		"showRecipientNameTo" : [ "RECEIVER" ]
-    },
-	 "graceperiod.session.feedback": {
-		"feedbackSessionName" : "Session in Grace Period",
-		"courseId" : "SessionInGracePeriod",
-		"creatorEmail" : "instructor1@course1.com",
-		"questionText" : {"value" : "Give feedback to 2 other teams."},
-		"questionNumber" : "1",
-		"giverType" : "TEAMS",
-		"recipientType" : "TEAMS",
-		"numberOfEntitiesToGiveFeedbackTo" : 2,
-		"showResponsesTo" : [ "RECEIVER" ],
-		"showGiverNameTo" : [ "RECEIVER" ],
-		"showRecipientNameTo" : [ "RECEIVER" ]
-    },
-    "qn1InSession4InCourse1": {
-		"feedbackSessionName" : "non visible session",
-		"courseId" : "idOfTypicalCourse1",
-		"creatorEmail" : "instructor1@course1.com",
-		"questionText" : {"value" : "Give feedback to 4 other students"},
-		"questionNumber" : "1",
-		"giverType" : "STUDENTS",
-		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 4,
-		"showResponsesTo" : [ "RECEIVER" ],
-		"showGiverNameTo" : [ "RECEIVER" ],
-		"showRecipientNameTo" : [ "RECEIVER" ]
-    },
-    "qn1InSession1InCourse2": {
-		"feedbackSessionName" : "Private feedback session",
-		"courseId" : "idOfTypicalCourse2",
-		"creatorEmail" : "instructor1@course2.com",
-		"questionText" : {"value" : "This is a private session for myself"},
-		"questionNumber" : "1",
-		"giverType" : "SELF",
-		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 10,
-		"showResponsesTo" : [ ],
-		"showGiverNameTo" : [ ],
-		"showRecipientNameTo" : [ ]
-    },
-    "qn1InSession2InCourse2": {
-		"feedbackSessionName" : "Instructor feedback session",
-		"courseId" : "idOfTypicalCourse2",
-		"creatorEmail" : "instructor1@course2.com",
-		"questionText" : {"value" : "Please rate the following teams"},
-		"questionNumber" : "1",
-		"giverType" : "INSTRUCTORS",
-		"recipientType" : "TEAMS",
-		"numberOfEntitiesToGiveFeedbackTo" : 1,
-		"showResponsesTo" : [ ],
-		"showGiverNameTo" : [ ],
-		"showRecipientNameTo" : [ ]
-    },
-    "qn2InSession2InCourse2": {
-		"feedbackSessionName" : "Instructor feedback session",
-		"courseId" : "idOfTypicalCourse2",
-		"creatorEmail" : "instructor1@course2.com",
-		"questionText" : {"value" : "Please rate your fellow instructors"},
-		"questionNumber" : "2",
-		"giverType" : "INSTRUCTORS",
-		"recipientType" : "INSTRUCTORS",
-		"numberOfEntitiesToGiveFeedbackTo" : 1,
-		"showResponsesTo" : [ ],
-		"showGiverNameTo" : [ ],
-		"showRecipientNameTo" : [ ]
-    }
-   },
-  "feedbackResponses" : {
-  	 "response1ForQ1S1C1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"feedbackQuestionId" : "1",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "student1InCourse1@gmail.com",
-		"recipientEmail" : "student1InCourse1@gmail.com",
-		"answer" : {"value" : "Student 1 self feedback."}
-    },
-    "response2ForQ1S1C1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"feedbackQuestionId" : "1",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "student2InCourse1@gmail.com",
-		"recipientEmail" : "student2InCourse1@gmail.com",
-		"answer" : {"value" : "I'm cool'"}
-    },
-    "response1ForQ2S1C1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"feedbackQuestionId" : "2",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "student2InCourse1@gmail.com",
-		"recipientEmail" : "student1InCourse1@gmail.com",
-		"answer" : {"value" : "Response from student 2 to student 1."}
-    },
-    "response2ForQ2S1C1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"feedbackQuestionId" : "2",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "student1InCourse1@gmail.com",
-		"recipientEmail" : "student2InCourse1@gmail.com",
-		"answer" : {"value" : "Response from student 1 to student 2."}
-    },
-    "response3ForQ2S1C1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"feedbackQuestionId" : "2",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "student3InCourse1@gmail.com",
-		"recipientEmail" : "student2InCourse1@gmail.com",
-		"answer" : {"value" : "Response from student 3 \"to\" student 2.\r\nMultiline test."}
-    },
-    "response1ForQ3S1C1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"feedbackQuestionId" : "3",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "instructor1@course1.com",
-		"recipientEmail" : "%GENERAL%",
-		"answer" : {"value" : "Good work, keep it up!"}
-    },
-    "response1ForQ1S2C1": {
-		"feedbackSessionName" : "Second feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"feedbackQuestionId" : "1",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "student4InCourse1@gmail.com",
-		"recipientEmail" : "Team 1.2",
-		"answer" : {"value" : "Response from team 1 by (student 4) to team 1.2."}
-    },
-    "response1GracePeriodFeedback": {
-		"feedbackSessionName" : "Session in Grace Period",
-		"courseId" : "SessionInGracePeriod",
-		"feedbackQuestionId" : "1",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "student4InCourse1@gmail.com",
-		"recipientEmail" : "Team 1.2",
-		"answer" : {"value" : "Response from team 1 by (student 4) to team 1.2."}
-    },
-    "response1ForQ2S2C1": {
-		"feedbackSessionName" : "Second feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"feedbackQuestionId" : "2",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "student4InCourse1@gmail.com",
-		"recipientEmail" : "student2InCourse1@gmail.com",
-		"answer" : {"value" : "Response from student 4 to team member (student 2)."}
-    },
-    "response2ForQ2S2C1": {
-		"feedbackSessionName" : "Second feedback session",
-		"courseId" : "idOfTypicalCourse1",
-		"feedbackQuestionId" : "2",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "student1InCourse1@gmail.com",
-		"recipientEmail" : "student4InCourse1@gmail.com",
-		"answer" : {"value" : "Response from student 1 to team member (student 4)."}
-    },
-    "response1ForQ1S2C2": {
-		"feedbackSessionName" : "Instructor feedback session",
-		"courseId" : "idOfTypicalCourse2",
-		"feedbackQuestionId" : "1",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "instructor1@course2.com",
-		"recipientEmail" : "Team 2.1",
-		"answer" : {"value" : "Response from instr to Team 2.1"}
-    }
-   }
+	"feedbackSessions":{
+		"session1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2012-03-20 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+			"resultsVisibleFromTime":"2015-05-01 11:59 PM UTC",
+			"timeZone":2.0,
+			"gracePeriod":10,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		},
+		"session2InCourse1":{
+			"feedbackSessionName":"Second feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2013-03-20 11:59 PM UTC",
+			"startTime":"2013-06-01 11:59 PM UTC",
+			"endTime":"2014-04-28 11:59 PM UTC",
+			"sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
+			"resultsVisibleFromTime":"2014-04-29 11:59 PM UTC",
+			"timeZone":2.0,
+			"gracePeriod":5,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		},
+		"gracePeriod.session":{
+			"feedbackSessionName":"Session in Grace Period",
+			"courseId":"SessionInGracePeriod",
+			"creatorEmail":"instructor1@SessionInGracePeriod.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2013-03-20 11:59 PM UTC",
+			"startTime":"2013-06-01 11:59 PM UTC",
+			"endTime":"2014-04-28 11:59 PM UTC",
+			"sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
+			"resultsVisibleFromTime":"2014-04-29 11:59 PM UTC",
+			"timeZone":2.0,
+			"gracePeriod":1440,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		},
+		"empty.session":{
+			"feedbackSessionName":"Empty session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor2@course1.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2013-01-20 11:57 PM UTC",
+			"startTime":"2013-02-01 11:57 PM UTC",
+			"endTime":"2013-04-28 11:57 PM UTC",
+			"sessionVisibleFromTime":"2013-01-20 11:57 PM UTC",
+			"resultsVisibleFromTime":"2013-04-29 11:57 PM UTC",
+			"timeZone":0,
+			"gracePeriod":5,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":false,
+			"sentPublishedEmail":false
+		},
+		"awaiting.session":{
+			"feedbackSessionName":"non visible session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor2@course1.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2013-01-20 11:00 PM UTC",
+			"startTime":"2016-02-01 11:00 PM UTC",
+			"endTime":"2016-04-28 11:00 PM UTC",
+			"sessionVisibleFromTime":"2016-02-01 11:00 PM UTC",
+			"resultsVisibleFromTime":"2016-04-29 11:00 PM UTC",
+			"timeZone":0,
+			"gracePeriod":5,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":false,
+			"sentPublishedEmail":false
+		},
+		"session1InCourse2":{
+			"feedbackSessionName":"Private feedback session",
+			"courseId":"idOfTypicalCourse2",
+			"creatorEmail":"instructor1@course2.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2012-03-20 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":null,
+			"sessionVisibleFromTime":"1970-11-27 00:00 AM UTC",
+			"resultsVisibleFromTime":"1970-11-27 00:00 AM UTC",
+			"timeZone":8,
+			"gracePeriod":0,
+			"feedbackSessionType":"PRIVATE",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		},
+		"session2InCourse2":{
+			"feedbackSessionName":"Instructor feedback session",
+			"courseId":"idOfTypicalCourse2",
+			"creatorEmail":"instructor1@course2.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2012-03-20 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+			"resultsVisibleFromTime":"2015-05-01 11:59 PM UTC",
+			"timeZone":8,
+			"gracePeriod":0,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		}
+	},
+	"feedbackQuestions":{
+		"qn1InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"What is the best selling point of your product?"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn2InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Rate 1 other student's product"
+			},
+			"questionNumber":"2",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			]
+		},
+		"qn3InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"My comments on the class"
+			},
+			"questionNumber":"3",
+			"questionType":"TEXT",
+			"giverType":"SELF",
+			"recipientType":"NONE",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			]
+		},
+		"team.feedback":{
+			"feedbackSessionName":"Second feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Give feedback to 2 other teams."
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"TEAMS",
+			"recipientType":"TEAMS",
+			"numberOfEntitiesToGiveFeedbackTo":2,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"team.members.feedback":{
+			"feedbackSessionName":"Second feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Give feedback to 1 of your team mates"
+			},
+			"questionNumber":"2",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"OWN_TEAM_MEMBERS",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"graceperiod.session.feedback":{
+			"feedbackSessionName":"Session in Grace Period",
+			"courseId":"SessionInGracePeriod",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Give feedback to 2 other teams."
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"TEAMS",
+			"recipientType":"TEAMS",
+			"numberOfEntitiesToGiveFeedbackTo":2,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn1InSession4InCourse1":{
+			"feedbackSessionName":"non visible session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Give feedback to 4 other students"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":4,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn1InSession1InCourse2":{
+			"feedbackSessionName":"Private feedback session",
+			"courseId":"idOfTypicalCourse2",
+			"creatorEmail":"instructor1@course2.com",
+			"questionText":{
+				"value":"This is a private session for myself"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"SELF",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":10,
+			"showResponsesTo":[
+				
+			],
+			"showGiverNameTo":[
+				
+			],
+			"showRecipientNameTo":[
+				
+			]
+		},
+		"qn1InSession2InCourse2":{
+			"feedbackSessionName":"Instructor feedback session",
+			"courseId":"idOfTypicalCourse2",
+			"creatorEmail":"instructor1@course2.com",
+			"questionText":{
+				"value":"Please rate the following teams"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"TEAMS",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				
+			],
+			"showGiverNameTo":[
+				
+			],
+			"showRecipientNameTo":[
+				
+			]
+		},
+		"qn2InSession2InCourse2":{
+			"feedbackSessionName":"Instructor feedback session",
+			"courseId":"idOfTypicalCourse2",
+			"creatorEmail":"instructor1@course2.com",
+			"questionText":{
+				"value":"Please rate your fellow instructors"
+			},
+			"questionNumber":"2",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"INSTRUCTORS",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				
+			],
+			"showGiverNameTo":[
+				
+			],
+			"showRecipientNameTo":[
+				
+			]
+		}
+	},
+	"feedbackResponses":{
+		"response1ForQ1S1C1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"student1InCourse1@gmail.com",
+			"recipientEmail":"student1InCourse1@gmail.com",
+			"answer":{
+				"value":"Student 1 self feedback."
+			}
+		},
+		"response2ForQ1S1C1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"student2InCourse1@gmail.com",
+			"recipientEmail":"student2InCourse1@gmail.com",
+			"answer":{
+				"value":"I'm cool'"
+			}
+		},
+		"response1ForQ2S1C1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"student2InCourse1@gmail.com",
+			"recipientEmail":"student1InCourse1@gmail.com",
+			"answer":{
+				"value":"Response from student 2 to student 1."
+			}
+		},
+		"response2ForQ2S1C1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"student1InCourse1@gmail.com",
+			"recipientEmail":"student2InCourse1@gmail.com",
+			"answer":{
+				"value":"Response from student 1 to student 2."
+			}
+		},
+		"response3ForQ2S1C1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"student3InCourse1@gmail.com",
+			"recipientEmail":"student2InCourse1@gmail.com",
+			"answer":{
+				"value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
+			}
+		},
+		"response1ForQ3S1C1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"feedbackQuestionId":"3",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"instructor1@course1.com",
+			"recipientEmail":"%GENERAL%",
+			"answer":{
+				"value":"Good work, keep it up!"
+			}
+		},
+		"response1ForQ1S2C1":{
+			"feedbackSessionName":"Second feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"student4InCourse1@gmail.com",
+			"recipientEmail":"Team 1.2",
+			"answer":{
+				"value":"Response from team 1 by (student 4) to team 1.2."
+			}
+		},
+		"response1GracePeriodFeedback":{
+			"feedbackSessionName":"Session in Grace Period",
+			"courseId":"SessionInGracePeriod",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"student4InCourse1@gmail.com",
+			"recipientEmail":"Team 1.2",
+			"answer":{
+				"value":"Response from team 1 by (student 4) to team 1.2."
+			}
+		},
+		"response1ForQ2S2C1":{
+			"feedbackSessionName":"Second feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"student4InCourse1@gmail.com",
+			"recipientEmail":"student2InCourse1@gmail.com",
+			"answer":{
+				"value":"Response from student 4 to team member (student 2)."
+			}
+		},
+		"response2ForQ2S2C1":{
+			"feedbackSessionName":"Second feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"student1InCourse1@gmail.com",
+			"recipientEmail":"student4InCourse1@gmail.com",
+			"answer":{
+				"value":"Response from student 1 to team member (student 4)."
+			}
+		},
+		"response1ForQ1S2C2":{
+			"feedbackSessionName":"Instructor feedback session",
+			"courseId":"idOfTypicalCourse2",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"instructor1@course2.com",
+			"recipientEmail":"Team 2.1",
+			"answer":{
+				"value":"Response from instr to Team 2.1"
+			}
+		}
+	}
 }

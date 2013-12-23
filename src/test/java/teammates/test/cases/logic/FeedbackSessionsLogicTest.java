@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -47,11 +48,6 @@ import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestCase {
-	
-	/* TODO: implement tests for the following:
-	 * 1. getFeedbackSessionsListForInstructor()
-	 * 2. getFeedbackSessionsListForCourse()
-	 */
 	private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 	private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 	private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -65,6 +61,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		gaeSimulation.setupWithTaskQueueCallbackClass(PublishUnpublishSessionCallback.class);
 		gaeSimulation.resetDatastore();
 		
+	}
+	
+	@BeforeMethod
+	public void methodSetUp() throws Exception {
+		dataBundle = getTypicalDataBundle();
 	}
 	
 	@SuppressWarnings("serial")
@@ -731,30 +732,31 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		String export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
 				session.feedbackSessionName, session.courseId, instructor.email);
 		
-		// This is what export should look like:
-		// ==================================
-		//Course,idOfTypicalCourse1
-		//Session Name,First feedback session
-		//
-		//
-		//Question 1,"What is the best selling point of your product?"
-		//
-		//Giver,Recipient,Feedback
-		//"student1 In Course1","student1 In Course1","Student 1 self feedback."
-		//"student2 In Course1","student2 In Course1","I'm cool'"
-		//
-		//
-		//Question 2,"Rate 5 other students' products",
-		//Giver,Recipient,Feedback
-		//"student1 In Course1","student1 In Course1","Response from student 1 to student 2."
-		//"student2 In Course1","student1 In Course1","Response from student 2 to student 1."
-		//"student3 In Course1","student2 In Course1","Response from student 3 ""to"" student 2.
-		//Multiline test."
-		//
-		//
-		//Question 3,"My comments on the class",
-		//Giver,Recipient,Feedback
-		//"Instructor1 Course1","-","Good work, keep it up!"
+		/* This is what export should look like:
+		==================================
+		Course,idOfTypicalCourse1
+		Session Name,First feedback session
+		
+		
+		Question 1,"What is the best selling point of your product?"
+		
+		Giver,Recipient,Feedback
+		"student1 In Course1","student1 In Course1","Student 1 self feedback."
+		"student2 In Course1","student2 In Course1","I'm cool'"
+		
+		
+		Question 2,"Rate 5 other students' products",
+		Giver,Recipient,Feedback
+		"student1 In Course1","student1 In Course1","Response from student 1 to student 2."
+		"student2 In Course1","student1 In Course1","Response from student 2 to student 1."
+		"student3 In Course1","student2 In Course1","Response from student 3 ""to"" student 2.
+		Multiline test."
+		
+		
+		Question 3,"My comments on the class",
+		Giver,Recipient,Feedback
+		"Instructor1 Course1","-","Good work, keep it up!"
+		*/
 		
 		String[] exportLines = export.split(Const.EOL);
 		assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
@@ -785,6 +787,40 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		// checking comma inside cell
 		assertEquals(exportLines[23], "\"Instructor1 Course1\",\"-\",\"Good work, keep it up!\"");
 		
+		______TS("MCQ Session");
+		
+		restoreDatastoreFromJson("FeedbackSessionQuestionTypeTest.json");
+		dataBundle = getDataBundle("FeedbackSessionQuestionTypeTest.json");
+		session = dataBundle.feedbackSessions.get("mcqSession");
+		instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		
+		export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+				session.feedbackSessionName, session.courseId, instructor.email);
+		
+		/*This is how the export should look like
+		=======================================
+		Course,"idOfTypicalCourse1"
+		Session Name,"MCQ Session"
+		 
+		 
+		Question 1,"What do you like best about our product?"
+		 
+		Giver,Recipient,Feedback
+		"student1 In Course1","student1 In Course1","It's good"
+		"student2 In Course1","student2 In Course1","It's perfect"
+		*/
+		
+		exportLines = export.split(Const.EOL);
+		assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+		assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+		assertEquals(exportLines[2], "");
+		assertEquals(exportLines[3], "");
+		assertEquals(exportLines[4], "Question 1,\"What do you like best about our product?\"");
+		assertEquals(exportLines[5], "");
+		assertEquals(exportLines[6], "Giver,Recipient,Feedback");
+		assertEquals(exportLines[7], "\"student1 In Course1\",\"student1 In Course1\",\"It's good\"");
+		assertEquals(exportLines[8], "\"student2 In Course1\",\"student2 In Course1\",\"It's perfect\"");
+				
 		______TS("Non-existent Course/Session");
 		
 		try {

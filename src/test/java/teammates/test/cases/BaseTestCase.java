@@ -104,6 +104,13 @@ public class BaseTestCase {
 		return loadDataBundle("/typicalDataBundle.json");
 	}
 	
+	/**
+	 * Creates a DataBundle as specified in the given json file
+	 */
+	protected static DataBundle getDataBundle(String jsonFileName) {
+		return loadDataBundle("/" + jsonFileName);
+	}
+	
 	protected static DataBundle loadDataBundle(String pathToJsonFile){
 		if(pathToJsonFile.startsWith("/")){
 			pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
@@ -126,7 +133,19 @@ public class BaseTestCase {
 		DataBundle dataBundle = getTypicalDataBundle();
 		backDoorLogic.persistDataBundle(dataBundle);
 	}
-
+	
+	/**
+	 * Creates in the datastore a fresh copy of data in the given json file
+	 * @param jsonFileName <br> 
+	 * * The name of the json file to be loaded. <br>
+	 * * The file is assumed to be in the default directory together with typicalDataBundle.json. <br>
+	 * * Don't forget the ".json" extension when passing the name as argument.
+	 */
+	protected void restoreDatastoreFromJson(String jsonFileName) throws Exception {
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		DataBundle dataBundle = loadDataBundle("/" + jsonFileName);
+		backDoorLogic.persistDataBundle(dataBundle);
+	}
 
 	protected void signalFailureToDetectException(String... messages) {
 		throw new RuntimeException("Expected exception not detected."+ Arrays.toString(messages));
