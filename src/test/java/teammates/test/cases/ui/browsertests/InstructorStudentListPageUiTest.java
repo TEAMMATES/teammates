@@ -13,6 +13,7 @@ import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentListPage;
@@ -99,6 +100,12 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 					.withUserId(instructorId);
 			
 		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+		
+		______TS("link: enroll");
+		String courseId = testData.courses.get("course2").id;
+		InstructorCourseEnrollPage enrollPage = viewPage.clickEnrollStudents(courseId);
+		enrollPage.verifyIsCorrectPage(courseId);
+		viewPage = enrollPage.goToPreviousPage(InstructorStudentListPage.class);
 		
 		______TS("link: view");
 		

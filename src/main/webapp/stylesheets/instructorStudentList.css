@@ -8,6 +8,13 @@
     height: 50px;
 }
 
+.enrollLink {
+	float: right;
+	width: 38%;
+    margin-top: 20px;
+    height: 30px;
+}
+
 .dataTable td+td a { 
 	margin: 0px 8px;
 }
