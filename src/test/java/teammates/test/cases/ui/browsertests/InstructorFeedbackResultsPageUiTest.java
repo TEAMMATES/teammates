@@ -86,7 +86,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testLink() {
-		// TODO: test download link
+		______TS("action: download report");
+		
+		Url reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+			.withUserId("CFResultsUiT.instr")
+			.withCourseId("CFResultsUiT.CS2104")
+			.withSessionName("First Session");
+		
+		resultsPage.verifyDownloadLink(reportUrl);
+		
+		______TS("action: edit");
+		//TODO Is this test complete?
 		resultsPage.clickEditLink();
 	}
 
