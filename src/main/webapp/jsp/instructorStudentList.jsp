@@ -74,6 +74,12 @@
 							[<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
 						</h2>
 					</div>
+					<div class="enrollLink blockLink rightalign">
+						<a class="t_course_enroll<%=courseIdx%> color_white bold"
+							href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
+							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL%>')"
+							onmouseout="hideddrivetip()"> Enroll Students</a>
+					</div>
 					<div style="clear: both;"></div>
 					<br>
 					<%
