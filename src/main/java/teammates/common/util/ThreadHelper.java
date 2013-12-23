@@ -28,7 +28,7 @@ public class ThreadHelper {
 			log.severe(TeammatesException.toStringWithStackTrace(e));
 		}
 	}
-
+	
 	public static String getCurrentThreadStack() {
 		StringWriter sw = new StringWriter();
 		new Throwable("").printStackTrace(new PrintWriter(sw));

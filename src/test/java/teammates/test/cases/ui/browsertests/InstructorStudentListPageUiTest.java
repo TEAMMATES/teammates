@@ -16,6 +16,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentListPage;
+import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * Covers the 'student list' view for instructors.
@@ -112,6 +113,12 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 		InstructorCourseStudentDetailsEditPage studentEditPage = viewPage.clickEditStudent(student2.name);
 		studentEditPage.verifyIsCorrectPage(student2.email);
 		viewPage = studentEditPage.goToPreviousPage(InstructorStudentListPage.class);
+		
+		______TS("link: view records");
+		
+		InstructorStudentRecordsPage studentRecordsPage = viewPage.clickViewRecordsStudent(student2.name);
+		studentRecordsPage.verifyIsCorrectPage();
+		viewPage = studentRecordsPage.goToPreviousPage(InstructorStudentListPage.class);
 	}
 	
 	private void testDeleteAction() {

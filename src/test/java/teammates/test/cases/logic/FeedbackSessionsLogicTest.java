@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -33,18 +31,22 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.automated.EmailAction;
+import teammates.logic.automated.FeedbackSessionPublishedMailAction;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.cases.BaseComponentUsingEmailQueueTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
-public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
+public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestCase {
 	
 	/* TODO: implement tests for the following:
 	 * 1. getFeedbackSessionsListForInstructor()
@@ -55,12 +57,157 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 	private DataBundle dataBundle = getTypicalDataBundle();
 	
+	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		turnLoggingUp(FeedbackSessionsLogic.class);
+		gaeSimulation.setupWithTaskQueueCallbackClass(PublishUnpublishSessionCallback.class);
+		gaeSimulation.resetDatastore();
+		
 	}
 	
+	@SuppressWarnings("serial")
+	public static class PublishUnpublishSessionCallback implements LocalTaskQueueCallback {
+		
+		@Override
+		public int execute(URLFetchRequest request) {
+			
+			HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
+			
+			EmailAction action = new FeedbackSessionPublishedMailAction(paramMap);
+			action.getPreparedEmailsAndPerformSuccessOperations();
+			return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
+		}
+
+		@Override
+		public void initialize(Map<String, String> arg0) {
+		}
+	}
+	
+	@Test
+	public void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("init : 0 non private sessions closing within time-limit");
+		List<FeedbackSessionAttributes> sessionList = fsLogic
+				.getFeedbackSessionsClosingWithinTimeLimit();
+		
+		assertEquals(0, sessionList.size());
+		
+		______TS("typical case : 1 non private session closing within time limit");
+		FeedbackSessionAttributes session = getNewFeedbackSession();
+		session.timeZone = 0;
+		session.feedbackSessionType = FeedbackSessionType.STANDARD;
+		session.sessionVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		session.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		session.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		fsLogic.createFeedbackSession(session);
+		
+		sessionList = fsLogic
+				.getFeedbackSessionsClosingWithinTimeLimit();
+		
+		assertEquals(1, sessionList.size());
+		assertEquals(session.feedbackSessionName, 
+				sessionList.get(0).feedbackSessionName);
+		
+		______TS("case : 1 private session closing within time limit");
+		session.feedbackSessionType = FeedbackSessionType.PRIVATE;
+		fsLogic.updateFeedbackSession(session);
+		
+		sessionList = fsLogic
+				.getFeedbackSessionsClosingWithinTimeLimit();
+		assertEquals(0, sessionList.size());
+		
+		//delete the newly added session as restoreTypicalDataInDatastore()
+				//wont do it
+		fsLogic.deleteFeedbackSessionCascade(session.feedbackSessionName,
+				session.courseId);
+	}
+	
+	@Test
+	public void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
+		restoreTypicalDataInDatastore();
+		______TS("init : 0 open sessions");
+		List<FeedbackSessionAttributes> sessionList = fsLogic
+				.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+		
+		assertEquals(0, sessionList.size());
+		
+		______TS("case : 1 open session with mail unsent");
+		FeedbackSessionAttributes session = getNewFeedbackSession();
+		session.timeZone = 0;
+		session.feedbackSessionType = FeedbackSessionType.STANDARD;
+		session.sessionVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		session.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		session.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		session.sentOpenEmail = false;
+		fsLogic.createFeedbackSession(session);		
+		
+		sessionList = fsLogic
+				.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+		assertEquals(sessionList.size(), 1);
+		assertEquals(sessionList.get(0).feedbackSessionName,
+				session.feedbackSessionName);
+		
+		______TS("typical case : 1 open session with mail sent");
+		session.sentOpenEmail = true;
+		fsLogic.updateFeedbackSession(session);
+		
+		sessionList = fsLogic
+				.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+		
+		assertEquals(0, sessionList.size());
+		
+		______TS("case : 1 closed session with mail unsent");
+		session.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		fsLogic.updateFeedbackSession(session);
+		
+		sessionList = fsLogic
+				.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+		assertEquals(0, sessionList.size());
+		
+		//delete the newly added session as restoreTypicalDataInDatastore()
+		//wont do it
+		fsLogic.deleteFeedbackSessionCascade(session.feedbackSessionName,
+				session.courseId);
+	}
+	
+	@Test
+	public void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
+		
+		restoreTypicalDataInDatastore();
+		______TS("init : no published sessions");
+		unpublishAllSessions();
+		List<FeedbackSessionAttributes> sessionList = fsLogic
+				.getFeedbackSessionsWhichNeedPublishedEmailsToBeSent();
+		
+		assertEquals(sessionList.size(), 0);
+		
+		______TS("case : 1 published session with mail unsent");
+		FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+		session.timeZone = 0;
+		session.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		session.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		session.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		
+		session.sentPublishedEmail = false;
+		fsLogic.updateFeedbackSession(session);
+		
+		sessionList = fsLogic
+				.getFeedbackSessionsWhichNeedPublishedEmailsToBeSent();
+		assertEquals(sessionList.size(), 1);
+		assertEquals(sessionList.get(0).feedbackSessionName,
+				session.feedbackSessionName);
+		
+		______TS("case : 1 published session with mail sent");
+		session.sentPublishedEmail = true;
+		fsLogic.updateFeedbackSession(session);		
+		
+		sessionList = fsLogic
+				.getFeedbackSessionsWhichNeedPublishedEmailsToBeSent();
+		assertEquals(sessionList.size(), 0);
+	}
 	
 	@Test
 	public void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {		
@@ -196,6 +343,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 	public void testGetFeedbackSessionsForCourse() throws Exception {
 		
 		restoreTypicalDataInDatastore();
+		dataBundle = getTypicalDataBundle();
 		
 		List<FeedbackSessionAttributes> actualSessions = null;
 		
@@ -415,7 +563,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		StudentAttributes student = 
 				responseBundle.students.get("student1InCourse1");		
 		FeedbackSessionResultsBundle results =
-				fsLogic.getFeedbackSessionResultsForUser(session.feedbackSessionName, 
+				fsLogic.getFeedbackSessionResultsForStudent(session.feedbackSessionName, 
 						session.courseId, student.email);
 	
 		// We just check for correct session once
@@ -465,7 +613,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		/*** Test result bundle for instructor1 ***/
 		InstructorAttributes instructor =
 				responseBundle.instructors.get("instructor1OfCourse1");		
-		results = fsLogic.getFeedbackSessionResultsForUser(
+		results = fsLogic.getFeedbackSessionResultsForInstructor(
 				session.feedbackSessionName, 
 				session.courseId, instructor.email);
 		
@@ -517,7 +665,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		
 		/*** Test result bundle for student1 ***/
 		student =  responseBundle.students.get("student1InCourse1");		
-		results = fsLogic.getFeedbackSessionResultsForUser(session.feedbackSessionName, 
+		results = fsLogic.getFeedbackSessionResultsForStudent(session.feedbackSessionName, 
 						session.courseId, student.email);
 		
 		assertEquals(results.questions.size(),0);
@@ -529,7 +677,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		
 		instructor =
 				responseBundle.instructors.get("instructor1OfCourse1");		
-		results = fsLogic.getFeedbackSessionResultsForUser(
+		results = fsLogic.getFeedbackSessionResultsForInstructor(
 				session.feedbackSessionName, 
 				session.courseId, instructor.email);
 		
@@ -560,13 +708,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		______TS("failure: no session");
 				
 		try {
-			fsLogic.getFeedbackSessionResultsForUser("invalid session", 
+			fsLogic.getFeedbackSessionResultsForInstructor("invalid session", 
 				session.courseId, instructor.email);
 			signalFailureToDetectException("Did not detect that session does not exist.");
 		} catch (EntityDoesNotExistException e) {
 			assertEquals(e.getMessage(), "Trying to view non-existent feedback session.");
 		}
+		//TODO: check for cases where a person is both a student and an instructor
 	}
+	
 	
 	@Test
 	public void testGetFeedbackSessionResultsSummaryAsCsv() throws Exception {
@@ -654,17 +804,17 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		restoreTypicalDataInDatastore();
 		
 		______TS("success: publish");
-		
 		FeedbackSessionAttributes
 			sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse1");
 		
 		// set as manual publish
+		
 		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
 		fsLogic.updateFeedbackSession(sessionUnderTest);
 		
 		fsLogic.publishFeedbackSession(
 				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
-		
+		waitForTaskQueueExecution(1);
 		sessionUnderTest.sentPublishedEmail = true;
 		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
 		
@@ -672,7 +822,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 				fsLogic.getFeedbackSession(
 				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId).toString(),
 				sessionUnderTest.toString());
-		
 		
 		______TS("failure: already published");
 		
@@ -762,142 +911,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		}
 	}
 	
-	@Test
-	public void testSendFeedbackSessionOpeningEmails() throws Exception{
-		DataBundle dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-		
-		______TS("3 sessions opened and emails sent, 1 awaiting");
-		List<MimeMessage> emailsSent = fsLogic.sendFeedbackSessionOpeningEmails();
-		assertEquals(emailsSent.size(), 0);
-		
-		______TS("3 sessions opened and emails sent, 1 session opened without emails sent");
-		// Modify session to set emails as unsent but still open
-		// by closing and opening the session.
-		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
-				.get("session1InCourse1");
-		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
-		session1.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
-		fsLogic.updateFeedbackSession(session1);
-		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-		fsLogic.updateFeedbackSession(session1);
-		
-		emailsSent = fsLogic.sendFeedbackSessionOpeningEmails();
-		assertEquals(emailsSent.size(), 8); // 5 students + 3 instructors in course1.
-
-		for (MimeMessage m : emailsSent) {
-			String subject = m.getSubject();
-			assertTrue(subject.contains(session1.feedbackSessionName));
-			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
-		}
-	}
-	
-	@Test
-	public void testSendFeedbackSessionClosingEmails() throws Exception{
-		DataBundle dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-		
-		______TS("typical case, 0 sessions closing soon");
-		List<MimeMessage> emailsSent = fsLogic.sendFeedbackSessionClosingEmails();
-		assertEquals(emailsSent.size(), 0);
-		
-		______TS("typical case, two sessions closing soon");
-		// Modify session to close in 24 hours.
-		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
-				.get("session1InCourse1");
-		session1.timeZone = 0;
-		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-		session1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-		fsLogic.updateFeedbackSession(session1);
-		LogicTest.verifyPresentInDatastore(session1);
-		
-		// Reuse an existing session to create a new one that is
-		// closing in 24 hours.
-		FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
-				.get("session2InCourse2");
-		String nameOfSessionInCourse2 = "new session in course 2 tSFSCE";
-		session2.feedbackSessionName = nameOfSessionInCourse2;
-		session2.timeZone = 0;
-		session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-		session2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-		fsLogic.createFeedbackSession(session2);
-		LogicTest.verifyPresentInDatastore(session2);
-		
-		emailsSent = fsLogic.sendFeedbackSessionClosingEmails();
-		
-		int course1StudentCount = 5-2; // 2 students have already completed the session 
-		int course1InstructorCount = 3;
-		int course2StudentCount = 0; // there are no questions, so no students can see the session
-		int course2InstructorCount = 3;
-
-		assertEquals(emailsSent.size(),
-				course1StudentCount + course1InstructorCount +
-				course2StudentCount + course2InstructorCount);
-
-		for (MimeMessage m : emailsSent) {
-			String subject = m.getSubject();
-			assertTrue(subject.contains(session1.feedbackSessionName)
-					|| subject.contains(session2.feedbackSessionName));
-			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
-		}
-
-	}
-	
-	@Test
-	public void testSendFeedbackSessionPublishedEmails() throws Exception{
-		DataBundle dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-		
-		______TS("3 sessions unpublished, 1 published and emails unsent");
-		List<MimeMessage> emailsSent = fsLogic.sendFeedbackSessionPublishedEmails();
-		assertEquals(emailsSent.size(), 3); // 3 instructors, none sent to students as there is no questions.
-		
-		______TS("publish sessions");
-		/** 1 sessions unpublished, 1 published and email sent,
-		    1 published by changing publish time, 1 manually published **/
-		
-		// Check that we do not resent published session emails
-		emailsSent = fsLogic.sendFeedbackSessionPublishedEmails();
-		assertEquals(emailsSent.size(), 0);
-		
-		// Publish session by moving automated publish time
-		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
-		session1.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-		fsLogic.updateFeedbackSession(session1);
-		
-		// Do a manual publish
-		FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse1");
-		session2.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
-		fsLogic.updateFeedbackSession(session2);
-		fsLogic.publishFeedbackSession(session2.feedbackSessionName, session2.courseId);
-		
-		// Check that only 1 published sessions will have emails sent as
-		// manually publish sessions have emails sent immediately already.
-		emailsSent = fsLogic.sendFeedbackSessionPublishedEmails();
-		assertEquals(emailsSent.size(), 8); // 5 students + 3 instructors for session 1 in course 1.
-		
-		for (MimeMessage m : emailsSent) {
-			String subject = m.getSubject();
-			assertTrue(subject.contains(session1.feedbackSessionName)
-					|| subject.contains(session2.feedbackSessionName));
-			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
-		}
-		
-		______TS("unpublished a session and publish again");
-		fsLogic.unpublishFeedbackSession(session2.feedbackSessionName, session2.courseId);
-		session2.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-		fsLogic.updateFeedbackSession(session2);
-		emailsSent = fsLogic.sendFeedbackSessionPublishedEmails();
-		assertEquals(emailsSent.size(), 8); // 5 students + 3 instructors for session 2 in course 1.
-		
-		for (MimeMessage m : emailsSent) {
-			String subject = m.getSubject();
-			assertTrue(subject.contains(session1.feedbackSessionName)
-					|| subject.contains(session2.feedbackSessionName));
-			assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
-		}
-	}
-	
 	private FeedbackSessionAttributes getNewFeedbackSession() {
 		FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
 		fsa.feedbackSessionType = FeedbackSessionType.STANDARD;
@@ -946,7 +959,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 		return frLogic.getFeedbackResponse(questionId, 
 				response.giverEmail, response.recipientEmail);
 	}
-
+	
+	private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
+		for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
+			if(fs.isPublished()) {
+				fsLogic.unpublishFeedbackSession(fs.feedbackSessionName, fs.courseId);				
+			}
+		}
+	}
+	
 	// Stringifies the visibility table for easy testing/comparison.
 	private String tableToString(Map<String, boolean[]> table){
 		String tableString = "";

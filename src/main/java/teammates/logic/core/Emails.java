@@ -16,14 +16,22 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+
+import static com.google.appengine.api.taskqueue.TaskOptions.Builder.*;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.SystemParams;
 import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
@@ -47,7 +55,14 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED = "TEAMMATES: Feedback session results published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
 	public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
-
+	public static enum EmailType {
+		EVAL_CLOSING,
+		EVAL_OPENING,
+		FEEDBACK_CLOSING,
+		FEEDBACK_OPENING,
+		FEEDBACK_PUBLISHED
+	};
+	
 	private String senderEmail;
 	private String senderName;
 	private String replyTo;
@@ -71,6 +86,27 @@ public class Emails {
 		return messageInfo.toString();
 	}
 
+	public void addEvaluationReminderToEmailsQueue(EvaluationAttributes evaluation,
+			EmailType typeOfEmail) {
+		
+		Queue emailQueue = QueueFactory.getQueue(SystemParams.EMAIL_TASK_QUEUE);
+		
+		emailQueue.add(withUrl(Const.ActionURIs.EMAIL_WORKER)
+				.param(ParamsNames.EMAIL_EVAL, evaluation.name)
+				.param(ParamsNames.EMAIL_COURSE, evaluation.courseId)
+				.param(ParamsNames.EMAIL_TYPE, typeOfEmail.toString()));
+	}
+	
+	public void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes feedback,
+			EmailType typeOfEmail) {
+		
+		Queue emailQueue = QueueFactory.getQueue(SystemParams.EMAIL_TASK_QUEUE);
+				
+		emailQueue.add(withUrl(Const.ActionURIs.EMAIL_WORKER)
+				.param(ParamsNames.EMAIL_FEEDBACK, feedback.feedbackSessionName)
+				.param(ParamsNames.EMAIL_COURSE, feedback.courseId)
+				.param(ParamsNames.EMAIL_TYPE, typeOfEmail.toString()));
+	}
 	public List<MimeMessage> generateEvaluationOpeningEmails(
 			CourseAttributes course,
 			EvaluationAttributes evaluation, 
@@ -88,6 +124,22 @@ public class Emails {
 					email.getContent().toString()
 							.replace("${status}", "is now open"), "text/html");
 		}
+		return emails;
+	}
+	public List<MimeMessage> generateEvaluationOpeningEmailsForEval(
+			EvaluationAttributes evaluation) 
+					throws MessagingException, IOException, EntityDoesNotExistException {
+		StudentsLogic studentsLogic = StudentsLogic.inst();
+		CoursesLogic coursesLogic = CoursesLogic.inst();
+		InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+
+		CourseAttributes course = coursesLogic.getCourse(evaluation.courseId);
+		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(evaluation.courseId);
+		List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(evaluation.courseId);
+		
+		List<MimeMessage> emails = null;
+		emails = generateEvaluationOpeningEmails(course, evaluation,
+													students, instructors);
 		return emails;
 	}
 
@@ -132,6 +184,33 @@ public class Emails {
 							.replace("${status}", "is closing soon"),
 					"text/html");
 		}
+		return emails;
+	}
+	
+	public List<MimeMessage> generateEvaluationClosingEmailsForEval(EvaluationAttributes ed)
+					throws MessagingException, IOException, EntityDoesNotExistException {
+
+		StudentsLogic studentsLogic = StudentsLogic.inst();
+		CoursesLogic coursesLogic = CoursesLogic.inst();
+		InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+		EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+		
+		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.courseId);
+		List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(ed.courseId);
+		List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
+		
+		for (StudentAttributes sd : studentDataList) {
+			if (!evaluationsLogic.isEvaluationCompletedByStudent(ed, sd.email)) {
+				studentToRemindList.add(sd);
+			}
+		}
+	
+		CourseAttributes c = coursesLogic.getCourse(ed.courseId);
+
+		List<MimeMessage> emails = null;
+		emails = generateEvaluationClosingEmails(c, ed, 
+				studentToRemindList, instructorList);
+		
 		return emails;
 	}
 
@@ -269,13 +348,29 @@ public class Emails {
 		return message;
 	}
 
-	public List<MimeMessage> generateFeedbackSessionOpeningEmails(
-			CourseAttributes course, FeedbackSessionAttributes session,
-			List<StudentAttributes> students, List<InstructorAttributes> instructors) 
-					throws MessagingException, IOException {
+	public List<MimeMessage> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) 
+					throws EntityDoesNotExistException, MessagingException, IOException {
 		
 		String template = EmailTemplates.USER_FEEDBACK_SESSION;
-		List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
+		StudentsLogic studentsLogic = StudentsLogic.inst();
+		CoursesLogic coursesLogic = CoursesLogic.inst();
+		InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+		FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+		
+		CourseAttributes course = coursesLogic
+				.getCourse(session.courseId);
+		List<InstructorAttributes> instructors = instructorsLogic
+				.getInstructorsForCourse(session.courseId);
+		List<StudentAttributes> students;
+		
+		if (fsLogic.isFeedbackSessionViewableToStudents(session)) {
+			students = studentsLogic.getStudentsForCourse(session.courseId);
+		} else {
+			students = new ArrayList<StudentAttributes>();
+		}
+		
+		List<MimeMessage> emails = null;
+		emails = generateFeedbackSessionEmailBases(course,
 				session, students, instructors, template);
 		
 		for (MimeMessage email : emails) {
@@ -285,19 +380,39 @@ public class Emails {
 					email.getContent().toString()
 							.replace("${status}", "is now open"), "text/html");
 		}
-		
 		return emails;
 	}
 	
 	public List<MimeMessage> generateFeedbackSessionClosingEmails(
-			CourseAttributes course,
-			FeedbackSessionAttributes session, 
-			List<StudentAttributes> students,
-			List<InstructorAttributes> instructors)
-					throws MessagingException, IOException {
-
+			FeedbackSessionAttributes session)
+					throws MessagingException, IOException, EntityDoesNotExistException {
+		
+		StudentsLogic studentsLogic = StudentsLogic.inst();
+		CoursesLogic coursesLogic = CoursesLogic.inst();
+		InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+		FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 		String template = EmailTemplates.USER_FEEDBACK_SESSION;
-		List<MimeMessage> emails = generateFeedbackSessionEmailBases(
+		List<MimeMessage> emails = null;
+		
+		CourseAttributes course = coursesLogic
+				.getCourse(session.courseId);
+		List<InstructorAttributes> instructors = instructorsLogic
+				.getInstructorsForCourse(session.courseId);
+		List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+
+		if (fsLogic.isFeedbackSessionViewableToStudents(session) == true) {
+			List<StudentAttributes> allStudents = studentsLogic.
+					getStudentsForCourse(session.courseId);
+
+			for (StudentAttributes student : allStudents) {
+				if (!fsLogic.isFeedbackSessionFullyCompletedByStudent(
+						session.feedbackSessionName, session.courseId,
+						student.email)) {
+					students.add(student);
+				}
+			}
+		}
+		emails = generateFeedbackSessionEmailBases(
 				course, session, students, instructors, template);
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
@@ -311,21 +426,34 @@ public class Emails {
 	}
 	
 	public List<MimeMessage> generateFeedbackSessionPublishedEmails(
-			CourseAttributes course,
-			FeedbackSessionAttributes session,
-			List<StudentAttributes> students,
-			List<InstructorAttributes> instructors) 
-					throws MessagingException, IOException {
+			FeedbackSessionAttributes session)
+					throws MessagingException, IOException, EntityDoesNotExistException {
 		
+		StudentsLogic studentsLogic = StudentsLogic.inst();
+		CoursesLogic coursesLogic = CoursesLogic.inst();
+		InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+		FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 		String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
-		List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
+		List<MimeMessage> emails = null;
+
+		CourseAttributes course = coursesLogic
+				.getCourse(session.courseId);
+		List<StudentAttributes> students;
+		List<InstructorAttributes> instructors = instructorsLogic
+				.getInstructorsForCourse(session.courseId);
+		
+		if (fsLogic.isFeedbackSessionViewableToStudents(session)) {
+			students = studentsLogic.getStudentsForCourse(session.courseId);
+		} else {
+			students = new ArrayList<StudentAttributes>();
+		}
+		emails = generateFeedbackSessionEmailBases(course,
 				session, students, instructors, template);
 		
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
 		}
-		
 		return emails;
 	}
 	
@@ -505,9 +633,19 @@ public class Emails {
 		return message;
 	}
 
-	public void sendEmails(List<MimeMessage> messages) throws MessagingException {
+	public void sendEmails(List<MimeMessage> messages) {
 		for (MimeMessage m : messages) {
-			sendEmail(m);
+			try {
+				sendEmail(m);
+			} catch (MessagingException e) {
+				/*
+				 * TODO: Add mechanism for handling/resending mails which 
+				 * 		 encountered errors
+				 *       To consider: Try sending mail till a max retry count is reached?
+				 */
+				log.severe("Error in sending : " + m.toString()
+						    + " Cause : " + e.getMessage());
+			}
 		}
 	}
 

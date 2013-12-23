@@ -16,8 +16,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-
-
 public class HtmlHelper {
 
 	/**
@@ -46,7 +44,6 @@ public class HtmlHelper {
 		return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
 	}
 	
-
 	/**
 	 * Transform the HTML text to follow a standard format. 
 	 * Element attributes are reordered in alphabetical order.

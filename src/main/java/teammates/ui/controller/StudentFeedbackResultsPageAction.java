@@ -28,7 +28,7 @@ public class StudentFeedbackResultsPageAction extends Action {
 		StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account);
 		
 		data.student = logic.getStudentForGoogleId(courseId, account.googleId);
-		data.bundle = logic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, data.student.email);
+		data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email);
 		
 		if(data.bundle == null) {
 			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");

@@ -5,10 +5,16 @@
 	<test name="component-tests">
 	<!--  Theses can be run without starting the server. Should be run often. -->
 		<classes>
+			<class name="teammates.test.automated.EvaluationClosingReminderTest" />
+			<class name="teammates.test.automated.EvaluationOpeningReminderTest" />
+			<class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
+			<class name="teammates.test.automated.FeedbackSessionOpeningReminderTest" />
+			<class name="teammates.test.automated.FeedbackSessionPublishedReminderTest" />
 			<class name="teammates.test.cases.BaseTestCaseTest" />
 			<class name="teammates.test.cases.common.AccountAttributesTest" />
 			<class name="teammates.test.cases.common.BuildPropertiesTest" />
 			<class name="teammates.test.cases.common.CourseAttributesTest" />
+			<class name="teammates.test.cases.common.CourseRosterTest" />
 			<class name="teammates.test.cases.common.EvaluationAttributesTest" />
 			<class name="teammates.test.cases.common.FeedbackSessionAttributesTest" />
 			<class name="teammates.test.cases.common.FieldValidatorTest" />
@@ -98,6 +104,7 @@
 			<class name="teammates.test.cases.ui.InstructorEvalUnpublishActionTest" />
 			<class name="teammates.test.cases.ui.InstructorHomePageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorStudentListPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorStudentRecordsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentCourseDetailsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentCourseJoinActionTest" />
 			<class name="teammates.test.cases.ui.StudentEvalResultsPageActionTest" />
@@ -119,6 +126,7 @@
 			<class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
 		</classes>
 	</test>
+	
 	<test name="parallel-ui-tests" parallel="classes">
 	<!-- These cover the important UI functionality. Can be run in parallel. -->
 		<classes>
@@ -136,6 +144,7 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorStudentListPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />

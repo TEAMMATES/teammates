@@ -1,9 +1,13 @@
 package teammates.common.util;
 
+import java.net.URLDecoder;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 public class HttpRequestHelper {
 
@@ -27,6 +31,41 @@ public class HttpRequestHelper {
 	public static String[] getValuesFromParamMap(Map<String, String[]> paramMap, String key) {
 		String[] values = paramMap.get(key);
 		return values == null ? null : values;
+	}
+	
+	/**
+	 * Returns a HashMap object containing all the parameters key-value pairs
+	 * from a URLFetchRequest object
+	 */
+	public static HashMap<String,String> getParamMap(URLFetchRequest request) {
+		String requestBody = request.getPayload().toStringUtf8();
+		String[] params = requestBody.split("&");
+		HashMap<String,String> hashMap = new HashMap<String, String>();
+		
+		for (String param : params) {
+	        String[] pair = param.split("=");
+	        String name = pair[0];
+	        String value = pair[1];
+	        try {
+				String decodedValue = URLDecoder.decode(value, "UTF8");
+				
+				hashMap.put(name, decodedValue);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+	    }
+		
+		return hashMap;
+	}
+	/**
+	 * 
+	 * @param req An HttpServletRequest which contains the parameters map
+	 * @param key
+	 * @return the first value for the key. Returns null if key is not found
+	 */
+	@SuppressWarnings("unchecked")
+	public static String getValueFromRequestParameterMap(HttpServletRequest req, String key) {
+		return getValueFromParamMap(req.getParameterMap(), key);
 	}
 
 	//TODO: rename to a better name

@@ -1259,18 +1259,36 @@ public class Logic {
 	
 	/**
 	 * Gets a question+response bundle for questions with responses that
-	 * is visible to the user for a feedback session.
+	 * is visible to the student for a feedback session.
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
-	public FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
+	//TODO: test this method in LogicTest
+	public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
 			String feedbackSessionName, String courseId, String userEmail)
 					throws UnauthorizedAccessException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
 		
-		return feedbackSessionsLogic.getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail);
+		return feedbackSessionsLogic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, userEmail);
+	}
+	
+	/**
+	 * Gets a question+response bundle for questions with responses that
+	 * is visible to the instructor for a feedback session.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	//TODO: test this method in LogicTest
+	public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
+			String feedbackSessionName, String courseId, String userEmail)
+					throws UnauthorizedAccessException, EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+		
+		return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail);
 	}
 	
 	@SuppressWarnings("unused")
