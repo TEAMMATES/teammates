@@ -21,7 +21,7 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 	private static Browser browser;
 	private static InstructorStudentRecordsPage viewPage;
-	private static DataBundle testDataNormal, testDataNoRecords;
+	private static DataBundle testDataNormal, testDataNoRecords, testDataQuestionType;
 	
 
 	@BeforeClass
@@ -29,8 +29,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		printTestClassHeader();
 		testDataNormal = loadDataBundle("/MashupPageUiTest.json");
 		testDataNoRecords = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
-		restoreTestDataOnServer(testDataNormal);
-		restoreTestDataOnServer(testDataNoRecords);
+		testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 		browser = BrowserPool.getBrowser();
 	}
 	
@@ -51,6 +50,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		
 		______TS("content: typical case, normal student records");
 		
+		restoreTestDataOnServer(testDataNormal);
+				
 		instructor = testDataNormal.instructors.get("teammates.test.CS2104");
 		student = testDataNormal.students.get("benny.c.tmms@CS2104");
 		
@@ -65,6 +66,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		
 		______TS("content: no student records");
 		
+		restoreTestDataOnServer(testDataNoRecords);
+				
 		instructor = testDataNoRecords.instructors.get("CCEnrollUiT.teammates.test");
 		student = testDataNoRecords.students.get("alice.b.tmms@CCEnrollUiT.CS2104");
 		
@@ -75,6 +78,21 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		
 		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
 		viewPage.verifyHtml("/instructorStudentRecordsPageNoRecords.html");
+		
+		______TS("content: multiple feedback session type student record");
+		
+		restoreTestDataOnServer(testDataQuestionType);
+				
+		instructor = testDataQuestionType.instructors.get("instructor1OfCourse1");
+		student = testDataQuestionType.students.get("student1InCourse1");
+		
+		viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
+			.withUserId(instructor.googleId)
+			.withCourseId(instructor.courseId)
+			.withStudentEmail(student.email);
+		
+		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
+		viewPage.verifyHtml("/instructorStudentRecordsPageMCQ.html");
 
 	}
 	
