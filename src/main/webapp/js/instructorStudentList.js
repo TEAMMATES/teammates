@@ -36,15 +36,39 @@ function search(){
 				$(this).parent().parent().hide();
 			}
 		});
+		hideEmails();
 	}
 }
 
 /**
+ * Hide student email view based on search key
+ * Uses the hidden attributes of the student_row inside dataTable
+ */
+function hideEmails(){
+	$('.student_row').each(function(){
+		var $elementId = $(this).attr('id');
+		var $studentId = $elementId.substr($elementId.length - 1);
+		if($(this).is(':hidden')){
+			$("#student_email" + $studentId).hide();
+		}
+	});
+}
+
+/**
  * Reset the StudentList view to display all modules and student names
+ * Reset display of student emails as well
  */
 function resetView(){
 	$('.backgroundBlock').show();
 	$('.student_row').show();
+	$('.student_email').show();
+}
+
+/**
+ * Toggle student emails view
+ */
+function toggleEmailView(){
+	$('.emails').toggle();
 }
 
 /**

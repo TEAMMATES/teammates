@@ -90,6 +90,24 @@
                   		</tbody>
                		</table>
                		<div id="statusMessage"  style="display: none;" ></div>
+               		<br><br>
+					<a class="color_black" id="show_email" href=""
+						onmouseover="ddrivetip('Show emails of all currently listed students')"
+						onmouseout="hideddrivetip()"
+						onclick="toggleEmailView(); return false;">Show student e-mails</a>
+					<div class="emails" style="display: none;">
+						<div class="student_emails">
+							<h4 class="bold">Emails of all currently displayed student:</h4>
+							<ul>
+								<li class="student_email" id="student_email0" style="display: none;">CCSDetailsUiT.alice.tmms@gmail.com</li>
+								<li class="student_email" id="student_email1" style="display: none;">benny.c.tmms@gmail.com</li>
+								<li class="student_email" id="student_email2" style="display: none;">CCSDetailsUiT.alice.tmms@gmail.com</li>
+								<li class="student_email" id="student_email3" style="display: none;">benny.c.tmms@gmail.com</li>
+								<li class="student_email" id="student_email4" style="display: none;">CCSDetailsUiT.charlie.tmms@gmail.com</li>
+								<li class="student_email" id="student_email5" style="display: none;">denny.c.tmms@gmail.com</li>
+							</ul>
+						</div>
+					</div>
                		<div class="backgroundBlock"  id="course0" style="display: none;">
                   		<div class="courseTitle" >
                      		<h2 class="color_white" >[course2] : Name of Course 2</h2>
