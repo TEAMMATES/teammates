@@ -4,6 +4,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import java.io.IOException;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -49,17 +51,27 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 	
 	private void testContent() {
 		
-		______TS("open session");
+		______TS("Awaiting session");
+		
+		//TODO implement this
+		//Session and questions should be visible but cannot be answered
+		
+		______TS("Open session");
 		
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 		submitPage.verifyHtml("/studentFeedbackSubmitPageOpen.html");
 		
-		______TS("awaiting (closed) session");
+		______TS("Grace period session");
+		
+		//TODO implement this
+		//Session should look like closed session
+		
+		______TS("Closed) session");
 		
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Closed Session");
 		submitPage.verifyHtml("/studentFeedbackSubmitPageClosed.html");
 		
-		______TS("empty session");
+		______TS("Empty session");
 		
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
 		submitPage.verifyHtml("/studentFeedbackSubmitPageEmpty.html");
@@ -80,37 +92,64 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		submitPage.selectRecipient(2, 2, "Extra guy");
 		submitPage.fillQuestionTextBox(2, 2, "Response to extra guy.");
 		
+		submitPage.chooseMcqOption(7, 0, "Algo");
+		
 		// Test partial response for question		
 		submitPage.fillQuestionTextBox(4, 1, "Feedback to team 3");
 		
-		// Just check that one of the responses persisted.
+		// Just check that some of the responses persisted.
 		FeedbackQuestionAttributes fq =
 				BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
 						"First Session", 2);
+		FeedbackQuestionAttributes fqPartial =
+				BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
+						"First Session", 4);
+		FeedbackQuestionAttributes fqMcq =
+				BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
+						"First Session", 8);
+		
 		assertNull(BackDoor.getFeedbackResponse(fq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
 				"SFSubmitUiT.benny.c@gmail.com"));
+		assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
+				"SFSubmitUiT.alice.b@gmail.com",
+				"Team 3"));
+		assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
+				"SFSubmitUiT.alice.b@gmail.com",
+				"Team 2"));
 
 		submitPage.clickSubmitButton();
 
 		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
 				submitPage.getStatus());
+		
 		assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
 				"SFSubmitUiT.benny.c@gmail.com"));
+		assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
+				"SFSubmitUiT.alice.b@gmail.com",
+				"Team 3"));
+		assertNotNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
+				"SFSubmitUiT.alice.b@gmail.com",
+				"Team 2"));
 		
 		______TS("edit existing response");		
 		
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+		submitPage.verifyHtml("/studentFeedbackSubmitPagePartiallyFilled.html");
 
 		// Test editing an existing response 
 		// + fill up rest of responses at the same time
 		String editedResponse = "Edited response to Benny.";
 		submitPage.fillQuestionTextBox(2, 0, editedResponse);
+		submitPage.fillQuestionTextBox(3, 0, "Feedback to instructors");
 		submitPage.fillQuestionTextBox(4, 1, "Feedback to team 2.");
 		submitPage.fillQuestionTextBox(5, 0, "Feedback to teammate.");
+		submitPage.chooseMcqOption(6, 0, "UI");
+		submitPage.chooseMcqOption(7, 0, "UI"); // Changed from "Algo" to "UI"
+		submitPage.chooseMcqOption(7, 1, "UI");
 		
-		// Just check the edited response, and one new response.
+		// Just check the edited responses, and one new response.
 		assertNull(BackDoor.getFeedbackResponse(fq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
 				"Team 2"));
@@ -129,7 +168,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
 				"Team 2"));
-
+		assertEquals("UI",
+				BackDoor.getFeedbackResponse(fqMcq.getId(),
+					"SFSubmitUiT.alice.b@gmail.com",
+					"Team 2").getResponseDetails().getAnswerString());
+		
+		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+		submitPage.verifyHtml("/studentFeedbackSubmitPageFullyFilled.html");
 	}
 	
 	private void testModifyData() throws EnrollException{

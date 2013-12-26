@@ -37,10 +37,8 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		String studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
 
 		data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(feedbackSessionName, courseId, studentEmail);
-		
-		if(data.bundle == null) {
-			throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
-		}
+		Assumption.assertNotNull("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".", data.bundle);
+	
 		if (data.bundle.feedbackSession.isOpened() == false && data.bundle.feedbackSession.isInGracePeriod() == false) {
 			throw new UnauthorizedAccessException(
 					"This feedback session is not open for submission.");
@@ -94,16 +92,34 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 	}
 	
 	private FeedbackResponseAttributes extractFeedbackResponseData(int questionIndx, int responseIndx) {
-		//TODO Assert parameter values are not null as they're retrieved
+		//TODO make this method stateless
 		FeedbackResponseAttributes response = new FeedbackResponseAttributes();
-
-		response.setId(getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
-		response.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-		response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-		response.feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
-		response.recipientEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
 		
-		response.feedbackQuestionType = FeedbackQuestionType.valueOf(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
+		//This field can be null if the response is new
+		String responseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx);
+		response.setId(responseId);
+		
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		Assumption.assertNotNull("Null feedback session name", feedbackSessionName);
+		response.feedbackSessionName = feedbackSessionName;
+		
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		Assumption.assertNotNull("Null feedback courseId", courseId);
+		response.courseId = courseId;
+		
+		String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
+		Assumption.assertNotNull("Null feedbackQuestionId", feedbackQuestionId);
+		response.feedbackQuestionId = feedbackQuestionId;
+		
+		String recipientEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
+		Assumption.assertNotNull("Null feedback recipientEmail", recipientEmail);
+		response.recipientEmail = recipientEmail;
+		
+		String feedbackQuestionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx);
+		Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
+		response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
+		
+		//This field can be null if the question is skipped
 		String answer = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
 		
 		switch(response.feedbackQuestionType) {

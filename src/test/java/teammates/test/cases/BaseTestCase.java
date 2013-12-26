@@ -129,14 +129,10 @@ public class BaseTestCase {
 	
 	/**
 	 * Creates in the datastore a fresh copy of data in the given json file
-	 * @param jsonFileName <br> 
-	 * * The name of the json file to be loaded. <br>
-	 * * The file is assumed to be in the default directory together with typicalDataBundle.json. <br>
-	 * * Don't forget the ".json" extension when passing the name as argument.
 	 */
-	protected void restoreDatastoreFromJson(String jsonFileName) throws Exception {
+	protected void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
-		DataBundle dataBundle = loadDataBundle("/" + jsonFileName);
+		DataBundle dataBundle = loadDataBundle(pathToJsonFile);
 		backDoorLogic.persistDataBundle(dataBundle);
 	}
 
