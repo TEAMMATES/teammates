@@ -59,10 +59,47 @@
 				</table>
 	
 				<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-	
-				<%
+				<% 	
 					int courseIdx = -1;
 					int studentIdx = 0;
+					if(data.courses.size() > 0){
+				%>
+						<br><br>
+						<a class="color_black" id="show_email" href=""
+							onmouseover="ddrivetip('<%=Const.Tooltips.SHOW_EMAILS%>')"
+							onmouseout="hideddrivetip()"
+							onclick="toggleEmailView(); return false;">Show student e-mails</a>
+						<div class="emails" style="display: none;">
+							<div class="student_emails">
+								<h4 class="bold">Emails of all currently displayed student:</h4>
+								<ul>
+					<%
+						for(CourseDetailsBundle courseDetails: data.courses){
+							courseIdx++;
+							int totalCourseStudents = courseDetails.stats.studentsTotal;
+					%>
+						
+						<%
+							if(totalCourseStudents >= 1){
+						%>
+								<li class="student_email" id="student_email<%=studentIdx%>" style="display: list-item;"><%=data.students.get(studentIdx).email %></li>
+						<%
+							}
+							for(int i = studentIdx+1; i < studentIdx + totalCourseStudents; i++) {
+						%>
+								<li class="student_email" id="student_email<%=i%>" style="display: list-item;"><%=data.students.get(i).email %></li>
+					<%
+							}
+							studentIdx += totalCourseStudents;
+						}
+					%>
+								</ul>
+							</div>
+						</div>
+				<%
+					}
+					courseIdx = -1;
+					studentIdx = 0;
 					for (CourseDetailsBundle courseDetails : data.courses) {
 						courseIdx++;
 						int totalCourseStudents = courseDetails.stats.studentsTotal;
@@ -73,6 +110,12 @@
 						<h2 class="color_white">
 							[<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
 						</h2>
+					</div>
+					<div class="enrollLink blockLink rightalign">
+						<a class="t_course_enroll<%=courseIdx%> color_white bold"
+							href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
+							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL%>')"
+							onmouseout="hideddrivetip()"> Enroll Students</a>
 					</div>
 					<div style="clear: both;"></div>
 					<br>

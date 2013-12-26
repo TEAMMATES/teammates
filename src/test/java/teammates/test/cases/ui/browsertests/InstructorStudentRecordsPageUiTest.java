@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertNotNull;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorEvalSubmissionEditPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
@@ -21,15 +20,16 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 	private static Browser browser;
 	private static InstructorStudentRecordsPage viewPage;
-	private static DataBundle testDataNormal, testDataNoRecords, testDataQuestionType;
-	
+	private static DataBundle testDataNormal, testDataNoRecords, testDataQuestionType, testDataLinks;	
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
-		testDataNormal = loadDataBundle("/MashupPageUiTest.json");
+		testDataNormal = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
 		testDataNoRecords = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
 		testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+		testDataLinks = loadDataBundle("/InstructorEvalSubmissionEditPageUiTest.json");
+		restoreTestDataOnServer(testDataLinks);
 		browser = BrowserPool.getBrowser();
 	}
 	
@@ -97,7 +97,20 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testLinks() throws Exception{
-		//TODO: implement this
+		InstructorAttributes instructor;
+		StudentAttributes student;
+		
+		instructor = testDataLinks.instructors.get("CESubEditUiT.instructor");
+		student = testDataLinks.students.get("Charlie");
+		
+		Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
+			.withUserId(instructor.googleId)
+			.withCourseId(instructor.courseId)
+			.withStudentEmail(student.email);
+		
+		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
+		InstructorEvalSubmissionEditPage editPage = viewPage.clickEvalEditLink("First Eval");
+		editPage.verifyHtml("/instructorEvalSubmissionEdit.html");
 	}
 	
 	@AfterClass

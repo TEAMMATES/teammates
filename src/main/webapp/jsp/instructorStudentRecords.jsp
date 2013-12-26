@@ -53,11 +53,11 @@
 				for(StudentResultBundle studentResult: data.studentEvaluationResults){
 					evalIndex++;
 			%>
-					<div id="studentEval<%=evalIndex%>">
+					<div class="student_eval" id="studentEval<%=evalIndex%>">
 					<table class="inputTable" id="studentEvaluationInfo">
 						<tr>
 							<td class="label rightalign bold" width="250px">Evaluation Name:</td>
-							<td class="leftalign" width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.evaluations.get(evalIndex).name)%></td>
+							<td class="leftalign" id="eval_name<%=evalIndex%>"width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.evaluations.get(evalIndex).name)%></td>
 						</tr>
 					</table>
 				<%
@@ -129,11 +129,11 @@
 					Map<String, List<FeedbackResponseAttributes>> given = feedback
 							.getResponsesSortedByGiver().get(data.student.name);
 			%>
-					<div class="studentFeedback<%=fbIndex %>">
+					<div class="student_feedback" id="studentFeedback<%=fbIndex %>">
 					<table class="inputTable" id="studentEvaluationInfo">
 						<tr>
 							<td class="label rightalign bold" width="250px">Feedback Session Name:</td>
-							<td class="leftalign" width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></td>
+							<td class="leftalign" id="feedback_name<%=fbIndex%>"width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></td>
 						</tr>
 					</table>
 					<br><br>

@@ -90,9 +90,26 @@
                   		</tbody>
                		</table>
                		<div id="statusMessage"  style="display: none;" ></div>
+               		<br><br>
+					<a class="color_black" id="show_email" href=""
+						onmouseover="ddrivetip('Show emails of all currently listed students')"
+						onmouseout="hideddrivetip()"
+						onclick="toggleEmailView(); return false;">Show student e-mails</a>
+					<div class="emails" style="display: none;">
+						<div class="student_emails">
+							<h4 class="bold">Emails of all currently displayed student:</h4>
+							<ul>
+							</ul>
+						</div>
+					</div>
                		<div class="backgroundBlock"  id="course0" >
                   		<div class="courseTitle" >
                      		<h2 class="color_white" >[course1] : Name of Course 1</h2>
+                  		</div>
+                  		<div class="enrollLink blockLink rightalign" >
+                     		<a class="t_course_enroll0 color_white bold"  href="/page/instructorCourseEnrollPage?courseid=course1&user=instructorOfCourse1"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Enroll student into the course')" >
+                        		Enroll Students
+                     		</a>
                   		</div>
                   		<div style="clear: both;" ></div><br/>
                        	<table class="dataTable">
