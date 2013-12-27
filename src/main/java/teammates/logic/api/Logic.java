@@ -698,6 +698,19 @@ public class Logic {
 
 		evaluationsLogic.createEvaluationCascade(evaluation);
 	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	@SuppressWarnings("deprecation")
+	public void createEvaluationWithoutSubmissionQueue(EvaluationAttributes evaluation)
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
+
+		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation);
+	}
 
 	/**
 	 * Preconditions: <br>

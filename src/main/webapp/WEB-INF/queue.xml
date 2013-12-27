@@ -13,6 +13,14 @@
   -->
   <rate>1/s</rate>
   <bucket-size>1</bucket-size>  
+</queue>
+<queue>  
+  <name>submission-queue</name>  
+  <!-- Configuration allows for submission creation for 
+  	   1 evaluation to be queued when the bucket is not full
+  -->
+  <rate>1/s</rate>
+  <bucket-size>5</bucket-size>  
 </queue>  
 <queue>  
   <name>search-document</name>  

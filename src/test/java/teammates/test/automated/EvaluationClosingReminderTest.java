@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
@@ -13,7 +12,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 import teammates.common.datatransfer.DataBundle;
@@ -29,9 +27,10 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.EvaluationsLogic;
-import teammates.test.cases.BaseComponentUsingEmailQueueTestCase;
+import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
+import teammates.test.cases.BaseTaskQueueCallback;
 
-public class EvaluationClosingReminderTest extends BaseComponentUsingEmailQueueTestCase {
+public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTestCase {
 	
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private static final StudentsLogic studentsLogic = new StudentsLogic();
@@ -43,8 +42,7 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingEmailQueueT
 	 * 
 	 */
 	@SuppressWarnings("serial")
-	public static class EvaluationClosingCallback implements LocalTaskQueueCallback {
-		private static int taskCount;
+	public static class EvaluationClosingCallback extends BaseTaskQueueCallback {
 		
 		@Override
 		public int execute(URLFetchRequest request) {
@@ -69,15 +67,6 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingEmailQueueT
 			EvaluationClosingCallback.taskCount++;
 			return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
 		}
-
-		@Override
-		public void initialize(Map<String, String> arg0) {
-			taskCount = 0;
-		}
-		
-		public static void resetTaskCount() {
-			taskCount = 0;
-		}
 	}
 	
 	@BeforeClass
@@ -98,15 +87,16 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingEmailQueueT
 		printTestClassFooter();
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void testAdditionOfTaskToTaskQueue() throws Exception {
 		DataBundle dataBundle = getTypicalDataBundle();
 		restoreTypicalDataInDatastore();
+		EvaluationClosingCallback.resetTaskCount();
 		
 		______TS("typical case, 0 evaluations closing soon");
 		evaluationsLogic.scheduleRemindersForClosingEvaluations();
 
-		waitForTaskQueueExecution(0);
-		assertEquals(0, EvaluationClosingCallback.taskCount);
+		EvaluationClosingCallback.verifyTaskCount(0);
 		
 		______TS("typical case, two evaluations closing soon");
 		// Reuse an existing evaluation to create a new one that is
@@ -122,7 +112,7 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingEmailQueueT
 		evaluation1.timeZone = timeZone;
 		evaluation1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		evaluation1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-		evaluationsLogic.createEvaluationCascade(evaluation1);
+		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation1);
 
 		// Create another evaluation in another course in similar fashion.
 		// This one too is closing in 24 hours.
@@ -137,7 +127,7 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingEmailQueueT
 		evaluation2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
 		evaluation2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 
-		evaluationsLogic.createEvaluationCascade(evaluation2);
+		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation2);
 		
 		// Create an evaluation which is not closing in 24 hours
 		// as a control
@@ -152,16 +142,16 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingEmailQueueT
 		evaluation3.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
 		evaluation3.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 
-		evaluationsLogic.createEvaluationCascade(evaluation3);
+		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation3);
 		
 		evaluationsLogic.scheduleRemindersForClosingEvaluations();
-		waitForTaskQueueExecution(2);
 		
 		//Expected is 2 because only 2 active evaluations closing within 24 hours
-		assertEquals(2, EvaluationClosingCallback.taskCount);
+		EvaluationClosingCallback.verifyTaskCount(2);
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	private void testEvaluationClosingMailAction() throws Exception{
 		
 		DataBundle dataBundle = getTypicalDataBundle();
@@ -181,7 +171,7 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingEmailQueueT
 		evaluation1.timeZone = timeZone;
 		evaluation1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
 		evaluation1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-		evaluationsLogic.createEvaluationCascade(evaluation1);
+		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation1);
 		
 		//Prepare parameter map to be used with EvaluationClosingMailAction
 		HashMap<String, String> paramMap = new HashMap<String, String>();
