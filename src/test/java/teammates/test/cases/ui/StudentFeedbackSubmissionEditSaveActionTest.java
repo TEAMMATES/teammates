@@ -215,7 +215,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 						+ "&error=" + r.isError +"&user=student1InCourse1",
 						r.getDestinationWithParams());
 		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
-		
+	
 		______TS("mcq");
 		
 		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
@@ -239,7 +239,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
 				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
 				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString()				
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect"				
 		};
 		
 		a = getAction(submissionParams);
@@ -253,19 +253,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 		
 		______TS("mcq, question skipped");
-		
-		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
-		
-		fq = fqDb.getFeedbackQuestion("MCQ Session", "idOfTypicalCourse1", 1);
-		assertNotNull("Feedback question not found in database", fq);
-		
-		fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
-		fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
-		assertNotNull("Feedback response not found in database", fr);
-		
-		student1InCourse1 = dataBundle.students.get("student1InCourse1");
-		gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 		
 		submissionParams = new String[]{
 				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
