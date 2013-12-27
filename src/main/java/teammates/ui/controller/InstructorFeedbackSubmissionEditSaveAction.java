@@ -39,7 +39,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 		if (data.bundle.feedbackSession.isOpened() == false &&
 			data.bundle.feedbackSession.isPrivateSession() == false) {
 			throw new UnauthorizedAccessException(
-					"This feedback session is not yet opened for submissions.");
+					"This feedback session is not open for submission.");
 		}
 		
 		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
