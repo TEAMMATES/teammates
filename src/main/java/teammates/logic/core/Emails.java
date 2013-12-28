@@ -3,7 +3,6 @@ package teammates.logic.core;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -16,6 +15,11 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+
+import static com.google.appengine.api.taskqueue.TaskOptions.Builder.*;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -85,27 +89,23 @@ public class Emails {
 	public void addEvaluationReminderToEmailsQueue(EvaluationAttributes evaluation,
 			EmailType typeOfEmail) {
 		
-		HashMap<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put(ParamsNames.EMAIL_EVAL, evaluation.name);
-		paramMap.put(ParamsNames.EMAIL_COURSE, evaluation.courseId);
-		paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
+		Queue emailQueue = QueueFactory.getQueue(SystemParams.EMAIL_TASK_QUEUE);
 		
-		TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-		taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE,
-				Const.ActionURIs.EMAIL_WORKER, paramMap);
+		emailQueue.add(withUrl(Const.ActionURIs.EMAIL_WORKER)
+				.param(ParamsNames.EMAIL_EVAL, evaluation.name)
+				.param(ParamsNames.EMAIL_COURSE, evaluation.courseId)
+				.param(ParamsNames.EMAIL_TYPE, typeOfEmail.toString()));
 	}
 	
 	public void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes feedback,
 			EmailType typeOfEmail) {
 		
-		HashMap<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedback.feedbackSessionName);
-		paramMap.put(ParamsNames.EMAIL_COURSE, feedback.courseId);
-		paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
-		
-		TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-		taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE,
-				Const.ActionURIs.EMAIL_WORKER, paramMap);
+		Queue emailQueue = QueueFactory.getQueue(SystemParams.EMAIL_TASK_QUEUE);
+				
+		emailQueue.add(withUrl(Const.ActionURIs.EMAIL_WORKER)
+				.param(ParamsNames.EMAIL_FEEDBACK, feedback.feedbackSessionName)
+				.param(ParamsNames.EMAIL_COURSE, feedback.courseId)
+				.param(ParamsNames.EMAIL_TYPE, typeOfEmail.toString()));
 	}
 	public List<MimeMessage> generateEvaluationOpeningEmails(
 			CourseAttributes course,

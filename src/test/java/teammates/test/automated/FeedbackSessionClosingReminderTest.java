@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
@@ -12,6 +13,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 import teammates.common.datatransfer.DataBundle;
@@ -25,16 +27,16 @@ import teammates.logic.automated.FeedbackSessionClosingMailAction;
 import teammates.logic.core.Emails;
 import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.test.cases.BaseComponentUsingEmailQueueTestCase;
 import teammates.test.cases.logic.LogicTest;
 
-public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionClosingReminderTest extends BaseComponentUsingEmailQueueTestCase {
 
 	private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 	
 	@SuppressWarnings("serial")
-	public static class FeedbackSessionClosingCallback extends BaseTaskQueueCallback {
+	public static class FeedbackSessionClosingCallback implements LocalTaskQueueCallback {
+		private static int taskCount;
 		
 		@Override
 		public int execute(URLFetchRequest request) {
@@ -59,6 +61,15 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
 			FeedbackSessionClosingCallback.taskCount++;
 			return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
 		}
+
+		@Override
+		public void initialize(Map<String, String> arg0) {
+			taskCount = 0;
+		}
+		
+		public static void resetTaskCount() {
+			taskCount = 0;
+		}
 	}
 	
 	@BeforeClass
@@ -82,11 +93,11 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
 	private void testAdditionOfTaskToTaskQueue() throws Exception {
 		DataBundle dataBundle = getTypicalDataBundle();
 		restoreTypicalDataInDatastore();
-		FeedbackSessionClosingCallback.resetTaskCount();
 		
 		______TS("typical case, 0 sessions closing soon");
 		fsLogic.scheduleFeedbackSessionClosingEmails();
-		FeedbackSessionClosingCallback.verifyTaskCount(0);
+		waitForTaskQueueExecution(0);
+		assertEquals(0, FeedbackSessionClosingCallback.taskCount);
 		
 		______TS("typical case, two sessions closing soon");
 		// Modify session to close in 24 hours.
@@ -111,9 +122,10 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
 		LogicTest.verifyPresentInDatastore(session2);
 		
 		fsLogic.scheduleFeedbackSessionClosingEmails();
+		waitForTaskQueueExecution(2);
 
 		//There are only 2 sessions closing soon
-		FeedbackSessionClosingCallback.verifyTaskCount(2);
+		assertEquals(2, FeedbackSessionClosingCallback.taskCount);
 	}
 
 	private void testFeedbackSessionClosingMailAction() throws Exception{

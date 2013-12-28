@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
@@ -12,6 +13,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 import teammates.common.datatransfer.DataBundle;
@@ -28,17 +30,17 @@ import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.Emails.EmailType;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.test.cases.BaseComponentUsingEmailQueueTestCase;
 
-public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTestCase {
+public class EvaluationOpeningReminderTest extends BaseComponentUsingEmailQueueTestCase {
 	
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private static final StudentsLogic studentsLogic = new StudentsLogic();
 	private static final InstructorsLogic instructorsLogic = new InstructorsLogic();
 	
 	@SuppressWarnings("serial")
-	public static class EvaluationOpeningCallback extends BaseTaskQueueCallback {
+	public static class EvaluationOpeningCallback implements LocalTaskQueueCallback {
+		private static int taskCount;
 		
 		@Override
 		public int execute(URLFetchRequest request) {
@@ -63,6 +65,15 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
 			EvaluationOpeningCallback.taskCount++;
 			return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
 		}
+
+		@Override
+		public void initialize(Map<String, String> arg0) {
+			taskCount = 0;
+		}
+		
+		public static void resetTaskCount() {
+			taskCount = 0;
+		}
 	}
 	
 	@BeforeClass
@@ -83,18 +94,18 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
 		printTestClassFooter();
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void testAdditionOfTaskToTaskQueue() throws Exception {
 		DataBundle dataBundle = getTypicalDataBundle();
 		restoreTypicalDataInDatastore();
-		EvaluationOpeningCallback.resetTaskCount();
+		
 		
 		______TS("all evaluations activated");
 		// ensure all existing evaluations are already activated.
 		activateAllEvaluations(dataBundle);
 		
 		evaluationsLogic.activateReadyEvaluations();
-		EvaluationOpeningCallback.verifyTaskCount(0);
+		waitForTaskQueueExecution(0);
+		assertEquals(0, EvaluationOpeningCallback.taskCount);
 		
 		______TS("typical case, two ready evaluations");
 		// Reuse an existing evaluation to create a new one that is ready to
@@ -112,7 +123,7 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
 		evaluation1.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(0, timeZone);
 		evaluation1.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 
-		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation1);
+		evaluationsLogic.createEvaluationCascade(evaluation1);
 		assertEquals("This evaluation is not ready to activate as expected "+ evaluation1.toString(),
 				true, 
 				evaluationsLogic.getEvaluation(evaluation1.courseId, evaluation1.name).isReadyToActivate());
@@ -133,19 +144,19 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
 				0, timeZone);
 		evaluation2.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 
-		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation2);
+		evaluationsLogic.createEvaluationCascade(evaluation2);
 		assertEquals("This evaluation is not ready to activate as expected "+ evaluation2.toString(),
 				true, 
 				evaluationsLogic.getEvaluation(evaluation2.courseId, evaluation2.name).isReadyToActivate());
 		
 		evaluationsLogic.activateReadyEvaluations();
+		waitForTaskQueueExecution(2);
 		
 		//Expected is 2 because there are only 2 ready evaluations
-		EvaluationOpeningCallback.verifyTaskCount(2);
+		assertEquals(2, EvaluationOpeningCallback.taskCount);
 		
 	}
 
-	@SuppressWarnings("deprecation")
 	private void testEvaluationOpeningMailAction() throws Exception{
 		
 		DataBundle dataBundle = getTypicalDataBundle();
@@ -168,7 +179,7 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
 		evaluation1.startTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(0, timeZone);
 		evaluation1.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 
-		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation1);
+		evaluationsLogic.createEvaluationCascade(evaluation1);
 		assertEquals("This evaluation is not ready to activate as expected "+ evaluation1.toString(),
 				true, 
 				evaluationsLogic.getEvaluation(evaluation1.courseId, evaluation1.name).isReadyToActivate());
@@ -199,7 +210,8 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
 		______TS("Ensure no mails are sent anymore as all tasks are active");
 		EvaluationOpeningCallback.resetTaskCount();
 		evaluationsLogic.activateReadyEvaluations();
-		EvaluationOpeningCallback.verifyTaskCount(0);
+		waitForTaskQueueExecution(0);
+		assertEquals(0, EvaluationOpeningCallback.taskCount);
 	}
 
 	private void activateAllEvaluations(DataBundle dataBundle) throws Exception{

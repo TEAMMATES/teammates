@@ -27,7 +27,6 @@ public class Const {
 		public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
 		
 		public static final String EMAIL_TASK_QUEUE = "email-queue";
-		public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
 		public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
 	}
 
@@ -280,10 +279,6 @@ public class Const {
 		public static final String EMAIL_FEEDBACK = "feedback";
 		public static final String EMAIL_TYPE = "type";
 		public static final String EMAIL_IS_STUDENT = "isStudent";
-		
-		//Submission parameters for Task Queue
-		public static final String SUBMISSION_COURSE = "course";
-		public static final String SUBMISSION_EVAL = "evaluation";
 	}
 
 	public class ActionURIs{
@@ -372,9 +367,8 @@ public class Const {
 		
 		public static final String BACKDOOR = "/backdoor";
 		
-		//Task Queue Worker Servlets URI
+		//Email worker URI
 		public static final String EMAIL_WORKER = "/emailWorker";
-		public static final String SUBMISSION_WORKER = "/submissionWorker";
 	}
 
 	public class ViewURIs{

@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
@@ -12,6 +13,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 import teammates.common.datatransfer.DataBundle;
@@ -25,15 +27,15 @@ import teammates.logic.automated.FeedbackSessionOpeningMailAction;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.test.cases.BaseComponentUsingEmailQueueTestCase;
 
-public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingEmailQueueTestCase {
 
 	private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 	
 	@SuppressWarnings("serial")
-	public static class FeedbackSessionOpeningCallback extends BaseTaskQueueCallback {
+	public static class FeedbackSessionOpeningCallback implements LocalTaskQueueCallback {
+		private static int taskCount;
 		
 		@Override
 		public int execute(URLFetchRequest request) {
@@ -54,6 +56,15 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
 			
 			FeedbackSessionOpeningCallback.taskCount++;
 			return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
+		}
+
+		@Override
+		public void initialize(Map<String, String> arg0) {
+			taskCount = 0;
+		}
+		
+		public static void resetTaskCount() {
+			taskCount = 0;
 		}
 	}
 	
@@ -78,11 +89,11 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
 	private void testAdditionOfTaskToTaskQueue() throws Exception {
 		DataBundle dataBundle = getTypicalDataBundle();
 		restoreTypicalDataInDatastore();
-		FeedbackSessionOpeningCallback.resetTaskCount();
 		
 		______TS("3 sessions opened and emails sent, 1 awaiting");
 		fsLogic.scheduleFeedbackSessionOpeningEmails();
-		FeedbackSessionOpeningCallback.verifyTaskCount(0);
+		waitForTaskQueueExecution(0);
+		assertEquals(0, FeedbackSessionOpeningCallback.taskCount);
 		
 		______TS("3 sessions opened and emails sent, 1 session opened without emails sent");
 		// Modify session to set emails as unsent but still open
@@ -96,7 +107,8 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
 		fsLogic.updateFeedbackSession(session1);
 		
 		fsLogic.scheduleFeedbackSessionOpeningEmails();
-		FeedbackSessionOpeningCallback.verifyTaskCount(1);
+		waitForTaskQueueExecution(1);
+		assertEquals(1, FeedbackSessionOpeningCallback.taskCount);
 	}
 
 	private void testFeedbackSessionOpeningMailAction() throws Exception{
@@ -131,7 +143,8 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
 		______TS("testing whether no more mails are sent");
 		FeedbackSessionOpeningCallback.resetTaskCount();
 		fsLogic.scheduleFeedbackSessionOpeningEmails();
-		FeedbackSessionOpeningCallback.verifyTaskCount(0);
+		waitForTaskQueueExecution(0);
+		assertEquals(0, FeedbackSessionOpeningCallback.taskCount);	
 	}
 	
 	private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {

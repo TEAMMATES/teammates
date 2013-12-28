@@ -39,15 +39,14 @@ import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.automated.FeedbackSessionPublishedReminderTest.FeedbackSessionPublishedCallback;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.test.cases.BaseComponentUsingEmailQueueTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
-public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestCase {
 	
 	/* TODO: implement tests for the following:
 	 * 1. getFeedbackSessionsListForInstructor()
@@ -69,7 +68,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 	}
 	
 	@SuppressWarnings("serial")
-	public static class PublishUnpublishSessionCallback extends BaseTaskQueueCallback {
+	public static class PublishUnpublishSessionCallback implements LocalTaskQueueCallback {
 		
 		@Override
 		public int execute(URLFetchRequest request) {
@@ -79,6 +78,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 			EmailAction action = new FeedbackSessionPublishedMailAction(paramMap);
 			action.getPreparedEmailsAndPerformSuccessOperations();
 			return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
+		}
+
+		@Override
+		public void initialize(Map<String, String> arg0) {
 		}
 	}
 	
@@ -799,7 +802,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 	@Test
 	public void testPublishUnpublishFeedbackSession() throws Exception {
 		restoreTypicalDataInDatastore();
-		PublishUnpublishSessionCallback.resetTaskCount();
 		
 		______TS("success: publish");
 		FeedbackSessionAttributes
@@ -812,7 +814,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		
 		fsLogic.publishFeedbackSession(
 				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
-		FeedbackSessionPublishedCallback.waitForTaskQueueExecution(1);
+		waitForTaskQueueExecution(1);
 		sessionUnderTest.sentPublishedEmail = true;
 		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
 		

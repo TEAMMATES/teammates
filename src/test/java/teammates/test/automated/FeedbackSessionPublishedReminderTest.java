@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
@@ -12,6 +13,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 import teammates.common.datatransfer.DataBundle;
@@ -25,15 +27,15 @@ import teammates.logic.automated.FeedbackSessionPublishedMailAction;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.test.cases.BaseComponentUsingEmailQueueTestCase;
 
-public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingEmailQueueTestCase {
 
 	private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 	
 	@SuppressWarnings("serial")
-	public static class FeedbackSessionPublishedCallback extends BaseTaskQueueCallback {
+	public static class FeedbackSessionPublishedCallback implements LocalTaskQueueCallback {
+		private static int taskCount;
 		
 		@Override
 		public int execute(URLFetchRequest request) {
@@ -59,6 +61,14 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
 			return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
 		}
 
+		@Override
+		public void initialize(Map<String, String> arg0) {
+			taskCount = 0;
+		}
+		
+		public static void resetTaskCount() {
+			taskCount = 0;
+		}
 	}
 	
 	@BeforeClass
@@ -82,11 +92,11 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
 	private void testAdditionOfTaskToTaskQueue() throws Exception {
 		DataBundle dataBundle = getTypicalDataBundle();
 		restoreTypicalDataInDatastore();
-		FeedbackSessionPublishedCallback.resetTaskCount();
 		
 		______TS("3 sessions unpublished, 1 published and emails unsent");
 		fsLogic.scheduleFeedbackSessionPublishedEmails();
-		FeedbackSessionPublishedCallback.verifyTaskCount(1);
+		waitForTaskQueueExecution(1);
+		assertEquals(1, FeedbackSessionPublishedCallback.taskCount);
 		
 		______TS("publish sessions");
 		//  1 sessions unpublished, 1 published and email sent,
@@ -107,14 +117,16 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
 		FeedbackSessionPublishedCallback.resetTaskCount();
 		fsLogic.publishFeedbackSession(session2.feedbackSessionName, session2.courseId);
 		fsLogic.scheduleFeedbackSessionPublishedEmails();
-		FeedbackSessionPublishedCallback.verifyTaskCount(3);
+		waitForTaskQueueExecution(3);
+		assertEquals(3, FeedbackSessionPublishedCallback.taskCount);
 		
 		______TS("unpublish a session");
 		fsLogic.unpublishFeedbackSession(session2.feedbackSessionName, session2.courseId);
 		
 		FeedbackSessionPublishedCallback.resetTaskCount();
 		fsLogic.scheduleFeedbackSessionPublishedEmails();
-		FeedbackSessionPublishedCallback.verifyTaskCount(2);
+		waitForTaskQueueExecution(2);
+		assertEquals(2, FeedbackSessionPublishedCallback.taskCount);
 	}
 
 	private void testFeedbackSessionOpeningMailAction() throws Exception{
@@ -152,7 +164,8 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
 		______TS("testing whether no more mails are sent");
 		FeedbackSessionPublishedCallback.resetTaskCount();
 		fsLogic.scheduleFeedbackSessionPublishedEmails();
-		FeedbackSessionPublishedCallback.verifyTaskCount(0);
+		waitForTaskQueueExecution(0);
+		assertEquals(0, FeedbackSessionPublishedCallback.taskCount);	
 	}
 	
 	private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {

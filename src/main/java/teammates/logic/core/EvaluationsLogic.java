@@ -29,7 +29,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Utils;
 import teammates.storage.api.EvaluationsDb;
@@ -64,38 +63,14 @@ public class EvaluationsLogic {
 	}
 
 	/**
-	 * Creates an evaluation and schedule creation of empty submissions for it.
-	 * @throws EntityAlreadyExistsException 
-	 * @throws InvalidParametersException 
+	 * Creates an evaluation and empty submissions for it.
 	 */
-	public void createEvaluationCascade(EvaluationAttributes e) 
-			throws InvalidParametersException, EntityAlreadyExistsException {
+	public void createEvaluationCascade(EvaluationAttributes e)
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 	
 		evaluationsDb.createEntity(e);
-		
-		scheduleCreationOfSubmissions(e);
-	}
 	
-	/**
-	 * Creates an evaluation and eagerly create empty submissions for it
-	 * without using the Submission Task Queue
-	 * <b>Only to be used testing.</b>
-	 * @throws EntityAlreadyExistsException 
-	 * @throws InvalidParametersException 
-	 * @throws EntityDoesNotExistException 
-	 */
-	@Deprecated
-	public void createEvaluationCascadeWithoutSubmissionQueue(EvaluationAttributes e) 
-			throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-	
-		evaluationsDb.createEntity(e);
-		
-		createSubmissionsForEvaluation(e);
-	}
-	
-	public void createSubmissionsForEvaluation(EvaluationAttributes e) throws EntityDoesNotExistException, InvalidParametersException {
-		List<StudentAttributes> studentDataList = studentsLogic
-				.getStudentsForCourse(e.courseId);
+		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(e.courseId);
 		
 		List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
 	
@@ -590,17 +565,6 @@ public class EvaluationsLogic {
 		return count;
 	}
 	
-	private void scheduleCreationOfSubmissions(EvaluationAttributes eval) {
-
-		HashMap<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put(ParamsNames.SUBMISSION_EVAL, eval.name);
-		paramMap.put(ParamsNames.SUBMISSION_COURSE, eval.courseId);
-		
-		TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-		taskQueueLogic.createAndAddTask(SystemParams.SUBMISSION_TASK_QUEUE,
-				Const.ActionURIs.SUBMISSION_WORKER, paramMap);
-	}
-
 	private void setEvaluationPublishedStatus(String courseId, String evaluationName, boolean b) 
 			throws EntityDoesNotExistException {
 	
