@@ -10,6 +10,11 @@ public class FeedbackSessionClosingRemindersServlet extends AutomatedRemindersSe
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+		servletName = "feedbackSessionClosingReminders";
+		action = "send closing reminders";
+
+		String message = "Generating reminders for closing feedback sessions.";
+		logMessage(req, message);
 		
 		FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
 		feedbackSessionsLogic.scheduleFeedbackSessionClosingEmails();

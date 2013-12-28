@@ -233,7 +233,7 @@
 						onmouseout="hideddrivetip()"><%=InstructorEvalPageData
 							.getInstructorStatusForEval(edd)%></span></td>
 					<td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
-						<a href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a></td>
+						<a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a></td>
 					<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(
 							edd, sessionIdx, false)%>
 					</td>
@@ -253,7 +253,7 @@
 						onmouseout="hideddrivetip()"><%=InstructorEvalPageData
 							.getInstructorStatusForFeedbackSession(fdb)%></span></td>
 					<td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
-						<a href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a></td>
+						<a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a></td>
 					<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
 							fdb, sessionIdx, false)%>
 					</td>

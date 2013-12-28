@@ -14,6 +14,9 @@ public class InstructorStudentListPage extends AppPage {
 	@FindBy(id = "button_search")
 	private WebElement searchButton;
 	
+	@FindBy(id = "show_email")
+	private WebElement showEmailLink;
+	
 	public InstructorStudentListPage(Browser browser) {
 		super(browser);
 	}
@@ -67,6 +70,10 @@ public class InstructorStudentListPage extends AppPage {
 		searchBox.clear();
 		searchBox.sendKeys(searchKey);
 		searchButton.click();
+	}
+	
+	public void clickShowEmail() {
+		showEmailLink.click();
 	}
 	
 	private int getCourseNumber(String courseId) {

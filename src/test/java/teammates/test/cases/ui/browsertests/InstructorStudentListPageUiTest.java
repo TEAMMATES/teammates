@@ -60,13 +60,25 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
 		viewPage.verifyHtml("/instructorStudentListPage.html");
 		
-		______TS("content: search active");
-		
+		______TS("content: search student");
+
 		viewPage.setSearchKey("ben");
 		viewPage.verifyHtml("/instructorStudentListPageSearchStudent.html");
 		
+		______TS("content: search and toggle show email");
+		
+		viewPage.clickShowEmail();
+		viewPage.verifyHtml("/instructorStudentListPageSearchShowEmail.html");
+		viewPage.clickShowEmail();
+		viewPage.verifyHtml("/instructorStudentListPageSearchStudent.html");
+		
+		
+		______TS("content: search course");
+		
 		viewPage.setSearchKey("course3");
 		viewPage.verifyHtml("/instructorStudentListPageSearchCourse.html");
+		
+		______TS("content: search no match");
 		
 		viewPage.setSearchKey("noMatch");
 		viewPage.verifyHtml("/instructorStudentListPageSearchNoMatch.html");

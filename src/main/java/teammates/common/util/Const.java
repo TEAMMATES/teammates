@@ -172,6 +172,8 @@ public class Const {
 		public static final String VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS = "Control what team members of feedback recipients can view";
 		public static final String VISIBILITY_OPTIONS_OTHER_STUDENTS = "Control what other students can view";
 		public static final String VISIBILITY_OPTIONS_INSTRUCTORS = "Control what instructors can view";
+		
+		public static final String SHOW_EMAILS = "Show emails of all currently listed students";
 	}
 
 	public class ParamsNames{

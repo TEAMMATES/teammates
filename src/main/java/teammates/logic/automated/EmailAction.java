@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.logic.core.Emails;
 
@@ -84,17 +85,9 @@ public abstract class EmailAction {
 	
 	protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException;
 	
-	protected String getFullUrl(HttpServletRequest req) {
-		String url = req.getRequestURI();
-		if (req.getQueryString() != null) {
-			url += "?" + req.getQueryString();
-		}
-		return url;
-	}
-	
 	protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {
 				
-		String url = getFullUrl(req);
+		String url = HttpRequestHelper.getRequestedURL(req);
 		
 		String message;
 		
@@ -115,7 +108,7 @@ public abstract class EmailAction {
 
 	protected void logActivityFailure(HttpServletRequest req, Throwable e) {
 				
-		String url = getFullUrl(req);
+		String url = HttpRequestHelper.getRequestedURL(req);
 	
 		String message = "<span class=\"color_red\">Servlet Action failure in "	+ actionName + "<br>";
 		message += e.getMessage() + "</span>";
