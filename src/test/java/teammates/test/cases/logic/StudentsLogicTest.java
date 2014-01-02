@@ -51,6 +51,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testEnrollStudent() throws Exception {
 
@@ -109,7 +110,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		//add a new evaluations (to check the cascade logic of the SUT)
 		EvaluationAttributes e = EvaluationsDbTest.generateTypicalEvaluation();
 		e.courseId = instructorCourse;
-		evaluationsLogic.createEvaluationCascade(e);
+		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(e);
 
 		// verify it was treated as modified in datastore and existing
 		// values not specified in enroll action (e.g, id) prevail

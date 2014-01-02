@@ -1,10 +1,12 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static teammates.logic.core.TeamEvalResult.NA;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
@@ -53,6 +55,40 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
 		gaeSimulation.resetDatastore();
+		turnLoggingUp(EvaluationsLogic.class);
+	}
+	
+	@Test
+	public void testCreateEvaluationCascadeWithSubmissionQueue() throws Exception{
+		restoreTypicalDataInDatastore();
+		
+		______TS("case : create a valid evaluation");
+		EvaluationAttributes createdEval = new EvaluationAttributes();
+		createdEval.courseId = "Computing104";
+		createdEval.name = "Basic Computing Evaluation1";
+		createdEval.instructions = new Text("Instructions to student.");
+		createdEval.startTime = new Date();
+		createdEval.endTime = new Date();
+		evaluationsLogic.createEvaluationCascade(createdEval);
+		
+		EvaluationAttributes retrievedEval = evaluationsLogic
+				.getEvaluation(createdEval.courseId, createdEval.name);
+		assertEquals(createdEval.toString(), retrievedEval.toString());
+		
+		______TS("case : try to create an invalid evaluation");
+		evaluationsLogic
+			.deleteEvaluationCascade(createdEval.courseId, createdEval.name);
+		createdEval.startTime = null;
+		try {
+			evaluationsLogic.createEvaluationCascade(createdEval);
+			signalFailureToDetectException("Expected failure not encountered");
+		} catch (AssertionError e) {
+			ignoreExpectedException();
+		}
+		
+		retrievedEval = evaluationsLogic
+				.getEvaluation(createdEval.courseId, createdEval.name);
+		assertNull(retrievedEval);
 	}
 	
 	@Test
@@ -504,5 +540,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();
+		turnLoggingDown(EvaluationsLogic.class);
 	}
 }
