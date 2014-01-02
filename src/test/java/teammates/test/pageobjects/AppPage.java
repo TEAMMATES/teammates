@@ -21,6 +21,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -499,6 +500,15 @@ public abstract class AppPage {
 	public AppPage verifyContains(String searchString) {
 		AssertHelper.assertContainsRegex(searchString, getPageSource());
 		return this;
+	}
+	
+	public boolean verifyElementExists(String elementId) {
+		try{
+			browser.driver.findElement(By.id(elementId));
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
 	}
 	
 	/**

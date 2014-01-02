@@ -39,7 +39,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 			statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
 					feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
 					feedbackQuestion.courseId + "]</span> created.<br>" +
-					"<span class=\"bold\">Text:</span> " + feedbackQuestion.questionText;
+					"<span class=\"bold\">" + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() + 
+					":</span> " + feedbackQuestion.getQuestionDetails().questionText;
 		} catch (EntityAlreadyExistsException e) {
 			Assumption.fail("Creating a duplicate question should not be possible as GAE generates a new questionId every time\n");
 		} catch (InvalidParametersException e) {

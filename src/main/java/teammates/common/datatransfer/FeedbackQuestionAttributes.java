@@ -18,6 +18,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	public String feedbackSessionName;
 	public String courseId;
 	public String creatorEmail;
+	/**  Contains the JSON formatted string that holds the information of the question details <br>
+	 * Don't use directly unless for storing/loading from data store <br>
+	 * To get the question text use {@code getQuestionDetails().questionText} 
+	 */
 	public Text questionText;
 	public int questionNumber;
 	public FeedbackQuestionType questionType;
@@ -232,15 +236,29 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	 */
 	public boolean isChangesRequiresResponseDeletion(
 			FeedbackQuestionAttributes newAttributes) {
-		if( newAttributes.giverType.equals(this.giverType) == false ||
+		if (newAttributes.giverType.equals(this.giverType) == false ||
 			newAttributes.recipientType.equals(this.recipientType) == false	) {
 			return true;
 		}
-		if( this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false || 
+		
+		if (this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false || 
 			this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo) == false ||
 			this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo) == false ) {
 			return true;
 		}
+		
+		if (newAttributes.questionType == FeedbackQuestionType.MCQ){
+			FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) this.getQuestionDetails();
+			FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newAttributes.getQuestionDetails();
+
+			if (mcqDetails.nChoices != newMcqDetails.nChoices ||
+				mcqDetails.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false ||
+				newMcqDetails.mcqChoices.containsAll(mcqDetails.mcqChoices) == false) {
+				return true;
+			}
+			
+		}
+		
 		return false;
 	}
 		

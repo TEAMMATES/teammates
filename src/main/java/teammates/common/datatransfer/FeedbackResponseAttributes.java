@@ -20,6 +20,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public FeedbackQuestionType feedbackQuestionType;
 	public String giverEmail;
 	public String recipientEmail;
+	/** Contains the JSON formatted string that holds the information of the response details <br>
+	 * Don't use directly unless for storing/loading from data store <br>
+	 * To get the answer text use {@code getQuestionDetails().getAnswerString()} 
+	 */
 	public Text answer;
 	
 	public FeedbackResponseAttributes() {
