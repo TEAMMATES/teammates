@@ -128,7 +128,6 @@ function toggleSort(divElement, colIdx, comparator) {
  * 			  if this is true, it will be ascending order, else it will be descending order
  */
 function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
-			
 	//Get the table
 	var table = $(oneOfTableCell);
 	if (!table.is("table")){
@@ -210,19 +209,17 @@ function sortNum(x, y){
 
 
 /**
- * Comparator for date in (dd/mm/yyyy) format (ascending)
+ * Comparator for date. Allows for the same format as isDate()
  * 
  * @param x
  * @param y
- * @returns
+ * @returns 1 if Date x is after y, 0 if same and -1 if before
  */
 function sortDate(x, y){
-	//Date sorting
-	//Allows the following format
-	//DD MM YY or DD-MM-YY or DD/MM/YY or DD MM YYYY or DD-MM-YYYY or DD/MM/YYYY
-	x = x.replace(getDayMonthYearFormat(),"$3$2$1");
-	y = y.replace(getDayMonthYearFormat(),"$3$2$1");
-	return x-y;
+	x = Date.parse(x);
+	y = Date.parse(y);
+	var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
+	return comparisonResult;
 }
 
 /**
@@ -236,13 +233,19 @@ function getDayMonthYearFormat(){
 
 
 /**
-* Function that checks if the param is in DayMonthYearFormat (dd/mm/yyyy)
-* 
-* @param date
-* @returns boolean
-*/
+ * Tests whether the passed object is an actual date
+ * with an accepted format
+ * 
+ * Allowed formats : http://dygraphs.com/date-formats.html
+ * 
+ * TEAMMATES currently follows the RFC2822 / IETF date syntax 
+ * e.g. 02 Apr 2012, 23:59
+ * 
+ * @param date
+ * @returns boolean
+ */
 function isDate(date){
-	return date.match(getDayMonthYearFormat())!=null;
+	return !isNaN(Date.parse(date));
 }
 
 /**
