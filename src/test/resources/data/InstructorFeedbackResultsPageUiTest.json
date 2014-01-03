@@ -303,7 +303,7 @@
 			"courseId":"CFResultsUiT.CS2104",
 			"creatorEmail":"CFResultsUiT.instr@gmail.com",
 			"questionText":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is your extra feature?\",\"nChoices\":4,\"mcqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"otherEnabled\":false}"
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is your extra feature?\",\"numOfMcqChoices\":4,\"mcqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"7",
 			"questionType":"MCQ",

@@ -251,7 +251,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 			FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) this.getQuestionDetails();
 			FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newAttributes.getQuestionDetails();
 
-			if (mcqDetails.nChoices != newMcqDetails.nChoices ||
+			if (mcqDetails.numOfMcqChoices != newMcqDetails.numOfMcqChoices ||
 				mcqDetails.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false ||
 				newMcqDetails.mcqChoices.containsAll(mcqDetails.mcqChoices) == false) {
 				return true;

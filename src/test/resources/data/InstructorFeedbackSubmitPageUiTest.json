@@ -350,7 +350,7 @@
 			"courseId":"IFSubmitUiT.CS2104",
 			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
 			"questionText":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"nChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"7",
 			"questionType":"MCQ",
@@ -373,7 +373,7 @@
 			"courseId":"IFSubmitUiT.CS2104",
 			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
 			"questionText":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other instructors' best feature?\",\"nChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other instructors' best feature?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"8",
 			"questionType":"MCQ",

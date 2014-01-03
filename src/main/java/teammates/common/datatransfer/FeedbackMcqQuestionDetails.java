@@ -5,7 +5,7 @@ import java.util.List;
 import teammates.common.util.Const;
 
 public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails {
-	public int nChoices;
+	public int numOfMcqChoices;
 	public List<String> mcqChoices;
 	public boolean otherEnabled;
 
@@ -14,12 +14,12 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 	}
 
 	public FeedbackMcqQuestionDetails(String questionText,
-			int nChoices,
+			int numOfMcqChoices,
 			List<String> mcqChoices,
 			boolean otherEnabled) {
 		super(FeedbackQuestionType.MCQ, questionText);
 		
-		this.nChoices = nChoices;
+		this.numOfMcqChoices = numOfMcqChoices;
 		this.mcqChoices = mcqChoices;
 		this.otherEnabled = otherEnabled;
 	}
@@ -39,7 +39,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		StringBuilder html = new StringBuilder();
 		html.append("<table>");
 		
-		for(int i = 0; i < mcqDetails.nChoices; i++) {
+		for(int i = 0; i < mcqDetails.numOfMcqChoices; i++) {
 			html.append("<tr><td><label><input type=\"radio\" "
 						+ "name=\"" + Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnIdx + "-" + responseIdx + "\""
 						+ (sessionIsOpen ? "" : "disabled=\"disabled\" ")
@@ -62,7 +62,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		StringBuilder html = new StringBuilder();
 		html.append("<table>");
 		
-		for(int i = 0; i < mcqDetails.nChoices; i++) {
+		for(int i = 0; i < mcqDetails.numOfMcqChoices; i++) {
 			html.append("<tr><td><label><input type=\"radio\" "
 						+ "name=\"" + Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnIdx + "-" + responseIdx + "\""
 						+ (sessionIsOpen ? "" : "disabled=\"disabled\" ")
@@ -81,7 +81,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		
 		html.append("<tr><td colspan=\"4\"><table>");
 		
-		for(int i = 0; i < nChoices; i++) {
+		for(int i = 0; i < numOfMcqChoices; i++) {
 			html.append("<tr id=\"mcqOptionRow-" + i + "-" + questionNumber + "\">"
 						+ "<td><input type=\"radio\" class=\"disabled_radio\" disabled=\"disabled\"></td>"
 						+ "<td><input type=\"text\" disabled=\"disabled\" "
@@ -100,7 +100,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		
 		html.append("<input type=\"hidden\" name=\"" + Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+ "\" "
 					+ "id=\"" + Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + "-" + questionNumber + "\" " 
-					+ "value=\"" + nChoices + "\"></td></tr>");
+					+ "value=\"" + numOfMcqChoices + "\"></td></tr>");
 		
 		return html.toString();
 	}

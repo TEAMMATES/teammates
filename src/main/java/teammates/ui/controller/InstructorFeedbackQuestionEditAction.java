@@ -134,20 +134,20 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 				Assumption.assertNotNull("Null number of choice for MCQ", numberOfChoicesCreatedString);
 				int numberOfChoicesCreated = Integer.parseInt(numberOfChoicesCreatedString);
 				
-				int nChoices = 0;
+				int numOfMcqChoices = 0;
 				List<String> mcqChoices = new LinkedList<String>();
 				for(int i = 0; i < numberOfChoicesCreated; i++) {
 					String mcqChoice = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
 					if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
 						mcqChoices.add(mcqChoice);
-						nChoices++;
+						numOfMcqChoices++;
 					}
 				}
 				
 				boolean otherEnabled = false; // TODO change this when implementing "other, please specify" field
 				
 				FeedbackMcqQuestionDetails mcqDetails = 
-						new FeedbackMcqQuestionDetails(questionText, nChoices, mcqChoices, otherEnabled);
+						new FeedbackMcqQuestionDetails(questionText, numOfMcqChoices, mcqChoices, otherEnabled);
 				newQuestion.setQuestionDetails(mcqDetails);
 				break;
 			default:

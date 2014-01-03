@@ -356,7 +356,7 @@
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
 			"questionText":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"nChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"1",
 			"questionType":"MCQ",
@@ -382,7 +382,7 @@
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
 			"questionText":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Rate 3 other students' products\",\"nChoices\":3,\"mcqChoices\":[\"Good\",\"OK\",\"Poor\"],\"otherEnabled\":false}"
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Rate 3 other students' products\",\"numOfMcqChoices\":3,\"mcqChoices\":[\"Good\",\"OK\",\"Poor\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"2",
 			"questionType":"MCQ",
@@ -410,7 +410,7 @@
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
 			"questionText":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Give feedback to your team mates\",\"nChoices\":2,\"mcqChoices\":[\"Good\",\"Can improve\"],\"otherEnabled\":false}"
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Give feedback to your team mates\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"Good\",\"Can improve\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"3",
 			"questionType":"MCQ",

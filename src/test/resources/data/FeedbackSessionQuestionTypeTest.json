@@ -202,7 +202,7 @@
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
 			"questionText":{
-				"value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MCQ\", \"nChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
+				"value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
 			},
 			"questionNumber":"1",
 			"questionType":"MCQ",
@@ -225,7 +225,7 @@
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
 			"questionText":{
-				"value":"{\"questionText\":\"What do you like best about the class' product?\", \"questionType\":\"MCQ\", \"nChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
+				"value":"{\"questionText\":\"What do you like best about the class' product?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
 			},
 			"questionNumber":"2",
 			"questionType":"MCQ",
