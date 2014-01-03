@@ -67,7 +67,6 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 		
 		editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
 		editPage.verifyHtml("/instructorCourseStudentEditPage.html");
-		
 	}
 	
 	public void testInputValidation() {

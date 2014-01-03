@@ -30,24 +30,24 @@ public class AllJsTests extends BaseUiTestCase{
 
 	@Test
 	public void executeJsTests() throws IOException {
-		/*
-		 * Total cases has to be updated based on the number of new javascript
-		 * tests added. This total case number should reflect the number of tests
-		 * in AllJsUnitTests.html.
-		 */
-		int totalCases = 167;
-		
-		int totalCasesExpectedToPass = totalCases;
-		
-		print("Going to execute "+totalCasesExpectedToPass+" JavaScript Unit tests...");
 		
 		String workingDirectory = new File(".").getCanonicalPath();
 		browser.driver.get("file:///"+workingDirectory+"/src/test/javascript/AllJsUnitTests.html");
 
-		String expectedResultString = totalCasesExpectedToPass+" tests of "+totalCases+" passed";
-		assertTrue(browser.driver.findElement(By.id("qunit-testresult")).getText().contains(expectedResultString));
+		String totalCasesXpathQuery = "//span[@class='total']",
+			   failedCasesXpathQuery = "//span[@class='failed']";
 		
-		print("As expected, "+expectedResultString);
+		int totalCases = Integer.parseInt(browser.driver
+				.findElement(By.xpath(totalCasesXpathQuery)).getText());
+		int failedCases = Integer.parseInt(browser.driver
+				.findElement(By.xpath(failedCasesXpathQuery)).getText());
+		
+		print("Executed "+totalCases+" JavaScript Unit tests...");
+
+		assertTrue(failedCases == 0);
+		assertTrue(totalCases != 0);
+		
+		print("As expected, "+ failedCases + " failed tests out of " + totalCases + " tests.");
 
 	}
 
