@@ -217,7 +217,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Text:</span> <Text: question>|||/page/instructorFeedbackQuestionAdd";
+						+ " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 		
 		______TS("Failure: Empty or null participant lists");
