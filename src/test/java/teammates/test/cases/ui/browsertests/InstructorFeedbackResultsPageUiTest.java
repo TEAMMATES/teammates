@@ -9,6 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
@@ -96,8 +97,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 		resultsPage.verifyDownloadLink(reportUrl);
 		
 		______TS("action: edit");
-		//TODO Is this test complete?
-		resultsPage.clickEditLink();
+		InstructorFeedbackEditPage editPage = resultsPage.clickEditLink();
+		editPage.verifyContains("Edit Feedback Session");
+		editPage.verifyContains("CFResultsUiT.CS2104");
+		editPage.verifyContains("First Session");
 	}
 
 	@AfterClass

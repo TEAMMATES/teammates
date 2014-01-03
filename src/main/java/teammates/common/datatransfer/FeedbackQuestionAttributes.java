@@ -22,7 +22,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	 * Don't use directly unless for storing/loading from data store <br>
 	 * To get the question text use {@code getQuestionDetails().questionText} 
 	 */
-	public Text questionText;
+	public Text questionText; //TODO rename to questionMetaData
 	public int questionNumber;
 	public FeedbackQuestionType questionType;
 	public FeedbackParticipantType giverType;

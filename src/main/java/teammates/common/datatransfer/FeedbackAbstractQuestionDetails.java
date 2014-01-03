@@ -1,5 +1,11 @@
 package teammates.common.datatransfer;
 
+/** A class holding the details for a specific question type.
++ * This abstract class is inherited by concrete Feedback*QuestionDetails
++ * classes which provides the implementation for the various abstract methods
++ * such that pages can render the correct information/forms depending on the 
++ * question type
++ */
 public abstract class FeedbackAbstractQuestionDetails {
 	public FeedbackQuestionType questionType;
 	public String questionText;

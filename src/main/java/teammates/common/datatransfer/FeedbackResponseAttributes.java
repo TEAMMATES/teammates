@@ -24,7 +24,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	 * Don't use directly unless for storing/loading from data store <br>
 	 * To get the answer text use {@code getQuestionDetails().getAnswerString()} 
 	 */
-	public Text answer;
+	public Text answer; //TODO rename to responseMetaData
 	
 	public FeedbackResponseAttributes() {
 		

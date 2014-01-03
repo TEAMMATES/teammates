@@ -4,12 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,7 +15,6 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.HtmlHelper;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -193,24 +186,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		feedbackEditPage.fillMcqOption(0, "Choice 1");
 		feedbackEditPage.fillMcqOption(1, "Choice 2");
 		
-		assertEquals(false, feedbackEditPage.verifyElementExists("mcqOptionRow-2"));
+		assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-2"));
 		feedbackEditPage.clickAddMoreOptionLink();
-		assertEquals(true, feedbackEditPage.verifyElementExists("mcqOptionRow-2"));
+		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-2"));
 		
 		______TS("MCQ: remove mcq option");
 		
 		feedbackEditPage.fillMcqOption(2, "Choice 3");
-		assertEquals(true, feedbackEditPage.verifyElementExists("mcqOptionRow-1"));
+		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-1"));
 		feedbackEditPage.clickRemoveOptionLink(1, -1);
-		assertEquals(false, feedbackEditPage.verifyElementExists("mcqOptionRow-1"));
+		assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1"));
 		
 		______TS("MCQ: add mcq option after remove");
 		
 		feedbackEditPage.clickAddMoreOptionLink();
-		assertEquals(true, feedbackEditPage.verifyElementExists("mcqOptionRow-3"));
+		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-3"));
 		feedbackEditPage.clickAddMoreOptionLink();
 		feedbackEditPage.fillMcqOption(4, "Choice 5");
-		assertEquals(true, feedbackEditPage.verifyElementExists("mcqOptionRow-4"));
+		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-4"));
 	}
 	
 	private void testAddMcqQuestionAction(){
@@ -230,20 +223,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
 		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
 		feedbackEditPage.fillEditQuestionBox("edited mcq qn text", 2);
-		assertEquals(true, feedbackEditPage.verifyElementExists("mcqOptionRow-0-2"));
+		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0-2"));
 		feedbackEditPage.clickRemoveOptionLink(0, 2);
-		assertEquals(false, feedbackEditPage.verifyElementExists("mcqOptionRow-0-2"));
+		assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-2"));
 		feedbackEditPage.clickSaveExistingQuestionButton(2);
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
-		
-		PrintWriter pr;
-		try {
-			pr = new PrintWriter(new BufferedWriter(new FileWriter(new File("out.txt"))));
-			pr.println(HtmlHelper.convertToStandardHtml(feedbackEditPage.getPageSource()));
-			pr.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		feedbackEditPage.verifyHtml("/instructorFeedbackMcqQuestionEditSuccess.html");
 	}

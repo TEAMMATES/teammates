@@ -784,7 +784,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		// checking comma inside cell
 		assertEquals(exportLines[23], "\"Instructor1 Course1\",\"-\",\"Good work, keep it up!\"");
 		
-		______TS("MCQ Session");
+		______TS("MCQ results");
 		
 		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
 		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
