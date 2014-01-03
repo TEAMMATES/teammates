@@ -82,11 +82,9 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 
 		String numberOfEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
 		Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
-		if (numberOfEntityTypes.equals("custom")) {
-			Assumption.assertTrue("Custom number is only for student or team recipient", 
-					newQuestion.recipientType == FeedbackParticipantType.STUDENTS
-					|| newQuestion.recipientType == FeedbackParticipantType.TEAMS);
-			
+		if (numberOfEntityTypes.equals("custom")
+			&& (newQuestion.recipientType == FeedbackParticipantType.STUDENTS 
+				|| newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
 			String numberOfEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
 			Assumption.assertNotNull("Null number of entities for custom entity number", numberOfEntities);
 

@@ -136,11 +136,31 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ " created.<br><span class=\"bold\">Text:</span> <Text: question>|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 		
-		______TS("Failure: Custom number of entities to non-student and non-team");
-
+		______TS("Remnant custom number of entities when recipient is changed to non-student and non-team");
+		
 		params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
 		params[7] = "INSTRUCTORS"; //change recipientType to INSTRUCTORS
-		verifyAssumptionFailure(params);
+		action = getAction(params);
+		result = (RedirectResult) action.executeAndPostProcess();
+		
+		assertEquals(
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+						+ "?courseid="
+						+ instructor1ofCourse1.courseId
+						+ "&fsname=First+feedback+session"
+						+ "&user="
+						+ instructor1ofCourse1.googleId
+						+ "&message=The+question+has+been+added+to+this+feedback+session."
+						+ "&error=false",
+				result.getDestinationWithParams());
+
+		expectedLogMessage =
+				"TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
+						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+						+ " created.<br><span class=\"bold\">Text:</span> <Text: question>|||/page/instructorFeedbackQuestionAdd";
+		assertEquals(expectedLogMessage, action.getLogMessage());
 		
 		______TS("Failure: Empty or null participant lists");
 		
