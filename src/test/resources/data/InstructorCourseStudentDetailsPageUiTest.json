@@ -27,11 +27,11 @@
   
   "students": {
     "registeredStudent": {
-      "googleId": "CCSDetailsUiT.alice.tmms",
-      "email": "CCSDetailsUiT.alice.tmms@gmail.com",
+      "googleId": "CCSDetailsUiT.jose.tmms",
+      "email": "CCSDetailsUiT.jose.tmms@gmail.com",
       "course": "CCSDetailsUiT.CS2104",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez",
       "team": "Team 1"
     },
     "unregisteredStudent": {

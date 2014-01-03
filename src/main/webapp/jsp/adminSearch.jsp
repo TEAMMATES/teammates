@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <%@ page import="com.google.appengine.api.search.Document" %>
 <%@ page import="com.google.appengine.api.search.Field" %>
 <%@ page import="teammates.common.util.Const" %>
