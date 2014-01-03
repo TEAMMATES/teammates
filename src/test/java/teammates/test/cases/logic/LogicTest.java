@@ -2619,7 +2619,7 @@ public class LogicTest extends BaseComponentTestCase {
 				.get("evaluation1InCourse1");
 		// reuse this evaluation data to create a new one
 		evaluation.name = "new evaluation";
-		logic.createEvaluation(evaluation);
+		logic.createEvaluationWithoutSubmissionQueue(evaluation);
 		// this is the student we are going to check
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 	
@@ -3102,7 +3102,7 @@ public class LogicTest extends BaseComponentTestCase {
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.gracePeriod = 0;
 		e.instructions = new Text("instructions for " + e.name);
-		logic.createEvaluation(e);
+		logic.createEvaluationWithoutSubmissionQueue(e);
 		// create submissions
 		ArrayList<SubmissionAttributes> submissions = new ArrayList<SubmissionAttributes>();
 		for (int i = 0; i < teamSize; i++) {

@@ -78,21 +78,21 @@ public class TableSortTest extends BaseUiTestCase {
 		
 		verifySortingOrder(	By.id("button_sortdate"),
 				
-				"04/05/10",
-				"21/08/10",
-				"06/04/11",
-				"14/05/11",
-				"12/12/11",
-				"01/01/12",
-				"02/01/12",
-				"01/02/12",
-				"03/02/12",
-				"05/03/12",
-				"10/05/12",
-				"25/07/12",
-				"17/09/12",
-				"01/01/13",
-				"05/06/13");
+				"04 May 2010",
+				"21 August 2010",
+				"06 April 2011",
+				"14 May 2011",
+				"12 December 2011",
+				"01 January 2012",
+				"02 January 2012",
+				"01 February 2012",
+				"03 February 2012",
+				"05 March 2012",
+				"10 May 2012",
+				"25 July 2012",
+				"17 September 2012",
+				"01 January 2013",
+				"05 June 2013");
 	}
 
 

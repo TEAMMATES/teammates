@@ -49,7 +49,7 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
 				.get("evaluation1InCourse1");
 		// reuse this evaluation data to create a new one
 		evaluation.name = "new evaluation";
-		logic.createEvaluation(evaluation);
+		logic.createEvaluationWithoutSubmissionQueue(evaluation);
 
 		HashMap<String, SubmissionAttributes> submissions = invokeGetSubmissionsForEvaluation(
 				evaluation.courseId, evaluation.name);

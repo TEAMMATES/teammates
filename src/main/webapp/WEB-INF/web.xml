@@ -108,6 +108,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>SubmissionWorkerServlet</servlet-name>
+		<servlet-class>teammates.logic.core.SubmissionWorkerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubmissionWorkerServlet</servlet-name>
+		<url-pattern>/submissionWorker</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>EvaluationOpeningReminders</servlet-name>
 		<servlet-class>teammates.logic.automated.EvaluationOpeningRemindersServlet</servlet-class>
 	</servlet>
@@ -196,6 +205,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          <web-resource-collection>
             <web-resource-name>TaskQueue</web-resource-name>
             <url-pattern>/searchTask</url-pattern>
+            <url-pattern>/submissionWorker</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>

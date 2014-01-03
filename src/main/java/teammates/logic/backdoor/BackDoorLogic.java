@@ -86,7 +86,7 @@ public class BackDoorLogic extends Logic {
 		for (EvaluationAttributes evaluation : evaluations.values()) {
 			log.fine("API Servlet adding evaluation :" + evaluation.name
 					+ " to course " + evaluation.courseId);
-			createEvaluation(evaluation);
+			createEvaluationWithoutSubmissionQueue(evaluation);
 		}
 
 		// processing is slightly different for submissions because we are
