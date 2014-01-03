@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
+import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -15,6 +15,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackQuestionAddAction extends Action {
 
@@ -37,7 +39,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 			statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
 					feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
 					feedbackQuestion.courseId + "]</span> created.<br>" +
-					"<span class=\"bold\">Text:</span> " + feedbackQuestion.questionText;
+					"<span class=\"bold\">" + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() + 
+					":</span> " + feedbackQuestion.getQuestionDetails().questionText;
 		} catch (EntityAlreadyExistsException e) {
 			Assumption.fail("Creating a duplicate question should not be possible as GAE generates a new questionId every time\n");
 		} catch (InvalidParametersException e) {
@@ -50,6 +53,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 	}
 
 	private FeedbackQuestionAttributes extractFeedbackQuestionData() {
+		//TODO Try to make this method stateless. i.e. pass input as a ParameterMap instead of
+		//depending on the instance variable. Easier to test that way.
 		FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
 
 		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -72,12 +77,6 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		Assumption.assertNotNull("Null question number", feedbackQuestionNumber);
 		newQuestion.questionNumber = Integer.parseInt(feedbackQuestionNumber);
 		
-		String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
-		Assumption.assertNotNull("Null question text", questionText);
-		newQuestion.questionText = new Text(questionText);
-		
-		newQuestion.questionType = FeedbackQuestionType.TEXT;
-		
 		newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
 
 		String numberOfEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
@@ -98,6 +97,45 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		newQuestion.showRecipientNameTo = getParticipantListFromParams(
 				getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));	
 		
+		String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
+		Assumption.assertNotNull("Null question type", questionType);
+		newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
+		
+		String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
+		Assumption.assertNotNull("Null question text", questionText);
+		
+		//TODO consider using inheritance instead of switch
+		//i.e. type-specific code can be put in the corresponding question-type class
+		switch(newQuestion.questionType){
+		case TEXT:
+			newQuestion.questionText = new Text(questionText);
+			break;
+		case MCQ:
+			String numberOfChoicesCreatedString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+			Assumption.assertNotNull("Null number of choice for MCQ", numberOfChoicesCreatedString);
+			int numberOfChoicesCreated = Integer.parseInt(numberOfChoicesCreatedString);
+			
+			int numOfMcqChoices = 0;
+			List<String> mcqChoices = new LinkedList<String>();
+			for(int i = 0; i < numberOfChoicesCreated; i++) {
+				String mcqChoice = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
+				if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
+					mcqChoices.add(mcqChoice);
+					numOfMcqChoices++;
+				}
+			}
+			
+			boolean otherEnabled = false; // TODO change this when implementing "other, please specify" field
+			
+			FeedbackMcqQuestionDetails mcqDetails = 
+					new FeedbackMcqQuestionDetails(questionText, numOfMcqChoices, mcqChoices, otherEnabled);
+			newQuestion.setQuestionDetails(mcqDetails);
+			break;
+		default:
+			Assumption.fail("Question type not supported");
+			break;
+		}
+				
 		return newQuestion;
 	}
 

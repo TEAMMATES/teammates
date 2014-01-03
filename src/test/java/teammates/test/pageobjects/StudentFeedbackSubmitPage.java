@@ -27,6 +27,12 @@ public class StudentFeedbackSubmitPage extends AppPage {
 		fillTextBox(element, text);
 	}
 	
+	public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName){
+		String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
+		WebElement element = browser.driver.findElement(By.xpath("//input[@name='" + name + "' and @value='" + choiceName + "']"));
+		element.click();
+	}
+	
 	public void clickSubmitButton() {
 		WebElement button = browser.driver.findElement(By.id("response_submit_button"));
 		button.click();

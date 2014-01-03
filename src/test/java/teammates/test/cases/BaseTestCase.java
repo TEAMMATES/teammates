@@ -126,7 +126,15 @@ public class BaseTestCase {
 		DataBundle dataBundle = getTypicalDataBundle();
 		backDoorLogic.persistDataBundle(dataBundle);
 	}
-
+	
+	/**
+	 * Creates in the datastore a fresh copy of data in the given json file
+	 */
+	protected void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		DataBundle dataBundle = loadDataBundle(pathToJsonFile);
+		backDoorLogic.persistDataBundle(dataBundle);
+	}
 
 	protected void signalFailureToDetectException(String... messages) {
 		throw new RuntimeException("Expected exception not detected."+ Arrays.toString(messages));

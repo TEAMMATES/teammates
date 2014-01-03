@@ -260,14 +260,14 @@ public class FeedbackSessionsLogic {
 		for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry :
 								results.getQuestionResponseMap().entrySet()) {
 			export += "Question " + Integer.toString(entry.getKey().questionNumber) + "," +
-					 Sanitizer.sanitizeForCsv(entry.getKey().questionText.getValue()) 
+					 Sanitizer.sanitizeForCsv(entry.getKey().getQuestionDetails().questionText) 
 					+ Const.EOL + Const.EOL;
 			export += "Giver" + "," + "Recipient" + "," + "Feedback" + Const.EOL;
 			
 			for(FeedbackResponseAttributes response : entry.getValue()){
 				export += Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail)) + "," + 
 						Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipientEmail)) + "," +
-						Sanitizer.sanitizeForCsv(response.answer.getValue()) + Const.EOL;
+						Sanitizer.sanitizeForCsv(response.getResponseDetails().getAnswerString()) + Const.EOL;
 			}
 			export += Const.EOL + Const.EOL;
 		}

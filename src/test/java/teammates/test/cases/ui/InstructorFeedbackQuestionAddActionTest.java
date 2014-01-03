@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -42,6 +43,63 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 		
 		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 	}
+
+	@Test
+	public void testExecuteAndPostProcessMcq() throws Exception{
+		InstructorAttributes instructor1ofCourse1 =
+				dataBundle.instructors.get("instructor1OfCourse1");
+
+		gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+		
+		
+		______TS("Typical case");
+
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+		String[] params = new String[]{
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "5",
+				Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The Content",
+				//Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "The Teacher",   // This option is deleted during creation, don't pass parameter
+				Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-2", "", // empty option
+				Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-3", "  		", // empty option with extra whitespace
+				Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-4", "The Atmosphere",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit"
+		};
+		
+		InstructorFeedbackQuestionAddAction action = getAction(params);
+		RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+		
+		assertEquals(
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+						+ "?courseid="
+						+ instructor1ofCourse1.courseId
+						+ "&fsname=First+feedback+session"
+						+ "&user="
+						+ instructor1ofCourse1.googleId
+						+ "&message=The+question+has+been+added+to+this+feedback+session."
+						+ "&error=false",
+				result.getDestinationWithParams());
+
+		String expectedLogMessage =
+				"TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
+						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+						+ " created.<br><span class=\"bold\">Multiple-choice question:</span> What do you like best about the class?"
+						+ "|||/page/instructorFeedbackQuestionAdd";
+		assertEquals(expectedLogMessage, action.getLogMessage());
+	}
 	
 	@Test
 	public void testExecuteAndPostProcess() throws Exception{
@@ -62,7 +120,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 		______TS("Typical case");
 
 		params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-		params[13] = "max"; //change number of feedback to give to unlimited
+		params[15] = "max"; //change number of feedback to give to unlimited
 		InstructorFeedbackQuestionAddAction action = getAction(params);
 		RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 		
@@ -82,7 +140,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Text:</span> <Text: question>|||/page/instructorFeedbackQuestionAdd";
+						+ " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 		
 		______TS("Custom number of students to give feedback to");
@@ -107,7 +165,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Text:</span> <Text: question>|||/page/instructorFeedbackQuestionAdd";
+						+ " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 		
 		______TS("Custom number of teams to give feedback to");
@@ -133,7 +191,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Text:</span> <Text: question>|||/page/instructorFeedbackQuestionAdd";
+						+ " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 		
 		______TS("Remnant custom number of entities when recipient is changed to non-student and non-team");
@@ -159,18 +217,18 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Text:</span> <Text: question>|||/page/instructorFeedbackQuestionAdd";
+						+ " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 		
 		______TS("Failure: Empty or null participant lists");
 		
 		params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-		params[19] = ""; //change showGiverTo to empty
+		params[21] = ""; //change showGiverTo to empty
 		
 		// remove showRecipientTo
-		params[20] = Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE;
-		params[21] = "edit";
-		params = Arrays.copyOf(params, 22);		
+		params[22] = Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE;
+		params[23] = "edit";
+		params = Arrays.copyOf(params, 24);		
 		
 		action = getAction(params);
 		result = (RedirectResult) action.executeAndPostProcess();
@@ -191,7 +249,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Text:</span> <Text: question>|||/page/instructorFeedbackQuestionAdd";
+						+ " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
 		
 		______TS("Failure: Invalid Parameter");
 
@@ -244,7 +302,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Text:</span> <Text: question>|||/page/instructorFeedbackQuestionAdd";
+						+ " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 	}
 	

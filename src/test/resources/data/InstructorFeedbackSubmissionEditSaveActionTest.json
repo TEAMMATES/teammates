@@ -1,0 +1,454 @@
+{
+	"accounts":{
+		"instructor1InCourse1":{
+			"googleId":"instructor1InCourse1",
+			"name":"Teammates Test",
+			"isInstructor":true,
+			"email":"instructor1@course1.com",
+			"institute":"National University of Singapore"
+		},
+		"instructor2InCourse1":{
+			"googleId":"instructor2InCourse1",
+			"name":"Teammates Test2",
+			"isInstructor":true,
+			"email":"instructor2@course1.com",
+			"institute":"National University of Singapore"
+		},
+		"instructor1InCourse2":{
+			"googleId":"idOfInstructor1OfCourse2",
+			"name":"Instructor 1 of Course 2",
+			"isInstructor":true,
+			"email":"instr1@course2.com",
+			"institute":"National University of Singapore"
+		},
+		"student1InCourse1":{
+			"googleId":"student1InCourse1",
+			"name":"Student 1 in course 1",
+			"isInstructor":false,
+			"email":"student1inCourse1@gmail.com",
+			"institute":"National University of Singapore"
+		}
+	},
+	"courses":{
+		"idOfCourse1":{
+			"id":"idOfCourse1",
+			"name":"Programming Language Concepts"
+		}
+	},
+	"instructors":{
+		"instructor1InCourse1":{
+			"googleId":"instructor1InCourse1",
+			"courseId":"idOfCourse1",
+			"name":"Teammates Test",
+			"email":"instructor1@course1.com"
+		},
+		"instructor2InCourse1":{
+			"googleId":"instructor2InCourse1",
+			"courseId":"idOfCourse1",
+			"name":"Teammates Test2",
+			"email":"instructor2@course1.com"
+		},
+		"instructor1InCourse2":{
+			"googleId":"idOfInstructor1OfCourse2",
+			"courseId":"idOfTypicalCourse2",
+			"name":"Instructor1 Course2",
+			"email":"instructor1@course2.com"
+		}
+	},
+	"students":{
+		"student1InCourse1":{
+			"email":"student1InCourse1@gmail.com",
+			"name":"student1 In Course1",
+			"team":"Team 1.1",
+			"googleId":"student1InCourse1",
+			"comments":"comment for student1InCourse1",
+			"course":"idOfTypicalCourse1"
+		}
+	},
+	"feedbackSessions":{
+		"Open Session":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"instructions":{
+				"value":"Instructions for first session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2014-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2014-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":10,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		},
+		"Closed Session":{
+			"feedbackSessionName":"Second Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"instructions":{
+				"value":"Please please fill in the second feedback session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2014-04-02 11:59 PM UTC",
+			"endTime":"2014-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2014-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":20,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":false,
+			"sentPublishedEmail":false
+		},
+		"Empty Session":{
+			"feedbackSessionName":"Third Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"instructions":{
+				"value":"Please please fill in the last feedback session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2012-04-02 11:59 PM UTC",
+			"endTime":"2014-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":20,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":true
+		},
+		"Grace Period Session":{
+			"feedbackSessionName":"Session in Grace Period",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2013-03-20 11:59 PM UTC",
+			"startTime":"2013-06-01 11:59 PM UTC",
+			"endTime":"2014-04-28 11:59 PM UTC",
+			"sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
+			"resultsVisibleFromTime":"2014-04-29 11:59 PM UTC",
+			"timeZone":2.0,
+			"gracePeriod":1440,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		},
+		"Private Session":{
+			"feedbackSessionName":"Private Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2012-03-20 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":null,
+			"sessionVisibleFromTime":"1970-11-27 00:00 AM UTC",
+			"resultsVisibleFromTime":"1970-11-27 00:00 AM UTC",
+			"timeZone":8,
+			"gracePeriod":0,
+			"feedbackSessionType":"PRIVATE",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		}
+	},
+	"feedbackQuestions":{
+		"qn1InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"What is the best selling point of your product?"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn2InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Rate 3 students' products"
+			},
+			"questionNumber":"2",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":3,
+			"showResponsesTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			]
+		},
+		"qn3InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Comments about the class"
+			},
+			"questionNumber":"3",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"NONE",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn4InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"This question should be hidden."
+			},
+			"questionNumber":"4",
+			"questionType":"TEXT",
+			"giverType":"TEAMS",
+			"recipientType":"TEAMS",
+			"numberOfEntitiesToGiveFeedbackTo":3,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn5InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"This question should be hidden."
+			},
+			"questionNumber":"5",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"OWN_TEAM_MEMBERS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn6InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Give feedback to other instructors."
+			},
+			"questionNumber":"6",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"INSTRUCTORS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn7InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
+			},
+			"questionNumber":"7",
+			"questionType":"MCQ",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn8InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other instructors' best feature?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
+			},
+			"questionNumber":"8",
+			"questionType":"MCQ",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"INSTRUCTORS",
+			"numberOfEntitiesToGiveFeedbackTo":3,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn1InSession2":{
+			"feedbackSessionName":"Second Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Give feedback to your instructors"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"INSTRUCTORS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn1InGracePeriodSession":{
+			"feedbackSessionName":"Session in Grace Period",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"Give feedback."
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"INSTRUCTORS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn1InPrivateSession":{
+			"feedbackSessionName":"Private Session",
+			"courseId":"idOfCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionText":{
+				"value":"What is the best selling point of your product?"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"SELF",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		}
+	},
+	"feedbackResponses":{
+		"response1ForQ1S1C1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"instructor1@course1.com",
+			"recipientEmail":"instructor1@course1.com",
+			"answer":{
+				"value":"Instructor self feedback."
+			}
+		},
+		"response1ForQ2S1C1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"idOfCourse1",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"instructor1@course1.com",
+			"recipientEmail":"student1inCourse1@gmail.com",
+			"answer":{
+				"value":"Instructor feedback to student 1."
+			}
+		},
+		"response1ForGracePeriodSession":{
+			"feedbackSessionName":"Session in Grace Period",
+			"courseId":"idOfCourse1",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"instructor1@course1.com",
+			"recipientEmail":"instructor2@course1.com",
+			"answer":{
+				"value":"Response from instructor 1 to instructor 2."
+			}
+		},
+		"response1ForPrivateSession":{
+			"feedbackSessionName":"Private Session",
+			"courseId":"idOfCourse1",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"instructor1@course1.com",
+			"recipientEmail":"instructor1@course1.com",
+			"answer":{
+				"value":"Private response."
+			}
+		}
+	}
+}

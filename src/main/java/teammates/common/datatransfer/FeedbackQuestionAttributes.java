@@ -3,12 +3,14 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
+import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Sanitizer;
 import teammates.storage.entity.FeedbackQuestion;
+
+import com.google.appengine.api.datastore.Text;
+import com.google.gson.Gson;
 
 public class FeedbackQuestionAttributes extends EntityAttributes
 	implements Comparable<FeedbackQuestionAttributes>{
@@ -16,7 +18,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	public String feedbackSessionName;
 	public String courseId;
 	public String creatorEmail;
-	public Text questionText;
+	/**  Contains the JSON formatted string that holds the information of the question details <br>
+	 * Don't use directly unless for storing/loading from data store <br>
+	 * To get the question text use {@code getQuestionDetails().questionText} 
+	 */
+	public Text questionText; //TODO rename to questionMetaData
 	public int questionNumber;
 	public FeedbackQuestionType questionType;
 	public FeedbackParticipantType giverType;
@@ -228,15 +234,29 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	 */
 	public boolean isChangesRequiresResponseDeletion(
 			FeedbackQuestionAttributes newAttributes) {
-		if( newAttributes.giverType.equals(this.giverType) == false ||
+		if (newAttributes.giverType.equals(this.giverType) == false ||
 			newAttributes.recipientType.equals(this.recipientType) == false	) {
 			return true;
 		}
-		if( this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false || 
+		
+		if (this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false || 
 			this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo) == false ||
 			this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo) == false ) {
 			return true;
 		}
+		
+		if (newAttributes.questionType == FeedbackQuestionType.MCQ){
+			FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) this.getQuestionDetails();
+			FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newAttributes.getQuestionDetails();
+
+			if (mcqDetails.numOfMcqChoices != newMcqDetails.numOfMcqChoices ||
+				mcqDetails.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false ||
+				newMcqDetails.mcqChoices.containsAll(mcqDetails.mcqChoices) == false) {
+				return true;
+			}
+			
+		}
+		
 		return false;
 	}
 		
@@ -425,5 +445,65 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	@Override
 	public void sanitizeForSaving() {
 		// TODO implement this
+	}
+	
+	/** This method converts the given Feedback*QuestionDetails object to JSON for storing
+	 * @param questionDetails
+	 */
+	public void setQuestionDetails(FeedbackAbstractQuestionDetails questionDetails) {
+		Gson gson = teammates.common.util.Utils.getTeammatesGson();
+		
+		switch(questionDetails.questionType){
+		case TEXT:
+			// For Text questions, the questionText simply contains the question, not a JSON
+			// This is due to legacy data in the data store before there are multiple question types
+			questionText = new Text(questionDetails.questionText);
+			break;
+		case MCQ:
+			questionText = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
+			break;
+		default:
+			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
+			break;
+		
+		}
+	}
+	
+	/** This method retrieves the Feedback*QuestionDetails object for this question
+	 * @return The Feedback*QuestionDetails object representing the question's details
+	 */
+	public FeedbackAbstractQuestionDetails getQuestionDetails(){
+		Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass = getFeedbackQuestionDetailsClass();
+		
+		// For Text questions, the questionText simply contains the question, not a JSON
+		// This is due to legacy data in the data store before there are multiple question types
+		if(questionDetailsClass == FeedbackTextQuestionDetails.class) {
+			return new FeedbackTextQuestionDetails(questionText.getValue());
+		} else {
+			Gson gson = teammates.common.util.Utils.getTeammatesGson();
+			return gson.fromJson(questionText.getValue(), questionDetailsClass);
+		}
+	}
+	
+	/** This method gets the appropriate class type for the Feedback*QuestionDetails object
+	 * for this question.
+	 * @return The Feedback*QuestionDetails class type appropriate for this question.
+	 */
+	private Class<? extends FeedbackAbstractQuestionDetails> getFeedbackQuestionDetailsClass(){
+		Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass = null;
+		
+		switch(questionType){
+		case TEXT:
+			questionDetailsClass = FeedbackTextQuestionDetails.class;
+			break;
+		case MCQ:
+			questionDetailsClass = FeedbackMcqQuestionDetails.class;
+			break;
+		default:
+			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
+			break;
+		}
+		
+		return questionDetailsClass;
 	}
 }

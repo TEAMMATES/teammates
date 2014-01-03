@@ -9,6 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
@@ -86,8 +87,20 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testLink() {
-		// TODO: test download link
-		resultsPage.clickEditLink();
+		______TS("action: download report");
+		
+		Url reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+			.withUserId("CFResultsUiT.instr")
+			.withCourseId("CFResultsUiT.CS2104")
+			.withSessionName("First Session");
+		
+		resultsPage.verifyDownloadLink(reportUrl);
+		
+		______TS("action: edit");
+		InstructorFeedbackEditPage editPage = resultsPage.clickEditLink();
+		editPage.verifyContains("Edit Feedback Session");
+		editPage.verifyContains("CFResultsUiT.CS2104");
+		editPage.verifyContains("First Session");
 	}
 
 	@AfterClass

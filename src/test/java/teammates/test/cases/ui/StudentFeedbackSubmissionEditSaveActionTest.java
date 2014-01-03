@@ -1,38 +1,35 @@
 package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
-
-import java.util.Calendar;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.storage.api.StudentsDb;
+import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.ActionResult;
+import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditSaveAction;
 
 
 public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
 
 	DataBundle dataBundle;
-	
-	String unregUserId;
-	String instructorId;
-	String studentId;
-	String otherStudentId;
-	String adminUserId;
-	FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
-	FeedbackSessionAttributes fs =  new FeedbackSessionAttributes();
 	
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -43,63 +40,281 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 	@BeforeMethod
 	public void methodSetUp() throws Exception {
 		dataBundle = getTypicalDataBundle();
-
-		unregUserId = "unreg.user";
-		
-		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-		instructorId = instructor1OfCourse1.googleId;
-		
-		StudentAttributes student1InCourse1 = dataBundle.students.get("studentInGraceCourse");
-		studentId = student1InCourse1.googleId;
-		
-		otherStudentId = dataBundle.students.get("student2InCourse1").googleId;
-		
-		adminUserId = "admin.user";
-
-		fs = dataBundle.feedbackSessions.get("gracePeriod.session");
-		fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
-		dataBundle.feedbackSessions.put("gracePeriod.session", fs);
-
 		restoreTypicalDataInDatastore();
 	}
 	
 	@Test
 	public void testAccessControl() throws Exception{
+		FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
 		
-		assertEquals(false, fs.isOpened());
-		assertEquals(true, fs.isInGracePeriod());
+		String[] submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString()
+		};
 		
+		verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
+	}
+	
+	@Test
+	public void testExecuteAndPostProcess() throws Exception{
+		//TODO Test error states (catch-blocks and isError == true states)
 		
+		______TS("edit existing answer");
+		
+		FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+		FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+		assertNotNull("Feedback question not found in database", fq);
+		
+		FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+		FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+		fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
+		assertNotNull("Feedback response not found in database", fr);
+		
+		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+		
+		String[] submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString()				
+		};
+		
+		StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+		RedirectResult r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=student1InCourse1",
+						r.getDestinationWithParams());
+		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("deleted response");
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""				
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=student1InCourse1",
+						r.getDestinationWithParams());
+		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+				
+		______TS("skipped question");
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""				
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=student1InCourse1",
+						r.getDestinationWithParams());
+		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("new response");
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "New " + fr.getResponseDetails().getAnswerString()				
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=student1InCourse1",
+						r.getDestinationWithParams());
+		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("edit response, did not specify recipient");
+		
+		fq = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 2);
+		assertNotNull("Feedback question not found in database", fq);
+		
+		fr = dataBundle.feedbackResponses.get("response2ForQ2S1C1");
+		fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
+		assertNotNull("Feedback response not found in database", fr);
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-2", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-2-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Edited" + fr.getResponseDetails().getAnswerString()				
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=student1InCourse1",
+						r.getDestinationWithParams());
+		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("new response, did not specify recipient");
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-2", "1",
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Edited" + fr.getResponseDetails().getAnswerString()				
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=student1InCourse1",
+						r.getDestinationWithParams());
+		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+	
+		______TS("mcq");
+		
+		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+		
+		fq = fqDb.getFeedbackQuestion("MCQ Session", "idOfTypicalCourse1", 1);
+		assertNotNull("Feedback question not found in database", fq);
+		
+		fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+		fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
+		assertNotNull("Feedback response not found in database", fr);
+		
+		student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect"				
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=student1InCourse1",
+						r.getDestinationWithParams());
+		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("mcq, question skipped");
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString()			
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=student1InCourse1",
+						r.getDestinationWithParams());
+		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+	}
+	
+	@Test
+	public void testGracePeriodAccessControl() throws Exception{
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriod.session");
+		fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+		dataBundle.feedbackSessions.put("gracePeriod.session", fs);
+		
+		BackDoorLogic backDoorLogic = new BackDoorLogic();
+		backDoorLogic.persistDataBundle(dataBundle);
+		
+		assertFalse(fs.isOpened());
+		assertTrue(fs.isInGracePeriod());
+		assertFalse(fs.isClosed());
+				
 		FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1GracePeriodFeedback");
 		
 		String[] submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, fr.courseId,
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
-				Const.ParamsNames.FROM_EMAIL, fr.giverEmail,
-				Const.ParamsNames.FEEDBACK_QUESTION_ID, fr.feedbackQuestionId,
-				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fr.feedbackQuestionType.toString(),
-				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT, fr.recipientEmail,
-				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT, fr.answer.toString()
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString() 
 		};
 		
-		verifyUnaccessibleWithoutLogin(submissionParams);
 		verifyUnaccessibleForUnregisteredUsers(submissionParams);
+		verifyUnaccessibleWithoutLogin(submissionParams);
 		
-		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-		verifyUnaccessibleForDifferentStudentOfTheSameCourses(submissionParams);
-		
-		verifyUnaccessibleForInstructors(submissionParams);
-		verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
-		
-}
-
+		// verify student can still submit during grace period
+		StudentAttributes studentInGracePeriod = dataBundle.students.get("studentInGraceCourse");
+		gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
+		verifyCanAccess(submissionParams);
+	}
+	
 	@Test
-	public void testExecuteAndPostProcess() throws Exception{
-		
-		gaeSimulation.loginAsStudent(studentId);
+	public void testGracePeriodExecuteAndPostProcess() throws Exception{
+		FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriod.session");
+		StudentAttributes studentInGracePeriod = dataBundle.students.get("studentInGraceCourse");
+		gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
 
-		String submissionFailMessage = new String();
-		
 		String[] submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, fs.courseId,
 				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
@@ -110,8 +325,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		fs.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		feedbackSessionDb.updateFeedbackSession(fs);
 		
-		assertEquals(true, fs.isOpened());
-		assertEquals(false, fs.isInGracePeriod());
+		assertTrue(fs.isOpened());
+		assertFalse(fs.isInGracePeriod());
 
 		StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
 		ActionResult r = a.executeAndPostProcess();
@@ -121,17 +336,16 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 				r.getDestinationWithParams());
 		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
 				r.getStatusMessage());
-		assertEquals(false, r.isError);
+		assertFalse(r.isError);
 		
 		______TS("during grace period");
 		
 		fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
 		feedbackSessionDb.updateFeedbackSession(fs);
 	
-		assertEquals(false, fs.isOpened());
-		assertEquals(true, fs.isInGracePeriod());
+		assertFalse(fs.isOpened());
+		assertTrue(fs.isInGracePeriod());
 
-		//refresh the action.
 		a = getAction(submissionParams);
 		r = a.executeAndPostProcess();
 		assertEquals(
@@ -139,27 +353,28 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 				r.getDestinationWithParams());
 		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
 				r.getStatusMessage());
-		assertEquals(false, r.isError);
+		assertFalse(r.isError);
 		
 		______TS("after grace period");
 		
 		fs.endTime = TimeHelper.getDateOffsetToCurrentTime(-10);
 		feedbackSessionDb.updateFeedbackSession(fs);
 		
-		assertEquals(false, fs.isOpened());
-		assertEquals(false, fs.isInGracePeriod());
+		assertFalse(fs.isOpened());
+		assertFalse(fs.isInGracePeriod());
 				
+		String submissionFailMessage = new String();
 		try{
+			a = getAction(submissionParams);
 			r = a.executeAndPostProcess();
 		}
 		catch(UnauthorizedAccessException e){
 			submissionFailMessage= e.getMessage();
 		}
-		assertEquals("This feedback session is not yet opened.", submissionFailMessage);
-		
+		assertEquals("This feedback session is not open for submission.", submissionFailMessage);
 	}
+	
 	private StudentFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception{
 		return (StudentFeedbackSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
 	}
-	
 }

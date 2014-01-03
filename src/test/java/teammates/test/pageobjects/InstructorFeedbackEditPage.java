@@ -2,14 +2,15 @@ package teammates.test.pageobjects;
 
 import java.util.Date;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackEditPage extends AppPage {
 	
@@ -67,18 +68,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 	@FindBy(id = "questiontext")
 	private WebElement questionTextBox;
 	
-	@FindBy(id = "questionedittext-1")
-	private WebElement qnEditLink;	
-	
-	@FindBy(id = "questionsavechangestext-1")
-	private WebElement qnSaveLink;
-	
-	@FindBy(xpath = "//a[@onclick='deleteQuestion(1)']")
-	private WebElement qnDeleteLink;
-	
-	@FindBy(id = "questiontext-1")
-	private WebElement questionEditTextBox;
-	
 	@FindBy(id = "recipienttype")
 	private WebElement recipientDropdown;
 	
@@ -108,7 +97,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 		fillTextBox(questionTextBox, qnText);
 	}
 	
-	public void fillEditQuestionBox(String qnText){
+	public void fillEditQuestionBox(String qnText, int qnIndex){
+		WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnIndex));
 		fillTextBox(questionEditTextBox, qnText);
 	}
 	
@@ -148,8 +138,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 		return fsDeleteLink;
 	}
 	
-	public WebElement getDeleteQuestionLink(){
-		return qnDeleteLink;
+	public WebElement getDeleteQuestionLink(int qnIndex){
+		return browser.driver.findElement(By.xpath("//a[@onclick='deleteQuestion(" + qnIndex + ")']"));
 	}
 	
 	public boolean clickEditSessionButton(){
@@ -168,15 +158,23 @@ public class InstructorFeedbackEditPage extends AppPage {
 		waitForPageToLoad();
 	}
 	
-	public boolean clickEditQuestionButton(){
+	public boolean clickEditQuestionButton(int qnNumber){
+		WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));	
 		qnEditLink.click();
+		
 		// Check if links toggle properly.
+		WebElement qnSaveLink = browser.driver.findElement(By.id("questionsavechangestext-" + qnNumber));	
 		return qnSaveLink.isDisplayed();
 	}
 	
-	public void clickSaveExistingQuestionButton(){
+	public void clickSaveExistingQuestionButton(int qnNumber){
+		WebElement qnSaveLink = browser.driver.findElement(By.id("questionsavechangestext-" + qnNumber));
 		qnSaveLink.click();
 		waitForPageToLoad();
+	}
+	
+	public void selectNewQuestionType(String questionType){
+		selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
 	}
 	
 	/**
@@ -238,5 +236,23 @@ public class InstructorFeedbackEditPage extends AppPage {
 		clickAndConfirm(getDeleteSessionLink());
 		waitForPageToLoad();
 		return changePageType(InstructorFeedbacksPage.class);
+	}
+	
+	public void fillMcqOption(int optionIndex, String optionText){
+		WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex));
+		fillTextBox(optionBox, optionText);
+	}
+	
+	public void clickAddMoreOptionLink(){
+		WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink"));
+		addMoreOptionLink.click();
+	}
+	
+	public void clickRemoveOptionLink(int optionIndex, int qnIndex) {
+		String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+		
+		WebElement mcqOptionRow = browser.driver.findElement(By.id("mcqOptionRow-" + optionIndex + idSuffix));
+		WebElement removeOptionLink = mcqOptionRow.findElement(By.id("mcqRemoveOptionLink"));
+		removeOptionLink.click();
 	}
 }
