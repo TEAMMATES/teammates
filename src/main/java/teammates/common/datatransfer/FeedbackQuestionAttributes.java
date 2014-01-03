@@ -121,20 +121,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
-		error= validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
+		error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+		error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
+		error = validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
 		if(!error.isEmpty()) { errors.add(error); }
 		
-		error= validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType);
-		if(!error.isEmpty()) { errors.add(error); }
+		errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 		
-		error= validator.getValidityInfoForFeedbackResponseVisibility(showResponsesTo, showGiverNameTo, showRecipientNameTo);
-		if(!error.isEmpty()) { errors.add(error); }
+		errors.addAll(validator.getValidityInfoForFeedbackResponseVisibility(showResponsesTo, showGiverNameTo, showRecipientNameTo));
 		
 		return errors;
 	}
