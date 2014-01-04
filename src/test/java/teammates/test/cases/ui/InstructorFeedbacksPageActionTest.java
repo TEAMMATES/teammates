@@ -89,13 +89,13 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.courses.size());
 		assertEquals(2, pageData.existingEvalSessions.size());
-		assertEquals(4, pageData.existingFeedbackSessions.size());
+		assertEquals(5, pageData.existingFeedbackSessions.size());
 		assertEquals(null, pageData.newFeedbackSession);
 		assertEquals(null, pageData.courseIdForNewSession);
 		
 		String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +
 				"|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-				"|||instr1@course1.com|||Number of feedback sessions: 4|||/page/instructorFeedbacksPage";
+				"|||instr1@course1.com|||Number of feedback sessions: 5|||/page/instructorFeedbacksPage";
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 		______TS("Masquerade mode, 0 sessions");

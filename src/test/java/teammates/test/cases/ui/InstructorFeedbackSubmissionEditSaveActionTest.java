@@ -15,7 +15,6 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -46,67 +45,17 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 	
 	@Test
 	public void testAccessControl() throws Exception{
-		FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+		dataBundle = getTypicalDataBundle();
+		restoreTypicalDataInDatastore();
+		
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 		
 		String[] submissionParams = new String[]{
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
-				Const.ParamsNames.COURSE_ID, fr.courseId,
-				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
-				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
-				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString()
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
 		};
 		
-		//TODO move this to BaseActionTest.java
-		InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
-		StudentAttributes student = dataBundle.students.get("student1InCourse1");
-		
-		______TS("non-registered users cannot access");
-		
-		String	unregUserId = "unreg.user";
-		
-		gaeSimulation.loginUser(unregUserId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructor.googleId,submissionParams));
-		verifyCannotMasquerade(addUserIdToParams(student.googleId,submissionParams));
-		
-		______TS("not-logged-in users cannot access");
-		
-		gaeSimulation.logoutUser();
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructor.googleId,submissionParams));
-		verifyCannotMasquerade(addUserIdToParams(student.googleId,submissionParams));
-		
-		______TS("students cannot access");
-		
-		gaeSimulation.loginAsStudent(student.googleId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructor.googleId,submissionParams));
-		
-		______TS("other course instructor cannot access");
-		
-		InstructorAttributes otherInstructor = dataBundle.instructors.get("instructor1InCourse2");
-		
-		gaeSimulation.loginAsInstructor(otherInstructor.googleId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructor.googleId,submissionParams));
-		
-		______TS("course instructor can access");
-		
-		InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2InCourse1");
-		
-		gaeSimulation.loginAsInstructor(instructor2.googleId);
-		verifyCanAccess(submissionParams);
-		
-		verifyCannotMasquerade(addUserIdToParams(student.googleId,submissionParams));
-		verifyCannotMasquerade(addUserIdToParams(instructor.googleId,submissionParams));
-		
-		______TS("admin can access");
-		
-		gaeSimulation.loginAsAdmin("admin.user");
-		//not checking for non-masquerade mode because admin may not be an instructor
-		verifyCanMasquerade(addUserIdToParams(instructor.googleId,submissionParams));
-		
+		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 	}
 	
 	@Test
@@ -358,9 +307,12 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 	
 	@Test
 	public void testGracePeriodAccessControl() throws Exception{
-		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Grace Period Session");
+		dataBundle = getTypicalDataBundle();
+		restoreTypicalDataInDatastore();
+		
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
 		fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
-		dataBundle.feedbackSessions.put("Grace Period Session", fs);
+		dataBundle.feedbackSessions.put("gracePeriodSession", fs);
 		
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		backDoorLogic.persistDataBundle(dataBundle);
@@ -368,42 +320,13 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 		assertFalse(fs.isOpened());
 		assertTrue(fs.isInGracePeriod());
 		assertFalse(fs.isClosed());
-				
-		FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForGracePeriodSession");
 		
 		String[] submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, fs.courseId,
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
-				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
-				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString() 
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
 		};
 		
-		//TODO move this to BaseActionTest.java
-		InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
-		StudentAttributes student = dataBundle.students.get("student1InCourse1");
-				
-		______TS("non-registered users cannot access");
-		
-		String	unregUserId = "unreg.user";
-		
-		gaeSimulation.loginUser(unregUserId);
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructor.googleId,submissionParams));
-		verifyCannotMasquerade(addUserIdToParams(student.googleId,submissionParams));
-		
-		______TS("not-logged-in users cannot access");
-		
-		gaeSimulation.logoutUser();
-		verifyCannotAccess(submissionParams);
-		verifyCannotMasquerade(addUserIdToParams(instructor.googleId,submissionParams));
-		verifyCannotMasquerade(addUserIdToParams(student.googleId,submissionParams));
-				
-		______TS("instructor can still submit during grace period");
-		
-		gaeSimulation.loginAsInstructor(instructor.googleId);
-		verifyCanAccess(submissionParams);
+		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 	}
 	
 	@Test

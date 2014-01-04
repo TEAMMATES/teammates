@@ -77,12 +77,7 @@
 		"courseNoEvals":{
 			"id":"idOfCourseNoEvals",
 			"name":"Typical Course 3 with 0 Evals"
-		},
-		"courseWithSessionInGracePeriod":{
-			"id":"SessionInGracePeriod",
-			"name":"Course with session in grace period"
-		}
-		
+		}		
 	},
 	"instructors":{
 		"instructor1OfCourse1":{
@@ -186,15 +181,6 @@
 			"team":"Team 2.1",
 			"comments":"",
 			"course":"idOfTypicalCourse2"
-		},
-		"studentInGraceCourse":{
-			"email":"studentInGraceCourse@gmail.com",
-			"name":"student In SessionInGracePeriod course",
-			"googleId":"studentInGraceCourse",
-			"comments":"#####student In Course with feedback session in grace period#####",
-			"team":"Team 2.1",
-			"comments":"",
-			"course":"SessionInGracePeriod"
 		}
 	},
 	"evaluations":{
@@ -374,10 +360,10 @@
 			"sentOpenEmail":true,
 			"sentPublishedEmail":false
 		},
-		"gracePeriod.session":{
-			"feedbackSessionName":"Session in Grace Period",
-			"courseId":"SessionInGracePeriod",
-			"creatorEmail":"instructor1@SessionInGracePeriod.com",
+		"gracePeriodSession":{
+			"feedbackSessionName":"Grace Period Session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
 			"instructions":{
 				"value":"Please please fill in the following questions."
 			},
@@ -588,8 +574,8 @@
 			]
 		},
 		"graceperiod.session.feedback":{
-			"feedbackSessionName":"Session in Grace Period",
-			"courseId":"SessionInGracePeriod",
+			"feedbackSessionName":"Grace Period Session",
+			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
 			"questionText":{
 				"value":"Give feedback to 2 other teams."
@@ -777,8 +763,8 @@
 			}
 		},
 		"response1GracePeriodFeedback":{
-			"feedbackSessionName":"Session in Grace Period",
-			"courseId":"SessionInGracePeriod",
+			"feedbackSessionName":"Grace Period Session",
+			"courseId":"idOfTypicalCourse1",
 			"feedbackQuestionId":"1",
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student4InCourse1@gmail.com",

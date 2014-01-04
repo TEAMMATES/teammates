@@ -354,12 +354,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		// Student can see sessions 1 and 2. Session 3 has no questions. Session 4 is not yet visible for students.
 		String expected =
 				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL +
-				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL;
-				
+				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
+				dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+		
 		for (FeedbackSessionAttributes session : actualSessions) {
 			AssertHelper.assertContains(session.toString(), expected);
 		}
-		assertTrue(actualSessions.size() == 2);
+		assertTrue(actualSessions.size() == 3);
 		
 		// Course 2 only has an instructor session and a private session.
 		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.com");		
@@ -376,12 +377,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL +
 				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
 				dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL + 
-				dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL;
+				dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL +
+				dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
 		
 		for (FeedbackSessionAttributes session : actualSessions) {
 			AssertHelper.assertContains(session.toString(), expected);
 		}
-		assertTrue(actualSessions.size() == 4);
+		assertTrue(actualSessions.size() == 5);
 		
 		// We should only have one session here as session 2 is private and this instructor is not the creator.
 		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.com");

@@ -256,4 +256,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <error-code>500</error-code>
         <location>/deadlineExceededErrorPage.jsp</location>
     </error-page>
+    
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<page-encoding>UTF-8</page-encoding>
+		</jsp-property-group>
+	</jsp-config>
 </web-app>

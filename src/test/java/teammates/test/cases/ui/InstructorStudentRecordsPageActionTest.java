@@ -92,7 +92,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 		assertEquals(instructor.courseId, pageData.courseId);
 		assertEquals(1, pageData.comments.size());
 		assertEquals(2, pageData.evaluations.size());
-		assertEquals(4, pageData.feedbacks.size());
+		assertEquals(5, pageData.feedbacks.size());
 
 		String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"+
 				"|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
@@ -100,7 +100,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 				"Viewing <span class=\"bold\">" + student.email + "'s</span> records " +
 				"for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
 				"Evaluations Size: 2"  + 
-				"Feedbacks Size: 4" +
+				"Feedbacks Size: 5" +
 				"|||/page/instructorStudentRecordsPage";
 		assertEquals(expectedLogMessage, a.getLogMessage());
 	}
