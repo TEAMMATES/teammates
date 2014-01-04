@@ -3,6 +3,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.datatransfer.CommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentResultBundle"%>
@@ -11,6 +12,7 @@
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
 <%@ page import="teammates.ui.controller.InstructorStudentRecordsPageData"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 <%
 	InstructorStudentRecordsPageData data = (InstructorStudentRecordsPageData)request.getAttribute("data");
 %>
@@ -33,10 +35,11 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
+	<script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body>
+<body onload="readyStudentRecordsPage(); initializetooltip();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
 		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
@@ -50,6 +53,76 @@
 				<hr>
 			</div>
 			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+			<div id="commentSection">
+				<table class="resultTable" id="commentTable">
+					<thead>
+						<tr>
+							<th class="bold centeralign">
+								Your comments on this student:
+							</th>
+						</tr>
+					</thead>
+					<%
+						int commentIdx = -1;
+						for(CommentAttributes comment : data.comments){
+							commentIdx++;
+					%>
+							<tr>
+								<td>
+									<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>" name="form_commentedit" class="form_comment" id="form_commentedit-<%=commentIdx %>">
+										<table id="commentFormTable">
+											<tr>
+												<td class="rightalign">
+													<a class="color_blue pad_right t_comment_edit" id="commentedit-<%=commentIdx %>" href=""
+													onclick="return enableEdit('<%=commentIdx %>', '<%=data.comments.size() %>');"
+													onmouseover="ddrivetip('<%=Const.Tooltips.COMMENT_EDIT%>')"
+													onmouseout="hideddrivetip()"> Edit</a> 
+													
+													<a class="color_green pad_right t_comment_save" style="display:none;" href="" id="commentsave-<%=commentIdx %>"
+													onclick="return submitCommentForm('<%=commentIdx %>');">Save Changes</a>
+													
+													<a class="color_red pad_right t_comment_delete" id="commentdelete-<%=commentIdx %>" href=""
+													onclick="return deleteComment('<%=commentIdx %>');"
+													onmouseover="ddrivetip('<%=Const.Tooltips.COMMENT_DELETE%>')"
+													onmouseout="hideddrivetip()" > Delete</a>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<textarea onkeyup="textAreaAdjust(this)" class="textvalue" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText<%=commentIdx %>" disabled="disabled"><%=comment.commentText.getValue() %></textarea>
+													<input type="hidden" name=<%=Const.ParamsNames.COMMENT_EDITTYPE%> id="<%=Const.ParamsNames.COMMENT_EDITTYPE%>-<%=commentIdx %>" value="edit">
+													<input type="hidden" name=<%=Const.ParamsNames.COMMENT_ID%> value="<%=comment.getCommentId()%>">
+													<input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
+													<input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">
+												</td>
+											</tr>
+										</table>
+									</form>
+								</td>
+							</tr>
+					<%
+						}
+					%>	
+						<tr id="comment_box" style="display:none;">
+							<td class="centeralign">
+								<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd" class="form_comment">
+									<textarea placeholder="Your comment about this student" onkeyup="textAreaAdjust(this)" class="textvalue" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText"></textarea>
+									<br>
+									<input type="submit" class="button" id="button_save_comment" value="Save Comment">
+									<input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
+									<input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">
+								</form>
+							</td>
+						</tr>
+						<tr id="comment_link"><td colspan="2" class="centeralign">
+							<input type="button" class="button" id="button_add_comment" value="Add Comment"
+							onclick="showAddCommentBox(); return false;">
+						</td></tr>
+				</table>
+			</div>
+			<br>
+			<hr>
+			<br>
 			<%
 				int evalIndex = -1;
 				for(StudentResultBundle studentResult: data.studentEvaluationResults){

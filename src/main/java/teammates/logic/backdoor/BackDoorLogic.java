@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -124,6 +125,13 @@ public class BackDoorLogic extends Logic {
 			log.fine("API Servlet adding feedback question :" + response.getId()
 					+ " to session " + response.feedbackSessionName);
 			this.createFeedbackResponse(response);
+		}
+		
+		HashMap<String, CommentAttributes> comments = dataBundle.comments;
+		for(CommentAttributes comment : comments.values()){
+			log.fine("API Servlet adding comment :" + comment.getCommentId() + " from "
+					+ comment.giverEmail + " to " + comment.receiverEmail + " in course " + comment.courseId);
+			this.createComment(comment);
 		}
 		
 		return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
@@ -306,6 +314,10 @@ public class BackDoorLogic extends Logic {
 		
 		for (AccountAttributes a : dataBundle.accounts.values()) {
 			deleteAccount(a.googleId);
+		}
+		
+		for(CommentAttributes c : dataBundle.comments.values()){
+			deleteComment(c);
 		}
 		
 		waitUntilDeletePersists(dataBundle);

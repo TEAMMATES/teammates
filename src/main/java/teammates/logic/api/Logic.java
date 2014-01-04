@@ -14,8 +14,8 @@ import teammates.common.datatransfer.*;
 import teammates.common.exception.*;
 import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
-
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.EvaluationsLogic;
@@ -49,6 +49,7 @@ public class Logic {
 	protected static StudentsLogic studentsLogic = StudentsLogic.inst();
 	protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	protected static CoursesLogic coursesLogic = CoursesLogic.inst();
+	protected static CommentsLogic commentsLogic = CommentsLogic.inst();
 	protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
 	protected static FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
@@ -1341,6 +1342,82 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
 
 		feedbackResponsesLogic.deleteFeedbackResponse(feedbackResponse);
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____COMMENT_level_methods_____________________________() {
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @throws EntityDoesNotExistException 
+	 */
+	public void createComment(CommentAttributes comment)
+			throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException{
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
+		commentsLogic.createComment(comment);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void updateComment(CommentAttributes comment)
+			throws InvalidParametersException, EntityDoesNotExistException{
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
+		commentsLogic.updateComment(comment);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void deleteComment(CommentAttributes comment){
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
+		commentsLogic.deleteComment(comment);
+	}
+	
+	/**
+	 * Currently giver is limited to instructors only
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return a list of comments from the giver.
+	 * @throws EntityDoesNotExistException
+	 */
+	public List<CommentAttributes> getCommentsForGiver(String courseId, String giverEmail) throws EntityDoesNotExistException{
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+		return commentsLogic.getCommentsForGiver(courseId, giverEmail);
+	}
+	
+	/**
+	 * Currently receiver is limited to students only
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return a list of comments for the receiver.
+	 * @throws EntityDoesNotExistException
+	 */
+	public List<CommentAttributes> getCommentsForReceiver(String courseId, String receiverEmail) throws EntityDoesNotExistException{
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiverEmail);
+		return commentsLogic.getCommentsForReceiver(courseId, receiverEmail);
+	}
+	
+	/**
+	 * Giver = instructors, Receiver = student
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return a list of comments from the giver to receiver
+	 * @throws EntityDoesNotExistException
+	 */
+	public List<CommentAttributes> getCommentsForGiverAndReceiver(
+			String courseId, String giverEmail, String receiverEmail)
+			throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiverEmail);
+		return commentsLogic.getCommentsForGiverAndReceiver(courseId, giverEmail, receiverEmail);
 	}
 	
 	@SuppressWarnings("unused")

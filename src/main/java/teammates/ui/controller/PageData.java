@@ -522,6 +522,14 @@ public class PageData {
 		link = addUserIdToUrl(link);
 		return link;
 	}
+	
+	public String getInstructorStudentRecordsLink(String courseId, String studentEmail){
+		String link = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
+		link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+		link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+		link = addUserIdToUrl(link);
+		return link;
+	}
 
 	
 	@SuppressWarnings("unused")

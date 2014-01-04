@@ -36,6 +36,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 		try {
 			data.courseId = courseId;
 			data.student = logic.getStudentForEmail(courseId, studentEmail);
+			data.comments = logic.getCommentsForGiverAndReceiver(courseId, instructor.email, studentEmail);
 			data.evaluations = logic.getEvaluationsListForInstructor(account.googleId);
 			data.feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
 			

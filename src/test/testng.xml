@@ -31,6 +31,7 @@
 			<class name="teammates.test.cases.testdriver.HtmlHelperTest" />
 			<class name="teammates.test.cases.testdriver.TestPropertiesTest" />
 			<class name="teammates.test.cases.storage.AccountsDbTest" />
+			<class name="teammates.test.cases.storage.CommentsDbTest" />
 			<class name="teammates.test.cases.storage.CoursesDbTest" />
 			<class name="teammates.test.cases.storage.EntitiesDbTest" />
 			<class name="teammates.test.cases.storage.EvaluationsDbTest" />
@@ -40,6 +41,7 @@
 			<class name="teammates.test.cases.storage.SubmissionsDbTest" />
 			<class name="teammates.test.cases.logic.AccountsLogicTest"/>
 			<class name="teammates.test.cases.logic.BackDoorLogicTest"/>
+			<class name="teammates.test.cases.logic.CommentsLogicTest"/>
 			<class name="teammates.test.cases.logic.CoursesLogicTest"/>
 			<class name="teammates.test.cases.logic.EmailsTest" />
 			<class name="teammates.test.cases.logic.EvaluationsLogicTest" />
@@ -107,6 +109,8 @@
 			<class name="teammates.test.cases.ui.InstructorHomePageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorStudentListPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorStudentRecordsPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorStudentCommentAddActionTest" />
+			<class name="teammates.test.cases.ui.InstructorStudentCommentEditActionTest" />
 			<class name="teammates.test.cases.ui.StudentCourseDetailsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentCourseJoinActionTest" />
 			<class name="teammates.test.cases.ui.StudentEvalResultsPageActionTest" />

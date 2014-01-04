@@ -53,7 +53,7 @@ public class Const {
 		public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
 		public static final String COURSE_STUDENT_REMIND = "E-mail the registration key to the student";
 		public static final String COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
-		public static final String COURSE_STUDENT_RECORDS = "View all student's evaluations and feedbacks";
+		public static final String COURSE_STUDENT_RECORDS = "View all student\\'s evaluations and feedbacks";
 		
 		public static final String COURSE_REMIND = "Send a reminder to all students yet to join the class";
 		public static final String COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course";
@@ -175,6 +175,9 @@ public class Const {
 		public static final String VISIBILITY_OPTIONS_INSTRUCTORS = "Control what instructors can view";
 		
 		public static final String SHOW_EMAILS = "Show emails of all currently listed students";
+		
+		public static final String COMMENT_EDIT = "Edit this comment";
+		public static final String COMMENT_DELETE = "Delete this comment";
 	}
 	
 	public class FeedbackQuestionTypeNames{
@@ -288,6 +291,9 @@ public class Const {
 		public static final String EMAIL_TYPE = "type";
 		public static final String EMAIL_IS_STUDENT = "isStudent";
 		
+		public static final String COMMENT_EDITTYPE = "commentedittype";
+		public static final String COMMENT_ID = "commentid";
+		public static final String COMMENT_TEXT = "commenttext";
 		//Submission parameters for Task Queue
 		public static final String SUBMISSION_COURSE = "course";
 		public static final String SUBMISSION_EVAL = "evaluation";
@@ -331,7 +337,10 @@ public class Const {
 		public static final String INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
 		public static final String INSTRUCTOR_EVAL_RESULTS_DOWNLOAD = "/page/instructorEvalResultsDownload";
 		public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
+		
 		public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
+		public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
+		public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
 		
 		public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
 		public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
@@ -543,6 +552,11 @@ public class Const {
 		public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course";
 		public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
 		public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
+		
+		public static final String COMMENT_ADDED = "New comment has been added for this student";
+		public static final String COMMENT_EDITED = "Comment edited";
+		public static final String COMMENT_DELETED = "Comment deleted";
+		public static final String COMMENT_DUPLICATE = "An existing comment with the same content is found, comment not added";
 		
 		// Messages that are templates only
 		/** Template String. Parameters: Student's name, Evaluation name, Course ID */
