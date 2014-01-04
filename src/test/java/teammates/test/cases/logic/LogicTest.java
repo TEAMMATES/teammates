@@ -33,6 +33,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
@@ -63,6 +64,7 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.SubmissionsLogic;
+import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -86,6 +88,7 @@ public class LogicTest extends BaseComponentTestCase {
 	private static final StudentsDb studentsDb = new StudentsDb();
 	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 	private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+	private static final CommentsDb commentsDb = new CommentsDb();
 
 	private static Gson gson = Utils.getTeammatesGson();
 
@@ -2619,7 +2622,7 @@ public class LogicTest extends BaseComponentTestCase {
 				.get("evaluation1InCourse1");
 		// reuse this evaluation data to create a new one
 		evaluation.name = "new evaluation";
-		logic.createEvaluation(evaluation);
+		logic.createEvaluationWithoutSubmissionQueue(evaluation);
 		// this is the student we are going to check
 		StudentAttributes student = dataBundle.students.get("student1InCourse1");
 	
@@ -2789,6 +2792,111 @@ public class LogicTest extends BaseComponentTestCase {
 	 * 1. getFeedbackSessionDetails()
 	 * 2. getFeedbackSessionsListForInstructor()
 	 */
+	
+	@SuppressWarnings("unused")
+	private void ____COMMENT_level_methods_____________________________() {
+		//The tests here are only for null params check,
+		//the rest are done in CommentsLogicTest
+	}
+	
+	@Test
+	public void testCreateComment() throws Exception{
+		______TS("null parameters");
+		
+		try {
+			logic.createComment(null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void testUpdateComment() throws Exception{
+		______TS("null parameters");
+		
+		try {
+			logic.updateComment(null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+	}
+	
+	@Test
+	public void testDeleteComment() throws Exception{
+		______TS("null parameters");
+		
+		try {
+			logic.deleteComment(null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetCommentsForGiver() throws Exception{
+		______TS("null parameters");
+		
+		try {
+			logic.getCommentsForGiver(null, "giver@mail.com");
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		try {
+			logic.getCommentsForGiver("course-id", null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetCommentsForReceiver() throws Exception{
+		______TS("null parameters");
+		
+		try {
+			logic.getCommentsForReceiver(null, "receiver@mail.com");
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		try {
+			logic.getCommentsForReceiver("course-id", null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetCommentsForGiverAndReceiver() throws Exception{
+		______TS("null parameters");
+		
+		try {
+			logic.getCommentsForGiverAndReceiver(null, "giver@mail.com", "receiver@mail.com");
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		try {
+			logic.getCommentsForGiverAndReceiver("course-id", null, "receiver@mail.com");
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		try {
+			logic.getCommentsForGiverAndReceiver("course-id", "giver@mail.com", null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+	}
+	
+	
 	@SuppressWarnings("unused")
 	private void ____MISC_methods_________________________________________() {
 	}
@@ -2937,6 +3045,11 @@ public class LogicTest extends BaseComponentTestCase {
 				fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber));	
 	}
 	
+	public static void verifyAbsentInDatastore(CommentAttributes comment) {
+		assertEquals(null, commentsDb.getComment(comment.courseId,
+				comment.giverEmail, comment.receiverEmail, comment.commentText, comment.createdAt));
+	}
+	
 	//TODO: move these verify methods to a utility class
 	
 	public static void verifyPresentInDatastore(AccountAttributes expectedAccount) {
@@ -2989,6 +3102,14 @@ public class LogicTest extends BaseComponentTestCase {
 		FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
 				expected.feedbackSessionName, expected.courseId, expected.questionNumber);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
+	}
+	
+	public static void verifyPresentInDatastore(CommentAttributes expected){
+		CommentAttributes actual = commentsDb.getComment(expected.courseId, expected.giverEmail, expected.receiverEmail, expected.commentText, expected.createdAt);
+		assertEquals(expected.courseId, actual.courseId);
+		assertEquals(expected.giverEmail, actual.giverEmail);
+		assertEquals(expected.receiverEmail, actual.receiverEmail);
+		assertEquals(expected.commentText, actual.commentText);
 	}
 	
 	public static void verifySameEvaluationData(EvaluationAttributes expected,
@@ -3102,7 +3223,7 @@ public class LogicTest extends BaseComponentTestCase {
 		e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		e.gracePeriod = 0;
 		e.instructions = new Text("instructions for " + e.name);
-		logic.createEvaluation(e);
+		logic.createEvaluationWithoutSubmissionQueue(e);
 		// create submissions
 		ArrayList<SubmissionAttributes> submissions = new ArrayList<SubmissionAttributes>();
 		for (int i = 0; i < teamSize; i++) {

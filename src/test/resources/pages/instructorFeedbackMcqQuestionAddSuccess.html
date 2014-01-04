@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<link href="/favicon.png" rel="shortcut icon" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<title>TEAMMATES - Instructor</title>
+	<link media="screen" type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="/stylesheets/instructorFeedbacks.css" rel="stylesheet" />
+	<link media="print" type="text/css" href="/stylesheets/common-print.css" rel="stylesheet" />
+	
+	<script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
+	<script src="/js/jquery-minified.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/date.js" type="text/javascript"></script>
+	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
+	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
+	
+	<script src="/js/instructor.js" type="text/javascript"></script>
+	<script src="/js/instructorFeedbacks.js" type="text/javascript"></script>
+	<script src="/js/instructorFeedbackEdit.js" type="text/javascript"></script>
+    <noscript>{*}</noscript>
+
+
+</head>
+
+<body onload="readyFeedbackEditPage(); initializetooltip();">
+	<div id="dhtmltooltip"></div>
+	<div id="frameTop">
+		
+
+
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<a href="/index.html">
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
+				</a>
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li><a href="/page/instructorHomePage?user=CFeedbackEditUiT.instructor" data-link="instructorHome" class="nav home">Home</a></li>
+					<li><a href="/page/instructorCoursesPage?user=CFeedbackEditUiT.instructor" data-link="instructorCourse" class="nav courses">Courses</a></li>
+					<li><a href="/page/instructorEvalsPage?user=CFeedbackEditUiT.instructor" data-link="instructorEval" class="nav evaluations">Sessions</a></li>
+					<li><a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=CFeedbackEditUiT.instructor" >Students</a></li>
+					<li><a target="_blank" href="/instructorHelp.html" class="nav help">Help</a></li>
+					<li><a href="/logout.jsp" class="nav logout">Logout</a>
+					<b>
+					<span onmouseout="hideddrivetip()" onmouseover="ddrivetip('CFeedbackEditUiT.instructor')">
+							(CFeedbackEditUiT.ins...)</span></b>
+					</li>
+				</ul>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+
+	</div>
+
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>Edit Feedback Session</h1>
+			</div>
+			
+			<form id="form_editfeedbacksession" action="/page/instructorFeedbackEditSave" method="post">
+				<div class="sessionDetailsBackground">
+				<table id="sessionNameTable" class="inputTable sessionTable">
+					<tbody><tr>
+						<td class="label bold">Course:</td>
+						<td>CFeedbackEditUiT.CS2104</td>
+						<td colspan="2" class="rightalign">
+							<a onclick="enableEditFS()" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit feedback session details')" id="fsEditLink" class="color_blue pad_right" href="#">Edit</a>
+							<a id="fsSaveLink" style="display:none;" class="color_green pad_right" href="#">Save Changes</a>
+							<a id="fsDeleteLink" class="color_red" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the feedback session')" onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CFeedbackEditUiT.CS2104','First Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&amp;fsname=First+Session&amp;next=%3Fuser%3DCFeedbackEditUiT.instructor&amp;user=CFeedbackEditUiT.instructor">Delete</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="label bold" style="width:200px">Feedback session name:</td>
+						<td>First Session</td>
+						
+						<td class="rightalign"><span style="padding-right:10px" class="label bold">Time zone: </span> <select tabindex="3" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" disabled="disabled">
+								<option value="-12">UTC -12:00</option>
+<option value="-11">UTC -11:00</option>
+<option value="-10">UTC -10:00</option>
+<option value="-9">UTC -09:00</option>
+<option value="-8">UTC -08:00</option>
+<option value="-7">UTC -07:00</option>
+<option value="-6">UTC -06:00</option>
+<option value="-5">UTC -05:00</option>
+<option value="-4.5">UTC -04:30</option>
+<option value="-4">UTC -04:00</option>
+<option value="-3.5">UTC -03:30</option>
+<option value="-3">UTC -03:00</option>
+<option value="-2">UTC -02:00</option>
+<option value="-1">UTC -01:00</option>
+<option value="0">UTC</option>
+<option value="1">UTC +01:00</option>
+<option selected="selected" value="2">UTC +02:00</option>
+<option value="3">UTC +03:00</option>
+<option value="3.5">UTC +03:30</option>
+<option value="4">UTC +04:00</option>
+<option value="4.5">UTC +04:30</option>
+<option value="5">UTC +05:00</option>
+<option value="5.5">UTC +05:30</option>
+<option value="5.75">UTC +05:45</option>
+<option value="6">UTC +06:00</option>
+<option value="7">UTC +07:00</option>
+<option value="8">UTC +08:00</option>
+<option value="9">UTC +09:00</option>
+<option value="10">UTC +10:00</option>
+<option value="11">UTC +11:00</option>
+<option value="12">UTC +12:00</option>
+<option value="13">UTC +13:00</option>
+
+						</select></td>
+					</tr>
+				</tbody></table>
+				<br />
+				<table id="timeFrameTable" class="inputTable sessionTable">
+					<tbody><tr>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')" class="label bold middlealign">Submission<br />Opening Time:</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')">
+							<input type="text" tabindex="7" readonly="readonly" value="01/04/2012" onclick="cal.select(this,'startdate','dd/MM/yyyy')" id="startdate" name="startdate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="starttime" name="starttime" style="width: 70px;" disabled="disabled">
+								<option value="1">0100H</option>
+<option value="2">0200H</option>
+<option value="3">0300H</option>
+<option value="4">0400H</option>
+<option value="5">0500H</option>
+<option value="6">0600H</option>
+<option value="7">0700H</option>
+<option value="8">0800H</option>
+<option value="9">0900H</option>
+<option value="10">1000H</option>
+<option value="11">1100H</option>
+<option value="12">1200H</option>
+<option value="13">1300H</option>
+<option value="14">1400H</option>
+<option value="15">1500H</option>
+<option value="16">1600H</option>
+<option value="17">1700H</option>
+<option value="18">1800H</option>
+<option value="19">1900H</option>
+<option value="20">2000H</option>
+<option value="21">2100H</option>
+<option value="22">2200H</option>
+<option value="23">2300H</option>
+<option selected="selected" value="24">2359H</option>
+
+						</select></td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')" class="label bold middlealign">Submission<br />Closing Time:</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')" class="nowrap">
+							<input type="text" tabindex="8" readonly="readonly" value="01/05/2014" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="endtime" name="endtime" style="width: 70px;" disabled="disabled">
+								<option value="1">0100H</option>
+<option value="2">0200H</option>
+<option value="3">0300H</option>
+<option value="4">0400H</option>
+<option value="5">0500H</option>
+<option value="6">0600H</option>
+<option value="7">0700H</option>
+<option value="8">0800H</option>
+<option value="9">0900H</option>
+<option value="10">1000H</option>
+<option value="11">1100H</option>
+<option value="12">1200H</option>
+<option value="13">1300H</option>
+<option value="14">1400H</option>
+<option value="15">1500H</option>
+<option value="16">1600H</option>
+<option value="17">1700H</option>
+<option value="18">1800H</option>
+<option value="19">1900H</option>
+<option value="20">2000H</option>
+<option value="21">2100H</option>
+<option selected="selected" value="22">2200H</option>
+<option value="23">2300H</option>
+<option value="24">2359H</option>
+
+						</select></td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')" class="label bold">Grace Period:</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline.')">
+							<select tabindex="7" id="graceperiod" name="graceperiod" style="width: 75px;" disabled="disabled">
+									<option value="0">0 mins</option>
+<option value="5">5 mins</option>
+<option value="10">10 mins</option>
+<option value="15">15 mins</option>
+<option value="20">20 mins</option>
+<option value="25">25 mins</option>
+<option selected="selected" value="30">30 mins</option>
+
+						</select></td>
+					</tr>
+				</tbody></table>
+				<br />
+				<table id="sessionViewableTable" class="inputTable sessionTable">
+					<tbody><tr>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when you want the questions for the feedback session to be visible to users who need to participate.<br />Note that users cannot submit their responses until the submissions opening time set below.')" class="label bold">Session visible from:</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions.')"><input type="radio" value="custom" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" disabled="disabled" /> <input type="text" tabindex="3" readonly="readonly" value="" onclick="cal.select(this,'visibledate','dd/MM/yyyy')" id="visibledate" name="visibledate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="4" id="visibletime" name="visibletime" style="width: 70px;" disabled="disabled">
+								<option value="1">0100H</option>
+<option value="2">0200H</option>
+<option value="3">0300H</option>
+<option value="4">0400H</option>
+<option value="5">0500H</option>
+<option value="6">0600H</option>
+<option value="7">0700H</option>
+<option value="8">0800H</option>
+<option value="9">0900H</option>
+<option value="10">1000H</option>
+<option value="11">1100H</option>
+<option value="12">1200H</option>
+<option value="13">1300H</option>
+<option value="14">1400H</option>
+<option value="15">1500H</option>
+<option value="16">1600H</option>
+<option value="17">1700H</option>
+<option value="18">1800H</option>
+<option value="19">1900H</option>
+<option value="20">2000H</option>
+<option value="21">2100H</option>
+<option value="22">2200H</option>
+<option value="23">2300H</option>
+<option selected="selected" value="24">2359H</option>
+
+						</select></td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback session become visible<br />when it is open for submissions (as selected above).')">
+							<input type="radio" checked="checked" value="atopen" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" disabled="disabled" />
+							 Submissions opening time</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you want the feedback session to never be visible.<br />Use this option if you want to use this as a private feedback session.')" colspan="2">
+							<input type="radio" value="never" id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" disabled="disabled" />
+							 Never (This is a private session)</td>
+					</tr>
+					<tr id="response_visible_from_row">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later.')" class="label bold">Responses visible from:</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" value="custom" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" disabled="disabled" />
+							<input type="text" onclick="cal.select(this,'publishdate','dd/MM/yyyy')" disabled="disabled" tabindex="5" readonly="readonly" value="" id="publishdate" name="publishdate" style="width: 100px;" />
+							@ <select disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')" tabindex="6" id="publishtime" name="publishtime" style="width: 70px;">
+								<option value="1">0100H</option>
+<option value="2">0200H</option>
+<option value="3">0300H</option>
+<option value="4">0400H</option>
+<option value="5">0500H</option>
+<option value="6">0600H</option>
+<option value="7">0700H</option>
+<option value="8">0800H</option>
+<option value="9">0900H</option>
+<option value="10">1000H</option>
+<option value="11">1100H</option>
+<option value="12">1200H</option>
+<option value="13">1300H</option>
+<option value="14">1400H</option>
+<option value="15">1500H</option>
+<option value="16">1600H</option>
+<option value="17">1700H</option>
+<option value="18">1800H</option>
+<option value="19">1900H</option>
+<option value="20">2000H</option>
+<option value="21">2100H</option>
+<option value="22">2200H</option>
+<option value="23">2300H</option>
+<option selected="selected" value="24">2359H</option>
+
+						</select></td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users.')">
+							<input type="radio" checked="checked" value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" disabled="disabled" />
+							 Immediately</td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend to manually publish the session later on.')"><input type="radio" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" disabled="disabled" />
+							 Publish manually </td>
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" disabled="disabled" />
+							 Never</td>
+					</tr>
+				</tbody></table>
+				<br />
+				<table id="instructionsTable" class="inputTable">
+					<tbody><tr>
+						<td class="label bold middlealign">Instructions to students:</td>
+						<td><textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4" disabled="disabled">Please fill in the edited feedback session.</textarea>							
+						</td>
+					</tr>
+				</tbody></table>
+					<br/>
+	                <div class="rightalign" >
+	                        <input class="button"  disabled="disabled"  id="button_submit_edit" onclick="return checkEditFeedbackSession(this.form);" style="display:none;"  type="submit"  value="Save Changes" />
+	                </div>				
+				</div>
+				<input type="hidden" value="First Session" name="fsname" disabled="disabled" />
+				<input type="hidden" value="CFeedbackEditUiT.CS2104" name="courseid" disabled="disabled" />
+				<input type="hidden" value="CFeedbackEditUiT.instructor" name="user" disabled="disabled" />
+			</form>
+			
+			<br />
+			
+
+
+
+
+	<div style="display: block;" id="statusMessage">
+		The question has been added to this feedback session.</div>
+	<script type="text/javascript">
+    	document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
+
+			<br />
+			
+			
+			
+			
+			<form onsubmit="tallyCheckboxes(1)" class="form_question" name="form_editquestions" id="form_editquestion-1" action="/page/instructorFeedbackQuestionEdit" method="post">
+			<table id="questionTable1" class="inputTable questionTable">
+			<tbody><tr>
+				<td class="bold">Question <select class="questionNumber nonDestructive"  disabled="disabled"  id="questionnum-1"  name="questionnum" >
+                                 <option value="1" >
+                                    1
+                                 </option>
+								 <option value="2" >
+                                    2
+                                 </option>
+                              </select>Essay question</td>
+				<td></td>
+				<td></td>
+				<td class="rightalign">
+				<a onclick="enableEdit(1,2)" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit this question')" id="questionedittext-1" class="color_blue pad_right" href="#">Edit</a>
+				<a id="questionsavechangestext-1" style="display:none" class="color_green pad_right" href="#">Save Changes</a>
+				<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete this question')" onclick="deleteQuestion(1)" class="color_red" href="#">Delete</a>
+				</td>
+			</tr>
+			<tr>
+					<td colspan="4"><textarea disabled="disabled" tabindex="9" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')" id="questiontext-1" name="questiontext" class="textvalue nonDestructive" style="width:100%" rows="5">filled qn</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="bold" onmouseover="ddrivetip('Who will give feedback')" onmouseout="hideddrivetip()">Feedback Giver:</td>
+					<td><select disabled="disabled" id="givertype-1" name="givertype" class="participantSelect" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+						<option selected="selected" value="SELF">Me (Session creator)</option>
+<option value="STUDENTS">Students in this course</option>
+<option value="INSTRUCTORS">Instructors in this course</option>
+<option value="TEAMS">Teams in this course</option>
+
+					</select></td>
+					<td class="bold nowrap" onmouseover="ddrivetip('Who the feedback is about')" onmouseout="hideddrivetip()">
+					Feedback Recipient:</td>
+					<td><select disabled="disabled" id="recipienttype-1" name="recipienttype" class="participantSelect" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+						<option value="SELF">Giver (Self feedback)</option>
+<option selected="selected" value="STUDENTS">Other students in the course</option>
+<option value="INSTRUCTORS">Instructors in the course</option>
+<option value="TEAMS">Other teams in the course</option>
+<option value="OWN_TEAM">Giver's team</option>
+<option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+<option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
+<option value="NONE">Nobody specific (For general class feedback)</option>
+
+					</select></td>
+				</tr>
+				<tr>
+					<td class="bold nowrap"><a onclick="toggleVisibilityOptions(this)" href="#" class="visibilityOptionsLabel color_brown">[+] Show Visibility Options</a></td>
+					<td></td>
+					<td class="numberOfEntitiesElements1"><span class="bold" id="numofrecipients_text-1">The maximum number of <span class="bold" id="numofrecipients_text_inner-1">students</span> each<br />respondant should give feedback to:</span></td>
+					<td class="numberOfEntitiesElements1">
+					<input type="radio" disabled="disabled" value="custom" name="numofrecipientstype" class="nonDestructive" /> 
+					<input type="number" disabled="disabled" value="1" max="250" min="1" id="numofrecipients-1" name="numofrecipients" class="nonDestructive numberOfEntitiesBox" /> 
+					<input type="radio" disabled="disabled" value="max" checked="checked" name="numofrecipientstype" class="nonDestructive" /> 
+					<span class="label">Unlimited</span>
+					</td>
+				</tr>
+				<tr class="visibilityOptions" style="display: none;">
+					<td colspan="4">
+						<table class="dataTable participantTable">
+							<tbody><tr>
+								<th class="color_white bold">User/Group</th>
+								<th class="color_white bold">Can see answer</th>
+								<th class="color_white bold">Can see giver's name</th>
+								<th class="color_white bold">Can see recipient's name</th>
+							</tr>
+							<tr onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Control what feedback recipient(s) can view')" >
+								<td>Recipient(s)</td>
+								<td><input type="checkbox" checked="checked" disabled="disabled" value="RECEIVER" name="receiverLeaderCheckbox" class="visibilityCheckbox answerCheckbox1" /></td>
+								<td><input type="checkbox" checked="checked" disabled="disabled" value="RECEIVER" class="visibilityCheckbox giverCheckbox1" /></td>
+								<td><input type="checkbox" checked="checked" disabled="disabled" value="RECEIVER" name="receiverFollowerCheckbox" class="visibilityCheckbox recipientCheckbox1" /></td>
+							</tr>
+							<tr onmouseover="ddrivetip('Control what team members of feedback giver can view')" onmouseout="hideddrivetip()">
+								<td>Giver's Team Members</td>
+								<td><input type="checkbox" disabled="disabled" value="OWN_TEAM_MEMBERS" class="visibilityCheckbox answerCheckbox1" /></td>								
+								<td><input type="checkbox" disabled="disabled" value="OWN_TEAM_MEMBERS" class="visibilityCheckbox giverCheckbox1" /></td>
+								<td><input type="checkbox" disabled="disabled" value="OWN_TEAM_MEMBERS" class="visibilityCheckbox recipientCheckbox1" /></td>
+							</tr>
+							<tr onmouseover="ddrivetip('Control what team members of feedback recipients can view')" onmouseout="hideddrivetip()">
+								<td>Recipient's Team Members</td>
+								<td><input type="checkbox" disabled="disabled" value="RECEIVER_TEAM_MEMBERS" class="visibilityCheckbox answerCheckbox1" /></td>								
+								<td><input type="checkbox" disabled="disabled" value="RECEIVER_TEAM_MEMBERS" class="visibilityCheckbox giverCheckbox1" /></td>
+								<td><input type="checkbox" disabled="disabled" value="RECEIVER_TEAM_MEMBERS" class="visibilityCheckbox recipientCheckbox1" /></td>
+							</tr>
+							<tr onmouseover="ddrivetip('Control what other students can view')" onmouseout="hideddrivetip()">
+								<td>Other students</td>
+								<td><input type="checkbox" disabled="disabled" value="STUDENTS" class="visibilityCheckbox answerCheckbox1" /></td>								
+								<td><input type="checkbox" disabled="disabled" value="STUDENTS" class="visibilityCheckbox giverCheckbox1" /></td>
+								<td><input type="checkbox" disabled="disabled" value="STUDENTS" class="visibilityCheckbox recipientCheckbox1" /></td>
+							</tr>
+							<tr onmouseover="ddrivetip('Control what instructors can view')" onmouseout="hideddrivetip()">
+								<td>Instructors</td>
+								<td><input type="checkbox" checked="checked" disabled="disabled" value="INSTRUCTORS" class="visibilityCheckbox answerCheckbox1" /></td>								
+								<td><input type="checkbox" checked="checked" disabled="disabled" value="INSTRUCTORS" class="visibilityCheckbox giverCheckbox1" /></td>
+								<td><input type="checkbox" checked="checked" disabled="disabled" value="INSTRUCTORS" class="visibilityCheckbox recipientCheckbox1" /></td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+				<tr>
+				<td class="rightalign" colspan="6"><input type="submit" style="display:none" tabindex="0" value="Save Changes" class="button" id="button_question_submit-1" /></td>
+				</tr>
+			</tbody></table>
+			<input type="hidden" value="First Session" name="fsname" />
+			<input type="hidden" value="CFeedbackEditUiT.CS2104" name="courseid" />
+			<input type="hidden" value="{*}" name="questionid" />
+			<input type="hidden" value="1" name="questionnum" />
+			<input type="hidden" value="TEXT" name="questiontype" />
+			<input type="hidden" value="edit" id="questionedittype-1" name="questionedittype" />
+			<input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS" />
+			<input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS" />
+			<input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS" />
+			<input type="hidden" value="CFeedbackEditUiT.instructor" name="user" />
+			</form>
+			<br /><br />
+			
+			<form action="/page/instructorFeedbackQuestionEdit"  class="form_question"  id="form_editquestion-2"  method="post"  name="form_editquestions"  onsubmit="tallyCheckboxes(2)" >
+                  <table class="inputTable questionTable"  id="questionTable2" >
+                     <tbody>
+                        <tr>
+                           <td class="bold" >
+                              Question
+                              <select class="questionNumber nonDestructive"  disabled="disabled"  id="questionnum-2"  name="questionnum" >
+                                 <option value="1" >
+                                    1
+                                 </option>
+                                 <option value="2" >
+                                    2
+                                 </option>
+                              </select>
+                              Multiple-choice question
+                           </td>
+                           <td>
+                           </td>
+                           <td>
+                           </td>
+                           <td class="rightalign" >
+                              <a class="color_blue pad_right"  href="#"  id="questionedittext-2"  onclick="enableEdit(2,2)"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit this question')" >
+                                 Edit
+                              </a>
+                              <a class="color_green pad_right"  href="#"  id="questionsavechangestext-2"  style="display:none" >
+                                 Save Changes
+                              </a>
+                              <a class="color_red"  href="#"  onclick="deleteQuestion(2)"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete this question')" >
+                                 Delete
+                              </a>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td colspan="4" >
+                              <textarea class="textvalue nonDestructive"  disabled="disabled"  id="questiontext-2"  name="questiontext"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')"  rows="5"  style="width:100%"  tabindex="9" >
+                                 mcq qn
+                              </textarea>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td colspan="4" >
+                              <table>
+                                 <tbody>
+                                    <tr id="mcqOptionRow-0-2" >
+                                       <td>
+                                          <input class="disabled_radio"  disabled="disabled"  type="radio" />
+                                                                                 </td>
+                                       <td>
+                                          <input class="mcqOptionTextBox"  disabled="disabled"  id="mcqOption-0-2"  name="mcqOption-0"  type="text"  value="Choice 1" />
+                                                                                    <a class="removeOptionLink"  href="#"  id="mcqRemoveOptionLink"  onclick="removeMcqOption(0,2)"  style="display:none"  tabindex="-1" >
+                                             x
+                                          </a>
+                                       </td>
+                                    </tr>
+                                    <tr id="mcqOptionRow-1-2" >
+                                       <td>
+                                          <input class="disabled_radio"  disabled="disabled"  type="radio" />
+                                                                                 </td>
+                                       <td>
+                                          <input class="mcqOptionTextBox"  disabled="disabled"  id="mcqOption-1-2"  name="mcqOption-1"  type="text"  value="Choice 3" />
+                                                                                    <a class="removeOptionLink"  href="#"  id="mcqRemoveOptionLink"  onclick="removeMcqOption(1,2)"  style="display:none"  tabindex="-1" >
+                                             x
+                                          </a>
+                                       </td>
+                                    </tr>
+                                    <tr id="mcqOptionRow-2-2" >
+                                       <td>
+                                          <input class="disabled_radio"  disabled="disabled"  type="radio" />
+                                                                                 </td>
+                                       <td>
+                                          <input class="mcqOptionTextBox"  disabled="disabled"  id="mcqOption-2-2"  name="mcqOption-2"  type="text"  value="Choice 5" />
+                                                                                    <a class="removeOptionLink"  href="#"  id="mcqRemoveOptionLink"  onclick="removeMcqOption(2,2)"  style="display:none"  tabindex="-1" >
+                                             x
+                                          </a>
+                                       </td>
+                                    </tr>
+                                    <tr id="mcqAddOptionRow-2" >
+                                       <td colspan="2" >
+                                          <a class="color_blue"  href="#"  id="mcqAddOptionLink"  onclick="addMcqOption(2)"  style="display:none" >
+                                             +add more options
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <input id="noofchoicecreated-2"  name="noofchoicecreated"  type="hidden"  value="3" />
+                                                         </td>
+                        </tr>
+                        <tr>
+                           <td class="bold"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Who will give feedback')" >
+                              Feedback Giver:
+                           </td>
+                           <td>
+                              <select class="participantSelect"  disabled="disabled"  id="givertype-2"  name="givertype"  onchange="feedbackGiverUpdateVisibilityOptions(this)" >
+                                 <option selected="selected"  value="SELF" >
+                                    Me (Session creator)
+                                 </option>
+                                 <option value="STUDENTS" >
+                                    Students in this course
+                                 </option>
+                                 <option value="INSTRUCTORS" >
+                                    Instructors in this course
+                                 </option>
+                                 <option value="TEAMS" >
+                                    Teams in this course
+                                 </option>
+                              </select>
+                           </td>
+                           <td class="bold nowrap"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Who the feedback is about')" >
+                              Feedback Recipient:
+                           </td>
+                           <td>
+                              <select class="participantSelect"  disabled="disabled"  id="recipienttype-2"  name="recipienttype"  onchange="feedbackRecipientUpdateVisibilityOptions(this)" >
+                                 <option value="SELF" >
+                                    Giver (Self feedback)
+                                 </option>
+                                 <option selected="selected"  value="STUDENTS" >
+                                    Other students in the course
+                                 </option>
+                                 <option value="INSTRUCTORS" >
+                                    Instructors in the course
+                                 </option>
+                                 <option value="TEAMS" >
+                                    Other teams in the course
+                                 </option>
+                                 <option value="OWN_TEAM" >
+                                    Giver's team
+                                 </option>
+                                 <option value="OWN_TEAM_MEMBERS" >
+                                    Giver's team members
+                                 </option>
+                                 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" >
+                                    Giver's team members and Giver
+                                 </option>
+                                 <option value="NONE" >
+                                    Nobody specific (For general class feedback)
+                                 </option>
+                              </select>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="bold nowrap" >
+                              <a class="visibilityOptionsLabel color_brown"  href="#"  onclick="toggleVisibilityOptions(this)" >
+                                 [+] Show Visibility Options
+                              </a>
+                           </td>
+                           <td>
+                           </td>
+                           <td class="numberOfEntitiesElements2" >
+                              <span class="bold"  id="numofrecipients_text-2" >
+                                 The maximum number of
+                                 <span class="bold"  id="numofrecipients_text_inner-2" >
+                                    students
+                                 </span>
+                                 each
+                                 <br/>
+                                                                  respondant should give feedback to:
+                              </span>
+                           </td>
+                           <td class="numberOfEntitiesElements2" >
+                              <input class="nonDestructive"  disabled="disabled"  name="numofrecipientstype"  type="radio"  value="custom" />
+                                                            <input class="nonDestructive numberOfEntitiesBox"  disabled="disabled"  id="numofrecipients-2"  max="250"  min="1"  name="numofrecipients"  type="number"  value="1" />
+                                                            <input checked="checked"  class="nonDestructive"  disabled="disabled"  name="numofrecipientstype"  type="radio"  value="max" />
+                                                            <span class="label" >
+                                 Unlimited
+                              </span>
+                           </td>
+                        </tr>
+                        <tr class="visibilityOptions"  style="display: none;" >
+                           <td colspan="4" >
+                              <table class="dataTable participantTable" >
+                                 <tbody>
+                                    <tr>
+                                       <th class="color_white bold" >
+                                          User/Group
+                                       </th>
+                                       <th class="color_white bold" >
+                                          Can see answer
+                                       </th>
+                                       <th class="color_white bold" >
+                                          Can see giver's name
+                                       </th>
+                                       <th class="color_white bold" >
+                                          Can see recipient's name
+                                       </th>
+                                    </tr>
+                                    <tr onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Control what feedback recipient(s) can view')" >
+                                       <td>
+                                          Recipient(s)
+                                       </td>
+                                       <td>
+                                          <input checked="checked"  class="visibilityCheckbox answerCheckbox2"  disabled="disabled"  name="receiverLeaderCheckbox"  type="checkbox"  value="RECEIVER" />
+                                                                                 </td>
+                                       <td>
+                                          <input checked="checked"  class="visibilityCheckbox giverCheckbox2"  disabled="disabled"  type="checkbox"  value="RECEIVER" />
+                                                                                 </td>
+                                       <td>
+                                          <input checked="checked"  class="visibilityCheckbox recipientCheckbox2"  disabled="disabled"  name="receiverFollowerCheckbox"  type="checkbox"  value="RECEIVER" />
+                                                                                 </td>
+                                    </tr>
+                                    <tr onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Control what team members of feedback giver can view')" >
+                                       <td>
+                                          Giver's Team Members
+                                       </td>
+                                       <td>
+                                          <input class="visibilityCheckbox answerCheckbox2"  disabled="disabled"  type="checkbox"  value="OWN_TEAM_MEMBERS" />
+                                                                                 </td>
+                                       <td>
+                                          <input class="visibilityCheckbox giverCheckbox2"  disabled="disabled"  type="checkbox"  value="OWN_TEAM_MEMBERS" />
+                                                                                 </td>
+                                       <td>
+                                          <input class="visibilityCheckbox recipientCheckbox2"  disabled="disabled"  type="checkbox"  value="OWN_TEAM_MEMBERS" />
+                                                                                 </td>
+                                    </tr>
+                                    <tr onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Control what team members of feedback recipients can view')" >
+                                       <td>
+                                          Recipient's Team Members
+                                       </td>
+                                       <td>
+                                          <input class="visibilityCheckbox answerCheckbox2"  disabled="disabled"  type="checkbox"  value="RECEIVER_TEAM_MEMBERS" />
+                                                                                 </td>
+                                       <td>
+                                          <input class="visibilityCheckbox giverCheckbox2"  disabled="disabled"  type="checkbox"  value="RECEIVER_TEAM_MEMBERS" />
+                                                                                 </td>
+                                       <td>
+                                          <input class="visibilityCheckbox recipientCheckbox2"  disabled="disabled"  type="checkbox"  value="RECEIVER_TEAM_MEMBERS" />
+                                                                                 </td>
+                                    </tr>
+                                    <tr onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Control what other students can view')" >
+                                       <td>
+                                          Other students
+                                       </td>
+                                       <td>
+                                          <input class="visibilityCheckbox answerCheckbox2"  disabled="disabled"  type="checkbox"  value="STUDENTS" />
+                                                                                 </td>
+                                       <td>
+                                          <input class="visibilityCheckbox giverCheckbox2"  disabled="disabled"  type="checkbox"  value="STUDENTS" />
+                                                                                 </td>
+                                       <td>
+                                          <input class="visibilityCheckbox recipientCheckbox2"  disabled="disabled"  type="checkbox"  value="STUDENTS" />
+                                                                                 </td>
+                                    </tr>
+                                    <tr onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Control what instructors can view')" >
+                                       <td>
+                                          Instructors
+                                       </td>
+                                       <td>
+                                          <input checked="checked"  class="visibilityCheckbox answerCheckbox2"  disabled="disabled"  type="checkbox"  value="INSTRUCTORS" />
+                                                                                 </td>
+                                       <td>
+                                          <input checked="checked"  class="visibilityCheckbox giverCheckbox2"  disabled="disabled"  type="checkbox"  value="INSTRUCTORS" />
+                                                                                 </td>
+                                       <td>
+                                          <input checked="checked"  class="visibilityCheckbox recipientCheckbox2"  disabled="disabled"  type="checkbox"  value="INSTRUCTORS" />
+                                                                                 </td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+                        </tr>
+                        <tr>
+							<td class="rightalign"  colspan="6" >
+								<input class="button"  id="button_question_submit-2"  style="display:none"  tabindex="0"  type="submit"  value="Save Changes" />
+							</td>
+						</tr>
+					</tbody>
+                </table>
+				<input name="fsname"  type="hidden"  value="First Session" />
+				<input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
+				<input name="questionid"  type="hidden"  value="{*}" />
+				<input name="questionnum"  type="hidden"  value="2" />
+				<input name="questiontype"  type="hidden"  value="MCQ" />
+				<input id="questionedittype-2"  name="questionedittype"  type="hidden"  value="edit" />
+				<input name="showresponsesto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
+				<input name="showgiverto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
+				<input name="showrecipientto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
+				<input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
+			</form>
+            <br/><br/>
+			
+			<table class="inputTable"  id="addNewQuestionTable" >
+				<tbody>
+					<tr>
+						<td class="bold">Question Type <select class="questionType"
+							id="questionTypeChoice" name="questionTypeChoice">
+								<option value="TEXT">Essay question</option>
+								<option value="MCQ">Multiple-choice question</option>
+						</select>
+						</td>
+						<td><input class="button centeralign" id="button_openframe"
+							onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)"
+							value="Add New Question" /></td>
+					</tr>
+				</tbody>
+			</table>
+			<form onsubmit="tallyCheckboxes('')" class="form_question" name="form_addquestions" action="/page/instructorFeedbackQuestionAdd" method="post">			
+			<table hidden="hidden" id="questionTableNew" class="inputTable questionTable">
+				<tbody><tr>
+					<td class="bold">Question <select
+								class="questionNumber nonDestructive" name="questionnum">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+						</select><span id="questionTypeHeader"></span>
+					</td>
+					<td></td>
+					<td></td>
+					<td class="rightalign" ><a class="color_red" href="#"
+								onclick="deleteQuestion(-1)" onmouseout="hideddrivetip()"
+								onmouseover="ddrivetip('Delete this question')"> Delete </a></td>
+				</tr>
+				<tr>
+					<td colspan="4"><textarea tabindex="9" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')" id="questiontext" name="questiontext" class="textvalue" style="width:100%" rows="5"></textarea>
+					</td>
+				</tr>
+				<tr id="mcqForm" >
+					<td colspan="4">
+						<table id="mcqChoiceTable">
+							<tbody>
+								<tr id="mcqOptionRow-0">
+									<td><input disabled="disabled" type="radio" /></td>
+									<td><input class="mcqOptionTextBox" id="mcqOption-0"
+										name="mcqOption-0" type="text" /> <a
+										class="removeOptionLink" href="#" id="mcqRemoveOptionLink"
+										onclick="removeMcqOption(0,-1)" tabindex="-1"> x </a></td>
+								</tr>
+								<tr id="mcqOptionRow-1">
+									<td><input disabled="disabled" type="radio" /></td>
+									<td><input class="mcqOptionTextBox" id="mcqOption-1"
+										name="mcqOption-1" type="text" /> <a
+										class="removeOptionLink" href="#" id="mcqRemoveOptionLink"
+										onclick="removeMcqOption(1,-1)" tabindex="-1"> x </a></td>
+								</tr>
+								<tr id="mcqAddOptionRow">
+									<td colspan="2"><a class="color_blue" href="#"
+										id="mcqAddOptionLink" onclick="addMcqOption(-1)"> +add more options </a></td>
+								</tr>
+							</tbody>
+						</table> 
+						<input id="noofchoicecreated" name="noofchoicecreated" type="hidden" />
+					</td>
+				</tr>
+				<tr>
+					<td class="bold" onmouseover="ddrivetip('Who will give feedback')" onmouseout="hideddrivetip()">Feedback Giver:</td>
+					<td><select name="givertype" class="participantSelect" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+						<option value="SELF">Me (Session creator)</option>
+<option value="STUDENTS">Students in this course</option>
+<option value="INSTRUCTORS">Instructors in this course</option>
+<option value="TEAMS">Teams in this course</option>
+
+					</select></td>
+					<td class="bold nowrap" onmouseover="ddrivetip('Who the feedback is about')" onmouseout="hideddrivetip()">Feedback Recipient:</td>
+					<td><select name="recipienttype" id="recipienttype" class="participantSelect" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+						<option value="SELF">Giver (Self feedback)</option>
+<option value="STUDENTS">Other students in the course</option>
+<option value="INSTRUCTORS">Instructors in the course</option>
+<option value="TEAMS">Other teams in the course</option>
+<option value="OWN_TEAM">Giver's team</option>
+<option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+<option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" >Giver's team members and Giver</option>
+<option value="NONE">Nobody specific (For general class feedback)</option>
+
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td></td><td></td>
+					<td class="numberOfEntitiesElements" style="display: none;"><span class="bold" id="numofrecipients_text-">The maximum number of <span class="bold" id="numofrecipients_text_inner-"></span> <br />each respondant should give feedback to:</span></td>
+					<td class="numberOfEntitiesElements" style="display: none;">
+					<input type="radio" value="custom" name="numofrecipientstype" /> 
+					<input type="number" value="1" max="250" min="1" name="numofrecipients" id="numofrecipients-" class="numberOfEntitiesBox" /> 
+					<input type="radio" checked="checked" value="max" name="numofrecipientstype" /> 					
+					<span class="label">Unlimited</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="4">
+						<table class="dataTable participantTable">
+							<tbody><tr>
+								<th class="color_white bold" >User/Group</th>
+								<th class="color_white bold" >Can see answer</th>
+								<th class="color_white bold" >Can see giver's name</th>
+								<th class="color_white bold" >Can see recipient's name</th>
+							</tr>
+							<tr onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Control what feedback recipient(s) can view')" >
+								<td>Recipient(s)</td>
+								<td><input type="checkbox" checked="checked" name="receiverLeaderCheckbox" value="RECEIVER" class="visibilityCheckbox answerCheckbox" /></td>
+								<td><input type="checkbox" checked="checked" value="RECEIVER" class="visibilityCheckbox giverCheckbox" /></td>
+								<td><input type="checkbox" checked="checked" disabled="disabled" name="receiverFollowerCheckbox" value="RECEIVER" class="visibilityCheckbox recipientCheckbox" /></td>
+							</tr>
+							<tr onmouseover="ddrivetip('Control what team members of feedback giver can view')" onmouseout="hideddrivetip()">
+								<td>Giver's Team Members</td>
+								<td><input type="checkbox" value="OWN_TEAM_MEMBERS" class="visibilityCheckbox answerCheckbox" /></td>
+								<td><input type="checkbox" value="OWN_TEAM_MEMBERS" class="visibilityCheckbox giverCheckbox" /></td>
+								<td><input type="checkbox" value="OWN_TEAM_MEMBERS" class="visibilityCheckbox recipientCheckbox" /></td>
+							</tr>
+							<tr onmouseover="ddrivetip('Control what team members of feedback recipients can view')" onmouseout="hideddrivetip()">
+								<td>Recipient's Team Members</td>
+								<td><input type="checkbox" value="RECEIVER_TEAM_MEMBERS" class="visibilityCheckbox answerCheckbox" /></td>								
+								<td><input type="checkbox" value="RECEIVER_TEAM_MEMBERS" class="visibilityCheckbox giverCheckbox" /></td>
+								<td><input type="checkbox" value="RECEIVER_TEAM_MEMBERS" class="visibilityCheckbox recipientCheckbox" /></td>
+							</tr>
+							<tr onmouseover="ddrivetip('Control what other students can view')" onmouseout="hideddrivetip()">
+								<td>Other students</td>
+								<td><input type="checkbox" value="STUDENTS" class="visibilityCheckbox answerCheckbox" /></td>								
+								<td><input type="checkbox" value="STUDENTS" class="visibilityCheckbox giverCheckbox" /></td>
+								<td><input type="checkbox" value="STUDENTS" class="visibilityCheckbox recipientCheckbox" /></td>
+							</tr>
+							<tr onmouseover="ddrivetip('Control what instructors can view')" onmouseout="hideddrivetip()">
+								<td>Instructors</td>
+								<td><input type="checkbox" checked="checked" value="INSTRUCTORS" class="visibilityCheckbox answerCheckbox" /></td>								
+								<td><input type="checkbox" checked="checked" value="INSTRUCTORS" class="visibilityCheckbox giverCheckbox" /></td>
+								<td><input type="checkbox" checked="checked" value="INSTRUCTORS" class="visibilityCheckbox recipientCheckbox" /></td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="centeralign"><input type="submit" tabindex="9" value="Save Question" class="button" id="button_submit_add" />
+					</td>					
+				</tr>
+			</tbody></table>
+			<input type="hidden" value="3" name="questionnum" />
+			<input type="hidden" value="First Session" name="fsname" />
+			<input type="hidden" value="CFeedbackEditUiT.CS2104" name="courseid" />
+			<input name="questiontype"  type="hidden" />
+			<input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS" />
+			<input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS" />
+			<input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS" />
+			<input type="hidden" value="CFeedbackEditUiT.instructor" name="user" />
+		</form>			
+		<br /><br />
+		</div>
+	</div>
+	
+	<div id="frameBottom">
+		
+
+
+
+<div id="contentFooter">
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
+	[for <span class="color_white">National University of Singapore</span>]
+	<span class="floatright">[Send <span class="color_white"><a target="_blank" href="../contact.html">Feedback</a></span>]</span>
+</div>
+	</div>
+
+</body></html>

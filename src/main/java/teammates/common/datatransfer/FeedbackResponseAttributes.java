@@ -3,12 +3,14 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.FeedbackResponse;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.gson.Gson;
 
 public class FeedbackResponseAttributes extends EntityAttributes {
 	private String feedbackResponseId = null;
@@ -18,7 +20,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public FeedbackQuestionType feedbackQuestionType;
 	public String giverEmail;
 	public String recipientEmail;
-	public Text answer;
+	/** Contains the JSON formatted string that holds the information of the response details <br>
+	 * Don't use directly unless for storing/loading from data store <br>
+	 * To get the answer text use {@code getQuestionDetails().getAnswerString()} 
+	 */
+	public Text answer; //TODO rename to responseMetaData
 	
 	public FeedbackResponseAttributes() {
 		
@@ -121,5 +127,58 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	@Override
 	public void sanitizeForSaving() {
 		// TODO implement this
+	}
+	
+	/** This method converts the given Feedback*ResponseDetails object to JSON for storing
+	 * @param responseDetails
+	 */
+	public void setQuestionDetails(FeedbackAbstractResponseDetails responseDetails) {
+		Gson gson = teammates.common.util.Utils.getTeammatesGson();
+		
+		if(responseDetails.questionType == FeedbackQuestionType.TEXT) {
+			// For Text questions, the answer simply contains the response text, not a JSON
+			// This is due to legacy data in the data store before there were multiple question types
+			answer = new Text(responseDetails.getAnswerString());
+		} else {
+			answer = new Text(gson.toJson(responseDetails, getFeedbackResponseDetailsClass()));
+		}
+	}
+	
+	/** This method retrieves the Feedback*ResponseDetails object for this response
+	 * @return The Feedback*ResponseDetails object representing the response's details
+	 */
+	public FeedbackAbstractResponseDetails getResponseDetails(){
+		Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
+		
+		if(responseDetailsClass == FeedbackTextResponseDetails.class) {
+			// For Text questions, the questionText simply contains the question, not a JSON
+			// This is due to legacy data in the data store before there are multiple question types
+			return new FeedbackTextResponseDetails(answer.getValue());
+		} else {
+			Gson gson = teammates.common.util.Utils.getTeammatesGson();
+			return gson.fromJson(answer.getValue(), responseDetailsClass);
+		}
+	}
+	
+	/** This method gets the appropriate class type for the Feedback*ResponseDetails object
+	 * for this response.
+	 * @return The Feedback*ResponseDetails class type appropriate for this response.
+	 */
+	private Class<? extends FeedbackAbstractResponseDetails> getFeedbackResponseDetailsClass(){
+		Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass = null;
+		
+		switch(feedbackQuestionType){
+		case TEXT:
+			responseDetailsClass = FeedbackTextResponseDetails.class;
+			break;
+		case MCQ:
+			responseDetailsClass = FeedbackMcqResponseDetails.class;
+			break;
+		default:
+			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
+			break;
+		}
+		
+		return responseDetailsClass;
 	}
 }

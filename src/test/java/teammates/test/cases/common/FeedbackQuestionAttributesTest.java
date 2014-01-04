@@ -1,7 +1,9 @@
 package teammates.test.cases.common;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.AssertJUnit.*;
+import static teammates.common.util.Const.EOL;
+import static teammates.common.util.FieldValidator.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class FeedbackQuestionAttributesTest extends BaseTestCase {
@@ -26,7 +29,84 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 	
 	@Test
 	public void testValidate() {
-		// TODO: follow test sequence similar to evalTest 
+		FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
+
+		fq.feedbackSessionName = "";
+		fq.courseId = "";
+		fq.creatorEmail = "";
+		fq.questionType = FeedbackQuestionType.TEXT;
+		fq.giverType = FeedbackParticipantType.NONE;
+		fq.recipientType = FeedbackParticipantType.RECEIVER;
+		
+		fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+		fq.showGiverNameTo.add(FeedbackParticipantType.SELF);
+		fq.showGiverNameTo.add(FeedbackParticipantType.STUDENTS);
+		
+		fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
+		fq.showRecipientNameTo.add(FeedbackParticipantType.SELF);
+		fq.showRecipientNameTo.add(FeedbackParticipantType.STUDENTS);
+		
+		fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+		fq.showResponsesTo.add(FeedbackParticipantType.NONE);
+		fq.showResponsesTo.add(FeedbackParticipantType.SELF);
+				
+		assertFalse(fq.isValid());
+		String errorMessage = 
+				String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE, fq.creatorEmail, REASON_EMPTY) + EOL
+				+ String.format(COURSE_ID_ERROR_MESSAGE, fq.courseId, REASON_EMPTY) + EOL 
+				+ String.format("Invalid creator's email: " + EMAIL_ERROR_MESSAGE, fq.creatorEmail, REASON_EMPTY) + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(), GIVER_TYPE_NAME) + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(), RECIPIENT_TYPE_NAME) + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+				+ "Trying to show giver name to STUDENTS without showing response first." + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+				+ "Trying to show recipient name to STUDENTS without showing response first." + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(), VIEWER_TYPE_NAME);
+		assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
+	
+		fq.feedbackSessionName = "First Feedback Session";
+		fq.courseId = "CS1101";
+		fq.creatorEmail = "instructor1@course1.com";
+		fq.giverType = FeedbackParticipantType.TEAMS;
+		fq.recipientType = FeedbackParticipantType.OWN_TEAM;
+		
+		assertFalse(fq.isValid());
+		errorMessage = 
+				String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE, fq.recipientType.toDisplayRecipientName(), fq.giverType.toDisplayGiverName()) + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+				+ "Trying to show giver name to STUDENTS without showing response first." + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+				+ "Trying to show recipient name to STUDENTS without showing response first." + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(), VIEWER_TYPE_NAME);
+		assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
+		
+		fq.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
+		
+		assertFalse(fq.isValid());
+		errorMessage = 
+				String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE, fq.recipientType.toDisplayRecipientName(), fq.giverType.toDisplayGiverName()) + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+				+ "Trying to show giver name to STUDENTS without showing response first." + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+				+ "Trying to show recipient name to STUDENTS without showing response first." + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+				+ String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(), VIEWER_TYPE_NAME);
+		assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
+		
+		fq.recipientType = FeedbackParticipantType.TEAMS;
+		
+		fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+		fq.showGiverNameTo.add(FeedbackParticipantType.RECEIVER);
+		
+		fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
+		fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
+		
+		fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+		fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER);	
+		
+		assertTrue(fq.isValid());
 	}
 	
 	@Test

@@ -68,3 +68,12 @@
 	width: 50px;
 	padding-right: 10px;
 }
+
+.removeOptionLink {
+	color: gray;
+	text-decoration: none;
+}
+
+.mcqOptionTextBox {
+	width: 400px;
+}

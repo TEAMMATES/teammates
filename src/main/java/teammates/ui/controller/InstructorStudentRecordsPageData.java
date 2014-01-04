@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -13,6 +14,7 @@ public class InstructorStudentRecordsPageData extends PageData {
 	
 	public String courseId;
 	public StudentAttributes student;
+	public List<CommentAttributes> comments;
 	public List<EvaluationAttributes> evaluations;
 	public List<FeedbackSessionAttributes> feedbacks;
 	public List<StudentResultBundle> studentEvaluationResults;

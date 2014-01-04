@@ -101,20 +101,45 @@
 								<th class="centeralign bold color_white">Status</th>
 								<th class="centeralign bold color_white">Action(s)</th>
 							</tr>
-							<tr id="evaluation1" class="home_evaluations_row">
-									<td class="t_eval_name">Fifth Eval</td>
-									<td class="t_eval_deadline centeralign">01 Apr 2015, 23:59</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation is yet to be completed by you')">Pending</span></td>
-									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start evaluation')" href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&amp;evaluationname=Fifth+Eval" id="submitEvaluation1" class="color_black">Submit</a>
-									</td>
-								</tr>
-							<tr id="evaluation0" class="home_evaluations_row">
-									<td class="t_eval_name">Third Eval</td>
-									<td class="t_eval_deadline centeralign">02 Apr 2012, 23:59</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished but the instructor has not published the results yet')">Closed</span></td>
-									<td class="centeralign"><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults0" name="viewEvaluationResults0" href="/page/studentEvalResultsPage?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" class="color_black">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission0" name="editEvaluationSubmission0" href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" class="color_black">Edit/View Submission</a>
-									</td>
-							</tr></tbody></table>
+							<tr class="home_evaluations_row"  id="evaluation0" >
+                              <td class="t_eval_name" >
+                                 Third Eval
+                              </td>
+                              <td class="t_eval_deadline centeralign" >
+                                 02 Apr 2012, 23:59
+                              </td>
+                              <td class="t_eval_status centeralign" >
+                                 <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The evaluation has finished but the instructor has not published the results yet')" >
+                                    Closed
+                                 </span>
+                              </td>
+                              <td class="centeralign" >
+                                 <a class="color_black"  href="/page/studentEvalResultsPage?courseid=SHomeUiT.CS1101&evaluationname=Third+Eval"  id="viewEvaluationResults0"  name="viewEvaluationResults0"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the current results of the evaluation')"  style="color: gray; text-decoration: none;" >
+                                    View Results
+                                 </a>
+                                 <a class="color_black"  href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&evaluationname=Third+Eval"  id="editEvaluationSubmission0"  name="editEvaluationSubmission0"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit submitted evaluation')" >
+                                    Edit/View Submission
+                                 </a>
+                              </td>
+                           </tr>
+                           <tr class="home_evaluations_row"  id="evaluation1" >
+                              <td class="t_eval_name" >
+                                 Fifth Eval
+                              </td>
+                              <td class="t_eval_deadline centeralign" >
+                                 01 Apr 2015, 23:59
+                              </td>
+                              <td class="t_eval_status centeralign" >
+                                 <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The evaluation is yet to be completed by you')" >
+                                    Pending
+                                 </span>
+                              </td>
+                              <td class="centeralign" >
+                                 <a class="color_black"  href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&evaluationname=Fifth+Eval"  id="submitEvaluation1"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start evaluation')" >
+                                    Submit
+                                 </a>
+                              </td>
+                           </tr></tbody></table>
 					
 				</div>
 			</div>

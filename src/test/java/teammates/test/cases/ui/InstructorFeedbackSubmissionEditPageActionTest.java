@@ -26,7 +26,6 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 	
 	@Test
 	public void testAccessControl() throws Exception{
-		
 		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 		
 		String[] submissionParams = new String[]{
@@ -35,7 +34,6 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 		};
 		
 		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-		
 	}
 	
 	@Test

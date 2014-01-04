@@ -41,6 +41,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		enrollString += "Team 3 | Frank Galoe | frank.g.tmms@gmail.com\n";
 		// A new student with no team
 		enrollString += " | Gary Harbine | gary.h.tmms@gmail.com | This student has no team\n";
+		// A new student with name containing accented characters
+		enrollString += "Team 3 | José Gómez | jose.gomez.tmns@gmail.com | This student name contains accented characters\n";
 		// A student to be modified
 		enrollString += "Team 1 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
 		// An existing student with no modification
@@ -98,7 +100,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 			.withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
 			.withCourseId(courseId);
 		InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
-		assertEquals(7, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
+		assertEquals(8, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
 		
 		______TS("enroll action: empty course");
 		

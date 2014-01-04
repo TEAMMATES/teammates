@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
@@ -78,7 +80,7 @@
 					</tr>
 					<tr>
 						<td class="multiline"><span class="bold">Response: </span><%=
-						InstructorFeedbackResultsPageData.sanitizeForHtml(singleResponse.answer.getValue())%></td>
+						InstructorFeedbackResultsPageData.sanitizeForHtml(singleResponse.getResponseDetails().getAnswerString())%></td>
 					</tr>
 					<%
 						qnIndx++;

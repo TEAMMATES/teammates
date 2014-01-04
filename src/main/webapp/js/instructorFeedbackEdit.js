@@ -125,7 +125,10 @@ function enableEdit(qnNumber, maxQuestions) {
  */
 function enableQuestion(number){
 	$('#questionTable'+number).find('text,button,textarea,select,input').
-		not('[name="receiverFollowerCheckbox"]').removeAttr("disabled", "disabled");
+		not('[name="receiverFollowerCheckbox"]').
+		not('.disabled_radio').
+		removeAttr("disabled", "disabled");
+	$('#questionTable'+number).find('a').show();
 	$('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
 	$('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
 	$('#'+'button_question_submit-'+number).show();
@@ -140,6 +143,8 @@ function enableQuestion(number){
  */
 function disableQuestion(number){
 	$('#questionTable'+number).find('text,button,textarea,select,input').attr("disabled", "disabled");
+	$('#questionTable'+number).find('#mcqAddOptionLink').hide();
+	$('#questionTable'+number).find('.removeOptionLink').hide();
 	$('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).show();
 	$('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).hide();
 	$('#'+'button_question_submit-'+number).hide();
@@ -151,7 +156,10 @@ function disableQuestion(number){
  * @returns
  */
 function deleteQuestion(number){
-	if (confirm("Are you sure you want to delete this question?")){
+	if(number == -1){
+		location.reload();
+		return false;
+	} else if (confirm("Are you sure you want to delete this question?")){
 		document.getElementById(FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="delete"; 
 		document.getElementById('form_editquestion-'+number).submit();
 		return true;
@@ -251,12 +259,50 @@ function tallyCheckboxes(qnNumber){
 /**
  * Shows the new question div frame and scrolls to it
  */
-function showNewQuestionFrame(){
+function showNewQuestionFrame(type){
+	$("[name="+FEEDBACK_QUESTION_TYPE+"]").val(type);
+	prepareQuestionForm(type);
 	$('#questionTableNew').show();
-	$('#button_openframe').hide();
+	$('#addNewQuestionTable').hide();
 	$('#empty_message').hide(); 
     $('#frameBody').animate({scrollTop: $('#frameBody')[0].scrollHeight}, 1000);
     copyOptions();
+}
+
+function prepareQuestionForm(type) {
+	switch(type){
+	case "TEXT":
+		$("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_TEXT);
+		$('#mcqForm').hide();
+		break;
+	case "MCQ":
+		$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
+		$("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MCQ);
+		$('#mcqForm').show();
+		break;
+	}
+}
+
+function addMcqOption(questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	
+	var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
+		
+	$("<tr id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+		+ "<td><input type=\"radio\" disabled=\"disabled\"></td>"
+		+ "<td><input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\""
+		+ " id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"mcqOptionTextBox\">"
+		+ "<a href=\"#\" class=\"removeOptionLink\" id=\"mcqRemoveOptionLink\" "
+		+ "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+		+ " x</a></td></tr>"
+	).insertBefore($("#mcqAddOptionRow" + idSuffix));
+
+	$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
+}
+
+function removeMcqOption(index, questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	$("#mcqOptionRow-"+index+idSuffix).remove();
 }
 
 /**

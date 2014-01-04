@@ -47,18 +47,18 @@ public class FeedbackResponsesDb extends EntitiesDb {
 	 * @return Null if not found.
 	 */
 	public FeedbackResponseAttributes getFeedbackResponse (
-			String feedbackQuestionId, String giverEmail, String receiver) {
+			String feedbackQuestionId, String giverEmail, String receiverEmail) {
 		
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
-		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiver);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiverEmail);
 		
 		FeedbackResponse fr = 
-				getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiver);
+				getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiverEmail);
 		
 		if (fr == null) {
 			log.info("Trying to get non-existent response: " +
 					feedbackQuestionId + "/" + "from: " +
-					giverEmail + " to: " + receiver );
+					giverEmail + " to: " + receiverEmail );
 			return null;
 		}
 		return new FeedbackResponseAttributes(fr);		

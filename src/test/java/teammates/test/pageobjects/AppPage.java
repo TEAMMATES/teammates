@@ -21,6 +21,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -397,6 +398,18 @@ public abstract class AppPage {
 	public boolean isElementPresent(By by) {
 		return browser.driver.findElements(by).size() != 0;
 	}
+	
+	/**
+	 * @return True if there is a corresponding element for the given id.
+	 */
+	public boolean isElementPresent(String elementId) {
+		try{
+			browser.driver.findElement(By.id(elementId));
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
 
 	public void verifyUnclickable(WebElement element){
 		try {
@@ -500,7 +513,7 @@ public abstract class AppPage {
 		AssertHelper.assertContainsRegex(searchString, getPageSource());
 		return this;
 	}
-	
+		
 	/**
 	 * Verifies the status message in the page is same as the one specified.
 	 * @return The page (for chaining method calls).

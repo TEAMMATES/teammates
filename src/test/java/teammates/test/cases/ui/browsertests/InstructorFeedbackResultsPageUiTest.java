@@ -9,6 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
@@ -74,20 +75,32 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 				.verifyTablePattern(2,"{*}4 Response to Charlie.{*}3 Response to Emily.{*}2 Response to Benny.{*}1 Response to Danny.");
 		
 		resultsPage.sortTableByGiver()
-				.verifyTablePattern(0,"{*}Alice Betsy{*}Benny Charles{*}Benny Charles{*}Charlie Davis");
+				.verifyTablePattern(0,"{*}Alice Betsy{*}Benny Charles{*}Benny Charles{*}Charlie Dávis");
 		resultsPage.sortTableByGiver()
-				.verifyTablePattern(0,"{*}Charlie Davis{*}Benny Charles{*}Benny Charles{*}Alice Betsy");
+				.verifyTablePattern(0,"{*}Charlie Dávis{*}Benny Charles{*}Benny Charles{*}Alice Betsy");
 		
 		resultsPage.sortTableByRecipient()
-				.verifyTablePattern(1,"{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
+				.verifyTablePattern(1,"{*}Benny Charles{*}Charlie Dávis{*}Danny Engrid{*}Emily");
 		resultsPage.sortTableByRecipient()
-				.verifyTablePattern(1,"{*}Emily{*}Danny Engrid{*}Charlie Davis{*}Benny Charles");
+				.verifyTablePattern(1,"{*}Emily{*}Danny Engrid{*}Charlie Dávis{*}Benny Charles");
 
 	}
 	
 	public void testLink() {
-		// TODO: test download link
-		resultsPage.clickEditLink();
+		______TS("action: download report");
+		
+		Url reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+			.withUserId("CFResultsUiT.instr")
+			.withCourseId("CFResultsUiT.CS2104")
+			.withSessionName("First Session");
+		
+		resultsPage.verifyDownloadLink(reportUrl);
+		
+		______TS("action: edit");
+		InstructorFeedbackEditPage editPage = resultsPage.clickEditLink();
+		editPage.verifyContains("Edit Feedback Session");
+		editPage.verifyContains("CFResultsUiT.CS2104");
+		editPage.verifyContains("First Session");
 	}
 
 	@AfterClass

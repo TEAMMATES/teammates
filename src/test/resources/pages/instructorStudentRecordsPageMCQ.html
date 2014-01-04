@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="/favicon.png" rel="shortcut icon" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<title>TEAMMATES - Instructor</title>
+	<link href="/stylesheets/common.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/stylesheets/instructorStudentRecords.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/stylesheets/common-print.css" media="print" rel="stylesheet" type="text/css" />
+	
+	<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript"></script>
+	<script src="/js/googleAnalytics.js" type="text/javascript"></script>
+	<script src="/js/jquery-minified.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/date.js" type="text/javascript"></script>
+	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
+	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
+	<script src="/js/instructor.js" type="text/javascript"></script>
+	<script src="/js/instructorStudentRecords.js"  type="text/javascript"></script>
+</head>
+<body onload="readyStudentRecordsPage(); initializetooltip();">
+	<div id="frameTop">
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<a href="/index.html"> <img alt="TEAMMATES" height="47px"
+					src="/images/teammateslogo.jpg" width="150px" />
+				</a>
+			</div>
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li><a class="nav home" data-link="instructorHome"
+						href="/page/instructorHomePage?user=idOfInstructor1OfCourse1"> Home </a></li>
+					<li><a class="nav courses" data-link="instructorCourse"
+						href="/page/instructorCoursesPage?user=idOfInstructor1OfCourse1">
+							Courses </a></li>
+					<li><a class="nav evaluations" data-link="instructorEval"
+						href="/page/instructorEvalsPage?user=idOfInstructor1OfCourse1">
+							Sessions </a></li>
+					<li class="current"><a class="nav students"
+						data-link="instructorStudent"
+						href="/page/instructorStudentListPage?user=idOfInstructor1OfCourse1">
+							Students </a></li>
+					<li><a class="nav help" href="/instructorHelp.html"
+						target="_blank"> Help </a></li>
+					<li><a class="nav logout" href="/logout.jsp"> Logout </a> <b>
+						<span onmouseout="hideddrivetip()"  onmouseover="ddrivetip('idOfInstructor1OfCourse1')" >
+                              (idOfInstructor1OfCou...)
+                           </span>
+					</b></li>
+				</ul>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+	</div>
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>idOfTypicalCourse1 - student1 In Course1's Records</h1>
+				<hr />
+			</div>
+			<div id="statusMessage" style="display: none;"></div>
+			<div id="commentSection">
+				<table class="resultTable" id="commentTable">
+					<thead>
+						<tr>
+							<th class="bold centeralign">Your comments on this student:
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<form action="/page/instructorStudentCommentEdit"
+									class="form_comment" id="form_commentedit-0" method="post"
+									name="form_commentedit">
+									<table id="commentFormTable">
+										<tbody>
+											<tr>
+												<td class="rightalign">
+													<a class="color_blue pad_right t_comment_edit" href=""
+													id="commentedit-0" onclick="return enableEdit('0', '2');"
+													onmouseout="hideddrivetip()"
+													onmouseover="ddrivetip('Edit this comment')"> Edit </a>
+													
+													<a class="color_green pad_right t_comment_save" href=""
+													id="commentsave-0" onclick="return submitCommentForm('0');"
+													style="display:none;"> Save Changes </a>
+													
+													<a class="color_red pad_right t_comment_delete" href=""
+													id="commentdelete-0" onclick="return deleteComment('0');"
+													onmouseout="hideddrivetip()"
+													onmouseover="ddrivetip('Delete this comment')"> Delete</a>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<textarea class="textvalue" disabled="disabled" id="commentText0" name="commenttext" onkeyup="textAreaAdjust(this)" style="height: 21px;">Comment 2 from Instructor 1 to Student 1 in course 1</textarea>
+													<input id="commentedittype-0" name="commentedittype" type="hidden" value="edit" />
+													<input name="commentid" type="hidden" value="{*}" /> 
+													<input name="courseid" type="hidden" value="idOfTypicalCourse1" /> 
+													<input name="studentemail" type="hidden" value="student1InCourse1@gmail.com" /></td>
+											</tr>
+										</tbody>
+									</table>
+								</form>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<form action="/page/instructorStudentCommentEdit"
+									class="form_comment" id="form_commentedit-1" method="post"
+									name="form_commentedit">
+									<table id="commentFormTable">
+										<tbody>
+											<tr>
+												<td class="rightalign">
+													<a class="color_blue pad_right t_comment_edit" href=""
+													id="commentedit-1" onclick="return enableEdit('1', '2');"
+													onmouseout="hideddrivetip()"
+													onmouseover="ddrivetip('Edit this comment')"> Edit </a>
+													
+													<a class="color_green pad_right t_comment_save" href=""
+													id="commentsave-1" onclick="return submitCommentForm('1');"
+													style="display:none;"> Save Changes </a>
+													
+													<a class="color_red pad_right t_comment_delete" href=""
+													id="commentdelete-1" onclick="return deleteComment('1');"
+													onmouseout="hideddrivetip()"
+													onmouseover="ddrivetip('Delete this comment')"> Delete </a>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<textarea class="textvalue" disabled="disabled" id="commentText1" name="commenttext" onkeyup="textAreaAdjust(this)" style="height: 21px;">Comment 1 from Instructor 1 to Student 1 in course 1</textarea>
+													<input id="commentedittype-1" name="commentedittype" type="hidden" value="edit" />
+													<input name="commentid" type="hidden" value="{*}" />
+													<input name="courseid" type="hidden" value="idOfTypicalCourse1" />
+													<input name="studentemail" type="hidden" value="student1InCourse1@gmail.com" /></td>
+											</tr>
+										</tbody>
+									</table>
+								</form>
+							</td>
+						</tr>
+						<tr id="comment_box" style="display:none;">
+							<td class="centeralign">
+								<form action="/page/instructorStudentCommentAdd"
+									class="form_comment" method="post" name="form_commentadd">
+									<textarea class="textvalue" id="commentText" name="commenttext"
+										onkeyup="textAreaAdjust(this)"
+										placeholder="Your comment about this student">
+                                 </textarea>
+									<br /> <input class="button" id="button_save_comment"
+										type="submit" value="Save Comment" /> <input name="courseid"
+										type="hidden" value="idOfTypicalCourse1" /> <input
+										name="studentemail" type="hidden"
+										value="student1InCourse1@gmail.com" />
+								</form>
+							</td>
+						</tr>
+						<tr id="comment_link">
+							<td class="centeralign" colspan="2"><input class="button"
+								id="button_add_comment"
+								onclick="showAddCommentBox(); return false;" type="button"
+								value="Add Comment" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br />
+			<hr />
+			<br />
+			<div class="student_feedback"  id="studentFeedback0">
+				<table class="inputTable" id="studentEvaluationInfo">
+					<tbody>
+						<tr>
+							<td class="label rightalign bold" width="250px">
+								Feedback Session Name:
+							</td>
+							<td class="leftalign" id="feedback_name0" width="250px">MCQ Session</td>
+						</tr>
+					</tbody>
+				</table>
+				<br /> <br />
+				<div class="backgroundBlock">
+					<h2 class="color_white">To: student1 In Course1</h2>
+					<table class="resultTable" style="width: 100%">
+						<thead>
+							<tr>
+								<th class="leftalign">
+									<span class="bold">From: </span>
+									student1 In Course1
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="resultSubheader">
+								<td class="multiline">
+									<span class="bold">Question 1: </span> 
+									What do you like best about our product?
+								</td>
+							</tr>
+							<tr>
+								<td class="multiline">
+									<span class="bold">Response:</span> 
+									It's good
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<br /> <br />
+				<div class="backgroundBlock">
+					<h2 class="color_white">From: student1 In Course1</h2>
+					<table class="resultTable" style="width: 100%">
+						<thead>
+							<tr>
+								<th class="leftalign">
+									<span class="bold">To: </span>
+									student1 In Course1
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="resultSubheader">
+								<td class="multiline">
+									<span class="bold">Question 1: </span>
+									What do you like best about our product?
+								</td>
+							</tr>
+							<tr>
+								<td class="multiline">
+									<span class="bold">Response: </span>
+									It's good
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<br/>
+				</div>
+			</div>
+			<br />
+			<hr />
+			<br /> <br /> <br /> <br />
+		</div>
+	</div>
+	<div id="frameBottom">
+		<div id="contentFooter">
+			<span class="floatleft"> [TEAMMATES <span class="color_white">V{$version}</span> ]
+			</span> [for <span class="color_white"> National University of Singapore </span> ] 
+			<span class="floatright"> [Send <span class="color_white"> <a href="../contact.html" target="_blank"> Feedback </a>
+			</span> ]
+			</span>
+		</div>
+	</div>
+</body>
+</html>

@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -417,83 +418,77 @@ public class FieldValidator {
 		return "";
 	}
 	
-	public String getValidityInfoForFeedbackParticipantType(
+	public List<String> getValidityInfoForFeedbackParticipantType(
 			FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
 		
-		Assumption.assertTrue("Non-null value expected", giverType != null);
-		Assumption.assertTrue("Non-null value expected", recipientType != null);
+		Assumption.assertNotNull("Non-null value expected", giverType);
+		Assumption.assertNotNull("Non-null value expected", recipientType);
 		
-		String error = "";
+		List<String> errors = new LinkedList<String>();
 		if (giverType.isValidGiver() == false) {
-			error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME);
+			errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME));
 		}
 		if (recipientType.isValidRecipient() == false) {
-			error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME);
+			errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME));
 		}
 		if (giverType == FeedbackParticipantType.TEAMS) {
 			if (recipientType == FeedbackParticipantType.OWN_TEAM ||
 				recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-				error += String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+				errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
 						recipientType.toDisplayRecipientName(),
-						giverType.toDisplayGiverName());
+						giverType.toDisplayGiverName()));
 			}
 		}
 		
-		return error;
+		return errors;
 	}
 	
-	public String getValidityInfoForFeedbackResponseVisibility(
+	public List<String> getValidityInfoForFeedbackResponseVisibility(
 			List<FeedbackParticipantType> showResponsesTo, 
 			List<FeedbackParticipantType> showGiverNameTo, 
 			List<FeedbackParticipantType> showRecipientNameTo) {
 		
-		Assumption.assertTrue("Non-null value expected", showResponsesTo != null);
-		Assumption.assertTrue("Non-null value expected", showGiverNameTo != null);
-		Assumption.assertTrue("Non-null value expected", showRecipientNameTo != null);		
+		Assumption.assertNotNull("Non-null value expected", showResponsesTo);
+		Assumption.assertNotNull("Non-null value expected", showGiverNameTo);
+		Assumption.assertNotNull("Non-null value expected", showRecipientNameTo);		
 		Assumption.assertTrue("Non-null value expected", !showResponsesTo.contains(null));
 		Assumption.assertTrue("Non-null value expected", !showGiverNameTo.contains(null));
 		Assumption.assertTrue("Non-null value expected", !showRecipientNameTo.contains(null));
 		
-		String error = "";
+		List<String> errors = new LinkedList<String>();
 		
 		for (FeedbackParticipantType type : showGiverNameTo) {
 			if (type.isValidViewer() == false) {
-				error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-						type.toString(), VIEWER_TYPE_NAME);
+				errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
+						type.toString(), VIEWER_TYPE_NAME));
 			}			
 			if (showResponsesTo.contains(type) == false) {
-				error += "Trying to show giver name to "
+				errors.add("Trying to show giver name to "
 						+ type.toString()
-						+ " without showing response first.";
+						+ " without showing response first.");
 			}
 		}
 		
 		for (FeedbackParticipantType type : showRecipientNameTo) {
 			if (type.isValidViewer() == false) {
-				error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-						type.toString(), VIEWER_TYPE_NAME);
+				errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
+						type.toString(), VIEWER_TYPE_NAME));
 			}			
 			if (showResponsesTo.contains(type) == false) {
-				error += "Trying to show recipient name to "
+				errors.add("Trying to show recipient name to "
 						+ type.toString()
-						+ " without showing response first.";
+						+ " without showing response first.");
 			}
 		}
 		
 		for (FeedbackParticipantType type : showResponsesTo) {
 			if (type.isValidViewer() == false) {
-				error += String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-						type.toString(), VIEWER_TYPE_NAME);
+				errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
+						type.toString(), VIEWER_TYPE_NAME));
 			}
 		}
 
-		if (showResponsesTo.contains(FeedbackParticipantType.SELF) &&
-				!showRecipientNameTo.contains(FeedbackParticipantType.SELF)) {
-			error += "Cannot show response to feedback recipient without" +
-					" showing recipient's own name to himself.";
-		}
-		
-		return error;
+		return errors;
 	}
 	
 	public String getValidityInfoForNonNullField(String fieldName, Object value) {

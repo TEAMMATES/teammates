@@ -15,7 +15,7 @@ var EVALUATION_START = "start"; // Used in instructorEval.js
 var EVALUATION_STARTTIME = "starttime"; // Used in instructorEval.js
 var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
 
-// Move to instructorFeedback.js?
+// TODO Move to instructorFeedback.js?
 var FEEDBACK_SESSION_STARTDATE = "startdate";
 var FEEDBACK_SESSION_STARTTIME = "starttime"; 
 var FEEDBACK_SESSION_TIMEZONE = "timezone";
@@ -27,12 +27,14 @@ var FEEDBACK_SESSION_PUBLISHTIME = "publishtime";
 var FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
 var FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
 
-// Move to instructorFeedbackEdit.js?
+// TODO Move to instructorFeedbackEdit.js?
 var FEEDBACK_QUESTION_GIVERTYPE ="givertype";
 var FEEDBACK_QUESTION_RECIPIENTTYPE ="recipienttype";
 var FEEDBACK_QUESTION_NUMBEROFENTITIES ="numofrecipients";
 var FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
 var FEEDBACK_QUESTION_TYPE ="questiontype";
+var FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
+var FEEDBACK_QUESTION_NUMBEROFCHOICECREATED ="noofchoicecreated";
 var FEEDBACK_QUESTION_NUMBER ="questionnum";
 var FEEDBACK_QUESTION_TEXT ="questiontext";
 var FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
@@ -41,6 +43,8 @@ var FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
 var FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
 var FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 var FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
+var FEEDBACK_QUESTION_TYPENAME_TEXT = "Essay question";
+var FEEDBACK_QUESTION_TYPENAME_MCQ = "Multiple-choice question";
 
 // Display messages
 // Used for validating input
@@ -92,6 +96,33 @@ var TEAMNAME_MAX_LENGTH = 24;
 var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
+
+function initializenavbar(){
+	//Get Element By Class Name, in this case nav hyperlinks, it should return an array of items
+	var tabs = document.getElementsByClassName('nav');
+	//Get the url of the current page
+	var url = document.location;
+			
+	if (url.href.charAt(url.length-1) == '/') {
+	//Get the final URL sub string of the page e.g. InstructorEval, InstructorEvalEdit, etc.
+		url = url.substr(0,url.length - 1); 
+	}
+	//get the href link and cast it to lower case for string comparison purposes
+	var curPage = url.href.split('/').pop().toLowerCase();
+			
+	for (i=0; i<tabs.length; i++){
+	//Search the so called tabs, using an attribute call data-link as defined in the href link
+	//This attribute will tell which section of the page the user is on and cast to lower case
+		var link = String(tabs[i].getAttribute('data-link')).toLowerCase();
+		if (curPage.indexOf(link) != -1){ 
+		//if curPage contains any part of the link as defined by data-link, then its found
+		tabs[i].parentNode.className = "current"; 
+		//so set the parentNode classname which is the <li> in this case to class current
+		//as defined in common.css
+		} 
+	}
+}
+
 /**
  * Sorts a table
  * 
@@ -128,7 +159,6 @@ function toggleSort(divElement, colIdx, comparator) {
  * 			  if this is true, it will be ascending order, else it will be descending order
  */
 function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
-			
 	//Get the table
 	var table = $(oneOfTableCell);
 	if (!table.is("table")){
@@ -210,19 +240,17 @@ function sortNum(x, y){
 
 
 /**
- * Comparator for date in (dd/mm/yyyy) format (ascending)
+ * Comparator for date. Allows for the same format as isDate()
  * 
  * @param x
  * @param y
- * @returns
+ * @returns 1 if Date x is after y, 0 if same and -1 if before
  */
 function sortDate(x, y){
-	//Date sorting
-	//Allows the following format
-	//DD MM YY or DD-MM-YY or DD/MM/YY or DD MM YYYY or DD-MM-YYYY or DD/MM/YYYY
-	x = x.replace(getDayMonthYearFormat(),"$3$2$1");
-	y = y.replace(getDayMonthYearFormat(),"$3$2$1");
-	return x-y;
+	x = Date.parse(x);
+	y = Date.parse(y);
+	var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
+	return comparisonResult;
 }
 
 /**
@@ -236,13 +264,19 @@ function getDayMonthYearFormat(){
 
 
 /**
-* Function that checks if the param is in DayMonthYearFormat (dd/mm/yyyy)
-* 
-* @param date
-* @returns boolean
-*/
+ * Tests whether the passed object is an actual date
+ * with an accepted format
+ * 
+ * Allowed formats : http://dygraphs.com/date-formats.html
+ * 
+ * TEAMMATES currently follows the RFC2822 / IETF date syntax 
+ * e.g. 02 Apr 2012, 23:59
+ * 
+ * @param date
+ * @returns boolean
+ */
 function isDate(date){
-	return date.match(getDayMonthYearFormat())!=null;
+	return !isNaN(Date.parse(date));
 }
 
 /**

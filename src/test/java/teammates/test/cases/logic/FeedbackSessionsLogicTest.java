@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -39,19 +40,15 @@ import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.cases.BaseComponentUsingEmailQueueTestCase;
+import teammates.test.automated.FeedbackSessionPublishedReminderTest.FeedbackSessionPublishedCallback;
+import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
+import teammates.test.cases.BaseTaskQueueCallback;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
-public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestCase {
-	
-	/* TODO: implement tests for the following:
-	 * 1. getFeedbackSessionsListForInstructor()
-	 * 2. getFeedbackSessionsListForCourse()
-	 */
+public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCase {
 	private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 	private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 	private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -67,8 +64,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		
 	}
 	
+	@BeforeMethod
+	public void methodSetUp() throws Exception {
+		dataBundle = getTypicalDataBundle();
+	}
+	
 	@SuppressWarnings("serial")
-	public static class PublishUnpublishSessionCallback implements LocalTaskQueueCallback {
+	public static class PublishUnpublishSessionCallback extends BaseTaskQueueCallback {
 		
 		@Override
 		public int execute(URLFetchRequest request) {
@@ -78,10 +80,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 			EmailAction action = new FeedbackSessionPublishedMailAction(paramMap);
 			action.getPreparedEmailsAndPerformSuccessOperations();
 			return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
-		}
-
-		@Override
-		public void initialize(Map<String, String> arg0) {
 		}
 	}
 	
@@ -356,12 +354,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		// Student can see sessions 1 and 2. Session 3 has no questions. Session 4 is not yet visible for students.
 		String expected =
 				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL +
-				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL;
-				
+				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
+				dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+		
 		for (FeedbackSessionAttributes session : actualSessions) {
 			AssertHelper.assertContains(session.toString(), expected);
 		}
-		assertTrue(actualSessions.size() == 2);
+		assertTrue(actualSessions.size() == 3);
 		
 		// Course 2 only has an instructor session and a private session.
 		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.com");		
@@ -378,12 +377,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 				dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL +
 				dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
 				dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL + 
-				dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL;
+				dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL +
+				dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
 		
 		for (FeedbackSessionAttributes session : actualSessions) {
 			AssertHelper.assertContains(session.toString(), expected);
 		}
-		assertTrue(actualSessions.size() == 4);
+		assertTrue(actualSessions.size() == 5);
 		
 		// We should only have one session here as session 2 is private and this instructor is not the creator.
 		actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.com");
@@ -731,30 +731,31 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		String export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
 				session.feedbackSessionName, session.courseId, instructor.email);
 		
-		// This is what export should look like:
-		// ==================================
-		//Course,idOfTypicalCourse1
-		//Session Name,First feedback session
-		//
-		//
-		//Question 1,"What is the best selling point of your product?"
-		//
-		//Giver,Recipient,Feedback
-		//"student1 In Course1","student1 In Course1","Student 1 self feedback."
-		//"student2 In Course1","student2 In Course1","I'm cool'"
-		//
-		//
-		//Question 2,"Rate 5 other students' products",
-		//Giver,Recipient,Feedback
-		//"student1 In Course1","student1 In Course1","Response from student 1 to student 2."
-		//"student2 In Course1","student1 In Course1","Response from student 2 to student 1."
-		//"student3 In Course1","student2 In Course1","Response from student 3 ""to"" student 2.
-		//Multiline test."
-		//
-		//
-		//Question 3,"My comments on the class",
-		//Giver,Recipient,Feedback
-		//"Instructor1 Course1","-","Good work, keep it up!"
+		/* This is what export should look like:
+		==================================
+		Course,idOfTypicalCourse1
+		Session Name,First feedback session
+		
+		
+		Question 1,"What is the best selling point of your product?"
+		
+		Giver,Recipient,Feedback
+		"student1 In Course1","student1 In Course1","Student 1 self feedback."
+		"student2 In Course1","student2 In Course1","I'm cool'"
+		
+		
+		Question 2,"Rate 5 other students' products",
+		Giver,Recipient,Feedback
+		"student1 In Course1","student1 In Course1","Response from student 1 to student 2."
+		"student2 In Course1","student1 In Course1","Response from student 2 to student 1."
+		"student3 In Course1","student2 In Course1","Response from student 3 ""to"" student 2.
+		Multiline test."
+		
+		
+		Question 3,"My comments on the class",
+		Giver,Recipient,Feedback
+		"Instructor1 Course1","-","Good work, keep it up!"
+		*/
 		
 		String[] exportLines = export.split(Const.EOL);
 		assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
@@ -785,6 +786,40 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		// checking comma inside cell
 		assertEquals(exportLines[23], "\"Instructor1 Course1\",\"-\",\"Good work, keep it up!\"");
 		
+		______TS("MCQ results");
+		
+		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+		session = dataBundle.feedbackSessions.get("mcqSession");
+		instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		
+		export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+				session.feedbackSessionName, session.courseId, instructor.email);
+		
+		/*This is how the export should look like
+		=======================================
+		Course,"idOfTypicalCourse1"
+		Session Name,"MCQ Session"
+		 
+		 
+		Question 1,"What do you like best about our product?"
+		 
+		Giver,Recipient,Feedback
+		"student1 In Course1","student1 In Course1","It's good"
+		"student2 In Course1","student2 In Course1","It's perfect"
+		*/
+		
+		exportLines = export.split(Const.EOL);
+		assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+		assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+		assertEquals(exportLines[2], "");
+		assertEquals(exportLines[3], "");
+		assertEquals(exportLines[4], "Question 1,\"What do you like best about our product?\"");
+		assertEquals(exportLines[5], "");
+		assertEquals(exportLines[6], "Giver,Recipient,Feedback");
+		assertEquals(exportLines[7], "\"student1 In Course1\",\"student1 In Course1\",\"It's good\"");
+		assertEquals(exportLines[8], "\"student2 In Course1\",\"student2 In Course1\",\"It's perfect\"");
+				
 		______TS("Non-existent Course/Session");
 		
 		try {
@@ -802,6 +837,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 	@Test
 	public void testPublishUnpublishFeedbackSession() throws Exception {
 		restoreTypicalDataInDatastore();
+		PublishUnpublishSessionCallback.resetTaskCount();
 		
 		______TS("success: publish");
 		FeedbackSessionAttributes
@@ -814,7 +850,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingEmailQueueTestC
 		
 		fsLogic.publishFeedbackSession(
 				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
-		waitForTaskQueueExecution(1);
+		FeedbackSessionPublishedCallback.waitForTaskQueueExecution(1);
 		sessionUnderTest.sentPublishedEmail = true;
 		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
 		
