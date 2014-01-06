@@ -25,6 +25,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.storage.api.CoursesDb;
 
@@ -112,6 +113,10 @@ public class CoursesLogic {
 
 	public boolean isCoursePresent(String courseId) {
 		return coursesDb.getCourse(courseId) != null;
+	}
+	
+	public boolean isSampleCourse(String courseId) {
+		return courseId.matches(FieldValidator.REGEX_SAMPLE_COURSE_ID);
 	}
 	
 	public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{

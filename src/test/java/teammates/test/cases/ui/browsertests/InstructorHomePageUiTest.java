@@ -112,6 +112,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		//already logged in
 		homePage.verifyHtmlAjax("/instructorHomeHTML.html");
 		
+		______TS("content: new instructor");
+		//TODO: to be implemented
+		
 	}
 	
 	public void testHelpLink() throws Exception{

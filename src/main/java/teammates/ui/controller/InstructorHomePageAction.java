@@ -8,6 +8,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessages;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorHomePageAction extends Action {
@@ -32,7 +33,10 @@ public class InstructorHomePageAction extends Action {
 		for(CourseSummaryBundle course: data.courses){
 			FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
 		}
-		   
+		
+		if (logic.isNewInstructor(account.googleId)) {
+			statusToUser.add(StatusMessages.HINT_FOR_NEW_INSTRUCTOR);
+		}
 		statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + data.courses.size();
 		
 		ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);

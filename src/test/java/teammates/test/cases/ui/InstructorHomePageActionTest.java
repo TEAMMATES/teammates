@@ -52,9 +52,13 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
 		InstructorHomePageAction a = getAction(submissionParams);
 		ShowPageResult r = getShowPageResult(a);
-		AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?error=false&user=instructorWithoutCourses", r.getDestinationWithParams());
+		AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?message=New+to+TEAMMATES%3F+You+may+wish+to+have+a+look+at+our+"
+				+ "%3Ca+href%3D%27%2FinstructorHelp.html%23gs%27+target%3D%27_blank%27%3EGetting+Started+Guide%3C%2Fa%3E.%3Cbr%3EA+%3Ca+"
+				+ "href%3D%27https%3A%2F%2Fyoutube.googleapis.com%2Fv%2FwCxBOUEiD6Q%26hd%3D1%26autoplay%3D1%26rel%3D0%27+target%3D%27_blank%27%3E"
+				+ "video+tour%3C%2Fa%3E+is+also+available+in+our+%3Ca+href%3D%27%2Findex.html%27+target%3D%27_blank%27%3Ehome+page%3C%2Fa%3E.&"
+				+ "error=false&user=instructorWithoutCourses", r.getDestinationWithParams());
 		assertEquals(false, r.isError);
-		assertEquals("",r.getStatusMessage());
+		assertEquals(Const.StatusMessages.HINT_FOR_NEW_INSTRUCTOR, r.getStatusMessage());
 		
 		InstructorHomePageData data = (InstructorHomePageData)r.data;
 		assertEquals(0, data.courses.size());
@@ -109,6 +113,11 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		
 	}
 
+	@Test
+	public void testIsNewInstructor() {
+		//TODO: to be implemented
+	}
+	
 	private InstructorHomePageAction getAction(String... params) throws Exception{
 			return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
 	}

@@ -264,6 +264,8 @@ public class FieldValidator {
 	
 	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
 	private static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
+
+	public static final String REGEX_SAMPLE_COURSE_ID = REGEX_COURSE_ID + "-demo\\d*";
 	
 	//Allows anything with some non-empty text followed by '@' followed by another non-empty text
 	// We have made this less restrictive because there is no accepted regex to check the validity of email addresses.
