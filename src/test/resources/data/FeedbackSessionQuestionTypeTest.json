@@ -201,7 +201,7 @@
 			"feedbackSessionName":"MCQ Session",
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
 			},
 			"questionNumber":"1",
@@ -224,7 +224,7 @@
 			"feedbackSessionName":"MCQ Session",
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionText\":\"What do you like best about the class' product?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
 			},
 			"questionNumber":"2",
@@ -252,7 +252,7 @@
 			"feedbackQuestionType":"MCQ",
 			"giverEmail":"student1InCourse1@gmail.com",
 			"recipientEmail":"student1InCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's good\", \"otherFieldContent\" : \"\"}"
 			}
 			
@@ -264,7 +264,7 @@
 			"feedbackQuestionType":"MCQ",
 			"giverEmail":"student2InCourse1@gmail.com",
 			"recipientEmail":"student2InCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's perfect\", \"otherFieldContent\" : \"\"}"
 			}
 			
@@ -276,7 +276,7 @@
 			"feedbackQuestionType":"MCQ",
 			"giverEmail":"instructor1@course1.com",
 			"recipientEmail":"instructor1@course1.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's good\", \"otherFieldContent\" : \"\"}"
 			}
 			
@@ -288,7 +288,7 @@
 			"feedbackQuestionType":"MCQ",
 			"giverEmail":"instructor2@course1.com",
 			"recipientEmail":"instructor2@course1.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's perfect\", \"otherFieldContent\" : \"\"}"
 			}
 			

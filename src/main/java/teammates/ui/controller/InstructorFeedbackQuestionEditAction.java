@@ -127,7 +127,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 		if (questionText != null) {
 			switch(newQuestion.questionType){
 			case TEXT:
-				newQuestion.questionText = new Text(questionText);
+				newQuestion.questionMetaData = new Text(questionText);
 				break;
 			case MCQ:
 				String numberOfChoicesCreatedString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);

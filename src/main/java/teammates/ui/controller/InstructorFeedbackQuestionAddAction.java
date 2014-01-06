@@ -108,7 +108,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 		//i.e. type-specific code can be put in the corresponding question-type class
 		switch(newQuestion.questionType){
 		case TEXT:
-			newQuestion.questionText = new Text(questionText);
+			newQuestion.questionMetaData = new Text(questionText);
 			break;
 		case MCQ:
 			String numberOfChoicesCreatedString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);

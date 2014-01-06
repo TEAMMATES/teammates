@@ -456,7 +456,7 @@
 			"feedbackSessionName":"First feedback session",
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"What is the best selling point of your product?"
 			},
 			"questionNumber":"1",
@@ -478,7 +478,7 @@
 			"feedbackSessionName":"First feedback session",
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Rate 1 other student's product"
 			},
 			"questionNumber":"2",
@@ -502,7 +502,7 @@
 			"feedbackSessionName":"First feedback session",
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"My comments on the class"
 			},
 			"questionNumber":"3",
@@ -533,7 +533,7 @@
 			"feedbackSessionName":"Second feedback session",
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to 2 other teams."
 			},
 			"questionNumber":"1",
@@ -555,7 +555,7 @@
 			"feedbackSessionName":"Second feedback session",
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to 1 of your team mates"
 			},
 			"questionNumber":"2",
@@ -577,7 +577,7 @@
 			"feedbackSessionName":"Grace Period Session",
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to 2 other teams."
 			},
 			"questionNumber":"1",
@@ -599,7 +599,7 @@
 			"feedbackSessionName":"non visible session",
 			"courseId":"idOfTypicalCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to 4 other students"
 			},
 			"questionNumber":"1",
@@ -621,7 +621,7 @@
 			"feedbackSessionName":"Private feedback session",
 			"courseId":"idOfTypicalCourse2",
 			"creatorEmail":"instructor1@course2.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"This is a private session for myself"
 			},
 			"questionNumber":"1",
@@ -643,7 +643,7 @@
 			"feedbackSessionName":"Instructor feedback session",
 			"courseId":"idOfTypicalCourse2",
 			"creatorEmail":"instructor1@course2.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Please rate the following teams"
 			},
 			"questionNumber":"1",
@@ -665,7 +665,7 @@
 			"feedbackSessionName":"Instructor feedback session",
 			"courseId":"idOfTypicalCourse2",
 			"creatorEmail":"instructor1@course2.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Please rate your fellow instructors"
 			},
 			"questionNumber":"2",
@@ -692,7 +692,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student1InCourse1@gmail.com",
 			"recipientEmail":"student1InCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Student 1 self feedback."
 			}
 		},
@@ -703,7 +703,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student2InCourse1@gmail.com",
 			"recipientEmail":"student2InCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"I'm cool'"
 			}
 		},
@@ -714,7 +714,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student2InCourse1@gmail.com",
 			"recipientEmail":"student1InCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response from student 2 to student 1."
 			}
 		},
@@ -725,7 +725,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student1InCourse1@gmail.com",
 			"recipientEmail":"student2InCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response from student 1 to student 2."
 			}
 		},
@@ -736,7 +736,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student3InCourse1@gmail.com",
 			"recipientEmail":"student2InCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
 			}
 		},
@@ -747,7 +747,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"instructor1@course1.com",
 			"recipientEmail":"%GENERAL%",
-			"answer":{
+			"responseMetaData":{
 				"value":"Good work, keep it up!"
 			}
 		},
@@ -758,7 +758,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student4InCourse1@gmail.com",
 			"recipientEmail":"Team 1.2",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response from team 1 by (student 4) to team 1.2."
 			}
 		},
@@ -769,7 +769,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student4InCourse1@gmail.com",
 			"recipientEmail":"Team 1.2",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response from team 1 by (student 4) to team 1.2."
 			}
 		},
@@ -780,7 +780,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student4InCourse1@gmail.com",
 			"recipientEmail":"student2InCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response from student 4 to team member (student 2)."
 			}
 		},
@@ -791,7 +791,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"student1InCourse1@gmail.com",
 			"recipientEmail":"student4InCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response from student 1 to team member (student 4)."
 			}
 		},
@@ -802,7 +802,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"instructor1@course2.com",
 			"recipientEmail":"Team 2.1",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response from instr to Team 2.1"
 			}
 		}

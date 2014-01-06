@@ -162,7 +162,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"CFResultsUiT.CS2104",
 			"creatorEmail":"CFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Rate 3 other students' products"
 			},
 			"questionNumber":"1",
@@ -189,7 +189,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"CFResultsUiT.CS2104",
 			"creatorEmail":"CFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"What is the best selling point of your product?"
 			},
 			"questionNumber":"2",
@@ -214,7 +214,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"CFResultsUiT.CS2104",
 			"creatorEmail":"CFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"My comments on the class"
 			},
 			"questionNumber":"3",
@@ -236,7 +236,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"CFResultsUiT.CS2104",
 			"creatorEmail":"CFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to 3 other teams."
 			},
 			"questionNumber":"4",
@@ -258,7 +258,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"CFResultsUiT.CS2104",
 			"creatorEmail":"CFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to your team mates"
 			},
 			"questionNumber":"5",
@@ -280,7 +280,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"CFResultsUiT.CS2104",
 			"creatorEmail":"CFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"This question should be hidden."
 			},
 			"questionNumber":"6",
@@ -302,7 +302,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"CFResultsUiT.CS2104",
 			"creatorEmail":"CFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is your extra feature?\",\"numOfMcqChoices\":4,\"mcqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"7",
@@ -327,7 +327,7 @@
 			"feedbackSessionName":"Second Session",
 			"courseId":"CFResultsUiT.CS2104",
 			"creatorEmail":"CFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to your instructors"
 			},
 			"questionNumber":"1",
@@ -354,7 +354,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"CFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"CFResultsUiT.alice.b@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Alice self feedback."
 			}
 		},
@@ -365,7 +365,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"CFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"CFResultsUiT.benny.c@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"2 Response to Benny."
 			}
 		},
@@ -376,7 +376,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"CFResultsUiT.benny.c@gmail.com",
 			"recipientEmail":"CFResultsUiT.danny.e@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"1 Response to Danny."
 			}
 		},
@@ -387,7 +387,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"CFResultsUiT.charlie.d@gmail.com",
 			"recipientEmail":"CFResultsUiT.emily.f@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"3 Response to Emily."
 			}
 		},
@@ -398,7 +398,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"CFResultsUiT.benny.c@gmail.com",
 			"recipientEmail":"CFResultsUiT.charlie.d@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"4 Response to Charlie."
 			}
 		},
@@ -409,7 +409,7 @@
 			"feedbackQuestionType":"MCQ",
 			"giverEmail":"CFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"CFResultsUiT.alice.b@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"PowerSearch\", \"otherFieldContent\" : \"\"}"
 			}
 		}

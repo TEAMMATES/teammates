@@ -45,14 +45,14 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 		
 		FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
 		
-		responseToUpdate.answer = new Text("Updated Response");
+		responseToUpdate.responseMetaData = new Text("Updated Response");
 		responseToUpdate.feedbackSessionName = "copy over";
 		responseToUpdate.recipientEmail = null;
 		
 		frLogic.updateFeedbackResponse(responseToUpdate);
 		
 		responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-		responseToUpdate.answer = new Text("Updated Response");
+		responseToUpdate.responseMetaData = new Text("Updated Response");
 		
 		assertEquals(frLogic.getFeedbackResponse(
 				responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
@@ -100,7 +100,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 						responseToUpdate.feedbackQuestionType, 
 						responseToUpdate.giverEmail, 
 						"student3InCourse1@gmail.com", 
-						responseToUpdate.answer);
+						responseToUpdate.responseMetaData);
 		
 		frLogic.createFeedbackResponse(existingResponse);
 		

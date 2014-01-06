@@ -232,7 +232,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 					ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
 		}
 		
-		fr.setAnswer(newAttributes.answer);
+		fr.setAnswer(newAttributes.responseMetaData);
 		fr.setRecipientEmail(newAttributes.recipientEmail);
 				
 		getPM().close();

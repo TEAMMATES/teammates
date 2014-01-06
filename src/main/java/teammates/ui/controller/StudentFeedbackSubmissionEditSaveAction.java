@@ -71,7 +71,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 			throws EntityDoesNotExistException {
 		if (response.getId() != null) {
 			// Delete away response if any empty fields
-			if (response.answer.getValue().isEmpty() || 
+			if (response.responseMetaData.getValue().isEmpty() || 
 				response.recipientEmail.isEmpty()) {
 				logic.deleteFeedbackResponse(response);
 				return;
@@ -81,7 +81,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 			} catch (EntityAlreadyExistsException | InvalidParametersException e) {
 				setStatusForException(e);
 			}
-		} else if (!response.answer.getValue().isEmpty() &&
+		} else if (!response.responseMetaData.getValue().isEmpty() &&
 					!response.recipientEmail.isEmpty()){
 			try {
 				logic.createFeedbackResponse(response);
@@ -125,7 +125,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 		switch(response.feedbackQuestionType) {
 		case TEXT:
 			//For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
-			response.answer = new Text(answer);
+			response.responseMetaData = new Text(answer);
 			break;
 		case MCQ:
 			//TODO check whether other is chosen and construct accordingly when implementing other field
@@ -134,7 +134,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends Action {
 				response.setQuestionDetails(mcqResponseDetails);
 			} else {  
 				//question was skipped
-				response.answer = new Text(new String());
+				response.responseMetaData = new Text(new String());
 			}
 			break;
 		default:

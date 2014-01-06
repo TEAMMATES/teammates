@@ -159,7 +159,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		assertEquals(editedResponse,
 				BackDoor.getFeedbackResponse(fq.getId(),
 					"SFSubmitUiT.alice.b@gmail.com",
-					"SFSubmitUiT.benny.c@gmail.com").answer.getValue());
+					"SFSubmitUiT.benny.c@gmail.com").responseMetaData.getValue());
 		fq = BackDoor.getFeedbackQuestion(
 				"SFSubmitUiT.CS2104",
 				"First Session", 4);

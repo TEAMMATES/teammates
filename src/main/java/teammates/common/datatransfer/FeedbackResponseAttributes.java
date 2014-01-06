@@ -24,7 +24,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	 * Don't use directly unless for storing/loading from data store <br>
 	 * To get the answer text use {@code getQuestionDetails().getAnswerString()} 
 	 */
-	public Text answer; //TODO rename to responseMetaData
+	public Text responseMetaData;
 	
 	public FeedbackResponseAttributes() {
 		
@@ -33,14 +33,14 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public FeedbackResponseAttributes(String feedbackSessionName,
 			String courseId, String feedbackQuestionId,
 			FeedbackQuestionType feedbackQuestionType, String giverEmail,
-			String recipientEmail, Text answer) {
+			String recipientEmail, Text responseMetaData) {
 		this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
 		this.courseId = Sanitizer.sanitizeTitle(courseId);
 		this.feedbackQuestionId = feedbackQuestionId;
 		this.feedbackQuestionType = feedbackQuestionType;
 		this.giverEmail = Sanitizer.sanitizeEmail(giverEmail);
 		this.recipientEmail = recipientEmail;
-		this.answer = Sanitizer.sanitizeTextField(answer);
+		this.responseMetaData = responseMetaData;
 	}
 
 	public FeedbackResponseAttributes(FeedbackResponse fr) {
@@ -51,7 +51,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		this.feedbackQuestionType = fr.getFeedbackQuestionType();
 		this.giverEmail = fr.getGiverEmail();
 		this.recipientEmail = fr.getRecipientEmail();
-		this.answer = fr.getAnswer();
+		this.responseMetaData = fr.getResponseMetaData();
 	}
 	
 	public FeedbackResponseAttributes(FeedbackResponseAttributes copy) {
@@ -62,7 +62,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		this.feedbackQuestionType = copy.feedbackQuestionType;
 		this.giverEmail = copy.giverEmail;
 		this.recipientEmail = copy.recipientEmail;
-		this.answer = copy.answer;
+		this.responseMetaData = copy.responseMetaData;
 	}
 
 	public String getId() {
@@ -101,7 +101,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public Object toEntity() {
 		return new FeedbackResponse(feedbackSessionName, courseId,
 				feedbackQuestionId, feedbackQuestionType,
-				giverEmail, recipientEmail, answer);
+				giverEmail, recipientEmail, responseMetaData);
 	}
 	
 	@Override
@@ -121,7 +121,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 				+ ", feedbackQuestionId=" + feedbackQuestionId
 				+ ", feedbackQuestionType=" + feedbackQuestionType
 				+ ", giverEmail=" + giverEmail + ", recipientEmail=" + recipientEmail
-				+ ", answer=" + answer + "]";
+				+ ", answer=" + responseMetaData + "]";
 	}
 
 	@Override
@@ -138,9 +138,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		if(responseDetails.questionType == FeedbackQuestionType.TEXT) {
 			// For Text questions, the answer simply contains the response text, not a JSON
 			// This is due to legacy data in the data store before there were multiple question types
-			answer = new Text(responseDetails.getAnswerString());
+			responseMetaData = new Text(responseDetails.getAnswerString());
 		} else {
-			answer = new Text(gson.toJson(responseDetails, getFeedbackResponseDetailsClass()));
+			responseMetaData = new Text(gson.toJson(responseDetails, getFeedbackResponseDetailsClass()));
 		}
 	}
 	
@@ -153,10 +153,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		if(responseDetailsClass == FeedbackTextResponseDetails.class) {
 			// For Text questions, the questionText simply contains the question, not a JSON
 			// This is due to legacy data in the data store before there are multiple question types
-			return new FeedbackTextResponseDetails(answer.getValue());
+			return new FeedbackTextResponseDetails(responseMetaData.getValue());
 		} else {
 			Gson gson = teammates.common.util.Utils.getTeammatesGson();
-			return gson.fromJson(answer.getValue(), responseDetailsClass);
+			return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
 		}
 	}
 	

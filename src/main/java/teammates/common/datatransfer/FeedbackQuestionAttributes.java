@@ -22,7 +22,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	 * Don't use directly unless for storing/loading from data store <br>
 	 * To get the question text use {@code getQuestionDetails().questionText} 
 	 */
-	public Text questionText; //TODO rename to questionMetaData
+	public Text questionMetaData;
 	public int questionNumber;
 	public FeedbackQuestionType questionType;
 	public FeedbackParticipantType giverType;
@@ -41,7 +41,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		this.feedbackSessionName = fq.getFeedbackSessionName();
 		this.courseId = fq.getCourseId();
 		this.creatorEmail = fq.getCreatorEmail();
-		this.questionText = fq.getQuestionText();
+		this.questionMetaData = fq.getQuestionMetaData();
 		this.questionNumber = fq.getQuestionNumber();
 		this.questionType = fq.getQuestionType();
 		this.giverType = fq.getGiverType();
@@ -56,7 +56,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 			String feedbackSessionName,
 			String courseId,
 			String creatorEmail,
-			Text questionText,
+			Text questionMetaData,
 			int questionNumber,
 			FeedbackQuestionType questionType,
 			FeedbackParticipantType giverType,
@@ -69,7 +69,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
 		this.courseId = Sanitizer.sanitizeTitle(courseId);
 		this.creatorEmail = Sanitizer.sanitizeGoogleId(creatorEmail);
-		this.questionText = Sanitizer.sanitizeTextField(questionText);
+		this.questionMetaData = questionMetaData;
 		this.questionNumber = questionNumber;
 		this.questionType = questionType;
 		this.giverType = giverType;
@@ -84,7 +84,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		return feedbackQuestionId;
 	}
 	
-	// NOTE: Only use this to match and search for the ID of a known existing question entity.
+	/** NOTE: Only use this to match and search for the ID of a known existing question entity.
+	 */
 	public void setId(String id) {
 		this.feedbackQuestionId = id;
 	}
@@ -92,7 +93,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	public FeedbackQuestion toEntity() {
 		return new FeedbackQuestion(
 				feedbackSessionName, courseId, creatorEmail,
-				questionText, questionNumber, questionType, giverType,
+				questionMetaData, questionNumber, questionType, giverType,
 				recipientType, numberOfEntitiesToGiveFeedbackTo,
 				showResponsesTo, showGiverNameTo, showRecipientNameTo);
 	}
@@ -102,7 +103,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		return "FeedbackQuestionAttributes [feedbackSessionName="
 				+ feedbackSessionName + ", courseId=" + courseId
 				+ ", creatorEmail=" + creatorEmail + ", questionText="
-				+ questionText + ", questionNumber=" + questionNumber
+				+ questionMetaData + ", questionNumber=" + questionNumber
 				+ ", questionType=" + questionType + ", giverType=" + giverType
 				+ ", recipientType=" + recipientType
 				+ ", numberOfEntitiesToGiveFeedbackTo="
@@ -113,7 +114,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 
 	@Override
 	public String getIdentificationString() {
-		return this.questionNumber + ". " + this.questionText.toString() + "/" + this.feedbackSessionName + "/" + this.courseId;
+		return this.questionNumber + ". " + this.questionMetaData.toString() + "/" + this.feedbackSessionName + "/" + this.courseId;
 	}
 
 	@Override
@@ -286,7 +287,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		result = prime * result + numberOfEntitiesToGiveFeedbackTo;
 		result = prime * result + questionNumber;
 		result = prime * result
-				+ ((questionText == null) ? 0 : questionText.hashCode());
+				+ ((questionMetaData == null) ? 0 : questionMetaData.hashCode());
 		result = prime * result
 				+ ((questionType == null) ? 0 : questionType.hashCode());
 		result = prime * result
@@ -344,11 +345,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		if (questionNumber != other.questionNumber) {
 			return false;
 		}
-		if (questionText == null) {
-			if (other.questionText != null) {
+		if (questionMetaData == null) {
+			if (other.questionMetaData != null) {
 				return false;
 			}
-		} else if (!questionText.equals(other.questionText)) {
+		} else if (!questionMetaData.equals(other.questionMetaData)) {
 			return false;
 		}
 		if (questionType != other.questionType) {
@@ -388,8 +389,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		newAttributes.courseId = this.courseId;
 		newAttributes.creatorEmail = this.creatorEmail;
 
-		if (newAttributes.questionText == null) {
-			newAttributes.questionText = this.questionText;
+		if (newAttributes.questionMetaData == null) {
+			newAttributes.questionMetaData = this.questionMetaData;
 		}
 		if (newAttributes.questionType == null) {
 			newAttributes.questionType = this.questionType;
@@ -457,10 +458,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		case TEXT:
 			// For Text questions, the questionText simply contains the question, not a JSON
 			// This is due to legacy data in the data store before there are multiple question types
-			questionText = new Text(questionDetails.questionText);
+			questionMetaData = new Text(questionDetails.questionText);
 			break;
 		case MCQ:
-			questionText = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
+			questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
 			break;
 		default:
 			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
@@ -478,10 +479,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		// For Text questions, the questionText simply contains the question, not a JSON
 		// This is due to legacy data in the data store before there are multiple question types
 		if(questionDetailsClass == FeedbackTextQuestionDetails.class) {
-			return new FeedbackTextQuestionDetails(questionText.getValue());
+			return new FeedbackTextQuestionDetails(questionMetaData.getValue());
 		} else {
 			Gson gson = teammates.common.util.Utils.getTeammatesGson();
-			return gson.fromJson(questionText.getValue(), questionDetailsClass);
+			return gson.fromJson(questionMetaData.getValue(), questionDetailsClass);
 		}
 	}
 	

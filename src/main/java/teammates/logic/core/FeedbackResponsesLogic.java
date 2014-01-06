@@ -229,8 +229,8 @@ public class FeedbackResponsesLogic {
 		newResponse.feedbackQuestionId = oldResponse.feedbackQuestionId;
 		newResponse.feedbackQuestionType = oldResponse.feedbackQuestionType;
 		
-		if (newResponse.answer == null) {
-			newResponse.answer = oldResponse.answer;
+		if (newResponse.responseMetaData == null) {
+			newResponse.responseMetaData = oldResponse.responseMetaData;
 		}
 		if (newResponse.giverEmail == null) {
 			newResponse.giverEmail = oldResponse.giverEmail;

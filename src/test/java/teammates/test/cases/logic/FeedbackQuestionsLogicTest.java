@@ -188,7 +188,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 	public void testUpdateQuestion() throws Exception {
 		______TS("standard update, no existing responses, with 'keep existing' policy");
 		FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
-		questionToUpdate.questionText = new Text("new question text");
+		questionToUpdate.questionMetaData = new Text("new question text");
 		questionToUpdate.questionNumber = 3;
 		List<FeedbackParticipantType> newVisibility = 
 				new LinkedList<FeedbackParticipantType>();
@@ -208,7 +208,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		______TS("cascading update, non-destructive changes, existing responses are preserved");
 		questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
-		questionToUpdate.questionText = new Text("new question text 2");
+		questionToUpdate.questionMetaData = new Text("new question text 2");
 		questionToUpdate.numberOfEntitiesToGiveFeedbackTo = 2;
 		
 		int numberOfResponses =
@@ -225,7 +225,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		______TS("cascading update, destructive changes, delete all existing responses");
 		questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
-		questionToUpdate.questionText = new Text("new question text 3");
+		questionToUpdate.questionMetaData = new Text("new question text 3");
 		questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
 		
 		assertTrue(frLogic.getFeedbackResponsesForQuestion(
