@@ -78,9 +78,9 @@ public class InstructorStudentListPage extends AppPage {
 	
 	private int getCourseNumber(String courseId) {
 		int id = 0;
-		while (isElementPresent(By.id("course" + id))) {
+		while (isElementPresent(By.id("course-" + id))) {
 			if (getElementText(
-					By.xpath("//div[@id='course" + id + "']/div[@class='courseTitle']/h2"))
+					By.xpath("//div[@id='course-" + id + "']/div[@class='courseTitle']/h2"))
 					.startsWith("[" + courseId + "]")) {
 				return id;
 			}
@@ -102,29 +102,29 @@ public class InstructorStudentListPage extends AppPage {
 	}
 	
 	private String getStudentNameInRow(int rowId) {
-		String xpath = "//tr[@class='student_row' and @id='student"
+		String xpath = "//tr[@class='student_row' and @id='student-"
 				+ rowId	+ "']//td[@id='" + Const.ParamsNames.STUDENT_NAME + "']";
 		return browser.driver.findElement(By.xpath(xpath)).getText();
 	}
 	
 	private WebElement getEnrollLink(int courseNumber) {
-		return browser.driver.findElement(By.className("t_course_enroll" + courseNumber));
+		return browser.driver.findElement(By.className("t_course_enroll-" + courseNumber));
 	}
 	
 	private WebElement getViewLink(int rowId) {
-		return browser.driver.findElement(By.className("t_student_details" + rowId));
+		return browser.driver.findElement(By.className("t_student_details-" + rowId));
 	}
 	
 	private WebElement getEditLink(int rowId) {
-		return browser.driver.findElement(By.className("t_student_edit" + rowId));
+		return browser.driver.findElement(By.className("t_student_edit-" + rowId));
 	}
 	
 	private WebElement getViewRecordsLink(int rowId) {
-		return browser.driver.findElement(By.className("t_student_records" + rowId));
+		return browser.driver.findElement(By.className("t_student_records-" + rowId));
 	}
 	
 	private WebElement getDeleteLink(int rowId) {
-		return browser.driver.findElement(By.className("t_student_delete" + rowId));
+		return browser.driver.findElement(By.className("t_student_delete-" + rowId));
 	}
 	
 	private String getElementText(By locator) {

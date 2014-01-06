@@ -15,8 +15,12 @@ function toggleDeleteStudentConfirmation(courseId, studentName) {
  * - case insensitive
  * - exact matching
  */
-function search(){
-	var $key = $('#searchbox').val();
+function searchName($key){
+	
+	if($key == undefined){
+		$key = $('#searchbox').val();
+	}
+
 	if($key == null || $key == ""){
 		resetView();
 	}else{
@@ -47,9 +51,9 @@ function search(){
 function hideEmails(){
 	$('.student_row').each(function(){
 		var $elementId = $(this).attr('id');
-		var $studentId = $elementId.substr($elementId.length - 1);
+		var $studentId = $elementId.split('-')[1];
 		if($(this).is(':hidden')){
-			$("#student_email" + $studentId).hide();
+			$("#student_email-" + $studentId).hide();
 		}
 	});
 }
@@ -87,6 +91,6 @@ $.extend($.expr[":"], {
  */
 $(document).ready(function(){
 	$('input#searchbox').keyup(function(e){
-		search();
+		search($(this).val());
 	});
 });
