@@ -91,6 +91,6 @@ $.extend($.expr[":"], {
  */
 $(document).ready(function(){
 	$('input#searchbox').keyup(function(e){
-		search($(this).val());
+		searchName($(this).val());
 	});
 });

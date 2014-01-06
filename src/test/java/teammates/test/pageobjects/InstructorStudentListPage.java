@@ -72,6 +72,11 @@ public class InstructorStudentListPage extends AppPage {
 		searchButton.click();
 	}
 	
+	public void setLiveSearchKey(String searchKey){
+		searchBox.clear();
+		searchBox.sendKeys(searchKey);
+	}
+	
 	public void clickShowEmail() {
 		showEmailLink.click();
 	}
