@@ -119,7 +119,7 @@
 		"feedbackSessionName" : "AutSessRem Closing Session",
 		"courseId" : "AutSessRem.course",
 		"creatorEmail" : "{$support.email}",
-		"questionText" : {"value" : "This question is so that closing reminders will be sent to students as it is unanswered."},
+		"questionMetaData" : {"value" : "This question is so that closing reminders will be sent to students as it is unanswered."},
 		"questionNumber" : "1",
 		"questionType" : "TEXT",
 		"giverType" : "STUDENTS",

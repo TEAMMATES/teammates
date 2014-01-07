@@ -122,7 +122,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 		question.feedbackSessionName = "test session"; 
 		question.courseId = "some course";
 		question.creatorEmail = "test@case.com";
-		question.questionText = new Text("test qn from teams->none.");
+		question.questionMetaData = new Text("test qn from teams->none.");
 		question.questionNumber = 1;
 		question.questionType = FeedbackQuestionType.TEXT;
 		question.giverType = FeedbackParticipantType.TEAMS;

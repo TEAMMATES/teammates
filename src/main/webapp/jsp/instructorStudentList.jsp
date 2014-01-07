@@ -56,7 +56,7 @@
 							onmouseover="ddrivetip('Search for student\'s name or course name')"
 							onmouseout="hideddrivetip()" tabindex="1"></td>
 						<td><input id="button_search" type="submit" class="button"
-							onclick="return search()" value="Search" tabindex="2"></td>
+							onclick="return searchName()" value="Search" tabindex="2"></td>
 					</tr>
 				</table>
 	
@@ -84,12 +84,12 @@
 						<%
 							if(totalCourseStudents >= 1){
 						%>
-								<li class="student_email" id="student_email<%=studentIdx%>" style="display: list-item;"><%=data.students.get(studentIdx).email %></li>
+								<li class="student_email" id="student_email-<%=studentIdx%>" style="display: list-item;"><%=data.students.get(studentIdx).email %></li>
 						<%
 							}
 							for(int i = studentIdx+1; i < studentIdx + totalCourseStudents; i++) {
 						%>
-								<li class="student_email" id="student_email<%=i%>" style="display: list-item;"><%=data.students.get(i).email %></li>
+								<li class="student_email" id="student_email-<%=i%>" style="display: list-item;"><%=data.students.get(i).email %></li>
 					<%
 							}
 							studentIdx += totalCourseStudents;
@@ -107,14 +107,14 @@
 						int totalCourseStudents = courseDetails.stats.studentsTotal;
 				%>
 	
-				<div class="backgroundBlock" id="course<%=courseIdx%>">
+				<div class="backgroundBlock" id="course-<%=courseIdx%>">
 					<div class="courseTitle">
 						<h2 class="color_white">
 							[<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
 						</h2>
 					</div>
 					<div class="enrollLink blockLink rightalign">
-						<a class="t_course_enroll<%=courseIdx%> color_white bold"
+						<a class="t_course_enroll-<%=courseIdx%> color_white bold"
 							href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
 							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL%>')"
 							onmouseout="hideddrivetip()"> Enroll Students</a>
@@ -134,26 +134,26 @@
 						<%
 							for (int i = studentIdx; i < studentIdx + totalCourseStudents; i++) {
 						%>
-						<tr class="student_row" id="student<%=i%>" style="display: table-row;">
+						<tr class="student_row" id="student-<%=i%>" style="display: table-row;">
 							<td id="studentname"><%=PageData.sanitizeForHtml(data.students.get(i).name)%></td>
 							<td class="centeralign no-print">
-								<a class="color_black t_student_details<%=i%>" 
+								<a class="color_black t_student_details-<%=i%>" 
 								href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, data.students.get(i))%>"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>')"
 								onmouseout="hideddrivetip()"> View</a> 
 								
-								<a class="color_black t_student_edit<%=i%>"
+								<a class="color_black t_student_edit-<%=i%>"
 								href="<%=data.getCourseStudentEditLink(courseDetails.course.id, data.students.get(i))%>"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_EDIT%>')"
 								onmouseout="hideddrivetip()"> Edit</a> 
 								
-								<a class="color_black t_student_delete<%=i%>"
+								<a class="color_black t_student_delete-<%=i%>"
 								href="<%=data.getCourseStudentDeleteLink(courseDetails.course.id, data.students.get(i))%>"
 								onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(data.students.get(i).name)%>')"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DELETE%>')"
 								onmouseout="hideddrivetip()"> Delete</a>
 								
-								<a class="color_black t_student_records<%=i%>"
+								<a class="color_black t_student_records-<%=i%>"
 								href="<%=data.getStudentRecordsLink(courseDetails.course.id, data.students.get(i))%>"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>')"
 								onmouseout="hideddrivetip()"> All Records</a>

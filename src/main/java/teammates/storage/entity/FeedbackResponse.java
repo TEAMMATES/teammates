@@ -35,12 +35,10 @@ public class FeedbackResponse {
 	private String giverEmail;
 		
 	@Persistent
-	private String receiver; //TODO: this might need an explanatory comment. is it email, id, ...?
-							 //From the test this is email but won't change the variable name yet
-							 //to avoid data store problems
+	private String receiver; //TODO: rename to receiverEmail, will require database conversion
 	
 	@Persistent
-	private Text answer;
+	private Text answer; //TODO: rename to responseMetaData, will require database conversion
 
 	public String getId() {
 		return feedbackResponseId;
@@ -99,7 +97,7 @@ public class FeedbackResponse {
 		this.receiver = receiverEmail;
 	}
 
-	public Text getAnswer() {
+	public Text getResponseMetaData() {
 		return answer;
 	}
 

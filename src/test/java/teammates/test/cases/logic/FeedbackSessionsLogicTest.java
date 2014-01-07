@@ -225,7 +225,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		fq.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
 		fq.giverType = FeedbackParticipantType.STUDENTS;
 		fq.recipientType = FeedbackParticipantType.TEAMS;
-		fq.questionText = new Text("question to be deleted through cascade");
+		fq.questionMetaData = new Text("question to be deleted through cascade");
 		fq.questionType = FeedbackQuestionType.TEXT;
 		fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
 		fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();

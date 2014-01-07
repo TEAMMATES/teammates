@@ -162,7 +162,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"What is the best selling point of your product?"
 			},
 			"questionNumber":"1",
@@ -187,7 +187,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Rate 3 other students' products"
 			},
 			"questionNumber":"2",
@@ -213,7 +213,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Comments about the class"
 			},
 			"questionNumber":"3",
@@ -235,7 +235,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to 3 other teams."
 			},
 			"questionNumber":"4",
@@ -257,7 +257,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to your team mates"
 			},
 			"questionNumber":"5",
@@ -279,7 +279,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"This question should be hidden."
 			},
 			"questionNumber":"6",
@@ -301,7 +301,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"7",
@@ -326,7 +326,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other teams' best feature?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"8",
@@ -348,7 +348,7 @@
 			"feedbackSessionName":"Second Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to your instructors"
 			},
 			"questionNumber":"1",

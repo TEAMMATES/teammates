@@ -162,7 +162,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"What is the best selling point of your product?"
 			},
 			"questionNumber":"1",
@@ -185,7 +185,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Rate 3 students' products"
 			},
 			"questionNumber":"2",
@@ -209,7 +209,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Comments about the class"
 			},
 			"questionNumber":"3",
@@ -231,7 +231,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"This question should be hidden."
 			},
 			"questionNumber":"4",
@@ -253,7 +253,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"This question should be hidden."
 			},
 			"questionNumber":"5",
@@ -275,7 +275,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to other instructors."
 			},
 			"questionNumber":"6",
@@ -297,7 +297,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"7",
@@ -320,7 +320,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other instructors' best feature?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"8",
@@ -342,7 +342,7 @@
 			"feedbackSessionName":"Second Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to your instructors"
 			},
 			"questionNumber":"1",
@@ -364,7 +364,7 @@
 			"feedbackSessionName":"Session in Grace Period",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback."
 			},
 			"questionNumber":"1",
@@ -386,7 +386,7 @@
 			"feedbackSessionName":"Private Session",
 			"courseId":"idOfCourse1",
 			"creatorEmail":"instructor1@course1.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"What is the best selling point of your product?"
 			},
 			"questionNumber":"1",
@@ -413,7 +413,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"instructor1@course1.com",
 			"recipientEmail":"instructor1@course1.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Instructor self feedback."
 			}
 		},
@@ -424,7 +424,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"instructor1@course1.com",
 			"recipientEmail":"student1inCourse1@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Instructor feedback to student 1."
 			}
 		},
@@ -435,7 +435,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"instructor1@course1.com",
 			"recipientEmail":"instructor2@course1.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response from instructor 1 to instructor 2."
 			}
 		},
@@ -446,7 +446,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"instructor1@course1.com",
 			"recipientEmail":"instructor1@course1.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Private response."
 			}
 		}

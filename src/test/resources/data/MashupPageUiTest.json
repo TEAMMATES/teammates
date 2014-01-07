@@ -424,7 +424,7 @@
 		"feedbackSessionName" : "First feedback session",
 		"courseId" : "CS2104",
 		"creatorEmail" : "teammates.test@gmail.com",
-		"questionText" : {"value" : "What is the best selling point of your product?"},
+		"questionMetaData" : {"value" : "What is the best selling point of your product?"},
 		"questionNumber" : "1",
 		"questionType" : "TEXT",
 		"giverType" : "STUDENTS",
@@ -438,7 +438,7 @@
 		"feedbackSessionName" : "First feedback session",
 		"courseId" : "CS2104",
 		"creatorEmail" : "teammates.test@gmail.com",
-		"questionText" : {"value" : "Rate 5 other students' products"},
+		"questionMetaData" : {"value" : "Rate 5 other students' products"},
 		"questionNumber" : "2",
 		"questionType" : "TEXT",
 		"giverType" : "STUDENTS",
@@ -452,7 +452,7 @@
 		"feedbackSessionName" : "First feedback session",
 		"courseId" : "CS2104",
 		"creatorEmail" : "teammates.test@gmail.com",
-		"questionText" : {"value" : "My comments on the class"},
+		"questionMetaData" : {"value" : "My comments on the class"},
 		"questionNumber" : "3",
 		"giverType" : "SELF",
 		"recipientType" : "NONE",
@@ -465,7 +465,7 @@
 		"feedbackSessionName" : "Second feedback session",
 		"courseId" : "CS2104",
 		"creatorEmail" : "teammates.test@gmail.com",
-		"questionText" : {"value" : "Give feedback to 2 other teams."},
+		"questionMetaData" : {"value" : "Give feedback to 2 other teams."},
 		"questionNumber" : "1",
 		"giverType" : "TEAMS",
 		"recipientType" : "TEAMS",
@@ -478,7 +478,7 @@
 		"feedbackSessionName" : "Second feedback session",
 		"courseId" : "CS2104",
 		"creatorEmail" : "teammates.test@gmail.com",
-		"questionText" : {"value" : "Give feedback to 1 of your team mates"},
+		"questionMetaData" : {"value" : "Give feedback to 1 of your team mates"},
 		"questionNumber" : "2",
 		"giverType" : "STUDENTS",
 		"recipientType" : "OWN_TEAM_MEMBERS",
@@ -491,7 +491,7 @@
 		"feedbackSessionName" : "Private feedback session",
 		"courseId" : "CS1101",
 		"creatorEmail" : "teammates.test@gmail.com",
-		"questionText" : {"value" : "This is a private session for myself"},
+		"questionMetaData" : {"value" : "This is a private session for myself"},
 		"questionNumber" : "1",
 		"giverType" : "SELF",
 		"recipientType" : "STUDENTS",
@@ -504,7 +504,7 @@
 		"feedbackSessionName" : "Instructor feedback session",
 		"courseId" : "CS1101",
 		"creatorEmail" : "teammates.test@gmail.com",
-		"questionText" : {"value" : "Please rate the following teams"},
+		"questionMetaData" : {"value" : "Please rate the following teams"},
 		"questionNumber" : "1",
 		"giverType" : "INSTRUCTORS",
 		"recipientType" : "TEAMS",
@@ -522,7 +522,7 @@
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "alice.b.tmms@gmail.com",
 		"recipientEmail" : "alice.b.tmms@gmail.com",
-		"answer" : {"value" : "My product is light."}
+		"responseMetaData" : {"value" : "My product is light."}
     },
     "response2": {
 		"feedbackSessionName" : "First feedback session",
@@ -531,7 +531,7 @@
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "alice.b.tmms@gmail.com",
 		"recipientEmail" : "benny.c.tmms@gmail.com",
-		"answer" : {"value" : "Benny is a good student."}
+		"responseMetaData" : {"value" : "Benny is a good student."}
     },
     "response3": {
 		"feedbackSessionName" : "First feedback session",
@@ -540,7 +540,7 @@
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "benny.c.tmms@gmail.com",
 		"recipientEmail" : "danny.e.tmms@gmail.com",
-		"answer" : {"value" : "Danny starts with D."}
+		"responseMetaData" : {"value" : "Danny starts with D."}
     },
     "response4": {
 		"feedbackSessionName" : "First feedback session",
@@ -549,7 +549,7 @@
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "charlie.d.tmms@gmail.com",
 		"recipientEmail" : "alice.b.tmms@gmail.com",
-		"answer" : {"value" : "Alice is a good girl coder."}
+		"responseMetaData" : {"value" : "Alice is a good girl coder."}
     },
     "response5": {
 		"feedbackSessionName" : "First feedback session",
@@ -558,7 +558,7 @@
 		"feedbackQuestionType" : "TEXT",
 		"giverEmail" : "benny.c.tmms@gmail.com",
 		"recipientEmail" : "charlie.d.tmms@gmail.com",
-		"answer" : {"value" : "Charlie did alot of work."}
+		"responseMetaData" : {"value" : "Charlie did alot of work."}
     }
   }
 }

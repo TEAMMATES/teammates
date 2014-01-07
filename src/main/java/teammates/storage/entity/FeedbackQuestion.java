@@ -33,7 +33,7 @@ public class FeedbackQuestion {
 	@Persistent
 	private String creatorEmail;
 	
-	private Text questionText; //TODO: use String instead? Can it save space?
+	private Text questionText; //TODO: rename to questionMetaData, will require database conversion
 	
 	@Persistent
 	private int questionNumber;
@@ -121,7 +121,7 @@ public class FeedbackQuestion {
 		this.creatorEmail = creatorEmail;
 	}
 
-	public Text getQuestionText() {
+	public Text getQuestionMetaData() {
 		return questionText;
 	}
 

@@ -185,7 +185,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"What is the best selling point of your product?"
 			},
 			"questionNumber":"1",
@@ -211,7 +211,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Rate 3 other students' products"
 			},
 			"questionNumber":"2",
@@ -239,7 +239,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Feedback to class"
 			},
 			"questionNumber":"3",
@@ -262,7 +262,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to 3 other teams."
 			},
 			"questionNumber":"4",
@@ -286,7 +286,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to your team mates"
 			},
 			"questionNumber":"5",
@@ -309,7 +309,7 @@
 			"feedbackSessionName":"First Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"This question should be hidden."
 			},
 			"questionNumber":"6",
@@ -332,7 +332,7 @@
 			"feedbackSessionName":"Second Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"Give feedback to your instructors"
 			},
 			"questionNumber":"1",
@@ -355,7 +355,7 @@
 			"feedbackSessionName":"MCQ Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"1",
@@ -381,7 +381,7 @@
 			"feedbackSessionName":"MCQ Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Rate 3 other students' products\",\"numOfMcqChoices\":3,\"mcqChoices\":[\"Good\",\"OK\",\"Poor\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"2",
@@ -409,7 +409,7 @@
 			"feedbackSessionName":"MCQ Session",
 			"courseId":"SFResultsUiT.CS2104",
 			"creatorEmail":"SFResultsUiT.instr@gmail.com",
-			"questionText":{
+			"questionMetaData":{
 				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Give feedback to your team mates\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"Good\",\"Can improve\"],\"otherEnabled\":false}"
 			},
 			"questionNumber":"3",
@@ -437,7 +437,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Alice self feedback."
 			}
 			
@@ -449,7 +449,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"SFResultsUiT.benny.c@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response to Benny."
 			}
 			
@@ -461,7 +461,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"SFResultsUiT.danny.e@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Response to Danny."
 			}
 			
@@ -473,7 +473,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"SFResultsUiT.benny.c@gmail.com",
 			"recipientEmail":"%GENERAL%",
-			"answer":{
+			"responseMetaData":{
 				"value":"Secret feedback about class. (to nobody test)"
 			}
 			
@@ -485,7 +485,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"SFResultsUiT.charlie.d@gmail.com",
 			"recipientEmail":"Team 1",
-			"answer":{
+			"responseMetaData":{
 				"value":"Team 2 (charlie) to team 1"
 			}
 			
@@ -497,7 +497,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"SFResultsUiT.danny.e@gmail.com",
 			"recipientEmail":"Team 1",
-			"answer":{
+			"responseMetaData":{
 				"value":"Team 2 (danny) to team 1"
 			}
 			
@@ -509,7 +509,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"SFResultsUiT.emily.f@gmail.com",
 			"recipientEmail":"Team 1",
-			"answer":{
+			"responseMetaData":{
 				"value":"Team 3 to Team 1 \r\n multiline special char test </textarea>xss<textarea> test"
 			}
 			
@@ -521,7 +521,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"Team 2",
-			"answer":{
+			"responseMetaData":{
 				"value":"alice to team 2"
 			}
 			
@@ -533,7 +533,7 @@
 			"feedbackQuestionType":"TEXT",
 			"giverEmail":"SFResultsUiT.benny.c@gmail.com",
 			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"Teammate feedback from benny"
 			}
 			
@@ -546,7 +546,7 @@
 			"feedbackQuestionType":"MCQ",
 			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Algo\", \"otherFieldContent\" : \"\"}"
 			}
 			
@@ -558,7 +558,7 @@
 			"feedbackQuestionType":"MCQ",
 			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"SFResultsUiT.benny.c@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Good\", \"otherFieldContent\" : \"\"}"
 			}
 			
@@ -570,7 +570,7 @@
 			"feedbackQuestionType":"MCQ",
 			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
 			"recipientEmail":"SFResultsUiT.danny.e@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"OK\", \"otherFieldContent\" : \"\"}"
 			}
 			
@@ -582,7 +582,7 @@
 			"feedbackQuestionType":"MCQ",
 			"giverEmail":"SFResultsUiT.benny.c@gmail.com",
 			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
-			"answer":{
+			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Can improve\", \"otherFieldContent\" : \"\"}"
 			}
 			

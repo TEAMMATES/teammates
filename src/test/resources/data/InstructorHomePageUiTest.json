@@ -300,7 +300,7 @@
 		"feedbackSessionName" : "First Feedback Session",
 		"courseId" : "CHomeUiT.CS2104",
 		"creatorEmail" : "{$test.instructor}@gmail.com",
-		"questionText" : {"value" : "Rate 5 other students' products"},
+		"questionMetaData" : {"value" : "Rate 5 other students' products"},
 		"questionNumber" : "1",
 		"questionType" : "TEXT",
 		"giverType" : "STUDENTS",

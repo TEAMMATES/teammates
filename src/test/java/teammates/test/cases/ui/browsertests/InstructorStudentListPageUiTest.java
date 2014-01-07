@@ -72,6 +72,10 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 		viewPage.clickShowEmail();
 		viewPage.verifyHtml("/instructorStudentListPageSearchStudent.html");
 		
+		______TS("content: live search");
+
+		viewPage.setLiveSearchKey("charlie");
+		viewPage.verifyHtml("/instructorStudentListPageLiveSearch.html");
 		
 		______TS("content: search course");
 		
