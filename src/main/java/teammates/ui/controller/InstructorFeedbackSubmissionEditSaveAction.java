@@ -1,16 +1,19 @@
 package teammates.ui.controller;
 
+import java.util.Map;
+
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackMcqResponseDetails;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackSubmissionEditSaveAction extends Action {
@@ -51,7 +54,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 			}
 			int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);			
 			for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
-				FeedbackResponseAttributes response = extractFeedbackResponseData(questionIndx,responseIndx);
+				FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx,responseIndx);
 				response.giverEmail = instructorEmail;
 				saveResponse(response);
 			}
@@ -93,37 +96,35 @@ public class InstructorFeedbackSubmissionEditSaveAction extends Action {
 		}
 	}
 	
-	private FeedbackResponseAttributes extractFeedbackResponseData(int questionIndx, int responseIndx) {
-		//TODO assert parameter values are not null and make this method stateless. See issue 1371
+	private static FeedbackResponseAttributes extractFeedbackResponseData(Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
 		FeedbackResponseAttributes response = new FeedbackResponseAttributes();
 
-		response.setId(getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
-		response.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-		response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-		response.feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
-		response.recipientEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
+		//Can be null if new response
+		response.setId(HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
 		
-		response.feedbackQuestionType = FeedbackQuestionType.valueOf(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
-		String answer = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
+		response.feedbackSessionName = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		Assumption.assertNotNull(response.feedbackSessionName);
 		
-		switch(response.feedbackQuestionType) {
-		case TEXT:
-			//For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
-			response.responseMetaData = new Text(answer);
-			break;
-		case MCQ:
-			//TODO check whether other is chosen and construct accordingly when implementing other field
-			FeedbackMcqResponseDetails mcqResponseDetails = new FeedbackMcqResponseDetails(answer, false);
-			if (answer != null) {
-				response.setQuestionDetails(mcqResponseDetails);
-			} else {  
-				//question was skipped
-				response.responseMetaData = new Text(new String());
-			}
-			break;
-		default:
-			Assumption.fail("Question type not supported");
-			break;
+		response.courseId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.COURSE_ID);
+		Assumption.assertNotNull(response.courseId);
+		
+		response.feedbackQuestionId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
+		Assumption.assertNotNull(response.feedbackQuestionId);
+
+		response.recipientEmail = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-"	+ questionIndx + "-" + responseIndx);
+		Assumption.assertNotNull(response.recipientEmail);
+		
+		response.feedbackQuestionType = FeedbackQuestionType.valueOf(HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx));
+		Assumption.assertNotNull(response.feedbackQuestionType);
+		
+		//Can be null if question is skipped
+		String answer = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
+		
+		if(answer != null) {
+			FeedbackAbstractResponseDetails responseDetails = FeedbackAbstractResponseDetails.createResponseDetails(requestParameters, answer, response.feedbackQuestionType);
+			response.setResponseDetails(responseDetails);
+		} else {
+			response.responseMetaData = new Text("");
 		}
 		
 		return response;

@@ -132,7 +132,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	/** This method converts the given Feedback*ResponseDetails object to JSON for storing
 	 * @param responseDetails
 	 */
-	public void setQuestionDetails(FeedbackAbstractResponseDetails responseDetails) {
+	public void setResponseDetails(FeedbackAbstractResponseDetails responseDetails) {
 		Gson gson = teammates.common.util.Utils.getTeammatesGson();
 		
 		if(responseDetails.questionType == FeedbackQuestionType.TEXT) {

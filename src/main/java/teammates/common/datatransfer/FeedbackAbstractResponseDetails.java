@@ -1,5 +1,9 @@
 package teammates.common.datatransfer;
 
+import java.util.Map;
+
+import teammates.common.util.Assumption;
+
 /** A class holding the details for the response of a specific question type.
 + * This abstract class is inherited by concrete Feedback*ResponseDetails
 + * classes which provides the implementation for the various abstract methods
@@ -14,4 +18,24 @@ public abstract class FeedbackAbstractResponseDetails {
 	}
 	
 	public abstract String getAnswerString();
+	
+	public static FeedbackAbstractResponseDetails createResponseDetails(Map<String, String[]> requestParameters, String answer, FeedbackQuestionType questionType){
+		FeedbackAbstractResponseDetails responseDetails = null;
+		
+		switch(questionType) {
+		case TEXT:
+			//For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
+			responseDetails = new FeedbackTextResponseDetails(answer);
+			break;
+		case MCQ:
+			//TODO check whether other is chosen and construct accordingly when implementing other field
+			responseDetails = new FeedbackMcqResponseDetails(answer, false);
+			break;
+		default:
+			Assumption.fail("Question type not supported");
+			break;
+		}
+		
+		return responseDetails;
+	}
 }

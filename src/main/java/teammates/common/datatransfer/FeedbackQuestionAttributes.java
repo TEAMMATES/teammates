@@ -452,21 +452,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	 * @param questionDetails
 	 */
 	public void setQuestionDetails(FeedbackAbstractQuestionDetails questionDetails) {
-		Gson gson = teammates.common.util.Utils.getTeammatesGson();
-		
-		switch(questionDetails.questionType){
-		case TEXT:
-			// For Text questions, the questionText simply contains the question, not a JSON
-			// This is due to legacy data in the data store before there are multiple question types
+		// For Text questions, the questionText simply contains the question, not a JSON
+		// This is due to legacy data in the data store before there are multiple question types
+		if(questionDetails.questionType == FeedbackQuestionType.TEXT) {
 			questionMetaData = new Text(questionDetails.questionText);
-			break;
-		case MCQ:
+		} else {
+			Gson gson = teammates.common.util.Utils.getTeammatesGson();
 			questionMetaData = new Text(gson.toJson(questionDetails, getFeedbackQuestionDetailsClass()));
-			break;
-		default:
-			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
-			break;
-		
 		}
 	}
 	
@@ -474,15 +466,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 	 * @return The Feedback*QuestionDetails object representing the question's details
 	 */
 	public FeedbackAbstractQuestionDetails getQuestionDetails(){
-		Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass = getFeedbackQuestionDetailsClass();
-		
 		// For Text questions, the questionText simply contains the question, not a JSON
 		// This is due to legacy data in the data store before there are multiple question types
-		if(questionDetailsClass == FeedbackTextQuestionDetails.class) {
+		if(questionType == FeedbackQuestionType.TEXT) {
 			return new FeedbackTextQuestionDetails(questionMetaData.getValue());
 		} else {
 			Gson gson = teammates.common.util.Utils.getTeammatesGson();
-			return gson.fromJson(questionMetaData.getValue(), questionDetailsClass);
+			return gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
 		}
 	}
 	
