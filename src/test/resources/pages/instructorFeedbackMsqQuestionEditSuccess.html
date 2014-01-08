@@ -899,7 +899,7 @@
                                     2
                                  </option>
                               </select>
-                              Multiple-choice question
+                              Multiple-select question
                            </td>
                            <td>
                            </td>
@@ -920,7 +920,7 @@
                         <tr>
                            <td colspan="4" >
                               <textarea class="textvalue nonDestructive"  disabled="disabled"  id="questiontext-2"  name="questiontext"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')"  rows="5"  style="width:100%"  tabindex="9" >
-                                 edited mcq qn text
+                                 edited msq qn text
                               </textarea>
                            </td>
                         </tr>
@@ -928,31 +928,31 @@
                            <td colspan="4" >
                               <table>
                                  <tbody>
-                                    <tr id="mcqOptionRow-0-2" >
+                                    <tr id="msqOptionRow-0-2" >
                                        <td>
-                                          <input class="disabled_radio"  disabled="disabled"  type="radio" />
+                                          <input class="disabled_radio"  disabled="disabled"  type="checkbox" />
                                                                                  </td>
                                        <td>
-                                          <input class="mcqOptionTextBox"  disabled="disabled"  id="mcqOption-0-2"  name="mcqOption-0"  type="text"  value="Choice 3" />
-                                                                                    <a class="removeOptionLink"  href="#"  id="mcqRemoveOptionLink"  onclick="removeMcqOption(0,2)"  style="display:none"  tabindex="-1" >
+                                          <input class="msqOptionTextBox"  disabled="disabled"  id="msqOption-0-2"  name="msqOption-0"  type="text"  value="Choice 3" />
+                                                                                    <a class="removeOptionLink"  href="#"  id="msqRemoveOptionLink"  onclick="removeMsqOption(0,2)"  style="display:none"  tabindex="-1" >
                                              x
                                           </a>
                                        </td>
                                     </tr>
-                                    <tr id="mcqOptionRow-1-2" >
+                                    <tr id="msqOptionRow-1-2" >
                                        <td>
-                                          <input class="disabled_radio"  disabled="disabled"  type="radio" />
+                                          <input class="disabled_radio"  disabled="disabled"  type="checkbox" />
                                                                                  </td>
                                        <td>
-                                          <input class="mcqOptionTextBox"  disabled="disabled"  id="mcqOption-1-2"  name="mcqOption-1"  type="text"  value="Choice 5" />
-                                                                                    <a class="removeOptionLink"  href="#"  id="mcqRemoveOptionLink"  onclick="removeMcqOption(1,2)"  style="display:none"  tabindex="-1" >
+                                          <input class="msqOptionTextBox"  disabled="disabled"  id="msqOption-1-2"  name="msqOption-1"  type="text"  value="Choice 5" />
+                                                                                    <a class="removeOptionLink"  href="#"  id="msqRemoveOptionLink"  onclick="removeMsqOption(1,2)"  style="display:none"  tabindex="-1" >
                                              x
                                           </a>
                                        </td>
                                     </tr>
-                                    <tr id="mcqAddOptionRow-2" >
+                                    <tr id="msqAddOptionRow-2" >
                                        <td colspan="2" >
-                                          <a class="color_blue"  href="#"  id="mcqAddOptionLink"  onclick="addMcqOption(2)"  style="display:none" >
+                                          <a class="color_blue"  href="#"  id="msqAddOptionLink"  onclick="addMsqOption(2)"  style="display:none" >
                                              +add more options
                                           </a>
                                        </td>
@@ -1145,7 +1145,7 @@
                                     <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
                                     <input name="questionid"  type="hidden"  value="{*}" />
                                     <input name="questionnum"  type="hidden"  value="2" />
-                                    <input name="questiontype"  type="hidden"  value="MCQ" />
+                                    <input name="questiontype"  type="hidden"  value="MSQ" />
                                     <input id="questionedittype-2"  name="questionedittype"  type="hidden"  value="edit" />
                                     <input name="showresponsesto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
                                     <input name="showgiverto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />

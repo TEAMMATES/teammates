@@ -193,6 +193,24 @@
 			"feedbackSessionType":"STANDARD",
 			"sentOpenEmail":true,
 			"sentPublishedEmail":false
+		},
+		"msqSession":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"instructions":{
+				"value":"Please answer the following questions."
+			},
+			"createdTime":"2012-03-20 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+			"resultsVisibleFromTime":"2015-05-01 11:59 PM UTC",
+			"timeZone":2.0,
+			"gracePeriod":10,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
 		}
 		
 	},
@@ -241,8 +259,52 @@
 			"showRecipientNameTo":[
 				"INSTRUCTORS"
 			]
+		},
+		"qn1InSession2InCourse1":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionMetaData":{
+				"value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MSQ\", \"numOfMsqChoices\" : 2, \"msqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
+			},
+			"questionNumber":"1",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
 			
-		}		
+		},
+		"qn2InSession2InCourse1":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionMetaData":{
+				"value":"{\"questionText\":\"What do you like best about the class' product?\", \"questionType\":\"MSQ\", \"numOfMcqChoices\" : 2, \"msqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
+			},
+			"questionNumber":"2",
+			"questionType":"MSQ",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		}	
 	},
 	"feedbackResponses":{
 		"response1ForQ1S1C1":{
@@ -291,7 +353,6 @@
 			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's perfect\", \"otherFieldContent\" : \"\"}"
 			}
-			
-		}		
+		}
 	}
 }

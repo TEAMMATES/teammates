@@ -29,6 +29,20 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 	public String getQuestionTypeDisplayName() {
 		return Const.FeedbackQuestionTypeNames.MSQ;
 	}
+	
+	@Override
+	public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
+		FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
+
+		if (this.numOfMsqChoices != newMsqDetails.numOfMsqChoices ||
+			this.msqChoices.containsAll(newMsqDetails.msqChoices) == false ||
+			newMsqDetails.msqChoices.containsAll(this.msqChoices) == false) {
+			return true;
+		}
+		
+		return false;
+	}
+
 
 	@Override
 	public String getQuestionWithExistingResponseSubmissionFormHtml(

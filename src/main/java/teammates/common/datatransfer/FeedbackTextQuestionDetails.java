@@ -18,6 +18,11 @@ public class FeedbackTextQuestionDetails extends
 	public String getQuestionTypeDisplayName() {
 		return Const.FeedbackQuestionTypeNames.TEXT;
 	}
+	
+	@Override
+	public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
+		return false;
+	}
 
 	@Override
 	public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,

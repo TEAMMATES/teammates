@@ -540,7 +540,7 @@
 								</td>
 							</tr>
 							<tr id="msqOptionRow-1">
-								<td><input type="checkBox" disabled="disabled"></td>
+								<td><input type="checkbox" disabled="disabled"></td>
 								<td>
 									<input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"
 										id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"

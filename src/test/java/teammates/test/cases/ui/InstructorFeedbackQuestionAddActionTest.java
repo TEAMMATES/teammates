@@ -43,6 +43,62 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 		
 		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 	}
+	
+	@Test
+	public void testExecuteAndPostProcessMsq() throws Exception{
+		InstructorAttributes instructor1ofCourse1 =
+				dataBundle.instructors.get("instructor1OfCourse1");
+
+		gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+				
+		______TS("Typical case");
+
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+		String[] params = new String[]{
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "5",
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "The Content",
+				//Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "The Teacher",   // This option is deleted during creation, don't pass parameter
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", "", // empty option
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-3", "  		", // empty option with extra whitespace
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-4", "The Atmosphere",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit"
+		};
+		
+		InstructorFeedbackQuestionAddAction action = getAction(params);
+		RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+		
+		assertEquals(
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+						+ "?courseid="
+						+ instructor1ofCourse1.courseId
+						+ "&fsname=First+feedback+session"
+						+ "&user="
+						+ instructor1ofCourse1.googleId
+						+ "&message=The+question+has+been+added+to+this+feedback+session."
+						+ "&error=false",
+				result.getDestinationWithParams());
+
+		String expectedLogMessage =
+				"TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
+						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+						+ " created.<br><span class=\"bold\">Multiple-select question:</span> What do you like best about the class?"
+						+ "|||/page/instructorFeedbackQuestionAdd";
+		assertEquals(expectedLogMessage, action.getLogMessage());
+	}
 
 	@Test
 	public void testExecuteAndPostProcessMcq() throws Exception{
@@ -50,8 +106,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 				dataBundle.instructors.get("instructor1OfCourse1");
 
 		gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
-		
-		
+				
 		______TS("Typical case");
 
 		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
