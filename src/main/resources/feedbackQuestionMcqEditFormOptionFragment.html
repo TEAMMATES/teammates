@@ -1,0 +1,14 @@
+<tr id="mcqOptionRow-${i}-${questionNumber}">
+	<td>
+		<input type="radio" class="disabled_radio" disabled="disabled">
+	</td>
+	<td>
+		<input type="text" disabled="disabled"
+			name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${i}"
+			id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${i}-${questionNumber}"
+			class="mcqOptionTextBox" value="${mcqChoiceValue}">
+		<a href="#" class="removeOptionLink" id="mcqRemoveOptionLink" 
+			onclick="removeMcqOption(${i},${questionNumber})"
+			style="display:none" tabindex="-1"> x</a>
+	</td>
+</tr>
