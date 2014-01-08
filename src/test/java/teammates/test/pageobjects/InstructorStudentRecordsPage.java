@@ -38,28 +38,33 @@ public class InstructorStudentRecordsPage extends AppPage {
 		return changePageType(InstructorEvalSubmissionEditPage.class);
 	}
 	
-	public void addComment(String commentText){
+	public InstructorStudentRecordsPage addComment(String commentText){
 		addCommentLink.click();
 		commentTextBox.sendKeys(commentText);
 		saveCommentLink.click();
 		waitForPageToLoad();
+		return this;
 	}
 	
-	public void clickDeleteCommentAndCancel(int id) {
+	public InstructorStudentRecordsPage clickDeleteCommentAndCancel(int id) {
 		clickAndCancel(getCommentDeleteLink(id));
 		waitForPageToLoad();
+		return this;
 	}
 	
-	public void clickDeleteCommentAndConfirm(int id) {
+	public InstructorStudentRecordsPage clickDeleteCommentAndConfirm(int id) {
 		clickAndConfirm(getCommentDeleteLink(id));
 		waitForPageToLoad();
+		return this;
 	}
 	
-	public void editComment(int id, String comment){
+	public InstructorStudentRecordsPage editComment(int id, String comment){
 		getCommentEditLink(id).click();
 		getCommentTextBox(id).clear();
 		getCommentTextBox(id).sendKeys(comment);
 		getCommentSaveLink(id).click();
+		waitForPageToLoad();
+		return this;
 	}
 	
 	public boolean verifyAddCommentButtonClick(){
@@ -90,13 +95,13 @@ public class InstructorStudentRecordsPage extends AppPage {
 	}
 	
 	private String getEvalNameInRow(int rowId) {
-		String xpath = "//div[@class='student_eval' and @id='studentEval" + rowId + "']"
-				+ "//table//tr//td[@id='eval_name" + rowId + "']";
+		String xpath = "//div[@class='student_eval' and @id='studentEval-" + rowId + "']"
+				+ "//table//tr//td[@id='eval_name-" + rowId + "']";
 		return browser.driver.findElement(By.xpath(xpath)).getText();
 	}
 	
 	private WebElement getEvalEditLink(int rowId) {
-		return browser.driver.findElement(By.id("button_edit" + rowId));
+		return browser.driver.findElement(By.id("button_edit-" + rowId));
 	}
 	
 	private WebElement getCommentEditLink(int id) {

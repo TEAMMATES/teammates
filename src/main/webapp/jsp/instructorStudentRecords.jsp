@@ -3,9 +3,11 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
+<%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentResultBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
@@ -57,7 +59,7 @@
 				<table class="resultTable" id="commentTable">
 					<thead>
 						<tr>
-							<th class="bold centeralign">
+							<th colspan="2" class="bold centeralign">
 								Your comments on this student:
 							</th>
 						</tr>
@@ -72,6 +74,9 @@
 									<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>" name="form_commentedit" class="form_comment" id="form_commentedit-<%=commentIdx %>">
 										<table id="commentFormTable">
 											<tr>
+												<td style="width: 50%;">
+													<span class="color_gray"><%=TimeHelper.formatTime(comment.createdAt)%></span>
+												</td>
 												<td class="rightalign">
 													<a class="color_blue pad_right t_comment_edit" id="commentedit-<%=commentIdx %>" href=""
 													onclick="return enableEdit('<%=commentIdx %>', '<%=data.comments.size() %>');"
@@ -88,12 +93,13 @@
 												</td>
 											</tr>
 											<tr>
-												<td>
+												<td colspan="2">
 													<textarea onkeyup="textAreaAdjust(this)" class="textvalue" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText<%=commentIdx %>" disabled="disabled"><%=comment.commentText.getValue() %></textarea>
 													<input type="hidden" name=<%=Const.ParamsNames.COMMENT_EDITTYPE%> id="<%=Const.ParamsNames.COMMENT_EDITTYPE%>-<%=commentIdx %>" value="edit">
 													<input type="hidden" name=<%=Const.ParamsNames.COMMENT_ID%> value="<%=comment.getCommentId()%>">
 													<input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
 													<input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">
+													<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 												</td>
 											</tr>
 										</table>
@@ -104,13 +110,14 @@
 						}
 					%>	
 						<tr id="comment_box" style="display:none;">
-							<td class="centeralign">
+							<td colspan="2" class="centeralign">
 								<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd" class="form_comment">
 									<textarea placeholder="Your comment about this student" onkeyup="textAreaAdjust(this)" class="textvalue" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText"></textarea>
 									<br>
 									<input type="submit" class="button" id="button_save_comment" value="Save Comment">
 									<input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
 									<input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">
+									<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 								</form>
 							</td>
 						</tr>
@@ -125,14 +132,21 @@
 			<br>
 			<%
 				int evalIndex = -1;
-				for(StudentResultBundle studentResult: data.studentEvaluationResults){
-					evalIndex++;
+				int fbIndex = -1;
+				int sessionIndex = -1;
+				for(SessionResultsBundle sessionResult: data.results){
+					sessionIndex++;
+					if(sessionResult instanceof StudentResultBundle){
+						evalIndex++;
+						StudentResultBundle studentResult = (StudentResultBundle) sessionResult;
+						EvaluationAttributes eval = (EvaluationAttributes) data.sessions.get(sessionIndex);
+					
 			%>
-					<div class="student_eval" id="studentEval<%=evalIndex%>">
+					<div class="student_eval" id="studentEval-<%=evalIndex%>">
 					<table class="inputTable" id="studentEvaluationInfo">
 						<tr>
 							<td class="label rightalign bold" width="250px">Evaluation Name:</td>
-							<td class="leftalign" id="eval_name<%=evalIndex%>"width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.evaluations.get(evalIndex).name)%></td>
+							<td class="leftalign" id="eval_name-<%=evalIndex%>"width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(eval.name)%></td>
 						</tr>
 					</table>
 				<%
@@ -174,7 +188,7 @@
 								<td><b><%=InstructorEvalSubmissionPageData.sanitizeForHtml(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
 								<td><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,false)%></td>
 								<td><%=InstructorEvalSubmissionPageData.getJustificationAsSanitizedHtml(sub)%></td>
-								<td><%=InstructorEvalSubmissionPageData.getP2pFeedbackAsHtml(InstructorEvalSubmissionPageData.sanitizeForHtml(sub.p2pFeedback.getValue()), data.evaluations.get(evalIndex).p2pEnabled)%></td>
+								<td><%=InstructorEvalSubmissionPageData.getP2pFeedbackAsHtml(InstructorEvalSubmissionPageData.sanitizeForHtml(sub.p2pFeedback.getValue()), eval.p2pEnabled)%></td>
 							</tr>
 					<%
 						}
@@ -185,30 +199,28 @@
 					}
 				%>
 					<div class="centeralign">
-						<input type="button" class="button" id="button_edit<%=evalIndex %>" value="Edit Submission"
-							onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(data.evaluations.get(evalIndex).courseId, data.evaluations.get(evalIndex).name, data.student.email)%>'">
+						<input type="button" class="button" id="button_edit-<%=evalIndex %>" value="Edit Submission"
+							onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'">
 					</div>
 					</div>
 					<br>
 					<hr>
 					<br>
 			<%
-				}
-			%>
-			<%
-				int fbIndex = -1;
-				for (FeedbackSessionResultsBundle feedback : data.studentFeedbackResults) {
+				} else if(sessionResult instanceof FeedbackSessionResultsBundle){
+					FeedbackSessionResultsBundle feedback = (FeedbackSessionResultsBundle) sessionResult;
+					
 					fbIndex++;
 					Map<String, List<FeedbackResponseAttributes>> received = feedback 
 							.getResponsesSortedByRecipient().get(data.student.name);
 					Map<String, List<FeedbackResponseAttributes>> given = feedback
 							.getResponsesSortedByGiver().get(data.student.name);
 			%>
-					<div class="student_feedback" id="studentFeedback<%=fbIndex %>">
+					<div class="student_feedback" id="studentFeedback-<%=fbIndex%>">
 					<table class="inputTable" id="studentEvaluationInfo">
 						<tr>
 							<td class="label rightalign bold" width="250px">Feedback Session Name:</td>
-							<td class="leftalign" id="feedback_name<%=fbIndex%>"width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></td>
+							<td class="leftalign" id="feedback_name-<%=fbIndex%>" width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></td>
 						</tr>
 					</table>
 					<br><br>
@@ -327,6 +339,7 @@
 					<hr>
 					<br>
 			<%
+				}
 				}
 			%>
 			

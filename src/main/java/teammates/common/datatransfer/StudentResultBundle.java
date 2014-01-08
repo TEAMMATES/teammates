@@ -18,7 +18,7 @@ import teammates.common.util.Utils;
  *  <br> *  The submissions given and received by the student (as {@link SubmissionAttributes} objects),
  *  <br> *  Contribution ratings for the student (as a {@link StudentResultSummary} object). 
  */
-public class StudentResultBundle {
+public class StudentResultBundle implements SessionResultsBundle{
 
 	public StudentAttributes student;
 	

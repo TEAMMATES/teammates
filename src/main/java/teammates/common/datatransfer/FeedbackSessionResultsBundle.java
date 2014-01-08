@@ -16,7 +16,7 @@ import teammates.ui.controller.PageData;
  * <br> * The basic {@link FeedbackSessionAttributes} 
  * <br> * {@link List} of viewable responses as {@link FeedbackResponseAttributes} objects.
  */
-public class FeedbackSessionResultsBundle {
+public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 	public FeedbackSessionAttributes feedbackSession = null;
 	public List<FeedbackResponseAttributes> responses = null;
 	public Map<String, FeedbackQuestionAttributes> questions = null;

@@ -1,6 +1,8 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -96,5 +98,21 @@ public class CommentAttributes extends EntityAttributes{
 	public void sanitizeForSaving() {
 		this.courseId = this.courseId.trim();
 		this.commentText = Sanitizer.sanitizeTextField(this.commentText);
+	}
+	
+	public static void sortCommentsByCreationTime(List<CommentAttributes> comments){
+		Collections.sort(comments, new Comparator<CommentAttributes>() {
+			public int compare(CommentAttributes comment1, CommentAttributes comment2) {
+				return comment1.createdAt.compareTo(comment2.createdAt);
+			}
+		});
+	}
+	
+	public static void sortCommentsByCreationTimeDescending(List<CommentAttributes> comments){
+		Collections.sort(comments, new Comparator<CommentAttributes>() {
+			public int compare(CommentAttributes comment1, CommentAttributes comment2) {
+				return comment2.createdAt.compareTo(comment1.createdAt);
+			}
+		});
 	}
 }

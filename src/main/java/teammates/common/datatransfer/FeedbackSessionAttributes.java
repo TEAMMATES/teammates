@@ -19,7 +19,7 @@ import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackSession;
 
-public class FeedbackSessionAttributes extends EntityAttributes {
+public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes{
 	
 	public String feedbackSessionName;
 	public String courseId;
@@ -417,5 +417,20 @@ public class FeedbackSessionAttributes extends EntityAttributes {
 				return result;
 			}
 		});
+	}
+	
+	@Override
+	public Date getSessionStartTime() {
+		return this.startTime;
+	}
+
+	@Override
+	public Date getSessionEndTime() {
+		return this.endTime;
+	}
+
+	@Override
+	public String getSessionName() {
+		return this.feedbackSessionName;
 	}
 }

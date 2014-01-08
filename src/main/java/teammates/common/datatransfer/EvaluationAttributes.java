@@ -23,7 +23,7 @@ import teammates.storage.entity.Evaluation;
 /**
  * Represents a data transfer object for Evaluation entities.
  */
-public class EvaluationAttributes extends EntityAttributes {
+public class EvaluationAttributes extends EntityAttributes implements SessionAttributes{
 	
 	public enum EvalStatus {
 		AWAITING, OPEN, CLOSED, PUBLISHED, DOES_NOT_EXIST
@@ -270,6 +270,7 @@ public class EvaluationAttributes extends EntityAttributes {
 				&& this.startTime.equals(e.startTime)
 				&& this.endTime.equals(e.endTime);
 	}
+	
 
 	/**
 	 * Sets derived attributes 'activated' and 'published' based on other
@@ -379,5 +380,20 @@ public class EvaluationAttributes extends EntityAttributes {
 				return result;
 			}
 		});
+	}
+	
+	@Override
+	public Date getSessionStartTime() {
+		return this.startTime;
+	}
+
+	@Override
+	public Date getSessionEndTime() {
+		return this.endTime;
+	}
+
+	@Override
+	public String getSessionName() {
+		return this.name;
 	}
 }
