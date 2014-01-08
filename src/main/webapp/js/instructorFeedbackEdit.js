@@ -144,6 +144,7 @@ function enableQuestion(number){
 function disableQuestion(number){
 	$('#questionTable'+number).find('text,button,textarea,select,input').attr("disabled", "disabled");
 	$('#questionTable'+number).find('#mcqAddOptionLink').hide();
+	$('#questionTable'+number).find('#msqAddOptionLink').hide();
 	$('#questionTable'+number).find('.removeOptionLink').hide();
 	$('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).show();
 	$('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).hide();
@@ -274,11 +275,19 @@ function prepareQuestionForm(type) {
 	case "TEXT":
 		$("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_TEXT);
 		$('#mcqForm').hide();
+		$('#msqForm').hide();
 		break;
 	case "MCQ":
 		$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
 		$("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MCQ);
 		$('#mcqForm').show();
+		$('#msqForm').hide();
+		break;
+	case "MSQ":
+		$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
+		$("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MSQ);
+		$('#mcqForm').hide();
+		$('#msqForm').show();
 		break;
 	}
 }
@@ -300,9 +309,31 @@ function addMcqOption(questionNumber) {
 	$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
 }
 
+function addMsqOption(questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	
+	var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
+		
+	$("<tr id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+		+ "<td><input type=\"checkbox\" disabled=\"disabled\"></td>"
+		+ "<td><input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\""
+		+ " id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"msqOptionTextBox\">"
+		+ "<a href=\"#\" class=\"removeOptionLink\" id=\"msqRemoveOptionLink\" "
+		+ "onclick=\"removeMsqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+		+ " x</a></td></tr>"
+	).insertBefore($("#msqAddOptionRow" + idSuffix));
+
+	$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
+}
+
 function removeMcqOption(index, questionNumber) {
 	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
 	$("#mcqOptionRow-"+index+idSuffix).remove();
+}
+
+function removeMsqOption(index, questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	$("#msqOptionRow-"+index+idSuffix).remove();
 }
 
 /**
