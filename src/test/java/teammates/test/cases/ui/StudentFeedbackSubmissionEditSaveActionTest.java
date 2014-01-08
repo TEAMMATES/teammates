@@ -221,7 +221,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
 		
-		fq = fqDb.getFeedbackQuestion("MCQ Session", "idOfTypicalCourse1", 1);
+		fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 1);
 		assertNotNull("Feedback question not found in database", fq);
 		
 		fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
@@ -248,7 +248,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		assertFalse(r.isError);
 		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
 		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
-						+ "&error=" + r.isError +"&user=student1InCourse1",
+						+ "&error=" + r.isError +"&user=FSQTT.student1InCourse1",
 						r.getDestinationWithParams());
 		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 		
@@ -270,16 +270,16 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		assertFalse(r.isError);
 		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
 		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
-						+ "&error=" + r.isError +"&user=student1InCourse1",
+						+ "&error=" + r.isError +"&user=FSQTT.student1InCourse1",
 						r.getDestinationWithParams());
 		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 	}
 	
 	@Test
 	public void testGracePeriodAccessControl() throws Exception{
-		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriod.session");
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
 		fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
-		dataBundle.feedbackSessions.put("gracePeriod.session", fs);
+		dataBundle.feedbackSessions.put("gracePeriodSession", fs);
 		
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		backDoorLogic.persistDataBundle(dataBundle);
@@ -303,7 +303,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		
 		// verify student can still submit during grace period
-		StudentAttributes studentInGracePeriod = dataBundle.students.get("studentInGraceCourse");
+		StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
 		gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
 		verifyCanAccess(submissionParams);
 	}
@@ -311,8 +311,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 	@Test
 	public void testGracePeriodExecuteAndPostProcess() throws Exception{
 		FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
-		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriod.session");
-		StudentAttributes studentInGracePeriod = dataBundle.students.get("studentInGraceCourse");
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+		StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
 		gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
 
 		String[] submissionParams = new String[]{
@@ -332,7 +332,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		ActionResult r = a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=studentInGraceCourse", 
+				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=student1InCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
 				r.getStatusMessage());
@@ -349,7 +349,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		a = getAction(submissionParams);
 		r = a.executeAndPostProcess();
 		assertEquals(
-				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=studentInGraceCourse", 
+				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=student1InCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
 				r.getStatusMessage());

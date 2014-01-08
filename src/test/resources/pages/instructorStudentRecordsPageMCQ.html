@@ -30,22 +30,22 @@
 			<div id="contentLinks">
 				<ul id="navbar">
 					<li><a class="nav home" data-link="instructorHome"
-						href="/page/instructorHomePage?user=idOfInstructor1OfCourse1"> Home </a></li>
+						href="/page/instructorHomePage?user=FSQTT.idOfInstructor1OfCourse1"> Home </a></li>
 					<li><a class="nav courses" data-link="instructorCourse"
-						href="/page/instructorCoursesPage?user=idOfInstructor1OfCourse1">
+						href="/page/instructorCoursesPage?user=FSQTT.idOfInstructor1OfCourse1">
 							Courses </a></li>
 					<li><a class="nav evaluations" data-link="instructorEval"
-						href="/page/instructorEvalsPage?user=idOfInstructor1OfCourse1">
+						href="/page/instructorEvalsPage?user=FSQTT.idOfInstructor1OfCourse1">
 							Sessions </a></li>
 					<li class="current"><a class="nav students"
 						data-link="instructorStudent"
-						href="/page/instructorStudentListPage?user=idOfInstructor1OfCourse1">
+						href="/page/instructorStudentListPage?user=FSQTT.idOfInstructor1OfCourse1">
 							Students </a></li>
 					<li><a class="nav help" href="/instructorHelp.html"
 						target="_blank"> Help </a></li>
 					<li><a class="nav logout" href="/logout.jsp"> Logout </a> <b>
-						<span onmouseout="hideddrivetip()"  onmouseover="ddrivetip('idOfInstructor1OfCourse1')" >
-                              (idOfInstructor1OfCou...)
+						<span onmouseout="hideddrivetip()"  onmouseover="ddrivetip('FSQTT.idOfInstructor1OfCourse1')" >
+                              (FSQTT.idOfInstructor...)
                            </span>
 					</b></li>
 				</ul>
@@ -57,7 +57,7 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>idOfTypicalCourse1 - student1 In Course1's Records</h1>
+				<h1>FSQTT.idOfTypicalCourse1 - student1 In Course1's Records</h1>
 				<hr />
 			</div>
 			<div id="statusMessage" style="display: none;"></div>
@@ -70,89 +70,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>
-								<form action="/page/instructorStudentCommentEdit"
-									class="form_comment" id="form_commentedit-0" method="post"
-									name="form_commentedit">
-									<table id="commentFormTable">
-										<tbody>
-											<tr>
-												<td style="width: 50%;" >
-                                             		<span class="color_gray" >01 May 2012, 08:51</span>
-                                          		</td>
-												<td class="rightalign">
-													<a class="color_blue pad_right t_comment_edit" href=""
-													id="commentedit-0" onclick="return enableEdit('0', '2');"
-													onmouseout="hideddrivetip()"
-													onmouseover="ddrivetip('Edit this comment')"> Edit </a>
-													
-													<a class="color_green pad_right t_comment_save" href=""
-													id="commentsave-0" onclick="return submitCommentForm('0');"
-													style="display:none;"> Save Changes </a>
-													
-													<a class="color_red pad_right t_comment_delete" href=""
-													id="commentdelete-0" onclick="return deleteComment('0');"
-													onmouseout="hideddrivetip()"
-													onmouseover="ddrivetip('Delete this comment')"> Delete</a>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="2">
-													<textarea class="textvalue" disabled="disabled" id="commentText0" name="commenttext" onkeyup="textAreaAdjust(this)" style="height: 21px;">Comment 2 from Instructor 1 to Student 1 in course 1</textarea>
-													<input id="commentedittype-0" name="commentedittype" type="hidden" value="edit" />
-													<input name="commentid" type="hidden" value="{*}" /> 
-													<input name="courseid" type="hidden" value="idOfTypicalCourse1" /> 
-													<input name="studentemail" type="hidden" value="student1InCourse1@gmail.com" />
-													<input name="user"  type="hidden"  value="idOfInstructor1OfCourse1" /></td>
-											</tr>
-										</tbody>
-									</table>
-								</form>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<form action="/page/instructorStudentCommentEdit"
-									class="form_comment" id="form_commentedit-1" method="post"
-									name="form_commentedit">
-									<table id="commentFormTable">
-										<tbody>
-											<tr>
-												<td style="width: 50%;" >
-                                             		<span class="color_gray" >01 Apr 2012, 23:59</span>
-                                          		</td>
-												<td class="rightalign">
-													<a class="color_blue pad_right t_comment_edit" href=""
-													id="commentedit-1" onclick="return enableEdit('1', '2');"
-													onmouseout="hideddrivetip()"
-													onmouseover="ddrivetip('Edit this comment')"> Edit </a>
-													
-													<a class="color_green pad_right t_comment_save" href=""
-													id="commentsave-1" onclick="return submitCommentForm('1');"
-													style="display:none;"> Save Changes </a>
-													
-													<a class="color_red pad_right t_comment_delete" href=""
-													id="commentdelete-1" onclick="return deleteComment('1');"
-													onmouseout="hideddrivetip()"
-													onmouseover="ddrivetip('Delete this comment')"> Delete </a>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="2">
-													<textarea class="textvalue" disabled="disabled" id="commentText1" name="commenttext" onkeyup="textAreaAdjust(this)" style="height: 21px;">Comment 1 from Instructor 1 to Student 1 in course 1</textarea>
-													<input id="commentedittype-1" name="commentedittype" type="hidden" value="edit" />
-													<input name="commentid" type="hidden" value="{*}" />
-													<input name="courseid" type="hidden" value="idOfTypicalCourse1" />
-													<input name="studentemail" type="hidden" value="student1InCourse1@gmail.com" />
-													<input name="user"  type="hidden"  value="idOfInstructor1OfCourse1" />
-													</td>
-											</tr>
-										</tbody>
-									</table>
-								</form>
-							</td>
-						</tr>
 						<tr id="comment_box" style="display:none;">
 							<td class="centeralign" colspan="2">
 								<form action="/page/instructorStudentCommentAdd"
@@ -163,10 +80,10 @@
                                  </textarea>
 									<br /> <input class="button" id="button_save_comment"
 										type="submit" value="Save Comment" /> <input name="courseid"
-										type="hidden" value="idOfTypicalCourse1" /> <input
+										type="hidden" value="FSQTT.idOfTypicalCourse1" /> <input
 										name="studentemail" type="hidden"
 										value="student1InCourse1@gmail.com" />
-										<input name="user"  type="hidden"  value="idOfInstructor1OfCourse1" />
+										<input name="user"  type="hidden"  value="FSQTT.idOfInstructor1OfCourse1" />
 								</form>
 							</td>
 						</tr>

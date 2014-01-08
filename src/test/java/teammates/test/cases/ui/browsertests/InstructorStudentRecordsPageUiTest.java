@@ -28,7 +28,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		testDataNormal = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
 		testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 		testDataLinks = loadDataBundle("/InstructorEvalSubmissionEditPageUiTest.json");
-		restoreTestDataOnServer(getTypicalDataBundle()); //Needed for consistency when run separately
 		browser = BrowserPool.getBrowser();
 	}
 	

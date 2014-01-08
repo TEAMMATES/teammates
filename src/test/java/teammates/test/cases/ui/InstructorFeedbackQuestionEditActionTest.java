@@ -237,8 +237,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 		InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
 		RedirectResult r = (RedirectResult) a.executeAndPostProcess();
 		
-		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
-				+ "&fsname=MCQ+Session&user=idOfInstructor1OfCourse1"
+		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+				+ "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
 				+ "&message=The+changes+to+the+question+has+been+updated.&error=false", 
 				r.getDestinationWithParams());
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
@@ -277,8 +277,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 		a = getAction(editOptionParams);
 		r = (RedirectResult) a.executeAndPostProcess();
 		
-		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
-				+ "&fsname=MCQ+Session&user=idOfInstructor1OfCourse1"
+		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+				+ "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
 				+ "&message=The+changes+to+the+question+has+been+updated.&error=false", 
 				r.getDestinationWithParams());
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
