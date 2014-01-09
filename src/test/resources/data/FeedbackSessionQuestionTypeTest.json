@@ -362,7 +362,7 @@
 			"giverEmail":"student1InCourse1@gmail.com",
 			"recipientEmail":"student1InCourse1@gmail.com",
 			"responseMetaData":{
-				"value":"{\"questionType\" : \"MCQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
 			}
 			
 		},
@@ -374,31 +374,31 @@
 			"giverEmail":"student2InCourse1@gmail.com",
 			"recipientEmail":"student2InCourse1@gmail.com",
 			"responseMetaData":{
-				"value":"{\"questionType\" : \"MCQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
 			}
 			
 		},
 		"response1ForQ2S2C1":{
-			"feedbackSessionName":"MCQ Session",
+			"feedbackSessionName":"MSQ Session",
 			"courseId":"FSQTT.idOfTypicalCourse1",
 			"feedbackQuestionId":"2",
 			"feedbackQuestionType":"MSQ",
 			"giverEmail":"instructor1@course1.com",
 			"recipientEmail":"instructor1@course1.com",
 			"responseMetaData":{
-				"value":"{\"questionType\" : \"MCQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
 			}
 			
 		},
 		"response2ForQ2S2C1":{
-			"feedbackSessionName":"MCQ Session",
+			"feedbackSessionName":"MSQ Session",
 			"courseId":"FSQTT.idOfTypicalCourse1",
 			"feedbackQuestionId":"2",
 			"feedbackQuestionType":"MSQ",
 			"giverEmail":"instructor2@course1.com",
 			"recipientEmail":"instructor2@course1.com",
 			"responseMetaData":{
-				"value":"{\"questionType\" : \"MCQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
 			}
 		}
 	}

@@ -293,51 +293,6 @@
 				"RECEIVER"
 			]
 		},
-		"qn7InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"idOfCourse1",
-			"creatorEmail":"instructor1@course1.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
-			},
-			"questionNumber":"7",
-			"questionType":"MCQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn8InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"idOfCourse1",
-			"creatorEmail":"instructor1@course1.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other instructors' best feature?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
-			},
-			"questionNumber":"8",
-			"questionType":"MCQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":3,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
 		"qn1InSession2":{
 			"feedbackSessionName":"Second Session",
 			"courseId":"idOfCourse1",
