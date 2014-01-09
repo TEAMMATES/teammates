@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -290,7 +291,93 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 	
 	@Test
 	public void testExecuteAndPostProcessMsq() throws Exception{
-		// TODO implement this
+		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+		
+		InstructorAttributes instructor1ofCourse1 =	dataBundle.instructors.get("instructor1OfCourse1");
+
+		gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+		
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("msqSession");
+		FeedbackQuestionAttributes fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+		FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) fq.getQuestionDetails();
+		FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+		
+		______TS("Edit text");
+		
+		assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There is already responses for this question
+		
+		String[] editTextParams = {
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "0",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(msqDetails.numOfMsqChoices),
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", msqDetails.msqChoices.get(0),
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", msqDetails.msqChoices.get(1),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+		};
+		
+		InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
+		RedirectResult r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+				+ "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
+				+ "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+				r.getDestinationWithParams());
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+		assertFalse(r.isError);
+		
+		// All existing response should remain
+		assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+		
+		______TS("Edit options");
+		
+		// There should already be responses for this question
+		assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+		
+		String[] editOptionParams = {
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "0",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "5",
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "The Content",
+				//Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", "The Teacher",   // This option is deleted during creation, don't pass parameter
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", "", // empty option
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-3", "  		", // empty option with extra whitespace
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-4", "The Atmosphere",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+		};
+		
+		a = getAction(editOptionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+				+ "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
+				+ "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+				r.getDestinationWithParams());
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+		assertFalse(r.isError);
+		
+		// All existing response should be deleted as option is edited
+		assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
 	}
 	
 	private InstructorFeedbackQuestionEditAction getAction(String... submissionParams){
