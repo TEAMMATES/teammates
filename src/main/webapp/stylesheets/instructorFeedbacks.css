@@ -81,3 +81,7 @@
 .msqOptionTextBox {
 	width: 400px;
 }
+.selectedOptionsList {
+	margin-left: 15px;
+	list-style: disc;
+}

@@ -20,6 +20,10 @@ public abstract class FeedbackAbstractResponseDetails {
 	
 	public abstract String getAnswerString();
 	
+	public abstract String getAnswerHtml();
+	
+	public abstract String getAnswerCsv();
+	
 	public static FeedbackAbstractResponseDetails createResponseDetails(Map<String, String[]> requestParameters, String[] answer, FeedbackQuestionType questionType){
 		FeedbackAbstractResponseDetails responseDetails = null;
 		

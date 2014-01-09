@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.Sanitizer;
+
 public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails {
 	private String answer;
 	private boolean isOther;
@@ -37,5 +39,15 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
 		} else {
 			return answer;
 		}
+	}
+
+	@Override
+	public String getAnswerHtml() {
+		return Sanitizer.sanitizeForHtml(getAnswerString());
+	}
+
+	@Override
+	public String getAnswerCsv() {
+		return Sanitizer.sanitizeForCsv(getAnswerString());
 	}
 }

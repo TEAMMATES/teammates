@@ -141,7 +141,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="multiline"><%=StudentFeedbackResultsPageData.sanitizeForHtml(singleResponse.getResponseDetails().getAnswerString())%></td>
+								<td class="multiline"><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
 							</tr>
 						<%
 							// Close table if going to be new recipient
