@@ -95,13 +95,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		______TS("create new responses");
 
 		submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+		
 		submitPage.fillQuestionTextBox(1, 0, "Test Self Feedback");
-		
 		submitPage.fillQuestionTextBox(2, 0, "Response to Alice.");
-		
 		submitPage.selectRecipient(2, 1, "Drop out");
 		submitPage.fillQuestionTextBox(2, 1, "Response to student who is going to drop out.");
-		
 		submitPage.selectRecipient(2, 2, "Extra guy");
 		submitPage.fillQuestionTextBox(2, 2, "Response to extra guy.");
 		
@@ -209,12 +207,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 					"IFSubmitUiT.instr@gmail.com",
 					"IFSubmitUiT.instr2@gmail.com").getResponseDetails().getAnswerString());
 		
-		fq = BackDoor.getFeedbackQuestion(
-				"IFSubmitUiT.CS2104",
-				"First Session", 9);
-		assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
-				"IFSubmitUiT.instr@gmail.com",
-				"IFSubmitUiT.instr@gmail.com"));
 		FeedbackMsqResponseDetails frMsq = 
 				(FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(fqMsq.getId(),
 						"IFSubmitUiT.instr@gmail.com",
