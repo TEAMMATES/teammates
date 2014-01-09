@@ -45,22 +45,20 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 
 	@Override
 	public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-			int responseIdx, FeedbackAbstractResponseDetails existingResponseDetails,
-			FeedbackAbstractQuestionDetails questionDetails) {
-		FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
-		FeedbackMcqResponseDetails existingMcqResponseDetails = (FeedbackMcqResponseDetails) existingResponseDetails;
+			int responseIdx, FeedbackAbstractResponseDetails existingResponseDetails) {
+		FeedbackMcqResponseDetails existingMcqResponse = (FeedbackMcqResponseDetails) existingResponseDetails;
 		
 		StringBuilder optionListHtml = new StringBuilder();
 		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM_OPTIONFRAGMENT;
-		for(int i = 0; i < mcqDetails.numOfMcqChoices; i++) {
+		for(int i = 0; i < numOfMcqChoices; i++) {
 			String optionFragment = 
 					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
 							"${qnIdx}", Integer.toString(qnIdx),
 							"${responseIdx}", Integer.toString(responseIdx),
 							"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
-							"${checked}", existingMcqResponseDetails.answer.equals(mcqDetails.mcqChoices.get(i)) ? "checked=\"checked\"" : "",
+							"${checked}", existingMcqResponse.getAnswerString().equals(mcqChoices.get(i)) ? "checked=\"checked\"" : "",
 							"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-							"${mcqChoiceValue}", mcqDetails.mcqChoices.get(i));
+							"${mcqChoiceValue}", mcqChoices.get(i));
 			optionListHtml.append(optionFragment + Const.EOL);
 		}
 		
@@ -73,13 +71,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 
 	@Override
 	public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-			boolean sessionIsOpen, int qnIdx, int responseIdx,
-			FeedbackAbstractQuestionDetails questionDetails) {
-		FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
-		
+			boolean sessionIsOpen, int qnIdx, int responseIdx) {
 		StringBuilder optionListHtml = new StringBuilder();
 		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM_OPTIONFRAGMENT;
-		for(int i = 0; i < mcqDetails.numOfMcqChoices; i++) {
+		for(int i = 0; i < numOfMcqChoices; i++) {
 			String optionFragment = 
 					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
 							"${qnIdx}", Integer.toString(qnIdx),
@@ -87,7 +82,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 							"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
 							"${checked}", "",
 							"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-							"${mcqChoiceValue}", mcqDetails.mcqChoices.get(i));
+							"${mcqChoiceValue}", mcqChoices.get(i));
 			optionListHtml.append(optionFragment + Const.EOL);
 		}
 		

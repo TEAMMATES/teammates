@@ -32,12 +32,10 @@ public abstract class FeedbackAbstractQuestionDetails {
 	
 	public abstract String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen,
 			int qnIdx, int responseIdx,
-			FeedbackAbstractResponseDetails existingResponseDetails,
-			FeedbackAbstractQuestionDetails questionDetails);
+			FeedbackAbstractResponseDetails existingResponseDetails);
 	
 	public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(boolean sessionIsOpen,
-			int qnIdx, int responseIdx,
-			FeedbackAbstractQuestionDetails questionDetails);
+			int qnIdx, int responseIdx);
 	
 	public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 	

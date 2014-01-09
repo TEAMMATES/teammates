@@ -486,7 +486,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 			questionDetailsClass = FeedbackMsqQuestionDetails.class;
 			break;
 		default:
-			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
+			Assumption.fail("FeedbackQuestionType " + questionType + " unsupported by FeedbackQuestionAttributes");
 			break;
 		}
 		

@@ -47,18 +47,52 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 	@Override
 	public String getQuestionWithExistingResponseSubmissionFormHtml(
 			boolean sessionIsOpen, int qnIdx, int responseIdx,
-			FeedbackAbstractResponseDetails existingResponseDetails,
-			FeedbackAbstractQuestionDetails questionDetails) {
-		// TODO Auto-generated method stub
-		return "";
+			FeedbackAbstractResponseDetails existingResponseDetails) {
+		FeedbackMsqResponseDetails existingMsqResponse = (FeedbackMsqResponseDetails) existingResponseDetails;
+		
+		StringBuilder optionListHtml = new StringBuilder();
+		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
+		for(int i = 0; i < numOfMsqChoices; i++) {
+			String optionFragment = 
+					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+							"${qnIdx}", Integer.toString(qnIdx),
+							"${responseIdx}", Integer.toString(responseIdx),
+							"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+							"${checked}", existingMsqResponse.contains(msqChoices.get(i)) ? "checked=\"checked\"" : "",
+							"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+							"${msqChoiceValue}", msqChoices.get(i));
+			optionListHtml.append(optionFragment + Const.EOL);
+		}
+		
+		String html = FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
+				"${msqSubmissionFormOptionFragments}", optionListHtml.toString());
+		
+		return html;
 	}
 
 	@Override
 	public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-			boolean sessionIsOpen, int qnIdx, int responseIdx,
-			FeedbackAbstractQuestionDetails questionDetails) {
-		// TODO Auto-generated method stub
-		return "";
+			boolean sessionIsOpen, int qnIdx, int responseIdx) {
+		StringBuilder optionListHtml = new StringBuilder();
+		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
+		for(int i = 0; i < numOfMsqChoices; i++) {
+			String optionFragment = 
+					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+							"${qnIdx}", Integer.toString(qnIdx),
+							"${responseIdx}", Integer.toString(responseIdx),
+							"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+							"${checked}", "",
+							"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+							"${msqChoiceValue}", msqChoices.get(i));
+			optionListHtml.append(optionFragment + Const.EOL);
+		}
+		
+		String html = FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
+				"${msqSubmissionFormOptionFragments}", optionListHtml.toString());
+		
+		return html;
 	}
 
 	@Override

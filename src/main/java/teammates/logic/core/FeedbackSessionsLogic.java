@@ -63,13 +63,17 @@ public class FeedbackSessionsLogic {
 		fsDb.createEntity(fsa);
 	}
 
-	// This method returns a single feedback session. Returns null if not found.
+	/**
+	 *  This method returns a single feedback session. Returns null if not found.
+	 */
 	public FeedbackSessionAttributes getFeedbackSession(
 			String feedbackSessionName, String courseId) {
 		return fsDb.getFeedbackSession(courseId, feedbackSessionName);
 	}
 
-	// This method returns a list of viewable feedback sessions for any user for his course.
+	/**
+	 *  This method returns a list of viewable feedback sessions for any user for his course.
+	 */
 	public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourse(
 			String courseId, String userEmail) throws EntityDoesNotExistException {
 
@@ -500,7 +504,9 @@ public class FeedbackSessionsLogic {
 		}
 	}
 
-	// This method deletes a specific feedback session, and all it's question and responses
+	/**
+	 * This method deletes a specific feedback session, and all it's question and responses
+	 */
 	public void deleteFeedbackSessionCascade(String feedbackSessionName,
 			String courseId) {
 
@@ -738,7 +744,7 @@ public class FeedbackSessionsLogic {
 	}
 
 	
-	// Note: This method is for use in Issue 1061. Can be further refactored.
+	// TODO Note: This method is for use in Issue 1061. Can be further refactored.
 	private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
 			FeedbackSessionAttributes fsa)
 			throws EntityDoesNotExistException {
@@ -875,7 +881,9 @@ public class FeedbackSessionsLogic {
 		return questions.isEmpty();
 	}
 	
-	// This method returns a list of feedback sessions which are relevant for a user.
+	/**
+	 * This method returns a list of feedback sessions which are relevant for a user.
+	 */
 	private boolean isFeedbackSessionViewableTo(FeedbackSessionAttributes session,
 			String userEmail) throws EntityDoesNotExistException {
 				

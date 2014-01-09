@@ -29,7 +29,7 @@ public class StudentFeedbackSubmissionEditPageAction extends Action {
 				logic.getFeedbackSession(feedbackSessionName, courseId));
 		
 		// Get login details
-		StudentFeedbackSubmissionEditPageData data = new StudentFeedbackSubmissionEditPageData(account);
+		FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account);
 		
 		// Set login email
 		String email = logic.getStudentForGoogleId(courseId, account.googleId).email;
