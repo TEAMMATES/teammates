@@ -249,8 +249,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td class="multiline"><span class="bold">Response: </span><%=
-										InstructorStudentRecordsPageData.sanitizeForHtml(singleResponse.getResponseDetails().getAnswerString())%></td>
+									<td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
 								</tr>
 							<%
 								qnIndx++;
@@ -304,8 +303,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td class="multiline"><span class="bold">Response: </span><%=
-										InstructorStudentRecordsPageData.sanitizeForHtml(singleResponse.getResponseDetails().getAnswerString())%></td>
+									<td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
 								</tr>
 							<%
 								qnIndx++;

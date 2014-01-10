@@ -307,6 +307,7 @@
 							id="questionTypeChoice" name="questionTypeChoice">
 								<option value="TEXT">Essay question</option>
 								<option value="MCQ">Multiple-choice question</option>
+								<option value="MSQ">Multiple-select question</option>
 						</select>
 						</td>
 						<td><input class="button centeralign" id="button_openframe"
@@ -359,6 +360,33 @@
 										<tr id="mcqAddOptionRow">
 											<td colspan="2"><a class="color_blue" href="#"
 												id="mcqAddOptionLink" onclick="addMcqOption(-1)">+add more options </a></td>
+										</tr>
+									</tbody>
+								</table> 
+								<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
+							</td>
+						</tr>
+						<tr id="msqForm">
+							<td colspan="4">
+								<table id="msqChoiceTable">
+									<tbody>
+										<tr id="msqOptionRow-0">
+											<td><input disabled="disabled" type="checkbox" /></td>
+											<td><input class="msqOptionTextBox" id="msqOption-0"
+												name="msqOption-0" type="text" /> <a
+												class="removeOptionLink" href="#" id="msqRemoveOptionLink"
+												onclick="removeMsqOption(0,-1)" tabindex="-1"> x </a></td>
+										</tr>
+										<tr id="msqOptionRow-1">
+											<td><input disabled="disabled" type="checkbox" /></td>
+											<td><input class="msqOptionTextBox" id="msqOption-1"
+												name="msqOption-1" type="text" /> <a
+												class="removeOptionLink" href="#" id="msqRemoveOptionLink"
+												onclick="removeMsqOption(1,-1)" tabindex="-1"> x </a></td>
+										</tr>
+										<tr id="msqAddOptionRow">
+											<td colspan="2"><a class="color_blue" href="#"
+												id="msqAddOptionLink" onclick="addMsqOption(-1)">+add more options</a></td>
 										</tr>
 									</tbody>
 								</table> 

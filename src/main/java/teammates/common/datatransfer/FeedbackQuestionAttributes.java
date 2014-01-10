@@ -246,18 +246,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 			return true;
 		}
 		
-		if (newAttributes.questionType == FeedbackQuestionType.MCQ){
-			FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) this.getQuestionDetails();
-			FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newAttributes.getQuestionDetails();
-
-			if (mcqDetails.numOfMcqChoices != newMcqDetails.numOfMcqChoices ||
-				mcqDetails.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false ||
-				newMcqDetails.mcqChoices.containsAll(mcqDetails.mcqChoices) == false) {
-				return true;
-			}
-			
+		if(this.getQuestionDetails().isChangesRequiresResponseDeletion(newAttributes.getQuestionDetails())) {
+			return true;
 		}
-		
+				
 		return false;
 	}
 		
@@ -490,8 +482,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		case MCQ:
 			questionDetailsClass = FeedbackMcqQuestionDetails.class;
 			break;
+		case MSQ:
+			questionDetailsClass = FeedbackMsqQuestionDetails.class;
+			break;
 		default:
-			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
+			Assumption.fail("FeedbackQuestionType " + questionType + " unsupported by FeedbackQuestionAttributes");
 			break;
 		}
 		

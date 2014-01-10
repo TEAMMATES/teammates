@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.Sanitizer;
+
 public class FeedbackTextResponseDetails extends
 		FeedbackAbstractResponseDetails {
 	//TODO use this instead of plain text for essay questions
@@ -20,6 +22,16 @@ public class FeedbackTextResponseDetails extends
 	@Override
 	public String getAnswerString() {
 		return answer;
+	}
+
+	@Override
+	public String getAnswerHtml() {
+		return Sanitizer.sanitizeForHtml(answer);
+	}
+
+	@Override
+	public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+		return Sanitizer.sanitizeForCsv(answer);
 	}
 
 }

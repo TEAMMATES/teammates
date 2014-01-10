@@ -323,6 +323,31 @@
 				"INSTRUCTORS"
 			]
 		},
+		"qn8InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"creatorEmail":"CFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is your extra feature?\",\"numOfMsqChoices\":4,\"msqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"otherEnabled\":false}"
+			},
+			"questionNumber":"8",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
 		"qn1InSession2":{
 			"feedbackSessionName":"Second Session",
 			"courseId":"CFResultsUiT.CS2104",
@@ -411,6 +436,17 @@
 			"recipientEmail":"CFResultsUiT.alice.b@gmail.com",
 			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"PowerSearch\", \"otherFieldContent\" : \"\"}"
+			}
+		},
+		"response7":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"feedbackQuestionId":"8",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"CFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"PowerSearch\",\"GoodUI\"]}"
 			}
 		}
 	}

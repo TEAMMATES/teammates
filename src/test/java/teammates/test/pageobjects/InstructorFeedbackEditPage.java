@@ -243,16 +243,34 @@ public class InstructorFeedbackEditPage extends AppPage {
 		fillTextBox(optionBox, optionText);
 	}
 	
-	public void clickAddMoreOptionLink(){
+	public void clickAddMoreMcqOptionLink(){
 		WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink"));
 		addMoreOptionLink.click();
 	}
 	
-	public void clickRemoveOptionLink(int optionIndex, int qnIndex) {
+	public void clickRemoveMcqOptionLink(int optionIndex, int qnIndex) {
 		String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
 		
 		WebElement mcqOptionRow = browser.driver.findElement(By.id("mcqOptionRow-" + optionIndex + idSuffix));
 		WebElement removeOptionLink = mcqOptionRow.findElement(By.id("mcqRemoveOptionLink"));
+		removeOptionLink.click();
+	}
+	
+	public void fillMsqOption(int optionIndex, String optionText){
+		WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex));
+		fillTextBox(optionBox, optionText);
+	}
+	
+	public void clickAddMoreMsqOptionLink(){
+		WebElement addMoreOptionLink = browser.driver.findElement(By.id("msqAddOptionLink"));
+		addMoreOptionLink.click();
+	}
+	
+	public void clickRemoveMsqOptionLink(int optionIndex, int qnIndex) {
+		String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+		
+		WebElement msqOptionRow = browser.driver.findElement(By.id("msqOptionRow-" + optionIndex + idSuffix));
+		WebElement removeOptionLink = msqOptionRow.findElement(By.id("msqRemoveOptionLink"));
 		removeOptionLink.click();
 	}
 }

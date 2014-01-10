@@ -75,6 +75,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		testEditMcqQuestionAction();
 		testDeleteMcqQuestionAction();
 		
+		testNewMsqQuestionFrame();
+		testInputValidationForMsqQuestion();
+		testCustomizeMsqOptions();
+		testAddMsqQuestionAction();
+		testEditMsqQuestionAction();
+		testDeleteMsqQuestionAction();
+		
 		testEditQuestionLink();
 		testEditQuestionAction();
 		
@@ -187,21 +194,21 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		feedbackEditPage.fillMcqOption(1, "Choice 2");
 		
 		assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-2"));
-		feedbackEditPage.clickAddMoreOptionLink();
+		feedbackEditPage.clickAddMoreMcqOptionLink();
 		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-2"));
 		
 		______TS("MCQ: remove mcq option");
 		
 		feedbackEditPage.fillMcqOption(2, "Choice 3");
 		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-1"));
-		feedbackEditPage.clickRemoveOptionLink(1, -1);
+		feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
 		assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1"));
 		
 		______TS("MCQ: add mcq option after remove");
 		
-		feedbackEditPage.clickAddMoreOptionLink();
+		feedbackEditPage.clickAddMoreMcqOptionLink();
 		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-3"));
-		feedbackEditPage.clickAddMoreOptionLink();
+		feedbackEditPage.clickAddMoreMcqOptionLink();
 		feedbackEditPage.fillMcqOption(4, "Choice 5");
 		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-4"));
 	}
@@ -219,12 +226,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 	
 	private void testEditMcqQuestionAction() {
 		
-		______TS("edit question success");
+		______TS("MCQ: edit question success");
 
 		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
 		feedbackEditPage.fillEditQuestionBox("edited mcq qn text", 2);
 		assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0-2"));
-		feedbackEditPage.clickRemoveOptionLink(0, 2);
+		feedbackEditPage.clickRemoveMcqOptionLink(0, 2);
 		assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-2"));
 		feedbackEditPage.clickSaveExistingQuestionButton(2);
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
@@ -240,6 +247,88 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
 		
 		______TS("MCQ: qn delete then accept");
+		
+		feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+		assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+	}
+	
+	private void testNewMsqQuestionFrame() {
+		
+		______TS("MCQ: new question (frame) link");
+		
+		feedbackEditPage.selectNewQuestionType("Multiple-select question");
+		assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+	}
+	
+	private void testInputValidationForMsqQuestion() {
+		
+		//TODO implement this
+		
+	}
+	
+	private void testCustomizeMsqOptions() {
+		
+		______TS("MSQ: add msq option");
+		
+		feedbackEditPage.fillMsqOption(0, "Choice 1");
+		feedbackEditPage.fillMsqOption(1, "Choice 2");
+		
+		assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-2"));
+		feedbackEditPage.clickAddMoreMsqOptionLink();
+		assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-2"));
+		
+		______TS("MSQ: remove msq option");
+		
+		feedbackEditPage.fillMsqOption(2, "Choice 3");
+		assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-1"));
+		feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
+		assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-1"));
+		
+		______TS("MSQ: add msq option after remove");
+		
+		feedbackEditPage.clickAddMoreMsqOptionLink();
+		assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-3"));
+		feedbackEditPage.clickAddMoreMsqOptionLink();
+		feedbackEditPage.fillMsqOption(4, "Choice 5");
+		assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-4"));
+	}
+	
+	private void testAddMsqQuestionAction(){
+				
+		______TS("MSQ: add question action success");
+
+		feedbackEditPage.fillQuestionBox("msq qn");
+		assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+		feedbackEditPage.clickAddQuestionButton();
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+		assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+		feedbackEditPage.verifyHtml("/instructorFeedbackMsqQuestionAddSuccess.html");
+	}
+	
+	private void testEditMsqQuestionAction() {
+		
+		______TS("MSQ: edit question success");
+
+		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
+		feedbackEditPage.fillEditQuestionBox("edited msq qn text", 2);
+		assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-0-2"));
+		feedbackEditPage.clickRemoveMsqOptionLink(0, 2);
+		assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-0-2"));
+		feedbackEditPage.clickSaveExistingQuestionButton(2);
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+		
+		feedbackEditPage.verifyHtml("/instructorFeedbackMsqQuestionEditSuccess.html");
+	}
+	
+	private void testDeleteMsqQuestionAction() {
+		
+		______TS("MSQ: qn delete then cancel");
+		
+		feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));		
+		assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+		
+		______TS("MSQ: qn delete then accept");
 		
 		feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());

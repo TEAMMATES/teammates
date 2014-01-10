@@ -1,0 +1,16 @@
+<tr>
+	<td colspan="4">
+		<table>
+			${msqEditFormOptionFragments}			
+			<tr id="msqAddOptionRow-${questionNumber}">
+				<td colspan="2"><a href="#" class="color_blue" id="msqAddOptionLink"
+					onclick="addMsqOption(${questionNumber})" style="display:none"> +add more options</a>
+				</td>
+			</tr>
+		</table>
+		
+		<input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}"
+			id="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNumber}" 
+			value="${numOfMsqChoices}">
+	</td>
+</tr>

@@ -23,7 +23,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends Action {
 		new GateKeeper().verifyAccessible(instructor, session, false);
 		
 		// Get login details
-		InstructorFeedbackSubmissionEditPageData data = new InstructorFeedbackSubmissionEditPageData(account);
+		FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account);
 				
 		data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(feedbackSessionName, courseId, instructor.email);
 				

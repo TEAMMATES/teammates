@@ -2,15 +2,12 @@
 
 <%@page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
 <%@ page import="java.util.Date"%>
-<%@ page import="teammates.common.util.Assumption"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
-<%@ page import="teammates.common.datatransfer.FeedbackTextQuestionDetails"%>
-<%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackEditPageData"%>
 <%
 	InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.getAttribute("data");
@@ -445,6 +442,7 @@
 								id="questionTypeChoice">
 							<option value = "TEXT"><%=Const.FeedbackQuestionTypeNames.TEXT%></option>
 							<option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
+							<option value = "MSQ"><%=Const.FeedbackQuestionTypeNames.MSQ%></option>
 						</select>
 					</td>
 					<td>
@@ -518,6 +516,45 @@
 								<td colspan="2">
 									<a href="#" class="color_blue" id="mcqAddOptionLink"
 										onclick="addMcqOption(-1)">
+										+add more options
+									</a>
+								</td>
+							</tr>
+						</table>
+						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>" 
+							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
+					</td>
+				</tr>
+				<tr id="msqForm">
+					<td colspan="4">
+						<table id="msqChoiceTable">
+							<tr id="msqOptionRow-0">
+								<td><input type="checkbox" disabled="disabled"></td>
+								<td>
+									<input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-0"
+										id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-0" class="msqOptionTextBox">
+									<a href="#" class="removeOptionLink" 
+										id="msqRemoveOptionLink" 
+										onclick="removeMsqOption(0,-1)"
+										tabindex="-1"> x</a>
+								</td>
+							</tr>
+							<tr id="msqOptionRow-1">
+								<td><input type="checkbox" disabled="disabled"></td>
+								<td>
+									<input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"
+										id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"
+										class="msqOptionTextBox">
+									<a href="#" class="removeOptionLink" 
+										id="msqRemoveOptionLink" 
+										onclick="removeMsqOption(1,-1)"
+										tabindex="-1"> x</a>
+								</td>
+							</tr>
+							<tr id="msqAddOptionRow">
+								<td colspan="2">
+									<a href="#" class="color_blue" id="msqAddOptionLink"
+										onclick="addMsqOption(-1)">
 										+add more options
 									</a>
 								</td>

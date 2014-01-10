@@ -177,8 +177,25 @@
 			"feedbackSessionType":"STANDARD",
 			"sentOpenEmail":true,
 			"sentPublishedEmail":true
-		}
-		
+		},
+		"MSQ Session":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"instructions":{
+				"value":"Instructions for mcq session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2014-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":10,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":true
+		}		
 	},
 	"feedbackQuestions":{
 		"qn1InSession1":{
@@ -403,7 +420,6 @@
 				"INSTRUCTORS",
 				"RECEIVER"
 			]
-			
 		},
 		"qn3InMcqSession":{
 			"feedbackSessionName":"MCQ Session",
@@ -414,6 +430,82 @@
 			},
 			"questionNumber":"3",
 			"questionType":"MCQ",
+			"giverType":"STUDENTS",
+			"recipientType":"OWN_TEAM_MEMBERS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn1InMsqSession":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMsqChoices\":2,\"msqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
+			},
+			"questionNumber":"1",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+			
+		},
+		"qn2InMsqSession":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Rate 3 other students' products\",\"numOfMsqChoices\":3,\"msqChoices\":[\"Good\",\"OK\",\"Poor\"],\"otherEnabled\":false}"
+			},
+			"questionNumber":"2",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":3,
+			"showResponsesTo":[
+				"INSTRUCTORS",
+				"RECEIVER",
+				"STUDENTS",
+				"OWN_TEAM_MEMBERS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS",
+				"OWN_TEAM_MEMBERS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			]
+			
+		},
+		"qn3InMsqSession":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Give feedback to your team mates\",\"numOfMsqChoices\":2,\"msqChoices\":[\"Good\",\"Can improve\"],\"otherEnabled\":false}"
+			},
+			"questionNumber":"3",
+			"questionType":"MSQ",
 			"giverType":"STUDENTS",
 			"recipientType":"OWN_TEAM_MEMBERS",
 			"numberOfEntitiesToGiveFeedbackTo":-100,
@@ -584,6 +676,55 @@
 			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
 			"responseMetaData":{
 				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Can improve\", \"otherFieldContent\" : \"\"}"
+			}
+			
+		},
+		
+		"msqResponse1":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Algo\"]}"
+			}
+			
+		},
+		"msqResponse2":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Good\",\"OK\"]}"
+			}
+			
+		},
+		"msqResponse3":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"OK\",\"Poor\"]}"
+			}
+			
+		},
+		"msqResponse4":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"3",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"SFResultsUiT.benny.c@gmail.com",
+			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Can improve\"]}"
 			}
 			
 		}

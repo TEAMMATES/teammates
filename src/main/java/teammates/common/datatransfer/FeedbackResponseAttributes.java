@@ -174,8 +174,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		case MCQ:
 			responseDetailsClass = FeedbackMcqResponseDetails.class;
 			break;
+		case MSQ:
+			responseDetailsClass = FeedbackMsqResponseDetails.class;
+			break;
 		default:
-			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
+			Assumption.fail("FeedbackQuestionType " + feedbackQuestionType + " unsupported by FeedbackResponseAttributes");
 			break;
 		}
 		

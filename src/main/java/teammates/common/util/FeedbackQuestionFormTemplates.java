@@ -7,6 +7,11 @@ public class FeedbackQuestionFormTemplates {
 	public static String MCQ_SUBMISSION_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMcqSubmissionFormOptionFragment.html");
 	public static String MCQ_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionMcqEditFormTemplate.html");
 	public static String MCQ_EDIT_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMcqEditFormOptionFragment.html");
+	
+	public static String MSQ_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionMsqSubmissionFormTemplate.html");
+	public static String MSQ_SUBMISSION_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMsqSubmissionFormOptionFragment.html");
+	public static String MSQ_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionMsqEditFormTemplate.html");
+	public static String MSQ_EDIT_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMsqEditFormOptionFragment.html");
 
 	/** Populates the feedback question form html templates by replacing 
 	 * variables in the template string with the given value string.
