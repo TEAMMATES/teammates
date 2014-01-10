@@ -32,8 +32,6 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
 		data.student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
 		data.student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);	
 		
-		//TODO: Student's data should be sanitized first (e.g. trimmed for whitespace) before passing to logic
-		
 		try {
 			logic.updateStudent(studentEmail, data.student);
 			statusToUser.add(Const.StatusMessages.STUDENT_EDITED);
