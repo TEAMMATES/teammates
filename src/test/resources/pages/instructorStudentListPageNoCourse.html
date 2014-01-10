@@ -86,11 +86,61 @@
                            			<input id="searchbox"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Search for student\'s name or course name')"  tabindex="1"  type="text" />
                                	</td>
                         		<td>
-                           			<input class="button"  id="button_search"  onclick="return searchName()"  tabindex="2"  type="submit"  value="Search" />
+                           			<input class="button"  id="button_search"  onclick="return applyFilters();"  tabindex="2"  type="submit"  value="Search" />
                                	</td>
+                     		</tr>
+                  		<tr>
+                        		<td colspan="2" >
+                           			<input id="option_check"  type="checkbox" />
+                           			<label for="option_check" >
+                              			Show More Options
+                           			</label>
+                        		</td>
                      		</tr>
                   		</tbody>
                		</table>
+               		<br><br>
+					<table class="inputTable" id="optionsTable" style="display: none;">
+						<tbody>
+							<tr>
+								<td width="250px">
+									<h4 class="bold">Courses</h4>
+									<div class="leftalign" id="course_checkboxes">
+										<br />
+										<ul>
+											<li><input checked="checked" id="course_all"
+												type="checkbox" /> <label class="bold" for="course_all">
+													Select All </label></li>
+										</ul>
+										<br />
+									</div>
+								</td>
+								<td width="250px">
+									<h4 class="bold">Teams</h4>
+									<div class="leftalign" id="team_checkboxes">
+										<br />
+										<ul>
+											<li><input checked="checked" id="team_all" type="checkbox" />
+												<label class="bold" for="team_all"> Select All </label></li>
+										</ul>
+										<br />
+									</div>
+								</td>
+								<td width="250px">
+									<h4 class="bold">
+										<input id="show_email" type="checkbox" /> <label
+											for="show_email"> Show Emails </label>
+									</h4>
+									<div class="leftalign" id="emails" style="display: none;">
+										<br />
+										<ul>
+										</ul>
+										<br />
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
                		<div id="statusMessage"  style="display: block;" >
                   		There are no course or students information to be displayed
                		</div>

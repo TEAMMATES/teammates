@@ -67,20 +67,17 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 		
 		______TS("content: search and toggle show email");
 		
+		viewPage.clickShowMoreOptions();
 		viewPage.clickShowEmail();
 		viewPage.verifyHtml("/instructorStudentListPageSearchShowEmail.html");
 		viewPage.clickShowEmail();
+		viewPage.clickShowMoreOptions();
 		viewPage.verifyHtml("/instructorStudentListPageSearchStudent.html");
 		
 		______TS("content: live search");
 
 		viewPage.setLiveSearchKey("charlie");
 		viewPage.verifyHtml("/instructorStudentListPageLiveSearch.html");
-		
-		______TS("content: search course");
-		
-		viewPage.setSearchKey("course3");
-		viewPage.verifyHtml("/instructorStudentListPageSearchCourse.html");
 		
 		______TS("content: search no match");
 		
@@ -126,20 +123,20 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 		______TS("link: view");
 		
 		StudentAttributes student1 = testData.students.get("Student1Course2");
-		InstructorCourseStudentDetailsViewPage studentDetailsPage = viewPage.clickViewStudent(student1.name);
+		InstructorCourseStudentDetailsViewPage studentDetailsPage = viewPage.clickViewStudent(student1.course, student1.name);
 		studentDetailsPage.verifyIsCorrectPage(student1.email);
 		viewPage = studentDetailsPage.goToPreviousPage(InstructorStudentListPage.class);
 		
 		______TS("link: edit");
 		
 		StudentAttributes student2 = testData.students.get("Student3Course3");
-		InstructorCourseStudentDetailsEditPage studentEditPage = viewPage.clickEditStudent(student2.name);
+		InstructorCourseStudentDetailsEditPage studentEditPage = viewPage.clickEditStudent(student2.course, student2.name);
 		studentEditPage.verifyIsCorrectPage(student2.email);
 		viewPage = studentEditPage.goToPreviousPage(InstructorStudentListPage.class);
 		
 		______TS("link: view records");
 		
-		InstructorStudentRecordsPage studentRecordsPage = viewPage.clickViewRecordsStudent(student2.name);
+		InstructorStudentRecordsPage studentRecordsPage = viewPage.clickViewRecordsStudent(student2.course, student2.name);
 		studentRecordsPage.verifyIsCorrectPage();
 		viewPage = studentRecordsPage.goToPreviousPage(InstructorStudentListPage.class);
 	}
@@ -148,14 +145,14 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 		
 		______TS("action: delete");
 		
-		String studentName = testData.students.get("Student2Course3").name;
-		String studentEmail = testData.students.get("Student2Course3").email;
-		String courseId = testData.courses.get("course3").id;
+		String studentName = testData.students.get("Student2Course2").name;
+		String studentEmail = testData.students.get("Student2Course2").email;
+		String courseId = testData.courses.get("course2").id;
 		
-		viewPage.clickDeleteAndCancel(studentName);
+		viewPage.clickDeleteAndCancel(courseId, studentName);
 		assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
-		viewPage.clickDeleteAndConfirm(studentName)
+		viewPage.clickDeleteAndConfirm(courseId, studentName)
 			.verifyHtml("/instructorStudentListDeleteSuccessful.html");
 	}
 	
