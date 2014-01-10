@@ -122,13 +122,23 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		
 		//verify cascade logic
 		verifyCascasedToSubmissions(instructorCourse);
+
+		______TS("add student without team");
+
+		StudentAttributes student4 = new StudentAttributes("|n6|e6@g", instructorCourse);
+		enrollmentResult = invokeEnrollStudent(student4);
+		assertEquals(5, studentsLogic.getStudentsForCourse(instructorCourse).size());
+		LogicTest.verifyEnrollmentResultForStudent(student4, enrollmentResult,
+				StudentAttributes.UpdateStatus.NEW);
+		
+		verifyCascasedToSubmissions(instructorCourse);
 		
 		______TS("error during enrollment");
 
 		StudentAttributes student5 = new StudentAttributes("|n6|e6@g@", instructorCourse);
 		enrollmentResult = invokeEnrollStudent(student5);
 		assertEquals (StudentAttributes.UpdateStatus.ERROR, enrollmentResult.updateStatus);
-		assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
+		assertEquals(5, studentsLogic.getStudentsForCourse(instructorCourse).size());
 		
 	}
 
@@ -294,8 +304,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
 		invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
 		expectedInvalidInfo.clear();
-		info = StringHelper.toString((new StudentAttributes(lineWithTeamNameEmpty, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
 		info = StringHelper.toString((new StudentAttributes(lineWithStudentNameEmpty, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
 		expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithStudentNameEmpty, info));
 		info = StringHelper.toString((new StudentAttributes(lineWithEmailEmpty, courseId)).getInvalidityInfo(), "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");

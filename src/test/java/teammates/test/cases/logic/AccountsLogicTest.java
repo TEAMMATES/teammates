@@ -131,7 +131,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
 		// Create correct student with original@email.com
 		StudentAttributes studentData = new StudentAttributes(null,
-				originalEmail, "name", "", courseId, "teamName");
+				originalEmail, "name", "", courseId, "");
 		logic.createStudent(studentData);
 		studentData = StudentsLogic.inst().getStudentForEmail(courseId,
 				originalEmail);
@@ -195,7 +195,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
 		originalEmail = "email2@gmail.com";
 		studentData = new StudentAttributes(null, originalEmail, "name", "",
-				courseId, "teamName");
+				courseId, "");
 		logic.createStudent(studentData);
 		studentData = StudentsLogic.inst().getStudentForEmail(courseId,
 				originalEmail);

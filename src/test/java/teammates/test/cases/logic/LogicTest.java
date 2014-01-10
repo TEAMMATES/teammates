@@ -136,7 +136,7 @@ public class LogicTest extends BaseComponentTestCase {
 		gaeSimulation.loginAsAdmin(instructor.googleId);
 		// also make this user a student
 		StudentAttributes instructorAsStudent = new StudentAttributes(
-				"Team 1|Instructor As Student|instructorasstudent@yahoo.com|", "some-course");
+				"|Instructor As Student|instructorasstudent@yahoo.com|", "some-course");
 		instructorAsStudent.googleId = instructor.googleId;
 		logic.createStudent(instructorAsStudent);
 
@@ -1301,10 +1301,13 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
+		
+	
 		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-		logic.createStudent(new StudentAttributes("t1|s1|s1@e|", course.id));
+		logic.createStudent(new StudentAttributes("|s1|s1@e|", course.id));
+		logic.createStudent(new StudentAttributes("|s2|s2@e|", course.id));
 		CourseDetailsBundle courseAsTeams = logic.getTeamsForCourse(course.id);
-		assertEquals(3, courseAsTeams.teams.size());
+		assertEquals(2, courseAsTeams.teams.size());
 	
 		String team1Id = "Team 1.1";
 		assertEquals(team1Id, courseAsTeams.teams.get(0).name);
@@ -1316,6 +1319,19 @@ public class LogicTest extends BaseComponentTestCase {
 		assertEquals(team2Id, courseAsTeams.teams.get(1).name);
 		assertEquals(1, courseAsTeams.teams.get(1).students.size());
 		assertEquals(team2Id, courseAsTeams.teams.get(1).students.get(0).team);
+	
+		assertEquals(2, courseAsTeams.loners.size());
+		assertEquals("s1@e", courseAsTeams.loners.get(0).email);
+		assertEquals("s2@e", courseAsTeams.loners.get(1).email);
+	
+		______TS("without loners");
+	
+		// TODO: remove this if we don't allow loners
+	
+		restoreTypicalDataInDatastore();
+		courseAsTeams = logic.getTeamsForCourse(course.id);
+		assertEquals(4, courseAsTeams.teams.get(0).students.size());
+		assertEquals(0, courseAsTeams.loners.size());
 	
 		______TS("null parameters");
 	

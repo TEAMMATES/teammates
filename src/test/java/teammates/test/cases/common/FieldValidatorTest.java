@@ -178,7 +178,7 @@ public class FieldValidatorTest extends BaseTestCase{
 				FieldType.TEAM_NAME, 
 				TEAM_NAME_MAX_LENGTH, 
 				TEAM_NAME_ERROR_MESSAGE, 
-				false);
+				true);
 		
 	}
 
