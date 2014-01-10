@@ -374,7 +374,7 @@
 			"giverEmail":"student2InCourse1@gmail.com",
 			"recipientEmail":"student2InCourse1@gmail.com",
 			"responseMetaData":{
-				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\"]}"
 			}
 			
 		},
@@ -398,7 +398,7 @@
 			"giverEmail":"instructor2@course1.com",
 			"recipientEmail":"instructor2@course1.com",
 			"responseMetaData":{
-				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's perfect\"]}"
 			}
 		}
 	}

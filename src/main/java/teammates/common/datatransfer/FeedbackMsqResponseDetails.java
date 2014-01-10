@@ -45,9 +45,18 @@ public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails 
 	}
 
 	@Override
-	public String getAnswerCsv() {
-		// TODO implement this
-		return Sanitizer.sanitizeForCsv("");
+	public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+		FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
+		StringBuilder csvBuilder = new StringBuilder();
+		
+		for(String choice : msqDetails.msqChoices) {
+			csvBuilder.append(",");
+			if (this.contains(choice)) {
+				csvBuilder.append(Sanitizer.sanitizeForCsv(choice));
+			}
+		}
+
+		return csvBuilder.toString();
 	}
 
 }

@@ -47,7 +47,7 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
 	}
 
 	@Override
-	public String getAnswerCsv() {
+	public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
 		return Sanitizer.sanitizeForCsv(getAnswerString());
 	}
 }

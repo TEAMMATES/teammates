@@ -52,4 +52,9 @@ public class FeedbackTextQuestionDetails extends
 	public String getQuestionSpecificEditFormHtml(int questionNumber) {
 		return "";
 	}
+	
+	@Override
+	public String getCsvHeader() {
+		return "Feedback";
+	}
 }

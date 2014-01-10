@@ -117,4 +117,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		return html;
 	}
 
+	@Override
+	public String getCsvHeader() {
+		return "Feedback";
+	}
 }

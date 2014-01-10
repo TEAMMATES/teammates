@@ -30,7 +30,7 @@ public class FeedbackTextResponseDetails extends
 	}
 
 	@Override
-	public String getAnswerCsv() {
+	public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
 		return Sanitizer.sanitizeForCsv(answer);
 	}
 

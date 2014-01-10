@@ -22,7 +22,7 @@ public abstract class FeedbackAbstractResponseDetails {
 	
 	public abstract String getAnswerHtml();
 	
-	public abstract String getAnswerCsv();
+	public abstract String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails);
 	
 	public static FeedbackAbstractResponseDetails createResponseDetails(Map<String, String[]> requestParameters, String[] answer, FeedbackQuestionType questionType){
 		FeedbackAbstractResponseDetails responseDetails = null;

@@ -4,6 +4,8 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 
 public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails {
 	public int numOfMsqChoices;
@@ -119,4 +121,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		return html;
 	}
 
+	@Override
+	public String getCsvHeader() {
+		List<String> sanitizedChoices = Sanitizer.sanitizeListForCsv(msqChoices);
+		return "Feedbacks:," + StringHelper.toString(sanitizedChoices, ",");
+	}
+	
+	
 }

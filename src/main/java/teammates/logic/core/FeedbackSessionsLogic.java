@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -263,15 +264,16 @@ public class FeedbackSessionsLogic {
 		
 		for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry :
 								results.getQuestionResponseMap().entrySet()) {
+			FeedbackAbstractQuestionDetails questionDetails = entry.getKey().getQuestionDetails();
+			
 			export += "Question " + Integer.toString(entry.getKey().questionNumber) + "," +
-					 Sanitizer.sanitizeForCsv(entry.getKey().getQuestionDetails().questionText) 
-					+ Const.EOL + Const.EOL;
-			export += "Giver" + "," + "Recipient" + "," + "Feedback" + Const.EOL;
+					 Sanitizer.sanitizeForCsv(questionDetails.questionText) + Const.EOL + Const.EOL;
+			export += "Giver" + "," + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL;
 			
 			for(FeedbackResponseAttributes response : entry.getValue()){
 				export += Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail)) + "," + 
 						Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipientEmail)) + "," +
-						Sanitizer.sanitizeForCsv(response.getResponseDetails().getAnswerString()) + Const.EOL;
+						response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL;
 			}
 			export += Const.EOL + Const.EOL;
 		}
