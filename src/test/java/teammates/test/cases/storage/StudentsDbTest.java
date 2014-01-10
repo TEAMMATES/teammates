@@ -40,7 +40,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
 		StudentAttributes s = new StudentAttributes();
 		s.name = "valid student";
 		s.email = "valid-fresh@email.com";
-		s.team = "";
+		s.team = "validTeamName";
 		s.comments = "";
 		s.googleId = "validGoogleId";
 
@@ -245,7 +245,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
 		s.name = "valid student";
 		s.course = "valid-course";
 		s.email = "valid@email.com";
-		s.team = "";
+		s.team = "validTeamName";
 		s.comments = "";
 		s.googleId="";
 		try {
@@ -262,7 +262,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
 		s.name = "valid student 2";
 		s.course = "valid-course";
 		s.email = email;
-		s.team = "";
+		s.team = "valid team name";
 		s.comments = "";
 		s.googleId="";
 		try {
