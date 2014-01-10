@@ -6,12 +6,6 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -24,7 +18,6 @@ import teammates.common.exception.EnrollException;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.HtmlHelper;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
@@ -242,18 +235,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 
 		submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-		
-		try {
-			PrintWriter pr = new PrintWriter(new BufferedWriter( new FileWriter(new File("actual.html"))));
-			pr.print(HtmlHelper.convertToStandardHtml(submitPage.getPageSource()));
-			pr.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		submitPage.verifyHtml("/instructorFeedbackSubmitPageModified.html");
-		
 	}
 
 	private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
