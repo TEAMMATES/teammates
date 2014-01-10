@@ -72,6 +72,23 @@
 	<script type="text/javascript">
     	document.getElementById( 'statusMessage' ).scrollIntoView();
     </script>
+    
+    <form action="/page/instructorStudentListPage" method="post" name="search_form">
+		<table class="inputTable" id="searchTable">
+			<tbody>
+				<tr>
+					<td><input id="searchbox" name="searchkey"
+						onmouseout="hideddrivetip()"
+						onmouseover="ddrivetip('Search for student\'s name')"
+						tabindex="1" type="text" /></td>
+					<td><input class="button" id="button_search" tabindex="2"
+						type="submit" value="Search" /></td>
+				</tr>
+			</tbody>
+		</table>
+		<input name="user" type="hidden" value="{$test.instructor}" />
+	</form>
+	<br /> <br />
 
 			
 			<div class="backgroundBlock">

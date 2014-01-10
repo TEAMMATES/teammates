@@ -11,3 +11,7 @@
     height: 30px;
 
 }
+
+#searchTable input[type="text"]{
+	width: 400px;
+}
