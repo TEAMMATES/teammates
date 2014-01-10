@@ -88,9 +88,9 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
 onload = function() {
 	
 	// Parameters for the estimation calculation
-	var baseDate = new Date('October 25, 2013 00:00:00');  //The date the parameters were adjusted
-	var baseCount = 51000;     //The submission count on the above date
-	var submissionPerHour = 3; //The rate at which the submission count is growing
+	var baseDate = new Date('January 1, 2014 00:00:00');  //The date the parameters were adjusted
+	var baseCount = 80000;     //The submission count on the above date
+	var submissionPerHour = 6; //The rate at which the submission count is growing
 	
 	//set the submission count in the page
 	var e = document.getElementById('submissionsNumber');
