@@ -132,7 +132,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	/** This method converts the given Feedback*ResponseDetails object to JSON for storing
 	 * @param responseDetails
 	 */
-	public void setQuestionDetails(FeedbackAbstractResponseDetails responseDetails) {
+	public void setResponseDetails(FeedbackAbstractResponseDetails responseDetails) {
 		Gson gson = teammates.common.util.Utils.getTeammatesGson();
 		
 		if(responseDetails.questionType == FeedbackQuestionType.TEXT) {
@@ -174,8 +174,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 		case MCQ:
 			responseDetailsClass = FeedbackMcqResponseDetails.class;
 			break;
+		case MSQ:
+			responseDetailsClass = FeedbackMsqResponseDetails.class;
+			break;
 		default:
-			Assumption.fail("FeedbackQuestionType unsupported by FeedbackQuestionAttributes");
+			Assumption.fail("FeedbackQuestionType " + feedbackQuestionType + " unsupported by FeedbackResponseAttributes");
 			break;
 		}
 		

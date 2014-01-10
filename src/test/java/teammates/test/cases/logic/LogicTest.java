@@ -386,6 +386,19 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 	
 	@Test
+	public void testIsNewInstructor() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: is new instructor");
+		String instructorId = "idOfInstructorWithOnlyOneSampleCourse";
+		assertEquals(true, logic.isNewInstructor(instructorId));
+		
+		______TS("failure: instructor is not new user");
+		instructorId = "idOfInstructor1OfCourse1";
+		assertEquals(false, logic.isNewInstructor(instructorId));
+	}
+	
+	@Test
 	public void testGetInstructorsForCourse() throws Exception {
 		
 		______TS("invalid case: null parameters");

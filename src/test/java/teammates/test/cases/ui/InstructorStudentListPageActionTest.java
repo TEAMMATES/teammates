@@ -41,7 +41,9 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 		InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
 		String instructorId = instructor.googleId;
 
-		String[] submissionParams = new String[] {};
+		String[] submissionParams = new String[]{
+				Const.ParamsNames.SEARCH_KEY, "A search key"
+		};
 
 		______TS("Typical case, student list view");
 
@@ -58,11 +60,11 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 		InstructorStudentListPageData pageData = (InstructorStudentListPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.courses.size());
-		assertEquals(7, pageData.students.size());
+		assertEquals("A search key", pageData.searchKey);
 
 		String expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"+
 				"|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
-				"|||instr3@course1n2.com|||instructorStudentList Page Load<br>Total Courses: 2<br>Total Students: 7"+
+				"|||instr3@course1n2.com|||instructorStudentList Page Load<br>Total Courses: 2"+
 				"|||/page/instructorStudentListPage";
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
@@ -84,11 +86,10 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 		pageData = (InstructorStudentListPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(0, pageData.courses.size());
-		assertEquals(0, pageData.students.size());
 
 		expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"+
 				"|||true|||Instructor|||Instructor Without Courses|||instructorWithoutCourses"+
-				"|||iwc@yahoo.com|||instructorStudentList Page Load<br>Total Courses: 0<br>Total Students: 0"+
+				"|||iwc@yahoo.com|||instructorStudentList Page Load<br>Total Courses: 0"+
 				"|||/page/instructorStudentListPage";
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		

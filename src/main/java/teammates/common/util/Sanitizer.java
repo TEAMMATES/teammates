@@ -1,6 +1,10 @@
 package teammates.common.util;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -112,9 +116,24 @@ public class Sanitizer {
 	 * We follow the definition described by RFC 4180:<br>
 	 * {@link http://tools.ietf.org/html/rfc4180}
 	 */
-	
 	public static String sanitizeForCsv(String str){ 
 		return "\"" + str.replace("\"", "\"\"") + "\"";
+	}
+	
+	/**
+	 * Sanitizes the list of strings for comma-separated values (CSV) file output.<br>
+	 * We follow the definition described by RFC 4180:<br>
+	 * {@link http://tools.ietf.org/html/rfc4180}
+	 */
+	public static List<String> sanitizeListForCsv(List<String> strList){
+		List<String> sanitizedStrList = new ArrayList<String>();
+		
+		Iterator<String> itr = strList.iterator();
+		while(itr.hasNext()) {
+			sanitizedStrList.add(sanitizeForCsv(itr.next()));
+		}
+		
+		return sanitizedStrList;
 	}
 
 	/**

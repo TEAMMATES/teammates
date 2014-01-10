@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.util.List;
 
 import teammates.common.util.Const;
+import teammates.common.util.FeedbackQuestionFormTemplates;
 
 public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails {
 	public int numOfMcqChoices;
@@ -28,81 +29,96 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 	public String getQuestionTypeDisplayName() {
 		return Const.FeedbackQuestionTypeNames.MCQ;
 	}
+	
+	@Override
+	public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
+		FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
+
+		if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices ||
+			this.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false ||
+			newMcqDetails.mcqChoices.containsAll(this.mcqChoices) == false) {
+			return true;
+		}
+		
+		return false;
+	}
 
 	@Override
 	public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-			int responseIdx, FeedbackAbstractResponseDetails existingResponseDetails,
-			FeedbackAbstractQuestionDetails questionDetails) {
-		FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
-		FeedbackMcqResponseDetails existingMcqResponseDetails = (FeedbackMcqResponseDetails) existingResponseDetails;
+			int responseIdx, FeedbackAbstractResponseDetails existingResponseDetails) {
+		FeedbackMcqResponseDetails existingMcqResponse = (FeedbackMcqResponseDetails) existingResponseDetails;
 		
-		StringBuilder html = new StringBuilder();
-		html.append("<table>");
-		
-		for(int i = 0; i < mcqDetails.numOfMcqChoices; i++) {
-			html.append("<tr><td><label><input type=\"radio\" "
-						+ "name=\"" + Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnIdx + "-" + responseIdx + "\""
-						+ (sessionIsOpen ? "" : "disabled=\"disabled\" ")
-						+ "value=\"" + mcqDetails.mcqChoices.get(i) + "\""
-						+ (existingMcqResponseDetails.answer.equals(mcqDetails.mcqChoices.get(i)) ? "checked=\"checked\" " : "")
-						+ "> " + mcqDetails.mcqChoices.get(i));
-			html.append("</label></td></tr>");
+		StringBuilder optionListHtml = new StringBuilder();
+		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM_OPTIONFRAGMENT;
+		for(int i = 0; i < numOfMcqChoices; i++) {
+			String optionFragment = 
+					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+							"${qnIdx}", Integer.toString(qnIdx),
+							"${responseIdx}", Integer.toString(responseIdx),
+							"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+							"${checked}", existingMcqResponse.getAnswerString().equals(mcqChoices.get(i)) ? "checked=\"checked\"" : "",
+							"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+							"${mcqChoiceValue}", mcqChoices.get(i));
+			optionListHtml.append(optionFragment + Const.EOL);
 		}
 		
-		html.append("</table>");
-		return html.toString();
+		String html = FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM,
+				"${mcqSubmissionFormOptionFragments}", optionListHtml.toString());
+		
+		return html;
 	}
 
 	@Override
 	public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-			boolean sessionIsOpen, int qnIdx, int responseIdx,
-			FeedbackAbstractQuestionDetails questionDetails) {
-		FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) questionDetails;
-		
-		StringBuilder html = new StringBuilder();
-		html.append("<table>");
-		
-		for(int i = 0; i < mcqDetails.numOfMcqChoices; i++) {
-			html.append("<tr><td><label><input type=\"radio\" "
-						+ "name=\"" + Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnIdx + "-" + responseIdx + "\""
-						+ (sessionIsOpen ? "" : "disabled=\"disabled\" ")
-						+ "value=\"" + mcqDetails.mcqChoices.get(i) + "\""
-						+ "> " + mcqDetails.mcqChoices.get(i));
-			html.append("</label></td></tr>");
+			boolean sessionIsOpen, int qnIdx, int responseIdx) {
+		StringBuilder optionListHtml = new StringBuilder();
+		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM_OPTIONFRAGMENT;
+		for(int i = 0; i < numOfMcqChoices; i++) {
+			String optionFragment = 
+					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+							"${qnIdx}", Integer.toString(qnIdx),
+							"${responseIdx}", Integer.toString(responseIdx),
+							"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+							"${checked}", "",
+							"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+							"${mcqChoiceValue}", mcqChoices.get(i));
+			optionListHtml.append(optionFragment + Const.EOL);
 		}
 		
-		html.append("</table>");
-		return html.toString();
+		String html = FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.MCQ_SUBMISSION_FORM,
+				"${mcqSubmissionFormOptionFragments}", optionListHtml.toString());
+		
+		return html;
 	}
 
 	@Override
 	public String getQuestionSpecificEditFormHtml(int questionNumber) {
-		StringBuilder html = new StringBuilder();
-		
-		html.append("<tr><td colspan=\"4\"><table>");
-		
+		StringBuilder optionListHtml = new StringBuilder();
+		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_EDIT_FORM_OPTIONFRAGMENT;
 		for(int i = 0; i < numOfMcqChoices; i++) {
-			html.append("<tr id=\"mcqOptionRow-" + i + "-" + questionNumber + "\">"
-						+ "<td><input type=\"radio\" class=\"disabled_radio\" disabled=\"disabled\"></td>"
-						+ "<td><input type=\"text\" disabled=\"disabled\" "
-						+ "name=\"" + Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i + "\" "
-						+ "id=\"" + Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE+ "-" + i + "-" + questionNumber + "\" "
-						+ "class=\"mcqOptionTextBox\" value=\"" + mcqChoices.get(i) + "\">"
-						+ "<a href=\"#\" class=\"removeOptionLink\" id=\"mcqRemoveOptionLink\" " 
-						+ "onclick=\"removeMcqOption(" + i + "," + questionNumber + ")\" "
-						+ "style=\"display:none\" tabindex=\"-1\"> x</a></td></tr>");		
+			String optionFragment = 
+					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+							"${i}", Integer.toString(i),
+							"${mcqChoiceValue}", mcqChoices.get(i),
+							"${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE);
+
+			optionListHtml.append(optionFragment + Const.EOL);
 		}
 		
-		html.append("<tr id=\"mcqAddOptionRow-" + questionNumber + "\">"
-					+ "<td colspan=\"2\"><a href=\"#\" class=\"color_blue\" id=\"mcqAddOptionLink\" "
-					+ "onclick=\"addMcqOption(" + questionNumber+ ")\" style=\"display:none\">"
-					+ "+add more options</a></td></tr></table>");
+		String html = FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.MCQ_EDIT_FORM,
+				"${mcqEditFormOptionFragments}", optionListHtml.toString(),
+				"${questionNumber}", Integer.toString(questionNumber),
+				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
+				"${numOfMcqChoices}", Integer.toString(numOfMcqChoices));
 		
-		html.append("<input type=\"hidden\" name=\"" + Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+ "\" "
-					+ "id=\"" + Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + "-" + questionNumber + "\" " 
-					+ "value=\"" + numOfMcqChoices + "\"></td></tr>");
-		
-		return html.toString();
+		return html;
 	}
 
+	@Override
+	public String getCsvHeader() {
+		return "Feedback";
+	}
 }

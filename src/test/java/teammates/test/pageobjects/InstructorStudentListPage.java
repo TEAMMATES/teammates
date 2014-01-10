@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,6 +19,9 @@ public class InstructorStudentListPage extends AppPage {
 	@FindBy(id = "show_email")
 	private WebElement showEmailLink;
 	
+	@FindBy(id = "option_check")
+	private WebElement showMoreOptions;
+	
 	public InstructorStudentListPage(Browser browser) {
 		super(browser);
 	}
@@ -33,35 +38,35 @@ public class InstructorStudentListPage extends AppPage {
 		return changePageType(InstructorCourseEnrollPage.class);
 	}
 	
-	public InstructorCourseStudentDetailsViewPage clickViewStudent(String studentName) {
-		int rowId = getStudentRowId(studentName);
+	public InstructorCourseStudentDetailsViewPage clickViewStudent(String courseId, String studentName) {
+		String rowId = getStudentRowId(courseId, studentName);
 		getViewLink(rowId).click();
 		waitForPageToLoad();
 		return changePageType(InstructorCourseStudentDetailsViewPage.class);
 	}
 	
-	public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentName) {
-		int rowId = getStudentRowId(studentName);
+	public InstructorCourseStudentDetailsEditPage clickEditStudent(String courseId, String studentName) {
+		String rowId = getStudentRowId(courseId, studentName);
 		getEditLink(rowId).click();
 		waitForPageToLoad();
 		return changePageType(InstructorCourseStudentDetailsEditPage.class);
 	}
 	
-	public InstructorStudentRecordsPage clickViewRecordsStudent(String studentName) {
-		int rowId = getStudentRowId(studentName);
+	public InstructorStudentRecordsPage clickViewRecordsStudent(String courseId, String studentName) {
+		String rowId = getStudentRowId(courseId, studentName);
 		getViewRecordsLink(rowId).click();
 		waitForPageToLoad();
 		return changePageType(InstructorStudentRecordsPage.class);
 	}
 	
-	public InstructorStudentListPage clickDeleteAndCancel(String studentName) {
-		int rowId = getStudentRowId(studentName);
+	public InstructorStudentListPage clickDeleteAndCancel(String courseId, String studentName) {
+		String rowId = getStudentRowId(courseId, studentName);
 		clickAndCancel(getDeleteLink(rowId));
 		return this;
 	}
 	
-	public InstructorStudentListPage clickDeleteAndConfirm(String studentName) {
-		int rowId = getStudentRowId(studentName);
+	public InstructorStudentListPage clickDeleteAndConfirm(String courseId, String studentName) {
+		String rowId = getStudentRowId(courseId, studentName);
 		clickAndConfirm(getDeleteLink(rowId));
 		return this;
 	}
@@ -81,6 +86,14 @@ public class InstructorStudentListPage extends AppPage {
 		showEmailLink.click();
 	}
 	
+	public void clickShowMoreOptions(){
+		showMoreOptions.click();
+	}
+	
+	public void verifySearchKey(String searchKey){
+		assertEquals(searchKey, searchBox.getAttribute("value"));
+	}
+	
 	private int getCourseNumber(String courseId) {
 		int id = 0;
 		while (isElementPresent(By.id("course-" + id))) {
@@ -94,21 +107,22 @@ public class InstructorStudentListPage extends AppPage {
 		return -1;
 	}
 
-	private int getStudentRowId(String studentName) {
+	private String getStudentRowId(String courseId, String studentName) {
 		int studentCount = browser.driver.findElements(By.className("student_row"))
 				.size();
+		int courseNumber = getCourseNumber(courseId);
 		for (int i = 0; i < studentCount; i++) {
-			String studentNameInRow = getStudentNameInRow(i);
+			String studentNameInRow = getStudentNameInRow(courseNumber, i);
 			if (studentNameInRow.equals(studentName)) {
-				return i;
+				return ("c"+courseNumber+"."+i);
 			}
 		}
-		return -1;
+		return "";
 	}
 	
-	private String getStudentNameInRow(int rowId) {
-		String xpath = "//tr[@class='student_row' and @id='student-"
-				+ rowId	+ "']//td[@id='" + Const.ParamsNames.STUDENT_NAME + "']";
+	private String getStudentNameInRow(int courseNumber, int rowId) {
+		String xpath = "//tr[@class='student_row' and @id='student-c" + courseNumber + "."
+				+ rowId	+ "']//td[@id='" + Const.ParamsNames.STUDENT_NAME + "-c" + courseNumber + "." + rowId + "']";
 		return browser.driver.findElement(By.xpath(xpath)).getText();
 	}
 	
@@ -116,19 +130,19 @@ public class InstructorStudentListPage extends AppPage {
 		return browser.driver.findElement(By.className("t_course_enroll-" + courseNumber));
 	}
 	
-	private WebElement getViewLink(int rowId) {
+	private WebElement getViewLink(String rowId) {
 		return browser.driver.findElement(By.className("t_student_details-" + rowId));
 	}
 	
-	private WebElement getEditLink(int rowId) {
+	private WebElement getEditLink(String rowId) {
 		return browser.driver.findElement(By.className("t_student_edit-" + rowId));
 	}
 	
-	private WebElement getViewRecordsLink(int rowId) {
+	private WebElement getViewRecordsLink(String rowId) {
 		return browser.driver.findElement(By.className("t_student_records-" + rowId));
 	}
 	
-	private WebElement getDeleteLink(int rowId) {
+	private WebElement getDeleteLink(String rowId) {
 		return browser.driver.findElement(By.className("t_student_delete-" + rowId));
 	}
 	

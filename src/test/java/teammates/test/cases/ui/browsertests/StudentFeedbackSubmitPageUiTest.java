@@ -1,14 +1,17 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
@@ -17,19 +20,17 @@ import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.StudentFeedbackSubmitPage;
+import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
  * Tests 'Submit Feedback' view of students.
  * SUT: {@link StudentFeedbackSubmitPage}.
  */
 public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
-
 	private static DataBundle testData;
 	private static Browser browser;
-	private StudentFeedbackSubmitPage submitPage;
-	
-	
+	private FeedbackSubmitPage submitPage;
+		
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
@@ -80,20 +81,19 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		______TS("create new responses");
 
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+		
 		submitPage.fillQuestionTextBox(1, 0, "Test Self Feedback");
-		
 		submitPage.fillQuestionTextBox(2, 0, "Response to Benny.");
-		
 		submitPage.selectRecipient(2, 1, "Drop out");
 		submitPage.fillQuestionTextBox(2, 1, "Response to student who is going to drop out.");
-		
 		submitPage.selectRecipient(2, 2, "Extra guy");
 		submitPage.fillQuestionTextBox(2, 2, "Response to extra guy.");
 		
-		submitPage.chooseMcqOption(7, 0, "Algo");
-		
 		// Test partial response for question		
 		submitPage.fillQuestionTextBox(4, 1, "Feedback to team 3");
+		submitPage.chooseMcqOption(7, 0, "Algo");
+		submitPage.toggleMsqOption(9, 0, "UI");
+		submitPage.toggleMsqOption(9, 0, "Design");
 		
 		// Just check that some of the responses persisted.
 		FeedbackQuestionAttributes fq =
@@ -105,6 +105,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		FeedbackQuestionAttributes fqMcq =
 				BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
 						"First Session", 8);
+		FeedbackQuestionAttributes fqMsq =
+				BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
+						"First Session", 10);
 		
 		assertNull(BackDoor.getFeedbackResponse(fq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
@@ -113,6 +116,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 				"SFSubmitUiT.alice.b@gmail.com",
 				"Team 3"));
 		assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
+				"SFSubmitUiT.alice.b@gmail.com",
+				"Team 2"));
+		assertNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
 				"Team 2"));
 
@@ -130,6 +136,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		assertNotNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
 				"Team 2"));
+		assertNotNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
+				"SFSubmitUiT.alice.b@gmail.com",
+				"Team 2"));
 		
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 		submitPage.verifyHtml("/studentFeedbackSubmitPagePartiallyFilled.html");
@@ -143,9 +152,18 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		submitPage.fillQuestionTextBox(3, 0, "Feedback to instructors");
 		submitPage.fillQuestionTextBox(4, 1, "Feedback to team 2.");
 		submitPage.fillQuestionTextBox(5, 0, "Feedback to teammate.");
+		
 		submitPage.chooseMcqOption(6, 0, "UI");
 		submitPage.chooseMcqOption(7, 0, "UI"); // Changed from "Algo" to "UI"
 		submitPage.chooseMcqOption(7, 1, "UI");
+		
+		submitPage.toggleMsqOption(8, 0, "UI");
+		submitPage.toggleMsqOption(8, 0, "Algo");
+		submitPage.toggleMsqOption(8, 0, "Design");
+		submitPage.toggleMsqOption(9, 0, "UI");
+		submitPage.toggleMsqOption(9, 0, "Algo");
+		submitPage.toggleMsqOption(9, 0, "Design");
+		submitPage.toggleMsqOption(9, 1, "Design");
 		
 		// Just check the edited responses, and one new response.
 		assertNull(BackDoor.getFeedbackResponse(fq.getId(),
@@ -166,10 +184,19 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
 				"Team 2"));
+		
 		assertEquals("UI",
 				BackDoor.getFeedbackResponse(fqMcq.getId(),
 					"SFSubmitUiT.alice.b@gmail.com",
 					"Team 2").getResponseDetails().getAnswerString());
+		
+		FeedbackMsqResponseDetails frMsq = 
+				(FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(fqMsq.getId(),
+						"SFSubmitUiT.alice.b@gmail.com",
+						"Team 2").getResponseDetails();
+		assertFalse(frMsq.contains("UI"));
+		assertTrue(frMsq.contains("Algo"));
+		assertFalse(frMsq.contains("Design"));
 		
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 		submitPage.verifyHtml("/studentFeedbackSubmitPageFullyFilled.html");
@@ -209,14 +236,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		
 	}
 
-	private StudentFeedbackSubmitPage loginToStudentFeedbackSubmitPage(
+	private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
 			String studentName, String fsName) {
 		Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
 				.withUserId(testData.students.get(studentName).googleId)
 				.withCourseId(testData.feedbackSessions.get(fsName).courseId)
 				.withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-		return loginAdminToPage(browser, editUrl,
-				StudentFeedbackSubmitPage.class);
+		return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
 	}
 
 	private void moveToTeam(StudentAttributes student, String newTeam) {

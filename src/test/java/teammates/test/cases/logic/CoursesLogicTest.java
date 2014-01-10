@@ -164,5 +164,24 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 		assertEquals(c.name, coursesLogic.getCourse(c.id).name);
 
 	}
+	
+	@Test
+	public void testIsSampleCourse() {
+		
+		______TS("failure: not a sample course");
+		CourseAttributes c = new CourseAttributes();
+		c.id = "course.id";
+		
+		assertEquals(false, coursesLogic.isSampleCourse(c.id));
+		
+		______TS("success: is a sample course");
+		c.id = c.id.concat("-demo3");
+		assertEquals(true, coursesLogic.isSampleCourse(c.id));
+		
+		______TS("success: is a sample course with '-demo' in the middle of its id");
+		c.id = c.id.concat("-demo33");
+		assertEquals(true, coursesLogic.isSampleCourse(c.id));
+		
+	}
 			
 }

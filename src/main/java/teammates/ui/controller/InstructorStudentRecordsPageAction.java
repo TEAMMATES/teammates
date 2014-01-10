@@ -1,12 +1,15 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.SessionAttributes;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -37,45 +40,48 @@ public class InstructorStudentRecordsPageAction extends Action {
 			data.courseId = courseId;
 			data.student = logic.getStudentForEmail(courseId, studentEmail);
 			data.comments = logic.getCommentsForGiverAndReceiver(courseId, instructor.email, studentEmail);
-			data.evaluations = logic.getEvaluationsListForInstructor(account.googleId);
-			data.feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
+			List<EvaluationAttributes> evals = logic.getEvaluationsListForInstructor(account.googleId);
+			List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
 			
 			//Remove evaluations and feedbacks not from the courseId parameters
 			//Can be removed later when we want to have unified view
-			for(int i = data.evaluations.size() - 1; i >= 0; i--){
-				if(!data.evaluations.get(i).courseId.equals(courseId)){
-					data.evaluations.remove(i);
+			for(int i = evals.size() - 1; i >= 0; i--){
+				if(!evals.get(i).courseId.equals(courseId)){
+					evals.remove(i);
 				}
 			}
 			
-			for(int i = data.feedbacks.size() - 1; i >= 0; i--){
-				if(!data.feedbacks.get(i).courseId.equals(courseId)){
-					data.feedbacks.remove(i);
+			for(int i = feedbacks.size() - 1; i >= 0; i--){
+				if(!feedbacks.get(i).courseId.equals(courseId)){
+					feedbacks.remove(i);
 				}
 			}
 			
-			data.studentEvaluationResults = new ArrayList<StudentResultBundle>();
-			for(EvaluationAttributes evaluation: data.evaluations){
-				data.studentEvaluationResults.add(
-						logic.getEvaluationResultForStudent(courseId, evaluation.name, studentEmail));
+			data.sessions = new ArrayList<SessionAttributes>();
+			data.sessions.addAll(evals);
+			data.sessions.addAll(feedbacks);
+			Collections.sort(data.sessions, SessionAttributes.DESCENDING_ORDER);
+			CommentAttributes.sortCommentsByCreationTimeDescending(data.comments);
+
+			data.results = new ArrayList<SessionResultsBundle>();
+			for(SessionAttributes session : data.sessions){
+				if(session instanceof EvaluationAttributes){
+					data.results.add(logic.getEvaluationResultForStudent(
+							courseId, session.getSessionName(), studentEmail));
+				} else if(session instanceof FeedbackSessionAttributes){
+					data.results.add(logic.getFeedbackSessionResultsForInstructor(
+									session.getSessionName(), courseId,instructor.email));
+				}
 			}
 			
-			data.studentFeedbackResults = new ArrayList<FeedbackSessionResultsBundle>();
-			for(FeedbackSessionAttributes feedback: data.feedbacks){
-				//TODO: This method call is too costly. It generates the result for the all students.
-				data.studentFeedbackResults.add(
-						logic.getFeedbackSessionResultsForInstructor(feedback.feedbackSessionName, courseId, instructor.email));
-			}
-			
-			if(data.evaluations.size() == 0 && data.feedbacks.size() == 0){
+			if(data.sessions.size() == 0){
 				statusToUser.add(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS);
 			}
 			
 			statusToAdmin = "instructorStudentRecords Page Load<br>" + 
 					"Viewing <span class=\"bold\">" + studentEmail + "'s</span> records " +
 					"for Course <span class=\"bold\">[" + courseId + "]</span><br>" +
-					"Evaluations Size: " + data.evaluations.size() + 
-					"Feedbacks Size: " + data.feedbacks.size();
+					"Number of sessions: " + data.sessions.size();
 			
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
 			

@@ -81,27 +81,69 @@
                   		<tbody>
                      		<tr>
                         		<td>
-                           			<input id="searchbox"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Search for student\'s name or course name')"  tabindex="1"  type="text" />
+                           			<input id="searchbox"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Search for student\'s name')"  tabindex="1"  type="text" value=""/>
                                	</td>
                         		<td>
-                           			<input class="button"  id="button_search"  onclick="return searchName()"  tabindex="2"  type="submit"  value="Search" />
+                           			<input class="button"  id="button_search"  onclick="return applyFilters();"  tabindex="2"  type="submit"  value="Search" />
                                	</td>
+                     		</tr>
+                     		<tr>
+                        		<td colspan="2" >
+                           			<input id="option_check"  type="checkbox" />
+                           			<label for="option_check" >
+                              			Show More Options
+                           			</label>
+                        		</td>
                      		</tr>
                   		</tbody>
                		</table>
-               		<div id="statusMessage"  style="display: none;" ></div>
                		<br><br>
-					<a class="color_black" id="show_email" href=""
-						onmouseover="ddrivetip('Show emails of all currently listed students')"
-						onmouseout="hideddrivetip()"
-						onclick="toggleEmailView(); return false;">Show student e-mails</a>
-					<div class="emails" style="display: none;">
-						<div class="student_emails">
-							<h4 class="bold">Emails of all currently displayed student:</h4>
-							<ul>
-							</ul>
-						</div>
-					</div>
+					<table class="inputTable" id="optionsTable" style="display: none;">
+						<tbody>
+							<tr>
+								<td width="250px">
+									<h4 class="bold">Courses</h4>
+									<div class="leftalign" id="course_checkboxes">
+										<br />
+										<ul>
+											<li><input checked="checked" id="course_all"
+												type="checkbox" /> <label class="bold" for="course_all">
+													Select All </label></li>
+											<li><input checked="checked" class="course_check"
+												id="course_check-0" type="checkbox" /> <label
+												for="course_check-0"> [course1] : Name of Course 1 </label></li>
+										</ul>
+										<br />
+									</div>
+								</td>
+								<td width="250px">
+									<h4 class="bold">Teams</h4>
+									<div class="leftalign" id="team_checkboxes">
+										<br />
+										<ul>
+											<li><input checked="checked" id="team_all" type="checkbox" />
+												<label class="bold" for="team_all"> Select All </label></li>
+										</ul>
+										<br />
+									</div>
+								</td>
+								<td width="250px">
+									<h4 class="bold">
+										<input id="show_email" type="checkbox" /> <label
+											for="show_email"> Show Emails </label>
+									</h4>
+									<div class="leftalign" id="emails" style="display: none;">
+										<br />
+										<ul>
+										</ul>
+										<br />
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+               		<div id="statusMessage"  style="display: none;" ></div>
+
                		<div class="backgroundBlock"  id="course-0" >
                   		<div class="courseTitle" >
                      		<h2 class="color_white" >[course1] : Name of Course 1</h2>

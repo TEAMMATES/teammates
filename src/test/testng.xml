@@ -118,6 +118,7 @@
 			<class name="teammates.test.cases.ui.StudentEvalSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.StudentFeedbackResultsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentFeedbackSubmissionEditPageActionTest" />
+			<class name="teammates.test.cases.ui.StudentFeedbackSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.StudentHomePageActionTest" />
 		</classes>
 	</test>

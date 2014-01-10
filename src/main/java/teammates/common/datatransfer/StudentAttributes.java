@@ -200,6 +200,11 @@ public class StudentAttributes extends EntityAttributes {
 				} else if (t2 == null) {
 					return -1;
 				}
+				
+				//If the team name is the same, reorder by student name
+				if(t1.compareTo(t2) == 0){
+					return s1.name.compareTo(s2.name);
+				}
 				return t1.compareTo(t2);
 			}
 		});

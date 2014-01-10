@@ -7,10 +7,10 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorFeedbackSubmissionEditPageData"%>
+<%@ page import="teammates.ui.controller.FeedbackSubmissionEditPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
-	InstructorFeedbackSubmissionEditPageData data = (InstructorFeedbackSubmissionEditPageData)request.getAttribute("data");
+	FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -135,8 +135,7 @@
 									<%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
 										data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession(), 
 										qnIndx, responseIndx, 
-										existingResponse.getResponseDetails(),
-										questionDetails)%>
+										existingResponse.getResponseDetails())%>
 									<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
 								</td>
 							</tr>
@@ -159,8 +158,7 @@
 								<td class="responseText">
 									<%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
 										data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession(), 
-										qnIndx, responseIndx,
-										questionDetails)%>
+										qnIndx, responseIndx)%>
 								</td>
 							</tr>
 					<%

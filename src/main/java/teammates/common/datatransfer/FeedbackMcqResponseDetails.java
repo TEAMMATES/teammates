@@ -1,12 +1,16 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.Sanitizer;
+
 public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails {
-	public String answer;
-	public String otherFieldContent; //content of other field if "other" is selected as the answer
+	private String answer;
+	private boolean isOther;
+	private String otherFieldContent; //content of other field if "other" is selected as the answer
 	
 	public FeedbackMcqResponseDetails() {
 		super(FeedbackQuestionType.MCQ);
 		answer = "";
+		isOther = false;
 		otherFieldContent = "";
 	}
 	
@@ -18,6 +22,7 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
 	public FeedbackMcqResponseDetails(String answer, boolean isOther) {
 		super(FeedbackQuestionType.MCQ);
 		
+		this.isOther = isOther;
 		if(isOther){
 			this.answer = "Other";
 			this.otherFieldContent = answer;
@@ -29,6 +34,20 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
 
 	@Override
 	public String getAnswerString() {
-		return answer;
+		if(isOther){
+			return otherFieldContent;
+		} else {
+			return answer;
+		}
+	}
+
+	@Override
+	public String getAnswerHtml() {
+		return Sanitizer.sanitizeForHtml(getAnswerString());
+	}
+
+	@Override
+	public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+		return Sanitizer.sanitizeForCsv(getAnswerString());
 	}
 }

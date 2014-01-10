@@ -1,0 +1,14 @@
+<tr id="msqOptionRow-${i}-${questionNumber}">
+	<td>
+		<input type="checkbox" class="disabled_radio" disabled="disabled">
+	</td>
+	<td>
+		<input type="text" disabled="disabled"
+			name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}-${i}"
+			id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}-${i}-${questionNumber}"
+			class="msqOptionTextBox" value="${msqChoiceValue}">
+		<a href="#" class="removeOptionLink" id="msqRemoveOptionLink" 
+			onclick="removeMsqOption(${i},${questionNumber})"
+			style="display:none" tabindex="-1"> x</a>
+	</td>
+</tr>

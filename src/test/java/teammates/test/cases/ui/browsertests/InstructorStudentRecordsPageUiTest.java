@@ -20,16 +20,14 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 	private static Browser browser;
 	private static InstructorStudentRecordsPage viewPage;
-	private static DataBundle testDataNormal, testDataNoRecords, testDataQuestionType, testDataLinks;	
+	private static DataBundle testDataNormal, testDataQuestionType, testDataLinks;	
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		testDataNormal = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
-		testDataNoRecords = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
 		testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 		testDataLinks = loadDataBundle("/InstructorEvalSubmissionEditPageUiTest.json");
-		restoreTestDataOnServer(getTypicalDataBundle()); //Needed for consistency when run separately
 		browser = BrowserPool.getBrowser();
 	}
 	
@@ -53,7 +51,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		restoreTestDataOnServer(testDataNormal);
 				
 		instructor = testDataNormal.instructors.get("teammates.test.CS2104");
-		student = testDataNormal.students.get("benny.c.tmms@CS2104");
+		student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
 		
 		Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
 			.withUserId(instructor.googleId)
@@ -66,10 +64,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		
 		______TS("content: no student records");
 		
-		restoreTestDataOnServer(testDataNoRecords);
-				
-		instructor = testDataNoRecords.instructors.get("CCEnrollUiT.teammates.test");
-		student = testDataNoRecords.students.get("alice.b.tmms@CCEnrollUiT.CS2104");
+		instructor = testDataNormal.instructors.get("teammates.noeval");
+		student = testDataNormal.students.get("alice.b.tmms@ISR.NoEval");
 		
 		viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
 			.withUserId(instructor.googleId)
@@ -92,7 +88,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 			.withStudentEmail(student.email);
 		
 		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-		viewPage.verifyHtml("/instructorStudentRecordsPageMCQ.html");
+		viewPage.verifyHtml("/instructorStudentRecordsPageMixedQuestionType.html");
 
 	}
 	
@@ -118,7 +114,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		StudentAttributes student;
 		
 		instructor = testDataNormal.instructors.get("teammates.test.CS2104");
-		student = testDataNormal.students.get("benny.c.tmms@CS2104");
+		student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
 		
 		Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
 			.withUserId(instructor.googleId)
@@ -129,25 +125,25 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		
 		______TS("add comment: success");
 
-		viewPage.addComment("New comment from teammates.test for Benny C");
-		viewPage.verifyStatus("New comment has been added for this student");
+		viewPage.addComment("New comment from teammates.test for Benny C")
+				.verifyStatus("New comment has been added for this student");
 		
 		______TS("delete comment: cancel");
 		
-		viewPage.clickDeleteCommentAndCancel(2);
+		viewPage.clickDeleteCommentAndCancel(0);
 		
 		______TS("delete comment: success");
 		
-		viewPage.clickDeleteCommentAndConfirm(2);
-		viewPage.verifyStatus("Comment deleted");
+		viewPage.clickDeleteCommentAndConfirm(0)
+				.verifyStatus("Comment deleted");
 		
 		______TS("edit comment: success");
 		
-		viewPage.editComment(1, "Edited comment 2 from CS2104 teammates.test Instructor to Benny");
-		viewPage.verifyStatus("Comment edited");
+		viewPage.editComment(0, "Edited comment 2 from CS2104 teammates.test Instructor to Benny")
+				.verifyStatus("Comment edited");
 		
 		//Edit back so that restoreDataBundle can identify and delete the comment.
-		viewPage.editComment(1, "Comment 2 from CS2104 teammates.test Instructor to Benny");
+		viewPage.editComment(0, "Comment 2 from ISR.CS2104 teammates.test Instructor to Benny");
 	}
 	
 	private void testScript() throws Exception{
@@ -155,7 +151,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 		StudentAttributes student;
 		
 		instructor = testDataNormal.instructors.get("teammates.test.CS2104");
-		student = testDataNormal.students.get("benny.c.tmms@CS2104");
+		student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
 		
 		Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
 			.withUserId(instructor.googleId)

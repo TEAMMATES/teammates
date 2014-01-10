@@ -261,6 +261,26 @@ public class Logic {
 	public boolean isInstructorOfCourse(String googleId, String courseId) {
 		return instructorsLogic.isInstructorOfCourse(googleId, courseId);
 	}
+	
+	/**
+	 * Returns whether the instructor is a new user, according to one of the following criterias:<br>
+	 * <ul>
+	 * 	<li>
+	 * 		There is only a sample course (created by system) for the instructor.</li>
+	 *  </li>
+	 *  <li>
+	 *  	There is no any course for the instructor.
+	 * 	</li>
+	 * </ul>
+	 * 
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * 
+	 * @return true if the instructor is a new user
+	 */
+	public boolean isNewInstructor(String googleId) {
+		return instructorsLogic.isNewInstructor(googleId);
+	}
 
 	/**
 	 * Preconditions: <br>

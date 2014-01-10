@@ -5,9 +5,9 @@ import org.openqa.selenium.WebElement;
 
 import teammates.common.util.Const;
 
-public class InstructorFeedbackSubmitPage extends AppPage {
+public class FeedbackSubmitPage extends AppPage {
 
-	public InstructorFeedbackSubmitPage(Browser browser) {
+	public FeedbackSubmitPage(Browser browser) {
 		super(browser);
 	}
 
@@ -28,6 +28,12 @@ public class InstructorFeedbackSubmitPage extends AppPage {
 	}
 	
 	public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName){
+		String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
+		WebElement element = browser.driver.findElement(By.xpath("//input[@name='" + name + "' and @value='" + choiceName + "']"));
+		element.click();
+	}
+	
+	public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName){
 		String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
 		WebElement element = browser.driver.findElement(By.xpath("//input[@name='" + name + "' and @value='" + choiceName + "']"));
 		element.click();

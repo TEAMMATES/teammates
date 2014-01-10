@@ -23,6 +23,7 @@ public class InstructorsLogic {
 	
 	private static final InstructorsDb instructorsDb = new InstructorsDb();
 	private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+	private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 	
 	private static Logger log = Utils.getLogger();
 	
@@ -77,6 +78,19 @@ public class InstructorsLogic {
 
 	public boolean isInstructorOfCourse(String instructorId, String courseId) {
 		return instructorsDb.getInstructorForGoogleId(courseId, instructorId)!=null;
+	}
+	
+	public boolean isNewInstructor(String googleId) {
+		List<InstructorAttributes> instructorList = getInstructorsForGoogleId(googleId);
+		
+		if (instructorList.isEmpty()) {
+			return true;
+		} else if (instructorList.size() == 1 &&
+				coursesLogic.isSampleCourse(instructorList.get(0).courseId)){
+				return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public void verifyInstructorExists(String instructorId)

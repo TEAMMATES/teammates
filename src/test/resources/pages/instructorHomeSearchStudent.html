@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="shortcut icon" href="/favicon.png" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TEAMMATES - Instructor</title>
+		<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="/stylesheets/instructorStudentList.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print" />
+
+		<script async=""  type="text/javascript" src="https://ssl.google-analytics.com/ga.js"></script>
+		<script type="text/javascript" src="/js/googleAnalytics.js"></script>
+		<script type="text/javascript" src="/js/jquery-minified.js"></script>
+		<script type="text/javascript" src="/js/tooltip.js"></script>
+		<script type="text/javascript" src="/js/date.js"></script>
+		<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+		<script type="text/javascript" src="/js/AnchorPosition.js"></script>
+		<script type="text/javascript" src="/js/common.js"></script>
+		
+		<script type="text/javascript" src="/js/instructor.js"></script>
+		<script type="text/javascript" src="/js/instructorStudentList.js"></script>
+
+	</head>
+
+	<body>
+		<div id="dhtmltooltip"></div>
+		<div id="frameTop">
+			
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<a href="/index.html">
+				<img alt="TEAMMATES" height="47px"
+					src="/images/teammateslogo.jpg"
+					width="150px">
+				</a>
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li ><a class='nav home' data-link="instructorHome" href="/page/instructorHomePage?user={$test.instructor}">Home</a></li>
+					<li><a class='nav courses' data-link="instructorCourse" href="/page/instructorCoursesPage?user={$test.instructor}">Courses</a></li>
+					<li><a class='nav evaluations' data-link="instructorEval" href="/page/instructorEvalsPage?user={$test.instructor}">Sessions</a></li>
+					<li class="current"><a class='nav students' data-link="instructorStudent" href="/page/instructorStudentListPage?user={$test.instructor}">Students</a></li>
+					<li><a class='nav help' href="/instructorHelp.html" target="_blank">Help</a></li>
+					<li><a class='nav logout' href="/logout.jsp">Logout</a>
+					<b>
+							({$test.instructor})</b>
+					</li>
+				</ul>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+
+		</div>
+	
+		<div id="frameBody">
+			<div id="frameBodyWrapper">
+				<div id="topOfPage"></div>
+				<div id="headerOperation">
+					<h1>Student List</h1>
+				</div>
+	
+				<table class="inputTable" id="searchTable">
+					<tr>
+						<td><input type="text" id="searchbox"
+							onmouseover="ddrivetip('Search for student\'s name')"
+							onmouseout="hideddrivetip()" tabindex="1" value="Alice"></td>
+						<td><input id="button_search" type="submit" class="button"
+							onclick="return applyFilters();" value="Search" tabindex="2"></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input id="option_check" type="checkbox">
+								<label for="option_check">
+								Show More Options
+								</label>
+						</td>
+					</tr>
+				</table>
+				<br><br>
+				<table class="inputTable" id="optionsTable" style="display: none;">	
+					<tr>
+						<td width="250px">
+							<h4 class="bold">Courses</h4>
+							<div class="leftalign" id="course_checkboxes">
+							<br>
+								<ul>
+								<li>
+									<input id="course_all" type="checkbox" checked="checked">
+									<label for="course_all" class="bold">Select All</label>
+								</li>
+								
+									<li><input class="course_check" id="course_check-0" type="checkbox" checked="checked">
+										<label for="course_check-0">
+										[CHomeUiT.CS1101] : Programming Methodology
+										</label>
+									</li>
+								
+									<li><input class="course_check" id="course_check-1" type="checkbox" checked="checked">
+										<label for="course_check-1">
+										[CHomeUiT.CS2104] : Programming Language Concepts
+										</label>
+									</li>
+								
+								</ul>
+							<br>
+							</div>
+						</td>
+						<td width="250px">
+							<h4 class="bold">Teams</h4>
+							<div class="leftalign" id="team_checkboxes">
+							<br>
+							<ul>
+								<li>
+									<input id="team_all" type="checkbox" checked="checked">
+									<label for="team_all" class="bold">Select All</label>
+								</li>
+								
+									<li><input class="team_check" id="team_check-0-0" type="checkbox" checked="checked">
+										<label for="team_check-0-0">
+										[CHomeUiT.CS1101] : Team 1
+										</label>
+									</li>
+								
+									<li><input class="team_check" id="team_check-0-1" type="checkbox" checked="checked">
+										<label for="team_check-0-1">
+										[CHomeUiT.CS1101] : Team 2
+										</label>
+									</li>
+								
+									<li><input class="team_check" id="team_check-1-0" type="checkbox" checked="checked">
+										<label for="team_check-1-0">
+										[CHomeUiT.CS2104] : Team 1
+										</label>
+									</li>
+								
+									<li><input class="team_check" id="team_check-1-1" type="checkbox" checked="checked">
+										<label for="team_check-1-1">
+										[CHomeUiT.CS2104] : Team 2
+										</label>
+									</li>
+								
+							</ul>
+							<br>
+							</div>
+						</td>
+						<td width="250px">
+							<h4 class="bold">
+								<input id="show_email" type="checkbox">
+									<label for="show_email">
+									Show Emails
+									</label>
+							</h4>
+							<div class="leftalign" id="emails" style="display: none;">
+							<br>
+							<ul>
+							
+									<li class="student_email" id="student_email-c0.0" style="display: list-item;">CHomeUiT.alice.b.tmms@gmail.com</li>
+							
+									<li class="student_email" id="student_email-c0.1" style="display: none;">CHomeUiT.benny.c.tmms@gmail.com</li>
+							
+									<li class="student_email" id="student_email-c0.2" style="display: none;">CHomeUiT.charlie.d.tmms@gmail.com</li>
+							
+									<li class="student_email" id="student_email-c0.3" style="display: none;">CHomeUiT.danny.e.tmms@gmail.com</li>
+							
+									<li class="student_email" id="student_email-c1.0" style="display: none;">CHomeUiT.alice.b.tmms@gmail.com</li>
+							
+									<li class="student_email" id="student_email-c1.1" style="display: none;">CHomeUiT.benny.c.tmms@gmail.com</li>
+							
+									<li class="student_email" id="student_email-c1.2" style="display: none;">CHomeUiT.charlie.d.tmms@gmail.com</li>
+							
+									<li class="student_email" id="student_email-c1.3" style="display: none;">CHomeUiT.danny.e.tmms@gmail.com</li>
+							
+							</ul>
+							<br>
+							</div>
+						</td>
+					</tr>
+				</table>
+	
+				
+
+
+
+
+	<div id="statusMessage" style="display: none;"></div>
+	
+				<div class="backgroundBlock" id="course-0">
+					<div class="courseTitle">
+						<h2 class="color_white">
+							[CHomeUiT.CS1101] : Programming Methodology
+						</h2>
+					</div>
+					<div class="enrollLink blockLink rightalign">
+						<a class="t_course_enroll-0 color_white bold"
+							href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS1101&user={$test.instructor}"
+							onmouseover="ddrivetip('Enroll student into the course')"
+							onmouseout="hideddrivetip()"> Enroll Students</a>
+					</div>
+					<div style="clear: both;"></div>
+					<br>
+					
+					<table class="dataTable">
+						<tr>
+							<th class="leftalign color_white bold">
+								<input class="buttonSortAscending" type="button"
+								id="button_sortteam" onclick="toggleSort(this,1)">Team
+							</th>
+							<th class="leftalign color_white bold"><input
+								class="buttonSortNone" type="button"
+								id="button_sortstudentname" onclick="toggleSort(this,2)">Student Name</th>
+							<th class="centeralign color_white bold no-print">Action(s)</th>
+						</tr>
+						
+						<tr class="student_row" id="student-c0.0" style="display: table-row;">
+							<td id="studentteam-c0.0">Team 1</td>
+							<td id="studentname-c0.0">Alice Betsy</td>
+							<td class="centeralign no-print">
+								<a class="color_black t_student_details-c0.0" 
+								href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View the details of the student')"
+								onmouseout="hideddrivetip()"> View</a> 
+								
+								<a class="color_black t_student_edit-c0.0"
+								href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')"
+								onmouseout="hideddrivetip()"> Edit</a> 
+								
+								<a class="color_black t_student_delete-c0.0"
+								href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"
+								onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Alice Betsy')"
+								onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')"
+								onmouseout="hideddrivetip()"> Delete</a>
+								
+								<a class="color_black t_student_records-c0.0"
+								href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View all student\'s evaluations and feedbacks')"
+								onmouseout="hideddrivetip()"> All Records</a>
+							</td>
+						</tr>
+						
+						<tr class="student_row" id="student-c0.1" style="display: none;">
+							<td id="studentteam-c0.0">Team 1</td>
+							<td id="studentname-c0.1">Benny Charles</td>
+							<td class="centeralign no-print">
+								<a class="color_black t_student_details-c0.1" 
+								href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View the details of the student')"
+								onmouseout="hideddrivetip()"> View</a> 
+								
+								<a class="color_black t_student_edit-c0.1"
+								href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')"
+								onmouseout="hideddrivetip()"> Edit</a> 
+								
+								<a class="color_black t_student_delete-c0.1"
+								href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"
+								onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Benny Charles')"
+								onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')"
+								onmouseout="hideddrivetip()"> Delete</a>
+								
+								<a class="color_black t_student_records-c0.1"
+								href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View all student\'s evaluations and feedbacks')"
+								onmouseout="hideddrivetip()"> All Records</a>
+							</td>
+						</tr>
+						
+						<tr class="student_row" id="student-c0.2" style="display: none;">
+							<td id="studentteam-c0.1">Team 2</td>
+							<td id="studentname-c0.2">Charlie Davis</td>
+							<td class="centeralign no-print">
+								<a class="color_black t_student_details-c0.2" 
+								href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View the details of the student')"
+								onmouseout="hideddrivetip()"> View</a> 
+								
+								<a class="color_black t_student_edit-c0.2"
+								href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')"
+								onmouseout="hideddrivetip()"> Edit</a> 
+								
+								<a class="color_black t_student_delete-c0.2"
+								href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"
+								onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Charlie Davis')"
+								onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')"
+								onmouseout="hideddrivetip()"> Delete</a>
+								
+								<a class="color_black t_student_records-c0.2"
+								href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View all student\'s evaluations and feedbacks')"
+								onmouseout="hideddrivetip()"> All Records</a>
+							</td>
+						</tr>
+						
+						<tr class="student_row" id="student-c0.3" style="display: none;">
+							<td id="studentteam-c0.1">Team 2</td>
+							<td id="studentname-c0.3">Danny Engrid</td>
+							<td class="centeralign no-print">
+								<a class="color_black t_student_details-c0.3" 
+								href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View the details of the student')"
+								onmouseout="hideddrivetip()"> View</a> 
+								
+								<a class="color_black t_student_edit-c0.3"
+								href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')"
+								onmouseout="hideddrivetip()"> Edit</a> 
+								
+								<a class="color_black t_student_delete-c0.3"
+								href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"
+								onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Danny Engrid')"
+								onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')"
+								onmouseout="hideddrivetip()"> Delete</a>
+								
+								<a class="color_black t_student_records-c0.3"
+								href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View all student\'s evaluations and feedbacks')"
+								onmouseout="hideddrivetip()"> All Records</a>
+							</td>
+						</tr>
+						
+					</table>
+					
+				</div>
+				
+	
+				<div class="backgroundBlock" id="course-1">
+					<div class="courseTitle">
+						<h2 class="color_white">
+							[CHomeUiT.CS2104] : Programming Language Concepts
+						</h2>
+					</div>
+					<div class="enrollLink blockLink rightalign">
+						<a class="t_course_enroll-1 color_white bold"
+							href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS2104&user={$test.instructor}"
+							onmouseover="ddrivetip('Enroll student into the course')"
+							onmouseout="hideddrivetip()"> Enroll Students</a>
+					</div>
+					<div style="clear: both;"></div>
+					<br>
+					
+					<table class="dataTable">
+						<tr>
+							<th class="leftalign color_white bold">
+								<input class="buttonSortAscending" type="button"
+								id="button_sortteam" onclick="toggleSort(this,1)">Team
+							</th>
+							<th class="leftalign color_white bold"><input
+								class="buttonSortNone" type="button"
+								id="button_sortstudentname" onclick="toggleSort(this,2)">Student Name</th>
+							<th class="centeralign color_white bold no-print">Action(s)</th>
+						</tr>
+						
+						<tr class="student_row" id="student-c1.0" style="display: table-row;">
+							<td id="studentteam-c1.0">Team 1</td>
+							<td id="studentname-c1.0">Alice Betsy</td>
+							<td class="centeralign no-print">
+								<a class="color_black t_student_details-c1.0" 
+								href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View the details of the student')"
+								onmouseout="hideddrivetip()"> View</a> 
+								
+								<a class="color_black t_student_edit-c1.0"
+								href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')"
+								onmouseout="hideddrivetip()"> Edit</a> 
+								
+								<a class="color_black t_student_delete-c1.0"
+								href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"
+								onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Alice Betsy')"
+								onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')"
+								onmouseout="hideddrivetip()"> Delete</a>
+								
+								<a class="color_black t_student_records-c1.0"
+								href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View all student\'s evaluations and feedbacks')"
+								onmouseout="hideddrivetip()"> All Records</a>
+							</td>
+						</tr>
+						
+						<tr class="student_row" id="student-c1.1" style="display: none;">
+							<td id="studentteam-c1.0">Team 1</td>
+							<td id="studentname-c1.1">Benny Charles</td>
+							<td class="centeralign no-print">
+								<a class="color_black t_student_details-c1.1" 
+								href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View the details of the student')"
+								onmouseout="hideddrivetip()"> View</a> 
+								
+								<a class="color_black t_student_edit-c1.1"
+								href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')"
+								onmouseout="hideddrivetip()"> Edit</a> 
+								
+								<a class="color_black t_student_delete-c1.1"
+								href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"
+								onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Benny Charles')"
+								onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')"
+								onmouseout="hideddrivetip()"> Delete</a>
+								
+								<a class="color_black t_student_records-c1.1"
+								href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View all student\'s evaluations and feedbacks')"
+								onmouseout="hideddrivetip()"> All Records</a>
+							</td>
+						</tr>
+						
+						<tr class="student_row" id="student-c1.2" style="display: none;">
+							<td id="studentteam-c1.1">Team 2</td>
+							<td id="studentname-c1.2">Charlie Davis</td>
+							<td class="centeralign no-print">
+								<a class="color_black t_student_details-c1.2" 
+								href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View the details of the student')"
+								onmouseout="hideddrivetip()"> View</a> 
+								
+								<a class="color_black t_student_edit-c1.2"
+								href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')"
+								onmouseout="hideddrivetip()"> Edit</a> 
+								
+								<a class="color_black t_student_delete-c1.2"
+								href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"
+								onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Charlie Davis')"
+								onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')"
+								onmouseout="hideddrivetip()"> Delete</a>
+								
+								<a class="color_black t_student_records-c1.2"
+								href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View all student\'s evaluations and feedbacks')"
+								onmouseout="hideddrivetip()"> All Records</a>
+							</td>
+						</tr>
+						
+						<tr class="student_row" id="student-c1.3" style="display: none;">
+							<td id="studentteam-c1.1">Team 2</td>
+							<td id="studentname-c1.3">Danny Engrid</td>
+							<td class="centeralign no-print">
+								<a class="color_black t_student_details-c1.3" 
+								href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View the details of the student')"
+								onmouseout="hideddrivetip()"> View</a> 
+								
+								<a class="color_black t_student_edit-c1.3"
+								href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly')"
+								onmouseout="hideddrivetip()"> Edit</a> 
+								
+								<a class="color_black t_student_delete-c1.3"
+								href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"
+								onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Danny Engrid')"
+								onmouseover="ddrivetip('Delete the student and the corresponding evaluations from the course')"
+								onmouseout="hideddrivetip()"> Delete</a>
+								
+								<a class="color_black t_student_records-c1.3"
+								href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"
+								onmouseover="ddrivetip('View all student\'s evaluations and feedbacks')"
+								onmouseout="hideddrivetip()"> All Records</a>
+							</td>
+						</tr>
+
+					</table>
+					
+				</div>
+				
+			</div>
+			<br> <br> <br>
+		</div>
+		<div id="frameBottom" >
+           	<div id="contentFooter" >
+              		<span class="floatleft" >[TEAMMATES<span class="color_white" >V{$version}</span>]</span>
+              		[for<span class="color_white" >National University of Singapore</span>]
+              		<span class="floatright" >[Send<span class="color_white" >
+					<a href="../contact.html"  target="_blank" >Feedback</a>
+                 	</span>]
+              		</span>
+           	</div>
+    	</div>
+	</body>
+</html>

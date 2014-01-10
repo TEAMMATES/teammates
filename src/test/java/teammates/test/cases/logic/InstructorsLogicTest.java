@@ -203,6 +203,24 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 			AssertHelper.assertContains("Instructor does not exist", e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testIsNewInstructor() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: instructor with only 1 sample course");
+		String instructorId = "idOfInstructorWithOnlyOneSampleCourse";
+		assertEquals(true, instructorsLogic.isNewInstructor(instructorId));
+		
+		______TS("success: instructor without any course");
+		instructorId = "instructorWithoutCourses";
+		assertEquals(true, instructorsLogic.isNewInstructor(instructorId));
+		
+		______TS("failure: instructor is not new user");
+		instructorId = "idOfInstructor1OfCourse1";
+		assertEquals(false, instructorsLogic.isNewInstructor(instructorId));
+		
+	}
 
 	@Test
 	public void testUpdateInstructor() throws Exception {

@@ -178,11 +178,14 @@ public class Const {
 		
 		public static final String COMMENT_EDIT = "Edit this comment";
 		public static final String COMMENT_DELETE = "Delete this comment";
+		
+		public static final String SEARCH_STUDENT = "Search for student\\'s name";
 	}
 	
 	public class FeedbackQuestionTypeNames{
 		public static final String TEXT = "Essay question";
 		public static final String MCQ = "Multiple-choice question";
+		public static final String MSQ = "Multiple-select question";
 	}
 
 	public class ParamsNames{
@@ -239,7 +242,8 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
 		public static final String FEEDBACK_QUESTION_TYPE = "questiontype";
 		public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
-		public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";		
+		public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
+		public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
 		public static final String FEEDBACK_QUESTION_GIVERTYPE = "givertype";
 		public static final String FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";
 		public static final String FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";
@@ -297,6 +301,8 @@ public class Const {
 		//Submission parameters for Task Queue
 		public static final String SUBMISSION_COURSE = "course";
 		public static final String SUBMISSION_EVAL = "evaluation";
+		
+		public static final String SEARCH_KEY ="searchkey";
 	}
 
 	public class ActionURIs{
@@ -557,6 +563,10 @@ public class Const {
 		public static final String COMMENT_EDITED = "Comment edited";
 		public static final String COMMENT_DELETED = "Comment deleted";
 		public static final String COMMENT_DUPLICATE = "An existing comment with the same content is found, comment not added";
+		
+		public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
+				+ "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A <a href='https://youtube.googleapis.com/v/wCxBOUEiD6Q&hd=1&autoplay=1&rel=0' target='_blank'>video tour</a>"
+				+ " is also available in our <a href='/index.html' target='_blank'>home page</a>.";
 		
 		// Messages that are templates only
 		/** Template String. Parameters: Student's name, Evaluation name, Course ID */

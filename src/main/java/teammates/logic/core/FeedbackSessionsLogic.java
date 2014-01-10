@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -63,13 +64,17 @@ public class FeedbackSessionsLogic {
 		fsDb.createEntity(fsa);
 	}
 
-	// This method returns a single feedback session. Returns null if not found.
+	/**
+	 *  This method returns a single feedback session. Returns null if not found.
+	 */
 	public FeedbackSessionAttributes getFeedbackSession(
 			String feedbackSessionName, String courseId) {
 		return fsDb.getFeedbackSession(courseId, feedbackSessionName);
 	}
 
-	// This method returns a list of viewable feedback sessions for any user for his course.
+	/**
+	 *  This method returns a list of viewable feedback sessions for any user for his course.
+	 */
 	public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourse(
 			String courseId, String userEmail) throws EntityDoesNotExistException {
 
@@ -259,15 +264,16 @@ public class FeedbackSessionsLogic {
 		
 		for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry :
 								results.getQuestionResponseMap().entrySet()) {
+			FeedbackAbstractQuestionDetails questionDetails = entry.getKey().getQuestionDetails();
+			
 			export += "Question " + Integer.toString(entry.getKey().questionNumber) + "," +
-					 Sanitizer.sanitizeForCsv(entry.getKey().getQuestionDetails().questionText) 
-					+ Const.EOL + Const.EOL;
-			export += "Giver" + "," + "Recipient" + "," + "Feedback" + Const.EOL;
+					 Sanitizer.sanitizeForCsv(questionDetails.questionText) + Const.EOL + Const.EOL;
+			export += "Giver" + "," + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL;
 			
 			for(FeedbackResponseAttributes response : entry.getValue()){
 				export += Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail)) + "," + 
 						Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipientEmail)) + "," +
-						Sanitizer.sanitizeForCsv(response.getResponseDetails().getAnswerString()) + Const.EOL;
+						response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL;
 			}
 			export += Const.EOL + Const.EOL;
 		}
@@ -500,7 +506,9 @@ public class FeedbackSessionsLogic {
 		}
 	}
 
-	// This method deletes a specific feedback session, and all it's question and responses
+	/**
+	 * This method deletes a specific feedback session, and all it's question and responses
+	 */
 	public void deleteFeedbackSessionCascade(String feedbackSessionName,
 			String courseId) {
 
@@ -738,7 +746,7 @@ public class FeedbackSessionsLogic {
 	}
 
 	
-	// Note: This method is for use in Issue 1061. Can be further refactored.
+	// TODO Note: This method is for use in Issue 1061. Can be further refactored.
 	private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
 			FeedbackSessionAttributes fsa)
 			throws EntityDoesNotExistException {
@@ -875,7 +883,9 @@ public class FeedbackSessionsLogic {
 		return questions.isEmpty();
 	}
 	
-	// This method returns a list of feedback sessions which are relevant for a user.
+	/**
+	 * This method returns a list of feedback sessions which are relevant for a user.
+	 */
 	private boolean isFeedbackSessionViewableTo(FeedbackSessionAttributes session,
 			String userEmail) throws EntityDoesNotExistException {
 				

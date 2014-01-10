@@ -44,20 +44,108 @@
   <h3>Elements required for Testing</h3>
   <span id= "submissionsNumber" class="submissionsNumber"></span>
   Any HTML elements required for the above tests are located here. <br /><br />
-  	<ul>
-  		<li class="student_email" id="student_email-0" style="display: list-item;">student1@email.com</li>
-		<li class="student_email" id="student_email-1" style="display: list-item;">student2@email.com</li>
-		<li class="student_email" id="student_email-2" style="display: list-item;">student3@email.com</li>
-		<li class="student_email" id="student_email-3" style="display: list-item;">student4@email.com</li>
-		<li class="student_email" id="student_email-4" style="display: list-item;">student5@email.com</li>
-		<li class="student_email" id="student_email-5" style="display: list-item;">student6@email.com</li>
-		<li class="student_email" id="student_email-6" style="display: list-item;">student7@email.com</li>
-		<li class="student_email" id="student_email-7" style="display: list-item;">student8@email.com</li>
-		<li class="student_email" id="student_email-8" style="display: list-item;">student9@email.com</li>
-		<li class="student_email" id="student_email-9" style="display: list-item;">student10@email.com</li>
-		<li class="student_email" id="student_email-10" style="display: list-item;">student11@email.com</li>
-		<li class="student_email" id="student_email-11" style="display: list-item;">student12@email.com</li>
-	</ul>
+	<table class="inputTable" id="searchTable">
+		<tbody>
+			<tr>
+				<td><input id="searchbox"></td>
+				<td><input class="button" id="button_search"
+					onclick="return applyFilters();" tabindex="2" type="submit"
+					value="Search" /></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input id="option_check" type="checkbox" /> <label
+					for="option_check"> Show More Options </label></td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<table class="inputTable" id="optionsTable" style="display: none;">
+		<tbody>
+			<tr>
+				<td width="250px">
+					<h4 class="bold">Courses</h4>
+					<div class="leftalign" id="course_checkboxes">
+						<br />
+						<ul>
+							<li><input checked="checked" id="course_all" type="checkbox" />
+								<label class="bold" for="course_all"> Select All </label></li>
+							<li><input checked="checked" class="course_check"
+								id="course_check-0" type="checkbox" /> <label
+								for="course_check-0"> [course2] : Name of Course 2 </label></li>
+							<li><input checked="checked" class="course_check"
+								id="course_check-1" type="checkbox" /> <label
+								for="course_check-1"> [course3] : Name of Course 3 </label></li>
+						</ul>
+						<br />
+					</div>
+				</td>
+				<td width="250px">
+					<h4 class="bold">Teams</h4>
+					<div class="leftalign" id="team_checkboxes">
+						<br />
+						<ul>
+							<li><input checked="checked" id="team_all" type="checkbox" />
+								<label class="bold" for="team_all"> Select All </label></li>
+							<li><input checked="checked" class="team_check"
+								id="team_check-0-0" type="checkbox" /> <label
+								for="team_check-0-0"> [course2] : Team 1 </label></li>
+							<li><input checked="checked" class="team_check"
+								id="team_check-0-1" type="checkbox" /> <label
+								for="team_check-0-1"> [course2] : Team 2 </label></li>
+							<li><input checked="checked" class="team_check"
+								id="team_check-1-0" type="checkbox" /> <label
+								for="team_check-1-0"> [course3] : Team 1 </label></li>
+							<li><input checked="checked" class="team_check"
+								id="team_check-1-1" type="checkbox" /> <label
+								for="team_check-1-1"> [course3] : Team 2 </label></li>
+							<li><input checked="checked" class="team_check"
+								id="team_check-1-2" type="checkbox" /> <label
+								for="team_check-1-2"> [course3] : Team 3 </label></li>
+						</ul>
+						<br />
+					</div>
+				</td>
+				<td width="250px">
+					<h4 class="bold">
+						<input id="show_email" type="checkbox" /> <label for="show_email">
+							Show Emails </label>
+					</h4>
+					<div class="leftalign" id="emails" style="display: none;">
+						<br />
+						<ul>
+							<li class="student_email" id="student_email-c0.0"
+								style="display: list-item;">student1@email.com</li>
+							<li class="student_email" id="student_email-c0.1"
+								style="display: list-item;">benny@email.com</li>
+							<li class="student_email" id="student_email-c1.0"
+								style="display: list-item;">student3@email.com</li>
+							<li class="student_email" id="student_email-c1.1"
+								style="display: list-item;">benny@email.com</li>
+							<li class="student_email" id="student_email-c1.2"
+								style="display: list-item;">student5@email.com</li>
+							<li class="student_email" id="student_email-c1.3"
+								style="display: list-item;">student6@email.com</li>
+							<li class="student_email" id="student_email-c1.4"
+								style="display: list-item;">student7@email.com</li>
+							<li class="student_email" id="student_email-c1.5"
+								style="display: list-item;">student8@email.com</li>
+							<li class="student_email" id="student_email-c1.6"
+								style="display: list-item;">student9@email.com</li>
+							<li class="student_email" id="student_email-c1.7"
+								style="display: list-item;">student10@email.com</li>
+							<li class="student_email" id="student_email-c1.8"
+								style="display: list-item;">student11@email.com</li>
+							<li class="student_email" id="student_email-c1.9"
+								style="display: list-item;">student12@email.com</li>
+						</ul>
+						<br />
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
 	<div class="backgroundBlock"  id="course-0" >
    		<div class="courseTitle" >
       		<h2 class="color_white" >[course2] : Name of Course 2</h2>
@@ -65,18 +153,17 @@
    		<div style="clear: both;" ></div><br/>
         	<table class="dataTable" >
     			<tbody>
-      			<tr>
-           			<th class="leftalign color_white bold" >
-              			<input class="buttonSortAscending"  id="button_sortstudentname"  onclick="toggleSort(this,1)"  type="button" />
-                         	Student Name
-           			</th>
-           			<th></th>
+    			<tr>
+    				<th> Team</th>
+					<th > Student Name</th>
+    			</tr>
+        		<tr class="student_row"  id="student-c0.0" style="display: table-row;">
+        			<td id="studentteam-c0.0">Team 1</td>
+        			<td id="studentname-c0.0" >Alice Betsy</td>
         		</tr>
-        			<tr class="student_row"  id="student-0" style="display: table-row;">
-        				<td id="studentname" >Alice Betsy</td>
-        		</tr>
-        		<tr class="student_row"  id="student-1" style="display: table-row;">
-        			<td id="studentname" >Benny Charles</td>
+        		<tr class="student_row"  id="student-c0.1" style="display: table-row;">
+        			<td id="studentteam-c0.1">Team 2</td>
+        			<td id="studentname-c0.1" >Benny Charles</td>
       			</tr>
     		</tbody>
 		</table>
@@ -86,47 +173,54 @@
       		<h2 class="color_white" >[course3] : Name of Course 3</h2>
    		</div>
  		<div style="clear: both;" ></div><br/>
-        	<table class="dataTable" >
+        <table class="dataTable" >
       		<tbody>
-         		<tr>
-           			<th class="leftalign color_white bold" >
-              			<input class="buttonSortAscending"  id="button_sortstudentname"  onclick="toggleSort(this,1)"  type="button" />
-                     		Student Name
-            			</th>
-           			<th></th>
-         		</tr>
-         		<tr class="student_row"  id="student-2" style="display: table-row;">
-           			<td id="studentname" >Alice Betsy</td>
+      			<tr>
+    				<th> Team</th>
+					<th > Student Name</th>
+    			</tr>
+         		<tr class="student_row"  id="student-c1.0" style="display: table-row;">
+         			<td id="studentteam-c1.0">Team 1</td>
+           			<td id="studentname-c1.0" >Alice Betsy</td>
        			</tr>
-         		<tr class="student_row"  id="student-3" style="display: table-row;">
-           			<td id="studentname" >Benny Charles</td>
+         		<tr class="student_row"  id="student-c1.1" style="display: table-row;">
+         			<td id="studentteam-c1.0">Team 1</td>
+           			<td id="studentname-c1.0" >Benny Charles</td>
          		</tr>
-         		<tr class="student_row"  id="student-4" style="display: table-row;">
-           			<td id="studentname" >Charlie D</td>
+         		<tr class="student_row"  id="student-c1.2" style="display: table-row;">
+         			<td id="studentteam-c1.0">Team 1</td>
+           			<td id="studentname-c1.2" >Charlie D</td>
          		</tr>
-         		<tr class="student_row"  id="student-5" style="display: table-row;">
-           			<td id="studentname" >Denny Charlés</td>
+         		<tr class="student_row"  id="student-c1.3" style="display: table-row;">
+         			<td id="studentteam-c1.0">Team 1</td>
+           			<td id="studentname-c1.3" >Denny Charlés</td>
               	</tr>
-              	<tr class="student_row"  id="student-6" style="display: table-row;">
-           			<td id="studentname" >Emma F</td>
+              	<tr class="student_row"  id="student-c1.4" style="display: table-row;">
+              		<td id="studentteam-c1.1">Team 2</td>
+           			<td id="studentname-c1.4" >Emma F</td>
               	</tr>
-              	<tr class="student_row"  id="student-7" style="display: table-row;">
-           			<td id="studentname" >Frank Gatsby</td>
+              	<tr class="student_row"  id="student-c1.5" style="display: table-row;">
+              		<td id="studentteam-c1.1">Team 2</td>
+           			<td id="studentname-c1.5" >Frank Gatsby</td>
               	</tr>
-              	<tr class="student_row"  id="student-8" style="display: table-row;">
-           			<td id="studentname" >Gabriel Hobb</td>
+              	<tr class="student_row"  id="student-c1.6" style="display: table-row;">
+              		<td id="studentteam-c1.1">Team 2</td>
+           			<td id="studentname-c1.6" >Gabriel Hobb</td>
               	</tr>
-              	<tr class="student_row"  id="student-9" style="display: table-row;">
-           			<td id="studentname" >Hans Iker</td>
+              	<tr class="student_row"  id="student-c1.7" style="display: table-row;">
+              		<td id="studentteam-c1.2">Team 3</td>
+           			<td id="studentname-c1.7" >Hans Iker</td>
               	</tr>
-              	<tr class="student_row"  id="student-10" style="display: table-row;">
-           			<td id="studentname" >Ian Jacobsson</td>
+              	<tr class="student_row"  id="student-c1.8" style="display: table-row;">
+              		<td id="studentteam-c1.2">Team 3</td>
+           			<td id="studentname-c1.8" >Ian Jacobsson</td>
               	</tr>
-              	<tr class="student_row"  id="student-11" style="display: table-row;">
-           			<td id="studentname" >James K</td>
+              	<tr class="student_row"  id="student-c1.9" style="display: table-row;">
+              		<td id="studentteam-c1.2">Team 3</td>
+           			<td id="studentname-c1.9" >James K</td>
               	</tr>
            	</tbody>
-        	</table>
-   		</div>
+        </table>
+   	</div>
 </body>
 </html>

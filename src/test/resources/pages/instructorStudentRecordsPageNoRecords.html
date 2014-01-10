@@ -30,25 +30,23 @@
 			<div id="contentLinks">
 				<ul id="navbar">
 					<li><a class="nav home" data-link="instructorHome"
-						href="/page/instructorHomePage?user=CCEnrollUiT.teammates.test">
+						href="/page/instructorHomePage?user=ISR.no.eval">
 							Home </a></li>
 					<li><a class="nav courses" data-link="instructorCourse"
-						href="/page/instructorCoursesPage?user=CCEnrollUiT.teammates.test">
+						href="/page/instructorCoursesPage?user=ISR.no.eval">
 							Courses </a></li>
 					<li><a class="nav evaluations" data-link="instructorEval"
-						href="/page/instructorEvalsPage?user=CCEnrollUiT.teammates.test">
+						href="/page/instructorEvalsPage?user=ISR.no.eval">
 							Sessions </a></li>
 					<li class="current"><a class="nav students"
 						data-link="instructorStudent"
-						href="/page/instructorStudentListPage?user=CCEnrollUiT.teammates.test">
+						href="/page/instructorStudentListPage?user=ISR.no.eval">
 							Students </a></li>
 					<li><a class="nav help" href="/instructorHelp.html"
 						target="_blank"> Help </a></li>
-					<li><a class="nav logout" href="/logout.jsp"> Logout </a> <b>
-							<span onmouseout="hideddrivetip()"
-							onmouseover="ddrivetip('CCEnrollUiT.teammates.test')">
-								(CCEnrollUiT.teammate...) </span>
-					</b></li>
+					<li><a class="nav logout" href="/logout.jsp"> Logout </a>
+						<b>(ISR.no.eval)</b>
+					</li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -58,7 +56,7 @@
 		<div id="frameBodyWrapper">
 			<div id="topOfPage"></div>
 			<div id="headerOperation">
-				<h1>CCEnrollUiT.CS2104 - Alice Betsy's Records</h1>
+				<h1>ISR.NoEval - Alice Betsy's Records</h1>
 				<hr />
 			</div>
 			<div id="statusMessage" style="display: block;">No records were found for this student</div>
@@ -67,12 +65,12 @@
 				<table class="resultTable" id="commentTable">
 					<thead>
 						<tr>
-							<th class="bold centeralign">Your comments on this student:</th>
+							<th class="bold centeralign" colspan="2">Your comments on this student:</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr id="comment_box" style="display:none;">
-							<td class="centeralign">
+							<td class="centeralign" colspan="2">
 								<form action="/page/instructorStudentCommentAdd"
 									class="form_comment" method="post" name="form_commentadd">
 									<textarea class="textvalue" id="commentText" name="commenttext"
@@ -81,9 +79,10 @@
                                  </textarea>
 									<br /> <input class="button" id="button_save_comment"
 										type="submit" value="Save Comment" /> <input name="courseid"
-										type="hidden" value="CCEnrollUiT.CS2104" /> <input
+										type="hidden" value="ISR.NoEval" /> <input
 										name="studentemail" type="hidden"
 										value="alice.b.tmms@gmail.com" />
+										<input name="user"  type="hidden"  value="ISR.no.eval" />
 								</form>
 							</td>
 						</tr>

@@ -33,7 +33,11 @@ public class FileDownloadResult extends ActionResult {
 	
 	@Override
 	public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.setHeader("Content-Type", "text/csv");
+		/*
+		 * We have to call setContentType() instead of setHeader() in order
+		 * 	to make the servlet aware of the specified charset encoding
+		 */
+		resp.setContentType("text/csv; charset=UTF-8");
 		resp.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + ".csv\"");
 		PrintWriter writer = resp.getWriter();
 		writer.append(fileContent);

@@ -1,9 +1,9 @@
 package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
@@ -221,7 +221,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
 		
-		fq = fqDb.getFeedbackQuestion("MCQ Session", "idOfTypicalCourse1", 1);
+		fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 1);
 		assertNotNull("Feedback question not found in database", fq);
 		
 		fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
@@ -248,7 +248,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		assertFalse(r.isError);
 		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
 		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
-						+ "&error=" + r.isError +"&user=student1InCourse1",
+						+ "&error=" + r.isError +"&user=FSQTT.student1InCourse1",
 						r.getDestinationWithParams());
 		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 		
@@ -270,16 +270,74 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		assertFalse(r.isError);
 		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
 		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
-						+ "&error=" + r.isError +"&user=student1InCourse1",
+						+ "&error=" + r.isError +"&user=FSQTT.student1InCourse1",
+						r.getDestinationWithParams());
+		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("msq");
+		
+		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+		
+		fq = fqDb.getFeedbackQuestion("MSQ Session", "FSQTT.idOfTypicalCourse1", 1);
+		assertNotNull("Feedback question not found in database", fq);
+		
+		fr = dataBundle.feedbackResponses.get("response1ForQ1S2C1");
+		fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
+		assertNotNull("Feedback response not found in database", fr);
+		
+		student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect"				
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=FSQTT.student1InCourse1",
+						r.getDestinationWithParams());
+		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("msq, question skipped");
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString()			
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=FSQTT.student1InCourse1",
 						r.getDestinationWithParams());
 		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 	}
 	
 	@Test
 	public void testGracePeriodAccessControl() throws Exception{
-		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriod.session");
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
 		fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
-		dataBundle.feedbackSessions.put("gracePeriod.session", fs);
+		dataBundle.feedbackSessions.put("gracePeriodSession", fs);
 		
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		backDoorLogic.persistDataBundle(dataBundle);
@@ -303,7 +361,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		verifyUnaccessibleWithoutLogin(submissionParams);
 		
 		// verify student can still submit during grace period
-		StudentAttributes studentInGracePeriod = dataBundle.students.get("studentInGraceCourse");
+		StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
 		gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
 		verifyCanAccess(submissionParams);
 	}
@@ -311,8 +369,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 	@Test
 	public void testGracePeriodExecuteAndPostProcess() throws Exception{
 		FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
-		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriod.session");
-		StudentAttributes studentInGracePeriod = dataBundle.students.get("studentInGraceCourse");
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+		StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
 		gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
 
 		String[] submissionParams = new String[]{
@@ -332,7 +390,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		ActionResult r = a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=studentInGraceCourse", 
+				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=student1InCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
 				r.getStatusMessage());
@@ -349,7 +407,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		a = getAction(submissionParams);
 		r = a.executeAndPostProcess();
 		assertEquals(
-				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=studentInGraceCourse", 
+				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=student1InCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
 				r.getStatusMessage());

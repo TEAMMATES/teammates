@@ -344,6 +344,53 @@
 				"RECEIVER"
 			]
 		},
+		"qn9InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
+			},
+			"questionNumber":"9",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn10InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"What do you think is the other teams' best feature?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
+			},
+			"questionNumber":"10",
+			"questionType":"MSQ",
+			"giverType":"TEAMS",
+			"recipientType":"TEAMS",
+			"numberOfEntitiesToGiveFeedbackTo":3,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
 		"qn1InSession2":{
 			"feedbackSessionName":"Second Session",
 			"courseId":"SFSubmitUiT.CS2104",

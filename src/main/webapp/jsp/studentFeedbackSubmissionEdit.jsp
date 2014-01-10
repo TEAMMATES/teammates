@@ -2,21 +2,16 @@
 
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
-<%@ page import="teammates.common.util.Assumption"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
-<%@ page import="teammates.common.datatransfer.FeedbackTextQuestionDetails"%>
-<%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractResponseDetails"%>
-<%@ page import="teammates.common.datatransfer.FeedbackTextResponseDetails"%>
-<%@ page import="teammates.common.datatransfer.FeedbackMcqResponseDetails"%>
-<%@ page import="teammates.ui.controller.StudentFeedbackSubmissionEditPageData"%>
+<%@ page import="teammates.ui.controller.FeedbackSubmissionEditPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
-	StudentFeedbackSubmissionEditPageData data = (StudentFeedbackSubmissionEditPageData)request.getAttribute("data");
+	FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -80,6 +75,8 @@
 				for (FeedbackQuestionAttributes question : questions) {
 					int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
 					int maxResponsesPossible = data.bundle.recipientList.get(question.getId()).size();
+					FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+
 					if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS ||
 							numOfResponseBoxes > maxResponsesPossible) {
 						numOfResponseBoxes = maxResponsesPossible;
@@ -88,10 +85,8 @@
 						// Don't display question if no recipients.
 						continue;
 					}
-					
-					FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
 			%>
-					<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType.toString()%>"/>
+					<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType%>"/>
 					<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
 					<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
 					<table class="inputTable responseTable">
@@ -143,8 +138,7 @@
 									<%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
 										data.bundle.feedbackSession.isOpened(), 
 										qnIndx, responseIndx, 
-										existingResponse.getResponseDetails(),
-										questionDetails)%>
+										existingResponse.getResponseDetails())%>
 									<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
 								</td>
 							</tr>
@@ -169,8 +163,7 @@
 								<td class="responseText">
 								<%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
 										data.bundle.feedbackSession.isOpened(), 
-										qnIndx, responseIndx,
-										questionDetails)%>
+										qnIndx, responseIndx)%>
 								</td>
 							</tr>
 					<%
