@@ -88,7 +88,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 			.withStudentEmail(student.email);
 		
 		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-		viewPage.verifyHtml("/instructorStudentRecordsPageMCQ.html");
+		viewPage.verifyHtml("/instructorStudentRecordsPageMixedQuestionType.html");
 
 	}
 	
