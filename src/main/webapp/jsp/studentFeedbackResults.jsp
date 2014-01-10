@@ -136,7 +136,7 @@
 										}
 										
 										out.print(giverName);
-								%>
+									%>
 									</span>
 								</td>
 							</tr>
