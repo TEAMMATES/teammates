@@ -27,3 +27,8 @@ textarea{
 textarea#commentText{
 	width: 95%;
 }
+
+.selectedOptionsList {
+	margin-left: 15px;
+	list-style: disc;
+}
