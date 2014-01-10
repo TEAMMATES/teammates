@@ -56,52 +56,115 @@
 							onmouseover="ddrivetip('Search for student\'s name or course name')"
 							onmouseout="hideddrivetip()" tabindex="1"></td>
 						<td><input id="button_search" type="submit" class="button"
-							onclick="return searchName()" value="Search" tabindex="2"></td>
+							onclick="return applyFilters();" value="Search" tabindex="2"></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input id="option_check" type="checkbox">
+								<label for="option_check">
+								Show More Options
+								</label>
+						</td>
+					</tr>
+				</table>
+				<br><br>
+				<table class="inputTable" id="optionsTable" style="display: none;">	
+					<tr>
+						<td width="250px">
+							<h4 class="bold">Courses</h4>
+							<div class="leftalign" id="course_checkboxes">
+							<br>
+								<ul>
+								<li>
+									<input id="course_all" type="checkbox" checked="checked">
+									<label for="course_all" class="bold">Select All</label>
+								</li>
+								<%
+									int courseIdx = -1;
+									for(CourseDetailsBundle courseDetails: data.courses){
+										courseIdx++;
+								%>
+									<li><input class="course_check" id="course_check-<%=courseIdx %>" type="checkbox" checked="checked">
+										<label for="course_check-<%=courseIdx %>">
+										[<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
+										</label>
+									</li>
+								<%
+									}
+								%>
+								</ul>
+							<br>
+							</div>
+						</td>
+						<td width="250px">
+							<h4 class="bold">Teams</h4>
+							<div class="leftalign" id="team_checkboxes">
+							<br>
+							<ul>
+								<li>
+									<input id="team_all" type="checkbox" checked="checked">
+									<label for="team_all" class="bold">Select All</label>
+								</li>
+								<%
+									courseIdx = -1;
+									for(CourseDetailsBundle courseDetails: data.courses){
+										courseIdx++;
+										int teamIdx = -1;
+										for(TeamDetailsBundle teamDetails: courseDetails.teams){
+											teamIdx++;
+								%>
+									<li><input class="team_check" id="team_check-<%=courseIdx %>-<%=teamIdx %>" type="checkbox" checked="checked">
+										<label for="team_check-<%=courseIdx %>-<%=teamIdx%>">
+										[<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(teamDetails.name)%>
+										</label>
+									</li>
+								<%
+										}
+									}
+								%>
+							</ul>
+							<br>
+							</div>
+						</td>
+						<td width="250px">
+							<h4 class="bold">
+								<input id="show_email" type="checkbox">
+									<label for="show_email">
+									Show Emails
+									</label>
+							</h4>
+							<div class="leftalign" id="emails" style="display: none;">
+							<br>
+							<ul>
+							<%
+								
+								courseIdx = -1;
+								for(CourseDetailsBundle courseDetails: data.courses){
+									courseIdx++;
+									int totalCourseStudents = courseDetails.stats.studentsTotal;
+									if(totalCourseStudents >= 1){
+										int studentIdx = -1;
+										for(TeamDetailsBundle teamDetails: courseDetails.teams){
+											for(StudentAttributes student: teamDetails.students){
+												studentIdx++;
+							%>
+									<li class="student_email" id="student_email-c<%=courseIdx %>.<%=studentIdx%>" style="display: list-item;"><%=student.email %></li>
+							<%
+											}
+										}
+									}
+								}
+							%>
+							</ul>
+							<br>
+							</div>
+						</td>
 					</tr>
 				</table>
 	
 				<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-				<% 	
-					int courseIdx = -1;
-					int studentIdx = 0;
-					if(data.courses.size() > 0){
-				%>
-						<br><br>
-						<a class="color_black" id="show_email" href=""
-							onmouseover="ddrivetip('<%=Const.Tooltips.SHOW_EMAILS%>')"
-							onmouseout="hideddrivetip()"
-							onclick="toggleEmailView(); return false;">Show student e-mails</a>
-						<div class="emails" style="display: none;">
-							<div class="student_emails">
-								<h4 class="bold">Emails of all currently displayed student:</h4>
-								<ul>
-					<%
-						for(CourseDetailsBundle courseDetails: data.courses){
-							courseIdx++;
-							int totalCourseStudents = courseDetails.stats.studentsTotal;
-					%>
-						
-						<%
-							if(totalCourseStudents >= 1){
-						%>
-								<li class="student_email" id="student_email-<%=studentIdx%>" style="display: list-item;"><%=data.students.get(studentIdx).email %></li>
-						<%
-							}
-							for(int i = studentIdx+1; i < studentIdx + totalCourseStudents; i++) {
-						%>
-								<li class="student_email" id="student_email-<%=i%>" style="display: list-item;"><%=data.students.get(i).email %></li>
-					<%
-							}
-							studentIdx += totalCourseStudents;
-						}
-					%>
-								</ul>
-							</div>
-						</div>
 				<%
-					}
 					courseIdx = -1;
-					studentIdx = 0;
 					for (CourseDetailsBundle courseDetails : data.courses) {
 						courseIdx++;
 						int totalCourseStudents = courseDetails.stats.studentsTotal;
@@ -126,42 +189,52 @@
 					%>
 					<table class="dataTable">
 						<tr>
+							<th class="leftalign color_white bold">
+								<input class="buttonSortAscending" type="button"
+								id="button_sortteam" onclick="toggleSort(this,1)">Team
+							</th>
 							<th class="leftalign color_white bold"><input
-								class="buttonSortAscending" type="button"
-								id="button_sortstudentname" onclick="toggleSort(this,1)">Student Name</th>
-							<th></th>
+								class="buttonSortNone" type="button"
+								id="button_sortstudentname" onclick="toggleSort(this,2)">Student Name</th>
+							<th class="centeralign color_white bold no-print">Action(s)</th>
 						</tr>
 						<%
-							for (int i = studentIdx; i < studentIdx + totalCourseStudents; i++) {
+							int teamIdx = -1;
+							int studentIdx = -1;
+							for(TeamDetailsBundle teamDetails: courseDetails.teams){
+								teamIdx++;
+								for(StudentAttributes student: teamDetails.students){
+									studentIdx++;
 						%>
-						<tr class="student_row" id="student-<%=i%>" style="display: table-row;">
-							<td id="studentname"><%=PageData.sanitizeForHtml(data.students.get(i).name)%></td>
+						<tr class="student_row" id="student-c<%=courseIdx %>.<%=studentIdx%>" style="display: table-row;">
+							<td id="studentteam-c<%=courseIdx %>.<%=teamIdx%>"><%=PageData.sanitizeForHtml(teamDetails.name)%></td>
+							<td id="studentname-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.name)%></td>
 							<td class="centeralign no-print">
-								<a class="color_black t_student_details-<%=i%>" 
-								href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, data.students.get(i))%>"
+								<a class="color_black t_student_details-c<%=courseIdx %>.<%=studentIdx%>" 
+								href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)%>"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>')"
 								onmouseout="hideddrivetip()"> View</a> 
 								
-								<a class="color_black t_student_edit-<%=i%>"
-								href="<%=data.getCourseStudentEditLink(courseDetails.course.id, data.students.get(i))%>"
+								<a class="color_black t_student_edit-c<%=courseIdx %>.<%=studentIdx%>"
+								href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_EDIT%>')"
 								onmouseout="hideddrivetip()"> Edit</a> 
 								
-								<a class="color_black t_student_delete-<%=i%>"
-								href="<%=data.getCourseStudentDeleteLink(courseDetails.course.id, data.students.get(i))%>"
-								onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(data.students.get(i).name)%>')"
+								<a class="color_black t_student_delete-c<%=courseIdx %>.<%=studentIdx%>"
+								href="<%=data.getCourseStudentDeleteLink(courseDetails.course.id, student)%>"
+								onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(student.name)%>')"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DELETE%>')"
 								onmouseout="hideddrivetip()"> Delete</a>
 								
-								<a class="color_black t_student_records-<%=i%>"
-								href="<%=data.getStudentRecordsLink(courseDetails.course.id, data.students.get(i))%>"
+								<a class="color_black t_student_records-c<%=courseIdx %>.<%=studentIdx%>"
+								href="<%=data.getStudentRecordsLink(courseDetails.course.id, student)%>"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>')"
 								onmouseout="hideddrivetip()"> All Records</a>
 							</td>
 						</tr>
 						<%
+								}
 							}
-							studentIdx += totalCourseStudents;
 						%>
 					</table>
 					<%

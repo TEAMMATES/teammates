@@ -256,7 +256,7 @@ public class CoursesLogic {
 					+ courseId);
 		}
 
-		CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
+		CourseDetailsBundle cdd = getTeamsForCourse(courseId);
 		cdd.stats.teamsTotal = getNumberOfTeams(cd.id);
 		cdd.stats.studentsTotal = getTotalEnrolledInCourse(cd.id);
 		cdd.stats.unregisteredTotal = getTotalUnregisteredInCourse(cd.id);
