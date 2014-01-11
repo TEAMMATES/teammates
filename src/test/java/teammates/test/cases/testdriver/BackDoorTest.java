@@ -337,7 +337,7 @@ public class BackDoorTest extends BaseTestCase {
 		// another well-tested method.
 
 		StudentAttributes student = new StudentAttributes(
-				"|name of tcs student|tcsStudent@gmail.com|",
+				"team name|name of tcs student|tcsStudent@gmail.com|",
 				"tmapit.tcs.course");
 		BackDoor.deleteStudent(student.course, student.email);
 		verifyAbsentInDatastore(student);

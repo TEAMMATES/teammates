@@ -26,6 +26,7 @@ public class CourseDetailsBundle {
 	public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
 	public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
 	public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
+	//TODO: remove this as we do not allow loners anymore
 	public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
 	
 	public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
