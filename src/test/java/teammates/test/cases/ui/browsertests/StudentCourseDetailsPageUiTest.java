@@ -40,10 +40,6 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
 		
 		verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie", "/studentCourseDetailsWithoutTeammatesHTML.html");
 		
-		//no team
-		
-		verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.danny", "/studentCourseDetailsNoTeamHTML.html");
-		
 		______TS("links, inputValidation, actions");
 		
 		//nothing to test here.
