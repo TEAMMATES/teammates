@@ -52,7 +52,9 @@
 							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL_SAMPLE_SPREADSHEET%>')"
 							onmouseout="hideddrivetip()">Sample spreadsheet</a> ] 
 					</p>
-					<img src="/images/enrollInstructions.png" border="0" > 
+					<div class="instructionImg">
+						<img src="/images/enrollInstructions.gif" border="0" > 
+					</div>
 					<p class="info centeralign bold">Recommended maximum class size : 250 students</p>
 					<br>
 				 	<table class="inputTable enrollStudentTable" > 
@@ -61,7 +63,7 @@
 							<td>
 							<%-- The placeholder message must be written in a single line to avoid display problem in some browsers --%>
 								<textarea rows="6" cols="120" class ="textvalue" name="enrollstudents" id="enrollstudents" 
-									placeholder="This box can be used for enrolling new students and editing details (except email address) of students already enrolled. To EDIT, simply enroll students using the updated data and existing data will be updated accordingly. To DELETE students or to UPDATE EMAIL address of a student,please use the 'view' page of the course."><%=data.enrollStudents%></textarea>
+									placeholder="Paste student data here ..."><%=data.enrollStudents%></textarea>
 							</td>
 						</tr>
 					</table>
@@ -72,8 +74,38 @@
 					</div>
 				</form>
 				<br>
+				
+				<div class="moreInfo">
+				<br>More info:
 				<br>
+				<ul>
+					<li><span class="bold">Sample spreadsheet</span>: If you are not sure about the format of the spreadsheet, here is a sample file.</li>
+					<li><span class="bold">Column headings</span>: The column order is not important. Column headings are not case sensitive. e.g. Team, TEAM, team are all acceptable.</li>
+					<li><span class="bold">Columns</span>:
+						<ul>
+							<li>Team [Compulsory]: team name/ID</li>
+							<li>Name [Compulsory]: Student name</li>
+							<li>Email [Compulsory]: The email address used to contact the student.<br>
+							This need not be a Gmail address.<br>
+							It should be unique for each student. If two students are given the same email, they will be considered the same student.</li>
+							<li>Comments [Optional]: Any other information you want to record about a student.</li>
+						</ul>
+					<li><span class="bold">Mass editing enrolled students</span>: The text box above can be used for mass-editing details (except email address) of students already enrolled.
+					To edit, simply enroll students using the updated data and existing data will be updated accordingly.
+						<ul>
+							<li>To DELETE students or to UPDATE EMAIL address of a student, please go to the ‘courses’ page and click the 'view' link of the course.</li>
+						</ul>
+					</li>
+					<li><span class="bold">Enrolling without spreadsheets</span>:  The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar, 
+					not to be confused with upper case i or lower case L).
+						<br>Here is an example.
+						<br><span class="enrollLines">Team   |   Name   |   Email   |   Comments</span>
+						<br><span class="enrollLines">Team 1   |   Tom Jacobs  |  tom@email.com</span>
+						<br><span class="enrollLines">Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
+					</li>
+				</ul>
 				<br>
+				</div>
 		</div>
 	</div>
 
