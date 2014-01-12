@@ -631,7 +631,6 @@ public class Logic {
 	 * datastore <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
-	 * 
 	 * @return StudentData objects in the return value contains the status of
 	 *         enrollment. It also includes data for other students in the
 	 *         course that were not touched by the operation.
@@ -642,7 +641,7 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, enrollLines);
 	
-		return studentsLogic.enrollStudents(enrollLines, courseId);
+		return studentsLogic.enrollStudents(enrollLines.trim(), courseId);
 	
 	}
 

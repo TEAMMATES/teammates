@@ -67,6 +67,12 @@ public class StudentAttributes extends EntityAttributes {
 
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
 
+	public static final int ARG_COUNT = 4;
+	public static final int ARG_INDEX_TEAM = 0;
+	public static final int ARG_INDEX_NAME = 1;
+	public static final int ARG_INDEX_EMAIL = 2;
+	public static final int ARG_INDEX_COMMENT = 3;
+	
 	public static final String ERROR_COURSE_ID_NULL = "Course ID was null\n";
 	public static final String ERROR_ENROLL_LINE_NULL = "Enroll line was null\n";
 	public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
@@ -88,14 +94,15 @@ public class StudentAttributes extends EntityAttributes {
 		
 	}
 
-	public StudentAttributes(String enrollLine, String courseId)
-			throws EnrollException {
+	/**
+	 * 
+	 * @param enrollLine Enroll line with | or tab as separator
+	 * @param columnOrder An Integer array specifying the order of field in enrollLine.
+	 * 					<br>If null, the default order is used (i.e. Team, Name, Email, Comment)
+	 */
+	public StudentAttributes(String enrollLine, String courseId, Integer[] columnOrder) throws EnrollException {
 
 		this();
-		int TEAM_POS = 0;
-		int NAME_POS = 1;
-		int EMAIL_POS = 2;
-		int COMMENT_POS = 3;
 
 		Assumption.assertNotNull(ERROR_ENROLL_LINE_NULL, enrollLine);
 		Assumption.assertNotNull(ERROR_COURSE_ID_NULL, courseId);
@@ -112,11 +119,16 @@ public class StudentAttributes extends EntityAttributes {
 			throw new EnrollException(ERROR_ENROLL_LINE_TOOMANYPARTS);
 		}
 
+		Integer[] order = {0, 1, 2, 3};
+		if (columnOrder != null) {
+			order = columnOrder;
+		}
+		
 		String paramCourseId = courseId;
-		String paramTeam = parts[TEAM_POS];
-		String paramName = parts[NAME_POS];
-		String paramEmail = parts[EMAIL_POS];
-		String paramComment = ((parts.length == 4) ? parts[COMMENT_POS] : "");
+		String paramTeam = parts[order[ARG_INDEX_TEAM]];
+		String paramName = parts[order[ARG_INDEX_NAME]];
+		String paramEmail = parts[order[ARG_INDEX_EMAIL]];
+		String paramComment = ((parts.length == 4) ? parts[order[ARG_INDEX_COMMENT]] : "");
 
 		this.name = Sanitizer.sanitizeName(paramName);
 		this.email = Sanitizer.sanitizeEmail(paramEmail);

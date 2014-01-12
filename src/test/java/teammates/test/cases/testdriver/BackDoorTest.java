@@ -338,7 +338,7 @@ public class BackDoorTest extends BaseTestCase {
 
 		StudentAttributes student = new StudentAttributes(
 				"team name|name of tcs student|tcsStudent@gmail.com|",
-				"tmapit.tcs.course");
+				"tmapit.tcs.course", null);
 		BackDoor.deleteStudent(student.course, student.email);
 		verifyAbsentInDatastore(student);
 		BackDoor.createStudent(student);
@@ -350,7 +350,7 @@ public class BackDoorTest extends BaseTestCase {
 	@Test
 	public void testGetKeyForStudent() throws EnrollException {
 
-		StudentAttributes student = new StudentAttributes("t1|name of tgsr student|tgsr@gmail.com|", "course1");
+		StudentAttributes student = new StudentAttributes("t1|name of tgsr student|tgsr@gmail.com|", "course1", null);
 		BackDoor.createStudent(student);
 		String key = BackDoor.getKeyForStudent(student.course, student.email); 
 

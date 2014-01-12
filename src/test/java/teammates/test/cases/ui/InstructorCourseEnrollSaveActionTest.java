@@ -2,7 +2,6 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -15,7 +14,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
-
 import teammates.ui.controller.InstructorCourseEnrollPageData;
 import teammates.ui.controller.InstructorCourseEnrollResultPageData;
 import teammates.ui.controller.InstructorCourseEnrollSaveAction;
@@ -47,33 +45,6 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		
 		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 		
-	}
-	
-	@Test
-	public void testRemoveHeaderRowFromEnrollLines() throws Exception {
-		
-		______TS("header row exists");
-		String header = "Team\tStudent Name\tEmail\tComment";
-		String studentsInfo = "Team1\tJean Wong\tjean@email.com\tExchange student"
-							+ Const.EOL + "Team1\tJames Tan\tjames@email.com\t";	
-		String enrollLines = header + Const.EOL + studentsInfo;
-	
-		String result = invokeRemoveHeaderRowIfExist(enrollLines);
-		assertEquals(studentsInfo, result);
-		
-		______TS("header row does not exist");
-		studentsInfo = "Team1\tJean Wong\tjean@email.com\tExchange student"
-							+ Const.EOL + "Team1\tJames Tan\tjames@email.com\t";	
-	
-		result = invokeRemoveHeaderRowIfExist(studentsInfo);
-		assertEquals(studentsInfo, result);
-		
-		______TS("header row does not exist but first line contains column names");
-		studentsInfo = "Team 1\tSample Name\tsample@email.com"
-				+ Const.EOL + "Team1\tJames Tan\tjames@email.com\t";	
-
-		result = invokeRemoveHeaderRowIfExist(studentsInfo);
-		assertEquals(studentsInfo, result);
 	}
 	
 	@Test
@@ -125,7 +96,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		verifyStudentEnrollmentStatus(unmodifiedStudent, data.students);
 		
 		String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" 
-				+ courseId + "]:</span><br> - " + enrollString.replace("\n", "<br> - "); 
+				+ courseId + "]:</span><br>" + enrollString.replace("\n", "<br>"); 
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 		
 		______TS("Masquerade mode, enrollment into empty course, with header row");
@@ -139,9 +110,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		
 		gaeSimulation.loginAsAdmin("admin.user");
 		
-		String headerRow = "Team\tStudent Name\tEmail\tComment";
-		String studentsInfo = "Team 1\tJean Wong\tjean@email.com\tExchange student"
-							+ Const.EOL + "Team 2\tJames Tan\tjames@email.com\t";
+		String headerRow = "Name\tEmail\tTeam\tComment";
+		String studentsInfo = "Jean Wong\tjean@email.com\tTeam 1\tExchange student"
+							+ Const.EOL + "James Tan\tjames@email.com\tTeam 2";
 		enrollString = headerRow + Const.EOL +  studentsInfo;
 		
 		submissionParams = new String[]{
@@ -168,7 +139,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		verifyStudentEnrollmentStatus(student2, data.students);
 		
 		expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" 
-				+ courseId + "]:</span><br> - " + studentsInfo.replace("\n", "<br> - "); 
+				+ courseId + "]:</span><br>" + enrollString.replace("\n", "<br>"); 
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 		
 		______TS("Failure case: enrollment failed due to invalid lines");
@@ -243,14 +214,6 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		}
 		
 		assertEquals(true, result);
-	}
-	
-	private String invokeRemoveHeaderRowIfExist(String enrollLines) throws Exception {
-		Method privateMethod = InstructorCourseEnrollSaveAction.class.getDeclaredMethod("removeHeaderRowIfExist",
-							new Class[] { String.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] { enrollLines };
-		return (String) privateMethod.invoke(new InstructorCourseEnrollSaveAction(), params);
 	}
 	
 	private InstructorCourseEnrollSaveAction getAction(String... params) throws Exception {
