@@ -61,7 +61,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		
 		______TS("link for the sample spreadsheet");
 		
-		enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),"B2F8A93F24ACAC5713BCBC42DAF1FDA59F7AE04B");
+		enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),"515BED94E8F664E870BC7A9BC2F0BBBAEF0D6756");
 	}
 
 	private void testEnrollAction() throws Exception {
