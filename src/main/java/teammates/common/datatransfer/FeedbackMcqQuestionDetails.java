@@ -1,7 +1,9 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 
@@ -9,9 +11,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 	public int numOfMcqChoices;
 	public List<String> mcqChoices;
 	public boolean otherEnabled;
+	FeedbackParticipantType generateOptionsFor;
 
 	public FeedbackMcqQuestionDetails() {
 		super(FeedbackQuestionType.MCQ);
+		
+		this.numOfMcqChoices = 0;
+		this.mcqChoices = new ArrayList<String>();
+		this.otherEnabled = false;
+		this.generateOptionsFor = FeedbackParticipantType.NONE;
 	}
 
 	public FeedbackMcqQuestionDetails(String questionText,
@@ -23,6 +31,21 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		this.numOfMcqChoices = numOfMcqChoices;
 		this.mcqChoices = mcqChoices;
 		this.otherEnabled = otherEnabled;
+		this.generateOptionsFor = FeedbackParticipantType.NONE;
+	}
+	
+	public FeedbackMcqQuestionDetails(String questionText,
+			FeedbackParticipantType generateOptionsFor) {
+		super(FeedbackQuestionType.MCQ, questionText);
+		
+		this.numOfMcqChoices = 0;
+		this.mcqChoices = new ArrayList<String>();
+		this.otherEnabled = false;
+		this.generateOptionsFor = generateOptionsFor;
+		Assumption.assertTrue("Can only generate students, teams or instructors",
+				generateOptionsFor == FeedbackParticipantType.STUDENTS ||
+				generateOptionsFor == FeedbackParticipantType.TEAMS ||
+				generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
 	}
 
 	@Override
@@ -112,7 +135,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 				"${mcqEditFormOptionFragments}", optionListHtml.toString(),
 				"${questionNumber}", Integer.toString(questionNumber),
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
-				"${numOfMcqChoices}", Integer.toString(numOfMcqChoices));
+				"${numOfMcqChoices}", Integer.toString(numOfMcqChoices),
+				"${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked=\"checked\"", 
+				"${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}", Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
+				"${generateOptionsForValue}", generateOptionsFor.toString());
 		
 		return html;
 	}

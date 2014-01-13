@@ -54,42 +54,55 @@ public abstract class FeedbackAbstractQuestionDetails {
 			questionDetails = new FeedbackTextQuestionDetails(questionText);
 			break;
 		case MCQ:
-			String numMcqChoicesCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
-			Assumption.assertNotNull("Null number of choice for MCQ", numMcqChoicesCreatedString);
-			int numMcqChoicesCreated = Integer.parseInt(numMcqChoicesCreatedString);
-			
 			int numOfMcqChoices = 0;
 			List<String> mcqChoices = new LinkedList<String>();
-			for(int i = 0; i < numMcqChoicesCreated; i++) {
-				String mcqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
-				if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
-					mcqChoices.add(mcqChoice);
-					numOfMcqChoices++;
-				}
-			}
-			
 			boolean mcqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
 			
-			questionDetails = new FeedbackMcqQuestionDetails(questionText, numOfMcqChoices, mcqChoices, mcqOtherEnabled);
+			String generatedMcqOptions = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+			if (generatedMcqOptions.equals(FeedbackParticipantType.NONE.toString())) {
+				String numMcqChoicesCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+				Assumption.assertNotNull("Null number of choice for MCQ", numMcqChoicesCreatedString);
+				int numMcqChoicesCreated = Integer.parseInt(numMcqChoicesCreatedString);
+				
+				for(int i = 0; i < numMcqChoicesCreated; i++) {
+					String mcqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
+					if(mcqChoice != null && !mcqChoice.trim().isEmpty()) {
+						mcqChoices.add(mcqChoice);
+						numOfMcqChoices++;
+					}
+				}
+				
+				questionDetails = new FeedbackMcqQuestionDetails(questionText, numOfMcqChoices, mcqChoices, mcqOtherEnabled);
+			} else {
+				questionDetails = new FeedbackMcqQuestionDetails(questionText, FeedbackParticipantType.valueOf(generatedMcqOptions));
+			}
+						
 			break;
 		case MSQ:
-			String numMsqChoicesCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
-			Assumption.assertNotNull("Null number of choice for MSQ", numMsqChoicesCreatedString);
-			int numMsqChoicesCreated = Integer.parseInt(numMsqChoicesCreatedString);
-			
 			int numOfMsqChoices = 0;
 			List<String> msqChoices = new LinkedList<String>();
-			for(int i = 0; i < numMsqChoicesCreated; i++) {
-				String msqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
-				if(msqChoice != null && !msqChoice.trim().isEmpty()) {
-					msqChoices.add(msqChoice);
-					numOfMsqChoices++;
-				}
-			}
-			
 			boolean msqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
+				
+			String generatedMsqOptions = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+			if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
+				String numMsqChoicesCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+				Assumption.assertNotNull("Null number of choice for MSQ", numMsqChoicesCreatedString);
+				int numMsqChoicesCreated = Integer.parseInt(numMsqChoicesCreatedString);
+				
+				for(int i = 0; i < numMsqChoicesCreated; i++) {
+					String msqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
+					if(msqChoice != null && !msqChoice.trim().isEmpty()) {
+						msqChoices.add(msqChoice);
+						numOfMsqChoices++;
+					}
+				}
 			
-			questionDetails = new FeedbackMsqQuestionDetails(questionText, numOfMsqChoices, msqChoices, msqOtherEnabled);
+				questionDetails = new FeedbackMsqQuestionDetails(questionText, numOfMsqChoices, msqChoices, msqOtherEnabled);
+			} else {
+				questionDetails = new FeedbackMsqQuestionDetails(questionText, FeedbackParticipantType.valueOf(generatedMsqOptions));
+			}
+				
+				
 			break;
 		default:
 			Assumption.fail("Question type not supported");

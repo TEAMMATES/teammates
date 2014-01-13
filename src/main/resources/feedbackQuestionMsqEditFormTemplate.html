@@ -1,6 +1,6 @@
 <tr>
-	<td colspan="4">
-		<table>
+	<td colspan="2">
+		<table id="msqChoiceTable-${questionNumber}">
 			${msqEditFormOptionFragments}			
 			<tr id="msqAddOptionRow-${questionNumber}">
 				<td colspan="2"><a href="#" class="color_blue" id="msqAddOptionLink"
@@ -12,5 +12,16 @@
 		<input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}"
 			id="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNumber}" 
 			value="${numOfMsqChoices}">
+	</td>
+	<td colspan="2" style="vertical-align:top;">
+		<label><input type="checkbox" 
+			disabled="disabled"
+			id="generateOptionsCheckbox-${questionNumber}"
+			${checkedGeneratedOptions}
+			onchange="toggleMsqGeneratedOptions(this,${questionNumber})">Or, generate options from list of all students</label>
+		<input type="hidden" 
+			id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
+			name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}" 
+			value="${generateOptionsForValue}"> 
 	</td>
 </tr>

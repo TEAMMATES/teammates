@@ -1,7 +1,9 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
@@ -11,9 +13,15 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 	public int numOfMsqChoices;
 	public List<String> msqChoices;
 	public boolean otherEnabled;
+	FeedbackParticipantType generateOptionsFor;
 	
 	public FeedbackMsqQuestionDetails() {
 		super(FeedbackQuestionType.MSQ);
+		
+		this.numOfMsqChoices = 0;
+		this.msqChoices = new ArrayList<String>();
+		this.otherEnabled = false;
+		this.generateOptionsFor = FeedbackParticipantType.NONE;
 	}
 
 	public FeedbackMsqQuestionDetails(String questionText,
@@ -25,6 +33,21 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		this.numOfMsqChoices = numOfMsqChoices;
 		this.msqChoices = msqChoices;
 		this.otherEnabled = otherEnabled;
+		this.generateOptionsFor = FeedbackParticipantType.NONE;
+	}
+	
+	public FeedbackMsqQuestionDetails(String questionText,
+			FeedbackParticipantType generateOptionsFor) {
+		super(FeedbackQuestionType.MSQ, questionText);
+		
+		this.numOfMsqChoices = 0;
+		this.msqChoices = new ArrayList<String>();
+		this.otherEnabled = false;
+		this.generateOptionsFor = generateOptionsFor;
+		Assumption.assertTrue("Can only generate students, teams or instructors",
+				generateOptionsFor == FeedbackParticipantType.STUDENTS ||
+				generateOptionsFor == FeedbackParticipantType.TEAMS ||
+				generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
 	}
 
 	@Override
@@ -116,7 +139,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 				"${msqEditFormOptionFragments}", optionListHtml.toString(),
 				"${questionNumber}", Integer.toString(questionNumber),
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
-				"${numOfMsqChoices}", Integer.toString(numOfMsqChoices));
+				"${numOfMsqChoices}", Integer.toString(numOfMsqChoices),
+				"${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked=\"checked\"", 
+				"${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}", Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
+				"${generateOptionsForValue}", generateOptionsFor.toString());
 		
 		return html;
 	}
@@ -126,6 +152,4 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		List<String> sanitizedChoices = Sanitizer.sanitizeListForCsv(msqChoices);
 		return "Feedbacks:," + StringHelper.toString(sanitizedChoices, ",");
 	}
-	
-	
 }

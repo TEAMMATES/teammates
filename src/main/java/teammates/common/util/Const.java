@@ -242,6 +242,7 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
 		public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
 		public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
+		public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
 		public static final String FEEDBACK_QUESTION_GIVERTYPE = "givertype";
 		public static final String FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";
 		public static final String FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";

@@ -129,6 +129,15 @@ function enableQuestion(number){
 		not('.disabled_radio').
 		removeAttr("disabled", "disabled");
 	$('#questionTable'+number).find('a').show();
+	
+	if(!$("#generateOptionsCheckbox-"+number).prop("checked")){
+		$("#mcqChoiceTable-"+number).show();
+		$("#msqChoiceTable-"+number).show();
+	} else {
+		$("#mcqChoiceTable-"+number).hide();
+		$("#msqChoiceTable-"+number).hide();
+	}		
+	
 	$('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
 	$('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
 	$('#'+'button_question_submit-'+number).show();
@@ -334,6 +343,34 @@ function removeMcqOption(index, questionNumber) {
 function removeMsqOption(index, questionNumber) {
 	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
 	$("#msqOptionRow-"+index+idSuffix).remove();
+}
+
+function toggleMcqGeneratedOptions(checkbox, questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	
+	if (checkbox.checked) {
+		$("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
+		$("#mcqChoiceTable"+idSuffix).hide();
+		$("#generatedOptions"+idSuffix).attr("value", "STUDENTS");
+	} else {
+		$("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop("disabled", false);
+		$("#mcqChoiceTable"+idSuffix).show();
+		$("#generatedOptions"+idSuffix).attr("value", "NONE");
+	}
+}
+
+function toggleMsqGeneratedOptions(checkbox, questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	
+	if (checkbox.checked) {
+		$("#msqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
+		$("#msqChoiceTable"+idSuffix).hide();
+		$("#generatedOptions"+idSuffix).attr("value", "STUDENTS");
+	} else {
+		$("#msqChoiceTable"+idSuffix).find("input[type=text]").prop("disabled", false);
+		$("#msqChoiceTable"+idSuffix).show();
+		$("#generatedOptions"+idSuffix).attr("value", "NONE");
+	}
 }
 
 /**
