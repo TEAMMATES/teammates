@@ -45,13 +45,6 @@
 					<h1>Enroll Students for <%=sanitizeForHtml(data.courseId)%></h1>
 				</div>
 				<form action="<%=data.getInstructorCourseEnrollSaveLink(data.courseId)%>" method="post">
-					<p class ="bold rightalign spreadsheetLink">		
-						[ <a id ="spreadsheet_download" 
-							class="color_black t_course_enroll"
-							href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv"
-							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL_SAMPLE_SPREADSHEET%>')"
-							onmouseout="hideddrivetip()">Sample spreadsheet</a> ] 
-					</p>
 					<div class="instructionImg">
 						<img src="/images/enrollInstructions.gif" border="0" > 
 					</div>
@@ -79,7 +72,8 @@
 				<br>More info:
 				<br>
 				<ul>
-					<li><span class="bold">Sample spreadsheet</span>: If you are not sure about the format of the spreadsheet, here is a sample file.</li>
+					<li><span class="bold">Sample spreadsheet</span>: If you are not sure about the format of the spreadsheet, 
+						<a id ="spreadsheet_download" href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv">here</a> is a sample file.</li>
 					<li><span class="bold">Column headings</span>: The column order is not important. Column headings are not case sensitive. e.g. Team, TEAM, team are all acceptable.</li>
 					<li><span class="bold">Columns</span>:
 						<ul>
