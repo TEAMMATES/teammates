@@ -305,17 +305,12 @@
 			<form onsubmit="tallyCheckboxes(1)" class="form_question" name="form_editquestions" id="form_editquestion-1" action="/page/instructorFeedbackQuestionEdit" method="post">
 			<table id="questionTable1" class="inputTable questionTable">
 			<tbody><tr>
-				<td class="bold">Question <select class="questionNumber nonDestructive"  disabled="disabled"  id="questionnum-1"  name="questionnum" >
-                                 <option value="1" >
-                                    1
-                                 </option>
-                              </select>Essay question</td>
-				<td></td>
-				<td></td>
+				<td colspan="3" class="bold">Question <select class="questionNumber nonDestructive"  disabled="disabled"  id="questionnum-1"  name="questionnum" >
+					<option value="1" >1</option></select>Essay question</td>
 				<td class="rightalign">
-				<a onclick="enableEdit(1,1)" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit this question')" id="questionedittext-1" class="color_blue pad_right" href="#">Edit</a>
-				<a id="questionsavechangestext-1" style="display:none" class="color_green pad_right" href="#">Save Changes</a>
-				<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete this question')" onclick="deleteQuestion(1)" class="color_red" href="#">Delete</a>
+					<a onclick="enableEdit(1,1)" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit this question')" id="questionedittext-1" class="color_blue pad_right" href="#">Edit</a>
+					<a id="questionsavechangestext-1" style="display:none" class="color_green pad_right" href="#">Save Changes</a>
+					<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete this question')" onclick="deleteQuestion(1)" class="color_red" href="#">Delete</a>
 				</td>
 			</tr>
 			<tr>
@@ -451,7 +446,7 @@
 					</td>
 				</tr>
 				<tr id="mcqForm" >
-					<td colspan="4">
+					<td colspan="2">
 						<table id="mcqChoiceTable">
 							<tbody>
 								<tr id="mcqOptionRow-0">
@@ -476,9 +471,15 @@
 						</table> 
 						<input id="noofchoicecreated" name="noofchoicecreated" type="hidden" />
 					</td>
+					<td colspan="2" style="vertical-align:top;">
+						<label><input id="generateOptionsCheckbox"
+							onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox" />
+							Or, generate options from list of all students</label>
+						<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
+					</td>
 				</tr>
 				<tr id="msqForm">
-					<td colspan="4">
+					<td colspan="2">
 						<table id="msqChoiceTable">
 							<tbody>
 								<tr id="msqOptionRow-0">
@@ -502,6 +503,12 @@
 							</tbody>
 						</table> 
 						<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
+					</td>
+					<td colspan="2" style="vertical-align:top;">
+						<label><input id="generateOptionsCheckbox"
+							onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox" />
+							Or, generate options from list of all students</label>
+						<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
 					</td>
 				</tr>
 				<tr>

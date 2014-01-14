@@ -340,7 +340,7 @@
 									rows="5" style="width:100%" tabindex="9"></textarea></td>
 						</tr>
 						<tr id="mcqForm">
-							<td colspan="4">
+							<td colspan="2">
 								<table id="mcqChoiceTable">
 									<tbody>
 										<tr id="mcqOptionRow-0">
@@ -365,9 +365,15 @@
 								</table> 
 								<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
 							</td>
+							<td colspan="2" style="vertical-align:top;">
+								<label><input id="generateOptionsCheckbox"
+									onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox" />
+									Or, generate options from list of all students</label>
+								<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
+							</td>
 						</tr>
 						<tr id="msqForm">
-							<td colspan="4">
+							<td colspan="2">
 								<table id="msqChoiceTable">
 									<tbody>
 										<tr id="msqOptionRow-0">
@@ -391,6 +397,12 @@
 									</tbody>
 								</table> 
 								<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
+							</td>
+							<td colspan="2" style="vertical-align:top;">
+								<label><input id="generateOptionsCheckbox"
+									onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox" />
+									Or, generate options from list of all students</label>
+								<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
 							</td>
 						</tr>
 						<tr>

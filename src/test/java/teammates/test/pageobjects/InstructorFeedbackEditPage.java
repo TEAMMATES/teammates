@@ -256,6 +256,13 @@ public class InstructorFeedbackEditPage extends AppPage {
 		removeOptionLink.click();
 	}
 	
+	public void clickGenerateOptionsCheckbox(int qnIndex) {
+		String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+		
+		WebElement generateOptionsCheckbox = browser.driver.findElement(By.id("generateOptionsCheckbox" + idSuffix));
+		generateOptionsCheckbox.click();
+	}
+	
 	public void fillMsqOption(int optionIndex, String optionText){
 		WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex));
 		fillTextBox(optionBox, optionText);

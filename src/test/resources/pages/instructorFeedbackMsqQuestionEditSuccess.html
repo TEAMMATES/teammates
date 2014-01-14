@@ -658,7 +658,7 @@
                   <table class="inputTable questionTable"  id="questionTable1" >
                      <tbody>
                         <tr>
-                           <td class="bold" >
+                           <td colspan="3" class="bold" >
                               Question
                               <select class="questionNumber nonDestructive"  disabled="disabled"  id="questionnum-1"  name="questionnum" >
                                  <option value="1" >
@@ -669,10 +669,6 @@
                                  </option>
                               </select>
                               Essay question
-                           </td>
-                           <td>
-                           </td>
-                           <td>
                            </td>
                            <td class="rightalign" >
                               <a class="color_blue pad_right"  href="#"  id="questionedittext-1"  onclick="enableEdit(1,2)"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit this question')" >
@@ -889,7 +885,7 @@
                   <table class="inputTable questionTable"  id="questionTable2" >
                      <tbody>
                         <tr>
-                           <td class="bold" >
+                           <td colspan="3" class="bold" >
                               Question
                               <select class="questionNumber nonDestructive"  disabled="disabled"  id="questionnum-2"  name="questionnum" >
                                  <option value="1" >
@@ -900,10 +896,6 @@
                                  </option>
                               </select>
                               Multiple-select question
-                           </td>
-                           <td>
-                           </td>
-                           <td>
                            </td>
                            <td class="rightalign" >
                               <a class="color_blue pad_right"  href="#"  id="questionedittext-2"  onclick="enableEdit(2,2)"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit this question')" >
@@ -925,8 +917,8 @@
                            </td>
                         </tr>
                         <tr>
-                           <td colspan="4" >
-                              <table>
+                           <td colspan="2" >
+                              <table id="msqChoiceTable-2">
                                  <tbody>
                                     <tr id="msqOptionRow-0-2" >
                                        <td>
@@ -960,7 +952,13 @@
                                  </tbody>
                               </table>
                               <input id="noofchoicecreated-2"  name="noofchoicecreated"  type="hidden"  value="2" />
-                                                         </td>
+                              </td>
+                              <td colspan="2" style="vertical-align:top;">
+									<label><input disabled="disabled" id="generateOptionsCheckbox-2"
+										onchange="toggleMsqGeneratedOptions(this,2)" type="checkbox" />
+										Or, generate options from list of all students</label>
+									<input id="generatedOptions-2" name="generatedOptions" type="hidden" value="NONE" />
+								</td>
                         </tr>
                         <tr>
                            <td class="bold"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Who will give feedback')" >
@@ -1214,7 +1212,7 @@
                            </td>
                         </tr>
                         <tr id="mcqForm" >
-                           <td colspan="4" >
+                           <td colspan="2" >
                               <table id="mcqChoiceTable" >
                                  <tbody>
                                     <tr id="mcqOptionRow-0" >
@@ -1249,10 +1247,16 @@
                                  </tbody>
                               </table>
                               <input id="noofchoicecreated"  name="noofchoicecreated"  type="hidden" />
-                                                         </td>
+							</td>
+							<td colspan="2" style="vertical-align:top;">
+								<label><input id="generateOptionsCheckbox"
+									onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox" />
+									Or, generate options from list of all students</label>
+								<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
+							</td>
                         </tr>
                         <tr id="msqForm">
-							<td colspan="4">
+							<td colspan="2">
 								<table id="msqChoiceTable">
 									<tbody>
 										<tr id="msqOptionRow-0">
@@ -1276,6 +1280,12 @@
 									</tbody>
 								</table> 
 								<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
+							</td>
+							<td colspan="2" style="vertical-align:top;">
+								<label><input id="generateOptionsCheckbox"
+									onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox" />
+									Or, generate options from list of all students</label>
+								<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
 							</td>
 						</tr>
                         <tr>

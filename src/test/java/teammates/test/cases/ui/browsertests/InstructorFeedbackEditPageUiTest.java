@@ -84,8 +84,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		testEditQuestionLink();
 		testEditQuestionAction();
-		
 		testDeleteQuestionAction();
+		
+		
 		
 		testDeleteSessionAction();
 	}
@@ -237,6 +238,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 		
 		feedbackEditPage.verifyHtml("/instructorFeedbackMcqQuestionEditSuccess.html");
+		
+		______TS("MCQ: edit to generated options");
+
+		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
+		feedbackEditPage.fillEditQuestionBox("generated mcq qn text", 2);
+		assertEquals(true, feedbackEditPage.isElementVisible("mcqAddOptionLink"));
+		feedbackEditPage.clickGenerateOptionsCheckbox(2);
+		assertEquals(false, feedbackEditPage.isElementVisible("mcqAddOptionLink"));
+		
+		feedbackEditPage.clickSaveExistingQuestionButton(2);
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+		assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-2"));
+		assertEquals(true, feedbackEditPage.isElementVisible("generateOptionsCheckbox-2"));
+		assertEquals(false, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
+		assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
+		
 	}
 	
 	private void testDeleteMcqQuestionAction() {
@@ -319,6 +336,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 		
 		feedbackEditPage.verifyHtml("/instructorFeedbackMsqQuestionEditSuccess.html");
+		
+		______TS("MSQ: edit to generated options");
+
+		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
+		feedbackEditPage.fillEditQuestionBox("generated msq qn text", 2);
+		assertEquals(true, feedbackEditPage.isElementVisible("msqAddOptionLink"));
+		feedbackEditPage.clickGenerateOptionsCheckbox(2);
+		assertEquals(false, feedbackEditPage.isElementVisible("msqAddOptionLink"));
+		
+		feedbackEditPage.clickSaveExistingQuestionButton(2);
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+		assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-0-2"));
+		assertEquals(true, feedbackEditPage.isElementVisible("generateOptionsCheckbox-2"));
+		assertEquals(false, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
+		assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
+		
 	}
 	
 	private void testDeleteMsqQuestionAction() {
