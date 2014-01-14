@@ -53,8 +53,8 @@
 				<table class="inputTable" id="searchTable">
 					<tr>
 						<td><input type="text" id="searchbox"
-							onmouseover="ddrivetip('Search for student\'s name or course name')"
-							onmouseout="hideddrivetip()" tabindex="1"></td>
+							onmouseover="ddrivetip('<%=Const.Tooltips.SEARCH_STUDENT%>')"
+							onmouseout="hideddrivetip()" tabindex="1" value="<%=data.searchKey == null ? "" : PageData.sanitizeForHtml(data.searchKey) %>"></td>
 						<td><input id="button_search" type="submit" class="button"
 							onclick="return applyFilters();" value="Search" tabindex="2"></td>
 					</tr>

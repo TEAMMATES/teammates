@@ -16,6 +16,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.StudentsDb;
@@ -206,17 +207,22 @@ public class StudentsLogic {
 		}
 
 		ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
-		String[] linesArray = enrollLines.split(Const.EOL);
 		ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-
-		for (int i = 0; i < linesArray.length; i++) {
+		String[] linesArray = enrollLines.split(Const.EOL);
+		Integer[] columnOrder = getColumnOrder(linesArray[0]);
+		
+		int startLine = 1;
+		if (columnOrder == null) {
+			startLine = 0;
+		}
+		for (int i = startLine; i < linesArray.length; i++) {
 			String line = linesArray[i];
 			
 			if (StringHelper.isWhiteSpace(line)) {
 				continue;
 			}
 			
-			StudentAttributes student = new StudentAttributes(line, courseId);
+			StudentAttributes student = new StudentAttributes(line, courseId, columnOrder);
 			studentList.add(student);
 		}
 
@@ -333,14 +339,20 @@ public class StudentsLogic {
 	private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) {
 		List<String> invalidityInfo = new ArrayList<String>();
 		String[] linesArray = lines.split(Const.EOL);
+
+		Integer[] columnOrder = getColumnOrder(linesArray[0]);
+		int startLine = 1;
+		if (columnOrder == null) {
+			startLine = 0;
+		}
 		
-		for (int i = 0; i < linesArray.length; i++) {
+		for (int i = startLine; i < linesArray.length; i++) {
 			String line = linesArray[i];
 			try {
 				if (StringHelper.isWhiteSpace(line)) {
 					continue;
 				}
-				StudentAttributes student = new StudentAttributes(line, courseId);
+				StudentAttributes student = new StudentAttributes(line, courseId, columnOrder);
 				
 				if (!student.isValid()) {
 					String info = StringHelper.toString(student.getInvalidityInfo(),
@@ -380,5 +392,45 @@ public class StudentsLogic {
 	private boolean isTeamChanged(String originalTeam, String newTeam) {
 		return (newTeam != null) && (originalTeam != null)
 				&& (!originalTeam.equals(newTeam));
+	}
+
+	/**
+	 * Return null if the given row is not a header row according to specification.<br>
+	 * The column names allowed for header row: {team, name, email, comment}<br>
+	 * They are not case-sensitive and plural nouns are allowed.
+	 */
+	private Integer[] getColumnOrder(String row){
+		//TODO: Create a StudentAttributesFactory to handle this instead
+		Assumption.assertNotNull(row);
+		
+		String[] fields = row.replace("|", "\t").split("\t");
+		if (fields.length < 3 || fields.length > 4) {
+			// we do not throw exception here as it should be treated as normal row
+			// and handled by enrollStudents() method instead
+			return null;
+		}
+		
+		Integer[] order = new Integer[StudentAttributes.ARG_COUNT];
+		for (int i = 0; i < order.length; i++) {
+			order[i] = -1;
+		}
+		
+		for (int i = 0; i < fields.length; i++) {
+			String str = fields[i].trim().toLowerCase();
+			if (str.matches(FieldValidator.REGEX_COLUMN_TEAM)) {
+				order[StudentAttributes.ARG_INDEX_TEAM] = i;
+			} else if (str.matches(FieldValidator.REGEX_COLUMN_NAME)) {
+				order[StudentAttributes.ARG_INDEX_NAME] = i;
+			} else if (str.matches(FieldValidator.REGEX_COLUMN_EMAIL)) {
+				order[StudentAttributes.ARG_INDEX_EMAIL] = i;
+			} else if (str.matches(FieldValidator.REGEX_COLUMN_COMMENT)) {
+				order[StudentAttributes.ARG_INDEX_COMMENT] = i;
+			} else {
+				//assume not header row if no column name is matched
+				return null;
+			}
+		}
+
+		return order;
 	}
 }

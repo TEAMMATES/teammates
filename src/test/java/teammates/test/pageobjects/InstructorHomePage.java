@@ -3,11 +3,17 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 
 
 public class InstructorHomePage extends AppPage {
 	
+	@FindBy(id = "searchbox")
+	private WebElement searchBox;
+	
+	@FindBy(id = "button_search")
+	private WebElement searchButton;
 
 	public InstructorHomePage(Browser browser){
 		super(browser);
@@ -32,6 +38,14 @@ public class InstructorHomePage extends AppPage {
 	public void clickHomeTab() {
 		instructorHomeTab.click();
 		waitForPageToLoad();
+	}
+	
+	public InstructorStudentListPage searchForStudent(String studentName){
+		searchBox.clear();
+		searchBox.sendKeys(studentName);
+		searchButton.click();
+		waitForPageToLoad();
+		return changePageType(InstructorStudentListPage.class);
 	}
 	
 	public WebElement getViewResponseLink(String courseId, String evalName) {

@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -86,6 +88,10 @@ public class InstructorStudentListPage extends AppPage {
 	
 	public void clickShowMoreOptions(){
 		showMoreOptions.click();
+	}
+	
+	public void verifySearchKey(String searchKey){
+		assertEquals(searchKey, searchBox.getAttribute("value"));
 	}
 	
 	private int getCourseNumber(String courseId) {

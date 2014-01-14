@@ -60,6 +60,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		testHelpLink();
 		testCourseLinks();
 		testEvaluationLinks();
+		testSearchAction();
 		testRemindAction();
 		testPublishUnpublishActions();
 		testDeleteEvalAction();
@@ -222,6 +223,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		homePage.clickHomeTab();
 		homePage.verifyHtml("/instructorHomeHTMLEmpty.html");
 		
+	}
+	
+	public void testSearchAction() throws Exception{
+		______TS("search student");
+		homePage.searchForStudent("Alice").verifySearchKey("Alice");
+		homePage.verifyHtml("/instructorHomeSearchStudent.html");
+		
+		//go back to previous page because 'search' redirects to the 'StudentList' page.
+		homePage.goToPreviousPage(InstructorHomePage.class);
 	}
 
 

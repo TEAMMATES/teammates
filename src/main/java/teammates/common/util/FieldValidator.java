@@ -96,8 +96,8 @@ public class FieldValidator {
 	 * Field: Course ID
 	 * Unique: system-wide, not just among the course of that instructor.
 	 * Technically, we can get rid of CourseID field and enforce users to use
-	 * CourseName as a unique ID. In that case, we have to enforce ‘CourseName
-	 * must be unique across the full system’. However, users expect names to be
+	 * CourseName as a unique ID. In that case, we have to enforce CourseName
+	 * must be unique across the full system. However, users expect names to be
 	 * non-unique and more tolerant of enforcing uniqueness on an ID. Whenever
 	 * possible, must be displayed in the same case as user entered. This is
 	 * because the case of the letters can mean something. Furthermore,
@@ -242,7 +242,7 @@ public class FieldValidator {
 	public static final String TEAM_NAME_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as "+TEAM_NAME_FIELD_NAME+" because it %s. " +
 					"The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
-					TEAM_NAME_MAX_LENGTH+" characters.";
+					TEAM_NAME_MAX_LENGTH+" characters. It should not be empty.";
 	
 
 	// ////////////////////////////////////////////////////////////////////////
@@ -273,6 +273,18 @@ public class FieldValidator {
 
 	//Allows English alphabet, numbers, underscore,  dot and hyphen.
 	private static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
+	
+	/*
+	 * =======================================================================
+	 * Regex used for checking header column name in enroll lines
+	 */
+	public static final String REGEX_COLUMN_TEAM = "teams?";
+	public static final String REGEX_COLUMN_NAME = "names?";
+	public static final String REGEX_COLUMN_EMAIL = "emails?";
+	public static final String REGEX_COLUMN_COMMENT = "comments?";
+	/*
+	 * =======================================================================
+	 */
 	
 	//Reasons for not accepting a value. Used for constructing error messages.
 	public static final String REASON_EMPTY = "is empty";
@@ -358,7 +370,7 @@ public class FieldValidator {
 					STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String)value);
 			break;
 		case TEAM_NAME:
-			returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
+			returnValue = getValidityInfoForSizeCappedNonEmptyString(
 			TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String)value);
 			break;
 		case GOOGLE_ID:

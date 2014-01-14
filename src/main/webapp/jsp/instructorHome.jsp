@@ -51,6 +51,21 @@
 			
 			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>" name="search_form">
+				<table class="inputTable" id="searchTable">
+					<tr>
+						<td><input type="text" id="searchbox" name=<%=Const.ParamsNames.SEARCH_KEY %>
+							onmouseover="ddrivetip('<%=Const.Tooltips.SEARCH_STUDENT%>')"
+							onmouseout="hideddrivetip()" tabindex="1"></td>
+						<td><input id="button_search" type="submit" class="button"
+							value="Search" tabindex="2"></td>
+					</tr>
+				</table>
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+			</form>
+			<br>
+			<br>
+			
 			<div class="backgroundBlock">
 				<div class="blockLink rightalign">
 					<a href="<%=data.getInstructorCourseLink()%>" name="addNewCourse" id="addNewCourse" class="color_white bold">

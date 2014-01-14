@@ -15,6 +15,7 @@ public class InstructorStudentListPageData extends PageData {
 	}
 	
 	public List<CourseDetailsBundle> courses;
+	public String searchKey;
 	
 	public String getCourseStudentDetailsLink(String courseId, StudentAttributes student){
 		String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;

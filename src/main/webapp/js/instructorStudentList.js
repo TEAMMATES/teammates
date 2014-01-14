@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	
+	//On page load, if the searchKey param exist, applyFilters.
+	if($("#searchbox").val()){
+		applyFilters();
+	}
+	
 	//Binding for live search
 	$('input#searchbox').keyup(function(e){
 		applyFilters();
@@ -111,6 +117,13 @@ function applyFilters(){
 	filterTeam();
 	filterName();
 	filterEmails();
+	
+	//Give message if there are no result
+	if($('.backgroundBlock:visible').length == 0){
+		setStatusMessage("Your search filters returned no results");
+	} else{
+		clearStatusMessage();
+	}
 }
 
 /**
