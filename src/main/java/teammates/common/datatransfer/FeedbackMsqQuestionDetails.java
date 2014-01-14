@@ -3,11 +3,13 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.StudentsLogic;
 
 public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails {
 	public int numOfMsqChoices;
@@ -71,21 +73,22 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 
 	@Override
 	public String getQuestionWithExistingResponseSubmissionFormHtml(
-			boolean sessionIsOpen, int qnIdx, int responseIdx,
+			boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
 			FeedbackAbstractResponseDetails existingResponseDetails) {
 		FeedbackMsqResponseDetails existingMsqResponse = (FeedbackMsqResponseDetails) existingResponseDetails;
+		List<String> choices = generateOptionList(courseId);
 		
 		StringBuilder optionListHtml = new StringBuilder();
 		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
-		for(int i = 0; i < numOfMsqChoices; i++) {
+		for(int i = 0; i < choices.size(); i++) {
 			String optionFragment = 
 					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
 							"${qnIdx}", Integer.toString(qnIdx),
 							"${responseIdx}", Integer.toString(responseIdx),
 							"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
-							"${checked}", existingMsqResponse.contains(msqChoices.get(i)) ? "checked=\"checked\"" : "",
+							"${checked}", existingMsqResponse.contains(choices.get(i)) ? "checked=\"checked\"" : "",
 							"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-							"${msqChoiceValue}", msqChoices.get(i));
+							"${msqChoiceValue}", choices.get(i));
 			optionListHtml.append(optionFragment + Const.EOL);
 		}
 		
@@ -98,10 +101,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 
 	@Override
 	public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-			boolean sessionIsOpen, int qnIdx, int responseIdx) {
+			boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId) {
+		List<String> choices = generateOptionList(courseId);
+				
 		StringBuilder optionListHtml = new StringBuilder();
 		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
-		for(int i = 0; i < numOfMsqChoices; i++) {
+		for(int i = 0; i < choices.size(); i++) {
 			String optionFragment = 
 					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
 							"${qnIdx}", Integer.toString(qnIdx),
@@ -109,7 +114,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 							"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
 							"${checked}", "",
 							"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-							"${msqChoiceValue}", msqChoices.get(i));
+							"${msqChoiceValue}", choices.get(i));
 			optionListHtml.append(optionFragment + Const.EOL);
 		}
 		
@@ -118,6 +123,29 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 				"${msqSubmissionFormOptionFragments}", optionListHtml.toString());
 		
 		return html;
+	}
+	
+	private List<String> generateOptionList(String courseId) {
+		List<String> optionList;
+
+		if (generateOptionsFor == FeedbackParticipantType.NONE) {
+			optionList = msqChoices;
+		} else {
+			try {
+				List<StudentAttributes> studentList = 
+						StudentsLogic.inst().getStudentsForCourse(courseId);
+
+				optionList = new ArrayList<String>();
+				for (StudentAttributes student : studentList) {
+					optionList.add(student.name + " (" + student.team + ")");
+				}
+			} catch (EntityDoesNotExistException e) {
+				// No students for course
+				optionList = new ArrayList<String>();
+			}
+		}
+
+		return optionList;
 	}
 
 	@Override

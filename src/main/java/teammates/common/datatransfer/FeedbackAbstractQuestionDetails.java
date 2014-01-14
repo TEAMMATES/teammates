@@ -31,11 +31,11 @@ public abstract class FeedbackAbstractQuestionDetails {
 	public abstract String getQuestionTypeDisplayName();
 	
 	public abstract String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen,
-			int qnIdx, int responseIdx,
+			int qnIdx, int responseIdx, String courseId,
 			FeedbackAbstractResponseDetails existingResponseDetails);
 	
 	public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(boolean sessionIsOpen,
-			int qnIdx, int responseIdx);
+			int qnIdx, int responseIdx, String courseId);
 	
 	public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 	
