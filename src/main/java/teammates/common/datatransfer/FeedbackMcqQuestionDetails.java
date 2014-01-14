@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import teammates.common.exception.EntityDoesNotExistException;
@@ -135,6 +136,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 				for (StudentAttributes student : studentList) {
 					optionList.add(student.name + " (" + student.team + ")");
 				}
+				Collections.sort(optionList);
 			} catch (EntityDoesNotExistException e) {
 				// No students for course
 				optionList = new ArrayList<String>();
