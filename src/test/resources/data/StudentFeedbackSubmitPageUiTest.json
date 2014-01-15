@@ -391,6 +391,56 @@
 				"RECEIVER"
 			]
 		},
+		"qn11InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best class mate?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
+			},
+			"questionNumber":"11",
+			"questionType":"MCQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn12InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutor?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
+			},
+			"questionNumber":"12",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
 		"qn1InSession2":{
 			"feedbackSessionName":"Second Session",
 			"courseId":"SFSubmitUiT.CS2104",
