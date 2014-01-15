@@ -450,6 +450,7 @@ public class Const {
 		public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
 		public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; 
 		public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp"; 
+		public static final String MAINTENANCE_PAGE = "/maintenance.jsp";
 		
 		public static final String MASHUP = "/dev/mashup.jsp";
 	

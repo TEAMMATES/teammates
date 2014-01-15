@@ -289,6 +289,48 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 		deleteSpecialTestData();
 	}
 	
+	@Test
+	public void testPubliclyAccessiblePages() {
+		
+		______TS("log out page");
+		// has been covered in testUserNotLoggedIn method
+		
+		______TS("unauthorized page");
+		Url url = createUrl(Const.ViewURIs.UNAUTHORIZED);
+		currentPage.navigateTo(url);
+		verifyRedirectToNotAuthorized();
+		
+		______TS("error page");
+		url = createUrl(Const.ViewURIs.ERROR_PAGE);
+		currentPage.navigateTo(url);
+		currentPage.verifyHtml("/errorPage.html");
+		
+		______TS("deadline exceeded error page");
+		url = createUrl(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
+		currentPage.navigateTo(url);
+		currentPage.verifyHtml("/deadlineExceededErrorPage.html");
+		
+		______TS("entity not found page");
+		url = createUrl(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
+		currentPage.navigateTo(url);
+		currentPage.verifyHtml("/entityNotFoundPage.html");
+		
+		______TS("action not found page");
+		url = createUrl(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
+		currentPage.navigateTo(url);
+		currentPage.verifyHtml("/pageNotFound.html");
+		
+		______TS("show message page");
+		url = createUrl(Const.ViewURIs.SHOW_MESSAGE);
+		currentPage.navigateTo(url);
+		currentPage.verifyHtml("/showMessage.html");
+		
+		______TS("maintenance page");
+		url = createUrl(Const.ViewURIs.MAINTENANCE_PAGE);
+		currentPage.navigateTo(url);
+		currentPage.verifyHtml("/maintenance.html");
+	}
+	
 
 	private void loginStudent(String userName, String password) {
 		currentPage.logout();
@@ -361,6 +403,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
 	private void verifyRedirectToNotAuthorized() {
 		String pageSource = currentPage.getPageSource();
+		//TODO: Distinguish between these two types of access denial
 		assertTrue(pageSource.contains("You are not authorized to view this page.")||
 				pageSource.contains("Your client does not have permission"));
 	}
