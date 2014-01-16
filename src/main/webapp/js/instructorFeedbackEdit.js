@@ -129,6 +129,19 @@ function enableQuestion(number){
 		not('.disabled_radio').
 		removeAttr("disabled", "disabled");
 	$('#questionTable'+number).find('a').show();
+	
+	if($("#generateOptionsCheckbox-"+number).prop("checked")){
+		$("#mcqChoiceTable-"+number).hide();
+		$("#msqChoiceTable-"+number).hide();
+		$("#mcqGenerateForSelect-"+number).prop("disabled", false);
+		$("#msqGenerateForSelect-"+number).prop("disabled", false);
+	} else {
+		$("#mcqChoiceTable-"+number).show();
+		$("#msqChoiceTable-"+number).show();
+		$("#mcqGenerateForSelect-"+number).prop("disabled", true);
+		$("#msqGenerateForSelect-"+number).prop("disabled", true);
+	}		
+	
 	$('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
 	$('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
 	$('#'+'button_question_submit-'+number).show();
@@ -334,6 +347,54 @@ function removeMcqOption(index, questionNumber) {
 function removeMsqOption(index, questionNumber) {
 	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
 	$("#msqOptionRow-"+index+idSuffix).remove();
+}
+
+function toggleMcqGeneratedOptions(checkbox, questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	
+	if (checkbox.checked) {
+		$("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
+		$("#mcqChoiceTable"+idSuffix).hide();
+		$("#mcqGenerateForSelect"+idSuffix).prop("disabled", false);
+		$("#generatedOptions"+idSuffix).attr("value", 
+				$("#mcqGenerateForSelect"+idSuffix).prop("value"));
+	} else {
+		$("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop("disabled", false);
+		$("#mcqChoiceTable"+idSuffix).show();
+		$("#mcqGenerateForSelect"+idSuffix).prop("disabled", true);
+		$("#generatedOptions"+idSuffix).attr("value", "NONE");
+	}
+}
+
+function changeMcqGenerateFor(questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	
+	$("#generatedOptions"+idSuffix).attr("value", 
+			$("#mcqGenerateForSelect"+idSuffix).prop("value"));
+}
+
+function toggleMsqGeneratedOptions(checkbox, questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	
+	if (checkbox.checked) {
+		$("#msqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
+		$("#msqChoiceTable"+idSuffix).hide();
+		$("#msqGenerateForSelect"+idSuffix).prop("disabled", false);
+		$("#generatedOptions"+idSuffix).attr("value",
+				$("#msqGenerateForSelect"+idSuffix).prop("value"));
+	} else {
+		$("#msqChoiceTable"+idSuffix).find("input[type=text]").prop("disabled", false);
+		$("#msqChoiceTable"+idSuffix).show();
+		$("#msqGenerateForSelect"+idSuffix).prop("disabled", true);
+		$("#generatedOptions"+idSuffix).attr("value", "NONE");
+	}
+}
+
+function changeMsqGenerateFor(questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	
+	$("#generatedOptions"+idSuffix).attr("value", 
+			$("#msqGenerateForSelect"+idSuffix).prop("value"));
 }
 
 /**

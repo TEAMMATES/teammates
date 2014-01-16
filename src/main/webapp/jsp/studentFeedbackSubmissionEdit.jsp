@@ -137,7 +137,7 @@
 								<td class="responseText">
 									<%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
 										data.bundle.feedbackSession.isOpened(), 
-										qnIndx, responseIndx, 
+										qnIndx, responseIndx, question.courseId, 
 										existingResponse.getResponseDetails())%>
 									<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
 								</td>
@@ -163,7 +163,7 @@
 								<td class="responseText">
 								<%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
 										data.bundle.feedbackSession.isOpened(), 
-										qnIndx, responseIndx)%>
+										qnIndx, responseIndx, question.courseId)%>
 								</td>
 							</tr>
 					<%

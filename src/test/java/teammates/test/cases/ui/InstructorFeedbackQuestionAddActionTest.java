@@ -73,7 +73,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
-				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit"
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString()
 		};
 		
 		InstructorFeedbackQuestionAddAction action = getAction(params);
@@ -96,6 +97,49 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
 						+ " created.<br><span class=\"bold\">Multiple-select question:</span> What do you like best about the class?"
+						+ "|||/page/instructorFeedbackQuestionAdd";
+		assertEquals(expectedLogMessage, action.getLogMessage());
+		
+		______TS("Generated options");
+
+		params = new String[]{
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Who do you like in the class?",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.STUDENTS.toString()
+		};
+		
+		action = getAction(params);
+		result = (RedirectResult) action.executeAndPostProcess();
+		
+		assertEquals(
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+						+ "?courseid="
+						+ instructor1ofCourse1.courseId
+						+ "&fsname=First+feedback+session"
+						+ "&user="
+						+ instructor1ofCourse1.googleId
+						+ "&message=The+question+has+been+added+to+this+feedback+session."
+						+ "&error=false",
+				result.getDestinationWithParams());
+
+		expectedLogMessage =
+				"TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
+						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+						+ " created.<br><span class=\"bold\">Multiple-select question:</span> Who do you like in the class?"
 						+ "|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 	}
@@ -129,7 +173,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
-				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit"
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString()
 		};
 		
 		InstructorFeedbackQuestionAddAction action = getAction(params);
@@ -152,6 +197,49 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
 						+ " created.<br><span class=\"bold\">Multiple-choice question:</span> What do you like best about the class?"
+						+ "|||/page/instructorFeedbackQuestionAdd";
+		assertEquals(expectedLogMessage, action.getLogMessage());
+		
+		______TS("Generated options");
+
+		params = new String[]{
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Who do you like best in the class?",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2", // this field defaults to 2
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.STUDENTS.toString()
+		};
+		
+		action = getAction(params);
+		result = (RedirectResult) action.executeAndPostProcess();
+		
+		assertEquals(
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+						+ "?courseid="
+						+ instructor1ofCourse1.courseId
+						+ "&fsname=First+feedback+session"
+						+ "&user="
+						+ instructor1ofCourse1.googleId
+						+ "&message=The+question+has+been+added+to+this+feedback+session."
+						+ "&error=false",
+				result.getDestinationWithParams());
+
+		expectedLogMessage =
+				"TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
+						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+						+ " created.<br><span class=\"bold\">Multiple-choice question:</span> Who do you like best in the class?"
 						+ "|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 	}

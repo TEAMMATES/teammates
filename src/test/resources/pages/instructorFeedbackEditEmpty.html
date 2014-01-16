@@ -339,7 +339,7 @@
 									rows="5" style="width:100%" tabindex="9"></textarea></td>
 						</tr>
 						<tr id="mcqForm">
-							<td colspan="4">
+							<td colspan="2">
 								<table id="mcqChoiceTable">
 									<tbody>
 										<tr id="mcqOptionRow-0">
@@ -364,9 +364,19 @@
 								</table> 
 								<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
 							</td>
+							<td colspan="2" style="vertical-align:top;">
+								<label><input id="generateOptionsCheckbox"
+									onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox" />
+									Or, generate options from the list of all </label> 
+								<select disabled="disabled" id="mcqGenerateForSelect"
+									onchange="changeMcqGenerateFor(-1)">
+									<option value="STUDENTS">students</option>
+									<option value="TEAMS">teams</option>
+								</select>
+							</td>
 						</tr>
 						<tr id="msqForm">
-							<td colspan="4">
+							<td colspan="2">
 								<table id="msqChoiceTable">
 									<tbody>
 										<tr id="msqOptionRow-0">
@@ -390,6 +400,16 @@
 									</tbody>
 								</table> 
 								<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
+							</td>
+							<td colspan="2" style="vertical-align:top;">
+								<label><input id="generateOptionsCheckbox"
+									onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox" />
+									Or, generate options from the list of all </label>
+								<select disabled="disabled" id="msqGenerateForSelect"
+									onchange="changeMsqGenerateFor(-1)">
+									<option value="STUDENTS">students</option>
+									<option value="TEAMS">teams</option>
+								</select>
 							</td>
 						</tr>
 						<tr>
@@ -527,6 +547,7 @@
 				<input type="hidden" name="showrecipientto"
 					value="RECEIVER,INSTRUCTORS" /> <input type="hidden"
 					value="CFeedbackEditUiT.instructor" name="user" />
+				<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
 			</form>
 			<br /><br />
 		</div>

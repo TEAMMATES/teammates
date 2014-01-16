@@ -26,7 +26,7 @@ public class FeedbackTextQuestionDetails extends
 
 	@Override
 	public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-			int responseIdx, FeedbackAbstractResponseDetails existingResponseDetails) {
+			int responseIdx, String courseId, FeedbackAbstractResponseDetails existingResponseDetails) {
 		return FeedbackQuestionFormTemplates.populateTemplate(
 				FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
 				"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
@@ -38,7 +38,7 @@ public class FeedbackTextQuestionDetails extends
 
 	@Override
 	public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-			boolean sessionIsOpen, int qnIdx, int responseIdx) {
+			boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId) {
 		return FeedbackQuestionFormTemplates.populateTemplate(
 				FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
 				"${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
