@@ -166,7 +166,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 			//TODO implement this
 			break;
 		default:
-			Assumption.fail("Trying to generate options for neither students, teams no instructors");
+			Assumption.fail("Trying to generate options for neither students, teams nor instructors");
 			break;
 		}
 
