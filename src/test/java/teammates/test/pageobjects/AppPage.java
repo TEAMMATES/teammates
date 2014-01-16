@@ -608,6 +608,11 @@ public abstract class AppPage {
     	assertEquals(actualHash,expectedHash.toLowerCase());
 	}
 	
+	public void verifyFieldValue (String fieldId, String expectedValue) {
+		assertEquals(expectedValue,
+				browser.driver.findElement(By.id(fieldId)).getAttribute("value"));
+	}
+		
 	@SuppressWarnings("unused")
 	private void ____private_utility_methods________________________________() {
 	}

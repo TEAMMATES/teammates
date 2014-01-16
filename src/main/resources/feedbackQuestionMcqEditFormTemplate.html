@@ -18,7 +18,13 @@
 			disabled="disabled"
 			id="generateOptionsCheckbox-${questionNumber}"
 			${checkedGeneratedOptions}
-			onchange="toggleMcqGeneratedOptions(this,${questionNumber})">Or, generate options from list of all students</label>
+			onchange="toggleMcqGeneratedOptions(this,${questionNumber})">Or, generate options from the list of all </label>
+		<select id="mcqGenerateForSelect-${questionNumber}" 
+			onchange="changeMcqGenerateFor(${questionNumber})"
+			disabled="disabled">
+			<option ${studentSelected} value="${FeedbackParticipantType.STUDENTS.toString()}">students</option>
+			<option ${teamSelected} value="${FeedbackParticipantType.TEAMS.toString()}">teams</option>
+		</select>
 		<input type="hidden" 
 			id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
 			name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}" 

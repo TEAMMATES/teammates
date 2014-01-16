@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -239,20 +240,48 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		feedbackEditPage.verifyHtml("/instructorFeedbackMcqQuestionEditSuccess.html");
 		
-		______TS("MCQ: edit to generated options");
+		______TS("MSQ: edit to generated options");
 
 		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
 		feedbackEditPage.fillEditQuestionBox("generated mcq qn text", 2);
 		assertEquals(true, feedbackEditPage.isElementVisible("mcqAddOptionLink"));
+		feedbackEditPage.verifyFieldValue(
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, 
+				FeedbackParticipantType.NONE.toString());
+		assertEquals(false, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-2"));
 		feedbackEditPage.clickGenerateOptionsCheckbox(2);
+		assertEquals(true, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-2"));
+		feedbackEditPage.verifyFieldValue(
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2", 
+				FeedbackParticipantType.STUDENTS.toString());
 		assertEquals(false, feedbackEditPage.isElementVisible("mcqAddOptionLink"));
 		
 		feedbackEditPage.clickSaveExistingQuestionButton(2);
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 		assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-2"));
-		assertEquals(true, feedbackEditPage.isElementVisible("generateOptionsCheckbox-2"));
 		assertEquals(false, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
 		assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
+		assertEquals(false, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-2"));
+		feedbackEditPage.verifyFieldValue(
+				"mcqGenerateForSelect-2", 
+				FeedbackParticipantType.STUDENTS.toString());
+		feedbackEditPage.verifyFieldValue(
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2", 
+				FeedbackParticipantType.STUDENTS.toString());
+		
+		______TS("MSQ: change generated type");
+		
+		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+		assertEquals(true, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
+		assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
+		assertEquals(true, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-2"));
+		feedbackEditPage.selectMcqGenerateOptionsFor("teams", 2);
+		feedbackEditPage.verifyFieldValue(
+				"mcqGenerateForSelect-2", 
+				FeedbackParticipantType.TEAMS.toString());
+		feedbackEditPage.verifyFieldValue(
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2", 
+				FeedbackParticipantType.TEAMS.toString());
 		
 	}
 	
@@ -337,20 +366,48 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		feedbackEditPage.verifyHtml("/instructorFeedbackMsqQuestionEditSuccess.html");
 		
-		______TS("MSQ: edit to generated options");
+		______TS("MCQ: edit to generated options");
 
 		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
 		feedbackEditPage.fillEditQuestionBox("generated msq qn text", 2);
 		assertEquals(true, feedbackEditPage.isElementVisible("msqAddOptionLink"));
+		feedbackEditPage.verifyFieldValue(
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, 
+				FeedbackParticipantType.NONE.toString());
+		assertEquals(false, feedbackEditPage.isElementEnabled("msqGenerateForSelect-2"));
 		feedbackEditPage.clickGenerateOptionsCheckbox(2);
+		assertEquals(true, feedbackEditPage.isElementEnabled("msqGenerateForSelect-2"));
+		feedbackEditPage.verifyFieldValue(
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2", 
+				FeedbackParticipantType.STUDENTS.toString());
 		assertEquals(false, feedbackEditPage.isElementVisible("msqAddOptionLink"));
 		
 		feedbackEditPage.clickSaveExistingQuestionButton(2);
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 		assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-0-2"));
-		assertEquals(true, feedbackEditPage.isElementVisible("generateOptionsCheckbox-2"));
 		assertEquals(false, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
 		assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
+		assertEquals(false, feedbackEditPage.isElementEnabled("msqGenerateForSelect-2"));
+		feedbackEditPage.verifyFieldValue(
+				"msqGenerateForSelect-2", 
+				FeedbackParticipantType.STUDENTS.toString());
+		feedbackEditPage.verifyFieldValue(
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2", 
+				FeedbackParticipantType.STUDENTS.toString());
+		
+		______TS("MCQ: change generated type");
+		
+		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+		assertEquals(true, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
+		assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
+		assertEquals(true, feedbackEditPage.isElementEnabled("msqGenerateForSelect-2"));
+		feedbackEditPage.selectMsqGenerateOptionsFor("teams", 2);
+		feedbackEditPage.verifyFieldValue(
+				"msqGenerateForSelect-2", 
+				FeedbackParticipantType.TEAMS.toString());
+		feedbackEditPage.verifyFieldValue(
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2", 
+				FeedbackParticipantType.TEAMS.toString());
 		
 	}
 	

@@ -177,6 +177,14 @@ public class InstructorFeedbackEditPage extends AppPage {
 		selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
 	}
 	
+	public void selectMcqGenerateOptionsFor(String generateFor, int questionNumber){
+		selectDropdownByVisibleValue(browser.driver.findElement(By.id("mcqGenerateForSelect-" + questionNumber)), generateFor);
+	}
+	
+	public void selectMsqGenerateOptionsFor(String generateFor, int questionNumber){
+		selectDropdownByVisibleValue(browser.driver.findElement(By.id("msqGenerateForSelect-" + questionNumber)), generateFor);
+	}
+	
 	/**
 	 * 
 	 * @return {@code True} if the button was clicked successfully and an element in the new question

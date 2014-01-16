@@ -525,11 +525,13 @@
 					<td colspan="2" style="vertical-align:top;">
 						<label><input type="checkbox" 
 							id="generateOptionsCheckbox"
-							onchange="toggleMcqGeneratedOptions(this,-1)">Or, generate options from list of all students</label>
-						<input type="hidden" 
-							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>"
-							name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>" 
-							value="<%=FeedbackParticipantType.NONE.toString()%>"> 
+							onchange="toggleMcqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
+						<select id="mcqGenerateForSelect" 
+							onchange="changeMcqGenerateFor(-1)"
+							disabled="disabled">
+							<option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
+							<option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
+						</select>
 					</td>
 				</tr>
 				<tr id="msqForm">
@@ -573,11 +575,13 @@
 					<td colspan="2" style="vertical-align:top;">
 						<label><input type="checkbox" 
 							id="generateOptionsCheckbox"
-							onchange="toggleMsqGeneratedOptions(this,-1)">Or, generate options from list of all students</label>
-						<input type="hidden" 
-							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>"
-							name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>" 
-							value="<%=FeedbackParticipantType.NONE.toString()%>">
+							onchange="toggleMsqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
+						<select id="msqGenerateForSelect" 
+							onchange="changeMsqGenerateFor(-1)"
+							disabled="disabled">
+							<option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
+							<option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
@@ -671,6 +675,10 @@
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+			<input type="hidden" 
+				id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>" 
+				name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>" 
+				value="<%=FeedbackParticipantType.NONE.toString()%>"> 
 		</form>			
 		<br><br>
 		</div>

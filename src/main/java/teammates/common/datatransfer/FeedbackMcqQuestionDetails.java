@@ -8,6 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 
 public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails {
@@ -63,6 +64,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices ||
 			this.mcqChoices.containsAll(newMcqDetails.mcqChoices) == false ||
 			newMcqDetails.mcqChoices.containsAll(this.mcqChoices) == false) {
+			return true;
+		}
+		
+		if(this.generateOptionsFor != newMcqDetails.generateOptionsFor) {
 			return true;
 		}
 		
@@ -123,24 +128,46 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 	}
 
 	private List<String> generateOptionList(String courseId) {
-		List<String> optionList;
+		List<String> optionList = new ArrayList<String>();;
 
-		if (generateOptionsFor == FeedbackParticipantType.NONE) {
+		switch(generateOptionsFor){
+		case NONE:
 			optionList = mcqChoices;
-		} else {
+			break;
+		case STUDENTS:
 			try {
 				List<StudentAttributes> studentList = 
 						StudentsLogic.inst().getStudentsForCourse(courseId);
 
-				optionList = new ArrayList<String>();
 				for (StudentAttributes student : studentList) {
 					optionList.add(student.name + " (" + student.team + ")");
 				}
+				
 				Collections.sort(optionList);
 			} catch (EntityDoesNotExistException e) {
-				// No students for course
-				optionList = new ArrayList<String>();
+				// No students for course, return empty list
 			}
+			break;
+		case TEAMS:
+			try {
+				List<TeamDetailsBundle> teamList = 
+						CoursesLogic.inst().getTeamsForCourse(courseId).teams;
+				
+				for (TeamDetailsBundle team : teamList) {
+					optionList.add(team.name);
+				}
+				
+				Collections.sort(optionList);
+			} catch (EntityDoesNotExistException e) {
+				Assumption.fail("Course disappeared");
+			}
+			break;
+		case INSTRUCTORS:
+			//TODO implement this
+			break;
+		default:
+			Assumption.fail("Trying to generate options for neither students, teams no instructors");
+			break;
 		}
 
 		return optionList;
@@ -168,7 +195,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
 				"${numOfMcqChoices}", Integer.toString(numOfMcqChoices),
 				"${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked=\"checked\"", 
 				"${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}", Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
-				"${generateOptionsForValue}", generateOptionsFor.toString());
+				"${generateOptionsForValue}", generateOptionsFor.toString(),
+				"${studentSelected}", generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected=\"selected\"" : "",
+				"${FeedbackParticipantType.STUDENTS.toString()}", FeedbackParticipantType.STUDENTS.toString(),
+				"${teamSelected}", generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected=\"selected\"" : "",
+				"${FeedbackParticipantType.TEAMS.toString()}", FeedbackParticipantType.TEAMS.toString());
 		
 		return html;
 	}

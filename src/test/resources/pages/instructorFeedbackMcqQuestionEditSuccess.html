@@ -956,7 +956,12 @@
 							<td colspan="2" style="vertical-align:top;">
 								<label><input disabled="disabled" id="generateOptionsCheckbox-2"
 									onchange="toggleMcqGeneratedOptions(this,2)" type="checkbox" />
-									Or, generate options from list of all students</label>
+									Or, generate options from the list of all </label>
+								<select disabled="disabled" id="mcqGenerateForSelect-2"
+									onchange="changeMcqGenerateFor(2)">
+									<option value="STUDENTS">students</option>
+									<option value="TEAMS">teams</option>
+								</select> 
 								<input id="generatedOptions-2" name="generatedOptions" type="hidden" value="NONE" />
 							</td>
                         </tr>
@@ -1251,8 +1256,12 @@
                           	<td colspan="2" style="vertical-align:top;">
 								<label><input id="generateOptionsCheckbox"
 									onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox" />
-									Or, generate options from list of all students</label>
-								<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
+									Or, generate options from the list of all </label>
+								<select disabled="disabled" id="mcqGenerateForSelect"
+									onchange="changeMcqGenerateFor(-1)">
+									<option value="STUDENTS">students</option>
+									<option value="TEAMS">teams</option>
+								</select> 
 							</td>
                         </tr>
                         <tr id="msqForm">
@@ -1284,8 +1293,12 @@
 							<td colspan="2" style="vertical-align:top;">
 								<label><input id="generateOptionsCheckbox"
 									onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox" />
-									Or, generate options from list of all students</label>
-								<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
+									Or, generate options from the list of all </label>
+								<select disabled="disabled" id="msqGenerateForSelect"
+									onchange="changeMsqGenerateFor(-1)">
+									<option value="STUDENTS">students</option>
+									<option value="TEAMS">teams</option>
+								</select> 
 							</td>
 						</tr>
                         <tr>
@@ -1463,13 +1476,14 @@
                      </tbody>
                   </table>
                   <input name="questionnum"  type="hidden"  value="3" />
-                                    <input name="fsname"  type="hidden"  value="First Session" />
-                                    <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
-                                    <input name="questiontype"  type="hidden" />
-                                    <input name="showresponsesto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
-                                    <input name="showgiverto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
-                                    <input name="showrecipientto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
-                                    <input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
+	                <input name="fsname"  type="hidden"  value="First Session" />
+	                <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
+	                <input name="questiontype"  type="hidden" />
+	                <input name="showresponsesto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
+	                <input name="showgiverto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
+	                <input name="showrecipientto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
+	                <input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
+					<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
                                  </form>
                <br/>
                               <br/>
