@@ -39,6 +39,8 @@ public abstract class FeedbackAbstractQuestionDetails {
 	
 	public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 	
+	public abstract String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId);
+	
 	public abstract boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails);
 	
 	public abstract String getCsvHeader();

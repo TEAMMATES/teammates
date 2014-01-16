@@ -207,6 +207,32 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		
 		return html;
 	}
+	
+	@Override
+	public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
+		StringBuilder optionListHtml = new StringBuilder();
+		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
+		for(int i = 0; i < numOfMsqChoices; i++) {
+			String optionFragment = 
+					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+							"${msqChoiceValue}", msqChoices.get(i));
+
+			optionListHtml.append(optionFragment);
+		}
+		
+		String additionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
+				"${questionTypeName}", this.getQuestionTypeDisplayName(),
+				"${msqAdditionalInfoFragments}", optionListHtml.toString());
+		
+		String html = FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+				"${questionNumber}", Integer.toString(questionNumber),
+				"${additionalInfoId}", additionalInfoId,
+				"${questionAdditionalInfo}", additionalInfo);
+		
+		return html;
+	}
 
 	@Override
 	public String getCsvHeader() {

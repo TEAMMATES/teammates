@@ -54,6 +54,11 @@ public class FeedbackTextQuestionDetails extends
 	}
 	
 	@Override
+	public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
+		return "";
+	}
+	
+	@Override
 	public String getCsvHeader() {
 		return "Feedback";
 	}

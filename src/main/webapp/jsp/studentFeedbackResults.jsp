@@ -9,6 +9,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackTextQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractResponseDetails"%>
@@ -33,6 +34,7 @@
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -81,7 +83,8 @@
 			%>
 					<div class="backgroundBlock">
 						<h2 class="color_white">
-							Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
+							Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%><%=
+							questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%>
 						</h2>
 					<%
 						ListIterator<FeedbackResponseAttributes> itr = questionWithResponses.getValue().listIterator();
