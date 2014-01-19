@@ -285,7 +285,7 @@
 			>
 			<table class="inputTable questionTable" id="questionTable<%=question.questionNumber%>">
 			<tr>
-				<td class="bold">Question
+				<td class="bold" colspan="3">Question
 					<select class="questionNumber nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>-<%=question.questionNumber%>">
 					<%
 						for(int opt = 1; opt < data.questions.size()+1; opt++){
@@ -295,8 +295,6 @@
 					</select>
 					<%=questionDetails.getQuestionTypeDisplayName()%>
 				</td>
-				<td></td>
-				<td></td>
 				<td class="rightalign">
 					<a href="#" class="color_blue pad_right" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
 					onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
@@ -487,7 +485,7 @@
 					</td>
 				</tr>
 				<tr id="mcqForm">
-					<td colspan="4">
+					<td colspan="2">
 						<table id="mcqChoiceTable">
 							<tr id="mcqOptionRow-0">
 								<td><input type="radio" disabled="disabled"></td>
@@ -524,9 +522,20 @@
 						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>" 
 							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
 					</td>
+					<td colspan="2" style="vertical-align:top;">
+						<label><input type="checkbox" 
+							id="generateOptionsCheckbox"
+							onchange="toggleMcqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
+						<select id="mcqGenerateForSelect" 
+							onchange="changeMcqGenerateFor(-1)"
+							disabled="disabled">
+							<option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
+							<option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
+						</select>
+					</td>
 				</tr>
 				<tr id="msqForm">
-					<td colspan="4">
+					<td colspan="2">
 						<table id="msqChoiceTable">
 							<tr id="msqOptionRow-0">
 								<td><input type="checkbox" disabled="disabled"></td>
@@ -562,6 +571,17 @@
 						</table>
 						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>" 
 							id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
+					</td>
+					<td colspan="2" style="vertical-align:top;">
+						<label><input type="checkbox" 
+							id="generateOptionsCheckbox"
+							onchange="toggleMsqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
+						<select id="msqGenerateForSelect" 
+							onchange="changeMsqGenerateFor(-1)"
+							disabled="disabled">
+							<option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
+							<option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
@@ -655,6 +675,10 @@
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+			<input type="hidden" 
+				id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>" 
+				name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>" 
+				value="<%=FeedbackParticipantType.NONE.toString()%>"> 
 		</form>			
 		<br><br>
 		</div>

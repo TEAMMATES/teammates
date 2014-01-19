@@ -244,6 +244,7 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
 		public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
 		public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
+		public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
 		public static final String FEEDBACK_QUESTION_GIVERTYPE = "givertype";
 		public static final String FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";
 		public static final String FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";
@@ -450,6 +451,7 @@ public class Const {
 		public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
 		public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; 
 		public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp"; 
+		public static final String MAINTENANCE_PAGE = "/maintenance.jsp";
 		
 		public static final String MASHUP = "/dev/mashup.jsp";
 	

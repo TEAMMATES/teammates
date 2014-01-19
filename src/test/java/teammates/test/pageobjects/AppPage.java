@@ -410,6 +410,30 @@ public abstract class AppPage {
 			return false;
 		}
 	}
+	
+	public boolean isElementVisible(String elementId) {
+		try{
+			return browser.driver.findElement(By.id(elementId)).isDisplayed();
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+	
+	public boolean isElementEnabled(String elementId) {
+		try{
+			return browser.driver.findElement(By.id(elementId)).isEnabled();
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+	
+	public boolean isElementSelected(String elementId) {
+		try{
+			return browser.driver.findElement(By.id(elementId)).isSelected();
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
 
 	public void verifyUnclickable(WebElement element){
 		try {
@@ -584,6 +608,11 @@ public abstract class AppPage {
     	assertEquals(actualHash,expectedHash.toLowerCase());
 	}
 	
+	public void verifyFieldValue (String fieldId, String expectedValue) {
+		assertEquals(expectedValue,
+				browser.driver.findElement(By.id(fieldId)).getAttribute("value"));
+	}
+		
 	@SuppressWarnings("unused")
 	private void ____private_utility_methods________________________________() {
 	}

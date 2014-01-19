@@ -91,11 +91,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 		}
 	}
 	
+	//TODO consider removing this to increase cohesion
 	public String getQuestionText(String feedbackQuestionId){
 		return PageData.sanitizeForHtml(
 				questions.get(feedbackQuestionId).getQuestionDetails().questionText);
 	}
-	
+
 	// TODO: make responses to the student calling this method always on top.
 	/**
 	 * Gets the questions and responses in this bundle as a map. 

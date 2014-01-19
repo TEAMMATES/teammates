@@ -18,3 +18,14 @@
 .problemDetail {
 	text-align: left;
 }
+
+.instructionImg {
+	margin-top: 20px;
+	margin-left: 80px;
+	margin-bottom: 20px;
+}
+
+.enrollLines {
+	font-family: Consolas;
+	margin-left: 30px;
+}

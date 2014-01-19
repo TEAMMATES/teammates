@@ -6,6 +6,8 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
+<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
 	InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
 %>
@@ -24,6 +26,7 @@
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -46,7 +49,12 @@
 						.getQuestionResponseMap().entrySet()) {
 			%>
 			<div class="backgroundBlock">
-					<h2 class="color_white multiline" style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>:<br><%=data.bundle.getQuestionText(responseEntries.getKey().getId())%></h2>
+					<h2 class="color_white multiline" style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>:<br><%=data.bundle.getQuestionText(responseEntries.getKey().getId())%><%
+						Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
+						FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+						FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+						out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+					%></h2>
 					<table class="dataTable">
 						<tr>
 							<th class="leftalign color_white bold">

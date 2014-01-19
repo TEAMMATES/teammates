@@ -35,21 +35,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		
-		// A new student
-		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
-		// A new student with no comment
-		enrollString += "Team 3 | Frank Galoe | frank.g.tmms@gmail.com\n";
-		// A new student with no team
-		enrollString += " | Gary Harbine | gary.h.tmms@gmail.com | This student has no team\n";
-		// A new student with name containing accented characters
-		enrollString += "Team 3 | José Gómez | jose.gomez.tmns@gmail.com | This student name contains accented characters\n";
-		// A student to be modified
-		enrollString += "Team 1 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
-		// An existing student with no modification
-		enrollString += "Team 1 | Benny Charles | benny.c.tmms@gmail.com | This student's name is Benny Charles";
-		
 		browser = BrowserPool.getBrowser();
-		
 	}
 	
 	@Test
@@ -75,7 +61,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		
 		______TS("link for the sample spreadsheet");
 		
-		enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),"B2F8A93F24ACAC5713BCBC42DAF1FDA59F7AE04B");
+		enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),"515BED94E8F664E870BC7A9BC2F0BBBAEF0D6756");
 	}
 
 	private void testEnrollAction() throws Exception {
@@ -83,6 +69,17 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		 * enroll result page is slightly different for the two cases.
 		 */
 		______TS("enroll action: non-empty course");
+		
+		// A new student
+		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
+		// A new student with no comment
+		enrollString += "Team 3 | Frank Galoe | frank.g.tmms@gmail.com\n";
+		// A new student with name containing accented characters
+		enrollString += "Team 3 | José Gómez | jose.gomez.tmns@gmail.com | This student name contains accented characters\n";
+		// A student to be modified
+		enrollString += "Team 1 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
+		// An existing student with no modification
+		enrollString += "Team 1 | Benny Charles | benny.c.tmms@gmail.com | This student's name is Benny Charles";
 		
 		InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
 		resultsPage.verifyHtml("/instructorCourseEnrollPageResult.html");
@@ -100,7 +97,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 			.withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
 			.withCourseId(courseId);
 		InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
-		assertEquals(8, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
+		assertEquals(7, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
 		
 		______TS("enroll action: empty course");
 		
@@ -114,6 +111,14 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 			.withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
 		
 		enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
+		
+		enrollString = "Name | Email | Team | Comments\n";
+		enrollString += "Alice Betsy | alice.b.tmms@gmail.com | Team 1 | This comment has been changed\n";
+		// A student with no comment
+		enrollString += "Frank Galoe | frank.g.tmms@gmail.com | Team 3\n";
+		// A new student with name containing accented characters
+		enrollString += "José Gómez | jose.gomez.tmns@gmail.com | Team 3 | This student name contains accented characters\n";
+				
 		enrollPage.enroll(enrollString)
 			.verifyHtml("/instructorCourseEnrollPageResultForEmptyCourse.html");
 	}

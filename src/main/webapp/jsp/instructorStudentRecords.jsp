@@ -7,6 +7,8 @@
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
+<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentResultBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
@@ -38,6 +40,7 @@
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
 	<script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
+	<script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -230,7 +233,9 @@
 						<div class="backgroundBlock">
 							<h2 class="color_white">To: <%=data.student.name%></h2>
 					<%
+						int giverIndex = 0;
 						for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesReceived : received.entrySet()) {
+							giverIndex++;
 					%>
 							<table class="resultTable" style="width: 100%">
 								<thead>
@@ -243,10 +248,13 @@
 							for (FeedbackResponseAttributes singleResponse : responsesReceived.getValue()) {
 						%>
 								<tr class="resultSubheader">
-									<td class="multiline"><span class="bold">Question <%=feedback.questions
-										.get(singleResponse.feedbackQuestionId).questionNumber%>: </span><%=
-										feedback.getQuestionText(singleResponse.feedbackQuestionId)%>
-									</td>
+									<td class="multiline"><span class="bold">Question <%=feedback.questions.get(singleResponse.feedbackQuestionId).questionNumber%>: </span><%=
+										feedback.getQuestionText(singleResponse.feedbackQuestionId)%><%
+										Map<String, FeedbackQuestionAttributes> questions = feedback.questions;
+										FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
+										FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+										out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-session-"+fbIndex));
+									%></td>
 								</tr>
 								<tr>
 									<td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
@@ -284,7 +292,9 @@
 						<div class="backgroundBlock">
 							<h2 class="color_white">From: <%=data.student.name%></h2>
 					<%
+						int recipientIndex = 0;
 						for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesGiven : given.entrySet()) {
+						recipientIndex++;
 					%>
 							<table class="resultTable" style="width: 100%">
 								<thead>
@@ -297,10 +307,13 @@
 							for (FeedbackResponseAttributes singleResponse : responsesGiven.getValue()) {
 						%>
 								<tr class="resultSubheader">
-									<td class="multiline"><span class="bold">Question <%=feedback.questions
-										.get(singleResponse.feedbackQuestionId).questionNumber%>: </span><%=
-										feedback.getQuestionText(singleResponse.feedbackQuestionId)%>
-									</td>
+									<td class="multiline"><span class="bold">Question <%=feedback.questions.get(singleResponse.feedbackQuestionId).questionNumber%>: </span><%=
+										feedback.getQuestionText(singleResponse.feedbackQuestionId)%><%
+										Map<String, FeedbackQuestionAttributes> questions = feedback.questions;
+										FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
+										FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+										out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-session-"+fbIndex));
+									%></td>
 								</tr>
 								<tr>
 									<td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>

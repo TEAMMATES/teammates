@@ -232,7 +232,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString()
 		};
 		
 		InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
@@ -272,7 +273,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString()
 		};
 		
 		a = getAction(editOptionParams);
@@ -287,6 +289,41 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 		
 		// All existing response should be deleted as option is edited
 		assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+		
+		______TS("Edit to generated");
+				
+		String[] editToGeneratedOptionParams = {
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "0",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "4",
+				Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The Content",
+				Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "", // empty option
+				Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-2", "  		", // empty option with extra whitespace
+				Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-3", "The Atmosphere",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.STUDENTS.toString()
+		};
+		
+		a = getAction(editToGeneratedOptionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+				+ "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
+				+ "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+				r.getDestinationWithParams());
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+		assertFalse(r.isError);
+		
 	}
 	
 	@Test
@@ -323,7 +360,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString()
 		};
 		
 		InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
@@ -363,7 +401,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
 				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString()
 		};
 		
 		a = getAction(editOptionParams);
@@ -378,6 +417,40 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 		
 		// All existing response should be deleted as option is edited
 		assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+		
+		______TS("Edit to generated options");
+		
+		String[] editToGeneratedOptionParams = {
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "0",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "4",
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "The Content",
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", "", // empty option
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", "  		", // empty option with extra whitespace
+				Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-3", "The Atmosphere",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.STUDENTS.toString()
+		};
+		
+		a = getAction(editToGeneratedOptionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+				+ "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
+				+ "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+				r.getDestinationWithParams());
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+		assertFalse(r.isError);
 	}
 	
 	private InstructorFeedbackQuestionEditAction getAction(String... submissionParams){

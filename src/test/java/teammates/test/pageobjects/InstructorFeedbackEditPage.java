@@ -177,6 +177,14 @@ public class InstructorFeedbackEditPage extends AppPage {
 		selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
 	}
 	
+	public void selectMcqGenerateOptionsFor(String generateFor, int questionNumber){
+		selectDropdownByVisibleValue(browser.driver.findElement(By.id("mcqGenerateForSelect-" + questionNumber)), generateFor);
+	}
+	
+	public void selectMsqGenerateOptionsFor(String generateFor, int questionNumber){
+		selectDropdownByVisibleValue(browser.driver.findElement(By.id("msqGenerateForSelect-" + questionNumber)), generateFor);
+	}
+	
 	/**
 	 * 
 	 * @return {@code True} if the button was clicked successfully and an element in the new question
@@ -254,6 +262,13 @@ public class InstructorFeedbackEditPage extends AppPage {
 		WebElement mcqOptionRow = browser.driver.findElement(By.id("mcqOptionRow-" + optionIndex + idSuffix));
 		WebElement removeOptionLink = mcqOptionRow.findElement(By.id("mcqRemoveOptionLink"));
 		removeOptionLink.click();
+	}
+	
+	public void clickGenerateOptionsCheckbox(int qnIndex) {
+		String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+		
+		WebElement generateOptionsCheckbox = browser.driver.findElement(By.id("generateOptionsCheckbox" + idSuffix));
+		generateOptionsCheckbox.click();
 	}
 	
 	public void fillMsqOption(int optionIndex, String optionText){
