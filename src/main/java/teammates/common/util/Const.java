@@ -481,7 +481,7 @@ public class Const {
 				+ "If you don't see the course in the list below, please refresh the page after a few moments.";
 		public static final String COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
 		public static final String COURSE_EDITED = "The course has been edited.";
-		public static final String COURSE_DELETED = "The course has been deleted.";
+		public static final String COURSE_DELETED = "The course %s has been deleted.";
 		public static final String COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 		public static final String COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""
 				+ ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create one.";
