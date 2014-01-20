@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -55,10 +57,34 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 		resultsPage = loginToStudentFeedbackSubmitPage("Alice", "MCQ Session");
 		resultsPage.verifyHtml("/studentFeedbackResultsPageMCQ.html");
 		
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(4,""));
+		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(4,""));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
+
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5,""));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(5,""));
+		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(5,""));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(5,""));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5,""));
+		
 		______TS("MSQ session results");
 		
 		resultsPage = loginToStudentFeedbackSubmitPage("Alice", "MSQ Session");
 		resultsPage.verifyHtml("/studentFeedbackResultsPageMSQ.html");
+		
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(4,""));
+		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(4,""));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
+
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5,""));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(5,""));
+		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(5,""));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(5,""));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5,""));
 		
 	}
 

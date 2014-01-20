@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -59,13 +61,78 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 		
 		resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session");
 		resultsPage.displayByGiver();
-		resultsPage.verifyHtml("/instructorFeedbackResultsSortGiver.html");
+		
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
 
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
+
+		resultsPage.verifyHtml("/instructorFeedbackResultsSortGiver.html");
+		
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
+
+		
 		resultsPage.displayByRecipient();
 		resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipient.html");
 
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
+
+		
 		resultsPage.displayByTable();
 		resultsPage.verifyHtml("/instructorFeedbackResultsSortTable.html");
+		
+		
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,""));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,""));
+		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,""));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,""));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,""));
+		
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,""));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,""));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,""));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,""));
+
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,""));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,""));
+
 		
 		______TS("test in-table sort");
 		

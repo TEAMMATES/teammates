@@ -61,4 +61,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
 		waitForPageToLoad();
 		return changePageType(InstructorFeedbackEditPage.class);
 	}
+	
+	public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId){
+		WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));	
+		qnAdditionalInfoButton.click();
+		// Check if links toggle properly.
+		WebElement qnAdditionalInfo = browser.driver.findElement(By.id("questionAdditionalInfo-" + qnNumber + "-" + additionalInfoId));	
+		return qnAdditionalInfo.isDisplayed();
+	}
+	
+	public String getQuestionAdditionalInfoButtonText(int qnNumber, String additionalInfoId){
+		WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));	
+		return qnAdditionalInfoButton.getText();
+	}
 }

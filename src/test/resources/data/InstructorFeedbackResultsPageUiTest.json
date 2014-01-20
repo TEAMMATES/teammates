@@ -348,6 +348,106 @@
 				"INSTRUCTORS"
 			]
 		},
+		"qn9InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"creatorEmail":"CFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who do you think is the most hardworking student?\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
+			},
+			"questionNumber":"9",
+			"questionType":"MCQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn10InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"creatorEmail":"CFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Which team do you think has the best feature?\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+			},
+			"questionNumber":"10",
+			"questionType":"MCQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn11InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"creatorEmail":"CFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who are your teammates?\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
+			},
+			"questionNumber":"11",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn12InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"creatorEmail":"CFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Which teams do you like?\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+			},
+			"questionNumber":"12",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
 		"qn1InSession2":{
 			"feedbackSessionName":"Second Session",
 			"courseId":"CFResultsUiT.CS2104",
@@ -447,6 +547,50 @@
 			"recipientEmail":"CFResultsUiT.alice.b@gmail.com",
 			"responseMetaData":{
 				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"PowerSearch\",\"GoodUI\"]}"
+			}
+		},
+		"response8":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"feedbackQuestionId":"9",
+			"feedbackQuestionType":"MCQ",
+			"giverEmail":"CFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Danny\", \"otherFieldContent\" : \"\"}"
+			}
+		},
+		"response9":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"feedbackQuestionId":"10",
+			"feedbackQuestionType":"MCQ",
+			"giverEmail":"CFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 1\", \"otherFieldContent\" : \"\"}"
+			}
+		},
+		"response10":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"feedbackQuestionId":"11",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"CFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Danny\"], \"otherFieldContent\" : \"\"}"
+			}
+		},
+		"response11":{
+			"feedbackSessionName":"First Session",
+			"courseId":"CFResultsUiT.CS2104",
+			"feedbackQuestionId":"12",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"CFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\",\"Team 2\"], \"otherFieldContent\" : \"\"}"
 			}
 		}
 	}

@@ -212,12 +212,25 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 	public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
 		StringBuilder optionListHtml = new StringBuilder();
 		String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
-		for(int i = 0; i < numOfMsqChoices; i++) {
-			String optionFragment = 
-					FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-							"${msqChoiceValue}", msqChoices.get(i));
-
-			optionListHtml.append(optionFragment);
+		
+		if(this.generateOptionsFor != FeedbackParticipantType.NONE){
+			optionListHtml.append("<br>"
+								+ "The options for this question is "
+								+ "automatically generated from the list of all "
+								+ generateOptionsFor.toString().toLowerCase()
+								+ " in this course.");
+		}
+		
+		if(numOfMsqChoices > 0){
+			optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
+			for(int i = 0; i < numOfMsqChoices; i++) {
+				String optionFragment = 
+						FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+								"${msqChoiceValue}", msqChoices.get(i));
+				
+				optionListHtml.append(optionFragment);
+			}
+			optionListHtml.append("</ul>");
 		}
 		
 		String additionalInfo = FeedbackQuestionFormTemplates.populateTemplate(

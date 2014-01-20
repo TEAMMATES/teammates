@@ -443,6 +443,55 @@
 				"RECEIVER"
 			]
 		},
+		"qn4InMcqSession":{
+			"feedbackSessionName":"MCQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Choose the best student in the course.\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
+			},
+			"questionNumber":"4",
+			"questionType":"MCQ",
+			"giverType":"STUDENTS",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":3,
+			"showResponsesTo":[
+				"INSTRUCTORS",
+				"RECEIVER",
+				"STUDENTS",
+				"OWN_TEAM_MEMBERS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS",
+				"OWN_TEAM_MEMBERS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			]
+		},
+		"qn5InMcqSession":{
+			"feedbackSessionName":"MCQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Choose the best team in the course.\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+			},
+			"questionNumber":"5",
+			"questionType":"MCQ",
+			"giverType":"STUDENTS",
+			"recipientType":"OWN_TEAM_MEMBERS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
 		"qn1InMsqSession":{
 			"feedbackSessionName":"MSQ Session",
 			"courseId":"SFResultsUiT.CS2104",
@@ -519,6 +568,55 @@
 				"RECEIVER"
 			]
 			
+		},
+		"qn4InMsqSession":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Choose the students you were impressed by in the course.\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
+			},
+			"questionNumber":"4",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":3,
+			"showResponsesTo":[
+				"INSTRUCTORS",
+				"RECEIVER",
+				"STUDENTS",
+				"OWN_TEAM_MEMBERS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS",
+				"OWN_TEAM_MEMBERS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			]
+		},
+		"qn5InMsqSession":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Choose the teams you were impressed by in the course.\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+			},
+			"questionNumber":"5",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"OWN_TEAM_MEMBERS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
 		}
 	},
 	"feedbackResponses":{
@@ -679,6 +777,30 @@
 			}
 			
 		},
+		"mcqResponse5":{
+			"feedbackSessionName":"MCQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"4",
+			"feedbackQuestionType":"MCQ",
+			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Danny\", \"otherFieldContent\" : \"\"}"
+			}
+			
+		},
+		"mcqResponse6":{
+			"feedbackSessionName":"MCQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"5",
+			"feedbackQuestionType":"MCQ",
+			"giverEmail":"SFResultsUiT.benny.c@gmail.com",
+			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 1\", \"otherFieldContent\" : \"\"}"
+			}
+			
+		},
 		
 		"msqResponse1":{
 			"feedbackSessionName":"MSQ Session",
@@ -725,6 +847,30 @@
 			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
 			"responseMetaData":{
 				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Can improve\"]}"
+			}
+			
+		},
+		"msqResponse5":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"4",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Danny\",\"Alice\"]}"
+			}
+			
+		},
+		"msqResponse6":{
+			"feedbackSessionName":"MSQ Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"5",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"SFResultsUiT.benny.c@gmail.com",
+			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\", \"Team 2\"]}"
 			}
 			
 		}
