@@ -498,6 +498,14 @@ public class PageData {
 		return link;
 	}
 	
+	public String getInstructorFeedbackSessionRemindLink(String courseID, String feedbackSessionName){
+		String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
+		link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+		link = addUserIdToUrl(link);
+		return link;
+	}
+	
 	public String getInstructorFeedbackSessionPublishLink(String courseID, String feedbackSessionName, boolean isHome){
 		String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
@@ -709,6 +717,7 @@ public class PageData {
 		boolean hasSubmit = session.isVisible() || session.isPrivateSession();
 		boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
 		boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
+		boolean hasRemind = session.isOpened();
 		
 		result.append(
 			"<a class=\"color_green t_session_view"+ position + "\" " +
@@ -752,8 +761,17 @@ public class PageData {
 		);
 		
 		// Don't need to show any other links if private
-		if(session.isPrivateSession())
+		if(session.isPrivateSession()) {
 			return result.toString();
+		}
+		
+		result.append(
+			"<a class=\"color_black t_session_remind" + position + "\" " +
+			"href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
+			(hasRemind ? "onclick=\"hideddrivetip(); return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
+			"onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_REMIND+"')\" " +
+			"onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a>"
+		);
 		
 		if(isCreator){
 			if (hasUnpublish) {

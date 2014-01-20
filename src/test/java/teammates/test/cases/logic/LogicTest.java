@@ -2971,6 +2971,20 @@ public class LogicTest extends BaseComponentTestCase {
 		}
 		return null;
 	}
+	
+	public static List<MimeMessage> getEmailsToInstructor(InstructorAttributes i,
+			List<MimeMessage> emailsSent) throws MessagingException {
+		List<MimeMessage> emailsToInstructor = new ArrayList<MimeMessage>();
+		for (MimeMessage m : emailsSent) {
+			boolean emailSentToThisInstructor = m.getAllRecipients()[0].toString()
+					.equalsIgnoreCase(i.email);
+			if (emailSentToThisInstructor) {
+				print("email sent to:" + i.email);
+				emailsToInstructor.add(m);
+			}
+		}
+		return emailsToInstructor;
+	}
 
 	private void verifyJoinInviteToStudent(StudentAttributes student,
 			MimeMessage email) throws MessagingException {

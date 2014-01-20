@@ -197,26 +197,142 @@
                               </a></td>
 						<td class="centeralign no-print"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;user={$test.instructor}" class="color_green t_session_view3">View Results</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;user={$test.instructor}" class="color_brown t_session_edit3">Edit</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CHomeUiT.CS2104','Second Eval');" href="/page/instructorEvalDelete?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_red t_session_delete3">Delete</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;user={$test.instructor}" class="color_black t_session_remind3">Remind</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make results not visible to students')" onclick="hideddrivetip(); return toggleUnpublishEvaluation('Second Eval');" href="/page/instructorEvalUnpublish?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_black t_session_unpublish3">Unpublish</a>
 						</td>
-					</tr><tr id="session4" class="home_sessions_row">
-						<td class="t_session_name">First Feedback Session</td>
-						<td class="t_session_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session has been created, is visible, and is open for submissions.')">Open</span></td>
-						<td class="t_session_response centeralign"><a oncontextmenu="return false;" href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"    >
+					</tr><tr class="home_sessions_row"  id="session4" >
+                           <td class="t_session_name" >
+                              Second Feedback Session
+                           </td>
+                           <td class="t_session_status centeralign" >
+                              <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The feedback session has been created, is visible, and is waiting to open.')" >
+                                 Visible
+                              </span>
+                           </td>
+                           <td class="t_session_response centeralign" >
+                              <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=teammates.coord"  oncontextmenu="return false;" >
                                  Show
-                              </a></td>
-						<td class="centeralign no-print" >
-                              <a class="color_green t_session_view4"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
+                              </a>
+                           </td>
+                           <td class="centeralign no-print" >
+                              <a class="color_green t_session_view4"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
                                  View Results
                               </a>
-                              <a class="color_brown t_session_edit4"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
+                              <a class="color_brown t_session_edit4"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
                                  Edit
                               </a>
-                              <a class="color_red t_session_delete4"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
+                              <a class="color_red t_session_delete4"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Second Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
                                  Delete
                               </a>
-                              <a class="color_blue t_session_submit4"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
+                              <a class="color_blue t_session_submit4"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
                                  Submit
                               </a>
-                              <a class="color_black t_session_publish4"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return togglePublishEvaluation('First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make session responses available for viewing')" >
+                              <a class="color_black t_session_remind4"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=teammates.coord"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Send e-mails to remind students and instructors who have not submitted their feedbacks to do so')"  style="color: gray; text-decoration: none;" >
+                                 Remind
+                              </a>
+                              <a class="color_black t_session_publish4"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('This session is not yet opened')"  style="color: gray; text-decoration: none;" >
+                                 Publish
+                              </a>
+                           </td>
+                        </tr>
+                        <tr class="home_sessions_row"  id="session5" >
+                           <td class="t_session_name" >
+                              First Feedback Session
+                           </td>
+                           <td class="t_session_status centeralign" >
+                              <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The feedback session has been created, is visible, and is open for submissions.')" >
+                                 Open
+                              </span>
+                           </td>
+                           <td class="t_session_response centeralign" >
+                              <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  oncontextmenu="return false;" >
+                                 Show
+                              </a>
+                           </td>
+                           <td class="centeralign no-print" >
+                              <a class="color_green t_session_view5"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
+                                 View Results
+                              </a>
+                              <a class="color_brown t_session_edit5"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
+                                 Edit
+                              </a>
+                              <a class="color_red t_session_delete5"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
+                                 Delete
+                              </a>
+                              <a class="color_blue t_session_submit5"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
+                                 Submit
+                              </a>
+                              <a class="color_black t_session_remind5"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onclick="hideddrivetip(); return toggleRemindStudents('First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Send e-mails to remind students and instructors who have not submitted their feedbacks to do so')" >
+                                 Remind
+                              </a>
+                              <a class="color_black t_session_publish5"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return togglePublishEvaluation('First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make session responses available for viewing')" >
+                                 Publish
+                              </a>
+                           </td>
+                        </tr>
+                        <tr class="home_sessions_row"  id="session6" >
+                           <td class="t_session_name" >
+                              Fourth Feedback Session
+                           </td>
+                           <td class="t_session_status centeralign" >
+                              <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.<br />The responses for this session are visible.')" >
+                                 Published
+                              </span>
+                           </td>
+                           <td class="t_session_response centeralign" >
+                              <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=teammates.coord"  oncontextmenu="return false;" >
+                                 Show
+                              </a>
+                           </td>
+                           <td class="centeralign no-print" >
+                              <a class="color_green t_session_view6"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
+                                 View Results
+                              </a>
+                              <a class="color_brown t_session_edit6"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
+                                 Edit
+                              </a>
+                              <a class="color_red t_session_delete6"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Fourth Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
+                                 Delete
+                              </a>
+                              <a class="color_blue t_session_submit6"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
+                                 Submit
+                              </a>
+                              <a class="color_black t_session_remind6"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=teammates.coord"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Send e-mails to remind students and instructors who have not submitted their feedbacks to do so')"  style="color: gray; text-decoration: none;" >
+                                 Remind
+                              </a>
+                              <a class="color_black t_session_unpublish6"  href="/page/instructorFeedbackUnpublish?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return toggleUnpublishEvaluation('Fourth Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make responses no longer visible')" >
+                                 Unpublish
+                              </a>
+                           </td>
+                        </tr>
+                        <tr class="home_sessions_row"  id="session7" >
+                           <td class="t_session_name" >
+                              Third Feedback Session
+                           </td>
+                           <td class="t_session_status centeralign" >
+                              <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.')" >
+                                 Closed
+                              </span>
+                           </td>
+                           <td class="t_session_response centeralign" >
+                              <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=teammates.coord"  oncontextmenu="return false;" >
+                                 Show
+                              </a>
+                           </td>
+                           <td class="centeralign no-print" >
+                              <a class="color_green t_session_view7"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
+                                 View Results
+                              </a>
+                              <a class="color_brown t_session_edit7"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
+                                 Edit
+                              </a>
+                              <a class="color_red t_session_delete7"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Third Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
+                                 Delete
+                              </a>
+                              <a class="color_blue t_session_submit7"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
+                                 Submit
+                              </a>
+                              <a class="color_black t_session_remind7"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=teammates.coord"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Send e-mails to remind students and instructors who have not submitted their feedbacks to do so')"  style="color: gray; text-decoration: none;" >
+                                 Remind
+                              </a>
+                              <a class="color_black t_session_publish7"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return togglePublishEvaluation('Third Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make session responses available for viewing')" >
                                  Publish
                               </a>
                            </td>	

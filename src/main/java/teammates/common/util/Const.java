@@ -142,6 +142,7 @@ public class Const {
 		
 		public static final String FEEDBACK_SESSION_RESULTS = "View the submitted responses for this feedback session";
 		public static final String FEEDBACK_SESSION_EDIT = "Edit feedback session details";
+		public static final String FEEDBACK_SESSION_REMIND = "Send e-mails to remind students and instructors who have not submitted their feedbacks to do so";
 		public static final String FEEDBACK_SESSION_DELETE = "Delete the feedback session";
 		public static final String FEEDBACK_SESSION_SUBMIT = "Start submitting feedback";
 		public static final String FEEDBACK_SESSION_PUBLISH = "Make session responses available for viewing";
@@ -352,6 +353,7 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
 		public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
 		public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
+		public static final String INSTRUCTOR_FEEDBACK_REMIND = "/page/instructorFeedbackRemind";
 		public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
 		public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
 		public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
@@ -515,6 +517,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
 		public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";
 		public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
+		public static final String FEEDBACK_SESSION_REMINDERSSENT = "Reminder e-mails have been sent out to those students and instructors.";
 		public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";		
 		public static final String FEEDBACK_SESSION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
 	

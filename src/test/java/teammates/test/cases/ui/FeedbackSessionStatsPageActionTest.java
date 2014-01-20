@@ -61,8 +61,8 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
 		FeedbackSessionStatsPageData data = (FeedbackSessionStatsPageData) r.data;
 		
 		assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_STATS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-		assertEquals(data.sessionDetails.stats.expectedTotal,6);
-		assertEquals(data.sessionDetails.stats.submittedTotal,4);
+		assertEquals(8,data.sessionDetails.stats.expectedTotal);
+		assertEquals(4,data.sessionDetails.stats.submittedTotal);
 		
 		______TS("fail: instructor accesses stats of non-existent feedback session");
 		String nonexistentFeedbackSession = "nonexistentFeedbackSession";

@@ -1,7 +1,7 @@
 package teammates.test.cases.logic;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -34,9 +36,11 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.api.Logic;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -887,8 +891,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		}	
 	}
 
+	@Test
 	public void testUpdateFeedbackSession() {
-		
+		//TODO implement this
 	}
 	
 	@Test
@@ -1002,6 +1007,69 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 			assertEquals(e.getMessage(),
 					"Trying to publish a non-existant session.");
 		}
+	}
+	
+	@Test
+	public void testSendReminderForFeedbackSession() throws Exception {
+		// private method. no need to check for authentication.
+		Logic logic = new Logic();
+		
+		restoreTypicalDataInDatastore();
+		DataBundle dataBundle = getTypicalDataBundle();
+
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+
+		List<MimeMessage> emailsSent = 
+				fsLogic.sendReminderForFeedbackSession(fs.courseId, fs.feedbackSessionName);
+		assertEquals(7, emailsSent.size());
+
+		List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
+		for (StudentAttributes s : studentList) {
+			MimeMessage emailToStudent = LogicTest.getEmailToStudent(s, emailsSent);
+			
+			if(fsLogic.isFeedbackSessionCompletedByStudent(fs.feedbackSessionName, fs.courseId, s.email)) {
+				String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
+				assertTrue(errorMessage, emailToStudent == null);
+			} else {
+				String errorMessage = "No email sent to " + s.email + " when he hasn't completed the session.";
+				assertTrue(errorMessage, emailToStudent != null);
+				AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+						emailToStudent.getSubject());
+				AssertHelper.assertContains(fs.feedbackSessionName, emailToStudent.getSubject());
+			}
+		}
+		
+		List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
+		String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
+		for (InstructorAttributes i : instructorList) {
+			List<MimeMessage> emailsToInstructor = LogicTest.getEmailsToInstructor(i, emailsSent);
+			
+			if(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
+				// Only send notification (no reminder) if instructor already completed the session
+				assertEquals(1, emailsToInstructor.size());
+				AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
+				AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+						emailsToInstructor.get(0).getSubject());
+				AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
+			} else {
+				// Send both notification and reminder if the instructor hasn't completed the session
+				assertEquals(2, emailsToInstructor.size());
+				
+				assertTrue(emailsToInstructor.get(0).getContent().toString().contains(notificationHeader) 
+							|| emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
+				assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader) 
+							|| !emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
+				AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+						emailsToInstructor.get(0).getSubject());
+				AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
+				AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+						emailsToInstructor.get(1).getSubject());
+				AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1).getSubject());
+			}
+			
+			
+		}
+		
 	}
 	
 	private FeedbackSessionAttributes getNewFeedbackSession() {

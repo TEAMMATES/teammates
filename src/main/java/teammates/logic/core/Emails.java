@@ -383,6 +383,33 @@ public class Emails {
 		return emails;
 	}
 	
+	public List<MimeMessage> generateFeedbackSessionReminderEmails(
+			CourseAttributes course, 
+			FeedbackSessionAttributes session,
+			List<StudentAttributes> students,
+			List<InstructorAttributes> instructorsToRemind,
+			List<InstructorAttributes> instructorsToNotify) 
+					throws MessagingException, IOException {
+
+		String template = EmailTemplates.USER_FEEDBACK_SESSION;
+		List<MimeMessage> emails = generateFeedbackSessionEmailBasesForInstructorReminders(
+				course, session, instructorsToRemind, template);
+		emails.addAll(generateFeedbackSessionEmailBases(course,
+				session, students, instructorsToNotify, template));
+		
+		for (MimeMessage email : emails) {
+			email.setSubject(email.getSubject().replace("${subjectPrefix}",
+					SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER));
+			email.setContent(
+					email.getContent()
+							.toString()
+							.replace("${status}",
+									"is still open for submissions"),
+					"text/html");
+		}
+		return emails;
+	}
+	
 	public List<MimeMessage> generateFeedbackSessionClosingEmails(
 			FeedbackSessionAttributes session)
 					throws MessagingException, IOException, EntityDoesNotExistException {
@@ -476,6 +503,21 @@ public class Emails {
 		}
 		return emails;
 	}
+	
+	public List<MimeMessage> generateFeedbackSessionEmailBasesForInstructorReminders(
+			CourseAttributes course,
+			FeedbackSessionAttributes session, 
+			List<InstructorAttributes> instructors,
+			String template) 
+					throws MessagingException, UnsupportedEncodingException {
+		
+		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+		for (InstructorAttributes i : instructors) {
+			emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, i,
+					template));
+		}
+		return emails;
+	}
 
 	public MimeMessage generateFeedbackSessionEmailBaseForStudents(
 			CourseAttributes c,
@@ -561,6 +603,51 @@ public class Emails {
 
 		String reportUrl = Config.APP_URL
 				+ Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
+		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
+				c.id);
+		reportUrl = Url.addParamToUrl(reportUrl,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+		emailBody = emailBody.replace("${reportUrl}", reportUrl);
+
+		message.setContent(emailBody, "text/html");
+
+		return message;
+	}
+	
+	public MimeMessage generateFeedbackSessionEmailBaseForInstructorReminders(
+			CourseAttributes c,
+			FeedbackSessionAttributes fs, 
+			InstructorAttributes i,
+			String template)
+					throws MessagingException, UnsupportedEncodingException {
+
+		MimeMessage message = getEmptyEmailAddressedToEmail(i.email);
+
+		message.setSubject(String
+				.format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
+						c.name, fs.feedbackSessionName));
+
+		String emailBody = template;
+
+		emailBody = emailBody.replace("${joinFragment}", "");
+		emailBody = emailBody.replace("${userName}", i.name);
+		emailBody = emailBody.replace("${courseName}", c.name);
+		emailBody = emailBody.replace("${courseId}", c.id);
+		emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
+		emailBody = emailBody.replace("${deadline}",
+				TimeHelper.formatTime(fs.endTime));
+		emailBody = emailBody.replace("${instructorFragment}", "");
+		
+		String submitUrl = Config.APP_URL
+				+ Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
+		submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
+				c.id);
+		submitUrl = Url.addParamToUrl(submitUrl,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+		emailBody = emailBody.replace("${submitUrl}", submitUrl);
+
+		String reportUrl = Config.APP_URL
+				+ Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
 		reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
 				c.id);
 		reportUrl = Url.addParamToUrl(reportUrl,

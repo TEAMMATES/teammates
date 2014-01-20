@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.mail.internet.MimeMessage;
+
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -318,6 +321,19 @@ public class FeedbackSessionsLogic {
 		return fsDb.getFeedbackSession(courseId, feedbackSessionName) != null;
 	}
 	
+	public boolean isFeedbackSessionHasQuestionForStudents(String feedbackSessionName, 
+			String courseId) throws EntityDoesNotExistException {
+		if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+			throw new EntityDoesNotExistException(
+					"Trying to check a feedback session that does not exist.");
+		}
+
+		List<FeedbackQuestionAttributes> allQuestions =
+				fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
+				
+		return !allQuestions.isEmpty();
+	}
+	
 	public boolean isFeedbackSessionCompletedByStudent(String feedbackSessionName,
 			String courseId, String userEmail)
 			throws EntityDoesNotExistException {
@@ -330,6 +346,11 @@ public class FeedbackSessionsLogic {
 		List<FeedbackQuestionAttributes> allQuestions =
 				fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
 		
+		if(allQuestions.isEmpty()) {
+			// if there is no question for students, session is complete
+			return true;
+		}
+		
 		for (FeedbackQuestionAttributes question : allQuestions) {
 			if(fqLogic.isQuestionAnsweredByUser(question, userEmail)){
 				// If any question is answered, session is complete.
@@ -338,7 +359,33 @@ public class FeedbackSessionsLogic {
 		}
 		return false;
 	}
+	
+	public boolean isFeedbackSessionCompletedByInstructor(String feedbackSessionName,
+			String courseId, String userEmail)
+			throws EntityDoesNotExistException {
 
+		if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+			throw new EntityDoesNotExistException(
+					"Trying to check a feedback session that does not exist.");
+		}
+
+		List<FeedbackQuestionAttributes> allQuestions =
+				fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
+		
+		if(allQuestions.isEmpty()) {
+			// if there is no question for instructor, session is complete
+			return true;
+		}
+		
+		for (FeedbackQuestionAttributes question : allQuestions) {
+			if(fqLogic.isQuestionAnsweredByUser(question, userEmail)){
+				// If any question is answered, session is complete.
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	// This method is for manual adding of additional responses to a FS.
 	public void addResponsesToFeedbackSession(List<FeedbackResponse> responses,
 			String feedbackSessionName, String courseId)
@@ -448,6 +495,49 @@ public class FeedbackSessionsLogic {
 		sessionToUnpublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
 
 		updateFeedbackSession(sessionToUnpublish);
+	}
+	
+	public List<MimeMessage> sendReminderForFeedbackSession(String courseId,
+			String feedbackSessionName) throws EntityDoesNotExistException {
+		if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+			throw new EntityDoesNotExistException(
+					"Trying to remind non-existent feedback session " + courseId + "/" + feedbackSessionName);
+		}
+	
+		FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
+		List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
+		List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(courseId);
+		
+		// Filter out students who have submitted the feedback session
+		List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+		for (StudentAttributes student : studentList) {
+			if (!isFeedbackSessionCompletedByStudent(
+						session.feedbackSessionName, session.courseId, student.email)) {
+				studentsToRemindList.add(student);
+			}
+		}
+	
+		// Filter out instructors who have submitted the feedback session
+		List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+		for (InstructorAttributes instructor : instructorList) {
+			if (!isFeedbackSessionCompletedByInstructor(
+						session.feedbackSessionName, session.courseId, instructor.email)) {
+				instructorsToRemindList.add(instructor);
+			}
+		}
+		
+		CourseAttributes course = coursesLogic.getCourse(courseId);
+		List<MimeMessage> emails;
+		Emails emailMgr = new Emails();
+		try {
+			emails = emailMgr.generateFeedbackSessionReminderEmails(course,
+					session, studentsToRemindList, instructorsToRemindList, instructorList);
+			emailMgr.sendEmails(emails);
+		} catch (Exception e) {
+			throw new RuntimeException("Error while sending emails :", e);
+		}
+	
+		return emails;
 	}
 	
 	public void scheduleFeedbackSessionOpeningEmails() {
