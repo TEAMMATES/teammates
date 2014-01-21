@@ -18,7 +18,7 @@ public class TimeHelper {
 	/**
 	 * Returns the current date and time as a {@code Calendar} object for the given timezone.
 	 */
-	public static Calendar now(int timeZone) {
+	public static Calendar now(double timeZone) {
 		return TimeHelper.convertToUserTimeZone(
 				Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
 	}

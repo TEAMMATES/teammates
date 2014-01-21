@@ -94,7 +94,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 				getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));		
 		String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
 		if (paramTimeZone != null) {
-			newSession.timeZone = Integer.parseInt(paramTimeZone);
+			newSession.timeZone = Double.parseDouble(paramTimeZone);
 		}
 		String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
 		if (paramGracePeriod != null) {
