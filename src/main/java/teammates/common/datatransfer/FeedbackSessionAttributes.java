@@ -30,7 +30,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 	public Date endTime;
 	public Date sessionVisibleFromTime;
 	public Date resultsVisibleFromTime;
-	public int timeZone;
+	public double timeZone;
 	public int gracePeriod;
 	public FeedbackSessionType feedbackSessionType;
 	public boolean sentOpenEmail;

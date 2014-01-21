@@ -8,6 +8,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.util.Const;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -61,6 +62,10 @@ public class FeedbackSession {
 	
 	@Persistent
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+	private Double timeZoneDouble;
+	
+	@Persistent
+	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private int gracePeriod;
 	
 	@Persistent
@@ -75,7 +80,7 @@ public class FeedbackSession {
 	
 	public FeedbackSession(String feedbackSessionName, String courseId,
 			String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-			Date sessionVisibleFromTime, Date resultsVisibleFromTime, int timeZone, int gracePeriod,
+			Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
 			FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail) {
 		
 		this.feedbackSessionName = feedbackSessionName;
@@ -87,7 +92,8 @@ public class FeedbackSession {
 		this.endTime = endTime;
 		this.sessionVisibleFromTime = sessionVisibleFromTime;
 		this.resultsVisibleFromTime = resultsVisibleFromTime;
-		this.timeZone = timeZone;
+		this.timeZone = Const.INT_UNINITIALIZED;
+		this.timeZoneDouble = timeZone;
 		this.gracePeriod = gracePeriod;
 		this.feedbackSessionType = feedbackSessionType;
 		this.sentOpenEmail = sentOpenEmail;
@@ -167,12 +173,17 @@ public class FeedbackSession {
 		this.resultsVisibleFromTime = resultsVisibleFromTime;
 	}
 	
-	public int getTimeZone() {
-		return timeZone;
+	public double getTimeZone() {
+		if (timeZone != Const.INT_UNINITIALIZED) {
+			timeZoneDouble = new Double(timeZone);
+			timeZone = Const.INT_UNINITIALIZED;
+		}
+		return timeZoneDouble;
 	}
 
-	public void setTimeZone(int timeZone) {
-		this.timeZone = timeZone;
+	public void setTimeZone(double timeZone) {
+		this.timeZone = Const.INT_UNINITIALIZED;
+		this.timeZoneDouble = timeZone;
 	}
 
 	public int getGracePeriod() {
