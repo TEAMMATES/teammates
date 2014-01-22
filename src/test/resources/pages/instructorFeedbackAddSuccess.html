@@ -301,12 +301,13 @@
 				<div id="empty_message" class="centeralign bold">You have not created any questions for this feedback session yet. Click the button below to add a feedback question.</div><br /><br />
 
 
+			<form onsubmit="tallyCheckboxes('')" class="form_question" name="form_addquestions" action="/page/instructorFeedbackQuestionAdd" method="post">			
 			<table class="inputTable" id="addNewQuestionTable">
 				<tbody>
 					<tr>
 						<td class="bold">Question Type 
 							<select class="questionType"
-								id="questionTypeChoice" name="questionTypeChoice">
+								id="questionTypeChoice" name="questiontype">
 								<option value="TEXT">Essay question</option>
 								<option value="MCQ">Multiple-choice question</option>
 								<option value="MSQ">Multiple-select question</option>
@@ -321,7 +322,6 @@
 				</tbody>
 			</table>
 
-			<form onsubmit="tallyCheckboxes('')" class="form_question" name="form_addquestions" action="/page/instructorFeedbackQuestionAdd" method="post">			
 			<table hidden="hidden" id="questionTableNew" class="inputTable questionTable">
 				<tbody><tr>
 					<td class="bold">Question <select class="questionNumber nonDestructive"  name="questionnum" >
@@ -515,7 +515,6 @@
 			<input type="hidden" value="1" name="questionnum" />
 			<input type="hidden" value="New Session" name="fsname" />
 			<input type="hidden" value="CFeedbackUiT.CS1101" name="courseid" />
-			<input name="questiontype"  type="hidden" />
 			<input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS" />
 			<input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS" />
 			<input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS" />

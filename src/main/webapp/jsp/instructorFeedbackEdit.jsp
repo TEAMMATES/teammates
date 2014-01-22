@@ -431,12 +431,13 @@
 				}
 			%>
 			
+			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
 			<table class="inputTable" id="addNewQuestionTable">
 				<tr>
 					<td class="bold">
 						Question Type
 						<select class="questionType" 
-								name="questionTypeChoice"
+								name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>"
 								id="questionTypeChoice">
 							<option value = "TEXT"><%=Const.FeedbackQuestionTypeNames.TEXT%></option>
 							<option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
@@ -450,7 +451,6 @@
 				</tr>
 			</table>
 			
-			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
 			<table class="inputTable questionTable" id="questionTableNew" hidden="hidden">
 				<tr>
 					<td class="bold">
@@ -670,7 +670,6 @@
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="<%=data.questions.size()+1%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
 			<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
-			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>">
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO%>" >
 			<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO%>" >

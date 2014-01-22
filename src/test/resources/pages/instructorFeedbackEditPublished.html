@@ -295,27 +295,27 @@
 			<div id="empty_message" class="centeralign bold">You have not created any questions for this feedback session yet. Click the button below to add a feedback question.</div>
 			<br /><br />
 
-
-
-			<table class="inputTable" id="addNewQuestionTable">
-				<tbody>
-					<tr>
-						<td class="bold">Question Type <select class="questionType"
-							id="questionTypeChoice" name="questionTypeChoice">
-								<option value="TEXT">Essay question</option>
-								<option value="MCQ">Multiple-choice question</option>
-								<option value="MSQ">Multiple-select question</option>
-						</select>
-						</td>
-						<td><input class="button centeralign" id="button_openframe"
-							onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)"
-							value="Add New Question" /></td>
-					</tr>
-				</tbody>
-			</table>
 			<form action="/page/instructorFeedbackQuestionAdd"
 				class="form_question" method="post" name="form_addquestions"
 				onsubmit="tallyCheckboxes('')">
+
+				<table class="inputTable" id="addNewQuestionTable">
+					<tbody>
+						<tr>
+							<td class="bold">Question Type <select class="questionType"
+								id="questionTypeChoice" name="questiontype">
+									<option value="TEXT">Essay question</option>
+									<option value="MCQ">Multiple-choice question</option>
+									<option value="MSQ">Multiple-select question</option>
+							</select>
+							</td>
+							<td><input class="button centeralign" id="button_openframe"
+								onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)"
+								value="Add New Question" /></td>
+						</tr>
+					</tbody>
+				</table>
+			
 				<table class="inputTable questionTable" hidden="hidden"
 					id="questionTableNew">
 					<tbody>
@@ -544,7 +544,6 @@
 				<input type="hidden" value="1" name="questionnum" /> 
 				<input type="hidden" value="First Session" name="fsname" /> 
 				<input type="hidden" value="CFeedbackEditUiT.CS2104" name="courseid" /> 
-				<input name="questiontype" type="hidden" /> 
 				<input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS" /> 
 				<input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS" /> 
 				<input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS" />

@@ -1157,12 +1157,13 @@
                                  </form>
                <br/>
                               <br/>
-                              <table class="inputTable"  id="addNewQuestionTable" >
+               <form action="/page/instructorFeedbackQuestionAdd"  class="form_question"  method="post"  name="form_addquestions"  onsubmit="tallyCheckboxes('')" >
+               <table class="inputTable"  id="addNewQuestionTable" >
                   <tbody>
                      <tr>
                         <td class="bold" >
                            Question Type
-                           <select class="questionType"  id="questionTypeChoice"  name="questionTypeChoice" >
+                           <select class="questionType"  id="questionTypeChoice"  name="questiontype" >
                               <option value="TEXT" >
                                  Essay question
                               </option>
@@ -1180,7 +1181,6 @@
                      </tr>
                   </tbody>
                </table>
-               <form action="/page/instructorFeedbackQuestionAdd"  class="form_question"  method="post"  name="form_addquestions"  onsubmit="tallyCheckboxes('')" >
                   <table class="inputTable questionTable"  hidden="hidden"  id="questionTableNew" >
                      <tbody>
                         <tr>
@@ -1478,7 +1478,6 @@
                   <input name="questionnum"  type="hidden"  value="3" />
                                     <input name="fsname"  type="hidden"  value="First Session" />
                                     <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
-                                    <input name="questiontype"  type="hidden" />
                                     <input name="showresponsesto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
                                     <input name="showgiverto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
                                     <input name="showrecipientto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
