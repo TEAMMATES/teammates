@@ -105,18 +105,23 @@ public abstract class FeedbackAbstractQuestionDetails {
 			}
 			break;
 		case NUMSCALE:
-			String minScale = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN);
-			Assumption.assertNotNull("Null minimum scale", minScale);
+			String minScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN);
+			Assumption.assertNotNull("Null minimum scale", minScaleString);
+			int minScale = Integer.parseInt(minScaleString);
 			
-			String maxScale = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX);
-			Assumption.assertNotNull("Null maximum scale", maxScale);
+			String maxScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX);
+			Assumption.assertNotNull("Null maximum scale", maxScaleString);
+			int maxScale = Integer.parseInt(maxScaleString);
 			
-			String step = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
-			Assumption.assertNotNull("Null step", step);
+			String stepString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
+			Assumption.assertNotNull("Null step", stepString);
+			Double step = Double.parseDouble(stepString);
+			
+			Assumption.assertTrue(minScale < maxScale);
+			Assumption.assertTrue(step > 0.0);
 
-			questionDetails = new FeedbackNumericalScaleQuestionDetails(
-					questionText, Integer.parseInt(minScale),
-					Integer.parseInt(maxScale), Double.parseDouble(step));
+			questionDetails = 
+					new FeedbackNumericalScaleQuestionDetails(questionText, minScale, maxScale, step);
 			break;
 		default:
 			Assumption.fail("Question type not supported by FeedbackAbstractQuestionDetails");

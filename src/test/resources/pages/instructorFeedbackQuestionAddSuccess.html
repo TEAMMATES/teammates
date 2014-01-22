@@ -418,6 +418,7 @@
 								<option value="TEXT">Essay question</option>
 								<option value="MCQ">Multiple-choice question</option>
 								<option value="MSQ">Multiple-select question</option>
+								<option value="NUMSCALE">Numerical-scale question</option>
 						</select>
 						</td>
 						<td><input class="button centeralign" id="button_openframe"
@@ -429,14 +430,12 @@
 			<form onsubmit="tallyCheckboxes('')" class="form_question" name="form_addquestions" action="/page/instructorFeedbackQuestionAdd" method="post">			
 			<table hidden="hidden" id="questionTableNew" class="inputTable questionTable">
 				<tbody><tr>
-					<td class="bold">Question <select
+					<td colspan="3" class="bold">Question <select
 								class="questionNumber nonDestructive" name="questionnum">
 									<option value="1">1</option>
 									<option value="2">2</option>
 						</select><span id="questionTypeHeader"></span>
 					</td>
-					<td></td>
-					<td></td>
 					<td class="rightalign" ><a class="color_red" href="#"
 								onclick="deleteQuestion(-1)" onmouseout="hideddrivetip()"
 								onmouseover="ddrivetip('Delete this question')"> Delete </a></td>
@@ -519,6 +518,38 @@
 						</select>
 					</td>
 				</tr>
+				<tr id="numScaleForm">
+							<td colspan="4">
+								<table>
+									<tr>
+										<td>
+											Minimum scale:
+											<input type="number" class="minScaleBox" id="minScaleBox"
+												name="numscalemin"
+												value="1" onChange="updateNumScalePossibleValues(-1)">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											Maximum scale:
+											<input type="number" class="maxScaleBox" id="maxScaleBox"
+												name="numscalemax"
+												value="5" onChange="updateNumScalePossibleValues(-1)">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											Increment:	
+											<input type="number" class="stepBox" id="stepBox"
+												name="numscalestep"
+												value="0.5" min="0.001" step="0.001"
+												onChange="updateNumScalePossibleValues(-1)">
+											<span id="numScalePossibleValues">[Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]</span>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
 				<tr>
 					<td class="bold" onmouseover="ddrivetip('Who will give feedback')" onmouseout="hideddrivetip()">Feedback Giver:</td>
 					<td><select name="givertype" class="participantSelect" onchange="feedbackGiverUpdateVisibilityOptions(this)">

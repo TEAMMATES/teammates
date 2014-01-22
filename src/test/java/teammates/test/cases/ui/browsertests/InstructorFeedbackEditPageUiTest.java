@@ -83,6 +83,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		testEditMsqQuestionAction();
 		testDeleteMsqQuestionAction();
 		
+		testNewNumScaleQuestionFrame();
+		testInputValidationForNumScaleQuestion();
+		testCustomizeNumScaleOptions();
+		testAddNumScaleQuestionAction();
+		testEditNumScaleQuestionAction();
+		testDeleteNumScaleQuestionAction();
+		
 		testEditQuestionLink();
 		testEditQuestionAction();
 		testDeleteQuestionAction();
@@ -301,7 +308,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 	
 	private void testNewMsqQuestionFrame() {
 		
-		______TS("MCQ: new question (frame) link");
+		______TS("MSQ: new question (frame) link");
 		
 		feedbackEditPage.selectNewQuestionType("Multiple-select question");
 		assertEquals(true, feedbackEditPage.clickNewQuestionButton());
@@ -366,7 +373,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		feedbackEditPage.verifyHtml("/instructorFeedbackMsqQuestionEditSuccess.html");
 		
-		______TS("MCQ: edit to generated options");
+		______TS("MSQ: edit to generated options");
 
 		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
 		feedbackEditPage.fillEditQuestionBox("generated msq qn text", 2);
@@ -395,7 +402,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2", 
 				FeedbackParticipantType.STUDENTS.toString());
 		
-		______TS("MCQ: change generated type");
+		______TS("MSQ: change generated type");
 		
 		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
 		assertEquals(true, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
@@ -424,7 +431,76 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
 		assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
 	}
-			
+	
+	private void testNewNumScaleQuestionFrame() {
+		______TS("NUMSCALE: new question (frame) link");
+		
+		feedbackEditPage.selectNewQuestionType("Numerical-scale question");
+		assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+	}
+	
+	private void testInputValidationForNumScaleQuestion() {
+		//TODO implement this
+	}
+	
+	private void testCustomizeNumScaleOptions() {
+		feedbackEditPage.fillQuestionBox("NumScale qn");
+		assertEquals("[Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]", 
+				feedbackEditPage.getNumScalePossibleValuesString(-1));
+		feedbackEditPage.fillStepNumScaleBox(0.3, -1);
+		assertEquals("[The interval 1 - 5 is not divisible by the specified increment.]", 
+				feedbackEditPage.getNumScalePossibleValuesString(-1));
+		feedbackEditPage.fillMinNumScaleBox(1, -1);
+		feedbackEditPage.fillMaxNumScaleBox(6, -1);
+		feedbackEditPage.fillStepNumScaleBox(1, -1);
+		assertEquals("[Possible values: 1, 2, 3, 4, 5, 6]", 
+				feedbackEditPage.getNumScalePossibleValuesString(-1));
+		feedbackEditPage.fillMinNumScaleBox(0, -1);
+		feedbackEditPage.fillMaxNumScaleBox(1, -1);
+		feedbackEditPage.fillStepNumScaleBox(0.1, -1);
+		assertEquals("[Possible values: 0, 0.1, 0.2, ..., 0.8, 0.9, 1]", 
+				feedbackEditPage.getNumScalePossibleValuesString(-1));
+	}
+	
+	private void testAddNumScaleQuestionAction() {
+		______TS("NUMSCALE: add question action success");
+
+		assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+		feedbackEditPage.clickAddQuestionButton();
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+		assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+		feedbackEditPage.verifyHtml("/instructorFeedbackNumScaleQuestionAddSuccess.html");
+	}
+	
+	private void testEditNumScaleQuestionAction() {
+		______TS("NUMSCALE: edit question success");
+
+		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
+		feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 2);
+		feedbackEditPage.fillMinNumScaleBox(1, 2);
+		feedbackEditPage.fillMaxNumScaleBox(5, 2);
+		feedbackEditPage.fillStepNumScaleBox(1, 2);
+		assertEquals("[Possible values: 1, 2, 3, 4, 5]", 
+				feedbackEditPage.getNumScalePossibleValuesString(2));
+		feedbackEditPage.clickSaveExistingQuestionButton(2);
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+		
+		feedbackEditPage.verifyHtml("/instructorFeedbackNumScaleQuestionEditSuccess.html");	
+	}
+	
+	private void testDeleteNumScaleQuestionAction() {
+		______TS("NUMSCALE: qn delete then cancel");
+		
+		feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));		
+		assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+		
+		______TS("NUMSCALE: qn delete then accept");
+		
+		feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+		assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+	}
+
 	private void testEditQuestionLink() {
 		
 		______TS("edit question link");
