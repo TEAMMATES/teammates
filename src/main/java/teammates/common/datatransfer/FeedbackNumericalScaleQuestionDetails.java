@@ -33,51 +33,45 @@ public class FeedbackNumericalScaleQuestionDetails extends
 	public String getQuestionWithExistingResponseSubmissionFormHtml(
 			boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
 			FeedbackAbstractResponseDetails existingResponseDetails) {
-		// TODO Auto-generated method stub
-		return "";
+		FeedbackNumericalScaleResponseDetails numscaleResponseDetails = 
+				(FeedbackNumericalScaleResponseDetails) existingResponseDetails;
+		
+		return FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
+				"${qnIdx}", Integer.toString(qnIdx),
+				"${responseIdx}", Integer.toString(responseIdx),
+				"${minScale}", Integer.toString(minScale),
+				"${maxScale}", Integer.toString(maxScale),
+				"${step}", StringHelper.toDecimalFormatString(step),
+				"${existingAnswer}", numscaleResponseDetails.getAnswerString(),
+				"${possibleValuesString}", getPossibleValuesString(),
+				"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT);
 	}
 
 	@Override
 	public String getQuestionWithoutExistingResponseSubmissionFormHtml(
 			boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId) {
-		// TODO Auto-generated method stub
-		return "";
+		return FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
+				"${qnIdx}", Integer.toString(qnIdx),
+				"${responseIdx}", Integer.toString(responseIdx),
+				"${minScale}", Integer.toString(minScale),
+				"${maxScale}", Integer.toString(maxScale),
+				"${step}", StringHelper.toDecimalFormatString(step),
+				"${existingAnswer}", "",
+				"${possibleValuesString}", getPossibleValuesString(),
+				"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT);
 	}
 
 	@Override
 	public String getQuestionSpecificEditFormHtml(int questionNumber) {
-		double cur = minScale + step;
-		int possibleValuesCount = 1;
-		while ((maxScale - cur) >= -1e-9) {
-			cur += step;
-			possibleValuesCount++;
-		}
-		
-		String possibleValuesString = "[Possible values: ";
-		if (possibleValuesCount > 6) {
-			possibleValuesString += StringHelper.toDecimalFormatString(minScale) + ", "
-					+ StringHelper.toDecimalFormatString(minScale + step) + ", "
-					+ StringHelper.toDecimalFormatString(minScale + 2*step) + ", ..., "
-					+ StringHelper.toDecimalFormatString(maxScale - 2*step) + ", "
-					+ StringHelper.toDecimalFormatString(maxScale - step) + ", "
-					+ StringHelper.toDecimalFormatString(maxScale);
-		} else {
-			possibleValuesString += minScale;
-			cur = minScale + step;
-			while ((maxScale - cur) >= -1e-9) {
-				possibleValuesString += ", " + StringHelper.toDecimalFormatString(cur);
-				cur += step;
-			}
-		}
-		possibleValuesString += "]";
-		
 		return FeedbackQuestionFormTemplates.populateTemplate(
 				FeedbackQuestionFormTemplates.NUMSCALE_EDIT_FORM,
 				"${questionNumber}", Integer.toString(questionNumber),
 				"${minScale}", Integer.toString(minScale),
 				"${maxScale}", Integer.toString(maxScale),
 				"${step}", StringHelper.toDecimalFormatString(step),
-				"${possibleValues}", possibleValuesString,
+				"${possibleValues}", getPossibleValuesString(),
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
@@ -109,4 +103,32 @@ public class FeedbackNumericalScaleQuestionDetails extends
 		return "Feedback";
 	}
 
+	private String getPossibleValuesString() {
+		double cur = minScale + step;
+		int possibleValuesCount = 1;
+		while ((maxScale - cur) >= -1e-9) {
+			cur += step;
+			possibleValuesCount++;
+		}
+		
+		String possibleValuesString = "[Possible values: ";
+		if (possibleValuesCount > 6) {
+			possibleValuesString += StringHelper.toDecimalFormatString(minScale) + ", "
+					+ StringHelper.toDecimalFormatString(minScale + step) + ", "
+					+ StringHelper.toDecimalFormatString(minScale + 2*step) + ", ..., "
+					+ StringHelper.toDecimalFormatString(maxScale - 2*step) + ", "
+					+ StringHelper.toDecimalFormatString(maxScale - step) + ", "
+					+ StringHelper.toDecimalFormatString(maxScale);
+		} else {
+			possibleValuesString += minScale;
+			cur = minScale + step;
+			while ((maxScale - cur) >= -1e-9) {
+				possibleValuesString += ", " + StringHelper.toDecimalFormatString(cur);
+				cur += step;
+			}
+		}
+		possibleValuesString += "]";
+		
+		return possibleValuesString;
+	}
 }

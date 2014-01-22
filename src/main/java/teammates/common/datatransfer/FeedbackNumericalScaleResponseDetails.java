@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.StringHelper;
+
 public class FeedbackNumericalScaleResponseDetails extends
 		FeedbackAbstractResponseDetails {
 	private double answer;
@@ -15,7 +17,7 @@ public class FeedbackNumericalScaleResponseDetails extends
 	
 	@Override
 	public String getAnswerString() {
-		return Double.toString(answer);
+		return StringHelper.toDecimalFormatString(answer);
 	}
 
 	@Override
