@@ -441,6 +441,7 @@
 							<option value = "TEXT"><%=Const.FeedbackQuestionTypeNames.TEXT%></option>
 							<option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
 							<option value = "MSQ"><%=Const.FeedbackQuestionTypeNames.MSQ%></option>
+							<option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
 						</select>
 					</td>
 					<td>
@@ -453,7 +454,7 @@
 			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >			
 			<table class="inputTable questionTable" id="questionTableNew" hidden="hidden">
 				<tr>
-					<td class="bold">
+					<td class="bold" colspan="3">
 						Question 
 						<select class="questionNumber nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
 						<%
@@ -465,8 +466,6 @@
 						</select>
 						<span id="questionTypeHeader"></span>
 					</td>
-					<td></td>
-					<td></td>
 					<td class="rightalign">
 						<a href="#" class="color_red" 
 							onclick="deleteQuestion(-1)"
@@ -582,6 +581,38 @@
 							<option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
 							<option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
 						</select>
+					</td>
+				</tr>
+				<tr id="numScaleForm">
+					<td colspan="4">
+						<table>
+							<tr>
+								<td>
+									Minimum scale:
+									<input type="number" class="minScaleBox" id="minScaleBox"
+										name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN%>"
+										value="1" onChange="updateNumScalePossibleValues(-1)">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Maximum scale:
+									<input type="number" class="maxScaleBox" id="maxScaleBox"
+										name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX%>"
+										value="5" onChange="updateNumScalePossibleValues(-1)">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Increment:	
+									<input type="number" class="stepBox" id="stepBox"
+										name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP%>"
+										value="0.5" min="0.001" step="0.001"
+										onChange="updateNumScalePossibleValues(-1)">
+									<span id="numScalePossibleValues">[Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]</span>
+								</td>
+							</tr>
+						</table>
 					</td>
 				</tr>
 				<tr>

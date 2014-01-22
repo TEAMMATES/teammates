@@ -103,11 +103,23 @@ public abstract class FeedbackAbstractQuestionDetails {
 			} else {
 				questionDetails = new FeedbackMsqQuestionDetails(questionText, FeedbackParticipantType.valueOf(generatedMsqOptions));
 			}
-				
-				
+			break;
+		case NUMSCALE:
+			String minScale = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN);
+			Assumption.assertNotNull("Null minimum scale", minScale);
+			
+			String maxScale = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX);
+			Assumption.assertNotNull("Null maximum scale", maxScale);
+			
+			String step = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
+			Assumption.assertNotNull("Null step", step);
+
+			questionDetails = new FeedbackNumericalScaleQuestionDetails(
+					questionText, Integer.parseInt(minScale),
+					Integer.parseInt(maxScale), Double.parseDouble(step));
 			break;
 		default:
-			Assumption.fail("Question type not supported");
+			Assumption.fail("Question type not supported by FeedbackAbstractQuestionDetails");
 			break;
 		}
 		

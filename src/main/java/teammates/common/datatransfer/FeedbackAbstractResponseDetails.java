@@ -39,6 +39,9 @@ public abstract class FeedbackAbstractResponseDetails {
 		case MSQ:
 			responseDetails = new FeedbackMsqResponseDetails(Arrays.asList(answer));
 			break;
+		case NUMSCALE:
+			responseDetails = new FeedbackNumericalScaleResponseDetails(Double.parseDouble(answer[0]));
+			break;
 		default:
 			Assumption.fail("Question type not supported");
 			break;

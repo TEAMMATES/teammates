@@ -36,6 +36,9 @@ var FEEDBACK_QUESTION_TYPE ="questiontype";
 var FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
 var FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
 var FEEDBACK_QUESTION_NUMBEROFCHOICECREATED ="noofchoicecreated";
+var FEEDBACK_QUESTION_NUMSCALE_MIN = "numscalemin";
+var FEEDBACK_QUESTION_NUMSCALE_MAX = "numscalemax";
+var FEEDBACK_QUESTION_NUMSCALE_STEP = "numscalestep";
 var FEEDBACK_QUESTION_NUMBER ="questionnum";
 var FEEDBACK_QUESTION_TEXT ="questiontext";
 var FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
@@ -47,6 +50,7 @@ var FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
 var FEEDBACK_QUESTION_TYPENAME_TEXT = "Essay question";
 var FEEDBACK_QUESTION_TYPENAME_MCQ = "Multiple-choice question";
 var FEEDBACK_QUESTION_TYPENAME_MSQ = "Multiple-select question";
+var FEEDBACK_QUESTION_TYPENAME_NUMSCALE = "Numerical-scale question";
 
 // Display messages
 // Used for validating input
