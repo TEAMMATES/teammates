@@ -24,7 +24,7 @@ public abstract class FeedbackAbstractResponseDetails {
 	
 	public abstract String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails);
 	
-	public static FeedbackAbstractResponseDetails createResponseDetails(Map<String, String[]> requestParameters, String[] answer, FeedbackQuestionType questionType){
+	public static FeedbackAbstractResponseDetails createResponseDetails(Map<String, String[]> requestParameters, String[] answer, FeedbackQuestionType questionType) {
 		FeedbackAbstractResponseDetails responseDetails = null;
 		
 		switch(questionType) {
@@ -40,7 +40,11 @@ public abstract class FeedbackAbstractResponseDetails {
 			responseDetails = new FeedbackMsqResponseDetails(Arrays.asList(answer));
 			break;
 		case NUMSCALE:
-			responseDetails = new FeedbackNumericalScaleResponseDetails(Double.parseDouble(answer[0]));
+			try {
+				responseDetails = new FeedbackNumericalScaleResponseDetails(Double.parseDouble(answer[0]));
+			} catch (NumberFormatException e) {
+				responseDetails = null;
+			}
 			break;
 		default:
 			Assumption.fail("Question type not supported");

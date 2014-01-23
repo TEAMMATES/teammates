@@ -528,3 +528,35 @@ function isInstitutionValid(institution) {
                 return true;
                 }
 }
+
+/**
+ * Disallow non-numeric entries 
+ * [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
+ */
+function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed) {
+	element.keydown(function(event){
+		var key = event.which;
+        // Allow: backspace, delete, tab, escape, and enter
+        if ( key == 46 || key == 8 || key == 9 || key == 27 || key == 13 || 
+             // Allow: Ctrl+A
+            (key == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (key >= 35 && key <= 39) ||
+             // Allow dot if decimal point is allowed 
+            (decimalPointAllowed && key == 190) ||
+             // Allow hyphen if negative is allowed 
+             // Code differs by browser (FF/Opera:109, IE/Chrome: 189)
+             // see http://www.javascripter.net/faq/keycodes.htm
+        	(negativeAllowed && (key == 189 || key == 109)) ) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105 )) {
+                event.preventDefault();
+                return false;
+            }   
+        }		
+	});
+}

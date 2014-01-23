@@ -361,6 +361,65 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 						+ "&error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
 						r.getDestinationWithParams());
 		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("numscale");
+		
+		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+		
+		fq = fqDb.getFeedbackQuestion("NUMSCALE Session", "FSQTT.idOfTypicalCourse1", 2);
+		assertNotNull("Feedback question not found in database", fq);
+		
+		fr = dataBundle.feedbackResponses.get("response1ForQ2S3C1");
+		fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
+		assertNotNull("Feedback response not found in database", fr);
+		
+		instructor1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+		gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "3.5"			
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+						r.getDestinationWithParams());
+		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("numscale, question skipped");
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+						r.getDestinationWithParams());
+		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 	}
 	
 	@Test

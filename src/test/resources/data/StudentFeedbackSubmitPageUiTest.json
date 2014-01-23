@@ -491,6 +491,53 @@
 				"INSTRUCTORS"
 			]
 		},
+		"qn15InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
+			},
+			"questionNumber":"15",
+			"questionType":"NUMSCALE",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn16InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
+			},
+			"questionNumber":"16",
+			"questionType":"NUMSCALE",
+			"giverType":"TEAMS",
+			"recipientType":"TEAMS",
+			"numberOfEntitiesToGiveFeedbackTo":3,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
 		"qn1InSession2":{
 			"feedbackSessionName":"Second Session",
 			"courseId":"SFSubmitUiT.CS2104",
