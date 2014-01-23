@@ -56,10 +56,19 @@ public class FeedbackSession {
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Date resultsVisibleFromTime;
 	
+	/** This is legacy data that is no longer used. <br> 
+	 * The value is set to Const.INT_UNINITIALIZED if it is already processed or 
+	 * the old value if it hasn't. <br>
+	 * TODO Remove this field
+	 */ 
 	@Persistent
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private int timeZone;
 	
+	/** This replaces the legacy field timeZone. <br> 
+	 * The value is null for legacy data. <br>
+	 * TODO Rename to timeZone after removing legacy field
+	 */
 	@Persistent
 	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Double timeZoneDouble;
@@ -173,6 +182,9 @@ public class FeedbackSession {
 		this.resultsVisibleFromTime = resultsVisibleFromTime;
 	}
 	
+	/** This method automatically converts the legacy timeZone field to 
+	 * the new timeZoneDouble field and returns the value of timeZoneDouble.
+	 */
 	public double getTimeZone() {
 		if (timeZone != Const.INT_UNINITIALIZED) {
 			timeZoneDouble = new Double(timeZone);
@@ -180,7 +192,10 @@ public class FeedbackSession {
 		}
 		return timeZoneDouble;
 	}
-
+	
+	/** This method automatically marks the timeZone field as legacy
+	 * and store the timeZone data to the new timeZoneDouble field.
+	 */
 	public void setTimeZone(double timeZone) {
 		this.timeZone = Const.INT_UNINITIALIZED;
 		this.timeZoneDouble = timeZone;

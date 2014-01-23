@@ -81,6 +81,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 	}
 	
 	private FeedbackSessionAttributes extractFeedbackSessionData() {
+		//TODO assert parameters are not null then update test
+		
 		FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
 		newSession.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		newSession.feedbackSessionName = Sanitizer.sanitizeTextField(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
