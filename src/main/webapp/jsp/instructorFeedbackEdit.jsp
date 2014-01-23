@@ -451,7 +451,7 @@
 				</tr>
 			</table>
 			
-			<table class="inputTable questionTable" id="questionTableNew" hidden="hidden">
+			<table class="inputTable questionTable" id="questionTableNew" style="display:none;">
 				<tr>
 					<td class="bold">
 						Question 
