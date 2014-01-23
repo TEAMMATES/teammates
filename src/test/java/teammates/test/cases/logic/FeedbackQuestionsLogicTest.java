@@ -112,10 +112,13 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		q2.questionNumber = 3;
 		FeedbackQuestionAttributes q3 = getQuestionFromDatastore("qn3InSession1InCourse1");
 		q3.questionNumber = 1;
+		FeedbackQuestionAttributes q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
+		q4.questionNumber = 4;
 		
 		expectedList.add(q3);
 		expectedList.add(q1);
 		expectedList.add(q2);
+		expectedList.add(q4);
 		
 		FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
 		questionToUpdate.questionNumber = 1;
@@ -123,9 +126,9 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
 		
-		assertEquals(expectedList.size(), actualList.size());
+		assertEquals(actualList.size(), expectedList.size());
 		for(int i = 0; i < actualList.size(); i++){
-			assertEquals(expectedList.get(i), actualList.get(i));
+			assertEquals(actualList.get(i), expectedList.get(i));
 		}
 		
 		______TS("shift question down");
@@ -136,10 +139,13 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		q2.questionNumber = 1;
 		q3 = getQuestionFromDatastore("qn3InSession1InCourse1");
 		q3.questionNumber = 3;
+		q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
+		q4.questionNumber = 4;
 		
 		expectedList.add(q2);
 		expectedList.add(q1);
 		expectedList.add(q3);
+		expectedList.add(q4);
 		
 		questionToUpdate = getQuestionFromDatastore("qn1InSession1InCourse1");
 		questionToUpdate.questionNumber = 2;
@@ -147,7 +153,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
 		
-		assertEquals(expectedList.size(), actualList.size());
+		assertEquals(actualList.size(), expectedList.size());
 		for(int i = 0; i < actualList.size(); i++){
 			assertEquals(expectedList.get(i), actualList.get(i));
 		}
@@ -164,11 +170,14 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		q3.questionNumber = 3;
 		FeedbackQuestionAttributes q4 = getQuestionFromDatastore("qn3InSession1InCourse1");
 		q4.questionNumber = 4;
+		FeedbackQuestionAttributes q5 = getQuestionFromDatastore("qn4InSession1InCourse1");
+		q5.questionNumber = 5;
 		
 		expectedList.add(q1);
 		expectedList.add(q2);
 		expectedList.add(q3);
 		expectedList.add(q4);
+		expectedList.add(q5);
 		
 		//Add a question to session1course1, set it to #2 (with 3 question already existing)
 		FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
@@ -178,9 +187,9 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		
 		List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
 		
-		assertEquals(expectedList.size(), actualList.size());
+		assertEquals(actualList.size(), expectedList.size());
 		for(int i = 0; i < actualList.size(); i++){
-			assertEquals(expectedList.get(i), actualList.get(i));
+			assertEquals(actualList.get(i), expectedList.get(i));
 		}
 	}
 	
@@ -256,18 +265,20 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 	public void testGetFeedbackQuestionsForInstructor() throws Exception{
 		List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
 		
-		______TS("Get questions created for self");
+		______TS("Get questions created for instructors and self");
 		
 		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
 		expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
 		actualQuestions = 
 					fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1", "instructor1@course1.com");
 		
 		assertEquals(actualQuestions, expectedQuestions);
 				
-		______TS("Get questions created for self by another instructor");
+		______TS("Get questions created for instructors and self by another instructor");
 		
 		expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+		expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
 		actualQuestions = 
 					fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1", "instructor2@course1.com");
 

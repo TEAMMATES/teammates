@@ -545,6 +545,37 @@
 				"INSTRUCTORS"
 			]
 		},
+		"qn4InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionMetaData":{
+				"value":"Instructor comments on the class"
+			},
+			"questionNumber":"4",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"NONE",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			]
+		},
 		"team.feedback":{
 			"feedbackSessionName":"Second feedback session",
 			"courseId":"idOfTypicalCourse1",

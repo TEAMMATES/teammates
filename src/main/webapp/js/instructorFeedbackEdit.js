@@ -274,7 +274,6 @@ function tallyCheckboxes(qnNumber){
  * Shows the new question div frame and scrolls to it
  */
 function showNewQuestionFrame(type){
-	$("[name="+FEEDBACK_QUESTION_TYPE+"]").val(type);
 	prepareQuestionForm(type);
 	$('#questionTableNew').show();
 	$('#addNewQuestionTable').hide();

@@ -7,7 +7,11 @@ import java.util.logging.Logger;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -48,9 +52,14 @@ public class StudentsLogic {
 	public void createStudentCascade(StudentAttributes studentData) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		
-		studentsDb.createEntity(studentData);
+		createStudentCascadeWithoutSubmissionAdjustment(studentData);
 		evaluationsLogic.adjustSubmissionsForNewStudent(
 				studentData.course, studentData.email, studentData.team);
+	}
+	
+	private void createStudentCascadeWithoutSubmissionAdjustment(StudentAttributes studentData) 
+			throws InvalidParametersException, EntityAlreadyExistsException {	
+		studentsDb.createEntity(studentData);
 	}
 
 	public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -138,6 +147,19 @@ public class StudentsLogic {
 	}
 	
 	public void updateStudentCascade(String originalEmail, StudentAttributes student) 
+			throws InvalidParametersException, EntityDoesNotExistException {
+		StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
+		updateStudentCascadeWithoutSubmissionAdjustment(originalEmail, student);
+		
+		// adjust submissions if moving to a different team
+		if (isTeamChanged(originalStudent.team, student.team)) {
+			evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, student.email, student.team);
+			frLogic.updateFeedbackResponsesForChangingTeam(student.course, student.email, originalStudent.team, student.team);
+		}
+	}
+	
+	private void updateStudentCascadeWithoutSubmissionAdjustment(String originalEmail, 
+			StudentAttributes student) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		// Edit student uses KeepOriginal policy, where unchanged fields are set
 		// as null. Hence, we can't do isValid() here.
@@ -177,12 +199,6 @@ public class StudentsLogic {
 			evaluationsLogic.updateStudentEmailForSubmissionsInCourse(student.course, originalEmail, student.email);
 			frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
 		}
-
-		// adjust submissions if moving to a different team
-		if (isTeamChanged(originalStudent.team, student.team)) {
-			evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, student.email, originalStudent.team, student.team);
-			frLogic.updateFeedbackResponsesForChangingTeam(student.course, student.email, originalStudent.team, student.team);
-		}
 	}
 	
 	public List<StudentAttributes> enrollStudents(String enrollLines,
@@ -207,7 +223,9 @@ public class StudentsLogic {
 		}
 
 		ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
+		ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
 		ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+		
 		String[] linesArray = enrollLines.split(Const.EOL);
 		Integer[] columnOrder = getColumnOrder(linesArray[0]);
 		
@@ -229,9 +247,34 @@ public class StudentsLogic {
 		// TODO: can we use a batch persist operation here?
 		// enroll all students
 		for (StudentAttributes student : studentList) {
-			StudentAttributes studentInfo;
-			studentInfo = enrollStudent(student);
-			returnList.add(studentInfo);
+			StudentEnrollDetails enrollmentDetails;
+			
+			enrollmentDetails = enrollStudent(student);
+			student.updateStatus = enrollmentDetails.updateStatus;
+			
+			enrollmentList.add(enrollmentDetails);
+			returnList.add(student);
+		}
+		
+		//Adjust submissions for each evaluation within the course
+		List<EvaluationAttributes> evaluations = evaluationsLogic
+				.getEvaluationsForCourse(courseId);
+		
+		for(EvaluationAttributes eval : evaluations) {
+			adjustSubmissionsForEnrollments(enrollmentList,eval);
+		}
+		
+		//Adjust submissions for all feedback responses within the course
+		List<FeedbackSessionAttributes> feedbackSessions = FeedbackSessionsLogic.inst()
+				.getFeedbackSessionsForCourse(courseId);
+		
+		for (FeedbackSessionAttributes session : feedbackSessions) {
+			List<FeedbackResponseAttributes> allResponses = frLogic
+					.getFeedbackResponsesForSession(session.feedbackSessionName, session.courseId);
+			
+			for (FeedbackResponseAttributes response : allResponses) {
+				adjustFeedbackResponseForEnrollments(enrollmentList, response);
+			}
 		}
 
 		// add to return list students not included in the enroll list.
@@ -307,30 +350,68 @@ public class StudentsLogic {
 		
 	}
 	
-	private StudentAttributes enrollStudent(StudentAttributes validStudentAttributes) {
-		StudentAttributes.UpdateStatus updateStatus = UpdateStatus.UNMODIFIED;
+	private void adjustSubmissionsForEnrollments(
+			ArrayList<StudentEnrollDetails> enrollmentList,
+			EvaluationAttributes eval) throws InvalidParametersException, EntityDoesNotExistException {
+		
+		for(StudentEnrollDetails enrollment : enrollmentList) {
+			if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
+					isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
+				evaluationsLogic.adjustSubmissionsForChangingTeamInEvaluation(enrollment.course,
+						enrollment.email, enrollment.newTeam, eval.name);
+			} else if (enrollment.updateStatus == UpdateStatus.NEW) {
+				evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(
+						enrollment.course, enrollment.email, enrollment.newTeam, eval.name);
+			}
+		}
+	}
+	
+	private void adjustFeedbackResponseForEnrollments(
+			ArrayList<StudentEnrollDetails> enrollmentList,
+			FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
+		
+		for(StudentEnrollDetails enrollment : enrollmentList) {
+			if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
+					isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
+				frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
+			}
+		}
+	}
+	
+	private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes) {
+		StudentAttributes originalStudentAttributes = getStudentForEmail(
+				validStudentAttributes.course, validStudentAttributes.email);
+		
+		StudentEnrollDetails enrollmentDetails = new StudentEnrollDetails();
+		enrollmentDetails.course = validStudentAttributes.course;
+		enrollmentDetails.email = validStudentAttributes.email;
+		enrollmentDetails.newTeam = validStudentAttributes.team;
+		
 		try {
-			if (isSameAsExistingStudent(validStudentAttributes)) {
-				updateStatus = UpdateStatus.UNMODIFIED;
-			} else if (isModificationToExistingStudent(validStudentAttributes)) {
-				updateStudentCascade(validStudentAttributes.email, validStudentAttributes);
-				updateStatus = UpdateStatus.MODIFIED;
+			if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
+				enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
+			} else if (originalStudentAttributes != null) {
+				updateStudentCascadeWithoutSubmissionAdjustment(validStudentAttributes.email, validStudentAttributes);
+				enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
+				
+				if(!originalStudentAttributes.team.equals(validStudentAttributes.team))
+					enrollmentDetails.oldTeam = originalStudentAttributes.team;
 			} else {
-				createStudentCascade(validStudentAttributes);
-				updateStatus = UpdateStatus.NEW;
+				createStudentCascadeWithoutSubmissionAdjustment(validStudentAttributes);
+				enrollmentDetails.updateStatus = UpdateStatus.NEW;
 			}
 		} catch (Exception e) {
 			//TODO: need better error handling here. This error is not 'unexpected'. e.g., invalid student data
 			/* Note: If this method is only called by the public method enrollStudents(String,String),
 			* then there won't be any invalid student data, since validity check has been done in that method
 			*/
-			updateStatus = UpdateStatus.ERROR;
+			enrollmentDetails.updateStatus = UpdateStatus.ERROR;
 			String errorMessage = "Exception thrown unexpectedly while enrolling student: " 
 					+ validStudentAttributes.toString() + Const.EOL + TeammatesException.toStringWithStackTrace(e);
 			log.severe(errorMessage);
 		}
-		validStudentAttributes.updateStatus = updateStatus;
-		return validStudentAttributes;
+		
+		return enrollmentDetails;
 	}
 	
 	/* All empty lines or lines with only whitespaces will be skipped.
@@ -375,18 +456,6 @@ public class StudentsLogic {
 				return true;
 		}
 		return false;
-	}
-
-	private boolean isSameAsExistingStudent(StudentAttributes student) {
-		StudentAttributes existingStudent = 
-				getStudentForEmail(student.course, student.email);
-		if (existingStudent == null)
-			return false;
-		return student.isEnrollInfoSameAs(existingStudent);
-	}
-
-	private boolean isModificationToExistingStudent(StudentAttributes student) {
-		return isStudentInCourse(student.course, student.email);
 	}
 	
 	private boolean isTeamChanged(String originalTeam, String newTeam) {

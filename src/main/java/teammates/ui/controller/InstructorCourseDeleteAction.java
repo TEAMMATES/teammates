@@ -30,7 +30,8 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
 				logic.getCourse(idOfCourseToDelete));
 
 		logic.deleteCourse(idOfCourseToDelete);
-		statusToUser.add(Const.StatusMessages.COURSE_DELETED);
+		String statusMessage = String.format(Const.StatusMessages.COURSE_DELETED, idOfCourseToDelete);
+		statusToUser.add(statusMessage);
 		statusToAdmin = "Course deleted: " + idOfCourseToDelete;
 
 		InstructorCoursesPageData data = new InstructorCoursesPageData(account);

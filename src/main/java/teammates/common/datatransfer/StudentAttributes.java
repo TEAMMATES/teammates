@@ -154,6 +154,19 @@ public class StudentAttributes extends EntityAttributes {
 		// considers "" as unregistered. It should be changed to consider
 		// null as unregistered.
 	}
+	
+	public String toEnrollmentString() {
+		String enrollmentString = "";
+		String enrollmentStringSeparator = "|";
+		
+		enrollmentString = this.team + enrollmentStringSeparator;
+		enrollmentString += this.name + enrollmentStringSeparator;
+		enrollmentString += this.email + enrollmentStringSeparator;
+		enrollmentString += this.comments;
+		
+		return enrollmentString;
+		
+	}
 
 	public boolean isRegistered() {
 		return googleId != null && !googleId.equals("");

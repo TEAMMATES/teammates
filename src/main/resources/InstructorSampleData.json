@@ -14,6 +14,7 @@
       "name": "Sample Course 101"
     }
   },  
+  
   "students": {
     "alice.b.tmms@demo.course": {
       "googleId": "alice.b.tmms",
@@ -39,6 +40,15 @@
       "comments": "This student's name is Danny Engrid",
       "team": "Team 1"
     },
+    "emma.f.tmms@demo.course": {
+      "googleId": "emma.f.tmms",
+      "email": "emma.f.tmms@gmail.com",
+      "course": "demo.course",
+      "name": "Emma Farrell",
+      "comments": "This student's name is Emma Farrell",
+      "team": "Team 1"
+    },
+    
     
     "charlie.d.tmms@demo.course": {
       "googleId": "charlie.d.tmms",
@@ -48,7 +58,6 @@
       "comments": "This student's name is Charlie Davis",
       "team": "Team 2"
     },
-   
     "teammates.demo.instructor@demo.course": {
       "googleId": "teammates.demo.instructor",
       "email": "teammates.demo.instructor@demo.course",
@@ -57,15 +66,24 @@
       "comments": "This student's name is Demo_Instructor",
       "team": "Team 2"
     },
-    "emily.f.tmms@demo.course": {
-      "googleId": "emily.f.tmms",
-      "email": "emily.f.tmms@gmail.com",
+    "francis.g.tmms@demo.course": {
+      "googleId": "francis.g.tmms",
+      "email": "francis.g.tmms@gmail.com",
       "course": "demo.course",
-      "name": "Emily Fowler",
-      "comments": "This student's name is Emily Fowler",
+      "name": "Francis Gabriel",
+      "comments": "This student's name is Francis Gabriel",
+      "team": "Team 2"
+    },
+    "gene.h.tmms@demo.course": {
+      "googleId": "gene.h.tmms",
+      "email": "gene.h.tmms@gmail.com",
+      "course": "demo.course",
+      "name": "Gene Hudson",
+      "comments": "This student's name is Gene Hudson",
       "team": "Team 2"
     }
   },
+  
   
   "evaluations": {
     "demo.course:Second Evaluation": {
@@ -101,7 +119,7 @@
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
       "points" : 100,
-      "justification" : {"value" : "I did all the backend myself."},
+      "justification" : {"value" : "I did all a portion of the backend."},
       "p2pFeedback" : {"value" :"I had a great time in doing this project."},
       "team" : "Team 1"
     },
@@ -125,6 +143,16 @@
       "p2pFeedback" : {"value" :"Thank you Danny! You taught me many useful skills in this project."},
       "team" : "Team 1"
     },
+    "submissionFromAliceToEmmaFirstEvaluation": {
+      "reviewer" : "alice.b.tmms@gmail.com",
+      "reviewee" : "emma.f.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 100,
+      "justification" : {"value" : "Emma is a strong programmer. She contributed to the backend with me."},
+      "p2pFeedback" : {"value" :"You are the best Emma! Without you, our application will not be running."},
+      "team" : "Team 1"
+    },
     
     
     "submissionFromBennyToBennyFirstEvaluation": {
@@ -143,7 +171,7 @@
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
       "points" : 100,
-      "justification" : {"value" : "Alice build the application backend."},
+      "justification" : {"value" : "Alice built part of the application backend."},
       "p2pFeedback" : {"value" :"Thank you for all the effort in building the application backend. Cool!"},
       "team" : "Team 1"
     },
@@ -155,6 +183,16 @@
       "points" : 100,
       "justification" : {"value" : "Danny led the project. He did a good job."},
       "p2pFeedback" : {"value" :"I really enjoy doing project with you. :)"},
+      "team" : "Team 1"
+    },
+    "submissionFromBennyToEmmaFirstEvaluation": {
+      "reviewer" : "benny.c.tmms@gmail.com",
+      "reviewee" : "emma.f.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 100,
+      "justification" : {"value" : "Emma programmed the application backend."},
+      "p2pFeedback" : {"value" :"I really appreciate your effort in the project. One of the best programmer among us!."},
       "team" : "Team 1"
     },
     
@@ -175,7 +213,7 @@
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
       "points" : 100,
-      "justification" : {"value" : "Alice build the application backend. Her work is solid."},
+      "justification" : {"value" : "Alice built a portion of the application backend. Her work is solid."},
       "p2pFeedback" : {"value" :"Nice work Alice! You are a very good girl coder! :)"},
       "team" : "Team 1"
     },
@@ -189,7 +227,58 @@
       "p2pFeedback" : {"value" :"Good job Benny. You are really gifted in design!"},
       "team" : "Team 1"
     },
+    "submissionFromDannyToEmmaFirstEvaluation": {
+      "reviewer" : "danny.e.tmms@gmail.com",
+      "reviewee" : "emma.f.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 100,
+      "justification" : {"value" : "Emma also built the application backend. She completes her tasks promptly."},
+      "p2pFeedback" : {"value" :"Great job Emma. You are a great programmer!"},
+      "team" : "Team 1"
+    },
     
+    
+    "submissionFromEmmaToEmmaFirstEvaluation": {
+      "reviewer" : "emma.f.tmms@gmail.com",
+      "reviewee" : "emma.f.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 100,
+      "justification" : {"value" : "I worked with Alice to build the application backend."},
+      "p2pFeedback" : {"value" :"The team work is great and I learnt a lot from this project."},
+      "team" : "Team 1"
+    },
+    "submissionFromEmmaToAliceFirstEvaluation": {
+      "reviewer" : "emma.f.tmms@gmail.com",
+      "reviewee" : "alice.b.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 100,
+      "justification" : {"value" : "Alice helped to build the application backend. She is a good programmer."},
+      "p2pFeedback" : {"value" :"It has been a very enjoyable experience working with you on the backend!"},
+      "team" : "Team 1"
+    },
+    "submissionFromEmmaToBennyFirstEvaluation": {
+      "reviewer" : "emma.f.tmms@gmail.com",
+      "reviewee" : "benny.c.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 100,
+      "justification" : {"value" : "Benny designed and made the user interface. He is very creative."},
+      "p2pFeedback" : {"value" :"I liked your design a lot! Great job!"},
+      "team" : "Team 1"
+    },
+    "submissionFromEmmaToDannyFirstEvaluation": {
+      "reviewer" : "emma.f.tmms@gmail.com",
+      "reviewee" : "danny.e.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 100,
+      "justification" : {"value" : "Danny is our team leader. He is very responsible."},
+      "p2pFeedback" : {"value" :"Best team leader I ever had. I would love to be on your team again :)"},
+      "team" : "Team 1"
+    },
     
     
     "submissionFromCharlieToCharlieFirstEvaluation": {
@@ -197,7 +286,7 @@
       "reviewee" : "charlie.d.tmms@gmail.com",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
-      "points" : 95,
+      "points" : 84,
       "justification" : {"value" : "I am a bit slow compared to my team mates, but the members helped me to catch up."},
       "p2pFeedback" : {"value" :"I like the team. I learned my good software engineering practices from the members."},
       "team" : "Team 2"
@@ -207,19 +296,29 @@
       "reviewee" : "teammates.demo.instructor@demo.course",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
-      "points" : 103,
+      "points" : 106,
       "justification" : {"value" : "Demo_Instructor is a patient and good project lead."},
       "p2pFeedback" : {"value" :"Thank you Demo_Instructor for all the help in the project."},
       "team" : "Team 2"
     },
-     "submissionFromCharlieToEmilyFirstEvaluation": {
+     "submissionFromCharlieToFrancisFirstEvaluation": {
       "reviewer" : "charlie.d.tmms@gmail.com",
-      "reviewee" : "emily.f.tmms@gmail.com",
+      "reviewee" : "francis.g.tmms@gmail.com",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
-      "points" : 102,
-      "justification" : {"value" : "Emily is the designer. I like her work!"},
-      "p2pFeedback" : {"value" :"I really like your design Emily!"},
+      "points" : 106,
+      "justification" : {"value" : "Francis is the designer. I like his work!"},
+      "p2pFeedback" : {"value" :"I really like your design Francis!"},
+      "team" : "Team 2"
+    },
+     "submissionFromCharlieToGeneFirstEvaluation": {
+      "reviewer" : "charlie.d.tmms@gmail.com",
+      "reviewee" : "gene.h.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 106,
+      "justification" : {"value" : "Gene is a good coder. She codes a large amount of our application."},
+      "p2pFeedback" : {"value" :"I really appreciate all the coding you have done in the project!"},
       "team" : "Team 2"
     },
     
@@ -229,7 +328,7 @@
       "reviewee" : "teammates.demo.instructor@demo.course",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
-      "points" : 103,
+      "points" : 105,
       "justification" : {"value" : "I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time."},
       "p2pFeedback" : {"value" :"I had a great time with this team. Thanks for all the support from the members."},
       "team" : "Team 2"
@@ -239,51 +338,113 @@
       "reviewee" : "charlie.d.tmms@gmail.com",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
-      "points" : 95,
+      "points" : 80,
       "justification" : {"value" : "A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good."},
       "p2pFeedback" : {"value" :"Good try Charlie! Thanks for showing great effort in picking up the skills."},
       "team" : "Team 2"
     },
-     "submissionFromInstructorToEmilyFirstEvaluation": {
+     "submissionFromInstructorToFrancisFirstEvaluation": {
       "reviewer" : "teammates.demo.instructor@demo.course",
-      "reviewee" : "emily.f.tmms@gmail.com",
+      "reviewee" : "francis.g.tmms@gmail.com",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
-      "points" : 102,
-      "justification" : {"value" : "Emily is the designer of the project. She did a good job!"},
-      "p2pFeedback" : {"value" :"Nice work Emily!"},
+      "points" : 108,
+      "justification" : {"value" : "Francis is the designer of the project. He did a good job!"},
+      "p2pFeedback" : {"value" :"Nice work Francis!"},
+      "team" : "Team 2"
+    },
+    "submissionFromInstructorToGeneFirstEvaluation": {
+      "reviewer" : "teammates.demo.instructor@demo.course",
+      "reviewee" : "gene.h.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 107,
+      "justification" : {"value" : "Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project."},
+      "p2pFeedback" : {"value" :"Keep up the good work Gene!"},
       "team" : "Team 2"
     },
     
     
-    "submissionFromEmilyToEmilyFirstEvaluation": {
-      "reviewer" : "emily.f.tmms@gmail.com",
-      "reviewee" : "emily.f.tmms@gmail.com",
+    "submissionFromFrancisToFrancisFirstEvaluation": {
+      "reviewer" : "francis.g.tmms@gmail.com",
+      "reviewee" : "francis.g.tmms@gmail.com",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
-      "points" : 100,
+      "points" : 105,
       "justification" : {"value" : "I was the designer. I did all the UI work."},
       "p2pFeedback" : {"value" :"The team is nice. Everybody learnt a lot from this project."},
       "team" : "Team 2"
     },
-    "submissionFromEmilyToCharlieFirstEvaluation": {
-      "reviewer" : "emily.f.tmms@gmail.com",
+    "submissionFromFrancisToCharlieFirstEvaluation": {
+      "reviewer" : "francis.g.tmms@gmail.com",
       "reviewee" : "charlie.d.tmms@gmail.com",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
-      "points" : 95,
+      "points" : 80,
       "justification" : {"value" : "Charlie was a bit weak. Demo_Instructor spent lots of time helping him."},
       "p2pFeedback" : {"value" :"Nice job Charlie! You learnt pretty fast"},
       "team" : "Team 2"
     },
-     "submissionFromEmilyToInstructorFirstEvaluation": {
-      "reviewer" : "emily.f.tmms@gmail.com",
+     "submissionFromFrancisToInstructorFirstEvaluation": {
+      "reviewer" : "francis.g.tmms@gmail.com",
       "reviewee" : "teammates.demo.instructor@demo.course",
       "course" : "demo.course",
       "evaluation" : "First Evaluation",
-      "points" : 105,
+      "points" : 110,
       "justification" : {"value" : "Demo_Instructor was the project lead. He put a lot of effort in this project."},
       "p2pFeedback" : {"value" :"Thank you Demo_Instructor for all the hardwork!"},
+      "team" : "Team 2"
+    },
+    "submissionFromFrancisToGeneFirstEvaluation": {
+      "reviewer" : "francis.g.tmms@gmail.com",
+      "reviewee" : "gene.h.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 105,
+      "justification" : {"value" : "Gene is the programmer for our team. She is a very good coder."},
+      "p2pFeedback" : {"value" :"Thank you Gene for all the code you have written for us!"},
+      "team" : "Team 2"
+    },
+   
+   
+    "submissionFromGeneToGeneFirstEvaluation": {
+      "reviewer" : "gene.h.tmms@gmail.com",
+      "reviewee" : "gene.h.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 104,
+      "justification" : {"value" : "I am the programmer for the team. I did most of the coding."},
+      "p2pFeedback" : {"value" :"This is a great team. I am sure we learnt a lot from each other."},
+      "team" : "Team 2"
+    },
+    "submissionFromGeneToCharlieFirstEvaluation": {
+      "reviewer" : "gene.h.tmms@gmail.com",
+      "reviewee" : "charlie.d.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 82,
+      "justification" : {"value" : "Charlie has a lot of room for improvements. He puts in effort to learn new things."},
+      "p2pFeedback" : {"value" :"Keep it up Charlie! You are improving very fast!"},
+      "team" : "Team 2"
+    },
+     "submissionFromGeneToInstructorFirstEvaluation": {
+      "reviewer" : "gene.h.tmms@gmail.com",
+      "reviewee" : "teammates.demo.instructor@demo.course",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 108,
+      "justification" : {"value" : "Demo_Instructor was our team leader. He helped us a lot, especially Charlie."},
+      "p2pFeedback" : {"value" :"Thank you Demo_Instructor for being such a good team leader!"},
+      "team" : "Team 2"
+    },
+    "submissionFromGeneToFrancisFirstEvaluation": {
+      "reviewer" : "gene.h.tmms@gmail.com",
+      "reviewee" : "francis.g.tmms@gmail.com",
+      "course" : "demo.course",
+      "evaluation" : "First Evaluation",
+      "points" : 106,
+      "justification" : {"value" : "Francis is a very good designer. He made a very nice UI."},
+      "p2pFeedback" : {"value" :"Nice designs Francis. Good work!"},
       "team" : "Team 2"
     }
   }

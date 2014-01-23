@@ -687,6 +687,20 @@ public class Logic {
 	
 		return evaluationsLogic.sendReminderForEvaluation(courseId, evaluationName);
 	}
+	
+	/**
+	 * Sends reminders to students who haven't submitted yet. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 */
+	public List<MimeMessage> sendReminderForFeedbackSession(String courseId,
+			String feedbackSessionName) throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		
+		return feedbackSessionsLogic.sendReminderForFeedbackSession(courseId, feedbackSessionName);
+	}
 
 	/**
 	 * Deletes the student from the course including any submissions to/from

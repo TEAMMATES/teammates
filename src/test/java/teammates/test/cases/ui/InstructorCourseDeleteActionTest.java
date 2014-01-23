@@ -82,10 +82,10 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ViewURIs.INSTRUCTOR_COURSES+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+				Const.ViewURIs.INSTRUCTOR_COURSES+"?message=The+course+idOfTypicalCourse1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(false, r.isError);
-		assertEquals("The course has been deleted.", r.getStatusMessage());
+		assertEquals("The course idOfTypicalCourse1 has been deleted.", r.getStatusMessage());
 		
 		InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
@@ -109,10 +109,11 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		r = (ShowPageResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ViewURIs.INSTRUCTOR_COURSES+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+				Const.ViewURIs.INSTRUCTOR_COURSES+"?message=The+course+icdct.tpa.id1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
 				r.getDestinationWithParams());
 		assertEquals(false, r.isError);
-		assertEquals("The course has been deleted.", r.getStatusMessage());
+		
+		assertEquals("The course icdct.tpa.id1 has been deleted.", r.getStatusMessage());
 		
 		pageData = (InstructorCoursesPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
@@ -136,7 +137,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+				Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+icdct.tpa.id2+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
 				rr.getDestinationWithParams());
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete" +

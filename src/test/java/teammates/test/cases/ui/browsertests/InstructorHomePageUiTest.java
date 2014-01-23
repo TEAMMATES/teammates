@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
@@ -37,6 +38,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 	private static EvaluationAttributes secondEval_PUBLISHED;
 	private static EvaluationAttributes thirdEval_CLOSED;
 	private static EvaluationAttributes fourthEval_AWAITING;
+	private static FeedbackSessionAttributes feedbackSession_AWAITING;
+	private static FeedbackSessionAttributes feedbackSession_OPEN;
+	private static FeedbackSessionAttributes feedbackSession_CLOSED;
+	private static FeedbackSessionAttributes feedbackSession_PUBLISHED;
 
 	@BeforeClass
 	public static void classSetup() throws Exception {
@@ -49,6 +54,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		secondEval_PUBLISHED = testData.evaluations.get("Second Eval");
 		thirdEval_CLOSED = testData.evaluations.get("Third Eval");
 		fourthEval_AWAITING = testData.evaluations.get("Fourth Eval");
+		
+		feedbackSession_AWAITING = testData.feedbackSessions.get("Second Feedback Session");
+		feedbackSession_OPEN = testData.feedbackSessions.get("First Feedback Session");
+		feedbackSession_CLOSED = testData.feedbackSessions.get("Third Feedback Session");
+		feedbackSession_PUBLISHED = testData.feedbackSessions.get("Fourth Feedback Session");
 	}
 	
 
@@ -157,6 +167,27 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		______TS("remind action: PUBLISHED evaluation");
 		
 		homePage.verifyUnclickable(homePage.getRemindLink(secondEval_PUBLISHED.courseId, secondEval_PUBLISHED.name));
+		
+		______TS("remind action: AWAITING feedback session");
+		
+		homePage.verifyUnclickable(homePage.getRemindLink(feedbackSession_AWAITING.courseId, feedbackSession_AWAITING.feedbackSessionName));
+		
+		______TS("remind action: OPEN feedback session");
+		
+		homePage.clickAndCancel(homePage.getRemindLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
+		homePage.clickAndConfirm(homePage.getRemindLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName))
+			.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+		
+		//go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
+		homePage.goToPreviousPage(InstructorHomePage.class);
+		
+		______TS("remind action: CLOSED feedback session");
+		
+		homePage.verifyUnclickable(homePage.getRemindLink(feedbackSession_CLOSED.courseId, feedbackSession_CLOSED.feedbackSessionName));
+		
+		______TS("remind action: PUBLISHED feedback session");
+		
+		homePage.verifyUnclickable(homePage.getRemindLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName));
 
 	}
 
