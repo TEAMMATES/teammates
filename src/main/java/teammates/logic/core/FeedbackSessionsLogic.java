@@ -75,9 +75,11 @@ public class FeedbackSessionsLogic {
 		return fsDb.getFeedbackSession(courseId, feedbackSessionName);
 	}
 
-	/**
-	 *  This method returns a list of viewable feedback sessions for any user for his course.
-	 */
+	public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
+		return fsDb.getFeedbackSessionsForCourse(courseId);
+	}
+	
+	// This method returns a list of viewable feedback sessions for any user for his course.
 	public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourse(
 			String courseId, String userEmail) throws EntityDoesNotExistException {
 

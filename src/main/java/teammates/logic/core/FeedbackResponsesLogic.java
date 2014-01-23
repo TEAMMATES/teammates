@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -26,7 +27,6 @@ public class FeedbackResponsesLogic {
 	
 	private static FeedbackResponsesLogic instance = null;
 	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-	private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 	private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();	
 	
@@ -296,7 +296,24 @@ public class FeedbackResponsesLogic {
 			}
 		}
 	}
-
+	
+	public void updateFeedbackResponseForChangingTeam(StudentEnrollDetails enrollment,
+			FeedbackResponseAttributes response) {
+		
+		FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+		
+		boolean isGiverOfResponse = response.giverEmail.equals(enrollment.email);
+		boolean isReceiverOfResponse = response.recipientEmail.equals(enrollment.email);
+		
+		boolean shouldDeleteResponse = (isGiverOfResponse && (question.giverType == FeedbackParticipantType.TEAMS
+										|| question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) ||
+										(isReceiverOfResponse && question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS);
+		
+		if(shouldDeleteResponse) {
+			frDb.deleteEntity(response);
+		}
+	}
+	
 	/**
 	 * Updates responses for a student when his email changes.
 	 */
