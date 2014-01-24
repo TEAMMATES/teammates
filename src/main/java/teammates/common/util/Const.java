@@ -96,6 +96,7 @@ public class Const {
 		public static final String EVALUATION_SUBMISSION_NOT_SURE = "Not sure about the contribution";
 	
 		public static final String STUDENT_JOIN_COURSE = "Enter your registration key for the course.";
+		public static final String STUDENT_JOIN_COURSE_BUTTON = "This will require you to re-login to your Google account.";
 		public static final String STUDENT_COURSE_PROFILE = "Your profile in this course";
 		public static final String STUDENT_COURSE_DETAILS = "View and edit information regarding your team";
 	
@@ -371,6 +372,7 @@ public class Const {
 		
 		public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
 		public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
+		public static final String STUDENT_COURSE_JOIN_AUTHENTICATED = "/page/studentCourseJoinAuthenticated";
 		public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT_PAGE = "/page/studentEvalSubmissionEditPage";
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT_SAVE = "/page/studentEvalSubmissionEditSave";
