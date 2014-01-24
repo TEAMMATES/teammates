@@ -80,8 +80,16 @@ public class FeedbackNumericalScaleQuestionDetails extends
 	@Override
 	public String getQuestionAdditionalInfoHtml(int questionNumber,
 			String additionalInfoId) {
-		// TODO Auto-generated method stub
-		return "";
+		String additionalInfo = getQuestionTypeDisplayName() + ":<br/>";
+		additionalInfo += "Minimum scale: " + minScale 
+								+ ". Maximum scale: " + maxScale 
+								+ ". Increment: " + step + ".";
+		
+		return FeedbackQuestionFormTemplates.populateTemplate(
+				FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+				"${questionNumber}", Integer.toString(questionNumber),
+				"${additionalInfoId}", additionalInfoId,
+				"${questionAdditionalInfo}", additionalInfo);
 	}
 
 	@Override
