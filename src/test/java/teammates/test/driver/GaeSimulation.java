@@ -144,8 +144,13 @@ public class GaeSimulation {
 	}
 
 	public void tearDown() {
-		if(helper != null ) {
-			helper.tearDown();
+		try {
+			if(helper != null ) {
+				helper.tearDown();
+			}
+		} catch (Exception e) {
+			//TODO: eliminate this exception
+			System.out.println("Ignoring exception during teardown...");
 		}
 	}
 
