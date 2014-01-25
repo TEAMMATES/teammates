@@ -59,7 +59,9 @@
 						<td>
 							<input id="button_join_course" type="submit" class="button"
 									onclick="return this.form.<%=Const.ParamsNames.REGKEY%>.value!=''"
-									value="Join Course" tabindex="2">
+									value="Join Course" tabindex="2"
+									onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_JOIN_COURSE_BUTTON%>')"
+									onmouseout="hideddrivetip()">
 						</td>
 					</tr>
 				 </table>

@@ -42,6 +42,8 @@ public class InstructorFeedbackEditSaveAction extends Action {
 	}
 
 	private FeedbackSessionAttributes extractFeedbackSessionData() {
+		//TODO assert parameters are not null then update test
+		
 		FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
 		newSession.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		newSession.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);

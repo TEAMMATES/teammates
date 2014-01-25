@@ -1,45 +1,40 @@
 package teammates.ui.controller;
 
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
-import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.Url;
+import teammates.logic.api.Logic;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
+/**
+ * This action handles students that attempts to join a course.
+ * It forces th student to log out from his google account and
+ * re-authenticate himself before redirecting him to the actual
+ * join action, {@link StudentCourseJoinAuthenticatedAction}.
+ * <br/><br/>
+ * This is done to prevent students from accidentally inking 
+ * his registration key with another student's google account.
+ */
 public class StudentCourseJoinAction extends Action {
-	
-
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
-
 		String key = getRequestParamValue(Const.ParamsNames.REGKEY);
 		Assumption.assertNotNull(key);
 
-		new GateKeeper().verifyLoggedInUserPrivileges();
-		try {
-			logic.joinCourse(account.googleId, key);
-		} catch (JoinCourseException 
-				| InvalidParametersException
-				| EntityAlreadyExistsException e) {
-			setStatusForException(e, Sanitizer.sanitizeForHtml(e.getMessage()));
-		}
+		String joinUrl = Url.addParamToUrl(
+				Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+				Const.ParamsNames.REGKEY, key);
 		
-		final String studentInfo = "Action Student joins course<br>" +
-				"Student (GoogleID): " + account.googleId + "<br>" +
-				"With Key : " + key;
-		if (statusToAdmin != null && !StringHelper.isWhiteSpace(statusToAdmin)){
-			statusToAdmin += ("<br>" + studentInfo);
-		} else {
-			statusToAdmin = studentInfo;	
-		}
-		
+		UserService userService = UserServiceFactory.getUserService();
+		String loginUrl = userService.createLoginURL(joinUrl);
 
-		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+		// Get users to logout first then login again
+		String redirectUrl = Logic.getLogoutUrl(loginUrl);
+
+		RedirectResult response = createRedirectResult(redirectUrl);
 		return response;
 	}
-
 }
