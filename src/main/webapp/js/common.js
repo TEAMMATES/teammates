@@ -55,7 +55,7 @@ var DISPLAY_INPUT_FIELDS_MISSING = "There are missing fields.";
 var DISPLAY_GOOGLEID_INVALID = "GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.";
 var DISPLAY_EMAIL_INVALID = "The e-mail address is invalid.";
 var DISPLAY_NAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets<br> and not more than 40 characters.";
-var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 25 characters.";
+var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 60 characters.";
 
 // Used in instructorCourse.js only
 var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed "
@@ -94,7 +94,7 @@ var DISPLAY_FEEDBACK_SESSION_INSTRUCTIONS_LENGTHINVALID = "Instructions to stude
 var DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = "Feedback session visible date must not be empty";
 var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = "Feedback session publish date must not be empty";
 // Max length for input
-var TEAMNAME_MAX_LENGTH = 24;
+var TEAMNAME_MAX_LENGTH = 60;
 var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 

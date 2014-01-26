@@ -239,7 +239,7 @@ public class FieldValidator {
 	 * Field: Team name
 	 */
 	private static final String TEAM_NAME_FIELD_NAME = "a team name";
-	public static final int TEAM_NAME_MAX_LENGTH = 25; //TODO: increase this
+	public static final int TEAM_NAME_MAX_LENGTH = 60;
 	public static final String TEAM_NAME_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as "+TEAM_NAME_FIELD_NAME+" because it %s. " +
 					"The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
