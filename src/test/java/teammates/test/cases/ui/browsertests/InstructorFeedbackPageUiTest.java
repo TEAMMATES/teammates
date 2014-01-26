@@ -284,7 +284,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		______TS("failure case 3: invalid input (session name)");
 		
 		feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
-		newSession.feedbackSessionName = "bad name!";
+		newSession.feedbackSessionName = "bad name %%";
 		newSession.endTime = TimeHelper.convertToDate("2014-09-01 0:00 AM UTC");
 		feedbackPage.addFeedbackSession(
 				newSession.feedbackSessionName, newSession.courseId,
@@ -293,9 +293,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 				newSession.instructions,
 				newSession.gracePeriod );
 		assertEquals(String.format(
-				FieldValidator.ALPHANUMERIC_STRING_ERROR_MESSAGE,
-				"bad name!",
+				FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+				"bad name %%",
 				FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+				FieldValidator.REASON_CONTAINS_INVALID_CHAR,
 				FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME), feedbackPage.getStatus());
 
 	}
