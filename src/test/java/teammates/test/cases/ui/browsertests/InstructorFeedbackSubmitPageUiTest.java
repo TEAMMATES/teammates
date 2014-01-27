@@ -90,16 +90,16 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
 		submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
 		
-		submitPage.fillQuestionTextBox(1, 0, "Test Self Feedback");
-		submitPage.fillQuestionTextBox(2, 0, "Response to Alice.");
+		submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
+		submitPage.fillResponseTextBox(2, 0, "Response to Alice.");
 		submitPage.selectRecipient(2, 1, "Drop out");
-		submitPage.fillQuestionTextBox(2, 1, "Response to student who is going to drop out.");
+		submitPage.fillResponseTextBox(2, 1, "Response to student who is going to drop out.");
 		submitPage.selectRecipient(2, 2, "Extra guy");
-		submitPage.fillQuestionTextBox(2, 2, "Response to extra guy.");
-		submitPage.fillQuestionTextBox(13, 0, "1");
+		submitPage.fillResponseTextBox(2, 2, "Response to extra guy.");
+		submitPage.fillResponseTextBox(13, 0, "1");
 		
 		// Test partial response for question		
-		submitPage.fillQuestionTextBox(4, 1, "Feedback to Instructor 3");
+		submitPage.fillResponseTextBox(4, 1, "Feedback to Instructor 3");
 		submitPage.chooseMcqOption(6, 0, "Algo");
 		submitPage.toggleMsqOption(8, 0, "UI");
 		submitPage.toggleMsqOption(8, 0, "Design");
@@ -166,11 +166,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		// Test editing an existing response 
 		// + fill up rest of responses at the same time
 		String editedResponse = "Edited response to Alice.";
-		submitPage.fillQuestionTextBox(2, 0, editedResponse);
-		submitPage.fillQuestionTextBox(3, 0, "Feedback to instructors");
-		submitPage.fillQuestionTextBox(4, 1, "Feedback to instructor 2.");
-		submitPage.fillQuestionTextBox(4, 2, "Feedback to instructor 4.");
-		submitPage.fillQuestionTextBox(4, 3, "Feedback to instructor 5.");
+		submitPage.fillResponseTextBox(2, 0, editedResponse);
+		submitPage.fillResponseTextBox(3, 0, "Feedback to instructors");
+		submitPage.fillResponseTextBox(4, 1, "Feedback to instructor 2.");
+		submitPage.fillResponseTextBox(4, 2, "Feedback to instructor 4.");
+		submitPage.fillResponseTextBox(4, 3, "Feedback to instructor 5.");
 		
 		submitPage.chooseMcqOption(5, 0, "UI");
 		submitPage.chooseMcqOption(6, 0, "UI"); // Changed from "Algo" to "UI"
@@ -196,10 +196,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		submitPage.toggleMsqOption(12, 0, "Team 1");
 		submitPage.toggleMsqOption(12, 0, "Team 3");
 		
-		submitPage.fillQuestionTextBox(13, 0, "99"); //higher than max to test validation
-		submitPage.fillQuestionTextBox(14, 0, "1.5"); 
-		submitPage.fillQuestionTextBox(14, 1, "2"); 
-		submitPage.fillQuestionTextBox(14, 2, "3.5"); 
+		submitPage.fillResponseTextBox(13, 0, "5"); 
+		submitPage.fillResponseTextBox(14, 0, "1.5"); 
+		submitPage.fillResponseTextBox(14, 1, "2"); 
+		submitPage.fillResponseTextBox(14, 2, "3.5"); 
 		
 		// Just check the edited responses, and one new response.
 		assertNull(BackDoor.getFeedbackResponse(fq.getId(),

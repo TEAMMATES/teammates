@@ -305,9 +305,6 @@ public abstract class AppPage {
 	protected void fillTextBox(WebElement textBoxElement, String value) {
 		textBoxElement.clear();
 		textBoxElement.sendKeys(value);
-		
-		//unfocus the textbox to allow scripts to run
-		textBoxElement.sendKeys(Keys.TAB);
 	}
 
 	protected String getTextBoxValue(WebElement textBox) {
