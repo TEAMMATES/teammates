@@ -1,5 +1,7 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.lang.reflect.Method;
@@ -11,10 +13,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -23,6 +31,8 @@ import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EvaluationsLogic;
+import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.StudentsDb;
@@ -76,9 +86,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		assertEquals(0, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
 		// add a new student and verify it is added and treated as a new student
-		StudentAttributes enrollmentResult = invokeEnrollStudent(student1);
+		StudentEnrollDetails enrollmentResult = invokeEnrollStudent(student1);
 		assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
-		LogicTest.verifyEnrollmentResultForStudent(student1, enrollmentResult,
+		LogicTest.verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
 				StudentAttributes.UpdateStatus.NEW);
 		LogicTest.verifyPresentInDatastore(student1);
 
@@ -86,14 +96,14 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
 		// Verify it was not added
 		enrollmentResult = invokeEnrollStudent(student1);
-		LogicTest.verifyEnrollmentResultForStudent(student1, enrollmentResult,
+		LogicTest.verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
 				StudentAttributes.UpdateStatus.UNMODIFIED);
 		assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
 		______TS("add student into non-empty course");
 		StudentAttributes student2 = new StudentAttributes("t1|n2|e2@g|c", instructorCourse, null);
 		enrollmentResult = invokeEnrollStudent(student2);
-		LogicTest.verifyEnrollmentResultForStudent(student2, enrollmentResult,
+		LogicTest.verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
 				StudentAttributes.UpdateStatus.NEW);
 		
 		//add some more students to the same course (we add more than one 
@@ -107,28 +117,132 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		student1.googleId = "googleId";
 		studentsLogic.updateStudentCascade(student1.email, student1);
 		
-		//add a new evaluations (to check the cascade logic of the SUT)
+		______TS("add evaluation and modify team of existing student" +
+				"(to check the cascade logic of the SUT)");
 		EvaluationAttributes e = EvaluationsDbTest.generateTypicalEvaluation();
 		e.courseId = instructorCourse;
 		evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(e);
 
-		// verify it was treated as modified in datastore and existing
-		// values not specified in enroll action (e.g, id) prevail
-		student1.name = student1.name+"y";
-		enrollmentResult = invokeEnrollStudent(student1);
-		LogicTest.verifyEnrollmentResultForStudent(student1, enrollmentResult,
+		//add some more details to the student
+		String oldTeam = student2.team;
+		student2.team = "t2";
+		
+		//Save student structure before changing of teams
+		//This allows for verification of existence of old submissions 
+		List<StudentAttributes> studentDetailsBeforeModification = studentsLogic
+				.getStudentsForCourse(instructorCourse);
+		
+		enrollmentResult = invokeEnrollStudent(student2);
+		LogicTest.verifyPresentInDatastore(student2);
+		LogicTest.verifyEnrollmentDetailsForStudent(student2, oldTeam, enrollmentResult,
 				StudentAttributes.UpdateStatus.MODIFIED);
-		LogicTest.verifyPresentInDatastore(student1);
 		
-		//verify cascade logic
-		verifyCascasedToSubmissions(instructorCourse);
+		//verify that submissions have not been adjusted
+		//i.e no new submissions have been added
+		List<SubmissionAttributes> student2Submissions = submissionsLogic
+				.getSubmissionsForEvaluation(instructorCourse, e.name);
 		
+		for (SubmissionAttributes submission : student2Submissions) {
+			boolean isStudent2Participant = (submission.reviewee == student2.email) ||
+										   (submission.reviewer == student2.email);
+			boolean isNewTeam = submission.team == student2.team;
+			
+			assertFalse(isNewTeam && isStudent2Participant);
+		}
+		
+		//also, verify that the datastore still has the old team structure
+		LogicTest.verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.name,
+				studentDetailsBeforeModification, submissionsLogic.getSubmissionsForCourse(instructorCourse));
+
 		______TS("error during enrollment");
 
 		StudentAttributes student5 = new StudentAttributes("|n6|e6@g@", instructorCourse, null);
 		enrollmentResult = invokeEnrollStudent(student5);
 		assertEquals (StudentAttributes.UpdateStatus.ERROR, enrollmentResult.updateStatus);
 		assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
+		
+	}
+	
+	@Test
+	public void testEnrollStudents() throws Exception {
+		
+		restoreTypicalDataInDatastore();
+		dataBundle = getTypicalDataBundle();
+		
+		______TS("enrolling students to a non-existent course");
+		String newStudentLine = "Team 1.1|n|s@g|c";
+		String nonExistentCourseId = "courseDoesNotExist";
+		String enrollLines = newStudentLine + Const.EOL;
+		
+		List<StudentAttributes> studentsInfo;
+		try {
+			studentsInfo = studentsLogic
+					.enrollStudents(enrollLines, nonExistentCourseId);
+			assertTrue(false);
+		} catch (EntityDoesNotExistException e) {
+			assertTrue(true);
+		}
+		
+		______TS("try to enroll with empty input enroll lines");
+		enrollLines = "";
+		CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
+		try {
+			studentsInfo = studentsLogic
+					.enrollStudents(enrollLines, course1.id);
+			assertTrue(false);
+		} catch (EnrollException e) {
+			String errorMessage = e.getLocalizedMessage();
+			assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, errorMessage);
+		}
+		
+		______TS("enroll new students to existing course" +
+				"(to check the cascade logic of the SUT)");
+		//enroll string can aslo contain whitespace lines
+		enrollLines = newStudentLine + Const.EOL + "\t";
+		
+		studentsInfo = studentsLogic
+				.enrollStudents(enrollLines, course1.id);
+		
+		//Check whether students are present in database
+		LogicTest.verifyPresentInDatastore(studentsInfo.get(0));
+		
+		//Check whether required submissions were created/adjusted 
+		verifyCascasedToSubmissions(course1.id);
+		
+		______TS("change team of existing student and verify deletion of all his responses");
+		StudentAttributes studentInTeam1 = dataBundle.students.get("student1InCourse1");
+		
+		//verify he has existing team feedback responses in the system
+		List<FeedbackResponseAttributes> student1responses = getAllTeamResponsesForStudent(studentInTeam1);
+		assertTrue(student1responses.size() != 0);
+		
+		studentInTeam1.team = "Team 1.2";
+		String student1enrollString = studentInTeam1.toEnrollmentString();
+		studentsInfo = studentsLogic.enrollStudents(student1enrollString, studentInTeam1.course);
+		
+		verifyCascasedToSubmissions(studentInTeam1.course);
+		
+		//verify all previous team responses for student have been deleted
+		student1responses = getAllTeamResponsesForStudent(studentInTeam1);
+		assertTrue(student1responses.size() == 0);
+		
+		______TS("error during enrollment");
+		String invalidStudentId = "t1|n6|e6@g@";
+		String invalidEnrollLine = invalidStudentId + Const.EOL;
+		try {
+			studentsInfo = studentsLogic
+					.enrollStudents(invalidEnrollLine, course1.id);
+			assertTrue(false);
+		} catch (EnrollException e) {
+			String actualErrorMessage = e.getLocalizedMessage();
+
+			String errorReason = String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "e6@g@",
+					FieldValidator.REASON_INCORRECT_FORMAT);
+			String expectedMessage = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
+					invalidStudentId, errorReason);
+			
+			assertEquals(expectedMessage, actualErrorMessage);
+		}
 		
 	}
 
@@ -372,13 +486,13 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		assertEquals(null, order);
 	}
 
-	private static StudentAttributes invokeEnrollStudent(StudentAttributes student)
+	private static StudentEnrollDetails invokeEnrollStudent(StudentAttributes student)
 			throws Exception {
 		Method privateMethod = StudentsLogic.class.getDeclaredMethod("enrollStudent",
 				new Class[] { StudentAttributes.class });
 		privateMethod.setAccessible(true);
 		Object[] params = new Object[] { student };
-		return (StudentAttributes) privateMethod.invoke(StudentsLogic.inst(), params);
+		return (StudentEnrollDetails) privateMethod.invoke(StudentsLogic.inst(), params);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -405,6 +519,35 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		LogicTest.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(
 				submissionsLogic.getSubmissionsForCourse(instructorCourse),
 				instructorCourse);
+	}
+	
+	private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
+		List<FeedbackResponseAttributes> returnList = new ArrayList<FeedbackResponseAttributes>();
+		
+		List<FeedbackResponseAttributes> studentReceiverResponses = FeedbackResponsesLogic.inst()
+				.getFeedbackResponsesForReceiverForCourse(student.course, student.email);
+		
+		for (FeedbackResponseAttributes response : studentReceiverResponses) {
+			FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst()
+					.getFeedbackQuestion(response.feedbackQuestionId);
+			if (question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+				returnList.add(response);
+			}
+		}
+		
+		List<FeedbackResponseAttributes> studentGiverResponses = FeedbackResponsesLogic.inst()
+				.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
+		
+		for (FeedbackResponseAttributes response : studentGiverResponses) {
+			FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst()
+					.getFeedbackQuestion(response.feedbackQuestionId);
+			if (question.giverType == FeedbackParticipantType.TEAMS || 
+				question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+				returnList.add(response);
+			}
+		}
+		
+		return returnList;
 	}
 
 	@AfterClass()

@@ -45,6 +45,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -1045,7 +1046,7 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 
 	@Test
-	public void testCreateStudent() throws Exception {
+	public void testcreateStudentWithSubmissionAdjustment() throws Exception {
 
 		restoreTypicalDataInDatastore();
 
@@ -1116,7 +1117,7 @@ public class LogicTest extends BaseComponentTestCase {
 
 	@Test
 	public void testGetStudentForEmail() throws Exception {
-		// mostly tested in testCreateStudent
+		// mostly tested in testcreateStudentWithSubmissionAdjustment
 
 		restoreTypicalDataInDatastore();
 
@@ -1362,7 +1363,7 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 
 	@Test
-	public void testUpdateStudent() throws Exception {
+	public void testupdateStudent() throws Exception {
 
 		restoreTypicalDataInDatastore();
 
@@ -2381,7 +2382,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		______TS("student added after evaluation");
 	
-		// testCreateStudent verifies adding student mid-evaluation creates
+		// testcreateStudentWithSubmissionAdjustment verifies adding student mid-evaluation creates
 		//   additional submissions correctly. No need to check here.
 	
 	}
@@ -3004,6 +3005,15 @@ public class LogicTest extends BaseComponentTestCase {
 		Assert.fail("Did not find " + evaluation.name + " in the evaluation info list");
 	}
 
+	public static void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent,
+			String oldTeam, StudentEnrollDetails enrollmentResult, StudentAttributes.UpdateStatus status) {
+		assertEquals(expectedStudent.email, enrollmentResult.email);
+		assertEquals(expectedStudent.team, enrollmentResult.newTeam);
+		assertEquals(expectedStudent.course, enrollmentResult.course);
+		assertEquals(oldTeam, enrollmentResult.oldTeam);
+		assertEquals(status, enrollmentResult.updateStatus);
+	}
+	
 	public static void verifyEnrollmentResultForStudent(StudentAttributes expectedStudent,
 			StudentAttributes enrollmentResult, StudentAttributes.UpdateStatus status) {
 		String errorMessage = "mismatch! \n expected:\n"

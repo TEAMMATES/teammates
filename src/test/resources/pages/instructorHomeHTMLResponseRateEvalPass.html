@@ -202,19 +202,19 @@
 							0 / 4
 						</td>
 						<td class="centeralign no-print" >
-                              <a class="color_green t_session_view5"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
+                              <a class="color_green t_session_view5"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
                                  View Results
                               </a>
-                              <a class="color_brown t_session_edit5"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
+                              <a class="color_brown t_session_edit5"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
                                  Edit
                               </a>
-                              <a class="color_red t_session_delete5"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
+                              <a class="color_red t_session_delete5"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
                                  Delete
                               </a>
-                              <a class="color_blue t_session_submit5"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=teammates.coord"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
+                              <a class="color_blue t_session_submit5"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
                                  Submit
                               </a>
-                              <a class="color_black t_session_publish5"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3Dteammates.coord&user=teammates.coord"  onclick="hideddrivetip(); return togglePublishEvaluation('First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make session responses available for viewing')" >
+                              <a class="color_black t_session_publish5"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return togglePublishEvaluation('First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make session responses available for viewing')" >
                                  Publish
                               </a>
                            </td>

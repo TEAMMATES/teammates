@@ -53,8 +53,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 		
 		gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 		verifyAssumptionFailure();
-		//TODO: Uncomment or remove.
-		//verifyAssumptionFailure(Common.Params.COURSE_ID, instructor1ofCourse1.courseId);
+		//TODO make sure IFAA does assertNotNull for required parameters then uncomment
+		//verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId);
 		
 		______TS("Typical case");
 		
@@ -123,6 +123,38 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 				"TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||" +
 				"Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +
 				"instr1@course1.com|||New Feedback Session <span class=\"bold\">(Course with trailing space)</span>" +
+				" for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created." +
+				"<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
+				"<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
+				"<span class=\"bold\">Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br>" +
+				"<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br>" +
+				"<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
+		assertEquals(expectedLogMessage, a.getLogMessage());
+		
+		______TS("imezone with minute offset");
+		
+		params = createParamsForTypicalFeedbackSession(
+						instructor1ofCourse1.courseId, "Course with minute offset timezone");
+		params[25] = "5.5";
+		
+		a = getAction(params);
+		rr = (RedirectResult) a.executeAndPostProcess();
+		
+		assertEquals(
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+						+ "?courseid="
+						+ instructor1ofCourse1.courseId
+						+ "&fsname=Course+with+minute+offset+timezone"
+						+ "&user="
+						+ instructor1ofCourse1.googleId
+						+ "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
+						+ "&error=false",
+				rr.getDestinationWithParams());
+		
+		expectedLogMessage =
+				"TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||" +
+				"Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +
+				"instr1@course1.com|||New Feedback Session <span class=\"bold\">(Course with minute offset timezone)</span>" +
 				" for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created." +
 				"<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
 				"<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +

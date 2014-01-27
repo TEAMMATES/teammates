@@ -42,10 +42,19 @@ public class StudentHomePage extends AppPage {
 		fillTextBox(keyTextBox, key);
 	}
 
-	public StudentHomePage clickJoinButton() {
+	public LoginPage clickJoinButton() {
 		joinButton.click();
 		waitForPageToLoad();
-		return this;
+		return createCorrectLoginPageType(getPageSource());
 	}
 
+	private LoginPage createCorrectLoginPageType(String pageSource) {
+		if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
+			return changePageType(DevServerLoginPage.class);
+		} else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
+			return changePageType(GoogleLoginPage.class);
+		} else {
+			throw new IllegalStateException("Not a valid login page :"	+ pageSource);
+		}
+	}
 }

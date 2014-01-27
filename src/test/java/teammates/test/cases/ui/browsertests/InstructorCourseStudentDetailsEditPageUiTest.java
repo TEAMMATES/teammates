@@ -79,8 +79,8 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 		editPage.submitUnsuccessfully("invalidstudentnamewithmorethan40characters", "New teamname", null, null)
 			.verifyStatus("Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.");
 		
-		editPage.submitUnsuccessfully("New guy", "invalidteamnamewithmorethan25characters", null, null)
-			.verifyStatus("Team name should contain less than 25 characters.");
+		editPage.submitUnsuccessfully("New guy", "invalidteamnamewithmorethan60characterslooooooooooooooooooong", null, null)
+			.verifyStatus("Team name should contain less than 60 characters.");
 		
 		editPage.submitUnsuccessfully("New guy", "new team", "invalidemail", null)
 			.verifyStatus("The e-mail address is invalid.");

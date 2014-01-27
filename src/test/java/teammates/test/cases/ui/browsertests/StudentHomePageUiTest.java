@@ -118,17 +118,21 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		______TS("fail: invalid key");
 		
 		studentHome.fillKey("ThisIsAnInvalidKey");
-		studentHome.clickJoinButton()
-			.verifyHtml("/studentHomeInvalidKey.html");
-		
+		studentHome.clickJoinButton().loginAsStudent(
+				TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+				TestProperties.inst().TEST_STUDENT1_PASSWORD)
+				.verifyHtml("/studentHomeInvalidKey.html");
+				
 		______TS("joining the first course");
 	
 		String courseId = testData.courses.get("SHomeUiT.CS2104").id;
 		String studentEmail = testData.students.get("alice.tmms@SHomeUiT.CS2104").email;
 		
 		studentHome.fillKey(BackDoor.getKeyForStudent(courseId, studentEmail));
-		studentHome.clickJoinButton()
-			.verifyHtml("/studentHomeJoined.html");
+		studentHome.clickJoinButton().loginAsStudent(
+				TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+				TestProperties.inst().TEST_STUDENT1_PASSWORD)
+				.verifyHtml("/studentHomeJoined.html");
 	}
 
 

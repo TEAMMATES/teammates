@@ -448,7 +448,7 @@ public class EvaluationsLogic {
 	 * @throws InvalidParametersException 
 	 */
 	public void adjustSubmissionsForChangingTeam(String courseId,
-			String studentEmail, String originalTeam, String newTeam) throws InvalidParametersException {
+			String studentEmail, String newTeam) throws InvalidParametersException {
 		
 		List<EvaluationAttributes> evaluationDataList = 
 				EvaluationsLogic.inst().getEvaluationsForCourse(courseId);
@@ -459,9 +459,20 @@ public class EvaluationsLogic {
 			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, newTeam);
 		}
 	}
+	
+	/**
+	 * Makes the same adjustments as above except for a specific evaluation
+	 * @throws InvalidParametersException
+	 */
+	public void adjustSubmissionsForChangingTeamInEvaluation(String courseId,
+			String studentEmail, String newTeam, String evalName) throws InvalidParametersException {
+		
+		submissionsLogic.deleteAllSubmissionsForEvaluationForStudent(courseId, evalName, studentEmail);
+		addSubmissionsForIncomingMember(courseId, evalName, studentEmail, newTeam);
+	}
 
 	/**
-	 * Adjusts submissions for a student adding a new student to a course.
+	 * Adjusts submissions for a student while adding a new student to a course.
 	 * Creates empty submissions for the new team, in all existing submissions,
 	 * including CLOSED and PUBLISHED ones.
 	 * 
@@ -473,8 +484,21 @@ public class EvaluationsLogic {
 				EvaluationsLogic.inst().getEvaluationsForCourse(courseId);
 		
 		for (EvaluationAttributes ed : evaluationDataList) {
-			addSubmissionsForIncomingMember(courseId, ed.name, studentEmail, team);
+			adjustSubmissionsForNewStudentInEvaluation(courseId, studentEmail, team, ed.name);
 		}
+	}
+	
+	/**
+	 * Adjusts submissions for a student while adding a new student to a course
+	 * for a specific evaluation
+	 * Creates empty submissions for the new team, in all existing submissions,
+	 * including CLOSED and PUBLISHED ones.
+	 * 
+	 */
+	public void adjustSubmissionsForNewStudentInEvaluation(String courseId,
+			String studentEmail, String team, String evaluationName)
+					throws InvalidParametersException {
+			addSubmissionsForIncomingMember(courseId, evaluationName, studentEmail, team);
 	}
 
 

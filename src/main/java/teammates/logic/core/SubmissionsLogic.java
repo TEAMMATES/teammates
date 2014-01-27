@@ -121,6 +121,12 @@ public class SubmissionsLogic {
 	public void deleteAllSubmissionsForStudent(String courseId, String studentEmail) {
 		submissionsDb.deleteAllSubmissionsForStudent(courseId, studentEmail);
 	}
+	
+	public void deleteAllSubmissionsForEvaluationForStudent(String courseId,
+			String evaluationName, String studentEmail) {
+		submissionsDb.deleteAllSubmissionsForEvaluationForStudent(courseId,
+				evaluationName, studentEmail);
+	}
 
 	
 	public void deleteAllSubmissionsForCourse(String courseId) {

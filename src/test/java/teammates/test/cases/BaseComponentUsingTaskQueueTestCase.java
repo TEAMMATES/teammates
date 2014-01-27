@@ -16,6 +16,7 @@ public class BaseComponentUsingTaskQueueTestCase extends BaseTestCase {
 	@BeforeTest
 	public void testSetUp() throws Exception {
 		gaeSimulation = GaeSimulation.inst();
+		gaeSimulation.setup();
 	}
 
 	

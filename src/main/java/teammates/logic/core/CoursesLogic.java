@@ -58,6 +58,7 @@ public class CoursesLogic {
 	private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 	private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+	private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
 
 	
 	public static CoursesLogic inst() {
@@ -153,7 +154,7 @@ public class CoursesLogic {
 			List<EvaluationAttributes> evaluationDataList = evaluationsLogic
 					.getEvaluationsForCourse(c.id);			
 			List<FeedbackSessionAttributes> feedbackSessionList = 
-					FeedbackSessionsLogic.inst().getFeedbackSessionsForUserInCourse(c.id, s.email);
+					feedbackSessionsLogic.getFeedbackSessionsForUserInCourse(c.id, s.email);
 			
 			CourseDetailsBundle cdd = new CourseDetailsBundle(c);
 			
@@ -329,7 +330,7 @@ public class CoursesLogic {
 		ArrayList<EvaluationDetailsBundle> evaluationList = 
 				evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
 		List<FeedbackSessionDetailsBundle> feedbackSessionList = 
-				FeedbackSessionsLogic.inst().getFeedbackSessionDetailsForInstructor(instructorId);
+				feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(instructorId);
 		
 		for (EvaluationDetailsBundle edd : evaluationList) {
 			CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.courseId);
@@ -351,7 +352,7 @@ public class CoursesLogic {
 		ArrayList<EvaluationAttributes> evaluationList = 
 				evaluationsLogic.getEvaluationsListForInstructor(instructorId);
 		List<FeedbackSessionAttributes> feedbackSessionList = 
-				FeedbackSessionsLogic.inst().getFeedbackSessionsListForInstructor(instructorId);
+				feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorId);
 		
 		for (EvaluationAttributes edd : evaluationList) {
 			CourseSummaryBundle courseSummary = courseList.get(edd.courseId);
@@ -368,7 +369,7 @@ public class CoursesLogic {
 		evaluationsLogic.deleteEvaluationsForCourse(courseId);
 		studentsLogic.deleteStudentsForCourse(courseId);
 		instructorsLogic.deleteInstructorsForCourse(courseId);
-		FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(courseId);
+		feedbackSessionsLogic.deleteFeedbackSessionsForCourse(courseId);
 		coursesDb.deleteCourse(courseId);
 	}
 	

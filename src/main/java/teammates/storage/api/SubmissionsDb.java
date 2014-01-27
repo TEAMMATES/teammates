@@ -282,6 +282,23 @@ public class SubmissionsDb extends EntitiesDb {
 		getPM().flush();
 	}
 	
+	public void deleteAllSubmissionsForEvaluationForStudent(String courseId,
+			String evaluationName, String studentEmail) {
+		
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, studentEmail);
+
+		List<Submission> submissionsFromStudent = 
+				getSubmissionEntitiesForEvaluationFromStudent(courseId, evaluationName, studentEmail);
+		getPM().deletePersistentAll(submissionsFromStudent);
+		
+		List<Submission> submissionsToStudent = 
+				getSubmissionEntitiesForEvaluationToStudent(courseId, evaluationName, studentEmail);
+		getPM().deletePersistentAll(submissionsToStudent);
+		
+		getPM().flush();
+	}
+	
 	private Submission getSubmissionEntity(String courseId,
 			String evaluationName, String toStudent, String fromStudent) {
 
@@ -375,6 +392,23 @@ public class SubmissionsDb extends EntitiesDb {
 		q.setFilter("courseID == courseIdParam " +
 				"&& evaluationName == evaluationNameParam" +
 				"&& fromStudent == reviewerEmailParam");
+		
+		@SuppressWarnings("unchecked")
+		List<Submission> submissionList = (List<Submission>) q.execute(courseId, evaluationName, reviewerEmail);
+		return submissionList;
+	}
+	
+	private List<Submission> getSubmissionEntitiesForEvaluationToStudent(
+			String courseId, String evaluationName, String reviewerEmail) {
+		
+		Query q = getPM().newQuery(Submission.class);
+		q.declareParameters(
+				"String courseIdParam, " +
+				"String evaluationNameParam, " +
+				"String revieweeEmailParam");
+		q.setFilter("courseID == courseIdParam " +
+				"&& evaluationName == evaluationNameParam" +
+				"&& toStudent == revieweeEmailParam");
 		
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) q.execute(courseId, evaluationName, reviewerEmail);

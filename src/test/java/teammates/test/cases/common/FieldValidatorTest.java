@@ -132,13 +132,89 @@ public class FieldValidatorTest extends BaseTestCase{
 						maxLength, 
 						tooLongName));
 	}
+	
+	@Test
+	public void testGetValidityInfoForAllowedName() {
+		
+		String typicalFieldName = "name field";
+		int typicalLength = 25;
+		
+		try {
+			validator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, null);
+			signalFailureToDetectException("not expected to be null");
+		} catch (AssertionError e) {
+			ignoreExpectedException(); 
+		}
+		
+		try {
+			validator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, " abc ");
+			signalFailureToDetectException("not expected to be untrimmed");
+		} catch (AssertionError e) {
+			ignoreExpectedException();
+		}
+		
+		int maxLength = 50;
+		assertEquals("valid: typical length with valid characters", 
+				"",
+				validator.getValidityInfoForAllowedName(
+						typicalFieldName, 
+						maxLength, 
+						"Ýàn-B. s/o O'br, &2\t\n(~!@#$^*+_={}[]\\:;\"<>?)"));
+		
+		String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
+		assertEquals("invalid: typical length with invalid characters", 
+				String.format(
+						INVALID_NAME_ERROR_MESSAGE, 
+						nameContainInvalidChars, typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
+				validator.getValidityInfoForAllowedName(
+						typicalFieldName, 
+						maxLength, 
+						nameContainInvalidChars));
+		
+		String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
+		assertEquals("invalid: typical length started with non-alphanumeric character", 
+				String.format(
+						INVALID_NAME_ERROR_MESSAGE, 
+						nameStartedWithNonAlphaNumChar, typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
+				validator.getValidityInfoForAllowedName(
+						typicalFieldName, 
+						maxLength, 
+						nameStartedWithNonAlphaNumChar));
+		
+		assertEquals("valid: max length", 
+				"",
+				validator.getValidityInfoForAllowedName(
+						typicalFieldName, 
+						maxLength, 
+						StringHelper.generateStringOfLength(maxLength)));
+		
+		String tooLongName = StringHelper.generateStringOfLength(maxLength+1);
+		assertEquals("invalid: too long", 
+				String.format(
+						SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
+						tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+				validator.getValidityInfoForAllowedName(
+						typicalFieldName, 
+						maxLength, 
+						tooLongName));
+		
+		String emptyValue = "";
+		assertEquals("invalid: empty", 
+				String.format(
+						SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
+						emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
+				validator.getValidityInfoForSizeCappedNonEmptyString(
+						typicalFieldName, 
+						maxLength, 
+						emptyValue));
+	}
 
 	@Test
 	public void testGetValidityInfo_PERSON_NAME() {
 		
 		//NOTE 1: The SUT's work is done mostly in testGetValidityInfoForSizeCappedNonEmptyString
-		//  or testGetValidityInfoForSizeCappedPossiblyEmptyString methods
-		//  which are already unit tested. Therefore, this method checks if the 
+		//  , testGetValidityInfoForSizeCappedPossiblyEmptyString or testGetValidityInfoForAllowedName
+		// methods which are already unit tested. Therefore, this method checks if the 
 		//  max length and the field name are handled correctly by SUT.
 		
 		runGenericTestCasesForCappedSizeStringTypeField(
