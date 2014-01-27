@@ -1,569 +1,942 @@
 {
-  "accounts": {
-    "teammates.test": {
-      "googleId": "teammates.test",
-      "name": "Teammates Test",
-      "isInstructor": true,
-      "email": "teammates.test@gmail.com",
-      "institute": "National University of Singapore"
-    },
-    "teammates.instr": {
-      "googleId": "teammates.instr",
-      "name": "Teammates Coord",
-      "isInstructor": true,
-      "email": "teammates.instr@gmail.com",
-      "institute": "National University of Singapore"
-    }
-  },
-
-  "courses": {
-    "CS2104": {
-      "id": "CS2104",
-      "name": "Programming Language Concepts"
-    },
-    "CS1101": {
-      "id": "CS1101",
-      "name": "Programming Methodology"
-    }
-  },
-  
-  "instructors": {
-    "teammates.test.CS2104": {
-      "googleId": "teammates.test",
-      "courseId": "CS2104",
-      "name": "Teammates Test",
-      "email": "teammates.test@gmail.com"
-    },
-    "teammates.test.CS1101": {
-      "googleId": "teammates.test",
-      "courseId": "CS1101",
-      "name": "Teammates Test",
-      "email": "teammates.test@gmail.com"
-    },
-    "teammates.instr.CS1101": {
-      "googleId": "teammates.instr",
-      "courseId": "CS1101",
-      "name": "Teammates Coord",
-      "email": "teammates.instr@gmail.com"
-    }
-  },
-  
-   "students": {
-	"teammates.test@CS2104": {
-      "googleId": "teammates.test",
-      "email": "teammates.test@gmail.com",
-      "course": "CS2104",
-      "name": "Teammates Test",
-      "comments": "This student's name is Teammates Test",
-      "team": "Team 1"
-    },
-    "benny.c.tmms@CS2104": {
-      "googleId": "benny.c.tmms",
-      "email": "benny.c.tmms@gmail.com",
-      "course": "CS2104",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
-    },
-    "charlie.d.tmms@CS2104": {
-      "googleId": "charlie.d.tmms",
-      "email": "charlie.d.tmms@gmail.com",
-      "course": "CS2104",
-      "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis",
-      "team": "Team 1"
-    },
-    "alice.b.tmms@CS2104": {
-      "googleId": "alice.b.tmms",
-      "email": "alice.b.tmms@gmail.com",
-      "course": "CS2104",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "team": "Team 2"
-    },
-	"danny.e.tmms@CS2104": {
-      "googleId": "danny.e.tmms",
-      "email": "danny.e.tmms@gmail.com",
-      "course": "CS2104",
-      "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
-    },
-    "teammates.test@CS1101": {
-      "googleId": "teammates.test",
-      "email": "teammates.test@gmail.com",
-      "course": "CS1101",
-      "name": "Teammates Test",
-      "comments": "This student's name is Teammates Test",
-      "team": "Team 1"
-    },
-    "benny.c.tmms@CS1101": {
-      "googleId": "benny.c.tmms",
-      "email": "benny.c.tmms@gmail.com",
-      "course": "CS1101",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
-    },
-    "charlie.d.tmms@CS1101": {
-      "googleId": "charlie.d.tmms",
-      "email": "charlie.d.tmms@gmail.com",
-      "course": "CS1101",
-      "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
-    },
-    "danny.e.tmms@CS1101": {
-      "googleId": "danny.e.tmms",
-      "email": "danny.e.tmms@gmail.com",
-      "course": "CS1101",
-      "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
-    }
-  },
-  
-  "evaluations": {
-    "First Eval": {
-      "courseId": "CS2104",
-      "name": "First Eval",
-      "instructions": {"value" : "Please please fill it in"},
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2015-04-01 11:59 PM UTC",
-      "timeZone": 8.0,
-      "gracePeriod": 10,
-      "p2pEnabled": true,
-      "published": false,
-      "activated": true
-    },
-    "Second Eval": {
-      "courseId": "CS2104",
-      "name": "Second Eval",
-      "instructions": {"value" : "Please please fill in the second evaluation"},
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2012-04-02 11:59 PM UTC",
-      "timeZone": 8.0,
-      "gracePeriod": 10,
-      "p2pEnabled": true,
-      "published": true,
-      "activated": true
-    },
-    "Third Eval": {
-      "courseId": "CS1101",
-      "name": "Third Eval",
-      "instructions": {"value" : "Please please fill in the third evaluation"},
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2012-04-02 11:59 PM UTC",
-      "timeZone": 8.0,
-      "gracePeriod": 10,
-      "p2pEnabled": true,
-      "published": false,
-      "activated": true
-    },
-  "Fourth Eval": {
-      "courseId": "CS1101",
-      "name": "Fourth Eval",
-      "instructions": {"value" : "Please please fill in the fourth evaluation"},
-      "startTime": "2015-04-01 11:59 PM UTC",
-      "endTime": "2015-04-02 11:59 PM UTC",
-      "timeZone": 8.0,
-      "gracePeriod": 10,
-      "p2pEnabled": true,
-      "published": false
-    },
-    "Fifth Eval": {
-      "courseId": "CS1101",
-      "name": "Fifth Eval",
-      "instructions": {"value" : "Please please fill in the fifth evaluation"},
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2015-04-01 11:59 PM UTC",
-      "timeZone": 8.0,
-      "gracePeriod": 10,
-      "p2pEnabled": true,
-      "published": false,
-      "activated": true
-    }
-  },
-  "submissions" : {
-    "submissionFromTeammatesTestToBennyFirstEval": {
-      "reviewer" : "teammates.test@gmail.com",
-      "reviewee" : "benny.c.tmms@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "First Eval",
-      "points" : 110,
-      "justification" : {"value" : "This is a justification from teammates.test@gmail.com to benny.c.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from teammates.test@gmail.com to benny.c.tmms@gmail.com"},
-      "team" : "Team 1"
-    },
-    "submissionFromBennyToTeammatesTestFirstEval": {
-      "reviewer" : "benny.c.tmms@gmail.com",
-      "reviewee" : "teammates.test@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "First Eval",
-      "points" : 100,
-      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
-      "team" : "Team 1"
-    },
-	 "submissionFromTeammatesTestToCharlieFirstEval": {
-      "reviewer" : "teammates.test@gmail.com",
-      "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "First Eval",
-      "points" : 90,
-      "justification" : {"value" : "This is a justification from teammates.test@gmail.com to charlie.d.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"<<What I appreciate about you as a team member>>:\nGood Job!\n<<Areas you can improve further>>:\nEverything.\n<<Other comments>>:\nNothing"},
-      "team" : "Team 1"
-    },
-    "submissionFromCharlieToTeammatesTestFirstEval": {
-      "reviewer" : "charlie.d.tmms@gmail.com",
-      "reviewee" : "teammates.test@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "First Eval",
-      "points" : 100,
-      "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to teammates.test@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from charlie.d.tmms@gmail.com to teammates.test@gmail.com"},
-      "team" : "Team 1"
-    },
-	 "submissionFromBennyToCharlieFirstEval": {
-      "reviewer" : "benny.c.tmms@gmail.com",
-      "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "First Eval",
-      "points" : 90,
-      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to charlie.d.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to charlie.d.tmms@gmail.com"},
-      "team" : "Team 1"
-    },
-    "submissionFromCharlieToBennyFirstEval": {
-      "reviewer" : "charlie.d.tmms@gmail.com",
-      "reviewee" : "benny.c.tmms@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "First Eval",
-      "points" : 100,
-      "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to benny.c.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :""},
-      "team" : "Team 1"
-    },
-    "submissionFromAliceToDannyFirstEval": {
-      "reviewer" : "alice.b.tmms@gmail.com",
-      "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "First Eval",
-      "points" : 120,
-      "justification" : {"value" : "This is a justification from alice.b.tmms@gmail.com to danny.e.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from alice.b.tmms@gmail.com to danny.e.tmms@gmail.com"},
-      "team" : "Team 2"
-    },
-    "submissionFromDannyToAliceFirstEval": {
-      "reviewer" : "danny.e.tmms@gmail.com",
-      "reviewee" : "alice.b.tmms@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "First Eval",
-      "points" : 90,
-      "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to alice.b.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to alice.b.tmms@gmail.com"},
-      "team" : "Team 2"
-    },
-    "submissionFromBennyToTeammatesTestSecondEval": {
-      "reviewer" : "benny.c.tmms@gmail.com",
-      "reviewee" : "teammates.test@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "Second Eval",
-      "points" : 100,
-      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
-      "team" : "Team 1"
-    },
-    "submissionFromAliceToDannySecondEval": {
-      "reviewer" : "alice.b.tmms@gmail.com",
-      "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "Second Eval",
-      "points" : 120,
-      "justification" : {"value" : "This is a justification from alice.b.tmms@gmail.com to danny.e.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from alice.b.tmms@gmail.com to danny.e.tmms@gmail.com"},
-      "team" : "Team 2"
-    },
-    "submissionFromDannyToAliceSecondEval": {
-      "reviewer" : "danny.e.tmms@gmail.com",
-      "reviewee" : "alice.b.tmms@gmail.com",
-      "course" : "CS2104",
-      "evaluation" : "Second Eval",
-      "points" : 100,
-      "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to alice.b.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to alice.b.tmms@gmail.com"},
-      "team" : "Team 2"
-    },
-    "submissionFromTeammatesTestToBennyThirdEval": {
-      "reviewer" : "teammates.test@gmail.com",
-      "reviewee" : "benny.c.tmms@gmail.com",
-      "course" : "CS1101",
-      "evaluation" : "Third Eval",
-      "points" : 80,
-      "justification" : {"value" : "This is a justification from teammates.test@gmail.com to benny.c.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from teammates.test@gmail.com to benny.c.tmms@gmail.com"},
-      "team" : "Team 1"
-    },
-    "submissionFromBennyToTeammatesTestThirdEval": {
-      "reviewer" : "benny.c.tmms@gmail.com",
-      "reviewee" : "teammates.test@gmail.com",
-      "course" : "CS1101",
-      "evaluation" : "Third Eval",
-      "points" : 100,
-      "justification" : {"value" : "This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com"},
-      "team" : "Team 1"
-    },
-    "submissionFromCharlieToDannyThirdEval": {
-      "reviewer" : "charlie.d.tmms@gmail.com",
-      "reviewee" : "danny.e.tmms@gmail.com",
-      "course" : "CS1101",
-      "evaluation" : "Third Eval",
-      "points" : 110,
-      "justification" : {"value" : "This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"},
-      "team" : "Team 2"
-    },
-    "submissionFromDannyToCharlieThirdEval": {
-      "reviewer" : "danny.e.tmms@gmail.com",
-      "reviewee" : "charlie.d.tmms@gmail.com",
-      "course" : "CS1101",
-      "evaluation" : "Third Eval",
-      "points" : 110,
-      "justification" : {"value" : "This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
-      "p2pFeedback" : {"value" :"This is a public comment from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"},
-      "team" : "Team 2"
-    }
-  },
-  
-  "feedbackSessions" : {
-  	 "session1InCourse1": {
-      "feedbackSessionName" : "First feedback session",
-      "courseId" : "CS2104",
-      "creatorEmail": "teammates.test@gmail.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2012-03-20 11:59 PM UTC",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2015-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2012-05-01 11:59 PM UTC",
-      "timeZone" : 2.0,
-      "gracePeriod": 10,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
-    },
-    "session2InCourse1": {
-      "feedbackSessionName" : "Second feedback session",
-      "courseId" : "CS2104",
-      "creatorEmail": "teammates.test@gmail.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2013-03-20 11:59 PM UTC",
-      "startTime" : "2013-06-01 11:59 PM UTC",
-      "endTime" : "2014-04-28 11:59 PM UTC",
-      "sessionVisibleFromTime" : "2013-03-20 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2014-04-29 11:59 PM UTC",
-      "timeZone" : 2.0,
-      "gracePeriod": 5,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : false,
-      "sentPublishedEmail" : false
-    },
-    "session3InCourse1": {
-      "feedbackSessionName" : "3rd feedback session",
-      "courseId" : "CS2104",
-      "creatorEmail": "instructor2@course1.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2013-01-20 11:57 PM UTC",
-      "startTime" : "2013-02-01 11:57 PM UTC",
-      "endTime" : "2013-04-28 11:57 PM UTC",
-      "sessionVisibleFromTime" : "2013-01-20 11:57 PM UTC",
-      "resultsVisibleFromTime" : "2013-04-29 11:57 PM UTC",
-      "timeZone" : 0,
-      "gracePeriod": 5,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : false,
-      "sentPublishedEmail" : false
-    },
-    "session1InCourse2": {
-      "feedbackSessionName" : "Private feedback session",
-      "courseId" : "CS1101",
-      "creatorEmail": "teammates.test@gmail.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2012-03-20 11:59 PM UTC",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2015-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2015-05-01 11:59 PM UTC",
-      "timeZone" : 8,
-      "gracePeriod": 0,
-      "feedbackSessionType" : "PRIVATE",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
-    },
-    "session2InCourse2": {
-      "feedbackSessionName" : "Instructor feedback session",
-      "courseId" : "CS1101",
-      "creatorEmail": "teammates.test@gmail.com",
-      "instructions": {"value" : "Please please fill in the following questions."},
-      "createdTime" : "2012-03-20 11:59 PM UTC",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2015-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2015-05-01 11:59 PM UTC",
-      "timeZone" : 8,
-      "gracePeriod": 0,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
-    }   
-  },
-  "feedbackQuestions" : {
-  	 "qn1InSession1InCourse1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "CS2104",
-		"creatorEmail" : "teammates.test@gmail.com",
-		"questionMetaData" : {"value" : "What is the best selling point of your product?"},
-		"questionNumber" : "1",
-		"questionType" : "TEXT",
-		"giverType" : "STUDENTS",
-		"recipientType" : "SELF",
-		"numberOfEntitiesToGiveFeedbackTo" : 1,
-		"showResponsesTo" : [ "INSTRUCTORS" ],
-		"showGiverNameTo" : [ "INSTRUCTORS" ],
-		"showRecipientNameTo" : [ "INSTRUCTORS" ]
-    },
-    "qn2InSession1InCourse1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "CS2104",
-		"creatorEmail" : "teammates.test@gmail.com",
-		"questionMetaData" : {"value" : "Rate 5 other students' products"},
-		"questionNumber" : "2",
-		"questionType" : "TEXT",
-		"giverType" : "STUDENTS",
-		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 5,
-		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
-		"showGiverNameTo" : [ "INSTRUCTORS" ],
-		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
-    },
-    "qn3InSession1InCourse1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "CS2104",
-		"creatorEmail" : "teammates.test@gmail.com",
-		"questionMetaData" : {"value" : "My comments on the class"},
-		"questionNumber" : "3",
-		"questionType" : "TEXT",
-		"giverType" : "SELF",
-		"recipientType" : "NONE",
-		"numberOfEntitiesToGiveFeedbackTo" : -100,
-		"showResponsesTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
-		"showGiverNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ],
-		"showRecipientNameTo" : [ "RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS" ]
-    },
-    "qn1InSession2InCourse1": {
-		"feedbackSessionName" : "Second feedback session",
-		"courseId" : "CS2104",
-		"creatorEmail" : "teammates.test@gmail.com",
-		"questionMetaData" : {"value" : "Give feedback to 2 other teams."},
-		"questionNumber" : "1",
-		"questionType" : "TEXT",
-		"giverType" : "TEAMS",
-		"recipientType" : "TEAMS",
-		"numberOfEntitiesToGiveFeedbackTo" : 2,
-		"showResponsesTo" : [ "RECEIVER" ],
-		"showGiverNameTo" : [ "RECEIVER" ],
-		"showRecipientNameTo" : [ "RECEIVER" ]
-    },
-    "qn2InSession2InCourse1": {
-		"feedbackSessionName" : "Second feedback session",
-		"courseId" : "CS2104",
-		"creatorEmail" : "teammates.test@gmail.com",
-		"questionMetaData" : {"value" : "Give feedback to 1 of your team mates"},
-		"questionNumber" : "2",
-		"questionType" : "TEXT",
-		"giverType" : "STUDENTS",
-		"recipientType" : "OWN_TEAM_MEMBERS",
-		"numberOfEntitiesToGiveFeedbackTo" : 1,
-		"showResponsesTo" : [ "RECEIVER" ],
-		"showGiverNameTo" : [ "RECEIVER" ],
-		"showRecipientNameTo" : [ "RECEIVER" ]
-    },
-    "qn1InSession1InCourse2": {
-		"feedbackSessionName" : "Private feedback session",
-		"courseId" : "CS1101",
-		"creatorEmail" : "teammates.test@gmail.com",
-		"questionMetaData" : {"value" : "This is a private session for myself"},
-		"questionNumber" : "1",
-		"questionType" : "TEXT",
-		"giverType" : "SELF",
-		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 10,
-		"showResponsesTo" : [ ],
-		"showGiverNameTo" : [ ],
-		"showRecipientNameTo" : [ ]
-    },
-    "qn1InSession2InCourse2": {
-		"feedbackSessionName" : "Instructor feedback session",
-		"courseId" : "CS1101",
-		"creatorEmail" : "teammates.test@gmail.com",
-		"questionMetaData" : {"value" : "Please rate the following teams"},
-		"questionNumber" : "1",
-		"questionType" : "TEXT",
-		"giverType" : "INSTRUCTORS",
-		"recipientType" : "TEAMS",
-		"numberOfEntitiesToGiveFeedbackTo" : 1,
-		"showResponsesTo" : [ ],
-		"showGiverNameTo" : [ ],
-		"showRecipientNameTo" : [ ]
-    }
-   },
-  "feedbackResponses" : {
-  	 "response1": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "CS2104",
-		"feedbackQuestionId" : "1",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "alice.b.tmms@gmail.com",
-		"recipientEmail" : "alice.b.tmms@gmail.com",
-		"responseMetaData" : {"value" : "My product is light."}
-    },
-    "response2": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "CS2104",
-		"feedbackQuestionId" : "2",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "alice.b.tmms@gmail.com",
-		"recipientEmail" : "benny.c.tmms@gmail.com",
-		"responseMetaData" : {"value" : "Benny is a good student."}
-    },
-    "response3": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "CS2104",
-		"feedbackQuestionId" : "2",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "benny.c.tmms@gmail.com",
-		"recipientEmail" : "danny.e.tmms@gmail.com",
-		"responseMetaData" : {"value" : "Danny starts with D."}
-    },
-    "response4": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "CS2104",
-		"feedbackQuestionId" : "2",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "charlie.d.tmms@gmail.com",
-		"recipientEmail" : "alice.b.tmms@gmail.com",
-		"responseMetaData" : {"value" : "Alice is a good girl coder."}
-    },
-    "response5": {
-		"feedbackSessionName" : "First feedback session",
-		"courseId" : "CS2104",
-		"feedbackQuestionId" : "2",
-		"feedbackQuestionType" : "TEXT",
-		"giverEmail" : "benny.c.tmms@gmail.com",
-		"recipientEmail" : "charlie.d.tmms@gmail.com",
-		"responseMetaData" : {"value" : "Charlie did alot of work."}
-    }
-  }
+	"accounts":{
+		"teammates.test":{
+			"googleId":"teammates.test",
+			"name":"Teammates Test",
+			"isInstructor":true,
+			"email":"teammates.test@gmail.com",
+			"institute":"National University of Singapore"
+		},
+		"teammates.instr":{
+			"googleId":"teammates.instr",
+			"name":"Teammates Coord",
+			"isInstructor":true,
+			"email":"teammates.instr@gmail.com",
+			"institute":"National University of Singapore"
+		}
+	},
+	"courses":{
+		"CS2104":{
+			"id":"CS2104",
+			"name":"Programming Language Concepts"
+		},
+		"CS1101":{
+			"id":"CS1101",
+			"name":"Programming Methodology"
+		}
+	},
+	"instructors":{
+		"teammates.test.CS2104":{
+			"googleId":"teammates.test",
+			"courseId":"CS2104",
+			"name":"Teammates Test",
+			"email":"teammates.test@gmail.com"
+		},
+		"teammates.test.CS1101":{
+			"googleId":"teammates.test",
+			"courseId":"CS1101",
+			"name":"Teammates Test",
+			"email":"teammates.test@gmail.com"
+		},
+		"teammates.instr.CS1101":{
+			"googleId":"teammates.instr",
+			"courseId":"CS1101",
+			"name":"Teammates Coord",
+			"email":"teammates.instr@gmail.com"
+		}
+	},
+	"students":{
+		"teammates.test@CS2104":{
+			"googleId":"teammates.test",
+			"email":"teammates.test@gmail.com",
+			"course":"CS2104",
+			"name":"Teammates Test",
+			"comments":"This student's name is Teammates Test",
+			"team":"Team 1"
+		},
+		"benny.c.tmms@CS2104":{
+			"googleId":"benny.c.tmms",
+			"email":"benny.c.tmms@gmail.com",
+			"course":"CS2104",
+			"name":"Benny Charles",
+			"comments":"This student's name is Benny Charles",
+			"team":"Team 1"
+		},
+		"charlie.d.tmms@CS2104":{
+			"googleId":"charlie.d.tmms",
+			"email":"charlie.d.tmms@gmail.com",
+			"course":"CS2104",
+			"name":"Charlie Davis",
+			"comments":"This student's name is Charlie Davis",
+			"team":"Team 1"
+		},
+		"alice.b.tmms@CS2104":{
+			"googleId":"alice.b.tmms",
+			"email":"alice.b.tmms@gmail.com",
+			"course":"CS2104",
+			"name":"Alice Betsy",
+			"comments":"This student's name is Alice Betsy",
+			"team":"Team 2"
+		},
+		"danny.e.tmms@CS2104":{
+			"googleId":"danny.e.tmms",
+			"email":"danny.e.tmms@gmail.com",
+			"course":"CS2104",
+			"name":"Danny Engrid",
+			"comments":"This student's name is Danny Engrid",
+			"team":"Team 2"
+		},
+		"teammates.test@CS1101":{
+			"googleId":"teammates.test",
+			"email":"teammates.test@gmail.com",
+			"course":"CS1101",
+			"name":"Teammates Test",
+			"comments":"This student's name is Teammates Test",
+			"team":"Team 1"
+		},
+		"benny.c.tmms@CS1101":{
+			"googleId":"benny.c.tmms",
+			"email":"benny.c.tmms@gmail.com",
+			"course":"CS1101",
+			"name":"Benny Charles",
+			"comments":"This student's name is Benny Charles",
+			"team":"Team 1"
+		},
+		"charlie.d.tmms@CS1101":{
+			"googleId":"charlie.d.tmms",
+			"email":"charlie.d.tmms@gmail.com",
+			"course":"CS1101",
+			"name":"Charlie Davis",
+			"comments":"This student's name is Charlie Davis",
+			"team":"Team 2"
+		},
+		"danny.e.tmms@CS1101":{
+			"googleId":"danny.e.tmms",
+			"email":"danny.e.tmms@gmail.com",
+			"course":"CS1101",
+			"name":"Danny Engrid",
+			"comments":"This student's name is Danny Engrid",
+			"team":"Team 2"
+		}
+	},
+	"evaluations":{
+		"First Eval":{
+			"courseId":"CS2104",
+			"name":"First Eval",
+			"instructions":{
+				"value":"Please please fill it in"
+			},
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":10,
+			"p2pEnabled":true,
+			"published":false,
+			"activated":true
+		},
+		"Second Eval":{
+			"courseId":"CS2104",
+			"name":"Second Eval",
+			"instructions":{
+				"value":"Please please fill in the second evaluation"
+			},
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2012-04-02 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":10,
+			"p2pEnabled":true,
+			"published":true,
+			"activated":true
+		},
+		"Third Eval":{
+			"courseId":"CS1101",
+			"name":"Third Eval",
+			"instructions":{
+				"value":"Please please fill in the third evaluation"
+			},
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2012-04-02 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":10,
+			"p2pEnabled":true,
+			"published":false,
+			"activated":true
+		},
+		"Fourth Eval":{
+			"courseId":"CS1101",
+			"name":"Fourth Eval",
+			"instructions":{
+				"value":"Please please fill in the fourth evaluation"
+			},
+			"startTime":"2015-04-01 11:59 PM UTC",
+			"endTime":"2015-04-02 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":10,
+			"p2pEnabled":true,
+			"published":false
+		},
+		"Fifth Eval":{
+			"courseId":"CS1101",
+			"name":"Fifth Eval",
+			"instructions":{
+				"value":"Please please fill in the fifth evaluation"
+			},
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":10,
+			"p2pEnabled":true,
+			"published":false,
+			"activated":true
+		}
+	},
+	"submissions":{
+		"submissionFromTeammatesTestToBennyFirstEval":{
+			"reviewer":"teammates.test@gmail.com",
+			"reviewee":"benny.c.tmms@gmail.com",
+			"course":"CS2104",
+			"evaluation":"First Eval",
+			"points":110,
+			"justification":{
+				"value":"This is a justification from teammates.test@gmail.com to benny.c.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from teammates.test@gmail.com to benny.c.tmms@gmail.com"
+			},
+			"team":"Team 1"
+		},
+		"submissionFromBennyToTeammatesTestFirstEval":{
+			"reviewer":"benny.c.tmms@gmail.com",
+			"reviewee":"teammates.test@gmail.com",
+			"course":"CS2104",
+			"evaluation":"First Eval",
+			"points":100,
+			"justification":{
+				"value":"This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com"
+			},
+			"team":"Team 1"
+		},
+		"submissionFromTeammatesTestToCharlieFirstEval":{
+			"reviewer":"teammates.test@gmail.com",
+			"reviewee":"charlie.d.tmms@gmail.com",
+			"course":"CS2104",
+			"evaluation":"First Eval",
+			"points":90,
+			"justification":{
+				"value":"This is a justification from teammates.test@gmail.com to charlie.d.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"<<What I appreciate about you as a team member>>:\nGood Job!\n<<Areas you can improve further>>:\nEverything.\n<<Other comments>>:\nNothing"
+			},
+			"team":"Team 1"
+		},
+		"submissionFromCharlieToTeammatesTestFirstEval":{
+			"reviewer":"charlie.d.tmms@gmail.com",
+			"reviewee":"teammates.test@gmail.com",
+			"course":"CS2104",
+			"evaluation":"First Eval",
+			"points":100,
+			"justification":{
+				"value":"This is a justification from charlie.d.tmms@gmail.com to teammates.test@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from charlie.d.tmms@gmail.com to teammates.test@gmail.com"
+			},
+			"team":"Team 1"
+		},
+		"submissionFromBennyToCharlieFirstEval":{
+			"reviewer":"benny.c.tmms@gmail.com",
+			"reviewee":"charlie.d.tmms@gmail.com",
+			"course":"CS2104",
+			"evaluation":"First Eval",
+			"points":90,
+			"justification":{
+				"value":"This is a justification from benny.c.tmms@gmail.com to charlie.d.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from benny.c.tmms@gmail.com to charlie.d.tmms@gmail.com"
+			},
+			"team":"Team 1"
+		},
+		"submissionFromCharlieToBennyFirstEval":{
+			"reviewer":"charlie.d.tmms@gmail.com",
+			"reviewee":"benny.c.tmms@gmail.com",
+			"course":"CS2104",
+			"evaluation":"First Eval",
+			"points":100,
+			"justification":{
+				"value":"This is a justification from charlie.d.tmms@gmail.com to benny.c.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":""
+			},
+			"team":"Team 1"
+		},
+		"submissionFromAliceToDannyFirstEval":{
+			"reviewer":"alice.b.tmms@gmail.com",
+			"reviewee":"danny.e.tmms@gmail.com",
+			"course":"CS2104",
+			"evaluation":"First Eval",
+			"points":120,
+			"justification":{
+				"value":"This is a justification from alice.b.tmms@gmail.com to danny.e.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from alice.b.tmms@gmail.com to danny.e.tmms@gmail.com"
+			},
+			"team":"Team 2"
+		},
+		"submissionFromDannyToAliceFirstEval":{
+			"reviewer":"danny.e.tmms@gmail.com",
+			"reviewee":"alice.b.tmms@gmail.com",
+			"course":"CS2104",
+			"evaluation":"First Eval",
+			"points":90,
+			"justification":{
+				"value":"This is a justification from danny.e.tmms@gmail.com to alice.b.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from danny.e.tmms@gmail.com to alice.b.tmms@gmail.com"
+			},
+			"team":"Team 2"
+		},
+		"submissionFromBennyToTeammatesTestSecondEval":{
+			"reviewer":"benny.c.tmms@gmail.com",
+			"reviewee":"teammates.test@gmail.com",
+			"course":"CS2104",
+			"evaluation":"Second Eval",
+			"points":100,
+			"justification":{
+				"value":"This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com"
+			},
+			"team":"Team 1"
+		},
+		"submissionFromAliceToDannySecondEval":{
+			"reviewer":"alice.b.tmms@gmail.com",
+			"reviewee":"danny.e.tmms@gmail.com",
+			"course":"CS2104",
+			"evaluation":"Second Eval",
+			"points":120,
+			"justification":{
+				"value":"This is a justification from alice.b.tmms@gmail.com to danny.e.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from alice.b.tmms@gmail.com to danny.e.tmms@gmail.com"
+			},
+			"team":"Team 2"
+		},
+		"submissionFromDannyToAliceSecondEval":{
+			"reviewer":"danny.e.tmms@gmail.com",
+			"reviewee":"alice.b.tmms@gmail.com",
+			"course":"CS2104",
+			"evaluation":"Second Eval",
+			"points":100,
+			"justification":{
+				"value":"This is a justification from danny.e.tmms@gmail.com to alice.b.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from danny.e.tmms@gmail.com to alice.b.tmms@gmail.com"
+			},
+			"team":"Team 2"
+		},
+		"submissionFromTeammatesTestToBennyThirdEval":{
+			"reviewer":"teammates.test@gmail.com",
+			"reviewee":"benny.c.tmms@gmail.com",
+			"course":"CS1101",
+			"evaluation":"Third Eval",
+			"points":80,
+			"justification":{
+				"value":"This is a justification from teammates.test@gmail.com to benny.c.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from teammates.test@gmail.com to benny.c.tmms@gmail.com"
+			},
+			"team":"Team 1"
+		},
+		"submissionFromBennyToTeammatesTestThirdEval":{
+			"reviewer":"benny.c.tmms@gmail.com",
+			"reviewee":"teammates.test@gmail.com",
+			"course":"CS1101",
+			"evaluation":"Third Eval",
+			"points":100,
+			"justification":{
+				"value":"This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com"
+			},
+			"team":"Team 1"
+		},
+		"submissionFromCharlieToDannyThirdEval":{
+			"reviewer":"charlie.d.tmms@gmail.com",
+			"reviewee":"danny.e.tmms@gmail.com",
+			"course":"CS1101",
+			"evaluation":"Third Eval",
+			"points":110,
+			"justification":{
+				"value":"This is a justification from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from charlie.d.tmms@gmail.com to danny.e.tmms@gmail.com"
+			},
+			"team":"Team 2"
+		},
+		"submissionFromDannyToCharlieThirdEval":{
+			"reviewer":"danny.e.tmms@gmail.com",
+			"reviewee":"charlie.d.tmms@gmail.com",
+			"course":"CS1101",
+			"evaluation":"Third Eval",
+			"points":110,
+			"justification":{
+				"value":"This is a justification from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"
+			},
+			"p2pFeedback":{
+				"value":"This is a public comment from danny.e.tmms@gmail.com to charlie.d.tmms@gmail.com"
+			},
+			"team":"Team 2"
+		}
+	},
+	"feedbackSessions":{
+		"session1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2012-03-20 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+			"resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+			"timeZone":2.0,
+			"gracePeriod":10,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		},
+		"session2InCourse1":{
+			"feedbackSessionName":"Second feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2013-03-20 11:59 PM UTC",
+			"startTime":"2013-06-01 11:59 PM UTC",
+			"endTime":"2014-04-28 11:59 PM UTC",
+			"sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
+			"resultsVisibleFromTime":"2014-04-29 11:59 PM UTC",
+			"timeZone":2.0,
+			"gracePeriod":5,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":false,
+			"sentPublishedEmail":false
+		},
+		"session3InCourse1":{
+			"feedbackSessionName":"3rd feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"instructor2@course1.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2013-01-20 11:57 PM UTC",
+			"startTime":"2013-02-01 11:57 PM UTC",
+			"endTime":"2013-04-28 11:57 PM UTC",
+			"sessionVisibleFromTime":"2013-01-20 11:57 PM UTC",
+			"resultsVisibleFromTime":"2013-04-29 11:57 PM UTC",
+			"timeZone":0,
+			"gracePeriod":5,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":false,
+			"sentPublishedEmail":false
+		},
+		"session1InCourse2":{
+			"feedbackSessionName":"Private feedback session",
+			"courseId":"CS1101",
+			"creatorEmail":"teammates.test@gmail.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2012-03-20 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+			"resultsVisibleFromTime":"2015-05-01 11:59 PM UTC",
+			"timeZone":8,
+			"gracePeriod":0,
+			"feedbackSessionType":"PRIVATE",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		},
+		"session2InCourse2":{
+			"feedbackSessionName":"Instructor feedback session",
+			"courseId":"CS1101",
+			"creatorEmail":"teammates.test@gmail.com",
+			"instructions":{
+				"value":"Please please fill in the following questions."
+			},
+			"createdTime":"2012-03-20 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+			"resultsVisibleFromTime":"2015-05-01 11:59 PM UTC",
+			"timeZone":8,
+			"gracePeriod":0,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		}
+	},
+	"feedbackQuestions":{
+		"qn1InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"What is the best selling point of your product?"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn2InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"Comment about 5 other students"
+			},
+			"questionNumber":"2",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":5,
+			"showResponsesTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			]
+		},
+		"qn3InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"My comments on the class"
+			},
+			"questionNumber":"3",
+			"questionType":"TEXT",
+			"giverType":"SELF",
+			"recipientType":"NONE",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			]
+		},
+		"qn4InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\":2, \"mcqChoices\":[\"It's good\", \"It's perfect\"],\"otherEnabled\" : false, \"generateOptionsFor\":\"NONE\"}"
+			},
+			"questionNumber":"4",
+			"questionType":"MCQ",
+			"giverType":"STUDENTS",
+			"recipientType":"NONE",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			]
+		},
+		"qn5InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionText\":\"Who is the best coder?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\":0, \"mcqChoices\":[],\"otherEnabled\" : false, \"generateOptionsFor\":\"STUDENTS\"}"
+			},
+			"questionNumber":"5",
+			"questionType":"MCQ",
+			"giverType":"STUDENTS",
+			"recipientType":"NONE",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			]
+		},
+		"qn6InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionText\":\"What do you like about our product?\", \"questionType\":\"MSQ\", \"numOfMsqChoices\" : 2, \"msqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false, \"generateOptionsFor\":\"NONE\"}"
+			},
+			"questionNumber":"6",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"NONE",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			]
+		},
+		"qn7InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionText\":\"Which team is good?\", \"questionType\":\"MSQ\", \"numOfMsqChoices\":0, \"msqChoices\" : [],\"otherEnabled\" : false, \"generateOptionsFor\":\"TEAMS\"}"
+			},
+			"questionNumber":"7",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"NONE",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			]
+		},
+		"qn8InSession1InCourse1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionText\":\"Rate our product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
+			},
+			"questionNumber":"8",
+			"questionType":"NUMSCALE",
+			"giverType":"STUDENTS",
+			"recipientType":"NONE",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			]
+		},
+		"qn1InSession2InCourse1":{
+			"feedbackSessionName":"Second feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"Give feedback to 2 other teams."
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"TEAMS",
+			"recipientType":"TEAMS",
+			"numberOfEntitiesToGiveFeedbackTo":2,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn2InSession2InCourse1":{
+			"feedbackSessionName":"Second feedback session",
+			"courseId":"CS2104",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"Give feedback to 1 of your team mates"
+			},
+			"questionNumber":"2",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"OWN_TEAM_MEMBERS",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn1InSession1InCourse2":{
+			"feedbackSessionName":"Private feedback session",
+			"courseId":"CS1101",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"This is a private session for myself"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"SELF",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":10,
+			"showResponsesTo":[
+				
+			],
+			"showGiverNameTo":[
+				
+			],
+			"showRecipientNameTo":[
+				
+			]
+		},
+		"qn1InSession2InCourse2":{
+			"feedbackSessionName":"Instructor feedback session",
+			"courseId":"CS1101",
+			"creatorEmail":"teammates.test@gmail.com",
+			"questionMetaData":{
+				"value":"Please rate the following teams"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"TEAMS",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				
+			],
+			"showGiverNameTo":[
+				
+			],
+			"showRecipientNameTo":[
+				
+			]
+		}
+	},
+	"feedbackResponses":{
+		"response1":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"alice.b.tmms@gmail.com",
+			"recipientEmail":"alice.b.tmms@gmail.com",
+			"responseMetaData":{
+				"value":"My product is light."
+			}
+		},
+		"response2":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"alice.b.tmms@gmail.com",
+			"recipientEmail":"benny.c.tmms@gmail.com",
+			"responseMetaData":{
+				"value":"Benny is a good student."
+			}
+		},
+		"response3":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"benny.c.tmms@gmail.com",
+			"recipientEmail":"danny.e.tmms@gmail.com",
+			"responseMetaData":{
+				"value":"Danny starts with D."
+			}
+		},
+		"response4":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"charlie.d.tmms@gmail.com",
+			"recipientEmail":"alice.b.tmms@gmail.com",
+			"responseMetaData":{
+				"value":"Alice is a good girl coder."
+			}
+		},
+		"response5":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"benny.c.tmms@gmail.com",
+			"recipientEmail":"charlie.d.tmms@gmail.com",
+			"responseMetaData":{
+				"value":"Charlie did alot of work."
+			}
+		},
+		"response6":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"TEXT",
+			"giverEmail":"teammates.test@gmail.com",
+			"recipientEmail":"teammates.test@gmail.com",
+			"responseMetaData":{
+				"value":"It's awesome!."
+			}
+		},
+		"response7":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"4",
+			"feedbackQuestionType":"MCQ",
+			"giverEmail":"teammates.test@gmail.com",
+			"recipientEmail":"teammates.test@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's good\", \"otherFieldContent\" : \"\"}"
+			}
+		},
+		"response8":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"5",
+			"feedbackQuestionType":"MCQ",
+			"giverEmail":"teammates.test@gmail.com",
+			"recipientEmail":"teammates.test@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Alice Betsy (Team 2)\", \"otherFieldContent\" : \"\"}"
+			}
+		},
+		"response9":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"6",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"teammates.test@gmail.com",
+			"recipientEmail":"teammates.test@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
+			}
+		},
+		"response10":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"7",
+			"feedbackQuestionType":"MSQ",
+			"giverEmail":"teammates.test@gmail.com",
+			"recipientEmail":"teammates.test@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\", \"Team 2\"]}"
+			}
+		},
+		"response11":{
+			"feedbackSessionName":"First feedback session",
+			"courseId":"CS2104",
+			"feedbackQuestionId":"8",
+			"feedbackQuestionType":"NUMSCALE",
+			"giverEmail":"teammates.test@gmail.com",
+			"recipientEmail":"teammates.test@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
+			}
+		}
+	}
 }
