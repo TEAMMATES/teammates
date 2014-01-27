@@ -115,7 +115,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 		
 		if(answer != null && !answer[0].trim().isEmpty()) {
 			FeedbackAbstractResponseDetails responseDetails = 
-					FeedbackAbstractResponseDetails.createResponseDetails(requestParameters, answer, response.feedbackQuestionType);
+					FeedbackAbstractResponseDetails.createResponseDetails(
+							requestParameters, answer,
+							response.feedbackQuestionType,
+							questionIndx, responseIndx);
 			response.setResponseDetails(responseDetails);
 		} else {
 			response.responseMetaData = new Text("");

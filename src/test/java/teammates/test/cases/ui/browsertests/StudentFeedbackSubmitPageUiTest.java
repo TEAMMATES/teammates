@@ -89,7 +89,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		submitPage.fillResponseTextBox(2, 1, "Response to student who is going to drop out.");
 		submitPage.selectRecipient(2, 2, "Extra guy");
 		submitPage.fillResponseTextBox(2, 2, "Response to extra guy.");
-		submitPage.fillResponseTextBox(14, 0, "1");
+		submitPage.fillResponseTextBox(14, 0, "0"); //less than min to test validation
 		
 		// Test partial response for question		
 		submitPage.fillResponseTextBox(4, 1, "Feedback to team 3");
@@ -188,7 +188,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		submitPage.toggleMsqOption(13, 0, "Team 1");
 		submitPage.toggleMsqOption(13, 0, "Team 3");
 		
-		submitPage.fillResponseTextBox(14, 0, "5");
+		submitPage.fillResponseTextBox(14, 0, "5.5"); //higher than max to test validation 
 		submitPage.fillResponseTextBox(15, 0, "1.5"); 
 		submitPage.fillResponseTextBox(15, 1, "2.5"); 
 		

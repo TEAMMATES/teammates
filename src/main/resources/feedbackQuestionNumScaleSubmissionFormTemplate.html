@@ -1,3 +1,6 @@
 <input type="number" class="numScaleAnswerBox" onChange="validateNumScaleAnswer(${qnIdx}, ${responseIdx})"
-	min=${minScale} max=${maxScale} step=${step} value="${existingAnswer}"
+	min="${minScale}" max="${maxScale}" step="${step}" value="${existingAnswer}"
 	name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"> ${possibleValuesString}
+<input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}-${qnIdx}-${responseIdx}" value="${minScale}">
+<input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}-${qnIdx}-${responseIdx}" value="${maxScale}">
+<input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}-${qnIdx}-${responseIdx}" value="${step}">
