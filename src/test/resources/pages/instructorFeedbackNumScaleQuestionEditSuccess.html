@@ -895,7 +895,7 @@
                                     2
                                  </option>
                               </select>
-                              Multiple-choice question
+                              Numerical-scale question
                            </td>
                            <td class="rightalign" >
                               <a class="color_blue pad_right"  href="#"  id="questionedittext-2"  onclick="enableEdit(2,2)"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit this question')" >
@@ -912,59 +912,41 @@
                         <tr>
                            <td colspan="4" >
                               <textarea class="textvalue nonDestructive"  disabled="disabled"  id="questiontext-2"  name="questiontext"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')"  rows="5"  style="width:100%"  tabindex="9" >
-                                 edited mcq qn text
+                                 edited numscale qn text
                               </textarea>
                            </td>
                         </tr>
                         <tr>
-                           <td colspan="2" >
-                              <table id="mcqChoiceTable-2">
-                                 <tbody>
-                                    <tr id="mcqOptionRow-0-2" >
-                                       <td>
-                                          <input class="disabled_radio"  disabled="disabled"  type="radio" />
-                                                                                 </td>
-                                       <td>
-                                          <input class="mcqOptionTextBox"  disabled="disabled"  id="mcqOption-0-2"  name="mcqOption-0"  type="text"  value="Choice 3" />
-                                                                                    <a class="removeOptionLink"  href="#"  id="mcqRemoveOptionLink"  onclick="removeMcqOption(0,2)"  style="display:none"  tabindex="-1" >
-                                             x
-                                          </a>
-                                       </td>
-                                    </tr>
-                                    <tr id="mcqOptionRow-1-2" >
-                                       <td>
-                                          <input class="disabled_radio"  disabled="disabled"  type="radio" />
-                                                                                 </td>
-                                       <td>
-                                          <input class="mcqOptionTextBox"  disabled="disabled"  id="mcqOption-1-2"  name="mcqOption-1"  type="text"  value="Choice 5" />
-                                                                                    <a class="removeOptionLink"  href="#"  id="mcqRemoveOptionLink"  onclick="removeMcqOption(1,2)"  style="display:none"  tabindex="-1" >
-                                             x
-                                          </a>
-                                       </td>
-                                    </tr>
-                                    <tr id="mcqAddOptionRow-2" >
-                                       <td colspan="2" >
-                                          <a class="color_blue"  href="#"  id="mcqAddOptionLink"  onclick="addMcqOption(2)"  style="display:none" >
-                                             +add more options
-                                          </a>
-                                       </td>
-                                    </tr>
-                                 </tbody>
-                              </table>
-                              <input id="noofchoicecreated-2"  name="noofchoicecreated"  type="hidden"  value="2" />
+							<td colspan="4">
+								<table>
+									<tbody>
+										<tr>
+											<td>Minimum scale: <input class="minScaleBox"
+												disabled="disabled" id="minScaleBox-2" name="numscalemin"
+												onchange="updateNumScalePossibleValues(2)" type="number"
+												value="1" />
+											</td>
+										</tr>
+										<tr>
+											<td>Maximum scale: <input class="maxScaleBox"
+												disabled="disabled" id="maxScaleBox-2" name="numscalemax"
+												onchange="updateNumScalePossibleValues(2)" type="number"
+												value="5" />
+											</td>
+										</tr>
+										<tr>
+											<td>Increment: <input class="stepBox"
+												disabled="disabled" id="stepBox-2" min="0.001"
+												name="numscalestep"
+												onchange="updateNumScalePossibleValues(2)" step="0.001"
+												type="number" value="1" /> <span
+												id="numScalePossibleValues-2"> [Possible values: 1, 2, 3, 4, 5] </span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</td>
-							<td colspan="2" style="vertical-align:top;">
-								<label><input disabled="disabled" id="generateOptionsCheckbox-2"
-									onchange="toggleMcqGeneratedOptions(this,2)" type="checkbox" />
-									Or, generate options from the list of all </label>
-								<select disabled="disabled" id="mcqGenerateForSelect-2"
-									onchange="changeMcqGenerateFor(2)">
-									<option value="STUDENTS">students</option>
-									<option value="TEAMS">teams</option>
-								</select> 
-								<input id="generatedOptions-2" name="generatedOptions" type="hidden" value="NONE" />
-							</td>
-                        </tr>
+						</tr>
                         <tr>
                            <td class="bold"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Who will give feedback')" >
                               Feedback Giver:
@@ -1148,7 +1130,7 @@
                                     <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
                                     <input name="questionid"  type="hidden"  value="{*}" />
                                     <input name="questionnum"  type="hidden"  value="2" />
-                                    <input name="questiontype"  type="hidden"  value="MCQ" />
+                                    <input name="questiontype"  type="hidden"  value="NUMSCALE" />
                                     <input id="questionedittype-2"  name="questionedittype"  type="hidden"  value="edit" />
                                     <input name="showresponsesto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
                                     <input name="showgiverto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />

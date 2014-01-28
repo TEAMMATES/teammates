@@ -195,7 +195,25 @@
 			"feedbackSessionType":"STANDARD",
 			"sentOpenEmail":true,
 			"sentPublishedEmail":true
-		}		
+		},
+		"NUMSCALE Session":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"instructions":{
+				"value":"Instructions for numscale session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2014-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":10,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":true
+		}
 	},
 	"feedbackQuestions":{
 		"qn1InSession1":{
@@ -617,6 +635,83 @@
 			"showRecipientNameTo":[
 				"RECEIVER"
 			]
+		},
+		"qn1InNumscaleSession":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product?\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
+			},
+			"questionNumber":"1",
+			"questionType":"NUMSCALE",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+			
+		},
+		"qn2InNumscaleSession":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product?\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
+			},
+			"questionNumber":"2",
+			"questionType":"NUMSCALE",
+			"giverType":"STUDENTS",
+			"recipientType":"STUDENTS",
+			"numberOfEntitiesToGiveFeedbackTo":3,
+			"showResponsesTo":[
+				"INSTRUCTORS",
+				"RECEIVER",
+				"STUDENTS",
+				"OWN_TEAM_MEMBERS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS",
+				"OWN_TEAM_MEMBERS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS",
+				"RECEIVER"
+			]
+			
+		},
+		"qn3InNumscaleSession":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"creatorEmail":"SFResultsUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your team's product?\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
+			},
+			"questionNumber":"3",
+			"questionType":"NUMSCALE",
+			"giverType":"STUDENTS",
+			"recipientType":"OWN_TEAM_MEMBERS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+			
 		}
 	},
 	"feedbackResponses":{
@@ -871,6 +966,55 @@
 			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
 			"responseMetaData":{
 				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\", \"Team 2\"]}"
+			}
+			
+		},
+		
+		"numscaleResponse1":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"NUMSCALE",
+			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 1}"
+			}
+			
+		},
+		"numscaleResponse2":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"NUMSCALE",
+			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 5}"
+			}
+			
+		},
+		"numscaleResponse3":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"NUMSCALE",
+			"giverEmail":"SFResultsUiT.alice.b@gmail.com",
+			"recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
+			}
+			
+		},
+		"numscaleResponse4":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackQuestionId":"3",
+			"feedbackQuestionType":"NUMSCALE",
+			"giverEmail":"SFResultsUiT.benny.c@gmail.com",
+			"recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 2.5}"
 			}
 			
 		}

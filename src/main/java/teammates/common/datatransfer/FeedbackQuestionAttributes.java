@@ -485,6 +485,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 		case MSQ:
 			questionDetailsClass = FeedbackMsqQuestionDetails.class;
 			break;
+		case NUMSCALE:
+			questionDetailsClass = FeedbackNumericalScaleQuestionDetails.class;
+			break;
 		default:
 			Assumption.fail("FeedbackQuestionType " + questionType + " unsupported by FeedbackQuestionAttributes");
 			break;

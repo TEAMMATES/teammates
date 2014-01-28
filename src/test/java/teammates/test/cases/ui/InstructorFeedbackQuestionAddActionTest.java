@@ -243,6 +243,59 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 	}
+
+	@Test
+	public void testExecuteAndPostProcessNumScale() throws Exception{
+		InstructorAttributes instructor1ofCourse1 =
+				dataBundle.instructors.get("instructor1OfCourse1");
+
+		gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+				
+		______TS("Typical case");
+
+		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+		String[] params = new String[]{
+				Const.ParamsNames.COURSE_ID, fs.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "NUMSCALE",
+				Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Rate the class?",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN, "1",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX, "5",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP, "0.5",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+				Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+		};
+		
+		InstructorFeedbackQuestionAddAction action = getAction(params);
+		RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+		
+		assertEquals(
+				Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+						+ "?courseid="
+						+ instructor1ofCourse1.courseId
+						+ "&fsname=First+feedback+session"
+						+ "&user="
+						+ instructor1ofCourse1.googleId
+						+ "&message=The+question+has+been+added+to+this+feedback+session."
+						+ "&error=false",
+				result.getDestinationWithParams());
+
+		String expectedLogMessage =
+				"TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
+						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+						+ " created.<br><span class=\"bold\">Numerical-scale question:</span> Rate the class?"
+						+ "|||/page/instructorFeedbackQuestionAdd";
+		assertEquals(expectedLogMessage, action.getLogMessage());
+	}
 	
 	@Test
 	public void testExecuteAndPostProcess() throws Exception{

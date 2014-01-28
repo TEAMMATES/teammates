@@ -189,27 +189,10 @@ function deleteQuestion(number){
  * the selection as well.
  */
 function formatNumberBoxes(){
-	
-	// Disallow non-numeric entries [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
-	$('input.numberOfEntitiesBox').keydown(function(event){
-		var key = event.which;
-        // Allow: backspace, delete, tab, escape, and enter
-        if ( key == 46 || key == 8 || key == 9 || key == 27 || key == 13 || 
-             // Allow: Ctrl+A
-            (key == 65 && event.ctrlKey === true) || 
-             // Allow: home, end, left, right
-            (key >= 35 && key <= 39)) {
-                 // let it happen, don't do anything
-                 return;
-        }
-        else {
-            // Ensure that it is a number and stop the keypress
-            if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105 )) {
-                event.preventDefault();
-                return false;
-            }   
-        }		
-	});
+	disallowNonNumericEntries($('input.numberOfEntitiesBox'), false, false);
+	disallowNonNumericEntries($('input.minScaleBox'), false, true);
+	disallowNonNumericEntries($('input.maxScaleBox'), false, true);
+	disallowNonNumericEntries($('input.stepBox'), true, false);
 	
 	// Binds onChange of recipientType to modify numEntityBox visibility
 	$("select[name="+FEEDBACK_QUESTION_RECIPIENTTYPE+"]").each(function(){
@@ -288,18 +271,28 @@ function prepareQuestionForm(type) {
 		$("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_TEXT);
 		$('#mcqForm').hide();
 		$('#msqForm').hide();
+		$('#numScaleForm').hide();
 		break;
 	case "MCQ":
 		$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
 		$("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MCQ);
 		$('#mcqForm').show();
 		$('#msqForm').hide();
+		$('#numScaleForm').hide();
 		break;
 	case "MSQ":
 		$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
 		$("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MSQ);
 		$('#mcqForm').hide();
 		$('#msqForm').show();
+		$('#numScaleForm').hide();
+		break;
+	case "NUMSCALE":
+		$("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
+		$('#mcqForm').hide();
+		$('#msqForm').hide();
+		$('#numScaleForm').show();
+		$('#'+FEEDBACK_QUESTION_TEXT).attr("placeholder","e.g. Rate the class from 1 (very bad) to 5 (excellent)");
 		break;
 	}
 }
@@ -394,6 +387,60 @@ function changeMsqGenerateFor(questionNumber) {
 	
 	$("#generatedOptions"+idSuffix).attr("value", 
 			$("#msqGenerateForSelect"+idSuffix).prop("value"));
+}
+
+function updateNumScalePossibleValues(questionNumber) {
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	
+	var min = parseInt($("#minScaleBox"+idSuffix).val());
+	var max = parseInt($("#maxScaleBox"+idSuffix).val());
+	var step = parseFloat($("#stepBox"+idSuffix).val());
+	
+	if (max <= min) {
+		max = min + 1;
+		$("#maxScaleBox"+idSuffix).val(max);
+	}
+	
+	if (step <= 0) {
+		step = 0.001;
+		$("#stepBox"+idSuffix).val(step);
+	}
+	
+	var cur = min + step;
+	var largestValueInRange = min;
+	var possibleValuesCount = 1;
+	while ((max - cur) >= -1e-9) {
+		largestValueInRange = cur;
+		cur += step;
+		possibleValuesCount++;
+	}
+
+	var possibleValuesString = "";
+	if (Math.round(largestValueInRange*1000)/1000 != max) {
+		$("#numScalePossibleValues"+idSuffix).css("color","red");
+		possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
+	} else {
+		$("#numScalePossibleValues"+idSuffix).css("color","black");
+		possibleValuesString = "[Possible values: ";
+		if (possibleValuesCount > 6) {
+			possibleValuesString += min.toString() + ", "
+									+ (Math.round((min + step)*1000)/1000).toString() + ", "
+									+ (Math.round((min + 2*step)*1000)/1000).toString() + ", ..., "
+									+ (Math.round((max - 2*step)*1000)/1000).toString() + ", "
+									+ (Math.round((max - step)*1000)/1000).toString() + ", "
+									+ max.toString();		
+		} else {
+			possibleValuesString += min.toString();
+			cur = min + step;
+			while ((max - cur) >= -1e-9) {
+				possibleValuesString += ", " + cur.toString();
+				cur += step;
+			}
+		}
+		possibleValuesString += "]";
+	}
+	
+	$("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
 }
 
 /**

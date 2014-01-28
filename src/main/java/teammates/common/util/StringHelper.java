@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.crypto.Cipher;
@@ -100,6 +101,11 @@ public class StringHelper {
 		returnValue += strings.get(strings.size()-1);
 		
 		return returnValue;		
+	}
+	
+	public static String toDecimalFormatString(double doubleVal) {
+		DecimalFormat df = new DecimalFormat("0.#");
+		return df.format(doubleVal);
 	}
 
 	private static String byteArrayToHexString(byte[] b) {

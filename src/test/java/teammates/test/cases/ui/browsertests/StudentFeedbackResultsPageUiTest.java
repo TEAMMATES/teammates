@@ -2,11 +2,6 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.test.driver.HtmlHelper;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -85,6 +79,11 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(5,""));
 		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(5,""));
 		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(5,""));
+		
+		______TS("NUMSCALE session results");
+		
+		resultsPage = loginToStudentFeedbackSubmitPage("Alice", "NUMSCALE Session");
+		resultsPage.verifyHtml("/studentFeedbackResultsPageNUMSCALE.html");
 		
 	}
 

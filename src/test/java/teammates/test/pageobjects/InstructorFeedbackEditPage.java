@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 import com.google.appengine.api.datastore.Text;
@@ -89,21 +90,45 @@ public class InstructorFeedbackEditPage extends AppPage {
 		return getPageSource().contains("<h1>Edit Feedback Session</h1>");
 	}
 	
-	public void fillInstructionsBox(String instructions){
+	public void fillInstructionsBox(String instructions) {
 		fillTextBox(instructionsTextBox, instructions);
 	}
 	
-	public void fillQuestionBox(String qnText){
+	public void fillQuestionBox(String qnText) {
 		fillTextBox(questionTextBox, qnText);
 	}
 	
-	public void fillEditQuestionBox(String qnText, int qnIndex){
+	public void fillEditQuestionBox(String qnText, int qnIndex) {
 		WebElement questionEditTextBox = browser.driver.findElement(By.id("questiontext-" + qnIndex));
 		fillTextBox(questionEditTextBox, qnText);
 	}
 	
-	public void fillNumOfEntitiesToGiveFeedbackToBox(String num){
+	public void fillNumOfEntitiesToGiveFeedbackToBox(String num) {
 		fillTextBox(numberOfRecipients, num);
+	}
+	
+	public void fillMinNumScaleBox(int minScale, int qnNumber) {
+		String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+		WebElement minScaleBox = browser.driver.findElement(By.id("minScaleBox" + idSuffix));
+		fillTextBox(minScaleBox, Integer.toString(minScale));
+	}
+	
+	public void fillMaxNumScaleBox(int maxScale, int qnNumber) {
+		String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+		WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
+		fillTextBox(maxScaleBox, Integer.toString(maxScale));
+	}
+	
+	public void fillStepNumScaleBox(double step, int qnNumber) {
+		String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+		WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
+		fillTextBox(stepBox, StringHelper.toDecimalFormatString(step));
+	}
+	
+	public String getNumScalePossibleValuesString(int qnNumber) {
+		String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+		WebElement possibleValuesSpan = browser.driver.findElement(By.id("numScalePossibleValues" + idSuffix));
+		return possibleValuesSpan.getText();
 	}
 	
 	public void clickMaxNumberOfRecipientsButton() {

@@ -21,7 +21,7 @@ public class FeedbackSubmitPage extends AppPage {
 				"-" + qnNumber + "-" + responseNumber, "label=" + recipientName);
 	}
 	
-	public void fillQuestionTextBox(int qnNumber, int responseNumber, String text) {
+	public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
 		WebElement element = browser.driver.findElement(
 				By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
 		fillTextBox(element, text);
