@@ -248,7 +248,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 						r.getDestinationWithParams());
 		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 		
-		______TS("mcq");
+		______TS("mcq: typical case");
 		
 		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
@@ -284,7 +284,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 						r.getDestinationWithParams());
 		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 		
-		______TS("mcq, question skipped");
+		______TS("mcq: question skipped");
 		
 		submissionParams = new String[]{
 				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -306,7 +306,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 						r.getDestinationWithParams());
 		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 		
-		______TS("msq");
+		______TS("msq: typical case");
 		
 		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
@@ -342,7 +342,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 						r.getDestinationWithParams());
 		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 		
-		______TS("msq, question skipped");
+		______TS("msq: question skipped");
 		
 		submissionParams = new String[]{
 				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -364,7 +364,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 						r.getDestinationWithParams());
 		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 		
-		______TS("numscale");
+		______TS("numerical scale: typical case");
 		
 		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
@@ -405,7 +405,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 						r.getDestinationWithParams());
 		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 		
-		______TS("numscale, question skipped");
+		______TS("numerical scale: question skipped");
 		
 		submissionParams = new String[]{
 				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",

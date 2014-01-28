@@ -545,13 +545,12 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
              // Allow dot if decimal point is allowed 
             (decimalPointAllowed && key == 190) ||
              // Allow hyphen if negative is allowed 
-             // Code differs by browser (FF/Opera:109, IE/Chrome: 189)
+             // Code differs by browser (FF/Opera:109, IE/Chrome:189)
              // see http://www.javascripter.net/faq/keycodes.htm
         	(negativeAllowed && (key == 189 || key == 109)) ) {
                  // let it happen, don't do anything
                  return;
-        }
-        else {
+        } else {
             // Ensure that it is a number and stop the keypress
             if (event.shiftKey || (key < 48 || key > 57) && (key < 96 || key > 105 )) {
                 event.preventDefault();
