@@ -516,21 +516,12 @@ div#statusMessage {
 	color: white;
 }
 
+ul.bulletedList {
+	list-style-type: disc;
+	padding-left: 25px;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ul.bulletedList li {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
