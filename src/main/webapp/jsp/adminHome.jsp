@@ -62,7 +62,7 @@
 						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_INSTITUTION%>"></td>
 				    </tr>
 				    <tr>
-						<td class="centeralign"><input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE%>" value="importsample">Import sample data</td>
+						<td class="centeralign"><input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE%>" value="importsample" checked="checked">Import sample data</td>
 				    </tr>
 				    <tr>
 						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor" onclick="return verifyInstructorData();"></td>
