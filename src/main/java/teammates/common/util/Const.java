@@ -95,8 +95,6 @@ public class Const {
 		public static final String EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this<br />or the data is not enough";
 		public static final String EVALUATION_SUBMISSION_NOT_SURE = "Not sure about the contribution";
 	
-		public static final String STUDENT_JOIN_COURSE = "Enter your registration key for the course.";
-		public static final String STUDENT_JOIN_COURSE_BUTTON = "This will require you to re-login to your Google account.";
 		public static final String STUDENT_COURSE_PROFILE = "Your profile in this course";
 		public static final String STUDENT_COURSE_DETAILS = "View and edit information regarding your team";
 	
@@ -476,13 +474,16 @@ public class Const {
 	/* These are status messages that may be shown to the user */
 	public class StatusMessages{
 		public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
-		public static final String STUDENT_FIRST_TIME = "Welcome stranger :-) "
+		public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
 				+ "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
 				+ "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
-				+ "<br/><br/>If you already clicked on such a link and ended up here, it is likely that your email software messed up the link. Please retry to join by filling in the above box the registration key given in that same e-mail."
-				+ "If you still cannot join, feel free to <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>contact us</a> for help. "
-				+ "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? That can happen if you changed the primary email from a non-Gmail address to a Gmail address recently. " 
-				+ "<br/>In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address. ";
+				+ "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? These are the possible reasons:"
+				+ "<br/>1. You used a different Google account to access TEAMMATES in the past. "
+				+ "In that case, you need to use the same Google account to access TEAMMATES again. Logout and re-login using the other Google account. "
+				+ "If you don't remember which Google account you used previously, email us from the same email account to which you receive TEAMMATES emails."
+				+ "<br/>2. You changed the primary email from a non-Gmail address to a Gmail address recently. " 
+				+ "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address."
+				+ "</div>";
 		
 		public static final String COURSE_ADDED = "The course has been added.. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
 				+ "or click <a href=\"${courseEditLink}\">here</a> to add other instructors.<br>"

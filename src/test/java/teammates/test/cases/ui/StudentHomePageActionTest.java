@@ -61,9 +61,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		gaeSimulation.loginUser(unregUserId);
 		StudentHomePageAction a = getAction(submissionParams);
 		ShowPageResult r = getShowPageResult(a);
-		AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?message=Welcome+stranger{*}&error=false&user=unreg.user", r.getDestinationWithParams());
+		AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?message={*}Welcome+stranger{*}&error=false&user=unreg.user", r.getDestinationWithParams());
 		assertEquals(false, r.isError);
-		AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address. ",r.getStatusMessage());
+		AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",r.getStatusMessage());
 		
 		StudentHomePageData data = (StudentHomePageData)r.data;
 		assertEquals(0, data.courses.size());
@@ -94,9 +94,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		gaeSimulation.loginUser(studentWithoutCourses.googleId);
 		a = getAction(submissionParams);
 		r = getShowPageResult(a);
-		AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?message=Welcome+stranger{*}&error=false&user="+studentWithoutCourses.googleId, r.getDestinationWithParams());
+		AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?message={*}Welcome+stranger{*}&error=false&user="+studentWithoutCourses.googleId, r.getDestinationWithParams());
 		assertEquals(false, r.isError);
-		AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address. ",r.getStatusMessage());
+		AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",r.getStatusMessage());
 		
 		data = (StudentHomePageData)r.data;
 		assertEquals(0, data.courses.size());

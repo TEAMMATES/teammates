@@ -44,30 +44,7 @@
 			<div id="headerOperation">
 				<h1>Student Home</h1>
 			</div>
-		
-			<form method="post" action="<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>" name="form_joincourse">
-				<table class="inputTable" id="result_addOrJoinCourse">
-					<tr>
-						<td class="label bold">Registration Key:</td>
-						<td>
-							<input class="keyvalue" type="text"
-									name="<%=Const.ParamsNames.REGKEY%>"
-									id="<%=Const.ParamsNames.REGKEY%>"
-									onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_JOIN_COURSE%>')"
-									onmouseout="hideddrivetip()" tabindex="1">
-						</td>
-						<td>
-							<input id="button_join_course" type="submit" class="button"
-									onclick="return this.form.<%=Const.ParamsNames.REGKEY%>.value!=''"
-									value="Join Course" tabindex="2"
-									onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_JOIN_COURSE_BUTTON%>')"
-									onmouseout="hideddrivetip()">
-						</td>
-					</tr>
-				 </table>
-				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-			</form>
-			
+						
 			<br>
 			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>

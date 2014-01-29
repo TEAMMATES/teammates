@@ -1,17 +1,24 @@
 package teammates.test.cases.ui.browsertests;
 
+import java.lang.reflect.Constructor;
+
+import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.DevServerLoginPage;
+import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentHelpPage;
@@ -55,7 +62,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		
 		testJoinAction();
 		
-		testResultsLinks(); //doing this last because it depends on the 'testJoinAction()'
+		testResultsLinks();
 	}
 
 
@@ -112,32 +119,45 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		
 	}
 
-
 	private void testJoinAction() throws Exception {
-		
+
 		______TS("fail: invalid key");
 		
-		studentHome.fillKey("ThisIsAnInvalidKey");
-		studentHome.clickJoinButton().loginAsStudent(
-				TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-				TestProperties.inst().TEST_STUDENT1_PASSWORD)
-				.verifyHtml("/studentHomeInvalidKey.html");
-				
-		______TS("joining the first course");
-	
-		String courseId = testData.courses.get("SHomeUiT.CS2104").id;
-		String studentEmail = testData.students.get("alice.tmms@SHomeUiT.CS2104").email;
+		String joinActionUrl = TestProperties.inst().TEAMMATES_URL
+				+ Const.ActionURIs.STUDENT_COURSE_JOIN;
+
+		String joinLink = Url.addParamToUrl(
+				joinActionUrl,
+				Const.ParamsNames.REGKEY, "ThisIsAnInvalidKey");
 		
-		studentHome.fillKey(BackDoor.getKeyForStudent(courseId, studentEmail));
-		studentHome.clickJoinButton().loginAsStudent(
-				TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-				TestProperties.inst().TEST_STUDENT1_PASSWORD)
+		browser.driver.get(joinLink);
+		createCorretLoginPageType(browser.driver.getPageSource())
+				.loginAsStudent(
+						TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+						TestProperties.inst().TEST_STUDENT1_PASSWORD)
+				.verifyHtml("/studentHomeInvalidKey.html");
+		
+		______TS("joining the first course");
+
+		String courseId = testData.courses.get("SHomeUiT.CS2104").id;
+		String studentEmail = testData.students
+				.get("alice.tmms@SHomeUiT.CS2104").email;
+
+		joinLink = Url.addParamToUrl(
+				joinActionUrl,
+				Const.ParamsNames.REGKEY,
+				BackDoor.getKeyForStudent(courseId, studentEmail));
+		
+		browser.driver.get(joinLink);
+		createCorretLoginPageType(browser.driver.getPageSource())
+				.loginAsStudent(
+						TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+						TestProperties.inst().TEST_STUDENT1_PASSWORD)
 				.verifyHtml("/studentHomeJoined.html");
 	}
 
-
 	private void testResultsLinks() {
-		// TODO: check disabling of links too
+		// TODO: Implement this. Check disabling of links too
 		
 	}
 
@@ -145,5 +165,27 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserPool.release(browser);
+	}
+	
+	private LoginPage createCorretLoginPageType(String pageSource) {
+		if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
+			return createNewLoginPage(browser, DevServerLoginPage.class);
+		} else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
+			return createNewLoginPage(browser, GoogleLoginPage.class);
+		} else {
+			throw new IllegalStateException("Not a valid login page :"	+ pageSource);
+		}
+	}
+
+	private <T extends LoginPage> T createNewLoginPage(Browser browser, Class<T> typeOfPage) {
+		Constructor<T> constructor;
+		try {
+			constructor = typeOfPage.getConstructor(Browser.class);
+			T page = constructor.newInstance(browser);
+			PageFactory.initElements(browser.driver, page);
+			return page;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
