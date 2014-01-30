@@ -155,6 +155,7 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />

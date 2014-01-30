@@ -498,6 +498,19 @@ public class Logic {
 	 * 
 	 * @return Null if no match found.
 	 */
+	public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, registrationKey);
+
+		return studentsLogic.getStudentForRegistrationKey(registrationKey);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * 
+	 * @return Null if no match found.
+	 */
 	public StudentAttributes getStudentForEmail(String courseId, String email) {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);

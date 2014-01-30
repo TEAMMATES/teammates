@@ -57,7 +57,12 @@
 			
 
 
-	<div id="statusMessage"  style="display: none;" ></div>
+	<div id="statusMessage"  style="display: block; background-color: rgb(255, 153, 153);" >
+		{$test.student1} has already joined this course
+	</div>
+	<script type="text/javascript" >
+		document.getElementById( 'statusMessage' ).scrollIntoView();
+	</script>
 
 			<br />
 

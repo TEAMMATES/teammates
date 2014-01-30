@@ -435,13 +435,14 @@ public class Const {
 		public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
 		public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
 		
-		public static final String STUDENT_HOME = "/jsp/studentHome.jsp"; 
+		public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
+		public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
 		public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
 		public static final String STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp"; 
 		public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp"; 
-	
+			
 		public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
 		public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
 		public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
