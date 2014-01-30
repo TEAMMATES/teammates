@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<%@ page import="teammates.common.util.Config" %>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
@@ -66,8 +67,12 @@
 					<td id="<%=Const.ParamsNames.USER_ID%>"><%=(data.student.googleId!= null ? sanitizeForHtml(data.student.googleId) : "")%></td>
 				</tr>
 				<tr>
-					<td class="label rightalign bold" width="30%">Registration Key:</td>
-					<td id="<%=Const.ParamsNames.REGKEY%>"><%=sanitizeForHtml(data.regKey)%></td>
+					<td class="label rightalign bold" width="30%">Join Link:</td>
+					<td id="<%=Const.ParamsNames.REGKEY%>">
+						<%=sanitizeForHtml(Config.APP_URL 
+								+ Const.ActionURIs.STUDENT_COURSE_JOIN 
+								+ "?regkey=" + data.regKey)%>
+					</td>
 				</tr>
 			 	<tr>
 			 		<td class="label rightalign bold" width="30%">Comments:</td>
