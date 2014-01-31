@@ -199,6 +199,8 @@ public class Const {
 		public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 		public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
 		
+		public static final String COURSE_SORTING_CRITERIA = "sortby";
+		
 		public static final String ADMIN_SEARCH_REBUILD_DOC = "build_doc";
 	
 		public static final String EVALUATION_NAME = "evaluationname";
@@ -650,6 +652,12 @@ public class Const {
 	
 	public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
 	public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
+	
+	//for course sorting in instructorHomePage
+	public static final String SORT_BY_COURSE_ID = "id";
+	public static final String SORT_BY_COURSE_NAME = "name";
+	public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt"; 
+	public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
 
 	/* These constants are used as variable values to mean that the variable 
 	 * is in a 'special' state.

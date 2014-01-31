@@ -16,6 +16,7 @@ public class InstructorHomePageData extends PageData {
 	
 	public InstructorAttributes instructor;
 	public List<CourseSummaryBundle> courses;
+	public String sortCriteria;
 	
 	public String getInstructorEvaluationLinkForCourse(String courseID) {
 		String link = super.getInstructorEvaluationLink();

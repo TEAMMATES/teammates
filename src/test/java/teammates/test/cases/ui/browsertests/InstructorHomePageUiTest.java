@@ -71,6 +71,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		testCourseLinks();
 		testEvaluationLinks();
 		testSearchAction();
+		testSortAction();
 		testRemindAction();
 		testPublishUnpublishActions();
 		testDeleteEvalAction();
@@ -263,6 +264,20 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		
 		//go back to previous page because 'search' redirects to the 'StudentList' page.
 		homePage.goToPreviousPage(InstructorHomePage.class);
+	}
+	
+	public void testSortAction() throws Exception{
+		______TS("sort by id");
+		homePage.clickSortByIdButton();
+		homePage.verifyHtmlAjax("/instructorHomeHTMLSortById.html");
+		
+		______TS("sort by name");
+		homePage.clickSortByNameButton();
+		homePage.verifyHtmlAjax("/instructorHomeHTMLSortByName.html");
+		
+		______TS("sort by date");
+		homePage.clickSortByDateButton();
+		homePage.verifyHtmlAjax("/instructorHomeHTMLSortByDate.html");
 	}
 
 
