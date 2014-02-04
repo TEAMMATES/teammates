@@ -27,6 +27,8 @@ import teammates.storage.entity.Submission;
  */
 public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 	
+	static boolean isTrial = false; //set this true to skip writing to database
+	
 	//TODO: This class contains lot of code copy-pasted from the Logic and 
 	//  Storage layer. This duplication can be removed if we figure out 
 	//  to reuse the Logic API from here.
@@ -38,7 +40,7 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 	
 	protected void doOperation() {
 		try {
-			List<SubmissionAttributes> added = repairSubmissionsForEvaluation("CS2103-Aug2013",	"Peer evaluation 1");
+			List<SubmissionAttributes> added = repairSubmissionsForEvaluation("ENTR3312-Sp14",	"WK03 Peer Evaluation Trial");
 			System.out.println("Number of submissions added :"+added.size());
 		} catch (EntityAlreadyExistsException | InvalidParametersException
 				| EntityDoesNotExistException e) {
@@ -92,12 +94,15 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 			newEntityList.add(sd.toEntity());
 		}
 		
-		pm.makePersistentAll(newEntityList);
-		pm.flush();
+		if (!isTrial) {
+			pm.makePersistentAll(newEntityList);
+			pm.flush();
+		}
 		
 		//Persistence check omitted to save time
 	}
 	
+	//TODO: method name not good
 	private SubmissionAttributes getSubmission(String courseId, String evaluationName,
 			String toStudent, String fromStudent) {
 		
@@ -106,15 +111,56 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, toStudent);
 		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, fromStudent);
 
-		Submission s = getSubmissionEntity(courseId, evaluationName, toStudent, fromStudent);
-
-		if (s == null) {
+		List<Submission> submissions = getSubmissionEntities(courseId, evaluationName, toStudent, fromStudent);
+		
+		if (submissions.size() == 0) {
 			return null;
+		} else if(submissions.size()>1){
+			System.out.println("Multiple submissions");
+			return new SubmissionAttributes(pruneExtrasAndReturnSurvivor(submissions));
+		} else {
+			return new SubmissionAttributes(submissions.get(0));
+			//TODO: use JDOHelper.isDeleted(submissionList.get(0)) 
 		}
-		return new SubmissionAttributes(s);
 	}
 	
-	private Submission getSubmissionEntity(String courseId,
+	private Submission pruneExtrasAndReturnSurvivor(List<Submission> submissions) {
+		Assumption.assertTrue(submissions.size()==2);
+		Submission firstSubmission = submissions.get(0);
+		Submission secondSubmission = submissions.get(1);
+		if(isEmptySubmission(firstSubmission)){
+			deleteSubmission(firstSubmission);
+			return secondSubmission;
+		}else if(isEmptySubmission(secondSubmission)){
+			deleteSubmission(secondSubmission);
+			return firstSubmission;
+		}else{
+			System.out.println("###### both submissions not empty!!!!!!!!");
+			return null;
+		}
+	}
+
+	private void deleteSubmission(Submission s) {
+		System.out.println("deleting duplicate " + s.toString());
+		if (!isTrial) {
+			pm.deletePersistent(s);
+			pm.flush();
+		}
+		
+	}
+
+	private boolean isEmptySubmission(Submission s) {
+		return s.getPoints() == Const.POINTS_NOT_SUBMITTED 
+				&& hasNoValue(s.getCommentsToStudent())
+				&& hasNoValue(s.getJustification());
+	}
+	
+	private boolean hasNoValue(Text text){
+		return text.getValue() == null || 
+				text.getValue().isEmpty();
+	}
+
+	private List<Submission> getSubmissionEntities(String courseId,
 			String evaluationName, String toStudent, String fromStudent) {
 
 		Query q = pm.newQuery(Submission.class);
@@ -137,11 +183,7 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 		@SuppressWarnings("unchecked")
 		List<Submission> submissionList = (List<Submission>) q.executeWithArray(parameters);
 
-		if (submissionList.isEmpty() || JDOHelper.isDeleted(submissionList.get(0))) {
-			return null;
-		}
-
-		return submissionList.get(0);
+		return submissionList;
 	}
 	
 	private List<StudentAttributes> getStudentsForCourse(String courseId) {
