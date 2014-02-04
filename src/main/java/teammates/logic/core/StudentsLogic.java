@@ -158,6 +158,7 @@ public class StudentsLogic {
 		}
 	}
 	
+	//TODO: this name is misleading. Some adjustments are done to submissions.
 	private void updateStudentCascadeWithoutSubmissionAdjustment(String originalEmail, 
 			StudentAttributes student) 
 			throws EntityDoesNotExistException, InvalidParametersException {
