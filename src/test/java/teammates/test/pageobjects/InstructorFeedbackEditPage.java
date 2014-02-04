@@ -69,6 +69,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 	@FindBy(id = "questiontext")
 	private WebElement questionTextBox;
 	
+	@FindBy(id = "givertype")
+	private WebElement giverDropdown;
+	
 	@FindBy(id = "recipienttype")
 	private WebElement recipientDropdown;
 	
@@ -80,6 +83,12 @@ public class InstructorFeedbackEditPage extends AppPage {
 	
 	@FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
 	private WebElement customNumOfRecipients;
+	
+	@FindBy(id = "button_preview_student")
+	private WebElement previewAsStudentButton;
+	
+	@FindBy(id = "button_preview_instructor")
+	private WebElement previewAsInstructorButton;
 	
 	public InstructorFeedbackEditPage(Browser browser) {
 		super(browser);
@@ -231,6 +240,14 @@ public class InstructorFeedbackEditPage extends AppPage {
 				+ "')[0].value='';");
 	}
 	
+	public void selectGiverToBeStudents() {
+		selectDropdownByVisibleValue(giverDropdown, "Students in this course");
+	}
+	
+	public void selectGiverToBeInstructors() {
+		selectDropdownByVisibleValue(giverDropdown, "Instructors in this course");
+	}
+	
 	public void selectRecipientsToBeStudents() {
 		selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
 	}
@@ -312,5 +329,19 @@ public class InstructorFeedbackEditPage extends AppPage {
 		WebElement msqOptionRow = browser.driver.findElement(By.id("msqOptionRow-" + optionIndex + idSuffix));
 		WebElement removeOptionLink = msqOptionRow.findElement(By.id("msqRemoveOptionLink"));
 		removeOptionLink.click();
+	}
+	
+	public FeedbackSubmitPage clickPreviewAsStudentButton() {
+		previewAsStudentButton.click();
+		waitForPageToLoad();
+		switchToNewWindow();
+		return changePageType(FeedbackSubmitPage.class);
+	}
+	
+	public FeedbackSubmitPage clickPreviewAsInstructorButton() {
+		previewAsInstructorButton.click();
+		waitForPageToLoad();
+		switchToNewWindow();
+		return changePageType(FeedbackSubmitPage.class);
 	}
 }

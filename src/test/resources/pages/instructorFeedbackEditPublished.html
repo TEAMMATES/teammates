@@ -449,7 +449,7 @@
 							<td class="bold"
 								onmouseover="ddrivetip('Who will give feedback')"
 								onmouseout="hideddrivetip()">Feedback Giver:</td>
-							<td><select name="givertype" class="participantSelect"
+							<td><select name="givertype" class="participantSelect" id="givertype"
 								onchange="feedbackGiverUpdateVisibilityOptions(this)">
 									<option value="SELF">Me (Session creator)</option>
 									<option value="STUDENTS">Students in this course</option>
@@ -581,6 +581,47 @@
 				<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
 			</form>
 			<br /><br />
+			<table class="inputTable"  id="questionPreviewTable" >
+                  <tbody>
+                     <tr>
+                        <td class="bold" >
+                           Preview Session:
+                        </td>
+                        <td>
+                           <form action="/page/instructorFeedbackPreviewAsStudent"  class="form_preview"  method="post"  name="form_previewasstudent"  target="_blank" >
+                              <select name="previewas" >
+                                 <option value="alice.b.tmms@gmail.com" >
+                                    [Team 1] Alice Betsy
+                                 </option>
+                                 <option value="benny.tmms@gmail.com" >
+                                    [Team 1] Benny Charles
+                                 </option>
+                              </select>
+                              <input name="fsname"  type="hidden"  value="First Session" />
+                                                            <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
+                                                            <input class="button"  id="button_preview_student"  type="submit"  value="Preview as Student" />
+                                                         </form>
+                        </td>
+                        <td>
+                           <form action="/page/instructorFeedbackPreviewAsInstructor"  class="form_preview"  method="post"  name="form_previewasinstructor"  target="_blank" >
+                              <select name="previewas" >
+                                 <option value="tmms.instr@course.com" >
+                                    Instructor 2
+                                 </option>
+                                 <option value="tmms.test@gmail.com" >
+                                    Teammates Test
+                                 </option>
+                              </select>
+                              <input name="fsname"  type="hidden"  value="First Session" />
+                                                            <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
+                                                            <input class="button"  id="button_preview_instructor"  type="submit"  value="Preview as Instructor" />
+                                                         </form>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <br/>
+                              <br/>
 		</div>
 	</div>
 	

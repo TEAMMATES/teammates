@@ -1,0 +1,120 @@
+<html>
+<head>
+	<link href="/favicon.png" rel="shortcut icon" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<title>TEAMMATES - Submit Feedback</title>
+	<link href="/stylesheets/common.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/stylesheets/common-print.css" media="print" rel="stylesheet" type="text/css" />
+	<link href="/stylesheets/studentFeedback.css" media="screen" rel="stylesheet" type="text/css" />
+	<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript"></script>
+	<script src="/js/googleAnalytics.js" type="text/javascript"></script>
+	<script src="/js/jquery-minified.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
+	<script src="/js/feedbackSubmissionsEdit.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="frameTop">
+		<div id="frameTopWrapper">
+			<h1 class="color_white centeralign">Previewing Session as Instructor Instructor 2 (tmms.instr@gmail.com)</h1>
+		</div>
+	</div>
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>Submit Feedback</h1>
+			</div>
+			<form action="/page/instructorFeedbackSubmissionEditSave" method="post"
+				name="form_submit_response">
+				<table class="inputTable">
+					<tbody>
+						<tr>
+							<td class="bold">Course:</td>
+							<td colspan="2">CFeedbackEditUiT.CS2104</td>
+						</tr>
+						<tr>
+							<td class="bold">Session Name:</td>
+							<td colspan="3">First Session</td>
+						</tr>
+						<tr>
+							<td class="bold">Open from:</td>
+							<td>01 Apr 2012, 23:59</td>
+							<td class="bold">To:</td>
+							<td>01 May 2014, 22:00</td>
+						</tr>
+						<tr>
+							<td class="bold middlealign">Instructions:</td>
+							<td class="multiline" colspan="3">Please fill in the edited feedback session.</td>
+						</tr>
+					</tbody>
+				</table>
+				<br />
+				<div id="statusMessage" style="display: none;"></div>
+				<br /> 
+				<input name="questiontype-1" type="hidden" value="TEXT" /> <input
+					name="questionid-1" type="hidden"
+					value="{*}" />
+				<input name="questionresponsetotal-1" type="hidden" value="1" />
+				<table class="inputTable responseTable">
+					<tbody>
+						<tr>
+							<td class="bold" colspan="2">Question 1</td>
+						</tr>
+						<tr style="border-bottom: 3px dotted white;" >
+							<td colspan="2">question for instructors</td>
+						</tr>
+						<tr>
+							<td class="bold" colspan="2">Only the following persons can see your responses:</td>
+						</tr>
+						<tr style="border-bottom: 3px dotted white;">
+							<td colspan="2" onmouseout="hideddrivetip()"
+								onmouseover="ddrivetip('Here you can see the visibility of your feedback to the various users<br />in the course once the results are published.')">
+								<ul>
+									<li>You can see your own feedback in the results page later on.</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td class="bold centeralign" colspan="3"
+								style="padding-top: 15px; padding-bottom: 0px">
+								Your Response
+							</td>
+						</tr>
+						<tr>
+							<td class="middlealign nowrap" style="display:none">
+							<span class="label bold"> To: </span> 
+							<select class="participantSelect middlealign newResponse"
+								name="responserecipient-1-0" style="display:none">
+									<option selected="selected" value=""></option>
+									<option value="tmms.instr@course.com">Myself</option>
+							</select>
+							<span> Myself </span></td>
+							<td class="responseText">
+								<textarea class="textvalue"
+									cols="100%" name="responsetext-1-0" rows="4"></textarea>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br /> <br />
+				<div class="bold centeralign">
+					<input class="button" disabled="disabled"
+						id="response_submit_button" onmouseout="hideddrivetip()"
+						onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')"
+						type="submit" value="Save Feedback" />
+				</div>
+				<br /> <br />
+			</form>
+		</div>
+	</div>
+	<div id="frameBottom">
+		<div id="contentFooter">
+			<span class="floatleft"> [TEAMMATES <span class="color_white">V{$version} </span> ]
+			</span> [for <span class="color_white">National University of Singapore</span>] 
+			<span class="floatright"> [Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
+		</div>
+	</div>
+</body>
+</html>

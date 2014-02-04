@@ -239,7 +239,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		newSession.startTime = TimeHelper.convertToDate("2012-05-01 8:00 AM UTC");
 		newSession.endTime = TimeHelper.convertToDate("2012-09-01 11:00 PM UTC");
 		newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-		newSession.resultsVisibleFromTime = TimeHelper.convertToDate("2014-02-02 1:00 AM UTC");
+		newSession.resultsVisibleFromTime =  TimeHelper.convertToDate("2016-09-01 11:00 PM UTC");
 		newSession.gracePeriod = 5;
 		newSession.instructions = new Text("");
 		

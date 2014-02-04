@@ -18,6 +18,7 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 
@@ -94,7 +95,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		testEditQuestionAction();
 		testDeleteQuestionAction();
 		
-		
+		testPreviewSessionAction();
 		
 		testDeleteSessionAction();
 	}
@@ -247,7 +248,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		feedbackEditPage.verifyHtml("/instructorFeedbackMcqQuestionEditSuccess.html");
 		
-		______TS("MSQ: edit to generated options");
+		______TS("MCQ: edit to generated options");
 
 		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));	
 		feedbackEditPage.fillEditQuestionBox("generated mcq qn text", 2);
@@ -276,7 +277,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 				Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2", 
 				FeedbackParticipantType.STUDENTS.toString());
 		
-		______TS("MSQ: change generated type");
+		______TS("MCQ: change generated type");
 		
 		assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
 		assertEquals(true, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
@@ -530,6 +531,37 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
 		assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+	}
+
+	private void testPreviewSessionAction() {
+		
+		// add questions for previewing
+		assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+		feedbackEditPage.fillQuestionBox("question for me");
+		feedbackEditPage.clickAddQuestionButton();
+		
+		assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+		feedbackEditPage.fillQuestionBox("question for students");
+		feedbackEditPage.selectGiverToBeStudents();
+		feedbackEditPage.clickAddQuestionButton();
+		
+		assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+		feedbackEditPage.fillQuestionBox("question for instructors");
+		feedbackEditPage.selectGiverToBeInstructors();
+		feedbackEditPage.clickAddQuestionButton();
+		
+		______TS("preview as student");
+		
+		FeedbackSubmitPage previewPage;
+		previewPage = feedbackEditPage.clickPreviewAsStudentButton();
+		previewPage.verifyHtml("/studentFeedbackSubmitPagePreview.html");
+		previewPage.closeCurrentWindowAndSwitchToParentWindow();
+		
+		______TS("preview as instructor");
+		
+		previewPage = feedbackEditPage.clickPreviewAsInstructorButton();
+		previewPage.verifyHtml("/instructorFeedbackSubmitPagePreview.html");
+		previewPage.closeCurrentWindowAndSwitchToParentWindow();
 	}
 	
 	private void testDeleteSessionAction() {

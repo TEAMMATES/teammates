@@ -13,6 +13,33 @@
 			"isInstructor":true,
 			"email":"teammates.instr@gmail.com",
 			"institute":"National University of Singapore"
+		},"alice.b.tmms":{
+			"googleId":"alice.b.tmms",
+			"name":"Alice Betsy",
+			"isInstructor":false,
+			"email":"alice.b.tmms@gmail.com",
+			"institute":"National University of Singapore"
+		},
+		"benny.c.tmms":{
+			"googleId":"benny.c.tmms",
+			"name":"Benny Charles",
+			"isInstructor":false,
+			"email":"benny.c.tmms@gmail.com",
+			"institute":"National University of Singapore"
+		},
+		"charlie.d.tmms":{
+			"googleId":"charlie.d.tmms",
+			"name":"Charlie Davis",
+			"isInstructor":false,
+			"email":"charlie.d.tmms@gmail.com",
+			"institute":"National University of Singapore"
+		},
+		"danny.e.tmms":{
+			"googleId":"danny.e.tmms",
+			"name":"Danny Engrid",
+			"isInstructor":false,
+			"email":"danny.e.tmms@gmail.com",
+			"institute":"National University of Singapore"
 		}
 	},
 	"courses":{

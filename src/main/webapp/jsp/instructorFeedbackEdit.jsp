@@ -8,6 +8,8 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.StudentAttributes"%>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackEditPageData"%>
 <%
 	InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.getAttribute("data");
@@ -617,7 +619,7 @@
 				</tr>
 				<tr>
 					<td class="bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>"
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>"
 								onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
@@ -710,6 +712,48 @@
 				name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>" 
 				value="<%=FeedbackParticipantType.NONE.toString()%>"> 
 		</form>			
+		<br><br>
+		<table class="inputTable" id="questionPreviewTable">
+			<tr>
+				<td class="bold">
+					Preview Session:
+				</td>
+				<td>
+					<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>" 
+						name="form_previewasstudent" class="form_preview" target="_blank">			
+						<select name="<%=Const.ParamsNames.FEEDBACK_SESSION_PREVIEWAS%>">
+							<% 
+								for(StudentAttributes student : data.studentList) {
+							%>
+									<option value="<%=student.email%>">[<%=student.team%>] <%=student.name%></option>
+							<%
+								}
+							%>
+						</select>
+						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+						<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+						<input id="button_preview_student" type="submit" class="button" value="Preview as Student">
+					</form>
+				</td>
+				<td>
+					<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>" 
+						name="form_previewasinstructor" class="form_preview" target="_blank">			
+						<select name="<%=Const.ParamsNames.FEEDBACK_SESSION_PREVIEWAS%>">
+						<%
+							for(InstructorAttributes instructor : data.instructorList) {
+						%>
+								<option value="<%=instructor.email%>"><%=instructor.name%></option>
+						<%
+							}
+						%>
+						</select>
+						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+						<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+						<input id="button_preview_instructor" type="submit" class="button" value="Preview as Instructor">
+					</form>
+				</td>
+			</tr>
+		</table>
 		<br><br>
 		</div>
 	</div>
