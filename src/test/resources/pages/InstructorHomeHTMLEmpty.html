@@ -94,12 +94,28 @@
 	</form>
 	<br /> <br />
 			
-			<div class="backgroundBlock">
-				<div class="blockLink rightalign">
-					<a class="color_white bold" id="addNewCourse" name="addNewCourse" href="/page/instructorCoursesPage?user={$test.instructor}">
-						Add New Course </a>
-				</div>
-			</div>
+			<div class="backgroundBlock blockLink"  style="background: #EAEFF5;" >
+				<table class="inputTable"  id="sortingTable" >
+					<tbody>
+						<tr>
+						   <td>
+							  <input name="sortby"  type="radio"  value="id"  id="sortbyid"/>Sort by course ID
+						   </td>
+						   <td>
+							  <input name="sortby"  type="radio"  value="name"  id="sortbyname"/>Sort by course name
+						   </td>
+						   <td>
+							  <input checked="checked"  name="sortby"  type="radio"  value="createdAt"  id="sortbydate"/>Sort by course creation date
+						   </td>
+						   <td class="rightalign"  style="width: 400px;" >
+							  <a class="bold"  href="/page/instructorCoursesPage?user={$test.instructor}"  id="addNewCourse"  name="addNewCourse" >
+								 Add New Course
+							  </a>
+						   </td>
+						</tr>
+					</tbody>
+				</table>
+		   </div>
 
 			
 		</div>	

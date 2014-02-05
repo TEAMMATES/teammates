@@ -47,7 +47,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		
 		String[] submissionParams = new String[]{};
 		
-		______TS("insctructor with no courses");
+		______TS("instructor with no courses");
 		
 		gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
 		InstructorHomePageAction a = getAction(submissionParams);
@@ -68,8 +68,11 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 				"|||iwc@yahoo.com|||instructorHome Page Load<br>Total Courses: 0|||/page/instructorHomePage" ;
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
-		______TS("instructor with multiple courses, masquerade mode");
+		______TS("instructor with multiple courses, sort by course id, masquerade mode");
 		
+		submissionParams = new String[]{
+				Const.ParamsNames.COURSE_SORTING_CRITERIA, Const.SORT_BY_COURSE_ID
+		};
 		gaeSimulation.loginAsAdmin("admin.user");
 		
 		//create a CLOSED evaluation
@@ -104,7 +107,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 		
 		data = (InstructorHomePageData)r.data;
 		assertEquals(2, data.courses.size());
-		
+		assertEquals(Const.SORT_BY_COURSE_ID, data.sortCriteria);
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true" +
 				"|||Instructor(M)|||Instructor 3 of Course 1 and 2|||idOfInstructor3" +

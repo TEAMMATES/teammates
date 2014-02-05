@@ -800,11 +800,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
 				session.feedbackSessionName, session.courseId, instructor.email);
 		
-		System.out.println(export);
-		
 		/*This is how the export should look like
 		=======================================
-		Course,"idOfTypicalCourse1"
+		Course,"FSQTT.idOfTypicalCourse1"
 		Session Name,"MCQ Session"
 		 
 		 
@@ -848,11 +846,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
 				session.feedbackSessionName, session.courseId, instructor.email);
 		
-		System.out.println(export);
-		
 		/*This is how the export should look like
 		=======================================
-		Course,"idOfTypicalCourse1"
+		Course,"FSQTT.idOfTypicalCourse1"
 		Session Name,"MCQ Session"
 		 
 		 
@@ -861,6 +857,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		Giver,Recipient,Feedbacks:,"It's good","It's perfect"
 		"student1 In Course1","student1 In Course1",,"It's good",
 		"student2 In Course1","student2 In Course1",,,"It's perfect"
+		
+		Question 2,"What do you like best about the class' product?"
+		
+		Giver,Recipient,Feedbacks:,"It's good","It's perfect"
+		"Instructor1 Course1","Instructor1 Course1",,"It's good","It's perfect"
+		"Instructor2 Course1","Instructor2 Course1",,,"It's perfect"
 		*/
 		
 		exportLines = export.split(Const.EOL);
@@ -880,6 +882,54 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		assertEquals(exportLines[13], "Giver,Recipient,Feedbacks:,\"It's good\",\"It's perfect\"");
 		assertEquals(exportLines[14], "\"Instructor1 Course1\",\"Instructor1 Course1\",,\"It's good\",\"It's perfect\"");
 		assertEquals(exportLines[15], "\"Instructor2 Course1\",\"Instructor2 Course1\",,,\"It's perfect\"");
+		
+		______TS("NUMSCALE results");
+		
+		session = dataBundle.feedbackSessions.get("numscaleSession");
+		instructor = dataBundle.instructors.get("instructor1OfCourse1");
+		
+		export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+				session.feedbackSessionName, session.courseId, instructor.email);
+		
+		System.out.println(export);
+		
+		/*This is how the export should look like
+		=======================================
+		Course,"FSQTT.idOfTypicalCourse1"
+		Session Name,"NUMSCALE Session"
+		
+		
+		Question 1,"Rate our product."
+		
+		Giver,Recipient,Feedback
+		"student1 In Course1","student1 In Course1",3.5
+		"student2 In Course1","student2 In Course1",2
+		
+		
+		Question 2,"Rate our product."
+		
+		Giver,Recipient,Feedback
+		"Instructor1 Course1","Instructor1 Course1",4.5
+		"Instructor2 Course1","Instructor2 Course1",1
+		*/
+		
+		exportLines = export.split(Const.EOL);
+		assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+		assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+		assertEquals(exportLines[2], "");
+		assertEquals(exportLines[3], "");
+		assertEquals(exportLines[4], "Question 1,\"Rate our product.\"");
+		assertEquals(exportLines[5], "");
+		assertEquals(exportLines[6], "Giver,Recipient,Feedback");
+		assertEquals(exportLines[7], "\"student1 In Course1\",\"student1 In Course1\",3.5");
+		assertEquals(exportLines[8], "\"student2 In Course1\",\"student2 In Course1\",2");
+		assertEquals(exportLines[9], "");
+		assertEquals(exportLines[10], "");
+		assertEquals(exportLines[11], "Question 2,\"Rate our product.\"");
+		assertEquals(exportLines[12], "");
+		assertEquals(exportLines[13], "Giver,Recipient,Feedback");
+		assertEquals(exportLines[14], "\"Instructor1 Course1\",\"Instructor1 Course1\",4.5");
+		assertEquals(exportLines[15], "\"Instructor2 Course1\",\"Instructor2 Course1\",1");
 		
 		______TS("Non-existent Course/Session");
 		

@@ -11,12 +11,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -320,6 +322,73 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
 				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
 				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString()			
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=FSQTT.student1InCourse1",
+						r.getDestinationWithParams());
+		assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("numscale");
+		
+		dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+		restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+		
+		fq = fqDb.getFeedbackQuestion("NUMSCALE Session", "FSQTT.idOfTypicalCourse1", 1);
+		assertNotNull("Feedback question not found in database", fq);
+		FeedbackNumericalScaleQuestionDetails fqd =
+				(FeedbackNumericalScaleQuestionDetails) fq.getQuestionDetails();
+		
+		fr = dataBundle.feedbackResponses.get("response1ForQ1S3C1");
+		fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
+		assertNotNull("Feedback response not found in database", fr);
+		
+		student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "0",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.minScale),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.maxScale),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString(fqd.step)
+		};
+		
+		a = getAction(submissionParams);
+		r = (RedirectResult) a.executeAndPostProcess();
+		
+		assertFalse(r.isError);
+		assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+		assertEquals("/page/studentHomePage?message=All+responses+submitted+succesfully%21"
+						+ "&error=" + r.isError +"&user=FSQTT.student1InCourse1",
+						r.getDestinationWithParams());
+		assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+		
+		______TS("numscale, question skipped");
+		
+		submissionParams = new String[]{
+				Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+				Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, fr.courseId,
+				Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+				Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+				Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.minScale),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.maxScale),
+				Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString(fqd.step)
 		};
 		
 		a = getAction(submissionParams);

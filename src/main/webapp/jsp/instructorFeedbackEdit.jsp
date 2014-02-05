@@ -8,6 +8,8 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.StudentAttributes"%>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackEditPageData"%>
 <%
 	InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.getAttribute("data");
@@ -442,6 +444,7 @@
 							<option value = "TEXT"><%=Const.FeedbackQuestionTypeNames.TEXT%></option>
 							<option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
 							<option value = "MSQ"><%=Const.FeedbackQuestionTypeNames.MSQ%></option>
+							<option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
 						</select>
 					</td>
 					<td>
@@ -453,7 +456,7 @@
 			
 			<table class="inputTable questionTable" id="questionTableNew" style="display:none;">
 				<tr>
-					<td class="bold">
+					<td class="bold" colspan="3">
 						Question 
 						<select class="questionNumber nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
 						<%
@@ -465,8 +468,6 @@
 						</select>
 						<span id="questionTypeHeader"></span>
 					</td>
-					<td></td>
-					<td></td>
 					<td class="rightalign">
 						<a href="#" class="color_red" 
 							onclick="deleteQuestion(-1)"
@@ -584,9 +585,41 @@
 						</select>
 					</td>
 				</tr>
+				<tr id="numScaleForm">
+					<td colspan="4">
+						<table>
+							<tr>
+								<td>
+									Minimum scale:
+									<input type="number" class="minScaleBox" id="minScaleBox"
+										name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN%>"
+										value="1" onChange="updateNumScalePossibleValues(-1)">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Maximum scale:
+									<input type="number" class="maxScaleBox" id="maxScaleBox"
+										name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX%>"
+										value="5" onChange="updateNumScalePossibleValues(-1)">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Increment:	
+									<input type="number" class="stepBox" id="stepBox"
+										name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP%>"
+										value="0.5" min="0.001" step="0.001"
+										onChange="updateNumScalePossibleValues(-1)">
+									<span id="numScalePossibleValues">[Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]</span>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
 				<tr>
 					<td class="bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">Feedback Giver:</td>
-					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>"
+					<td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>"
 								onchange="feedbackGiverUpdateVisibilityOptions(this)">
 						<%
 							for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
@@ -679,6 +712,48 @@
 				name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>" 
 				value="<%=FeedbackParticipantType.NONE.toString()%>"> 
 		</form>			
+		<br><br>
+		<table class="inputTable" id="questionPreviewTable">
+			<tr>
+				<td class="bold">
+					Preview Session:
+				</td>
+				<td>
+					<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>" 
+						name="form_previewasstudent" class="form_preview" target="_blank">			
+						<select name="<%=Const.ParamsNames.FEEDBACK_SESSION_PREVIEWAS%>">
+							<% 
+								for(StudentAttributes student : data.studentList) {
+							%>
+									<option value="<%=student.email%>">[<%=student.team%>] <%=student.name%></option>
+							<%
+								}
+							%>
+						</select>
+						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+						<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+						<input id="button_preview_student" type="submit" class="button" value="Preview as Student">
+					</form>
+				</td>
+				<td>
+					<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>" 
+						name="form_previewasinstructor" class="form_preview" target="_blank">			
+						<select name="<%=Const.ParamsNames.FEEDBACK_SESSION_PREVIEWAS%>">
+						<%
+							for(InstructorAttributes instructor : data.instructorList) {
+						%>
+								<option value="<%=instructor.email%>"><%=instructor.name%></option>
+						<%
+							}
+						%>
+						</select>
+						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+						<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+						<input id="button_preview_instructor" type="submit" class="button" value="Preview as Instructor">
+					</form>
+				</td>
+			</tr>
+		</table>
 		<br><br>
 		</div>
 	</div>

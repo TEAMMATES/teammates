@@ -762,7 +762,6 @@ public class Emails {
 
 		String key;
 		key = StringHelper.encrypt(s.key);
-		emailBody = emailBody.replace("${key}", key);
 
 		String joinUrl = Config.APP_URL
 				+ Const.ActionURIs.STUDENT_COURSE_JOIN;

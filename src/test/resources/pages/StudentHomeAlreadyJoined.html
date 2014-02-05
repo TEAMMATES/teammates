@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<link href="/favicon.png" rel="shortcut icon" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<title>TEAMMATES - Student</title>
+	<link media="screen" type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
+	<link media="screen" type="text/css" href="/stylesheets/studentHome.css" rel="stylesheet" />
+	<link media="print" type="text/css" href="/stylesheets/common-print.css" rel="stylesheet" />
+    <link media="print" type="text/css" href="/stylesheets/studentHome-print.css" rel="stylesheet" />
+
+	<script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
+	<script src="/js/jquery-minified.js" type="text/javascript"></script>
+	<script src="/js/tooltip.js" type="text/javascript"></script>
+	<script src="/js/common.js" type="text/javascript"></script>
+	
+	<script src="/js/student.js" type="text/javascript"></script>
+	<script src="/js/studentHome.js" type="text/javascript"></script>
+	<noscript>{*}</noscript>
+
+	
+</head>
+
+<body>
+	<div id="dhtmltooltip"></div>
+
+	<div id="frameTop">
+		
+
+
+		<div id="frameTopWrapper">
+			<div id="logo">
+				<a href="/index.html">
+				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
+				</a>
+			</div>			
+			<div id="contentLinks">
+				<ul id="navbar">
+					<li class="current"><a href="/page/studentHomePage?user={$test.student1}" data-link="studentHome" class="nav home">Home</a></li>
+					<li><a target="_blank" href="/studentHelp.html" class="nav help">Help</a></li>
+					<li><a href="/logout.jsp" class="nav logout">Logout</a>
+					<b>
+							({$test.student1})</b>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>Student Home</h1>
+			</div>
+			
+			<br />
+			
+
+
+	<div id="statusMessage"  style="display: block; background-color: rgb(255, 153, 153);" >
+		{$test.student1} has already joined this course
+	</div>
+	<script type="text/javascript" >
+		document.getElementById( 'statusMessage' ).scrollIntoView();
+	</script>
+
+			<br />
+
+			
+			<div class="backgroundBlock">
+				<div id="course0" class="result_team home_courses_div">
+					<div class="result_homeTitle">
+						<h2 class="color_white">[SCJConfirmationUiT.CS1101] :
+							Programming Methodology
+						</h2>
+					</div>
+					<div class="result_homeLinks blockLink rightalign">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SCJConfirmationUiT.CS1101" class="t_course_view0 color_white">
+							View Team
+						</a>
+					</div>
+					<div style="clear: both;"></div>
+					<br />
+					
+					<table class="dataTable" >
+						<tbody>
+							<tr>
+								<th class="centeralign bold color_white" >
+									Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
+								</th>
+							</tr>
+                        </tbody>
+                    </table>
+                    
+                 	
+				</div>
+				</div>
+               	<br/>
+                <br/>
+                <br/>
+                <div class="backgroundBlock" >
+				<div id="course1" class="result_team home_courses_div">
+					<div class="result_homeTitle">
+						<h2 class="color_white">[SCJConfirmationUiT.CS2104] :
+							Programming Language Concepts
+						</h2>
+					</div>
+					<div class="result_homeLinks blockLink rightalign">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SCJConfirmationUiT.CS2104" class="t_course_view1 color_white">
+							View Team
+						</a>
+					</div>
+					<div style="clear: both;"></div>
+					<br />
+					
+					<table class="dataTable" >
+						<tbody>
+							<tr>
+								<th class="centeralign bold color_white" >
+									Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
+								</th>
+							</tr>
+                        </tbody>
+                    </table>
+                 	
+				</div>
+			</div>
+			<br />
+			<br />
+			<br />
+			
+		</div>
+		
+	</div>
+	
+	<div id="frameBottom">
+		
+
+
+
+<div id="contentFooter">
+	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
+	[for <span class="color_white">National University of Singapore</span>]
+	<span class="floatright">[Send <span class="color_white"><a target="_blank" href="../contact.html">Feedback</a></span>]</span>
+</div>
+	</div>
+
+</body></html>

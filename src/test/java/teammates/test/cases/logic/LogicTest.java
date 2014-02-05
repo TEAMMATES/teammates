@@ -996,29 +996,41 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		
 	
 		CourseAttributes course1OfInstructor = dataBundle.courses.get("typicalCourse1");
-	
+		StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
+		
 		// ensure there are entities in the datastore under this course
 		assertTrue(logic.getStudentsForCourse(course1OfInstructor.id).size() != 0);
-		verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
-		verifyPresentInDatastore(dataBundle.evaluations
-				.get("evaluation1InCourse1"));
-	
-		StudentAttributes studentInCourse = dataBundle.students
-				.get("student1InCourse1");
-		assertEquals(course1OfInstructor.id, studentInCourse.course);
+		
+		verifyPresentInDatastore(course1OfInstructor);
 		verifyPresentInDatastore(studentInCourse);
-	
+		verifyPresentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
+		verifyPresentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
+		verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
+		verifyPresentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
+		verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
+		verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
+		verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+		verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+		assertEquals(course1OfInstructor.id, studentInCourse.course);
+		
+
 		logic.deleteCourse(course1OfInstructor.id);
 	
+		
 		// ensure the course and related entities are deleted
 		verifyAbsentInDatastore(course1OfInstructor);
 		verifyAbsentInDatastore(studentInCourse);
+		verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
+		verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
+		verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
+		verifyAbsentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
 		verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
-		verifyAbsentInDatastore(dataBundle.evaluations
-				.get("evaluation1InCourse1"));
+		verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
+		verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+		verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+
 		ArrayList<SubmissionAttributes> submissionsOfCourse = new ArrayList<SubmissionAttributes>(dataBundle.submissions.values());
 		for (SubmissionAttributes s : submissionsOfCourse) {
 			if (s.course.equals(course1OfInstructor.id)) {

@@ -34,7 +34,19 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
+<%
+	if (!data.isPreview) {
+%>
 		<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
+<%	
+	} else { 
+%>
+		<div id="frameTopWrapper">
+			<h1 class="color_white centeralign">Previewing Session as Instructor <%=data.previewName%> (<%=data.previewEmail%>)</h1>
+		</div>
+<% 
+	}
+%>
 	</div>
 
 	<div id="frameBody">
@@ -177,9 +189,16 @@
 				%>
 						There are no questions for you to answer here!
 				<%
+					} else if (data.isPreview) {
+				%>
+						<input disabled="disabled" type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
+				<%
 					} else if (data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession()) {
 				%>
 						<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" onmouseout="hideddrivetip()" value="Save Feedback"/>
+						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
+						<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
+						<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 				<%
 					} else {
 				%>
@@ -188,9 +207,6 @@
 					}
 				%>
 				</div>
-				<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
-				<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
-				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 				<br><br>	
 			</form>
 		</div>

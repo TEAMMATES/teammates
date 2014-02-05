@@ -1,0 +1,62 @@
+{
+  "accounts": {
+    "SCJConfirmationUiT.instr": {
+      "googleId": "SCJConfirmationUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "SCJConfirmationUiT.instr@gmail.com",
+      "institute": "National University of Singapore"
+    },
+    "alice.tmms": {
+      "googleId": "{$test.student1}",
+      "name": "Alice B",
+      "isInstructor": false,
+      "email": "{$test.student1}@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "courses": {
+    "SCJConfirmationUiT.CS2104": {
+      "id": "SCJConfirmationUiT.CS2104",
+      "name": "Programming Language Concepts"
+    },
+    "SCJConfirmationUiT.CS1101": {
+      "id": "SCJConfirmationUiT.CS1101",
+      "name": "Programming Methodology"
+    }
+  },
+  
+  "instructors": {
+    "SCJConfirmationUiT.instr.CS2104": {
+      "googleId": "SCJConfirmationUiT.instr",
+      "courseId": "SCJConfirmationUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SCJConfirmationUiT.instr@gmail.com"
+    },
+    "SCJConfirmationUiT.instr.CS1101": {
+      "googleId": "SCJConfirmationUiT.instr",
+      "courseId": "SCJConfirmationUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "SCJConfirmationUiT.instr@gmail.com"
+    }
+  },
+  
+  "students": {
+    "alice.tmms@SCJConfirmationUiT.CS2104": {
+      "email": "{$test.student1}@gmail.com",
+      "course": "SCJConfirmationUiT.CS2104",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "team": "Team 1"
+    },
+    "alice.tmms@SCJConfirmationUiT.CS1101": {
+      "googleId": "{$test.student1}",
+      "email": "{$test.student1}@gmail.com",
+      "course": "SCJConfirmationUiT.CS1101",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "team": "Team 1"
+    }
+  }
+}

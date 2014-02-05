@@ -52,29 +52,12 @@
 			<div id="headerOperation">
 				<h1>Student Home</h1>
 			</div>
-		
-			<form name="form_joincourse" action="/page/studentCourseJoin" method="post">
-				<table id="result_addOrJoinCourse" class="inputTable">
-					<tbody><tr>
-						<td class="label bold">Registration Key:</td>
-						<td>
-							<input type="text" tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter your registration key for the course.')" id="regkey" name="regkey" class="keyvalue" />
-						</td>
-						<td>
-							<input type="submit" tabindex="2" value="Join Course" onmouseout="hideddrivetip()"  onmouseover="ddrivetip('This will require you to re-login to your Google account.')" onclick="return this.form.regkey.value!=''" class="button" id="button_join_course" />
-						</td>
-					</tr>
-				 </tbody></table>
-				<input type="hidden" value="{$test.student1}" name="user" />
-			</form>
 			
 			<br />
 			
 
 
-
-
-	<div style="display: none;" id="statusMessage"></div>
+	<div id="statusMessage"  style="display: none;" ></div>
 
 			<br />
 
@@ -82,146 +65,43 @@
 			<div class="backgroundBlock">
 				<div id="course0" class="result_team home_courses_div">
 					<div class="result_homeTitle">
-						<h2 class="color_white">[SHomeUiT.CS1101] :
+						<h2 class="color_white">[SCJConfirmationUiT.CS1101] :
 							Programming Methodology
 						</h2>
 					</div>
 					<div class="result_homeLinks blockLink rightalign">
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SHomeUiT.CS1101" class="t_course_view0 color_white">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SCJConfirmationUiT.CS1101" class="t_course_view0 color_white">
 							View Team
 						</a>
 					</div>
 					<div style="clear: both;"></div>
 					<br />
 					
-						<table class="dataTable">
-							<tbody><tr>
-								<th class="leftalign bold color_white">Session Name</th>
-								<th class="centeralign bold color_white">Deadline</th>
-								<th class="centeralign bold color_white">Status</th>
-								<th class="centeralign bold color_white">Action(s)</th>
+					<table class="dataTable" >
+						<tbody>
+							<tr>
+								<th class="centeralign bold color_white" >
+									Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
+								</th>
 							</tr>
-						
-						
-						
-						
-						
-					<tr class="home_evaluations_row"  id="evaluation0" >
-                              <td class="t_eval_name" >
-                                 Third Eval
-                              </td>
-                              <td class="t_eval_deadline centeralign" >
-                                 02 Apr 2012, 23:59
-                              </td>
-                              <td class="t_eval_status centeralign" >
-                                 <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The evaluation has finished but the instructor has not published the results yet')" >
-                                    Closed
-                                 </span>
-                              </td>
-                              <td class="centeralign" >
-                                 <a class="color_black"  href="/page/studentEvalResultsPage?courseid=SHomeUiT.CS1101&evaluationname=Third+Eval"  id="viewEvaluationResults0"  name="viewEvaluationResults0"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the current results of the evaluation')"  style="color: gray; text-decoration: none;" >
-                                    View Results
-                                 </a>
-                                 <a class="color_black"  href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&evaluationname=Third+Eval"  id="editEvaluationSubmission0"  name="editEvaluationSubmission0"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit submitted evaluation')" >
-                                    Edit/View Submission
-                                 </a>
-                              </td>
-                           </tr>
-                           <tr class="home_evaluations_row"  id="evaluation1" >
-                              <td class="t_eval_name" >
-                                 Fifth Eval
-                              </td>
-                              <td class="t_eval_deadline centeralign" >
-                                 01 Apr 2015, 23:59
-                              </td>
-                              <td class="t_eval_status centeralign" >
-                                 <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The evaluation is yet to be completed by you')" >
-                                    Pending
-                                 </span>
-                              </td>
-                              <td class="centeralign" >
-                                 <a class="color_black"  href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&evaluationname=Fifth+Eval"  id="submitEvaluation1"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start evaluation')" >
-                                    Submit
-                                 </a>
-                              </td>
-                           </tr></tbody></table>
-					
+                        </tbody>
+                    </table>
+                    
+                 	
 				</div>
-			</div>
-			<br />
-			<br />
-			<br />
-			
-			<div class="backgroundBlock">
+				</div>
+               	<br/>
+                <br/>
+                <br/>
+                <div class="backgroundBlock" >
 				<div id="course1" class="result_team home_courses_div">
 					<div class="result_homeTitle">
-						<h2 class="color_white">[SHomeUiT.CS2104] :
+						<h2 class="color_white">[SCJConfirmationUiT.CS2104] :
 							Programming Language Concepts
 						</h2>
 					</div>
 					<div class="result_homeLinks blockLink rightalign">
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SHomeUiT.CS2104" class="t_course_view1 color_white">
-							View Team
-						</a>
-					</div>
-					<div style="clear: both;"></div>
-					<br />
-					
-						<table class="dataTable">
-							<tbody><tr>
-								<th class="leftalign bold color_white">Session Name</th>
-								<th class="centeralign bold color_white">Deadline</th>
-								<th class="centeralign bold color_white">Status</th>
-								<th class="centeralign bold color_white">Action(s)</th>
-							</tr>
-						
-						
-						
-						
-						
-						
-						
-					<tr id="evaluation2" class="home_evaluations_row">
-									<td class="t_eval_name">Second Eval</td>
-									<td class="t_eval_deadline centeralign">02 Apr 2012, 23:59</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The evaluation has finished and you can check the results')">Published</span></td>
-									<td class="centeralign"><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults2" name="viewEvaluationResults2" href="/page/studentEvalResultsPage?courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval" class="color_black">View Results</a><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission2" name="editEvaluationSubmission2" href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval" class="color_black">Edit/View Submission</a>
-									</td>
-								</tr><tr id="evaluation4" class="home_evaluations_row">
-									<td class="t_eval_name">Graced Feedback Session</td>
-									<td class="t_eval_deadline centeralign">{*}, {*}</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session is yet to be completed by you.')">Closed</span></td>
-									<td class="centeralign"><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" id="viewFeedbackResults4" name="viewFeedbackResults4" href="/page/studentFeedbackResultsPage?courseid=SHomeUiT.CS2104&amp;fsname=Graced+Feedback+Session&amp;user={$test.student1}" class="color_black">View Responses</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&amp;fsname=Graced+Feedback+Session&amp;user={$test.student1}" id="submitFeedback4"  onclick="return false"  style="color: gray; text-decoration: none;" class="color_black">Submit</a>
-									</td>
-								</tr><tr id="evaluation3" class="home_evaluations_row">
-									<td class="t_eval_name">First Eval</td>
-									<td class="t_eval_deadline centeralign">01 Apr 2015, 23:59</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' You have submitted your feedback for this evaluation')">Submitted</span></td>
-									<td class="centeralign"><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" id="viewEvaluationResults3" name="viewEvaluationResults3" href="/page/studentEvalResultsPage?courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval" class="color_black">View Results</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit submitted evaluation')" id="editEvaluationSubmission3" name="editEvaluationSubmission3" href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval" class="color_black">Edit/View Submission</a>
-									</td>
-								</tr><tr id="evaluation5" class="home_evaluations_row">
-									<td class="t_eval_name">First Feedback Session</td>
-									<td class="t_eval_deadline centeralign">30 Apr 2015, 23:59</td>
-									<td class="t_eval_status centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip(' The feedback session is yet to be completed by you.')">Pending</span></td>
-									<td class="centeralign"><a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the submitted responses for this feedback session')" id="viewFeedbackResults5" name="viewFeedbackResults5" href="/page/studentFeedbackResultsPage?courseid=SHomeUiT.CS2104&amp;fsname=First+Feedback+Session&amp;user={$test.student1}" class="color_black">View Responses</a><a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Start submitting feedback')" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&amp;fsname=First+Feedback+Session&amp;user={$test.student1}" id="submitFeedback5" class="color_black">Submit</a>
-									</td>
-								</tr></tbody></table>
-					
-				</div>
-			</div>
-			<br />
-			<br />
-			<br />
-			
-			<div class="backgroundBlock">
-				<div id="course2" class="result_team home_courses_div">
-					<div class="result_homeTitle">
-						<h2 class="color_white">[SHomeUiT.CS4215] :
-							Programming Language Implementation
-						</h2>
-					</div>
-					<div class="result_homeLinks blockLink rightalign">
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SHomeUiT.CS4215" class="t_course_view2 color_white">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SCJConfirmationUiT.CS2104" class="t_course_view1 color_white">
 							View Team
 						</a>
 					</div>

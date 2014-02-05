@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -238,7 +239,7 @@ public class FieldValidator {
 	 * Field: Team name
 	 */
 	private static final String TEAM_NAME_FIELD_NAME = "a team name";
-	public static final int TEAM_NAME_MAX_LENGTH = 25; //TODO: increase this
+	public static final int TEAM_NAME_MAX_LENGTH = 60;
 	public static final String TEAM_NAME_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as "+TEAM_NAME_FIELD_NAME+" because it %s. " +
 					"The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
@@ -262,14 +263,18 @@ public class FieldValidator {
 	public static final String VIEWER_TYPE_NAME = "feedback viewer.";
 	public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE = "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". Did you mean to use \"Self\" instead?";
 	
+	//Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%)
+	private static final String REGEX_NAME = "^[\\p{IsL}\\p{IsN}}][^|%]*+$";
+	
 	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
 	private static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
 
 	public static final String REGEX_SAMPLE_COURSE_ID = REGEX_COURSE_ID + "-demo\\d*";
 	
-	//Allows anything with some non-empty text followed by '@' followed by another non-empty text
-	// We have made this less restrictive because there is no accepted regex to check the validity of email addresses.
-	public static final String REGEX_EMAIL = "[^@\\s]+@[^@\\s]+";
+	// Regex for email validation
+	// Local part: Can start or end with letters, digits, hyphen or plus sign; Dot can only appear between 2 characters and cannot appear continuously
+	// Domain part: Only allow letters, digits, hyphen and dot; Must end with letters
+	public static final String REGEX_EMAIL = "^[\\w+-]+(\\.[\\w+-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+$";
 
 	//Allows English alphabet, numbers, underscore,  dot and hyphen.
 	private static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
@@ -290,6 +295,8 @@ public class FieldValidator {
 	public static final String REASON_EMPTY = "is empty";
 	public static final String REASON_TOO_LONG = "is too long";
 	public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
+	public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
+	public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR= "starts with a non-alphanumeric character";
 	
 	//TODO: move these out of this area
 	public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE = 
@@ -304,6 +311,10 @@ public class FieldValidator {
 	public static final String ALPHANUMERIC_STRING_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. " +
 					"Please only use alphabets, numbers and whitespace in %s.";
+	
+	public static final String INVALID_NAME_ERROR_MESSAGE = 
+			"\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
+			"All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
 	
 	public static final String NON_NULL_FIELD_ERROR_MESSAGE = 
 			"The provided %s is not acceptable to TEAMMATES as it cannot be empty.";
@@ -338,19 +349,19 @@ public class FieldValidator {
 		String returnValue = "";
 		switch (fieldType) {
 		case PERSON_NAME:
-			returnValue = getValidityInfoForSizeCappedNonEmptyString(
+			returnValue = getValidityInfoForAllowedName(
 			PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String)value);
 			break;
 		case INSTITUTE_NAME:
-			returnValue = getValidityInfoForSizeCappedNonEmptyString(
+			returnValue = getValidityInfoForAllowedName(
 			INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String)value);
 			break;
 		case COURSE_NAME:
-			returnValue = getValidityInfoForSizeCappedNonEmptyString(
+			returnValue = getValidityInfoForAllowedName(
 			COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String)value);
 			break;
 		case EVALUATION_NAME:
-			returnValue = getValidityInfoForSizeCappedNonEmptyString(
+			returnValue = getValidityInfoForAllowedName(
 			EVALUATION_NAME_FIELD_NAME, EVALUATION_NAME_MAX_LENGTH, (String)value);
 			break;
 		case EVALUATION_INSTRUCTIONS:
@@ -358,7 +369,7 @@ public class FieldValidator {
 					EVALUATION_INSTRUCTIONS_FIELD_NAME, value);
 			break;
 		case FEEDBACK_SESSION_NAME:
-			returnValue = getValidityInfoForSizeCappedAlphanumericNonEmptyString(
+			returnValue = getValidityInfoForAllowedName(
 					FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
 			break;
 		case FEEDBACK_QUESTION_TEXT:
@@ -370,17 +381,17 @@ public class FieldValidator {
 					STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String)value);
 			break;
 		case TEAM_NAME:
-			returnValue = getValidityInfoForSizeCappedNonEmptyString(
+			returnValue = getValidityInfoForAllowedName(
 			TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String)value);
 			break;
 		case GOOGLE_ID:
-			returnValue = getInvalidStateInfo_GOOGLE_ID((String)value);
+			returnValue = getInvalidInfoForGoogleId((String)value);
 			break;
 		case COURSE_ID:
-			returnValue = getValidityInfo_COURSE_ID((String)value);
+			returnValue = getValidityInfoForCourseId((String)value);
 			break;
 		case EMAIL:
-			returnValue = getValidityInfo_EMAIL((String)value);
+			returnValue = getValidityInfoForEmail((String)value);
 			break;
 		default:
 			throw new AssertionError("Unrecognized field type : " + fieldType);
@@ -410,6 +421,7 @@ public class FieldValidator {
 	public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
 		
 		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+		//TODO: reconsider this assumption
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.isEmpty()) {
@@ -440,6 +452,7 @@ public class FieldValidator {
 	public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
 		
 		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+		//TODO: reconsider this assumption
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.isEmpty()) {
@@ -447,6 +460,39 @@ public class FieldValidator {
 		}else if(value.length()>maxLength){
 			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
 		} 
+		return "";
+	}
+	
+	/**
+	 * Checks if the given name (including person name, institute name, course name, evaluation/feedback and team name)
+	 * is a non-null non-empty string no longer than the specified length {@code maxLength}, 
+	 * and also does not contain any invalid characters (| or %).
+	 * 
+	 * @param fieldName
+	 *            A descriptive name of the field e.g., "student name", to be
+	 *            used in the return value to make the explanation more
+	 *            descriptive. 
+	 * @param maxLength
+	 * @param value
+	 *            The string to be checked.
+	 * @return An explanation of why the {@code value} is not acceptable.
+	 *         Returns an empty string "" if the {@code value} is acceptable.
+	 */
+	public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
+		
+		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+		//TODO: reconsider this assumption
+		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
+		
+		if (value.isEmpty()) {
+			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+		} else if (value.length()>maxLength) {
+			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+		} else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {
+			return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
+		} else if (!isValidName(value)) {
+			return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
+		}
 		return "";
 	}
 	
@@ -640,7 +686,7 @@ public class FieldValidator {
 		return nowInUserTimeZone.before(time);
 	}
 
-	private String getInvalidStateInfo_GOOGLE_ID(String value) {
+	private String getInvalidInfoForGoogleId(String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
@@ -657,7 +703,7 @@ public class FieldValidator {
 		return "";
 	}
 	
-	private String getValidityInfo_COURSE_ID(String value) {
+	private String getValidityInfoForCourseId(String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
@@ -672,7 +718,7 @@ public class FieldValidator {
 		return "";
 	}
 	
-	private String getValidityInfo_EMAIL(String value) {
+	private String getValidityInfoForEmail(String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
 		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
@@ -689,6 +735,12 @@ public class FieldValidator {
 
 	private boolean isValidGoogleUsername(String value) {
 		return value.matches(REGEX_GOOGLE_ID_NON_EMAIL);
+	}
+	
+	private boolean isValidName(String value) {
+		// Important to use the CANON_EQ flag to make sure that canonical characters
+		// such as é is correctly matched regardless of single/double code point encoding
+		return Pattern.compile(REGEX_NAME, Pattern.CANON_EQ).matcher(value).matches();
 	}
 
 	private boolean isValidEmail(String value) {

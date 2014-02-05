@@ -75,6 +75,14 @@
 			<br>
 			<br>
 			
+			<span class="bold">How do I choose ‘estimated contribution’ values?</span>
+			<br>
+			Choose ‘Equal share’ if this team member did an equal share of the work. 
+			‘Equal share + 10%’ means the team member did 10% more than an equal share of the work.
+			<br>
+			<br>
+			<br>
+			
 			<form name="form_submitevaluation" id="form_submitevaluation" method="post"
 					action="<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_SAVE%>">
 				<jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">

@@ -19,6 +19,9 @@ public class FeedbackQuestionFormTemplates {
 	public static String MSQ_ADDITIONAL_INFO_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionMsqAdditionalInfoFragment.html");
 	public static String MSQ_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionMsqAdditionalInfoTemplate.html");
 	
+	public static String NUMSCALE_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionNumScaleEditFormTemplate.html");
+	public static String NUMSCALE_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionNumScaleSubmissionFormTemplate.html");
+		
 	/** Populates the feedback question form html templates by replacing 
 	 * variables in the template string with the given value string.
 	 * @param template The template html to be populated

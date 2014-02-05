@@ -124,7 +124,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
 	@Test
 	public void testJoinCourse() throws Exception {
-
 		String correctStudentId = "correctStudentId";
 		String courseId = "courseId";
 		String originalEmail = "original@email.com";
@@ -141,10 +140,12 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 		______TS("failure: wrong key");
 
 		try {
-			accountsLogic.joinCourse("wrong key", correctStudentId);
+			accountsLogic.joinCourse("wrongkey", correctStudentId);
 			signalFailureToDetectException();
 		} catch (JoinCourseException e) {
-			assertEquals("You have entered an invalid key: " + "wrong key",
+			assertEquals(
+					"You have used an invalid join link: "
+					+ "/page/studentCourseJoin?regkey=wrongkey",
 					e.getMessage());
 		}
 
@@ -187,7 +188,14 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 			accountsLogic.joinCourse(studentData.key, "wrongstudent");
 			signalFailureToDetectException();
 		} catch (JoinCourseException e) {
-			assertEquals(studentData.key + " belongs to a different user",
+			assertEquals("The join link used belongs to a different user whose "
+					+ "Google ID is corre..dentId (only part of the Google ID is "
+					+ "shown to protect privacy). If that Google ID is owned by you, "
+					+ "please logout and re-login using that Google account. "
+					+ "If it doesn’t belong to you, please "
+					+ "<a href=\"mailto:teammates@comp.nus.edu.sg?"
+					+ "body=Your name:%0AYour course:%0AYour university:\">"
+					+ "contact us</a> so that we can investigate.",
 					e.getMessage());
 		}
 

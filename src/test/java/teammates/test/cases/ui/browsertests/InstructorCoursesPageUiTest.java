@@ -212,7 +212,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		
 		______TS("add action success: add course with leading/trailing space in parameters");
 		
-		CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 "," Software Engineering $%^&*() ");
+		CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 "," Software Engineering $^&*() ");
 		/* Before creating an entity, we should delete it (in may have been
 		 * created in a previous test run).
 		 */

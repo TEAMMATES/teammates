@@ -25,10 +25,12 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
 		new GateKeeper().verifyLoggedInUserPrivileges();
 		try {
 			logic.joinCourse(account.googleId, key);
-		} catch (JoinCourseException 
-				| InvalidParametersException
+		} catch (InvalidParametersException
 				| EntityAlreadyExistsException e) {
 			setStatusForException(e, Sanitizer.sanitizeForHtml(e.getMessage()));
+		} catch (JoinCourseException e) {
+			// Does not sanitize for html to allow insertion of mailto link
+			setStatusForException(e, e.getMessage());
 		}
 		
 		final String studentInfo = "Action Student joins course<br>" +

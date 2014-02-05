@@ -210,6 +210,18 @@ public class Logic {
 	 * * All parameters are non-null.
 	 * @return null if not found.
 	 */
+	public InstructorAttributes getInstructorForEmail(String courseId, String email) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		
+		return instructorsLogic.getInstructorForEmail(courseId, email);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return null if not found.
+	 */
 	public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -492,6 +504,19 @@ public class Logic {
 
 	}
 
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * 
+	 * @return Null if no match found.
+	 */
+	public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, registrationKey);
+
+		return studentsLogic.getStudentForRegistrationKey(registrationKey);
+	}
+	
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null.

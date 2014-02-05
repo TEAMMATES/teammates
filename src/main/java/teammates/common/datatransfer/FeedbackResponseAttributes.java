@@ -135,7 +135,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 	public void setResponseDetails(FeedbackAbstractResponseDetails responseDetails) {
 		Gson gson = teammates.common.util.Utils.getTeammatesGson();
 		
-		if(responseDetails.questionType == FeedbackQuestionType.TEXT) {
+		if (responseDetails == null) {
+			// There was error extracting response data from http request
+			responseMetaData = new Text("");
+		} else if (responseDetails.questionType == FeedbackQuestionType.TEXT) {
 			// For Text questions, the answer simply contains the response text, not a JSON
 			// This is due to legacy data in the data store before there were multiple question types
 			responseMetaData = new Text(responseDetails.getAnswerString());
@@ -176,6 +179,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 			break;
 		case MSQ:
 			responseDetailsClass = FeedbackMsqResponseDetails.class;
+			break;
+		case NUMSCALE:
+			responseDetailsClass = FeedbackNumericalScaleResponseDetails.class;
 			break;
 		default:
 			Assumption.fail("FeedbackQuestionType " + feedbackQuestionType + " unsupported by FeedbackResponseAttributes");

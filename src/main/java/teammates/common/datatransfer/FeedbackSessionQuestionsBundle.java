@@ -67,4 +67,13 @@ public class FeedbackSessionQuestionsBundle {
 		return result;
 	}
 	
+	/**
+	 * Empties responses for all questions in this bundle.
+	 * Used to not show existing responses when previewing as instructor 
+	 */
+	public void resetAllResponses() {
+		for(FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
+			questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
+		}
+	}
 }

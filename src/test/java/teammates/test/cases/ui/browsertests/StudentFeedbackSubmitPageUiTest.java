@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackMsqResponseDetails;
+import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
@@ -82,15 +83,16 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 		
-		submitPage.fillQuestionTextBox(1, 0, "Test Self Feedback");
-		submitPage.fillQuestionTextBox(2, 0, "Response to Benny.");
+		submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
+		submitPage.fillResponseTextBox(2, 0, "Response to Benny.");
 		submitPage.selectRecipient(2, 1, "Drop out");
-		submitPage.fillQuestionTextBox(2, 1, "Response to student who is going to drop out.");
+		submitPage.fillResponseTextBox(2, 1, "Response to student who is going to drop out.");
 		submitPage.selectRecipient(2, 2, "Extra guy");
-		submitPage.fillQuestionTextBox(2, 2, "Response to extra guy.");
+		submitPage.fillResponseTextBox(2, 2, "Response to extra guy.");
+		submitPage.fillResponseTextBox(14, 0, "0"); //less than min to test validation
 		
 		// Test partial response for question		
-		submitPage.fillQuestionTextBox(4, 1, "Feedback to team 3");
+		submitPage.fillResponseTextBox(4, 1, "Feedback to team 3");
 		submitPage.chooseMcqOption(7, 0, "Algo");
 		submitPage.toggleMsqOption(9, 0, "UI");
 		submitPage.toggleMsqOption(9, 0, "Design");
@@ -108,6 +110,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		FeedbackQuestionAttributes fqMsq =
 				BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
 						"First Session", 10);
+		FeedbackQuestionAttributes fqNumscale =
+				BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
+						"First Session", 15);
 		
 		assertNull(BackDoor.getFeedbackResponse(fq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
@@ -121,6 +126,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		assertNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
 				"Team 2"));
+		assertNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
+				"SFSubmitUiT.alice.b@gmail.com",
+				"SFSubmitUiT.alice.b@gmail.com"));
+
 
 		submitPage.clickSubmitButton();
 
@@ -139,6 +148,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		assertNotNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",
 				"Team 2"));
+		assertNotNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
+				"SFSubmitUiT.alice.b@gmail.com",
+				"SFSubmitUiT.alice.b@gmail.com"));
+
 		
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 		submitPage.verifyHtml("/studentFeedbackSubmitPagePartiallyFilled.html");
@@ -148,10 +161,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		// Test editing an existing response 
 		// + fill up rest of responses at the same time
 		String editedResponse = "Edited response to Benny.";
-		submitPage.fillQuestionTextBox(2, 0, editedResponse);
-		submitPage.fillQuestionTextBox(3, 0, "Feedback to instructors");
-		submitPage.fillQuestionTextBox(4, 1, "Feedback to team 2.");
-		submitPage.fillQuestionTextBox(5, 0, "Feedback to teammate.");
+		submitPage.fillResponseTextBox(2, 0, editedResponse);
+		submitPage.fillResponseTextBox(3, 0, "Feedback to instructors");
+		submitPage.fillResponseTextBox(4, 1, "Feedback to team 2.");
+		submitPage.fillResponseTextBox(5, 0, "Feedback to teammate.");
 		
 		submitPage.chooseMcqOption(6, 0, "UI");
 		submitPage.chooseMcqOption(7, 0, "UI"); // Changed from "Algo" to "UI"
@@ -174,6 +187,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		submitPage.chooseMcqOption(12, 0, "Team 2");
 		submitPage.toggleMsqOption(13, 0, "Team 1");
 		submitPage.toggleMsqOption(13, 0, "Team 3");
+		
+		submitPage.fillResponseTextBox(14, 0, "5.5"); //higher than max to test validation 
+		submitPage.fillResponseTextBox(15, 0, "1.5"); 
+		submitPage.fillResponseTextBox(15, 1, "2.5"); 
 		
 		// Just check the edited responses, and one new response.
 		assertNull(BackDoor.getFeedbackResponse(fq.getId(),
@@ -207,6 +224,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		assertFalse(frMsq.contains("UI"));
 		assertTrue(frMsq.contains("Algo"));
 		assertFalse(frMsq.contains("Design"));
+		
+		FeedbackNumericalScaleResponseDetails frNumscale = 
+				(FeedbackNumericalScaleResponseDetails) BackDoor.getFeedbackResponse(fqNumscale.getId(),
+						"SFSubmitUiT.alice.b@gmail.com",
+						"SFSubmitUiT.alice.b@gmail.com").getResponseDetails();
+		assertEquals("5", frNumscale.getAnswerString());
 		
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 		submitPage.verifyHtml("/studentFeedbackSubmitPageFullyFilled.html");

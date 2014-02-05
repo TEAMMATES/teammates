@@ -20,6 +20,8 @@ $(document).ready(function () {
 	
 	// Enable tooltips
 	document.onmousemove = positiontip;
+	
+	disallowNonNumericEntries($('input[type=number]'), true, true);
 });
 
 /**
@@ -74,4 +76,17 @@ function formatRecipientLists(){
 
 function reenableFieldsForSubmission() {
 	$(':disabled').prop('disabled',false);
+}
+
+function validateNumScaleAnswer(qnIdx, responseIdx) {
+	var answerBox = $("[name=responsetext-"+qnIdx+"-"+responseIdx+"]");
+	var min = parseInt(answerBox.attr("min"));
+	var max = parseInt(answerBox.attr("max"));
+	var answer = parseInt(answerBox.val());
+	
+	if (answer < min) {
+		answerBox.val(answerBox.attr("min"));
+	} else if (answer > max) {
+		answerBox.val(answerBox.attr("max"));
+	}
 }

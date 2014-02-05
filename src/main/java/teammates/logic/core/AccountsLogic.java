@@ -101,7 +101,9 @@ public class AccountsLogic {
 		
 		if(student==null){
 			throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
-					"You have entered an invalid key: " + registrationKey);
+					"You have used an invalid join link: "
+							+ Const.ActionURIs.STUDENT_COURSE_JOIN 
+							+ "?regkey=" + registrationKey);
 		} else if (student.isRegistered()) {
 			if (student.googleId.equals(googleId)) {
 				throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
@@ -109,7 +111,14 @@ public class AccountsLogic {
 			} else {
 				throw new JoinCourseException(
 						Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
-						registrationKey + " belongs to a different user");
+						"The join link used belongs to a different user whose Google ID is "
+								+ truncateGoogleId(student.googleId)
+								+ " (only part of the Google ID is shown to protect privacy). "
+								+ "If that Google ID is owned by you, please logout and re-login "
+								+ "using that Google account. If it doesn’t belong to you, please "
+								+ "<a href=\"mailto:teammates@comp.nus.edu.sg?"
+								+ "body=Your name:%0AYour course:%0AYour university:\">"
+								+ "contact us</a> so that we can investigate.");
 			}
 		} 
 		
@@ -188,5 +197,9 @@ public class AccountsLogic {
 		accountsDb.createAccount(account);
 	}
 
-
+	private String truncateGoogleId(String googleId) {
+		String frontPart = googleId.substring(0, googleId.length() / 3);
+		String endPart = googleId.substring(2 * googleId.length() / 3);
+		return frontPart + ".." + endPart;
+	}
 }

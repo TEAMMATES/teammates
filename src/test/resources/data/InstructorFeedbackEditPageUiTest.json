@@ -6,6 +6,20 @@
   	  "isInstructor": true,
   	  "email": "tmms.test@gmail.com",
   	  "institute": "National University of Singapore"
+  	},
+  	"otherInstructor": {
+  	  "googleId": "CFeedbackEditUiT.instructor2",
+  	  "name": "Instructor 2",
+  	  "isInstructor": true,
+  	  "email": "tmms.instr@gmail.com",
+  	  "institute": "National University of Singapore"
+  	},
+  	"alice.tmms": {
+  	  "googleId": "CFeedbackEditUiT.alice.tmms",
+  	  "name": "Alice Betsy",
+  	  "isInstructor": false,
+  	  "email": "alice.b.tmms@gmail.com",
+  	  "institute": "National University of Singapore"
   	}
   },
 
@@ -22,6 +36,12 @@
       "courseId": "CFeedbackEditUiT.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.com"
+    },
+    "teammates.test.instructor2": {
+      "googleId": "CFeedbackEditUiT.instructor2",
+      "courseId": "CFeedbackEditUiT.CS2104",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.com"
     }
   },
   

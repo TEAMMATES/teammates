@@ -9,6 +9,8 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 
 public class InstructorFeedbackEditPageData extends PageData {
@@ -17,6 +19,8 @@ public class InstructorFeedbackEditPageData extends PageData {
 	public FeedbackQuestionAttributes newQuestion;
 	public List<FeedbackQuestionAttributes> questions;
 	public Map<String, Boolean> questionHasResponses;
+	public List<StudentAttributes> studentList;
+	public List<InstructorAttributes> instructorList;
 	
 	public InstructorFeedbackEditPageData(AccountAttributes account) {
 		super(account);

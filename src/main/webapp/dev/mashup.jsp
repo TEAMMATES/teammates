@@ -177,6 +177,7 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentCourseDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/studentFeedback.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/adminHome.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css">');
 

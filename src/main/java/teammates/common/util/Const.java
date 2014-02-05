@@ -95,8 +95,6 @@ public class Const {
 		public static final String EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this<br />or the data is not enough";
 		public static final String EVALUATION_SUBMISSION_NOT_SURE = "Not sure about the contribution";
 	
-		public static final String STUDENT_JOIN_COURSE = "Enter your registration key for the course.";
-		public static final String STUDENT_JOIN_COURSE_BUTTON = "This will require you to re-login to your Google account.";
 		public static final String STUDENT_COURSE_PROFILE = "Your profile in this course";
 		public static final String STUDENT_COURSE_DETAILS = "View and edit information regarding your team";
 	
@@ -188,6 +186,7 @@ public class Const {
 		public static final String TEXT = "Essay question";
 		public static final String MCQ = "Multiple-choice question";
 		public static final String MSQ = "Multiple-select question";
+		public static final String NUMSCALE = "Numerical-scale question";
 	}
 
 	public class ParamsNames{
@@ -199,6 +198,8 @@ public class Const {
 		public static final String INSTRUCTOR_NAME = "instructorname";
 		public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 		public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
+		
+		public static final String COURSE_SORTING_CRITERIA = "sortby";
 		
 		public static final String ADMIN_SEARCH_REBUILD_DOC = "build_doc";
 	
@@ -238,6 +239,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
 		public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
+		public static final String FEEDBACK_SESSION_PREVIEWAS = "previewas";
 		
 		public static final String FEEDBACK_QUESTION_ID = "questionid";
 		public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
@@ -258,6 +260,9 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 		public static final String FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
 		public static final String FEEDBACK_QUESTION_RESPONSETOTAL = "questionresponsetotal";
+		public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "numscalemin";
+		public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "numscalemax";
+		public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "numscalestep";
 	
 		public static final String FEEDBACK_RESPONSE_ID = "responseid";
 		public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
@@ -361,6 +366,8 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
+		public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
+		public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
 		
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
@@ -433,13 +440,14 @@ public class Const {
 		public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
 		public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
 		
-		public static final String STUDENT_HOME = "/jsp/studentHome.jsp"; 
+		public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
+		public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
 		public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
 		public static final String STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp"; 
 		public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp"; 
-	
+			
 		public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
 		public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
 		public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
@@ -472,13 +480,16 @@ public class Const {
 	/* These are status messages that may be shown to the user */
 	public class StatusMessages{
 		public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
-		public static final String STUDENT_FIRST_TIME = "Welcome stranger :-) "
+		public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
 				+ "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
 				+ "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
-				+ "<br/><br/>If you already clicked on such a link and ended up here, it is likely that your email software messed up the link. Please retry to join by filling in the above box the registration key given in that same e-mail."
-				+ "If you still cannot join, feel free to <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>contact us</a> for help. "
-				+ "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? That can happen if you changed the primary email from a non-Gmail address to a Gmail address recently. " 
-				+ "<br/>In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address. ";
+				+ "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? These are the possible reasons:"
+				+ "<br/>1. You used a different Google account to access TEAMMATES in the past. "
+				+ "In that case, you need to use the same Google account to access TEAMMATES again. Logout and re-login using the other Google account. "
+				+ "If you don't remember which Google account you used previously, email us from the same email account to which you receive TEAMMATES emails."
+				+ "<br/>2. You changed the primary email from a non-Gmail address to a Gmail address recently. " 
+				+ "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address."
+				+ "</div>";
 		
 		public static final String COURSE_ADDED = "The course has been added.. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
 				+ "or click <a href=\"${courseEditLink}\">here</a> to add other instructors.<br>"
@@ -644,6 +655,12 @@ public class Const {
 	
 	public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
 	public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
+	
+	//for course sorting in instructorHomePage
+	public static final String SORT_BY_COURSE_ID = "id";
+	public static final String SORT_BY_COURSE_NAME = "name";
+	public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt"; 
+	public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
 
 	/* These constants are used as variable values to mean that the variable 
 	 * is in a 'special' state.

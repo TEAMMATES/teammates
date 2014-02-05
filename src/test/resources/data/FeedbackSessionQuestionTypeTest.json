@@ -211,8 +211,25 @@
 			"feedbackSessionType":"STANDARD",
 			"sentOpenEmail":true,
 			"sentPublishedEmail":false
-		}
-		
+		},
+		"numscaleSession":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"instructions":{
+				"value":"Please answer the following questions."
+			},
+			"createdTime":"2012-03-20 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2015-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+			"resultsVisibleFromTime":"2015-05-01 11:59 PM UTC",
+			"timeZone":2.0,
+			"gracePeriod":10,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		}		
 	},
 	"feedbackQuestions":{
 		"qn1InSession1InCourse1":{
@@ -304,7 +321,52 @@
 			"showRecipientNameTo":[
 				"INSTRUCTORS"
 			]
-		}	
+		},
+		"qn1InSession3InCourse1":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionMetaData":{
+				"value":"{\"questionText\":\"Rate our product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
+			},
+			"questionNumber":"1",
+			"questionType":"NUMSCALE",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+			
+		},
+		"qn2InSession3InCourse1":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"creatorEmail":"instructor1@course1.com",
+			"questionMetaData":{
+				"value":"{\"questionText\":\"Rate our product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
+			},
+			"questionNumber":"2",
+			"questionType":"NUMSCALE",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		}
 	},
 	"feedbackResponses":{
 		"response1ForQ1S1C1":{
@@ -399,6 +461,53 @@
 			"recipientEmail":"instructor2@course1.com",
 			"responseMetaData":{
 				"value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's perfect\"]}"
+			}
+		},
+		"response1ForQ1S3C1":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"NUMSCALE",
+			"giverEmail":"student1InCourse1@gmail.com",
+			"recipientEmail":"student1InCourse1@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
+			}
+			
+		},
+		"response2ForQ1S3C1":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"feedbackQuestionId":"1",
+			"feedbackQuestionType":"NUMSCALE",
+			"giverEmail":"student2InCourse1@gmail.com",
+			"recipientEmail":"student2InCourse1@gmail.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 2}"
+			}
+			
+		},
+		"response1ForQ2S3C1":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"NUMSCALE",
+			"giverEmail":"instructor1@course1.com",
+			"recipientEmail":"instructor1@course1.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 4.5}"
+			}
+			
+		},
+		"response2ForQ2S3C1":{
+			"feedbackSessionName":"NUMSCALE Session",
+			"courseId":"FSQTT.idOfTypicalCourse1",
+			"feedbackQuestionId":"2",
+			"feedbackQuestionType":"NUMSCALE",
+			"giverEmail":"instructor2@course1.com",
+			"recipientEmail":"instructor2@course1.com",
+			"responseMetaData":{
+				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 1}"
 			}
 		}
 	}

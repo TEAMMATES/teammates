@@ -53,9 +53,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		
 		//no input validation in this page
 		
-		testJoinAction();
-		
-		testResultsLinks(); //doing this last because it depends on the 'testJoinAction()'
+		testResultsLinks();
 	}
 
 
@@ -112,32 +110,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		
 	}
 
-
-	private void testJoinAction() throws Exception {
-		
-		______TS("fail: invalid key");
-		
-		studentHome.fillKey("ThisIsAnInvalidKey");
-		studentHome.clickJoinButton().loginAsStudent(
-				TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-				TestProperties.inst().TEST_STUDENT1_PASSWORD)
-				.verifyHtml("/studentHomeInvalidKey.html");
-				
-		______TS("joining the first course");
-	
-		String courseId = testData.courses.get("SHomeUiT.CS2104").id;
-		String studentEmail = testData.students.get("alice.tmms@SHomeUiT.CS2104").email;
-		
-		studentHome.fillKey(BackDoor.getKeyForStudent(courseId, studentEmail));
-		studentHome.clickJoinButton().loginAsStudent(
-				TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-				TestProperties.inst().TEST_STUDENT1_PASSWORD)
-				.verifyHtml("/studentHomeJoined.html");
-	}
-
-
 	private void testResultsLinks() {
-		// TODO: check disabling of links too
+		// TODO: Implement this. Check disabling of links too
 		
 	}
 

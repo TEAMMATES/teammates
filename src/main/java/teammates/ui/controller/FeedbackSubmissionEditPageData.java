@@ -10,11 +10,27 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 public class FeedbackSubmissionEditPageData extends PageData {
 
 	public FeedbackSessionQuestionsBundle bundle = null;
+	public boolean isPreview;
+	public String previewName;
+	public String previewEmail;
 	
 	public FeedbackSubmissionEditPageData(AccountAttributes account) {
 		super(account);
+		isPreview = false;
+		this.previewName = account.name;
+		this.previewEmail = account.email;
 	}
 
+	/**
+	 * To allow previewing for students who have not joined the course
+	 */
+	public FeedbackSubmissionEditPageData(String previewName, String previewEmail) {
+		super(null);
+		isPreview = false;
+		this.previewName = previewName;
+		this.previewEmail = previewEmail;
+	}
+	
 	public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {
 		ArrayList<String> result = new ArrayList<String>();		
 		if(this.bundle == null) {

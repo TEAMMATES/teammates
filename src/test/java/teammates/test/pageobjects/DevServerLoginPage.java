@@ -65,4 +65,12 @@ public class DevServerLoginPage extends LoginPage {
 		return changePageType(StudentHomePage.class);
 	}
 
+	@Override
+	public StudentCourseJoinConfirmationPage loginAsJoiningStudent(String username, String password) {
+		fillTextBox(emailTextBox, username);
+		loginButton.click();
+		waitForPageToLoad();
+		browser.isAdminLoggedIn = false;
+		return changePageType(StudentCourseJoinConfirmationPage.class);
+	}
 }

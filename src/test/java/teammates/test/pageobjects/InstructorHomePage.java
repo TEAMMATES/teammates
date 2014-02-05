@@ -14,7 +14,16 @@ public class InstructorHomePage extends AppPage {
 	
 	@FindBy(id = "button_search")
 	private WebElement searchButton;
+	
+	@FindBy(id = "sortbyid")
+	private WebElement sortByIdButton;
 
+	@FindBy(id = "sortbyname")
+	private WebElement sortByNameButton;
+	
+	@FindBy(id = "sortbydate")
+	private WebElement sortByDateButton;
+	
 	public InstructorHomePage(Browser browser){
 		super(browser);
 	}
@@ -33,6 +42,21 @@ public class InstructorHomePage extends AppPage {
 		waitForPageToLoad();
 		switchToNewWindow();
 		return changePageType(InstructorHelpPage.class);
+	}
+	
+	public void clickSortByIdButton() {
+		sortByIdButton.click();
+		waitForPageToLoad();
+	}
+	
+	public void clickSortByNameButton() {
+		sortByNameButton.click();
+		waitForPageToLoad();
+	}
+	
+	public void clickSortByDateButton() {
+		sortByDateButton.click();
+		waitForPageToLoad();
 	}
 	
 	public void clickHomeTab() {

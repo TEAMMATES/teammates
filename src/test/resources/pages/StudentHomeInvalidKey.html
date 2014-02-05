@@ -52,21 +52,6 @@
 			<div id="headerOperation">
 				<h1>Student Home</h1>
 			</div>
-		
-			<form name="form_joincourse" action="/page/studentCourseJoin" method="post">
-				<table id="result_addOrJoinCourse" class="inputTable">
-					<tbody><tr>
-						<td class="label bold">Registration Key:</td>
-						<td>
-							<input type="text" tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter your registration key for the course.')" id="regkey" name="regkey" class="keyvalue" />
-						</td>
-						<td>
-							<input type="submit" tabindex="2" value="Join Course" onmouseout="hideddrivetip()"  onmouseover="ddrivetip('This will require you to re-login to your Google account.')" onclick="return this.form.regkey.value!=''" class="button" id="button_join_course" />
-						</td>
-					</tr>
-				 </tbody></table>
-				<input type="hidden" value="{$test.student1}" name="user" />
-			</form>
 			
 			<br />
 			
@@ -75,7 +60,7 @@
 
 
 	<div style="display: block; background-color: rgb(255, 153, 153);" id="statusMessage">
-		You have entered an invalid key: ThisIsAnInvalidKey</div>
+		You have used an invalid join link: /page/studentCourseJoin?regkey=ThisIsAnInvalidKey</div>
 	<script type="text/javascript">
     	document.getElementById( 'statusMessage' ).scrollIntoView();
     </script>
@@ -86,85 +71,12 @@
 			<div class="backgroundBlock">
 				<div id="course0" class="result_team home_courses_div">
 					<div class="result_homeTitle">
-						<h2 class="color_white">[SHomeUiT.CS1101] :
+						<h2 class="color_white">[SCJConfirmationUiT.CS1101] :
 							Programming Methodology
 						</h2>
 					</div>
 					<div class="result_homeLinks blockLink rightalign">
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SHomeUiT.CS1101" class="t_course_view0 color_white">
-							View Team
-						</a>
-					</div>
-					<div style="clear: both;"></div>
-					<br />
-					
-						<table class="dataTable">
-							<tbody><tr>
-								<th class="leftalign bold color_white">Session Name</th>
-								<th class="centeralign bold color_white">Deadline</th>
-								<th class="centeralign bold color_white">Status</th>
-								<th class="centeralign bold color_white">Action(s)</th>
-							</tr>
-						
-						
-						
-						
-						
-					<tr class="home_evaluations_row"  id="evaluation0" >
-                              <td class="t_eval_name" >
-                                 Third Eval
-                              </td>
-                              <td class="t_eval_deadline centeralign" >
-                                 02 Apr 2012, 23:59
-                              </td>
-                              <td class="t_eval_status centeralign" >
-                                 <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The evaluation has finished but the instructor has not published the results yet')" >
-                                    Closed
-                                 </span>
-                              </td>
-                              <td class="centeralign" >
-                                 <a class="color_black"  href="/page/studentEvalResultsPage?courseid=SHomeUiT.CS1101&evaluationname=Third+Eval"  id="viewEvaluationResults0"  name="viewEvaluationResults0"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the current results of the evaluation')"  style="color: gray; text-decoration: none;" >
-                                    View Results
-                                 </a>
-                                 <a class="color_black"  href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&evaluationname=Third+Eval"  id="editEvaluationSubmission0"  name="editEvaluationSubmission0"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit submitted evaluation')" >
-                                    Edit/View Submission
-                                 </a>
-                              </td>
-                           </tr>
-                           <tr class="home_evaluations_row"  id="evaluation1" >
-                              <td class="t_eval_name" >
-                                 Fifth Eval
-                              </td>
-                              <td class="t_eval_deadline centeralign" >
-                                 01 Apr 2015, 23:59
-                              </td>
-                              <td class="t_eval_status centeralign" >
-                                 <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The evaluation is yet to be completed by you')" >
-                                    Pending
-                                 </span>
-                              </td>
-                              <td class="centeralign" >
-                                 <a class="color_black"  href="/page/studentEvalSubmissionEditPage?courseid=SHomeUiT.CS1101&evaluationname=Fifth+Eval"  id="submitEvaluation1"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start evaluation')" >
-                                    Submit
-                                 </a>
-                              </td>
-                           </tr></tbody></table>
-					
-				</div>
-			</div>
-			<br />
-			<br />
-			<br />
-			
-			<div class="backgroundBlock">
-				<div id="course1" class="result_team home_courses_div">
-					<div class="result_homeTitle">
-						<h2 class="color_white">[SHomeUiT.CS4215] :
-							Programming Language Implementation
-						</h2>
-					</div>
-					<div class="result_homeLinks blockLink rightalign">
-						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SHomeUiT.CS4215" class="t_course_view1 color_white">
+						<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View and edit information regarding your team')" href="/page/studentCourseDetailsPage?courseid=SCJConfirmationUiT.CS1101" class="t_course_view0 color_white">
 							View Team
 						</a>
 					</div>

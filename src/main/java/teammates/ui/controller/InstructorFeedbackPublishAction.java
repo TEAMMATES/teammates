@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -21,13 +20,13 @@ public class InstructorFeedbackPublishAction extends InstructorFeedbacksPageActi
 		
 		try {
 			logic.publishFeedbackSession(feedbackSessionName, courseId);
+			
+			statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
+			statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> " +
+					"for Course <span class=\"bold\">[" + courseId + "]</span> published.";
 		} catch (InvalidParametersException e) {
-			Assumption.fail("InvalidParametersException not expected at this point");
+			setStatusForException(e);
 		}
-		
-		statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-		statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> " +
-				"for Course <span class=\"bold\">[" + courseId + "]</span> published.";
 		
 		return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
 	}

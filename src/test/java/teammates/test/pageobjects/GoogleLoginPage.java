@@ -101,5 +101,13 @@ public class GoogleLoginPage extends LoginPage {
 		waitForPageToLoad();
 	}
 
+	@Override
+	public StudentCourseJoinConfirmationPage loginAsJoiningStudent(
+			String username, String password) {
+		completeGoogleLoginSteps(username, password);
+		browser.isAdminLoggedIn = false;
+		return changePageType(StudentCourseJoinConfirmationPage.class);
+	}
+
 
 }
