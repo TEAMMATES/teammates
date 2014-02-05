@@ -3,6 +3,7 @@ package teammates.test.cases.logic;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.fail;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -166,8 +167,20 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 	@Test
 	public void testEnrollStudents() throws Exception {
 		
-		restoreTypicalDataInDatastore();
+		CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
 		dataBundle = getTypicalDataBundle();
+		
+		List<SubmissionAttributes> allSubmissions = submissionsLogic
+				.getSubmissionsForCourse(course1.id);
+		
+		restoreTypicalDataInDatastore();
+		
+		allSubmissions = submissionsLogic
+				.getSubmissionsForCourse(course1.id);
+		
+		//Verify that all submissions have been added. 
+		//Expected number : 2 * (4 * 4 + 1 * 1) = 34 
+		assertEquals(34, allSubmissions.size());
 		
 		______TS("enrolling students to a non-existent course");
 		String newStudentLine = "Team 1.1|n|s@g|c";
@@ -185,7 +198,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		
 		______TS("try to enroll with empty input enroll lines");
 		enrollLines = "";
-		CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
+		
 		try {
 			studentsInfo = studentsLogic
 					.enrollStudents(enrollLines, course1.id);
@@ -197,6 +210,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		
 		______TS("enroll new students to existing course" +
 				"(to check the cascade logic of the SUT)");
+
 		//enroll string can aslo contain whitespace lines
 		enrollLines = newStudentLine + Const.EOL + "\t";
 		
@@ -207,6 +221,43 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		LogicTest.verifyPresentInDatastore(studentsInfo.get(0));
 		
 		//Check whether required submissions were created/adjusted 
+		verifyCascasedToSubmissions(course1.id);
+		allSubmissions = submissionsLogic
+				.getSubmissionsForCourse(course1.id);
+		
+		//Verify that all submissions have been added. 
+		//Expected number : 2 * (5 * 5 + 1 * 1) = 52 
+		assertEquals(52, allSubmissions.size());
+		
+		______TS("change an existing students email and verify submissions after update");
+		String oldEmail = studentsInfo.get(0).email;
+		StudentAttributes updatedAttributes = new StudentAttributes();
+		updatedAttributes.email = "newEmail@g";
+		updatedAttributes.course = course1.id;
+
+		studentsLogic.updateStudentCascade(oldEmail, updatedAttributes);
+
+		StudentAttributes updatedStudent = studentsLogic
+				.getStudentForEmail(course1.id, updatedAttributes.email);
+		
+		LogicTest.verifyPresentInDatastore(updatedStudent);
+		verifySubmissionsDoNotExistForEmailInCourse(oldEmail, course1.id);
+		verifyCascasedToSubmissions(course1.id);
+		
+		______TS("change the case of existing students email and verify submissions after update");
+		oldEmail = updatedAttributes.email;
+		updatedAttributes = new StudentAttributes();
+		updatedAttributes.email = "newEMAIL@g";
+		updatedAttributes.course = course1.id;
+
+		assertTrue(oldEmail.equalsIgnoreCase(updatedAttributes.email));
+		studentsLogic.updateStudentCascade(oldEmail, updatedAttributes);
+
+		updatedStudent = studentsLogic
+				.getStudentForEmail(course1.id, updatedAttributes.email);
+		
+		LogicTest.verifyPresentInDatastore(updatedStudent);
+		verifySubmissionsDoNotExistForEmailInCourse(oldEmail, course1.id);
 		verifyCascasedToSubmissions(course1.id);
 		
 		______TS("change team of existing student and verify deletion of all his responses");
@@ -220,12 +271,18 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		String student1enrollString = studentInTeam1.toEnrollmentString();
 		studentsInfo = studentsLogic.enrollStudents(student1enrollString, studentInTeam1.course);
 		
-		verifyCascasedToSubmissions(studentInTeam1.course);
-		
 		//verify all previous team responses for student have been deleted
 		student1responses = getAllTeamResponsesForStudent(studentInTeam1);
 		assertTrue(student1responses.size() == 0);
 		
+		//Verify that new submissions have been added and old deleted
+		//Expected number : 2 * (4 * 4 + 2 * 2) = 40 
+		allSubmissions = submissionsLogic
+				.getSubmissionsForCourse(course1.id);
+		assertEquals(40, allSubmissions.size());
+		
+		verifyCascasedToSubmissions(studentInTeam1.course);
+
 		______TS("error during enrollment");
 		String invalidStudentId = "t1|n6|e6@g@";
 		String invalidEnrollLine = invalidStudentId + Const.EOL;
@@ -549,7 +606,19 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		
 		return returnList;
 	}
-
+	
+	private void verifySubmissionsDoNotExistForEmailInCourse(String email,
+			String courseId) {
+		List<SubmissionAttributes> allSubmissions = submissionsLogic.getSubmissionsForCourse(courseId);
+		
+		for (SubmissionAttributes currentSubmission : allSubmissions) {
+			if (currentSubmission.reviewee.equals(email) ||
+				currentSubmission.reviewer.equals(email)) {
+				fail("Cause : Submission for " + email +
+						" found on system");
+			}
+		}
+	}
 	@AfterClass()
 	public static void classTearDown() throws Exception {
 		printTestClassFooter();

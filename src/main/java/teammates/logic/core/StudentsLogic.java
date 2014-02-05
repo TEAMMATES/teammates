@@ -21,6 +21,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.StudentsDb;
@@ -151,10 +152,21 @@ public class StudentsLogic {
 		StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
 		updateStudentCascadeWithoutSubmissionAdjustment(originalEmail, student);
 		
+		/* finalEmail is the string to be used to represent a student's email.
+		 * This is because:
+		 *  - originalEmail cannot be used when student's email is being updated with a new valid email
+		 *  - student.email cannot be used always because it is null when non-email attributes
+		 *    of a student are being updated or when the new email to be updated is invalid
+		 */
+		FieldValidator validator = new FieldValidator();
+		String finalEmail = (student.email == null || !validator
+				.getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty()) ?
+				originalEmail : student.email;
+		
 		// adjust submissions if moving to a different team
 		if (isTeamChanged(originalStudent.team, student.team)) {
-			evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, student.email, student.team);
-			frLogic.updateFeedbackResponsesForChangingTeam(student.course, student.email, originalStudent.team, student.team);
+			evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, finalEmail, student.team);
+			frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
 		}
 	}
 	
@@ -392,7 +404,7 @@ public class StudentsLogic {
 			if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
 				enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
 			} else if (originalStudentAttributes != null) {
-				updateStudentCascadeWithoutSubmissionAdjustment(validStudentAttributes.email, validStudentAttributes);
+				updateStudentCascadeWithoutSubmissionAdjustment(originalStudentAttributes.email, validStudentAttributes);
 				enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
 				
 				if(!originalStudentAttributes.team.equals(validStudentAttributes.team))

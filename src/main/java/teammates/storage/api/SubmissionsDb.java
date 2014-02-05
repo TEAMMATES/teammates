@@ -220,6 +220,16 @@ public class SubmissionsDb extends EntitiesDb {
 				getSubmissionEntitiesForCourseToStudent(courseId, originalEmail);
 		for (Submission s : submissionsToStudent) {
 			s.setRevieweeEmail(newEmail);
+			
+			/*
+			 * This has to be done for cases where a submission belongs to both submissionsFromStudent
+			 * and submissionsToStudent e.g in case of self-evaluations
+			 * Without code below, only reviewee email will be be updated as changes to
+			 * reviewer email of the common element, made in the previous loop, were not persisted
+			 */
+			if (s.getReviewerEmail().equals(originalEmail)) {
+				s.setReviewerEmail(newEmail);
+			}
 		}
 		
 		//TODO: We need to update feedback submissions too.
