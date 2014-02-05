@@ -316,6 +316,9 @@ public class FieldValidator {
 			"\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
 			"All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
 	
+	public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
+			"The provided %s is not acceptable to TEAMMATES as it contains only whitespace or contains extra spaces at the beginning or at the end of the text.";
+	
 	public static final String NON_NULL_FIELD_ERROR_MESSAGE = 
 			"The provided %s is not acceptable to TEAMMATES as it cannot be empty.";
 	
@@ -421,11 +424,11 @@ public class FieldValidator {
 	public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
 		
 		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
-		//TODO: reconsider this assumption
-		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.isEmpty()) {
 			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+		} else if (!isTrimmed(value)) {
+			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
 		} else if(value.length()>maxLength){
 			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
 		} else if (value.matches("^.*[^a-zA-Z0-9 ].*$")){
@@ -452,12 +455,12 @@ public class FieldValidator {
 	public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
 		
 		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
-		//TODO: reconsider this assumption
-		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.isEmpty()) {
 			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
-		}else if(value.length()>maxLength){
+		} else if (!isTrimmed(value)) {
+			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
+		} else if(value.length()>maxLength){
 			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
 		} 
 		return "";
@@ -481,11 +484,11 @@ public class FieldValidator {
 	public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
 		
 		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
-		//TODO: reconsider this assumption
-		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.isEmpty()) {
 			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+		} else if (!isTrimmed(value)) {
+			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
 		} else if (value.length()>maxLength) {
 			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
 		} else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {
@@ -513,8 +516,10 @@ public class FieldValidator {
 	public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
 		
 		Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
-		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
+		if (!isTrimmed(value)) {
+			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
+		} 
 		if (value.length()>maxLength){
 			return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
 		} 
@@ -689,13 +694,14 @@ public class FieldValidator {
 	private String getInvalidInfoForGoogleId(String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
-		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		Assumption.assertTrue("\""+value+"\""+  "is not expected to be a gmail address.", 
 				!value.toLowerCase().endsWith("@gmail.com"));
 		
 		if (value.isEmpty()) {
 			return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
-		}else if(value.length()>GOOGLE_ID_MAX_LENGTH){
+		} else if (!isTrimmed(value)) {
+			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
+		} else if(value.length()>GOOGLE_ID_MAX_LENGTH){
 			return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
 		}else if(!isValidEmail(value) && !isValidGoogleUsername(value)){
 			return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
@@ -706,11 +712,12 @@ public class FieldValidator {
 	private String getValidityInfoForCourseId(String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
-		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.isEmpty()) {
 			return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
-		}else if(value.length()>COURSE_ID_MAX_LENGTH){
+		} else if (!isTrimmed(value)) {
+			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
+		} else if(value.length()>COURSE_ID_MAX_LENGTH){
 			return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
 		}else if(!value.matches(REGEX_COURSE_ID)){
 			return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
@@ -721,11 +728,12 @@ public class FieldValidator {
 	private String getValidityInfoForEmail(String value) {
 		
 		Assumption.assertTrue("Non-null value expected", value != null);
-		Assumption.assertTrue("\""+value+"\""+  "is expected to be trimmed.", isTrimmed(value));
 		
 		if (value.isEmpty()) {
 			return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
-		}else if(value.length()>EMAIL_MAX_LENGTH){
+		} else if (!isTrimmed(value)) {
+			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
+		} else if(value.length()>EMAIL_MAX_LENGTH){
 			return String.format(EMAIL_ERROR_MESSAGE, value, REASON_TOO_LONG);
 		}else if(!isValidEmail(value)){
 			return String.format(EMAIL_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);

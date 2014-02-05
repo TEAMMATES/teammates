@@ -34,13 +34,6 @@ public class FieldValidatorTest extends BaseTestCase{
 			ignoreExpectedException(); 
 		}
 		
-		try {
-			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, " abc ");
-			signalFailureToDetectException("not expected to be untrimmed");
-		} catch (AssertionError e) {
-			ignoreExpectedException();
-		}
-		
 		int maxLength = 50;
 		assertEquals("valid: typical value", 
 				"",
@@ -76,6 +69,14 @@ public class FieldValidatorTest extends BaseTestCase{
 						typicalFieldName, 
 						maxLength, 
 						emptyValue));
+		
+		String untrimmedValue = " abc ";
+		assertEquals("invalid: untrimmed", 
+				String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
+				validator.getValidityInfoForSizeCappedNonEmptyString(
+						typicalFieldName, 
+						maxLength, 
+						untrimmedValue));
 	}
 	
 	@Test
@@ -89,13 +90,6 @@ public class FieldValidatorTest extends BaseTestCase{
 			signalFailureToDetectException("not expected to be null");
 		} catch (AssertionError e) {
 			ignoreExpectedException(); 
-		}
-		
-		try {
-			validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName, typicalLength, " abc ");
-			signalFailureToDetectException("not expected to be untrimmed");
-		} catch (AssertionError e) {
-			ignoreExpectedException();
 		}
 		
 		int maxLength = 50;
@@ -122,6 +116,14 @@ public class FieldValidatorTest extends BaseTestCase{
 						maxLength, 
 						emptyValue));
 		
+		String untrimmedValue = " abc ";
+		assertEquals("invalid: untrimmed", 
+				String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
+				validator.getValidityInfoForSizeCappedNonEmptyString(
+						typicalFieldName, 
+						maxLength, 
+						untrimmedValue));
+		
 		String tooLongName = StringHelper.generateStringOfLength(maxLength+1);
 		assertEquals("invalid: too long", 
 				String.format(
@@ -144,13 +146,6 @@ public class FieldValidatorTest extends BaseTestCase{
 			signalFailureToDetectException("not expected to be null");
 		} catch (AssertionError e) {
 			ignoreExpectedException(); 
-		}
-		
-		try {
-			validator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, " abc ");
-			signalFailureToDetectException("not expected to be untrimmed");
-		} catch (AssertionError e) {
-			ignoreExpectedException();
 		}
 		
 		int maxLength = 50;
@@ -207,6 +202,14 @@ public class FieldValidatorTest extends BaseTestCase{
 						typicalFieldName, 
 						maxLength, 
 						emptyValue));
+		
+		String untrimmedValue = " abc ";
+		assertEquals("invalid: untrimmed", 
+				String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
+				validator.getValidityInfoForSizeCappedNonEmptyString(
+						typicalFieldName, 
+						maxLength, 
+						untrimmedValue));
 	}
 
 	@Test
@@ -285,8 +288,6 @@ public class FieldValidatorTest extends BaseTestCase{
 	public void testGetValidityInfo_GOOGLE_ID() {
 		
 		verifyAssertError("null value", FieldType.GOOGLE_ID, null);
-		verifyAssertError("white space value", FieldType.GOOGLE_ID, "  \t ");
-		verifyAssertError("untrimmed value", FieldType.GOOGLE_ID, "  abc ");
 		verifyAssertError("contains '@gmail.com'", FieldType.GOOGLE_ID, "abc@GMAIL.com");
 		
 		
@@ -321,6 +322,18 @@ public class FieldValidatorTest extends BaseTestCase{
 				emptyValue,
 				String.format(GOOGLE_ID_ERROR_MESSAGE, emptyValue,	REASON_EMPTY));
 		
+		String untrimmedValue = " e@email.com ";
+		testOnce("invalid: untrimmed", 
+				FieldType.GOOGLE_ID, 
+				untrimmedValue,
+				String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID"));
+		
+		String whitespaceOnlyValue = "    ";
+		testOnce("invalid: whitespace only", 
+				FieldType.GOOGLE_ID, 
+				whitespaceOnlyValue,
+				String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID"));
+		
 		String tooLongValue = maxLengthValue + "x";
 		testOnce("invalid: too long", 
 				FieldType.GOOGLE_ID, 
@@ -345,8 +358,6 @@ public class FieldValidatorTest extends BaseTestCase{
 	public void testGetValidityInfo_EMAIL() {
 		
 		verifyAssertError("null value", FieldType.EMAIL, null);
-		verifyAssertError("white space value", FieldType.EMAIL, "  \t \n ");
-		verifyAssertError("untrimmed value", FieldType.EMAIL, "  abc@gmail.com ");
 		
 		
 		testOnce("valid: typical value, without field name", 
@@ -376,6 +387,18 @@ public class FieldValidatorTest extends BaseTestCase{
 				FieldType.EMAIL, 
 				emptyValue, 
 				String.format(EMAIL_ERROR_MESSAGE, emptyValue,	REASON_EMPTY));
+		
+		String untrimmedValue = " e@email.com ";
+		testOnce("invalid: untrimmed", 
+				FieldType.EMAIL, 
+				untrimmedValue,
+				String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email"));
+		
+		String whitespaceOnlyValue = "    ";
+		testOnce("invalid: whitespace only", 
+				FieldType.EMAIL, 
+				whitespaceOnlyValue,
+				String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email"));
 		
 		String tooLongValue = maxLengthValue + "x";
 		testOnce("invalid: too long", 
@@ -407,8 +430,6 @@ public class FieldValidatorTest extends BaseTestCase{
 	public void testGetValidityInfo_COURSE_ID() {
 		
 		verifyAssertError("null value", FieldType.COURSE_ID, null);
-		verifyAssertError("white space value", FieldType.COURSE_ID, "  \t \n ");
-		verifyAssertError("untrimmed value", FieldType.COURSE_ID, "  abc@gmail.com ");
 		
 		
 		testOnce("valid: typical value", 
@@ -432,6 +453,18 @@ public class FieldValidatorTest extends BaseTestCase{
 				FieldType.COURSE_ID, 
 				emptyValue, 
 				String.format(COURSE_ID_ERROR_MESSAGE, emptyValue,	REASON_EMPTY));
+		
+		String untrimmedValue = " $cs1101-sem1.2_ ";
+		testOnce("invalid: untrimmed", 
+				FieldType.COURSE_ID, 
+				untrimmedValue,
+				String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
+		
+		String whitespaceOnlyValue = "    ";
+		testOnce("invalid: whitespace only", 
+				FieldType.COURSE_ID, 
+				whitespaceOnlyValue,
+				String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
 		
 		String tooLongValue = maxLengthValue + "x";
 		testOnce("invalid: too long", 

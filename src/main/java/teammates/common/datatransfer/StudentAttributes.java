@@ -273,6 +273,11 @@ public class StudentAttributes extends EntityAttributes {
 	
 	@Override
 	public void sanitizeForSaving() {
-		// TODO implement this
+		this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
+		this.email = Sanitizer.sanitizeEmail(this.email);
+		this.course = Sanitizer.sanitizeTitle(this.course);
+		this.name = Sanitizer.sanitizeName(this.name);
+		this.team = Sanitizer.sanitizeTitle(this.team);
+		this.comments = Sanitizer.sanitizeTextField(this.comments);
 	}
 }
