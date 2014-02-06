@@ -34,6 +34,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 		restoreTestDataOnServer(testData);
 		
 		browser = BrowserPool.getBrowser();
+		browser.driver.manage().deleteAllCookies();
 	}
 
 	@Test

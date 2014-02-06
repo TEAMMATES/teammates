@@ -155,7 +155,6 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
-			<class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
@@ -169,6 +168,7 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
