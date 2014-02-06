@@ -3,6 +3,7 @@ package teammates.test.cases.common;
 import static org.testng.AssertJUnit.assertEquals;
 import static teammates.common.util.FieldValidator.*;
 
+import java.lang.reflect.Method;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -11,6 +12,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Assumption;
 import teammates.test.cases.BaseTestCase;
 
 public class FieldValidatorTest extends BaseTestCase{
@@ -485,6 +487,24 @@ public class FieldValidatorTest extends BaseTestCase{
 				String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
 	}
 	
+	@Test
+	public void testIsValidName() throws Exception {
+		______TS("success: typical name");
+		String name = "Benny Charlés";
+		Assumption.assertTrue(invokeIsValidName(name));
+		
+		______TS("success: name begins with accented characters");
+		name = "Ýàn-B. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
+		Assumption.assertTrue(invokeIsValidName(name));
+		
+		______TS("failure: name begins with non-alphanumeric character");
+		name = "~Amy-Ben. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
+		Assumption.assertFalse(invokeIsValidName(name));
+		
+		______TS("failure: name contains invalid character");
+		name = "Amy-B. s/o O'br, %|&2(~!@#$^*+_={}[]\\:;\"<>?)";
+		Assumption.assertFalse(invokeIsValidName(name));
+	}
 	
 	private void runGenericTestCasesForCappedSizeStringTypeField(
 			FieldType fieldType, 
@@ -533,6 +553,13 @@ public class FieldValidatorTest extends BaseTestCase{
 		} catch (AssertionError e) {
 			ignoreExpectedException();
 		}
+	}
+	
+	private static boolean invokeIsValidName(String name) throws Exception {
+		Method privateMethod = FieldValidator.class.getDeclaredMethod("isValidName", new Class[]{String.class});
+		privateMethod.setAccessible(true);
+		Object[] params = new Object[] {name};
+		return (boolean) privateMethod.invoke(new FieldValidator(), params);
 	}
 	
 	@AfterClass

@@ -264,7 +264,7 @@ public class FieldValidator {
 	public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE = "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". Did you mean to use \"Self\" instead?";
 	
 	//Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%)
-	private static final String REGEX_NAME = "^[\\p{IsL}\\p{IsN}}][^|%]*+$";
+	private static final String REGEX_NAME = "^[\\p{IsL}\\p{IsN}][^|%]*+$";
 	
 	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
 	private static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
