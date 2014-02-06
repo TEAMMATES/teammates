@@ -20,7 +20,14 @@
   	  "isInstructor": true,
   	  "email": "tmms.test@gmail.com",
   	  "institute": "National University of Singapore"
-  	}
+  	},
+  	"alice.tmms": {
+      "googleId": "{$test.student1}",
+      "name": "Alice Betsy",
+      "email": "{$test.student1}@gmail.com",
+      "isInstructor": false,
+  	  "institute": "National University of Singapore"
+    }
   },
 
   "courses": {

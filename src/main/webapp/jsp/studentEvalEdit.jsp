@@ -49,7 +49,7 @@
 						Previewing Evaluation as
 						<select name="<%=Const.ParamsNames.PREVIEWAS%>" onchange="this.form.submit()" style="font-size:80%;">
 						<%
-							for ( StudentAttributes student : data.studentList) {
+							for (StudentAttributes student : data.studentList) {
 						%>
 							<option value="<%=student.email%>"
 								<%=student.email.equals(data.previewEmail) ? "selected=\"selected\"" : ""%>>[<%=student.team%>] <%=student.name%></option>

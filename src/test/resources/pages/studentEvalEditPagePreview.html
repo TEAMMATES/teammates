@@ -22,7 +22,7 @@
 				<h1 class="color_white centeralign">
 					Previewing Evaluation as <select name="previewas"
 						onchange="this.form.submit()" style="font-size:80%;">
-						<option selected="selected" value="alice.tmms@gmail.com">[Team 1] Alice Betsy</option>
+						<option selected="selected" value="{$test.student1}@gmail.com">[Team 1] Alice Betsy</option>
 						<option value="benny.c.tmms@gmail.com">[Team 1] Benny Charles</option>
 					</select>
 				</h1>
@@ -80,12 +80,12 @@
 					name="evaluationname" type="hidden" value="First Eval" /> <input
 					id="teamname" name="teamname" type="hidden" value="Team 1" /> <input
 					id="fromemail" name="fromemail" type="hidden"
-					value="alice.tmms@gmail.com" />
+					value="{$test.student1}@gmail.com" />
 				<table class="inputTable">
 					<tbody>
 						<tr style="display: none;">
 							<td><input id="toemail0" name="toemail" type="text"
-								value="alice.tmms@gmail.com" /></td>
+								value="{$test.student1}@gmail.com" /></td>
 						</tr>
 						<tr>
 							<td class="bold centeralign reportHeader" colspan="2"

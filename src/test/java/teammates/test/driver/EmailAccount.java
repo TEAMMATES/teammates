@@ -10,7 +10,6 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
-import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.FlagTerm;
@@ -24,81 +23,30 @@ public class EmailAccount {
 	 * the email as read.
 	 * 	 * Can be easily modified to support other mail providers
 	 * 
-	 * @param gmail
+	 * @param username
 	 * @param password
 	 * @return registration key (null if cannot be found).
 	 * @throws Exception
 	 */
-	public static String getRegistrationKeyFromGmail(String gmail,
+	public static String getRegistrationKeyFromGmail(String username,
 			String password, String courseId) {
-		Session sessioned = Session.getDefaultInstance(System.getProperties(),
-				null);
-		Store store = null;
 		try {
-			store = sessioned.getStore("imaps");
-		} catch (NoSuchProviderException e) {
-			e.printStackTrace();
-			return null;
-		}
-		try {
-			store.connect("imap.gmail.com", gmail, password);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		//TODO: method too long. refactor.
-		try {
-			// Retrieve the "Inbox"
-			Folder inbox = store.getFolder("inbox");
-			// Reading the Email Index in Read / Write Mode
-			inbox.open(Folder.READ_WRITE);
-			FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-			Message messages[] = inbox.search(ft);
-
+			Folder inbox = getGmailInbox(username, password);
+			Message[] messages = getMessages(inbox);
+			
 			// Loop over up to 5 unread messages at the top of the inbox
-			int maxEmailsToCheck = (messages.length<5? messages.length: 5);
+			int maxEmailsToCheck = Math.min(messages.length, 5);
 			for (int i = messages.length - 1; i >= messages.length - maxEmailsToCheck; i--) {
 				Message message = messages[i];
-				// If this is the right message (by matching header)
-
-				// Pattern pattern = Pattern
-				// .compile("^TEAMMATES: Registration Invitation: Register in the course (\\w+)$");
-				// Matcher m = pattern.matcher(message.getSubject());
-				String subject = message.getSubject();
 				
-				if(subject == null){ //in case there are subject-less messages
-					continue;
+				if (isRegistrationEmail(message, courseId)) {
+					String body = getEmailBody(message);
+					String key = getKey(body);
+					message.setFlag(Flags.Flag.SEEN, true);
+					
+					inbox.close(true);
+					return key;
 				}
-				
-				boolean isCorrectEmail = subject
-						.contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
-						&& (subject.contains(courseId));
-				if (!isCorrectEmail)
-					continue;
-
-
-				String body = "";
-
-				if (message.getContent() instanceof String) { // if message is a
-					// string
-					body = message.getContent().toString();
-				} else if (message.getContent() instanceof Multipart) { // if
-																		// its a
-					// multipart
-					// message
-					Multipart multipart = (Multipart) message.getContent();
-					BodyPart bodypart = multipart.getBodyPart(0);
-					body = bodypart.getContent().toString();
-				}
-
-				String key;
-				key = getKey(body);
-
-				// Mark the message as read
-				message.setFlag(Flags.Flag.SEEN, true);
-
-				return key;
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -109,11 +57,25 @@ public class EmailAccount {
 		return null;
 	}
 
+	private static boolean isRegistrationEmail(Message message, String courseId)
+			throws MessagingException {
+		boolean isRegistrationEmail = false;
+		String subject = message.getSubject();
+
+		if (subject != null) {
+			isRegistrationEmail = subject
+					.contains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN)
+					&& (subject.contains(courseId));
+		}
+
+		return isRegistrationEmail;
+	}
+
 	private static String getKey(String body) {
-		String key;
-		key = body.split("Registration key:")[1];
-		key = key.trim().split("If you encounter")[0].trim();
-		return key;
+		String key = body.substring(
+				body.indexOf("regkey=") + "regkey=".length(),
+				body.indexOf("*If prompted to log in"));
+		return key.trim();
 	}
 
 	/**
@@ -122,25 +84,16 @@ public class EmailAccount {
 	 * 
 	 * Can be easily modified to support other mail providers
 	 * 
-	 * @param gmail
+	 * @param username
 	 * @param password
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getEvaluationReminderFromGmail(String gmail,
+	public static String getEvaluationReminderFromGmail(String username,
 			String password, String courseId, String evalulationName)
 			throws Exception {
-		Session sessioned = Session.getDefaultInstance(System.getProperties(),
-				null);
-		Store store = sessioned.getStore("imaps");
-		store.connect("imap.gmail.com", gmail, password);
-
-		// Retrieve the "Inbox"
-		Folder inbox = store.getFolder("inbox");
-		// Reading the Email Index in Read / Write Mode
-		inbox.open(Folder.READ_WRITE);
-		FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-		Message messages[] = inbox.search(ft);
+		Folder inbox = getGmailInbox(username, password);
+		Message[] messages = getMessages(inbox);
 
 		// Loop over the last 5 messages
 		for (int i = messages.length - 1; i >= messages.length - 5; i--) {
@@ -168,7 +121,7 @@ public class EmailAccount {
 	/**
 	 * Checks whether the Publish had actually sent the e-mails to students
 	 * 
-	 * @param gmail
+	 * @param username
 	 * @param password
 	 * @param courseCode
 	 * @param evaluationName
@@ -176,7 +129,7 @@ public class EmailAccount {
 	 * @throws MessagingException
 	 * @throws IOException
 	 */
-	public static boolean checkResultEmailsSent(String gmail, String password,
+	public static boolean checkResultEmailsSent(String username, String password,
 			String courseCode, String evaluationName)
 			throws MessagingException, IOException {
 
@@ -186,17 +139,8 @@ public class EmailAccount {
 				+ TestProperties.inst().TEAMMATES_URL_IN_EMAILS;
 		final String TEAMMATES_APP_SIGNATURE = "If you encounter any problems using the system, email TEAMMATES support";
 
-		Session sessioned = Session.getDefaultInstance(System.getProperties(),
-				null);
-		Store store = sessioned.getStore("imaps");
-		store.connect("imap.gmail.com", gmail, password);
-
-		// Retrieve the "Inbox"
-		Folder inbox = store.getFolder("inbox");
-		// Reading the Email Index in Read / Write Mode
-		inbox.open(Folder.READ_WRITE);
-		FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-		Message messages[] = inbox.search(ft);
+		Folder inbox = getGmailInbox(username, password);
+		Message[] messages = getMessages(inbox);
 		System.out.println(messages.length + " unread message");
 
 		// Loop over the last 5 messages
@@ -215,15 +159,7 @@ public class EmailAccount {
 				System.out.println("match");
 			}
 
-			// matching email content:
-			String body = "";
-			if (message.getContent() instanceof String) {
-				body = message.getContent().toString();
-			} else if (message.getContent() instanceof Multipart) {
-				Multipart multipart = (Multipart) message.getContent();
-				BodyPart bodypart = multipart.getBodyPart(0);
-				body = bodypart.getContent().toString();
-			}
+			String body = getEmailBody(message);
 
 			// check line 1: "The results of the evaluation:"
 			if (body.indexOf("The results of the evaluation:") == -1) {
@@ -254,9 +190,11 @@ public class EmailAccount {
 
 			// Mark the message as read
 			message.setFlag(Flags.Flag.SEEN, true);
-
+			inbox.close(true);
 			return true;
 		}
+		
+		inbox.close(true);
 		return false;
 	}
 
@@ -265,51 +203,27 @@ public class EmailAccount {
 	 * 
 	 */
 	public static void markAllEmailsSeen(String username, String password)
-			throws Exception {
-		Session sessioned = Session.getDefaultInstance(System.getProperties(),
-				null);
-		Store store = sessioned.getStore("imaps");
-		store.connect("imap.gmail.com", username, password);
+			throws Exception {	
+		Folder inbox = getGmailInbox(username, password);
+		Message[] messages = getMessages(inbox);
 
-		// Retrieve the "Inbox"
-		Folder inbox = store.getFolder("inbox");
-
-		// Reading the Email Index in Read / Write Mode
-		inbox.open(Folder.READ_WRITE);
-
-		FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-		Message messages[] = inbox.search(ft);
-		// Message messages[] = inbox.getMessages();
-
-		// Loop over all of the messages
 		for (Message message : messages) {
 			message.setFlag(Flags.Flag.SEEN, true);
 		}
+		
 		inbox.close(true);
 	}
 
 	/**
 	 * Count the number of stress test emails
 	 * 
-	 * @author wangsha
 	 */
 	public static int mailStressTestCount(String username, String password)
 			throws Exception {
-		Session sessioned = Session.getDefaultInstance(System.getProperties(),
-				null);
-		Store store = sessioned.getStore("imaps");
-		store.connect("imap.gmail.com", username, password);
-
-		// Retrieve the "Inbox"
-		Folder inbox = store.getFolder("inbox");
-		// Reading the Email Index in Read / Write Mode
-		inbox.open(Folder.READ_WRITE);
-
-		FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-		Message messages[] = inbox.search(ft);
-		// Message messages[] = inbox.getMessages();
+		Folder inbox = getGmailInbox(username, password);
+		Message[] messages = getMessages(inbox);
+		
 		int count = 0;
-		// Loop over all of the messages
 		Pattern pattern = Pattern.compile("^Teammates Mail Stree Testing ");
 		for (Message message : messages) {
 			System.out.println(message.getSubject());
@@ -320,22 +234,40 @@ public class EmailAccount {
 			count++;
 
 		}
-		inbox.close(true);
 
+		inbox.close(true);
 		return count;
 	}
 
-
-	public static void main(String[] args) {
-		try {
-			System.out
-					.println(EmailAccount.getRegistrationKeyFromGmail(
-							TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-							TestProperties.inst().TEST_STUDENT1_PASSWORD,
-							"CCDetailsUiT.CS2104"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	private static Folder getGmailInbox(String username, String password)
+			throws MessagingException {
+		Session session =
+				Session.getDefaultInstance(System.getProperties(), null);
+		Store store = session.getStore("imaps");
+		store.connect("imap.gmail.com", username, password);
+		return store.getFolder("inbox");
 	}
-
+	
+	private static Message[] getMessages(Folder inbox) throws MessagingException {
+		// Reading the Email Index in Read / Write Mode
+		inbox.open(Folder.READ_WRITE);
+		FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
+		Message messages[] = inbox.search(ft);
+				
+		return messages;
+	}
+	
+	private static String getEmailBody(Message message) throws IOException, MessagingException {
+		String body = "";
+		
+		if (message.getContent() instanceof String) {
+			body = message.getContent().toString();
+		} else if (message.getContent() instanceof Multipart) {
+			Multipart multipart = (Multipart) message.getContent();
+			BodyPart bodypart = multipart.getBodyPart(0);
+			body = bodypart.getContent().toString();
+		}
+		
+		return body;
+	}
 }
