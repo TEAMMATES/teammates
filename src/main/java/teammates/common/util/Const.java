@@ -65,6 +65,7 @@ public class Const {
 	
 		public static final String EVALUATION_RESULTS = "View the current results of the evaluation";
 		public static final String EVALUATION_EDIT = "Edit evaluation details";
+		public static final String EVALUATION_PREVIEW = "Preview evaluation session";
 		public static final String EVALUATION_REMIND = "Send e-mails to remind students who have not submitted their evaluations to do so";
 		public static final String EVALUATION_DELETE = "Delete the evaluation";
 		public static final String EVALUATION_PUBLISH = "Publish evaluation results for students to view";
@@ -239,7 +240,6 @@ public class Const {
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
 		public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
-		public static final String FEEDBACK_SESSION_PREVIEWAS = "previewas";
 		
 		public static final String FEEDBACK_QUESTION_ID = "questionid";
 		public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
@@ -271,8 +271,10 @@ public class Const {
 		public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
 		public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
 		
+		public static final String PREVIEWAS = "previewas";
+		
 		public static final String STUDENT_ID = "googleid";
-	
+		
 		public static final String REGKEY = "regkey";
 		public static final String STUDENT_EMAIL = "studentemail";
 		public static final String NEW_STUDENT_EMAIL = "newstudentemail";
@@ -341,6 +343,7 @@ public class Const {
 		public static final String INSTRUCTOR_EVAL_DELETE = "/page/instructorEvalDelete";
 		public static final String INSTRUCTOR_EVAL_EDIT_PAGE = "/page/instructorEvalEditPage";
 		public static final String INSTRUCTOR_EVAL_EDIT_SAVE = "/page/instructorEvalEditSave";
+		public static final String INSTRUCTOR_EVAL_PREVIEW = "/page/instructorEvalPreview";
 		public static final String INSTRUCTOR_EVAL_RESULTS_PAGE = "/page/instructorEvalResultsPage";
 		public static final String INSTRUCTOR_EVAL_STATS_PAGE = "/page/instructorEvalStatsPage";
 		public static final String INSTRUCTOR_EVAL_SUBMISSION_PAGE = "/page/instructorEvalSubmissionPage";

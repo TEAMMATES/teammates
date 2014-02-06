@@ -7,8 +7,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.util.Const;
@@ -23,6 +21,9 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.StudentEvalEditPage;
+
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Covers the 'Evaluations' page for instructors. 
@@ -64,6 +65,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		
 		testEditLink();
 		testViewResultsLink();
+		testPreviewLink();
 		
 		testInputValidation();
 		
@@ -113,7 +115,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	public void testEditLink(){
 		//TODO: implement this (also check for disabling of the link at right times)
 	}
-
+	
 	public void testViewResultsLink(){
 		
 		______TS("view results link always enabled");
@@ -127,6 +129,18 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		evalsPage = resultPage.goToPreviousPage(InstructorEvalsPage.class);
 	}
 
+	public void testPreviewLink(){
+
+		______TS("preview link always enabled");
+		
+		String courseId = "CEvalUiT.CS2104";
+		String evalName = "First Eval";
+		
+		StudentEvalEditPage previewPage = evalsPage.loadPreviewLink(courseId, evalName);
+		previewPage.verifyHtml("/studentEvalEditPagePreview.html");
+		previewPage.closeCurrentWindowAndSwitchToParentWindow();
+	}
+	
 	public void testInputValidation() {
 		
 		______TS("client-side input validation");

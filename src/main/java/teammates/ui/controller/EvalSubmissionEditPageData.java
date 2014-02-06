@@ -16,9 +16,16 @@ public class EvalSubmissionEditPageData extends PageData {
 	public List<SubmissionAttributes> submissions;
 	public String disableAttribute = "";
 	
+	public boolean isPreview;
+	public String previewName;
+	public String previewEmail;
+	public List<StudentAttributes> studentList;
 	
 	public EvalSubmissionEditPageData(AccountAttributes account) {
 		super(account);
+		this.isPreview = false;
+		this.previewName = "";
+		this.previewEmail = "";
 	}
 	
 	/**
@@ -26,7 +33,7 @@ public class EvalSubmissionEditPageData extends PageData {
 	 */
 	public String getP2PComments(SubmissionAttributes sub) {
 		String commentsString = Sanitizer.sanitizeForHtml(sub.p2pFeedback.getValue());
-		if (commentsString.trim().equals("")){
+		if (commentsString.trim().equals("") || isPreview){
 			if(sub.reviewee.equals(sub.reviewer)) {
 				return "";
 			} else {
@@ -86,8 +93,9 @@ public class EvalSubmissionEditPageData extends PageData {
 	 */
 	public String getEvaluationOptions(SubmissionAttributes sub){
 		String result = "";
-		if(sub.points==Const.POINTS_NOT_SUBMITTED ||
-				sub.points==Const.INT_UNINITIALIZED){
+		if(sub.points==Const.POINTS_NOT_SUBMITTED 
+				|| sub.points==Const.INT_UNINITIALIZED 
+				|| isPreview){
 			sub.points=Const.POINTS_NOT_SURE;
 		}
 		for(int i=200; i>=0; i-=10){

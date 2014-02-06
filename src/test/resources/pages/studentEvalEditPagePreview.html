@@ -1,0 +1,227 @@
+<html>
+<head>
+<link href="/favicon.png" rel="shortcut icon" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>TEAMMATES - Student</title>
+<link href="/stylesheets/common.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/studentEvalEdit.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/common-print.css" media="print" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/studentEvalEdit-print.css" media="print" rel="stylesheet" type="text/css" />
+<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript"></script>
+<script src="/js/googleAnalytics.js" type="text/javascript"></script>
+<script src="/js/jquery-minified.js" type="text/javascript"></script>
+<script src="/js/tooltip.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript"></script>
+<script src="/js/student.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="frameTop">
+		<div id="frameTopWrapper">
+			<form action="/page/instructorEvalPreview" class="form_preview"
+				method="post" name="form_previewasstudent">
+				<h1 class="color_white centeralign">
+					Previewing Evaluation as <select name="previewas"
+						onchange="this.form.submit()" style="font-size:80%;">
+						<option selected="selected" value="alice.tmms@gmail.com">[Team 1] Alice Betsy</option>
+						<option value="benny.c.tmms@gmail.com">[Team 1] Benny Charles</option>
+					</select>
+				</h1>
+				<input name="evaluationname" type="hidden" value="First Eval" /> <input
+					name="courseid" type="hidden" value="CEvalUiT.CS2104" />
+			</form>
+		</div>
+	</div>
+	<div id="frameBody">
+		<div id="frameBodyWrapper">
+			<div id="topOfPage"></div>
+			<div id="headerOperation">
+				<h1>Evaluation Submission</h1>
+			</div>
+			<table class="inputTable" id="studentEvaluationInformation">
+				<tbody>
+					<tr>
+						<td class="label rightalign bold" width="30%">Course ID:</td>
+						<td id="courseid">CEvalUiT.CS2104</td>
+					</tr>
+					<tr>
+						<td class="label rightalign bold" width="30%">Evaluation name:</td>
+						<td id="evaluationname">First Eval</td>
+					</tr>
+					<tr>
+						<td class="label rightalign bold" width="30%">Opening time:
+						</td>
+						<td id="starttime">01 Apr 2012, 23:59</td>
+					</tr>
+					<tr>
+						<td class="label rightalign bold" width="30%">Closing time:
+						</td>
+						<td id="deadlinetime">30 Apr 2014, 23:59</td>
+					</tr>
+					<tr>
+						<td class="label rightalign bold" width="30%">Instructions:
+						</td>
+						<td class="multiline" id="instr">This is instruction for first eval</td>
+					</tr>
+				</tbody>
+			</table>
+			<br /> <br />
+			<div id="statusMessage" style="display: none;"></div>
+			<br /> <br /> 
+			<span class="bold"> How do I choose ‘estimated contribution’ values? </span> 
+			<br /> 
+			Choose ‘Equal share’ if this team member did an equal share of the work. 
+			‘Equal share + 10%’ means the team member did 10% more than an equal share of the work. 
+			<br /> <br /> <br />
+			<form action="/page/studentEvalSubmissionEditSave"
+				id="form_submitevaluation" method="post"
+				name="form_submitevaluation">
+				<input id="courseid" name="courseid" type="hidden"
+					value="CEvalUiT.CS2104" /> <input id="evaluationname"
+					name="evaluationname" type="hidden" value="First Eval" /> <input
+					id="teamname" name="teamname" type="hidden" value="Team 1" /> <input
+					id="fromemail" name="fromemail" type="hidden"
+					value="alice.tmms@gmail.com" />
+				<table class="inputTable">
+					<tbody>
+						<tr style="display: none;">
+							<td><input id="toemail0" name="toemail" type="text"
+								value="alice.tmms@gmail.com" /></td>
+						</tr>
+						<tr>
+							<td class="bold centeralign reportHeader" colspan="2"
+								id="sectiontitle0">Self evaluation</td>
+						</tr>
+						<tr>
+							<td class="label rightalign bold">My Estimated contribution:</td>
+							<td><select id="points0" name="points" style="width: 150px;">
+									<option value="200">Equal share + 100%</option>
+									<option value="190">Equal share + 90%</option>
+									<option value="180">Equal share + 80%</option>
+									<option value="170">Equal share + 70%</option>
+									<option value="160">Equal share + 60%</option>
+									<option value="150">Equal share + 50%</option>
+									<option value="140">Equal share + 40%</option>
+									<option value="130">Equal share + 30%</option>
+									<option value="120">Equal share + 20%</option>
+									<option value="110">Equal share + 10%</option>
+									<option value="100">Equal share</option>
+									<option value="90">Equal share - 10%</option>
+									<option value="80">Equal share - 20%</option>
+									<option value="70">Equal share - 30%</option>
+									<option value="60">Equal share - 40%</option>
+									<option value="50">Equal share - 50%</option>
+									<option value="40">Equal share - 60%</option>
+									<option value="30">Equal share - 70%</option>
+									<option value="20">Equal share - 80%</option>
+									<option value="10">Equal share - 90%</option>
+									<option value="0">0%</option>
+									<option selected="selected" value="-101">Not Sure</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td class="label rightalign bold middlealign">
+								Comments about my contribution: <br /> (shown to other teammates)
+							</td>
+							<td><textarea class="textvalue" cols="100"
+									id="justification0" name="justification" rows="8"></textarea></td>
+						</tr>
+						<tr>
+							<td class="label rightalign bold middlealign">
+								Comments about team dynamics: <br /> (confidential and only shown to instructor)
+							</td>
+							<td><textarea class="textvalue" cols="100" id="comments0"
+									name="comments" rows="8"></textarea></td>
+						</tr>
+						<tr>
+							<td colspan="2"></td>
+						</tr>
+					</tbody>
+				</table>
+				<br /> <br /> <br />
+				<table class="inputTable">
+					<tbody>
+						<tr>
+							<td colspan="2"></td>
+						</tr>
+						<tr style="display: none;">
+							<td><input id="toemail1" name="toemail" type="text"
+								value="benny.c.tmms@gmail.com" /></td>
+						</tr>
+						<tr>
+							<td class="bold centeralign reportHeader" colspan="2"
+								id="sectiontitle1">Evaluation for Benny Charles</td>
+						</tr>
+						<tr>
+							<td class="label rightalign bold">His/Her Estimated contribution:</td>
+							<td><select id="points1" name="points" style="width: 150px;">
+									<option value="200">Equal share + 100%</option>
+									<option value="190">Equal share + 90%</option>
+									<option value="180">Equal share + 80%</option>
+									<option value="170">Equal share + 70%</option>
+									<option value="160">Equal share + 60%</option>
+									<option value="150">Equal share + 50%</option>
+									<option value="140">Equal share + 40%</option>
+									<option value="130">Equal share + 30%</option>
+									<option value="120">Equal share + 20%</option>
+									<option value="110">Equal share + 10%</option>
+									<option value="100">Equal share</option>
+									<option value="90">Equal share - 10%</option>
+									<option value="80">Equal share - 20%</option>
+									<option value="70">Equal share - 30%</option>
+									<option value="60">Equal share - 40%</option>
+									<option value="50">Equal share - 50%</option>
+									<option value="40">Equal share - 60%</option>
+									<option value="30">Equal share - 70%</option>
+									<option value="20">Equal share - 80%</option>
+									<option value="10">Equal share - 90%</option>
+									<option value="0">0%</option>
+									<option selected="selected" value="-101">Not Sure</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td class="label rightalign bold middlealign">
+								My feedback to this teammate: 
+								<br /> 
+								(shown anonymously to the teammate)
+							</td>
+							<td>
+<textarea class="textvalue" cols="100" id="comments1" name="comments" rows="8"><<What I appreciate about you as a team member>>:
+
+<<Areas you can improve further>>:
+
+<<Other comments>>:</textarea></td>
+						</tr>
+						<tr>
+							<td class="label rightalign bold middlealign">
+								My comments about this teammate: 
+								<br /> 
+								(confidential and only shown to instructor)
+							</td>
+							<td><textarea class="textvalue" cols="100"
+									id="justification1" name="justification" rows="8"></textarea></td>
+						</tr>
+						<tr>
+							<td colspan="2"></td>
+						</tr>
+					</tbody>
+				</table>
+				<br /> <br />
+				<div class="centeralign" id="studentEvaluationSubmissionButtons">
+					<input class="button" disabled="disabled" id="button_submit"
+						name="submitEvaluation"
+						onclick="return checkEvaluationForm(this.form)" type="submit"
+						value="Submit Evaluation" />
+				</div>
+			</form>
+			<br /> <br /> <br />
+		</div>
+	</div>
+	<div id="frameBottom">
+		<div id="contentFooter">
+			<span class="floatleft"> [TEAMMATES <span class="color_white">V{$version}</span>]
+			</span> [for <span class="color_white"> National University of Singapore </span>] 
+			<span class="floatright"> [Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
+		</div>
+	</div>
+</body>
+</html>

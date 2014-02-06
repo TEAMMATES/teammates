@@ -127,6 +127,13 @@ public class InstructorEvalsPage extends AppPage {
 		waitForPageToLoad();
 		return changePageType(InstructorEvalResultsPage.class);
 	}
+	
+	public StudentEvalEditPage loadPreviewLink(String courseId, String evalName) {
+		getPreviewLink(courseId, evalName).click();
+		waitForPageToLoad();
+		switchToNewWindow();
+		return changePageType(StudentEvalEditPage.class);
+	}
 
 	public WebElement getViewResponseLink(String courseId, String sessionName) {
 		int sessionRowId = getEvaluationRowId(courseId, sessionName);
@@ -161,6 +168,11 @@ public class InstructorEvalsPage extends AppPage {
 	public WebElement getViewResultsLink(String courseId, String evalName) {
 		int evalRowId = getEvaluationRowId(courseId, evalName);
 		return getLinkAtTableRow("t_session_view", evalRowId);
+	}
+	
+	public WebElement getPreviewLink(String courseId, String evalName) {
+		int evalRowId = getEvaluationRowId(courseId, evalName);
+		return getLinkAtTableRow("t_session_preview", evalRowId);
 	}
 	
 	private int getEvaluationRowId(String courseId, String evalName) {

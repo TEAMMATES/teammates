@@ -721,8 +721,8 @@
 				<td>
 					<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>" 
 						name="form_previewasstudent" class="form_preview" target="_blank">			
-						<select name="<%=Const.ParamsNames.FEEDBACK_SESSION_PREVIEWAS%>">
-							<% 
+						<select name="<%=Const.ParamsNames.PREVIEWAS%>">
+							<%
 								for(StudentAttributes student : data.studentList) {
 							%>
 									<option value="<%=student.email%>">[<%=student.team%>] <%=student.name%></option>
@@ -738,7 +738,7 @@
 				<td>
 					<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>" 
 						name="form_previewasinstructor" class="form_preview" target="_blank">			
-						<select name="<%=Const.ParamsNames.FEEDBACK_SESSION_PREVIEWAS%>">
+						<select name="<%=Const.ParamsNames.PREVIEWAS%>">
 						<%
 							for(InstructorAttributes instructor : data.instructorList) {
 						%>

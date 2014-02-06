@@ -26,7 +26,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
 	 */
 	public FeedbackSubmissionEditPageData(String previewName, String previewEmail) {
 		super(null);
-		isPreview = false;
+		isPreview = true;
 		this.previewName = previewName;
 		this.previewEmail = previewEmail;
 	}

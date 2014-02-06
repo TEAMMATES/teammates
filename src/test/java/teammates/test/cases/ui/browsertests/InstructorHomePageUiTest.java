@@ -143,7 +143,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testEvaluationLinks(){
-		//TODO: check View results, Edit links
+		//TODO: check View results, Edit, Preview links
 	}
 	
 	public void testRemindAction(){

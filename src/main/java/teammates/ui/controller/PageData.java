@@ -407,6 +407,15 @@ public class PageData {
 	}
 	
 	
+	public String getInstructorEvaluationPreviewLink(String courseID, String evalName){
+		String link = Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW;
+		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
+		link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
+		link = addUserIdToUrl(link);
+		return link;
+	}
+	
+	
 	public String getInstructorEvaluationResultsLink(String courseID, String evalName){
 		String link = Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
@@ -615,6 +624,12 @@ public class PageData {
 			"href=\"" + getInstructorEvaluationEditLink(eval.courseId,eval.name) + "\" " +
 			"onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
 			(hasEdit ? "" : DISABLED) + ">Edit</a>"
+		);
+		result.append(
+			"<a class=\"color_brown t_session_preview" + position + "\" " +
+			"href=\"" + getInstructorEvaluationPreviewLink(eval.courseId,eval.name) + "\" " +
+			"onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_PREVIEW+"')\" onmouseout=\"hideddrivetip()\" " +
+			"target=\"_blank\">Preview</a>"
 		);
 		result.append(
 			"<a class=\"color_red t_session_delete" + position + "\" " +

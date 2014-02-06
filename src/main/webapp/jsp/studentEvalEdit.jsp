@@ -34,9 +34,37 @@
 
 <body>
 	<div id="dhtmltooltip"></div>
-
 	<div id="frameTop">
-		<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
+	<%
+		if (!data.isPreview) {
+	%>
+			<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
+	<%
+		} else {
+	%>
+			<div id="frameTopWrapper">
+				<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>" 
+					name="form_previewasstudent" class="form_preview">
+					<h1 class="color_white centeralign">
+						Previewing Evaluation as
+						<select name="<%=Const.ParamsNames.PREVIEWAS%>" onchange="this.form.submit()" style="font-size:80%;">
+						<%
+							for ( StudentAttributes student : data.studentList) {
+						%>
+							<option value="<%=student.email%>"
+								<%=student.email.equals(data.previewEmail) ? "selected=\"selected\"" : ""%>>[<%=student.team%>] <%=student.name%></option>
+						<%
+							}
+						%>
+						</select>
+					</h1>
+					<input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=data.eval.name%>">
+					<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.eval.courseId%>">
+				</form>
+			</div>
+	<% 
+		}
+	%>
 	</div>
 
 	<div id="frameBody">
@@ -93,7 +121,8 @@
 				<div id="studentEvaluationSubmissionButtons" class="centeralign">
 					<input type="submit" class="button" name="submitEvaluation"
 							onclick="return checkEvaluationForm(this.form)"
-							id="button_submit" value="Submit Evaluation" <%=data.disableAttribute%>
+							id="button_submit" value="Submit Evaluation" 
+							<%=(!data.disableAttribute.isEmpty() || data.isPreview) ? "disabled=\"disabled\"" : ""%>
 							<%
 								if (!data.disableAttribute.isEmpty()) {
 							%>		
@@ -103,7 +132,13 @@
 							%>
 					>
 				</div>
-				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+			<%
+				if (!data.isPreview) { 
+			%>
+					<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+			<%
+				}
+			%>
 			</form>
 		 	<br>
 		 	<br>

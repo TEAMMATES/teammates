@@ -48,6 +48,7 @@ public class ActionFactory {
 		map(INSTRUCTOR_EVAL_RESULTS_DOWNLOAD, InstructorEvalResultsDownloadAction.class);
 		map(INSTRUCTOR_EVAL_EDIT_PAGE, InstructorEvalEditPageAction.class);
 		map(INSTRUCTOR_EVAL_EDIT_SAVE, InstructorEvalEditSaveAction.class);
+		map(INSTRUCTOR_EVAL_PREVIEW, InstructorEvalPreviewAction.class);
 		map(INSTRUCTOR_EVAL_PUBLISH, InstructorEvalPublishAction.class);
 		map(INSTRUCTOR_EVAL_REMIND, InstructorEvalRemindAction.class);
 		map(INSTRUCTOR_EVAL_RESULTS_PAGE, InstructorEvalResultsPageAction.class);
