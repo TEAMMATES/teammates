@@ -492,6 +492,8 @@ public class Const {
 				+ "If you don't remember which Google account you used previously, email us from the same email account to which you receive TEAMMATES emails."
 				+ "<br/>2. You changed the primary email from a non-Gmail address to a Gmail address recently. " 
 				+ "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address."
+				+ "<br/>3. You joined this course just a few seconds ago and your data may be still in the process of propagating through our servers. "
+				+ "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
 				+ "</div>";
 		
 		public static final String COURSE_ADDED = "The course has been added.. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
