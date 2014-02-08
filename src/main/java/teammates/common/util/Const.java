@@ -406,6 +406,7 @@ public class Const {
 		public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/feedbackSessionOpeningReminders";
 		public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/feedbackSessionClosingReminders";
 		public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/feedbackSessionPublishedReminders";
+		public static final String AUTOMATED_COMPILE_LOGS = "/compileLogs";
 		
 		public static final String BACKDOOR = "/backdoor";
 		

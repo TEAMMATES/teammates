@@ -51,6 +51,7 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED = "TEAMMATES: Feedback session results published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
 	public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
+			
 	public static enum EmailType {
 		EVAL_CLOSING,
 		EVAL_OPENING,
@@ -720,6 +721,18 @@ public class Emails {
 		return message;
 	}
 
+	public MimeMessage generateCompiledLogsEmail(String logs)
+			throws AddressException, MessagingException, UnsupportedEncodingException {
+		
+		MimeMessage message = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+		message.setSubject("Severe Error Logs Compilation");
+
+		String emailBody = logs;
+
+		message.setContent(emailBody, "text/html");
+		return message;
+	}
+	
 	public void sendEmails(List<MimeMessage> messages) {
 		for (MimeMessage m : messages) {
 			try {
@@ -756,6 +769,18 @@ public class Emails {
 		return email;
 	}
 
+	public MimeMessage sendLogReport(MimeMessage message) {
+		MimeMessage email = null;
+		try {
+			sendEmail(message);
+		} catch (Exception e) {
+			log.severe("Error in sending log report: "
+					+ (email == null ? "" : email.toString()));
+		}
+	
+		return email;
+	}
+	
 	private String fillUpJoinFragment(StudentAttributes s, String emailBody) {
 		emailBody = emailBody.replace("${joinFragment}",
 				EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN);
