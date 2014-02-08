@@ -13,7 +13,7 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-		String studentEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PREVIEWAS);
+		String studentEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 		statusToAdmin = "Preview feedback session as student (" + studentEmail + ")<br>" +
 				"Session Name: " + feedbackSessionName + "<br>" +
 				"Course ID: " + courseId;

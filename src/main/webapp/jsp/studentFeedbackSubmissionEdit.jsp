@@ -35,19 +35,19 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-<%
-	if (!data.isPreview) {
-%>
-		<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
-<%	
-	} else { 
-%>
-		<div id="frameTopWrapper">
-			<h1 class="color_white centeralign">Previewing Session as Student <%=data.previewName%> (<%=data.previewEmail%>)</h1>
-		</div>
-<% 
-	}
-%>
+	<%
+		if (!data.isPreview) {
+	%>
+			<jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
+	<%	
+		} else { 
+	%>
+			<div id="frameTopWrapper">
+				<h1 class="color_white centeralign">Previewing Session as Student <%=data.previewName%> (<%=data.previewEmail%>)</h1>
+			</div>
+	<% 
+		}
+	%>
 	</div>
 
 	<div id="frameBody">

@@ -113,7 +113,7 @@ public class EvaluationsLogic {
 			}
 		}
 	
-		SubmissionsLogic.inst().createSubmissions(listOfSubmissionsToAdd);
+		submissionsLogic.createSubmissions(listOfSubmissionsToAdd);
 	}
 
 	public EvaluationAttributes getEvaluation(String courseId, String evaluationName) {
@@ -306,7 +306,7 @@ public class EvaluationsLogic {
 	public boolean isEvaluationCompletedByStudent(EvaluationAttributes evaluation, String email) {
 		
 		List<SubmissionAttributes> submissionList = 
-				SubmissionsLogic.inst().getSubmissionsForEvaluationFromStudent(
+				submissionsLogic.getSubmissionsForEvaluationFromStudent(
 						evaluation.courseId, evaluation.name, email);
 
 		for (SubmissionAttributes sd : submissionList) {
@@ -361,7 +361,7 @@ public class EvaluationsLogic {
 	
 	public void updateStudentEmailForSubmissionsInCourse(String course,
 			String originalEmail, String email) {
-		SubmissionsLogic.inst().updateStudentEmailForSubmissionsInCourse(course, originalEmail, email);
+		submissionsLogic.updateStudentEmailForSubmissionsInCourse(course, originalEmail, email);
 	}
 
 	public void publishEvaluation(String courseId, String evaluationName) 
@@ -505,13 +505,13 @@ public class EvaluationsLogic {
 	public void deleteEvaluationCascade(String courseId, String evaluationName) {
 
 		evaluationsDb.deleteEvaluation(courseId, evaluationName);
-		SubmissionsLogic.inst().deleteAllSubmissionsForEvaluation(courseId, evaluationName);
+		submissionsLogic.deleteAllSubmissionsForEvaluation(courseId, evaluationName);
 	}
 
 	
 	public void deleteEvaluationsForCourse(String courseId) {
 		evaluationsDb.deleteAllEvaluationsForCourse(courseId);
-		SubmissionsLogic.inst().deleteAllSubmissionsForCourse(courseId);
+		submissionsLogic.deleteAllSubmissionsForCourse(courseId);
 	}
 	
 	public void setEvaluationActivationStatus(String courseId, String evaluationName, boolean isActivated) throws EntityDoesNotExistException {

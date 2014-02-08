@@ -473,7 +473,7 @@ public class Logic {
 	
 	/**
 	 * Deletes the course and all data related to the course 
-	 * (instructors, students, evaluations).
+	 * (instructors, students, evaluations, feedback sessions).
 	 * Fails silently if no such account. <br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.

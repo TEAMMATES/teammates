@@ -142,7 +142,7 @@
 						<textarea class="textvalue" rows="8" cols="100" 
 								name="<%=Const.ParamsNames.JUSTIFICATION%>"
 								id="<%=Const.ParamsNames.JUSTIFICATION+idx%>"
-								<%=data.disableAttribute%>><%=EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue())%></textarea>
+								<%=data.disableAttribute%>><%=!data.isPreview ? EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue()) : ""%></textarea>
 					</td>
 				</tr>
 			<%	

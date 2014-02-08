@@ -14,15 +14,11 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
 	
 	protected static Logger log = Utils.getLogger();
 	
-
-	public String idOfCourseToDelete;
-	
-	
 	@Override
 	public ActionResult execute()
 			throws EntityDoesNotExistException {
 
-		idOfCourseToDelete = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String idOfCourseToDelete = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(idOfCourseToDelete);
 		
 		new GateKeeper().verifyAccessible(
