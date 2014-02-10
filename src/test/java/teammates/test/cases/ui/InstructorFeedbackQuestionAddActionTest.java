@@ -96,7 +96,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Multiple-select question:</span> What do you like best about the class?"
+						+ " created.<br><span class=\"bold\">Multiple-choice (multiple answers):</span> What do you like best about the class?"
 						+ "|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 		
@@ -139,7 +139,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Multiple-select question:</span> Who do you like in the class?"
+						+ " created.<br><span class=\"bold\">Multiple-choice (multiple answers):</span> Who do you like in the class?"
 						+ "|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 	}
@@ -196,7 +196,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Multiple-choice question:</span> What do you like best about the class?"
+						+ " created.<br><span class=\"bold\">Multiple-choice (single answer):</span> What do you like best about the class?"
 						+ "|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 		
@@ -239,7 +239,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 						+ "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
 						+ "Created Feedback Question for Feedback Session:<span class=\"bold\">"
 						+ "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-						+ " created.<br><span class=\"bold\">Multiple-choice question:</span> Who do you like best in the class?"
+						+ " created.<br><span class=\"bold\">Multiple-choice (single answer):</span> Who do you like best in the class?"
 						+ "|||/page/instructorFeedbackQuestionAdd";
 		assertEquals(expectedLogMessage, action.getLogMessage());
 	}

@@ -185,8 +185,8 @@ public class Const {
 	
 	public class FeedbackQuestionTypeNames{
 		public static final String TEXT = "Essay question";
-		public static final String MCQ = "Multiple-choice question";
-		public static final String MSQ = "Multiple-select question";
+		public static final String MCQ = "Multiple-choice (single answer)";
+		public static final String MSQ = "Multiple-choice (multiple answers)";
 		public static final String NUMSCALE = "Numerical-scale question";
 	}
 
