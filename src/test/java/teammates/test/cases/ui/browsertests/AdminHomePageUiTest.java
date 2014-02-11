@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminHomePage;
@@ -36,7 +37,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 	public void testAll(){
 		testContent();
 		//no links to check
-		testInputValidation();
 		testCreateInstructorAction();
 	}
 
@@ -49,49 +49,26 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 		//Full page content check is omitted because this is an internal page. 
 	}
 
-	private void testInputValidation() {
-		
-		______TS("input validation: empty fields");
+	private void testCreateInstructorAction() {
 		
 		account = new AccountAttributes();
 		
-		homePage.createInstructor(account, false)
-			.verifyStatus(Const.StatusMessages.FIELDS_EMPTY);
-		
 		account.googleId = "AHPUiT.instr1";
-		account.name =  "!@#$%^&";
-		account.email = "AHPUiT.instr1";
-	    account.institute = "Institution";
-	    account.isInstructor = true;
-		
-	    ______TS("input validation: invalid email");
+		account.name =  "AHPUiT Instrúctör";
+		account.email = "AHPUiT.instr1@gmail.com";
+		account.institute = "Institution";
+		account.isInstructor = true;
 	    
 		BackDoor.deleteAccount(account.googleId);
-		
-		homePage.createInstructor(account, false)
-			.verifyStatus("The e-mail address is invalid.");
-	
-		______TS("input validation: invalid name");
-		
-		account.email = "AHPUiT.instr1@gmail.com";
-		homePage.createInstructor(account, false)
-			.verifyStatus("Name should only consist of alphanumerics or hyphens, " +
-					"apostrophes, fullstops, commas, slashes, round brackets" +
-					"\nand not more than 40 characters.");
-	}
-
-	private void testCreateInstructorAction() {
-		
+	    
 		______TS("action success : create instructor account with demo course");
 		
 		String demoCourseId = "AHPUiT.instr1.gma-demo";
 		BackDoor.deleteCourse(demoCourseId);
 		
 		//with sample course
-		
-		account.name =  "New Instructor";
 		homePage.createInstructor(account, true)
-			.verifyStatus("Instructor New Instructor has been successfully created");
+			.verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");
 
 		verifyAccountCreated(account);
 		assertNotNull(BackDoor.getCourse(demoCourseId));
@@ -109,11 +86,18 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
 		BackDoor.deleteAccount(account.googleId);
 		
 		homePage.createInstructor(account, false)
-			.verifyStatus("Instructor New Instructor has been successfully created");
+			.verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");
 		verifyAccountCreated(account);
 		assertNull(BackDoor.getCourse(demoCourseId));
 		
+		______TS("action failure : invalid parameter");
 
+		account.email = "AHPUiT.email.com";
+		BackDoor.deleteAccount(account.googleId);
+		
+		homePage.createInstructor(account, false)
+			.verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, account.email, FieldValidator.REASON_INCORRECT_FORMAT));
+		
 	}
 
 	private void verifyAccountCreated(AccountAttributes expected) {

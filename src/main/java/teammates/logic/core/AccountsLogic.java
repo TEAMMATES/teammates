@@ -41,6 +41,11 @@ public class AccountsLogic {
 	public void createAccount(AccountAttributes accountData) 
 					throws InvalidParametersException {
 	
+		List<String> invalidityInfo = accountData.getInvalidityInfo();
+		if (!invalidityInfo.isEmpty()) {
+			throw new InvalidParametersException(invalidityInfo);
+		}
+		
 		log.info("going to create account :\n"+accountData.toString());
 		
 		accountsDb.createAccount(accountData);

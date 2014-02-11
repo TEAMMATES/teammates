@@ -545,7 +545,8 @@ public class BackDoor {
 
 	private static String readResponse(URLConnection conn) throws IOException {
 		BufferedReader rd = new BufferedReader(new InputStreamReader(
-				conn.getInputStream()));
+				conn.getInputStream(), "UTF-8"));
+		
 		StringBuffer sb = new StringBuffer();
 		String line;
 		while ((line = rd.readLine()) != null) {
@@ -557,7 +558,7 @@ public class BackDoor {
 
 	private static void sendRequest(String paramString, URLConnection conn)
 			throws IOException {
-		OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+		OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
 		wr.write(paramString);
 		wr.flush();
 		wr.close();
