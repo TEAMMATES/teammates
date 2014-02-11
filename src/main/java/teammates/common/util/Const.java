@@ -132,6 +132,10 @@ public class Const {
 				+ "when the session becomes visible to users.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to manually publish the session later on.";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend never to publish the responses.";
+		public static final String FEEDBACK_SESSION_SENDJOINEMAIL = "If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.";
+		public static final String FEEDBACK_SESSION_SENDOPENEMAIL = "Select this option to automatically send an email to students to notify them when the session is open for submission.";
+		public static final String FEEDBACK_SESSION_SENDCLOSINGEMAIL = "Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.";
+		public static final String FEEDBACK_SESSION_SENDPUBLISHEDEMAIL = "Select this option to automatically send an email to students to notify them when the session results is published.";
 		public static final String FEEDBACK_SESSION_INSTRUCTIONS = "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.";
 		public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
 		public static final String FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
@@ -239,6 +243,7 @@ public class Const {
 		public static final String FEEDBACK_SESSION_PUBLISHEDEMAILSENT = "fspublishedemailsent";
 		public static final String FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
 		public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
+		public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
 		public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
 		
 		public static final String FEEDBACK_QUESTION_ID = "questionid";

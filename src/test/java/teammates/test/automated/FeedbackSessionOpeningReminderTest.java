@@ -27,6 +27,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.test.cases.logic.LogicTest;
 
 public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
@@ -84,7 +85,8 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
 		fsLogic.scheduleFeedbackSessionOpeningEmails();
 		FeedbackSessionOpeningCallback.verifyTaskCount(0);
 		
-		______TS("3 sessions opened and emails sent, 1 session opened without emails sent");
+		______TS("2 sessions opened and emails sent, 1 session opened without emails sent, "
+				+ "1 session opened without emails sent with sending open email disabled");
 		// Modify session to set emails as unsent but still open
 		// by closing and opening the session.
 		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
@@ -94,6 +96,20 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
 		fsLogic.updateFeedbackSession(session1);
 		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
 		fsLogic.updateFeedbackSession(session1);
+		LogicTest.verifyPresentInDatastore(session1);
+		
+		// Modify session to set emails as unsent but still open
+		// by closing and opening the session. Also disable sending
+		// open emails.
+		FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
+				.get("session2InCourse1");
+		session2.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
+		session2.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
+		session2.isOpeningEmailEnabled = false;
+		fsLogic.updateFeedbackSession(session2);
+		session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		fsLogic.updateFeedbackSession(session2);
+		LogicTest.verifyPresentInDatastore(session2);
 		
 		fsLogic.scheduleFeedbackSessionOpeningEmails();
 		FeedbackSessionOpeningCallback.verifyTaskCount(1);
@@ -103,7 +119,8 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
 		DataBundle dataBundle = getTypicalDataBundle();
 		restoreTypicalDataInDatastore();
 		
-		______TS("MimeMessage Test : 3 sessions opened and emails sent, 1 session opened without emails sent");
+		______TS("MimeMessage Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
+				+ "1 session opened without emails sent with sending open email disabled");
 		// Modify session to set emails as unsent but still open
 		// by closing and opening the session.
 		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
@@ -113,6 +130,18 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
 		fsLogic.updateFeedbackSession(session1);
 		session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
 		fsLogic.updateFeedbackSession(session1);
+		
+		// Modify session to set emails as unsent but still open
+		// by closing and opening the session. Also disable sending
+		// open emails.
+		FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
+				.get("session2InCourse1");
+		session2.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
+		session2.endTime = TimeHelper.getDateOffsetToCurrentTime(3);
+		session2.isOpeningEmailEnabled = false;
+		fsLogic.updateFeedbackSession(session2);
+		session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+		fsLogic.updateFeedbackSession(session2);
 		
 		HashMap<String, String> paramMap = createParamMapForAction(session1);
 		EmailAction fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);

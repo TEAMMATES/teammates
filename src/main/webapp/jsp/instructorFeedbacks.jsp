@@ -6,6 +6,7 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
+<%@ page import="teammates.logic.core.Emails.EmailType"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
@@ -267,6 +268,47 @@
 							<%if(data.newFeedbackSession!=null && Const.TIME_REPRESENTS_NEVER.equals(data.newFeedbackSession.resultsVisibleFromTime)) 
 									out.print("checked=\"checked\"");%>>
 							 Never</td>
+					</tr>
+				</table>
+				<br>
+				<table class="inputTable sessionTable" id="sessionEmailReminderTable">
+					<tr>
+						<td>
+							<span class="bold">Send Emails For:</span>
+						</td>
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SENDJOINEMAIL%>')"
+							onmouseout="hideddrivetip()">
+							<label><input type="checkbox" checked="checked" disabled="disabled">
+								Join Reminder
+							</label>
+						</td>
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL%>')"
+							onmouseout="hideddrivetip()">
+							<label><input type="checkbox" checked="checked"
+								name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
+								id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_open"
+								value="<%=EmailType.FEEDBACK_OPENING.toString()%>">
+									Session Opening Reminder
+							</label>
+						</td>
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SENDCLOSINGEMAIL%>')"
+							onmouseout="hideddrivetip()">
+							<label><input type="checkbox" checked="checked"
+								name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
+								id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_closing"
+								value="<%=EmailType.FEEDBACK_CLOSING.toString()%>">
+									Session Closing Reminder
+							</label>
+						</td>
+						<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SENDPUBLISHEDEMAIL%>')"
+							onmouseout="hideddrivetip()">
+							<label><input type="checkbox" checked="checked"
+								name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
+								id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_published"
+								value="<%=EmailType.FEEDBACK_PUBLISHED.toString()%>">
+									Results Published Announcement
+							</label>
+						</td>
 					</tr>
 				</table>
 				<br>

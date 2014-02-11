@@ -1,8 +1,9 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-
-import com.google.appengine.api.datastore.Text;
+import java.util.List;
 
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -16,6 +17,9 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.core.Emails.EmailType;
+
+import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
@@ -82,6 +86,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 	
 	private FeedbackSessionAttributes extractFeedbackSessionData() {
 		//TODO assert parameters are not null then update test
+		//TODO make this method stateless
 		
 		FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
 		newSession.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -127,7 +132,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 		
 		type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
 		switch (type) {
-		case "custom": //Magic strings. Use enums to prevent potentila bugs caused by typos.
+		case "custom": //TODO Magic strings. Use enums to prevent potentila bugs caused by typos.
 			newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
 					getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
 					getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
@@ -142,6 +147,12 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 			newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
 			break;
 		}
+		
+		String[] sendReminderEmailsArray = getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
+		List<String> sendReminderEmailsList = sendReminderEmailsArray == null ? new ArrayList<String>() : Arrays.asList(sendReminderEmailsArray);
+		newSession.isOpeningEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString());
+		newSession.isClosingEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString());
+		newSession.isPublishedEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString());
 		
 		return newSession;
 	}

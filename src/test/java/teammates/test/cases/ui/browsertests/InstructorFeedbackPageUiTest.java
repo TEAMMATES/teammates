@@ -53,6 +53,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		newSession.sentPublishedEmail = false;
 		newSession.timeZone = 8;
 		newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
+		newSession.isOpeningEmailEnabled = true;
+		newSession.isClosingEmailEnabled = true;
+		newSession.isPublishedEmailEnabled = true;
 			
 		browser = BrowserPool.getBrowser();
 		
@@ -252,6 +255,34 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		
 		savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
 		assertEquals(newSession.toString(), savedSession.toString());
+		
+		______TS("success case 6: disable sending open and closing reminder emails");
+		
+		feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+		
+		feedbackPage.clickManualPublishTimeButton();
+		feedbackPage.toggleSendOpenEmailCheckbox();
+		feedbackPage.toggleSendClosingEmailCheckbox();
+		
+		newSession.feedbackSessionName = "don't send emails";
+		newSession.createdTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
+		newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
+		newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+		newSession.isOpeningEmailEnabled = false;
+		newSession.isClosingEmailEnabled = false;
+		
+		feedbackPage.addFeedbackSession(
+				newSession.feedbackSessionName, newSession.courseId, 
+				newSession.startTime, newSession.endTime,
+				null, null,
+				newSession.instructions, newSession.gracePeriod );
+		feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+		
+		savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
+		assertEquals(newSession.toString(), savedSession.toString());
+		
+		// remove session so it won't interfere with following tests
+		BackDoor.deleteFeedbackSession(newSession.feedbackSessionName, newSession.courseId);
 		
 		______TS("failure case 2: invalid input: publish time before visible (visible follows open)");
 		

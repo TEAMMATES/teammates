@@ -365,22 +365,42 @@ public class Emails {
 		List<StudentAttributes> students;
 		
 		if (fsLogic.isFeedbackSessionViewableToStudents(session)) {
-			students = studentsLogic.getStudentsForCourse(session.courseId);
+			if (session.isOpeningEmailEnabled) {
+				students = studentsLogic.getStudentsForCourse(session.courseId);
+			} else {
+				students = studentsLogic.getUnregisteredStudentsForCourse(session.courseId);
+			}
 		} else {
 			students = new ArrayList<StudentAttributes>();
 		}
 		
 		List<MimeMessage> emails = null;
-		emails = generateFeedbackSessionEmailBases(course,
-				session, students, instructors, template);
-		
-		for (MimeMessage email : emails) {
-			email.setSubject(email.getSubject().replace("${subjectPrefix}",
-					SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
-			email.setContent(
-					email.getContent().toString()
-							.replace("${status}", "is now open"), "text/html");
+		if (session.isOpeningEmailEnabled) {
+			emails = generateFeedbackSessionEmailBases(course,
+					session, students, instructors, template, false);
+			
+			for (MimeMessage email : emails) {
+				email.setSubject(email.getSubject().replace("${subjectPrefix}",
+						SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+				email.setContent(
+						email.getContent().toString()
+								.replace("${status}", "is now open"), "text/html");
+			}
+		} else {
+			emails = generateFeedbackSessionEmailBases(course,
+					session, students, instructors, template, true);
+			
+			for (MimeMessage email : emails) {
+				email.setSubject(email.getSubject().replace("${subjectPrefix}",
+						SUBJECT_PREFIX_STUDENT_COURSE_JOIN));
+				email.setContent(
+						email.getContent().toString().replaceFirst(
+										"(?s)The following feedback session(.*)</a>",
+										"Please join the course to participate in future sessions held by the course.")
+						, "text/html");
+			}
 		}
+		
 		return emails;
 	}
 	
@@ -396,7 +416,7 @@ public class Emails {
 		List<MimeMessage> emails = generateFeedbackSessionEmailBasesForInstructorReminders(
 				course, session, instructorsToRemind, template);
 		emails.addAll(generateFeedbackSessionEmailBases(course,
-				session, students, instructorsToNotify, template));
+				session, students, instructorsToNotify, template, false));
 		
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
@@ -441,7 +461,7 @@ public class Emails {
 			}
 		}
 		emails = generateFeedbackSessionEmailBases(
-				course, session, students, instructors, template);
+				course, session, students, instructors, template, false);
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
 					SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
@@ -476,7 +496,7 @@ public class Emails {
 			students = new ArrayList<StudentAttributes>();
 		}
 		emails = generateFeedbackSessionEmailBases(course,
-				session, students, instructors, template);
+				session, students, instructors, template, false);
 		
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
@@ -490,7 +510,8 @@ public class Emails {
 			FeedbackSessionAttributes session, 
 			List<StudentAttributes> students,
 			List<InstructorAttributes> instructors,
-			String template) 
+			String template,
+			boolean insertInstructorPlaceholderJoinLink) 
 					throws MessagingException, UnsupportedEncodingException {
 		
 		ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
@@ -499,8 +520,8 @@ public class Emails {
 					template));
 		}
 		for (InstructorAttributes i : instructors) {
-			emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, i,
-					template));
+			emails.add(generateFeedbackSessionEmailBaseForInstructors(course,
+					session, i, template, insertInstructorPlaceholderJoinLink));
 		}
 		return emails;
 	}
@@ -574,7 +595,8 @@ public class Emails {
 			CourseAttributes c,
 			FeedbackSessionAttributes fs, 
 			InstructorAttributes i,
-			String template)
+			String template,
+			boolean insertPlaceholderJoinFragment)
 					throws MessagingException, UnsupportedEncodingException {
 
 		MimeMessage message = getEmptyEmailAddressedToEmail(i.email);
@@ -585,14 +607,18 @@ public class Emails {
 
 		String emailBody = template;
 
-		emailBody = emailBody.replace("${joinFragment}", "");
+		if (insertPlaceholderJoinFragment) {
+			emailBody = fillUpJoinFragment(null, emailBody);
+		} else {
+			emailBody = emailBody.replace("${joinFragment}", "");
+		}
 		emailBody = emailBody.replace("${userName}", i.name);
 		emailBody = emailBody.replace("${courseName}", c.name);
 		emailBody = emailBody.replace("${courseId}", c.id);
 		emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
 		emailBody = emailBody.replace("${deadline}",
 				TimeHelper.formatTime(fs.endTime));
-		emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<br/>");
+		emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<p/><br/>");
 		
 		String submitUrl = Config.APP_URL
 				+ Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
@@ -785,12 +811,16 @@ public class Emails {
 		emailBody = emailBody.replace("${joinFragment}",
 				EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN);
 
-		String key;
-		key = StringHelper.encrypt(s.key);
-
-		String joinUrl = Config.APP_URL
-				+ Const.ActionURIs.STUDENT_COURSE_JOIN;
-		joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+		String joinUrl;
+		if (s != null) {
+			String key;
+			key = StringHelper.encrypt(s.key);
+	
+			joinUrl = Config.APP_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;
+			joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+		} else {
+			joinUrl = "{The join link unique for each student appears here}";
+		}
 
 		emailBody = emailBody.replace("${joinUrl}", joinUrl);
 		return emailBody;

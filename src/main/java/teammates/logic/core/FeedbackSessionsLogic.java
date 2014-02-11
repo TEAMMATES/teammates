@@ -35,6 +35,7 @@ import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
+import teammates.logic.api.Logic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -293,7 +294,8 @@ public class FeedbackSessionsLogic {
 		
 		for (FeedbackSessionAttributes session : sessions){
 			// Don't send email if publish time is same as open time or not automated.
-			if(session.isPublished() && !TimeHelper.isSpecialTime(session.resultsVisibleFromTime)) {
+			if (session.isPublished() && session.isPublishedEmailEnabled
+					&& !TimeHelper.isSpecialTime(session.resultsVisibleFromTime)) {
 				sessionsToSendEmailsFor.add(session);
 			}
 		}		
@@ -307,7 +309,7 @@ public class FeedbackSessionsLogic {
 				new ArrayList<FeedbackSessionAttributes>();
 		
 		for (FeedbackSessionAttributes session : sessions){
-			if(session.isOpened()) {
+			if (session.isOpened()) {
 				sessionsToSendEmailsFor.add(session);
 			}
 		}		
@@ -559,10 +561,9 @@ public class FeedbackSessionsLogic {
 		
 		for(FeedbackSessionAttributes session : nonPrivateSessions) {
 			if (session.isClosingWithinTimeLimit(
-					SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) == false) {
-				continue;
+					SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT) && session.isClosingEmailEnabled) {
+				requiredSessions.add(session);
 			}
-			requiredSessions.add(session);
 		}
 		
 		return requiredSessions;

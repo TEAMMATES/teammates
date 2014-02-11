@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
-import com.google.appengine.api.datastore.Text;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
@@ -9,6 +11,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.core.Emails.EmailType;
+
+import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackEditSaveAction extends Action {
 
@@ -43,6 +48,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
 
 	private FeedbackSessionAttributes extractFeedbackSessionData() {
 		//TODO assert parameters are not null then update test
+		//TODO make this method stateless
 		
 		FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
 		newSession.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -100,6 +106,12 @@ public class InstructorFeedbackEditSaveAction extends Action {
 			newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
 			break;
 		}
+		
+		String[] sendReminderEmailsArray = getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
+		List<String> sendReminderEmailsList = sendReminderEmailsArray == null ? new ArrayList<String>() : Arrays.asList(sendReminderEmailsArray);
+		newSession.isOpeningEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString());
+		newSession.isClosingEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString());
+		newSession.isPublishedEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString());
 		
 		return newSession;
 	}

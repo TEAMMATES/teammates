@@ -35,12 +35,17 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 	public FeedbackSessionType feedbackSessionType;
 	public boolean sentOpenEmail;
 	public boolean sentPublishedEmail;
-	
+	public boolean isOpeningEmailEnabled;
+	public boolean isClosingEmailEnabled;
+	public boolean isPublishedEmailEnabled;
+		
 	@SuppressWarnings("unused")
 	private static Logger log = Utils.getLogger();
 
 	public FeedbackSessionAttributes() {
-		
+		this.isOpeningEmailEnabled = true;
+		this.isClosingEmailEnabled = true;
+		this.isPublishedEmailEnabled = true;
 	}
 	
 	public FeedbackSessionAttributes(FeedbackSession fs) {
@@ -58,6 +63,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 		this.feedbackSessionType = fs.getFeedbackSessionType();
 		this.sentOpenEmail = fs.isSentOpenEmail();
 		this.sentPublishedEmail = fs.isSentPublishedEmail();
+		this.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
+		this.isClosingEmailEnabled = fs.isClosingEmailEnabled();
+		this.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
 	}
 		
 	public FeedbackSessionAttributes(String feedbackSessionName,
@@ -65,7 +73,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 			Date createdTime, Date startTime, Date endTime,
 			Date sessionVisibleFromTime, Date resultsVisibleFromTime,
 			int timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
-			boolean sentOpenEmail, boolean sentPublishedEmail) {
+			boolean sentOpenEmail, boolean sentPublishedEmail,
+			boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
 		this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
 		this.courseId = Sanitizer.sanitizeTitle(courseId);
 		this.creatorEmail = Sanitizer.sanitizeGoogleId(creatorId);
@@ -80,6 +89,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 		this.feedbackSessionType = feedbackSessionType;
 		this.sentOpenEmail = sentOpenEmail;
 		this.sentPublishedEmail = sentPublishedEmail;
+		this.isOpeningEmailEnabled = isOpeningEmailEnabled;
+		this.isClosingEmailEnabled = isClosingEmailEnabled;
+		this.isPublishedEmailEnabled = isPublishedEmailEnabled;
 	}
 	
 	
@@ -91,7 +103,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 				createdTime, startTime, endTime,
 				sessionVisibleFromTime, resultsVisibleFromTime,
 				timeZone, gracePeriod,
-				feedbackSessionType, sentOpenEmail, sentPublishedEmail);
+				feedbackSessionType, sentOpenEmail, sentPublishedEmail,
+				isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled);
 	}
 	
 	@Override
@@ -334,7 +347,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 				+ resultsVisibleFromTime + ", timeZone=" + timeZone
 				+ ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
 				+ feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
-				+ ", sentPublishedEmail=" + sentPublishedEmail + "]";
+				+ ", sentPublishedEmail=" + sentPublishedEmail 
+				+ ", isOpeningEmailEnabled=" + isOpeningEmailEnabled 
+				+ ", isClosingEmailEnabled=" + isClosingEmailEnabled 
+				+ ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
 	}
 	
 	/**
