@@ -69,7 +69,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 		studentHome = HomePage.getNewInstance(browser)
 				.clickStudentLogin()
 				.loginAsStudent(unregUserId, unregPassword);
-		studentHome.verifyHtml("/studentHomeHTMLEmpty.html");
+		studentHome.verifyHtml("/StudentHomeHTMLEmpty.html");
 		
 		______TS("login");
 		
@@ -81,7 +81,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 			
 		______TS("content: multiple courses");
 		
-		studentHome.verifyHtml("/studentHomeHTML.html");
+		studentHome.verifyHtml("/StudentHomeHTML.html");
 		
 		// TODO: test feedback session visibility
 		// (i.e, same course but no qns for student to submit or view responses => NOT VISIBLE,

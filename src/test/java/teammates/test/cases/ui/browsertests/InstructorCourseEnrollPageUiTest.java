@@ -54,7 +54,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		.withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
 		
 		enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
-		enrollPage.verifyHtml("/instructorCourseEnrollPage.html");
+		enrollPage.verifyHtml("/InstructorCourseEnrollPage.html");
 	}
 
 	private void testSampleLink() throws Exception {
