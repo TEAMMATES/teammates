@@ -52,7 +52,9 @@
 							for (StudentAttributes student : data.studentList) {
 						%>
 							<option value="<%=student.email%>"
-								<%=student.email.equals(data.previewEmail) ? "selected=\"selected\"" : ""%>>[<%=student.team%>] <%=student.name%></option>
+								<%=student.email.equals(data.student.email) ? "selected=\"selected\"" : ""%>>
+									[<%=student.team%>] <%=student.name%>
+							</option>
 						<%
 							}
 						%>
@@ -60,6 +62,7 @@
 					</h1>
 					<input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=data.eval.name%>">
 					<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.eval.courseId%>">
+					<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 				</form>
 			</div>
 	<% 
@@ -132,13 +135,7 @@
 							%>
 					>
 				</div>
-			<%
-				if (!data.isPreview) { 
-			%>
-					<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-			<%
-				}
-			%>
+				<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 			</form>
 		 	<br>
 		 	<br>

@@ -778,6 +778,7 @@
 						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
 						<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
 						<input id="button_preview_student" type="submit" class="button" value="Preview as Student">
+						<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 					</form>
 				</td>
 				<td>
@@ -795,6 +796,7 @@
 						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
 						<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
 						<input id="button_preview_instructor" type="submit" class="button" value="Preview as Instructor">
+						<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 					</form>
 				</td>
 			</tr>
