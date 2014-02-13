@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public class AssertHelper {
@@ -91,7 +92,7 @@ public class AssertHelper {
 		String processedRegex = Pattern.quote(regexExpected)
 				.replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
 				.replaceAll("[\t\r\n]", "");
-		return processedActual.matches("(?s)(?m).*" + processedRegex + ".*");
+		return StringHelper.isMatching(processedActual, "(?s)(?m).*" + processedRegex + ".*");
 	}
 
 }

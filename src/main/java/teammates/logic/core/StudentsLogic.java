@@ -499,13 +499,13 @@ public class StudentsLogic {
 		
 		for (int i = 0; i < fields.length; i++) {
 			String str = fields[i].trim().toLowerCase();
-			if (str.matches(FieldValidator.REGEX_COLUMN_TEAM)) {
+			if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_TEAM)) {
 				order[StudentAttributes.ARG_INDEX_TEAM] = i;
-			} else if (str.matches(FieldValidator.REGEX_COLUMN_NAME)) {
+			} else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_NAME)) {
 				order[StudentAttributes.ARG_INDEX_NAME] = i;
-			} else if (str.matches(FieldValidator.REGEX_COLUMN_EMAIL)) {
+			} else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_EMAIL)) {
 				order[StudentAttributes.ARG_INDEX_EMAIL] = i;
-			} else if (str.matches(FieldValidator.REGEX_COLUMN_COMMENT)) {
+			} else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
 				order[StudentAttributes.ARG_INDEX_COMMENT] = i;
 			} else {
 				//assume not header row if no column name is matched

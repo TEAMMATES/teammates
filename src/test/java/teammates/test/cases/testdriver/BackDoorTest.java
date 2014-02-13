@@ -20,6 +20,7 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
@@ -367,8 +368,8 @@ public class BackDoorTest extends BaseTestCase {
 		String pattern = "(\\w|-|~|.)*";
 
 		String errorMessage = key + "[length=" + key.length() + "][reg="
-				+ key.matches(pattern) + "] is not as expected";
-		assertTrue(errorMessage, key.length() > 30 && key.matches(pattern));
+				+ StringHelper.isMatching(key, pattern) + "] is not as expected";
+		assertTrue(errorMessage, key.length() > 30 && StringHelper.isMatching(key, pattern));
 
 		// clean up student as this is an orphan entity
 		BackDoor.deleteStudent(student.course, student.email);
