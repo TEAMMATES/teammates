@@ -408,24 +408,6 @@ function clearStatusMessage() {
 }
 
 /**
- * Function to check whether the evaluation submission edit/submit form has been
- * fully filled (no unfilled textarea and dropdown box)
- * 
- * @returns {Boolean}
- */
-function checkEvaluationForm() {
-	points = $("select");
-	comments = $("textarea");
-	for ( var i = 0; i < points.length; i++) {
-		if (points[i].value == '') {
-			setStatusMessage("Please give contribution scale to everyone", true);
-			return false;
-		}
-	}
-	return true;
-}
-
-/**
  * Sanitize GoogleID by trimming space and '@gmail.com'
  * Used in instructorCourse, instructorCourseEdit, adminHome
  * 

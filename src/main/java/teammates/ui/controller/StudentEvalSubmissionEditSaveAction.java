@@ -11,6 +11,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
@@ -38,20 +39,21 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		
 		EvaluationAttributes eval = logic.getEvaluation(courseId, evalName);
 		
-		if(eval.getStatus()==EvalStatus.PUBLISHED){
+		if (eval.getStatus() == EvalStatus.PUBLISHED) {
 			throw new UnauthorizedAccessException(Const.Tooltips.EVALUATION_STATUS_PUBLISHED);
-		}else if(eval.getStatus()==EvalStatus.CLOSED){
+		} else if (eval.getStatus() == EvalStatus.CLOSED) {
 			throw new UnauthorizedAccessException(Const.Tooltips.EVALUATION_STATUS_CLOSED);
-		}else if(eval.getStatus() ==EvalStatus.AWAITING){
+		} else if (eval.getStatus() == EvalStatus.AWAITING) {
 			throw new UnauthorizedAccessException(Const.Tooltips.EVALUATION_STATUS_AWAITING);
-		}else if(eval.getStatus() == EvalStatus.DOES_NOT_EXIST){
+		} else if (eval.getStatus() == EvalStatus.DOES_NOT_EXIST) {
 			throw new UnauthorizedAccessException(Const.StatusMessages.EVALUATION_DELETED);
 		}
 		
 		//extract submission data
 		ArrayList<SubmissionAttributes> submissionData = new ArrayList<SubmissionAttributes>();
-		int submissionCount = ((toEmails == null ? 0 : toEmails.length));
-		for(int i=0; i<submissionCount ; i++){
+		int submissionCount = (toEmails == null ? 0 : toEmails.length);
+		boolean emptyPointExists = false;
+		for (int i = 0; i < submissionCount; i++) {
 			SubmissionAttributes sub = new SubmissionAttributes();
 			sub.course = courseId;
 			sub.evaluation = evalName;
@@ -61,11 +63,23 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 				sub.p2pFeedback = new Text(comments[i]);
 			}
 			
-			sub.points = Integer.parseInt(points[i]);
+			try {
+				sub.points = Integer.parseInt(points[i]);
+			} catch (NumberFormatException e) {
+				//The point dropdown is unfilled and is blank
+				sub.points = Const.POINTS_NOT_SUBMITTED;
+				emptyPointExists = true;
+			}
+			
 			sub.reviewee = toEmails[i];
 			sub.reviewer = fromEmail;
 			sub.team = teamName;
 			submissionData.add(sub);
+		}
+		
+		if (emptyPointExists) {
+			isError = true;
+			statusToUser.add("Please give contribution scale to everyone");
 		}
 		
 		new GateKeeper().verifyAccessible(
@@ -74,15 +88,23 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 		
 		try{
 			logic.updateSubmissions(submissionData);
-			statusToUser.add(String.format(Const.StatusMessages.STUDENT_EVALUATION_SUBMISSION_RECEIVED, Sanitizer.sanitizeForHtml(evalName), courseId));
 			statusToAdmin = createLogMesage(courseId, evalName, teamName, fromEmail, toEmails, points, justifications, comments);
-			
 		} catch (InvalidParametersException e) {
-			//TODO: redirect to the same page?
+			//TODO: Let the user retry?
 			setStatusForException(e);
 		}		
 		
-		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+		RedirectResult response;
+		if (isError) {
+			String submissionUrl = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
+			submissionUrl = Url.addParamToUrl(submissionUrl, Const.ParamsNames.COURSE_ID, courseId);
+			submissionUrl = Url.addParamToUrl(submissionUrl, Const.ParamsNames.EVALUATION_NAME, evalName);
+			submissionUrl = Url.addParamToUrl(submissionUrl, Const.ParamsNames.USER_ID, account.googleId);
+			response = createRedirectResult(submissionUrl);
+		} else {
+			statusToUser.add(String.format(Const.StatusMessages.STUDENT_EVALUATION_SUBMISSION_RECEIVED, Sanitizer.sanitizeForHtml(evalName), courseId));
+			response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+		}
 		return response;
 
 	}

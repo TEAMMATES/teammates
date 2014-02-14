@@ -123,7 +123,6 @@
 				<br>
 				<div id="studentEvaluationSubmissionButtons" class="centeralign">
 					<input type="submit" class="button" name="submitEvaluation"
-							onclick="return checkEvaluationForm(this.form)"
 							id="button_submit" value="Submit Evaluation" 
 							<%=(!data.disableAttribute.isEmpty() || data.isPreview) ? "disabled=\"disabled\"" : ""%>
 							<%
