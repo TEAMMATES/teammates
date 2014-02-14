@@ -92,7 +92,7 @@ public class AssertHelper {
 		String processedRegex = Pattern.quote(regexExpected)
 				.replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
 				.replaceAll("[\t\r\n]", "");
-		return StringHelper.isMatching(processedActual, "(?s)(?m).*" + processedRegex + ".*");
+		return processedActual.matches("(?s)(?m).*" + processedRegex + ".*");
 	}
 
 }
