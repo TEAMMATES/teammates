@@ -113,10 +113,33 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 		assertEquals(newInstructorId, pageData.instructorId);
 		assertEquals(institute, pageData.instructorInstitution);
 		assertEquals(name, pageData.instructorName);
+
+		______TS("Error: invalid parameter");
+		
+		final String anotherNewInstructorId = "JamesBond99";
+		final String invalidName = "James%20Bond99";
+		a = getAction(
+				Const.ParamsNames.INSTRUCTOR_ID, anotherNewInstructorId,
+				Const.ParamsNames.INSTRUCTOR_NAME, invalidName,
+				Const.ParamsNames.INSTRUCTOR_EMAIL, email,
+				Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+		
+		ShowPageResult rInvalidParam = (ShowPageResult) a.executeAndPostProcess();
+		
+		assertEquals(true, rInvalidParam.isError);
+		assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a person name because it contains invalid characters. All a person name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", rInvalidParam.getStatusMessage());
+		assertEquals(Const.ViewURIs.ADMIN_HOME, rInvalidParam.destination);
+		assertEquals(Const.ViewURIs.ADMIN_HOME + "?message=%22James%2520Bond99%22+is+not+acceptable+to+TEAMMATES+as+a+person+name+because+it+contains+invalid+characters.+All+a+person+name+must+start+with+an+alphanumeric+character%2C+and+cannot+contain+any+vertical+bar+%28%7C%29+or+percent+sign+%28%25%29.&error=true&user=" + adminUserId,
+				rInvalidParam.getDestinationWithParams());
+		
+		pageData = (AdminHomePageData) rInvalidParam.data;
+		assertEquals(email, pageData.instructorEmail);
+		assertEquals(anotherNewInstructorId, pageData.instructorId);
+		assertEquals(institute, pageData.instructorInstitution);
+		assertEquals(invalidName, pageData.instructorName);
 		
 		______TS("Normal case: importing demo couse");
 		
-		final String anotherNewInstructorId = "JamesBond99";
 		a = getAction(
 				Const.ParamsNames.INSTRUCTOR_ID, anotherNewInstructorId,
 				Const.ParamsNames.INSTRUCTOR_NAME, name,
@@ -129,7 +152,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 		assertEquals("Instructor " + name + " has been successfully created", r.getStatusMessage());
 		assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
 		assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?message=Instructor+JamesBond+has+been+successfully+created&error=false&user=" + adminUserId, r.getDestinationWithParams());
-
 	}
 	
 

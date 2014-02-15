@@ -268,6 +268,42 @@
 					</tr>
 				</tbody></table>
 				<br />
+				<table class="inputTable sessionTable"  id="sessionEmailReminderTable" >
+                        <tbody>
+                           <tr>
+                              <td>
+                                 <span class="bold" >
+                                    Send Emails For:
+                                 </span>
+                              </td>
+                              <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.')" >
+                                 <label>
+                                    <input checked="checked"  class="disabled"  disabled="disabled"  type="checkbox" />
+                                                                        Join Reminder
+                                 </label>
+                              </td>
+                              <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Select this option to automatically send an email to students to notify them when the session is open for submission.')" >
+                                 <label>
+                                    <input checked="checked"  disabled="disabled"  id="sendreminderemail_open"  name="sendreminderemail"  type="checkbox"  value="FEEDBACK_OPENING" />
+                                                                        Session Opening Reminder
+                                 </label>
+                              </td>
+                              <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.')" >
+                                 <label>
+                                    <input checked="checked"  disabled="disabled"  id="sendreminderemail_closing"  name="sendreminderemail"  type="checkbox"  value="FEEDBACK_CLOSING" />
+                                                                        Session Closing Reminder
+                                 </label>
+                              </td>
+                              <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Select this option to automatically send an email to students to notify them when the session results is published.')" >
+                                 <label>
+                                    <input checked="checked"  disabled="disabled"  id="sendreminderemail_published"  name="sendreminderemail"  type="checkbox"  value="FEEDBACK_PUBLISHED" />
+                                                                        Results Published Announcement
+                                 </label>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <br/>
 				<table id="instructionsTable" class="inputTable">
 					<tbody><tr>
 						<td class="label bold middlealign">Instructions to students:</td>
@@ -308,8 +344,8 @@
 							<td class="bold">Question Type <select class="questionType"
 								id="questionTypeChoice" name="questiontype">
 									<option value="TEXT">Essay question</option>
-									<option value="MCQ">Multiple-choice question</option>
-									<option value="MSQ">Multiple-select question</option>
+									<option value="MCQ">Multiple-choice (single answer)</option>
+									<option value="MSQ">Multiple-choice (multiple answers)</option>
 								<option value="NUMSCALE">Numerical-scale question</option>
 							</select></td>
 							<td><input class="button centeralign" id="button_openframe"
@@ -600,6 +636,7 @@
                               <input name="fsname"  type="hidden"  value="First Session" />
                                                             <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
                                                             <input class="button"  id="button_preview_student"  type="submit"  value="Preview as Student" />
+                                                            <input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
                                                          </form>
                         </td>
                         <td>
@@ -615,6 +652,7 @@
                               <input name="fsname"  type="hidden"  value="First Session" />
                                                             <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
                                                             <input class="button"  id="button_preview_instructor"  type="submit"  value="Preview as Instructor" />
+                                                            <input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
                                                          </form>
                         </td>
                      </tr>

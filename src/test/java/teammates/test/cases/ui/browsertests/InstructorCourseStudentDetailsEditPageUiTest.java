@@ -56,7 +56,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 		.withStudentEmail(testData.students.get("unregisteredStudent").email);
 		
 		editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
-		editPage.verifyHtml("/instructorCourseStudentEditUnregisteredPage.html");
+		editPage.verifyHtml("/InstructorCourseStudentEditUnregisteredPage.html");
 		
 		______TS("content: registered student");
 		
@@ -66,7 +66,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 			.withStudentEmail(testData.students.get("registeredStudent").email);
 		
 		editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
-		editPage.verifyHtml("/instructorCourseStudentEditPage.html");
+		editPage.verifyHtml("/InstructorCourseStudentEditPage.html");
 	}
 	
 	public void testInputValidation() {

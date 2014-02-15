@@ -44,7 +44,7 @@ public class AdminInstructorAccountAddAction extends Action {
 		data.instructorEmail = data.instructorEmail.trim();
 		data.instructorInstitution = data.instructorInstitution.trim();
 
-		if (logic.isInstructor(data.instructorId)) {
+		if (!data.instructorId.isEmpty() && logic.isInstructor(data.instructorId)) {
 			isError = true;
 			String errorMessage = "The Google ID " + data.instructorId
 					+ " is already registered as an instructor";
@@ -54,7 +54,6 @@ public class AdminInstructorAccountAddAction extends Action {
 		}
 
 		try {
-
 			logic.createAccount(data.instructorId,
 					data.instructorName, true,
 					data.instructorEmail,
@@ -65,10 +64,7 @@ public class AdminInstructorAccountAddAction extends Action {
 			}
 
 		} catch (Exception e) {
-			isError = true;
-			statusToUser.add(e.getMessage());
-			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : "
-					+ e.getMessage();
+			setStatusForException(e);
 			return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
 		}
 

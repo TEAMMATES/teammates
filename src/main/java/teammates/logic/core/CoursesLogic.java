@@ -26,6 +26,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.CoursesDb;
 
@@ -117,7 +118,7 @@ public class CoursesLogic {
 	}
 	
 	public boolean isSampleCourse(String courseId) {
-		return courseId.matches(FieldValidator.REGEX_SAMPLE_COURSE_ID);
+		return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
 	}
 	
 	public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
@@ -149,7 +150,22 @@ public class CoursesLogic {
 		for (CourseAttributes c : courseList) {
 
 			StudentAttributes s = studentsLogic.getStudentForGoogleId(c.id, googleId);
-			Assumption.assertNotNull("Student should not be null at this point.", s);
+			
+			if (s == null) {
+				//TODO Remove excessive logging after the reason why s can be null is found
+				String logMsg = "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)"
+						+ "<br/> Student Google ID: " + googleId
+						+ "<br/> Course: " + c.id
+						+ "<br/> All Courses Retrieved using the Google ID:";
+				for (CourseAttributes course : courseList) {
+					logMsg += "<br/>" + course.id;
+				}
+				log.severe(logMsg);
+				
+				//TODO Failing might not be the best course of action here. 
+				//Maybe throw a custom exception and tell user to wait due to eventual consistency?
+				Assumption.assertNotNull("Student should not be null at this point.", s);
+			}
 			
 			List<EvaluationAttributes> evaluationDataList = evaluationsLogic
 					.getEvaluationsForCourse(c.id);			

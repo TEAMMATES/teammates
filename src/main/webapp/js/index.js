@@ -89,8 +89,8 @@ onload = function() {
 	
 	// Parameters for the estimation calculation
 	var baseDate = new Date('January 1, 2014 00:00:00');  //The date the parameters were adjusted
-	var baseCount = 80000;     //The submission count on the above date
-	var submissionPerHour = 6; //The rate at which the submission count is growing
+	var baseCount = 90000;     //The submission count on the above date
+	var submissionPerHour = 13; //The rate at which the submission count is growing
 	
 	//set the submission count in the page
 	var e = document.getElementById('submissionsNumber');

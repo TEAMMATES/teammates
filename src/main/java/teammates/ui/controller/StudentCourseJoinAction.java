@@ -22,14 +22,27 @@ public class StudentCourseJoinAction extends Action {
 	
 	@Override
 	public ActionResult execute() throws EntityDoesNotExistException {
+		//TODO Remove excessive logging from this method
 		String key = getRequestParamValue(Const.ParamsNames.REGKEY);
 		Assumption.assertNotNull(key);
 
 		new GateKeeper().verifyLoggedInUserPrivileges();
 		
+		statusToAdmin = "Action Student Clicked Join Link"
+				+ "<br/>Google ID: " + account.googleId
+				+ "<br/>Key: " + key;
+		
 		// Bypass confirmation if student is already registered
 		StudentAttributes student = logic.getStudentForRegistrationKey(key);
 		if (student != null && student.isRegistered()) {
+			String logMsg = "Student already registered with the following information:" 
+					+ "<br/>Course: " + student.course
+					+ "<br/>Name: " + student.name 
+					+ "<br/>Email: " + student.email
+					+ "<br/>Id: " + student.googleId
+					+ "<br/>Bypassing confirmation page.";			
+			log.info(logMsg);
+			
 			String redirectUrl = Url.addParamToUrl(
 					Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
 					Const.ParamsNames.REGKEY, key);
@@ -39,7 +52,10 @@ public class StudentCourseJoinAction extends Action {
 		
 		data = new StudentCourseJoinConfirmationPageData(account);
 		data.regkey = key;
-	
+		
+		String logMsg = "Showing join confirmation page.";
+		log.info(logMsg);
+		
 		return createShowPageResult(
 				Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION, data);
 	}

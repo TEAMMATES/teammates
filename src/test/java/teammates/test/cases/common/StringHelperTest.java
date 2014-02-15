@@ -28,6 +28,13 @@ public class StringHelperTest extends BaseTestCase {
 		assertEquals(true, StringHelper.isWhiteSpace(Const.EOL));
 		assertEquals(true, StringHelper.isWhiteSpace(Const.EOL + "   "));
 	}
+	
+	@Test
+	public void testIsMatching() {
+		assertEquals(true, StringHelper.isMatching("\u00E0", "à"));
+		assertEquals(true, StringHelper.isMatching("\u0061\u0300", "à"));
+		assertEquals(false, StringHelper.isMatching("Héllo", "Hello"));
+	}
 
 	@Test 
 	public void testToStringForStringLists(){

@@ -66,7 +66,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 								TestProperties.inst().TEST_STUDENT1_ACCOUNT,
 								TestProperties.inst().TEST_STUDENT1_PASSWORD);
 		StudentHomePage studentHome = confirmationPage.clickConfirmButton();
-		studentHome.verifyHtml("/studentHomeInvalidKey.html");
+		studentHome.verifyHtml("/StudentHomeInvalidKey.html");
 		
 		______TS("click join link then confirm: success: valid key");
 
@@ -82,13 +82,13 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 		browser.driver.get(joinLink);
 		confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
 		studentHome = confirmationPage.clickConfirmButton();
-		studentHome.verifyHtml("/studentHomeJoined.html");
+		studentHome.verifyHtml("/StudentHomeJoined.html");
 		
 		______TS("already joined, no confirmation page");
 				
 		browser.driver.get(joinLink);
 		studentHome = createNewPage(browser, StudentHomePage.class);
-		studentHome.verifyHtml("/studentHomeAlreadyJoined.html");
+		studentHome.verifyHtml("/StudentHomeAlreadyJoined.html");
 	}
 	
 	@AfterClass

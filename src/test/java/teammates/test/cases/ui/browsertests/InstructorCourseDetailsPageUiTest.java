@@ -64,7 +64,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 		
 		detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
 		
-		detailsPage.verifyHtml("/instructorCourseDetailsPage.html");
+		detailsPage.verifyHtml("/InstructorCourseDetailsPage.html");
 		
 		______TS("content: sorting");
 		

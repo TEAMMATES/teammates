@@ -113,7 +113,7 @@ public class BackDoorServlet extends HttpServlet {
 			}
 		}
 
-		resp.setContentType("text/plain");
+		resp.setContentType("text/plain; charset=utf-8");
 		resp.getWriter().write(returnValue);
 		resp.flushBuffer();
 	}

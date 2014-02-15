@@ -42,7 +42,7 @@
 		} else { 
 	%>
 			<div id="frameTopWrapper">
-				<h1 class="color_white centeralign">Previewing Session as Instructor <%=data.previewName%> (<%=data.previewEmail%>)</h1>
+				<h1 class="color_white centeralign">Previewing Session as Instructor <%=data.previewInstructor.name%> (<%=data.previewInstructor.email%>)</h1>
 			</div>
 	<% 
 		}

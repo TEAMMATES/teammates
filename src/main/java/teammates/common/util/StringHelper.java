@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -25,6 +26,17 @@ public class StringHelper {
 
 	public static boolean isWhiteSpace(String string) {
 		return string.trim().isEmpty();
+	}
+	
+	/**
+	 * Check whether the input string matches the regex repression
+	 * @param input The string to be matched
+	 * @param regex The regex repression used for the matching
+	 */
+	public static boolean isMatching(String input, String regex) {
+		// Important to use the CANON_EQ flag to make sure that canonical characters
+		// such as é is correctly matched regardless of single/double code point encoding
+		return Pattern.compile(regex, Pattern.CANON_EQ).matcher(input).matches();
 	}
 
 	public static String getIndent(int length) {

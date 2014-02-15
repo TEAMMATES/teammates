@@ -64,6 +64,15 @@ public class InstructorFeedbacksPage extends AppPage {
 	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_later")
 	private WebElement manualResultsVisibleTimeButton;
 	
+	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_open")
+	private WebElement sendOpenEmailCheckbox;
+	
+	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_closing")
+	private WebElement sendClosingEmailCheckbox;
+	
+	@FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_published")
+	private WebElement sendPublishedEmailCheckbox;
+	
 	@FindBy(id = "button_submit")
 	private WebElement submitButton;
 		
@@ -136,6 +145,18 @@ public class InstructorFeedbacksPage extends AppPage {
 	
 	public void clickDefaultPublishTimeButton(){
 		defaultResultsVisibleTimeButton.click();
+	}
+	
+	public void toggleSendOpenEmailCheckbox() {
+		sendOpenEmailCheckbox.click();
+	}
+	
+	public void toggleSendClosingEmailCheckbox() {
+		sendClosingEmailCheckbox.click();
+	}
+	
+	public void toggleSendPublishedEmailCheckbox() {
+		sendPublishedEmailCheckbox.click();
 	}
 	
 	public void addFeedbackSession(

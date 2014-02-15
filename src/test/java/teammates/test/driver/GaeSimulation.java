@@ -2,6 +2,11 @@ package teammates.test.driver;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.util.Const;
@@ -159,10 +164,20 @@ public class GaeSimulation {
 		
 		WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
 		
+		Map<String, List<String>> paramMultiMap = new HashMap<String, List<String>>();
 		for (int i = 0; i < parameters.length; i = i + 2) {
-			request.setParameter(parameters[i], parameters[i + 1]);
+			String key = parameters[i];
+			if (paramMultiMap.get(key) == null) {
+				paramMultiMap.put(key, new ArrayList<String>());
+			}
+			paramMultiMap.get(key).add(parameters[i + 1]);
 		}
-	
+
+		for (String key : paramMultiMap.keySet()) {
+			List<String> values = paramMultiMap.get(key);
+			request.setParameter(key, values.toArray(new String[values.size()]));
+		}
+
 		try {
 			InvocationContext ic = sc.newInvocation(request);
 			HttpServletRequest req = ic.getRequest();

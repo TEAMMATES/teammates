@@ -17,15 +17,11 @@ public class EvalSubmissionEditPageData extends PageData {
 	public String disableAttribute = "";
 	
 	public boolean isPreview;
-	public String previewName;
-	public String previewEmail;
 	public List<StudentAttributes> studentList;
 	
 	public EvalSubmissionEditPageData(AccountAttributes account) {
 		super(account);
 		this.isPreview = false;
-		this.previewName = "";
-		this.previewEmail = "";
 	}
 	
 	/**

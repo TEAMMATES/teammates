@@ -32,6 +32,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 	
 	@Test
 	public void testAll() throws Exception{
+		
 		String instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
 		String courseId = testData.courses.get("CCSDetailsUiT.CS2104").id;
 		
@@ -43,7 +44,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 			.withStudentEmail(testData.students.get("registeredStudent").email);
 		
 		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
-		viewPage.verifyHtml("/instructorCourseStudentDetailsPage.html");
+		viewPage.verifyHtml("/InstructorCourseStudentDetailsPage.html");
 
 		______TS("content: unregistered student");
 		
@@ -54,7 +55,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 			.withStudentEmail(testData.students.get("unregisteredStudent").email);
 		
 		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
-		viewPage.verifyHtml("/instructorCourseStudentDetailsUnregisteredPage.html");
+		viewPage.verifyHtml("/InstructorCourseStudentDetailsUnregisteredPage.html");
 		
 		//No links, input validation, or actions to test.
 		

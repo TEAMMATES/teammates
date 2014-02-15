@@ -71,6 +71,7 @@ function enableEditFS(){
 	$('#form_editfeedbacksession').
 		find("text,input,button,textarea,select").
 		not($customDateTimeFields).
+		not('.disabled').
 		prop('disabled', false);
 	$('#fsEditLink').hide();
 	$('#fsSaveLink').show();

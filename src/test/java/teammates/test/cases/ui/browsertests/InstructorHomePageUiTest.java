@@ -86,12 +86,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		______TS("test case: fail, fetch response rate of invalid url");
 		homePage.setViewResponseLinkValue(viewResponseLink, "/invalid/url");
 		viewResponseLink.click();
-		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRateFail.html");
+		homePage.verifyHtmlAjax("/InstructorHomeHTMLResponseRateFail.html");
 		
 		______TS("test case: fail to fetch response rate again, check consistency of fail message");
 		viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
 		viewResponseLink.click();
-		homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRateFail.html");
+		homePage.verifyHtmlAjax("/InstructorHomeHTMLResponseRateFail.html");
 		
 		______TS("test case: pass with valid url after multiple fails");
 		viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
@@ -122,7 +122,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		______TS("content: multiple courses");
 		
 		//already logged in
-		homePage.verifyHtmlAjax("/instructorHomeHTML.html");
+		homePage.verifyHtmlAjax("/InstructorHomeHTML.html");
 		
 		______TS("content: new instructor");
 		//TODO: to be implemented
@@ -253,7 +253,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		homePage.clickAndConfirm(homePage.getDeleteCourseLink(testData.courses.get("CHomeUiT.CS1101").id));
 		
 		homePage.clickHomeTab();
-		homePage.verifyHtml("/instructorHomeHTMLEmpty.html");
+		homePage.verifyHtml("/InstructorHomeHTMLEmpty.html");
 		
 	}
 	
@@ -269,15 +269,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 	public void testSortAction() throws Exception{
 		______TS("sort by id");
 		homePage.clickSortByIdButton();
-		homePage.verifyHtmlAjax("/instructorHomeHTMLSortById.html");
+		homePage.verifyHtmlAjax("/InstructorHomeHTMLSortById.html");
 		
 		______TS("sort by name");
 		homePage.clickSortByNameButton();
-		homePage.verifyHtmlAjax("/instructorHomeHTMLSortByName.html");
+		homePage.verifyHtmlAjax("/InstructorHomeHTMLSortByName.html");
 		
 		______TS("sort by date");
 		homePage.clickSortByDateButton();
-		homePage.verifyHtmlAjax("/instructorHomeHTMLSortByDate.html");
+		homePage.verifyHtmlAjax("/InstructorHomeHTMLSortByDate.html");
 	}
 
 

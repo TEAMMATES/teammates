@@ -2,6 +2,7 @@
 
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.ui.controller.AdminHomePageData"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml" %>
 
 <%
 	AdminHomePageData data = (AdminHomePageData)request.getAttribute("data");
@@ -41,31 +42,31 @@
 						<td class="label bold">Google ID:</td>
 					</tr>
 					<tr>
-					   <td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>"></td>
+					   <td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=sanitizeForHtml(data.instructorId)%>"></td>
 					</tr>
 					<tr>
 						<td class="label bold">Name:</td>
 					</tr>
 					<tr>
-						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>"></td>
+						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" value="<%=sanitizeForHtml(data.instructorName)%>"></td>
 				    </tr>
 				    <tr>
 					    <td class="label bold">Email: </td>
 					</tr>
 					<tr>
-						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"></td>
+						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" value="<%=sanitizeForHtml(data.instructorEmail)%>"></td>
 				    </tr>
    				    <tr>
 					    <td class="label bold">Institution: </td>
 					</tr>
 					<tr>
-						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_INSTITUTION%>"></td>
+						<td><input class="addinput" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_INSTITUTION%>" value="<%=sanitizeForHtml(data.instructorInstitution)%>"></td>
 				    </tr>
 				    <tr>
 						<td class="centeralign"><input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE%>" value="importsample" checked="checked">Import sample data</td>
 				    </tr>
 				    <tr>
-						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor" onclick="return verifyInstructorData();"></td>
+						<td class="centeralign"><input id="btnAddInstructor" class="button" type="submit" value="Add Instructor"></td>
 				    </tr>
 				    </table>
 				</form>

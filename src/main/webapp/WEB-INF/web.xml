@@ -169,6 +169,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>FeedbackSessionPublishedReminders</servlet-name>
 		<url-pattern>/feedbackSessionPublishedReminders</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CompileLogs</servlet-name>
+		<servlet-class>teammates.logic.automated.CompileLogsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CompileLogs</servlet-name>
+		<url-pattern>/compileLogs</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>AdminSearchTask</servlet-name>
 		<servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>

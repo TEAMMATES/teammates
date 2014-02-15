@@ -44,7 +44,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		printTestClassHeader();
 		
 		/* Explanation: These two lines persist the test data on the server. */
-		testData = loadDataBundle("/instructorCoursesPageUiTest.json");
+		testData = loadDataBundle("/InstructorCoursesPageUiTest.json");
 		restoreTestDataOnServer(testData);
 		
 		/* Explanation: Ideally, there should not be 'state leaks' between 

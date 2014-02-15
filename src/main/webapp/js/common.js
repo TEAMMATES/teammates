@@ -48,8 +48,8 @@ var FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
 var FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 var FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
 var FEEDBACK_QUESTION_TYPENAME_TEXT = "Essay question";
-var FEEDBACK_QUESTION_TYPENAME_MCQ = "Multiple-choice question";
-var FEEDBACK_QUESTION_TYPENAME_MSQ = "Multiple-select question";
+var FEEDBACK_QUESTION_TYPENAME_MCQ = "Multiple-choice (single answer)";
+var FEEDBACK_QUESTION_TYPENAME_MSQ = "Multiple-choice (multiple answers)";
 var FEEDBACK_QUESTION_TYPENAME_NUMSCALE = "Numerical-scale question";
 
 // Display messages
@@ -405,24 +405,6 @@ function clearStatusMessage() {
 	$(DIV_STATUS_MESSAGE).html("");
 	$(DIV_STATUS_MESSAGE).css("background", "");
 	$(DIV_STATUS_MESSAGE).attr("style", "display: none;");
-}
-
-/**
- * Function to check whether the evaluation submission edit/submit form has been
- * fully filled (no unfilled textarea and dropdown box)
- * 
- * @returns {Boolean}
- */
-function checkEvaluationForm() {
-	points = $("select");
-	comments = $("textarea");
-	for ( var i = 0; i < points.length; i++) {
-		if (points[i].value == '') {
-			setStatusMessage("Please give contribution scale to everyone", true);
-			return false;
-		}
-	}
-	return true;
 }
 
 /**

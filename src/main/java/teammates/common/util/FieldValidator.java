@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.regex.Pattern;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -263,21 +262,31 @@ public class FieldValidator {
 	public static final String VIEWER_TYPE_NAME = "feedback viewer.";
 	public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE = "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". Did you mean to use \"Self\" instead?";
 	
-	//Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%)
-	private static final String REGEX_NAME = "^[\\p{IsL}\\p{IsN}][^|%]*+$";
+	/**
+	 * Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%)
+	 */
+	public static final String REGEX_NAME = "^[\\p{IsL}\\p{IsN}][^|%]*+$";
 	
-	//Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
-	private static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
+	/**
+	 * Allows English alphabet, numbers, underscore,  dot, dollar sign and hyphen.
+	 */
+	public static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
 
+	/**
+	 * A normal course ID followed by the word '-demo' and then followed any amount of digits.
+	 */
 	public static final String REGEX_SAMPLE_COURSE_ID = REGEX_COURSE_ID + "-demo\\d*";
 	
-	// Regex for email validation
-	// Local part: Can start or end with letters, digits, hyphen or plus sign; Dot can only appear between 2 characters and cannot appear continuously
-	// Domain part: Only allow letters, digits, hyphen and dot; Must end with letters
+	/**
+	 * Local part: Can start or end with letters, digits, hyphen or plus sign; Dot can only appear between 2 characters and cannot appear continuously<br>
+	 * Domain part: Only allow letters, digits, hyphen and dot; Must end with letters
+	 */
 	public static final String REGEX_EMAIL = "^[\\w+-]+(\\.[\\w+-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+$";
 
-	//Allows English alphabet, numbers, underscore,  dot and hyphen.
-	private static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
+	/**
+	 * Allows English alphabet, numbers, underscore,  dot and hyphen.
+	 */
+	public static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
 	
 	/*
 	 * =======================================================================
@@ -431,7 +440,7 @@ public class FieldValidator {
 			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
 		} else if(value.length()>maxLength){
 			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
-		} else if (value.matches("^.*[^a-zA-Z0-9 ].*$")){
+		} else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")){
 			return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, value, fieldName, fieldName);
 		}
 		return "";
@@ -493,7 +502,7 @@ public class FieldValidator {
 			return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
 		} else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {
 			return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
-		} else if (!isValidName(value)) {
+		} else if (!StringHelper.isMatching(value, REGEX_NAME)) {
 			return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
 		}
 		return "";
@@ -703,7 +712,7 @@ public class FieldValidator {
 			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
 		} else if(value.length()>GOOGLE_ID_MAX_LENGTH){
 			return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
-		}else if(!isValidEmail(value) && !isValidGoogleUsername(value)){
+		} else if(!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)){
 			return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
 		}
 		return "";
@@ -719,7 +728,7 @@ public class FieldValidator {
 			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
 		} else if(value.length()>COURSE_ID_MAX_LENGTH){
 			return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
-		}else if(!value.matches(REGEX_COURSE_ID)){
+		}else if(!StringHelper.isMatching(value, REGEX_COURSE_ID)){
 			return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
 		}
 		return "";
@@ -735,24 +744,10 @@ public class FieldValidator {
 			return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
 		} else if(value.length()>EMAIL_MAX_LENGTH){
 			return String.format(EMAIL_ERROR_MESSAGE, value, REASON_TOO_LONG);
-		}else if(!isValidEmail(value)){
+		}else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
 			return String.format(EMAIL_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
 		}
 		return "";
-	}
-
-	private boolean isValidGoogleUsername(String value) {
-		return value.matches(REGEX_GOOGLE_ID_NON_EMAIL);
-	}
-	
-	private boolean isValidName(String value) {
-		// Important to use the CANON_EQ flag to make sure that canonical characters
-		// such as é is correctly matched regardless of single/double code point encoding
-		return Pattern.compile(REGEX_NAME, Pattern.CANON_EQ).matcher(value).matches();
-	}
-
-	private boolean isValidEmail(String value) {
-		return value.matches(REGEX_EMAIL);
 	}
 
 	private boolean isTrimmed(String value) {

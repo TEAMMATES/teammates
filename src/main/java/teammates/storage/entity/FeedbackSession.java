@@ -85,13 +85,22 @@ public class FeedbackSession {
 	
 	@Persistent
 	private boolean sentPublishedEmail;
+
+	//TODO change to primitive types and update getter
+	@Persistent
+	private Boolean isOpeningEmailEnabled;
 	
+	@Persistent
+	private Boolean isClosingEmailEnabled;
+	
+	@Persistent
+	private Boolean isPublishedEmailEnabled;
 	
 	public FeedbackSession(String feedbackSessionName, String courseId,
 			String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
 			Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
-			FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail) {
-		
+			FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentPublishedEmail,
+			boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
 		this.feedbackSessionName = feedbackSessionName;
 		this.courseId = courseId;		
 		this.creatorEmail = creatorEmail;
@@ -107,6 +116,9 @@ public class FeedbackSession {
 		this.feedbackSessionType = feedbackSessionType;
 		this.sentOpenEmail = sentOpenEmail;
 		this.sentPublishedEmail = sentPublishedEmail;
+		this.isOpeningEmailEnabled = isOpeningEmailEnabled;
+		this.isClosingEmailEnabled = isClosingEmailEnabled;
+		this.isPublishedEmailEnabled = isPublishedEmailEnabled;
 		this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
 	}
 		
@@ -232,6 +244,45 @@ public class FeedbackSession {
 	public void setSentPublishedEmail(boolean sentPublishedEmail) {
 		this.sentPublishedEmail = sentPublishedEmail;
 	}
+	
+	public boolean isOpeningEmailEnabled() {
+		// Legacy data might not have this field
+		if(isOpeningEmailEnabled == null) { 
+			isOpeningEmailEnabled = true;
+		}
+		
+		return isOpeningEmailEnabled.booleanValue();
+	}
+	
+	public void setIsOpeningEmailEnabled(boolean isOpeningEmailEnabled) {
+		this.isOpeningEmailEnabled = isOpeningEmailEnabled;
+	}
+	
+	public boolean isClosingEmailEnabled() {
+		// Legacy data might not have this field
+		if(isClosingEmailEnabled == null) {
+			isClosingEmailEnabled = true;
+		}
+		
+		return isClosingEmailEnabled.booleanValue();
+	}
+	
+	public void setSendClosingEmail(boolean isClosingEmailEnabled) {
+		this.isClosingEmailEnabled = isClosingEmailEnabled;
+	}
+	
+	public boolean isPublishedEmailEnabled() {
+		// Legacy data might not have this field
+		if(isPublishedEmailEnabled == null) {
+			isPublishedEmailEnabled = true;
+		}
+		
+		return isPublishedEmailEnabled.booleanValue();
+	}
+	
+	public void setSendPublishedEmail(boolean isPublishedEmailEnabled) {
+		this.isPublishedEmailEnabled = isPublishedEmailEnabled;
+	}
 
 	@Override
 	public String toString() {
@@ -244,7 +295,10 @@ public class FeedbackSession {
 				+ resultsVisibleFromTime + ", timeZone=" + timeZone
 				+ ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
 				+ feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
-				+ ", sentPublishedEmail=" + sentPublishedEmail + "]";
+				+ ", sentPublishedEmail=" + sentPublishedEmail 
+				+ ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
+				+ ", isClosingEmailEnabled=" + isClosingEmailEnabled
+				+ ", isPublishedEmailEnabled=" + isPublishedEmailEnabled +"]";
 	}
 
 }

@@ -88,7 +88,8 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
 		fsLogic.scheduleFeedbackSessionClosingEmails();
 		FeedbackSessionClosingCallback.verifyTaskCount(0);
 		
-		______TS("typical case, two sessions closing soon");
+		______TS("typical case, two sessions closing soon, "
+				+ "1 session closing soon with disabled closing reminder.");
 		// Modify session to close in 24 hours.
 		FeedbackSessionAttributes session1 = dataBundle.feedbackSessions
 				.get("session1InCourse1");
@@ -110,9 +111,21 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
 		fsLogic.updateFeedbackSession(session2);
 		LogicTest.verifyPresentInDatastore(session2);
 		
+		// Reuse an existing session to create a new one that is
+		// closing in 24 hours and closing reminder disabled.
+		FeedbackSessionAttributes session3 = dataBundle.feedbackSessions
+				.get("session2InCourse1");
+		
+		session3.timeZone = 0;
+		session3.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		session3.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		session3.isClosingEmailEnabled = false;
+		fsLogic.updateFeedbackSession(session3);
+		LogicTest.verifyPresentInDatastore(session3);
+		
 		fsLogic.scheduleFeedbackSessionClosingEmails();
 
-		//There are only 2 sessions closing soon
+		//There are only 2 sessions closing reminder to be sent
 		FeedbackSessionClosingCallback.verifyTaskCount(2);
 	}
 
@@ -152,6 +165,18 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
 		session2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
 		fsLogic.updateFeedbackSession(session2);
 		LogicTest.verifyPresentInDatastore(session2);
+		
+		// Reuse an existing session to create a new one that is
+		// closing in 24 hours and closing reminder disabled.
+		FeedbackSessionAttributes session3 = dataBundle.feedbackSessions
+				.get("session2InCourse1");
+		
+		session3.timeZone = 0;
+		session3.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+		session3.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+		session3.isClosingEmailEnabled = false;
+		fsLogic.updateFeedbackSession(session3);
+		LogicTest.verifyPresentInDatastore(session3);
 		
 		paramMap = createParamMapForAction(session2);
 		fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);

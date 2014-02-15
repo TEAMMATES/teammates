@@ -186,7 +186,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("MCQ: new question (frame) link");
 		
-		feedbackEditPage.selectNewQuestionType("Multiple-choice question");
+		feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer)");
 		assertEquals(true, feedbackEditPage.clickNewQuestionButton());		
 	}
 	
@@ -311,7 +311,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("MSQ: new question (frame) link");
 		
-		feedbackEditPage.selectNewQuestionType("Multiple-select question");
+		feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers)");
 		assertEquals(true, feedbackEditPage.clickNewQuestionButton());
 	}
 	
