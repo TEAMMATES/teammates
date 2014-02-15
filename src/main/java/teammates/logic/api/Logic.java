@@ -464,7 +464,7 @@ public class Logic {
 		return coursesLogic.getCourseDetailsListForStudent(googleId);
 	
 	}
-
+	
 	public void updateCourse(CourseAttributes course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing courses");
