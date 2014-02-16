@@ -159,6 +159,28 @@ public class StudentHomePageActionTest extends BaseActionTest {
 				"|||studentHome Page Load<br>Total courses: 2|||/page/studentHomePage" ;
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
+		
+		______TS("Just joined course, course not appearing due to eventual consistency");
+		submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "inconsistentCourse"};
+		student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		studentId = student1InCourse1.googleId;
+		gaeSimulation.loginUser(studentId);
+		a = getAction(submissionParams);
+		r = getShowPageResult(a);
+		assertEquals("You have successfully joined the course inconsistentCourse. "
+				+ "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
+				+ "<br>Please refresh this page in a few minutes to see the course inconsistentCourse in the list below."
+				, r.getStatusMessage());
+		
+		
+		______TS("Just joined course, course not affected by eventual consistency and appears in list");
+		submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"};
+		student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		studentId = student1InCourse1.googleId;
+		gaeSimulation.loginUser(studentId);
+		a = getAction(submissionParams);
+		r = getShowPageResult(a);
+		assertEquals("",r.getStatusMessage());
 	}
 
 	private StudentHomePageAction getAction(String... params) throws Exception{

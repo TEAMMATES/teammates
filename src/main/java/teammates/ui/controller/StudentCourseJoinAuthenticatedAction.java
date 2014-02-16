@@ -22,7 +22,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
 		//TODO Remove excessive logging from this method
 		String key = getRequestParamValue(Const.ParamsNames.REGKEY);
 		Assumption.assertNotNull(key);
-		
+
 		new GateKeeper().verifyLoggedInUserPrivileges();
 		
 		String logMsg = null;
@@ -62,6 +62,12 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
 		}
 		
 		RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+		
+		StudentAttributes student  = logic.getStudentForRegistrationKey(key);
+		if(student != null) {
+			response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, student.course);	
+		}
+		
 		return response;
 	}
 }

@@ -318,6 +318,9 @@ public class Const {
 		public static final String SUBMISSION_EVAL = "evaluation";
 		
 		public static final String SEARCH_KEY ="searchkey";
+		
+		//Parameters for checking persistence of data during Eventual Consistency
+		public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
 	}
 
 	public class ActionURIs{
@@ -561,6 +564,10 @@ public class Const {
 		public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
 		public static final String ENROLL_LINES_PROBLEM = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>" +
 														"<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
+		
+		public static final String EVENTUAL_CONSISTENCY_MESSAGE_STUDENT = "You have successfully joined the course %1$s. "
+				+ "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
+				+ "<br>Please refresh this page in a few minutes to see the course %1$s in the list below.";
 		
 		//TODO: these status messages are from used for input validation testing only. Move to test driver side? 
 		

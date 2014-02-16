@@ -31,6 +31,7 @@ public class StudentHomePageAction extends Action {
 		
 		try{
 			data.courses = logic.getCourseDetailsListForStudent(account.googleId);
+	
 			data.evalSubmissionStatusMap = generateEvalSubmissionStatusMap(data.courses, account.googleId);
 			data.sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(data.courses, account.googleId);
 			CourseDetailsBundle.sortDetailedCourses(data.courses);
@@ -41,10 +42,16 @@ public class StudentHomePageAction extends Action {
 			
 			statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + data.courses.size();
 			
+			String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
+			boolean isDataConsistent = checkEventualConsistency(recentlyJoinedCourseId);
+			if(!isDataConsistent) {
+				showEventualConsistencyMessage(recentlyJoinedCourseId);
+			}
+			
 		} catch (EntityDoesNotExistException e){
 			statusToUser.add(Const.StatusMessages.STUDENT_FIRST_TIME);
 			statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
-		}
+		} 
 		
 		ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
 		return response;
@@ -122,5 +129,24 @@ public class StudentHomePageAction extends Action {
 			return false;
 		}
 	}
+	
+	private boolean checkEventualConsistency(String recentlyJoinedCourseId) {
+		boolean isDataConsistent = false;
+		
+		if(recentlyJoinedCourseId == null) {
+			isDataConsistent = true;
+		} else {
+			for(CourseDetailsBundle currentCourse : data.courses) {
+				if(currentCourse.course.id.equals(recentlyJoinedCourseId)) {
+					isDataConsistent = true;
+				}
+			}
+		}
+		return isDataConsistent;
+	}
 
+	private void showEventualConsistencyMessage(String recentlyJoinedCourseId) {
+		String errorMessage = String.format(Const.StatusMessages.EVENTUAL_CONSISTENCY_MESSAGE_STUDENT, recentlyJoinedCourseId);
+		statusToUser.add(errorMessage);
+	}
 }
