@@ -212,6 +212,7 @@ public abstract class Action {
 				pageData);
 	}
 	
+	//TODO Negative boolean method can be confusing. Change to positive (i.e. isJoinedCourse)
 	protected boolean notYetJoinedCourse(String courseId, String googleId) {
 		return logic.getStudentForGoogleId(courseId, account.googleId) == null;
 	}
