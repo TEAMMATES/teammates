@@ -52,6 +52,9 @@
 			</div>
 			
 			<form name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave" method="post">
+			<input type="hidden" value="First Session" name="fsname" />
+			<input type="hidden" value="SFSubmitUiT.CS2104" name="courseid" />
+			<input type="hidden" value="SFSubmitUiT.alice.b" name="user" />
 			<table class="inputTable">
 			<tbody><tr>
 				<td class="bold">Course:</td>
@@ -1247,9 +1250,6 @@
 			
 			<input type="submit" value="Save Feedback" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')" id="response_submit_button" class="button" />
 			
-			<input type="hidden" value="First Session" name="fsname" />
-			<input type="hidden" value="SFSubmitUiT.CS2104" name="courseid" />
-			<input type="hidden" value="SFSubmitUiT.alice.b" name="user" />
 			</div>
 			<br /><br />	
 			</form>

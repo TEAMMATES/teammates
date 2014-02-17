@@ -161,6 +161,8 @@ public class Const {
 		public static final String FEEDBACK_SESSION_NOT_CREATOR_PUBLISH = "Only the creator can publish this session";
 		public static final String FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH = "Only the creator can unpublish this session";
 		public static final String FEEDBACK_SESSION_NOT_CREATOR_DELETE = "Only the creator can delete this session";
+		
+		public static final String FEEDBACK_SESSION_EDIT_SAVE = "You can save your responses at any time and come back later to continue.";
 
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
@@ -486,7 +488,8 @@ public class Const {
 		public static final String FOOTER = "/jsp/footer.jsp"; 
 		public static final String STATUS_MESSAGE = "/jsp/statusMessage.jsp";
 		public static final String STATUS_MESSAGE_WITHOUT_FOCUS = "/jsp/statusMessageWithoutFocusingToStatus.jsp";
-		public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; 
+		public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp";
+		public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
 	}
 
 	/* These are status messages that may be shown to the user */
