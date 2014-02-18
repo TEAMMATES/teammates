@@ -541,6 +541,14 @@ public class Const {
 		public static final String EVALUATION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
 		public static final String EVALUATION_NOT_OPEN = "This evaluation is not open at this time. You are not allowed to edit your submission.";
 		public static final String EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
+		public static final String EVALUATION_REQUEST_EXPIRED = "<div style=\"text-align:left;\">"
+				+ "The request we received seems to be incomplete. "
+				+ "This may be due to reloading a page from a submission activity you did earlier. "
+				+ "If you typed your input in the previous page, you can try to click the 'Back' button of your Browser to take a copy of what you typed. "
+				+ "If you wish to submit now, please re-login and try to submit again. "
+				+ "If your second attempt to submit did not work either, please email us at "
+				+ "<a href='mailto:teammates@comp.nus.edu.sg?subject=Evaluation Request Expired&body=System Message: Evaluation submission failed possibly due to missing parameters.'>teammates@comp.nus.edu.sg</a>."
+				+ "</div>";
 		
 		public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
 		public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
