@@ -1,10 +1,13 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
+
+import com.google.gson.Gson;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -24,6 +27,8 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
+import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.SystemParams;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -53,12 +58,12 @@ public class StudentsLogic {
 	public void createStudentCascade(StudentAttributes studentData) 
 			throws InvalidParametersException, EntityAlreadyExistsException {
 		
-		createStudentCascadeWithoutSubmissionAdjustment(studentData);
+		createStudentCascadeWithSubmissionAdjustmentScheduled(studentData);
 		evaluationsLogic.adjustSubmissionsForNewStudent(
 				studentData.course, studentData.email, studentData.team);
 	}
 	
-	private void createStudentCascadeWithoutSubmissionAdjustment(StudentAttributes studentData) 
+	public void createStudentCascadeWithSubmissionAdjustmentScheduled(StudentAttributes studentData) 
 			throws InvalidParametersException, EntityAlreadyExistsException {	
 		studentsDb.createEntity(studentData);
 	}
@@ -150,7 +155,7 @@ public class StudentsLogic {
 	public void updateStudentCascade(String originalEmail, StudentAttributes student) 
 			throws InvalidParametersException, EntityDoesNotExistException {
 		StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
-		updateStudentCascadeWithoutSubmissionAdjustment(originalEmail, student);
+		updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student);
 		
 		/* finalEmail is the string to be used to represent a student's email.
 		 * This is because:
@@ -170,8 +175,7 @@ public class StudentsLogic {
 		}
 	}
 	
-	//TODO: this name is misleading. Some adjustments are done to submissions.
-	private void updateStudentCascadeWithoutSubmissionAdjustment(String originalEmail, 
+	public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail, 
 			StudentAttributes student) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		// Edit student uses KeepOriginal policy, where unchanged fields are set
@@ -274,7 +278,8 @@ public class StudentsLogic {
 				.getEvaluationsForCourse(courseId);
 		
 		for(EvaluationAttributes eval : evaluations) {
-			adjustSubmissionsForEnrollments(enrollmentList,eval);
+			//Schedule adjustment of submissions for evaluation in course
+			scheduleSubmissionAdjustmentForEvaluationInCourse(enrollmentList,courseId,eval.name);
 		}
 		
 		//Adjust submissions for all feedback responses within the course
@@ -282,12 +287,9 @@ public class StudentsLogic {
 				.getFeedbackSessionsForCourse(courseId);
 		
 		for (FeedbackSessionAttributes session : feedbackSessions) {
-			List<FeedbackResponseAttributes> allResponses = frLogic
-					.getFeedbackResponsesForSession(session.feedbackSessionName, session.courseId);
-			
-			for (FeedbackResponseAttributes response : allResponses) {
-				adjustFeedbackResponseForEnrollments(enrollmentList, response);
-			}
+			//Schedule adjustment of submissions for feedback session in course
+			scheduleSubmissionAdjustmentForFeedbackInCourse(enrollmentList,courseId,
+					session.feedbackSessionName);
 		}
 
 		// add to return list students not included in the enroll list.
@@ -300,6 +302,39 @@ public class StudentsLogic {
 		}
 
 		return returnList;
+	}
+
+	private void scheduleSubmissionAdjustmentForFeedbackInCourse(
+			ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String sessionName) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		
+		paramMap.put(ParamsNames.COURSE_ID, courseId);
+		paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
+		
+		Gson gsonBuilder = Utils.getTeammatesGson();
+		String enrollmentDetails = gsonBuilder.toJson(enrollmentList);
+		paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
+		
+		TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+		taskQueueLogic.createAndAddTask(SystemParams.EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE,
+				Const.ActionURIs.EVAL_SUBMISSION_ADJUSTMENT_WORKER, paramMap);
+		
+	}
+
+	private void scheduleSubmissionAdjustmentForEvaluationInCourse(
+			ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String evalName) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		
+		paramMap.put(ParamsNames.COURSE_ID, courseId);
+		paramMap.put(ParamsNames.EVALUATION_NAME, evalName);
+		
+		Gson gsonBuilder = Utils.getTeammatesGson();
+		String enrollmentDetails = gsonBuilder.toJson(enrollmentList);
+		paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
+		
+		TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+		taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE,
+				Const.ActionURIs.FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER, paramMap);
 	}
 
 	public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail) 
@@ -363,7 +398,7 @@ public class StudentsLogic {
 		
 	}
 	
-	private void adjustSubmissionsForEnrollments(
+	public void adjustSubmissionsForEnrollments(
 			ArrayList<StudentEnrollDetails> enrollmentList,
 			EvaluationAttributes eval) throws InvalidParametersException, EntityDoesNotExistException {
 		
@@ -379,10 +414,9 @@ public class StudentsLogic {
 		}
 	}
 	
-	private void adjustFeedbackResponseForEnrollments(
+	public void adjustFeedbackResponseForEnrollments(
 			ArrayList<StudentEnrollDetails> enrollmentList,
 			FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
-		
 		for(StudentEnrollDetails enrollment : enrollmentList) {
 			if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
 					isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
@@ -404,13 +438,13 @@ public class StudentsLogic {
 			if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
 				enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
 			} else if (originalStudentAttributes != null) {
-				updateStudentCascadeWithoutSubmissionAdjustment(originalStudentAttributes.email, validStudentAttributes);
+				updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes);
 				enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
 				
 				if(!originalStudentAttributes.team.equals(validStudentAttributes.team))
 					enrollmentDetails.oldTeam = originalStudentAttributes.team;
 			} else {
-				createStudentCascadeWithoutSubmissionAdjustment(validStudentAttributes);
+				createStudentCascadeWithSubmissionAdjustmentScheduled(validStudentAttributes);
 				enrollmentDetails.updateStatus = UpdateStatus.NEW;
 			}
 		} catch (Exception e) {
