@@ -43,8 +43,8 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 	private int problematicSubmissionsCount;
 	
 	protected void doOperation() {
-		repairEvaluation("IS3220_blian_sem_2_ay2013_2014", "Peer Evaluation 5");
-		repairEvaluation("IS3220_blian_sem_2_ay2013_2014", "Peer Evaluation 4");
+		repairEvaluation("ENTR3310-Sp14", "PEER EVALUATION 01");
+		repairEvaluation("ENTR3312-Sp14", "WK06 Peer Evaluation Trial");
 	}
 
 	private void repairEvaluation(String courseId, String evaluationName) {
@@ -112,9 +112,9 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 	}
 
 	private void addMissingSubmission(String courseId, String evaluationName,
-			String team, String reviewerEmail, String revieweeEmail) {
+			String team, String toStudent, String fromStudent) {
 		SubmissionAttributes submissionToAdd = 
-				new SubmissionAttributes(courseId, evaluationName, reviewerEmail, reviewerEmail, revieweeEmail);
+				new SubmissionAttributes(courseId, evaluationName, team, toStudent, fromStudent);
 		submissionToAdd.p2pFeedback = new Text("");
 		submissionToAdd.justification = new Text("");
 		print("Creating missing submission "+ submissionToAdd.toString());
