@@ -30,6 +30,12 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
 		return logic.getFeedbackSessionQuestionsBundleForInstructor(
 				feedbackSessionName, courseId, userEmailForCourse);
 	}
+	
+	@Override
+	protected boolean isSessionOpenForSpecificUser() {
+		return data.bundle.feedbackSession.isOpened() || 
+				data.bundle.feedbackSession.isPrivateSession();
+	}
 
 	@Override
 	protected void setStatusToAdmin() {

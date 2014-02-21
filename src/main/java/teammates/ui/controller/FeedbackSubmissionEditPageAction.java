@@ -30,6 +30,8 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 			throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName + " does not exist in "+courseId+".");
 		}
 		
+		data.isSessionOpenForSubmission = isSessionOpenForSpecificUser();
+		
 		setStatusToAdmin();
 		
 		return createSpecificShowPageResult();
@@ -43,6 +45,8 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 
 	protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
 
+	protected abstract boolean isSessionOpenForSpecificUser();
+	
 	protected abstract void setStatusToAdmin();
 	
 	protected abstract ShowPageResult createSpecificShowPageResult();

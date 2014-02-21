@@ -34,11 +34,8 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
 	@Override
 	protected boolean isSessionOpenForSpecificUser() {
-		if (data.bundle.feedbackSession.isOpened() == false
-				&& data.bundle.feedbackSession.isInGracePeriod() == false) {
-			return false;
-		}
-		return true;
+		return data.bundle.feedbackSession.isOpened()
+				|| data.bundle.feedbackSession.isInGracePeriod();
 	}
 
 	@Override

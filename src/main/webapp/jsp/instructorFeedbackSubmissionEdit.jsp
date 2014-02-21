@@ -63,7 +63,7 @@
 				%>
 						<input disabled="disabled" type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback"/>
 				<%
-					} else if (data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession()) {
+					} else if (data.isSessionOpenForSubmission) {
 				%>
 						<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback"/>
 				<%
