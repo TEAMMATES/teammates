@@ -44,7 +44,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 				"${maxScale}", Integer.toString(maxScale),
 				"${step}", StringHelper.toDecimalFormatString(step),
 				"${existingAnswer}", numscaleResponseDetails.getAnswerString(),
-				"${possibleValuesString}", getPossibleValuesString(),
+				"${possibleValuesString}", getPossibleValuesStringSubmit(),
 				"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
@@ -62,7 +62,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 				"${maxScale}", Integer.toString(maxScale),
 				"${step}", StringHelper.toDecimalFormatString(step),
 				"${existingAnswer}", "",
-				"${possibleValuesString}", getPossibleValuesString(),
+				"${possibleValuesString}", getPossibleValuesStringSubmit(),
 				"${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
@@ -77,10 +77,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
 				"${minScale}", Integer.toString(minScale),
 				"${maxScale}", Integer.toString(maxScale),
 				"${step}", StringHelper.toDecimalFormatString(step),
-				"${possibleValues}", getPossibleValuesString(),
+				"${possibleValues}", getPossibleValuesStringEdit(),
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
 				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
-				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
+				"${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}", Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP,
+				"${Const.ToolTips.FEEDBACK_QUESTION_NUMSCALE_MIN}", Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MIN,
+				"${Const.ToolTips.FEEDBACK_QUESTION_NUMSCALE_MAX}", Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MAX,
+				"${Const.ToolTips.FEEDBACK_QUESTION_NUMSCALE_STEP}", Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_STEP);
 	}
 
 	@Override
@@ -117,6 +120,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
 		return "Feedback";
 	}
 
+	private String getPossibleValuesStringEdit() {
+		return "[Based on the above settings, acceptable responses are: " + getPossibleValuesString();
+	}
+	
+	private String getPossibleValuesStringSubmit() {
+		return "[Possible values: " + getPossibleValuesString();
+	}
+	
 	private String getPossibleValuesString() {
 		double cur = minScale + step;
 		int possibleValuesCount = 1;
@@ -125,7 +136,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 			possibleValuesCount++;
 		}
 		
-		String possibleValuesString = "[Possible values: ";
+		String possibleValuesString = new String();
 		if (possibleValuesCount > 6) {
 			possibleValuesString += StringHelper.toDecimalFormatString(minScale) + ", "
 					+ StringHelper.toDecimalFormatString(minScale + step) + ", "

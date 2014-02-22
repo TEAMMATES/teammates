@@ -2,30 +2,30 @@
 	<td colspan="4">
 		<table>
 			<tr>
-				<td>
-					Minimum scale:
+				<td onmouseover="ddrivetip('${Const.ToolTips.FEEDBACK_QUESTION_NUMSCALE_MIN}')"
+									onmouseout="hideddrivetip()">Minimum value:
 					<input disabled="disabled" type="number" class="minScaleBox" id="minScaleBox-${questionNumber}"
 						name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}"
 						value="${minScale}" onChange="updateNumScalePossibleValues(${questionNumber})">
 				</td>
-			</tr>
-			<tr>
-				<td>
-					Maximum scale:
+				<td onmouseover="ddrivetip('${Const.ToolTips.FEEDBACK_QUESTION_NUMSCALE_STEP}')"
+									onmouseout="hideddrivetip()">Increment:	
+					<input disabled="disabled" type="number" class="stepBox" id="stepBox-${questionNumber}"
+						name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}"
+						value="${step}" min="0.001" step="0.001"
+						onChange="updateNumScalePossibleValues(${questionNumber})">
+				</td>
+				<td onmouseover="ddrivetip('${Const.ToolTips.FEEDBACK_QUESTION_NUMSCALE_MAX}')"
+									onmouseout="hideddrivetip()">Maximum value:
 					<input disabled="disabled" type="number" class="maxScaleBox" id="maxScaleBox-${questionNumber}"
 						name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}"
 						value="${maxScale}" onChange="updateNumScalePossibleValues(${questionNumber})">
 				</td>
 			</tr>
 			<tr>
-				<td>
-					Increment:	
-					<input disabled="disabled" type="number" class="stepBox" id="stepBox-${questionNumber}"
-						name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}"
-						value="${step}" min="0.001" step="0.001"
-						onChange="updateNumScalePossibleValues(${questionNumber})">
+				<td colspan = "3">
 					<span id="numScalePossibleValues-${questionNumber}">${possibleValues}</span>
-				</td>
+       			</td>
 			</tr>
 		</table>
 	</td>

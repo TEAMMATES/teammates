@@ -174,7 +174,10 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
 		public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
 		public static final String FEEDBACK_QUESTION_VISBILITY = "Here you can select how each question's response will be visible to the different types of users in your course.";
-	
+		public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
+		public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
+		public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
+		
 		public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" +
 				"<br />in the course once the results are published.";
 		public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +

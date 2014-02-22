@@ -422,7 +422,7 @@ function updateNumScalePossibleValues(questionNumber) {
 		possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
 	} else {
 		$("#numScalePossibleValues"+idSuffix).css("color","black");
-		possibleValuesString = "[Possible values: ";
+		possibleValuesString = "[Based on the above settings, acceptable responses are: ";
 		if (possibleValuesCount > 6) {
 			possibleValuesString += min.toString() + ", "
 									+ (Math.round((min + step)*1000)/1000).toString() + ", "
