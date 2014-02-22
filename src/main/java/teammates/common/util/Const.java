@@ -172,6 +172,7 @@ public class Const {
 
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
+		public static final String FEEDBACK_QUESTION_GETLINK = "Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.";
 		public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
 		public static final String FEEDBACK_QUESTION_VISBILITY = "Here you can select how each question's response will be visible to the different types of users in your course.";
 		public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
@@ -272,6 +273,7 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
 		public static final String FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
 		public static final String FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
+		public static final String FEEDBACK_QUESTION_GETLINK = "questiongetlink";
 		public static final String FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
 		public static final String FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 		public static final String FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
@@ -401,6 +403,8 @@ public class Const {
 		
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
+		public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackQuestionSubmissionEditPage";
+		public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackQuestionSubmissionEditSave";
 		
 		public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
 		public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
@@ -412,6 +416,8 @@ public class Const {
 		
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
+		public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackQuestionSubmissionEditPage";
+		public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackQuestionSubmissionEditSave";
 		public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
 		
 		public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
@@ -466,6 +472,7 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT = "/jsp/instructorFeedbackResultsByRecipient.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
+		public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
 		public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
 		public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
@@ -476,6 +483,7 @@ public class Const {
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
 		public static final String STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp"; 
+		public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/studentFeedbackQuestionSubmissionEdit.jsp"; 
 		public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp"; 
 			
 		public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
@@ -506,6 +514,7 @@ public class Const {
 		public static final String STATUS_MESSAGE_WITHOUT_FOCUS = "/jsp/statusMessageWithoutFocusingToStatus.jsp";
 		public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp";
 		public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
+		public static final String FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/feedbackQuestionSubmissionEdit.jsp"; 
 	}
 
 	/* These are status messages that may be shown to the user */
@@ -585,7 +594,7 @@ public class Const {
 		
 		public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
 				
-		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not opened.";
+		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
 		
 		public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
 		public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";

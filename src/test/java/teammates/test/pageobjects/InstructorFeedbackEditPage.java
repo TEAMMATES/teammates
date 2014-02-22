@@ -90,6 +90,10 @@ public class InstructorFeedbackEditPage extends AppPage {
 	@FindBy(id = "button_preview_instructor")
 	private WebElement previewAsInstructorButton;
 	
+	@FindBy(id = "questiongetlink-1")
+	private WebElement getLinkButton;
+	
+	
 	public InstructorFeedbackEditPage(Browser browser) {
 		super(browser);
 	}
@@ -343,5 +347,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 		waitForPageToLoad();
 		switchToNewWindow();
 		return changePageType(FeedbackSubmitPage.class);
+	}
+	
+	public void clickGetLinkButton() {
+		getLinkButton.click();
 	}
 }

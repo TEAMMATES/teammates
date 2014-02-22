@@ -1,5 +1,6 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.StringHelper"%>
+<%@ page import="teammates.logic.core.FeedbackQuestionsLogic"%>
 <%@ page import="teammates.logic.api.Logic"%>
 <!DOCTYPE html>
 <html>
@@ -42,6 +43,8 @@
 						<li><a href="#instructorFeedbackEditPage">Instructor Feedback Edit Page</a></li>
 						<li><a href="#instructorFeedbackPreviewAsStudentPage">Instructor Feedback Preview as Student Page</a></li>
 						<li><a href="#instructorFeedbackPreviewAsInstructorPage">Instructor Feedback Preview as Instructor Page</a></li>
+						<li><a href="#instructorFeedbackSubmitPage">Instructor Feedback Submit Page</a></li>
+						<li><a href="#instructorFeedbackQuestionSubmitPage">Instructor Feedback Question Submit Page</a></li>
 						<li><a href="#instructorFeedbackResultsPageByGiver">Instructor Feedback Results Page (By giver)</a></li>
 						<li><a href="#instructorFeedbackResultsPageByRecipient">Instructor Feedback Results Page (By recipient)</a></li>
 						<li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>						
@@ -56,6 +59,7 @@
 						<li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
 						<li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
 						<li><a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a></li>
+						<li><a href="#studentFeedbackQuestionSubmitPage">Student Feedback Question Submit Page</a></li>
 						<li><a href="#studentFeedbackResultsPage">Student Feedback Results Page</a></li>
 					</ul>
 				<td>
@@ -125,9 +129,13 @@
 		
 		<div class="pageinfo">Instructor Feedback Preview as Student Page</div>
 		<div id="instructorFeedbackPreviewAsStudentPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Feedback Submit Page</div>
+		<div id="instructorFeedbackSubmitPage" class="wrapper"></div>
 		
 		<div class="pageinfo">Instructor Feedback Preview as Instructor Page</div>
 		<div id="instructorFeedbackPreviewAsInstructorPage" class="wrapper"></div>
+		<div class="pageinfo">Instructor Feedback Question Submit Page</div>
+		<div id="instructorFeedbackQuestionSubmitPage" class="wrapper"></div>
 		
 		<div class="pageinfo">Instructor Feedback Results Page (By giver)</div>
 		<div id="instructorFeedbackResultsPageByGiver" class="wrapper"></div>		
@@ -158,6 +166,9 @@
 		
 		<div class="pageinfo">Student Feedback Submit Page</div>
 		<div id="studentFeedbackSubmitPage" class="wrapper"></div>
+		
+		<div class="pageinfo">Student Feedback Question Submit Page</div>
+		<div id="studentFeedbackQuestionSubmitPage" class="wrapper"></div>
 
 		<div class="pageinfo">Student Feedback Results Page</div>
 		<div id="studentFeedbackResultsPage" class="wrapper"></div>
@@ -224,6 +235,11 @@
 			$('#instructorFeedbackEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
 			$('#instructorFeedbackPreviewAsStudentPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper");
 			$('#instructorFeedbackPreviewAsInstructorPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper");
+			$('#instructorFeedbackSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+			<%
+				String instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
+			%>
+			$('#instructorFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #frameBodyWrapper");
 			$('#instructorFeedbackResultsPageByGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver #frameBodyWrapper");
 			$('#instructorFeedbackResultsPageByRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient #frameBodyWrapper");
 			$('#instructorFeedbackResultsPageByTable').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=table #frameBodyWrapper");
@@ -237,6 +253,10 @@
 			$('#studentEvalEditPage').load("<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
 			$('#studentEvalResultsPage').load("<%=Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper");
 			$('#studentFeedbackSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+			<%
+				String studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
+			%>
+			$('#studentFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper");
 			$('#studentFeedbackResultsPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
 			
 			$('#adminHomePage').load("<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #frameBodyWrapper");

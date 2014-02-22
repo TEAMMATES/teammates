@@ -343,6 +343,9 @@
 					<%=questionDetails.getQuestionTypeDisplayName()%>
 				</td>
 				<td class="rightalign">
+					<a href="#" class="color_blue pad_right" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GETLINK%>-<%=question.questionNumber%>"
+					onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_GETLINK%>')" onmouseout="hideddrivetip()" 
+					onclick="getQuestionLink(<%=question.questionNumber%>)">Get Link</a>
 					<a href="#" class="color_blue pad_right" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
 					onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()" 
 					onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>

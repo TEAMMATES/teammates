@@ -2,12 +2,11 @@ package teammates.ui.controller;
 
 import java.util.Map;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -16,54 +15,58 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 
-public abstract class FeedbackSubmissionEditSaveAction extends Action {
+import com.google.appengine.api.datastore.Text;
+
+public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
 	protected String courseId;
 	protected String feedbackSessionName;
-	protected FeedbackSubmissionEditPageData data;
+	protected String feedbackQuestionId;
+	protected FeedbackQuestionSubmissionEditPageData data;
 	
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		Assumption.assertNotNull(courseId);
 		feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		Assumption.assertNotNull(feedbackSessionName);
+		feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+		Assumption.assertNotNull(feedbackQuestionId);
 		
 		verifyAccesibleForSpecificUser();
 		
-		String userEmailForCourse = getUserEmailForCourse();
-		data = new FeedbackSubmissionEditPageData(account);
-		data.bundle = getDataBundle(userEmailForCourse);		
-		Assumption.assertNotNull("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".", data.bundle);
-		
 		setStatusToAdmin();
 		
-		if (isSessionOpenForSpecificUser() == false) {
+		FeedbackSessionAttributes fs = logic.getFeedbackSession(feedbackSessionName, courseId);
+		if (isSessionOpenForSpecificUser(fs) == false) {
 			throw new UnauthorizedAccessException("This feedback session is not currently open for submission.");
 		}
 		
-		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
-		for(int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-			String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL+"-"+questionIndx);
+		String userEmailForCourse = getUserEmailForCourse();
+		
+		String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL);
+		int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
+		for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
+			FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndx);
+			response.giverEmail = userEmailForCourse;
 			
-			if (totalResponsesForQuestion == null) {
-				continue; // question has been skipped (not displayed).
-			}
-			
-			int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);			
-			for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
-				FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx,responseIndx);
-				response.giverEmail = userEmailForCourse;
-				saveResponse(response);
-			}
+			saveResponse(response);
 		}
+		
+		data = new FeedbackQuestionSubmissionEditPageData(account);
+		data.bundle = getDataBundle(userEmailForCourse);
 		
 		if (isError == false) {
 			statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 		}
 		
-		// TODO: what happens if qn is deleted as response is being submitted?
-		// what happens if team/etc change such that receiver / response in general is invalid?
-		return createSpecificRedirectResult();
+		data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(fs);
+		if (!data.isSessionOpenForSubmission) {
+			statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+		}
+		
+		return createSpecificShowPageResult();
 	}
-
+	
 	private void saveResponse(FeedbackResponseAttributes response)
 			throws EntityDoesNotExistException {
 		if (response.getId() != null) {
@@ -100,13 +103,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 		response.courseId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull("Null feedback courseId", response.courseId);
 		
-		response.feedbackQuestionId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_ID+"-"+questionIndx);
+		response.feedbackQuestionId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_ID);
 		Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
 		
 		response.recipientEmail = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
 		Assumption.assertNotNull("Null feedback recipientEmail", response.recipientEmail);
 		
-		String feedbackQuestionType = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TYPE+"-"+questionIndx);
+		String feedbackQuestionType = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
 		Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
 		response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
 		
@@ -126,16 +129,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 		
 		return response;
 	}
-	
-	protected abstract void verifyAccesibleForSpecificUser();
 
+	protected abstract void verifyAccesibleForSpecificUser();
+	
 	protected abstract String getUserEmailForCourse();
 
-	protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
-
+	protected abstract FeedbackQuestionBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
+	
 	protected abstract void setStatusToAdmin();
-
-	protected abstract boolean isSessionOpenForSpecificUser();
-
-	protected abstract RedirectResult createSpecificRedirectResult();
+	
+	protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes fs);
+		
+	protected abstract ShowPageResult createSpecificShowPageResult();
 }

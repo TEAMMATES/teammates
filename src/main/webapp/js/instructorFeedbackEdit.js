@@ -577,3 +577,34 @@ function formatQuestionNumbers(){
 		}
 	});
 }
+
+function getQuestionLink(qnNumber) {
+	var courseid = $("input[name='courseid']").val();
+	var fsname = toParameterFormat($("input[name='fsname']").val());
+	
+	var questionId = $("#form_editquestion-" + qnNumber)
+						.find("input[name='questionid']").val();
+	
+	var giverType = $("#givertype-" + qnNumber).val();
+	
+	var actionUrl = (giverType == "STUDENTS" || giverType == "TEAMS") 
+						? "/page/studentFeedbackQuestionSubmissionEditPage"
+						: "/page/instructorFeedbackQuestionSubmissionEditPage";
+	
+	var questionLink =  window.location.protocol + "//" 
+						+ window.location.host + actionUrl
+						+ "?courseid=" + courseid 
+						+ "&fsname=" + fsname 
+						+ "&questionid=" + questionId;
+	
+	$("#statusMessage")
+			.text("Link for question " + qnNumber + ": " + questionLink);
+	$("#statusMessage").show();
+	
+	var scrollAmount = $("#statusMessage")[0].scrollHeight + $("#frameBody").height() * 3/4; 
+    $("#frameBody").animate({scrollTop: scrollAmount}, 1000);
+}
+
+function toParameterFormat(str) {
+	return str.replace(/\s/g,"+");
+}

@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -16,6 +17,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
@@ -69,6 +71,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		testNewQuestionLink();
 		testInputValidationForQuestion();
 		testAddQuestionAction();
+		
+		testGetQuestionLink();
 		
 		testNewMcqQuestionFrame();
 		testInputValidationForMcqQuestion();
@@ -180,6 +184,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
 		assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 		feedbackEditPage.verifyHtml("/instructorFeedbackQuestionAddSuccess.html");
+	}
+	
+	private void testGetQuestionLink() {
+		
+		______TS("get individual question link");
+		
+		feedbackEditPage.clickGetLinkButton();
+		String questionId = BackDoor.getFeedbackQuestion(courseId,
+				feedbackSessionName, 1).getId();
+
+		assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
+		assertEquals(
+				"Link for question 1: " + TestProperties.inst().TEAMMATES_URL 
+						+ Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE
+						+ "?courseid=" + courseId
+						+ "&fsname=First+Session"
+						+ "&questionid=" + questionId,
+				feedbackEditPage.getStatus());
 	}
 	
 	private void testNewMcqQuestionFrame() {

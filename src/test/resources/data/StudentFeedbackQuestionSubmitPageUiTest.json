@@ -1,0 +1,241 @@
+{
+	"accounts":{
+		"SFQSubmitUiT.instr":{
+			"googleId":"SFQSubmitUiT.instr",
+			"name":"Teammates Test",
+			"isInstructor":true,
+			"email":"SFQSubmitUiT.instr@gmail.com",
+			"institute":"National University of Singapore"
+		},
+		"SFQSubmitUiT.alice.b":{
+			"googleId":"SFQSubmitUiT.alice.b",
+			"name":"Alice Betsy",
+			"isInstructor":false,
+			"email":"SFQSubmitUiT.alice.b@gmail.com",
+			"comments":"This student's name is Alice Betsy",
+			"institute":"National University of Singapore"
+		},
+		"SFQSubmitUiT.charlie.d":{
+			"googleId":"SFQSubmitUiT.charlie.d",
+			"name":"Charlie D.",
+			"isInstructor":false,
+			"email":"SFQSubmitUiT.charlie.d@gmail.com",
+			"institute":"National University of Singapore"
+		},
+		"SFQSubmitUiT.danny.e":{
+			"googleId":"SFQSubmitUiT.danny.e",
+			"name":"Danny E.",
+			"isInstructor":false,
+			"email":"SFQSubmitUiT.danny.e@gmail.com",
+			"institute":"National University of Singapore"
+		},
+		"SFQSubmitUiT.emily.f":{
+			"googleId":"SFQSubmitUiT.emily.f",
+			"name":"Emily F.",
+			"isInstructor":false,
+			"email":"SFQSubmitUiT.emily.f@gmail.com",
+			"institute":"National University of Singapore"
+		}
+	},
+	"courses":{
+		"SFQSubmitUiT.CS2104":{
+			"id":"SFQSubmitUiT.CS2104",
+			"name":"Programming Language Concepts"
+		}
+	},
+	"instructors":{
+		"SFQSubmitUiT.instr":{
+			"googleId":"SFQSubmitUiT.instr",
+			"courseId":"SFQSubmitUiT.CS2104",
+			"name":"Teammates Test",
+			"email":"SFQSubmitUiT.instr@gmail.com"
+		}
+	},
+	"students":{
+		"Alice":{
+			"googleId":"SFQSubmitUiT.alice.b",
+			"email":"SFQSubmitUiT.alice.b@gmail.com",
+			"course":"SFQSubmitUiT.CS2104",
+			"name":"Alice Betsy",
+			"comments":"This student's name is Alice Betsy",
+			"team":"Team 1"
+		},
+		"Benny":{
+			"googleId":"SFQSubmitUiT.benny.c",
+			"email":"SFQSubmitUiT.benny.c@gmail.com",
+			"course":"SFQSubmitUiT.CS2104",
+			"name":"Benny Charles",
+			"comments":"This student's name is Benny Charles",
+			"team":"Team 1"
+		},
+		"Charlie":{
+			"googleId":"SFQSubmitUiT.charlie.d",
+			"email":"SFQSubmitUiT.charlie.d@gmail.com",
+			"course":"SFQSubmitUiT.CS2104",
+			"name":"Charlie Davis",
+			"comments":"This student's name is Charlie Davis",
+			"team":"Team 2"
+		},
+		"Danny":{
+			"googleId":"SFQSubmitUiT.danny.e",
+			"email":"SFQSubmitUiT.danny.e@gmail.com",
+			"course":"SFQSubmitUiT.CS2104",
+			"name":"Danny Engrid",
+			"comments":"This student's name is Danny Engrid",
+			"team":"Team 2"
+		},
+		"Emily":{
+			"googleId":"SFQSubmitUiT.emily.f",
+			"email":"SFQSubmitUiT.emily.f@gmail.com",
+			"course":"SFQSubmitUiT.CS2104",
+			"name":"Emily",
+			"comments":"This student's name is Emily",
+			"team":"Team 3"
+		}
+	},
+	"feedbackSessions":{
+		"Open Session":{
+			"feedbackSessionName":"Open Session",
+			"courseId":"SFQSubmitUiT.CS2104",
+			"creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+			"instructions":{
+				"value":"Instructions for first session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2012-04-01 11:59 PM UTC",
+			"endTime":"2014-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2014-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":10,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":false
+		},
+		"Closed Session":{
+			"feedbackSessionName":"Closed Session",
+			"courseId":"SFQSubmitUiT.CS2104",
+			"creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+			"instructions":{
+				"value":"Please please fill in the second feedback session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2012-04-02 11:59 PM UTC",
+			"endTime":"2012-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2014-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":20,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":false,
+			"sentPublishedEmail":false
+		},
+		"Empty Session":{
+			"feedbackSessionName":"Empty Session",
+			"courseId":"SFQSubmitUiT.CS2104",
+			"creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+			"instructions":{
+				"value":"Please please fill in the last feedback session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2012-04-02 11:59 PM UTC",
+			"endTime":"2014-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":20,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":true
+		},
+		"Awaiting Session":{
+			"feedbackSessionName":"Awaiting Session",
+			"courseId":"SFQSubmitUiT.CS2104",
+			"creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+			"instructions":{
+				"value":"Please please fill in the last feedback session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2035-04-02 11:59 PM UTC",
+			"endTime":"2035-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":20,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":true,
+			"sentPublishedEmail":true
+		}
+	},
+	"feedbackQuestions":{
+		"qn1InSession1":{
+			"feedbackSessionName":"Open Session",
+			"courseId":"SFQSubmitUiT.CS2104",
+			"creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"What is the best selling point of your product?"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn1InSession2":{
+			"feedbackSessionName":"Closed Session",
+			"courseId":"SFQSubmitUiT.CS2104",
+			"creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"Give feedback to your instructors"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"INSTRUCTORS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn1InSession4":{
+			"feedbackSessionName":"Awaiting Session",
+			"courseId":"SFQSubmitUiT.CS2104",
+			"creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"Give feedback to your instructors"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"INSTRUCTORS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		}
+	}
+}

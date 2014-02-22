@@ -4,7 +4,7 @@
          <link href="/favicon.png"  rel="shortcut icon" />
                   <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
                   <title>
-            TEAMMATES - Submit Feedback
+            TEAMMATES - Submit Feedback Question
          </title>
          <link href="/stylesheets/common.css"  media="screen"  rel="stylesheet"  type="text/css" />
                   <link href="/stylesheets/common-print.css"  media="print"  rel="stylesheet"  type="text/css" />
@@ -25,67 +25,19 @@
          </script>
       </head>
       <body>
-         <div id="frameTop" >
-            <div id="frameTopWrapper" >
-               <div id="logo" >
-                  <a href="/index.html" >
-                     <img alt="TEAMMATES"  height="47px"  src="/images/teammateslogo.jpg"  width="150px" />
-                                       </a>
-               </div>
-               <div id="contentLinks" >
-                  <ul id="navbar" >
-                     <li>
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=IFSubmitUiT.instr" >
-                           Home
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=IFSubmitUiT.instr" >
-                           Courses
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=IFSubmitUiT.instr" >
-                           Sessions
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=IFSubmitUiT.instr" >
-                           Students
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
-                           Help
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav logout"  href="/logout.jsp" >
-                           Logout
-                        </a>
-                        <b>
-                           (IFSubmitUiT.instr)
-                        </b>
-                     </li>
-                  </ul>
-               </div>
-               <div style="clear: both;" >
-               </div>
-            </div>
-         </div>
-         <div id="frameBody" >
+         <div id="frameBody"  style="top:0px;" >
             <div id="frameBodyWrapper" >
                <div id="topOfPage" >
                </div>
                <div id="headerOperation" >
                   <h1>
-                     Submit Feedback
+                     Submit Feedback Question
                   </h1>
                </div>
-               <form action="/page/instructorFeedbackSubmissionEditSave"  method="post"  name="form_submit_response" >
-                  <input name="fsname"  type="hidden"  value="Fourth Session" />
-                                    <input name="courseid"  type="hidden"  value="IFSubmitUiT.CS2104" />
-                                    <input name="user"  type="hidden"  value="IFSubmitUiT.instr" />
+               <form action="/page/instructorFeedbackQuestionSubmissionEditSave"  method="post"  name="form_submit_response" >
+                  <input name="fsname"  type="hidden"  value="Closed Session" />
+                                    <input name="courseid"  type="hidden"  value="IFQSubmitUiT.CS2104" />
+                                    <input name="user"  type="hidden"  value="IFQSubmitUiT.instr" />
                                     <table class="inputTable" >
                      <tbody>
                         <tr>
@@ -93,7 +45,7 @@
                               Course:
                            </td>
                            <td colspan="2" >
-                              IFSubmitUiT.CS2104
+                              IFQSubmitUiT.CS2104
                            </td>
                         </tr>
                         <tr>
@@ -101,7 +53,7 @@
                               Session Name:
                            </td>
                            <td colspan="3" >
-                              Fourth Session
+                              Closed Session
                            </td>
                         </tr>
                         <tr>
@@ -109,13 +61,13 @@
                               Open from:
                            </td>
                            <td>
-                              02 Apr 2035, 23:59
+                              02 Apr 2014, 23:59
                            </td>
                            <td class="bold" >
                               To:
                            </td>
                            <td>
-                              30 Apr 2035, 23:59
+                              30 Apr 2014, 23:59
                            </td>
                         </tr>
                         <tr>
@@ -129,12 +81,26 @@
                      </tbody>
                   </table>
                   <br/>
-                                    <div id="statusMessage"  style="display: none;" >
+                                    <div id="statusMessage"  style="display: block;" >
+                     You are currently submitting as
+                     <span class="bold" >
+                        Teammates Test (IFQSubmitUiT.instr)
+                     </span>
+                     . Not you? Please
+                     <a href="/logout.jsp" >
+                        logout
+                     </a>
+                     and try again.
+                     <br/>
+                                          You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
                   </div>
+                  <script type="text/javascript" >
+                     document.getElementById( 'statusMessage' ).scrollIntoView();
+                  </script>
                   <br/>
-                                    <input name="questiontype-1"  type="hidden"  value="TEXT" />
-                                    <input name="questionid-1"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-1"  type="hidden"  value="4" />
+                                    <input name="questiontype"  type="hidden"  value="TEXT" />
+                                    <input name="questionid"  type="hidden"  value="{*}" />
+                                    <input name="questionresponsetotal"  type="hidden"  value="4" />
                                     <table class="inputTable responseTable" >
                      <tbody>
                         <tr style="border-bottom: 3px dotted white;" >
@@ -171,16 +137,16 @@
                               <select class="participantSelect middlealign newResponse"  name="responserecipient-1-0"  style="display:none" >
                                  <option selected="selected"  value="" >
                                  </option>
-                                 <option value="IFSubmitUiT.instr2@gmail.com" >
+                                 <option value="IFQSubmitUiT.instr2@gmail.com" >
                                     Teammates Test2
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr3@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr3@gmail.com" >
                                     Teammates Test3
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr4@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr4@gmail.com" >
                                     Teammates Test4
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr5@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr5@gmail.com" >
                                     Teammates Test5
                                  </option>
                               </select>
@@ -201,16 +167,16 @@
                               <select class="participantSelect middlealign newResponse"  name="responserecipient-1-1"  style="display:none" >
                                  <option selected="selected"  value="" >
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr2@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr2@gmail.com" >
                                     Teammates Test2
                                  </option>
-                                 <option value="IFSubmitUiT.instr3@gmail.com" >
+                                 <option value="IFQSubmitUiT.instr3@gmail.com" >
                                     Teammates Test3
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr4@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr4@gmail.com" >
                                     Teammates Test4
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr5@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr5@gmail.com" >
                                     Teammates Test5
                                  </option>
                               </select>
@@ -231,16 +197,16 @@
                               <select class="participantSelect middlealign newResponse"  name="responserecipient-1-2"  style="display:none" >
                                  <option selected="selected"  value="" >
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr2@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr2@gmail.com" >
                                     Teammates Test2
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr3@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr3@gmail.com" >
                                     Teammates Test3
                                  </option>
-                                 <option value="IFSubmitUiT.instr4@gmail.com" >
+                                 <option value="IFQSubmitUiT.instr4@gmail.com" >
                                     Teammates Test4
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr5@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr5@gmail.com" >
                                     Teammates Test5
                                  </option>
                               </select>
@@ -261,16 +227,16 @@
                               <select class="participantSelect middlealign newResponse"  name="responserecipient-1-3"  style="display:none" >
                                  <option selected="selected"  value="" >
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr2@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr2@gmail.com" >
                                     Teammates Test2
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr3@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr3@gmail.com" >
                                     Teammates Test3
                                  </option>
-                                 <option style="display: none;"  value="IFSubmitUiT.instr4@gmail.com" >
+                                 <option style="display: none;"  value="IFQSubmitUiT.instr4@gmail.com" >
                                     Teammates Test4
                                  </option>
-                                 <option value="IFSubmitUiT.instr5@gmail.com" >
+                                 <option value="IFQSubmitUiT.instr5@gmail.com" >
                                     Teammates Test5
                                  </option>
                               </select>
@@ -288,39 +254,12 @@
                   <br/>
                                     <br/>
                                     <div class="bold centeralign" >
-                     You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
-                  </div>
+                     <input class="button"  disabled="disabled"  id="response_submit_button"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')"  style="background: #66727A;"  type="submit"  value="Save Feedback" />
+                                       </div>
                   <br/>
                                     <br/>
                                  </form>
             </div>
          </div>
-         <div id="frameBottom" >
-            <div id="contentFooter" >
-               <span class="floatleft" >
-                  [TEAMMATES
-                  <span class="color_white" >
-                     V{$version}
-                  </span>
-                  ]
-               </span>
-               [for
-               <span class="color_white" >
-                  National University of Singapore
-               </span>
-               ]
-               <span class="floatright" >
-                  [Send
-                  <span class="color_white" >
-                     <a href="../contact.html"  target="_blank" >
-                        Feedback
-                     </a>
-                  </span>
-                  ]
-               </span>
-            </div>
-         </div>
       </body>
    </html>
-
-

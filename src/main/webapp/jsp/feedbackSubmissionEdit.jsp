@@ -59,7 +59,7 @@
 		<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
 		<table class="inputTable responseTable">
 			<tr style="border-bottom: 3px dotted white;">
-				<td class="bold" colspan="2" style="white-space:pre-wrap;">Question <%=qnIndx%>:</br><%=sanitizeForHtml(questionDetails.questionText)%></td>
+				<td class="bold" colspan="2" style="white-space:pre-wrap;">Question <%=qnIndx%>:<br/><%=sanitizeForHtml(questionDetails.questionText)%></td>
 			</tr>
 			<tr><td class="bold" colspan="2">Only the following persons can see your responses:</tr>
 			<tr style="border-bottom: 3px dotted white;">
