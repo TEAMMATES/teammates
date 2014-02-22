@@ -1,4 +1,6 @@
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.StringHelper"%>
+<%@ page import="teammates.logic.api.Logic"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -30,6 +32,7 @@
 						<li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
 						<li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
 						<li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
+						<li><a href="#instructorCourseEvalPreviewPage">Instructor Eval Preview Page</a></li>
 					    <li><a href="#instructorCourseEvalResultsPage1">Instructor Eval Results Page (instructorEvaluationSummaryTable)</a></li>
 						<li><a href="#instructorCourseEvalResultsPage2">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</a></li>
 						<li><a href="#instructorCourseEvalResultsPage3">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</a></li>
@@ -37,6 +40,8 @@
 						<li><a href="#instructorCourseEvalSubmissionEditPage">Instructor Eval Submission Edit Page</a></li>
 						<li><a href="#instructorFeedbackPage">Instructor Feedback Page</a></li>
 						<li><a href="#instructorFeedbackEditPage">Instructor Feedback Edit Page</a></li>
+						<li><a href="#instructorFeedbackPreviewAsStudentPage">Instructor Feedback Preview as Student Page</a></li>
+						<li><a href="#instructorFeedbackPreviewAsInstructorPage">Instructor Feedback Preview as Instructor Page</a></li>
 						<li><a href="#instructorFeedbackResultsPageByGiver">Instructor Feedback Results Page (By giver)</a></li>
 						<li><a href="#instructorFeedbackResultsPageByRecipient">Instructor Feedback Results Page (By recipient)</a></li>
 						<li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>						
@@ -46,6 +51,7 @@
 					<h2>Student Pages</h2>
 					<ul class="nav">
 						<li><a href="#studentHomePage">Student Home Page</a></li>
+						<li><a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a></li>
 						<li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
 						<li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
 						<li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
@@ -93,6 +99,9 @@
 		<div class="pageinfo">Instructor Eval Edit Page</div>
 		<div id="instructorCourseEvalEditPage" class="wrapper"></div>
 		
+		<div class="pageinfo">Instructor Eval Preview Page</div>
+		<div id="instructorCourseEvalPreviewPage" class="wrapper"></div>
+		
 		<div class="pageinfo">Instructor Eval Results Page (instructorEvaluationSummaryTable)</div>
 		<div id="instructorCourseEvalResultsPage1" class="wrapper"></div>
 		
@@ -114,6 +123,12 @@
 		<div class="pageinfo">Instructor Feedback Edit Page</div>
 		<div id="instructorFeedbackEditPage" class="wrapper"></div>
 		
+		<div class="pageinfo">Instructor Feedback Preview as Student Page</div>
+		<div id="instructorFeedbackPreviewAsStudentPage" class="wrapper"></div>
+		
+		<div class="pageinfo">Instructor Feedback Preview as Instructor Page</div>
+		<div id="instructorFeedbackPreviewAsInstructorPage" class="wrapper"></div>
+		
 		<div class="pageinfo">Instructor Feedback Results Page (By giver)</div>
 		<div id="instructorFeedbackResultsPageByGiver" class="wrapper"></div>		
 		
@@ -128,6 +143,9 @@
 		<br></br>
 		<div class="pageinfo">Student Home Page</div>
 		<div id="studentHomePage" class="wrapper"></div>
+		
+		<div class="pageinfo">Student Course Join Confirmation Page</div>
+		<div id="studentCourseJoinConfirmationPage" class="wrapper"></div>
 		
 		<div class="pageinfo">Student Course Details Page</div>
 		<div id="studentCourseDetailsPage" class="wrapper"></div>
@@ -190,6 +208,7 @@
 			$('#instructorCourseStudentEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
 			$('#instructorCourseEvalPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper");
 			$('#instructorCourseEvalEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
+			$('#instructorCourseEvalPreviewPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
 			$('#instructorCourseEvalResultsPage1').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
 			$('#instructorCourseEvalResultsPage2').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
 				$('#instructorCourseEvalResultsPage2').find('#instructorEvaluationSummaryTable').hide();
@@ -203,11 +222,17 @@
 			$('#instructorCourseEvalSubmissionEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
 			$('#instructorFeedbackPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>?user=teammates.test #frameBodyWrapper");
 			$('#instructorFeedbackEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+			$('#instructorFeedbackPreviewAsStudentPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper");
+			$('#instructorFeedbackPreviewAsInstructorPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper");
 			$('#instructorFeedbackResultsPageByGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver #frameBodyWrapper");
 			$('#instructorFeedbackResultsPageByRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient #frameBodyWrapper");
 			$('#instructorFeedbackResultsPageByTable').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=table #frameBodyWrapper");
 			
 			$('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper");
+			<%
+				String regkey = StringHelper.encrypt(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com").key);
+			%>
+			$('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?regkey=<%=regkey%> #frameBodyWrapper");
 			$('#studentCourseDetailsPage').load("<%=Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
 			$('#studentEvalEditPage').load("<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
 			$('#studentEvalResultsPage').load("<%=Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper");
