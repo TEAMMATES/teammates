@@ -160,27 +160,51 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		assertEquals(expectedLogMessage, a.getLogMessage());
 		
 		
-		______TS("Just joined course, course not appearing due to eventual consistency");
-		submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "inconsistentCourse"};
+		______TS("New student with no existing course, course join affected by eventual consistency");
+		submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"};
+		studentId = "newStudent";
+		gaeSimulation.loginUser(studentId);
+		a = getAction(submissionParams);
+		r = getShowPageResult(a);
+		data = (StudentHomePageData)r.data;
+		assertEquals(1, data.courses.size());
+		assertEquals("idOfTypicalCourse1", data.courses.get(0).course.id);
+		assertEquals(2, data.evalSubmissionStatusMap.keySet().size());
+		assertEquals(
+				"{idOfTypicalCourse1%evaluation2 In Course1=Pending, " +
+				"idOfTypicalCourse1%evaluation1 In Course1=Pending}", 
+				data.evalSubmissionStatusMap.toString());
+		
+		
+		______TS("Registered student with existing courses, course join affected by eventual consistency");
+		submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse2"};
 		student1InCourse1 = dataBundle.students.get("student1InCourse1");
 		studentId = student1InCourse1.googleId;
 		gaeSimulation.loginUser(studentId);
 		a = getAction(submissionParams);
 		r = getShowPageResult(a);
-		assertEquals("You have successfully joined the course inconsistentCourse. "
-				+ "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
-				+ "<br>Please refresh this page in a few minutes to see the course inconsistentCourse in the list below."
-				, r.getStatusMessage());
+		data = (StudentHomePageData)r.data;
+		assertEquals(2, data.courses.size());
+		assertEquals("idOfTypicalCourse2", data.courses.get(1).course.id);
+		assertEquals(5, data.evalSubmissionStatusMap.keySet().size());
+		assertEquals(
+				"{idOfTypicalCourse2%published eval=Published, " +
+				"idOfTypicalCourse2%Closed eval=Closed, " +
+				"idOfTypicalCourse1%evaluation2 In Course1=Pending, " +
+				"idOfTypicalCourse1%evaluation1 In Course1=Submitted, " +
+				"idOfTypicalCourse2%evaluation1 In Course2=Pending}", 
+				data.evalSubmissionStatusMap.toString());
 		
 		
-		______TS("Just joined course, course not affected by eventual consistency and appears in list");
+		______TS("Just joined course, course join not affected by eventual consistency and appears in list");
 		submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"};
 		student1InCourse1 = dataBundle.students.get("student1InCourse1");
 		studentId = student1InCourse1.googleId;
 		gaeSimulation.loginUser(studentId);
 		a = getAction(submissionParams);
 		r = getShowPageResult(a);
-		assertEquals("",r.getStatusMessage());
+		data = (StudentHomePageData)r.data;
+		assertEquals(1, data.courses.size());
 	}
 
 	private StudentHomePageAction getAction(String... params) throws Exception{
