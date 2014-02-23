@@ -26,15 +26,18 @@
   "courses": {
     "course1": {
       "id": "course1",
-      "name": "Name of Course 1"
+      "name": "Name of Course 1",
+      "isArchived": false
     },
     "course2": {
       "id": "course2",
-      "name": "Name of Course 2"
+      "name": "Name of Course 2",
+      "isArchived": false
     },
     "course3": {
       "id": "course3",
-      "name": "Name of Course 3"
+      "name": "Name of Course 3",
+      "isArchived": false
     }
   },
 

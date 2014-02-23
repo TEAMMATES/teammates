@@ -983,6 +983,66 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 
 	@Test
+	public void testGetArchivedCoursesForInstructor() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("fail: null parameter");	
+		try {
+			logic.getArchivedCoursesForInstructor(null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+		______TS("success: instructor with archive course");
+		String instructorId = getTypicalDataBundle().instructors.get("instructorOfArchivedCourse").googleId;
+		
+		List<CourseAttributes> archivedCourses = logic.getArchivedCoursesForInstructor(instructorId);
+		
+		assertEquals(1, archivedCourses.size());
+		assertEquals(true, archivedCourses.get(0).isArchived);
+	
+		______TS("fail: instructor without archive courses");
+		instructorId = getTypicalDataBundle().instructors.get("instructor1OfCourse1").googleId;
+		
+		archivedCourses = logic.getArchivedCoursesForInstructor(instructorId);
+		
+		assertEquals(0, archivedCourses.size());
+	}
+	
+	@Test
+	public void testSetArchiveStatusOfCourse() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("fail: null parameter");	
+		try {
+			logic.setArchiveStatusOfCourse(null, true);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+		______TS("fail: course doesn't exist");	
+		try {
+			logic.setArchiveStatusOfCourse("non-exist-course", true);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException a) {
+			assertEquals("Course does not exist: non-exist-course", a.getMessage());
+		}
+		
+		______TS("success: archive course");
+		String courseId = dataBundle.courses.get("sampleCourse").id;
+		
+		logic.setArchiveStatusOfCourse(courseId, true);
+		assertEquals(true, coursesDb.getCourse(courseId).isArchived);
+		
+		______TS("success: unarchive course");
+		
+		logic.setArchiveStatusOfCourse(courseId, false);
+		assertEquals(false, coursesDb.getCourse(courseId).isArchived);
+	}
+	
+	@Test
 	public void testUpdateCourse() {
 		// method not implemented
 	}

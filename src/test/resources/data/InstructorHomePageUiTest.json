@@ -11,11 +11,13 @@
 	"courses":{
 		"CHomeUiT.CS2104":{
 			"id":"CHomeUiT.CS2104",
-			"name":"Programming Language Concepts"
+			"name":"Programming Language Concepts",
+			"isArchived":false
 		},
 		"CHomeUiT.CS1101":{
 			"id":"CHomeUiT.CS1101",
-			"name":"Programming Methodology"
+			"name":"Programming Methodology",
+			"isArchived":false
 		}
 	},
 	"instructors":{

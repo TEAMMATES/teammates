@@ -64,7 +64,8 @@ public class BackDoorLogic extends Logic {
 		HashMap<String, CourseAttributes> courses = dataBundle.courses;
 		for (CourseAttributes course : courses.values()) {
 			log.fine("API Servlet adding course :" + course.id);
-			this.createCourse(course.id, course.name);
+			this.createCourseWithArchiveStatus(course.id, course.name, course.isArchived);
+			
 		}
 
 		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
@@ -276,12 +277,13 @@ public class BackDoorLogic extends Logic {
 	 * Creates a COURSE without an INSTRUCTOR relation
 	 * Used in persisting DataBundles for Test cases
 	 */
-	public void createCourse(String courseId, String courseName) 
-			throws EntityAlreadyExistsException, InvalidParametersException {
+	public void createCourseWithArchiveStatus(String courseId, String courseName, boolean archiveStatus) 
+			throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
 
 		coursesLogic.createCourse(courseId, courseName);
+		coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
 	}
 
 	private void deleteExistingData(DataBundle dataBundle) {

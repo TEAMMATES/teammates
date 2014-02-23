@@ -26,15 +26,18 @@
   "courses": {
     "CS2104": {
       "id": "ISR.CS2104",
-      "name": "Programming Language Concepts"
+      "name": "Programming Language Concepts",
+      "isArchived": false
     },
     "CS1101": {
       "id": "ISR.CS1101",
-      "name": "Programming Methodology"
+      "name": "Programming Methodology",
+      "isArchived": false
     },
     "NoEvalCourse": {
     	"id": "ISR.NoEval",
-    	"name": "No Eval Course"
+    	"name": "No Eval Course",
+    	"isArchived": false
     }
   },
   

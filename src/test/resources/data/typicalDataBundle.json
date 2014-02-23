@@ -56,6 +56,13 @@
 			"email":"iwosc@yahoo.com",
 			"institute":"NTU"
 		},
+		"instructorOfArchivedCourse":{
+			"googleId":"idOfInstructorOfArchivedCourse",
+			"name":"InstructorOfArchiveCourse name",
+			"isInstructor":true,
+			"email":"instructorOfArchiveCourse@archiveCourse.com",
+			"institute":"NUS"
+		},
 		"student1InCourse1":{
 			"googleId":"student1InCourse1",
 			"name":"Student 1 in course 1",
@@ -75,19 +82,28 @@
 	"courses":{
 		"typicalCourse1":{
 			"id":"idOfTypicalCourse1",
-			"name":"Typical Course 1 with 2 Evals"
+			"name":"Typical Course 1 with 2 Evals",
+			"isArchived":false
 		},
 		"typicalCourse2":{
 			"id":"idOfTypicalCourse2",
-			"name":"Typical Course 2 with 1 Evals"
+			"name":"Typical Course 2 with 1 Evals",
+			"isArchived":false
 		},
 		"courseNoEvals":{
 			"id":"idOfCourseNoEvals",
-			"name":"Typical Course 3 with 0 Evals"
+			"name":"Typical Course 3 with 0 Evals",
+			"isArchived":false
 		},
 		"sampleCourse":{
 			"id":"idOfSampleCourse-demo",
-			"name":"Sample Course"
+			"name":"Sample Course",
+			"isArchived":false
+		},
+		"archivedCourse":{
+			"id":"idOfArchivedCourse",
+			"name":"Archived Course",
+			"isArchived":true
 		}
 	},
 	"instructors":{
@@ -138,6 +154,12 @@
 			"courseId":"idOfSampleCourse-demo",
 			"name":"Instructor With Only One Sample Course",
 			"email":"iwosc@yahoo.com"
+		},
+		"instructorOfArchivedCourse":{
+			"googleId":"idOfInstructorOfArchivedCourse",
+			"courseId":"idOfArchivedCourse",
+			"name":"InstructorOfArchiveCourse name",
+			"email":"instructorOfArchiveCourse@archiveCourse.com"
 		}
 	},
 	"students":{

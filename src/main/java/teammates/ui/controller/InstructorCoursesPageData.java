@@ -15,7 +15,8 @@ public class InstructorCoursesPageData extends PageData {
 	/** Used when adding a course. Null if not adding a course. */
 	public CourseAttributes newCourse;
 	
-	public List<CourseDetailsBundle> currentCourses;
+	public List<CourseDetailsBundle> allCourses;
+	public List<CourseAttributes> archivedCourses;
 	
 	/* Values to show in the form fields (in case reloading the page after a 
 	 *   failed attempt to create a course)*/

@@ -428,7 +428,7 @@ public class Logic {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
-	 * @return A less deatailed version of courses for this instructor without stats
+	 * @return A less detailed version of courses for this instructor without stats
 	 *   Returns an empty list if none found.
 	 */
 	public HashMap<String, CourseSummaryBundle> getCourseSummariesWithoutStatsForInstructor(String googleId) 
@@ -444,7 +444,7 @@ public class Logic {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
-	 * @return A more deatailed version of courses for this instructor. 
+	 * @return A more detailed version of courses for this instructor. 
 	 *   Returns an empty list if none found.
 	 */
 	public HashMap<String, CourseDetailsBundle> getCourseDetailsListForInstructor(
@@ -461,7 +461,7 @@ public class Logic {
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
-	 * @return A less deatailed version of courses for this instructor. 
+	 * @return A less detailed version of courses for this instructor. 
 	 *   Returns an empty list if none found.
 	 */
 	public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) 
@@ -473,6 +473,20 @@ public class Logic {
 	
 		return coursesLogic.getCourseSummariesForInstructor(googleId);
 	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return All archived courses for this instructor.
+	 */
+	public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId)
+			throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+	
+		return coursesLogic.getArchivedCoursesForInstructor(googleId);
+	}
+	
 	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
@@ -493,6 +507,22 @@ public class Logic {
 	public void updateCourse(CourseAttributes course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing courses");
+	}
+	
+	/**
+	 * Change the archive status of a course.<br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @param courseId The course of which the archive status is to be changed
+	 * @param archiveStatus The archive status to be set
+	 */
+	public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		coursesLogic.verifyCourseIsPresent(courseId);
+		
+		coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
 	}
 	
 	

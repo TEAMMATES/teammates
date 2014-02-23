@@ -33,7 +33,8 @@
   "courses": {
     "SEvalEditUiT.CS2104": {
       "id": "SEvalEditUiT.CS2104",
-      "name": "Programming Language Concepts"
+      "name": "Programming Language Concepts",
+      "isArchived": false
     }
   },
   

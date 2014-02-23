@@ -19,15 +19,18 @@
   "courses": {
     "SHomeUiT.CS2104": {
       "id": "SHomeUiT.CS2104",
-      "name": "Programming Language Concepts"
+      "name": "Programming Language Concepts",
+      "isArchived": false
     },
     "SHomeUiT.CS1101": {
       "id": "SHomeUiT.CS1101",
-      "name": "Programming Methodology"
+      "name": "Programming Methodology",
+      "isArchived": false
     },
     "SHomeUiT.CS4215": {
       "id": "SHomeUiT.CS4215",
-      "name": "Programming Language Implementation"
+      "name": "Programming Language Implementation",
+      "isArchived": false
     }
   },
   

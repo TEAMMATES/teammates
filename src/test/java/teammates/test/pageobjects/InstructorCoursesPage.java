@@ -55,6 +55,18 @@ public class InstructorCoursesPage extends AppPage {
 		return this;
 	}
 	
+	public InstructorCoursesPage archiveCourse(String courseId) {
+		getArchiveLink(courseId).click();
+		waitForPageToLoad();
+		return this;
+	}
+	
+	public InstructorCoursesPage unarchiveCourse(String courseId) {
+		getUnarchiveLink(courseId).click();
+		waitForPageToLoad();
+		return this;
+	}
+	
 	public String fillCourseIdTextBox(String value){
 		fillTextBox(courseIdTextBox, value);
 		return getTextBoxValue(courseIdTextBox);
@@ -79,7 +91,17 @@ public class InstructorCoursesPage extends AppPage {
 		int courseRowNumber = getRowNumberOfCourse(courseId);
 		return getDeleteLinkInRow(courseRowNumber);
 	}
-
+	
+	public WebElement getArchiveLink(String courseId) {
+		int courseRowNumber = getRowNumberOfCourse(courseId);
+		return getArchiveLinkInRow(courseRowNumber);
+	}
+	
+	public WebElement getUnarchiveLink(String courseId) {
+		int courseRowNumber = getRowNumberOfCourse(courseId);
+		return getUnarchiveLinkInRow(courseRowNumber);
+	}
+	
 	public InstructorCoursesPage sortByCourseName() {
 		sortByCourseNameIcon.click();
 		return this;
@@ -124,6 +146,16 @@ public class InstructorCoursesPage extends AppPage {
 	private WebElement getDeleteLinkInRow(int rowId) {
 		By deleteLink =  By.className("t_course_delete" + rowId);
 		return browser.driver.findElement(deleteLink);
+	}
+	
+	private WebElement getArchiveLinkInRow(int rowId) {
+		By archiveLink =  By.className("t_course_archive" + rowId);
+		return browser.driver.findElement(archiveLink);
+	}
+	
+	private WebElement getUnarchiveLinkInRow(int rowId) {
+		By archiveLink =  By.className("t_course_unarchive" + rowId);
+		return browser.driver.findElement(archiveLink);
 	}
 
 	private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {

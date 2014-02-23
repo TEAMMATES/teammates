@@ -18,7 +18,7 @@ public class CourseAttributes extends EntityAttributes {
 	public String id;
 	public String name;
 	public Date createdAt;
-
+	public boolean isArchived;
 	
 	public CourseAttributes() {
 
@@ -27,12 +27,26 @@ public class CourseAttributes extends EntityAttributes {
 	public CourseAttributes(String courseId, String name) {
 		this.id = Sanitizer.sanitizeTitle(courseId);
 		this.name = Sanitizer.sanitizeTitle(name);
+		this.isArchived = false;
+	}
+	
+	public CourseAttributes(String courseId, String name, boolean archiveStatus) {
+		this.id = Sanitizer.sanitizeTitle(courseId);
+		this.name = Sanitizer.sanitizeTitle(name);
+		this.isArchived = archiveStatus;
 	}
 
 	public CourseAttributes(Course course) {
 		this.id = course.getUniqueId();
 		this.name = course.getName();
 		this.createdAt = course.getCreatedAt();
+		
+		Boolean status = course.getArchiveStatus();
+		if (status == null) {
+			this.isArchived = false;
+		} else {
+			this.isArchived = status.booleanValue(); 
+		}
 	}
 	
 	public List<String> getInvalidityInfo() {
@@ -51,11 +65,11 @@ public class CourseAttributes extends EntityAttributes {
 	}
 
 	public Course toEntity() {
-		return new Course(id, name);
+		return new Course(id, name, Boolean.valueOf(isArchived));
 	}
 
 	public String toString() {
-		return "["+CourseAttributes.class.getSimpleName() +"] id: " + id +" name: "+ name;
+		return "["+CourseAttributes.class.getSimpleName() +"] id: " + id +" name: "+ name + " isArchived: " + isArchived;
 	}
 
 	@Override

@@ -33,11 +33,13 @@
   "courses": {
     "AAMgtUiT.CS2103": {
       "id": "AAMgtUiT.CS2103",
-      "name": "Software Engineering"
+      "name": "Software Engineering",
+      "isArchived": false
     },
     "AAMgtUiT.CS1101": {
       "id": "AAMgtUiT.CS1101",
-      "name": "Programming Methodology"
+      "name": "Programming Methodology",
+      "isArchived": false
     }
   },
 

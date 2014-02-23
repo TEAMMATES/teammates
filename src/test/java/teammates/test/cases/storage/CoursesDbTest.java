@@ -5,11 +5,13 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.Assert;
+import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
@@ -67,8 +69,53 @@ public class CoursesDbTest extends BaseComponentTestCase {
 	}
 	
 	@Test
-	public void testUpdateCourse() {
-		// Not implemented
+	public void testUpdateCourse() throws Exception {
+		
+		______TS("null paramater");
+		try {
+			coursesDb.updateCourse(null);
+			Assert.fail();
+		} catch (AssertionError ae) {
+			AssertJUnit.assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
+		
+		______TS("fail: course with invalid parameters");
+		
+		CourseAttributes course = new CourseAttributes();
+		course.id = "";
+		course.name = "";
+		course.isArchived = true;
+		
+		try {
+			coursesDb.updateCourse(course);
+			signalFailureToDetectException();
+		} catch (InvalidParametersException e) {
+			ignoreExpectedException();
+		}
+		
+		______TS("fail: non-exisitng course");
+		
+		course = new CourseAttributes();
+		course.id = "CDbT.non-exist-course";
+		course.name = "Non existing course";
+		
+		try {
+			coursesDb.updateCourse(course);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals(CoursesDb.ERROR_UPDATE_NON_EXISTENT_COURSE, e.getMessage());
+		}
+		
+		______TS("success: typical case");
+		
+		course = createNewCourse();
+		course.isArchived = true;
+		
+		coursesDb.updateCourse(course);
+		
+		CourseAttributes courseRetrieved = coursesDb.getCourse(course.id);
+		assertEquals(true, courseRetrieved.isArchived);
+		
 	}
 	
 	@Test

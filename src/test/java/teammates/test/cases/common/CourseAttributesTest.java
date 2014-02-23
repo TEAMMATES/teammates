@@ -14,6 +14,8 @@ import teammates.test.cases.BaseTestCase;
 
 public class CourseAttributesTest extends BaseTestCase {
 
+	//TODO: add test for constructor
+	
 	@BeforeClass
 	public static void setupClass() throws Exception {
 		printTestClassHeader();
@@ -52,7 +54,7 @@ public class CourseAttributesTest extends BaseTestCase {
 	@Test
 	public void testToString(){
 		CourseAttributes c = generateValidCourseAttributesObject();
-		assertEquals("valid value", "[CourseAttributes] id: valid-id-$_abc name: valid-name", c.toString());
+		assertEquals("valid value", "[CourseAttributes] id: valid-id-$_abc name: valid-name isArchived: false", c.toString());
 	}
 	
 	public static CourseAttributes generateValidCourseAttributesObject() {

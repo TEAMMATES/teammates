@@ -30,6 +30,7 @@ public class ActionFactory {
 		map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
 		map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
 		map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
+		map(INSTRUCTOR_COURSE_ARCHIVE, InstructorCourseArchiveAction.class);
 		map(INSTRUCTOR_COURSE_DETAILS_PAGE, InstructorCourseDetailsPageAction.class);
 		map(INSTRUCTOR_COURSE_REMIND, InstructorCourseRemindAction.class);
 		map(INSTRUCTOR_COURSE_EDIT_PAGE, InstructorCourseEditPageAction.class);

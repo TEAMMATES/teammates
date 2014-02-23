@@ -3,12 +3,15 @@ package teammates.test.cases.logic;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
@@ -166,6 +169,26 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 	}
 	
 	@Test
+	public void testGetArchivedCoursesForInstructor() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: instructor with archive course");
+		String instructorId = getTypicalDataBundle().instructors.get("instructorOfArchivedCourse").googleId;
+		
+		List<CourseAttributes> archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
+		
+		assertEquals(1, archivedCourses.size());
+		assertEquals(true, archivedCourses.get(0).isArchived);
+	
+		______TS("fail: instructor without archive courses");
+		instructorId = getTypicalDataBundle().instructors.get("instructor1OfCourse1").googleId;
+		
+		archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
+		
+		assertEquals(0, archivedCourses.size());
+	}
+	
+	@Test
 	public void testIsSampleCourse() {
 		
 		______TS("failure: not a sample course");
@@ -181,6 +204,36 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 		______TS("success: is a sample course with '-demo' in the middle of its id");
 		c.id = c.id.concat("-demo33");
 		assertEquals(true, coursesLogic.isSampleCourse(c.id));
+		
+	}
+	
+	@Test
+	public void testSetArchiveStatusOfCourse() throws Exception {
+		
+		CourseAttributes course = new CourseAttributes("CLogicT.new-course", "New course");
+		coursesDb.createEntity(course);
+		
+		______TS("success: archive a course");
+		coursesLogic.setArchiveStatusOfCourse(course.id, true);
+		
+		CourseAttributes courseRetrieved = coursesLogic.getCourse(course.id);
+		assertEquals(true, courseRetrieved.isArchived);
+		
+		______TS("success: unarchive a course");
+		coursesLogic.setArchiveStatusOfCourse(course.id, false);
+		
+		courseRetrieved = coursesLogic.getCourse(course.id);
+		assertEquals(false, courseRetrieved.isArchived);
+		
+		______TS("fail: course doesn't exist");
+		coursesDb.deleteCourse(course.id);
+		
+		try {
+			coursesLogic.setArchiveStatusOfCourse(course.id, true);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			AssertHelper.assertContains("course doesn't exist", e.getMessage());
+		}
 		
 	}
 			

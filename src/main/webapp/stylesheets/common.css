@@ -366,6 +366,10 @@ div#statusMessage {
 	margin: 0px 8px;
 }
 
+.dataTable td+td+td a { 
+	margin: 0px 8px;
+}
+
 .dataTable input.buttonSortAscending {
 	background: url("../images/sortUpButton.png") no-repeat top left;
 	border: 0;

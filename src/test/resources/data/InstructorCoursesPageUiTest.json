@@ -31,11 +31,13 @@
   "courses":{
 	  "CS1101": {
 	    "id": "CCAddUiTest.CS1101",
-	    "name": "Programming Methodology"
+	    "name": "Programming Methodology",
+	    "isArchived" : false
 	  },
 	  "CS2104": {
 	  	"id": "CCAddUiTest.CS2104",
-	  	"name": "Programming Language Concept"
+	  	"name": "Programming Language Concept",
+	  	"isArchived" : false
 	  }
   },
 

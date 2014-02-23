@@ -12,7 +12,8 @@
   "courses": {
     "CEvalRUiT.CS1101": {
       "id": "CEvalRUiT.CS1101",
-      "name": "Programming Methodology"
+      "name": "Programming Methodology",
+      "isArchived": false
     }
   },
   

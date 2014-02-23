@@ -365,6 +365,17 @@ public class PageData {
 		return link;
 	}
 	
+	public String getInstructorCourseArchiveLink(String courseId, boolean archiveStatus, boolean isHome) {
+		String link = Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE;
+		link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+		link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ARCHIVE_STATUS, Boolean.toString(archiveStatus));
+		link = Url.addParamToUrl(
+				link,
+				Const.ParamsNames.NEXT_URL,(isHome? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE));
+		link = addUserIdToUrl(link);
+		return link;
+	}
+	
 	public String getInstructorCourseInstructorEditLink(String courseId, String instructorId) {
 		String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
