@@ -128,8 +128,8 @@
 				"value":"Please please fill in the second feedback session"
 			},
 			"createdTime":"2012-04-01 11:59 PM UTC",
-			"startTime":"2014-04-02 11:59 PM UTC",
-			"endTime":"2014-04-30 11:59 PM UTC",
+			"startTime":"2012-04-02 11:59 PM UTC",
+			"endTime":"2012-04-30 11:59 PM UTC",
 			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
 			"resultsVisibleFromTime":"2014-05-01 11:59 PM UTC",
 			"timeZone":8.0,
@@ -155,6 +155,24 @@
 			"feedbackSessionType":"STANDARD",
 			"sentOpenEmail":true,
 			"sentPublishedEmail":true
+		},
+		"Awaiting Session":{
+			"feedbackSessionName":"Fourth Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"instructions":{
+				"value":"Please please fill in the second feedback session"
+			},
+			"createdTime":"2012-04-01 11:59 PM UTC",
+			"startTime":"2035-04-02 11:59 PM UTC",
+			"endTime":"2035-04-30 11:59 PM UTC",
+			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2014-05-01 11:59 PM UTC",
+			"timeZone":8.0,
+			"gracePeriod":20,
+			"feedbackSessionType":"STANDARD",
+			"sentOpenEmail":false,
+			"sentPublishedEmail":false
 		}
 	},
 	"feedbackQuestions":{
@@ -540,6 +558,28 @@
 		},
 		"qn1InSession2":{
 			"feedbackSessionName":"Second Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"Give feedback to your instructors"
+			},
+			"questionNumber":"1",
+			"questionType":"TEXT",
+			"giverType":"STUDENTS",
+			"recipientType":"INSTRUCTORS",
+			"numberOfEntitiesToGiveFeedbackTo":-100,
+			"showResponsesTo":[
+				"RECEIVER"
+			],
+			"showGiverNameTo":[
+				"RECEIVER"
+			],
+			"showRecipientNameTo":[
+				"RECEIVER"
+			]
+		},
+		"qn1InSession4":{
+			"feedbackSessionName":"Fourth Session",
 			"courseId":"SFSubmitUiT.CS2104",
 			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
 			"questionMetaData":{

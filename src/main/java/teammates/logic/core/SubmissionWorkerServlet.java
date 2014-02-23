@@ -27,6 +27,8 @@ public class SubmissionWorkerServlet extends HttpServlet {
 	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+		int responseCodeForRetry = 100;
+		
 		EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
 		
 		String evaluationName = HttpRequestHelper
@@ -40,12 +42,17 @@ public class SubmissionWorkerServlet extends HttpServlet {
 		EvaluationAttributes evaluation = evaluationsLogic
 				.getEvaluation(courseId, evaluationName);
 		log.info("Creating submissions for evaluation :" + evaluationName);
-		
-		try {
-			evaluationsLogic.createSubmissionsForEvaluation(evaluation);
-			log.info("Submissions for evaluation : " + evaluationName + " successfully created");
-		} catch (InvalidParametersException | EntityDoesNotExistException e) {
-			log.severe(e.getMessage());
+		if (evaluation != null) {
+			try {
+				evaluationsLogic.createSubmissionsForEvaluation(evaluation);
+				log.info("Submissions for evaluation : " + evaluationName + " successfully created");
+			} catch (InvalidParametersException | EntityDoesNotExistException e) {
+				log.severe(e.getMessage());
+			}
+		} else {
+			log.severe("Evaluation : " + evaluationName + " does not exist in the system anymore");
+			resp.setStatus(responseCodeForRetry);
 		}
+		
 	}
 }

@@ -36,7 +36,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 		setStatusToAdmin();
 		
 		if (isSessionOpenForSpecificUser() == false) {
-			throw new UnauthorizedAccessException("This feedback session is not open for submission.");
+			throw new UnauthorizedAccessException("This feedback session is not currently open for submission.");
 		}
 		
 		int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();

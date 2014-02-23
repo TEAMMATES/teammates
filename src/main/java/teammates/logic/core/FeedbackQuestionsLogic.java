@@ -1,6 +1,9 @@
 package teammates.logic.core;
 
-import static teammates.common.datatransfer.FeedbackParticipantType.*;
+import static teammates.common.datatransfer.FeedbackParticipantType.INSTRUCTORS;
+import static teammates.common.datatransfer.FeedbackParticipantType.SELF;
+import static teammates.common.datatransfer.FeedbackParticipantType.STUDENTS;
+import static teammates.common.datatransfer.FeedbackParticipantType.TEAMS;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,13 +14,16 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -156,6 +162,44 @@ public class FeedbackQuestionsLogic {
 	}
 
 	/**
+	 * Gets a given {@code FeedbackQuestion} and its previously filled {@code FeedbackResponses}
+	 * for an instructor.
+	 * a {@link FeedbackQuestionBundle}
+	 */
+	public FeedbackQuestionBundle getFeedbackQuestionBundleForInstructor(
+			String feedbackSessionName, String courseId, String feedbackQuestionId, String userEmail)
+			throws EntityDoesNotExistException {
+		FeedbackSessionAttributes fs = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
+		if (fs == null) {
+			throw new EntityDoesNotExistException("Trying to get a feedback session that does not exist.");
+		}
+				
+		FeedbackQuestionAttributes question = fqDb
+				.getFeedbackQuestion(feedbackQuestionId);
+		if (question == null) {
+			throw new EntityDoesNotExistException("Trying to get a feedback question that does not exist.");
+		} else if (question.giverType != FeedbackParticipantType.INSTRUCTORS
+				&& !(question.giverType == FeedbackParticipantType.SELF 
+						&& fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail))) {
+			throw new UnauthorizedAccessException("Trying to access a question not meant for the user.");
+		}
+
+		Assumption.assertEquals(fs.courseId, question.courseId);
+		Assumption.assertEquals(fs.feedbackSessionName, question.feedbackSessionName);
+		
+		List<FeedbackResponseAttributes> responses =
+				frLogic.getFeedbackResponsesFromGiverForQuestion(
+						question.getId(), userEmail);
+		Map<String, String> recipients =
+				getRecipientsForQuestion(question, userEmail);
+		if (question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
+			question.numberOfEntitiesToGiveFeedbackTo = recipients.size();
+		}
+
+		return new FeedbackQuestionBundle(fs, question, responses, recipients);
+	}
+	
+	/**
 	 * Gets a {@code List} of all questions for the given session that
 	 * students can view/submit.
 	 */
@@ -174,6 +218,44 @@ public class FeedbackQuestionsLogic {
 						feedbackSessionName, courseId, TEAMS));
 		
 		return questions;
+	}
+	
+	/**
+	 * Gets a given {@code FeedbackQuestion} and its previously filled {@code FeedbackResponses}
+	 * for a student.
+	 * a {@link FeedbackQuestionBundle}
+	 */
+	public FeedbackQuestionBundle getFeedbackQuestionBundleForStudent(
+			String feedbackSessionName, String courseId,
+			String feedbackQuestionId, String userEmail)
+			throws EntityDoesNotExistException {
+		FeedbackSessionAttributes fs = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
+		if (fs == null) {
+			throw new EntityDoesNotExistException("Trying to get a feedback session that does not exist.");
+		}
+		
+		FeedbackQuestionAttributes question = fqDb
+				.getFeedbackQuestion(feedbackQuestionId);
+		if (question == null) {
+			throw new EntityDoesNotExistException("Trying to get a feedback question that does not exist.");
+		} else if (question.giverType != FeedbackParticipantType.STUDENTS
+				&& question.giverType != FeedbackParticipantType.TEAMS) {
+			throw new UnauthorizedAccessException("Trying to access a question not meant for the user.");
+		}
+		
+		Assumption.assertEquals(fs.courseId, question.courseId);
+		Assumption.assertEquals(fs.feedbackSessionName, question.feedbackSessionName);
+
+		List<FeedbackResponseAttributes> responses =
+				frLogic.getFeedbackResponsesFromGiverForQuestion(
+						question.getId(), userEmail);
+		Map<String, String> recipients =
+				getRecipientsForQuestion(question, userEmail);
+		if (question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
+			question.numberOfEntitiesToGiveFeedbackTo = recipients.size();
+		}
+
+		return new FeedbackQuestionBundle(fs, question, responses, recipients);
 	}
 	
 	/**

@@ -55,8 +55,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		
 		______TS("Awaiting session");
 		
-		//TODO implement this
-		//Session and questions should be visible but cannot be answered
+		submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Awaiting Session");
+		submitPage.verifyHtml("/instructorFeedbackSubmitPageAwaiting.html");
 		
 		______TS("Open session");
 		
@@ -80,7 +80,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		
 		______TS("Private session");
 		
-		//TODO implement this
+		submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Private Session");
+		submitPage.verifyHtml("/instructorFeedbackSubmitPagePrivate.html");
 	
 	}
 	

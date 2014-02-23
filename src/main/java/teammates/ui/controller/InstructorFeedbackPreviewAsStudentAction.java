@@ -34,6 +34,7 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
 					+ ".");
 		}
 		
+		data.isSessionOpenForSubmission = true;
 		data.isPreview = true;
 		data.previewStudent = previewStudent;
 		data.bundle.resetAllResponses();

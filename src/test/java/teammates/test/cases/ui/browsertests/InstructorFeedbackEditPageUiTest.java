@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -16,6 +17,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
@@ -69,6 +71,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		testNewQuestionLink();
 		testInputValidationForQuestion();
 		testAddQuestionAction();
+		
+		testGetQuestionLink();
 		
 		testNewMcqQuestionFrame();
 		testInputValidationForMcqQuestion();
@@ -180,6 +184,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
 		assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 		feedbackEditPage.verifyHtml("/instructorFeedbackQuestionAddSuccess.html");
+	}
+	
+	private void testGetQuestionLink() {
+		
+		______TS("get individual question link");
+		
+		feedbackEditPage.clickGetLinkButton();
+		String questionId = BackDoor.getFeedbackQuestion(courseId,
+				feedbackSessionName, 1).getId();
+
+		assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
+		assertEquals(
+				"Link for question 1: " + TestProperties.inst().TEAMMATES_URL 
+						+ Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE
+						+ "?courseid=" + courseId
+						+ "&fsname=First+Session"
+						+ "&questionid=" + questionId,
+				feedbackEditPage.getStatus());
 	}
 	
 	private void testNewMcqQuestionFrame() {
@@ -446,7 +468,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 	
 	private void testCustomizeNumScaleOptions() {
 		feedbackEditPage.fillQuestionBox("NumScale qn");
-		assertEquals("[Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]", 
+		assertEquals("[Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]", 
 				feedbackEditPage.getNumScalePossibleValuesString(-1));
 		feedbackEditPage.fillStepNumScaleBox(0.3, -1);
 		assertEquals("[The interval 1 - 5 is not divisible by the specified increment.]", 
@@ -454,12 +476,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		feedbackEditPage.fillMinNumScaleBox(1, -1);
 		feedbackEditPage.fillMaxNumScaleBox(6, -1);
 		feedbackEditPage.fillStepNumScaleBox(1, -1);
-		assertEquals("[Possible values: 1, 2, 3, 4, 5, 6]", 
+		assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5, 6]", 
 				feedbackEditPage.getNumScalePossibleValuesString(-1));
 		feedbackEditPage.fillMinNumScaleBox(0, -1);
 		feedbackEditPage.fillMaxNumScaleBox(1, -1);
 		feedbackEditPage.fillStepNumScaleBox(0.1, -1);
-		assertEquals("[Possible values: 0, 0.1, 0.2, ..., 0.8, 0.9, 1]", 
+		assertEquals("[Based on the above settings, acceptable responses are: 0, 0.1, 0.2, ..., 0.8, 0.9, 1]", 
 				feedbackEditPage.getNumScalePossibleValuesString(-1));
 	}
 	
@@ -481,7 +503,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		feedbackEditPage.fillMinNumScaleBox(1, 2);
 		feedbackEditPage.fillMaxNumScaleBox(5, 2);
 		feedbackEditPage.fillStepNumScaleBox(1, 2);
-		assertEquals("[Possible values: 1, 2, 3, 4, 5]", 
+		assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]", 
 				feedbackEditPage.getNumScalePossibleValuesString(2));
 		feedbackEditPage.clickSaveExistingQuestionButton(2);
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());

@@ -8,10 +8,33 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
-import com.google.appengine.api.datastore.Text;
-
-import teammates.common.datatransfer.*;
-import teammates.common.exception.*;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseSummaryBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
+import teammates.common.datatransfer.EvaluationResultsBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionBundle;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.datatransfer.UserType;
+import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
+import teammates.common.exception.NotImplementedException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
@@ -25,6 +48,8 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
+
+import com.google.appengine.api.datastore.Text;
 
 /**
  * This class represents the API to the business logic of the system. Please
@@ -464,7 +489,7 @@ public class Logic {
 		return coursesLogic.getCourseDetailsListForStudent(googleId);
 	
 	}
-
+	
 	public void updateCourse(CourseAttributes course) throws NotImplementedException {
 		throw new NotImplementedException("Not implemented because we do "
 				+ "not allow editing courses");
@@ -1136,6 +1161,40 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
 		
 		return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * 
+	 */
+	public FeedbackQuestionBundle
+			getFeedbackQuestionBundleForInstructor(String feedbackSessionName,
+					String courseId, String feedbackQuestionId, String userEmail)
+					throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+		
+		return feedbackQuestionsLogic.getFeedbackQuestionBundleForInstructor(feedbackSessionName, courseId, feedbackQuestionId, userEmail);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 * 
+	 */
+	public FeedbackQuestionBundle
+			getFeedbackQuestionBundleForStudent(String feedbackSessionName,
+					String courseId, String feedbackQuestionId, String userEmail)
+					throws EntityDoesNotExistException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+		
+		return feedbackQuestionsLogic.getFeedbackQuestionBundleForStudent(feedbackSessionName, courseId, feedbackQuestionId, userEmail);
 	}
 	
 	/**

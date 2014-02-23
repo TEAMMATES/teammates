@@ -28,6 +28,12 @@ public class Const {
 		
 		public static final String EMAIL_TASK_QUEUE = "email-queue";
 		public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
+		public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
+								"eval-submission-adjust-queue";
+		
+		public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE = 
+								"feedback-submission-adjust-queue";
+		
 		public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
 	}
 
@@ -161,12 +167,18 @@ public class Const {
 		public static final String FEEDBACK_SESSION_NOT_CREATOR_PUBLISH = "Only the creator can publish this session";
 		public static final String FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH = "Only the creator can unpublish this session";
 		public static final String FEEDBACK_SESSION_NOT_CREATOR_DELETE = "Only the creator can delete this session";
+		
+		public static final String FEEDBACK_SESSION_EDIT_SAVE = "You can save your responses at any time and come back later to continue.";
 
 		public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
 		public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
+		public static final String FEEDBACK_QUESTION_GETLINK = "Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.";
 		public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
 		public static final String FEEDBACK_QUESTION_VISBILITY = "Here you can select how each question's response will be visible to the different types of users in your course.";
-	
+		public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
+		public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
+		public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
+		
 		public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" +
 				"<br />in the course once the results are published.";
 		public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
@@ -261,6 +273,7 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
 		public static final String FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
 		public static final String FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
+		public static final String FEEDBACK_QUESTION_GETLINK = "questiongetlink";
 		public static final String FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
 		public static final String FEEDBACK_QUESTION_SHOWGIVERTO = "showgiverto";
 		public static final String FEEDBACK_QUESTION_SHOWRECIPIENTTO = "showrecipientto";
@@ -313,11 +326,17 @@ public class Const {
 		public static final String COMMENT_EDITTYPE = "commentedittype";
 		public static final String COMMENT_ID = "commentid";
 		public static final String COMMENT_TEXT = "commenttext";
+		
 		//Submission parameters for Task Queue
 		public static final String SUBMISSION_COURSE = "course";
 		public static final String SUBMISSION_EVAL = "evaluation";
 		
+		public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
+		
 		public static final String SEARCH_KEY ="searchkey";
+		
+		//Parameters for checking persistence of data during Eventual Consistency
+		public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
 	}
 
 	public class ActionURIs{
@@ -384,6 +403,8 @@ public class Const {
 		
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
+		public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackQuestionSubmissionEditPage";
+		public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackQuestionSubmissionEditSave";
 		
 		public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
 		public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
@@ -395,6 +416,8 @@ public class Const {
 		
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
+		public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackQuestionSubmissionEditPage";
+		public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackQuestionSubmissionEditSave";
 		public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
 		
 		public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
@@ -418,6 +441,10 @@ public class Const {
 		//Task Queue Worker Servlets URI
 		public static final String EMAIL_WORKER = "/emailWorker";
 		public static final String SUBMISSION_WORKER = "/submissionWorker";
+		public static final String EVAL_SUBMISSION_ADJUSTMENT_WORKER = 
+									"/evalSubmissionAdjustmentWorker";
+		public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER = 
+									"/feedbackSubmissionAdjustmentWorker";
 	}
 
 	public class ViewURIs{
@@ -445,6 +472,7 @@ public class Const {
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT = "/jsp/instructorFeedbackResultsByRecipient.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
+		public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp"; 
 		public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
 		public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
 		public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
@@ -455,6 +483,7 @@ public class Const {
 		public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
 		public static final String STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
 		public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp"; 
+		public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/studentFeedbackQuestionSubmissionEdit.jsp"; 
 		public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp"; 
 			
 		public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
@@ -483,7 +512,9 @@ public class Const {
 		public static final String FOOTER = "/jsp/footer.jsp"; 
 		public static final String STATUS_MESSAGE = "/jsp/statusMessage.jsp";
 		public static final String STATUS_MESSAGE_WITHOUT_FOCUS = "/jsp/statusMessageWithoutFocusingToStatus.jsp";
-		public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp"; 
+		public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp";
+		public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
+		public static final String FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/feedbackQuestionSubmissionEdit.jsp"; 
 	}
 
 	/* These are status messages that may be shown to the user */
@@ -535,6 +566,14 @@ public class Const {
 		public static final String EVALUATION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
 		public static final String EVALUATION_NOT_OPEN = "This evaluation is not open at this time. You are not allowed to edit your submission.";
 		public static final String EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
+		public static final String EVALUATION_REQUEST_EXPIRED = "<div style=\"text-align:left;\">"
+				+ "The request we received seems to be incomplete. "
+				+ "This may be due to reloading a page from a submission activity you did earlier. "
+				+ "If you typed your input in the previous page, you can try to click the 'Back' button of your Browser to take a copy of what you typed. "
+				+ "If you wish to submit now, please re-login and try to submit again. "
+				+ "If your second attempt to submit did not work either, please email us at "
+				+ "<a href='mailto:teammates@comp.nus.edu.sg?subject=Evaluation Request Expired&body=System Message: Evaluation submission failed possibly due to missing parameters.'>teammates@comp.nus.edu.sg</a>."
+				+ "</div>";
 		
 		public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
 		public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
@@ -555,12 +594,16 @@ public class Const {
 		
 		public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
 				
-		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not opened.";
+		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
 		
 		public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
 		public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
 		public static final String ENROLL_LINES_PROBLEM = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>" +
 														"<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
+		
+		public static final String EVENTUAL_CONSISTENCY_MESSAGE_STUDENT = "You have successfully joined the course %1$s. "
+				+ "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
+				+ "<br>Please refresh this page in a few minutes to see the course %1$s in the list below.";
 		
 		//TODO: these status messages are from used for input validation testing only. Move to test driver side? 
 		

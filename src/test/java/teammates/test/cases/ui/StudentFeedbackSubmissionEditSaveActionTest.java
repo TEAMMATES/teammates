@@ -498,7 +498,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 		catch(UnauthorizedAccessException e){
 			submissionFailMessage= e.getMessage();
 		}
-		assertEquals("This feedback session is not open for submission.", submissionFailMessage);
+		assertEquals("This feedback session is not currently open for submission.", submissionFailMessage);
 	}
 	
 	private StudentFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception{

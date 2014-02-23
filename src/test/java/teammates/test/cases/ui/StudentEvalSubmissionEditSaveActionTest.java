@@ -253,6 +253,15 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 			submissionFailMessage = e.getMessage();
 		}
 		assertEquals(Const.Tooltips.EVALUATION_STATUS_AWAITING, submissionFailMessage);
+		
+		
+		______TS("Null parameters");
+		submissionParams = new String[]{};
+	
+		a = getAction(submissionParams);
+		r = a.executeAndPostProcess();
+		
+		assertEquals(Const.StatusMessages.EVALUATION_REQUEST_EXPIRED, r.getStatusMessage());
 	}
 	
 	private StudentEvalSubmissionEditSaveAction getAction(String... params) throws Exception{

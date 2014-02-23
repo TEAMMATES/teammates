@@ -350,6 +350,7 @@
                                  </option>
                               </select>Essay question</td>
 				<td class="rightalign">
+				<a class="color_blue pad_right"  href="#"  id="questiongetlink-1"  onclick="getQuestionLink(1)"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.')" >Get Link</a>
 				<a onclick="enableEdit(1,2)" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit this question')" id="questionedittext-1" class="color_blue pad_right" href="#">Edit</a>
 				<a id="questionsavechangestext-1" style="display:none" class="color_green pad_right" href="#">Save Changes</a>
 				<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete this question')" onclick="deleteQuestion(1)" class="color_red" href="#">Delete</a>
@@ -469,6 +470,7 @@
                               Multiple-choice (multiple answers)
                            </td>
                            <td class="rightalign" >
+                              <a class="color_blue pad_right"  href="#"  id="questiongetlink-2"  onclick="getQuestionLink(2)"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.')" >Get Link</a>
                               <a class="color_blue pad_right"  href="#"  id="questionedittext-2"  onclick="enableEdit(2,2)"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit this question')" >
                                  Edit
                               </a>
@@ -851,32 +853,27 @@
 				<tr id="numScaleForm">
 					<td colspan="4">
 						<table>
-							<tr>
-								<td>
-									Minimum scale:
-									<input type="number" class="minScaleBox" id="minScaleBox"
-										name="numscalemin"
-										value="1" onChange="updateNumScalePossibleValues(-1)">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									Maximum scale:
-									<input type="number" class="maxScaleBox" id="maxScaleBox"
-										name="numscalemax"
-										value="5" onChange="updateNumScalePossibleValues(-1)">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									Increment:	
-									<input type="number" class="stepBox" id="stepBox"
-										name="numscalestep"
-										value="0.5" min="0.001" step="0.001"
-										onChange="updateNumScalePossibleValues(-1)">
-									<span id="numScalePossibleValues">[Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]</span>
-								</td>
-							</tr>
+								<tr>
+	                                <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Minimum acceptable response value')" >
+	                                   Minimum value:
+	                                   <input class="minScaleBox"  id="minScaleBox"  name="numscalemin"  onchange="updateNumScalePossibleValues(-1)"  type="number"  value="1" />
+	                               	</td>
+	                                <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Value to be increased/decreased each step')" >
+	                                   Increment:
+	                                   <input class="stepBox"  id="stepBox"  min="0.001"  name="numscalestep"  onchange="updateNumScalePossibleValues(-1)"  step="0.001"  type="number"  value="0.5" />
+	                                </td>
+	                                <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Maximum acceptable response value')" >
+	                                   Maximum value:
+	                                   <input class="maxScaleBox"  id="maxScaleBox"  name="numscalemax"  onchange="updateNumScalePossibleValues(-1)"  type="number"  value="5" />
+	                                </td>
+	                             </tr>
+	                             <tr>
+	                                <td colspan="3" >
+	                                   <span id="numScalePossibleValues" >
+	                                      [Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]
+	                                   </span>
+	                                </td>
+	                             </tr>
 						</table>
 					</td>
 				</tr>

@@ -3,7 +3,7 @@
 <suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
 
 	<test name="component-tests">
-	<!--  Theses can be run without starting the server. Should be run often. -->
+	<!--  These can be run without starting the server. Should be run often. -->
 		<classes>
 			<class name="teammates.test.automated.EvaluationClosingReminderTest" />
 			<class name="teammates.test.automated.EvaluationOpeningReminderTest" />
@@ -51,6 +51,7 @@
 			<class name="teammates.test.cases.logic.InstructorsLogicTest" />
 			<class name="teammates.test.cases.logic.LogicTest" />
 			<class name="teammates.test.cases.logic.StudentsLogicTest" />
+			<class name="teammates.test.cases.logic.SubmissionsAdjustmentTest" />
 			<class name="teammates.test.cases.logic.SubmissionsLogicTest" />
 			<class name="teammates.test.cases.logic.SubmissionTaskQueueLogicTest" />
 			<class name="teammates.test.cases.logic.TeamEvalResultTest" />
@@ -105,6 +106,8 @@
 			<class name="teammates.test.cases.ui.InstructorFeedbackResultsPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditSaveActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionSubmissionEditPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalUnpublishActionTest" />
 			<class name="teammates.test.cases.ui.InstructorHomePageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorStudentListPageActionTest" />
@@ -119,6 +122,8 @@
 			<class name="teammates.test.cases.ui.StudentFeedbackResultsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentFeedbackSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentFeedbackSubmissionEditSaveActionTest" />
+			<class name="teammates.test.cases.ui.StudentFeedbackQuestionSubmissionEditPageActionTest" />
+			<class name="teammates.test.cases.ui.StudentFeedbackQuestionSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.StudentHomePageActionTest" />
 		</classes>
 	</test>
@@ -151,6 +156,7 @@
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.InstructorFeedbackQuestionSubmitPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorStudentListPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
@@ -159,6 +165,7 @@
 			<class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentFeedbackSubmitPageUiTest" />
+			<class name="teammates.test.cases.ui.browsertests.StudentFeedbackQuestionSubmitPageUiTest" />
 			<class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
 		</classes>
 	</test>

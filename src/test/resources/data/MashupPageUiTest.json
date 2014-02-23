@@ -50,6 +50,10 @@
 		"CS1101":{
 			"id":"CS1101",
 			"name":"Programming Methodology"
+		},
+		"CS4215":{
+			"id":"CS4215",
+			"name":"Programming Language Implementation"
 		}
 	},
 	"instructors":{
@@ -70,6 +74,12 @@
 			"courseId":"CS1101",
 			"name":"Teammates Coord",
 			"email":"teammates.instr@gmail.com"
+		},
+		"teammates.test.CS4215":{
+			"googleId":"teammates.test",
+			"courseId":"CS4215",
+			"name":"Teammates Test",
+			"email":"teammates.test@gmail.com"
 		}
 	},
 	"students":{
@@ -144,6 +154,14 @@
 			"name":"Danny Engrid",
 			"comments":"This student's name is Danny Engrid",
 			"team":"Team 2"
+		},
+		"teammates.test@CS4215":{
+			"googleId":null,
+			"email":"teammates.test@gmail.com",
+			"course":"CS4215",
+			"name":"Teammates Test",
+			"comments":"This student's name is Teammates Test",
+			"team":"Team 1"
 		}
 	},
 	"evaluations":{
@@ -493,9 +511,9 @@
 			},
 			"createdTime":"2012-03-20 11:59 PM UTC",
 			"startTime":"2012-04-01 11:59 PM UTC",
-			"endTime":"2015-04-30 11:59 PM UTC",
-			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
-			"resultsVisibleFromTime":"2015-05-01 11:59 PM UTC",
+			"endTime":"2012-04-01 11:59 PM UTC",
+			"sessionVisibleFromTime":"1970-11-27 00:00 AM UTC",
+			"resultsVisibleFromTime":"1970-11-27 00:00 AM UTC",
 			"timeZone":8,
 			"gracePeriod":0,
 			"feedbackSessionType":"PRIVATE",

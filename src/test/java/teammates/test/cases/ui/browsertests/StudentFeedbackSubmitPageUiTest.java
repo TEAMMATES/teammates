@@ -53,8 +53,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		
 		______TS("Awaiting session");
 		
-		//TODO implement this
-		//Session and questions should be visible but cannot be answered
+		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Closed Session");
+		submitPage.verifyHtml("/studentFeedbackSubmitPageClosed.html");
 		
 		______TS("Open session");
 		

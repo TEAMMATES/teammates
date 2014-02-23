@@ -28,6 +28,9 @@
 			</div>
 			<form action="/page/instructorFeedbackSubmissionEditSave" method="post"
 				name="form_submit_response">
+				<input name="fsname"  type="hidden"  value="First Session" />
+                <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
+                <input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
 				<table class="inputTable">
 					<tbody>
 						<tr>
@@ -59,11 +62,10 @@
 				<input name="questionresponsetotal-1" type="hidden" value="1" />
 				<table class="inputTable responseTable">
 					<tbody>
-						<tr>
-							<td class="bold" colspan="2">Question 1</td>
-						</tr>
-						<tr style="border-bottom: 3px dotted white;" >
-							<td colspan="2">question for instructors</td>
+						<tr style="border-bottom: 3px dotted white;">
+							<td class="bold" colspan="2" style="white-space:pre-wrap;">
+								Question 1:<br>question for instructors
+							</td>
 						</tr>
 						<tr>
 							<td class="bold" colspan="2">Only the following persons can see your responses:</td>
