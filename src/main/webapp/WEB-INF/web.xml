@@ -162,6 +162,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>	
 	
 	<servlet>
+		<servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
+		<servlet-class>teammates.logic.core.EvaluationPublishEmailWorkerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
+		<url-pattern>/evalPublishEmailWorker</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
+		<servlet-class>teammates.logic.core.EvaluationRemindEmailWorkerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
+		<url-pattern>/evalRemindEmailWorker</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>FeedbackSessionOpeningReminders</servlet-name>
 		<servlet-class>teammates.logic.automated.FeedbackSessionOpeningRemindersServlet</servlet-class>
 	</servlet>

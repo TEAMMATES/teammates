@@ -64,6 +64,7 @@ import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
+import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
@@ -1737,15 +1738,10 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		restoreTypicalDataInDatastore();
 	
-		String methodName = "sendReminderForEvaluation";
-		Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-	
 		______TS("empty class");
 	
 		restoreTypicalDataInDatastore();
 	
-		
-		
 		AccountsLogic.inst().deleteAccountCascade("instructor1");
 		CoursesLogic.inst().deleteCourseCascade("course1");
 		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
@@ -1758,7 +1754,7 @@ public class LogicTest extends BaseComponentTestCase {
 		newEval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
 		logic.createEvaluation(newEval);
 	
-		List<MimeMessage> emailsSent = logic.sendReminderForEvaluation(
+		List<MimeMessage> emailsSent = EvaluationsLogic.inst().sendReminderForEvaluation(
 				"course1", "new eval");
 		
 		int numOfInstructor = logic.getInstructorsForCourse(newEval.courseId).size();
@@ -1768,7 +1764,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		EvaluationAttributes eval = dataBundle.evaluations
 				.get("evaluation1InCourse1");
-		emailsSent = logic.sendReminderForEvaluation(eval.courseId, eval.name);
+		emailsSent = EvaluationsLogic.inst().sendReminderForEvaluation(eval.courseId, eval.name);
 		
 		numOfInstructor = logic.getInstructorsForCourse(eval.courseId).size();
 		assertEquals(4+numOfInstructor, emailsSent.size());
@@ -1784,9 +1780,6 @@ public class LogicTest extends BaseComponentTestCase {
 		}
 	
 		______TS("some have submitted fully");
-	
-		
-	
 		// This student is the only member in Team 1.2. If he submits his
 		// self-evaluation, he sill be considered 'fully submitted'. Only
 		// student in Team 1.1 should receive emails.
@@ -1804,7 +1797,7 @@ public class LogicTest extends BaseComponentTestCase {
 		ArrayList<SubmissionAttributes> submissions = new ArrayList<SubmissionAttributes>();
 		submissions.add(sub);
 		logic.updateSubmissions(submissions);
-		emailsSent = logic.sendReminderForEvaluation(eval.courseId, eval.name);
+		emailsSent = EvaluationsLogic.inst().sendReminderForEvaluation(eval.courseId, eval.name);
 	
 		numOfInstructor = logic.getInstructorsForCourse(eval.courseId).size();
 		assertEquals(3+numOfInstructor, emailsSent.size());
@@ -1821,17 +1814,20 @@ public class LogicTest extends BaseComponentTestCase {
 		}
 	
 		______TS("non-existent course/evaluation");
-	
-		verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
-				"non-existent-course", "non-existent-eval" });
+		try {
+			EvaluationsLogic.inst().sendReminderForEvaluation("non-existent-course", "non-existent-eval");
+		} catch (Exception e) {
+			assertEquals("Trying to edit non-existent evaluation non-existent-course/non-existent-eval", 
+					e.getMessage());
+		}
 	
 		______TS("null parameter");
 	
 		try {
-			logic.sendReminderForEvaluation("valid.course.id", null);
+			EvaluationsLogic.inst().sendReminderForEvaluation("valid.course.id", null);
 			Assert.fail();
 		} catch (AssertionError a) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+			assertEquals("Supplied parameter was null\n", a.getMessage());
 		}
 	}
 

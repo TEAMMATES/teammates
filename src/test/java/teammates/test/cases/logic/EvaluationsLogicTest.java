@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
@@ -258,7 +259,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 		EvaluationAttributes e = dataBundle.evaluations
 				.get("evaluation1InCourse1");
 
-		List<MimeMessage> emailsSent = invokeSendEvaluationPublishedEmails(
+		List<MimeMessage> emailsSent = evaluationsLogic.sendEvaluationPublishedEmails(
 				e.courseId, e.name);
 		assertEquals(8, emailsSent.size());
 
@@ -523,19 +524,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 		Object[] params = new Object[] { team, teamResult };
 		privateMethod.invoke(EvaluationsLogic.inst(), params);
 	}
-	
-	
-	@SuppressWarnings("unchecked")
-	private List<MimeMessage> invokeSendEvaluationPublishedEmails(
-			String courseId, String evaluationName) throws Exception {
-		Method privateMethod = EvaluationsLogic.class.getDeclaredMethod(
-				"sendEvaluationPublishedEmails", new Class[] { String.class,
-						String.class });
-		privateMethod.setAccessible(true);
-		Object[] params = new Object[] { courseId, evaluationName };
-		return (List<MimeMessage>) privateMethod.invoke(EvaluationsLogic.inst(), params);
-	}
-	
 	
 	@AfterClass
 	public static void classTearDown() throws Exception {

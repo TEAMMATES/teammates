@@ -31,6 +31,9 @@ public class Const {
 		public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
 								"eval-submission-adjust-queue";
 		
+		public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
+		public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
+		
 		public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE = 
 								"feedback-submission-adjust-queue";
 		
@@ -449,6 +452,8 @@ public class Const {
 									"/evalSubmissionAdjustmentWorker";
 		public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER = 
 									"/feedbackSubmissionAdjustmentWorker";
+		public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
+		public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
 	}
 
 	public class ViewURIs{
