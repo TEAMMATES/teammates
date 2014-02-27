@@ -2,12 +2,11 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.StudentAttributes;
@@ -17,8 +16,13 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Evaluation;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Submission;
+
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Adds any missing submission entities to an evaluation.
@@ -43,8 +47,16 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 	private int problematicSubmissionsCount;
 	
 	protected void doOperation() {
-		repairEvaluation("ENTR3310-Sp14", "PEER EVALUATION 01");
-		repairEvaluation("ENTR3312-Sp14", "WK06 Peer Evaluation Trial");
+		// repair all evaluations with course created between startDate and endDate inclusive
+		Date startDate = TimeHelper.getDateOffsetToCurrentTime(-10);
+		Date endDate = TimeHelper.getDateOffsetToCurrentTime(0);
+		
+		List<Evaluation> evaluationsToFix = getEvaluationsWithCourseCreatedBetweenDates(startDate, endDate);
+		for (Evaluation eval : evaluationsToFix) {
+			if (!JDOHelper.isDeleted(eval)) {
+				repairEvaluation(eval.getCourseId(), eval.getName());
+			}
+		}
 	}
 
 	private void repairEvaluation(String courseId, String evaluationName) {
@@ -204,4 +216,27 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 		return studentList;
 	}
 	
+	private List<Evaluation> getEvaluationsWithCourseCreatedBetweenDates(Date startDate, Date endDate){
+		Query q = pm.newQuery(Course.class);
+		q.declareParameters("java.util.Date startDateParam, java.util.Date endDateParam");
+		q.setFilter("createdAt >= startDateParam && createdAt <= endDateParam");
+
+		@SuppressWarnings("unchecked")
+		List<Course> courseList = (List<Course>) q.execute(startDate, endDate);
+		
+		List<Evaluation> evaluationList = new ArrayList<Evaluation>();
+		for (Course course : courseList) {
+			q = pm.newQuery(Evaluation.class);
+			q.declareParameters("String courseIdParam");
+			q.setFilter("courseID == courseIdParam");
+			
+			@SuppressWarnings("unchecked")
+			List<Evaluation> courseEvalList =
+					(List<Evaluation>) q.execute(course.getUniqueId());
+
+			evaluationList.addAll(courseEvalList);
+		}
+
+		return evaluationList;
+	}
 }
