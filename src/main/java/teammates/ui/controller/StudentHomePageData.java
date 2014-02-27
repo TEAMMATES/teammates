@@ -103,6 +103,7 @@ public class StudentHomePageData extends PageData {
 	
 	public String getStudentCourseDetailsLink(String courseId){
 		String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
+		link = addUserIdToUrl(link);
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
 		return link;
 	}
@@ -125,6 +126,7 @@ public class StudentHomePageData extends PageData {
 	
 	public String getStudentEvaluationResultsLink(String courseID, String evalName){
 		String link = Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
+		link = addUserIdToUrl(link);
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
 		link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
 		return link;
@@ -136,6 +138,7 @@ public class StudentHomePageData extends PageData {
 	 */
 	public String getStudentEvaluationSubmissionEditLink(String courseID, String evalName){
 		String link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
+		link = addUserIdToUrl(link);
 		link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
 		link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
 		return link;
