@@ -126,24 +126,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
-		<servlet-class>teammates.logic.core.EvaluationSubmissionAdjustmentWorkerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
-		<url-pattern>/evalSubmissionAdjustmentWorker</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
-		<servlet-class>teammates.logic.core.FeedbackSubmissionAdjustmentWorkerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
-		<url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
 		<servlet-name>EvaluationOpeningReminders</servlet-name>
 		<servlet-class>teammates.logic.automated.EvaluationOpeningRemindersServlet</servlet-class>
 	</servlet>
@@ -261,8 +243,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>TaskQueue</web-resource-name>
             <url-pattern>/searchTask</url-pattern>
             <url-pattern>/submissionWorker</url-pattern>
-            <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
-            <url-pattern>/evalSubmissionAdjustmentWorker</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
