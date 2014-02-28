@@ -45,11 +45,13 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 	private int missingSubmissionsCount;
 	private int duplicateSubmissionsCount;
 	private int problematicSubmissionsCount;
+	private int repariedEvaluationCount;
 	
 	protected void doOperation() {
 		// repair all evaluations with course created between startDate and endDate inclusive
-		Date startDate = TimeHelper.getDateOffsetToCurrentTime(-10);
-		Date endDate = TimeHelper.getDateOffsetToCurrentTime(0);
+		Date startDate = TimeHelper.getDateOffsetToCurrentTime(-60);
+		Date endDate = TimeHelper.getDateOffsetToCurrentTime(-50);
+		repariedEvaluationCount = 0;
 		
 		List<Evaluation> evaluationsToFix = getEvaluationsWithCourseCreatedBetweenDates(startDate, endDate);
 		for (Evaluation eval : evaluationsToFix) {
@@ -57,17 +59,22 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 				repairEvaluation(eval.getCourseId(), eval.getName());
 			}
 		}
+		System.out.println("Number of evaluations repaired :" + repariedEvaluationCount);
 	}
 
 	private void repairEvaluation(String courseId, String evaluationName) {
 		try {
-			print("Reparing ["+courseId+"]"+evaluationName);
+			if (courseId.contains("-demo")) {
+				return;
+			}
+			System.out.println("Reparing ["+courseId+"]"+evaluationName);
+			repariedEvaluationCount++;
 			
 			repairSubmissionsForEvaluation(courseId,	evaluationName);
 			
-			print("Number of submissions added :"+missingSubmissionsCount);
-			print("Number of submissions deleted :"+duplicateSubmissionsCount);
-			print("Number of problematic submissions :"+problematicSubmissionsCount);
+			printInNextLine("Number of submissions added :"+missingSubmissionsCount);
+			System.out.println("Number of submissions deleted :"+duplicateSubmissionsCount);
+			System.out.println("Number of problematic submissions :"+problematicSubmissionsCount);
 			
 		} catch (EntityAlreadyExistsException | InvalidParametersException
 				| EntityDoesNotExistException e) {
@@ -118,7 +125,7 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 			deleteSubmission(secondSubmission);
 		}else{
 			problematicSubmissionsCount++;
-			print("###### both submissions not empty!!!!!!!!" + firstSubmission.toString());
+			printInNextLine("###### both submissions not empty!!!!!!!!" + firstSubmission.toString());
 		}
 		
 	}
@@ -129,7 +136,7 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 				new SubmissionAttributes(courseId, evaluationName, team, toStudent, fromStudent);
 		submissionToAdd.p2pFeedback = new Text("");
 		submissionToAdd.justification = new Text("");
-		print("Creating missing submission "+ submissionToAdd.toString());
+		printInNextLine("Creating missing submission "+ submissionToAdd.toString());
 		
 		if (!isTrialRun) {
 			pm.makePersistent(submissionToAdd.toEntity());
@@ -141,7 +148,7 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 
 
 	private void deleteSubmission(Submission s) {
-		print("Deleting duplicate submisssion " + s.toString());
+		printInNextLine("Deleting duplicate submisssion " + s.toString());
 		if (!isTrialRun) {
 			pm.deletePersistent(s);
 			pm.flush();
@@ -149,7 +156,7 @@ public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
 		duplicateSubmissionsCount++;
 	}
 
-	private void print(String string) {
+	private void printInNextLine(String string) {
 		System.out.println("\n"+string);
 	}
 
