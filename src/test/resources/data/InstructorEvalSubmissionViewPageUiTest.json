@@ -2,7 +2,8 @@
   "courses": {
     "CESubViewUiT.CS1101": {
       "id": "CESubViewUiT.CS1101",
-      "name": "Programming Methodology"
+      "name": "Programming Methodology",
+      "isArchived": false
     }
   },
   

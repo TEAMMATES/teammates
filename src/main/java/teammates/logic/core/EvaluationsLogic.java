@@ -354,8 +354,8 @@ public class EvaluationsLogic {
 				getEvaluationsClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
 		
 		for (EvaluationAttributes ed : evaluationDataList) {
-				Emails emails = new Emails();
-				emails.addEvaluationReminderToEmailsQueue(ed, Emails.EmailType.EVAL_CLOSING);
+			Emails emails = new Emails();
+			emails.addEvaluationReminderToEmailsQueue(ed, Emails.EmailType.EVAL_CLOSING);
 		}
 	}
 	
@@ -381,10 +381,28 @@ public class EvaluationsLogic {
 		}
 	
 		setEvaluationPublishedStatus(courseId, evaluationName, true);
-		sendEvaluationPublishedEmails(courseId, evaluationName);
-		
+		scheduleEvaluationPublishedEmails(courseId, evaluationName);
 	}
-
+	
+	public List<MimeMessage> sendEvaluationPublishedEmails(String courseId, String evaluationName) {
+		List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+		
+		try {
+			CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
+			EvaluationAttributes eval = EvaluationsLogic.inst().getEvaluation(courseId, evaluationName);
+			List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
+			List<InstructorAttributes> instructors = InstructorsLogic.inst().getInstructorsForCourse(courseId);
+			
+			Emails emailMgr = new Emails();
+			emailsSent = emailMgr.generateEvaluationPublishedEmails(course, eval,
+						students, instructors);
+			emailMgr.sendEmails(emailsSent);
+		} catch (Exception e) {
+			log.severe("Unexpected error while sending emails " + e.getMessage());
+		}
+		return emailsSent;
+	}
+	
 	public void unpublishEvaluation(String courseId, String evaluationName) 
 			throws EntityDoesNotExistException, InvalidParametersException {
 		
@@ -406,40 +424,49 @@ public class EvaluationsLogic {
 
 	public List<MimeMessage> sendReminderForEvaluation(String courseId,
 			String evaluationName) throws EntityDoesNotExistException {
+		
 		if (!isEvaluationExists(courseId, evaluationName)) {
 			throw new EntityDoesNotExistException(
 					"Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
 		}
-	
-		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
-	
-		// Filter out students who have submitted the evaluation
-		List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
-		List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(courseId);
-		List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
-		for (StudentAttributes sd : studentDataList) {
-			if (!isEvaluationCompletedByStudent(evaluation,
-					sd.email)) {
-				studentsToRemindList.add(sd);
-			}
-		}
-	
-		CourseAttributes course = coursesLogic.getCourse(courseId);
-	
+		
 		List<MimeMessage> emails;
-	
-		Emails emailMgr = new Emails();
+		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
+		
 		try {
+			// Filter out students who have submitted the evaluation
+			List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
+			List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(courseId);
+			List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+			for (StudentAttributes sd : studentDataList) {
+			if (!isEvaluationCompletedByStudent(evaluation,sd.email)) {
+					studentsToRemindList.add(sd);
+				}
+			}
+			
+			CourseAttributes course = coursesLogic.getCourse(courseId);	
+			
+			Emails emailMgr = new Emails();
 			emails = emailMgr.generateEvaluationReminderEmails(course,
 					evaluation, studentsToRemindList, instructorList);
 			emailMgr.sendEmails(emails);
 		} catch (Exception e) {
 			throw new RuntimeException("Error while sending emails :", e);
 		}
-	
+		
 		return emails;
 	}
-
+	
+	public void scheduleEvaluationRemindEmails(String courseId, String evaluationName) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put(ParamsNames.SUBMISSION_EVAL, evaluationName);
+		paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
+		
+		TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+		taskQueueLogic.createAndAddTask(SystemParams.EVAL_REMIND_EMAIL_TASK_QUEUE,
+				Const.ActionURIs.EVAL_REMIND_EMAIL_WORKER, paramMap);
+	}
+	
 	/**
 	 * Adjusts submissions for a student moving from one team to another.
 	 * Deletes existing submissions for original team and creates empty
@@ -644,26 +671,15 @@ public class EvaluationsLogic {
 					"published status of evaluation :"+e.toString());
 		}
 	}
-
-	private List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
-			String evaluationName) throws EntityDoesNotExistException {
-		List<MimeMessage> emailsSent;
-
-		CourseAttributes c = coursesLogic.getCourse(courseId);
-		EvaluationAttributes e = getEvaluation(courseId, evaluationName);
-		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
-		List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
-
-		Emails emailMgr = new Emails();
-		try {
-			emailsSent = emailMgr.generateEvaluationPublishedEmails(c, e,
-					students, instructors);
-			emailMgr.sendEmails(emailsSent);
-		} catch (Exception ex) {
-			throw new RuntimeException(
-					"Unexpected error while sending emails ", ex);
-		}
-		return emailsSent;
+	
+	private void scheduleEvaluationPublishedEmails(String courseId, String evaluationName) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put(ParamsNames.SUBMISSION_EVAL, evaluationName);
+		paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
+		
+		TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+		taskQueueLogic.createAndAddTask(SystemParams.EVAL_PUBLISH_EMAIL_TASK_QUEUE,
+				Const.ActionURIs.EVAL_PUBLISH_EMAIL_WORKER, paramMap);
 	}
 	
 	private void verifyEvaluationExists(String courseId, String evaluationName) 

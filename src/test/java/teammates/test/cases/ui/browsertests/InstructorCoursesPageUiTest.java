@@ -90,6 +90,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		// Explanation: Checks 'actions' that can be performed using the page.
 		testAddAction();
 		testDeleteAction();
+		testArchiveAction();
 		
 		/* Explanation: The above categorization of test cases is useful in
 		 * identifying test cases. However, do not follow it blindly. 
@@ -255,6 +256,33 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 		coursesPage.clickAndConfirm(coursesPage.getDeleteLink(courseId))
 			.verifyHtml("/instructorCourseDeleteSuccessful.html");
 		
+	}
+	
+	public void testArchiveAction() throws Exception {
+		
+		Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+				.withUserId(testData.accounts.get("instructorWithCourses").googleId);
+			coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+			
+			______TS("archive action success");
+			String courseId = "CCAddUiTest.CS1101";
+			coursesPage.archiveCourse(courseId);
+			coursesPage.verifyHtml("/instructorCourseArchiveSuccessful.html");
+
+			______TS("unarchive action success");
+			coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+			
+			coursesPage.unarchiveCourse(courseId);
+			coursesPage.verifyHtml("/instructorCourseUnarchiveSuccessful.html");
+			
+			______TS("archive action failed");
+			// only possible if someone else delete the course while the user is viewing the page
+			// TODO: find out how to detect such an extreme case
+			
+			______TS("unarchive action failed");
+			// only possible if someone else delete the course while the user is viewing the page
+			// TODO: figure out how to detect such an extreme case
+
 	}
 	
 	@AfterClass

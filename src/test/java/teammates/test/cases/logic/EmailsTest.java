@@ -1,16 +1,21 @@
 package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 
 import javax.mail.Message;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
@@ -23,16 +28,22 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.logic.api.Logic;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.Emails;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
@@ -408,7 +419,107 @@ public class EmailsTest extends BaseComponentTestCase {
 				+ "<br/><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>",
 				emailBody);
 	}
+	
+	@Test
+	public void testGenerateFeedbackSessionPublishedEmails() throws Exception {
+		DataBundle testData = loadDataBundle("/EmailsIsStudentHasSomethingNewToSeeTest.json");
+		restoreDatastoreFromJson("/EmailsIsStudentHasSomethingNewToSeeTest.json");
+		FeedbackSessionAttributes session = testData.feedbackSessions.get("session1InCourse1");
+		
+		String expectedMsg = "You did not receive any new responses and may ignore this email.";
+		Set<String> studentWithNothingNew = new HashSet<String>();
+		studentWithNothingNew.add("student1InCourse1@gmail.com");
+		studentWithNothingNew.add("student6InCourse1@gmail.com");
+		
+		// TODO remove these two after the bug where students 
+		// can't see their own team submission is fixed
+		studentWithNothingNew.add("student3InCourse1@gmail.com");
+		studentWithNothingNew.add("student4InCourse1@gmail.com");
+		
+		List<MimeMessage> emails = new Emails()
+				.generateFeedbackSessionPublishedEmails(session);
+		for (MimeMessage email : emails) {
+			String recipient = email.getRecipients(RecipientType.TO)[0].toString();
+			if (studentWithNothingNew.contains(recipient)) {
+				assertTrue(((String) email.getContent()).contains(expectedMsg));
+			} else {
+				assertFalse(recipient, ((String) email.getContent()).contains(expectedMsg));
+			}
+		}
+	}
 
+	@Test
+	public void testIsStudentHasSomethingNewToSee() throws Exception {
+		DataBundle testData = loadDataBundle("/EmailsIsStudentHasSomethingNewToSeeTest.json");
+		restoreDatastoreFromJson("/EmailsIsStudentHasSomethingNewToSeeTest.json");
+		
+		@SuppressWarnings("rawtypes")
+		Class[] argumentTypes = new Class[] { StudentAttributes.class,
+				FeedbackSessionResultsBundle.class };
+		Method testedMethod = Emails.class.getDeclaredMethod(
+				"isStudentHasSomethingNewToSee", argumentTypes);
+		testedMethod.setAccessible(true);
+
+		FeedbackSessionAttributes fs = testData.feedbackSessions.get("session1InCourse1");
+		StudentAttributes student1 = testData.students.get("student1InCourse1");
+		StudentAttributes student2 = testData.students.get("student2InCourse1");
+		StudentAttributes student3 = testData.students.get("student3InCourse1");
+		StudentAttributes student4 = testData.students.get("student4InCourse1");
+		StudentAttributes student5 = testData.students.get("student5InCourse1");
+		
+		Emails emailsObject = new Emails();
+		
+		______TS("individual outgoing feedback, no incoming feedback: false");
+		
+		FeedbackSessionResultsBundle studentResults = new Logic()
+		.getFeedbackSessionResultsForStudent(fs.feedbackSessionName,
+				fs.courseId,
+				student1.email);
+		assertFalse((Boolean) testedMethod.invoke(emailsObject, new Object[] { (Object) student1, (Object) studentResults }));
+		
+		______TS("no outgoing feedback, individual incoming feedback: true");
+		
+		studentResults = new Logic().getFeedbackSessionResultsForStudent(
+				fs.feedbackSessionName,
+				fs.courseId,
+				student2.email);
+		assertTrue((Boolean) testedMethod.invoke(emailsObject, new Object[] { (Object) student2, (Object) studentResults }));
+		
+		______TS("no outgoing feedback, team incoming feedback: true");
+		
+		studentResults = new Logic().getFeedbackSessionResultsForStudent(
+				fs.feedbackSessionName,
+				fs.courseId,
+				student5.email);
+		assertTrue((Boolean) testedMethod.invoke(emailsObject, new Object[] { (Object) student5, (Object) studentResults }));
+		
+		______TS("team outgoing feedback, no incoming feedback: true");
+		
+		//TODO uncomment after bug where students can't see their own team's feedback is fixed
+//		studentResults = new Logic().getFeedbackSessionResultsForStudent(
+//				fs.feedbackSessionName,
+//				fs.courseId,
+//				student4.email);
+//		assertTrue((Boolean) testedMethod.invoke(emailsObject, new Object[] { (Object) student4, (Object) studentResults }));
+		
+		______TS("feedback to instructor shown to all students");
+		
+		FeedbackResponseAttributes indirectResponse = new FeedbackResponseAttributes(
+				testData.feedbackResponses.get("response1ForQ1S1C1"));
+		indirectResponse.setId("5");
+		indirectResponse.giverEmail = "student5@course1.com";
+		indirectResponse.recipientEmail = "instructor1@course1.com";
+		testData.feedbackResponses.put("indirectResponse", indirectResponse);
+		new BackDoorLogic().persistDataBundle(testData);
+		
+		studentResults = new Logic().getFeedbackSessionResultsForStudent(
+				fs.feedbackSessionName,
+				fs.courseId,
+				student1.email);
+		assertFalse((Boolean) testedMethod.invoke(emailsObject, new Object[] { (Object) student1, (Object) studentResults }));
+		
+		
+	}
 
 	private void verifyEvaluationEmail(StudentAttributes s, MimeMessage email,
 			String prefix, String status) throws MessagingException,
@@ -429,7 +540,6 @@ public class EmailsTest extends BaseComponentTestCase {
 		assertTrue(emailBody.contains(status));
 		assertTrue(!emailBody.contains("$"));
 	}
-
 
 	@AfterClass()
 	public static void classTearDown() throws Exception {

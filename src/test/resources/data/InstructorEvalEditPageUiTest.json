@@ -12,7 +12,8 @@
  "courses": {
 	  "course": {
 	    "id": "CEvEditUiTest.CS1101",
-	    "name": "Programming Methodology"
+	    "name": "Programming Methodology",
+	    "isArchived": false
 	  }
   },
 

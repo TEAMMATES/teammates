@@ -44,8 +44,7 @@
 					<li><a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=CCAddUiTest.instructor" >Students</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <b>(CCAddUiTest.instructor)</b>
-					 </li>
+					 <b>(CCAddUiTest.instructor)</b></li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -64,8 +63,7 @@
 
 			<form name="form_addcourse" action="/page/instructorCourseAdd" method="get">
 				<input type="hidden" value="CCAddUiTest.instructor" name="instructorid" id="instructorid" />
-				<input type="hidden" value="CCAddUiTest.instructor" name="user" />
-				
+				<input name="user"  type="hidden"  value="CCAddUiTest.instructor" />
 				<table id="courseDetailTable" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
@@ -93,20 +91,22 @@
 					</tr>
 				</table>
 				<br />
-
 			</form>
 			<br />
 			
 
 
-	<div style="display: block;" id="statusMessage">
-		The course CCAddUiTest.course1 has been deleted.</div>
-	<script type="text/javascript">
-    	document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+			<div id="statusMessage"  style="display: block;" >
+				The course CCAddUiTest.CS1101 has been archived. It will not appear in the home page any more.
+			</div>
+			<script type="text/javascript" >
+				document.getElementById( 'statusMessage' ).scrollIntoView();
+			</script>
+
 			<br />
 			
 			<h2 class="centeralign">Active courses</h2>
+			
 			<table class="dataTable">
 				<tbody><tr>
 					<th class="color_white bold"><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
@@ -120,32 +120,42 @@
 				</tr>
 				
 					<tr class="courses_row">
-						<td id="courseid0">CCAddUiTest.CS1101</td>
-						<td id="coursename0">Programming Methodology</td>
+						<td id="courseid0">CCAddUiTest.CS2104</td>
+						<td id="coursename0">Programming Language Concept</td>
 						<td class="t_course_teams centeralign">0</td>
 						<td class="centeralign">0</td>
 						<td class="centeralign">0</td>
 						<td class="centeralign no-print">
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_enroll0">Enroll</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_view0">View</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit0">Edit</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS1101');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete0">Delete</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Archive the course so that it will not be shown in the home page any more \(you can still access it from the \'Courses\' tab\)')" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS1101&amp;archive=true&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_archive0">Archive</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_enroll0">Enroll</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_view0">View</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit0">Edit</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS2104');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete0">Delete</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Archive the course so that it will not be shown in the home page any more \(you can still access it from the \'Courses\' tab\)')" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2104&amp;archive=true&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_archive0">Archive</a>
 						</td>
 					</tr>
 				
+			</tbody></table>
+			<br />
+			<br />
+			<br />
+			<br />
+			<h2 class="centeralign">Archived courses</h2>
+			
+			<table class="dataTable" style="width:600px">
+				<tbody><tr>
+					<th class="color_white bold"><input class="buttonSortAscending" type="button" id="button_sortcourseid" onclick="toggleSort(this,1);">
+						Course ID</th>
+					<th class="color_white bold"><input class="buttonSortNone" type="button" id="button_sortcoursename" onclick="toggleSort(this,2);">
+						Course Name</th>
+					<th class="centeralign color_white bold no-print">Action(s)</th>
+				</tr>
+				
 					<tr class="courses_row">
-						<td id="courseid1">CCAddUiTest.CS2104</td>
-						<td id="coursename1">Programming Language Concept</td>
-						<td class="t_course_teams centeralign">0</td>
-						<td class="centeralign">0</td>
-						<td class="centeralign">0</td>
+						<td id="courseid1">CCAddUiTest.CS1101</td>
+						<td id="coursename1">Programming Methodology</td>
 						<td class="centeralign no-print">
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_enroll1">Enroll</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_view1">View</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit1">Edit</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS2104');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete1">Delete</a>
-							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Archive the course so that it will not be shown in the home page any more \(you can still access it from the \'Courses\' tab\)')" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2104&amp;archive=true&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_archive1">Archive</a>
+							<a class="color_black t_course_delete1" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS1101');" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onmouseout="hideddrivetip()">Delete</a>
+							<a class="color_black t_course_unarchive1" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS1101&amp;archive=false&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor">Unarchive</a>
 						</td>
 					</tr>
 				

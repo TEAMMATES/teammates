@@ -99,6 +99,8 @@
 	<div style="display: none;" id="statusMessage"></div>
 
 			<br />
+			
+			<h2 class="centeralign">Active courses</h2>
 			<table class="dataTable">
 				<tbody><tr>
 					<th class="color_white bold"><input type="button" onclick="toggleSort(this,1);" id="button_sortcourseid" class="buttonSortAscending" />
@@ -122,6 +124,7 @@
 							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_view0">View</a>
 							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS1101&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit0">Edit</a>
 							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS1101');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete0">Delete</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Archive the course so that it will not be shown in the home page any more \(you can still access it from the \'Courses\' tab\)')" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS1101&amp;archive=true&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_archive0">Archive</a>
 						</td>
 					</tr>
 				
@@ -136,6 +139,7 @@
 							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_view1">View</a>
 							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS2104&amp;user=CCAddUiTest.instructor" class="color_black t_course_edit1">Edit</a>
 							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CCAddUiTest.CS2104');" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_delete1">Delete</a>
+							<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Archive the course so that it will not be shown in the home page any more \(you can still access it from the \'Courses\' tab\)')" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2104&amp;archive=true&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=CCAddUiTest.instructor" class="color_black t_course_archive1">Archive</a>
 						</td>
 					</tr>
 				
@@ -143,7 +147,7 @@
 			<br />
 			<br />
 			<br />
-			
+			<br />
 		</div>
 	</div>
 

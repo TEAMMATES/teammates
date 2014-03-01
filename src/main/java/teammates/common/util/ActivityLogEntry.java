@@ -180,8 +180,10 @@ public class ActivityLogEntry {
 	}
 	
 	public String getMessageInfo(){
-		if (message.contains("Servlet Action Failure")){
-			message = message.replace("Servlet Action Failure", "<span class=\"color_red bold\">Servlet Action Failure</span><br>");
+		if (message.contains(Const.ACTION_RESULT_FAILURE)){
+			message = message.replace(Const.ACTION_RESULT_FAILURE, "<span class=\"color_red bold\">" + Const.ACTION_RESULT_FAILURE + "</span><br>");
+		} else if (message.contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT)){
+			message = message.replace(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, "<span class=\"color_red bold\">" + Const.ACTION_RESULT_SYSTEM_ERROR_REPORT + "</span><br>");
 		}
 		return message;
 	}

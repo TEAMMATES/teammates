@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -34,9 +35,10 @@ public class InstructorCourseAddAction extends Action {
 		if (isError) {
 			data.courseIdToShow = data.newCourse.id;
 			data.courseNameToShow = data.newCourse.name;
-			data.currentCourses = new ArrayList<CourseDetailsBundle>(
+			data.allCourses = new ArrayList<CourseDetailsBundle>(
 					logic.getCourseSummariesForInstructor(data.account.googleId).values());
-			CourseDetailsBundle.sortDetailedCoursesByCourseId(data.currentCourses);
+			data.archivedCourses = extractArchivedCourses(data.allCourses);
+			CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
 			
 			statusToAdmin = StringHelper.toString(statusToUser, "<br>");
 			
@@ -44,12 +46,13 @@ public class InstructorCourseAddAction extends Action {
 		} else {
 			data.courseIdToShow = "";
 			data.courseNameToShow = "";
-			data.currentCourses = new ArrayList<CourseDetailsBundle>(
+			data.allCourses = new ArrayList<CourseDetailsBundle>(
                     logic.getCourseSummariesForInstructor(data.account.googleId).values());
-			CourseDetailsBundle.sortDetailedCoursesByCourseId(data.currentCourses);
+			data.archivedCourses = extractArchivedCourses(data.allCourses);
+			CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
 			
 			statusToAdmin = "Course added : " + data.newCourse.id;
-			statusToAdmin += "<br>Total courses: " + data.currentCourses.size();
+			statusToAdmin += "<br>Total courses: " + data.allCourses.size();
 			
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
 		}
@@ -76,6 +79,20 @@ public class InstructorCourseAddAction extends Action {
 		if (isError) {
 			return;
 		}
+	}
+	
+	private List<CourseAttributes> extractArchivedCourses(List<CourseDetailsBundle> courseBundles) {
+		ArrayList<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
+		
+		for (CourseDetailsBundle courseBundle : courseBundles) {
+			CourseAttributes course = courseBundle.course;
+			
+			if (course.isArchived) {
+				archivedCourses.add(course);
+			}
+		}
+		
+		return archivedCourses;
 	}
 
 }

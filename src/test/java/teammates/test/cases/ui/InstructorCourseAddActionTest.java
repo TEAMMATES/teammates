@@ -11,7 +11,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.Action;
-import teammates.ui.controller.InstructorCourseEnrollPageData;
 import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
 
@@ -67,6 +66,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
 		
 		InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
+		assertEquals(2, pageData.allCourses.size());
+		
 		String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd" +
 				"|||instructorCourseAdd|||true|||Instructor|||Instructor 1 of Course 1" +
 				"|||idOfInstructor1OfCourse1|||instr1@course1.com" +
@@ -86,11 +87,15 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		assertEquals(true, r.isError);
 		assertEquals(Const.StatusMessages.COURSE_EXISTS, r.getStatusMessage());
 		
+		pageData = (InstructorCoursesPageData)r.data;
+		assertEquals(2, pageData.allCourses.size());
+		
 		expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd"
 				+ "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
 				+ "|||instr1@course1.com|||A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID"
 				+ "|||/page/instructorCourseAdd";
 		assertEquals(expectedLogMessage, a.getLogMessage());
+		
 		  ______TS("Masquerade mode, 0 courses");
 		
 		CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
@@ -111,6 +116,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 		String expectedStatus = "The course has been added.. Click <a href=\"/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add students to the course or " +
 						"click <a href=\"/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add other instructors.<br>If you don't see the course in the list below, please refresh the page after a few moments.";
 		assertEquals(expectedStatus, r.getStatusMessage());
+		
+		pageData = (InstructorCoursesPageData)r.data;
+		assertEquals(1, pageData.allCourses.size());
 		
 		expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd" +
 				"|||true|||Instructor(M)|||Instructor 1 of Course 1" +

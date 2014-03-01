@@ -30,14 +30,16 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
 		statusToUser.add(statusMessage);
 		statusToAdmin = "Course deleted: " + idOfCourseToDelete;
 
+		//TODO: Change to RedirectResult as mentioned in DevMan? This can avoid having to prepare page data
 		InstructorCoursesPageData data = new InstructorCoursesPageData(account);
 		data.newCourse = null;
 		data.courseIdToShow = "";
 		data.courseNameToShow = "";
 
-		data.currentCourses = new ArrayList<CourseDetailsBundle>(
+		data.allCourses = new ArrayList<CourseDetailsBundle>(
 				logic.getCourseSummariesForInstructor(data.account.googleId).values());
-		CourseDetailsBundle.sortDetailedCoursesByCourseId(data.currentCourses);
+		data.archivedCourses = logic.getArchivedCoursesForInstructor(data.account.googleId);
+		CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
 
 		ShowPageResult svr = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
 		return svr;

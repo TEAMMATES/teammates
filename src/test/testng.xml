@@ -51,9 +51,9 @@
 			<class name="teammates.test.cases.logic.InstructorsLogicTest" />
 			<class name="teammates.test.cases.logic.LogicTest" />
 			<class name="teammates.test.cases.logic.StudentsLogicTest" />
-			<class name="teammates.test.cases.logic.SubmissionsAdjustmentTest" />
 			<class name="teammates.test.cases.logic.SubmissionsLogicTest" />
 			<class name="teammates.test.cases.logic.SubmissionTaskQueueLogicTest" />
+			<class name="teammates.test.cases.logic.EvaluationsEmailTaskQueueTest" />
 			<class name="teammates.test.cases.logic.TeamEvalResultTest" />
 			<class name="teammates.test.pageobjects.PageDataTest" />
 			<class name="teammates.test.cases.ui.ActivityLogTest" />

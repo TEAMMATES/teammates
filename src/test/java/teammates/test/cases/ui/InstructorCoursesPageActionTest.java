@@ -103,7 +103,8 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 		
 		InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
-		assertEquals(2, pageData.currentCourses.size());
+		assertEquals(2, pageData.allCourses.size());
+		assertEquals(0, pageData.archivedCourses.size());
 		assertEquals("", pageData.courseIdToShow);
 		assertEquals("", pageData.courseNameToShow);
 		
@@ -129,7 +130,8 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 		
 		pageData = (InstructorCoursesPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
-		assertEquals(0, pageData.currentCourses.size());
+		assertEquals(0, pageData.allCourses.size());
+		assertEquals(0, pageData.archivedCourses.size());
 		assertEquals("", pageData.courseIdToShow);
 		assertEquals("", pageData.courseNameToShow);
 		

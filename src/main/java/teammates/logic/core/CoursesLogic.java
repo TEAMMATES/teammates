@@ -123,7 +123,7 @@ public class CoursesLogic {
 	
 	public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
 		if (!isCoursePresent(courseId)){
-			throw new EntityDoesNotExistException("Course does not exist :"+courseId);
+			throw new EntityDoesNotExistException("Course does not exist: "+courseId);
 		}
 	}
 
@@ -263,7 +263,6 @@ public class CoursesLogic {
 		return studentsLogic.getUnregisteredStudentsForCourse(courseID).size();
 	}
 
-
 	public CourseDetailsBundle getCourseSummary(String courseId)
 			throws EntityDoesNotExistException {
 		CourseAttributes cd = coursesDb.getCourse(courseId);
@@ -379,6 +378,39 @@ public class CoursesLogic {
 			courseSummary.feedbackSessions.add(fsb);
 		}
 		return courseList;
+	}
+	
+	public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId) throws EntityDoesNotExistException {
+		
+		List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
+		
+		ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
+
+		for (InstructorAttributes instructor : instructorList) {
+			CourseAttributes course = coursesDb.getCourse(instructor.courseId);
+			
+			if (course == null) {
+				log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
+						+ instructor.toString());
+			} else if (course.isArchived) {
+				courseList.add(course);
+			}
+		}
+		
+		return courseList;
+	}
+	
+	public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus)
+			throws InvalidParametersException, EntityDoesNotExistException {
+		
+		CourseAttributes courseToUpdate = getCourse(courseId);
+		if (courseToUpdate != null) {
+			courseToUpdate.isArchived = archiveStatus;
+			
+			coursesDb.updateCourse(courseToUpdate);
+		} else {
+			throw new EntityDoesNotExistException("Course " + courseId + " doesn't exist.");
+		}
 	}
 
 	public void deleteCourseCascade(String courseId) {

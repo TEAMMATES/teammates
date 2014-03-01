@@ -33,15 +33,18 @@
   "courses": {
     "course": {
       "id": "CEvalUiT.CS2104",
-      "name": "Programming Language Concepts"
+      "name": "Programming Language Concepts",
+      "isArchived": false
     },
     "courseWithoutEvals": {
       "id": "CEvalUiT.coursewithoutevals",
-      "name": "Course Without Evals"
+      "name": "Course Without Evals",
+      "isArchived": false
     },
     "anotherCourse": {
       "id": "CEvalUiT.CS1101",
-      "name": "Programming Methodology"
+      "name": "Programming Methodology",
+      "isArchived": false
     }
   },
   

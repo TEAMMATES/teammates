@@ -32,7 +32,8 @@
 	"courses":{
 		"CFResultsUiT.CS2104":{
 			"id":"CFResultsUiT.CS2104",
-			"name":"Programming Language Concepts"
+			"name":"Programming Language Concepts",
+			"isArchived": false
 		}
 	},
 	"instructors":{

@@ -82,6 +82,8 @@
 			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
 			
+			<h2 class="centeralign">Active courses</h2>
+			
 			<table class="dataTable">
 				<tr>
 					<th class="color_white bold"><input class="buttonSortAscending" type="button"
@@ -99,8 +101,9 @@
 				</tr>
 				<%
 					int idx = -1;
-					for(CourseDetailsBundle courseDetails: data.currentCourses){ 
-						idx++;
+					for(CourseDetailsBundle courseDetails: data.allCourses){ 
+						if (!courseDetails.course.isArchived) {
+							idx++;
 				%>
 					<tr class="courses_row">
 						<td id="courseid<%=idx%>"><%=sanitizeForHtml(courseDetails.course.id)%></td>
@@ -126,9 +129,14 @@
 								onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>');"
 								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
 								onmouseout="hideddrivetip()">Delete</a>
+							<a class="color_black t_course_archive<%=idx%>"
+								href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, false)%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ARCHIVE%>')"
+								onmouseout="hideddrivetip()">Archive</a>
 						</td>
 					</tr>
 				<%
+						}
 					}
 					if(idx==-1){ // Print empty row
 				%>
@@ -146,14 +154,69 @@
 			</table>
 			<br>
 			<br>
-			<br>
 			<%
 				if(idx==-1){
 			%>
 				No records found. <br>
 				<br>
-				<br>
-				<br>
+			<%
+				}
+			%>
+			<br>
+			<br>
+			
+			<%
+				if (!data.archivedCourses.isEmpty()) {
+			%>
+			
+			<h2 class="centeralign">Archived courses</h2>
+			
+			<table class="dataTable" style="width:600px">
+				<tr>
+					<th class="color_white bold"><input class="buttonSortAscending" type="button"
+						id="button_sortcourseid"
+						onclick="toggleSort(this,1);">
+						Course ID</th>
+					<th class="color_white bold"><input class="buttonSortNone" type="button"
+						id="button_sortcoursename"
+						onclick="toggleSort(this,2);">
+						Course Name</th>
+					<th class="centeralign color_white bold no-print">Action(s)</th>
+				</tr>
+				<%
+					for (CourseAttributes course: data.archivedCourses) { 
+						idx++;
+				%>
+					<tr class="courses_row">
+						<td id="courseid<%=idx%>"><%=sanitizeForHtml(course.id)%></td>
+						<td id="coursename<%=idx%>"><%=sanitizeForHtml(course.name)%></td>
+						<td class="centeralign no-print">
+							<a class="color_black t_course_delete<%=idx%>"
+								href="<%=data.getInstructorCourseDeleteLink(course.id,false)%>"
+								onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=course.id%>');"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
+								onmouseout="hideddrivetip()">Delete</a>
+							<a class="color_black t_course_unarchive<%=idx%>"
+								href="<%=data.getInstructorCourseArchiveLink(course.id, false, false)%>">Unarchive</a>
+						</td>
+					</tr>
+				<%
+					}
+					if(idx==-1){ // Print empty row
+				%>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				<%
+					}
+				%>
+			</table>
+			<br>
+			<br>
+			<br>
+			<br>
 			<%
 				}
 			%>

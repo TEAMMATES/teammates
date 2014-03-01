@@ -33,7 +33,8 @@
   "courses": {
     "CCDetailsUiT.CS2104": {
       "id": "CCDetailsUiT.CS2104",
-      "name": "Programming Language Concepts"
+      "name": "Programming Language Concepts",
+      "isArchived": false
     }
   },
   

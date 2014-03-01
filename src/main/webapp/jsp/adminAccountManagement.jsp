@@ -46,9 +46,15 @@
             <p id="instructorCount" class="rightalign bold">Total Instructors: <%=data.instructorCoursesTable.size()%></p>
             <table class="dataTable">
             <tr>
-                <th class="bold" width="40%">Account Info</th>
+                <th class="bold" width="25%">Account Info</th>
                 <th class="bold">Instructor for</th>
-                <th class="bold" width="30%">Options</th>
+                <th class="bold" width="15%"><input class="buttonSortAscending" type="button"
+						id="button_sort_institute"
+						onclick="toggleSort(this,3);">Instructor Institute</th>
+                <th class="bold" width="10%"><input class="buttonSortNone" type="button"
+						id="button_sort_createat"
+						onclick="toggleSort(this,4);">Create At</th>
+                <th class="bold" width="25%">Options</th>
             </tr>
             <%
             	for (Map.Entry<String, AccountAttributes> entry : data.instructorAccountsTable.entrySet()) {
@@ -69,6 +75,18 @@
                                                                                     	        out.print("No Courses found");
                                                                                     	}
                      %>
+                     </td>
+                     <td id="<%=acc.googleId + "_institude"%>">
+                     <%=acc.institute%>                     
+                     </td>
+                     <td id="<%=acc.googleId + "_createAt"%>">
+                     <%=AdminAccountManagementPageData.displayDateTime(acc.createdAt)%>
+                     </td>
+                     <td id="<%=acc.googleId + "_institude"%>">
+                     <%=acc.institute%>                     
+                     </td>
+                     <td id="<%=acc.googleId + "_createAt"%>">
+                     <%=AdminAccountManagementPageData.displayDateTime(acc.createdAt)%>
                      </td>
                      <td>
                         <a id="<%=acc.googleId + "_details"%>" href="<%=data.getAdminViewAccountDetailsLink(acc.googleId)%>">View Details</a>&nbsp;&nbsp;&nbsp;&nbsp;

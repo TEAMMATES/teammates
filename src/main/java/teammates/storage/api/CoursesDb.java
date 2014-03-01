@@ -9,7 +9,8 @@ import javax.jdo.Query;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EntityAttributes;
-import teammates.common.exception.NotImplementedException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -68,9 +69,32 @@ public class CoursesDb extends EntitiesDb {
 		return courseDataList;
 	}
 
-	
-	public void updateCourse(CourseAttributes courseToUpdate) throws NotImplementedException {
-		throw new NotImplementedException("Not implemented");
+	/**
+	 * Updates the course.<br>
+	 * Updates only course archive status.<br>
+	 * Does not follow the 'keep existing' policy <br> 
+	 * Preconditions: <br>
+	 * * {@code courseToUpdate} is non-null. <br>
+	 * @throws InvalidParametersException, EntityDoesNotExistException
+	 */
+	public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseToUpdate);
+		
+		courseToUpdate.sanitizeForSaving();
+		
+		if (!courseToUpdate.isValid()) {
+			throw new InvalidParametersException(courseToUpdate.getInvalidityInfo());
+		}
+		
+		Course courseEntityToUpdate = getCourseEntity(courseToUpdate.id);
+		
+		if (courseEntityToUpdate == null) {
+			throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
+		}
+		
+		courseEntityToUpdate.setArchiveStatus(Boolean.valueOf(courseToUpdate.isArchived));
+		
+		getPM().close();
 	}
 	
 

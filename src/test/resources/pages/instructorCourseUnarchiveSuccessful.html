@@ -44,8 +44,7 @@
 					<li><a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=CCAddUiTest.instructor" >Students</a></li>
 					<li><a target="_blank" href="/instructorHelp.html" class='nav help'>Help</a></li>
 					<li><a href="/logout.jsp" class='nav logout'>Logout</a>
-					 <b>(CCAddUiTest.instructor)</b>
-					 </li>
+					 <b>(CCAddUiTest.instructor)</b></li>
 				</ul>
 			</div>
 			<div style="clear: both;"></div>
@@ -64,8 +63,7 @@
 
 			<form name="form_addcourse" action="/page/instructorCourseAdd" method="get">
 				<input type="hidden" value="CCAddUiTest.instructor" name="instructorid" id="instructorid" />
-				<input type="hidden" value="CCAddUiTest.instructor" name="user" />
-				
+				<input name="user"  type="hidden"  value="CCAddUiTest.instructor" />
 				<table id="courseDetailTable" class="inputTable">
 					<tr>
 						<td class="label bold" width="20%">Course ID:</td>
@@ -93,17 +91,18 @@
 					</tr>
 				</table>
 				<br />
-
 			</form>
 			<br />
 			
 
 
-	<div style="display: block;" id="statusMessage">
-		The course CCAddUiTest.course1 has been deleted.</div>
-	<script type="text/javascript">
-    	document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+			<div id="statusMessage"  style="display: block;" >
+				The course CCAddUiTest.CS1101 is no longer archived.
+			</div>
+			<script type="text/javascript" >
+				document.getElementById( 'statusMessage' ).scrollIntoView();
+			</script>
+
 			<br />
 			
 			<h2 class="centeralign">Active courses</h2>

@@ -20,11 +20,13 @@
   "courses": {
     "CS2104-TESTING": {
       "id": "CS2104-TESTING",
-      "name": "Programming Language Concepts"
+      "name": "Programming Language Concepts",
+      "isArchived": false
     },
     "CS1101-TESTING": {
       "id": "CS1101-TESTING",
-      "name": "Programming Methodology"
+      "name": "Programming Methodology",
+      "isArchived": false
     }
   },
   

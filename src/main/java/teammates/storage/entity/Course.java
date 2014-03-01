@@ -23,12 +23,16 @@ public class Course {
 
 	@Persistent
 	private Date createdAt;
+	
+	@Persistent
+	private Boolean archiveStatus;
 
 
-	public Course(String courseId, String courseName) {
+	public Course(String courseId, String courseName, Boolean archiveStatus) {
 		this.setUniqueId(courseId);
 		this.setName(courseName);
 		this.setCreatedAt(new Date());
+		this.setArchiveStatus(archiveStatus);
 	}
 
 	public String getUniqueId() {
@@ -53,5 +57,13 @@ public class Course {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	
+	public Boolean getArchiveStatus() {
+		return archiveStatus;
+	}
+	
+	public void setArchiveStatus(Boolean status) {
+		this.archiveStatus = status;
 	}
 }

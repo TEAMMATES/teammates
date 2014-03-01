@@ -82,7 +82,10 @@
 				int courseIdx = -1;
 				int sessionIdx = -1;
 				for (CourseSummaryBundle courseDetails : data.courses) {
-					courseIdx++;
+					// TODO: optimize in future
+					// We may be able to reduce database reads here because we don't need to retrieve certain data for archived courses
+					if (!courseDetails.course.isArchived) {
+						courseIdx++;
 			%>
 			<br>
 			<br>
@@ -115,12 +118,17 @@
 						href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
 						onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
 						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
-						onmouseout="hideddrivetip()"> Delete</a>
+						onmouseout="hideddrivetip()"> Delete</a> <a 
+						class="t_course_archive<%=courseIdx%> color_white bold"
+						href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, true)%>"
+						onclick="hideddrivetip(); return toggleArchiveCourseConfirmation('<%=courseDetails.course.id%>')"
+						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ARCHIVE%>')"
+						onmouseout="hideddrivetip()">Archive</a>
 				</div>
 				<div style="clear: both;"></div>
 				<br>
 				<%
-					if (courseDetails.evaluations.size() > 0||
+						if (courseDetails.evaluations.size() > 0||
 							courseDetails.feedbackSessions.size() > 0) {
 				%>
 				<table class="dataTable">
@@ -148,9 +156,9 @@
 						</td>
 					</tr>
 					<%
-						}
-						for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
-									sessionIdx++;
+							}
+							for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
+								sessionIdx++;
 					%>
 					<tr class="home_sessions_row" id="session<%=sessionIdx%>">
 						<td class="t_session_name"><%=PageData
@@ -167,15 +175,16 @@
 								fdb, sessionIdx, false)%></td>
 					</tr>
 					<%
-						}
+							}
 					%>
 				</table>
 				<%
-					}
+						}
 				%>
 			</div>
 			<%
-				out.flush();
+						out.flush();
+					}
 				}
 			%>
 		</div>	

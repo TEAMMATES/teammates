@@ -104,6 +104,12 @@ public class InstructorHomePage extends AppPage {
 		return getLinkInRow("t_course_delete", getCourseRowId(courseId));
 	}
 	
+	public InstructorHomePage clickArchiveCourseLink(String courseId){
+		getLinkInRow("t_course_archive", getCourseRowId(courseId)).click();
+		waitForPageToLoad();
+		return this;
+	}
+	
 	private WebElement getLinkInRow(String elementClassNamePrefix, int rowId){
 		return browser.driver.findElement(By.className(elementClassNamePrefix + rowId));
 	}

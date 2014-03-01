@@ -89,8 +89,8 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		
 		InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
 		assertEquals(instructorId, pageData.account.googleId);
-		assertEquals(1, pageData.currentCourses.size());
-		assertEquals("icdct.tpa.id1", pageData.currentCourses.get(0).course.id);
+		assertEquals(1, pageData.allCourses.size());
+		assertEquals("icdct.tpa.id1", pageData.allCourses.get(0).course.id);
 		assertEquals("", pageData.courseIdToShow);
 		assertEquals("", pageData.courseNameToShow);
 		
@@ -117,7 +117,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 		
 		pageData = (InstructorCoursesPageData) r.data;
 		assertEquals(instructorId, pageData.account.googleId);
-		assertEquals(0, pageData.currentCourses.size());
+		assertEquals(0, pageData.allCourses.size());
 		assertEquals("", pageData.courseIdToShow);
 		assertEquals("", pageData.courseNameToShow);
 		

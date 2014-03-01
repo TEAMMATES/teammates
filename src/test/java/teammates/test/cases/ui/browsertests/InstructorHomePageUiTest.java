@@ -75,6 +75,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		testRemindAction();
 		testPublishUnpublishActions();
 		testDeleteEvalAction();
+		testArchiveCourseAction();
 		testDeleteCourseAction();
 	}
 	
@@ -236,6 +237,23 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		homePage.verifyHtmlAjax("/instructorHomeEvalDeleteSuccessful.html");
 		
 	}
+	
+	public void testArchiveCourseAction() throws Exception {
+		
+		______TS("archive course action");
+		
+		String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+		
+		homePage.clickArchiveCourseLink(courseId);
+		
+		assertTrue(BackDoor.getCourse(courseId).isArchived);
+		homePage.verifyHtmlAjax("/instructorHomeCourseArchiveSuccessful.html");
+		
+		______TS("archive action failed");
+		// only possible if someone else delete the course while the user is viewing the page
+		// TODO: find out how to detect such an extreme case
+		
+	}
 
 	public void testDeleteCourseAction() throws Exception{
 		
@@ -250,7 +268,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 		homePage.verifyHtmlAjax("/instructorHomeCourseDeleteSuccessful.html");
 		
 		//delete the other course as well
-		homePage.clickAndConfirm(homePage.getDeleteCourseLink(testData.courses.get("CHomeUiT.CS1101").id));
+		courseId = testData.courses.get("CHomeUiT.CS1101").id;
+		BackDoor.deleteCourse(courseId);
 		
 		homePage.clickHomeTab();
 		homePage.verifyHtml("/InstructorHomeHTMLEmpty.html");

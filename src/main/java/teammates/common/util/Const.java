@@ -28,11 +28,8 @@ public class Const {
 		
 		public static final String EMAIL_TASK_QUEUE = "email-queue";
 		public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
-		public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
-								"eval-submission-adjust-queue";
-		
-		public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE = 
-								"feedback-submission-adjust-queue";
+		public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
+		public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
 		
 		public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
 	}
@@ -47,6 +44,7 @@ public class Const {
 		public static final String COURSE_DETAILS = "View, edit and send registration keys to the students in the course";
 		public static final String COURSE_EDIT = "Edit Course information and instructor list";
 		public static final String COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
+		public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more \\(you can still access it from the \\'Courses\\' tab\\)";
 		public static final String COURSE_ADD_EVALUATION = "Add an evaluation for the course";
 		public static final String CLAIMED = "This is student own estimation of his/her contributions to the project";
 		public static final String PERCEIVED = "This is the average of what other team members think this student contributed to the project";
@@ -218,6 +216,8 @@ public class Const {
 		
 		public static final String COURSE_SORTING_CRITERIA = "sortby";
 		
+		public static final String COURSE_ARCHIVE_STATUS = "archive";
+		
 		public static final String ADMIN_SEARCH_REBUILD_DOC = "build_doc";
 	
 		public static final String EVALUATION_NAME = "evaluationname";
@@ -326,12 +326,9 @@ public class Const {
 		public static final String COMMENT_EDITTYPE = "commentedittype";
 		public static final String COMMENT_ID = "commentid";
 		public static final String COMMENT_TEXT = "commenttext";
-		
 		//Submission parameters for Task Queue
 		public static final String SUBMISSION_COURSE = "course";
 		public static final String SUBMISSION_EVAL = "evaluation";
-		
-		public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
 		
 		public static final String SEARCH_KEY ="searchkey";
 		
@@ -349,6 +346,7 @@ public class Const {
 		public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
 		public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
 		public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
+		public static final String INSTRUCTOR_COURSE_ARCHIVE = "/page/instructorCourseArchive";
 		public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
 		public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
 		public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
@@ -441,10 +439,8 @@ public class Const {
 		//Task Queue Worker Servlets URI
 		public static final String EMAIL_WORKER = "/emailWorker";
 		public static final String SUBMISSION_WORKER = "/submissionWorker";
-		public static final String EVAL_SUBMISSION_ADJUSTMENT_WORKER = 
-									"/evalSubmissionAdjustmentWorker";
-		public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER = 
-									"/feedbackSubmissionAdjustmentWorker";
+		public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
+		public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
 	}
 
 	public class ViewURIs{
@@ -538,6 +534,9 @@ public class Const {
 				+ "If you don't see the course in the list below, please refresh the page after a few moments.";
 		public static final String COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
 		public static final String COURSE_EDITED = "The course has been edited.";
+		public static final String COURSE_ARCHIVED = "The course %s has been archived. It will not appear in the home page any more.";
+		public static final String COURSE_ARCHIVED_FROM_HOMEPAGE = COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>Click here to undo the archiving and bring the course back to the home page.";
+		public static final String COURSE_UNARCHIVED = "The course %s is no longer archived.";
 		public static final String COURSE_DELETED = "The course %s has been deleted.";
 		public static final String COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 		public static final String COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""

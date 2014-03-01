@@ -25,26 +25,29 @@
   </retry-parameters>  
 </queue>  
 <queue>  
-  <name>eval-submission-adjust-queue</name>  
-  <!-- Configuration allows for submission adjustment for 
-  	   5 evaluations to be queued when the bucket is not full
+  <name>search-document</name>  
+  <rate>4/s</rate>  
+</queue>  
+<queue>  
+  <name>evaluation-publish-email-queue</name>  
+  <!-- Configuration allows for 5 evaluation published emails to be queued
+	   when the bucket is not full
   -->
   <rate>5/s</rate>
   <bucket-size>5</bucket-size> 
   <retry-parameters>
       <task-retry-limit>2</task-retry-limit>
-  </retry-parameters>
+  </retry-parameters>  
 </queue>
 <queue>  
-  <name>feedback-submission-adjust-queue</name>  
-  <!-- Configuration allows for submission adjustment for 
-  	   5 feedback sessions to be queued when the bucket is not full
+  <name>evaluation-remind-email-queue</name>  
+  <!-- Configuration allows for 5 evaluation reminder emails to be queued
+	   when the bucket is not full
   -->
   <rate>5/s</rate>
-  <bucket-size>5</bucket-size>  
-</queue>     
-<queue>  
-  <name>search-document</name>  
-  <rate>4/s</rate>  
-</queue>  
+  <bucket-size>5</bucket-size> 
+  <retry-parameters>
+      <task-retry-limit>2</task-retry-limit>
+  </retry-parameters>  
+</queue>   
 </queue-entries> 
