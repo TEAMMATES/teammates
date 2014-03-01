@@ -856,12 +856,13 @@
 	yourself.
 
 	<h2 id="settingup-prerequisites">Prerequisites</h2>
+	Important: When a version is specified, please install that version
+	instead of the latest version available.
 	<ul>
 		<li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>
 			latest stable version. <br>If you are on Mac OS, you can install
 			<a href="http://mercurial.selenic.com/">Mercurial (Commandline
-				version)</a> or a Hg GUI such as <a
-			href="http://jasonfharris.com/machg/">MacHg</a>.
+				version)</a> or a Hg GUI such as SourceTree or MacHg.
 		</li>
 		<li>Clone the source code from: <span class="code"><a
 				href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
@@ -884,13 +885,10 @@
 			Go to Window→Preferences→General→Workspace, change the "Text file encoding" setting
 			from <i>Default</i> to <i>Other: UTF-8</i>.
 		</li>
-		<li>Install <i>Google Plugin for Eclipse</i> version 4.2 or 4.3. Be
+		<li>Install <i>Google Plugin for Eclipse</i> version 4.3. Be
 			careful to omit other plugins shown on the screen (e.g., Google App
 			Engine Tools for Android, GWT plugin). <br>Instructions are at <a
-			href="https://developers.google.com/eclipse/docs/install-eclipse-4.2">https://developers.google.com/eclipse/docs/install-eclipse-4.2</a>.[Version
-+			4.2]. <br> <a
-+			href="https://developers.google.com/eclipse/docs/install-eclipse-4.3">https://developers.google.com/eclipse/docs/install-eclipse-4.3</a>[Version
-+			4.3]. 
+			href="https://developers.google.com/eclipse/docs/install-eclipse-4.3">https://developers.google.com/eclipse/docs/install-eclipse-4.3</a> 
 			<br>Note: Sometimes the update site for the GAE plug-in
 			does not work. In which case, follow the instructions at <a
 			href="https://developers.google.com/eclipse/docs/install-from-zip">https://developers.google.com/eclipse/docs/install-from-zip</a>.
@@ -911,10 +909,11 @@
 		Chrome or IE, but FF is the most convenient of the three), downgrade to
 			Firefox 12.0 from <a
 			href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a>
-			{The web driver for later Firefox versions is terribly slow.} or
-			install multiple version of Firefox. To do this, grab Firefox 12.0 from the above link,
-			and choose a custom setup during install, in which you will be able to
-			specify a different path for this version (e.g. C:\Program Files\Mozilla Firefox 12)
+			{The web driver we use does not work with the latest Firefox.} or
+			install multiple version of Firefox. To do this, grab Firefox 12.0
+			from the above link, and choose a custom setup during install, in
+			which you will be able to specify a different path for this version
+			(e.g. C:\Program Files\Mozilla Firefox 12) in a later step.
 		</li>
 	</ul>
 
@@ -953,7 +952,10 @@
 				<li><span class="code"><span class="blue">src/test/resources/</span><span
 						class="bold">test.properties </span></span> <br> Create it using <span
 					class="code">test.template.properties</span> (in the same folder).
-					For dev server testing, property values can remain as they are.</li>
+					For dev server testing, property values can remain as they are.<br>
+					If you have installed multiple versions of Firefox, you need
+					to specify which one to use for testing, by modifying the
+					<span class="code">test.firefox.path</span> property.</li>
 				<li><span class="code"><span class="blue">src/main/webapp/WEB-INF/</span><span
 						class="bold">appengine-web.xml</span></span> <br> Create using <span
 					class="code">appengine-web.template.xml</span>. For dev server
@@ -1154,108 +1156,11 @@
 	</ol>
 
 	<h2 id="settingup-troubleshooting">Troubleshooting</h2>
-	<ol>
-		<li>ERROR: Eclipse complains about <span class="code">FileWriter</span>
-			and <span class="code">ConsoleHandler</span> e.g. <span class="code">java.io.FileWriter
-				is not supported by Google App Engine's Java runtime environment</span> <br>
-			SOLUTION: These are OK because the offending files belong to test
-			driver and will not be deployed to GAE. Choose to 'Quick Fix' and
-			then choose to exclude those files from validation.
-		</li>
-		<br>
-		<li>ERROR: Eclipse complains <span class="code">"...your
-				project must be configured to use a jdk in order to use jsp"</span>. <br>
-			SOLUTION: This happens because Eclipse is only aware of JRE, not JDK
-			(Compiling JSP requires the JDK). Go to
-			Window→Preferences→Java→Installed JREs. You will note that a JRE path
-			is the one selected, not a JDK path. To fix this, Click add→Standard
-			VM, then for the JRE Path enter the path of the <span class="code">jre</span>
-			folder inside your jdk installation folder. e.g., <span class="code">C:\jdk1.7\jre</span>
-			Now you should see all of the JARs added to the library section.
-		</li>
-		<br>
-		<li>ERROR: When trying to deoply, Eclipse complains <span
-			class="code">"...Unable to update app: Cannot get the System
-				Java Compiler. Please use a JDK, not a JRE."</span>. <br> SOLUTION:
-			You can force Eclipse to use the JDK (instead of JRE) by modifiying
-			the <span class="code">eclipse.ini</span> file. See <a
-			href="http://stackoverflow.com/questions/13913019/changing-jdk-in-eclipse">here</a>
-			for more details.
-		</li>
-		<br>
-		<li>ERROR (on Windows): Dev server launched by Eclipse keeps
-			running even after closing Eclipse. After restarting Eclipse, you'll
-			be able to relaunch dev server on the same port but requests will be
-			received by the previous server instance.<br> SOLUTION: If
-			Eclipse crashes while development server is running inside Eclipse,
-			the server might keep running even after Eclipse is closed. Go to
-			Windows Task Manager and kill processes named javaw.exe.
-		</li>
-		<br>
-		<li>ERROR (on Windows), <span class="code">NullPointerException</span>
-			when trying to access email box. The error message looks something
-			like this:<br> <span class="code">java.lang.NullPointerException
-				at <br>
-				javax.mail.internet.ParameterList.set(ParameterList.java:165) at <br>
-				com.sun.mail.imap.protocol.BODYSTRUCTURE.parseParameters(BODYSTRUCTURE.java:390)<br>
-		</span> SOLUTION: In eclipse, move the <span class="code">javax.mail.....jar</span>
-			(from Oracle) to the top of the build class path. (Properties → Java
-			build path → 'order and export' tab)
-		</li>
-		<br>
-		<li>ERROR: Eclipse complains "file out of sync".<br>
-			SOLUTION: 'refresh' the project in eclipse.
-		</li>
-		<br>
-		<li>ERROR: Tests fail randomly during dev server testing.<br>
-			SOLUTION: Make sure there is only one dev server running. Eclipse
-			will happily allow you to start multiple dev servers.
-		</li>
-		<br>
-		<li>ERROR: Eclipse complains "<span class="code">There are
-				no JREs installed in the workplace that are strictly compatible with
-				this environment.</span>"<br> SOLUTION: Eclipse may be using an
-			incompatible version of the JRE Library (with respect to TEAMMATES)
-			for the current JRE definition. System Library for JRE should be set
-			to the workspace default, after appropriate JRE definition has been
-			added (covered in existing point#2 of the troubleshooting section).<br>
-			-> Right-click on project<br> -> Properties<br> -> Java
-			Build Path<br> -> "Libraries" tab<br> -> Select JRE System
-			Library from the list<br> -> Edit...<br> -> Select and mark
-			radio button for "Workspace default JRE"
-		</li>
-		<br>
-		<li>ERROR: Test failure message encountered when running full
-			test suite: “Selenium cannot find Firefox binary in PATH”.<br>
-			SOLUTION 1: Path to Firefox executable on local machine is incorrect.
-			Specify the correct folder in system PATH variable.<br> -> Open
-			Windows Explorer<br> -> Right-click on Computer<br> ->
-			Advanced System Settings<br> -> “Advanced” tab<br> ->
-			Environment Variables…<br> -> Select “PATH” from the list<br>
-			-> Add directory of “Mozilla Firedox” folder to “Variable value”
-			field<br>
-			SOLUTION 2: Incorrect custom path in <span class="code">test.firefox.path</span>.
-			Make sure that the path is set correctly following the example from
-			<span class="code">test.template.properties</span>
-		</li>
-		<br>
-		<li>ERROR: A handful of failed test cases (<10)<br>
-			SOLUTION: Ensure compatible version of Firefox is installed as
-			specified under <a href="#settingup-prerequisites">Prerequisites</a>.
-		</li>
-		<br>
-		<li>ERROR: Browser alert about invalid ssl certificate.<br/>
-			SOLUTION: Ensure that test.app.url in your test.properties
-			 uses -dot- instead of '.' when using secondary subdomains.<br/>
-			Eg. http\://4-30<span class="bold">-dot-</span>teammates-john.appspot.com <br/>
-		</li>
-		<br>
-		<li>ERROR: Test cases failed due to accented characters.<br/>
-			SOLUTION: Ensure that the text file encoding for your Eclipse workspace has
-			been set to UTF-8 as specified under <a href="#settingup-prerequisites">Prerequisites</a>.
-		</li>
-		<br>
-	</ol>
+	Troubleshooting instructions have moved
+	<a
+		href='https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true'
+		target='_blank'>here</a>
+
 
 	<hr>
 	<!-- =============================================================== -->
