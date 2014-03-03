@@ -13,7 +13,7 @@
 	}
 %>
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V<%=version%></span>]</span>
+	<span class="floatleft">[<span class="color_white">TEAMMATES </span>V<%=version%>]</span>
 	<%=institute%>
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>
