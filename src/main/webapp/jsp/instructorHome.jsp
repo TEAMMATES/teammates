@@ -113,17 +113,17 @@
 						class="t_course_add_eval<%=courseIdx%> color_white bold"
 						href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
 						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ADD_EVALUATION%>')"
-						onmouseout="hideddrivetip()"> Add Session</a> <a
-						class="t_course_delete<%=courseIdx%> color_white bold"
-						href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
-						onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
-						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
-						onmouseout="hideddrivetip()"> Delete</a> <a 
+						onmouseout="hideddrivetip()"> Add Session</a> <a 
 						class="t_course_archive<%=courseIdx%> color_white bold"
 						href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, true)%>"
 						onclick="hideddrivetip(); return toggleArchiveCourseConfirmation('<%=courseDetails.course.id%>')"
 						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ARCHIVE%>')"
-						onmouseout="hideddrivetip()">Archive</a>
+						onmouseout="hideddrivetip()">Archive</a> <a
+						class="t_course_delete<%=courseIdx%> color_white bold"
+						href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
+						onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
+						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
+						onmouseout="hideddrivetip()"> Delete</a>
 				</div>
 				<div style="clear: both;"></div>
 				<br>
