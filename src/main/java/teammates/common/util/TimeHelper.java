@@ -208,6 +208,12 @@ public class TimeHelper {
 		return (differenceInDays > 365);
 	}
 	
+	public static double getLocalTimezoneHourOffset() {
+		// getOffset returns the offset from UTC in milliseconds
+		// so we need to divide it by (1000 * 60 * 60) to get it in hours
+		return TimeZone.getDefault().getOffset(new Date().getTime()) / 1000.0 / 60.0 / 60.0;
+	}
+	
 	private static Date convertToDate(String date, int time) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -233,5 +239,4 @@ public class TimeHelper {
 		}
 	
 	}
-
 }

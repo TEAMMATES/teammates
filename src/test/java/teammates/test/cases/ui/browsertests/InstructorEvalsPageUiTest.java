@@ -54,7 +54,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	    newEval.p2pEnabled = true;
 	    newEval.published = false;
 	    newEval.activated = false;
-	    newEval.timeZone = 8.0;
+	    newEval.timeZone = TimeHelper.getLocalTimezoneHourOffset();
 		browser = BrowserPool.getBrowser();
 		
 	}
