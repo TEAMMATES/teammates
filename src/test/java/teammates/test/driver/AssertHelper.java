@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public class AssertHelper {
