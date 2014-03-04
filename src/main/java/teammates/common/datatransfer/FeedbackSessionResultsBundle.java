@@ -22,17 +22,20 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 	public Map<String, FeedbackQuestionAttributes> questions = null;
 	public Map<String, String> emailNameTable = null;
 	public Map<String, boolean[]> visibilityTable = null;
+	public FeedbackSessionResponseStatus responseStatus = null;
 	
 	public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
 			List<FeedbackResponseAttributes> responses,
 			Map<String, FeedbackQuestionAttributes> questions,
 			Map<String, String> emailNameTable,
-			Map<String, boolean[]> visibilityTable) {
+			Map<String, boolean[]> visibilityTable,
+			FeedbackSessionResponseStatus responseStatus) {
 		this.feedbackSession = feedbackSession;
 		this.questions = questions;
 		this.responses = responses;
 		this.emailNameTable = emailNameTable;
 		this.visibilityTable = visibilityTable;
+		this.responseStatus = responseStatus;
 
 		// We change user email to team name here for display purposes.
 		for (FeedbackResponseAttributes response : responses) {

@@ -734,13 +734,15 @@ public class FeedbackSessionsLogic {
 				new HashMap<String, String>();
 		Map<String, boolean[]> visibilityTable =
 				new HashMap<String, boolean[]>();
+				
+		FeedbackSessionResponseStatus responseStatus = getFeedbackSessionResponseStatus(session);
 		
 		boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
 		if (isPrivateSessionNotCreatedByThisUser) {
 			//return empty result set
 			return new FeedbackSessionResultsBundle(
 					session, responses, relevantQuestions,
-					emailNameTable, visibilityTable);
+					emailNameTable, visibilityTable, responseStatus);
 		}
 				
 		for (FeedbackQuestionAttributes question : allQuestions) {
@@ -766,7 +768,9 @@ public class FeedbackSessionsLogic {
 		}
 		
 		FeedbackSessionResultsBundle results = 
-			new FeedbackSessionResultsBundle(session, responses, relevantQuestions, emailNameTable, visibilityTable);
+			new FeedbackSessionResultsBundle(
+			    session, responses, relevantQuestions,
+                emailNameTable, visibilityTable, responseStatus);
 	
 		return results;
 	}
@@ -861,18 +865,12 @@ public class FeedbackSessionsLogic {
 			if (question.giverType == FeedbackParticipantType.STUDENTS ||
 					question.giverType == FeedbackParticipantType.TEAMS) {
 				for (StudentAttributes student : students) {
-					if(fqLogic.isQuestionAnsweredByUser(question, student.email, responses)) {
-						responded = true;
-						break;
-					}
+					responded = fqLogic.isQuestionAnsweredByUser(question, student.email, responses);
 					responseStatus.add(question.getId(), student.name, responded);
 				}
 			} else if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
 				for (InstructorAttributes instructor : instructors) {
-					if(fqLogic.isQuestionAnsweredByUser(question, instructor.email, responses)) {
-						responded = true;
-						break;
-					}
+					responded = fqLogic.isQuestionAnsweredByUser(question, instructor.email, responses);
 					responseStatus.add(question.getId(), instructor.name, responded);
 				}
 			}
