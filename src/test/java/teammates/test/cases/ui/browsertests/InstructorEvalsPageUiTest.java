@@ -54,7 +54,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 	    newEval.p2pEnabled = true;
 	    newEval.published = false;
 	    newEval.activated = false;
-	    newEval.timeZone = TimeHelper.getLocalTimezoneHourOffset();
+	    newEval.timeZone = 5.75;
 		browser = BrowserPool.getBrowser();
 		
 	}
@@ -160,19 +160,19 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
 		
 		// Empty name
-		evalsPage.addEvaluation(eval.courseId, "", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, "", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod, eval.timeZone);
 		assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
 		
 		// Empty instructions
-		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, "", eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, "", eval.gracePeriod, eval.timeZone);
 		assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
 
 		// Invalid name
-		evalsPage.addEvaluation(eval.courseId, eval.name+"!@#$%^&*()_+", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, eval.name+"!@#$%^&*()_+", eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod, eval.timeZone);
 		assertEquals(Const.StatusMessages.EVALUATION_NAMEINVALID, evalsPage.getStatus());
 		
 		// Invalid schedule
-		evalsPage.addEvaluation(eval.courseId, eval.name, eval.endTime, eval.startTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, eval.name, eval.endTime, eval.startTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod, eval.timeZone);
 		assertEquals(Const.StatusMessages.EVALUATION_SCHEDULEINVALID.replace("<br />", "\n"), evalsPage.getStatus());
 		
 	}
@@ -182,7 +182,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		______TS("typical success case");
 		
 		EvaluationAttributes eval = newEval;
-		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod, eval.timeZone);
 		evalsPage.verifyStatus(Const.StatusMessages.EVALUATION_ADDED);
 		EvaluationAttributes savedEvaluation = BackDoor.getEvaluation(eval.courseId, eval.name);
 		//Note: This can fail at times because Firefox fails to choose the correct value from the dropdown.
@@ -193,7 +193,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 
 		______TS("duplicate evalution name");
 
-		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod);
+		evalsPage.addEvaluation(eval.courseId, eval.name, eval.startTime, eval.endTime, eval.p2pEnabled, eval.instructions.getValue(), eval.gracePeriod, eval.timeZone);
 		assertEquals(Const.StatusMessages.EVALUATION_EXISTS, evalsPage.getStatus());
 		
 	}

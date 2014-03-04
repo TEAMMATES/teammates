@@ -120,6 +120,23 @@ public class StringHelper {
 		return df.format(doubleVal);
 	}
 
+	public static String toUtcFormat(double hourOffsetTimeZone) {
+		String utcFormatTimeZone = "UTC";
+		if (hourOffsetTimeZone != 0) {
+			if ((int) hourOffsetTimeZone == hourOffsetTimeZone)
+				utcFormatTimeZone += String.format(" %+03d:00",
+						(int) hourOffsetTimeZone);
+			else
+				utcFormatTimeZone += String.format(
+						" %+03d:%02d",
+						(int) hourOffsetTimeZone,
+						(int) (Math.abs(hourOffsetTimeZone
+								- (int) hourOffsetTimeZone) * 300 / 5));
+		}
+
+		return utcFormatTimeZone;
+	}
+	
 	private static String byteArrayToHexString(byte[] b) {
 		StringBuffer sb = new StringBuffer(b.length * 2);
 		for (int i = 0; i < b.length; i++) {

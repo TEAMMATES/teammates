@@ -199,20 +199,13 @@ public class PageData {
 										-3,-2,-1,0,1,2,3,3.5,4,4.5,5,5.5,5.75,6,
 										7,8,9,10,11,12,13};
 		ArrayList<String> result = new ArrayList<String>();
-		for(int i=0; i<options.length; i++){
-			String temp = "UTC";
-			if(options[i]!=0){
-				if((int)options[i]==options[i])
-					temp+=String.format(" %+03d:00", (int)options[i]);
-				else
-					temp+=String.format(" %+03d:%02d", (int)options[i],
-							(int)(Math.abs(options[i]-(int)options[i])*300/5));
-			}
-			result.add("<option value=\""+formatAsString(options[i])+"\"" +
-						(existingTimeZone==options[i]
+		for (int i = 0; i < options.length; i++) {
+			String utcFormatOption = StringHelper.toUtcFormat(options[i]);
+			result.add("<option value=\"" + formatAsString(options[i]) + "\"" +
+					(existingTimeZone == options[i]
 							? "selected=\"selected\""
 							: "") +
-						">"+temp+"</option>");
+					">" + utcFormatOption + "</option>");
 		}
 		return result;
 	}
