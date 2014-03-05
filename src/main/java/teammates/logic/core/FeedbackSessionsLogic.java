@@ -53,6 +53,8 @@ public class FeedbackSessionsLogic {
 	private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+	private static final int EMAIL_NAME_PAIR = 0;
+	private static final int EMAIL_TEAMNAME_PAIR = 1;
 
 	public static FeedbackSessionsLogic inst() {
 		if (instance == null)
@@ -249,12 +251,10 @@ public class FeedbackSessionsLogic {
 			throws EntityDoesNotExistException {
 		return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, UserType.Role.STUDENT);
 	}
-
 	
 	public String getFeedbackSessionResultsSummaryAsCsv(
 			String feedbackSessionName, String courseId, String userEmail) 
 					throws UnauthorizedAccessException, EntityDoesNotExistException {
-		
 		FeedbackSessionResultsBundle results =
 				getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail);
 		
@@ -273,10 +273,12 @@ public class FeedbackSessionsLogic {
 			
 			export += "Question " + Integer.toString(entry.getKey().questionNumber) + "," +
 					 Sanitizer.sanitizeForCsv(questionDetails.questionText) + Const.EOL + Const.EOL;
-			export += "Giver" + "," + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL;
+			export += "Team" + "," + "Giver" + "," + "Recipient's Team" + "," + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL;
 			
 			for(FeedbackResponseAttributes response : entry.getValue()){
-				export += Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail)) + "," + 
+				export += Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)) + "," +
+						Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail)) + "," +
+						Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail)) + "," +
 						Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipientEmail)) + "," +
 						response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL;
 			}
@@ -732,6 +734,8 @@ public class FeedbackSessionsLogic {
 				new HashMap<String, FeedbackQuestionAttributes>();
 		Map<String, String> emailNameTable =
 				new HashMap<String, String>();
+		Map<String, String> emailTeamNameTable =
+				new HashMap<String, String>();
 		Map<String, boolean[]> visibilityTable =
 				new HashMap<String, boolean[]>();
 				
@@ -742,7 +746,7 @@ public class FeedbackSessionsLogic {
 			//return empty result set
 			return new FeedbackSessionResultsBundle(
 					session, responses, relevantQuestions,
-					emailNameTable, visibilityTable, responseStatus);
+					emailNameTable, emailTeamNameTable, visibilityTable, responseStatus);
 		}
 				
 		for (FeedbackQuestionAttributes question : allQuestions) {
@@ -762,6 +766,7 @@ public class FeedbackSessionsLogic {
 				relevantQuestions.put(question.getId(), question);
 				responses.addAll(responsesForThisQn);
 				addEmailNamePairsToTable(emailNameTable, responsesForThisQn, question, roster);
+				addEmailTeamNamePairsToTable(emailTeamNameTable, responsesForThisQn, question, roster);
 				addVisibilityToTable( visibilityTable, question, responsesForThisQn, userEmail, roster);
 			}
 			
@@ -770,7 +775,7 @@ public class FeedbackSessionsLogic {
 		FeedbackSessionResultsBundle results = 
 			new FeedbackSessionResultsBundle(
 			    session, responses, relevantQuestions,
-                emailNameTable, visibilityTable, responseStatus);
+                emailNameTable, emailTeamNameTable, visibilityTable, responseStatus);
 	
 		return results;
 	}
@@ -791,27 +796,38 @@ public class FeedbackSessionsLogic {
 	private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
 			List<FeedbackResponseAttributes> responsesForThisQn,
 			FeedbackQuestionAttributes question, CourseRoster roster) throws EntityDoesNotExistException {
-		
+		addEmailNamePairsToTable(emailNameTable, responsesForThisQn, question, roster, EMAIL_NAME_PAIR);
+	}
+	
+	private void addEmailTeamNamePairsToTable(Map<String, String> emailTeamNameTable,
+			List<FeedbackResponseAttributes> responsesForThisQn,
+			FeedbackQuestionAttributes question, CourseRoster roster) throws EntityDoesNotExistException {
+		addEmailNamePairsToTable(emailTeamNameTable, responsesForThisQn, question, roster, EMAIL_TEAMNAME_PAIR);
+	}
+	
+	private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
+			List<FeedbackResponseAttributes> responsesForThisQn,
+			FeedbackQuestionAttributes question, CourseRoster roster, int pairType) throws EntityDoesNotExistException {
+	
 		for (FeedbackResponseAttributes response : responsesForThisQn) {
 			if (question.giverType == FeedbackParticipantType.TEAMS){
 				if (emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER) == false) {
 					emailNameTable.put(
 							response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
-							getNameForEmail(question.giverType, response.giverEmail, roster));
+							getNameTeamNamePairForEmail(question.giverType, response.giverEmail, roster)[pairType]);
 				}
 			} else if(emailNameTable.containsKey(response.giverEmail) == false) {
 				emailNameTable.put(
 						response.giverEmail,
-						getNameForEmail(question.giverType, response.giverEmail, roster));
+						getNameTeamNamePairForEmail(question.giverType, response.giverEmail, roster)[pairType]);
 			}
 			
 			if(emailNameTable.containsKey(response.recipientEmail) == false) {
 				emailNameTable.put(
 						response.recipientEmail,
-						getNameForEmail(question.recipientType, response.recipientEmail, roster));
+						getNameTeamNamePairForEmail(question.recipientType, response.recipientEmail, roster)[pairType]);
 			}
 		}
-		
 	}
 		
 	private List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForCourse(
@@ -879,9 +895,11 @@ public class FeedbackSessionsLogic {
 		return responseStatus;
 	}
 	
-	private String getNameForEmail(FeedbackParticipantType type, String email, CourseRoster roster)
+	//return a pair of String that contains Giver/Recipient'sName (at index 0) and TeamName (at index 1)
+	private String[] getNameTeamNamePairForEmail(FeedbackParticipantType type, String email, CourseRoster roster)
 			throws EntityDoesNotExistException {
-		
+		String giverRecipientName = null;
+		String teamName = null;
 		String name = null;
 		String team = null;
 		
@@ -908,10 +926,16 @@ public class FeedbackSessionsLogic {
 		}
 		
 		if (type == FeedbackParticipantType.TEAMS || type == FeedbackParticipantType.OWN_TEAM){
-			return team;
+			giverRecipientName = team;
+			teamName = "";
+		} else if(name != Const.USER_IS_NOBODY && name != Const.USER_IS_TEAM){ 
+			giverRecipientName = name;
+			teamName = team;
 		} else {
-			return name;
+			giverRecipientName = name;
+			teamName = "";
 		}
+		return new String[]{ giverRecipientName, teamName };
 	}
 	
 	public boolean isFeedbackSessionFullyCompletedByStudent(String feedbackSessionName,
