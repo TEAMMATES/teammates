@@ -87,21 +87,21 @@
 	action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
 	<table class="inputTable sortTypeTable">
 		<tr>
-			<td><input type="radio"
+			<td><label><input type="radio"
 				name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="giver"
 				onclick="this.form.submit()"
 				<%=(data.sortType!=null) ? data.sortType.equals("giver") ? "checked=\"checked\"" : "" : ""%>><span
-				class="label bold"> Sort by giver (Paragraph format)</span></td>
-			<td><input type="radio"
+				class="label bold"> Sort by giver (Paragraph format)</span></label></td>
+			<td><label><input type="radio"
 				name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="recipient"
 				onclick="this.form.submit()"
 				<%=(data.sortType!=null) ? data.sortType.equals("recipient") ? "checked=\"checked\"" : "" : "checked=\"checked\""%>><span
-				class="label bold"> Sort by recipient (Paragraph format)</span></td>
-			<td><input type="radio"
+				class="label bold"> Sort by recipient (Paragraph format)</span></label></td>
+			<td><label><input type="radio"
 				name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="table"
 				onclick="this.form.submit()"
 				<%=(data.sortType!=null) ? data.sortType.equals("table") ? "checked=\"checked\"" : "" : ""%>><span
-				class="label bold"> View as table</span></td>
+				class="label bold"> View as table</span></label></td>
 		</tr>
 	</table>
 	<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
