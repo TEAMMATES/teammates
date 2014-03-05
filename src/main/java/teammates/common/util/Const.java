@@ -41,7 +41,7 @@ public class Const {
 	
 		public static final String COURSE_ENROLL = "Enroll student into the course";
 		public static final String COURSE_ENROLL_SAMPLE_SPREADSHEET = "Download a sample team data spreadsheet";
-		public static final String COURSE_DETAILS = "View, edit and send registration keys to the students in the course";
+		public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
 		public static final String COURSE_EDIT = "Edit Course information and instructor list";
 		public static final String COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
 		public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more \\(you can still access it from the \\'Courses\\' tab\\)";
@@ -55,11 +55,11 @@ public class Const {
 		
 		public static final String COURSE_STUDENT_DETAILS = "View the details of the student";
 		public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
-		public static final String COURSE_STUDENT_REMIND = "E-mail the registration key to the student";
+		public static final String COURSE_STUDENT_REMIND = "Send invitation email to the student";
 		public static final String COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
 		public static final String COURSE_STUDENT_RECORDS = "View all student\\'s evaluations and feedbacks";
 		
-		public static final String COURSE_REMIND = "Send a reminder to all students yet to join the class";
+		public static final String COURSE_REMIND = "Send invitation emails to all students yet to join the course";
 		public static final String COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course";
 	
 		public static final String EVALUATION_STATUS_AWAITING = "The evaluation is created but has not yet started";
@@ -541,7 +541,7 @@ public class Const {
 		public static final String COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
 		public static final String COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""
 				+ ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create one.";
-		public static final String COURSE_REMINDER_SENT_TO = "Registration key has been sent to ";
+		public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
 		public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 	
 		public static final String COURSE_INSTRUCTOR_ADDED = "The instructor has been added successfully.";
