@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
@@ -112,7 +113,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		
 		String headerRow = "Name\tEmail\tTeam\tComment";
 		String studentsInfo = "Jean Wong\tjean@email.com\tTeam 1\tExchange student"
-							+ Const.EOL + "James Tan\tjames@email.com\tTeam 2";
+							+ Const.EOL + "James Tan\tjames@email.com\tTeam 2\t";
 		enrollString = headerRow + Const.EOL +  studentsInfo;
 		
 		submissionParams = new String[]{
@@ -161,7 +162,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		assertEquals(true, result.isError);
 		String expectedStatusMessage = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">"
 							+ studentWithoutEnoughParam + "</span></span><br><span class=\"problemDetail\">&bull; "
-							+ StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS + "</span></p>" +
+							+ StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS + "</span></p>" +
 							"<br>" + "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">"
 							+ studentWithInvalidEmail + "</span></span><br><span class=\"problemDetail\">&bull; "
 							+ "\"invalid.email.com\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces."

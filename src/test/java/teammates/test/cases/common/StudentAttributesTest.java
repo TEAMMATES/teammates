@@ -17,13 +17,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EnrollException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.AssertHelper;
 
 public class StudentAttributesTest extends BaseTestCase {
 
@@ -34,113 +32,34 @@ public class StudentAttributesTest extends BaseTestCase {
 
 	@Test
 	public void testStudentConstructor() throws TeammatesException {
-		String line;
 		String courseId = "anyCoursId";
 		StudentAttributes invalidStudent;
 		
 		Student expected;
 		StudentAttributes studentUnderTest;
 		
-		// SUCCESS : normal input, using tab as separator
-		expected = generateTypicalStudentObject();
-		String enrollmentLine = "team 1\tname 1\temail@email.com\tcomment 1";
-		studentUnderTest = new StudentAttributes(enrollmentLine, courseId, null);
-		verifyStudentContent(expected, studentUnderTest.toEntity());
-		
-		// SUCCESS : normal input, using '|' as separator
-		enrollmentLine = "team 1|name 1|email@email.com|comment 1";
-		studentUnderTest = new StudentAttributes(enrollmentLine, courseId, null);
-		verifyStudentContent(expected, studentUnderTest.toEntity());
-		
-		// SUCCESS : normal input, using both separators
-		enrollmentLine = "team 1|name 1\temail@email.com|comment 1";
-		studentUnderTest = new StudentAttributes(enrollmentLine, courseId, null);
-		verifyStudentContent(expected, studentUnderTest.toEntity());
-		
-		______TS("success: different column order");
-		enrollmentLine = "name 1\temail@email.com\tteam 1\tcomment 1";
-		Integer[] order = new Integer[]{2,0,1,3};
-		studentUnderTest = new StudentAttributes(enrollmentLine, courseId, order);
-		verifyStudentContent(expected, studentUnderTest.toEntity());
-		
-		// FAIL : courseId is null
-		line = "team|name|e@e.com|c";
-		try {
-			invalidStudent = new StudentAttributes(line, null, null);
-			signalFailureToDetectException("Assumption violation not detected");
-		} catch (AssertionError e) {
-			AssertHelper.assertContains(StudentAttributes.ERROR_COURSE_ID_NULL, e.getMessage());
-		}
-		
 		// FAIL : empty courseId
-		invalidStudent = new StudentAttributes(line, "", null);
+		invalidStudent = new StudentAttributes("team", "name", "e@e.com", "c", "");
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_EMPTY), 
 				invalidStudent.getInvalidityInfo().get(0));
 	
-		// FAIL : invalid courseId
-		invalidStudent = new StudentAttributes(line, "Course Id with space", null);
+		// FAIL : invalid courseId (contains space)
+		invalidStudent = new StudentAttributes("team", "name", "e@e.com", "c", "Course Id with space");
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_INCORRECT_FORMAT),
-				invalidStudent.getInvalidityInfo().get(0));
-		
-		// FAIL : enroll line is null
-		line = null;
-		try {
-			invalidStudent = new StudentAttributes(line, courseId, null);
-			signalFailureToDetectException();
-		} catch (AssertionError ae) {
-			assertEquals(ae.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_NULL);
-		}
-		
-		// FAIL : enroll line is empty
-		line = "";
-		try {
-			invalidStudent = new StudentAttributes(line, courseId, null);
-			signalFailureToDetectException();
-		} catch (EnrollException ee) {
-			assertEquals(ee.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_EMPTY);
-		}
-		
-		// FAIL : too few inputs in enroll line
-		line = "a";
-		try {
-			invalidStudent = new StudentAttributes(line, courseId, null);
-			signalFailureToDetectException();
-		} catch (EnrollException ee) {
-			assertEquals(ee.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS);
-		}
-		
-		// FAIL : too few inputs in enroll line
-		line = "a|b";
-		try {
-			invalidStudent = new StudentAttributes(line, courseId, null);
-			signalFailureToDetectException();
-		} catch (EnrollException ee) {
-			assertEquals(ee.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOFEWPARTS);
-		}
-		
-		// FAIL : too many inputs in enroll line
-		line = "p1|p2|p3|p4|p5";
-		try {
-			invalidStudent = new StudentAttributes(line, courseId, null);
-			signalFailureToDetectException();
-		} catch (EnrollException ee) {
-			assertEquals(ee.getMessage(), StudentAttributes.ERROR_ENROLL_LINE_TOOMANYPARTS);
-		}
+				invalidStudent.getInvalidityInfo().get(0));	
 	
 		// FAIL : empty name
-		line = "t1| |e@e.com|c";
-		invalidStudent = new StudentAttributes(line, courseId, null);
+		invalidStudent = new StudentAttributes("t1", "", "e@e.com", "c", courseId);
 		assertFalse(invalidStudent.isValid());
 		assertEquals(invalidStudent.getInvalidityInfo().get(0), 
 				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "",	FieldValidator.REASON_EMPTY));
 		
 		// FAIL : empty email
-		line = "t1|n||c";
-		invalidStudent = new StudentAttributes(line, courseId, null);
+		invalidStudent = new StudentAttributes("t1", "n", "", "c", courseId);
 		assertFalse(invalidStudent.isValid());
 		assertEquals( 
 				String.format(EMAIL_ERROR_MESSAGE, "", REASON_EMPTY), 
@@ -148,8 +67,7 @@ public class StudentAttributesTest extends BaseTestCase {
 	
 		// FAIL : team name too long
 		String longTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
-		line = longTeamName + "|name|e@e.com|c";
-		invalidStudent = new StudentAttributes(line, courseId, null);
+		invalidStudent = new StudentAttributes(longTeamName, "name", "e@e.com", "c", courseId);
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(TEAM_NAME_ERROR_MESSAGE, longTeamName, REASON_TOO_LONG),
@@ -157,16 +75,14 @@ public class StudentAttributesTest extends BaseTestCase {
 		
 		// FAIL : student name too long
 		String longStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
-		line = "t1|" + longStudentName + "|e@e.com|c";
-		invalidStudent = new StudentAttributes(line, courseId, null);
+		invalidStudent = new StudentAttributes("t1", longStudentName, "e@e.com", "c", courseId);
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, longStudentName,	FieldValidator.REASON_TOO_LONG),
 				invalidStudent.getInvalidityInfo().get(0));
 		
 		// FAIL : invalid email
-		line = "t1|name|ee.com|c";
-		invalidStudent = new StudentAttributes(line, courseId, null);
+		invalidStudent = new StudentAttributes("t1", "name", "ee.com", "c", courseId);
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(EMAIL_ERROR_MESSAGE, "ee.com", REASON_INCORRECT_FORMAT), 
@@ -174,27 +90,18 @@ public class StudentAttributesTest extends BaseTestCase {
 		
 		// FAIL : comment too long
 		String longComment = StringHelper.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
-		line = "t1|name|e@e.com|" + longComment;
-		invalidStudent = new StudentAttributes(line, courseId, null);
+		invalidStudent = new StudentAttributes("t1", "name", "e@e.com", longComment, courseId);
 		assertFalse(invalidStudent.isValid());
 		assertEquals(
 				String.format(STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, longComment, REASON_TOO_LONG),
 				invalidStudent.getInvalidityInfo().get(0));
-	
+		
 		// Other invalid parameters cases are omitted because they are already
 		// unit-tested in validate*() methods in Common.java
 	
 		// extra white space
 		expected = generateTypicalStudentObject();
-		enrollmentLine = "  team 1   |   name 1   |   email@email.com  |  comment 1  ";
-		studentUnderTest = new StudentAttributes(enrollmentLine, "courseId1", null);
-		verifyStudentContent(expected, studentUnderTest.toEntity());
-	
-		// comment left out
-		expected = generateTypicalStudentObject();
-		expected.setComments("");
-		enrollmentLine = "  team 1   |   name 1   |   email@email.com ";
-		studentUnderTest = new StudentAttributes(enrollmentLine, "courseId1", null);
+		studentUnderTest = new StudentAttributes("  team 1   ", "   name 1   ", "   email@email.com  ", "  comment 1  ", "courseId1");
 		verifyStudentContent(expected, studentUnderTest.toEntity());
 	
 	}
@@ -237,7 +144,7 @@ public class StudentAttributesTest extends BaseTestCase {
 	
 	@Test 
 	public void testIsRegistered() throws Exception{
-		StudentAttributes sd = new StudentAttributes("team 1|name 1|email@email.com|comment 1", "course1", null);
+		StudentAttributes sd = new StudentAttributes("team 1", "name 1", "email@email.com", "comment 1", "course1");
 		Student studentUnderTest = sd.toEntity();
 		
 		// Id is not given yet
