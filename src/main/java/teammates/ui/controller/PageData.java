@@ -675,11 +675,7 @@ public class PageData {
 		} else if (session.isOpened()) {
 			return "Open";
 		} else if (session.isWaitingToOpen()) {
-			if (session.isVisible()) {
-				return "Visible";
-			} else {
-				return "Awaiting";
-			}
+			return "Awaiting";
 		} else if (session.isPublished()) {
 			return "Published";
 		} else {
@@ -832,7 +828,7 @@ public class PageData {
 	}
 
 	/**
-	 * Returns the evaluaton status. Can be any one of these:
+	 * Returns the evaluation status. Can be any one of these:
 	 * <ul>
 	 * <li>AWAITING - When the evaluation start time is still in the future</li>
 	 * <li>OPEN - When the evaluation is started and has not passed the deadline</li>
