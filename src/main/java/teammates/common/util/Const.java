@@ -286,6 +286,8 @@ public class Const {
 		public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 		public static final String FEEDBACK_RESPONSE_TEXT = "responsetext";
 		
+		public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
+		
 		public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
 		public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
 		
@@ -396,7 +398,9 @@ public class Const {
 		
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
-		
+
+		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
+				
 		public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
 		
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";

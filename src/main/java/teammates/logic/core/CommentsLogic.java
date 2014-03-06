@@ -17,6 +17,7 @@ public class CommentsLogic {
 
 	private static CommentsLogic instance;
 
+	@SuppressWarnings("unused") //used by test
 	private static final Logger log = Utils.getLogger();
 
 	private static final CommentsDb commentsDb = new CommentsDb();

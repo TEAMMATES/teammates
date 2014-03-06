@@ -487,6 +487,20 @@ div#statusMessage {
 	width: 700px;
 }
 
+/*---------------------  Feedback Response Comment Tables  --------------------------------------------------- */
+
+.responseCommentTable {
+	width: 100%;
+}
+
+.responseCommentTable td {
+	border-style: none;
+}
+
+.responseCommentTable textarea {
+	width: 98%;
+}
+
 /*---------------------  Button  --------------------------------------------------- */
 .button {
 	background: #378de5;

@@ -15,6 +15,7 @@ import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
@@ -50,6 +51,7 @@ public class FeedbackSessionsLogic {
 	private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 	private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 	private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+	private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 	private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 	private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -738,7 +740,9 @@ public class FeedbackSessionsLogic {
 				new HashMap<String, String>();
 		Map<String, boolean[]> visibilityTable =
 				new HashMap<String, boolean[]>();
-				
+		Map<String, List<FeedbackResponseCommentAttributes>> responseComments = 
+				new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+	
 		FeedbackSessionResponseStatus responseStatus = getFeedbackSessionResponseStatus(session);
 		
 		boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
@@ -746,7 +750,8 @@ public class FeedbackSessionsLogic {
 			//return empty result set
 			return new FeedbackSessionResultsBundle(
 					session, responses, relevantQuestions,
-					emailNameTable, emailTeamNameTable, visibilityTable, responseStatus);
+					emailNameTable, emailTeamNameTable, 
+					visibilityTable, responseStatus, responseComments);
 		}
 				
 		for (FeedbackQuestionAttributes question : allQuestions) {
@@ -772,10 +777,21 @@ public class FeedbackSessionsLogic {
 			
 		}
 		
+		List<FeedbackResponseCommentAttributes> allResponseComments = 
+				frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
+		for (FeedbackResponseCommentAttributes frc : allResponseComments) {
+			if (responseComments.get(frc.feedbackResponseId) == null) {
+				responseComments.put(frc.feedbackResponseId,
+						new ArrayList<FeedbackResponseCommentAttributes>());
+			}
+			responseComments.get(frc.feedbackResponseId).add(frc);
+		}
+		
 		FeedbackSessionResultsBundle results = 
 			new FeedbackSessionResultsBundle(
 			    session, responses, relevantQuestions,
-                emailNameTable, emailTeamNameTable, visibilityTable, responseStatus);
+                emailNameTable, emailTeamNameTable, 
+                visibilityTable, responseStatus, responseComments);
 	
 		return results;
 	}
@@ -857,8 +873,6 @@ public class FeedbackSessionsLogic {
 		return fsInCourse;
 	}
 
-	
-	// TODO Note: This method is for use in Issue 1061. Can be further refactored.
 	private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
 			FeedbackSessionAttributes fsa)
 			throws EntityDoesNotExistException {

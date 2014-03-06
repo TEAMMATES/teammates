@@ -19,6 +19,7 @@ import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
@@ -43,6 +44,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -80,6 +82,7 @@ public class Logic {
 	protected static FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
 	protected static FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
 	protected static FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+	protected static FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -1489,6 +1492,21 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
 
 		feedbackResponsesLogic.deleteFeedbackResponse(feedbackResponse);
+	}
+	
+	@SuppressWarnings("unused")
+	private void ____FEEDBACK_RESPONSE_COMMENT_level_methods_____________________________() {
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void createFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
+
+		feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
 	}
 	
 	@SuppressWarnings("unused")

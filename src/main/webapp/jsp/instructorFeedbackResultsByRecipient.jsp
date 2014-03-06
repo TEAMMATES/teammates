@@ -4,6 +4,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus" %>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
@@ -27,6 +28,7 @@
 <script type="text/javascript" src="/js/AnchorPosition.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+<script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
 <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -79,6 +81,47 @@
 					</tr>
 					<tr>
 						<td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
+					</tr>
+					<tr>
+						<td>
+							<span class="bold">Comments: </span>
+							<a href="#" class="color_gray" 
+								id="toggleResponseCommentTableButton-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
+								onclick="toggleResponseCommentTable(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)">[show]</a>
+								<table 
+									class="responseCommentTable" 
+									id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
+									style="display:none;">
+									<%
+										List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());
+										if (responseComments != null) {
+											for (FeedbackResponseCommentAttributes comment : responseComments) {
+									%>
+												<tr>
+													<td><%=comment.commentText.getValue() %></td>
+													<td><%=comment.giverEmail %></td>
+													<td><%=comment.createdAt %></td>
+												</tr>
+									<%
+											}
+										}
+									%>
+									<tr>
+										<td colspan="3">
+											<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %>">
+												<textarea rows="4" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"></textarea>
+												<input type="submit" class="button floatright" value="submit comment">
+												<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
+												<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
+												<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="<%=singleResponse.feedbackQuestionId %>">											
+												<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="<%=singleResponse.getId() %>">
+												<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+												<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="recipient">
+											</form>
+										</td>
+									</tr>
+								</table>
+						</td>
 					</tr>
 					<%
 							qnIndx++;
