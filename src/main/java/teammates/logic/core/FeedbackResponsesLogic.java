@@ -111,9 +111,14 @@ public class FeedbackResponsesLogic {
 		List<FeedbackResponseAttributes> viewableResponses =
 				new ArrayList<FeedbackResponseAttributes>();
 
+		// Add responses that the user submitted himself
+		addNewResponses(
+				viewableResponses,
+				frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), userEmail));
+		
 		// Add responses that user is a receiver of when question is visible to receiver.
 		if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
-			addNewResponses (
+			addNewResponses(
 					viewableResponses,
 					frDb.getFeedbackResponsesForReceiverForQuestion(question.getId(),	userEmail));
 		}
@@ -127,7 +132,8 @@ public class FeedbackResponsesLogic {
 			break;
 		case INSTRUCTOR:
 			if (question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
-				addNewResponses(viewableResponses,
+				addNewResponses(
+						viewableResponses,
 						getFeedbackResponsesForQuestion(question.getId()));
 			}
 			break;
