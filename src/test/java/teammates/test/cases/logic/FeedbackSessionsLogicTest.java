@@ -148,7 +148,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		
 		sessionList = fsLogic
 				.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
-		assertEquals(sessionList.size(), 1);
+		assertEquals(1, sessionList.size());
 		assertEquals(sessionList.get(0).feedbackSessionName,
 				session.feedbackSessionName);
 		
@@ -184,7 +184,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		List<FeedbackSessionAttributes> sessionList = fsLogic
 				.getFeedbackSessionsWhichNeedPublishedEmailsToBeSent();
 		
-		assertEquals(sessionList.size(), 0);
+		assertEquals(0, sessionList.size());
 		
 		______TS("case : 1 published session with mail unsent");
 		FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -198,7 +198,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		
 		sessionList = fsLogic
 				.getFeedbackSessionsWhichNeedPublishedEmailsToBeSent();
-		assertEquals(sessionList.size(), 1);
+		assertEquals(1, sessionList.size());
 		assertEquals(sessionList.get(0).feedbackSessionName,
 				session.feedbackSessionName);
 		
@@ -208,7 +208,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		
 		sessionList = fsLogic
 				.getFeedbackSessionsWhichNeedPublishedEmailsToBeSent();
-		assertEquals(sessionList.size(), 0);
+		assertEquals(0, sessionList.size());
 	}
 	
 	@Test
@@ -273,7 +273,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 					details);
 		}
 		
-		assertEquals(detailsList.size(), 4);
+		assertEquals(4, detailsList.size());
 		AssertHelper.assertContains(expectedSessions, actualSessions);
 		
 		/** Standard session **/
@@ -282,9 +282,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 								dataBundle.feedbackSessions.get("standard.session").courseId).stats;
 		
 		// 2 instructors, 6 students = 8
-		assertEquals(stats.expectedTotal, 8);
+		assertEquals(8, stats.expectedTotal);
 		// 1 instructor, 1 student, did not respond => 8-2=6
-		assertEquals(stats.submittedTotal, 6);
+		assertEquals(6, stats.submittedTotal);
 		
 		
 		/** No recipients session **/
@@ -292,25 +292,25 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 								dataBundle.feedbackSessions.get("no.recipients.session").courseId).stats;
 		
 		// 2 instructors, 6 students = 8
-		assertEquals(stats.expectedTotal, 8);
+		assertEquals(8, stats.expectedTotal);
 		// only 1 student responded
-		assertEquals(stats.submittedTotal, 1);
+		assertEquals(1, stats.submittedTotal);
 		
 		/** No responses session **/
 		stats = detailsMap.get(dataBundle.feedbackSessions.get("no.responses.session").feedbackSessionName + "%" +
 								dataBundle.feedbackSessions.get("no.responses.session").courseId).stats;
 		
 		// 1 instructors, 1 students = 2
-		assertEquals(stats.expectedTotal, 2);
+		assertEquals(2, stats.expectedTotal);
 		// no responses
-		assertEquals(stats.submittedTotal, 0);
+		assertEquals(0, stats.submittedTotal);
 		
 		/** Private session **/
 		stats = detailsMap.get(dataBundle.feedbackSessions.get("private.session").feedbackSessionName + "%" +
 				dataBundle.feedbackSessions.get("private.session").courseId).stats;
-		assertEquals(stats.expectedTotal, 1);
+		assertEquals(1, stats.expectedTotal);
 		// For private sessions, we mark as completed only when creator has finished all questions.
-		assertEquals(stats.submittedTotal, 0);
+		assertEquals(0, stats.submittedTotal);
 		
 		// Make session non-private
 		FeedbackSessionAttributes privateSession = 
@@ -331,9 +331,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 			}
 		}
 		// 1 instructor (creator only), 6 students = 8
-		assertEquals(stats.expectedTotal, 7);
+		assertEquals(7, stats.expectedTotal);
 		// 1 instructor, 1 student responded
-		assertEquals(stats.submittedTotal, 2);
+		assertEquals(2, stats.submittedTotal);
 		
 		______TS("instructor does not exist");
 			
@@ -424,7 +424,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		
 		// There should be 2 question for students to do in session 1.
 		// The final question is set for SELF (creator) only.
-		assertEquals(actual.questionResponseBundle.size(),2);
+		assertEquals(2, actual.questionResponseBundle.size());
 		
 		// Question 1
 		FeedbackQuestionAttributes expectedQuestion = 
@@ -436,7 +436,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
 			actualResponses.add(responsesForQn.toString());
 		}
-		assertEquals(actualResponses.size(), 1);
+		assertEquals(1, actualResponses.size());
 		AssertHelper.assertContains(actualResponses, expectedResponsesString);
 		
 		// Question 2
@@ -448,7 +448,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
 			actualResponses.add(responsesForQn.toString());
 		}
-		assertEquals(actualResponses.size(), 1);
+		assertEquals(1, actualResponses.size());
 		AssertHelper.assertContains(actualResponses, expectedResponsesString);
 		
 		______TS("team feedback test");
@@ -457,7 +457,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		actual = fsLogic.getFeedbackSessionQuestionsForStudent(
 						"Second feedback session", "idOfTypicalCourse1", "student3InCourse1@gmail.com");
 
-		assertEquals(actual.questionResponseBundle.size(),2);
+		assertEquals(2, actual.questionResponseBundle.size());
 		
 		// Question 1
 		expectedQuestion = getQuestionFromDatastore("team.feedback");
@@ -470,7 +470,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				.get(expectedQuestion)) {
 			actualResponses.add(responsesForQn.toString());
 		}
-		assertEquals(actualResponses.size(), 1);
+		assertEquals(1, actualResponses.size());
 		AssertHelper.assertContains(actualResponses, expectedResponsesString);
 		
 		// Question 2, no responses from this student yet
@@ -485,7 +485,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 					"invalid session", "idOfTypicalCourse1", "student3InCourse1@gmail.com");
 			signalFailureToDetectException("Did not detect that session does not exist.");
 		} catch (EntityDoesNotExistException e) {
-			assertEquals(e.getMessage(), "Trying to get a feedback session that does not exist.");
+			assertEquals("Trying to get a feedback session that does not exist.", e.getMessage());
 		}
 		
 	}
@@ -501,12 +501,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 						"Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.com");
 		
 		// We just test this once.
-		assertEquals(actual.feedbackSession.toString(), 
-				dataBundle.feedbackSessions.get("session2InCourse2").toString());
+		assertEquals(dataBundle.feedbackSessions.get("session2InCourse2").toString(), 
+				actual.feedbackSession.toString());
 		
 		// There should be 2 question for students to do in session 1.
 		// The final question is set for SELF (creator) only.
-		assertEquals(actual.questionResponseBundle.size(),2);
+		assertEquals(2, actual.questionResponseBundle.size());
 		
 		// Question 1
 		FeedbackQuestionAttributes expectedQuestion = 
@@ -518,7 +518,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
 			actualResponses.add(responsesForQn.toString());
 		}
-		assertEquals(actualResponses.size(), 1);
+		assertEquals(1, actualResponses.size());
 		AssertHelper.assertContains(actualResponses, expectedResponsesString);
 		
 		// Question 2
@@ -529,12 +529,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		______TS("private test: not creator");
 		actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
 						"Private feedback session", "idOfTypicalCourse2", "instructor2@course2.com");
-		assertEquals(actual.questionResponseBundle.size(),0);
+		assertEquals(0, actual.questionResponseBundle.size());
 		
 		______TS("private test: is creator");
 		actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
 						"Private feedback session", "idOfTypicalCourse2", "instructor1@course2.com");
-		assertEquals(actual.questionResponseBundle.size(),1);
+		assertEquals(1, actual.questionResponseBundle.size());
 		expectedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
 		assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 		
@@ -545,7 +545,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 					"invalid session", "idOfTypicalCourse1", "instructor1@course1.com");
 			signalFailureToDetectException("Did not detect that session does not exist.");
 		} catch (EntityDoesNotExistException e) {
-			assertEquals(e.getMessage(), "Trying to get a feedback session that does not exist.");
+			assertEquals("Trying to get a feedback session that does not exist.", e.getMessage());
 		}
 	}
 	
@@ -571,14 +571,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 						session.courseId, student.email);
 	
 		// We just check for correct session once
-		assertEquals(results.feedbackSession.toString(), 
-				session.toString());	
+		assertEquals(session.toString(), results.feedbackSession.toString());	
 		
-		// Student can see responses: q1r1, q2r3, q3r1, qr4r2-3, q5r1, q7r1-2, q8r2
+		// Student can see responses: q1r1, q2r1,3, q3r1, qr4r2-3, q5r1, q7r1-2, q8r1-2
 		// We don't check the actual IDs as this is also implicitly tested
 		// later when checking the visibility table.
-		assertEquals(results.responses.size(), 9);
-		assertEquals(results.questions.size(), 7);
+		assertEquals(11, results.responses.size());
+		assertEquals(7, results.questions.size());
 		
 		// Test the user email-name maps used for display purposes
 		String mapString = results.emailNameTable.toString();
@@ -588,6 +587,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				"FSRTest.student2InCourse1@gmail.com=student2 In Course1",
 				"FSRTest.student4InCourse1@gmail.com=student4 In Course1",
 				"Team 1.1=Team 1.1",
+				"Team 1.2=Team 1.2",
 				"Team 1.3=Team 1.3",
 				"Team 1.4=Team 1.4",
 				"FSRTest.instr1@course1.com=Instructor1 Course1",
@@ -595,7 +595,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				"FSRTest.student2InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
 				"FSRTest.student4InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.2");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailNameTable.size(), 10);
+		assertEquals(11, results.emailNameTable.size());
 
 		// Test the user email-teamName maps used for display purposes
 		mapString = results.emailTeamNameTable.toString();
@@ -609,16 +609,18 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				"FSRTest.student2InCourse1@gmail.com=Team 1.1",
 				"Team 1.1=",
 				"Team 1.3=",
+				"Team 1.2=",
 				"Team 1.4=",
 				"FSRTest.instr1@course1.com=Instructors");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailTeamNameTable.size(), 10);
+		assertEquals(11, results.emailTeamNameTable.size());
 		
 		// Test the generated response visibilityTable for userNames.		
 		mapString = tableToString(results.visibilityTable);
 		expectedStrings.clear();
 		Collections.addAll(expectedStrings,
 				getResponseId("qn1.resp1",responseBundle)+"={true,true}",
+				getResponseId("qn2.resp1",responseBundle)+"={false,false}",
 				getResponseId("qn2.resp3",responseBundle)+"={true,true}",
 				getResponseId("qn3.resp1",responseBundle)+"={false,false}",
 				getResponseId("qn4.resp2",responseBundle)+"={false,true}",
@@ -626,9 +628,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				getResponseId("qn5.resp1",responseBundle)+"={true,false}",
 				getResponseId("qn7.resp1",responseBundle)+"={true,true}",
 				getResponseId("qn7.resp2",responseBundle)+"={true,true}",
+				getResponseId("qn8.resp1",responseBundle)+"={true,true}",
 				getResponseId("qn8.resp2",responseBundle)+"={true,true}");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.visibilityTable.size(), 9);
+		assertEquals(11, results.visibilityTable.size());
 		
 		
 		/*** Test result bundle for instructor1 ***/
@@ -639,8 +642,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				session.courseId, instructor.email);
 		
 		// Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
-		assertEquals(results.responses.size(), 10);
-		assertEquals(results.questions.size(), 5);
+		assertEquals(10, results.responses.size());
+		assertEquals(5, results.questions.size());
 		
 		// Test the user email-name maps used for display purposes
 		mapString = results.emailNameTable.toString();
@@ -659,7 +662,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				"FSRTest.instr1@course1.com=Instructor1 Course1",
 				"FSRTest.instr2@course1.com=Instructor2 Course1");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailNameTable.size(), 12);
+		assertEquals(12, results.emailNameTable.size());
 		
 		// Test the user email-teamName maps used for display purposes
 		mapString = results.emailTeamNameTable.toString();
@@ -678,7 +681,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				"Team 1.4=",
 				"FSRTest.instr1@course1.com=Instructors");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailTeamNameTable.size(), 12);
+		assertEquals(12, results.emailTeamNameTable.size());
 
 		// Test the generated response visibilityTable for userNames.		
 		mapString = tableToString(results.visibilityTable);
@@ -695,7 +698,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				getResponseId("qn5.resp1",responseBundle)+"={false,true}",
 				getResponseId("qn6.resp1",responseBundle)+"={true,true}");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.visibilityTable.size(), 10);
+		assertEquals(10, results.visibilityTable.size());
 		
 		// TODO: test student2 too.
 		
@@ -708,11 +711,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		results = fsLogic.getFeedbackSessionResultsForStudent(session.feedbackSessionName, 
 						session.courseId, student.email);
 		
-		assertEquals(results.questions.size(),0);
-		assertEquals(results.responses.size(),0);
-		assertEquals(results.emailNameTable.size(),0);
-		assertEquals(results.emailTeamNameTable.size(),0);
-		assertEquals(results.visibilityTable.size(),0);
+		assertEquals(0, results.questions.size());
+		assertEquals(0, results.responses.size());
+		assertEquals(0, results.emailNameTable.size());
+		assertEquals(0, results.emailTeamNameTable.size());
+		assertEquals(0, results.visibilityTable.size());
 		
 		/*** Test result bundle for instructor1 ***/
 		
@@ -723,8 +726,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				session.courseId, instructor.email);
 		
 		// Can see all responses regardless of visibility settings.
-		assertEquals(results.questions.size(),2);
-		assertEquals(results.responses.size(),2);
+		assertEquals(2, results.questions.size());
+		assertEquals(2, results.responses.size());
 		
 		// Test the user email-name maps used for display purposes
 		mapString = results.emailNameTable.toString();
@@ -734,7 +737,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				"FSRTest.instr1@course1.com=Instructor1 Course1",
 				"Team 1.2=Team 1.2");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailNameTable.size(), 3);
+		assertEquals(3, results.emailNameTable.size());
 		
 		// Test the user email-teamName maps used for display purposes
 		mapString = results.emailTeamNameTable.toString();
@@ -744,7 +747,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				"Team 1.2=",
 				"FSRTest.instr1@course1.com=Instructors");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.emailTeamNameTable.size(), 3);
+		assertEquals(3, results.emailTeamNameTable.size());
 
 		// Test that name visibility is adhered to even when
 		// it is a private session. (to protect anonymity during session type conversion)"
@@ -754,7 +757,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				getResponseId("p.qn1.resp1",responseBundle)+"={false,false}",
 				getResponseId("p.qn2.resp1",responseBundle)+"={true,false}");
 		AssertHelper.assertContains(expectedStrings, mapString);
-		assertEquals(results.visibilityTable.size(), 2);
+		assertEquals(2, results.visibilityTable.size());
 		
 		______TS("failure: no session");
 				
@@ -763,7 +766,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 				session.courseId, instructor.email);
 			signalFailureToDetectException("Did not detect that session does not exist.");
 		} catch (EntityDoesNotExistException e) {
-			assertEquals(e.getMessage(), "Trying to view non-existent feedback session.");
+			assertEquals("Trying to view non-existent feedback session.", e.getMessage());
 		}
 		//TODO: check for cases where a person is both a student and an instructor
 	}
@@ -1014,10 +1017,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
 		
 		assertEquals(
+				sessionUnderTest.toString(),
 				fsLogic.getFeedbackSession(
-				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId).toString(),
-				sessionUnderTest.toString());
-		
+						sessionUnderTest.feedbackSessionName,
+						sessionUnderTest.courseId).toString());
+
 		______TS("failure: already published");
 		
 		try{
@@ -1026,8 +1030,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 			signalFailureToDetectException(
 					"Did not catch exception signalling that session is already published.");
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(),
-					"Session is already published.");
+			assertEquals("Session is already published.", e.getMessage());
 		}
 		
 		______TS("success: publish");
@@ -1039,9 +1042,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
 		
 		assertEquals(
+				sessionUnderTest.toString(),
 				fsLogic.getFeedbackSession(
-				sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId).toString(),
-				sessionUnderTest.toString());
+						sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId).toString());
 		
 		______TS("failure: not published");
 		
@@ -1051,8 +1054,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 			signalFailureToDetectException(
 					"Did not catch exception signalling that session is not published.");
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(),
-					"Session is not currently published.");
+			assertEquals("Session is not currently published.", e.getMessage());
 		}
 		
 		______TS("failure: private session");
@@ -1066,8 +1068,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 					"Did not catch exception signalling that private session can't " +
 					"be published.");
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(),
-					"Private session can't be published.");
+			assertEquals("Private session can't be published.", e.getMessage());
 		}
 		
 		try{
@@ -1077,8 +1078,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 					"Did not catch exception signalling that private session should " +
 					"not be published");
 		} catch (InvalidParametersException e) {
-			assertEquals(e.getMessage(),
-					"Private session can't be published.");
+			assertEquals("Private session can't be published.", e.getMessage());
 		}
 				
 		______TS("failure: session does not exist");
@@ -1091,8 +1091,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 			signalFailureToDetectException(
 					"Did not catch exception signalling that session does not exist.");
 		} catch (EntityDoesNotExistException e) {
-			assertEquals(e.getMessage(),
-					"Trying to publish a non-existant session.");
+			assertEquals("Trying to publish a non-existant session.", e.getMessage());
 		}
 		
 		try{
@@ -1101,8 +1100,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 			signalFailureToDetectException(
 					"Did not catch exception signalling that session does not exist.");
 		} catch (EntityDoesNotExistException e) {
-			assertEquals(e.getMessage(),
-					"Trying to publish a non-existant session.");
+			assertEquals("Trying to publish a non-existant session.", e.getMessage());
 		}
 	}
 	

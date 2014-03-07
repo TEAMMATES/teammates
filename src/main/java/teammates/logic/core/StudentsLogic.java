@@ -11,6 +11,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EnrollException;
@@ -222,9 +223,6 @@ public class StudentsLogic {
 			throw new EntityDoesNotExistException("Course does not exist :"
 					+ courseId);
 		}
-
-		Assumption.assertNotNull(StudentAttributes.ERROR_ENROLL_LINE_NULL,
-				enrollLines);
 		
 		if (enrollLines.isEmpty()) {
 			throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
@@ -240,12 +238,16 @@ public class StudentsLogic {
 		ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
 		
 		String[] linesArray = enrollLines.split(Const.EOL);
-		Integer[] columnOrder = getColumnOrder(linesArray[0]);
+
+		StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
 		
-		int startLine = 1;
-		if (columnOrder == null) {
+		int startLine;
+		if (saf.hasHeader()) {
+			startLine = 1;
+		} else {
 			startLine = 0;
 		}
+		
 		for (int i = startLine; i < linesArray.length; i++) {
 			String line = linesArray[i];
 			
@@ -253,7 +255,7 @@ public class StudentsLogic {
 				continue;
 			}
 			
-			StudentAttributes student = new StudentAttributes(line, courseId, columnOrder);
+			StudentAttributes student = saf.makeStudent(line, courseId);
 			studentList.add(student);
 		}
 
@@ -430,13 +432,16 @@ public class StudentsLogic {
 	/* All empty lines or lines with only whitespaces will be skipped.
 	 * The invalidity info returned are in HTML format.
 	 */
-	private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) {
+	private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws EnrollException {
 		List<String> invalidityInfo = new ArrayList<String>();
 		String[] linesArray = lines.split(Const.EOL);
 
-		Integer[] columnOrder = getColumnOrder(linesArray[0]);
-		int startLine = 1;
-		if (columnOrder == null) {
+		StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
+		
+		int startLine;
+		if (saf.hasHeader()) {
+			startLine = 1;
+		} else {
 			startLine = 0;
 		}
 		
@@ -446,7 +451,7 @@ public class StudentsLogic {
 				if (StringHelper.isWhiteSpace(line)) {
 					continue;
 				}
-				StudentAttributes student = new StudentAttributes(line, courseId, columnOrder);
+				StudentAttributes student = saf.makeStudent(line, courseId);
 				
 				if (!student.isValid()) {
 					String info = StringHelper.toString(student.getInvalidityInfo(),
@@ -475,44 +480,5 @@ public class StudentsLogic {
 		return (newTeam != null) && (originalTeam != null)
 				&& (!originalTeam.equals(newTeam));
 	}
-
-	/**
-	 * Return null if the given row is not a header row according to specification.<br>
-	 * The column names allowed for header row: {team, name, email, comment}<br>
-	 * They are not case-sensitive and plural nouns are allowed.
-	 */
-	private Integer[] getColumnOrder(String row){
-		//TODO: Create a StudentAttributesFactory to handle this instead
-		Assumption.assertNotNull(row);
-		
-		String[] fields = row.replace("|", "\t").split("\t");
-		if (fields.length < 3 || fields.length > 4) {
-			// we do not throw exception here as it should be treated as normal row
-			// and handled by enrollStudents() method instead
-			return null;
-		}
-		
-		Integer[] order = new Integer[StudentAttributes.ARG_COUNT];
-		for (int i = 0; i < order.length; i++) {
-			order[i] = -1;
-		}
-		
-		for (int i = 0; i < fields.length; i++) {
-			String str = fields[i].trim().toLowerCase();
-			if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_TEAM)) {
-				order[StudentAttributes.ARG_INDEX_TEAM] = i;
-			} else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_NAME)) {
-				order[StudentAttributes.ARG_INDEX_NAME] = i;
-			} else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_EMAIL)) {
-				order[StudentAttributes.ARG_INDEX_EMAIL] = i;
-			} else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
-				order[StudentAttributes.ARG_INDEX_COMMENT] = i;
-			} else {
-				//assume not header row if no column name is matched
-				return null;
-			}
-		}
-
-		return order;
-	}
+	
 }

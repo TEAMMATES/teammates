@@ -68,7 +68,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		/* We test both empty and non-empty courses because the generated
 		 * enroll result page is slightly different for the two cases.
 		 */
-		______TS("enroll action: non-empty course");
+		______TS("enroll action: non-empty course, enroll lines without header");
 		
 		// A new student
 		enrollString += "Team 3 | Emily France | emily.f.tmms@gmail.com | This student has just been added\n";
@@ -99,7 +99,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
 		assertEquals(7, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
 		
-		______TS("enroll action: empty course");
+		______TS("enroll action: empty course, enroll lines with header containing empty columns");
 		
 		//make the course empty
 		BackDoor.deleteCourse(courseId);
@@ -112,12 +112,12 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 		
 		enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 		
-		enrollString = "Name | Email | Team | Comments\n";
-		enrollString += "Alice Betsy | alice.b.tmms@gmail.com | Team 1 | This comment has been changed\n";
+		enrollString = "| Name | Email | | Team | Comments\n";
+		enrollString += "|Alice Betsy | alice.b.tmms@gmail.com || Team 1 | This comment has been changed\n";
 		// A student with no comment
-		enrollString += "Frank Galoe | frank.g.tmms@gmail.com | Team 3\n";
+		enrollString += "|Frank Galoe | frank.g.tmms@gmail.com || Team 3 |\n";
 		// A new student with name containing accented characters
-		enrollString += "José Gómez | jose.gomez.tmns@gmail.com | Team 3 | This student name contains accented characters\n";
+		enrollString += "|José Gómez | jose.gomez.tmns@gmail.com || Team 3 | This student name contains accented characters\n";
 				
 		enrollPage.enroll(enrollString)
 			.verifyHtml("/instructorCourseEnrollPageResultForEmptyCourse.html");

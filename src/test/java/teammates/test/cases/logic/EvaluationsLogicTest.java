@@ -340,11 +340,11 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 	public void testCalculateTeamResult() throws Exception {
 
 		TeamDetailsBundle teamDetails = new TeamDetailsBundle();
-		StudentAttributes s1 = new StudentAttributes("t1|s1|e1@c", "course1", null);
+		StudentAttributes s1 = new StudentAttributes("t1", "s1", "e1@c", "", "course1");
 		teamDetails.students.add(s1);
-		StudentAttributes s2 = new StudentAttributes("t1|s2|e2@c", "course1", null);
+		StudentAttributes s2 = new StudentAttributes("t1", "s2", "e2@c", "", "course1");
 		teamDetails.students.add(s2);
-		StudentAttributes s3 = new StudentAttributes("t1|s3|e3@c", "course1", null);
+		StudentAttributes s3 = new StudentAttributes("t1", "s3", "e3@c", "", "course1");
 		teamDetails.students.add(s3);
 		
 		TeamResultBundle teamEvalResultBundle = new TeamResultBundle(

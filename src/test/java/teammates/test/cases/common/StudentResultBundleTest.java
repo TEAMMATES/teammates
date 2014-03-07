@@ -17,7 +17,7 @@ public class StudentResultBundleTest extends BaseTestCase{
 			throws EnrollException {
 
 		StudentResultBundle result = new StudentResultBundle(new StudentAttributes(
-				"t1|adam|a@b", "dummy-course", null));
+				"t1", "adam", "a@b", "", "dummy-course"));
 
 		SubmissionAttributes s1 = new SubmissionAttributes();
 		s1.details.revieweeName = "Benny";
@@ -42,7 +42,7 @@ public class StudentResultBundleTest extends BaseTestCase{
 	@Test
 	public void testSortIncomingByStudentNameAscending() throws Exception {
 		StudentResultBundle result = new StudentResultBundle(new StudentAttributes(
-				"t1|adam|a@b", "dummy-course", null));
+				"t1", "adam", "a@b", "", "dummy-course"));
 
 		SubmissionAttributes s1 = new SubmissionAttributes();
 		s1.details.reviewerName = "Benny";
@@ -67,7 +67,7 @@ public class StudentResultBundleTest extends BaseTestCase{
 	@Test
 	public void testSortIncomingByFeedbackAscending() throws Exception{
 		StudentResultBundle result = new StudentResultBundle(new StudentAttributes(
-				"t1|adam|a@b", "dummy-course", null));
+				"t1", "adam", "a@b", "", "dummy-course"));
 
 		SubmissionAttributes s1 = new SubmissionAttributes();
 		s1.p2pFeedback = new Text("ghk");

@@ -903,11 +903,17 @@
 			href="http://testng.org/doc/eclipse.html"><i>TestNG Eclipse
 					plugin</i></a>.
 		</li>
-		<li>If you plan to contribute code, also install Python 2.5+  (not version 3.x). 
-		{Python is used by the patch uploader script}</li>
-		<li>If you plan to use Firefox for testing TEAMMATES (alternatively, you may use
-		Chrome or IE, but FF is the most convenient of the three), downgrade to
-			Firefox 12.0 from <a
+		<li>If you plan to contribute code, also install Python 2.5+ (not
+			version 3.x). {Python is used by the patch uploader script}. Make sure
+			that your command prompt recognises <span class="code">python</span>
+			as an instruction to start the interpreter. If it doesn't, you need
+			to add <span class="code">python</span>'s installation directory in
+			your PATH environment variable. For Windows, see <a
+			href="http://docs.python.org/2/faq/windows">here</a> for more details
+		</li>
+		<li>If you plan to use Firefox for testing TEAMMATES
+			(alternatively, you may use Chrome or IE, but FF is the most
+			convenient of the three), downgrade to Firefox 12.0 from <a
 			href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a>
 			{The web driver we use does not work with the latest Firefox.} or
 			install multiple version of Firefox. To do this, grab Firefox 12.0
@@ -1268,18 +1274,11 @@
 					(i.e., all tests are passing against the modified app running on
 					your own GAE staging server).</li>
 				<li>Upload the changes as a patch to code review system. <br>
-					<span class="code">upload.py --rev=default -t "Issue {issue
-						number} : {branch description as given in Issue tracker}"<br>
-						#e.g., upload.py --rev=default -t "Issue 829 : Remove unused
-						constants from Attributes classes"
-				</span><br> 
-				Linux/Unix users need to change the permission of upload.py. <br>
-				<span class="code">chmod +x upload.py<br>
-				./upload.py --rev=default -t "Issue {issue
-						number} : {branch description as given in Issue tracker}"
-						
-				</span><br>
-				See <a
+					<span class="code">python upload.py --rev=default -t "Issue
+						{issue number} : {branch description as given in Issue tracker}"<br>
+						#e.g., python upload.py --rev=default -t "Issue 829 : Remove
+						unused constants from Attributes classes"
+				</span><br>  See <a
 					href="https://code.google.com/p/rietveld/wiki/UploadPyUsage">here</a>
 					for more about <span class="code">upload.py</span> usage.<br>
 				</li>
@@ -1303,7 +1302,7 @@
 			<br><span class="code">-i {issue number from the code review system 
 			(not from our issue tracker)} <br>
 			#example
-			<br>upload.py --rev=default -t "Issue 829 : Remove unused constants from Attributes classes" 
+			<br>python upload.py --rev=default -t "Issue 829 : Remove unused constants from Attributes classes" 
 			<span class="bold">-i 9045043 </span>
 			</span>                   
 		</li>
