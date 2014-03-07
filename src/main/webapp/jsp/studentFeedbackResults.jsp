@@ -8,6 +8,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackTextQuestionDetails"%>
@@ -35,6 +36,7 @@
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 	<script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+	<script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -99,8 +101,6 @@
 								<table class="resultTable" style="width: 100%">
 									<thead>
 										<tr>
-											<th class="leftalign">
-												<span class="bold">To: </span>
 											<%
 												String recipientName = 
 													data.bundle.getRecipientNameForResponse(questionWithResponses.getKey(), singleResponse);
@@ -113,9 +113,9 @@
 															&& data.student.name.equals(recipientName)) {
 													recipientName = "You";
 												}
-												
-												out.print(recipientName);
 											%>
+											<th class="leftalign">
+												<span class="bold">To:</span> <%=recipientName%>
 											</th>
 										</tr>
 									</thead>
@@ -136,15 +136,37 @@
 											giverName = "You";
 										}
 									%>
-									<span class="bold">
-										From: <%=giverName %> 
-									</span>
+									<span class="bold">From:</span> <%=giverName%>
 								</td>
 							</tr>
 							<tr>
 								<td class="multiline"><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
 							</tr>
 						<%
+							List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());
+							if (responseComments != null) {
+						%>
+							<tr>
+								<td>
+									<span class="bold">Comments: </span>
+									<table class="responseCommentTable">
+										<%
+											for (FeedbackResponseCommentAttributes comment : responseComments) {
+										%>
+												<tr>
+													<td><%=comment.commentText.getValue() %></td>
+													<td><%=comment.giverEmail %></td>
+													<td><%=comment.createdAt %></td>
+												</tr>
+										<%
+											}
+										%>
+									</table> 
+								</td>
+							</tr>
+						<%
+							}
+							
 							// Close table if going to be new recipient
 							boolean closeTable = true;
 							if(!itr.hasNext()) {

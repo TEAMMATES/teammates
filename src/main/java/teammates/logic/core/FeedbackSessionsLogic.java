@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -787,6 +788,10 @@ public class FeedbackSessionsLogic {
 			responseComments.get(frc.feedbackResponseId).add(frc);
 		}
 		
+		for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments.values()) {
+			Collections.sort(responseCommentList, new ResponseCommentCreationDateComparator());
+		}
+		
 		FeedbackSessionResultsBundle results = 
 			new FeedbackSessionResultsBundle(
 			    session, responses, relevantQuestions,
@@ -794,6 +799,15 @@ public class FeedbackSessionsLogic {
                 visibilityTable, responseStatus, responseComments);
 	
 		return results;
+	}
+	
+	private class ResponseCommentCreationDateComparator implements
+			Comparator<FeedbackResponseCommentAttributes> {
+		@Override
+		public int compare(FeedbackResponseCommentAttributes frc1,
+				FeedbackResponseCommentAttributes frc2) {
+			return frc1.createdAt.compareTo(frc2.createdAt);
+		}
 	}
 
 	private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
