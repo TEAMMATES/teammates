@@ -157,6 +157,12 @@ public class BackDoorLogic extends Logic {
 		StudentAttributes student = getStudentForEmail(courseId, email);
 		return Utils.getTeammatesGson().toJson(student);
 	}
+	
+	public String getAllStudentsAsJson(String courseId) throws EntityDoesNotExistException {
+		List<StudentAttributes> studentList = studentsLogic
+				.getStudentsForCourse(courseId);
+		return Utils.getTeammatesGson().toJson(studentList);
+	}
 
 	public String getEvaluationAsJson(String courseId, String evaluationName) {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
@@ -170,6 +176,12 @@ public class BackDoorLogic extends Logic {
 		return Utils.getTeammatesGson().toJson(target);
 	}
 	
+	public String getAllSubmissionsAsJson(String courseId) {
+		List<SubmissionAttributes> submissionList = submissionsLogic
+				.getSubmissionsForCourse(courseId);
+		return Utils.getTeammatesGson().toJson(submissionList);
+	}
+	
 	public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
 		FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
 		return Utils.getTeammatesGson().toJson(fs);
@@ -180,11 +192,29 @@ public class BackDoorLogic extends Logic {
 				feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
 		return Utils.getTeammatesGson().toJson(fq);
 	}
+	
+	public String getFeedbackQuestionForIdAsJson(String questionId) {
+		FeedbackQuestionAttributes fq = 
+				feedbackQuestionsLogic.getFeedbackQuestion(questionId);
+		return Utils.getTeammatesGson().toJson(fq);
+	}
 
 	public String getFeedbackResponseAsJson(String feedbackQuestionId, String giverEmail, String recipient) {
 		FeedbackResponseAttributes fq = 
 				feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
 		return Utils.getTeammatesGson().toJson(fq);
+	}
+	
+	public String getFeedbackResponsesForGiverAsJson(String courseId, String giverEmail) {
+		List<FeedbackResponseAttributes> responseList = 
+				feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
+		return Utils.getTeammatesGson().toJson(responseList);
+	}
+	
+	public String getFeedbackResponsesForReceiverAsJson(String courseId, String recipient) {
+		List<FeedbackResponseAttributes> responseList = 
+				feedbackResponsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, recipient);
+		return Utils.getTeammatesGson().toJson(responseList);
 	}
 	
 	public void editAccountAsJson(String newValues)
