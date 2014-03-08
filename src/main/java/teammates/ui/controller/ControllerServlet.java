@@ -44,6 +44,8 @@ public class ControllerServlet extends HttpServlet {
 			 * Concrete details of the processing steps are to be implemented by child
 			 * classes, based on request-specific needs.
 			 */
+			log.info("Request received : " + req.getRequestURL().toString()
+					+ ":" + HttpRequestHelper.printRequestParameters(req));
 			Action c = new ActionFactory().getAction(req);
 			ActionResult actionResult = c.executeAndPostProcess();
 			actionResult.send(req, resp);
