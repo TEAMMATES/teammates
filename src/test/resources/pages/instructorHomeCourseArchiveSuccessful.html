@@ -129,11 +129,12 @@
 				</div>
 				<div class="result_homeLinks blockLink rightalign">
 					<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS2104&amp;user={$test.instructor}" class="t_course_enroll0 color_white bold"> Enroll</a>
-					<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send registration keys to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CHomeUiT.CS2104&amp;user={$test.instructor}" class="t_course_view0 color_white bold"> View</a>
+					<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send invitation emails to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CHomeUiT.CS2104&amp;user={$test.instructor}" class="t_course_view0 color_white bold"> View</a>
 					<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS2104&amp;user={$test.instructor}" class="t_course_edit0 color_white bold"> Edit</a>
 					<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Add an evaluation for the course')" href="/page/instructorEvalsPage?user={$test.instructor}&amp;courseid=CHomeUiT.CS2104" class="t_course_add_eval0 color_white bold"> Add Session</a>
-					<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CHomeUiT.CS2104')" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" class="t_course_delete0 color_white bold"> Delete</a>
 					<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Archive the course so that it will not be shown in the home page any more \(you can still access it from the \'Courses\' tab\)')" onclick="hideddrivetip(); return toggleArchiveCourseConfirmation('CHomeUiT.CS2104')" href="/page/instructorCourseArchive?courseid=CHomeUiT.CS2104&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" class="t_course_archive0 color_white bold">Archive</a>
+					<a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CHomeUiT.CS2104')" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" class="t_course_delete0 color_white bold"> Delete</a>
+					
 				</div>
 				<div style="clear: both;"></div>
 				<br />
@@ -189,7 +190,7 @@
                            </td>
                            <td class="t_session_status centeralign" >
                               <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The feedback session has been created, is visible, and is waiting to open.')" >
-                                 Visible
+                                 Awaiting
                               </span>
                            </td>
                            <td class="t_session_response centeralign" >
@@ -339,7 +340,7 @@
 
 
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
+	<span class="floatleft">[<span class="color_white">TEAMMATES </span>V{$version}]</span>
 	[for <span class="color_white">National University of Singapore</span>]
 	<span class="floatright">[Send <span class="color_white"><a target="_blank" href="../contact.html">Feedback</a></span>]</span>
 </div>

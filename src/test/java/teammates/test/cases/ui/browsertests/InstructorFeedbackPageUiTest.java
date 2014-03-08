@@ -41,10 +41,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		newSession = new FeedbackSessionAttributes();
 		newSession.courseId = "CFeedbackUiT.CS1101";
 		newSession.feedbackSessionName = "New Session";
-		newSession.startTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
-		newSession.endTime = TimeHelper.convertToDate("2014-04-30 10:00 PM UTC");
+		// start time is in future, hence the year.
+		newSession.startTime = TimeHelper.convertToDate("2035-04-01 11:59 PM UTC");
+		newSession.endTime = TimeHelper.convertToDate("2035-04-30 10:00 PM UTC");
 		newSession.creatorEmail = "teammates.test1@gmail.com";
-		newSession.createdTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
+		newSession.createdTime = Const.TIME_REPRESENTS_NEVER;
 		newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
 		newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
 		newSession.gracePeriod = 10;
@@ -189,10 +190,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		feedbackPage.clickCustomVisibleTimeButton();
 		feedbackPage.clickDefaultPublishTimeButton();
 		newSession.feedbackSessionName = "Allow Early Viewing Session";
-		// start time = end time, in future.
-		newSession.startTime = TimeHelper.convertToDate("2014-05-01 8:00 AM UTC");
+		// start time = end time, in future, hence the year.
+		newSession.startTime = TimeHelper.convertToDate("2035-05-01 8:00 AM UTC");
 		newSession.endTime = newSession.startTime;
-		newSession.sessionVisibleFromTime = TimeHelper.convertToDate("2014-03-01 5:00 PM UTC");
+		// visible from time is in future.
+		newSession.sessionVisibleFromTime = TimeHelper.convertToDate("2035-03-01 5:00 PM UTC");
 		newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
 		newSession.feedbackSessionType = FeedbackSessionType.STANDARD; 
 		newSession.gracePeriod = 0;
@@ -242,7 +244,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		newSession.startTime = TimeHelper.convertToDate("2012-05-01 8:00 AM UTC");
 		newSession.endTime = TimeHelper.convertToDate("2012-09-01 11:00 PM UTC");
 		newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
-		newSession.resultsVisibleFromTime =  TimeHelper.convertToDate("2016-09-01 11:00 PM UTC");
+		// visible from time is in future, hence the year.
+		newSession.resultsVisibleFromTime =  TimeHelper.convertToDate("2035-09-01 11:00 PM UTC");
 		newSession.gracePeriod = 5;
 		newSession.instructions = new Text("");
 		
@@ -265,7 +268,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		feedbackPage.toggleSendClosingEmailCheckbox();
 		
 		newSession.feedbackSessionName = "don't send emails";
-		newSession.createdTime = TimeHelper.convertToDate("2014-04-01 11:59 PM UTC");
+		newSession.createdTime = Const.TIME_REPRESENTS_NEVER;
 		newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
 		newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
 		newSession.isOpeningEmailEnabled = false;
@@ -316,7 +319,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 		
 		feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
 		newSession.feedbackSessionName = "bad name %%";
-		newSession.endTime = TimeHelper.convertToDate("2014-09-01 0:00 AM UTC");
+		newSession.endTime = Const.TIME_REPRESENTS_LATER;
 		feedbackPage.addFeedbackSession(
 				newSession.feedbackSessionName, newSession.courseId,
 				newSession.startTime, newSession.endTime,

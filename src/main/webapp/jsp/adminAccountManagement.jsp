@@ -77,16 +77,10 @@
                      %>
                      </td>
                      <td id="<%=acc.googleId + "_institude"%>">
-                     <%=acc.institute%>                     
+                     	<%=acc.institute%>                     
                      </td>
                      <td id="<%=acc.googleId + "_createAt"%>">
-                     <%=AdminAccountManagementPageData.displayDateTime(acc.createdAt)%>
-                     </td>
-                     <td id="<%=acc.googleId + "_institude"%>">
-                     <%=acc.institute%>                     
-                     </td>
-                     <td id="<%=acc.googleId + "_createAt"%>">
-                     <%=AdminAccountManagementPageData.displayDateTime(acc.createdAt)%>
+                     	<%=AdminAccountManagementPageData.displayDateTime(acc.createdAt)%>
                      </td>
                      <td>
                         <a id="<%=acc.googleId + "_details"%>" href="<%=data.getAdminViewAccountDetailsLink(acc.googleId)%>">View Details</a>&nbsp;&nbsp;&nbsp;&nbsp;

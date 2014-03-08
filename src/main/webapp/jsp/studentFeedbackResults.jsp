@@ -124,8 +124,6 @@
 						%>
 							<tr class="resultSubheader">
 								<td>
-									<span class="bold">
-										From: 
 									<%
 										String giverName = 
 											data.bundle.getGiverNameForResponse(questionWithResponses.getKey(), singleResponse);
@@ -137,9 +135,9 @@
 										} else if (data.student.email.equals(singleResponse.giverEmail)) {
 											giverName = "You";
 										}
-										
-										out.print(giverName);
 									%>
+									<span class="bold">
+										From: <%=giverName %> 
 									</span>
 								</td>
 							</tr>

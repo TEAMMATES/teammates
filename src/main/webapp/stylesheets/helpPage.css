@@ -1,0 +1,16 @@
+
+body {
+	line-height: 20px;
+}
+ul {
+	list-style: disc;
+}
+h3 {
+	font-size: 120%;
+}
+.helpSectionContent {
+	padding: 5px 35px;
+}
+.bulletPointsIndent {
+	padding: 0px 15px;
+}

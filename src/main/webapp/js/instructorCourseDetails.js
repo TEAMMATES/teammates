@@ -7,9 +7,9 @@
  */
 function toggleSendRegistrationKey(courseID, email) {
 	return confirm("Usually, there is no need to use this feature. " +
-			"TEAMMATES sends invitations to students automatically at the " +
+			"TEAMMATES sends invitation emails to students automatically at the " +
 			"point the first evaluation of the course opens for submission. " +
-			"Do you wish to send the invitation to this student now?");
+			"Do you wish to send the invitation email to this student now?");
 }
 
 /**
@@ -18,7 +18,7 @@ function toggleSendRegistrationKey(courseID, email) {
  * @param courseID
  */
 function toggleSendRegistrationKeysConfirmation(courseID) {
-	return confirm("Are you sure you want to send registration keys to all " +
+	return confirm("Are you sure you want to send invitation emails to all " +
 			"the unregistered students in " + courseID + " for them to " +
 			"join your course?");
 }

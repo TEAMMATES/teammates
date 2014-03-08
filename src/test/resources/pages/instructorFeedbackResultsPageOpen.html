@@ -149,22 +149,22 @@
                  <tbody>
                     <tr>
                        <td>
-                          <input name="frsorttype"  onclick="this.form.submit()"  type="radio"  value="giver" />
+		          <label><input name="frsorttype"  onclick="this.form.submit()"  type="radio"  value="giver" />
                                                         <span class="label bold" >
                              Sort by giver (Paragraph format)
-                          </span>
+		          </span></label>
                        </td>
                        <td>
-                          <input checked="checked"  name="frsorttype"  onclick="this.form.submit()"  type="radio"  value="recipient" />
+		          <label><input checked="checked"  name="frsorttype"  onclick="this.form.submit()"  type="radio"  value="recipient" />
                                                         <span class="label bold" >
                              Sort by recipient (Paragraph format)
-                          </span>
+	                  </span></label>
                        </td>
                        <td>
-                          <input name="frsorttype"  onclick="this.form.submit()"  type="radio"  value="table" />
+			  <label><input name="frsorttype"  onclick="this.form.submit()"  type="radio"  value="table" />
                                                         <span class="label bold" >
                              View as table
-                          </span>
+		          </span></label>
                        </td>
                     </tr>
                  </tbody>
@@ -597,16 +597,54 @@
                              </div>
            <br/>
                           <br/>
+                          
+            <div class="backgroundBlock">
+                <h2 class="color_white">Student Response Information</h2>
+                
+                
+                <table class="resultTable" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Students Who Did Not Respond to Any Question</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>Danny Engrid</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Drop out</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Emily</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Extra guy</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Teammates Test</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <br> <br>
+                          
                        </div>
      </div>
      <div id="frameBottom" >
         <div id="contentFooter" >
            <span class="floatleft" >
-              [TEAMMATES
+              [
               <span class="color_white" >
-                 V{$version}
+               TEAMMATES
               </span>
-              ]
+            V{$version}]
            </span>
            [for
            <span class="color_white" >

@@ -25,17 +25,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
 	}
 	
 	public void displayByGiver() {
-		WebElement button = browser.driver.findElement(By.xpath("//input[@name='frsorttype' and @value='giver']"));
+		WebElement button = browser.driver.findElement(By.xpath("//span[@class='label bold' and contains(text(),'Sort by giver')]"));
 		button.click();
 	}
 	
 	public void displayByRecipient() {
-		WebElement button = browser.driver.findElement(By.xpath("//input[@name='frsorttype' and @value='recipient']"));
+		WebElement button = browser.driver.findElement(By.xpath("//span[@class='label bold' and contains(text(),'Sort by recipient')]"));
 		button.click();
 	}
 	
 	public void displayByTable() {
-		WebElement button = browser.driver.findElement(By.xpath("//input[@name='frsorttype' and @value='table']"));
+		WebElement button = browser.driver.findElement(By.xpath("//span[@class='label bold' and contains(text(),'View as table')]"));
 		button.click();
 		waitForPageToLoad();
 	}

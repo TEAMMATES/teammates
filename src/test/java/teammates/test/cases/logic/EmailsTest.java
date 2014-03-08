@@ -431,9 +431,8 @@ public class EmailsTest extends BaseComponentTestCase {
 		studentWithNothingNew.add("student1InCourse1@gmail.com");
 		studentWithNothingNew.add("student6InCourse1@gmail.com");
 		
-		// TODO remove these two after the bug where students 
-		// can't see their own team submission is fixed
-		studentWithNothingNew.add("student3InCourse1@gmail.com");
+		// TODO remove this after the bug where students 
+		// can't see their own team's submission is fixed
 		studentWithNothingNew.add("student4InCourse1@gmail.com");
 		
 		List<MimeMessage> emails = new Emails()

@@ -21,18 +21,24 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 	public List<FeedbackResponseAttributes> responses = null;
 	public Map<String, FeedbackQuestionAttributes> questions = null;
 	public Map<String, String> emailNameTable = null;
+	public Map<String, String> emailTeamNameTable = null;
 	public Map<String, boolean[]> visibilityTable = null;
+	public FeedbackSessionResponseStatus responseStatus = null;
 	
 	public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
 			List<FeedbackResponseAttributes> responses,
 			Map<String, FeedbackQuestionAttributes> questions,
 			Map<String, String> emailNameTable,
-			Map<String, boolean[]> visibilityTable) {
+			Map<String, String> emailTeamNameTable,
+			Map<String, boolean[]> visibilityTable,
+			FeedbackSessionResponseStatus responseStatus) {
 		this.feedbackSession = feedbackSession;
 		this.questions = questions;
 		this.responses = responses;
 		this.emailNameTable = emailNameTable;
+		this.emailTeamNameTable = emailTeamNameTable;
 		this.visibilityTable = visibilityTable;
+		this.responseStatus = responseStatus;
 
 		// We change user email to team name here for display purposes.
 		for (FeedbackResponseAttributes response : responses) {
@@ -50,6 +56,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 			return Const.USER_NOBODY_TEXT;
 		} else {
 			return PageData.sanitizeForHtml(name);
+		}
+	}
+	
+	public String getTeamNameForEmail(String email) {
+		String teamName = emailTeamNameTable.get(email);
+		if (teamName == null) {
+			return "";
+		} else {
+			return PageData.sanitizeForHtml(teamName);
 		}
 	}
 	

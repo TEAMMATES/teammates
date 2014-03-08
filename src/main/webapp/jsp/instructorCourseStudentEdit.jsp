@@ -77,10 +77,6 @@
 				 					value="<%=sanitizeForHtml(data.student.email)%>">
 				 		</td>
 				 	</tr>
-				 	<tr>
-						<td class="label bold">Google ID:</td>
-						<td id="<%=Const.ParamsNames.USER_ID%>"><%=(data.student.googleId!= null ? sanitizeForHtml(data.student.googleId) : "")%></td>
-					</tr>
 					<tr>
 						<td class="label bold">Join Link:</td>
 						<td id="<%=Const.ParamsNames.REGKEY%>">

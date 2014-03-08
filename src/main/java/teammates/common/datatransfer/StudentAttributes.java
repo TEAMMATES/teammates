@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.exception.EnrollException;
 import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -66,19 +65,7 @@ public class StudentAttributes extends EntityAttributes {
 	public String key = null;
 
 	public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
-
-	public static final int ARG_COUNT = 4;
-	public static final int ARG_INDEX_TEAM = 0;
-	public static final int ARG_INDEX_NAME = 1;
-	public static final int ARG_INDEX_EMAIL = 2;
-	public static final int ARG_INDEX_COMMENT = 3;
 	
-	public static final String ERROR_COURSE_ID_NULL = "Course ID was null\n";
-	public static final String ERROR_ENROLL_LINE_NULL = "Enroll line was null\n";
-	public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
-	public static final String ERROR_ENROLL_LINE_TOOFEWPARTS = "Enroll line had too few parts\n";
-	public static final String ERROR_ENROLL_LINE_TOOMANYPARTS = "Enroll line had too many parts\n";
-		
 	public StudentAttributes(String id, String email, String name, String comments,
 			String courseId, String team) {
 		this();
@@ -93,48 +80,14 @@ public class StudentAttributes extends EntityAttributes {
 	public StudentAttributes() {
 		
 	}
-
-	/**
-	 * 
-	 * @param enrollLine Enroll line with | or tab as separator
-	 * @param columnOrder An Integer array specifying the order of field in enrollLine.
-	 * 					<br>If null, the default order is used (i.e. Team, Name, Email, Comment)
-	 */
-	public StudentAttributes(String enrollLine, String courseId, Integer[] columnOrder) throws EnrollException {
-
+	
+	public StudentAttributes(String team, String name, String email, String comment, String courseId) {
 		this();
-
-		Assumption.assertNotNull(ERROR_ENROLL_LINE_NULL, enrollLine);
-		Assumption.assertNotNull(ERROR_COURSE_ID_NULL, courseId);
-			
-		if (enrollLine.equals("")) {
-			throw new EnrollException(ERROR_ENROLL_LINE_EMPTY);
-		}
-
-		String[] parts = enrollLine.replace("|", "\t").split("\t");
-
-		if (parts.length < 3) {
-			throw new EnrollException(ERROR_ENROLL_LINE_TOOFEWPARTS);
-		} else if (parts.length > 4) {
-			throw new EnrollException(ERROR_ENROLL_LINE_TOOMANYPARTS);
-		}
-
-		Integer[] order = {0, 1, 2, 3};
-		if (columnOrder != null) {
-			order = columnOrder;
-		}
-		
-		String paramCourseId = courseId;
-		String paramTeam = parts[order[ARG_INDEX_TEAM]];
-		String paramName = parts[order[ARG_INDEX_NAME]];
-		String paramEmail = parts[order[ARG_INDEX_EMAIL]];
-		String paramComment = ((parts.length == 4) ? parts[order[ARG_INDEX_COMMENT]] : "");
-
-		this.name = Sanitizer.sanitizeName(paramName);
-		this.email = Sanitizer.sanitizeEmail(paramEmail);
-		this.course = Sanitizer.sanitizeTitle(paramCourseId);
-		this.team = Sanitizer.sanitizeTitle(paramTeam);
-		this.comments = Sanitizer.sanitizeTextField(paramComment);
+		this.team = Sanitizer.sanitizeTitle(team);
+		this.name = Sanitizer.sanitizeName(name);
+		this.email = Sanitizer.sanitizeEmail(email);
+		this.comments = Sanitizer.sanitizeTextField(comment);
+		this.course = Sanitizer.sanitizeTitle(courseId);
 	}
 
 	public StudentAttributes(Student student) {

@@ -45,6 +45,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentResultBundle;
@@ -138,7 +139,7 @@ public class LogicTest extends BaseComponentTestCase {
 		gaeSimulation.loginAsAdmin(instructor.googleId);
 		// also make this user a student
 		StudentAttributes instructorAsStudent = new StudentAttributes(
-				"Team 1|Instructor As Student|instructorasstudent@yahoo.com|", "some-course", null);
+				"Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", "some-course");
 		instructorAsStudent.googleId = instructor.googleId;
 		logic.createStudent(instructorAsStudent);
 
@@ -1376,7 +1377,7 @@ public class LogicTest extends BaseComponentTestCase {
 		restoreTypicalDataInDatastore();
 	
 		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-		logic.createStudent(new StudentAttributes("t1|s1|s1@e|", course.id, null));
+		logic.createStudent(new StudentAttributes("t1", "s1", "s1@e", "", course.id));
 		CourseDetailsBundle courseAsTeams = logic.getTeamsForCourse(course.id);
 		assertEquals(3, courseAsTeams.teams.size());
 	
@@ -1579,13 +1580,14 @@ public class LogicTest extends BaseComponentTestCase {
 				+ EOL + "    " + EOL + EOL;
 		List<StudentAttributes> enrollResults = logic.enrollStudents(lines, courseId);
 	
+		StudentAttributesFactory saf = new StudentAttributesFactory();
 		assertEquals(5, enrollResults.size());
 		assertEquals(5, logic.getStudentsForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(new StudentAttributes(line0, courseId, null),
+		verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseId),
 				enrollResults.get(0), StudentAttributes.UpdateStatus.NEW);
-		verifyEnrollmentResultForStudent(new StudentAttributes(line1, courseId, null),
+		verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseId),
 				enrollResults.get(1), StudentAttributes.UpdateStatus.NEW);
-		verifyEnrollmentResultForStudent(new StudentAttributes(line4, courseId, null),
+		verifyEnrollmentResultForStudent(saf.makeStudent(line4, courseId),
 				enrollResults.get(4), StudentAttributes.UpdateStatus.NEW);
 		
 		CourseDetailsBundle cd = logic.getCourseDetails(courseId);
@@ -1599,13 +1601,13 @@ public class LogicTest extends BaseComponentTestCase {
 		enrollResults = logic.enrollStudents(lines, courseId);
 		assertEquals(6, enrollResults.size());
 		assertEquals(6, logic.getStudentsForCourse(courseId).size());
-		verifyEnrollmentResultForStudent(new StudentAttributes(line0, courseId, null),
+		verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseId),
 				enrollResults.get(0), StudentAttributes.UpdateStatus.UNMODIFIED);
-		verifyEnrollmentResultForStudent(new StudentAttributes(line0_1, courseId, null),
+		verifyEnrollmentResultForStudent(saf.makeStudent(line0_1, courseId),
 				enrollResults.get(1), StudentAttributes.UpdateStatus.MODIFIED);
-		verifyEnrollmentResultForStudent(new StudentAttributes(line1, courseId, null),
+		verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseId),
 				enrollResults.get(2), StudentAttributes.UpdateStatus.UNMODIFIED);
-		verifyEnrollmentResultForStudent(new StudentAttributes(line5, courseId, null),
+		verifyEnrollmentResultForStudent(saf.makeStudent(line5, courseId),
 				enrollResults.get(3), StudentAttributes.UpdateStatus.NEW);
 		assertEquals(StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST,
 				enrollResults.get(4).updateStatus);

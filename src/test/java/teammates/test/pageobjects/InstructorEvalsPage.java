@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public class InstructorEvalsPage extends AppPage {
@@ -32,6 +33,9 @@ public class InstructorEvalsPage extends AppPage {
 	
 	@FindBy(id = "graceperiod")
 	private WebElement gracePeriodDropdown;
+	
+	@FindBy(id = "timezone")
+	private WebElement timeZoneDropdown;
 	
 	@FindBy(id = "instr")
 	private WebElement instructionsTextBox;
@@ -86,7 +90,8 @@ public class InstructorEvalsPage extends AppPage {
 			Date endTime, 
 			boolean p2pEnabled, 
 			String instructions,
-			int gracePeriod) {
+			int gracePeriod,
+			double timeZone) {
 		
 		fillTextBox(evalNameTextBox, evalName);
 	
@@ -117,8 +122,10 @@ public class InstructorEvalsPage extends AppPage {
 	
 		// Select grace period
 		selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod)+ " mins");
-		
 	
+		// Select time zone
+		selectDropdownByVisibleValue(timeZoneDropdown, StringHelper.toUtcFormat(timeZone));
+
 		clickSubmitButton();
 	}
 	
