@@ -63,11 +63,11 @@ public class FeedbackQuestionsLogic {
 		}
 		
 		adjustQuestionNumbers(questions.size()+1, fqa.questionNumber, questions);
-		
 		fqa.removeIrrelevantVisibilityOptions();
-		fqDb.createEntity(fqa);
+		fqDb.createEntityWithoutExistenceCheck(fqa);
 	}	
 
+	
 	/**
 	 * Gets a single question corresponding to the given parameters. <br><br>
 	 * <b>Note:</b><br>

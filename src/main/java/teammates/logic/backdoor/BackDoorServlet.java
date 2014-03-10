@@ -51,11 +51,16 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_GET_EVALUATION_AS_JSON = "OPERATION_GET_EVALUATION_AS_JSON";
 	public static final String OPERATION_GET_KEY_FOR_STUDENT = "OPERATION_GET_KEY_FOR_STUDENT";
 	public static final String OPERATION_GET_SUBMISSION_AS_JSON = "OPERATION_GET_SUBMISSION_AS_JSON";
+	public static final String OPERATION_GET_ALL_SUBMISSIONS_AS_JSON = "OPERATION_GET_ALL_SUBMISSIONS";
+	public static final String OPERATION_GET_ALL_STUDENTS_AS_JSON = "OPERATION_GET_ALL_STUDENTS";
 	public static final String OPERATION_GET_TEAM_FORMING_LOG_AS_JSON = "OPERATION_GET_TEAM_FORMING_LOG_AS_JSON";
 	public static final String OPERATION_GET_TEAM_PROFILE_AS_JSON = "OPERATION_GET_TEAM_PROFILE_AS_JSON";
 	public static final String OPERATION_GET_TFS_AS_JSON = "OPERATION_GET_TFS_AS_JSON";
 	public static final String OPERATION_GET_FEEDBACK_SESSION_AS_JSON = "OPERATION_GET_FEEDBACK_SESSION_AS_JSON";
+	public static final String OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON";
+	public static final String OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON";
 	public static final String OPERATION_GET_FEEDBACK_QUESTION_AS_JSON = "OPERATION_GET_FEEDBACK_QUESTION_AS_JSON";
+	public static final String OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON = "OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON";
 	public static final String OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON";
 	public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
 	public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
@@ -156,6 +161,12 @@ public class BackDoorServlet extends HttpServlet {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
 			return backDoorLogic.getStudentAsJson(courseId, email);
+		} else if (action.equals(OPERATION_GET_ALL_SUBMISSIONS_AS_JSON)) {
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			return backDoorLogic.getAllSubmissionsAsJson(courseId);
+		} else if (action.equals(OPERATION_GET_ALL_STUDENTS_AS_JSON)) {
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			return backDoorLogic.getAllStudentsAsJson(courseId);
 		} else if (action.equals(OPERATION_GET_KEY_FOR_STUDENT)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
@@ -201,12 +212,23 @@ public class BackDoorServlet extends HttpServlet {
 			String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			return backDoorLogic.getFeedbackSessionAsJson(feedbackSessionName, courseId);
-		} else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_AS_JSON)) { 
+		}  else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON)) { 
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			String giverEmail = req.getParameter(PARAMETER_GIVER_EMAIL);
+			return backDoorLogic.getFeedbackResponsesForGiverAsJson(courseId, giverEmail);
+		}  else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON)) { 
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			String recipient = req.getParameter(PARAMETER_RECIPIENT);
+			return backDoorLogic.getFeedbackResponsesForReceiverAsJson(courseId, recipient);
+		}  else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_AS_JSON)) { 
 			String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			int qnNumber = Integer.parseInt(req.getParameter(PARAMETER_FEEDBACK_QUESTION_NUMBER));
 			return backDoorLogic.getFeedbackQuestionAsJson(feedbackSessionName, courseId, qnNumber);			
-		} else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON)) { 
+		}  else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON)) { 
+			String questionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
+			return backDoorLogic.getFeedbackQuestionForIdAsJson(questionId);			
+		}  else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON)) { 
 			String feedbackQuestionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
 			String giverEmail = req.getParameter(PARAMETER_GIVER_EMAIL);
 			String recipient = req.getParameter(PARAMETER_RECIPIENT);

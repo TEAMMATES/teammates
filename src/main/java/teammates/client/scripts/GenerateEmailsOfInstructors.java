@@ -27,6 +27,9 @@ public class GenerateEmailsOfInstructors extends RemoteApiClient {
 			String email = instructorAccounts.get(i).getEmail();
 			if (email != null) {
 				System.out.print(email + ",");
+				if((i+1)%250 == 0){ //print line break after 250 emails
+					System.out.println();
+				}
 			}
 		}
 		

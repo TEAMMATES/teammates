@@ -161,16 +161,52 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 	
 	@Test
 	public void testAddQuestion() throws Exception{
-		______TS("add new question in between");
+		______TS("Add questions sequentially");
 		List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
 		FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
-		FeedbackQuestionAttributes q2 = getQuestionFromDatastore("qn1InSession1InCourse1");
+		q1.questionNumber = 1;
+		FeedbackQuestionAttributes q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
 		q2.questionNumber = 2;
-		FeedbackQuestionAttributes q3 = getQuestionFromDatastore("qn2InSession1InCourse1");
+		FeedbackQuestionAttributes q3 = getQuestionFromDatastore("qn3InSession1InCourse1");
 		q3.questionNumber = 3;
-		FeedbackQuestionAttributes q4 = getQuestionFromDatastore("qn3InSession1InCourse1");
+		FeedbackQuestionAttributes q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
 		q4.questionNumber = 4;
-		FeedbackQuestionAttributes q5 = getQuestionFromDatastore("qn4InSession1InCourse1");
+		FeedbackQuestionAttributes q5 = getQuestionFromDatastore("qn1InSession1InCourse1");
+		q5.questionNumber = 5;
+		
+		expectedList.add(q1);
+		expectedList.add(q2);
+		expectedList.add(q3);
+		expectedList.add(q4);
+		expectedList.add(q5);
+
+		//Appends a question to the back of the current question list
+		FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
+		newQuestion.questionNumber = 5;
+		newQuestion.setId(null); //new question should not have an ID.
+		fqLogic.createFeedbackQuestion(newQuestion);
+		
+		List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+		
+		assertEquals(actualList.size(), expectedList.size());
+		for(int i = 0; i < actualList.size(); i++){
+			assertEquals(actualList.get(i), expectedList.get(i));
+		}
+				
+		
+		______TS("add new question to the front of the list");
+		restoreTypicalDataInDatastore();
+		
+		expectedList = new ArrayList<FeedbackQuestionAttributes>();
+		q1 = getQuestionFromDatastore("qn4InSession1InCourse1");
+		q1.questionNumber = 1;
+		q2 = getQuestionFromDatastore("qn1InSession1InCourse1");
+		q2.questionNumber = 2;
+		q3 = getQuestionFromDatastore("qn2InSession1InCourse1");
+		q3.questionNumber = 3;
+		q4 = getQuestionFromDatastore("qn3InSession1InCourse1");
+		q4.questionNumber = 4;
+		q5 = getQuestionFromDatastore("qn4InSession1InCourse1");
 		q5.questionNumber = 5;
 		
 		expectedList.add(q1);
@@ -179,13 +215,48 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 		expectedList.add(q4);
 		expectedList.add(q5);
 		
-		//Add a question to session1course1, set it to #2 (with 3 question already existing)
-		FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
-		newQuestion.questionNumber = 2;
+		//Add a question to session1course1 and sets its number to 1
+		newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
+		newQuestion.questionNumber = 1;
 		newQuestion.setId(null); //new question should not have an ID.
 		fqLogic.createFeedbackQuestion(newQuestion);
 		
-		List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+		actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+		
+		assertEquals(actualList.size(), expectedList.size());
+		for(int i = 0; i < actualList.size(); i++){
+			assertEquals(actualList.get(i), expectedList.get(i));
+		}
+		
+		
+		______TS("add new question inbetween 2 existing questions");
+		restoreTypicalDataInDatastore();
+		
+		expectedList = new ArrayList<FeedbackQuestionAttributes>();
+		q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+		q1.questionNumber = 1;
+		q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
+		q2.questionNumber = 2;
+		q3 = getQuestionFromDatastore("qn4InSession1InCourse1");
+		q3.questionNumber = 3;
+		q4 = getQuestionFromDatastore("qn3InSession1InCourse1");
+		q4.questionNumber = 4;
+		q5 = getQuestionFromDatastore("qn4InSession1InCourse1");
+		q5.questionNumber = 5;
+		
+		expectedList.add(q1);
+		expectedList.add(q2);
+		expectedList.add(q3);
+		expectedList.add(q4);
+		expectedList.add(q5);
+		
+		//Add a question to session1course1 and place it between existing question 2 and 3
+		newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
+		newQuestion.questionNumber = 3;
+		newQuestion.setId(null); //new question should not have an ID.
+		fqLogic.createFeedbackQuestion(newQuestion);
+		
+		actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
 		
 		assertEquals(actualList.size(), expectedList.size());
 		for(int i = 0; i < actualList.size(); i++){

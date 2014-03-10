@@ -71,6 +71,44 @@ public abstract class EntitiesDb {
 		}
 	}
 	
+	/**
+	 * Warning: Do not use this method unless a previous update might cause
+	 * adding of the new entity to fail due to EntityAlreadyExists exception
+	 * Preconditions: 
+	 * <br> * {@code entityToAdd} is not null and has valid data.
+	 */
+	public void createEntityWithoutExistenceCheck(EntityAttributes entityToAdd) 
+			throws InvalidParametersException {
+		
+		Assumption.assertNotNull(
+				Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
+		
+		entityToAdd.sanitizeForSaving();
+		
+		if (!entityToAdd.isValid()) {
+			throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
+		}
+		
+		Object entity = entityToAdd.toEntity();
+		getPM().makePersistent(entity);
+		getPM().flush();
+
+		// Wait for the operation to persist
+		int elapsedTime = 0;
+		Object objectCheck = getEntity(entityToAdd);
+		while ((objectCheck == null)
+				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+			ThreadHelper.waitBriefly();
+			objectCheck = getEntity(entityToAdd);
+			elapsedTime += ThreadHelper.WAIT_DURATION;
+		}
+		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+			log.severe("Operation did not persist in time: create"
+					+ entityToAdd.getEntityTypeAsString() + "->"
+					+ entityToAdd.getIdentificationString());
+		}
+	}
+	
 	// TODO: use this method for subclasses.
 	/**
 	 * Note: This is a non-cascade delete.<br>

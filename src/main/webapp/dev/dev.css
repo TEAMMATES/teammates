@@ -5,12 +5,67 @@
 
 body {
 	font-family: Arial, Helvetica, sans-serif;
-	max-width: 800px;
-	margin-left: 50px;
+	margin: 0px;
 }
 
 img {
 	max-width: 100%;
+}
+
+#header {
+	background-color: black;
+	height: 60px;
+}
+
+#headerWrapper {
+	margin: 0px auto;
+	width: 1000px;
+}
+
+#imageHolder {
+	padding: 5px 15px;
+	width: 150px;
+	float: left;
+}
+#footer {
+	background-color: black;
+	clear: both;
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	height: 17px;
+	position: fixed;
+	bottom: 0;
+	z-index: 10;
+	width: 100%;
+}
+
+#footerWrapper {
+	text-align: center;
+	margin: 0 auto;
+	position: relative;
+	top: 0;
+	width: 1024px;
+}
+
+
+#footerRightCol {
+	float: left;
+	margin-left: 570px;
+	width: 450px;
+}
+
+#footer a:link {
+	color: #FFFFFF;
+}
+
+#footer a:visited {
+	color: #FFFFFF;
+}
+
+#footer a:link:hover {
+	color: #FFFFFF;
+	text-decoration: underline;
 }
 
 #content {

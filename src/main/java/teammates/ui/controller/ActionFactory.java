@@ -112,7 +112,7 @@ public class ActionFactory {
 	 * @return the matching {@link Action} object for the URI in the {@code req}.
 	 *   The returned {@code Action} is already initialized using the {@code req}.
 	 */
-	public static Action getAction(HttpServletRequest req) {
+	public Action getAction(HttpServletRequest req) {
 		
 		String url = req.getRequestURL().toString();
 		log.info("URL received :" + url);

@@ -4,7 +4,7 @@
   <threadsafe>true</threadsafe>
 	
 	<!-- Application ID of the app -->
-	<!-- For dev server testing, this be anything -->
+	<!-- For dev server testing, this could be anything -->
 	<!-- For staging server testing, this should match the ID of the app your created on GAE -->
 	<application>teammates-john</application>
 	

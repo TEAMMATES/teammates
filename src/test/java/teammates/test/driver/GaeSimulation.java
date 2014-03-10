@@ -137,7 +137,7 @@ public class GaeSimulation {
 	 */
 	public Action getActionObject(String uri, String... parameters) {
 		HttpServletRequest req = createWebRequest(uri, parameters);
-		return ActionFactory.getAction(req);
+		return new ActionFactory().getAction(req);
 	}
 
 	/** Refreshes the datastore by recreating it from scratch. */

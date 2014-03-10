@@ -29,6 +29,7 @@
 						<li><a href="#instructorEditCoursePage">Instructor Edit Course Page</a></li>
 						<li><a href="#instructorEnrollPage">Instructor Enroll Students Page</a></li>
 						<li><a href="#instructorCourseDetailsPage">Instructor Course Details Page</a></li>
+						<li><a href="#instructorStudentListPage">Instructor Student List Page</a></li>
 						<li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
 						<li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
 						<li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
@@ -90,6 +91,9 @@
 		
 		<div class="pageinfo">Instructor Course Details Page</div>
 		<div id="instructorCourseDetailsPage" class="wrapper"></div>
+
+		<div class="pageinfo">Instructor Student List Page</div>
+		<div id="instructorStudentListPage" class="wrapper"></div>
 		
 		<div class="pageinfo">Instructor Student Details Page</div>
 		<div id="instructorCourseStudentDetailsPage" class="wrapper"></div>
@@ -194,6 +198,7 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEnroll.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseDetails.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorStudentList.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvals.css" type="text/css">');
@@ -215,6 +220,7 @@
 			$('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
 			$('#instructorEnrollPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
 			$('#instructorCourseDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
+			$('#instructorStudentListPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #frameBodyWrapper");
 			$('#instructorCourseStudentDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
 			$('#instructorCourseStudentEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
 			$('#instructorCourseEvalPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper");
