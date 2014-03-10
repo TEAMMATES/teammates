@@ -265,14 +265,13 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		______TS("enrollLines with invalid parameters");
 		String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
 		String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
-		String invalidEmail = "invalid_email.com";
 		
 		String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.com";
 		String lineWithInvalidStudentName = "Team 1 |" + invalidStudentName + "| student@email.com";
-		String lineWithInvalidEmail = "Team 1 | James |" + invalidEmail;
-		String lineWithInvalidStudentNameAndEmail = "Team 2 |" + invalidStudentName + "|" + invalidEmail;
-		String lineWithInvalidTeamNameAndEmail = invalidTeamName + "| Paul |" + invalidEmail;
-		String lineWithInvalidTeamNameAndStudentNameAndEmail = invalidTeamName + "|" + invalidStudentName + "|" + invalidEmail;;
+		String lineWithInvalidEmail = "Team 1 | James |" + "James_invalid_email.com";
+		String lineWithInvalidStudentNameAndEmail = "Team 2 |" + invalidStudentName + "|" + "student_invalid_email.com";
+		String lineWithInvalidTeamNameAndEmail = invalidTeamName + "| Paul |" + "Paul_invalid_email.com";
+		String lineWithInvalidTeamNameAndStudentNameAndEmail = invalidTeamName + "|" + invalidStudentName + "|" + "invalid_email.com";
 		
 		enrollLines = lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName + Const.EOL +
 					lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL +
@@ -301,7 +300,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 		
 		______TS("enrollLines with too few");
 		String lineWithNoEmailInput = "Team 4 | StudentWithNoEmailInput";
-		String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | student@email.com | comment | extra_parameter";
+		String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | studentWithExtraParameters@email.com | comment | extra_parameter";
 		
 		enrollLines = lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
 		

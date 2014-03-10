@@ -1637,21 +1637,39 @@ public class LogicTest extends BaseComponentTestCase {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 	
-		______TS("same student added, modified and unmodified in one shot");
+		______TS("same student added, modified and unmodified");
 	
 		logic.createAccount("tes.instructor", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
-		lines = "t8|n8|e8@g|c1" + EOL + "t8|n8a|e8@g|c1" + EOL
-				+ "t8|n8a|e8@g|c1";
-		enrollResults = logic.enrollStudents(lines, "tes.course");
-	
-		assertEquals(3, enrollResults.size());
+		
+		String line = "t8|n8|e8@g|c1" ;
+		enrollResults = logic.enrollStudents(line, "tes.course");
+		assertEquals(1, enrollResults.size());
 		assertEquals(StudentAttributes.UpdateStatus.NEW,
 				enrollResults.get(0).updateStatus);
+		
+		line = "t8|n8a|e8@g|c1";
+		enrollResults = logic.enrollStudents(line, "tes.course");
+		assertEquals(1, enrollResults.size());
 		assertEquals(StudentAttributes.UpdateStatus.MODIFIED,
-				enrollResults.get(1).updateStatus);
+				enrollResults.get(0).updateStatus);
+		
+		line = "t8|n8a|e8@g|c1";
+		enrollResults = logic.enrollStudents(line, "tes.course");
+		assertEquals(1, enrollResults.size());
 		assertEquals(StudentAttributes.UpdateStatus.UNMODIFIED,
-				enrollResults.get(2).updateStatus);
+				enrollResults.get(0).updateStatus);
+
+		______TS("duplicated emails");
+		
+		String line_t9 = "t9|n9|e9@g|c9";
+		String line_t10 = "t10|n10|e9@g|c10";
+		try {
+			logic.enrollStudents(line_t9 + EOL + line_t10, "tes.course");
+		} catch (EnrollException e) {
+			assertTrue(e.getMessage().contains(line_t10));
+			assertTrue(e.getMessage().contains("Same email address as the student in line \""+line_t9+"\""));	
+		}
 	}
 
 	@Test
