@@ -115,6 +115,8 @@
 							<%
 								}
 							%>
+							<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
+								value="<%=data.account.googleId%>">
 							<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
 								value="<%=data.evaluationResults.evaluation.courseId%>">
 							<input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>"
