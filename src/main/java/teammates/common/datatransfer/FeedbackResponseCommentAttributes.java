@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Sanitizer;
 import teammates.storage.entity.FeedbackResponseComment;
 
 import com.google.appengine.api.datastore.Text;
@@ -23,7 +23,14 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
 	public Text commentText;
 
 	public FeedbackResponseCommentAttributes(){
-		
+		this.feedbackResponseCommentId = null;
+		this.courseId = null;
+		this.feedbackSessionName = null;
+		this.feedbackQuestionId = null;
+		this.giverEmail = null;
+		this.feedbackResponseId = null;
+		this.createdAt = null;
+		this.commentText = null;
 	}
 	
 	public FeedbackResponseCommentAttributes(String courseId,

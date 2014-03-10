@@ -4,6 +4,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
@@ -27,5 +28,11 @@ public class FeedbackResponseCommentsLogic {
 	public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
 			String feedbackSessionName) {
 		return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
+	}
+
+	public void updateFeedbackResponseComment(
+			FeedbackResponseCommentAttributes feedbackResponseComment) throws InvalidParametersException, EntityDoesNotExistException {
+		frcDb.updateFeedbackResponseComment(feedbackResponseComment);
+		
 	}
 }

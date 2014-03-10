@@ -1509,6 +1509,17 @@ public class Logic {
 		feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
 	}
 	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
+
+		feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
+	}	
+	
 	@SuppressWarnings("unused")
 	private void ____COMMENT_level_methods_____________________________() {
 	}

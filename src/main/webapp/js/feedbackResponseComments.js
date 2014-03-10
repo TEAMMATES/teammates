@@ -1,6 +1,5 @@
 function toggleResponseCommentTable(recipientIndex, giverIndex, qnIndx) {
 	var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
-	console.log(id);
 	
 	if($("#toggleResponseCommentTableButton"+id).text() == "[show]"){
 		$("#responseCommentTable"+id).show();
@@ -9,4 +8,11 @@ function toggleResponseCommentTable(recipientIndex, giverIndex, qnIndx) {
 		$("#responseCommentTable"+id).hide();
 		$("#toggleResponseCommentTableButton"+id).text("[show]");
 	}
+}
+
+function showCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
+	var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndex+"-"+commentIndex;
+	
+	$("#responseCommentRow"+id).hide();
+	$("#responseEditForm"+id).show();
 }

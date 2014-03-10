@@ -10,6 +10,8 @@ import javax.jdo.Query;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -81,6 +83,32 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 		return resultList;	
 	}
 	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @throws InvalidParametersException 
+	 * @throws EntityDoesNotExistException 
+	 */
+	public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
+			throws InvalidParametersException, EntityDoesNotExistException {
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
+		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes.getId());
+		
+		newAttributes.sanitizeForSaving();
+		
+		if (!newAttributes.isValid()) {
+			throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+		}
+		FeedbackResponseComment frc = (FeedbackResponseComment) getEntity(newAttributes);
+		
+		if (frc == null) {
+			throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
+		}
+		
+		frc.setCommentText(newAttributes.commentText);
+		
+		getPM().close();
+	}
 	
 	@Override
 	protected Object getEntity(EntityAttributes attributes) {
