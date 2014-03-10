@@ -411,6 +411,7 @@ public class Const {
 
 		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
 		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
+		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/instructorFeedbackResponseCommentDelete";
 				
 		public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
 		

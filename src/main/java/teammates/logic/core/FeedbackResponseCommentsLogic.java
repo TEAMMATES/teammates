@@ -32,7 +32,11 @@ public class FeedbackResponseCommentsLogic {
 
 	public void updateFeedbackResponseComment(
 			FeedbackResponseCommentAttributes feedbackResponseComment) throws InvalidParametersException, EntityDoesNotExistException {
-		frcDb.updateFeedbackResponseComment(feedbackResponseComment);
-		
+		frcDb.updateFeedbackResponseComment(feedbackResponseComment);	
+	}
+	
+	public void deleteFeedbackResponseComment(
+			FeedbackResponseCommentAttributes feedbackResponseComment) {
+		frcDb.deleteEntity(feedbackResponseComment);	
 	}
 }

@@ -154,9 +154,9 @@
 											for (FeedbackResponseCommentAttributes comment : responseComments) {
 										%>
 												<tr>
-													<td><%=comment.commentText.getValue() %></td>
-													<td><%=comment.giverEmail %></td>
-													<td><%=comment.createdAt %></td>
+													<td class="feedbackResponseCommentText"><%=comment.commentText.getValue() %></td>
+													<td class="feedbackResponseCommentGiver"><%=comment.giverEmail %></td>
+													<td class="feedbackResponseCommentTime"><%=comment.createdAt %></td>
 												</tr>
 										<%
 											}

@@ -99,22 +99,32 @@
 											for (FeedbackResponseCommentAttributes comment : responseComments) {
 									%>
 												<tr id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-													<td><%=comment.commentText.getValue()%></td>
-													<td><%=comment.giverEmail%></td>
-													<td><%=comment.createdAt%></td>
+													<td class="feedbackResponseCommentText"><%=comment.commentText.getValue()%></td>
+													<td class="feedbackResponseCommentGiver"><%=comment.giverEmail%></td>
+													<td class="feedbackResponseCommentTime"><%=comment.createdAt%></td>
 													
 												<% 
 													if (comment.giverEmail.equals(data.instructor.email)) {
 												%>
 														<td class="rightalign">
-															<a href="#" class="color_blue pad_right" onclick="showCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>)">Edit</a>
+															<a href="#" class="color_blue" onclick="showCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>)">Edit</a>
+														</td>
+														<td class="rightalign">
+															<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>">
+																<a href="#" class="color_red pad_right" onclick="this.parentElement.submit()">Delete</a>
+																<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%=comment.getId()%>">
+																<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
+																<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
+																<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+																<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="recipient">
+															</form>
 														</td>
 												<%
 													}
 												%>
 												</tr>
 												<tr id="responseEditForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" style="display: none;">
-													<td colspan="4">
+													<td colspan="5">
 														<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %>">
 															<textarea rows="4" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"><%=comment.commentText.getValue()%></textarea>
 															<input type="submit" class="button floatright" value="Save Changes">
@@ -132,7 +142,7 @@
 										}
 									%>
 									<tr id="responseAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">
-										<td colspan="4">
+										<td colspan="5">
 											<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %>">
 												<textarea rows="4" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"></textarea>
 												<input type="submit" class="button floatright" value="Submit Comment">

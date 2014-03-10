@@ -1518,6 +1518,16 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
 
 		feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
+	}
+
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void deleteFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
+
+		feedbackResponseCommentsLogic.deleteFeedbackResponseComment(feedbackResponseComment);
 	}	
 	
 	@SuppressWarnings("unused")
@@ -1530,7 +1540,7 @@ public class Logic {
 	 * @throws EntityDoesNotExistException 
 	 */
 	public void createComment(CommentAttributes comment)
-			throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException{
+			throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
 		commentsLogic.createComment(comment);
 	}
@@ -1540,7 +1550,7 @@ public class Logic {
 	 * * All parameters are non-null.
 	 */
 	public void updateComment(CommentAttributes comment)
-			throws InvalidParametersException, EntityDoesNotExistException{
+			throws InvalidParametersException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
 		commentsLogic.updateComment(comment);
 	}
@@ -1549,7 +1559,7 @@ public class Logic {
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
-	public void deleteComment(CommentAttributes comment){
+	public void deleteComment(CommentAttributes comment) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
 		commentsLogic.deleteComment(comment);
 	}
