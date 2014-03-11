@@ -2306,15 +2306,15 @@ public class LogicTest extends BaseComponentTestCase {
 		//Team 1.2,,student5 In Course1,,-999,,-9999,,
 		
 		String[] exportLines = export.split(Const.EOL);
-		assertEquals("Course,," + eval.courseId, exportLines[0]);
-		assertEquals("Evaluation Name,," + eval.name, exportLines[1]);
+		assertEquals("Course,\"" + eval.courseId + "\"", exportLines[0]);
+		assertEquals("Evaluation Name,\"" + eval.name + "\"", exportLines[1]);
 		assertEquals("", exportLines[2]);
-		assertEquals("Team,,Student,,Claimed,,Perceived,,Received", exportLines[3]);
-		assertEquals("Team 1.1,,student1 In Course1,,100,,100,,100,100,N/A", exportLines[4]);
-		assertEquals("Team 1.1,,student2 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[5]);
-		assertEquals("Team 1.1,,student3 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[6]);
-		assertEquals("Team 1.1,,student4 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[7]);
-		assertEquals("Team 1.2,,student5 In Course1,,Not Submitted,,N/A,,", exportLines[8]);
+		assertEquals("Team,Student,Claimed,Perceived,Received", exportLines[3]);
+		assertEquals("\"Team 1.1\",\"student1 In Course1\",\"100\",\"100\",\"100,100,N/A\"", exportLines[4]);
+		assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Not Submitted\",\"100\",\"100,N/A,N/A\"", exportLines[5]);
+		assertEquals("\"Team 1.1\",\"student3 In Course1\",\"Not Submitted\",\"100\",\"100,N/A,N/A\"", exportLines[6]);
+		assertEquals("\"Team 1.1\",\"student4 In Course1\",\"Not Submitted\",\"100\",\"100,N/A,N/A\"", exportLines[7]);
+		assertEquals("\"Team 1.2\",\"student5 In Course1\",\"Not Submitted\",\"N/A\",\"\"", exportLines[8]);
 		
 		______TS("Non-existent Course/Eval");
 		

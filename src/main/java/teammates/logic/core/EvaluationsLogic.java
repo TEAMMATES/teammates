@@ -31,6 +31,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.api.EvaluationsDb;
 
@@ -266,11 +267,11 @@ public class EvaluationsLogic {
 		
 		String export = "";
 		
-		export += "Course" + ",," + evaluationResults.evaluation.courseId + Const.EOL
-				+ "Evaluation Name" + ",," + evaluationResults.evaluation.name + Const.EOL
+		export += "Course" + "," + Sanitizer.sanitizeForCsv(evaluationResults.evaluation.courseId) + Const.EOL
+				+ "Evaluation Name" + "," + Sanitizer.sanitizeForCsv(evaluationResults.evaluation.name) + Const.EOL
 				+ Const.EOL;
 		
-		export += "Team" + ",," + "Student" + ",," + "Claimed" + ",," + "Perceived" + ",," + "Received" + Const.EOL;
+		export += "Team" + "," + "Student" + "," + "Claimed" + "," + "Perceived" + "," + "Received" + Const.EOL;
 		
 		for (TeamResultBundle td : evaluationResults.teamResults.values()) {
 			for (StudentResultBundle srb : td.studentResults) {
@@ -288,7 +289,11 @@ public class EvaluationsLogic {
 					result += sub.details.normalizedToInstructor;
 				}
 				
-				export += srb.student.team + ",," + srb.student.name + ",," + srb.summary.claimedToInstructor + ",," + srb.summary.perceivedToInstructor + ",," + result + Const.EOL;
+				export += Sanitizer.sanitizeForCsv(srb.student.team) + "," +
+						Sanitizer.sanitizeForCsv(srb.student.name) + "," + 
+						Sanitizer.sanitizeForCsv(Integer.toString(srb.summary.claimedToInstructor)) + "," + 
+						Sanitizer.sanitizeForCsv(Integer.toString(srb.summary.perceivedToInstructor)) + "," + 
+						Sanitizer.sanitizeForCsv(result) + Const.EOL;
 			}
 		}
 		
