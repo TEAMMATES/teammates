@@ -6,32 +6,32 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.log.AppLogLine;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.util.ActivityLogEntry;
+import teammates.common.datatransfer.LogEntryAttributes;
 import teammates.test.cases.BaseTestCase;
 
 public class ActivityLogTest extends BaseTestCase{
 
 	@Test
-	public void testActivityLogEntryClass() {
+	public void testLogEntryAttributesClass() {
 		______TS("Test constructors and generateLogMessage");
 		String logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId|||UserEmail|||Message|||URL";
 		AccountAttributes acc = new AccountAttributes("UserId", "UserName", true, "UserEmail", "UserInstitute");
-		ActivityLogEntry entry = new ActivityLogEntry("instructorHome", "Pageload", acc, "Message", "URL");		
+		LogEntryAttributes entry = new LogEntryAttributes("instructorHome", "Pageload", acc, "Message", "URL");		
 		assertEquals(logMessage, entry.generateLogMessage());
 		
 		AppLogLine appLog = new AppLogLine();
 		appLog.setLogMessage(logMessage);
-		entry = new ActivityLogEntry(appLog);		
+		entry = new LogEntryAttributes(appLog);		
 		assertEquals(logMessage, entry.generateLogMessage());
 		
-		logMessage = "TEAMMATESLOG|||instructorHome|||Unknown|||true|||Unknown|||Unknown|||Unknown|||Unknown|||<span class=\"color_red\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>Message|||URL";
-		entry = new ActivityLogEntry("instructorHome", "Message", "URL");		
+		logMessage = "TEAMMATESLOG|||instructorHome|||Unknown|||true|||Unknown|||Unknown|||Unknown|||Unknown|||<span class=\"color_red\">Error. LogEntryAttributes object is not created for this servlet action.</span><br>Message|||URL";
+		entry = new LogEntryAttributes("instructorHome", "Message", "URL");		
 		assertEquals(logMessage, entry.generateLogMessage());
 		
 		
 		______TS("Test getters");
 		appLog.setTimeUsec(0);
-		entry = new ActivityLogEntry(appLog);
+		entry = new LogEntryAttributes(appLog);
 		
 		assertEquals("<a href=\"URL?user=UserId\" class=\"color_green bold\" target=\"_blank\">instructorHome</a>", entry.getActionInfo());
 		assertEquals("01-01-1970 07:30:00", entry.getDateInfo());
@@ -42,8 +42,8 @@ public class ActivityLogTest extends BaseTestCase{
 	
 	@Test
 	public void testGetActionName(){
-		assertEquals("instructorCourse", ActivityLogEntry.getActionName("/page/instructorCourse"));
-		assertEquals("instructorCourse", ActivityLogEntry.getActionName("/page/instructorCourse?user=x"));
-		assertEquals("error in getActionName for requestUrl : instructorCourse", ActivityLogEntry.getActionName("instructorCourse"));
+		assertEquals("instructorCourse", LogEntryAttributes.getActionName("/page/instructorCourse"));
+		assertEquals("instructorCourse", LogEntryAttributes.getActionName("/page/instructorCourse?user=x"));
+		assertEquals("error in getActionName for requestUrl : instructorCourse", LogEntryAttributes.getActionName("instructorCourse"));
 	}
 }
