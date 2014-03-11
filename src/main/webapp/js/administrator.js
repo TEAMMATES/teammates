@@ -117,8 +117,8 @@ function showHideErrorMessage(s) {
 }
 
 
-function toggleDeleteAccountConfirmation(google_id) {
-    return confirm("Are you sure you want to delete the account " + google_id + "?\n" +
+function toggleDeleteAccountConfirmation(googleId) {
+    return confirm("Are you sure you want to delete the account " + googleId + "?\n" +
                     "This operation will delete ALL information about this account " + 
                     "from the system.");
 }
