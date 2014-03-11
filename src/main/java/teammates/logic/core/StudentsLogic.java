@@ -469,12 +469,14 @@ public class StudentsLogic {
 	private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws EnrollException {
 		List<String> invalidityInfo = new ArrayList<String>();
 		String[] linesArray = lines.split(Const.EOL);
-
+		ArrayList<String>  studentEmailList = new ArrayList<String>();
+		
 		StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
 		
 		int startLine;
 		if (saf.hasHeader()) {
 			startLine = 1;
+			studentEmailList.add(new String());
 		} else {
 			startLine = 0;
 		}
@@ -492,6 +494,12 @@ public class StudentsLogic {
 													"<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
 					invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info));
 				}
+				
+				if(isStudentEmailDuplicated(student.email,studentEmailList)){
+					String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email,studentEmailList,linesArray), 
+													"<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+					invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info));
+				}
 			} catch (EnrollException e) {
 				String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, e.getMessage());
 				invalidityInfo.add(info);
@@ -499,6 +507,20 @@ public class StudentsLogic {
 		}
 		
 		return invalidityInfo;
+	}
+	
+	private List<String> getInvalidityInfoInDuplicatedEmail(String email,
+			ArrayList<String> studentEmailList,String[] linesArray){
+		List<String> info = new ArrayList<String>();
+		info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email)]+ "\"");
+		return info;
+	}
+	
+	private boolean isStudentEmailDuplicated(String email, 
+			ArrayList<String> studentEmailList){
+		boolean isEmailDuplicated = studentEmailList.contains(email);
+		studentEmailList.add(email);
+		return isEmailDuplicated;
 	}
 	
 	private boolean isInEnrollList(StudentAttributes student,
