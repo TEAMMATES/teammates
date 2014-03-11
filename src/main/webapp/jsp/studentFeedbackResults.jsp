@@ -36,8 +36,7 @@
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 	<script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-	<script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>
+	<jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>

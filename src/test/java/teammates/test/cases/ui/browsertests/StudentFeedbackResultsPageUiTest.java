@@ -84,7 +84,6 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 		
 		resultsPage = loginToStudentFeedbackSubmitPage("Alice", "NUMSCALE Session");
 		resultsPage.verifyHtml("/studentFeedbackResultsPageNUMSCALE.html");
-		
 	}
 
 	@AfterClass

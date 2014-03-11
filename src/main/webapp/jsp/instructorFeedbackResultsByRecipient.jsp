@@ -85,13 +85,7 @@
 					<tr>
 						<td>
 							<span class="bold">Comments: </span>
-							<a href="#" class="color_gray" 
-								id="toggleResponseCommentTableButton-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
-								onclick="toggleResponseCommentTable(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)">[show]</a>
-								<table 
-									class="responseCommentTable" 
-									id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
-									style="display:none;">
+								<table class="responseCommentTable" id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">
 									<%
 										List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());
 										if (responseComments != null) {
@@ -107,7 +101,7 @@
 													if (comment.giverEmail.equals(data.instructor.email)) {
 												%>
 														<td class="rightalign">
-															<a href="#" class="color_blue" onclick="showCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>)">Edit</a>
+															<a href="#" class="color_blue" onclick="showResponseCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>)">Edit</a>
 														</td>
 														<td class="rightalign">
 															<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>">
@@ -123,10 +117,11 @@
 													}
 												%>
 												</tr>
-												<tr id="responseEditForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" style="display: none;">
+												<tr id="responseCommentEditForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" style="display: none;">
 													<td colspan="5">
 														<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %>">
-															<textarea rows="4" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"><%=comment.commentText.getValue()%></textarea>
+															<textarea rows="4" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"
+																id="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=comment.commentText.getValue()%></textarea>
 															<input type="submit" class="button floatright" value="Save Changes">
 															<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%=comment.getId()%>">
 															<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
@@ -141,10 +136,19 @@
 											}
 										}
 									%>
-									<tr id="responseAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">
+									<tr id="showResponseCommentAddFormButton-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">
+										<td colspan="5">
+											<a href="#" class="color_gray"
+												onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)">
+												<textarea rows="1" disabled="disabled" style="cursor:text;">Add a comment...</textarea>
+											</a>
+										</td>
+									<tr>
+									<tr id="responseCommentAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>" style="display: none;">
 										<td colspan="5">
 											<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %>">
-												<textarea rows="4" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"></textarea>
+												<textarea rows="4" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>"
+													id="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"></textarea>
 												<input type="submit" class="button floatright" value="Submit Comment">
 												<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
 												<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">

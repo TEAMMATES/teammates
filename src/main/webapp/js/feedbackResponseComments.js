@@ -1,18 +1,14 @@
-function toggleResponseCommentTable(recipientIndex, giverIndex, qnIndx) {
+function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
 	var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
-	
-	if($("#toggleResponseCommentTableButton"+id).text() == "[show]"){
-		$("#responseCommentTable"+id).show();
-		$("#toggleResponseCommentTableButton"+id).text("[hide]");
-	} else {
-		$("#responseCommentTable"+id).hide();
-		$("#toggleResponseCommentTableButton"+id).text("[show]");
-	}
+
+	$("#showResponseCommentAddFormButton"+id).hide();
+	$("#responseCommentAddForm"+id).show();
+	$("#responsecommenttext"+id).focus();
 }
 
-function showCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
+function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
 	var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndex+"-"+commentIndex;
 	
 	$("#responseCommentRow"+id).hide();
-	$("#responseEditForm"+id).show();
+	$("#responseCommentEditForm"+id).show();
 }
