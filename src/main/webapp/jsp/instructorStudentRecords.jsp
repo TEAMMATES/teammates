@@ -6,6 +6,7 @@
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
@@ -260,6 +261,29 @@
 									<td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
 								</tr>
 							<%
+								List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
+								if (responseComments != null) {
+							%>
+								<tr>
+									<td>
+										<span class="bold">Comments: </span>
+										<table class="responseCommentTable">
+											<%
+												for (FeedbackResponseCommentAttributes comment : responseComments) {
+											%>
+													<tr>
+														<td class="feedbackResponseCommentText"><%=comment.commentText.getValue() %></td>
+														<td class="feedbackResponseCommentGiver"><%=comment.giverEmail %></td>
+														<td class="feedbackResponseCommentTime"><%=comment.createdAt %></td>
+													</tr>
+											<%
+												}
+											%>
+										</table> 
+									</td>
+								</tr>
+							<%
+								}
 								qnIndx++;
 							}
 							if (responsesReceived.getValue().isEmpty()) {
@@ -319,6 +343,29 @@
 									<td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
 								</tr>
 							<%
+								List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
+								if (responseComments != null) {
+							%>
+								<tr>
+									<td>
+										<span class="bold">Comments: </span>
+										<table class="responseCommentTable">
+											<%
+												for (FeedbackResponseCommentAttributes comment : responseComments) {
+											%>
+													<tr>
+														<td class="feedbackResponseCommentText"><%=comment.commentText.getValue() %></td>
+														<td class="feedbackResponseCommentGiver"><%=comment.giverEmail %></td>
+														<td class="feedbackResponseCommentTime"><%=comment.createdAt %></td>
+													</tr>
+											<%
+												}
+											%>
+										</table> 
+									</td>
+								</tr>
+							<%
+								}
 								qnIndx++;
 							}
 							if (responsesGiven.getValue().isEmpty()) {
