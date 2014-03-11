@@ -612,6 +612,9 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 		
 		public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
+		
+		public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
+		public static final String FEEDBACK_RESPONSE_COMMENT_SAVED = "";		
 				
 		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
 		

@@ -39,6 +39,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	public void testAll() throws Exception {
 		testContent();
 		testSortAction();
+		testFeedbackResponseCommentActions();
 		testLink();
 	}
 	
@@ -151,6 +152,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 		resultsPage.sortTableByRecipient()
 				.verifyTablePattern(1,"{*}Emily{*}Danny Engrid{*}Charlie Dávis{*}Benny Charles");
 
+	}
+	
+	public void testFeedbackResponseCommentActions() {
+		resultsPage.displayByRecipient();
+		resultsPage.addFeedbackResponseComment("test comment 1");
+		resultsPage.addFeedbackResponseComment("test comment 2");
+		resultsPage.verifyCommentRowContent("responseCommentRow-1-1-1-1",
+				"test comment 1", "CFResultsUiT.instr@gmail.com");
+		resultsPage.verifyCommentRowContent("responseCommentRow-1-1-1-2",
+				"test comment 2", "CFResultsUiT.instr@gmail.com");
 	}
 	
 	public void testLink() {

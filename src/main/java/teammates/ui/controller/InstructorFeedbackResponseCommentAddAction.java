@@ -7,6 +7,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
@@ -18,7 +19,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		Assumption.assertNotNull("null course id", courseId);
 		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		Assumption.assertNotNull("null feedback session name", feedbackSessionName);
 		
 		InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
 		
@@ -27,9 +30,17 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 				logic.getFeedbackSession(feedbackSessionName, courseId),
 				false);
 		
-		String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-		String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 		String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
+		Assumption.assertNotNull("null comment text", commentText);
+		if (commentText.trim().isEmpty()) {
+			statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+			isError = true;
+			return createRedirectToFeedbackResultsPageResult();
+		}
+		String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+		Assumption.assertNotNull("null feedback question id", feedbackQuestionId);
+		String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+		Assumption.assertNotNull("null feedback response id", feedbackResponseId);
 		
 		FeedbackResponseCommentAttributes frc = new FeedbackResponseCommentAttributes(courseId,
 			feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
@@ -48,16 +59,23 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 		}
 		
 		if (!isError) {
-			statusToUser.add("Your comment has been saved successfully");
+			statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_SAVED);
 			statusToAdmin += "InstructorFeedbackResponseCommentAddAction:<br>"
 					+ "Adding comment to response: " + frc.feedbackResponseId + "<br>"
 					+ "in course/feedback session: " + frc.courseId + "/" + frc.feedbackSessionName + "<br>"
 					+ "by: " + frc.giverEmail + " at " + frc.createdAt + "<br>"
 					+ "comment text: " + frc.commentText.getValue();
 		}
-
-		String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
 				
+		return createRedirectToFeedbackResultsPageResult();
+	}
+
+	private RedirectResult createRedirectToFeedbackResultsPageResult() {
+		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+		String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
+		Assumption.assertNotNull("null sort type", sortType);
+		
 		String redirectUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
 		redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.COURSE_ID, courseId);
 		redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -65,5 +83,4 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 		redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, sortType);
 		return createRedirectResult(redirectUrl);
 	}
-
 }
