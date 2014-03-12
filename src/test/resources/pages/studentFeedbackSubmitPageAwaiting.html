@@ -52,7 +52,7 @@
 			</div>
 			
 			<form name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave" method="post">
-			<input name="fsname"  type="hidden"  value="Second Session" />
+			<input name="fsname"  type="hidden"  value="Fourth Session" />
             <input name="courseid"  type="hidden"  value="SFSubmitUiT.CS2104" />
             <input name="user"  type="hidden"  value="SFSubmitUiT.alice.b" />
 			<table class="inputTable">
@@ -76,15 +76,13 @@
 			</tr>
 			</tbody></table>
 			<br />
-			
-
-
-
-
-	<div style="display: none;" id="statusMessage"></div>
-
-			<br />
-			
+			<div id="statusMessage"  style="display: block;" >
+            	You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
+            </div>
+            <script type="text/javascript" >
+            	document.getElementById( 'statusMessage' ).scrollIntoView();
+            </script>
+            <br />
 			<input type="hidden" value="TEXT" name="questiontype-1" />
 			<input type="hidden" value="{*}" name="questionid-1" />
 			<input type="hidden" value="1" name="questionresponsetotal-1" />
@@ -120,10 +118,8 @@
 			<br /><br />
 			
 			<div class="bold centeralign">
-			
-			You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not opened.
-			
-			</div>
+			<input class="button"  disabled="disabled"  id="response_submit_button"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')"  style="background: #66727A;"  type="submit"  value="Save Feedback" />
+            </div>
 			<br /><br />	
 			</form>
 		</div>
@@ -135,7 +131,7 @@
 
 
 <div id="contentFooter">
-	<span class="floatleft">[TEAMMATES <span class="color_white">V{$version}</span>]</span>
+	<span class="floatleft">[<span class="color_white" >TEAMMATES</span>V{$version}]</span></span>
 	
 	<span class="floatright">[Send <span class="color_white"><a target="_blank" href="../contact.html">Feedback</a></span>]</span>
 </div>

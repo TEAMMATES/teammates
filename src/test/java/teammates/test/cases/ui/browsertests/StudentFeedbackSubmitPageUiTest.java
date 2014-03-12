@@ -53,8 +53,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		
 		______TS("Awaiting session");
 		
-		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Closed Session");
-		submitPage.verifyHtml("/studentFeedbackSubmitPageClosed.html");
+		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
+		submitPage.verifyHtml("/studentFeedbackSubmitPageAwaiting.html");
 		
 		______TS("Open session");
 		
