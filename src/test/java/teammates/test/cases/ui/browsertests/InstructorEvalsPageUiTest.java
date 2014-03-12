@@ -189,7 +189,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
 		//  in that case, rerun in Chrome.
 		assertEquals(eval.toString(), savedEvaluation.toString());
 		evalsPage.sortByName()
-			.verifyHtml("/instructorEvalAddSuccess.html");
+			.verifyHtmlAjax("/instructorEvalAddSuccess.html");
 
 		______TS("duplicate evalution name");
 

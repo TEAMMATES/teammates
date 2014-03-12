@@ -143,14 +143,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 				.verifyTablePattern(2,"{*}4 Response to Charlie.{*}3 Response to Emily.{*}2 Response to Benny.{*}1 Response to Danny.");
 		
 		resultsPage.sortTableByGiver()
-				.verifyTablePattern(0,"{*}Alice Betsy{*}Benny Charles{*}Benny Charles{*}Charlie Dávis");
+				.verifyTablePattern(0,"{*}Alice Betsy (Team 1){*}Benny Charles (Team 1){*}Benny Charles (Team 1){*}Charlie Dávis (Team 2)");
 		resultsPage.sortTableByGiver()
-				.verifyTablePattern(0,"{*}Charlie Dávis{*}Benny Charles{*}Benny Charles{*}Alice Betsy");
+				.verifyTablePattern(0,"{*}Charlie Dávis (Team 2){*}Benny Charles (Team 1){*}Benny Charles (Team 1){*}Alice Betsy (Team 1)");
 		
 		resultsPage.sortTableByRecipient()
-				.verifyTablePattern(1,"{*}Benny Charles{*}Charlie Dávis{*}Danny Engrid{*}Emily");
+				.verifyTablePattern(1,"{*}Benny Charles (Team 1){*}Charlie Dávis (Team 2){*}Danny Engrid (Team 2){*}Emily (Team 3)");
 		resultsPage.sortTableByRecipient()
-				.verifyTablePattern(1,"{*}Emily{*}Danny Engrid{*}Charlie Dávis{*}Benny Charles");
+				.verifyTablePattern(1,"{*}Emily (Team 3){*}Danny Engrid (Team 2){*}Charlie Dávis (Team 2){*}Benny Charles (Team 1)");
 
 	}
 	

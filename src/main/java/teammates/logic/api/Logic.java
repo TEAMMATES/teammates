@@ -918,6 +918,19 @@ public class Logic {
 	}
 	
 	/**
+	 * Generates students list of a course in CSV format. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null. <br>
+	 */
+	public String getCourseStudentListAsCsv(String courseId, String googleId) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		
+		return coursesLogic.getCourseStudentListAsCsv(courseId, googleId);
+	}
+	
+	/**
 	 * Preconditions: <br>
 	 * * All parameters are non-null. <br>
 	 * 
