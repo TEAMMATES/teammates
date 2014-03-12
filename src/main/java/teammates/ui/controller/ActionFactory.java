@@ -97,12 +97,6 @@ public class ActionFactory {
 		map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, StudentFeedbackQuestionSubmissionEditPageAction.class);
 		map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE, StudentFeedbackQuestionSubmissionEditSaveAction.class);
 		map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
-		
-		//These are here for backward compatibility reasons. We used these URIs
-		//  before V4.55 and some users have these URIs in emails they 
-		//  received from TEAMMATES.
-		map("/page/studentEvalResults", StudentEvalResultsPageAction.class);
-		map("/page/studentEvalEdit", StudentEvalSubmissionEditPageAction.class);
 	}
 
 
