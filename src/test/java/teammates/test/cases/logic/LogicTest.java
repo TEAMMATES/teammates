@@ -2337,6 +2337,59 @@ public class LogicTest extends BaseComponentTestCase {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
 		}
 	}
+	
+	@Test
+	public void testGetCourseStudentListAsCsv() throws Exception {
+		______TS("typical case");
+	
+		restoreTypicalDataInDatastore();	
+		
+		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+		String instructorGoogleId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+		
+		String export = logic.getCourseStudentListAsCsv(course.id, instructorGoogleId);
+		
+		// This is what export should look like:
+		// ==================================
+		//Course ID,"idOfTypicalCourse1"
+		//Course Name,"Typical Course 1 with 2 Evals"
+		//
+		//
+		//Team,Student Name,Status,Email
+		//"Team 1.1","student1 In Course1","Joined","student1InCourse1@gmail.com"
+		//"Team 1.1","student2 In Course1","Joined","student2InCourse1@gmail.com"
+		//"Team 1.1","student3 In Course1","Joined","student3InCourse1@gmail.com"
+		//"Team 1.1","student4 In Course1","Joined","student4InCourse1@gmail.com"
+		//"Team 1.2","student5 In Course1","Joined","student5InCourse1@gmail.com"
+		
+		String[] exportLines = export.split(Const.EOL);
+		assertEquals("Course ID," + "\"" + course.id + "\"", exportLines[0]);
+		assertEquals("Course Name," + "\"" + course.name + "\"", exportLines[1]);
+		assertEquals("", exportLines[2]);
+		assertEquals("", exportLines[3]);
+		assertEquals("Team,Student Name,Status,Email", exportLines[4]);
+		assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Joined\",\"student1InCourse1@gmail.com\"", exportLines[5]);
+		assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Joined\",\"student2InCourse1@gmail.com\"", exportLines[6]);
+		assertEquals("\"Team 1.1\",\"student3 In Course1\",\"Joined\",\"student3InCourse1@gmail.com\"", exportLines[7]);
+		assertEquals("\"Team 1.1\",\"student4 In Course1\",\"Joined\",\"student4InCourse1@gmail.com\"", exportLines[8]);
+		assertEquals("\"Team 1.2\",\"student5 In Course1\",\"Joined\",\"student5InCourse1@gmail.com\"", exportLines[9]);
+
+		______TS("Null parameters");
+		
+		try {
+			logic.getCourseStudentListAsCsv(null, instructorGoogleId);
+			Assert.fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+		
+		try {
+			logic.getCourseStudentListAsCsv(course.id, null);
+			Assert.fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+	}
 
 	@Test
 	public void testGetEvauationResultForStudent() throws Exception {

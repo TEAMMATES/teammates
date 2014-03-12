@@ -89,6 +89,11 @@
 		 		<tr>
 		 			<td colspan="2" class="centeralign">
 		 				<input type="button" tabindex="1" value="Remind Students to Join" onclick="hideddrivetip(); if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2104')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;user=CCDetailsUiT.instr';" onmouseout="hideddrivetip();" onmouseover="ddrivetip('Send invitation emails to all students yet to join the course')" id="button_remind" class="button t_remind_students" />
+		 				<form action="/page/instructorCourseStudentListDownload"  method="post"  style="display:inline;" >
+                              <input class="button"  id="button_download"  name="fruploaddownloadbtn"  type="submit"  value=" Download Student List " />
+                                                            <input name="user"  type="hidden"  value="CCDetailsUiT.instr" />
+                                                            <input name="courseid"  type="hidden"  value="CCDetailsUiT.CS2104" />
+                                                         </form>
 		 			</td>
 		 		</tr>
 		 		
