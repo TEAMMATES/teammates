@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import teammates.common.datatransfer.LogEntryAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.core.LogEntryLogic;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
@@ -22,7 +21,7 @@ public class AdminActivityLogPageAction extends Action {
 	private boolean includeAppLogs = true;
 	private static final int LOGS_PER_PAGE = 50;
 	private static final int MAX_LOGSEARCH_LIMIT = 15000;
-	private boolean usingDataStore = true;
+
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException{
 		
@@ -46,48 +45,10 @@ public class AdminActivityLogPageAction extends Action {
 		
 		
 		LogQuery query = buildQuery(data.offset, includeAppLogs);
-		if (usingDataStore) {
-			data.logs = getAppLogsFromDataStore(query, data);
-		} else {
-			data.logs = getAppLogs(query, data);
-		}
+		data.logs = getAppLogs(query, data);
 		
 		return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
 		
-	}
-	
-	private List<LogEntryAttributes> getAppLogsFromDataStore(LogQuery query, AdminActivityLogPageData data) {
-		List<LogEntryAttributes> appLogs = new LinkedList<LogEntryAttributes>();
-		int currentLogsInPage = 0;
-		int totalLogsSearched = 0;
-		String lastOffset = data.offset;
-		int offset;
-		try {
-			offset = Integer.parseInt(lastOffset);
-		} catch (NumberFormatException e) {
-			offset = 0;
-		}
-		Iterable<LogEntryAttributes> records = LogEntryLogic.inst().getAllLogsFrom(offset);
-		for (LogEntryAttributes record : records) {
-			offset++;
-			if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
-				break;
-			}
-			if (currentLogsInPage >= LOGS_PER_PAGE) {
-				break;
-			}
-			
-			if(data.filterLogs(record)){
-				appLogs.add(record);
-				currentLogsInPage ++;
-			}
-		}
-		if (currentLogsInPage == MAX_LOGSEARCH_LIMIT) {			
-			statusToUser.add("<br><span class=\"red\">End of results.</span><br>");
-		} else {
-			statusToUser.add("<a href=\"#\" onclick=\"submitForm('" + offset + "');\">Older</a>");
-		}
-		return appLogs;
 	}
 	
 	private LogQuery buildQuery(String offset, boolean includeAppLogs) {
@@ -111,8 +72,8 @@ public class AdminActivityLogPageAction extends Action {
 		return query;
 	}
 	
-	private List<LogEntryAttributes> getAppLogs(LogQuery query, AdminActivityLogPageData data) {
-		List<LogEntryAttributes> appLogs = new LinkedList<LogEntryAttributes>();
+	private List<ActivityLogEntry> getAppLogs(LogQuery query, AdminActivityLogPageData data) {
+		List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
 		int totalLogsSearched = 0;
 		int currentLogsInPage = 0;
 		
@@ -141,7 +102,7 @@ public class AdminActivityLogPageAction extends Action {
 				}
 				String logMsg = appLog.getLogMessage();
 				if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
-					LogEntryAttributes activityLogEntry = new LogEntryAttributes(appLog);				
+					ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);				
 					if(data.filterLogs(activityLogEntry)){
 						appLogs.add(activityLogEntry);
 						currentLogsInPage ++;

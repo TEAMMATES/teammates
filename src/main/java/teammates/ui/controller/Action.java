@@ -7,14 +7,14 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.LogEntryAttributes;
 import teammates.common.datatransfer.UserType;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -23,9 +23,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
-import teammates.logic.core.LogEntryLogic;
-
-import com.google.appengine.api.datastore.Text;
 
 /** An 'action' to be performed by the system. If the logged in user is allowed
  * to perform the requested action, this object can talk to the back end to
@@ -163,25 +160,15 @@ public abstract class Action {
 	 * @return The log message in the special format used for generating 
 	 *   the 'activity log' for the Admin.
 	 */
-	
-	public String getLogMessage() {
-		LogEntryAttributes activityLogEntry = new LogEntryAttributes(
-				account,
+	public String getLogMessage(){
+		ActivityLogEntry activityLogEntry = new ActivityLogEntry(
+				account, 
 				isInMasqueradeMode(),
-				statusToAdmin,
+				statusToAdmin, 
 				requestUrl);
-		try {
-			LogEntryLogic.inst().createLogEntry(activityLogEntry);
-		} catch (InvalidParametersException e) {
-			String errorMessage = "InvalidParametersException when add new log to datastore";
-			log.severe(errorMessage);
-		} catch (EntityAlreadyExistsException e) {
-			String errorMessage = "EntityAlreadyExistsException when add new log to datastore";
-			log.severe(errorMessage);
-		}
 		return activityLogEntry.generateLogMessage();
-
 	}
+	
 
 	/**
 	 * @return null if the specified parameter was not found in the request.

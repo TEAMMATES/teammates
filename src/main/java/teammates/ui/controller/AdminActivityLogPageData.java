@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.LogEntryAttributes;
+import teammates.common.util.ActivityLogEntry;
 
 public class AdminActivityLogPageData extends PageData {
 	
@@ -13,7 +13,7 @@ public class AdminActivityLogPageData extends PageData {
 	public String pageChange;
 	public String filterQuery;
 	public String queryMessage;
-	public List<LogEntryAttributes> logs;
+	public List<ActivityLogEntry> logs;
 	
 	private QueryParameters q;
 
@@ -53,11 +53,7 @@ public class AdminActivityLogPageData extends PageData {
 	 * Performs the actual filtering, based on QueryParameters
 	 * returns false if the logEntry fails the filtering process
 	 */
-	/**
-	 * Performs the actual filtering, based on QueryParameters
-	 * returns false if the logEntry fails the filtering process
-	 */
-	public boolean filterLogs(LogEntryAttributes logEntry){
+	public boolean filterLogs(ActivityLogEntry logEntry){
 		if(!logEntry.toShow()){
 			return false;
 		}

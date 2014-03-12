@@ -2,7 +2,7 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="teammates.common.util.Const" %>
-<%@ page import="teammates.common.datatransfer.LogEntryAttributes" %>
+<%@ page import="teammates.common.util.ActivityLogEntry" %>
 <%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
 
 <%
@@ -167,7 +167,7 @@
 		    <br>
 		    <br>
 			<%
-				List<LogEntryAttributes> appLogs = data.logs;
+				List<ActivityLogEntry> appLogs = data.logs;
 									  if (appLogs != null) {
 			%>
 			<table class="dataTable">
@@ -182,7 +182,7 @@
 		        </tr>
 		    <%
 		    	} else {
-		    		    		    		    		            for (LogEntryAttributes log : appLogs){
+		    		    		    		    		            for (ActivityLogEntry log : appLogs){
 		    %>
 		        <tr>
 		          <td><%=log.getDateInfo()%></td>
