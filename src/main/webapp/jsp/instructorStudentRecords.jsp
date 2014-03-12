@@ -214,10 +214,13 @@
 					FeedbackSessionResultsBundle feedback = (FeedbackSessionResultsBundle) sessionResult;
 					
 					fbIndex++;
+
+					String giverName = feedback.appendTeamNameToName(data.student.name, data.student.team);
+					String recipientName = giverName;
 					Map<String, List<FeedbackResponseAttributes>> received = feedback 
-							.getResponsesSortedByRecipient().get(data.student.name);
+							.getResponsesSortedByRecipient().get(recipientName);
 					Map<String, List<FeedbackResponseAttributes>> given = feedback
-							.getResponsesSortedByGiver().get(data.student.name);
+							.getResponsesSortedByGiver().get(giverName);
 			%>
 					<div class="student_feedback" id="studentFeedback-<%=fbIndex%>">
 					<table class="inputTable" id="studentEvaluationInfo">
@@ -231,7 +234,7 @@
 					if(received != null){
 			%>
 						<div class="backgroundBlock">
-							<h2 class="color_white">To: <%=data.student.name%></h2>
+							<h2 class="color_white">To: <%=recipientName%></h2>
 					<%
 						int giverIndex = 0;
 						for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesReceived : received.entrySet()) {
@@ -290,7 +293,7 @@
 					if(given != null){
 				%>
 						<div class="backgroundBlock">
-							<h2 class="color_white">From: <%=data.student.name%></h2>
+							<h2 class="color_white">From: <%=giverName%></h2>
 					<%
 						int recipientIndex = 0;
 						for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesGiven : given.entrySet()) {

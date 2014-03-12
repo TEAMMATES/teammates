@@ -71,13 +71,22 @@
 							for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
 						%>
 						<tr>
-							<td class="middlealign"><%=data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry)%></td>
-							<td class="middlealign"><%=data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry)%></td>
+						<%
+							String giverName = data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+							String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
+							giverName = data.bundle.appendTeamNameToName(giverName, giverTeamName);
+
+							String recipientName = data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+							String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+							recipientName = data.bundle.appendTeamNameToName(recipientName, recipientTeamName);
+						%>
+							<td class="middlealign"><%=giverName%></td>
+							<td class="middlealign"><%=recipientName%></td>
 							<td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
 						</tr>		
 						<%
-									}
-								%>	
+							}
+						%>	
 					</table>
 				</div>
 			<br>
