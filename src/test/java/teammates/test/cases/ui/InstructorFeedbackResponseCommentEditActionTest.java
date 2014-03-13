@@ -10,11 +10,15 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorFeedbackResponseCommentEditAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -50,11 +54,17 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
 	
 	@Test
 	public void testExcecuteAndPostProcess() throws Exception {
+		FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+		FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 		FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
+		FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(
+				"First feedback session", "idOfTypicalCourse1", 1);
+		FeedbackResponseAttributes fr = frDb.getFeedbackResponse(fq.getId(),
+				"student1InCourse1@gmail.com", "student1InCourse1@gmail.com");
 		FeedbackResponseCommentAttributes frc = dataBundle.feedbackResponseComments
 				.get("comment1FromT1C1ToR1Q1S1C1");
-		frc = frcDb.getFeedbackResponseComment(frc.feedbackResponseId,
+		frc = frcDb.getFeedbackResponseComment(fr.getId(),
 				frc.giverEmail, frc.createdAt);
 		assertNotNull("response comment not found", frc);
 		

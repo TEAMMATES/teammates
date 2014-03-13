@@ -20,7 +20,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -587,17 +586,6 @@ public class BackDoor {
 		params.put(BackDoorServlet.PARAMETER_RECIPIENT, recipient);
 		String feedbackResponseJson = makePOSTRequest(params);
 		return feedbackResponseJson;
-	}
-	
-	@SuppressWarnings("unused")
-	private void ____FEEDBACK_RESPONSE_COMMENT_level_methods______________________________() {
-	}
-
-	public static String updateFeedbackResponseComment(String key, FeedbackResponseCommentAttributes frc) {
-		DataBundle dataBundle = new DataBundle();
-		dataBundle.feedbackResponseComments.put(key, frc);
-		return persistNewDataBundle(Utils.getTeammatesGson()
-				.toJson(dataBundle));
 	}
 	
 	@SuppressWarnings("unused")

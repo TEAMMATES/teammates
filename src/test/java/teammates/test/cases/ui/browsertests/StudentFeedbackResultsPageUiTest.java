@@ -7,12 +7,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -32,28 +28,6 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 		printTestClassHeader();
 		testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
 		restoreTestDataOnServer(testData);
-		
-		FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion(
-				"SFResultsUiT.CS2104", "First Session", 1);
-		FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(
-				fq.getId(), "SFResultsUiT.alice.b@gmail.com",
-				"SFResultsUiT.alice.b@gmail.com");
-
-		// Make feedback response comment point to 
-		// actual feedback question/response key
-		String frcKey = "comment1FromT1C1ToR1Q1S1C1";
-		FeedbackResponseCommentAttributes frc = testData.feedbackResponseComments.get(frcKey);
-		frc.feedbackQuestionId = fq.getId();
-		frc.feedbackResponseId = fr.getId();
-		testData.feedbackResponseComments.put(frcKey, frc);
-		BackDoor.updateFeedbackResponseComment(frcKey, frc);
-
-		frcKey = "comment2FromT1C1ToR1Q1S1C1";
-		frc = testData.feedbackResponseComments.get(frcKey);
-		frc.feedbackQuestionId = fq.getId();
-		frc.feedbackResponseId = fr.getId();
-		testData.feedbackResponseComments.put(frcKey, frc);
-		BackDoor.updateFeedbackResponseComment(frcKey, frc);
 		
 		browser = BrowserPool.getBrowser();		
 	}

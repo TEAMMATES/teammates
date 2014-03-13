@@ -310,6 +310,41 @@ public class BackDoorLogic extends Logic {
 		super.createFeedbackResponse(response);
 	}
 	
+	/**
+	* This method is necessary to generate the feedbackQuestionId 
+	* and feedbackResponseId of the question and response the comment is for.<br />
+	* Normally, the ID is already generated on creation,
+	* but the json file does not contain the actual response ID. <br />
+	* Therefore the question number and questionNumber%giverEmail%recipient
+	* corresponding to the created comment should be inserted in the json 
+	* file in place of the actual ID.<br />
+	* This method will then generate the correct ID and replace the field.
+	**/
+	@Override
+	public void createFeedbackResponseComment(FeedbackResponseCommentAttributes responseComment) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		
+		try {
+			int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
+			
+			responseComment.feedbackQuestionId =
+					feedbackQuestionsLogic.getFeedbackQuestion(
+							responseComment.feedbackSessionName,
+							responseComment.courseId,
+							qnNumber).getId();
+		} catch (NumberFormatException e) {
+			// Correct question ID was already attached to response.
+		}
+		
+		String[] responseIdParam = responseComment.feedbackResponseId.split("%");
+		
+		responseComment.feedbackResponseId = 
+				responseComment.feedbackQuestionId
+				+ "%" + responseIdParam[1] + "%" + responseIdParam[2];
+
+		super.createFeedbackResponseComment(responseComment);
+	}
+	
 
 	/**
 	 * Creates a COURSE without an INSTRUCTOR relation
@@ -354,6 +389,10 @@ public class BackDoorLogic extends Logic {
 		
 		for (AccountAttributes a : dataBundle.accounts.values()) {
 			deleteAccount(a.googleId);
+		}
+		
+		for(FeedbackResponseCommentAttributes frc : dataBundle.feedbackResponseComments.values()) {
+			deleteFeedbackResponseComment(frc);
 		}
 		
 		for(CommentAttributes c : dataBundle.comments.values()){
@@ -488,7 +527,6 @@ public class BackDoorLogic extends Logic {
 				log.warning("Object did not get deleted in time \n"+ i.toString());
 			}
 		}
-		
 	}
 
 	private SubmissionAttributes getSubmission(
