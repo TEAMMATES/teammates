@@ -101,6 +101,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
 		waitForPageToLoad();
 	}
 	
+	public void deleteFeedbackResponseComment(String commentIdSuffix) {
+		WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+		commentRow.findElement(By.linkText("Delete")).click();
+		waitForPageToLoad();
+	}
+	
 	public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
 		WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentRowIdSuffix));
 		assertEquals(commentText, commentRow.findElement(By.className("feedbackResponseCommentText")).getText());

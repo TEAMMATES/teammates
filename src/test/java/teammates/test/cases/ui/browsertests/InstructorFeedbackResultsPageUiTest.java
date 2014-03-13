@@ -154,7 +154,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	
 	public void testFeedbackResponseCommentActions() {
 		
-		______TS("add new feedback response comments");
+		______TS("action: add new feedback response comments");
 		
 		resultsPage.displayByRecipient();
 		resultsPage.addFeedbackResponseComment("test comment 1");
@@ -164,12 +164,18 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 		resultsPage.verifyCommentRowContent("-1-1-1-2",
 				"test comment 2", "CFResultsUiT.instr@gmail.com");
 		
-		______TS("edit existing feedback response comments");
+		______TS("action: edit existing feedback response comment");
 
 		resultsPage.editFeedbackResponseComment("-1-1-1-1",
 				"edited test comment");
 		resultsPage.verifyCommentRowContent("-1-1-1-1",
 				"edited test comment", "CFResultsUiT.instr@gmail.com");
+		
+		______TS("action: delete existing feedback response comment");
+
+		resultsPage.deleteFeedbackResponseComment("-1-1-1-1");
+		resultsPage.verifyCommentRowContent("-1-1-1-1",
+				"test comment 2", "CFResultsUiT.instr@gmail.com");
 	}
 	
 	public void testLink() {
