@@ -13,6 +13,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -123,9 +124,16 @@ public class BackDoorLogic extends Logic {
 		
 		HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
 		for (FeedbackResponseAttributes response : responses.values()) {
-			log.fine("API Servlet adding feedback question :" + response.getId()
+			log.fine("API Servlet adding feedback response :" + response.getId()
 					+ " to session " + response.feedbackSessionName);
 			this.createFeedbackResponse(response);
+		}
+		
+		HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
+		for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
+			log.fine("API Servlet adding feedback response comment :" + responseComment.getId()
+					+ " to session " + responseComment.feedbackSessionName);
+			this.createFeedbackResponseComment(responseComment);
 		}
 		
 		HashMap<String, CommentAttributes> comments = dataBundle.comments;

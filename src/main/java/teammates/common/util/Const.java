@@ -615,8 +615,9 @@ public class Const {
 		public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
 		
 		public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
-		public static final String FEEDBACK_RESPONSE_COMMENT_SAVED = "";		
-				
+		public static final String FEEDBACK_RESPONSE_COMMENT_ADDED = "Your comment has been saved successfully";
+		public static final String FEEDBACK_RESPONSE_COMMENT_EDITED = "Your changes has been saved successfully";
+		
 		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
 		
 		public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";

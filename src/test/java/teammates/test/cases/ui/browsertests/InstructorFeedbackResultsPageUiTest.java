@@ -23,9 +23,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	private static DataBundle testData;
 	private static Browser browser;
 	private InstructorFeedbackResultsPage resultsPage;
-	
-	
-	
+		
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
@@ -155,13 +153,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	}
 	
 	public void testFeedbackResponseCommentActions() {
+		
+		______TS("add new feedback response comments");
+		
 		resultsPage.displayByRecipient();
 		resultsPage.addFeedbackResponseComment("test comment 1");
 		resultsPage.addFeedbackResponseComment("test comment 2");
-		resultsPage.verifyCommentRowContent("responseCommentRow-1-1-1-1",
+		resultsPage.verifyCommentRowContent("-1-1-1-1",
 				"test comment 1", "CFResultsUiT.instr@gmail.com");
-		resultsPage.verifyCommentRowContent("responseCommentRow-1-1-1-2",
+		resultsPage.verifyCommentRowContent("-1-1-1-2",
 				"test comment 2", "CFResultsUiT.instr@gmail.com");
+		
+		______TS("edit existing feedback response comments");
+
+		resultsPage.editFeedbackResponseComment("-1-1-1-1",
+				"edited test comment");
+		resultsPage.verifyCommentRowContent("-1-1-1-1",
+				"edited test comment", "CFResultsUiT.instr@gmail.com");
 	}
 	
 	public void testLink() {

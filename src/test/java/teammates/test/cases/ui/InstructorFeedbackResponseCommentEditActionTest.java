@@ -1,33 +1,31 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
+import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.ui.controller.InstructorFeedbackResponseCommentEditAction;
 import teammates.ui.controller.RedirectResult;
 
-public class InstructorFeedbackResponseCommentAddActionTest extends
+public class InstructorFeedbackResponseCommentEditActionTest extends
 		BaseActionTest {
-
 	DataBundle dataBundle;
 
 	@BeforeClass
 	public static void classSetUp() throws Exception {
 		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
+		uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
 	}
 
 	@BeforeMethod
@@ -43,6 +41,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 		String[] submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, fs.courseId,
 				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "",
 				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
 				Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
 		};
@@ -51,15 +50,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 	
 	@Test
 	public void testExcecuteAndPostProcess() throws Exception {
-		FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-		FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+		FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
-		FeedbackSessionAttributes fs = dataBundle.feedbackSessions
-				.get("session1InCourse1");
-		FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(
-				fs.feedbackSessionName, fs.courseId, 1);
-		FeedbackResponseAttributes fr = frDb.getFeedbackResponse(fq.getId(),
-				"student1InCourse1@gmail.com", "student1InCourse1@gmail.com");
+		FeedbackResponseCommentAttributes frc = dataBundle.feedbackResponseComments
+				.get("comment1FromT1C1ToR1Q1S1C1");
+		frc = frcDb.getFeedbackResponseComment(frc.feedbackResponseId,
+				frc.giverEmail, frc.createdAt);
+		assertNotNull("response comment not found", frc);
 		
 		InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
 		gaeSimulation.loginAsInstructor(instructor.googleId);
@@ -69,9 +66,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 		verifyAssumptionFailure();
 		
 		String[] submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, fs.courseId,
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response"
+				Const.ParamsNames.COURSE_ID, frc.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, frc.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
+				Const.ParamsNames.USER_ID, instructor.googleId
 		};
 		
 		verifyAssumptionFailure(submissionParams);
@@ -79,36 +77,34 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 		______TS("typical case");
 		
 		submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, fs.courseId,
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-				Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId(),
+				Const.ParamsNames.COURSE_ID, frc.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, frc.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
+				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, frc.commentText + " (Edited)",
 				Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
 		};
 		
-		InstructorFeedbackResponseCommentAddAction a = getAction(submissionParams);
+		InstructorFeedbackResponseCommentEditAction a = getAction(submissionParams);
 		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 		
 		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE 
 				+ "?courseid=idOfTypicalCourse1&fsname=First+feedback+session"
 				+ "&user=idOfInstructor1OfCourse1&frsorttype=recipient"
-				+ "&message=Your+comment+has+been+saved+successfully&error=false",
+				+ "&message=Your+changes+has+been+saved+successfully&error=false",
 				rr.getDestinationWithParams());
 		assertFalse(rr.isError);
-		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_ADDED, rr.getStatusMessage());
+		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EDITED, rr.getStatusMessage());
 		
 		______TS("empty comment text");
 		
 		submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, fs.courseId,
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+				Const.ParamsNames.COURSE_ID, frc.courseId,
+				Const.ParamsNames.FEEDBACK_SESSION_NAME, frc.feedbackSessionName,
+				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
 				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-				Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-				Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId(),
 				Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
 		};
-		
+
 		a = getAction(submissionParams);
 		rr = (RedirectResult) a.executeAndPostProcess();
 		
@@ -121,7 +117,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, rr.getStatusMessage());
 	}
 	
-	private InstructorFeedbackResponseCommentAddAction getAction(String... params) throws Exception {
-		return (InstructorFeedbackResponseCommentAddAction) (gaeSimulation.getActionObject(uri, params));
+	private InstructorFeedbackResponseCommentEditAction getAction(String... params) throws Exception {
+		return (InstructorFeedbackResponseCommentEditAction) (gaeSimulation.getActionObject(uri, params));
 	}
 }

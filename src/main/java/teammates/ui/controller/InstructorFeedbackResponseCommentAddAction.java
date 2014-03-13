@@ -59,7 +59,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 		}
 		
 		if (!isError) {
-			statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_SAVED);
+			statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_ADDED);
 			statusToAdmin += "InstructorFeedbackResponseCommentAddAction:<br>"
 					+ "Adding comment to response: " + frc.feedbackResponseId + "<br>"
 					+ "in course/feedback session: " + frc.courseId + "/" + frc.feedbackSessionName + "<br>"

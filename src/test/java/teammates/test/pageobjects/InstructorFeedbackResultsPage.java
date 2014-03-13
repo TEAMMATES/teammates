@@ -91,8 +91,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
 		waitForPageToLoad();
 	}
 	
-	public void verifyCommentRowContent(String commentRowId, String commentText, String giverName) {
-		WebElement commentRow = browser.driver.findElement(By.id(commentRowId));
+	public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
+		WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+		commentRow.findElement(By.linkText("Edit")).click();
+		
+		WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
+		fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
+		commentEditForm.findElement(By.className("button")).click();
+		waitForPageToLoad();
+	}
+	
+	public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
+		WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentRowIdSuffix));
 		assertEquals(commentText, commentRow.findElement(By.className("feedbackResponseCommentText")).getText());
 		assertEquals(giverName, commentRow.findElement(By.className("feedbackResponseCommentGiver")).getText());
 	}

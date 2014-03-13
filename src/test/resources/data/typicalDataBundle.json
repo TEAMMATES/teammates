@@ -105,6 +105,7 @@
 			"name":"Archived Course",
 			"isArchived":true
 		}
+		
 	},
 	"instructors":{
 		"instructor1OfCourse1":{
@@ -161,6 +162,7 @@
 			"name":"InstructorOfArchiveCourse name",
 			"email":"instructorOfArchiveCourse@archiveCourse.com"
 		}
+		
 	},
 	"students":{
 		"student1InCourse1":{
@@ -220,6 +222,7 @@
 			"comments":"",
 			"course":"idOfTypicalCourse2"
 		}
+		
 	},
 	"evaluations":{
 		"evaluation1InCourse1":{
@@ -260,6 +263,7 @@
 			"p2pEnabled":true,
 			"activated":true
 		}
+		
 	},
 	"submissions":{
 		"submissionFromS1C1ToS1C1":{
@@ -360,6 +364,7 @@
 			},
 			"team":"Team 2.1"
 		}
+		
 	},
 	"feedbackSessions":{
 		"session1InCourse1":{
@@ -488,6 +493,7 @@
 			"sentOpenEmail":true,
 			"sentPublishedEmail":false
 		}
+		
 	},
 	"feedbackQuestions":{
 		"qn1InSession1InCourse1":{
@@ -511,6 +517,7 @@
 			"showRecipientNameTo":[
 				"INSTRUCTORS"
 			]
+			
 		},
 		"qn2InSession1InCourse1":{
 			"feedbackSessionName":"First feedback session",
@@ -535,6 +542,7 @@
 				"INSTRUCTORS",
 				"RECEIVER"
 			]
+			
 		},
 		"qn3InSession1InCourse1":{
 			"feedbackSessionName":"First feedback session",
@@ -566,6 +574,7 @@
 				"STUDENTS",
 				"INSTRUCTORS"
 			]
+			
 		},
 		"qn4InSession1InCourse1":{
 			"feedbackSessionName":"First feedback session",
@@ -597,6 +606,7 @@
 				"STUDENTS",
 				"INSTRUCTORS"
 			]
+			
 		},
 		"team.feedback":{
 			"feedbackSessionName":"Second feedback session",
@@ -619,6 +629,7 @@
 			"showRecipientNameTo":[
 				"RECEIVER"
 			]
+			
 		},
 		"team.members.feedback":{
 			"feedbackSessionName":"Second feedback session",
@@ -641,6 +652,7 @@
 			"showRecipientNameTo":[
 				"RECEIVER"
 			]
+			
 		},
 		"graceperiod.session.feedback":{
 			"feedbackSessionName":"Grace Period Session",
@@ -663,6 +675,7 @@
 			"showRecipientNameTo":[
 				"RECEIVER"
 			]
+			
 		},
 		"qn1InSession4InCourse1":{
 			"feedbackSessionName":"non visible session",
@@ -685,6 +698,7 @@
 			"showRecipientNameTo":[
 				"RECEIVER"
 			]
+			
 		},
 		"qn1InSession1InCourse2":{
 			"feedbackSessionName":"Private feedback session",
@@ -707,6 +721,7 @@
 			"showRecipientNameTo":[
 				
 			]
+			
 		},
 		"qn1InSession2InCourse2":{
 			"feedbackSessionName":"Instructor feedback session",
@@ -729,6 +744,7 @@
 			"showRecipientNameTo":[
 				
 			]
+			
 		},
 		"qn2InSession2InCourse2":{
 			"feedbackSessionName":"Instructor feedback session",
@@ -751,7 +767,9 @@
 			"showRecipientNameTo":[
 				
 			]
+			
 		}
+		
 	},
 	"feedbackResponses":{
 		"response1ForQ1S1C1":{
@@ -764,6 +782,7 @@
 			"responseMetaData":{
 				"value":"Student 1 self feedback."
 			}
+			
 		},
 		"response2ForQ1S1C1":{
 			"feedbackSessionName":"First feedback session",
@@ -775,6 +794,7 @@
 			"responseMetaData":{
 				"value":"I'm cool'"
 			}
+			
 		},
 		"response1ForQ2S1C1":{
 			"feedbackSessionName":"First feedback session",
@@ -786,6 +806,7 @@
 			"responseMetaData":{
 				"value":"Response from student 2 to student 1."
 			}
+			
 		},
 		"response2ForQ2S1C1":{
 			"feedbackSessionName":"First feedback session",
@@ -797,6 +818,7 @@
 			"responseMetaData":{
 				"value":"Response from student 1 to student 2."
 			}
+			
 		},
 		"response3ForQ2S1C1":{
 			"feedbackSessionName":"First feedback session",
@@ -808,6 +830,7 @@
 			"responseMetaData":{
 				"value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
 			}
+			
 		},
 		"response1ForQ3S1C1":{
 			"feedbackSessionName":"First feedback session",
@@ -819,6 +842,7 @@
 			"responseMetaData":{
 				"value":"Good work, keep it up!"
 			}
+			
 		},
 		"response1ForQ1S2C1":{
 			"feedbackSessionName":"Second feedback session",
@@ -830,6 +854,7 @@
 			"responseMetaData":{
 				"value":"Response from team 1 by (student 4) to team 1.2."
 			}
+			
 		},
 		"response1GracePeriodFeedback":{
 			"feedbackSessionName":"Grace Period Session",
@@ -841,6 +866,7 @@
 			"responseMetaData":{
 				"value":"Response from team 1 by (student 4) to team 1.2."
 			}
+			
 		},
 		"response1ForQ2S2C1":{
 			"feedbackSessionName":"Second feedback session",
@@ -852,6 +878,7 @@
 			"responseMetaData":{
 				"value":"Response from student 4 to team member (student 2)."
 			}
+			
 		},
 		"response2ForQ2S2C1":{
 			"feedbackSessionName":"Second feedback session",
@@ -863,6 +890,7 @@
 			"responseMetaData":{
 				"value":"Response from student 1 to team member (student 4)."
 			}
+			
 		},
 		"response1ForQ1S2C2":{
 			"feedbackSessionName":"Instructor feedback session",
@@ -874,29 +902,53 @@
 			"responseMetaData":{
 				"value":"Response from instr to Team 2.1"
 			}
+			
 		}
-   },
-	"comments": {
+	},
+	"feedbackResponseComments":{
+		"comment1FromT1C1ToR1Q1S1C1": {
+			"courseId":"idOfTypicalCourse1",
+			"feedbackSessionName":"First feedback session",
+			"feedbackQuestionId":"1",
+			"giverEmail":"instructor1@course1.com",
+			"feedbackResponseId":"1%student1InCourse1@gmail.com%student1InCourse1@gmail.com",
+			"createdAt":"2014-03-01 11:59 PM UTC",
+			"commentText":{
+				"value":"Instructor 1 comment to student 1 self feedback"	
+			}
+		}
+	},
+	"comments":{
 		"comment1FromI1C1toS1C1":{
-			"courseId" : "idOfTypicalCourse1",
-			"giverEmail" : "instructor1@course1.com",
-			"receiverEmail": "student1InCourse1@gmail.com",
-			"createdAt" : "2012-04-01 11:59 PM UTC",
-			"commentText" : {"value" : "Comment 1 from Instructor 1 to Student 1 in course 1"}
+			"courseId":"idOfTypicalCourse1",
+			"giverEmail":"instructor1@course1.com",
+			"receiverEmail":"student1InCourse1@gmail.com",
+			"createdAt":"2012-04-01 11:59 PM UTC",
+			"commentText":{
+				"value":"Comment 1 from Instructor 1 to Student 1 in course 1"
+			}
+			
 		},
 		"comment2FromI1C1toS1C1":{
-			"courseId" : "idOfTypicalCourse1",
-			"giverEmail" : "instructor1@course1.com",
-			"receiverEmail": "student1InCourse1@gmail.com",
-			"createdAt" : "2012-05-01 08:51 AM UTC",
-			"commentText" : {"value" : "Comment 2 from Instructor 1 to Student 1 in course 1"}
+			"courseId":"idOfTypicalCourse1",
+			"giverEmail":"instructor1@course1.com",
+			"receiverEmail":"student1InCourse1@gmail.com",
+			"createdAt":"2012-05-01 08:51 AM UTC",
+			"commentText":{
+				"value":"Comment 2 from Instructor 1 to Student 1 in course 1"
+			}
+			
 		},
 		"comment1FromI3C1toS2C1":{
-			"courseId" : "idOfTypicalCourse1",
-			"giverEmail" : "instructor3@course1.com",
-			"receiverEmail": "student2InCourse1@gmail.com",
-			"createdAt" : "2012-06-01 07:20 PM UTC",
-			"commentText" : {"value" : "Comment from Instructor 3 to Student 2 in course 1"}
+			"courseId":"idOfTypicalCourse1",
+			"giverEmail":"instructor3@course1.com",
+			"receiverEmail":"student2InCourse1@gmail.com",
+			"createdAt":"2012-06-01 07:20 PM UTC",
+			"commentText":{
+				"value":"Comment from Instructor 3 to Student 2 in course 1"
+			}
+			
 		}
+		
 	}
 }

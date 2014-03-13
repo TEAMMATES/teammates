@@ -6,6 +6,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 public class FeedbackResponseCommentsLogic {
@@ -21,8 +22,21 @@ public class FeedbackResponseCommentsLogic {
 
 	public void createFeedbackResponseComment(
 			FeedbackResponseCommentAttributes frca)
-			throws InvalidParametersException, EntityAlreadyExistsException {
-		frcDb.createEntity(frca);
+			throws InvalidParametersException {
+		try{
+			frcDb.createEntity(frca);
+		} catch (EntityAlreadyExistsException e) {
+			try{
+				FeedbackResponseCommentAttributes existingComment = new FeedbackResponseCommentAttributes();
+				
+				existingComment = frcDb.getFeedbackResponseComment(frca.feedbackResponseId, frca.giverEmail, frca.createdAt);
+				frca.setId(existingComment.getId());
+				
+				frcDb.updateFeedbackResponseComment(frca);			
+			} catch(Exception EntityDoesNotExistException){
+				Assumption.fail();
+			}
+		}
 	}
 	
 	public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
