@@ -19,6 +19,7 @@ public class InstructorStudentListPageAction extends Action {
 		new GateKeeper().verifyInstructorPrivileges(account);
 		
 		String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
+		Boolean displayArchive = getRequestParamAsBoolean(Const.ParamsNames.DISPLAY_ARCHIVE);
 		
 		data = new InstructorStudentListPageData(account);
 		
@@ -27,6 +28,7 @@ public class InstructorStudentListPageAction extends Action {
 		CourseDetailsBundle.sortDetailedCourses(data.courses);
 		
 		data.searchKey = searchKey;
+		data.displayArchive = displayArchive;
 		
 		if(data.courses.size() == 0){
 			statusToUser.add(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS);

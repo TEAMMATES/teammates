@@ -64,6 +64,8 @@
 								<label for="option_check">
 								Show More Options
 								</label>
+							<input id="displayArchivedCourses_check" type="checkbox" <%if(data.displayArchive){%>checked="checked"<%}%>">
+							<label for="displayArchivedCourses_check">Display Archived Courses</label>
 						</td>
 					</tr>
 				</table>
@@ -166,8 +168,9 @@
 				<%
 					courseIdx = -1;
 					for (CourseDetailsBundle courseDetails : data.courses) {
-						courseIdx++;
-						int totalCourseStudents = courseDetails.stats.studentsTotal;
+						if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
+							courseIdx++;
+							int totalCourseStudents = courseDetails.stats.studentsTotal;
 				%>
 	
 				<div class="backgroundBlock" id="course-<%=courseIdx%>">
@@ -185,7 +188,7 @@
 					<div style="clear: both;"></div>
 					<br>
 					<%
-						if (totalCourseStudents > 0) {
+							if (totalCourseStudents > 0) {
 					%>
 					<table class="dataTable">
 						<tr>
@@ -199,12 +202,12 @@
 							<th class="centeralign color_white bold no-print">Action(s)</th>
 						</tr>
 						<%
-							int teamIdx = -1;
-							int studentIdx = -1;
-							for(TeamDetailsBundle teamDetails: courseDetails.teams){
-								teamIdx++;
-								for(StudentAttributes student: teamDetails.students){
-									studentIdx++;
+								int teamIdx = -1;
+								int studentIdx = -1;
+								for(TeamDetailsBundle teamDetails: courseDetails.teams){
+									teamIdx++;
+									for(StudentAttributes student: teamDetails.students){
+										studentIdx++;
 						%>
 						<tr class="student_row" id="student-c<%=courseIdx %>.<%=studentIdx%>" style="display: table-row;">
 							<td id="studentteam-c<%=courseIdx %>.<%=teamIdx%>"><%=PageData.sanitizeForHtml(teamDetails.name)%></td>
@@ -233,12 +236,12 @@
 							</td>
 						</tr>
 						<%
+									}
 								}
-							}
 						%>
 					</table>
 					<%
-						} else {
+							} else {
 					%>
 					<table class="dataTable">
 						<tr>
@@ -246,11 +249,12 @@
 						</tr>
 					</table>
 					<%
-						}
+							}
 					%>
 				</div>
 				<%
-					out.flush();
+						out.flush();
+						}
 					}
 				%>
 			</div>

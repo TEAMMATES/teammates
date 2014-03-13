@@ -22,6 +22,9 @@ public class InstructorStudentListPage extends AppPage {
 	@FindBy(id = "option_check")
 	private WebElement showMoreOptions;
 	
+	@FindBy(id = "displayArchivedCourses_check")
+	private WebElement displayArchiveOptions;
+	
 	public InstructorStudentListPage(Browser browser) {
 		super(browser);
 	}
@@ -88,6 +91,10 @@ public class InstructorStudentListPage extends AppPage {
 	
 	public void clickShowMoreOptions(){
 		showMoreOptions.click();
+	}
+	
+	public void clickDisplayArchiveOptions() {
+		displayArchiveOptions.click();
 	}
 	
 	public void verifySearchKey(String searchKey){

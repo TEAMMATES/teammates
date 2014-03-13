@@ -42,7 +42,8 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 		String instructorId = instructor.googleId;
 
 		String[] submissionParams = new String[]{
-				Const.ParamsNames.SEARCH_KEY, "A search key"
+				Const.ParamsNames.SEARCH_KEY, "A search key",
+				Const.ParamsNames.DISPLAY_ARCHIVE, "false",
 		};
 
 		______TS("Typical case, student list view");
@@ -61,6 +62,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 		assertEquals(instructorId, pageData.account.googleId);
 		assertEquals(2, pageData.courses.size());
 		assertEquals("A search key", pageData.searchKey);
+		assertEquals(new Boolean(false), pageData.displayArchive);
 
 		String expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"+
 				"|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+

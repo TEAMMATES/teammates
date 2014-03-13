@@ -2,6 +2,10 @@
 	width: 400px;
 }
 
+#displayArchivedCourses_check {
+	margin-left: 5px;
+}
+
 .courseTitle {
 	float: left;
 	width: 58%;
