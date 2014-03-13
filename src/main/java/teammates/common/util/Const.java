@@ -343,6 +343,7 @@ public class Const {
 		public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
 		
 		public static final String SEARCH_KEY ="searchkey";
+		public static final String DISPLAY_ARCHIVE ="displayarchive";
 		
 		//Parameters for checking persistence of data during Eventual Consistency
 		public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";

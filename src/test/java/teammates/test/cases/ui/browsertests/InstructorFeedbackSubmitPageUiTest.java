@@ -77,7 +77,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		
 		submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Empty Session");				
 		submitPage.verifyHtml("/instructorFeedbackSubmitPageEmpty.html");
-		
+	
 		______TS("Private session");
 		
 		submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Private Session");

@@ -81,8 +81,12 @@
 
 
 
-	<div style="display: none;" id="statusMessage"></div>
-
+			<div id="statusMessage"  style="display: block;" >
+                  	 You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
+           	</div>
+           	<script type="text/javascript" >
+           		document.getElementById( 'statusMessage' ).scrollIntoView();
+           	</script>
 			<br />
 			
 			<input type="hidden" value="TEXT" name="questiontype-1" />
@@ -121,9 +125,8 @@
 			
 			<div class="bold centeralign">
 			
-			You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
-			
-			</div>
+			<input class="button"  disabled="disabled"  id="response_submit_button"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('You can save your responses at any time and come back later to continue.')"  style="background: #66727A;" type="submit"  value="Save Feedback"/>
+                                       </div>
 			<br /><br />	
 			</form>
 		</div>

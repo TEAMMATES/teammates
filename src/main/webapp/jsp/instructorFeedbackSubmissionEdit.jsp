@@ -59,17 +59,13 @@
 				%>
 						There are no questions for you to answer here!
 				<%
-					} else if (data.isPreview) {
+					} else if (data.isPreview || !data.isSessionOpenForSubmission) {
 				%>
-						<input disabled="disabled" type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback"/>
-				<%
-					} else if (data.isSessionOpenForSubmission) {
-				%>
-						<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback"/>
+						<input disabled="disabled" type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback" style="background: #66727A;"/>
 				<%
 					} else {
 				%>
-						<%=Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN%>
+						<input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback"/>
 				<%
 					}
 				%>
