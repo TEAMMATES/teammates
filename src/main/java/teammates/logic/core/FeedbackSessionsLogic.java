@@ -1056,7 +1056,8 @@ public class FeedbackSessionsLogic {
 	
 	public boolean isFeedbackSessionViewableToStudents(FeedbackSessionAttributes session) 
 			throws EntityDoesNotExistException {
-		// Allow students to view if there are questions for them //TODO this is a bug. For example if instructors have feedback for the class
+		// Allow students to view if there are questions for them
+		//TODO this is a bug. For example if instructors have feedback for the class
 		List<FeedbackQuestionAttributes> questions = 
 				fqLogic.getFeedbackQuestionsForStudents(
 					session.feedbackSessionName, session.courseId);

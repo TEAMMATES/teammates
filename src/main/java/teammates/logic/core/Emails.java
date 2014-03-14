@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.mail.Address;
@@ -21,9 +19,7 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -32,8 +28,8 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
-import teammates.common.util.EmailTemplates;
 import teammates.common.util.StringHelper;
+import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
@@ -480,42 +476,27 @@ public class Emails {
 	public List<MimeMessage> generateFeedbackSessionPublishedEmails(
 			FeedbackSessionAttributes session)
 					throws MessagingException, IOException, EntityDoesNotExistException {
+		
+		StudentsLogic studentsLogic = StudentsLogic.inst();
+		CoursesLogic coursesLogic = CoursesLogic.inst();
+		InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+		FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 		String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
 		List<MimeMessage> emails = null;
 
-		CoursesLogic coursesLogic = CoursesLogic.inst();
-		InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-		StudentsLogic studentsLogic = StudentsLogic.inst();
-		
-		CourseAttributes course = coursesLogic.getCourse(session.courseId);
-		List<StudentAttributes> students = studentsLogic
-				.getStudentsForCourse(session.courseId);
+		CourseAttributes course = coursesLogic
+				.getCourse(session.courseId);
+		List<StudentAttributes> students;
 		List<InstructorAttributes> instructors = instructorsLogic
 				.getInstructorsForCourse(session.courseId);
 		
-		Set<String> studentsWithSomethingNewToSee = 
-				getStudentsWithSomethingNewToSee(students, session);
-		
+		if (fsLogic.isFeedbackSessionViewableToStudents(session)) {
+			students = studentsLogic.getStudentsForCourse(session.courseId);
+		} else {
+			students = new ArrayList<StudentAttributes>();
+		}
 		emails = generateFeedbackSessionEmailBases(course,
 				session, students, instructors, template, false);
-		
-		for (MimeMessage email : emails) {
-			String recipientAddress = email.getRecipients(Message.RecipientType.TO)[0].toString();
-			String emailBody = (String) email.getContent();
-			
-			if (isCopyToBeSentToInstructor(emailBody)
-					|| studentsWithSomethingNewToSee.contains(recipientAddress)) {
-				emailBody = emailBody.replace("${mayIgnoreFragment}", "");
-			} else {
-				emailBody = emailBody
-						.replace(
-								"${mayIgnoreFragment}",
-								"<strong>You did not receive any new responses and may ignore this email. "
-								+ "However you can still see your own submissions by following the link below.</strong><br>");
-			}
-			
-			email.setContent(emailBody, "text/html");
-		}
 		
 		for (MimeMessage email : emails) {
 			email.setSubject(email.getSubject().replace("${subjectPrefix}",
@@ -523,42 +504,7 @@ public class Emails {
 		}
 		return emails;
 	}
-
-	private boolean isCopyToBeSentToInstructor(String emailBody) {
-		return emailBody.contains("The email below has been sent to students of course");
-	}
 	
-	private Set<String> getStudentsWithSomethingNewToSee(
-			List<StudentAttributes> students,
-			FeedbackSessionAttributes session)
-			throws EntityDoesNotExistException {
-		FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-		Set<String> studentsWithSomethingNew = new HashSet<String>();
-
-		for (StudentAttributes student : students) {
-			FeedbackSessionResultsBundle resultsForStudent = fsLogic
-					.getFeedbackSessionResultsForStudent(
-							session.feedbackSessionName, session.courseId,
-							student.email);
-
-			if(isStudentHasSomethingNewToSee(student, resultsForStudent)) {
-				studentsWithSomethingNew.add(student.email);
-			}
-		}
-
-		return studentsWithSomethingNew;
-	}
-
-	private boolean isStudentHasSomethingNewToSee(StudentAttributes student,
-			FeedbackSessionResultsBundle results) {
-		for (FeedbackResponseAttributes response : results.responses) {
-			if (!response.giverEmail.equals(student.email)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public List<MimeMessage> generateFeedbackSessionEmailBases(
 			CourseAttributes course,
 			FeedbackSessionAttributes session, 
