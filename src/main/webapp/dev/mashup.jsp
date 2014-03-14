@@ -13,7 +13,6 @@
 		<script language="JavaScript" src="/js/jquery-minified.js"></script>
 		<script language="JavaScript" src="/js/tooltip.js"></script>
 		<script src="/js/common.js" type="text/javascript"></script>
-		
 	</head>
 	<body id="compilation">
 		<div id="dhtmltooltip"></div>
@@ -21,7 +20,7 @@
 		<table id="tableofcontents">
 		<tbody>
 			<tr>
-				<td width="33%">
+				<td width="25%">
 					<h2>Instructor Pages</h2>
 					<ul class="nav">
 						<li><a href="#instructorHomePage">Instructor Home Page</a></li>
@@ -51,7 +50,7 @@
 						<li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>						
 					</ul>
 				</td>
-				<td width="33%">
+				<td width="25%">
 					<h2>Student Pages</h2>
 					<ul class="nav">
 						<li><a href="#studentHomePage">Student Home Page</a></li>
@@ -65,12 +64,25 @@
 					</ul>
 				<td>
 				</td>
-				<td>
-					<h2>Admin Page</h2>
+				<td width="25%">
+					<h2>Admin Pages</h2>
 					<ul class="nav">
 						<li><a href="#adminHomePage">Admin Home Page</a></li>
 						<li><a href="#adminSearchPage">Admin Search Page</a></li>
 						<li><a href="#adminActivityLogPage">Admin Activity Log Page</a></li>
+					</ul>
+				</td>
+				<td width="25%">	
+					<h2>Static Pages</h2>
+					<ul class="nav">
+						<li><a href="#index">Home Page</a></li>
+						<li><a href="#features">Features Page</a></li>
+						<li><a href="#about">About Us Page</a></li>
+						<li><a href="#contact">Contact Page</a></li>
+						<li><a href="#terms">Terms Of Use Page</a></li>
+						<li><a href="#request">Request Account Page</a></li>
+						<li><a href="#studentHelp">Student Help Page</a></li>
+						<li><a href="#instructorHelp">Instructor Help Page</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -188,7 +200,47 @@
 		
 		<div class="pageinfo">Admin Activity Log Page</div>
 		<div id="adminActivityLogPage" class="wrapper"></div>
-	</body>
+		<br></br>
+		<br></br>
+		<br></br>
+		<br></br>
+		<div class="pageinfo">Home Page</div>
+		<div id="index">
+			<iframe class="wrapper" src="../index.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Features Page</div>
+		<div id="features">
+			<iframe class="wrapper" src="../features.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">About Us Page</div>
+		<div id="about">
+			<iframe class="wrapper" src="../about.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Contact Page</div>
+		<div id="contact">
+			<iframe class="wrapper" src="../contact.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Terms Of Use Page</div>
+		<div id="terms">
+			<iframe class="wrapper" src="../terms.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Request Account Page</div>
+		<div id="request">
+			<iframe class="wrapper" src="../request.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Student Help Page</div>
+		<div id="studentHelp">
+			<iframe class="wrapper" src="../studentHelp.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Instructor Help Page</div>
+		<div id="instructorHelp">
+			<iframe class="wrapper" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<br></br>
+		<br></br>
+		<br></br>
+		<br></br>
+</body>
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -273,5 +325,9 @@
 			initializetooltip();
 			document.onmousemove = positiontip;
 		});
+		
+		function calcHeight(iframe) {
+			$(iframe).height($(iframe).contents().find('html').height());
+		}
 	</script>
 </html>
