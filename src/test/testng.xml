@@ -106,6 +106,9 @@
 			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionEditActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackResultsPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentAddActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentEditActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentDeleteActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionSubmissionEditPageActionTest" />

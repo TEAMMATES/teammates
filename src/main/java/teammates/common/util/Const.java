@@ -292,6 +292,9 @@ public class Const {
 		public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 		public static final String FEEDBACK_RESPONSE_TEXT = "responsetext";
 		
+		public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
+		public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
+		
 		public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
 		public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
 		
@@ -407,7 +410,11 @@ public class Const {
 		
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
-		
+
+		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
+		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
+		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/instructorFeedbackResponseCommentDelete";
+				
 		public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
 		
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
@@ -607,7 +614,12 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 		
 		public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
-				
+		
+		public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
+		public static final String FEEDBACK_RESPONSE_COMMENT_ADDED = "Your comment has been saved successfully";
+		public static final String FEEDBACK_RESPONSE_COMMENT_EDITED = "Your changes has been saved successfully";
+		public static final String FEEDBACK_RESPONSE_COMMENT_DELETED = "Your comment has been deleted successfully";
+		
 		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
 		
 		public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";

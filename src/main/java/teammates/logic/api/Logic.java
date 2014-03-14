@@ -19,6 +19,7 @@ import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
@@ -43,6 +44,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -80,6 +82,7 @@ public class Logic {
 	protected static FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
 	protected static FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
 	protected static FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+	protected static FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
 
 	@SuppressWarnings("unused")
 	private void ____USER_level_methods__________________________________() {
@@ -1505,6 +1508,42 @@ public class Logic {
 	}
 	
 	@SuppressWarnings("unused")
+	private void ____FEEDBACK_RESPONSE_COMMENT_level_methods_____________________________() {
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void createFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
+			throws EntityAlreadyExistsException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
+
+		feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
+			throws EntityDoesNotExistException, InvalidParametersException {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
+
+		feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
+	}
+
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void deleteFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
+
+		feedbackResponseCommentsLogic.deleteFeedbackResponseComment(feedbackResponseComment);
+	}	
+	
+	@SuppressWarnings("unused")
 	private void ____COMMENT_level_methods_____________________________() {
 	}
 	
@@ -1514,7 +1553,7 @@ public class Logic {
 	 * @throws EntityDoesNotExistException 
 	 */
 	public void createComment(CommentAttributes comment)
-			throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException{
+			throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
 		commentsLogic.createComment(comment);
 	}
@@ -1524,7 +1563,7 @@ public class Logic {
 	 * * All parameters are non-null.
 	 */
 	public void updateComment(CommentAttributes comment)
-			throws InvalidParametersException, EntityDoesNotExistException{
+			throws InvalidParametersException, EntityDoesNotExistException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
 		commentsLogic.updateComment(comment);
 	}
@@ -1533,7 +1572,7 @@ public class Logic {
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
-	public void deleteComment(CommentAttributes comment){
+	public void deleteComment(CommentAttributes comment) {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
 		commentsLogic.deleteComment(comment);
 	}

@@ -23,9 +23,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	private static DataBundle testData;
 	private static Browser browser;
 	private InstructorFeedbackResultsPage resultsPage;
-	
-	
-	
+		
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
@@ -39,6 +37,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	public void testAll() throws Exception {
 		testContent();
 		testSortAction();
+		testFeedbackResponseCommentActions();
 		testLink();
 	}
 	
@@ -151,6 +150,32 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 		resultsPage.sortTableByRecipient()
 				.verifyTablePattern(1,"{*}Emily (Team 3){*}Danny Engrid (Team 2){*}Charlie Dávis (Team 2){*}Benny Charles (Team 1)");
 
+	}
+	
+	public void testFeedbackResponseCommentActions() {
+		
+		______TS("action: add new feedback response comments");
+		
+		resultsPage.displayByRecipient();
+		resultsPage.addFeedbackResponseComment("test comment 1");
+		resultsPage.addFeedbackResponseComment("test comment 2");
+		resultsPage.verifyCommentRowContent("-1-1-1-1",
+				"test comment 1", "CFResultsUiT.instr@gmail.com");
+		resultsPage.verifyCommentRowContent("-1-1-1-2",
+				"test comment 2", "CFResultsUiT.instr@gmail.com");
+		
+		______TS("action: edit existing feedback response comment");
+
+		resultsPage.editFeedbackResponseComment("-1-1-1-1",
+				"edited test comment");
+		resultsPage.verifyCommentRowContent("-1-1-1-1",
+				"edited test comment", "CFResultsUiT.instr@gmail.com");
+		
+		______TS("action: delete existing feedback response comment");
+
+		resultsPage.deleteFeedbackResponseComment("-1-1-1-1");
+		resultsPage.verifyCommentRowContent("-1-1-1-1",
+				"test comment 2", "CFResultsUiT.instr@gmail.com");
 	}
 	
 	public void testLink() {
