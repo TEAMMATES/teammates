@@ -71,6 +71,12 @@
 			"name":"Teammates Test",
 			"email":"teammates.test@gmail.com"
 		},
+		"teammates.instr.CS2104":{
+			"googleId":"teammates.instr",
+			"courseId":"CS2104",
+			"name":"Teammates Coord",
+			"email":"teammates.instr@gmail.com"
+		},
 		"teammates.instr.CS1101":{
 			"googleId":"teammates.instr",
 			"courseId":"CS1101",
@@ -983,6 +989,30 @@
 			"recipientEmail":"teammates.test@gmail.com",
 			"responseMetaData":{
 				"value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
+			}
+		}
+	},
+	"feedbackResponseComments":{
+		"comment1ToResponse6": {
+			"courseId":"CS2104",
+			"feedbackSessionName":"First feedback session",
+			"feedbackQuestionId":"1",
+			"giverEmail":"teammates.test@gmail.com",
+			"feedbackResponseId":"1%teammates.test@gmail.com%teammates.test@gmail.com",
+			"createdAt":"2014-03-01 11:59 PM UTC",
+			"commentText":{
+				"value":"This instructor's comment to student self feedback"	
+			}
+		},
+		"comment2ToResponse6": {
+			"courseId":"CS2104",
+			"feedbackSessionName":"First feedback session",
+			"feedbackQuestionId":"1",
+			"giverEmail":"teammates.instr@gmail.com",
+			"feedbackResponseId":"1%teammates.test@gmail.com%teammates.test@gmail.com",
+			"createdAt":"2014-03-02 11:59 PM UTC",
+			"commentText":{
+				"value":"Other instructor's comment to student self feedback"	
 			}
 		}
 	}

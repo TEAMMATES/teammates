@@ -44,6 +44,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 		testLinks();
 		testDeleteAction();
 		testSearchScript();
+		testDisplayArchive();
 	}
 
 
@@ -158,6 +159,28 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 	
 	private void testSearchScript() {
 		// already covered under testContent() ______TS("content: search active")
+	}
+	
+	private void testDisplayArchive() {
+		String instructorId = testData.instructors.get("instructorOfCourse4").googleId;
+		Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
+				.withUserId(instructorId);
+		viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+	
+		______TS("action: display archive");
+		
+		viewPage.clickDisplayArchiveOptions();
+		viewPage.verifyHtml("/instructorStudentListPageDisplayArchivedCourses.html");
+		
+		______TS("action: hide archive");
+		
+		viewPage.clickDisplayArchiveOptions();
+		viewPage.verifyHtml("/instructorStudentListPageHideArchivedCourses.html");
+		
+		______TS("action: re-display archive");
+		
+		viewPage.clickDisplayArchiveOptions();
+		viewPage.verifyHtml("/instructorStudentListPageDisplayArchivedCourses.html");
 	}
 	
 	@AfterClass

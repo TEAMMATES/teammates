@@ -11,6 +11,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -32,6 +33,7 @@ import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorServlet;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Used to access the datastore without going through the UI. The main use of
@@ -312,6 +314,18 @@ public class BackDoor {
 		return Utils.getTeammatesGson().fromJson(studentJson, StudentAttributes.class);
 	}
 
+	public static List<StudentAttributes> getAllStudentsForCourse(String courseId) {
+		HashMap<String, Object> params = createParamMap(
+				BackDoorServlet.OPERATION_GET_ALL_STUDENTS_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		String studentJson = makePOSTRequest(params);
+		
+		Gson gsonParser = Utils.getTeammatesGson();
+		List<StudentAttributes> studentList = gsonParser
+				.fromJson(studentJson, new TypeToken<List<StudentAttributes>>(){}
+				.getType());
+		return studentList;
+	}
 	public static String getKeyForStudent(String courseId, String studentEmail) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_KEY_FOR_STUDENT);
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
@@ -410,6 +424,19 @@ public class BackDoor {
 						getSubmissionAsJson(courseID, evaluationName, reviewerEmail, revieweeEmail),
 						SubmissionAttributes.class);
 	}
+	
+	public static List<SubmissionAttributes> getAllSubmissions(String courseId) {
+		HashMap<String, Object> params = createParamMap(
+				BackDoorServlet.OPERATION_GET_ALL_SUBMISSIONS_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		String submissionJson = makePOSTRequest(params);
+		
+		Gson gsonParser = Utils.getTeammatesGson();
+		List<SubmissionAttributes> submissionList = gsonParser
+				.fromJson(submissionJson, new TypeToken<List<SubmissionAttributes>>(){}
+				.getType());
+		return submissionList;
+	}
 
 	public static String getSubmissionAsJson(String courseID,
 			String evaluationName, String reviewerEmail, String revieweeEmail) {
@@ -484,6 +511,19 @@ public class BackDoor {
 		return Utils.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
 	}
 	
+	public static FeedbackQuestionAttributes getFeedbackQuestion(String questionId) {
+		String jsonString = getFeedbackQuestionForIdAsJson(questionId);
+		Utils.getLogger().info(jsonString);
+		return Utils.getTeammatesGson().fromJson(jsonString, FeedbackQuestionAttributes.class);
+	}
+	
+	public static String getFeedbackQuestionForIdAsJson(String questionId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
+		String feedbackQuestionJson = makePOSTRequest(params);
+		return feedbackQuestionJson;
+	}
+	
 	public static String getFeedbackQuestionAsJson(String feedbackSessionName,
 			String courseId, int qnNumber) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_FEEDBACK_QUESTION_AS_JSON);
@@ -503,6 +543,39 @@ public class BackDoor {
 		String jsonString = getFeedbackResponseAsJson(feedbackQuestionId, giverEmail, recipient);
 		Utils.getLogger().info(jsonString);
 		return Utils.getTeammatesGson().fromJson(jsonString, FeedbackResponseAttributes.class);
+	}
+	
+	public static List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
+			String courseId, String recipientEmail) {
+		HashMap<String, Object> params = createParamMap(
+				BackDoorServlet.OPERATION_GET_FEEDBACK_RESPONSES_FOR_RECEIVER_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_RECIPIENT, recipientEmail);
+		
+		String feedbackResponsesJson = makePOSTRequest(params);
+		
+		Gson gsonParser = Utils.getTeammatesGson();
+		List<FeedbackResponseAttributes> responseList = gsonParser
+				.fromJson(feedbackResponsesJson, new TypeToken<List<FeedbackResponseAttributes>>(){}
+				.getType());
+		return responseList;
+		
+	}
+	
+	public static List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
+			String courseId, String giverEmail) {
+		HashMap<String, Object> params = createParamMap(
+				BackDoorServlet.OPERATION_GET_FEEDBACK_RESPONSES_FOR_GIVER_AS_JSON);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_GIVER_EMAIL, giverEmail);
+		
+		String feedbackResponsesJson = makePOSTRequest(params);
+		
+		Gson gsonParser = Utils.getTeammatesGson();
+		List<FeedbackResponseAttributes> responseList = gsonParser
+				.fromJson(feedbackResponsesJson, new TypeToken<List<FeedbackResponseAttributes>>(){}
+				.getType());
+		return responseList;
 	}
 
 	public static String getFeedbackResponseAsJson(String feedbackQuestionId,

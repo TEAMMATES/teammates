@@ -102,6 +102,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 		InstructorCourseStudentDetailsEditPage studentEditPage = detailsPage.clickEditStudent(charlie.name);
 		studentEditPage.verifyIsCorrectPage(charlie.email);
 		detailsPage = studentEditPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+		
+		______TS("link: download student list");
+		
+		Url studentListDownloadUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
+			.withUserId("CCDetailsUiT.instr")
+			.withCourseId("CCDetailsUiT.CS2104");
+		
+		detailsPage.verifyDownloadLink(studentListDownloadUrl);
 	}
 
 	public void testRemindAction() {

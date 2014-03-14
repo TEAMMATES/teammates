@@ -13,6 +13,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -123,9 +124,16 @@ public class BackDoorLogic extends Logic {
 		
 		HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
 		for (FeedbackResponseAttributes response : responses.values()) {
-			log.fine("API Servlet adding feedback question :" + response.getId()
+			log.fine("API Servlet adding feedback response :" + response.getId()
 					+ " to session " + response.feedbackSessionName);
 			this.createFeedbackResponse(response);
+		}
+		
+		HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
+		for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
+			log.fine("API Servlet adding feedback response comment :" + responseComment.getId()
+					+ " to session " + responseComment.feedbackSessionName);
+			this.createFeedbackResponseComment(responseComment);
 		}
 		
 		HashMap<String, CommentAttributes> comments = dataBundle.comments;
@@ -157,6 +165,12 @@ public class BackDoorLogic extends Logic {
 		StudentAttributes student = getStudentForEmail(courseId, email);
 		return Utils.getTeammatesGson().toJson(student);
 	}
+	
+	public String getAllStudentsAsJson(String courseId) throws EntityDoesNotExistException {
+		List<StudentAttributes> studentList = studentsLogic
+				.getStudentsForCourse(courseId);
+		return Utils.getTeammatesGson().toJson(studentList);
+	}
 
 	public String getEvaluationAsJson(String courseId, String evaluationName) {
 		EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
@@ -170,6 +184,12 @@ public class BackDoorLogic extends Logic {
 		return Utils.getTeammatesGson().toJson(target);
 	}
 	
+	public String getAllSubmissionsAsJson(String courseId) {
+		List<SubmissionAttributes> submissionList = submissionsLogic
+				.getSubmissionsForCourse(courseId);
+		return Utils.getTeammatesGson().toJson(submissionList);
+	}
+	
 	public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
 		FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
 		return Utils.getTeammatesGson().toJson(fs);
@@ -180,11 +200,29 @@ public class BackDoorLogic extends Logic {
 				feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
 		return Utils.getTeammatesGson().toJson(fq);
 	}
+	
+	public String getFeedbackQuestionForIdAsJson(String questionId) {
+		FeedbackQuestionAttributes fq = 
+				feedbackQuestionsLogic.getFeedbackQuestion(questionId);
+		return Utils.getTeammatesGson().toJson(fq);
+	}
 
 	public String getFeedbackResponseAsJson(String feedbackQuestionId, String giverEmail, String recipient) {
 		FeedbackResponseAttributes fq = 
 				feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
 		return Utils.getTeammatesGson().toJson(fq);
+	}
+	
+	public String getFeedbackResponsesForGiverAsJson(String courseId, String giverEmail) {
+		List<FeedbackResponseAttributes> responseList = 
+				feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
+		return Utils.getTeammatesGson().toJson(responseList);
+	}
+	
+	public String getFeedbackResponsesForReceiverAsJson(String courseId, String recipient) {
+		List<FeedbackResponseAttributes> responseList = 
+				feedbackResponsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, recipient);
+		return Utils.getTeammatesGson().toJson(responseList);
 	}
 	
 	public void editAccountAsJson(String newValues)
@@ -272,6 +310,41 @@ public class BackDoorLogic extends Logic {
 		super.createFeedbackResponse(response);
 	}
 	
+	/**
+	* This method is necessary to generate the feedbackQuestionId 
+	* and feedbackResponseId of the question and response the comment is for.<br />
+	* Normally, the ID is already generated on creation,
+	* but the json file does not contain the actual response ID. <br />
+	* Therefore the question number and questionNumber%giverEmail%recipient
+	* corresponding to the created comment should be inserted in the json 
+	* file in place of the actual ID.<br />
+	* This method will then generate the correct ID and replace the field.
+	**/
+	@Override
+	public void createFeedbackResponseComment(FeedbackResponseCommentAttributes responseComment) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		
+		try {
+			int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
+			
+			responseComment.feedbackQuestionId =
+					feedbackQuestionsLogic.getFeedbackQuestion(
+							responseComment.feedbackSessionName,
+							responseComment.courseId,
+							qnNumber).getId();
+		} catch (NumberFormatException e) {
+			// Correct question ID was already attached to response.
+		}
+		
+		String[] responseIdParam = responseComment.feedbackResponseId.split("%");
+		
+		responseComment.feedbackResponseId = 
+				responseComment.feedbackQuestionId
+				+ "%" + responseIdParam[1] + "%" + responseIdParam[2];
+
+		super.createFeedbackResponseComment(responseComment);
+	}
+	
 
 	/**
 	 * Creates a COURSE without an INSTRUCTOR relation
@@ -316,6 +389,10 @@ public class BackDoorLogic extends Logic {
 		
 		for (AccountAttributes a : dataBundle.accounts.values()) {
 			deleteAccount(a.googleId);
+		}
+		
+		for(FeedbackResponseCommentAttributes frc : dataBundle.feedbackResponseComments.values()) {
+			deleteFeedbackResponseComment(frc);
 		}
 		
 		for(CommentAttributes c : dataBundle.comments.values()){
@@ -450,7 +527,6 @@ public class BackDoorLogic extends Logic {
 				log.warning("Object did not get deleted in time \n"+ i.toString());
 			}
 		}
-		
 	}
 
 	private SubmissionAttributes getSubmission(

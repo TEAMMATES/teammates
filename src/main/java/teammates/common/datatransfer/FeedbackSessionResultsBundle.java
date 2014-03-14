@@ -24,6 +24,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 	public Map<String, String> emailTeamNameTable = null;
 	public Map<String, boolean[]> visibilityTable = null;
 	public FeedbackSessionResponseStatus responseStatus = null;
+	public Map<String, List<FeedbackResponseCommentAttributes>> responseComments = null;
 	
 	public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
 			List<FeedbackResponseAttributes> responses,
@@ -31,7 +32,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 			Map<String, String> emailNameTable,
 			Map<String, String> emailTeamNameTable,
 			Map<String, boolean[]> visibilityTable,
-			FeedbackSessionResponseStatus responseStatus) {
+			FeedbackSessionResponseStatus responseStatus,
+			Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
 		this.feedbackSession = feedbackSession;
 		this.questions = questions;
 		this.responses = responses;
@@ -39,6 +41,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 		this.emailTeamNameTable = emailTeamNameTable;
 		this.visibilityTable = visibilityTable;
 		this.responseStatus = responseStatus;
+		this.responseComments = responseComments;
 
 		// We change user email to team name here for display purposes.
 		for (FeedbackResponseAttributes response : responses) {
@@ -106,6 +109,20 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 		}
 	}
 	
+	public String appendTeamNameToName(String name, String teamName){
+		String outputName;
+		if(name.contains("Anonymous") 
+				|| name.equals(Const.USER_UNKNOWN_TEXT) 
+				|| name.equals(Const.USER_NOBODY_TEXT)
+				|| teamName.isEmpty()){
+			outputName = name;
+		}
+		else{
+			outputName = name + " (" + teamName + ")";
+		}
+		return outputName;
+	}
+	
 	//TODO consider removing this to increase cohesion
 	public String getQuestionText(String feedbackQuestionId){
 		return PageData.sanitizeForHtml(
@@ -170,6 +187,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 		String prevRecipient = null;
 		String recipientName = null;
 		String giverName = null;
+		String recipientTeamName = null;
+		String giverTeamName = null;
 
 		List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
 				new ArrayList<FeedbackResponseAttributes>();
@@ -207,8 +226,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 			prevRecipient = response.recipientEmail;
 			recipientName = this.getRecipientNameForResponse(
 					questions.get(response.feedbackQuestionId), response);
+			recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
+			recipientName = this.appendTeamNameToName(recipientName, recipientTeamName);
 			giverName = this.getGiverNameForResponse(
 					questions.get(response.feedbackQuestionId), response);
+			giverTeamName = this.getTeamNameForEmail(response.giverEmail);
+			giverName = this.appendTeamNameToName(giverName, giverTeamName);
 		}
 		
 		if (responses.isEmpty() == false ) {
@@ -242,6 +265,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 		String prevGiver = null;
 		String recipientName = null;
 		String giverName = null;
+		String recipientTeamName = null;
+		String giverTeamName = null;
 		
 		List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
 				new ArrayList<FeedbackResponseAttributes>();
@@ -279,8 +304,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 			prevGiver = response.giverEmail;			
 			recipientName = this.getRecipientNameForResponse(
 					questions.get(response.feedbackQuestionId), response);
+			recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
+			recipientName = this.appendTeamNameToName(recipientName, recipientTeamName);
 			giverName = this.getGiverNameForResponse(
 					questions.get(response.feedbackQuestionId), response);
+			giverTeamName = this.getTeamNameForEmail(response.giverEmail);
+			giverName = this.appendTeamNameToName(giverName, giverTeamName);
 		}
 		
 		if (responses.isEmpty() == false ) {

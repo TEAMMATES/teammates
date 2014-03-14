@@ -28,6 +28,12 @@ public class Const {
 		
 		public static final String EMAIL_TASK_QUEUE = "email-queue";
 		public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
+		public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
+								"eval-submission-adjust-queue";
+		
+		public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE = 
+								"feedback-submission-adjust-queue";
+		
 		public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
 		public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
 		
@@ -286,6 +292,9 @@ public class Const {
 		public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 		public static final String FEEDBACK_RESPONSE_TEXT = "responsetext";
 		
+		public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
+		public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
+		
 		public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
 		public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
 		
@@ -326,11 +335,15 @@ public class Const {
 		public static final String COMMENT_EDITTYPE = "commentedittype";
 		public static final String COMMENT_ID = "commentid";
 		public static final String COMMENT_TEXT = "commenttext";
+		
 		//Submission parameters for Task Queue
 		public static final String SUBMISSION_COURSE = "course";
 		public static final String SUBMISSION_EVAL = "evaluation";
 		
+		public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
+		
 		public static final String SEARCH_KEY ="searchkey";
+		public static final String DISPLAY_ARCHIVE ="displayarchive";
 		
 		//Parameters for checking persistence of data during Eventual Consistency
 		public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
@@ -354,6 +367,7 @@ public class Const {
 		public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT = "/page/instructorCourseStudentDetailsEdit";
 		public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE = "/page/instructorCourseStudentDetailsEditSave";
 		public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
+		public static final String INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD = "/page/instructorCourseStudentListDownload";
 		public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
 		public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
 		public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
@@ -396,7 +410,11 @@ public class Const {
 		
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
 		public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
-		
+
+		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
+		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
+		public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/instructorFeedbackResponseCommentDelete";
+				
 		public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
 		
 		public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
@@ -439,6 +457,10 @@ public class Const {
 		//Task Queue Worker Servlets URI
 		public static final String EMAIL_WORKER = "/emailWorker";
 		public static final String SUBMISSION_WORKER = "/submissionWorker";
+		public static final String EVAL_SUBMISSION_ADJUSTMENT_WORKER = 
+									"/evalSubmissionAdjustmentWorker";
+		public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER = 
+									"/feedbackSubmissionAdjustmentWorker";
 		public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
 		public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
 	}
@@ -592,7 +614,12 @@ public class Const {
 		public static final String FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 		
 		public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
-				
+		
+		public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
+		public static final String FEEDBACK_RESPONSE_COMMENT_ADDED = "Your comment has been saved successfully";
+		public static final String FEEDBACK_RESPONSE_COMMENT_EDITED = "Your changes has been saved successfully";
+		public static final String FEEDBACK_RESPONSE_COMMENT_DELETED = "Your comment has been deleted successfully";
+		
 		public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
 		
 		public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
@@ -603,6 +630,10 @@ public class Const {
 		public static final String EVENTUAL_CONSISTENCY_MESSAGE_STUDENT = "You have successfully joined the course %1$s. "
 				+ "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
 				+ "<br>Please refresh this page in a few minutes to see the course %1$s in the list below.";
+		
+		public static final String NULL_POST_PARAMETER_MESSAGE = "?message=You have been redirected to this page due to a possible expiry of the previous login."
+				+ "<br>If you have previously typed some data and wish to retrieve it, you may use the 'Back' button of your Browser to navigate to the"
+				+ " previous page containing the data you typed in.";
 		
 		//TODO: these status messages are from used for input validation testing only. Move to test driver side? 
 		
@@ -675,6 +706,9 @@ public class Const {
 	
 		// Task Queue Response Success code
 		public static final int TASK_QUEUE_RESPONSE_OK = 200;
+		
+		// POST parameter null message
+		public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
 	}
 
 	/* This section holds constants that are defined as constants primarily 

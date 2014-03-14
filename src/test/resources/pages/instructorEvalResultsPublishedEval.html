@@ -92,7 +92,7 @@
 					<td class="centeralign" colspan="2">
 					<form id="download_eval_report" method="GET" action="/page/instructorEvalResultsDownload">
 						<input type="button" onclick="if(toggleUnpublishEvaluation('Second Eval')) window.location.href='/page/instructorEvalUnpublish?courseid=CEvalRUiT.CS1101&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorEvalsPage%3Fuser%3DCEvalRUiT.instr&amp;user=CEvalRUiT.instr';" value="Unpublish" id="button_unpublish" class="button" />
-						
+						<input name="user"  type="hidden"  value="CEvalRUiT.instr" />
 						<input type="hidden" name="courseid" value="CEvalRUiT.CS1101">
 						<input type="hidden" name="evaluationname" value="Second Eval">
 						<input type="submit" value="Download Report" class="button">

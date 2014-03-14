@@ -514,6 +514,10 @@ public class FieldValidatorTest extends BaseTestCase{
 		email = "a@e";
 		Assumption.assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
 		
+		______TS("success: all allowed special characters");
+		email = "a!#$%&'*/=?^_`{}~@e";
+		Assumption.assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+		
 		______TS("failure: invalid starting character");
 		email = "$john@email.com";
 		Assumption.assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));

@@ -26,6 +26,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.CoursesDb;
@@ -439,6 +440,34 @@ public class CoursesLogic {
 		}
 		
 		return courseSummaryList;
+	}
+	
+	public String getCourseStudentListAsCsv(String courseId, String googleId) {
+		HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
+		CourseDetailsBundle course = courses.get(courseId);
+		
+		String export = "";
+		export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + 
+				"Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + 
+				Const.EOL + Const.EOL +
+				"Team" + "," + "Student Name" + "," + "Status" + "," + "Email" + Const.EOL;
+		
+		for (TeamDetailsBundle team : course.teams) {
+			for(StudentAttributes student : team.students){
+				String studentStatus = null;
+				if(student.googleId == null || student.googleId.equals("")){
+					studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
+				} else {
+					studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
+				}
+				
+				export += Sanitizer.sanitizeForCsv(team.name) + "," + 
+					Sanitizer.sanitizeForCsv(student.name) + "," +
+					Sanitizer.sanitizeForCsv(studentStatus) + "," +
+					Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
+			}
+		}
+		return export;
 	}
 
 }

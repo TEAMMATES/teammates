@@ -119,10 +119,10 @@ public abstract class Action {
 	 *    to be encoded into the URL. The error flag is also added to the
 	 *    {@code isError} flag in the {@link ActionResult} object.
 	 */
-	public ActionResult executeAndPostProcess() throws EntityDoesNotExistException{
+	public ActionResult executeAndPostProcess() throws EntityDoesNotExistException {
 		
 		//get the result from the child class.
-		ActionResult response =  execute();
+		ActionResult response = execute();
 		
 		//set error flag of the result
 		response.isError = isError;
@@ -152,6 +152,7 @@ public abstract class Action {
 	 * 3. If the action requires showing a page, prepare the matching PageData object.<br>
 	 * 4. Set the status messages to be shown to the user (if any) and to the admin (compulsory).
 	 *    The latter is used for generating the adminActivityLogPage.
+	 * @throws NullPostParametersException 
 	 */
 	protected abstract ActionResult execute() 
 			throws EntityDoesNotExistException;

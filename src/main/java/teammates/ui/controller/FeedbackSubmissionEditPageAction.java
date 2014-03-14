@@ -34,6 +34,10 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 		
 		setStatusToAdmin();
 		
+		if (!data.isSessionOpenForSubmission) {
+			statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+		}
+		
 		return createSpecificShowPageResult();
 	}
 

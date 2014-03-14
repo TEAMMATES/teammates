@@ -13,7 +13,6 @@
 		<script language="JavaScript" src="/js/jquery-minified.js"></script>
 		<script language="JavaScript" src="/js/tooltip.js"></script>
 		<script src="/js/common.js" type="text/javascript"></script>
-		
 	</head>
 	<body id="compilation">
 		<div id="dhtmltooltip"></div>
@@ -21,7 +20,7 @@
 		<table id="tableofcontents">
 		<tbody>
 			<tr>
-				<td width="33%">
+				<td width="25%">
 					<h2>Instructor Pages</h2>
 					<ul class="nav">
 						<li><a href="#instructorHomePage">Instructor Home Page</a></li>
@@ -29,6 +28,7 @@
 						<li><a href="#instructorEditCoursePage">Instructor Edit Course Page</a></li>
 						<li><a href="#instructorEnrollPage">Instructor Enroll Students Page</a></li>
 						<li><a href="#instructorCourseDetailsPage">Instructor Course Details Page</a></li>
+						<li><a href="#instructorStudentListPage">Instructor Student List Page</a></li>
 						<li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
 						<li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
 						<li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
@@ -50,7 +50,7 @@
 						<li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>						
 					</ul>
 				</td>
-				<td width="33%">
+				<td width="25%">
 					<h2>Student Pages</h2>
 					<ul class="nav">
 						<li><a href="#studentHomePage">Student Home Page</a></li>
@@ -64,12 +64,25 @@
 					</ul>
 				<td>
 				</td>
-				<td>
-					<h2>Admin Page</h2>
+				<td width="25%">
+					<h2>Admin Pages</h2>
 					<ul class="nav">
 						<li><a href="#adminHomePage">Admin Home Page</a></li>
 						<li><a href="#adminSearchPage">Admin Search Page</a></li>
 						<li><a href="#adminActivityLogPage">Admin Activity Log Page</a></li>
+					</ul>
+				</td>
+				<td width="25%">	
+					<h2>Static Pages</h2>
+					<ul class="nav">
+						<li><a href="#index">Home Page</a></li>
+						<li><a href="#features">Features Page</a></li>
+						<li><a href="#about">About Us Page</a></li>
+						<li><a href="#contact">Contact Page</a></li>
+						<li><a href="#terms">Terms Of Use Page</a></li>
+						<li><a href="#request">Request Account Page</a></li>
+						<li><a href="#studentHelp">Student Help Page</a></li>
+						<li><a href="#instructorHelp">Instructor Help Page</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -90,6 +103,9 @@
 		
 		<div class="pageinfo">Instructor Course Details Page</div>
 		<div id="instructorCourseDetailsPage" class="wrapper"></div>
+
+		<div class="pageinfo">Instructor Student List Page</div>
+		<div id="instructorStudentListPage" class="wrapper"></div>
 		
 		<div class="pageinfo">Instructor Student Details Page</div>
 		<div id="instructorCourseStudentDetailsPage" class="wrapper"></div>
@@ -184,7 +200,47 @@
 		
 		<div class="pageinfo">Admin Activity Log Page</div>
 		<div id="adminActivityLogPage" class="wrapper"></div>
-	</body>
+		<br></br>
+		<br></br>
+		<br></br>
+		<br></br>
+		<div class="pageinfo">Home Page</div>
+		<div id="index">
+			<iframe class="wrapper" src="../index.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Features Page</div>
+		<div id="features">
+			<iframe class="wrapper" src="../features.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">About Us Page</div>
+		<div id="about">
+			<iframe class="wrapper" src="../about.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Contact Page</div>
+		<div id="contact">
+			<iframe class="wrapper" src="../contact.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Terms Of Use Page</div>
+		<div id="terms">
+			<iframe class="wrapper" src="../terms.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Request Account Page</div>
+		<div id="request">
+			<iframe class="wrapper" src="../request.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Student Help Page</div>
+		<div id="studentHelp">
+			<iframe class="wrapper" src="../studentHelp.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<div class="pageinfo">Instructor Help Page</div>
+		<div id="instructorHelp">
+			<iframe class="wrapper" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
+		</div>
+		<br></br>
+		<br></br>
+		<br></br>
+		<br></br>
+</body>
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -194,6 +250,7 @@
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEnroll.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseDetails.css" type="text/css">');
+			$('head').append('<link rel=stylesheet href="/stylesheets/instructorStudentList.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentDetails.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentEdit.css" type="text/css">');
 			$('head').append('<link rel=stylesheet href="/stylesheets/instructorEvals.css" type="text/css">');
@@ -215,6 +272,7 @@
 			$('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
 			$('#instructorEnrollPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
 			$('#instructorCourseDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
+			$('#instructorStudentListPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #frameBodyWrapper");
 			$('#instructorCourseStudentDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
 			$('#instructorCourseStudentEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
 			$('#instructorCourseEvalPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper");
@@ -267,5 +325,9 @@
 			initializetooltip();
 			document.onmousemove = positiontip;
 		});
+		
+		function calcHeight(iframe) {
+			$(iframe).height($(iframe).contents().find('html').height());
+		}
 	</script>
 </html>

@@ -1019,5 +1019,29 @@
 			}
 			
 		}
+	},
+	"feedbackResponseComments":{
+		"comment1FromT1C1ToR1Q1S1C1": {
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackSessionName":"First Session",
+			"feedbackQuestionId":"1",
+			"giverEmail":"SFResultsUiT.instr@gmail.com",
+			"feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.com%SFResultsUiT.alice.b@gmail.com",
+			"createdAt":"2014-03-01 11:59 PM UTC",
+			"commentText":{
+				"value":"Instructor first comment to Alice"	
+			}
+		},
+		"comment2FromT1C1ToR1Q1S1C1": {
+			"courseId":"SFResultsUiT.CS2104",
+			"feedbackSessionName":"First Session",
+			"feedbackQuestionId":"1",
+			"giverEmail":"SFResultsUiT.instr@gmail.com",
+			"feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.com%SFResultsUiT.alice.b@gmail.com",
+			"createdAt":"2014-03-02 11:59 PM UTC",
+			"commentText":{
+				"value":"Instructor second comment to Alice"	
+			}
+		}
 	}
 }

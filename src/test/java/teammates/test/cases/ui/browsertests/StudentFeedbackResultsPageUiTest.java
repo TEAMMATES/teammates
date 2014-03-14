@@ -23,13 +23,12 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 	private static Browser browser;
 	private StudentFeedbackResultsPage resultsPage;
 	
-	
 	@BeforeClass
 	public static void classSetup() throws Exception {
 		printTestClassHeader();
 		testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
 		restoreTestDataOnServer(testData);
-
+		
 		browser = BrowserPool.getBrowser();		
 	}
 	
@@ -84,7 +83,6 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 		
 		resultsPage = loginToStudentFeedbackSubmitPage("Alice", "NUMSCALE Session");
 		resultsPage.verifyHtml("/studentFeedbackResultsPageNUMSCALE.html");
-		
 	}
 
 	@AfterClass

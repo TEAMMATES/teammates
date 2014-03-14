@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +16,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
 	
 	@FindBy(id = "button_sortanswer")
 	private WebElement sortTableAnswerButton;
+	
+	@FindBy(id = "showResponseCommentAddFormButton-1-1-1")
+	private WebElement showResponseCommentAddFormButton;
+	
+	@FindBy(id = "responseCommentAddForm-1-1-1")
+	private WebElement addResponseCommentForm;
+	
 	
 	public InstructorFeedbackResultsPage(Browser browser) {
 		super(browser);
@@ -73,5 +82,34 @@ public class InstructorFeedbackResultsPage extends AppPage {
 	public String getQuestionAdditionalInfoButtonText(int qnNumber, String additionalInfoId){
 		WebElement qnAdditionalInfoButton = browser.driver.findElement(By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));	
 		return qnAdditionalInfoButton.getText();
+	}
+	
+	public void addFeedbackResponseComment(String commentText) {
+		showResponseCommentAddFormButton.findElement(By.tagName("a")).click();
+		fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
+		addResponseCommentForm.findElement(By.className("button")).click();
+		waitForPageToLoad();
+	}
+	
+	public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
+		WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+		commentRow.findElement(By.linkText("Edit")).click();
+		
+		WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
+		fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
+		commentEditForm.findElement(By.className("button")).click();
+		waitForPageToLoad();
+	}
+	
+	public void deleteFeedbackResponseComment(String commentIdSuffix) {
+		WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+		commentRow.findElement(By.linkText("Delete")).click();
+		waitForPageToLoad();
+	}
+	
+	public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
+		WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentRowIdSuffix));
+		assertEquals(commentText, commentRow.findElement(By.className("feedbackResponseCommentText")).getText());
+		assertEquals(giverName, commentRow.findElement(By.className("feedbackResponseCommentGiver")).getText());
 	}
 }

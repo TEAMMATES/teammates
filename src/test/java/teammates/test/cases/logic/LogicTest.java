@@ -1637,21 +1637,39 @@ public class LogicTest extends BaseComponentTestCase {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 	
-		______TS("same student added, modified and unmodified in one shot");
+		______TS("same student added, modified and unmodified");
 	
 		logic.createAccount("tes.instructor", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
-		lines = "t8|n8|e8@g|c1" + EOL + "t8|n8a|e8@g|c1" + EOL
-				+ "t8|n8a|e8@g|c1";
-		enrollResults = logic.enrollStudents(lines, "tes.course");
-	
-		assertEquals(3, enrollResults.size());
+		
+		String line = "t8|n8|e8@g|c1" ;
+		enrollResults = logic.enrollStudents(line, "tes.course");
+		assertEquals(1, enrollResults.size());
 		assertEquals(StudentAttributes.UpdateStatus.NEW,
 				enrollResults.get(0).updateStatus);
+		
+		line = "t8|n8a|e8@g|c1";
+		enrollResults = logic.enrollStudents(line, "tes.course");
+		assertEquals(1, enrollResults.size());
 		assertEquals(StudentAttributes.UpdateStatus.MODIFIED,
-				enrollResults.get(1).updateStatus);
+				enrollResults.get(0).updateStatus);
+		
+		line = "t8|n8a|e8@g|c1";
+		enrollResults = logic.enrollStudents(line, "tes.course");
+		assertEquals(1, enrollResults.size());
 		assertEquals(StudentAttributes.UpdateStatus.UNMODIFIED,
-				enrollResults.get(2).updateStatus);
+				enrollResults.get(0).updateStatus);
+
+		______TS("duplicated emails");
+		
+		String line_t9 = "t9|n9|e9@g|c9";
+		String line_t10 = "t10|n10|e9@g|c10";
+		try {
+			logic.enrollStudents(line_t9 + EOL + line_t10, "tes.course");
+		} catch (EnrollException e) {
+			assertTrue(e.getMessage().contains(line_t10));
+			assertTrue(e.getMessage().contains("Same email address as the student in line \""+line_t9+"\""));	
+		}
 	}
 
 	@Test
@@ -2288,15 +2306,15 @@ public class LogicTest extends BaseComponentTestCase {
 		//Team 1.2,,student5 In Course1,,-999,,-9999,,
 		
 		String[] exportLines = export.split(Const.EOL);
-		assertEquals("Course,," + eval.courseId, exportLines[0]);
-		assertEquals("Evaluation Name,," + eval.name, exportLines[1]);
+		assertEquals("Course,\"" + eval.courseId + "\"", exportLines[0]);
+		assertEquals("Evaluation Name,\"" + eval.name + "\"", exportLines[1]);
 		assertEquals("", exportLines[2]);
-		assertEquals("Team,,Student,,Claimed,,Perceived,,Received", exportLines[3]);
-		assertEquals("Team 1.1,,student1 In Course1,,100,,100,,100,100,N/A", exportLines[4]);
-		assertEquals("Team 1.1,,student2 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[5]);
-		assertEquals("Team 1.1,,student3 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[6]);
-		assertEquals("Team 1.1,,student4 In Course1,,Not Submitted,,100,,100,N/A,N/A", exportLines[7]);
-		assertEquals("Team 1.2,,student5 In Course1,,Not Submitted,,N/A,,", exportLines[8]);
+		assertEquals("Team,Student,Claimed,Perceived,Received", exportLines[3]);
+		assertEquals("\"Team 1.1\",\"student1 In Course1\",\"100\",\"100\",\"100,100,N/A\"", exportLines[4]);
+		assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Not Submitted\",\"100\",\"100,N/A,N/A\"", exportLines[5]);
+		assertEquals("\"Team 1.1\",\"student3 In Course1\",\"Not Submitted\",\"100\",\"100,N/A,N/A\"", exportLines[6]);
+		assertEquals("\"Team 1.1\",\"student4 In Course1\",\"Not Submitted\",\"100\",\"100,N/A,N/A\"", exportLines[7]);
+		assertEquals("\"Team 1.2\",\"student5 In Course1\",\"Not Submitted\",\"N/A\",\"\"", exportLines[8]);
 		
 		______TS("Non-existent Course/Eval");
 		
@@ -2314,6 +2332,59 @@ public class LogicTest extends BaseComponentTestCase {
 		
 		try {
 			logic.getEvaluationResultSummaryAsCsv(eval.courseId, null);
+			Assert.fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetCourseStudentListAsCsv() throws Exception {
+		______TS("typical case");
+	
+		restoreTypicalDataInDatastore();	
+		
+		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+		String instructorGoogleId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+		
+		String export = logic.getCourseStudentListAsCsv(course.id, instructorGoogleId);
+		
+		// This is what export should look like:
+		// ==================================
+		//Course ID,"idOfTypicalCourse1"
+		//Course Name,"Typical Course 1 with 2 Evals"
+		//
+		//
+		//Team,Student Name,Status,Email
+		//"Team 1.1","student1 In Course1","Joined","student1InCourse1@gmail.com"
+		//"Team 1.1","student2 In Course1","Joined","student2InCourse1@gmail.com"
+		//"Team 1.1","student3 In Course1","Joined","student3InCourse1@gmail.com"
+		//"Team 1.1","student4 In Course1","Joined","student4InCourse1@gmail.com"
+		//"Team 1.2","student5 In Course1","Joined","student5InCourse1@gmail.com"
+		
+		String[] exportLines = export.split(Const.EOL);
+		assertEquals("Course ID," + "\"" + course.id + "\"", exportLines[0]);
+		assertEquals("Course Name," + "\"" + course.name + "\"", exportLines[1]);
+		assertEquals("", exportLines[2]);
+		assertEquals("", exportLines[3]);
+		assertEquals("Team,Student Name,Status,Email", exportLines[4]);
+		assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Joined\",\"student1InCourse1@gmail.com\"", exportLines[5]);
+		assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Joined\",\"student2InCourse1@gmail.com\"", exportLines[6]);
+		assertEquals("\"Team 1.1\",\"student3 In Course1\",\"Joined\",\"student3InCourse1@gmail.com\"", exportLines[7]);
+		assertEquals("\"Team 1.1\",\"student4 In Course1\",\"Joined\",\"student4InCourse1@gmail.com\"", exportLines[8]);
+		assertEquals("\"Team 1.2\",\"student5 In Course1\",\"Joined\",\"student5InCourse1@gmail.com\"", exportLines[9]);
+
+		______TS("Null parameters");
+		
+		try {
+			logic.getCourseStudentListAsCsv(null, instructorGoogleId);
+			Assert.fail();
+		} catch (AssertionError ae) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
+		}
+		
+		try {
+			logic.getCourseStudentListAsCsv(course.id, null);
 			Assert.fail();
 		} catch (AssertionError ae) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());

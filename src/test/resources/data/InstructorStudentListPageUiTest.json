@@ -20,7 +20,14 @@
 		"isInstructor": true,
 		"email": "instr@course1.com",
 		"institute": "NTU"
-	}
+	},
+  "instructorOfCourse4": {
+    "googleId": "instructorOfCourse4",
+    "name": "Instructor of Course 4",
+    "isInstructor": true,
+    "email": "instr@course4.com",
+    "institute": "MIT"
+  }
   },
 
   "courses": {
@@ -38,6 +45,11 @@
       "id": "course3",
       "name": "Name of Course 3",
       "isArchived": false
+    },
+    "course4": {
+      "id": "course4",
+      "name": "Name of Course 4",
+      "isArchived": true
     }
   },
 
@@ -59,6 +71,12 @@
       "courseId": "course3",
       "name": "Instructor1 Course3",
       "email": "iwithtwoc@yahoo.com"
+    },
+    "instructorOfCourse4": {
+      "googleId": "instructorOfCourse4",
+      "courseId": "course4",
+      "name": "Instructor1 Course4",
+      "email": "instr@course4.com"
     }
   },
   
@@ -110,6 +128,14 @@
       "name": "Denny Charlés",
       "comments": "This student's name is Denny Charlés",
       "team": "Team 2"
+    },
+    "Student5Course4": {
+      "googleId": "",
+      "email": "ann.tmms@gmail.com",
+      "course": "course4",
+      "name": "Ann",
+      "comments": "This student's name is Ann",
+      "team": "Team 1"
     }
   }
 }

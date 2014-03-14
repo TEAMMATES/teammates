@@ -615,6 +615,69 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 		AssertHelper.assertContains(expectedStrings, mapString);
 		assertEquals(11, results.emailTeamNameTable.size());
 		
+		// Test 'Append TeamName to Name' for display purposes with Typical Cases
+		expectedStrings.clear();
+		List<String> actualStrings = new ArrayList<String>();
+		for(FeedbackResponseAttributes response: results.responses) {
+			String giverName = results.getNameForEmail(response.giverEmail);
+			String giverTeamName = results.getTeamNameForEmail(response.giverEmail);
+			giverName = results.appendTeamNameToName(giverName, giverTeamName);
+			String recipientName = results.getNameForEmail(response.recipientEmail);
+			String recipientTeamName = results.getTeamNameForEmail(response.recipientEmail);
+			recipientName = results.appendTeamNameToName(recipientName, recipientTeamName);
+			actualStrings.add(giverName);
+			actualStrings.add(recipientName);
+		}
+		Collections.addAll(expectedStrings,
+				"student1 In Course1 (Team 1.1)",
+				"student1 In Course1 (Team 1.1)",
+				"student1 In Course1 (Team 1.1)",
+				"student2 In Course1 (Team 1.1)",
+				"student2 In Course1 (Team 1.1)",
+				"student1 In Course1 (Team 1.1)",
+				"student1 In Course1 (Team 1.1)",
+				"Instructor1 Course1 (Instructors)",
+				"student1 In Course1 (Team 1.1)",
+				"Team 1.3",
+				"student2 In Course1 (Team 1.1)",
+				"Team 1.4",
+				"student2 In Course1 (Team 1.1)",
+				"student4 In Course1 (Team 1.2)",
+				"Team 1.1",
+				"student2 In Course1 (Team 1.1)",
+				"Team 1.1",
+				"student4 In Course1 (Team 1.2)",
+				"Team 1.1",
+				"Team 1.2",
+				"Team 1.2",
+				"Team 1.1");
+		assertEquals(expectedStrings.toString(), actualStrings.toString());
+		
+		// Test 'Append TeamName to Name' for display purposes with Special Cases
+		expectedStrings.clear();
+		actualStrings.clear();
+		
+		// case: Unknown User
+		String UnknownUserName = Const.USER_UNKNOWN_TEXT;
+		String someTeamName = "Some Team Name";
+		UnknownUserName = results.appendTeamNameToName(UnknownUserName, someTeamName);
+		actualStrings.add(UnknownUserName);
+		
+		// case: Nobody
+		String NobodyUserName = Const.USER_NOBODY_TEXT;
+		NobodyUserName = results.appendTeamNameToName(NobodyUserName, someTeamName);
+		actualStrings.add(NobodyUserName);
+		
+		// case: Anonymous User
+		String AnonymousUserName = "Anonymous " + System.currentTimeMillis();
+		AnonymousUserName = results.appendTeamNameToName(AnonymousUserName, someTeamName);
+		actualStrings.add(AnonymousUserName);
+		Collections.addAll(expectedStrings,
+				Const.USER_UNKNOWN_TEXT,
+				Const.USER_NOBODY_TEXT,
+				AnonymousUserName);
+		assertEquals(expectedStrings.toString(), actualStrings.toString());
+		
 		// Test the generated response visibilityTable for userNames.		
 		mapString = tableToString(results.visibilityTable);
 		expectedStrings.clear();

@@ -6,6 +6,7 @@
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
@@ -214,10 +215,13 @@
 					FeedbackSessionResultsBundle feedback = (FeedbackSessionResultsBundle) sessionResult;
 					
 					fbIndex++;
+
+					String giverName = feedback.appendTeamNameToName(data.student.name, data.student.team);
+					String recipientName = giverName;
 					Map<String, List<FeedbackResponseAttributes>> received = feedback 
-							.getResponsesSortedByRecipient().get(data.student.name);
+							.getResponsesSortedByRecipient().get(recipientName);
 					Map<String, List<FeedbackResponseAttributes>> given = feedback
-							.getResponsesSortedByGiver().get(data.student.name);
+							.getResponsesSortedByGiver().get(giverName);
 			%>
 					<div class="student_feedback" id="studentFeedback-<%=fbIndex%>">
 					<table class="inputTable" id="studentEvaluationInfo">
@@ -231,7 +235,7 @@
 					if(received != null){
 			%>
 						<div class="backgroundBlock">
-							<h2 class="color_white">To: <%=data.student.name%></h2>
+							<h2 class="color_white">To: <%=recipientName%></h2>
 					<%
 						int giverIndex = 0;
 						for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesReceived : received.entrySet()) {
@@ -260,6 +264,29 @@
 									<td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
 								</tr>
 							<%
+								List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
+								if (responseComments != null) {
+							%>
+								<tr>
+									<td>
+										<span class="bold">Comments: </span>
+										<table class="responseCommentTable">
+											<%
+												for (FeedbackResponseCommentAttributes comment : responseComments) {
+											%>
+													<tr>
+														<td class="feedbackResponseCommentText"><%=comment.commentText.getValue() %></td>
+														<td class="feedbackResponseCommentGiver"><%=comment.giverEmail %></td>
+														<td class="feedbackResponseCommentTime"><%=comment.createdAt %></td>
+													</tr>
+											<%
+												}
+											%>
+										</table> 
+									</td>
+								</tr>
+							<%
+								}
 								qnIndx++;
 							}
 							if (responsesReceived.getValue().isEmpty()) {
@@ -290,7 +317,7 @@
 					if(given != null){
 				%>
 						<div class="backgroundBlock">
-							<h2 class="color_white">From: <%=data.student.name%></h2>
+							<h2 class="color_white">From: <%=giverName%></h2>
 					<%
 						int recipientIndex = 0;
 						for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesGiven : given.entrySet()) {
@@ -319,6 +346,29 @@
 									<td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
 								</tr>
 							<%
+								List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
+								if (responseComments != null) {
+							%>
+								<tr>
+									<td>
+										<span class="bold">Comments: </span>
+										<table class="responseCommentTable">
+											<%
+												for (FeedbackResponseCommentAttributes comment : responseComments) {
+											%>
+													<tr>
+														<td class="feedbackResponseCommentText"><%=comment.commentText.getValue() %></td>
+														<td class="feedbackResponseCommentGiver"><%=comment.giverEmail %></td>
+														<td class="feedbackResponseCommentTime"><%=comment.createdAt %></td>
+													</tr>
+											<%
+												}
+											%>
+										</table> 
+									</td>
+								</tr>
+							<%
+								}
 								qnIndx++;
 							}
 							if (responsesGiven.getValue().isEmpty()) {

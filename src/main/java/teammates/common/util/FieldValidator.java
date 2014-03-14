@@ -278,10 +278,15 @@ public class FieldValidator {
 	public static final String REGEX_SAMPLE_COURSE_ID = REGEX_COURSE_ID + "-demo\\d*";
 	
 	/**
-	 * Local part: Can start or end with letters, digits, hyphen or plus sign; Dot can only appear between 2 characters and cannot appear continuously<br>
-	 * Domain part: Only allow letters, digits, hyphen and dot; Must end with letters
+	 * Local part: 
+	 * <li>Can only start with letters, digits, hyphen or plus sign;
+	 * <li>Special characters allowed are ! # $ % & ' * + - / = ? ^ _ ` { } ~
+	 * <li>Dot can only appear between any 2 characters and cannot appear continuously<br>
+	 * Domain part:
+	 * <li>Only allow letters, digits, hyphen and dot; Must end with letters
 	 */
-	public static final String REGEX_EMAIL = "^[\\w+-]+(\\.[\\w+-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+$";
+	public static final String REGEX_EMAIL = "^[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+"
+											+ "@([A-Za-z0-9-]+\\.)*[A-Za-z]+$";
 
 	/**
 	 * Allows English alphabet, numbers, underscore,  dot and hyphen.
