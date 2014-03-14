@@ -11,6 +11,9 @@ import teammates.storage.entity.FeedbackResponseComment;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Represents a data transfer object for {@link FeedbackResponseComment} entities.
+ */
 public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
 	private Long feedbackResponseCommentId = null;
