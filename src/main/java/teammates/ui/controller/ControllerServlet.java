@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
@@ -71,7 +72,16 @@ public class ControllerServlet extends HttpServlet {
 			resp.sendRedirect(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
 
 		//TODO: handle invalid parameters exception
-		}  catch (Throwable e) {
+		} catch (NullPostParameterException e) {
+			String requestUrl = req.getRequestURL().toString();
+			log.info(e.getMessage());
+			if(requestUrl.contains("/instructor")) {
+				resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
+			} else if(requestUrl.contains("/student")) {
+				resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE + Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
+			}
+			
+		} catch (Throwable e) {
 			MimeMessage email = new Logic().emailErrorReport(
 					req.getServletPath(), 
 					HttpRequestHelper.printRequestParameters(req), 
@@ -79,9 +89,7 @@ public class ControllerServlet extends HttpServlet {
 
 			log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
 		    resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
-		} 
+		}  
 		
 	}
-
-	
 }

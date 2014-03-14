@@ -12,6 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
@@ -196,8 +197,25 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 		assertEquals(enrollString, enrollPageData.enrollStudents);
 		
 		AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY, action.getLogMessage());
-		CoursesLogic.inst().deleteCourseCascade("new-course");
+		
+		
+		______TS("Failure case: null student enroll info post parameter");
 
+		submissionParams = new String[]{
+				Const.ParamsNames.COURSE_ID, courseId,
+		};
+		
+		try {
+			action = getAction(submissionParams);
+			result = getShowPageResult(action);
+			signalFailureToDetectException("Did not detect that student enrollment info is null.");
+		} catch (NullPostParameterException e) {
+			assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+							Const.ParamsNames.STUDENTS_ENROLLMENT_INFO), e.getMessage());
+			
+		}
+		
+		CoursesLogic.inst().deleteCourseCascade("new-course");
 	}
 	
 	/**

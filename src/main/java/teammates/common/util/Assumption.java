@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import teammates.common.exception.NullPostParameterException;
+
 /**
  * This class provides a set of static method to verify assumptions about the
  * system. When the real runtime condition differs from the assumed situation,
@@ -332,5 +334,12 @@ public class Assumption {
 		return formatted + "expected:<" + expected + "> but was:<" + actual
 				+ ">";
 	}
-
+	
+	
+	static public void assertPostParamNotNull(String parameterName, String postParameter) {
+		if(postParameter == null) {
+			throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+					parameterName));
+		}
+	}
 }

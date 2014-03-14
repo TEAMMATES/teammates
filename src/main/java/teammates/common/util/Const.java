@@ -631,6 +631,10 @@ public class Const {
 				+ "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
 				+ "<br>Please refresh this page in a few minutes to see the course %1$s in the list below.";
 		
+		public static final String NULL_POST_PARAMETER_MESSAGE = "?message=You have been redirected to this page due to a possible expiry of the previous login."
+				+ "<br>If you have previously typed some data and wish to retrieve it, you may use the 'Back' button of your Browser to navigate to the"
+				+ " previous page containing the data you typed in.";
+		
 		//TODO: these status messages are from used for input validation testing only. Move to test driver side? 
 		
 		public static final String COURSE_INPUT_FIELDS_EXTRA = "There are too many fields.";
@@ -702,6 +706,9 @@ public class Const {
 	
 		// Task Queue Response Success code
 		public static final int TASK_QUEUE_RESPONSE_OK = 200;
+		
+		// POST parameter null message
+		public static final String NULL_POST_PARAMETER = "The %s POST parameter is null\n";
 	}
 
 	/* This section holds constants that are defined as constants primarily 

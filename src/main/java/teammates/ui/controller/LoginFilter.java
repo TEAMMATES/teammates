@@ -12,11 +12,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
 public class LoginFilter implements Filter {
 	private ArrayList<String> exclude;
-
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		String param = filterConfig.getInitParameter("ExcludedFiles");
@@ -38,6 +39,7 @@ public class LoginFilter implements Filter {
 			return;
 		}
 		if(!Logic.isUserLoggedIn()){
+			Utils.getLogger().info("User is not logged in");
 			String link = req.getRequestURI();
 			String query = req.getQueryString();
 			if(query!=null) link+="?"+query;
