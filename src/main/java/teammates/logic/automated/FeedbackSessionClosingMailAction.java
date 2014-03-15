@@ -60,6 +60,8 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
 		
 		FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
 				.getFeedbackSession(feedbackSessionName, courseId);
+		log.info("Fetching feedback session object for feedback session name : "
+				+ feedbackSessionName + " and course : " + courseId);
 		
 		if(feedbackObject != null) {
 			 /*
@@ -68,6 +70,9 @@ public class FeedbackSessionClosingMailAction extends EmailAction {
 			  */
 			preparedEmails = emailManager
 							.generateFeedbackSessionClosingEmails(feedbackObject);
+		} else {
+			log.severe("Feedback session object for feedback session name : " + feedbackSessionName +
+					   " for course : " + courseId +" could not be fetched" );
 		}
 		return preparedEmails;
 	}

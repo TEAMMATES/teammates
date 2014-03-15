@@ -61,6 +61,8 @@ public class EvaluationClosingMailAction extends EmailAction {
 		
 		EvaluationAttributes evalObject = EvaluationsLogic.inst()
 				.getEvaluation(courseId, evaluationName);
+		log.info("Fetching evaluation object for evaluation name : "
+				+ evaluationName + " and course : " + courseId);
 		
 		if(evalObject != null) {
 			 /*
@@ -68,6 +70,9 @@ public class EvaluationClosingMailAction extends EmailAction {
 			  * and the actual sending of emails
 			  */
 			preparedEmails = emailManager.generateEvaluationClosingEmailsForEval(evalObject);
+		} else {
+			log.severe("Evaluation object for evaluation name : " + evaluationName +
+					   " for course : " + courseId +" could not be fetched" );
 		}
 		
 		return preparedEmails;

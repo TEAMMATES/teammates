@@ -59,6 +59,8 @@ public class EvaluationOpeningMailAction extends EmailAction {
 		
 		EvaluationAttributes evalObject = EvaluationsLogic.inst()
 				.getEvaluation(courseId, evaluationName);
+		log.info("Fetching evaluation object for evaluation name : "
+				+ evaluationName + " and course : " + courseId);
 		
 		if(evalObject != null) {
 			 /*
@@ -67,6 +69,9 @@ public class EvaluationOpeningMailAction extends EmailAction {
 			  */
 			preparedEmails = emailManager
 							.generateEvaluationOpeningEmailsForEval(evalObject);
+		} else {
+			log.severe("Evaluation object for evaluation name : " + evaluationName +
+					   " for course : " + courseId +" could not be fetched" );
 		}
 		
 		return preparedEmails;
