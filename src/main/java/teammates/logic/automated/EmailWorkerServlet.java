@@ -32,6 +32,8 @@ public class EmailWorkerServlet extends HttpServlet {
 		EmailAction emailObj = null;
 		int responseCode = Response.SC_OK;
 		
+		log.info("Email worker activated for :"+ HttpRequestHelper.printRequestParameters(req));
+		
 		switch(typeOfMail) {
 			case EVAL_CLOSING:
 				emailObj = new EvaluationClosingMailAction(req);
