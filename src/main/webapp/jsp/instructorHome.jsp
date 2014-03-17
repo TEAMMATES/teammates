@@ -72,7 +72,7 @@
 						<td><input type="radio" name="sortby" value="id" id="sortbyid" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>Sort by course ID</td>
 						<td><input type="radio" name="sortby" value="name" id="sortbyname" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "checked" : "" %>>Sort by course name</td>
 						<td><input type="radio" name="sortby" value="createdAt" id="sortbydate" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>>Sort by course creation date</td>
-						<td class="rightalign" style="width: 400px;"><a href="<%=data.getInstructorCourseLink() %>" name="addNewCourse" id="addNewCourse" class="bold">
+						<td class="rightalign" style="width: 400px;"><a href="<%=data.getInstructorCourseLink() %>" id="addNewCourse" class="bold">
 						Add New Course </a></td>
 					</tr>
 				</table>
