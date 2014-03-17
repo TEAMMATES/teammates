@@ -68,7 +68,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		//TODO implement this
 		//Session should look like closed session
 		
-		______TS("Closed) session");
+		______TS("Closed session");
 		
 		submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
 		submitPage.verifyHtml("/instructorFeedbackSubmitPageClosed.html");
