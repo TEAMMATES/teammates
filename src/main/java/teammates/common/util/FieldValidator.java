@@ -64,7 +64,7 @@ public class FieldValidator {
 	 * Field: Person name 
 	 */
 	private static final String PERSON_NAME_FIELD_NAME = "a person name";
-	public static final int PERSON_NAME_MAX_LENGTH = 40; //TODO: increase this
+	public static final int PERSON_NAME_MAX_LENGTH = 100;
 	public static final String PERSON_NAME_ERROR_MESSAGE = 
 			"\"%s\" is not acceptable to TEAMMATES as "+PERSON_NAME_FIELD_NAME+" because it %s. " +
 			"The value of "+PERSON_NAME_FIELD_NAME+" should be no longer than "+
