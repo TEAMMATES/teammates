@@ -154,11 +154,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 	
 	public void testFeedbackResponseCommentActions() {
 		
+		resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session");
+		resultsPage.displayByRecipient();
+		
+		______TS("failure: add empty feedback response comment");
+		
+		// TODO implement this
+		
 		______TS("action: add new feedback response comments");
 		
-		resultsPage.displayByRecipient();
 		resultsPage.addFeedbackResponseComment("test comment 1");
 		resultsPage.addFeedbackResponseComment("test comment 2");
+		
+		//TODO test showing of comment before refresh
+		//need the comment index, do together with ajax editing
+		
+		resultsPage.displayByRecipient();
+		
 		resultsPage.verifyCommentRowContent("-1-1-1-1",
 				"test comment 1", "CFResultsUiT.instr@gmail.com");
 		resultsPage.verifyCommentRowContent("-1-1-1-2",

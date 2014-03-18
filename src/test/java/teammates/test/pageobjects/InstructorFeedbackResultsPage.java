@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.ThreadHelper;
+
 public class InstructorFeedbackResultsPage extends AppPage {
 
 	@FindBy(id = "button_sortgiver")
@@ -88,7 +90,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 		showResponseCommentAddFormButton.findElement(By.tagName("a")).click();
 		fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
 		addResponseCommentForm.findElement(By.className("button")).click();
-		waitForPageToLoad();
+		ThreadHelper.waitFor(1000);
 	}
 	
 	public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
