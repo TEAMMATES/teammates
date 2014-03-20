@@ -1,15 +1,12 @@
 package teammates.logic.core;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.logic.automated.WorkerServlet;
+
 @SuppressWarnings("serial")
-public class EvaluationSubmissionAdjustmentWorkerServlet extends HttpServlet  {
-	
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
-		doGet(req, resp);
-	}
+public class EvaluationSubmissionAdjustmentWorkerServlet extends WorkerServlet  {
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		

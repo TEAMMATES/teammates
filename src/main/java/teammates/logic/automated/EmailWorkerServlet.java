@@ -2,7 +2,6 @@ package teammates.logic.automated;
 
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,13 +14,9 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.Emails;
 
 @SuppressWarnings("serial")
-public class EmailWorkerServlet extends HttpServlet {
+public class EmailWorkerServlet extends WorkerServlet {
 	
 	private static Logger log = Utils.getLogger();
-	
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
-		doGet(req, resp);
-	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		
@@ -58,6 +53,9 @@ public class EmailWorkerServlet extends HttpServlet {
 		
 		if(emailObj != null) {
 			emailObj.sendEmails();
+		} else {
+			log.severe("Email object is null");
+			responseCode = Response.SC_INTERNAL_SERVER_ERROR;
 		}
 		
 		resp.setStatus(responseCode);
