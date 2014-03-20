@@ -9,6 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
@@ -29,8 +30,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 				logic.getFeedbackSession(feedbackSessionName, courseId),
 				false);
 		
-		InstructorFeedbackResponseCommentAddAjaxPageData data = 
-				new InstructorFeedbackResponseCommentAddAjaxPageData(account);
+		InstructorFeedbackResponseCommentAjaxPageData data = 
+				new InstructorFeedbackResponseCommentAjaxPageData(account);
 		
 		String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
 		Assumption.assertNotNull("null comment text", commentText);
@@ -68,7 +69,11 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 					+ "comment text: " + frc.commentText.getValue();
 		}
 
-		data.comment = frc;
+		data.comment = logic.getFeedbackResponseComment(frc.feedbackResponseId, frc.giverEmail, frc.createdAt);
+		while (data.comment == null) {
+			ThreadHelper.waitBriefly();
+			data.comment = logic.getFeedbackResponseComment(frc.feedbackResponseId, frc.giverEmail, frc.createdAt);
+		}
 		
 		return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
 	}

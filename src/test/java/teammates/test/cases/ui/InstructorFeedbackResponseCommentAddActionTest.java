@@ -18,7 +18,7 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
-import teammates.ui.controller.InstructorFeedbackResponseCommentAddAjaxPageData;
+import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 
 public class InstructorFeedbackResponseCommentAddActionTest extends
 		BaseActionTest {
@@ -90,8 +90,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 		
 		InstructorFeedbackResponseCommentAddAction a = getAction(submissionParams);
 		AjaxResult r = (AjaxResult) a.executeAndPostProcess();
-		InstructorFeedbackResponseCommentAddAjaxPageData data = 
-				(InstructorFeedbackResponseCommentAddAjaxPageData) r.data;
+		InstructorFeedbackResponseCommentAjaxPageData data = 
+				(InstructorFeedbackResponseCommentAjaxPageData) r.data;
 		assertFalse(data.isError);
 		
 		______TS("empty comment text");
@@ -107,7 +107,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 		
 		a = getAction(submissionParams);
 		r = (AjaxResult) a.executeAndPostProcess();
-		data = (InstructorFeedbackResponseCommentAddAjaxPageData) r.data;
+		data = (InstructorFeedbackResponseCommentAjaxPageData) r.data;
 		assertTrue(data.isError);
 		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
 	}

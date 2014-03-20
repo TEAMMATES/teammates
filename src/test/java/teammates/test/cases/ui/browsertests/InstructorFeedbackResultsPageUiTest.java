@@ -159,18 +159,20 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 		
 		______TS("failure: add empty feedback response comment");
 		
-		// TODO implement this
+		resultsPage.addFeedbackResponseComment("");
+		resultsPage.verifyCommentFormErrorMessage("-1-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 		
 		______TS("action: add new feedback response comments");
 		
+		resultsPage.displayByRecipient();
 		resultsPage.addFeedbackResponseComment("test comment 1");
 		resultsPage.addFeedbackResponseComment("test comment 2");
-		
-		//TODO test showing of comment before refresh
-		//need the comment index, do together with ajax editing
+		resultsPage.verifyCommentRowContent("-0",
+				"test comment 1", "CFResultsUiT.instr@gmail.com");
+		resultsPage.verifyCommentRowContent("-1",
+				"test comment 2", "CFResultsUiT.instr@gmail.com");
 		
 		resultsPage.displayByRecipient();
-		
 		resultsPage.verifyCommentRowContent("-1-1-1-1",
 				"test comment 1", "CFResultsUiT.instr@gmail.com");
 		resultsPage.verifyCommentRowContent("-1-1-1-2",
@@ -186,8 +188,32 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 		______TS("action: delete existing feedback response comment");
 
 		resultsPage.deleteFeedbackResponseComment("-1-1-1-1");
+		resultsPage.verifyRowMissing("-1-1-1-1");
+		
+		resultsPage.displayByRecipient();
 		resultsPage.verifyCommentRowContent("-1-1-1-1",
 				"test comment 2", "CFResultsUiT.instr@gmail.com");
+		
+		______TS("action: add edit and delete successively");
+		
+		resultsPage.displayByRecipient();
+		resultsPage.addFeedbackResponseComment("successive action comment");
+		resultsPage.verifyCommentRowContent("-0",
+				"successive action comment", "CFResultsUiT.instr@gmail.com");
+		
+		resultsPage.editFeedbackResponseComment("-0",
+				"edited successive action comment");
+		resultsPage.verifyCommentRowContent("-0",
+				"edited successive action comment", "CFResultsUiT.instr@gmail.com");
+		
+		resultsPage.deleteFeedbackResponseComment("-0");
+		resultsPage.verifyRowMissing("-0");
+		
+		resultsPage.displayByRecipient();
+		resultsPage.verifyCommentRowContent("-1-1-1-1",
+				"test comment 2", "CFResultsUiT.instr@gmail.com");
+		resultsPage.verifyRowMissing("-1-1-1-2");
+		
 	}
 	
 	public void testLink() {

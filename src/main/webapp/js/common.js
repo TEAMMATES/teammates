@@ -5,6 +5,8 @@ var FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
 var FEEDBACK_SESSION_INSTRUCTIONS_MAX_LENGTH = 500;
 
 // Field names
+var USER_ID = "user";
+
 var COURSE_ID = "courseid"; // Used in instructorCourse.js
 var COURSE_NAME = "coursename"; // Used in instructorCourse.js
 var COURSE_INSTRUCTOR_NAME = "instructorname"; // Used in instructorCourse.js
@@ -16,6 +18,7 @@ var EVALUATION_STARTTIME = "starttime"; // Used in instructorEval.js
 var EVALUATION_TIMEZONE = "timezone"; // Used in instructorEval.js
 
 // TODO Move to instructorFeedback.js?
+var FEEDBACK_SESSION_NAME = "fsname"; // used in feedbackResponseComments.js
 var FEEDBACK_SESSION_STARTDATE = "startdate";
 var FEEDBACK_SESSION_STARTTIME = "starttime"; 
 var FEEDBACK_SESSION_TIMEZONE = "timezone";
@@ -51,6 +54,10 @@ var FEEDBACK_QUESTION_TYPENAME_TEXT = "Essay question";
 var FEEDBACK_QUESTION_TYPENAME_MCQ = "Multiple-choice (single answer)";
 var FEEDBACK_QUESTION_TYPENAME_MSQ = "Multiple-choice (multiple answers)";
 var FEEDBACK_QUESTION_TYPENAME_NUMSCALE = "Numerical-scale question";
+
+// used in feedbackResponseComments.js
+var FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
+var FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
 
 // Display messages
 // Used for validating input

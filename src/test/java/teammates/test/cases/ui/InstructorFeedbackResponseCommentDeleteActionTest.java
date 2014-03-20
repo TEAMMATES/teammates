@@ -1,6 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -19,8 +18,9 @@ import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.ui.controller.AjaxResult;
+import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
-import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackResponseCommentDeleteActionTest extends
 		BaseActionTest {
@@ -95,15 +95,12 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
 		};
 		
 		InstructorFeedbackResponseCommentDeleteAction a = getAction(submissionParams);
-		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+		AjaxResult r = (AjaxResult) a.executeAndPostProcess();
 		
-		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE 
-				+ "?courseid=idOfTypicalCourse1&fsname=First+feedback+session"
-				+ "&user=idOfInstructor1OfCourse1&frsorttype=recipient"
-				+ "&message=Your+comment+has+been+deleted+successfully&error=false",
-				rr.getDestinationWithParams());
-		assertFalse(rr.isError);
-		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_DELETED, rr.getStatusMessage());
+		InstructorFeedbackResponseCommentAjaxPageData data = 
+				(InstructorFeedbackResponseCommentAjaxPageData) r.data;
+		
+		assertFalse(data.isError);
 		assertNull(frcDb.getFeedbackResponseComment(frc.feedbackResponseId,
 				frc.giverEmail, frc.createdAt));
 	}
