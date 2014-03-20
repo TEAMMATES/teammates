@@ -473,7 +473,8 @@ public class FeedbackResponsesLogic {
 						getFeedbackResponsesForReceiverForQuestion(question.getId(), student.team));
 		}
 		
-		if (question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+		if (question.giverType == FeedbackParticipantType.TEAMS || 
+				question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
 			addNewResponses(viewableResponses,
 					getFeedbackResponsesFromTeamForQuestion(
 							question.getId(), question.courseId, student.team));

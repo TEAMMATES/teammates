@@ -45,6 +45,11 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 		resultsPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 		resultsPage.verifyHtml("/studentFeedbackResultsPageOpen.html");
 		
+		______TS("team-to-team session results");
+		
+		resultsPage = loginToStudentFeedbackSubmitPage("Benny", "Open Session");
+		resultsPage.verifyHtml("/studentFeedbackResultsPageTeamToTeam.html");
+		
 		______TS("MCQ session results");
 		
 		resultsPage = loginToStudentFeedbackSubmitPage("Alice", "MCQ Session");

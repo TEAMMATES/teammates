@@ -90,10 +90,15 @@ function getCustomDateTimeFields(){
  * @param elem is the question number.
  */
 function toggleVisibilityOptions(elem){
-	$options = $(elem).parent().parent().next('.visibilityOptions');
+	$elementParent = $(elem).parent().parent();
+	$options = $elementParent.next('.visibilityOptions');
 	if($options.is(':hidden')) {
+		$giverType = $elementParent.prev().find("select[name=givertype]");
+		$recipientType = $elementParent.prev().find("select[name=recipienttype]");
 		$options.show();
 		$(elem).html("[-] Hide Visibility Options");
+		feedbackGiverUpdateVisibilityOptions($giverType);
+		feedbackRecipientUpdateVisibilityOptions($recipientType);
 	} else {
 		$options.hide();
 		$(elem).html("[+] Show Visibility Options");
@@ -556,7 +561,7 @@ function feedbackRecipientUpdateVisibilityOptions(el){
 }
 
 function feedbackGiverUpdateVisibilityOptions(el){
-	if($(el).val() == "INSTRUCTORS"){
+	if($(el).val() == "INSTRUCTORS" || $(el).val() == "TEAMS"){
 		disableRow(el, 2);
 		return;
 	}

@@ -184,6 +184,26 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
 		assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 		feedbackEditPage.verifyHtml("/instructorFeedbackQuestionAddSuccess.html");
+		
+		______TS("edit question 1 to Team-to-Team");
+		
+		feedbackEditPage.clickQuestionEditForQuestion1();
+		feedbackEditPage.clickVisibilityOptionsForQuestion1();
+		feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
+		feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+		feedbackEditPage.verifyHtml("/instructorFeedbackQuestionEditToTeamToTeam.html");
+		
+		______TS("test visibility options of question 1");
+		feedbackEditPage.clickquestionSaveForQuestion1();
+		feedbackEditPage.clickVisibilityOptionsForQuestion1();
+		feedbackEditPage.verifyHtml("/instructorFeedbackQuestionVisibilityOptions.html");
+		
+		//change back
+		feedbackEditPage.clickQuestionEditForQuestion1();
+		feedbackEditPage.clickVisibilityOptionsForQuestion1();
+		feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
+		feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
+		feedbackEditPage.clickquestionSaveForQuestion1();
 	}
 	
 	private void testGetQuestionLink() {
