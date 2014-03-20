@@ -589,7 +589,7 @@
                         <td class="bold" >
                            Preview Session:
                         </td>
-                        <td>
+                        <td onmouseout="hideddrivetip()" onmouseover="ddrivetip('View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled.')">
                            <form action="/page/instructorFeedbackPreviewAsStudent"  class="form_preview"  method="post"  name="form_previewasstudent"  target="_blank" >
                               <select name="previewas" >
                                  <option value="CFeedbackUiT.charlie.tmms@gmail.com" >
@@ -605,7 +605,7 @@
                                                             <input name="user"  type="hidden"  value="CFeedbackUiT.instructor" />
                                                          </form>
                         </td>
-                        <td>
+                        <td onmouseout="hideddrivetip()" onmouseover="ddrivetip('View how this session would look like to an instructor who is submitting feedback.')">
                            <form action="/page/instructorFeedbackPreviewAsInstructor"  class="form_preview"  method="post"  name="form_previewasinstructor"  target="_blank" >
                               <select name="previewas" >
                                  <option value="teammates.test1@gmail.com" >

@@ -766,7 +766,7 @@
 				<td class="bold">
 					Preview Session:
 				</td>
-				<td>
+				<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_PREVIEW_ASSTUDENT%>')" onmouseout="hideddrivetip()">
 					<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>" 
 						name="form_previewasstudent" class="form_preview" target="_blank">			
 						<select name="<%=Const.ParamsNames.PREVIEWAS%>">
@@ -780,11 +780,12 @@
 						</select>
 						<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
 						<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
-						<input id="button_preview_student" type="submit" class="button" value="Preview as Student">
+						<input id="button_preview_student" type="submit" class="button" value="Preview as Student"
+							<%=data.studentList.isEmpty() ? "disabled=\"disabled\" style=\"background: #66727A;\"" : ""%>>
 						<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
 					</form>
 				</td>
-				<td>
+				<td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_PREVIEW_ASINSTRUCTOR%>')" onmouseout="hideddrivetip()">
 					<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>" 
 						name="form_previewasinstructor" class="form_preview" target="_blank">			
 						<select name="<%=Const.ParamsNames.PREVIEWAS%>">
