@@ -239,10 +239,10 @@
 								</span><%=student.name%></th>
 								<th class="leftalign bold"><span class="resultHeader"
 									onmouseover="ddrivetip('<%=Const.Tooltips.CLAIMED%>')"
-									onmouseout="hideddrivetip()"> Claimed Contributions: </span><%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%></th>
+									onmouseout="hideddrivetip()"> Claimed Contribution: </span><%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%></th>
 								<th class="leftalign bold"><span class="resultHeader"
 									onmouseover="ddrivetip('<%=Const.Tooltips.PERCEIVED%>')"
-									onmouseout="hideddrivetip()"> Perceived Contributions: </span><%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.perceivedToInstructor,true)%>
+									onmouseout="hideddrivetip()"> Perceived Contribution: </span><%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.perceivedToInstructor,true)%>
 								</th>
 								<th class="rightalign no-print">
 									<%
