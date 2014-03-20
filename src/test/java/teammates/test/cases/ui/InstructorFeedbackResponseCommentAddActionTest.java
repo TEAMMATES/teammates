@@ -1,8 +1,8 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -16,8 +16,9 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
-import teammates.ui.controller.RedirectResult;
+import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 
 public class InstructorFeedbackResponseCommentAddActionTest extends
 		BaseActionTest {
@@ -88,15 +89,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 		};
 		
 		InstructorFeedbackResponseCommentAddAction a = getAction(submissionParams);
-		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
-		
-		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE 
-				+ "?courseid=idOfTypicalCourse1&fsname=First+feedback+session"
-				+ "&user=idOfInstructor1OfCourse1&frsorttype=recipient"
-				+ "&message=Your+comment+has+been+saved+successfully&error=false",
-				rr.getDestinationWithParams());
-		assertFalse(rr.isError);
-		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_ADDED, rr.getStatusMessage());
+		AjaxResult r = (AjaxResult) a.executeAndPostProcess();
+		InstructorFeedbackResponseCommentAjaxPageData data = 
+				(InstructorFeedbackResponseCommentAjaxPageData) r.data;
+		assertFalse(data.isError);
 		
 		______TS("empty comment text");
 		
@@ -110,15 +106,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
 		};
 		
 		a = getAction(submissionParams);
-		rr = (RedirectResult) a.executeAndPostProcess();
-		
-		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE 
-				+ "?courseid=idOfTypicalCourse1&fsname=First+feedback+session"
-				+ "&user=idOfInstructor1OfCourse1&frsorttype=recipient"
-				+ "&message=Comment+cannot+be+empty&error=true",
-				rr.getDestinationWithParams());
-		assertTrue(rr.isError);
-		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, rr.getStatusMessage());
+		r = (AjaxResult) a.executeAndPostProcess();
+		data = (InstructorFeedbackResponseCommentAjaxPageData) r.data;
+		assertTrue(data.isError);
+		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
 	}
 	
 	private InstructorFeedbackResponseCommentAddAction getAction(String... params) throws Exception {

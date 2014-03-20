@@ -19,8 +19,9 @@ import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.ui.controller.AjaxResult;
+import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 import teammates.ui.controller.InstructorFeedbackResponseCommentEditAction;
-import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackResponseCommentEditActionTest extends
 		BaseActionTest {
@@ -95,15 +96,11 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
 		};
 		
 		InstructorFeedbackResponseCommentEditAction a = getAction(submissionParams);
-		RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+		AjaxResult r = (AjaxResult) a.executeAndPostProcess();
+		InstructorFeedbackResponseCommentAjaxPageData data =
+				(InstructorFeedbackResponseCommentAjaxPageData) r.data;
 		
-		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE 
-				+ "?courseid=idOfTypicalCourse1&fsname=First+feedback+session"
-				+ "&user=idOfInstructor1OfCourse1&frsorttype=recipient"
-				+ "&message=Your+changes+has+been+saved+successfully&error=false",
-				rr.getDestinationWithParams());
-		assertFalse(rr.isError);
-		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EDITED, rr.getStatusMessage());
+		assertFalse(data.isError);
 		
 		______TS("empty comment text");
 		
@@ -116,15 +113,11 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
 		};
 
 		a = getAction(submissionParams);
-		rr = (RedirectResult) a.executeAndPostProcess();
-		
-		assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE 
-				+ "?courseid=idOfTypicalCourse1&fsname=First+feedback+session"
-				+ "&user=idOfInstructor1OfCourse1&frsorttype=recipient"
-				+ "&message=Comment+cannot+be+empty&error=true",
-				rr.getDestinationWithParams());
-		assertTrue(rr.isError);
-		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, rr.getStatusMessage());
+		r = (AjaxResult) a.executeAndPostProcess();
+		data = (InstructorFeedbackResponseCommentAjaxPageData) r.data;
+
+		assertTrue(data.isError);
+		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
 	}
 	
 	private InstructorFeedbackResponseCommentEditAction getAction(String... params) throws Exception {

@@ -75,6 +75,18 @@ public class InstructorFeedbackEditPage extends AppPage {
 	@FindBy(id = "recipienttype")
 	private WebElement recipientDropdown;
 	
+	@FindBy(id = "givertype-1")
+	private WebElement giverDropdownForQuestion1;
+	
+	@FindBy(id = "recipienttype-1")
+	private WebElement recipientDropdownForQuestion1;
+	
+	@FindBy(id = "questionedittext-1")
+	private WebElement questionEditForQuestion1;
+	
+	@FindBy(id = "questionsavechangestext-1")
+	private WebElement questionSaveForQuestion1;
+	
 	@FindBy(id = "numofrecipients-")
 	private WebElement numberOfRecipients;
 	
@@ -144,6 +156,10 @@ public class InstructorFeedbackEditPage extends AppPage {
 		return possibleValuesSpan.getText();
 	}
 	
+	public void clickQuestionEditForQuestion1() {
+		questionEditForQuestion1.click();
+	}
+	
 	public void clickMaxNumberOfRecipientsButton() {
 		maxNumOfRecipients.click();
 	}
@@ -191,6 +207,15 @@ public class InstructorFeedbackEditPage extends AppPage {
 		waitForPageToLoad();
 	}
 	
+	public void clickquestionSaveForQuestion1(){
+		questionSaveForQuestion1.click();
+		waitForPageToLoad();
+	}
+	
+	public void clickVisibilityOptionsForQuestion1(){
+		browser.driver.findElement(By.className("visibilityOptionsLabel")).click();;
+	}
+	
 	public void clickAddQuestionButton(){
 		addNewQuestionButton.click();
 		waitForPageToLoad();
@@ -221,6 +246,14 @@ public class InstructorFeedbackEditPage extends AppPage {
 	
 	public void selectMsqGenerateOptionsFor(String generateFor, int questionNumber){
 		selectDropdownByVisibleValue(browser.driver.findElement(By.id("msqGenerateForSelect-" + questionNumber)), generateFor);
+	}
+	
+	public void selectGiverTypeForQuestion1(String giverType){
+		selectDropdownByVisibleValue(giverDropdownForQuestion1, giverType);
+	}
+	
+	public void selectRecipientTypeForQuestion1(String recipientType){
+		selectDropdownByVisibleValue(recipientDropdownForQuestion1, recipientType);
 	}
 	
 	/**

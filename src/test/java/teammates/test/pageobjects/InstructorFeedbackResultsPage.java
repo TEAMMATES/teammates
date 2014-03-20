@@ -1,10 +1,14 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.fail;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import teammates.common.util.ThreadHelper;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 
@@ -88,7 +92,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 		showResponseCommentAddFormButton.findElement(By.tagName("a")).click();
 		fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
 		addResponseCommentForm.findElement(By.className("button")).click();
-		waitForPageToLoad();
+		ThreadHelper.waitFor(1000);
 	}
 	
 	public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
@@ -98,18 +102,32 @@ public class InstructorFeedbackResultsPage extends AppPage {
 		WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
 		fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
 		commentEditForm.findElement(By.className("button")).click();
-		waitForPageToLoad();
+		ThreadHelper.waitFor(1000);
 	}
 	
 	public void deleteFeedbackResponseComment(String commentIdSuffix) {
 		WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
 		commentRow.findElement(By.linkText("Delete")).click();
-		waitForPageToLoad();
+		ThreadHelper.waitFor(1000);
 	}
 	
 	public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
 		WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentRowIdSuffix));
 		assertEquals(commentText, commentRow.findElement(By.className("feedbackResponseCommentText")).getText());
 		assertEquals(giverName, commentRow.findElement(By.className("feedbackResponseCommentGiver")).getText());
+	}
+	
+	public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
+		WebElement commentRow = browser.driver.findElement(By.id("responseCommentTable" + commentTableIdSuffix));
+		assertEquals(errorMessage, commentRow.findElement(By.tagName("span")).getText());
+	}
+	
+	public void verifyRowMissing(String rowIdSuffix) {
+		try {
+			verifyCommentRowContent(rowIdSuffix, "", "");
+			fail("Row expected to be missing found.");
+		} catch (NoSuchElementException e) {
+			// row expected to be missing
+		}
 	}
 }

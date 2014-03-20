@@ -66,7 +66,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		//TODO implement this
 		//Session should look like closed session
 		
-		______TS("Closed) session");
+		______TS("Closed session");
 		
 		submitPage = loginToStudentFeedbackSubmitPage("Alice", "Closed Session");
 		submitPage.verifyHtml("/studentFeedbackSubmitPageClosed.html");

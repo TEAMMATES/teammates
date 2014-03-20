@@ -72,121 +72,121 @@
 						<td><input type="radio" name="sortby" value="id" id="sortbyid" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>Sort by course ID</td>
 						<td><input type="radio" name="sortby" value="name" id="sortbyname" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "checked" : "" %>>Sort by course name</td>
 						<td><input type="radio" name="sortby" value="createdAt" id="sortbydate" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>>Sort by course creation date</td>
-						<td class="rightalign" style="width: 400px;"><a href="<%=data.getInstructorCourseLink() %>" name="addNewCourse" id="addNewCourse" class="bold">
+						<td class="rightalign" style="width: 400px;"><a href="<%=data.getInstructorCourseLink() %>" id="addNewCourse" class="bold">
 						Add New Course </a></td>
 					</tr>
 				</table>
 			</div>
 
-			<%
-				int courseIdx = -1;
-				int sessionIdx = -1;
-				for (CourseSummaryBundle courseDetails : data.courses) {
-					// TODO: optimize in future
-					// We may be able to reduce database reads here because we don't need to retrieve certain data for archived courses
-					if (!courseDetails.course.isArchived) {
-						courseIdx++;
-			%>
-			<br>
-			<br>
-			<br>
-			<div class="backgroundBlock home_courses_div" id="course<%=courseIdx%>">
-				<div class="result_homeTitle">
-					<h2 class="color_white">
-						[<%=courseDetails.course.id%>] :
-						<%=PageData.sanitizeForHtml(courseDetails.course.name)%>
-					</h2>
-				</div>
-				<div class="result_homeLinks blockLink rightalign">
-					<a class="t_course_enroll<%=courseIdx%> color_white bold"
-						href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL%>')"
-						onmouseout="hideddrivetip()"> Enroll</a> <a
-						class="t_course_view<%=courseIdx%> color_white bold"
-						href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DETAILS%>')"
-						onmouseout="hideddrivetip()"> View</a> <a
-						class="t_course_edit<%=courseIdx%> color_white bold"
-						href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_EDIT%>')"
-						onmouseout="hideddrivetip()"> Edit</a> <a
-						class="t_course_add_eval<%=courseIdx%> color_white bold"
-						href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
-						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ADD_EVALUATION%>')"
-						onmouseout="hideddrivetip()"> Add Session</a> <a 
-						class="t_course_archive<%=courseIdx%> color_white bold"
-						href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, true)%>"
-						onclick="hideddrivetip(); return toggleArchiveCourseConfirmation('<%=courseDetails.course.id%>')"
-						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ARCHIVE%>')"
-						onmouseout="hideddrivetip()">Archive</a> <a
-						class="t_course_delete<%=courseIdx%> color_white bold"
-						href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
-						onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
-						onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
-						onmouseout="hideddrivetip()"> Delete</a>
-				</div>
-				<div style="clear: both;"></div>
-				<br>
-				<%
-						if (courseDetails.evaluations.size() > 0||
-							courseDetails.feedbackSessions.size() > 0) {
-				%>
-				<table class="dataTable">
-					<tr>
-						<th class="leftalign color_white bold">Session Name</th>
-						<th class="centeralign color_white bold">Status</th>
-						<th class="centeralign color_white bold"><span
-							onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>')"
-							onmouseout="hideddrivetip()">Response Rate</span></th>
-						<th class="centeralign color_white bold no-print">Action(s)</th>
-					</tr>
-					<%
-							for (EvaluationAttributes edd: courseDetails.evaluations){
-								sessionIdx++;
-					%>
-					<tr class="home_sessions_row" id="session<%=sessionIdx%>">
-						<td class="t_session_name<%=courseIdx%>"><%=PageData.sanitizeForHtml(edd.name)%></td>
-						<td class="t_session_status<%=courseIdx%> centeralign"><span
-							onmouseover="ddrivetip('<%=PageData.getInstructorHoverMessageForEval(edd)%>')"
-							onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForEval(edd)%></span></td>
-						<td class="t_session_response<%=courseIdx%> centeralign<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
-							<a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
-						</td>
-						<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(edd,sessionIdx, true)%>
-						</td>
-					</tr>
-					<%
+		<%
+			int courseIdx = -1;
+			int sessionIdx = -1;
+			for (CourseSummaryBundle courseDetails : data.courses) {
+				// TODO: optimize in future
+				// We may be able to reduce database reads here because we don't need to retrieve certain data for archived courses
+				if (!courseDetails.course.isArchived) {
+					courseIdx++;
+		%>
+					<br>
+					<br>
+					<br>
+					<div class="backgroundBlock home_courses_div" id="course<%=courseIdx%>">
+						<div class="result_homeTitle">
+							<h2 class="color_white">
+								[<%=courseDetails.course.id%>] :
+								<%=PageData.sanitizeForHtml(courseDetails.course.name)%>
+							</h2>
+						</div>
+						<div class="result_homeLinks blockLink rightalign">
+							<a class="t_course_enroll<%=courseIdx%> color_white bold"
+								href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL%>')"
+								onmouseout="hideddrivetip()"> Enroll</a> <a
+								class="t_course_view<%=courseIdx%> color_white bold"
+								href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DETAILS%>')"
+								onmouseout="hideddrivetip()"> View</a> <a
+								class="t_course_edit<%=courseIdx%> color_white bold"
+								href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_EDIT%>')"
+								onmouseout="hideddrivetip()"> Edit</a> <a
+								class="t_course_add_eval<%=courseIdx%> color_white bold"
+								href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ADD_EVALUATION%>')"
+								onmouseout="hideddrivetip()"> Add Session</a> <a 
+								class="t_course_archive<%=courseIdx%> color_white bold"
+								href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, true)%>"
+								onclick="hideddrivetip(); return toggleArchiveCourseConfirmation('<%=courseDetails.course.id%>')"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ARCHIVE%>')"
+								onmouseout="hideddrivetip()">Archive</a> <a
+								class="t_course_delete<%=courseIdx%> color_white bold"
+								href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
+								onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
+								onmouseout="hideddrivetip()"> Delete</a>
+						</div>
+						<div style="clear: both;"></div>
+						<br>
+						<%
+							if (courseDetails.evaluations.size() > 0||
+								courseDetails.feedbackSessions.size() > 0) {
+						%>
+								<table class="dataTable">
+									<tr>
+										<th class="leftalign color_white bold">Session Name</th>
+										<th class="centeralign color_white bold">Status</th>
+										<th class="centeralign color_white bold"><span
+											onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>')"
+											onmouseout="hideddrivetip()">Response Rate</span></th>
+										<th class="centeralign color_white bold no-print">Action(s)</th>
+									</tr>
+							<%
+								for (EvaluationAttributes edd: courseDetails.evaluations){
+									sessionIdx++;
+							%>
+									<tr class="home_sessions_row" id="session<%=sessionIdx%>">
+										<td class="t_session_name<%=courseIdx%>"><%=PageData.sanitizeForHtml(edd.name)%></td>
+										<td class="t_session_status<%=courseIdx%> centeralign"><span
+											onmouseover="ddrivetip('<%=PageData.getInstructorHoverMessageForEval(edd)%>')"
+											onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForEval(edd)%></span></td>
+										<td class="t_session_response<%=courseIdx%> centeralign<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
+											<a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
+										</td>
+										<td class="centeralign no-print"><%=data.getInstructorEvaluationActions(edd,sessionIdx, true)%>
+										</td>
+									</tr>
+							<%
+								}
+								for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
+									sessionIdx++;
+							%>
+									<tr class="home_sessions_row" id="session<%=sessionIdx%>">
+										<td class="t_session_name"><%=PageData
+												.sanitizeForHtml(fdb.feedbackSessionName)%></td>
+										<td class="t_session_status centeralign"><span
+											onmouseover="ddrivetip(' <%=PageData
+												.getInstructorHoverMessageForFeedbackSession(fdb)%>')"
+											onmouseout="hideddrivetip()"><%=PageData
+												.getInstructorStatusForFeedbackSession(fdb)%></span></td>
+										<td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
+											<a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
+										</td>
+										<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
+												fdb, sessionIdx, false)%></td>
+									</tr>
+							<%
+								}
+							%>
+								</table>
+						<%
 							}
-							for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
-								sessionIdx++;
-					%>
-					<tr class="home_sessions_row" id="session<%=sessionIdx%>">
-						<td class="t_session_name"><%=PageData
-								.sanitizeForHtml(fdb.feedbackSessionName)%></td>
-						<td class="t_session_status centeralign"><span
-							onmouseover="ddrivetip(' <%=PageData
-								.getInstructorHoverMessageForFeedbackSession(fdb)%>')"
-							onmouseout="hideddrivetip()"><%=PageData
-								.getInstructorStatusForFeedbackSession(fdb)%></span></td>
-						<td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
-							<a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
-						</td>
-						<td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
-								fdb, sessionIdx, false)%></td>
-					</tr>
-					<%
-							}
-					%>
-				</table>
-				<%
-						}
-				%>
-			</div>
-			<%
-						out.flush();
-					}
+						%>
+					</div>
+		<%
+					out.flush();
 				}
-			%>
+			}
+		%>
 		</div>	
 		<br>
 		<br>

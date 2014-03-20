@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
@@ -37,6 +38,11 @@ public class FeedbackResponseCommentsLogic {
 				Assumption.fail();
 			}
 		}
+	}
+	
+	public FeedbackResponseCommentAttributes getFeedbackResponseComment(
+			String responseId, String giverEmail, Date creationDate) {
+		return frcDb.getFeedbackResponseComment(responseId, giverEmail, creationDate);
 	}
 	
 	public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,

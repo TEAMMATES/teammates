@@ -41,7 +41,7 @@
 			if(sub.reviewee.equals(sub.reviewer)) {
 		%>
 				<tr>
-					<td class="label rightalign bold">My Estimated contribution:</td>
+					<td class="label rightalign bold">My estimated contribution:</td>
 					<td>
 						<select style="width: 150px;"
 								name="<%=Const.ParamsNames.POINTS%>"
@@ -99,7 +99,7 @@
 			} else {
 		%>
 				<tr>
-					<td class="label rightalign bold">His/Her Estimated contribution:</td>
+					<td class="label rightalign bold">His/Her estimated contribution:</td>
 					<td>
 						<select style="width: 150px;"
 								name="<%=Const.ParamsNames.POINTS%>"

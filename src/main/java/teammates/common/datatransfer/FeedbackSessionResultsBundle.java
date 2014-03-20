@@ -322,6 +322,23 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 		return sortedMap;
 	}
 	
+	public boolean isStudentHasSomethingNewToSee(StudentAttributes student) {
+		for (FeedbackResponseAttributes response : responses) {
+			// There is a response not written by the student 
+			// which is visible to the student 
+			if (!response.giverEmail.equals(student.email)) {
+				return true;
+			}
+			
+			// There is a response comment visible to the student
+			if (responseComments.containsKey(response.getId())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
 	@SuppressWarnings("unused")
 	private void ________________COMPARATORS_____________(){}
 	

@@ -69,7 +69,7 @@
                 	if(data.instructorCourseList != null && data.instructorCourseList.size() != 0){
                                                                    	                    for(CourseDetailsBundle courseDetails : data.instructorCourseList){
                                                                    	                        out.print("<tr>");
-                                                                   	                        out.print("<td>[]" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
+                                                                   	                        out.print("<td>[" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
                                                                    	                        out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + data.getAdminDeleteInstructorFromCourseLink(data.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
                                                                    	                        out.print("</tr>");
                                                                    	                    }

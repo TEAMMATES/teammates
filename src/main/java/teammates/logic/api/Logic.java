@@ -1526,6 +1526,19 @@ public class Logic {
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
+	public FeedbackResponseCommentAttributes getFeedbackResponseComment(String responseId, String giverEmail, Date creationDate) {
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, responseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, creationDate);
+
+		return feedbackResponseCommentsLogic.getFeedbackResponseComment(
+				responseId, giverEmail, creationDate);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
 	public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
 			throws EntityDoesNotExistException, InvalidParametersException {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);

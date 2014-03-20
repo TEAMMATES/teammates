@@ -31,7 +31,7 @@ public abstract class EmailAction {
 	protected String actionName = "unspecified";
 	protected String actionDescription = "unspecified";
 	
-	private static Logger log = Utils.getLogger();
+	protected static Logger log = Utils.getLogger();
 	
 	public EmailAction() {
 		req = null;
