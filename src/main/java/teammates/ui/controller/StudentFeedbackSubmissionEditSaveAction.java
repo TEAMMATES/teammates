@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -33,9 +34,8 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 	}
 
 	@Override
-	protected boolean isSessionOpenForSpecificUser() {
-		return data.bundle.feedbackSession.isOpened()
-				|| data.bundle.feedbackSession.isInGracePeriod();
+	protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
+		return session.isOpened() || session.isInGracePeriod();
 	}
 
 	@Override
