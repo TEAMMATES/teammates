@@ -304,6 +304,7 @@ function prepareQuestionForm(type) {
 }
 
 function addMcqOption(questionNumber) {
+	idOfQuestion = '#form_editquestion-' + questionNumber;
 	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
 	
 	var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
@@ -318,9 +319,14 @@ function addMcqOption(questionNumber) {
 	).insertBefore($("#mcqAddOptionRow" + idSuffix));
 
 	$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
+	
+	if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+		$(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+	}
 }
 
 function addMsqOption(questionNumber) {
+	idOfQuestion = '#form_editquestion-' + questionNumber;
 	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
 	
 	var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
@@ -335,16 +341,30 @@ function addMsqOption(questionNumber) {
 	).insertBefore($("#msqAddOptionRow" + idSuffix));
 
 	$("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
+	
+	if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+		$(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+	}
 }
 
 function removeMcqOption(index, questionNumber) {
+	idOfQuestion = '#form_editquestion-' + questionNumber;
 	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
 	$("#mcqOptionRow-"+index+idSuffix).remove();
+	
+	if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+		$(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+	}
 }
 
 function removeMsqOption(index, questionNumber) {
+	idOfQuestion = '#form_editquestion-' + questionNumber;
 	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
 	$("#msqOptionRow-"+index+idSuffix).remove();
+	
+	if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+		$(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+	}
 }
 
 function toggleMcqGeneratedOptions(checkbox, questionNumber) {
