@@ -6,7 +6,7 @@
 	<link media="screen" type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
 	<link media="screen" type="text/css" href="/stylesheets/instructorFeedbacks.css" rel="stylesheet" />
 	<link media="print" type="text/css" href="/stylesheets/common-print.css" rel="stylesheet" />
-	
+
 	<script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
 	<script src="/js/jquery-minified.js" type="text/javascript"></script>
 	<script src="/js/tooltip.js" type="text/javascript"></script>
@@ -14,7 +14,7 @@
 	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
 	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
 	<script src="/js/common.js" type="text/javascript"></script>
-	
+
 	<script src="/js/instructor.js" type="text/javascript"></script>
 	<script src="/js/instructorFeedbacks.js" type="text/javascript"></script>
 	<script src="/js/instructorFeedbackEdit.js" type="text/javascript"></script>
@@ -26,7 +26,7 @@
 <body onload="readyFeedbackEditPage(); initializetooltip();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		
+
 
 
 		<div id="frameTopWrapper">
@@ -34,7 +34,7 @@
 				<a href="/index.html">
 				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
 				</a>
-			</div>			
+			</div>
 			<div id="contentLinks">
 				<ul id="navbar">
 					<li><a href="/page/instructorHomePage?user=CFeedbackEditUiT.instructor" data-link="instructorHome" class="nav home">Home</a></li>
@@ -60,7 +60,7 @@
 			<div id="headerOperation">
 				<h1>Edit Feedback Session</h1>
 			</div>
-			
+
 			<form id="form_editfeedbacksession" action="/page/instructorFeedbackEditSave" method="post">
 				<div class="sessionDetailsBackground">
 				<table id="sessionNameTable" class="inputTable sessionTable">
@@ -76,7 +76,7 @@
 					<tr>
 						<td class="label bold" style="width:200px">Feedback session name:</td>
 						<td>First Session</td>
-						
+
 						<td class="rightalign"><span style="padding-right:10px" class="label bold">Time zone: </span> <select tabindex="3" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone" disabled="disabled">
 								<option value="-12">UTC -12:00</option>
 <option value="-11">UTC -11:00</option>
@@ -307,20 +307,20 @@
 				<table id="instructionsTable" class="inputTable">
 					<tbody><tr>
 						<td class="label bold middlealign">Instructions to students:</td>
-						<td><textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4" disabled="disabled">Please fill in the edited feedback session.</textarea>							
+						<td><textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4" disabled="disabled">Please fill in the edited feedback session.</textarea>
 						</td>
 					</tr>
 				</tbody></table>
 					<br/>
 	                <div class="rightalign" >
 	                        <input class="button"  disabled="disabled"  id="button_submit_edit" onclick="return checkEditFeedbackSession(this.form);" style="display:none;"  type="submit"  value="Save Changes" />
-	                </div>				
+	                </div>
 				</div>
 				<input type="hidden" value="First Session" name="fsname" disabled="disabled" />
 				<input type="hidden" value="CFeedbackEditUiT.CS2104" name="courseid" disabled="disabled" />
 				<input type="hidden" value="CFeedbackEditUiT.instructor" name="user" disabled="disabled" />
 			</form>
-			
+
 			<br />
 
 
@@ -335,7 +335,7 @@
 			<br />
 
 			<div id="empty_message" class="centeralign bold">You have not created any questions for this feedback session yet. Click the button below to add a feedback question.</div><br /><br />
-			
+
 			<form action="/page/instructorFeedbackQuestionAdd"  class="form_question"  method="post"  name="form_addquestions"  onsubmit="tallyCheckboxes('')" >
 				<table class="inputTable" id="addNewQuestionTable">
 					<tbody>
@@ -351,6 +351,11 @@
 							<td><input class="button centeralign" id="button_openframe"
 								onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)"
 								value="Add New Question" /></td>
+							<td>
+                              <a class="button"  href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&courseid=CFeedbackEditUiT.CS2104" >
+                                 Done Editing
+                              </a>
+                           </td>
 						</tr>
 					</tbody>
 				</table>
@@ -397,7 +402,7 @@
 												id="mcqAddOptionLink" onclick="addMcqOption(-1)">+add more options </a></td>
 										</tr>
 									</tbody>
-								</table> 
+								</table>
 								<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
 							</td>
 							<td colspan="2" style="vertical-align:top;">
@@ -434,7 +439,7 @@
 												id="msqAddOptionLink" onclick="addMsqOption(-1)">+add more options</a></td>
 										</tr>
 									</tbody>
-								</table> 
+								</table>
 								<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
 							</td>
 							<td colspan="2" style="vertical-align:top;">
@@ -609,7 +614,7 @@
 				<input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS" />
 				<input type="hidden" value="CFeedbackEditUiT.instructor" name="user" />
 				<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
-			</form>			
+			</form>
 			<br /><br />
 			<table class="inputTable"  id="questionPreviewTable" >
                   <tbody>
@@ -654,9 +659,8 @@
                </table>
                <br/>
                               <br/>
-		</div>
-	</div>
-	
+                           </div>
+         </div>
 	<div id="frameBottom">
 
 	<div id="contentFooter">

@@ -6,7 +6,6 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -105,6 +104,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
 		testPreviewSessionAction();
 
+		testDoneEditingLink();
+		
 		testDeleteSessionAction();
 	}
 
@@ -152,9 +153,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		feedbackEditPage.clickSaveSessionButton();
 
 	}
-
-
-	private void testNewQuestionLink() {
+	
+       private void testNewQuestionLink() {
 
 		______TS("new question (frame) link");
 
@@ -637,6 +637,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		previewPage.closeCurrentWindowAndSwitchToParentWindow();
 	}
 
+	private void testDoneEditingLink() {
+		InstructorFeedbacksPage feedbackPage = feedbackEditPage.clickDoneEditingLink();
+		String expectedRedirectUrl = TestProperties.inst().TEAMMATES_URL + 
+		        Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
+			    "?" + Const.ParamsNames.USER_ID +
+			    "=" + instructorId + "&" + 
+			    Const.ParamsNames.COURSE_ID + "=" + courseId;
+		assertEquals(expectedRedirectUrl, feedbackPage.getPageUrl());
+		// restore feedbackeditpage
+		feedbackEditPage = getFeedbackEditPage();
+	}
+	
 	private void testDeleteSessionAction() {
 
 		______TS("session delete then cancel");
@@ -650,10 +662,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 		InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
 		AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
 		assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
-
 	}
-
-
+	
 	@AfterClass
 	public static void classTearDown() throws Exception {
 		BrowserPool.release(browser);

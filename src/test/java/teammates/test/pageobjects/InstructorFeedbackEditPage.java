@@ -344,6 +344,13 @@ public class InstructorFeedbackEditPage extends AppPage {
 		return changePageType(InstructorFeedbacksPage.class);
 	}
 	
+	public InstructorFeedbacksPage clickDoneEditingLink() {
+		WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElement(By.tagName("a"));
+		doneEditingLink.click();
+		waitForPageToLoad();
+		return changePageType(InstructorFeedbacksPage.class);
+	}
+	
 	public void fillMcqOption(int optionIndex, String optionText){
 		WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex));
 		fillTextBox(optionBox, optionText);
