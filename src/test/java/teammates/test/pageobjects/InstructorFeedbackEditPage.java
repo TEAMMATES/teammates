@@ -1,6 +1,8 @@
 package teammates.test.pageobjects;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -287,6 +289,23 @@ public class InstructorFeedbackEditPage extends AppPage {
 	
 	public void selectRecipientsToBeStudents() {
 		selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
+	}
+	
+	public void selectRecipientsToBeNobodySpecific() {
+		selectDropdownByVisibleValue(recipientDropdown, "Nobody specific (For general class feedback)");
+	}
+	
+	public ArrayList<String> allContentsOfRowsInQuestionTableNewParticipateTable() {
+		WebElement questionTableNew = browser.driver.findElement(By.id("questionTableNew"));
+		List<WebElement> tablesInQuestionTable = questionTableNew.findElements(By.tagName("table"));
+		WebElement participateTable = tablesInQuestionTable.get(tablesInQuestionTable.size() - 1);
+		List<WebElement> rowsInTable = participateTable.findElements(By.tagName("tr"));
+		ArrayList<String> htmlsOfRows = new ArrayList<String>();
+		for (WebElement e : rowsInTable) {
+			htmlsOfRows.add(e.getText());
+		}
+		
+		return htmlsOfRows;
 	}
 	
 	public void editFeedbackSession(

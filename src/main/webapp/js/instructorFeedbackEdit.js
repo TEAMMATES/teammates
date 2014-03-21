@@ -87,7 +87,7 @@ function getCustomDateTimeFields(){
 
 /**
  * Hides or show visibility checkboxes frame
- * @param elem is the question number.
+ * @param elem is the anchor link being clicked on.
  */
 function toggleVisibilityOptions(elem){
 	$elementParent = $(elem).parent().parent();
@@ -96,9 +96,9 @@ function toggleVisibilityOptions(elem){
 		$giverType = $elementParent.prev().find("select[name=givertype]");
 		$recipientType = $elementParent.prev().find("select[name=recipienttype]");
 		$options.show();
-		$(elem).html("[-] Hide Visibility Options");
 		feedbackGiverUpdateVisibilityOptions($giverType);
 		feedbackRecipientUpdateVisibilityOptions($recipientType);
+		$(elem).html("[-] Hide Visibility Options");
 	} else {
 		$options.hide();
 		$(elem).html("[+] Show Visibility Options");
@@ -524,7 +524,10 @@ function copyOptions() {
 	$currTable.each(function (index) {
 		$(this).prop('checked', $prevTable.eq(index).prop('checked'));
 	});
+	feedbackGiverUpdateVisibilityOptions($currGiver);
+	feedbackRecipientUpdateVisibilityOptions($currRecipient);
 }
+
 function enableRow(el,row){
 	var visibilityOptions = ($(el).parent().parent().next().next());
 	var table = visibilityOptions.children().children();
@@ -534,6 +537,7 @@ function enableRow(el,row){
 	}
 	$(tdElements).unwrap().wrapAll("<tr>");
 }
+
 function disableRow(el,row){
 	var visibilityOptions = ($(el).parent().parent().next().next());
 	var table = visibilityOptions.children().children();
