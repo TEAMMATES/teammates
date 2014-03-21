@@ -26,6 +26,7 @@
 			<class name="teammates.test.cases.common.SubmissionAttributesTest" />
 			<class name="teammates.test.cases.common.TeamResultBundleTest" />
 			<class name="teammates.test.cases.common.TimeHelperTest" />
+			<class name="teammates.test.cases.common.FeedbackResponseDetailsTest" />
 			<class name="teammates.test.cases.common.UrlTest" />
 			<class name="teammates.test.cases.testdriver.DataBundleTest" />
 			<class name="teammates.test.cases.testdriver.HtmlHelperTest" />
