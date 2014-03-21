@@ -92,12 +92,14 @@
 			<class name="teammates.test.cases.ui.InstructorEvalEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalPublishActionTest" />
+			<class name="teammates.test.cases.ui.InstructorEvalUnpublishActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalRemindActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalResultsDownloadActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalResultsPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorEvalSubmissionPageActionTest" />
+			<class name="teammates.test.cases.ui.InstructorEvalPreviewActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbacksPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackDeleteActionTest" />
@@ -105,6 +107,10 @@
 			<class name="teammates.test.cases.ui.InstructorFeedbackEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionEditActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackPublishActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackUnpublishActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackRemindActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackResultsDownloadActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackResultsPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentAddActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentEditActionTest" />
@@ -113,7 +119,8 @@
 			<class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditSaveActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorFeedbackQuestionSubmissionEditSaveActionTest" />
-			<class name="teammates.test.cases.ui.InstructorEvalUnpublishActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackPreviewAsStudentActionTest" />
+			<class name="teammates.test.cases.ui.InstructorFeedbackPreviewAsInstructorActionTest" />
 			<class name="teammates.test.cases.ui.InstructorHomePageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorStudentListPageActionTest" />
 			<class name="teammates.test.cases.ui.InstructorStudentRecordsPageActionTest" />
@@ -121,6 +128,7 @@
 			<class name="teammates.test.cases.ui.InstructorStudentCommentEditActionTest" />
 			<class name="teammates.test.cases.ui.StudentCourseDetailsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentCourseJoinActionTest" />
+			<class name="teammates.test.cases.ui.StudentCourseJoinAuthenticatedActionTest" />
 			<class name="teammates.test.cases.ui.StudentEvalResultsPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentEvalSubmissionEditPageActionTest" />
 			<class name="teammates.test.cases.ui.StudentEvalSubmissionEditSaveActionTest" />
