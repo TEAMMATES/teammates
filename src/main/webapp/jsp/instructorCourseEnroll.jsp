@@ -69,36 +69,62 @@
 				<br>
 				
 				<div class="moreInfo">
-				<br>More info:
-				<br>
-				<ul>
-					<li><span class="bold">Sample spreadsheet</span>: If you are not sure about the format of the spreadsheet, 
-						<a id ="spreadsheet_download" href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv">here</a> is a sample file.</li>
-					<li><span class="bold">Column headings</span>: The column order is not important. Column headings are not case sensitive. e.g. Team, TEAM, team are all acceptable.</li>
-					<li><span class="bold">Columns</span>:
-						<ul>
-							<li>Team [Compulsory]: team name/ID</li>
-							<li>Name [Compulsory]: Student name</li>
-							<li>Email [Compulsory]: The email address used to contact the student.<br>
-							This need not be a Gmail address.<br>
-							It should be unique for each student. If two students are given the same email, they will be considered the same student.</li>
-							<li>Comments [Optional]: Any other information you want to record about a student.</li>
-						</ul>
-					<li><span class="bold">Mass editing enrolled students</span>: The text box above can be used for mass-editing details (except email address) of students already enrolled.
-					To edit, simply enroll students using the updated data and existing data will be updated accordingly.
-						<ul>
-							<li>To DELETE students or to UPDATE EMAIL address of a student, please go to the ‘courses’ page and click the 'view' link of the course.</li>
-						</ul>
-					</li>
-					<li><span class="bold">Enrolling without spreadsheets</span>:  The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar, 
-					not to be confused with upper case i or lower case L).
-						<br>Here is an example.
-						<br><span class="enrollLines">Team   |   Name   |   Email   |   Comments</span>
-						<br><span class="enrollLines">Team 1   |   Tom Jacobs  |  tom@email.com</span>
-						<br><span class="enrollLines">Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
-					</li>
-				</ul>
-				<br>
+					<span style="font-size:20px; font-weight:bold">More info</span>
+					<hr style="width: 50%; margin-left: 0px">
+					<ul>
+						<li><span class="moreInfoPointTitle">Sample spreadsheet</span>
+							<div class="moreInfoPointDetails">
+								If you are not sure about the format of the spreadsheet, 
+								<a id ="spreadsheet_download" href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv">here</a> is a sample file.
+							</div>
+						</li>
+						<li><span class="moreInfoPointTitle">Column headings</span>
+							<div class="moreInfoPointDetails">
+								The column order is not important. 
+								Column headings are <u>not</u> case sensitive. e.g. Team, TEAM, team are all acceptable.
+							</div>
+						</li>
+						<li><span class="moreInfoPointTitle">Columns</span>
+							<div class="moreInfoPointDetails">
+								<ul>
+									<li class="moreInfoColumnInfo">Team [Compulsory]: team name/ID</li>
+									<li class="moreInfoColumnInfo">Name [Compulsory]: Student name</li>
+									<li class="moreInfoColumnInfo">Email [Compulsory]: The email address used to contact the student.<br>
+										<div class="moreInfoPointDetails">
+											<ul>
+												<li class="moreInfoEmailDetails">This need not be a Gmail address.</li>
+												<li class="moreInfoEmailDetails">It should be unique for each student. 
+													If two students are given the same email, they will be considered the same student.</li>
+											</ul>
+										</div>
+									</li>
+									<li class="moreInfoColumnInfo">Comments [Optional]: Any other information you want to record about a student.</li>
+								</ul>
+							</div>
+						</li>
+						<li><span class="moreInfoPointTitle">Mass editing enrolled students</span>
+							<div class="moreInfoPointDetails">
+								<ul>
+									<li class="moreInfoMassEditInfo">The text box above can be used for mass-editing details (except email address) of students already enrolled.
+																		 To edit, simply enroll students using the updated data and existing data will be updated accordingly.</li>
+									<li class="moreInfoMassEditInfo">To DELETE students or to UPDATE EMAIL address of a student, please go to the ‘courses’ page and click the 'view' link of the course.</li>
+								</ul>
+							</div>
+						</li>
+						<li><span class="moreInfoPointTitle">Enrolling without spreadsheets</span>
+							<div class="moreInfoPointDetails">
+								The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar, 
+								not to be confused with upper case i or lower case L).
+								<br>Here is an example.
+								<br><br>
+								<div id="moreInfoEnrollWOSpreadSheetEg">
+									<span class="enrollLines">Team   |   Name   |   Email   |   Comments</span>
+									<br><span class="enrollLines">Team 1   |   Tom Jacobs  |  tom@email.com</span>
+									<br><span class="enrollLines">Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
+								</div>
+							</div>
+						</li>
+					</ul>
 				</div>
 		</div>
 	</div>
