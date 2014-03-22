@@ -265,8 +265,8 @@
 						<tr class="resultSubheader bold">
 							<td width="15%"><%=byReviewer ? "To" : "From"%> Student</td>
 							<td width="5%">Contribution</td>
-							<td width="40%">Comments</td>
-							<td colspan="2" width="40%">Messages</td>
+							<td width="40%">Confidential comments</td>
+							<td colspan="2" width="40%">Feedback to peer</td>
 						</tr>
 						<%
 							for(SubmissionAttributes sub: (byReviewer ? studentResult.outgoing : studentResult.incoming)){ 
