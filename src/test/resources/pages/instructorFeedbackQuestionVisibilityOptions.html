@@ -944,6 +944,11 @@
                            <td>
                               <input class="button centeralign"  id="button_openframe"  onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)"  value="Add New Question" />
                                                          </td>
+                           <td>
+                              <a class="button"  href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&courseid=CFeedbackEditUiT.CS2104" >
+                                 Done Editing
+                              </a>
+                           </td>
                         </tr>
                      </tbody>
                   </table>
@@ -1299,7 +1304,7 @@
                         <td class="bold" >
                            Preview Session:
                         </td>
-                        <td>
+                        <td onmouseout="hideddrivetip()" onmouseover="ddrivetip('View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled.')">
                            <form action="/page/instructorFeedbackPreviewAsStudent"  class="form_preview"  method="post"  name="form_previewasstudent"  target="_blank" >
                               <select name="previewas" >
                                  <option value="alice.b.tmms@gmail.com" >
@@ -1315,7 +1320,7 @@
                                                             <input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
                                                          </form>
                         </td>
-                        <td>
+                        <td onmouseout="hideddrivetip()" onmouseover="ddrivetip('View how this session would look like to an instructor who is submitting feedback.')">
                            <form action="/page/instructorFeedbackPreviewAsInstructor"  class="form_preview"  method="post"  name="form_previewasinstructor"  target="_blank" >
                               <select name="previewas" >
                                  <option value="tmms.instr@course.com" >

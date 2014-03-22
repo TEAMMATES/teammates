@@ -75,8 +75,10 @@ public class EvaluationSubmissionAdjustmentAction extends TaskQueueWorkerAction 
 				log.severe(String.format(errorString, evalName, courseId, e.getMessage()));
 				return false;
 			}
+		} else {
+			log.severe(String.format(errorString, evalName, courseId, "evaluation is null"));
+			return false;
 		}
-		return false;
 	}
 
 }

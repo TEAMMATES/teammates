@@ -9,14 +9,12 @@
 .courseTitle {
 	float: left;
 	width: 58%;
-    height: 50px;
 }
 
 .enrollLink {
 	float: right;
 	width: 38%;
     margin-top: 20px;
-    height: 30px;
 }
 
 .dataTable td+td a { 
@@ -24,12 +22,11 @@
 }
 
 .backgroundBlock{
-	margin-top: 60px;
+	margin-top: 15px;
+	margin-bottom: 30px;
+	padding-top: 5px;
 }
 
-.student_emails{
-	padding-top:20px;
-	padding-left:20px;
-	padding-right:20px;
-	padding-bottom: 20px;
+.backgroundBlock:last-child {
+	margin-bottom: 0px;
 }

@@ -25,8 +25,7 @@ public class InstructorStudentListPageAction extends Action {
 		
 		HashMap<String, CourseDetailsBundle> courses = logic.getCourseDetailsListForInstructor(account.googleId);
 		data.courses = new ArrayList<CourseDetailsBundle>(courses.values());
-		CourseDetailsBundle.sortDetailedCourses(data.courses);
-		
+		CourseDetailsBundle.sortDetailedCoursesByCreationDate(data.courses);
 		data.searchKey = searchKey;
 		data.displayArchive = displayArchive;
 		

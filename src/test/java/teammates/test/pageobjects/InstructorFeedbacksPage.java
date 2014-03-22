@@ -274,6 +274,10 @@ public class InstructorFeedbacksPage extends AppPage {
 		}
 	}
 	
+	public String getPageUrl() {
+		return browser.driver.getCurrentUrl();
+	}
+	
 	private WebElement getLinkAtTableRow(String className, int rowIndex) {
 		return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(rowIndex+2)+"]//a[contains(@class,'"+className+"')]"));
 	}

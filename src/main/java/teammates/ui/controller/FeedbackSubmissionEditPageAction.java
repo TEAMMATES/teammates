@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -30,7 +31,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 			throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName + " does not exist in "+courseId+".");
 		}
 		
-		data.isSessionOpenForSubmission = isSessionOpenForSpecificUser();
+		data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);
 		
 		setStatusToAdmin();
 		
@@ -49,7 +50,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 
 	protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
 
-	protected abstract boolean isSessionOpenForSpecificUser();
+	protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session);
 	
 	protected abstract void setStatusToAdmin();
 	

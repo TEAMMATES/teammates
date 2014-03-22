@@ -1,5 +1,11 @@
-<%@ page import="teammates.common.util.Const"%>
-<%@ page import="teammates.ui.controller.PageData"%>
+<%--
+	- @(#)
+	- Description: This jsp file defines the black bar at the top of all 
+	-  			   instructor pages
+ --%>
+ 
+<%@ page import="teammates.common.util.Const" %>
+<%@ page import="teammates.ui.controller.PageData" %>
 <%
 	PageData data = (PageData)request.getAttribute("data");
 %>
@@ -20,7 +26,7 @@
 					<li><a class='nav help' href="/instructorHelp.html" target="_blank">Help</a></li>
 					<li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout</a>
 					<b><%
-						if(data.account.googleId.length()>=Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH){
+						if(data.account.googleId.length() > Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH){
 					%>
 					<span onmouseover="ddrivetip('<%=data.account.googleId%>')" onmouseout="hideddrivetip()">
 							(<%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%

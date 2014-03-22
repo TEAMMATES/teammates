@@ -11,8 +11,15 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 
+
+/**
+* This class is the parent class for all *WorkerServlets. This class provides logging
+* of exceptions that are uncaught by child *WorkerServlet classes. Child classes should
+* also perform their own logging of exceptions that could occur during the execution of 
+* the servlet.
+*/
 @SuppressWarnings("serial")
-public abstract class AutomatedRemindersServlet extends HttpServlet{
+public abstract class WorkerServlet extends HttpServlet{
 	
 	protected static Logger log = Utils.getLogger();
 	

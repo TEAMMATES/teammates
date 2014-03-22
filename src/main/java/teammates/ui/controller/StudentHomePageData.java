@@ -63,9 +63,13 @@ public class StudentHomePageData extends PageData {
 	 */
 	public String getStudentHoverMessageForSession(FeedbackSessionAttributes session){
 		String msg = "";
+		
+		Boolean isAwaiting = session.isWaitingToOpen();
 		Boolean hasSubmitted = sessionSubmissionStatusMap.get(session.courseId+"%"+session.feedbackSessionName);
 		
-		if (hasSubmitted){
+		if (isAwaiting) {
+			msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING;
+		} else if (hasSubmitted){
 			msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED;
 		} else {
 			msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING;

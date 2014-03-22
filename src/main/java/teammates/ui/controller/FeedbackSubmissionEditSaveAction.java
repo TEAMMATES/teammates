@@ -7,6 +7,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -35,7 +36,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 		
 		setStatusToAdmin();
 		
-		if (isSessionOpenForSpecificUser() == false) {
+		if (isSessionOpenForSpecificUser(data.bundle.feedbackSession) == false) {
 			throw new UnauthorizedAccessException("This feedback session is not currently open for submission.");
 		}
 		
@@ -135,7 +136,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
 	protected abstract void setStatusToAdmin();
 
-	protected abstract boolean isSessionOpenForSpecificUser();
+	protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session);
 
 	protected abstract RedirectResult createSpecificRedirectResult();
 }

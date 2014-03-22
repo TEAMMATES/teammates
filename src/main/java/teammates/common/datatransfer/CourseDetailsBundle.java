@@ -49,5 +49,16 @@ public class CourseDetailsBundle {
 			}
 		});
 	}
+	
+	/**
+	 * Sorts courses based on course creation date in the order of latest to oldest order
+	 */
+	public static void sortDetailedCoursesByCreationDate(List<CourseDetailsBundle> courses) {
+		Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+			public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
+				return (-1) * obj1.course.createdAt.compareTo(obj2.course.createdAt);
+			}
+		});
+	}
 
 }

@@ -1,6 +1,8 @@
 package teammates.test.pageobjects;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -289,6 +291,23 @@ public class InstructorFeedbackEditPage extends AppPage {
 		selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
 	}
 	
+	public void selectRecipientsToBeNobodySpecific() {
+		selectDropdownByVisibleValue(recipientDropdown, "Nobody specific (For general class feedback)");
+	}
+	
+	public ArrayList<String> allContentsOfRowsInQuestionTableNewParticipateTable() {
+		WebElement questionTableNew = browser.driver.findElement(By.id("questionTableNew"));
+		List<WebElement> tablesInQuestionTable = questionTableNew.findElements(By.tagName("table"));
+		WebElement participateTable = tablesInQuestionTable.get(tablesInQuestionTable.size() - 1);
+		List<WebElement> rowsInTable = participateTable.findElements(By.tagName("tr"));
+		ArrayList<String> htmlsOfRows = new ArrayList<String>();
+		for (WebElement e : rowsInTable) {
+			htmlsOfRows.add(e.getText());
+		}
+		
+		return htmlsOfRows;
+	}
+	
 	public void editFeedbackSession(
 			Date startTime,
 			Date endTime,
@@ -321,6 +340,13 @@ public class InstructorFeedbackEditPage extends AppPage {
 	
 	public InstructorFeedbacksPage deleteSession() {
 		clickAndConfirm(getDeleteSessionLink());
+		waitForPageToLoad();
+		return changePageType(InstructorFeedbacksPage.class);
+	}
+	
+	public InstructorFeedbacksPage clickDoneEditingLink() {
+		WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElement(By.tagName("a"));
+		doneEditingLink.click();
 		waitForPageToLoad();
 		return changePageType(InstructorFeedbacksPage.class);
 	}

@@ -46,9 +46,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 			resp.setStatus(HttpServletResponse.SC_OK);
 			
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"Unexpected exception while rebuild search index"
-							+ e);
+			log.severe("Unexpected error while rebuild search index " + e);
 		}
 	}
 
