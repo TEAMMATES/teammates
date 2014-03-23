@@ -164,7 +164,7 @@ function applyFilters(){
 	
 	//Give message if there are no result
 	if($('.backgroundBlock:visible').length == 0){
-		setStatusMessage("Your search filters returned no results");
+		setStatusMessage("Your search criteria did not match any students");
 	} else{
 		clearStatusMessage();
 	}
