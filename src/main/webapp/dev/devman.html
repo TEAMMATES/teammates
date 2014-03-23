@@ -12,1463 +12,1495 @@
 	<div id="header">
 		<div id="headerWrapper">
 			<div id="imageHolder">
-				<a href="/index.html"> <img
-					alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects"
-					src="/images/teammateslogo.jpg" width="150px" height="47px">
+				<a href="/index.html">
+				<img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" src="/images/teammateslogo.jpg" width="150px" height="47px">
 				</a>
 			</div>
 			<div style="clear: both;"></div>
 		</div>
 	</div>
 	<div id="content">
-		<div class="title">
-			<br>TEAMMATES <br> Online Peer Evaluation &amp; Peer
-			Feedback System <br> [Developer Manual (DevMan)]
-		</div>
+	<div class="title"><br>TEAMMATES <br> Online Peer Evaluation &amp; Peer Feedback System
+		<br> [Developer Manual (DevMan)]
+	</div>
 
-		<br>
-		<h3>Table of Contents</h3>
+	<br>
+	<h3>Table of Contents</h3>
+	<ul>
+		<li><a href="#project">Project</a>
 		<ul>
-			<li><a href="#project">Project</a>
-				<ul>
-					<li><a href="#project-vision">Vision</a></li>
-					<li><a href="#project-challenges">Challenges</a></li>
-					<li><a href="#project-principles">Principles</a></li>
-				</ul></li>
-			<li><a href="#design">Design</a>
-				<ul>
-					<li><a href="#design-architecture">Architecture</a></li>
-					<li><a href="#design-ui">UI</a></li>
-					<li><a href="#design-logic">Logic</a></li>
-					<li><a href="#design-storage">Storage</a></li>
-					<li><a href="#design-common">Common</a></li>
-					<li><a href="#design-testdriver">TestDriver</a></li>
-					<li><a href="#design-client">Client</a></li>
-				</ul></li>
-			<li><a href="#infrastructure">Infrastructure</a>
-				<ul>
-					<li><a href="#infrastructure-knowledgebase">Knowledge base</a></li>
-					<li><a href="#infrastructure-toolsandtechnologies-deployment">Deployment
-							environment</a></li>
-					<li><a href="#infrastructure-toolsandtechnologies-development">Development
-							environment</a></li>
-					<li><a
-						href="#infrastructure-toolsandtechnologies-implementation">Tools
-							used in implementation</a></li>
-					<li><a href="#infrastructure-toolsandtechnologies-testing">Tools
-							used in testing</a></li>
-					<li><a href="#infrastructure-configpoints">Config points</a></li>
-				</ul></li>
-			<li><a href="#settingup">Setting Up</a>
-				<ul>
-					<li><a href="#settingup-prerequisites">Prerequisites</a></li>
-					<li><a href="#settingup-settingupdevserver">Setting up the
-							dev server</a></li>
-					<li><a href="#settingup-deployingtostagingserver">Deploying
-							to staging server</a></li>
-					<li><a href="#settingup-troubleshooting">Troubleshooting</a></li>
-				</ul></li>
-			<li><a href="#process">Process</a>
-				<ul>
-					<li><a href="#process-roles">Roles</a></li>
-					<li><a href="#process-workflow">Workflow</a></li>
-					<li><a href="#process-fixingissues">Fixing issues</a></li>
-					<li><a href="#process-reviewingafix">Reviewing a fix</a></li>
-					<li><a href="#process-applyingafix">Applying a fix</a></li>
-					<li><a href="#process-deployingfixes">Deploying fixes</a></li>
-					<li><a href="#process-issuelifecycle">Issue Lifecycle</a></li>
-				</ul></li>
-			<li><a href="#glossary">Glossary</a></li>
+			<li><a href="#project-vision">Vision</a></li>
+			<li><a href="#project-challenges">Challenges</a></li>
+			<li><a href="#project-principles">Principles</a></li>
 		</ul>
-
-		<hr>
-		<!-- =============================================================== -->
-
-		<h1 id="project">Project</h1>
-
-		<h2 id="project-vision">Vision</h2>
-
-		Long term goal: Become the <span class="bold">biggest student
-			project in the world</span>. <br> {Biggest = many contributors, many
-		users, relatively large code base (50k-100k LoC), evolving over a long
-		period.} <br> 'Biggest' above also implies an exceptionally high
-		quality standard because high quality is a necessity for the long-term
-		survival of a big student project. <br> <br> This project
-		will also serve as <span class="bold"> a model and a training
-			ground for Software Engineering students </span> who want to learn SE skills
-		in the context of a non-trivial real software product. <br>
-
-		<h2 id="project-challenges">Challenges</h2>
-		The project differs from typical student projects in the following
-		areas, which makes it more challenging and the experience more
-		enriching. <br>
+		</li>
+		<li><a href="#design">Design</a>
 		<ul>
-			<li><span class="bold">Developers</span>: All developers are
-				novices and their involvement with the project is short term and
-				part time.</li>
-			<li><span class="bold">Code</span>: Working with legacy code
-				written by past developers is harder than writing from scratch.</li>
-			<li><span class="bold">Data</span>: The data in the live system
-				are confidential and developers are not allowed to see them. This
-				makes troubleshooting harder.</li>
-			<li><span class="bold">Releases</span>: Frequent releases to an
-				active user database requires us to maintain 'production quality'
-				constantly.</li>
-			<li><span class="bold">Platform</span>: TEAMMATES is running on
-				Google App Engine cloud platform, which adds the following
-				challenges.
-				<ul>
-					<li>It is an emerging platform evolving rapidly. We have to
-						keep up.</li>
-					<li>It imposes various restrictions on the application. e.g.
-						Each request to the app has to be served within 60 seconds.</li>
-					<li>It charges us based on usage. We have to optimize usage.</li>
-				</ul></li>
-			<li><span class="bold">Software Engineering</span>: As TEAMMATES
-				serve as a model system for training students, it should also focus
-				on applying good SE techniques.</li>
+			<li><a href="#design-architecture">Architecture</a></li>
+			<li><a href="#design-ui">UI</a></li>
+			<li><a href="#design-logic">Logic</a></li>
+			<li><a href="#design-storage">Storage</a></li>
+			<li><a href="#design-common">Common</a></li>
+			<li><a href="#design-testdriver">TestDriver</a></li>
+			<li><a href="#design-client">Client</a></li>
 		</ul>
-
-		<h2 id="project-principles">Principles</h2>
-		We apply these principles to meet the challenges stated above. <br>
+		</li>
+		<li><a href="#infrastructure">Infrastructure</a>
+			<ul>
+				<li><a href="#infrastructure-knowledgebase">Knowledge base</a></li>
+				<li><a href="#infrastructure-toolsandtechnologies-deployment">Deployment
+						environment</a></li>
+				<li><a href="#infrastructure-toolsandtechnologies-development">Development
+						environment</a></li>
+				<li><a
+					href="#infrastructure-toolsandtechnologies-implementation">Tools
+						used in implementation</a></li>
+				<li><a href="#infrastructure-toolsandtechnologies-testing">Tools
+						used in testing</a></li>
+				<li><a href="#infrastructure-configpoints">Config points</a></li>
+			</ul></li>
+		<li><a href="#settingup">Setting Up</a>
 		<ul>
-			<li><span class="bold">We keep moving forward, always</span>: We
-				release frequently, in weekly <a
-				href="http://en.wikipedia.org/wiki/Timeboxing">time-boxed
-					iterations</a>. Every week, our product becomes better than the
-				previous week. This means 'go back and rewrite from scratch' is only
-				a last resort.</li>
-			<li><span class="bold">We are agile</span>: We are able to
-				change the system quickly and easily to match emerging requirements.
-				We aim for minimal yet sufficient documentation.</li>
-			<li><span class="bold">We defend our code with tests,
-					fiercely</span>: Since we practice <a
-				href="http://www.extremeprogramming.org/rules/collective.html">collective
-					code ownership</a>, we have to make sure the code is not accidentally
-				broken by others. We use fully automated regression testing. The
-				testing automation level of this project is probably higher than 99%
-				of the projects out there.</li>
-			<li><span class="bold">We are 'Gods' of the few tools we
-					use</span>: We stick to a minimal toolset. Adding third-party tools and
-				libraries to the project is done only if there is a STRONG
-				justification. Only mature, stable, and well-supported tools are
-				considered. Once selected, we should know the tool very well to get
-				the best out of it.</li>
-			<li><span class="bold">We value quality more than
-					functionality</span>: Our job is not to 'anyhow get it to work'. The
-				system should be good enough to be considered a 'model' software.
-				Our code should be of 'unusually' high quality: All code is reviewed
-				before accepting.</li>
-			<li><span class="bold">We know what we are doing</span>: For us,
-				it is not enough to know something is broken, we should also know
-				why it is broken. It is not enough to get something working, we
-				should know how we got it to work.</li>
-			<li><span class="bold">We seek the best, not stop at the
-					first</span>: We do not settle for the first workable method to solve a
-				problem. We study other ways of solving it and decide what is the
-				best way for us.</li>
-			<li><span class="bold">We take pains to save the team
-					from pain</span>: Whenever we had to spend effort in figuring out
-				something, we refine code/documents so that others don't have to go
-				through the same pain. Whenever we figured out a less painful way of
-				doing something, we make sure everyone in the team learn it too.</li>
+			<li><a href="#settingup-prerequisites">Prerequisites</a></li>
+			<li><a href="#settingup-settingupdevserver">Setting up the
+					dev server</a></li>
+			<li><a href="#settingup-deployingtostagingserver">Deploying
+					to staging server</a></li>
+			<li><a href="#settingup-troubleshooting">Troubleshooting</a></li>
 		</ul>
-		<hr>
-		<!-- =============================================================== -->
-
-		<h1 id="design">Design</h1>
-
-		<h2 id="design-architecture">Architecture</h2>
-
-		<div class="image-holder">
-			<img src="images/highlevelArchitecture.png" width="90%" />
-		</div>
-
-		<br> TEAMMATES is a Web app that runs on Google App Engine (GAE)
-		cloud platform. Given above is an overview of the main components. <br>
-
+		</li>
+		<li><a href="#process">Process</a>
 		<ul>
-			<li><span class="bold">UI</span>: The UI seen by users consists
-				of Web pages containing HTML, CSS (for styling) and JavaScripts (for
-				client-side interactions such as sorting, input validation etc.).
-				This UI is generated by Java Server Pages (JSP) and Java Servlets
-				residing on the server. Requests are sent to the server over normal
-				HTTP. In future, AJAX may be used sparingly to fetch data from the
-				server asynchronously.</li>
-			<li><span class="bold">Logic</span>: The main logic of the app
-				is in Java POJOs (Plain Old Java Objects). Some automated tasks are
-				implemented as Servlets.</li>
-			<li><span class="bold">Storage</span>: Storage uses the
-				persistence framework provided by GAE 'datastore', a noSQL database.</li>
-			<li><span class="bold">Test Driver</span>: TEAMMATES makes heavy
-				use of automated regression testing. TestNG is used for Java unit
-				testing and QUnit for JavaScript unit testing. We use Selenium Web
-				Driver to automate UI testing. Test Driver can access the
-				application directly to set up test data. We use JSON format to
-				transmit such data to the application.</li>
-			<li><span class="bold">Client</span>: The Client component can
-				connect to the back end directly without using a Browser. It is used
-				for administrative purposes. e.g., migrating data to a new schema</li>
-			<li><span class="bold">Common</span>: The Common component
-				contains utility code used across the application.</li>
+			<li><a href="#process-roles">Roles</a></li>
+			<li><a href="#process-workflow">Workflow</a></li>
+			<li><a href="#process-fixingissues">Fixing issues</a></li>
+			<li><a href="#process-reviewingafix">Reviewing a fix</a></li>
+			<li><a href="#process-applyingafix">Applying a fix</a></li>
+			<li><a href="#process-deployingfixes">Deploying fixes</a></li>
+			<li><a href="#process-issuelifecycle">Issue Lifecycle</a></li>
 		</ul>
-		The diagram below shows how the code is organized into packages inside
-		each component and dependencies among them.
-		<div class="image-holder">
-			<img class="image" src="images/packageDiagram.png" width="90%" />
-		</div>
-		<br> Notes:
-		<ul>
-			<li>[logic] - [ui::view] - [ui::controller] represent an
-				application of Model-View-Controller pattern.</li>
-			<li>ui::view and ui::website packages are not Java packages.
-				They consist of jsp, html, js and css files.</li>
-		</ul>
+		</li>
+		<li><a href="#glossary">Glossary</a></li>
+	</ul>
+
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="project">Project</h1>
+
+	<h2 id="project-vision">Vision</h2>
+
+	Long term goal: Become the
+	<span class="bold">biggest student project in the world</span>.
+	<br> {Biggest = many contributors, many users, relatively large
+	code base (50k-100k LoC), evolving over a long period.}
+	<br> 'Biggest' above also implies an exceptionally high quality
+	standard because high quality is a necessity for the long-term survival
+	of a big student project.
+	<br>
+	<br> This project will also serve as
+	<span class="bold"> a model and a training ground for Software
+		Engineering students </span> who want to learn SE skills in the
+	context of a non-trivial real software product.
+	<br>
+
+	<h2 id="project-challenges">Challenges</h2>
+	The project differs from typical student projects in the following
+	areas, which makes it more challenging and the experience more
+	enriching.
+	<br>
+	<ul>
+		<li><span class="bold">Developers</span>: All developers are
+			novices and their involvement with the project is short term and part
+			time.</li>
+		<li><span class="bold">Code</span>: Working with legacy code
+			written by past developers is harder than writing from scratch.</li>
+		<li><span class="bold">Data</span>: The data in the live system
+			are confidential and developers are not allowed to see them. This
+			makes troubleshooting harder.</li>
+		<li><span class="bold">Releases</span>: Frequent releases to an
+			active user database requires us to maintain 'production quality'
+			constantly.</li>
+		<li><span class="bold">Platform</span>: TEAMMATES is running on
+			Google App Engine cloud platform, which adds the following
+			challenges.
+			<ul>
+				<li>It is an emerging platform evolving rapidly. We have to
+					keep up.</li>
+				<li>It imposes various restrictions on the application. e.g.
+					Each request to the app has to be served within 60 seconds.</li>
+				<li>It charges us based on usage. We have to optimize usage.</li>
+			</ul></li>
+		<li><span class="bold">Software Engineering</span>: As TEAMMATES
+			serve as a model system for training students, it should also focus
+			on applying good SE techniques.</li>
+	</ul>
+
+	<h2 id="project-principles">Principles</h2>
+	We apply these principles to meet the challenges stated above.
+	<br>
+	<ul>
+		<li><span class="bold">We keep moving forward, always</span>: We
+			release frequently, in weekly <a
+			href="http://en.wikipedia.org/wiki/Timeboxing">time-boxed
+				iterations</a>. Every week, our product becomes better than the previous
+			week. This means 'go back and rewrite from scratch' is only a last
+			resort.</li>
+		<li><span class="bold">We are agile</span>: We are able to change
+			the system quickly and easily to match emerging requirements. We
+			aim for minimal yet sufficient documentation.</li>
+		<li><span class="bold">We defend our code with tests,
+				fiercely</span>: Since we practice <a
+			href="http://www.extremeprogramming.org/rules/collective.html">collective
+				code ownership</a>, we have to make sure the code is not accidentally
+			broken by others. We use fully automated regression testing. The
+			testing automation level of this project is probably higher than 99%
+			of the projects out there.</li>
+		<li><span class="bold">We are 'Gods' of the few tools we
+				use</span>: We stick to a minimal toolset. Adding third-party tools and
+			libraries to the project is done only if there is a STRONG
+			justification. Only mature, stable, and well-supported tools are
+			considered. Once selected, we should know the tool very well to get
+			the best out of it.</li>
+		<li><span class="bold">We value quality more than
+				functionality</span>: Our job is not to 'anyhow get it to work'. The
+			system should be good enough to be considered a 'model' software. Our
+			code should be of 'unusually' high quality: All code is reviewed before
+			accepting.</li>
+		<li><span class="bold">We know what we are doing</span>: For us,
+			it is not enough to know something is broken, we should also know why
+			it is broken. It is not enough to get something working, we should
+			know how we got it to work.</li>
+		<li><span class="bold">We seek the best, not stop at the
+				first</span>: We do not settle for the first workable method to solve a
+			problem. We study other ways of solving it and decide what is the
+			best way for us.</li>
+		<li><span class="bold">We take pains to save the team from
+				pain</span>: Whenever we had to spend effort in figuring out something, we
+			refine code/documents so that others don't have to go through the
+			same pain. Whenever we figured out a less painful way of doing
+			something, we make sure everyone in the team learn it too.</li>
+	</ul>
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="design">Design</h1>
+
+	<h2 id="design-architecture">Architecture</h2>
+
+	<div class="image-holder">
+		<img src="images/highlevelArchitecture.png" width="90%" />
+	</div>
+
+	<br> TEAMMATES is a Web app that runs on Google App Engine (GAE)
+	cloud platform. Given above is an overview of the main components.
+	<br>
+
+	<ul>
+		<li><span class="bold">UI</span>: The UI seen by users consists
+			of Web pages containing HTML, CSS (for styling) and JavaScripts (for
+			client-side interactions such as sorting, input validation etc.).
+			This UI is generated by Java Server Pages (JSP) and Java Servlets
+			residing on the server. Requests are sent to the server over normal
+			HTTP. In future, AJAX may be used sparingly to fetch data from the
+			server asynchronously.</li>
+		<li><span class="bold">Logic</span>: The main logic of the app is
+			in Java POJOs (Plain Old Java Objects). Some automated tasks are
+			implemented as Servlets.</li>
+		<li><span class="bold">Storage</span>: Storage uses the
+			persistence framework provided by GAE 'datastore', a noSQL database.</li>
+		<li><span class="bold">Test Driver</span>: TEAMMATES makes heavy
+			use of automated regression testing. TestNG is used for Java unit
+			testing and QUnit for JavaScript unit testing. We use Selenium Web
+			Driver to automate UI testing. Test Driver can access the application
+			directly to set up test data. We use JSON format to transmit such
+			data to the application.</li>
+		<li><span class="bold">Client</span>: The Client component can
+			connect to the back end directly without using a Browser. It is used
+			for administrative purposes. e.g., migrating data to a new schema</li>
+		<li><span class="bold">Common</span>: The Common component
+			contains utility code used across the application.</li>
+	</ul>
+	The diagram below shows how the code is organized into packages inside
+	each component and dependencies among them.
+	<div class="image-holder">
+		<img class="image" src="images/packageDiagram.png" width="90%" />
+	</div>
+	<br> Notes:
+	<ul>
+		<li>[logic] - [ui::view] - [ui::controller] represent an
+			application of Model-View-Controller pattern.</li>
+		<li>ui::view and ui::website packages are not Java packages. They
+			consist of jsp, html, js and css files.</li>
+	</ul>
 
 
-		<h2 id="design-ui">UI</h2>
-		The diagram below shows the object structure of the UI component.
-		<div class="image-holder">
-			<img class="image" src="images/UiComponent.png" width="90%" />
-		</div>
-		<br>
+	<h2 id="design-ui">UI</h2>
+	The diagram below shows the object structure of the UI component.
+	<div class="image-holder">
+		<img class="image" src="images/UiComponent.png" width="90%" />
+	</div>
+	<br>
 
-		<h3>Request flow</h3>
-		Request from the Browser for a specific page will go through following
-		steps: <br></br>
+	<h3>Request flow</h3>
+	Request from the Browser for a specific page will go through following steps:
+	<br></br>
 
-		<div class="image-holder">
-			<img src="images/UiWorkflow.png" width="100%"></img>
-		</div>
+	<div class="image-holder">
+		<img src="images/UiWorkflow.png" width="100%"></img>
+	</div>
 
-		<ol>
-			<li>Request received by the GAE server.</li>
-			<li>Custom filters are applied according to the order specified
-				in <span class="code">web.xml</span>. In our case this would be <span
-				class="code">DatastoreFilter</span> and <span class="code">LoginFilter</span>.
-				For example, the <span class="code">LoginFilter</span> will forward
-				any request from not-logged-in users to the login page. If the
-				request is from logged in user, then it will proceed according to
-				the URL. e.g. <span class="code">/page/instructorHomePage</span>
-			</li>
-			<li>Request forwarded to the <span class="code">ControllerServlet</span>.
-			</li>
-			<li><span class="code">ControllerServlet</span> uses the <span
-				class="code">ActionFactory</span> to generate the matching <span
-				class="code">Action</span> object. E.g., <span class="code">InstructorHomePageAction</span>.
-			</li>
-			<li><span class="code">ControllerServlet</span> executes the
-				action.</li>
-			<li>The <span class="code">Action</span> object checks the
-				access rights of the user. If the action is allowed, it interacts
-				with the <span class="code">Logic</span> component to perform the
-				action.
-			</li>
-			<li>Assuming the action was loading a page, the <span
-				class="code">Action</span> gathers the data required for the page
-				into a <span class="code">PageData</span> object. e.g. <span
-				class="code">InstructorHomePageData</span>, creates a <span
-				class="code">ShowPageResult</span> object by encolosing the <span
-				class="code">PageData</span> object created previously, and returns
-				it to the <span class="code">ControllerServlet</span>
-			</li>
-			<li><span class="code">ControllerServlert</span> "sends" the
-				result. In the case of a <span class="code">ShowPageResult</span>,
-				this is equivalent to forwarding to the matching JSP page.</li>
-			<li>The JSP page uses the data in the given <span class="code">PageData</span>
-				object to generate the HTML page.
-			</li>
-			<li>The response will then be sent back to the Browser, which
-				will render the page.</li>
-		</ol>
+	<ol>
+		<li>Request received by the GAE server.</li>
+		<li>Custom filters are applied according to the order
+			specified in <span class="code">web.xml</span>. In our case this
+			would be <span class="code">DatastoreFilter</span> and <span
+			class="code">LoginFilter</span>. For example, the <span class="code">LoginFilter</span>
+			will forward any request from not-logged-in users to the login page.
+			If the request is from logged in user, then it will proceed according
+			to the URL. e.g. <span class="code">/page/instructorHomePage</span>
+		</li>
+		<li>Request forwarded to the <span class="code">ControllerServlet</span>.
+		</li>
+		<li><span class="code">ControllerServlet</span> uses the <span
+			class="code">ActionFactory</span> to generate the matching <span
+			class="code">Action</span> object. E.g., <span class="code">InstructorHomePageAction</span>.
+		</li>
+		<li><span class="code">ControllerServlet</span> executes the
+			action.</li>
+		<li>The <span class="code">Action</span> object checks the access
+			rights of the user. If the action is allowed, it interacts with the <span
+			class="code">Logic</span> component to perform the action.
+		</li>
+		<li>Assuming the action was loading a page, the <span
+			class="code">Action</span> gathers the data required for the page
+			into a <span class="code">PageData</span> object. e.g. <span
+			class="code">InstructorHomePageData</span>, creates a <span
+			class="code">ShowPageResult</span> object by encolosing the <span
+			class="code">PageData</span> object created previously, and returns
+			it to the <span class="code">ControllerServlet</span>
+		</li>
+		<li><span class="code">ControllerServlert</span> "sends" the
+			result. In the case of a <span class="code">ShowPageResult</span>,
+			this is equivalent to forwarding to the matching JSP page.</li>
+		<li>The JSP page uses the data in the given <span class="code">PageData</span>
+			object to generate the HTML page.
+		</li>
+		<li>The response will then be sent back to the Browser, which
+			will render the page.</li>
+	</ol>
 
-		Things to note: <br>
-		<ul>
-			<li>After performing certain actions, the Browser should load
-				another page, possibly with the status of the previous action. For
-				example, if the action is 'delete course', the Browser should load
-				the 'courses' page after the server performed the action. In such
-				cases, the result generated for the action will be of type <span
-				class="code">RedirectResult</span> which simply instructs the
-				Browser to send a fresh request for the specified page. In such
-				cases, we do not create a <span class="code">PageData</span> object
-				for the original request.<br> Example:
-				<ul>
-					<li>Browser request for 'delete course' action.</li>
-					<li>Server performs the action (creates a <span class="code">RedirectResult</span>
-						object but no <span class="code">PageData</span> object) and
-						instructs the Browser to load the 'courses' page.
-					</li>
-					<li>As instructed, the Browser requests for the 'courses'
-						page.</li>
-					<li>Server processes the request separately (creates a <span
-						class="code">ShowPageResult</span> object but and a <span
-						class="code">PageData</span> object) and returns the 'courses'
-						page.
-					</li>
-				</ul>
-			</li>
-			<li>The result of some actions is downloading of a file (e.g. an
-				evaluation report). In such cases, the result type will be <span
-				class="code">FileDownloadResult</span> and no <span class="code">PageData</span>
-				object will be generated.
-			</li>
-			<li>Since the high-level workflow of processing a request is
-				same for any request, we use the , the <a
-				href="http://en.wikipedia.org/wiki/Template_method_pattern">Template
-					Method pattern</a> to abstract the process folow into the <span
-				class="code">Action</span> class.
-			</li>
-			<li>The list of actions and corresponding URIs are listed in the
-				<span class="code">ActionURIs</span> nested class of the <a
-				href="https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/common/util/Const.java"
-				target="_blank"><span class="code">Const</span></a> class.
-			</li>
-			<li>The list of pages and corresponding URIs are listed in the <span
-				class="code">ViewURIs</span> nested class of the <a
-				href="https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/common/util/Const.java"
-				target="_blank"><span class="code">Const</span></a> class.
-			</li>
-		</ul>
-
+	Things to note:
+	<br>
+	<ul>
+		<li>After performing certain actions, the Browser should load
+			another page, possibly with the status of the previous action. For
+			example, if the action is 'delete course', the Browser should load
+			the 'courses' page after the server performed the action. In such
+			cases, the result generated for the action will be of type <span
+			class="code">RedirectResult</span> which simply instructs the Browser
+			to send a fresh request for the specified page. In such cases, we do
+			not create a <span class="code">PageData</span> object for the
+			original request.<br> Example:
+			<ul>
+				<li>Browser request for 'delete course' action.</li>
+				<li>Server performs the action (creates a <span class="code">RedirectResult</span>
+					object but no <span class="code">PageData</span> object) and
+					instructs the Browser to load the 'courses' page.
+				</li>
+				<li>As instructed, the Browser requests for the 'courses' page.
+				</li>
+				<li>Server processes the request separately (creates a <span
+					class="code">ShowPageResult</span> object but and a <span
+					class="code">PageData</span> object) and returns the 'courses' page.
+				</li>
+			</ul>
+		</li>
+		<li>The result of some actions is downloading of a file (e.g. an
+			evaluation report). In such cases, the result type will be <span
+			class="code">FileDownloadResult</span> and no <span class="code">PageData</span>
+			object will be generated.
+		</li>
+		<li>Since the high-level workflow of processing a request is same
+			for any request, we use the , the <a
+			href="http://en.wikipedia.org/wiki/Template_method_pattern">Template
+				Method pattern</a> to abstract the process folow into the <span
+			class="code">Action</span> class.
+		</li>
+		<li>The list of actions and corresponding URIs are listed in the
+			<span class="code">ActionURIs</span> nested class of the <a
+			href="https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/common/util/Const.java"
+			target="_blank"><span class="code">Const</span></a> class.
+		</li>
+		<li>The list of pages and corresponding URIs are listed in the
+			<span class="code">ViewURIs</span> nested class of the <a
+			href="https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/common/util/Const.java"
+			target="_blank"><span class="code">Const</span></a> class.
+		</li>
+	</ul>
 
 
-		<h3>Types of pages</h3>
-		The UI consist of following pages:
-		<ul>
-			<li>Product pages (functional): e.g., 'courses' page. These
-				require login.</li>
-			<li>Product pages (peripheral): e.g., help pages, error pages.
-				etc.</li>
-			<li>Website pages: These are the static pages of the product
-				website. e.g., <span class="code">contact.html</span>
-			</li>
-			<li>Project pages: Pages meant for developers, such as this
-				page.
-		</ul>
 
-		<h2 id="design-logic">Logic</h2>
+	<h3>Types of pages</h3>
+	The UI consist of following pages:
+	<ul>
+		<li>Product pages (functional): e.g., 'courses' page. These require login.</li>
+		<li>Product pages (peripheral): e.g., help pages, error pages. etc.</li>
+		<li>Website pages: These are the static pages of the product website. e.g., <span class="code">contact.html</span></li>
+		<li>Project pages: Pages meant for developers, such as this page.
+	</ul>
 
-		The <span class="code">Logic</span> component handles the business
-		logic of TEAMMATES. <br> It is accessible via a thin <a
-			href="http://en.wikipedia.org/wiki/Facade_pattern">facade class</a>
-		called <a
-			href="https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/logic/api/Logic.java"
-			target="_blank"><span class="code">Logic</span></a> which makes use
-		of several <span class="code">*Logic</span> classes to handle the
-		logic related to various types of data and to access data from the <span
-			class="code">Storage</span> component. In particular, Logic is
-		responsible for these: <br>
-		<ul>
-			<li>Managing relationships between entities. e.g., cascade logic
-				for create/update/delete.</li>
-			<li>Managing transactions. e.g., to ensure atomicity of a
-				transaction.</li>
-			<li>Sanitizing input values recevied from the UI component.</li>
-			<li>Providing a mechanims for checking access control rights.</li>
-		</ul>
+	<h2 id="design-logic">Logic</h2>
 
-		<div class="image-holder">
-			<img src="images/LogicComponent.png" width="90%" />
-		</div>
-		<br> Package overiew:
-		<ul>
-			<li><span class="code bold">logic.api</span>: Provides the
-				normal API of the component.</li>
-			<li><span class="code bold">logic.backdoor</span>: Provides a
-				mechanism for the test driver to access data.</li>
-			<li><span class="code bold">logic.core</span>: Contains the core
-				logic of the system.</li>
-			<li><span class="code bold">logic.automated</span>: Contains the
-				logic of automated tasks.</li>
-		</ul>
+	The
+	<span class="code">Logic</span> component handles the business logic of
+	TEAMMATES.
+	<br> It is accessible via a thin
+	<a href="http://en.wikipedia.org/wiki/Facade_pattern">facade class</a>
+	called
+	<a
+		href="https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/logic/api/Logic.java"
+		target="_blank"><span class="code">Logic</span></a> which makes use of
+	several
+	<span class="code">*Logic</span> classes to handle the logic related to
+	various types of data and to access data from the
+	<span class="code">Storage</span> component. In particular, Logic is
+	responsible for these:
+	<br>
+	<ul>
+		<li>Managing relationships between entities. e.g., cascade logic
+			for create/update/delete.</li>
+		<li>Managing transactions. e.g., to ensure atomicity of a
+			transaction.</li>
+		<li>Sanitizing input values recevied from the UI component.</li>
+		<li>Providing a mechanims for checking access control rights.</li>
+	</ul>
 
+	<div class="image-holder">
+		<img src="images/LogicComponent.png" width="90%" />
+	</div>
+	<br>
 
-		<h3>Logic API</h3>
-		Represented by these classes:
-		<ul>
-			<li><span class="code">Logic</span>: For the use of the UI. <span
-				class="code">Logic</span> class acts as a facade between UI
-				(servlets) and the backend of the app.</li>
-			<li><span class="code">GateKeeper</span>: For the use of the UI.
-				To check the access rights of a user for a given action.</li>
-			<li><span class="code">BackDoorLogic</span>: For the use of <span
-				class="code">TestDriver</span> (via <span class="code">BackDoorServlet</span>)</li>
-		</ul>
-
-		<h3>Policies</h3>
-		General: <br>
-		<ul>
-			<li>Null values should <span class="bold">not</span> be used as
-				parameters to this API, except when following the KeepExisting
-				policy (explained later).
-			</li>
-		</ul>
-
-		<br>Access control:
-		<ul>
-			<li>Although this component provides methods to perform access
-				control, it API itself is not access controlled. The UI is expected
-				to check access control (using <span class="code">GateKeeper</span>
-				class) before calling a method in the <span class="code">Logic</span>.
-			
-			<li>However, calls received by <span class="code">BackDoorServlet</span>
-				are authenticated using the 'backdoor key'. Backdoor key is a string
-				known only to the person who deployed the app (typically, the
-				administrator).
-			</li>
-		</ul>
-		<br>API for creating entities:
-		<ul>
-			<li>Null parameters: Causes an assertion failure.</li>
-			<li>Invalid parameters: Throws <span class="code">InvalidParametersException</span>.
-			</li>
-			<li>Entity already exists: Throws <span class="code">EntityAlreadyExists</span>
-				exception (escalated from <span class="code">Storage</span> level).
-			</li>
-			<li>When creating <span class="code">Evaluations</span>, <span
-				class="code">Submission</span> entities are automatically created at
-				the time of creating an evaluation or changing the team structure of
-				a course.
-			</li>
-		</ul>
-		<br>API for retrieving entities:
-		<ul>
-			<li>Attempting to retrieve objects using <span class="code">null</span>
-				parameters: Causes an assertion failure.
-			</li>
-			<li>Entity not found: <br> -Returns <span class="code">null</span>
-				if the target entity not found. This way, read operations can be
-				used easily for checking the existence of an entity.<br>
-				-Throws <span class="code">EntityDoesNotExistsExeption</span> if a
-				parent entity of a target entity is not found e.g., trying to list
-				students of a non-existent course.
-			</li>
-		</ul>
-		<br>API for updating entities:
-		<ul>
-			<li>Primary keys cannot be edited except: <span class="code">Student.email.</span>
-			</li>
-			<li>KeepExistingPolicy: the new value of an optional attribute
-				is specified as <span class="code">null</span> or set to
-				“Uninitialized”, the existing value will prevail. {This is not a
-				good policy. To be reconsidered}.
-			</li>
-			<li><span class="code">Null</span> parameters: Throws an
-				assertion error if that parameter cannot be null. Optional
-				attributes follow KeepExistingPolicy.</li>
-			<li>Entity not found: Throws <span class="code">EntityDoesNotExistException</span>
-				exception.
-			</li>
-			<li>Invalid parameters: Throws <span class="code">InvalidParametersException.</span>
-			</li>
-		</ul>
-
-		<br>API for deleting entities:
-		<ul>
-			<li><span class="code">Null</span> parameters: Not expected.
-				Results in assertion failure.</li>
-			<li>FailDeleteSilentlyPolicy: In general, delete operation do
-				not throw exceptions if the target entity does not exist. Instead,
-				it logs a warning. This is because if it does not exist, it is as
-				good as deleted.</li>
-			<li>Cascade policy: When a parent entity is deleted, entities
-				that have referential integrity with the deleted entity should also
-				be deleted. <br> Refer to the API for the cascade logic.
-			</li>
-		</ul>
-		<h2 id="design-storage">Storage</h2>
-		The <span class="code">Storage</span> component performs CRUD (Create,
-		Read, Update, Delete) operations on data entities individually.
-
-		<div class="image-holder">
-			<img src="images/StorageComponent.png" width=100% />
-		</div>
-
-		Package overiew:
-		<ul>
-			<li><span class="code bold">storage.api</span>: Provides the
-				normal API of the component.</li>
-			<li><span class="code bold">storage.entity</span>: Classes that
-				represent persistable entities.</li>
-			<li><span class="code bold">storage.datastore</span>: Classes
-				for dealing with the datastore.</li>
-		</ul>
-
-		<br>Storage contains minimal logic beyond what is directly
-		relevant to CRUD operations. <br> In particular, it handles
-		these:
-		<ul>
-			<li>Validating data inside entities before creating/updating
-				them, to ensure they are in a valid state.</li>
-			<li>Hiding the complexities of datastore from the <span
-				class="code">Logic</span> component. All GQL queries are to be
-				contained inside the <span class="code">Storage</span> component.
-			</li>
-			<li>Protecting persitable objects: Classes in the <span
-				class="code">storage::entity</span> package are not visible outside
-				this component to prevent accidental modification to the entity's
-				attributes (Since these classes have been marked as 'persistence
-				capable', and changes to their attributes are automatically
-				persisted to the datastore by default). <br> Instead, a
-				corresponding non-persistent <a
-				href="http://en.wikipedia.org/wiki/Data_transfer_object">data
-					transfer object</a> named <span class="code">*Attributes</span> (e.g.,
-				<span class="code">CourseAttributes</span> is the data transfer
-				object for <span class="code">Course</span> entities) object is
-				returned, where values can be modified easily without any impact on
-				the persistent data copy. These datatransfer classes are in <span
-				class="code">common::datatransfer</span> package explained later.
-				Note: This decision was taken before GAE started supporting <a
-				href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
-					the ability to 'detach' entities </a> to prevent accidental
-				modifications to persistable data. The decision to use data transfer
-				objects is to be reconsidered in the future.
-			</li>
-		</ul>
-		The <span class="code">Storage</span> component will not perform any
-		cascade delete/create operations.Cascade logic is currently handled by
-		the <span class="code">Logic</span> component. <br> <br>
-		Note that the navigability of the association links between entity
-		objects appear to be in the reverse direction of what we see in a
-		normal OOP design. This is because we want to keep the data scheme
-		flexible so that new entity types can be added later with minimal
-		modifications to existing elements.
-
-		<h3>Policies</h3>
-		Add and Delete operations try to wait until data is persisted in the
-		datastore before returning. This is not enough to compensate for
-		eventual consistency involving multiple servers in the GAE production
-		enviornment. However, it is expected to avoid test failures caused by
-		eventual consistency in dev server and reduce such problems in the
-		live server. <br> Note: 'Eventual consistency' here means it
-		takes some time for a database operation to propagate across all
-		serves of the Google's distributed datastore. As a result, the data
-		may be in an inconsistent states for short periods of time although
-		things should become consistent 'eventually'. For example, an object
-		we deleted may appear to still exist for a short while. <br> <br>
-		Implementation of Transaction Control has been decided against due to
-		limitations of GAE environment and the nature of our data schema.
-		Please see <a
-			href="https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true">TEAMMATES
-			Decision Analysis </a> document for more information. <br> <br>
-		General: <br>
-		<ul>
-			<li>If <span class="code">Null</span> is passed as a parameter,
-				the corresponding value is <span class="bold">NOT</span> modified,
-				as per the KeepExistingPolicy that was previously mentioned.
-			</li>
-		</ul>
-		<br> API for creating:
-		<ul>
-			<li>Attempt to create an entity that already exists: Throws <span
-				class="code">EntityAlreadyExists</span> exception.
-			</li>
-			<li>Attempt to create an entity with invalid data: Throws <span
-				class="code">InvalidParametersException</span></li>
-		</ul>
-		<br> API for retrieving:
-		<ul>
-			<li>Attempt to retrieve an entity that does not exist: Returns <span
-				class="code">null</span>.
-			</li>
-		</ul>
-		<br> API for updating:
-		<ul>
-			<li>Attempt to update an entity that does not exist: Throws <span
-				class="code">EntityDoesNotExistException</span>.
-			</li>
-			<li>Attempt to update an entity with invalid data: Throws <span
-				class="code">InvalidParametersException</span></li>
-		</ul>
-		<br> API for deleting:
-		<ul>
-			<li>Attempt to delete an entity that does not exist: Fails
-				silently.</li>
-		</ul>
+	Package overiew:
+	<ul>
+		<li><span class="code bold">logic.api</span>: Provides the normal API of the component.</li>
+		<li><span class="code bold">logic.backdoor</span>: Provides a mechanism for the test driver to access data.</li>
+		<li><span class="code bold">logic.core</span>: Contains the core logic of the system.</li>
+		<li><span class="code bold">logic.automated</span>: Contains the logic of automated tasks.</li>
+	</ul>
 
 
-		<h2 id="design-common">Common</h2>
-		The Common component contains common utilities used across TEAMMATES.
-		<br>
-		<div class="image-holder">
-			<img src="images/CommonComponent.png" width=90% />
-		</div>
+	<h3>Logic API</h3>
+	Represented by these classes:
+	<ul>
+		<li><span class="code">Logic</span>: For the use of the UI. <span
+			class="code">Logic</span> class acts as a facade between UI
+			(servlets) and the backend of the app.</li>
+		<li><span class="code">GateKeeper</span>: For the use of the UI. To
+			check the access rights of a user for a given action.</li>
+		<li><span class="code">BackDoorLogic</span>: For the use of <span
+			class="code">TestDriver</span> (via <span class="code">BackDoorServlet</span>)</li>
+	</ul>
 
-		Package overiew:
-		<ul>
-			<li><span class="code bold">common.util</span>: Contains utility
-				classes.</li>
-			<li><span class="code bold">common.exceptions</span>: Contains
-				custom exceptions.</li>
-			<li><span class="code bold">common.datatransfer</span>:
-				Containts data transfer objects. Given below are some more
-				information about this package.</li>
-		</ul>
-		<span class="code">common.datatransfer</span> package contains
-		lightweight 'data transfer object' classes for transferring data among
-		components. They can be combined in various ways to transfer
-		structured data between components. Given below are three examples. <br>
-		<div class="image-holder">
-			<img src="images/dataTransferClasses.png" width=90% />
-		</div>
-		<br> (a) <span class="code">Test Driver</span> can use the <span
-			class="code">DataBundle</span> in this manner to send an arbitrary
-		number of objects to be persisted in the database. <br> (b) This
-		structure can be used to transfer data of a course (e.g., when
-		constructing the home page for an instructor). <br> (c) This
-		structure can be used to send results of an evaluation (e.g., when
-		showing an evaluation report to an instructor) <br> <br> For
-		convenience, these classes use public variables for data. This is not
-		a good practice as it contravenes OO principle of <i>information
-			hiding</i> and increases the risk of inconsistent data. This strategy is
-		to be reconsidered at a later date. <br>
+	<h3>Policies</h3>
+	General:
+	<br>
+	<ul>
+		<li>Null values should <span class="bold">not</span> be used as
+			parameters to this API, except when following the KeepExisting policy
+			(explained later).
+		</li>
+	</ul>
+
+	<br>Access control:
+	<ul>
+		<li>Although this component provides methods to perform access control,
+		it API itself is not access controlled. The UI is expected to check access
+		control (using <span class="code">GateKeeper</span> class) before calling a method in the <span class="code">Logic</span>.
+		<li>However, calls received by <span class="code">BackDoorServlet</span>
+			are authenticated using the 'backdoor key'. Backdoor key is a string
+			known only to the person who deployed the app (typically, the
+			administrator).
+		</li>
+	</ul>
+	<br>API for creating entities:
+	<ul>
+		<li>Null parameters: Causes an assertion failure.</li>
+		<li>Invalid parameters: Throws <span class="code">InvalidParametersException</span>.</li>
+		<li>Entity already exists: Throws <span class="code">EntityAlreadyExists</span>
+			exception (escalated from <span class="code">Storage</span> level).
+		</li>
+		<li>When creating <span class="code">Evaluations</span>, <span
+			class="code">Submission</span> entities are automatically created at
+			the time of creating an evaluation or changing the team structure of
+			a course.
+		</li>
+	</ul>
+	<br>API for retrieving entities:
+	<ul>
+		<li>Attempting to retrieve objects using <span class="code">null</span>
+			parameters: Causes an assertion failure.
+		</li>
+		<li>Entity not found: <br> -Returns <span class="code">null</span>
+			if the target entity not found. This way, read operations can be used
+			easily for checking the existence of an entity.<br> -Throws <span
+			class="code">EntityDoesNotExistsExeption</span> if a parent entity
+			of a target entity is not found e.g., trying to list students of a
+			non-existent course.
+		</li>
+	</ul>
+	<br>API for updating entities:
+	<ul>
+		<li>Primary keys cannot be edited except: <span class="code">Student.email.</span>
+		</li>
+		<li>KeepExistingPolicy: the new value of an optional attribute is
+			specified as <span class="code">null</span> or set to
+			“Uninitialized”, the existing value will prevail. {This is not a good
+			policy. To be reconsidered}.
+		</li>
+		<li><span class="code">Null</span> parameters: Throws an
+			assertion error if that parameter cannot be null. Optional attributes
+			follow KeepExistingPolicy.</li>
+		<li>Entity not found: Throws <span class="code">EntityDoesNotExistException</span>
+			exception.
+		</li>
+		<li>Invalid parameters: Throws <span class="code">InvalidParametersException.</span>
+		</li>
+	</ul>
+
+	<br>API for deleting entities:
+	<ul>
+		<li><span class="code">Null</span> parameters: Not expected.
+			Results in assertion failure.</li>
+		<li>FailDeleteSilentlyPolicy: In general, delete operation do not
+			throw exceptions if the target entity does not exist. Instead, it
+			logs a warning. This is because if it does not exist, 
+			it is as good as deleted.</li>
+		<li>Cascade policy: When a parent entity is deleted, entities
+			that have referential integrity with the deleted entity should also
+			be deleted. <br> Refer to the API for the cascade logic.
+		</li>
+	</ul>
+	<h2 id="design-storage">Storage</h2>
+	The
+	<span class="code">Storage</span> component performs CRUD (Create,
+	Read, Update, Delete) operations on data entities individually. 
+	
+	<div class="image-holder">
+		<img src="images/StorageComponent.png" width=100% />
+	</div>
+	
+	Package overiew:
+	<ul>
+		<li><span class="code bold">storage.api</span>: Provides the normal API of the component.</li>
+		<li><span class="code bold">storage.entity</span>: Classes that represent persistable entities.</li>
+		<li><span class="code bold">storage.datastore</span>: Classes for dealing with the datastore.</li>
+	</ul>
+	
+	<br>Storage contains minimal logic beyond what is directly relevant to
+	CRUD operations. <br> In particular, it handles these:
+	<ul>
+		<li>Validating data inside entities before creating/updating
+			them, to ensure they are in a valid state.</li>
+		<li>Hiding the complexities of datastore from the <span
+			class="code">Logic</span> component. All GQL queries are to be
+			contained inside the <span class="code">Storage</span> component.
+		</li>
+		<li>Protecting persitable objects: Classes in the <span
+			class="code">storage::entity</span> package are not visible outside
+			this component to prevent accidental modification to the entity's
+			attributes (Since these classes have been marked as 'persistence
+			capable', and changes to their attributes are automatically persisted
+			to the datastore by default). <br> Instead, a corresponding
+			non-persistent <a
+			href="http://en.wikipedia.org/wiki/Data_transfer_object">data
+				transfer object</a> named <span class="code">*Attributes</span> (e.g., <span
+			class="code">CourseAttributes</span> is the data transfer object for
+			<span class="code">Course</span> entities) object is returned, where
+			values can be modified easily without any impact on the persistent
+			data copy. These datatransfer classes are in <span class="code">common::datatransfer</span>
+			package explained later. Note: This decision was taken before GAE
+			started supporting <a
+			href="https://developers.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata">
+				the ability to 'detach' entities </a> to prevent accidental
+			modifications to persistable data. The decision to use data transfer
+			objects is to be reconsidered in the future.
+		</li>
+	</ul>
+	The <span class="code">Storage</span> component will not perform any
+	cascade delete/create operations.Cascade logic is currently handled by
+	the <span class="code">Logic</span> component.
+	<br>  
+
+	
+	<br> Note that the navigability of the association links between
+	entity objects appear to be in the reverse direction of what we see in
+	a normal OOP design. This is because we want to keep the data scheme
+	flexible so that new entity types can be added later with minimal
+	modifications to existing elements.
+
+	<h3>Policies</h3>
+	Add and Delete operations try to wait until data is persisted in the
+	datastore before returning. This is not enough to compensate for
+	eventual consistency involving multiple servers in the GAE production
+	enviornment. However, it is expected to avoid test failures caused by
+	eventual consistency in dev server and reduce such problems in the live server.
+	<br> Note: 'Eventual consistency' here means it takes some time
+	for a database operation to propagate across all serves of the Google's
+	distributed datastore. As a result, the data may be in an inconsistent
+	states for short periods of time although things should become
+	consistent 'eventually'. For example, an object we deleted may appear
+	to still exist for a short while.
+	<br>
+	<br> Implementation of Transaction Control has been decided
+	against due to limitations of GAE environment and the nature of our
+	data schema. Please see
+	<a
+		href="https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true">TEAMMATES
+		Decision Analysis </a> document for more information.
+	<br>
+	<br> General:
+	<br>
+	<ul>
+		<li>If <span class="code">Null</span> is passed as a parameter,
+			the corresponding value is <span class="bold">NOT</span> modified, as
+			per the KeepExistingPolicy that was previously mentioned.
+		</li>
+	</ul>
+	<br> API for creating:
+	<ul>
+		<li>Attempt to create an entity that already exists: Throws <span
+			class="code">EntityAlreadyExists</span> exception.
+		</li>
+		<li>Attempt to create an entity with invalid data: Throws <span
+			class="code">InvalidParametersException</span></li>
+	</ul>
+	<br> API for retrieving:
+	<ul>
+		<li>Attempt to retrieve an entity that does not exist: Returns <span
+			class="code">null</span>.
+		</li>
+	</ul>
+	<br> API for updating:
+	<ul>
+		<li>Attempt to update an entity that does not exist: Throws <span
+			class="code">EntityDoesNotExistException</span>.
+		</li>
+		<li>Attempt to update an entity with invalid data: Throws <span
+			class="code">InvalidParametersException</span></li>
+	</ul>
+	<br> API for deleting:
+	<ul>
+		<li>Attempt to delete an entity that does not exist: Fails silently.</li>
+	</ul>
 
 
-		<h2 id="design-testdriver">TestDriver</h2>
-		This component automates the testing of TEAMMATES. <br>
-		<div class="image-holder">
-			<img src="images/TestDriverComponent.png" width=100% />
-		</div>
-		Package overiew:
-		<ul>
-			<li><span class="code bold">test.driver</span>: Contains
-				infrastructure need for running the test driver.</li>
-			<li><span class="code bold">test.pageobjects</span>: Contains
-				abstractions of the pages as the appear on a Browser (i.e. SUTs).</li>
-			<li><span class="code bold">test.cases</span>: Contains test
-				cases. <br> Sub packages:
-				<ul>
-					<li><span class="code bold">.cases.driver</span>: Component
-						test cases for testing test driver infrastructure.</li>
-					<li><span class="code bold">.cases.browsertests</span>: System
-						test cases for testing the UI.</li>
-					<li><span class="code bold">.cases.common</span>: Component
-						test cases for testing the <span class="code">Common</span>
-						component.</li>
-					<li><span class="code bold">.cases.logic</span>: Component
-						test cases for testing the <span class="code">Logic</span>
-						component.</li>
-					<li><span class="code bold">.cases.storage</span>: Component
-						test cases for testing the <span class="code">Storage</span>
-						component.</li>
-				</ul></li>
-		</ul>
-		Notes:
-		<ul>
-			<li>Component tests: Some of these are pure unit tests (i.e.,
-				test one component in isolation) while others are integration tests
-				that tests units as well as integration of units with each other.<br>
-			</li>
-			<li><span class="code">AllJsTests.java</span> (implemented as a
-				UI test) is for unit testing JavaScript code.</li>
+	<h2 id="design-common">Common</h2>
+	The Common component contains common utilities used across
+	TEAMMATES.
+	<br>
+	<div class="image-holder">
+		<img src="images/CommonComponent.png" width=90% />
+	</div>
 
-		</ul>
-		This is how TEAMMATES testing maps to standard types of testing. <br>
-		<br>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Normal: <span
-			style="background: #A4C2F4">|---------acceptance
-			tests----|---system tests----|-----integration tests-----|-------unit
-			tests----------|</span> <br> TEAMMATES: <span
-			style="background: #F4CCCC">|---------manual
-			testing-------------|</span> <span style="background: #B6D7A8">----automated
-			UI tests----|---automated component tests ---|</span>
-
-		<h2 id="design-client">Client</h2>
-		The Client component contains scripts that can connect to the
-		application backend for things such as migrating data and calculating
-		statistics.
-		<p>Package overiew:
-		<ul>
-			<li><span class="code bold">client.remoteapi</span>: Classes
-				needed to connect to the backend directly.</li>
-			<li><span class="code bold">client.scripts</span>: Scripts that
-				do things with the back end data.</li>
-
-		</ul>
-
-		<hr>
-		<!-- =============================================================== -->
-
-		<h1 id="infrastructure">Infrastructure</h1>
-
-		<h2 id="infrastructure-knowledgebase">Knowledge base</h2>
-
-		<ul>
-			<li>Is available at our <span class="bold">developer
-					website</span> : <a href="http://code.google.com/p/teammatespes">teammatesPES.googlecode.com</a>
-				{PES = Peer Evaluation System}
-			</li>
-		</ul>
+	Package overiew:
+	<ul>
+		<li><span class="code bold">common.util</span>: Contains utility
+			classes.</li>
+		<li><span class="code bold">common.exceptions</span>: Contains
+			custom exceptions.</li>
+		<li><span class="code bold">common.datatransfer</span>: Containts
+			data transfer objects. Given below are some more information
+			about this package.</li>
+	</ul>
+	<span class="code">common.datatransfer</span> package contains
+	lightweight 'data transfer object' classes for transferring data among components. 
+	They can be combined in various ways to transfer structured data between
+	components. Given below are three examples.
+	<br>
+	<div class="image-holder">
+		<img src="images/dataTransferClasses.png" width=90% />
+	</div>
+	<br> (a)
+	<span class="code">Test Driver</span> can use the
+	<span class="code">DataBundle</span> in this manner to send an
+	arbitrary number of objects to be persisted in the database.
+	<br> (b) This structure can be used to transfer data of a course
+	 (e.g., when constructing the home page for an
+	instructor).
+	<br> (c) This structure can be used to send results of an
+	evaluation (e.g., when showing an evaluation report to an instructor)
+	<br>
+	<br> For convenience, these classes use public variables for data.
+	This is not a good practice as it contravenes OO principle of
+	<i>information hiding</i> and increases the risk of inconsistent data.
+	This strategy is to be reconsidered at a later date.
+	<br>
 
 
-		<h2 id="infrastructure-toolsandtechnologies-deployment">Deployment
-			environment</h2>
-		<ul>
-			<li><span class="bold">Google App Engine (GAE)</span></li>
-			<li><span class="bold">Java</span> [version 1.7, this is the
-				highest version supported by GAE]</li>
-			<li><span class="bold">Live site</span>: <a
-				href="http://teammatesv4.appspot.com/">http://teammatesv4.appspot.com</a></li>
-		</ul>
+	<h2 id="design-testdriver">TestDriver</h2>
+	This component automates the testing of TEAMMATES.
+	<br>
+	<div class="image-holder">
+		<img src="images/TestDriverComponent.png" width=100% />
+	</div>
+	Package overiew:
+	<ul>
+		<li><span class="code bold">test.driver</span>: Contains
+			infrastructure need for running the test driver.</li>
+		<li><span class="code bold">test.pageobjects</span>: Contains
+			abstractions of the pages as the appear on a Browser (i.e. SUTs).</li>
+		<li><span class="code bold">test.cases</span>: Contains test
+			cases. <br> Sub packages:
+			<ul>
+				<li><span class="code bold">.cases.driver</span>: Component
+					test cases for testing test driver infrastructure.</li>
+				<li><span class="code bold">.cases.browsertests</span>: System
+					test cases for testing the UI.</li>
+				<li><span class="code bold">.cases.common</span>: Component
+					test cases for testing the <span class="code">Common</span>
+					component.</li>
+				<li><span class="code bold">.cases.logic</span>: Component test
+					cases for testing the <span class="code">Logic</span> component.</li>
+				<li><span class="code bold">.cases.storage</span>: Component
+					test cases for testing the <span class="code">Storage</span>
+					component.</li>
+			</ul></li>
+	</ul>
+	Notes:
+	<ul>
+		<li>Component tests: Some of these are pure unit tests (i.e.,
+			test one component in isolation) while others are integration tests
+			that tests units as well as integration of units with each other.<br>
+		</li>
+		<li><span class="code">AllJsTests.java</span> (implemented as a
+			UI test) is for unit testing JavaScript code.</li>
 
-		<h2 id="infrastructure-toolsandtechnologies-development">Development
-			environment</h2>
-		<ul>
-			<li><span class="bold">Eclipse</span> IDE for EE developers
-				[version Kepler]</li>
-			<li><span class="bold">Google App Engine Plugin for
-					Eclipse</span> [version 4.2 or version 4.3]</li>
-			<li><span class="bold">Google App Engine SDK</span> [version
-				1.7.7.1]</li>
-			<li><span class="bold">TortoiseHg</span> or Mac OS equivalent
-				[version: latest stable]</li>
-			<li><span class="bold">Google Code</span> project hosting.</li>
-			<li><span class="bold"><a
-					href="https://codereview.appspot.com">Rietveld</a></span> Code Review
-				System.</li>
-		</ul>
+	</ul>
+	This is how TEAMMATES testing maps to standard types of testing.
+	<br>
+	<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Normal:
+	<span style="background: #A4C2F4">|---------acceptance
+		tests----|---system tests----|-----integration tests-----|-------unit
+		tests----------|</span>
+	<br> TEAMMATES:
+	<span style="background: #F4CCCC">|---------manual
+		testing-------------|</span>
+	<span style="background: #B6D7A8">----automated UI
+		tests----|---automated component tests ---|</span>
 
-		<h2 id="infrastructure-toolsandtechnologies-implementation">Tools
-			used in implementation</h2>
-		<ul>
-			<li><span class="bold">HTML</span> [version 5, using latest
-				features is discouraged due to lack of enough Browser support], <span
-				class="bold">JavaScript</span>, <span class="bold">CSS</span></li>
-			<li><a class="bold" href="http://jquery.com/">jQuery</a> </span>
-				[version 1.8.3] <br>jQuery is a JavaScript Library that
-				simplifies HTML document traversing, event handling, animating, and
-				Ajax interactions for rapid web development.</li>
-			<li><span class="bold">JSON </span><span>(JavaScript
-					Object Notation) <br>JSON is a lightweight data-interchange
-					format. It is easy for humans to read and write. It is easy for
-					machines to parse and generate. It is based on a subset of the
-					JavaScript. </li>
-			<li><a class="bold" href="http://code.google.com/p/google-gson/">Gson</a></span>
-				[version 2.2.2] <br>Gson is a Java library that can be used to
-				convert Java Objects into their JSON representation. It can also be
-				used to convert a JSON string to an equivalent Java object.</li>
-			<li><span class="bold">Java Server Pages (JSP)</span> <br>JSP
-				technology provides a simplified way to create dynamic web content.
-				A JSP page can be thought as an HTML page with embedded Java code
-				snippets.</li>
-			<li><span class="bold">Java Servlets</span> <br>Java
-				Servlet technology provides a simple, consistent mechanism for
-				extending the functionality of a Web server and for accessing
-				existing business systems. A servlet can almost be thought of as an
-				applet that runs on the server side--without a face.</li>
-			<li><span class="bold"><a
-					href="https://developers.google.com/appengine/docs/java/datastore/jdo/overview">
-						Java Data Objects (JDO)</a></span> [version 2.3; while GAE supports JDO 3.0
-				as well, we continue to use JDO 2.3 because it is easier to set up.]
-				<br>JDO is a standard interface for storing objects containing
-				data into a database. The standard defines interfaces for annotating
-				Java objects, retrieving objects with queries, and interacting with
-				a database using transactions. An application that uses the JDO
-				interface can work with different kinds of databases without using
-				any database-specific code, including relational databases,
-				hierarchical databases, and object databases.</li>
-			<li><span class="bold">Datanucleus Access Platform</span>
-				[version 1; while GAE supports Datanucleus v2 as well, the version
-				that goes with JDO 2.3 is v1] <br>The DataNucleus Access
-				Platform provides persistence and retrieval of data to a range of
-				datastores using a range of APIs, with a range of query languages. <br>Comes
-				with App Engine SDK.</li>
-			<li><span class="bold">Xerces XML Parser</span> [version 2.9.1]
-				<br />This library is required to parse the XML config files. This
-				library may not be needed on some platforms as it may already come
-				packaged on some JREs (particulary windows)</li>
-		</ul>
+	<h2 id="design-client">Client</h2>
+	The Client component contains scripts that can connect to the
+	application backend for things such as migrating data and calculating
+	statistics.
+	<p> Package overiew:
+	<ul>
+		<li><span class="code bold">client.remoteapi</span>: Classes
+			needed to connect to the backend directly.</li>
+		<li><span class="code bold">client.scripts</span>: Scripts that
+			do things with the back end data.</li>
 
-		<h2 id="infrastructure-toolsandtechnologies-testing">Tools used
-			in testing</h2>
-		<ul>
-			<li><span class="bold"><a
-					href="http://code.google.com/p/selenium/wiki/UsingWebDriver">
-						Selenium</a></span> [version 2.26.0] <br>Selenium automates browsers. We
-				use it for automating our UI tests. <br>We require Selenium
-				standalone server, Chrome driver, IE driver, and Java language
-				bindings.</li>
-			<li><span class="bold"><a
-					href="http://www.oracle.com/technetwork/java/javamail/index.html">JavaMail</a></span>
-				[version 1.4.5] <br>The JavaMail API provides a
-				platform-independent and protocol-independent framework to build
-				mail and messaging applications. <br> Usage: For accessing test
-				users' email accounts to examine emails sent from TEAMMATES.</li>
-			<li><span class="bold"><a href="http://testng.org/">TestNG</a></span>
-				[version 6.8.1] <br>TestNG is a Java test automation framework.</li>
-			<li><span class="bold"><a href="http://qunitjs.com/">QUnit</a></span>
-				[version 1.10.0] <br>QUnit is a JavaScript unit test suite.</li>
-			<li><span class="bold">NekoHtml</span> [version 1.9.16] <br>NekoHTML
-				is a simple HTML scanner and tag balancer that enables application
-				programmers to parse HTML documents and access the information using
-				standard XML interfaces. <br>NekoHTML is included in the
-				Selenium libraries. <br>Usage: During UI testing, for doing a
-				logical comparison of the pages generated against expected pages.</li>
-			<li><span class="bold">HttpUnit</span> [version 1.7] <br>We
-				use the <a
-				href="http://httpunit.sourceforge.net/doc/servletunit-intro.html">ServletUnit</a>
-				component of HttpUnit to create <span class="code">HttpServletUnit</span>
-				objects used for testing.</li>
-		</ul>
-		<h2 id="infrastructure-configpoints">Config points</h2>
-		There are several files used to configure various aspects of the
-		system.
-		<ul>
-			<li><span class="code"><span class="bold">build.properties
-				</span></span>: This is the main general purpose configuration file used by the
-				main app.
-			<li><span class="code"><span class="bold">logging.properties
-				</span></span>: Configuration for java.util.logging users.
-			<li><span class="code"><span class="bold">log4j.properties
-				</span></span>: Configuration for log4j users. Not used by us.
-			<li><span class="code"><span class="bold">test.properties
-				</span></span>: Contains configuration values for the test driver.
-			<li><span class="code"><span class="bold">appengine-web.xml
-				</span></span>: Contains configuration for deploying the application on app
-				engine.
-			<li><span class="code"><span class="bold">web.xml
-				</span></span>: This is the configurations for the webserver. It specifies
-				servlets to run, mapping from URLs to servlets/JSPs, security
-				constraints, etc.
-			<li><span class="code"><span class="bold">cron.xml
-				</span></span>: This specifies cron jobs to run.
-			<li><span class="code"><span class="bold">queue.xml
-				</span></span>: Specifies configuration of task queues.
-			<li><span class="code"><span class="bold">jdoconfig.xml
-				</span></span>: Specifies the JDO configuration.
-			<li><span class="code"><span class="bold">persistence.xml
-				</span></span>: auto-generated.
-		</ul>
+	</ul>
 
-		<hr>
-		<!-- =============================================================== -->
+	<hr>
+	<!-- =============================================================== -->
 
-		<h1 id="settingup">Setting Up</h1>
-		These instructions are for the Windows environment. Instructions for
-		Mac OS is similar, with slight variations that you can figure out
-		yourself.
+	<h1 id="infrastructure">Infrastructure</h1>
 
-		<h2 id="settingup-prerequisites">Prerequisites</h2>
-		Important: When a version is specified, please install that version
-		instead of the latest version available.
-		<ul>
-			<li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>
-				latest stable version. <br>If you are on Mac OS, you can
-				install <a href="http://mercurial.selenic.com/">Mercurial
-					(Commandline version)</a> or a Hg GUI such as SourceTree or MacHg.
-			</li>
-			<li>Clone the source code from: <span class="code"><a
-					href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
-				<br /> Note: If you are using TortoiseHg to clone, simply copy the
-				URL above and paste it in the Source field. Alternatively, you can
-				use the command line to do the cloning.
-			</li>
-			<li>Open the latest version of <span class="code">devman.html</span>
-				(i.e. this document). It can be found in the <span class="code">\src\main\webapp\dev\</span>
-				folder of the repo you just cloned. From this point, follow that
-				document as it may be newer than the <a
-				href="https://teammatesv4.appspot.com/dev/devman.html">released
-					version</a>.
-			</li>
-			<li>Name the folder of repo you just cloned as <span
-				class="bold">teammates</span>.
-			</li>
-			<li>Install the latest JDK.</li>
-			<li>Download <i>Eclipse IDE for Java EE Developers</i> (version:
-				Kepler) from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/</a>.
-			</li>
-			<li>Change the text file encoding of your Eclipse workspace to
-				UTF-8:<br> Go to Window→Preferences→General→Workspace, change
-				the "Text file encoding" setting from <i>Default</i> to <i>Other:
-					UTF-8</i>.
-			</li>
-			<li>Install <i>Google Plugin for Eclipse</i> version 4.3. Be
-				careful to omit other plugins shown on the screen (e.g., Google App
-				Engine Tools for Android, GWT plugin). <br>Instructions are at
-				<a
-				href="https://developers.google.com/eclipse/docs/install-eclipse-4.3">https://developers.google.com/eclipse/docs/install-eclipse-4.3</a>
-				<br>Note: Sometimes the update site for the GAE plug-in does
-				not work. In which case, follow the instructions at <a
-				href="https://developers.google.com/eclipse/docs/install-from-zip">https://developers.google.com/eclipse/docs/install-from-zip</a>.
-			</li>
-			<li>Install <i>Google App Engine SDK</i> version 1.7.7.1 <br>Instructions
-				are at <a
-				href="https://developers.google.com/eclipse/docs/using_sdks">https://developers.google.com/eclipse/docs/using_sdks</a>.
-				<br>Download link to the SDK is <a
-				href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip</a>.
-			</li>
-			<li>Install the latest <a
-				href="http://testng.org/doc/eclipse.html"><i>TestNG Eclipse
-						plugin</i></a>.
-			</li>
-			<li>If you plan to contribute code, also install Python 2.5+
-				(not version 3.x). {Python is used by the patch uploader script}.
-				Make sure that your command prompt recognises <span class="code">python</span>
-				as an instruction to start the interpreter. If it doesn't, you need
-				to add <span class="code">python</span>'s installation directory in
-				your PATH environment variable. For Windows, see <a
-				href="http://docs.python.org/2/faq/windows">here</a> for more
-				details
-			</li>
-			<li>If you plan to use Firefox for testing TEAMMATES
-				(alternatively, you may use Chrome or IE, but FF is the most
-				convenient of the three), downgrade to Firefox 12.0 from <a
-				href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a>
-				{The web driver we use does not work with the latest Firefox.} or
-				install multiple version of Firefox. To do this, grab Firefox 12.0
-				from the above link, and choose a custom setup during install, in
-				which you will be able to specify a different path for this version
-				(e.g. C:\Program Files\Mozilla Firefox 12) in a later step.
-			</li>
-		</ul>
+	<h2 id="infrastructure-knowledgebase">Knowledge base</h2>
 
-		<h2 id="settingup-settingupdevserver">Setting up the dev server</h2>
-		'Dev server' means running the server in localhost mode.
-		<ol>
-			<li>Configure Hg: <br> Configure the user name in Hg global
-				settings. The recommended format is <span class="code">Full
-					name &lt;email&gt;</span> e.g. <span class="code">John Mayor
-					&lt;john.m@gmail.com&gt; </span><br> Add the following section to the
-				<span class="code">hgrc</span> file inside your project repo folder.
-				{reason: to configure Mercurial Queue extension and EOL extension
-				that we use for TEAMMATES.} <br> <span class="code">
-					[extensions]<br> #enable mercurial queue extension<br>
-					hgext.mq =<br> #enable end-of-line extension<br> eol =<br>
-					[diff]<br> # prevent qrefresh from updating timestamps<br>
-					nodates=1<br> # force all patches to always be in git format<br>
-					git=1<br>
+	<ul>
+		<li>Is available at our <span class="bold">developer website</span> : <a
+			href="http://code.google.com/p/teammatespes">teammatesPES.googlecode.com</a>
+			{PES = Peer Evaluation System}</li>
+	</ul>
+
+
+	<h2 id="infrastructure-toolsandtechnologies-deployment">Deployment
+		environment</h2>
+	<ul>
+		<li><span class="bold">Google App Engine (GAE)</span></li>
+		<li><span class="bold">Java</span> [version 1.7, this is the
+			highest version supported by GAE]</li>
+		<li><span class="bold">Live site</span>: <a
+			href="http://teammatesv4.appspot.com/">http://teammatesv4.appspot.com</a></li>
+	</ul>
+
+	<h2 id="infrastructure-toolsandtechnologies-development">Development
+		environment</h2>
+	<ul>
+		<li><span class="bold">Eclipse</span> IDE for EE developers
+			[version Kepler]</li>
+		<li><span class="bold">Google App Engine Plugin for
+				Eclipse</span> [version 4.2 or version 4.3]</li>
+		<li><span class="bold">Google App Engine SDK</span> [version
+			1.7.7.1]</li>
+		<li><span class="bold">TortoiseHg</span> or Mac OS equivalent
+			[version: latest stable]</li>
+		<li><span class="bold">Google Code</span> project hosting.</li>
+		<li><span class="bold"><a
+				href="https://codereview.appspot.com">Rietveld</a></span> Code Review
+			System.</li>
+	</ul>
+
+	<h2 id="infrastructure-toolsandtechnologies-implementation">Tools
+		used in implementation</h2>
+	<ul>
+		<li><span class="bold">HTML</span> [version 5, using latest
+			features is discouraged due to lack of enough Browser support], <span
+			class="bold">JavaScript</span>, <span class="bold">CSS</span></li>
+		<li><a class="bold" href="http://jquery.com/">jQuery</a> </span>
+			[version 1.8.3] <br>jQuery is a JavaScript Library that
+			simplifies HTML document traversing, event handling, animating, and
+			Ajax interactions for rapid web development.</li>
+		<li><span class="bold">JSON </span><span>(JavaScript
+				Object Notation) <br>JSON is a lightweight data-interchange
+				format. It is easy for humans to read and write. It is easy for
+				machines to parse and generate. It is based on a subset of the
+				JavaScript. </li>
+		<li><a class="bold" href="http://code.google.com/p/google-gson/">Gson</a></span>
+			[version 2.2.2] <br>Gson is a Java library that can be used to
+			convert Java Objects into their JSON representation. It can also be
+			used to convert a JSON string to an equivalent Java object.</li>
+		<li><span class="bold">Java Server Pages (JSP)</span> <br>JSP
+			technology provides a simplified way to create dynamic web content. A
+			JSP page can be thought as an HTML page with embedded Java code
+			snippets.</li>
+		<li><span class="bold">Java Servlets</span> <br>Java Servlet
+			technology provides a simple, consistent mechanism for extending the
+			functionality of a Web server and for accessing existing business
+			systems. A servlet can almost be thought of as an applet that runs on
+			the server side--without a face.</li>
+		<li><span class="bold"><a
+				href="https://developers.google.com/appengine/docs/java/datastore/jdo/overview">
+					Java Data Objects (JDO)</a></span> [version 2.3; while GAE supports JDO 3.0 as
+			well, we continue to use JDO 2.3 because it is easier to set up.] <br>JDO
+			is a standard interface for storing objects containing data into a
+			database. The standard defines interfaces for annotating Java
+			objects, retrieving objects with queries, and interacting with a
+			database using transactions. An application that uses the JDO
+			interface can work with different kinds of databases without using
+			any database-specific code, including relational databases,
+			hierarchical databases, and object databases.</li>
+		<li><span class="bold">Datanucleus Access Platform</span>
+			[version 1; while GAE supports Datanucleus v2 as well, the version
+			that goes with JDO 2.3 is v1] <br>The DataNucleus Access
+			Platform provides persistence and retrieval of data to a range of
+			datastores using a range of APIs, with a range of query languages. <br>Comes
+			with App Engine SDK.</li>
+		<li><span class="bold">Xerces XML Parser</span> [version 2.9.1] <br />This
+			library is required to parse the XML config files. This library may
+			not be needed on some platforms as it may already come packaged on
+			some JREs (particulary windows)</li>
+	</ul>
+
+	<h2 id="infrastructure-toolsandtechnologies-testing">Tools used in
+		testing</h2>
+	<ul>
+		<li><span class="bold"><a
+				href="http://code.google.com/p/selenium/wiki/UsingWebDriver">
+					Selenium</a></span> [version 2.26.0] <br>Selenium automates browsers. We
+			use it for automating our UI tests. <br>We require Selenium
+			standalone server, Chrome driver, IE driver, and Java language
+			bindings.</li>
+		<li><span class="bold"><a
+				href="http://www.oracle.com/technetwork/java/javamail/index.html">JavaMail</a></span>
+			[version 1.4.5] <br>The JavaMail API provides a
+			platform-independent and protocol-independent framework to build mail
+			and messaging applications. <br> Usage: For accessing test
+			users' email accounts to examine emails sent from TEAMMATES.</li>
+		<li><span class="bold"><a
+				href="http://testng.org/">TestNG</a></span> [version
+			6.8.1] <br>TestNG is a Java test automation framework.</li>
+		<li><span class="bold"><a href="http://qunitjs.com/">QUnit</a></span>
+			[version 1.10.0] <br>QUnit is a JavaScript unit test suite.</li>
+		<li><span class="bold">NekoHtml</span> [version 1.9.16] <br>NekoHTML
+			is a simple HTML scanner and tag balancer that enables application
+			programmers to parse HTML documents and access the information using
+			standard XML interfaces. <br>NekoHTML is included in the
+			Selenium libraries. <br>Usage: During UI testing, for doing a
+			logical comparison of the pages generated against expected pages.</li>
+		<li><span class="bold">HttpUnit</span> [version 1.7] <br>We
+			use the <a
+			href="http://httpunit.sourceforge.net/doc/servletunit-intro.html">ServletUnit</a>
+			component of HttpUnit to create <span class="code">HttpServletUnit</span>
+			objects used for testing.</li>
+	</ul>
+	<h2 id="infrastructure-configpoints">Config points</h2>
+	There are several files used to configure various aspects of the
+	system.
+	<ul>
+		<li><span class="code"><span class="bold">build.properties
+			</span></span>: This is the main general purpose configuration file
+			used by the main app.
+		<li><span class="code"><span class="bold">logging.properties
+			</span></span>: Configuration for java.util.logging users.
+		<li><span class="code"><span class="bold">log4j.properties
+			</span></span>: Configuration for log4j users. Not used by us.
+		<li><span class="code"><span class="bold">test.properties
+			</span></span>: Contains configuration values for the test driver.
+		<li><span class="code"><span class="bold">appengine-web.xml
+			</span></span>: Contains configuration for deploying the application on app engine.
+		
+		<li><span class="code"><span class="bold">web.xml </span></span>:
+			This is the configurations for the webserver. It specifies servlets
+			to run, mapping from URLs to servlets/JSPs, security constraints,
+			etc.
+		<li><span class="code"><span class="bold">cron.xml
+			</span></span>: This specifies cron jobs to run.
+		<li><span class="code"><span class="bold">queue.xml
+			</span></span>: Specifies configuration of task queues.
+		<li><span class="code"><span class="bold">jdoconfig.xml
+			</span></span>: Specifies the JDO configuration.
+		<li><span class="code"><span class="bold">persistence.xml
+			</span></span>: auto-generated.
+	</ul>
+
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="settingup">Setting Up</h1>
+	These instructions are for the Windows environment. Instructions for
+	Mac OS is similar, with slight variations that you can figure out
+	yourself.
+
+	<h2 id="settingup-prerequisites">Prerequisites</h2>
+	Important: When a version is specified, please install that version
+	instead of the latest version available.
+	<ul>
+		<li>Install <a href="http://tortoisehg.bitbucket.org/">TortoiseHg</a>
+			latest stable version. <br>If you are on Mac OS, you can install
+			<a href="http://mercurial.selenic.com/">Mercurial (Commandline
+				version)</a> or a Hg GUI such as SourceTree or MacHg.
+		</li>
+		<li>Clone the source code from: <span class="code"><a
+				href="https://code.google.com/p/teammatespes/">https://code.google.com/p/teammatespes/</a></span>
+			<br /> Note: If you are using TortoiseHg to clone, simply copy the
+			URL above and paste it in the Source field. Alternatively, you can
+			use the command line to do the cloning.
+		</li>
+		<li>Open the latest version of <span class="code">devman.html</span>
+			(i.e. this document). It can be found in the <span class="code">\src\main\webapp\dev\</span>
+			folder of the repo you just cloned. From this point, follow that
+			document as it may be newer than the <a
+			href="https://teammatesv4.appspot.com/dev/devman.html">released
+				version</a>.
+		</li>
+		<li>Install the latest JDK.</li>
+		<li>Download <i>Eclipse IDE for Java EE Developers</i> (version:
+			Kepler) from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/</a>.
+		</li>
+		<li>Change the text file encoding of your Eclipse workspace to UTF-8:<br>
+			Go to Window→Preferences→General→Workspace, change the "Text file encoding" setting
+			from <i>Default</i> to <i>Other: UTF-8</i>.
+		</li>
+		<li>Install <i>Google Plugin for Eclipse</i> version 4.3. Be
+			careful to omit other plugins shown on the screen (e.g., Google App
+			Engine Tools for Android, GWT plugin). <br>Instructions are at <a
+			href="https://developers.google.com/eclipse/docs/install-eclipse-4.3">https://developers.google.com/eclipse/docs/install-eclipse-4.3</a> 
+			<br>Note: Sometimes the update site for the GAE plug-in
+			does not work. In which case, follow the instructions at <a
+			href="https://developers.google.com/eclipse/docs/install-from-zip">https://developers.google.com/eclipse/docs/install-from-zip</a>.
+		</li>
+		<li>Install <i>Google App Engine SDK</i> version 1.7.7.1 <br>Instructions
+			are at <a
+			href="https://developers.google.com/eclipse/docs/using_sdks">https://developers.google.com/eclipse/docs/using_sdks</a>.
+			<br>Download link to the SDK is <a
+			href="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip">http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip</a>.
+		</li>
+		<li>Install the latest <a
+			href="http://testng.org/doc/eclipse.html"><i>TestNG Eclipse
+					plugin</i></a>.
+		</li>
+		<li>If you plan to contribute code, also install Python 2.5+ (not
+			version 3.x). {Python is used by the patch uploader script}. Make sure
+			that your command prompt recognises <span class="code">python</span>
+			as an instruction to start the interpreter. If it doesn't, you need
+			to add <span class="code">python</span>'s installation directory in
+			your PATH environment variable. For Windows, see <a
+			href="http://docs.python.org/2/faq/windows">here</a> for more details
+		</li>
+		<li>If you plan to use Firefox for testing TEAMMATES
+			(alternatively, you may use Chrome or IE, but FF is the most
+			convenient of the three), downgrade to Firefox 12.0 from <a
+			href="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/">here</a>
+			{The web driver we use does not work with the latest Firefox.} or
+			install multiple version of Firefox. To do this, grab Firefox 12.0
+			from the above link, and choose a custom setup during install, in
+			which you will be able to specify a different path for this version
+			(e.g. C:\Program Files\Mozilla Firefox 12) in a later step.
+		</li>
+	</ul>
+
+	<h2 id="settingup-settingupdevserver">Setting up the dev server</h2>
+	'Dev server' means running the server in localhost mode.
+	<ol>
+		<li>Configure Hg: <br>
+			Configure the user name in Hg global settings. The recommended format is <span
+			class="code">Full name &lt;email&gt;</span> e.g. <span class="code">John
+				Mayor &lt;john.m@gmail.com&gt; </span><br>
+			Add the following section to the <span class="code">hgrc</span>
+			file inside your project repo folder. {reason: to configure Mercurial
+			Queue extension and EOL extension that we use for TEAMMATES.} <br>
+			<span class="code">
+				[extensions]<br> 
+				#enable mercurial queue extension<br> 
+				hgext.mq =<br> 
+				#enable end-of-line extension<br> 
+				eol =<br>
+				[diff]<br> 
+				# prevent qrefresh
+				from updating timestamps<br> nodates=1<br> 
+				# force all
+				patches to always be in git format<br> 
+				git=1<br>
 			</span>
-			</li>
-			<li>Create config files {these are not under revision control
-				because their content vary from developer to developer}.
-				<ol type="a">
-					<li><span class="code"><span class="blue">src/main/resources/</span><span
-							class="bold">build.properties</span></span> <br> Use <span
-						class="code">build.template.properties</span> as a template (i.e.
-						copy → paste → rename)<br> For dev server testing, property
-						values can remain as they are.</li>
-					<li><span class="code"><span class="blue">src/test/resources/</span><span
-							class="bold">test.properties </span></span> <br> Create it using <span
-						class="code">test.template.properties</span> (in the same folder).
-						For dev server testing, property values can remain as they are.<br>
-						If you have installed multiple versions of Firefox, you need to
-						specify which one to use for testing, by modifying the <span
-						class="code">test.firefox.path</span> property.</li>
-					<li><span class="code"><span class="blue">src/main/webapp/WEB-INF/</span><span
-							class="bold">appengine-web.xml</span></span> <br> Create using <span
-						class="code">appengine-web.template.xml</span>. For dev server
-						testing, property values can remain as they are.</li>
-				</ol>
-			</li>
-			<li>Open Eclipse and import → general → 'existing projects into
-				workspace' (see the <span class="bold">Troubleshooting</span>
-				section below if encounter any problem). After the importing is
-				complete, following settings should be applied automatically (they
-				are here for reference only).
-				<ol type="a">
-					<li>Properties→Google→Web application
-						<ol type="i">
-							<li>'this project has a WAR directory' is selected.</li>
-							<li>'Launch and deploy from this directory' points to <span
-								class="code">src/main/webapp</span></li>
-						</ol>
-					</li>
-					<li>Properties→Google→App engine
-						<ol type="i">
-							<li>'use Google App Engine' selected</li>
-						</ol>
-					</li>
-					<li>Properties → Google → App Engine → ORM
-						<ol type="i">
-							<li>This is where we specify where are your Entity classes
-								so that they can be enhanced by the DataNucleus Enhancer tool.
-								Only the folder <span class="code bold">src/main/java/teammates/storage/entity/*.java</span>
-								should appear in the list . That way, DataNucleus Enhancer runs
-								only when you modify your entity classes.
-							</li>
-						</ol>
-					</li>
+		</li>
+		<li>Create config files {these are not under revision control
+			because their content vary from developer to developer}.
+			<ol type="a">
+				<li><span class="code"><span class="blue">src/main/resources/</span><span
+						class="bold">build.properties</span></span> <br> Use <span
+					class="code">build.template.properties</span> as a template (i.e.
+					copy → paste → rename)<br> For dev server testing, property
+					values can remain as they are.</li>
+				<li><span class="code"><span class="blue">src/test/resources/</span><span
+						class="bold">test.properties </span></span> <br> Create it using <span
+					class="code">test.template.properties</span> (in the same folder).
+					For dev server testing, property values can remain as they are.<br>
+					If you have installed multiple versions of Firefox, you need
+					to specify which one to use for testing, by modifying the
+					<span class="code">test.firefox.path</span> property.</li>
+				<li><span class="code"><span class="blue">src/main/webapp/WEB-INF/</span><span
+						class="bold">appengine-web.xml</span></span> <br> Create using <span
+					class="code">appengine-web.template.xml</span>. For dev server
+					testing, property values can remain as they are.</li>
+			</ol>
+		</li>
+		<li>Open Eclipse and import → general → 'existing projects into
+			workspace' (see the <span class="bold">Troubleshooting</span> section
+			below if encounter any problem). After the importing is complete,
+			following settings should be applied automatically (they are here for
+			reference only).
+			<ol type="a">
+				<li>Properties→Google→Web application
+					<ol type="i">
+						<li>'this project has a WAR directory' is selected.</li>
+						<li>'Launch and deploy from this directory' points to <span
+							class="code">src/main/webapp</span></li>
+					</ol>
+				</li>
+				<li>Properties→Google→App engine
+					<ol type="i">
+						<li>'use Google App Engine' selected</li>
+					</ol>
+				</li>
+				<li>Properties → Google → App Engine → ORM
+					<ol type="i">
+						<li>This is where we specify where are your Entity classes so
+							that they can be enhanced by the DataNucleus Enhancer tool. Only
+							the folder <span class="code bold">src/main/java/teammates/storage/entity/*.java</span>
+							should appear in the list . That way, DataNucleus Enhancer runs
+							only when you modify your entity classes.
+						</li>
+					</ol>
+				</li>
+				
+			</ol>
+		</li>
+		<li>In Eclipse, go to Windows → Preferences → Java → Installed
+			JRE and ensure a JDK (not a JRE) is selected. One of the items in the
+			<a href="#settingup-troubleshooting">Troubleshooting</a> section
+			below explains how to do this.
+		</li>
+		<li>Right-click on the project folder and choose 'Run' → 'As Web
+			Application'. After some time, you should see this message on the
+			console “Dev App Server is now running” or something similar.<br>
+			The dev server is now ready to serve requests at the given URL. You
+			can verify by visiting the URL in your Browser. <br>To
+			login to the system, you need to add yourself as an instructor first
+			 (described below).
+		</li>
+	</ol>
 
-				</ol>
-			</li>
-			<li>In Eclipse, go to Windows → Preferences → Java → Installed
-				JRE and ensure a JDK (not a JRE) is selected. One of the items in
-				the <a href="#settingup-troubleshooting">Troubleshooting</a> section
-				below explains how to do this.
-			</li>
-			<li>Right-click on the project folder and choose 'Run' → 'As Web
-				Application'. After some time, you should see this message on the
-				console “Dev App Server is now running” or something similar.<br>
-				The dev server is now ready to serve requests at the given URL. You
-				can verify by visiting the URL in your Browser. <br>To login to
-				the system, you need to add yourself as an instructor first
-				(described below).
-			</li>
-		</ol>
+	<h3>Adding instructor accounts</h3>
+	<ol type="a">
+		<li>Go to <span class="code">http://[appURL]/admin/adminHomePage
+				(On your computer, it may be http://localhost:8888/admin/adminHomePage)</span></li>
+		<li>Log in using your Google ID. If this is the dev server, enter
+			any email address, but remember to check the 'log in as
+			administrator' check box.</li>
+		<li>Enter credentials for an instructor. e.g., <br> Google
+			id: teammates.instructor<br> Name: John Dorian <br>
+			Email: teammates.instructor@gmail.com<br>
+			Institute: National University of Singapore <br>
+		</li>
+	</ol>
 
-		<h3>Adding instructor accounts</h3>
-		<ol type="a">
-			<li>Go to <span class="code">http://[appURL]/admin/adminHomePage
-					(On your computer, it may be
-					http://localhost:8888/admin/adminHomePage)</span></li>
-			<li>Log in using your Google ID. If this is the dev server,
-				enter any email address, but remember to check the 'log in as
-				administrator' check box.</li>
-			<li>Enter credentials for an instructor. e.g., <br> Google
-				id: teammates.instructor<br> Name: John Dorian <br> Email:
-				teammates.instructor@gmail.com<br> Institute: National
-				University of Singapore <br>
-			</li>
-		</ol>
+	<h3>Running the test suite</h3>
+	Before running the test suite, we need to change the time zone of the
+	dev server to UTC, as expected by test cases. Here is the procedure.
+	<ul>
+		<li>Stop the dev server, if it is running already.</li>
+		<li>Specify timezone as a VM argument:<br> 
+			Go to the 'run configuration' you used to start the dev server.<br> 
+			Click on the to the "Arguments" and add 
+			<span class="code">-Duser.timezone=UTC</span>
+			to the "VM arguments" text box.
+		</li>
+		<li>Save the configuration for future use:<br> Go to the
+			"Common" tab (the last one) and make sure you have selected <br>
+			"Save as --> Local file" and <br>
+			"Display in favorites menu --> Run, Debug".
+		</li>
+		<li>Start the server.</li>
+	</ul>
 
-		<h3>Running the test suite</h3>
-		Before running the test suite, we need to change the time zone of the
-		dev server to UTC, as expected by test cases. Here is the procedure.
-		<ul>
-			<li>Stop the dev server, if it is running already.</li>
-			<li>Specify timezone as a VM argument:<br> Go to the 'run
-				configuration' you used to start the dev server.<br> Click on
-				the to the "Arguments" and add <span class="code">-Duser.timezone=UTC</span>
-				to the "VM arguments" text box.
-			</li>
-			<li>Save the configuration for future use:<br> Go to the
-				"Common" tab (the last one) and make sure you have selected <br>
-				"Save as --> Local file" and <br> "Display in favorites menu
-				--> Run, Debug".
-			</li>
-			<li>Start the server.</li>
-		</ul>
+	This can be done using the "All tests" option under the
+	green "Run" button in the Eclipse toolbar. If this option is not available
+	(sometimes, Eclipse does not show this option immediately after you set
+	up the project. It will appear in subsequent runs. 
+	'Refreshing' will make it appear too.), run
+	<span class="bold code">src/test/testng.xml</span> (right click and
+	choose 'Run as → TestNG Suite'). Most of the tests should pass. <br> 
+	If a few cases fail (this can happen due to timing issues), run the failed
+	cases using the "Run Failed Test" icon in the TestNG tab in Eclipse until
+	they pass. The default browser used for testing is the Firefox browser.
+	Testing on the Firefox browser is relatively faster as compared to the
+	other browsers, and it can be run in the background. 
+	<br>
+	<br> To change the browser that is used in the UI tests, go to the
+	<span class="code">test.properties</span> file and change the
+	<span class="code">test.selenium.browser</span> value to the browser
+	you want to test. Possible values are
+	<span class="code"> firefox, chrome, or iexplore.</span> In
+	addition, you need to configure the browser you have selected so that
+	it works with the test suite.
+	<br>
+	<br>
+	<span class="bold">Firefox</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Firefox - Enter "about:config" into
+			the Firefox address bar and set: network.http.use-cache = false</li>
+		<li>If you have installed a separate Firefox version, you can choose which
+			Firefox binary to use. You can specify the custom path in 
+			<span class="code">test.firefox.path</span> value inside the 
+			<span class="code">test.properties</span> file</li>
+	</ul>
+	<span class="bold">Chrome</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Chrome - Press ctrl-shift-j to bring
+			up the Web Console. At the bottom-right corner, there is a settings
+			button. Click on that. Under the General tab, check 'Disable Cache'</li>
+	</ul>
+	<span class="bold">Internet Explorer</span>
+	<ul>
+		<li>If you are planning to test changes to JavaScript code,
+			disable javascript caching for Internet Explorer - Go to Internet
+			Options. On the General tab, under Browsing History click Settings.
+			Select the "Every time I visit the webpage" radio button.</li>
+		<li>Ensure that the browser zoom level is set to 100%</li>
+		<li>Set the Protected Mode settings for each zone to be the same
+			value. The value can be on or off, as long as it is the same for
+			every zone. To set the Protected Mode settings, choose "Internet
+			Options..." from the Tools menu, and click on the Security tab. For
+			each zone, there will be a check box at the bottom of the tab labeled
+			"Enable Protected Mode".</li>
+	</ul>
 
-		This can be done using the "All tests" option under the green "Run"
-		button in the Eclipse toolbar. If this option is not available
-		(sometimes, Eclipse does not show this option immediately after you
-		set up the project. It will appear in subsequent runs. 'Refreshing'
-		will make it appear too.), run <span class="bold code">src/test/testng.xml</span>
-		(right click and choose 'Run as → TestNG Suite'). Most of the tests
-		should pass. <br> If a few cases fail (this can happen due to
-		timing issues), run the failed cases using the "Run Failed Test" icon
-		in the TestNG tab in Eclipse until they pass. The default browser used
-		for testing is the Firefox browser. Testing on the Firefox browser is
-		relatively faster as compared to the other browsers, and it can be run
-		in the background. <br> <br> To change the browser that is
-		used in the UI tests, go to the <span class="code">test.properties</span>
-		file and change the <span class="code">test.selenium.browser</span>
-		value to the browser you want to test. Possible values are <span
-			class="code"> firefox, chrome, or iexplore.</span> In addition, you
-		need to configure the browser you have selected so that it works with
-		the test suite. <br> <br> <span class="bold">Firefox</span>
-		<ul>
-			<li>If you are planning to test changes to JavaScript code,
-				disable javascript caching for Firefox - Enter "about:config" into
-				the Firefox address bar and set: network.http.use-cache = false</li>
-			<li>If you have installed a separate Firefox version, you can
-				choose which Firefox binary to use. You can specify the custom path
-				in <span class="code">test.firefox.path</span> value inside the <span
-				class="code">test.properties</span> file
-			</li>
-		</ul>
-		<span class="bold">Chrome</span>
-		<ul>
-			<li>If you are planning to test changes to JavaScript code,
-				disable javascript caching for Chrome - Press ctrl-shift-j to bring
-				up the Web Console. At the bottom-right corner, there is a settings
-				button. Click on that. Under the General tab, check 'Disable Cache'</li>
-		</ul>
-		<span class="bold">Internet Explorer</span>
-		<ul>
-			<li>If you are planning to test changes to JavaScript code,
-				disable javascript caching for Internet Explorer - Go to Internet
-				Options. On the General tab, under Browsing History click Settings.
-				Select the "Every time I visit the webpage" radio button.</li>
-			<li>Ensure that the browser zoom level is set to 100%</li>
-			<li>Set the Protected Mode settings for each zone to be the same
-				value. The value can be on or off, as long as it is the same for
-				every zone. To set the Protected Mode settings, choose "Internet
-				Options..." from the Tools menu, and click on the Security tab. For
-				each zone, there will be a check box at the bottom of the tab
-				labeled "Enable Protected Mode".</li>
-		</ul>
+	<span class="bold">Note:</span> When testing with Chrome and Internet
+	Explorer, the chromedriver process and the IEDriverServer process will
+	not automatically get killed after the tests have finished executing.
+	You will need to manually kill these processes after the tests are
+	done. On Windows, you can do this using the Task Manager or 'tskill' DOS
+	command.
 
-		<span class="bold">Note:</span> When testing with Chrome and Internet
-		Explorer, the chromedriver process and the IEDriverServer process will
-		not automatically get killed after the tests have finished executing.
-		You will need to manually kill these processes after the tests are
-		done. On Windows, you can do this using the Task Manager or 'tskill'
-		DOS command.
-
-		<h2 id="settingup-deployingtostagingserver">Deploying to staging
-			server</h2>
-		"Staging server" is the server instance you set up on Google App
-		Engine for hosting the app for testing purposes.
-		<ol>
-			<li>Create your own app on GAE.<br> Suggested app
-				identifier: teammates-yourname (e.g. teammates-john). The URL of the
-				app will be like this.<br> <span class="blue code">http://teammates-yourname.appspot.com</span><br>
-			</li>
-			<br>
-			<li>Modify configuration files.
-				<ol type="a">
-					<li><span class="code"><span class="blue">src/main/resources/</span><span
-							class="bold">build.properties </span></span><br> Follow
-						instructions in the file itself.</li>
-					<li><span class="code"><span class="blue">src/test/resources/</span><span
-							class="bold">test.properties </span></span><br> Edit the file as
-						instructed in its comments. Note that in addition to your own
-						Google account, you need four other Google accounts as test
-						accounts. Create four Google accounts and add their details to the
-						file.</li>
-					<li><span class="code"><span class="blue">src/main/webapp/WEB-INF/</span><span
-							class="bold">appengine-web.xml </span></span><br> Modify to match
-						app name and app id of your own app.</li>
-				</ol>
-			</li>
-			<li>Deploy the application to your staging server.
-				<ol type="a">
-					<li>Choose 'Deploy to app engine' from eclipse (under the
-						Google menu item <img
-						src="https://developers.google.com/appengine/docs/java/tools/eclipse/google_menu_button.png">)
-						and follow the steps.
-					</li>
-					<li>Wait until you see this message in Eclipse console
-						“Deployment completed successfully”</li>
-					<li>Go to appengine dashboard <br> <span class="code">
-							<span class="blue">https://appengine.google.com/dashboard?&app_id=teammates-</span><span
-							class="red">name</span>
-					</span></li>
-					<li>Click “Versions” under “Main” menu on the left bar.</li>
-					<li>Set the version you deployed as the 'default'.</li>
-				</ol> Note: You can skip the steps to set the deployed version as the
-				default. In that case, you can access the deployed app using <span
-				class="code">http://{version}-dot-{app-id}.appspot.com</span> e.g. <span
-				class="code">http://4-18-dot-teammates-john.appspot.com </span>
-			</li>
-			<li>You can run the tests again against the deployed app (modify
-				<span class="code">test.properties</span> so that tests execute
-				against the deployed app and not the dev server). <br> Note
-				that GAE daily quota will be exhausted after 2-3 runs of the full
-				test suite.
-			</li>
-		</ol>
-
-		<h2 id="settingup-troubleshooting">Troubleshooting</h2>
-		Troubleshooting instructions have moved <a
-			href='https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true'
-			target='_blank'>here</a>
-
-
-		<hr>
-		<!-- =============================================================== -->
-
-		<h1 id="process">Process</h1>
-
-		<h2 id="process-roles">Roles</h2>
-
-		<ul>
-			<li><span class="bold">Dev</span> - Issue owner who fixes the
-				issue. Can be a <span class="bold">Committer</span> or a <span
-				class="bold">Contributor</span>.</li>
-			<li><span class="bold">Reviewer</span> - Assigned per issue.
-				Usually, a core team member.</li>
-			<li><span class="bold">Team lead</span> - Responsible for
-				keeping all tests green, applying patches.</li>
-			<li><span class="bold">PM</span> (Project Manager) - General
-				project coordination and deploying to live server</li>
-		</ul>
-
-		<h2 id="process-workflow">Workflow</h2>
-
-		<div class="image-holder">
-			<img src="images/workflow.png" width=90% />
-		</div>
-
-		<h2 id="process-fixingissues">Fixing Issues</h2>
-		Role: Dev <br> <br> {If you need any help regarding the
-		workflow, please post in the <a
-			href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
-			Google group</a>.}
-		<ol>
-			<li>Select an issue to handle. Get it assigned to you.
-				Contributors can request for an issue to be assigned to you by
-				posting a comment under the issue in concern.</li>
-			<br>
-			<li>Optionally, you can discuss alternative solutions before
-				choosing one to implement. This can be done through Issue tracker or
-				email group. Such a discussion reduces the chance of the fix being
-				rejected later.</li>
-			<br>
-			<li>Mark the issue as <span class="code">Started</span>.
-			</li>
-			<br>
-			<li>Update your local repo (the one you created when setting up
-				the project on your computer) with the latest version of the code
-				from the committer repo. <br> <span class="code"> hg
-					pull https://code.google.com/p/teammatespes/ <br> hg update
-			</span>
-			</li>
-			<br>
-			<li>Start a new branch named <span class="code">Issue{IssueNumber}</span>.
-				If you are already working in a branch, remember to switch to trunk
-				(i.e. <span class="code">default</span> branch) before creating the
-				new branch. e.g., <br> <span class="code"> #switch to
-					trunk (if required)<br> hg update default<br> #create new
-					branch<br> hg branch Issue{issue number} <br> #e.g. hg
-					branch Issue236
-			</span>
-			</li>
-			<br>
-			<li>Fix the issue.
-				<ul>
-					<li>Have a look at our coding and testing best practices
-						(links given <a href="http://teammatespes.googlecode.com">here</a>)
-						before you start your first issue.
-					</li>
-					<li>Keep in mind that we have 'reference' code that has extra
-						explanatory notes to help new developers. These are listed in the
-						'Coding Best Practices' document.</li>
-					<li>You may commit as many times as you wish while you are
-						fixing the code. These commits are for your own use and will not
-						be visible to others. Once you are done with fixing the issue, we
-						package the commits as a single patch before uploading to Rietveld
-						(our code review system).</li>
-				</ul>
-			</li>
-			<br>
-			<li>When the work is ready for review:
-				<ol type="a">
-					<li>Sync with the committer repo: While you were fixing the
-						issue, others might have pushed new code to the committer repo. In
-						that case, update your repo with any new changes from committer
-						repo and merge those updates to your branch<br> <span
-						class="code"> hg pull
-							https://code.google.com/p/teammatespes/<br> hg merge default<br>
-							hg commit -m "your commit message"
-					</span>
-					</li>
-					<li>Format the code: Select the code segments you modified and
-						apply the code formatting function of Eclipse (Source --> Format).
-						This is to ensure that the code is properly formatted. You may
-						tweak the code further to improve readability as auto-format
-						doesn't always result in a good layout.<br>
-					</li>
-					<li>Ensure dev green (i.e., all tests are passing on dev
-						server).</li>
-					<li>If your new code might behave differently on a remote
-						server than how it behaves on the dev server, ensure staging green
-						(i.e., all tests are passing against the modified app running on
-						your own GAE staging server).</li>
-					<li>Upload the changes as a patch to code review system. <br>
-						<span class="code">python upload.py --rev=default -t "Issue
-							{issue number} : {branch description as given in Issue tracker}"<br>
-							#e.g., python upload.py --rev=default -t "Issue 829 : Remove
-							unused constants from Attributes classes"
-					</span><br> See <a
-						href="https://code.google.com/p/rietveld/wiki/UploadPyUsage">here</a>
-						for more about <span class="code">upload.py</span> usage.<br>
-					</li>
-					<li>Change Issue status to <span class="code">ReadyForReview</span>.
-						In the 'comments' text box, specify the direct URL (here is <a
-						href="https://codereview.appspot.com/9045043/">an example URL</a>)
-						to the issure created on the <a
-						href="https://codereview.appspot.com">code review system</a>. This
-						way, the reviewer can reach your new code in one click.
-					</li>
-				</ol>
-			</li>
-			<br>
-			<li>Repeat above two steps until the Issue is marked as <span
-				class="code">ReadyToMerge</span> by the reviewer. If the Issue is
-				marked as <span class="code">ChangesRequired</span>, you need to do
-				further changes based on comments reviewer added in the code review
-				system. When uploading another patch to an existing issue, you need
-				to add the following option to the upload command in order to add
-				the new patch to the existing issue in the code review system. <br>
-			<span class="code">-i {issue number from the code review
-					system (not from our issue tracker)} <br> #example <br>python
-					upload.py --rev=default -t "Issue 829 : Remove unused constants
-					from Attributes classes" <span class="bold">-i 9045043 </span>
-			</span>
-			</li>
-		</ol>
+	<h2 id="settingup-deployingtostagingserver">Deploying to staging
+		server</h2>
+	"Staging server" is the server instance you set up on Google App Engine
+	for hosting the app for testing purposes.
+	<ol>
+		<li>Create your own app on GAE.<br> Suggested app
+			identifier: teammates-yourname (e.g. teammates-john). The URL of the
+			app will be like this.<br> <span class="blue code">http://teammates-yourname.appspot.com</span><br>
+		</li>
 		<br>
+		<li>Modify configuration files.
+			<ol type="a">
+				<li><span class="code"><span class="blue">src/main/resources/</span><span
+						class="bold">build.properties </span></span><br> Follow instructions
+					in the file itself.</li>
+				<li><span class="code"><span class="blue">src/test/resources/</span><span
+						class="bold">test.properties </span></span><br> Edit the
+					file as instructed in its comments. Note that in addition to your
+						own Google account, you need four other Google accounts as test accounts. 
+						Create four Google accounts and add their details to the file. </li>
+				<li><span class="code"><span class="blue">src/main/webapp/WEB-INF/</span><span
+						class="bold">appengine-web.xml </span></span><br> Modify to match
+					app name and app id of your own app.</li>
+			</ol>
+		</li>
+		<li>Deploy the application to your staging server.
+			<ol type="a">
+				<li>Choose 'Deploy to app engine' from eclipse (under the
+					Google menu item <img
+					src="https://developers.google.com/appengine/docs/java/tools/eclipse/google_menu_button.png">)
+					and follow the steps.
+				</li>
+				<li>Wait until you see this message in Eclipse console
+					“Deployment completed successfully”</li>
+				<li>Go to appengine dashboard <br> <span class="code">
+						<span class="blue">https://appengine.google.com/dashboard?&app_id=teammates-</span><span
+						class="red">name</span>
+				</span></li>
+				<li>Click “Versions” under “Main” menu on the left bar.</li>
+				<li>Set the version you deployed as the 'default'.</li>
+			</ol> Note: You can skip the steps to set the deployed version as the
+			default. In that case, you can access the deployed app using <span
+			class="code">http://{version}-dot-{app-id}.appspot.com</span> e.g. <span
+			class="code">http://4-18-dot-teammates-john.appspot.com </span>
+		</li>
+		<li>You can run the tests again against the deployed app (modify
+			<span class="code">test.properties</span> so that tests execute
+			against the deployed app and not the dev server). <br> Note that
+			GAE daily quota will be exhausted after 2-3 runs of the full test
+			suite.
+		</li>
+	</ol>
 
-		<h2 id="process-reviewingafix">Reviewing a fix</h2>
-		Role: reviewer <br> <br> This is a static code review. No
-		need to apply fix or run tests. <br> Add comments in the
-		contributor repo or in the committer repo (as appropriate). <br>
-		<br> Try to make sure <br> a) The solution is optimal. <br>
-		b) The code is of acceptable quality. <br> c) Tests have enough
-		coverage. <br> d) Appropriate documentation have been updated (if
-		applicable). DevMan, Spec, Analysis doc, Help pages, and the Features
-		page are some pages that might need updating. <br> <br> Try
-		to finish the review within a day of submission. <br> Once the
-		review is done, publish your comments. If the code is ready for
-		release, change the status to <span class="code">ReadyToMerge</span>
-		and ask the team lead to merge the branch. <br>If the code is not
-		ready for release, change the status to <span class="code">ChangesRequested</span>.
+	<h2 id="settingup-troubleshooting">Troubleshooting</h2>
+	Troubleshooting instructions have moved
+	<a
+		href='https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true'
+		target='_blank'>here</a>
 
-		<h2 id="process-applyingafix">Applying a fix</h2>
-		Role: team lead
-		<ol>
-			<li>Pull the latest code from the committer repo</li>
-			<li>Download the patch from Rietveld@GoogleCode to the project
-				root folder.</li>
-			<li>Apply the patch.<br> <span class="code">hg
-					import patch_file_name --no-commit</span><br> <span class="code gray">#e.g.
-					hg import 1245.diff --no-commit</span><br>
-			<br>
-			</li>
-			<li>Verify 'dev green'. If the change does not involve automated
-				tests, do a manual test. e.g., changes to documentation.<br>
-			<br>
-			</li>
-			<li>if the changed code could potentially behave differently on
-				a remote server, verify 'staging green' (i.e. use your own app on
-				appengine as the 'staging site')<br>
-			<br>
-			</li>
-			<li>If not green: <br>
-				<ul>
-					<li>Inform Developer of any broken code by changing the Issue
-						status.</li>
-					<li>Remove the patch from your local repo. <br> <span
-						class="code">hg -revert --all</span>
-					</li>
-				</ul> <br> If green:
-				<ul>
-					<li>Commit the patch. <br> Use the -u option to specify
-						the issue owner name. <span class="code gray">e.g. -u "Jim
-							Davis"</span><br> The commit message should be<br> <span
-						class="code">Issue {issue number} : {branch description as
-							given in Issue tracker} <br> Update Issue {issue number}
-					</span><br> Example : <br> <span class="code">Issue 829 :
-							Remove unused constants from *Attributes classes <br> Update
-							Issue 829
-					</span><br> Here's how to use multi-line commit message from command
-						line: <br> <span class="code">hg commit -u "User name"
-							-m "</span>{press enter}<br> This will pause the commit operation
-						and pop up a text file in your text editer with some comments
-						inside. Insert the commit message at the beginning of that text
-						file, save, and close the file. The commit operation will complete
-						at that point.
-					</li>
-					<li>Push the default branch to the committer repo. <br> <span
-						class="code">hg push {committer repo URL} -b default </span>
-					</li>
-				</ul>
-			</li>
-			<br>
-			<li>Set issue status to <span class="code">Delivered</span>.
-			</li>
-		</ol>
 
-		<h2 id="process-deployingfixes">Deploying fixes</h2>
-		Role: PM
-		<ol>
-			<li>Merge default branch to the release branch.</li>
-			<li>Deploy to live site as a new version.<br> Version
-				numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow '.')
-				<br> x: major version, yy: feature release, zz: builds for
-				feature yy or updates that doesn't affect functionality<br>
-				e.g., 4.01.02
-			</li>
-			<li>Verify 'live green'.</li>
-			<li>Set new version as default.</li>
-			<li>Mark issues as <span class="code">Deployed</span>.
-			</li>
-			<li>Tag repo with version number.<br> <span class="code">hg
-					tag V4.18</span>
-			</li>
-			<li>Merge the release branch back to the default branch (to sync
-				the tag back to the default branch).</li>
-			<li>Update version history.</li>
-		</ol>
+	<hr>
+	<!-- =============================================================== -->
 
-		<h2 id="process-issuelifecycle">Issue Lifecycle</h2>
-		<span class="bold">Issue classification:</span>
-		<ul>
-			<li><span class="bold">Priority-Urgent</span>: Would like to
-				handle in the very next release.</li>
-			<li><span class="bold">Priority-High</span>: Enhances user
-				experience significantly, would like to do in the next few releases.</li>
-			<li><span class="bold">Priority-Medium</span>: Marginal impact
-				on user experience.</li>
-			<li><span class="bold">Priority-Low</span>: Very little impact,
-				unlikely to do in the near future.</li>
-			<li><span class="bold">Priority-Zero</span>: Unlikely to do,
-				ever.</li>
-		</ul>
+	<h1 id="process">Process</h1>
 
-		<ul>
-			<li><span class="bold">Difficulty-Low</span>: Minor change. No
-				need to modify tests.</li>
-			<li><span class="bold">Difficulty-Medium</span>: Small,
-				mostly-localized change. Usually requires changes to tests.</li>
-			<li><span class="bold">Difficulty-High</span>: Requires
-				multiple, possibly non-localized changes. Requires changes to tests
-				and possibly new tests.</li>
-			<li><span class="bold">Difficulty-VeryHigh</span>: Requires wide
-				ranging tests, new tests and possibly, changes to the data schema.</li>
-		</ul>
+	<h2 id="process-roles">Roles</h2>
 
-		<div class="image-holder">
-			<img src="images/IssueLifecycle.png" width="90%" />
-		</div>
+	<ul>
+		<li><span class="bold">Dev</span> - Issue owner who fixes the
+			issue. Can be a <span class="bold">Committer</span> or a <span
+			class="bold">Contributor</span>.</li>
+		<li><span class="bold">Reviewer</span> - Assigned per issue.
+			Usually, a core team member.</li>
+		<li><span class="bold">Team lead</span> - Responsible for keeping
+			all tests green, applying patches.</li>
+		<li><span class="bold">PM</span> (Project Manager) - General
+			project coordination and deploying to live server</li>
+	</ul>
 
-		Given above is an illustration of the issue lifecycle. Colors indicate
-		which roles are involved in which states/transitions. Click on the
-		'status' text box in the <a
-			href="http://code.google.com/p/teammatespes/issues/entry">'new
-			issue'</a> template in the Issue Tracker for a description of each
-		status. <br>
+	<h2 id="process-workflow">Workflow</h2>
 
-		<hr>
-		<!-- =============================================================== -->
+	<div class="image-holder">
+		<img src="images/workflow.png" width=90% />
+	</div>
 
-		<h1 id="glossary">Glossary</h1>
-		<ul>
-			<li><span class="bold">Course</span>: we use 'course' to mean
-				'module', 'class'. A course here means an offering of a course in a
-				particular semester/term. If the course is offered twice in two
-				semesters, they are considered two courses.</li>
-			<li><span class="bold">Contribution scale</span>:<br> <span
-				class="blue"> [equal share]+100%<br> [equal share]+90%<br>
-					...<br> [equal share]<br> [NOT SURE]<br> [equal
-					share]-10%<br> ...<br> [equal share]-90%<br> [0%]
-					(did nothing at all)<br>
+	<h2 id="process-fixingissues">Fixing Issues</h2>
+	Role: Dev
+	<br>
+	<br> {If you need any help regarding the workflow, please post in
+	the
+	<a
+		href="https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors">teammates-contributors
+		Google group</a>.}
+	<ol>
+		<li>Select an issue to handle. Get it assigned to you.
+			Contributors can request for an issue to be assigned to you by
+			posting a comment under the issue in concern.</li>
+		<br>
+		<li>Optionally, you can discuss alternative solutions before
+			choosing one to implement. This can be done through Issue tracker or
+			email group. Such a discussion reduces the chance of the fix being
+			rejected later.</li>
+		<br>
+		<li>Mark the issue as <span class="code">Started</span>.
+		</li>
+		<br>
+		<li>Update your local repo (the one you created when setting up
+			the project on your computer) with the latest version of the code
+			from the committer repo. <br> <span class="code"> hg pull
+				https://code.google.com/p/teammatespes/ <br> hg update
+		</span>
+		</li>
+		<br>
+		<li>Start a new branch named <span class="code">Issue{IssueNumber}</span>.
+			If you are already working in a branch, remember to switch to trunk
+			(i.e. <span class="code">default</span> branch) before creating the
+			new branch. e.g., <br> <span class="code"> 
+				#switch to
+				trunk (if required)<br> 
+				hg update default<br> 
+				#create new	branch<br> 
+				hg branch Issue{issue number} <br> 
+				#e.g. hg branch	Issue236
+		</span>
+		</li>
+		<br>
+		<li>Fix the issue.
+			<ul>
+				<li>Have a look at our coding and testing best practices (links
+					given <a href="http://teammatespes.googlecode.com">here</a>) before
+					you start your first issue.
+				</li>
+				<li>Keep in mind that we have 'reference' code that has extra
+					explanatory notes to help new developers. These are listed in the
+					'Coding Best Practices' document.</li>
+				<li>You may commit as many times as you wish while you are
+					fixing the code. These commits are for your own use and will not be
+					visible to others. Once you are done with fixing the issue, we
+					package the commits as a single patch before uploading to Rietveld
+					(our code review system).</li>
+			</ul>
+		</li>
+		<br>
+		<li>When the work is ready for review:
+			<ol type="a">
+				<li>Sync with the committer repo: While you were fixing the
+					issue, others might have pushed new code to the committer repo. In
+					that case, update your repo with any new changes from committer
+					repo and merge those updates to your branch<br> <span
+					class="code"> hg pull https://code.google.com/p/teammatespes/<br> 
+						hg merge default<br> 
+						hg commit -m "your commit message"
+				</span>
+				</li>
+				<li>Format the code: Select the code segments you modified and apply
+					the code formatting function of Eclipse (Source --> Format). This
+					is to ensure that the code is properly formatted. You may tweak the
+					code further to improve readability as auto-format doesn't always
+					result in a good layout.<br></li>
+				<li>Ensure dev green (i.e., all tests are passing on dev
+					server).</li>
+				<li>If your new code might behave differently on a remote
+					server than how it behaves on the dev server, ensure staging green
+					(i.e., all tests are passing against the modified app running on
+					your own GAE staging server).</li>
+				<li>Upload the changes as a patch to code review system. <br>
+					<span class="code">python upload.py --rev=default -t "Issue
+						{issue number} : {branch description as given in Issue tracker}"<br>
+						#e.g., python upload.py --rev=default -t "Issue 829 : Remove
+						unused constants from Attributes classes"
+				</span><br>  See <a
+					href="https://code.google.com/p/rietveld/wiki/UploadPyUsage">here</a>
+					for more about <span class="code">upload.py</span> usage.<br>
+				</li>
+				<li>Change Issue status to <span class="code">ReadyForReview</span>.
+					In the 'comments' text box, specify the direct URL (here is <a
+					href="https://codereview.appspot.com/9045043/">an example URL</a>)
+					to the issure created on the <a
+					href="https://codereview.appspot.com">code review system</a>. This
+					way, the reviewer can reach your new code in one click. 
+				</li>
+			</ol>
+		</li>
+		<br>
+		<li>Repeat above two steps until the Issue is marked as <span
+			class="code">ReadyToMerge</span> by the reviewer. If the Issue is
+			marked as <span class="code">ChangesRequired</span>, you need to do
+			further changes based on comments reviewer added in the code review 
+			system. When uploading another patch to an existing issue, you need 
+			to add the following option to the upload command in order to add the
+			new patch to the existing issue in the code review system.
+			<br><span class="code">-i {issue number from the code review system 
+			(not from our issue tracker)} <br>
+			#example
+			<br>python upload.py --rev=default -t "Issue 829 : Remove unused constants from Attributes classes" 
+			<span class="bold">-i 9045043 </span>
+			</span>
+		</li>
+	</ol>
+	<br>
+
+	<h2 id="process-reviewingafix">Reviewing a fix</h2>
+	Role: reviewer
+	<br>
+	<br> This is a static code review. No need to apply fix or run
+	tests.
+	<br> Add comments in the contributor repo or in the committer repo
+	(as appropriate).
+	<br>
+	<br> Try to make sure
+	<br> a) The solution is optimal.
+	<br> b) The code is of acceptable quality.
+	<br> c) Tests have enough coverage.
+	<br> d) Appropriate documentation have been updated (if
+	applicable). DevMan, Spec, Analysis doc, Help pages, and the Features
+	page are some pages that might need updating.
+	<br>
+	<br> Try to finish the review within a day of submission.
+	<br> Once the review is done, publish your comments. If the code
+	is ready for release, change the status to
+	<span class="code">ReadyToMerge</span> and ask the team lead to merge
+	the branch.
+	<br>If the code is not ready for release, change the status to
+	<span class="code">ChangesRequested</span>.
+
+	<h2 id="process-applyingafix">Applying a fix</h2>
+	Role: team lead
+	<ol>
+		<li>Pull the latest code from the committer repo</li>
+		<li> Download the patch from Rietveld@GoogleCode to the project root folder.</li>
+		<li>Apply the patch.<br> 
+		<span class="code">hg import patch_file_name --no-commit</span><br>
+		<span class="code gray">#e.g. hg import 1245.diff --no-commit</span><br><br>
+		</li>
+		<li>Verify 'dev green'. If the change does not involve automated
+			tests, do a manual test. e.g., changes to documentation.<br><br></li>
+		<li>if the changed code could potentially behave differently on a
+			remote server, verify 'staging green' (i.e. use your own app on
+			appengine as the 'staging site')<br><br></li>
+		<li>If not green: <br>
+			<ul>
+				<li>Inform Developer of any broken code by changing the Issue status.</li>
+				<li>Remove the patch from your local repo.
+					<br> <span class="code">hg -revert --all</span>
+				</li>
+			</ul> <br> If green:
+			<ul>
+				<li>Commit the patch. <br>
+				Use the -u option to specify the issue owner name. 
+				<span class="code gray">e.g. -u "Jim Davis"</span><br>
+				The commit message should be<br> 
+				<span class="code">Issue {issue number} : {branch description as given in Issue tracker} <br>
+				Update Issue {issue number}	</span><br>
+				Example : <br>
+				<span class="code">Issue 829 : Remove unused constants from *Attributes classes <br>
+				Update Issue 829	</span><br>
+				Here's how to use multi-line commit message from command line: <br>
+				<span class="code">hg commit -u "User name" -m "</span>{press enter}<br>
+					This will pause the commit operation and pop up a text file in your
+					text editer with some comments inside. Insert the commit message at
+					the beginning of that text file, save, and close the file. The
+					commit operation will complete at that point.
+				</li>
+				<li>Push the default branch to the committer repo. <br> 
+				<span class="code">hg push {committer repo URL} -b default </span>
+				</li>
+			</ul>
+		</li>
+		<br>
+		<li>Set issue status to <span class="code">Delivered</span>.
+		</li>
+	</ol>
+
+	<h2 id="process-deployingfixes">Deploying fixes</h2>
+	Role: PM
+	<ol>
+		<li>Merge default branch to the release branch.
+		</li>
+		<li>Deploy to live site as a new version.<br> Version
+			numbering is x.yy.zz (x-yy-zz on GAE because GAE does not allow '.')
+			<br> x: major version, yy: feature release, zz: builds for
+			feature yy or updates that doesn't affect functionality<br>
+			e.g., 4.01.02
+		</li>
+		<li>Verify 'live green'.</li>
+		<li>Set new version as default.</li>
+		<li>Mark issues as <span class="code">Deployed</span>.</li>
+		<li>Tag repo with version number.<br> 
+		<span class="code">hg tag V4.18</span>
+		</li>
+		<li>Merge the release branch back to the default branch 
+		(to sync the tag back to the default branch).</li>
+		<li>Update version history.</li>
+	</ol>
+
+	<h2 id="process-issuelifecycle">Issue Lifecycle</h2>
+	<span class="bold">Issue classification:</span>
+	<ul>
+		<li><span class="bold">Priority-Urgent</span>: Would like to handle in the
+			very next release.</li>
+		<li><span class="bold">Priority-High</span>: Enhances user experience
+			significantly, would like to do in the next few releases.</li>
+		<li><span class="bold">Priority-Medium</span>: Marginal impact on user
+			experience.</li>
+		<li><span class="bold">Priority-Low</span>: Very little impact, unlikely
+			to do in the near future.</li>
+		<li><span class="bold">Priority-Zero</span>: Unlikely to do, ever.</li>
+	</ul>
+
+	<ul>
+		<li><span class="bold">Difficulty-Low</span>: Minor change. No
+			need to modify tests.</li>
+		<li><span class="bold">Difficulty-Medium</span>: Small,
+			mostly-localized change. Usually requires changes to tests.</li>
+		<li><span class="bold">Difficulty-High</span>: Requires multiple,
+			possibly non-localized changes. Requires changes to tests and
+			possibly new tests.</li>
+		<li><span class="bold">Difficulty-VeryHigh</span>: Requires wide
+			ranging tests, new tests and possibly, changes to the data schema.</li>
+	</ul>
+
+	<div class="image-holder">
+		<img src="images/IssueLifecycle.png" width="90%" />
+	</div>
+
+	Given above is an illustration of the issue lifecycle. Colors indicate
+	which roles are involved in which states/transitions. Click on the
+	'status' text box in the
+	<a href="http://code.google.com/p/teammatespes/issues/entry">'new
+		issue'</a> template in the Issue Tracker for a description of each status.
+	<br>
+
+	<hr>
+	<!-- =============================================================== -->
+
+	<h1 id="glossary">Glossary</h1>
+	<ul>
+		<li><span class="bold">Course</span>: we use 'course' to mean
+			'module', 'class'. A course here means an offering of a course in a
+			particular semester/term. If the course is offered twice in two
+			semesters, they are considered two courses.</li>
+		<li><span class="bold">Contribution scale</span>:<br> 
+			<span class="blue"> 
+				[equal share]+100%<br> 
+				[equal share]+90%<br>
+				...<br> 
+				[equal share]<br> 
+				[NOT SURE]<br> 
+				[equal share]-10%<br> 
+				...<br> 
+				[equal share]-90%<br> 
+				[0%]
+				(did nothing at all)<br>
 			</span></li>
-			<li><span class="bold">DevMan</span>: Developer manual (this
-				document).</li>
-			<li><span class="bold">DevSite</span>: <a
-				href='http://teammatespes.gogolecode.com'>Our developer web
-					site.</a></li>
-			<li><span class="bold">Dev green</span>: All tests are passing
-				on the dev server.</li>
-			<li><span class="bold">Dev server</span>: The Development server
-				running on your Computer.</li>
-			<li><span class="bold">Enrollment, Enroll </span>(NOT enrolment,
-				enrol).</li>
-			<li><span class="bold">Live green</span>: All tests are passing
-				against the app running on the live server.</li>
-			<li><span class="bold">Live server</span>: The server running
-				the released public version of the app (i.e.
-				http://teammatesv4.appspot.com).</li>
-			<li><span class="bold">Productions server</span>: A server on
-				AppSpot. Can be the live server or a staging server.</li>
-			<li><span class="bold">Spec</span>: System Specification.</li>
-			<li><span class="bold">Staging green</span>: All test are
-				passing against you own deployment on the GAE.</li>
-			<li><span class="bold">Staging server</span>: The server
-				instance you created on AppSpot.</li>
-		</ul>
-		<br>
+		<li><span class="bold">DevMan</span>: Developer manual (this
+			document).</li>
+		<li><span class="bold">DevSite</span>: <a
+			href='http://teammatespes.gogolecode.com'>Our developer web site.</a></li>
+		<li><span class="bold">Dev green</span>: All tests are passing on
+			the dev server.</li>
+		<li><span class="bold">Dev server</span>: The Development server
+			running on your Computer.</li>
+		<li><span class="bold">Enrollment, Enroll </span>(NOT enrolment,
+			enrol).</li>
+		<li><span class="bold">Live green</span>: All tests are passing
+			against the app running on the live server.</li>
+		<li><span class="bold">Live server</span>: The server running the
+			released public version of the app (i.e.
+			http://teammatesv4.appspot.com).</li>
+		<li><span class="bold">Productions server</span>: A server on
+			AppSpot. Can be the live server or a staging server.</li>
+		<li><span class="bold">Spec</span>: System Specification.</li>
+		<li><span class="bold">Staging green</span>: All test are passing
+			against you own deployment on the GAE.</li>
+		<li><span class="bold">Staging server</span>: The server instance
+			you created on AppSpot.</li>
+	</ul>
+	<br>
 	</div>
 	<div id="footer">
 		<div id="footerWrapper">
 			<div id="footerRightCol">
-				Hosted on <a class="footer"
-					href="http://code.google.com/p/appengine/" target="_blank">Google
-					App Engine</a>
+			Hosted on <a class="footer" href="http://code.google.com/p/appengine/" target="_blank">Google App Engine</a>
 			</div>
 		</div>
 	</div>
