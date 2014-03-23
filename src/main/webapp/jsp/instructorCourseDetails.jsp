@@ -153,6 +153,11 @@
 										onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DELETE%>')"
 										onmouseout="hideddrivetip()">
 										Delete</a>
+								<a class="color_black t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%>"
+										href="<%=data.getStudentRecordsLinkWithAddComment(data.courseDetails.course.id, student)%>"
+										onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>')"
+										onmouseout="hideddrivetip()"> 
+										Add Comment</a>
 							</td>
 	 					</tr>
 	 				<%

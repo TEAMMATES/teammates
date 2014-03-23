@@ -138,7 +138,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 		______TS("link: view records");
 		
 		InstructorStudentRecordsPage studentRecordsPage = viewPage.clickViewRecordsStudent(student2.course, student2.name);
-		studentRecordsPage.verifyIsCorrectPage();
+		studentRecordsPage.verifyIsCorrectPage(student2.name);
 		viewPage = studentRecordsPage.goToPreviousPage(InstructorStudentListPage.class);
 	}
 	

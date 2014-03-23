@@ -4,7 +4,8 @@ var DISPLAY_COMMENT_BLANK = "Please enter a valid comment. The comment can't be 
 
 /**
  * To be loaded when instructorStudentRecords page is loaded
- * Contains key bindings and text area adjustment
+ * Contains key bindings, text area adjustment and auto-opening
+ * of comment box if the request parameter asks for it
  */
 function readyStudentRecordsPage(){
 	
@@ -21,6 +22,11 @@ function readyStudentRecordsPage(){
 			textAreaAdjust(this);
 		}
 	});
+
+	//Open the comment box if so desired by the request
+	if (showCommentBox == "yes"){
+		$("#button_add_comment").click();
+	}
 }
 
 /**
@@ -49,10 +55,11 @@ function isBlank(str) {
 }
 
 /**
- * Show the comment box and hide "Add Comment link"
+ * Show the comment box, focus comment text area and hide "Add Comment link"
  */
 function showAddCommentBox(){
 	$('#comment_box').show();
+	$('#commentText').focus();
 	$('#comment_link').hide();
 }
 

@@ -224,6 +224,8 @@ public class Const {
 		public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 		public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
 		
+		public static final String STUDENT_RECORDS_SHOW_COMMENT_BOX = "addComment";
+		
 		public static final String COURSE_SORTING_CRITERIA = "sortby";
 		
 		public static final String COURSE_ARCHIVE_STATUS = "archive";
