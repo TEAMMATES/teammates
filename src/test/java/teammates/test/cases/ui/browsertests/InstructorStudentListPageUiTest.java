@@ -172,10 +172,24 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 		viewPage.clickDisplayArchiveOptions();
 		viewPage.verifyHtml("/instructorStudentListPageDisplayArchivedCourses.html");
 		
+		______TS("action: test 'Show More Options' when archived courses are displayed");
+		viewPage.clickShowMoreOptions();
+		viewPage.clickShowEmail();
+		viewPage.clickSelectAll();
+		viewPage.clickCheckBoxOne();
+		viewPage.verifyHtml("/instructorStudentListPageDisplayArchivedCoursesWithMoreOptions.html");
+		
 		______TS("action: hide archive");
 		
 		viewPage.clickDisplayArchiveOptions();
 		viewPage.verifyHtml("/instructorStudentListPageHideArchivedCourses.html");
+		
+		______TS("action: test 'Show More Options' when archived courses are hidden");
+		viewPage.clickShowMoreOptions();
+		viewPage.clickShowEmail();
+		viewPage.clickSelectAll();
+		viewPage.clickCheckBoxOne();
+		viewPage.verifyHtml("/instructorStudentListPageHideArchivedCoursesWithMoreOptions.html");
 		
 		______TS("action: re-display archive");
 		
