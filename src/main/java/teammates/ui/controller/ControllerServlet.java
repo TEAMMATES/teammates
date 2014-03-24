@@ -47,6 +47,7 @@ public class ControllerServlet extends HttpServlet {
 			 */
 			log.info("Request received : " + req.getRequestURL().toString()
 					+ ":" + HttpRequestHelper.printRequestParameters(req));
+			log.info("User agent : " + req.getHeader("User-Agent"));
 			Action c = new ActionFactory().getAction(req);
 			ActionResult actionResult = c.executeAndPostProcess();
 			actionResult.send(req, resp);
