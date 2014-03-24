@@ -6,7 +6,7 @@
   <rate>4/s</rate>  
 </queue>
 <queue>  
-  <name>email-queue</name>  
+  <name>configure-and-prepare-email-queue</name>  
   <!-- Configuration allows for reminders for 
        1 evaluation/feedback session to be queued 
        for execution every second when the bucket is empty
@@ -70,6 +70,17 @@
   <bucket-size>5</bucket-size> 
   <retry-parameters>
       <task-retry-limit>2</task-retry-limit>
+  </retry-parameters>  
+</queue>
+<queue>  
+  <name>send-email-queue</name>  
+  <!-- Configuration allows for 20 emails to be queued
+	   when the bucket is not full
+  -->
+  <rate>10/s</rate>
+  <bucket-size>20</bucket-size> 
+  <retry-parameters>
+      <task-retry-limit>5</task-retry-limit>
   </retry-parameters>  
 </queue>   
 </queue-entries> 

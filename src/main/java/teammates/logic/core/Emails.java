@@ -762,7 +762,7 @@ public class Emails {
 	public void sendEmails(List<MimeMessage> messages) {
 		for (MimeMessage m : messages) {
 			try {
-				sendEmail(m);
+				addEmailToTaskQueue(m);
 			} catch (MessagingException e) {
 				/*
 				 * TODO: Add mechanism for handling/resending mails which 
@@ -775,11 +775,33 @@ public class Emails {
 		}
 	}
 
-	public void sendEmail(MimeMessage message) throws MessagingException {
-		log.info(getEmailInfo(message));
-		Transport.send(message);
+	public void addEmailToTaskQueue(MimeMessage message) throws MessagingException {
+		try {
+			HashMap<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put(ParamsNames.EMAIL_SUBJECT, message.getSubject());
+			paramMap.put(ParamsNames.EMAIL_CONTENT, message.getContent().toString());
+			paramMap.put(ParamsNames.EMAIL_SENDER, message.getFrom()[0].toString());
+			paramMap.put(ParamsNames.EMAIL_RECEIVER, message.getRecipients(Message.RecipientType.TO)[0].toString());
+			paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, message.getReplyTo()[0].toString());
+			
+			TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+			taskQueueLogic.createAndAddTask(SystemParams.SEND_EMAIL_TASK_QUEUE,
+					Const.ActionURIs.SEND_EMAIL_WORKER, paramMap);
+		} catch (Exception e) {
+			log.severe("Error when adding email to task queue: " + e.getMessage());
+		} 
+		
 	}
 
+	public void sendEmail(MimeMessage message) {
+		try {
+			log.info(getEmailInfo(message));
+			Transport.send(message);
+		} catch (MessagingException e) {
+			log.severe("Email sending failed " + e.getMessage());
+		}
+	}
+	
 	public MimeMessage sendErrorReport(String path, String params, Throwable error) {
 		MimeMessage email = null;
 		try {
