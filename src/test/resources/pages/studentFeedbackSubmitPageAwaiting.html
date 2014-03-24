@@ -85,7 +85,7 @@
             <br />
 			<input type="hidden" value="TEXT" name="questiontype-1" />
 			<input type="hidden" value="{*}" name="questionid-1" />
-			<input type="hidden" value="1" name="questionresponsetotal-1" />
+			<input type="hidden" value="3" name="questionresponsetotal-1" />
 			<table class="inputTable responseTable">
 				<tbody>
 				<tr style="border-bottom: 3px dotted white;"><td class="bold" colspan="2" style="white-space:pre-wrap;">Question 1:<br></br>Give feedback to your instructors</td></tr>
@@ -94,7 +94,7 @@
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Here you can see the visibility of your feedback to the various users<br />in the course once the results are published.')" colspan="2">
 							<ul>
 								
-								<li>The receiving instructor can see your response, and your name.</li>
+								<li>The receiving instructors can see your response, and your name.</li>
 								
 							</ul>
 						</td>
@@ -107,12 +107,71 @@
 					<select style="display:none" name="responserecipient-1-0" class="participantSelect middlealign newResponse">
 					<option selected="selected"  value="" ></option>
 					<option value="SFSubmitUiT.instr@gmail.com">Teammates Test</option>
-
+                                 <option style="display: none;"  value="SFSubmitUiT.instr2@gmail.com" >
+                                    Teammates Test2
+                                 </option>
+                                 <option style="display: none;"  value="SFSubmitUiT.instr3@gmail.com" >
+                                    Teammates Test3
+                                 </option>					
 					</select><span> Teammates Test</span>
 				</td>
 				<td class="responseText">
 					<textarea cols="100%" disabled="disabled" name="responsetext-1-0" class="textvalue" rows="4"></textarea></td>
 				</tr>
+                        <tr>
+                           <td class="middlealign nowrap" >
+                              <span class="label bold" >
+                                 To:
+                              </span>
+                              <select class="participantSelect middlealign newResponse"  name="responserecipient-1-1"  style="display:none" >
+                                 <option selected="selected"  value="" >
+                                 </option>
+                                 <option style="display: none;"  value="SFSubmitUiT.instr@gmail.com" >
+                                    Teammates Test
+                                 </option>
+                                 <option value="SFSubmitUiT.instr2@gmail.com" >
+                                    Teammates Test2
+                                 </option>
+                                 <option style="display: none;"  value="SFSubmitUiT.instr3@gmail.com" >
+                                    Teammates Test3
+                                 </option>
+                              </select>
+                              <span>
+                                 Teammates Test2
+                              </span>
+                           </td>
+                           <td class="responseText" >
+                              <textarea class="textvalue"  cols="100%"  disabled="disabled"  name="responsetext-1-1"  rows="4" >
+                              </textarea>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td class="middlealign nowrap" >
+                              <span class="label bold" >
+                                 To:
+                              </span>
+                              <select class="participantSelect middlealign newResponse"  name="responserecipient-1-2"  style="display:none" >
+                                 <option selected="selected"  value="" >
+                                 </option>
+                                 <option style="display: none;"  value="SFSubmitUiT.instr@gmail.com" >
+                                    Teammates Test
+                                 </option>
+                                 <option style="display: none;"  value="SFSubmitUiT.instr2@gmail.com" >
+                                    Teammates Test2
+                                 </option>
+                                 <option value="SFSubmitUiT.instr3@gmail.com" >
+                                    Teammates Test3
+                                 </option>
+                              </select>
+                              <span>
+                                 Teammates Test3
+                              </span>
+                           </td>
+                           <td class="responseText" >
+                              <textarea class="textvalue"  cols="100%"  disabled="disabled"  name="responsetext-1-2"  rows="4" >
+                              </textarea>
+                           </td>
+                        </tr>
 				
 			</tbody></table>
 			<br /><br />

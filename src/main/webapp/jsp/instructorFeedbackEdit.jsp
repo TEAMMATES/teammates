@@ -583,6 +583,7 @@
 							disabled="disabled">
 							<option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
 							<option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
+							<option value="<%=FeedbackParticipantType.INSTRUCTORS.toString()%>">instructors</option>
 						</select>
 					</td>
 				</tr>
@@ -633,6 +634,7 @@
 							disabled="disabled">
 							<option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
 							<option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
+							<option value="<%=FeedbackParticipantType.INSTRUCTORS.toString()%>">instructors</option>
 						</select>
 					</td>
 				</tr>

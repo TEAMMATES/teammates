@@ -7,6 +7,20 @@
 			"email":"SFSubmitUiT.instr@gmail.com",
 			"institute":"National University of Singapore"
 		},
+		"SFSubmitUiT.instr2":{
+			"googleId":"SFSubmitUiT.instr2",
+			"name":"Teammates Test2",
+			"isInstructor":true,
+			"email":"SFSubmitUiT.instr2@gmail.com",
+			"institute":"National University of Singapore"
+		},
+		"SFSubmitUiT.instr3":{
+			"googleId":"SFSubmitUiT.instr3",
+			"name":"Teammates Test3",
+			"isInstructor":true,
+			"email":"SFSubmitUiT.instr3@gmail.com",
+			"institute":"National University of Singapore"
+		},
 		"SFSubmitUiT.charlie.d":{
 			"googleId":"SFSubmitUiT.charlie.d",
 			"name":"Charlie D.",
@@ -42,6 +56,18 @@
 			"courseId":"SFSubmitUiT.CS2104",
 			"name":"Teammates Test",
 			"email":"SFSubmitUiT.instr@gmail.com"
+		},
+		"SFSubmitUiT.instr2":{
+			"googleId":"SFSubmitUiT.instr2",
+			"courseId":"SFSubmitUiT.CS2104",
+			"name":"Teammates Test2",
+			"email":"SFSubmitUiT.instr2@gmail.com"
+		},
+		"SFSubmitUiT.instr3":{
+			"googleId":"SFSubmitUiT.instr3",
+			"courseId":"SFSubmitUiT.CS2104",
+			"name":"Teammates Test3",
+			"email":"SFSubmitUiT.instr3@gmail.com"
 		}
 	},
 	"students":{
@@ -557,6 +583,57 @@
 				"RECEIVER"
 			]
 		},
+		"qn17InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best instructor?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
+			},
+			"questionNumber":"17",
+			"questionType":"MCQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn18InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"SFSubmitUiT.CS2104",
+			"creatorEmail":"SFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutors?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
+			},
+			"questionNumber":"18",
+			"questionType":"MSQ",
+			"giverType":"STUDENTS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"OWN_TEAM_MEMBERS",
+				"STUDENTS",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		
 		"qn1InSession2":{
 			"feedbackSessionName":"Second Session",
 			"courseId":"SFSubmitUiT.CS2104",

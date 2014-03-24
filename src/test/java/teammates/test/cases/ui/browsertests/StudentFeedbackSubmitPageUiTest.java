@@ -192,6 +192,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 		submitPage.fillResponseTextBox(15, 0, "1.5"); 
 		submitPage.fillResponseTextBox(15, 1, "2.5"); 
 		
+		submitPage.chooseMcqOption(16, 0, "Teammates Test2");
+		submitPage.toggleMsqOption(17, 0, "Teammates Test");
+		submitPage.toggleMsqOption(17, 0, "Teammates Test3");
+		
 		// Just check the edited responses, and one new response.
 		assertNull(BackDoor.getFeedbackResponse(fq.getId(),
 				"SFSubmitUiT.alice.b@gmail.com",

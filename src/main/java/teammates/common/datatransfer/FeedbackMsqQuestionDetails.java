@@ -11,6 +11,7 @@ import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 
 public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails {
@@ -167,7 +168,15 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 			}
 			break;
 		case INSTRUCTORS:
-			//TODO implement this
+			List<InstructorAttributes> instructorList =
+					InstructorsLogic.inst().getInstructorsForCourse(
+							courseId);
+
+			for (InstructorAttributes instructor : instructorList) {
+				optionList.add(instructor.name);
+			}
+
+			Collections.sort(optionList);
 			break;
 		default:
 			Assumption.fail("Trying to generate options for neither students, teams nor instructors");
@@ -203,8 +212,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 				"${studentSelected}", generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected=\"selected\"" : "",
 				"${FeedbackParticipantType.STUDENTS.toString()}", FeedbackParticipantType.STUDENTS.toString(),
 				"${teamSelected}", generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected=\"selected\"" : "",
-				"${FeedbackParticipantType.TEAMS.toString()}", FeedbackParticipantType.TEAMS.toString());
-		
+				"${FeedbackParticipantType.TEAMS.toString()}", FeedbackParticipantType.TEAMS.toString(),
+				"${instructorSelected}", generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected=\"selected\"" : "",
+				"${FeedbackParticipantType.INSTRUCTORS.toString()}", FeedbackParticipantType.INSTRUCTORS.toString());
 		return html;
 	}
 	
