@@ -10,15 +10,16 @@ import teammates.common.util.StringHelper;
  * It encapsulates the mechanism to create a {@link StudentAttributes} object from
  * a given enroll line.
  */
-public class StudentAttributesFactory {
-	
-	public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
-	public static final String ERROR_ENROLL_LINE_TOOFEWPARTS = "Enroll line had too few parts\n";
+public class StudentAttributesFactory {		
+	public static final int MIN_FIELD_COUNT = 3;
+	public static final int MAX_FIELD_COUNT = 4;
 	
 	public static final String ERROR_HEADER_ROW_FIELD_REPEATED = "The header row contains repeated fields";
 	
-	public static final int MIN_FIELD_COUNT = 3;
-	public static final int MAX_FIELD_COUNT = 4;
+	public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
+	public static final String ERROR_ENROLL_LINE_TOOFEWPARTS 
+		= "Enroll line had fewer than the minimally expected " + MIN_FIELD_COUNT + " columns (Team, Name and Email)\n";
+	
 	
 	public static final int DEFAULT_TEAM_INDEX = 0;
 	public static final int DEFAULT_NAME_INDEX = 1;
