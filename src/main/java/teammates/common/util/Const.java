@@ -26,7 +26,7 @@ public class Const {
 		 */
 		public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
 		
-		public static final String EMAIL_TASK_QUEUE = "email-queue";
+		public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
 		public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
 		public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
 								"eval-submission-adjust-queue";
@@ -36,6 +36,7 @@ public class Const {
 		
 		public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
 		public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
+		public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
 		
 		public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
 	}
@@ -338,6 +339,11 @@ public class Const {
 		public static final String EMAIL_TYPE = "type";
 		public static final String EMAIL_IS_STUDENT = "isStudent";
 		
+		public static final String EMAIL_CONTENT = "content";
+		public static final String EMAIL_SENDER = "sender";
+		public static final String EMAIL_SUBJECT = "subject";
+		public static final String EMAIL_REPLY_TO_ADDRESS = "reply";
+		
 		public static final String COMMENT_EDITTYPE = "commentedittype";
 		public static final String COMMENT_ID = "commentid";
 		public static final String COMMENT_TEXT = "commenttext";
@@ -469,6 +475,7 @@ public class Const {
 									"/feedbackSubmissionAdjustmentWorker";
 		public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
 		public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
+		public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
 	}
 
 	public class ViewURIs{
