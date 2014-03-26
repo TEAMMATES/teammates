@@ -141,7 +141,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 		______TS("success: typical case");
 
 		//remove the duplicate instructor object from the datastore.
-		instructorsDb.deleteInstructor(i.courseId, i.googleId);
+		instructorsDb.deleteInstructor(i.courseId, i.email);
 		
 		coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
 		LogicTest.verifyPresentInDatastore(c);

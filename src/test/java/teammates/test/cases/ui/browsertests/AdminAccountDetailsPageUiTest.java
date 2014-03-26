@@ -60,7 +60,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
 		
 		detailsPage.clickRemoveInstructorFromCourse(courseId)
 			.verifyStatus(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
-		assertNull(BackDoor.getInstructor(googleId, courseId));
+		assertNull(BackDoor.getInstructorByGoogleId(googleId, courseId));
 	
 		______TS("action: remove student from course");
 		

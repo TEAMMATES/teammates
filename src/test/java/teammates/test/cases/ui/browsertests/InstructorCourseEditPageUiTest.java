@@ -83,8 +83,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		______TS("success: add an instructor");
 		
 		courseEditPage = getCourseEditPage();
-		courseEditPage.addNewInstructor("InsCrsEdit.instructor", "Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
-		courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED);
+		courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
+		courseEditPage.verifyStatus(
+				String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
+						"Teammates Instructor", "InsCrsEdit.instructor@gmail.com"));
 		
 		Url courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
 				.withCourseId(courseId)
@@ -96,14 +98,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		______TS("failure: add an existing instructor");
 		
 		courseEditPage = getCourseEditPage();
-		courseEditPage.addNewInstructor("InsCrsEdit.instructor", "Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
+		courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
 		courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
 		
 		______TS("failure: add an instructor with an invalid parameter");
 		String invalidEmail = "InsCrsEdit.email.com";
 		
 		courseEditPage = getCourseEditPage();
-		courseEditPage.addNewInstructor("InsCrsEdit.instructor", "Teammates Instructor", invalidEmail);
+		courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
 		courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
 	}
 
@@ -128,13 +130,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 		
 		______TS("delete instructor then cancel");
 		courseEditPage.clickDeleteInstructorLinkAndCancel();
-		assertNotNull(BackDoor.getInstructorAsJson(instructorId, courseId));
+		assertNotNull(BackDoor.getInstructorAsJsonByGoogleId(instructorId, courseId));
 		
 		______TS("delete instructor successfully");
 		courseEditPage.clickDeleteInstructorLinkAndConfirm();
 		courseEditPage.verifyHtml("/instructorCourseEditDeleteInstructorSuccessful.html");
 		
 		______TS("failed to delete the last instructor");
+		courseEditPage.clickDeleteInstructorLinkAndConfirm();
 		courseEditPage.clickDeleteInstructorLinkAndConfirm();
 		courseEditPage.clickDeleteInstructorLinkAndConfirm();
 		courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);

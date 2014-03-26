@@ -32,6 +32,8 @@ public class ActionFactory {
 		map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
 		map(INSTRUCTOR_COURSE_ARCHIVE, InstructorCourseArchiveAction.class);
 		map(INSTRUCTOR_COURSE_DETAILS_PAGE, InstructorCourseDetailsPageAction.class);
+		map(INSTRUCTOR_COURSE_JOIN, InstructorCourseJoinAction.class);
+		map(INSTRUCTOR_COURSE_JOIN_AUTHENTICATED, InstructorCourseJoinAuthenticatedAction.class);
 		map(INSTRUCTOR_COURSE_REMIND, InstructorCourseRemindAction.class);
 		map(INSTRUCTOR_COURSE_EDIT_PAGE, InstructorCourseEditPageAction.class);
 		map(INSTRUCTOR_COURSE_INSTRUCTOR_ADD, InstructorCourseInstructorAddAction.class);

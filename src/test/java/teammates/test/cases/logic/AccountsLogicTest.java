@@ -8,17 +8,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
-import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
@@ -29,6 +27,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 	private AccountsLogic accountsLogic = AccountsLogic.inst();
 	private InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 	private Logic logic = new Logic();
+	private static DataBundle dataBundle = getTypicalDataBundle();
 
 	@BeforeClass
 	public static void classSetUp() throws Exception {
@@ -47,83 +46,9 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 		accountsLogic.createAccount(accountToCreate);
 		LogicTest.verifyPresentInDatastore(accountToCreate);
 	}
-	
-	public void testCreateInstructorAccount() throws Exception {
-		
-		String courseId = "CInstrAccTest.courseId";
-		CoursesLogic.inst().createCourse(courseId, "CInstrAccTest.new-course");
-		String institute = "CInstrAccTest.instr.institute";
-		
-		______TS("no matching account exist");
-		
-		String googleId = "CInstrAccTest.instr.id";
-		String name = "CInstrAccTest.instr.name";
-		String email = "CInstrAccTest.instr@email.com";
-		
-		Assumption.assertNull(accountsLogic.getAccount(googleId));
-		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
-		
-		InstructorAttributes instructorCreated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
-		Assumption.assertNotNull(instructorCreated);
-		
-		AccountAttributes instructorAccount = accountsLogic.getAccount(googleId);
-		Assumption.assertNotNull(instructorAccount);
-		assertEquals(true, accountsLogic.isAccountAnInstructor(googleId));
-		
-		______TS("account already exists but only as student");
-		
-		AccountAttributes studentAccount = accountsLogic.getAccount("student1InCourse1");
-		
-		googleId = studentAccount.googleId;
-		name = studentAccount.name;
-		email = studentAccount.email;
-		
-		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
-		
-		instructorCreated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
-		Assumption.assertNotNull(instructorCreated);
-		
-		instructorAccount = accountsLogic.getAccount(googleId);
-		assertEquals(true, accountsLogic.isAccountAnInstructor(googleId));
-		
-		______TS("account already exists and already an instructor");
-		
-		instructorAccount = accountsLogic.getAccount("idOfInstructor1OfCourse1");
-		
-		googleId = instructorAccount.googleId;
-		name = instructorAccount.name;
-		email = instructorAccount.email;
-		
-		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
-		
-		instructorCreated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
-		Assumption.assertNotNull(instructorCreated);
-		
-		______TS("failure: instructor already exists");
-		
-		try {
-			accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
-			signalFailureToDetectException();
-		} catch (EntityAlreadyExistsException e) {
-			AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
-		}
-		
-		______TS("failure: invalid parameter");
-		// checking only one invalid case here because parameter checking is done outside SUT.
-		
-		email = "invalidEmail.com";
-		
-		try {
-			accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
-			signalFailureToDetectException();
-		} catch (InvalidParametersException e) {
-			AssertHelper.assertContains("\""+email+"\" is not acceptable to TEAMMATES as an email",
-								e.getMessage());
-		}
-	}
 
 	@Test
-	public void testJoinCourse() throws Exception {
+	public void testJoinCourseForStudent() throws Exception {
 		String correctStudentId = "correctStudentId";
 		String courseId = "courseId";
 		String originalEmail = "original@email.com";
@@ -140,7 +65,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 		______TS("failure: wrong key");
 
 		try {
-			accountsLogic.joinCourse("wrongkey", correctStudentId);
+			accountsLogic.joinCourseForStudent("wrongkey", correctStudentId);
 			signalFailureToDetectException();
 		} catch (JoinCourseException e) {
 			assertEquals(
@@ -152,7 +77,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 		______TS("failure: invalid parameters");
 
 		try {
-			accountsLogic.joinCourse(studentData.key, "wrong student");
+			accountsLogic.joinCourseForStudent(studentData.key, "wrong student");
 			signalFailureToDetectException();
 		} catch (JoinCourseException e) {
 			AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
@@ -164,7 +89,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 		AccountAttributes accountData = new AccountAttributes(correctStudentId,
 				"nameABC", false, "real@gmail.com", "nus");
 		accountsLogic.createAccount(accountData);
-		accountsLogic.joinCourse(studentData.key, correctStudentId);
+		accountsLogic.joinCourseForStudent(studentData.key, correctStudentId);
 
 		studentData.googleId = accountData.googleId;
 		LogicTest.verifyPresentInDatastore(studentData);
@@ -175,7 +100,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 		______TS("failure: already joined");
 
 		try {
-			accountsLogic.joinCourse(studentData.key, correctStudentId);
+			accountsLogic.joinCourseForStudent(studentData.key, correctStudentId);
 			signalFailureToDetectException();
 		} catch (JoinCourseException e) {
 			assertEquals(correctStudentId + " has already joined this course",
@@ -185,7 +110,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 		______TS("failure: valid key belongs to a different user");
 
 		try {
-			accountsLogic.joinCourse(studentData.key, "wrongstudent");
+			accountsLogic.joinCourseForStudent(studentData.key, "wrongstudent");
 			signalFailureToDetectException();
 		} catch (JoinCourseException e) {
 			assertEquals("The join link used belongs to a different user whose "
@@ -209,7 +134,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 				originalEmail);
 
 		String encryptedKey = StringHelper.encrypt(studentData.key);
-		accountsLogic.joinCourse(encryptedKey, correctStudentId);
+		accountsLogic.joinCourseForStudent(encryptedKey, correctStudentId);
 		studentData.googleId = correctStudentId;
 		LogicTest.verifyPresentInDatastore(studentData);
 		assertEquals(correctStudentId,
@@ -235,12 +160,88 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 				logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
 		// rejoin
-		logic.joinCourse(correctStudentId, encryptedKey);
+		logic.joinCourseForStudent(encryptedKey, correctStudentId);
 		assertEquals(correctStudentId,
 				logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
 		// check if still instructor
 		assertTrue(logic.isInstructor(correctStudentId));
+	}
+	
+	@Test
+	public void testJoinCourseForInstructor() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+		String loggedInGoogleId = "AccLogicT.instr.id";
+		
+		______TS("success: instructor joined and new account be created");
+
+		String key = instructorsLogic.getKeyForInstructor(instructor.courseId, instructor.email);
+		String encryptedKey = StringHelper.encrypt(key);
+		
+		accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId);
+		
+		InstructorAttributes joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
+		assertEquals(loggedInGoogleId, joinedInstructor.googleId);
+		
+		AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
+		Assumption.assertNotNull(accountCreated);
+		
+		______TS("success: instructor joined but account already exists");
+		
+		AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
+		
+		instructorsLogic.addInstructor(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+		key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
+		encryptedKey = StringHelper.encrypt(key);
+		
+		accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
+		
+		joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
+		assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
+		instructorsLogic.verifyInstructorExists(nonInstrAccount.googleId);
+		
+		______TS("failure: instructor already joined");
+
+		try {
+			accountsLogic.joinCourseForInstructor(encryptedKey, joinedInstructor.googleId);
+			signalFailureToDetectException();
+		} catch (JoinCourseException e) {
+			assertEquals(joinedInstructor.googleId + " has already joined this course",
+					e.getMessage());
+		}
+		
+		______TS("failure: key belongs to a different user");
+
+		try {
+			accountsLogic.joinCourseForInstructor(encryptedKey, "otherUserId");
+			signalFailureToDetectException();
+		} catch (JoinCourseException e) {
+			assertEquals("The join link used belongs to a different user whose "
+					+ "Google ID is stude..ourse1 (only part of the Google ID is "
+					+ "shown to protect privacy). If that Google ID is owned by you, "
+					+ "please logout and re-login using that Google account. "
+					+ "If it doesn’t belong to you, please "
+					+ "<a href=\"mailto:teammates@comp.nus.edu.sg?"
+					+ "body=Your name:%0AYour course:%0AYour university:\">"
+					+ "contact us</a> so that we can investigate.",
+					e.getMessage());
+		}
+		
+		______TS("failure: invalid key");
+		String invalidKey = StringHelper.encrypt("invalidKey");
+		
+		try {
+			accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId);
+			signalFailureToDetectException();
+		} catch (JoinCourseException e) {
+			assertEquals(
+					"You have used an invalid join link: "
+					+ "/page/instructorCourseJoin?regkey=" + invalidKey,
+					e.getMessage());
+		}
+		
 	}
 
 	@Test

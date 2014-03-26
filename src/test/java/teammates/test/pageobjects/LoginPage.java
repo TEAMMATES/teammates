@@ -14,6 +14,7 @@ public abstract class LoginPage extends AppPage {
 	public abstract StudentHomePage loginAsStudent(String username, String password);
 
 	public abstract StudentCourseJoinConfirmationPage loginAsJoiningStudent(String username, String password);
+	public abstract InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(String username, String password);
 	
 	public abstract void loginAdminAsInstructor(
 			String adminUsername, String adminPassword, String instructorUsername);

@@ -1,0 +1,39 @@
+{
+  "accounts": {
+    "ICJConfirmationUiT.instr": {
+      "googleId": "ICJConfirmationUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "ICJConfirmationUiT.instr@gmail.com",
+      "institute": "National University of Singapore"
+    }
+  },
+
+  "courses": {
+    "ICJConfirmationUiT.CS2104": {
+      "id": "ICJConfirmationUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "isArchived": false
+    },
+    "ICJConfirmationUiT.CS1101": {
+      "id": "ICJConfirmationUiT.CS1101",
+      "name": "Programming Methodology",
+      "isArchived": false
+    }
+  },
+  
+  "instructors": {
+    "ICJConfirmationUiT.instr.CS2104": {
+      "googleId": "{$test.instructor}",
+      "courseId": "ICJConfirmationUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "{$test.instructor}@gmail.com"
+    },
+    "ICJConfirmationUiT.instr.CS1101": {
+      "googleId": null,
+      "courseId": "ICJConfirmationUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "{$test.instructor}@gmail.com"
+    }
+  }
+}

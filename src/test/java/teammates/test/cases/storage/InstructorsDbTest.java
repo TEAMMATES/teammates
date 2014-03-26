@@ -19,6 +19,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.logic.LogicTest;
@@ -46,6 +47,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 		i.name = "valid.name";
 		i.email = "valid@email.com";
 		
+		instructorsDb.deleteEntity(i);
 		instructorsDb.createEntity(i);
 		
 		LogicTest.verifyPresentInDatastore(i);
@@ -130,6 +132,33 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 	}
 	
 	@Test
+	public void testGetInstructorForRegistrationKey() throws InvalidParametersException {
+		InstructorAttributes i = createNewInstructor();
+		
+		______TS("success: get an instructor");
+		String key = i.key;
+		
+		InstructorAttributes retrieved = instructorsDb.getInstructorForRegistrationKey(StringHelper.encrypt(key));
+		assertEquals(i.courseId, retrieved.courseId);
+		assertEquals(i.name, retrieved.name);
+		assertEquals(i.email, retrieved.email);
+		
+		______TS("failure: instructor does not exist");
+		
+		key = "non.existent.key";
+		retrieved = instructorsDb.getInstructorForRegistrationKey(StringHelper.encrypt(key));
+		assertNull(retrieved);
+		
+		______TS("failure: null parameters");
+		try {
+			instructorsDb.getInstructorForRegistrationKey(null);
+			signalFailureToDetectException();
+		} catch (AssertionError a) {
+			assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+		}
+	}
+
+	@Test
 	public void testGetInstructorsForGoogleId() throws Exception {
 		restoreTypicalDataInDatastore();
 		
@@ -194,36 +223,78 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 	}
 	
 	@Test
-	public void testUpdateInstructor() throws InvalidParametersException {
-		InstructorAttributes instructorToEdit = createNewInstructor();
+	public void testUpdateInstructorByGoogleId() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		InstructorAttributes instructorToEdit = instructorsDb.getInstructorForGoogleId("idOfTypicalCourse1", "idOfInstructor1OfCourse1");
 		
 		______TS("success: update an instructor");
 
 		instructorToEdit.name = "New Name";
-		instructorToEdit.email = "new@email.com";
-		instructorsDb.updateInstructor(instructorToEdit);
+		instructorToEdit.email = "InstrDbT.new-email@email.com";
+		instructorsDb.updateInstructorByGoogleId(instructorToEdit);
 		
 		InstructorAttributes instructorUpdated = instructorsDb.getInstructorForGoogleId(instructorToEdit.courseId, instructorToEdit.googleId);
-		assertEquals("New Name", instructorUpdated.name);
-		assertEquals("new@email.com", instructorUpdated.email);
+		assertEquals(instructorToEdit.name, instructorUpdated.name);
+		assertEquals(instructorToEdit.email, instructorUpdated.email);
 		
 		______TS("failure: invalid parameters");
 		
 		instructorToEdit.name = "";
 		instructorToEdit.email = "aaa";
 		try {
-			instructorsDb.updateInstructor(instructorToEdit);
+			instructorsDb.updateInstructorByGoogleId(instructorToEdit);
 			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
 			AssertHelper.assertContains(
-						String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name,	REASON_EMPTY) + Const.EOL 
-						+ String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email,	REASON_INCORRECT_FORMAT), 
-					e.getMessage());
+						String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY) + Const.EOL 
+						+ String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email, REASON_INCORRECT_FORMAT),
+						e.getMessage());
 		}
 		
 		______TS("failure: null parameters");
 		try {
-			instructorsDb.updateInstructor(null);
+			instructorsDb.updateInstructorByGoogleId(null);
+			signalFailureToDetectException();
+		} catch (AssertionError ae) {
+			assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+		}
+	}
+
+	@Test
+	public void testUpdateInstructorByEmail() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		InstructorAttributes instructorToEdit = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.com");
+		
+		______TS("success: update an instructor");
+		
+		instructorToEdit.googleId = "new-id";
+		instructorToEdit.name = "New Name";
+		instructorsDb.updateInstructorByEmail(instructorToEdit);
+		
+		InstructorAttributes instructorUpdated = instructorsDb.getInstructorForEmail(instructorToEdit.courseId, instructorToEdit.email);
+		assertEquals("new-id", instructorUpdated.googleId);
+		assertEquals("New Name", instructorUpdated.name);
+
+		______TS("failure: invalid parameters");
+
+		instructorToEdit.googleId = "invalid id";
+		instructorToEdit.name = "";
+		try {
+			instructorsDb.updateInstructorByEmail(instructorToEdit);
+			signalFailureToDetectException();
+		} catch (InvalidParametersException e) {
+			AssertHelper.assertContains(
+					String.format(GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId, REASON_INCORRECT_FORMAT)
+							+ Const.EOL
+							+ String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY),
+					e.getMessage());
+		}
+
+		______TS("failure: null parameters");
+		try {
+			instructorsDb.updateInstructorByEmail(null);
 			signalFailureToDetectException();
 		} catch (AssertionError ae) {
 			assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
@@ -236,13 +307,13 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 		
 		______TS("success: delete an instructor");
 		
-		instructorsDb.deleteInstructor(i.courseId, i.googleId);
+		instructorsDb.deleteInstructor(i.courseId, i.email);
 		
-		InstructorAttributes deleted = instructorsDb.getInstructorForGoogleId(i.courseId, i.googleId);
+		InstructorAttributes deleted = instructorsDb.getInstructorForEmail(i.courseId, i.email);
 		assertNull(deleted);
 		
 		______TS("delete a non-exist instructor, should fail silently");
-		instructorsDb.deleteInstructor(i.courseId, i.googleId);
+		instructorsDb.deleteInstructor(i.courseId, i.email);
 		
 		______TS("failure: null parameters");
 		try {
@@ -303,11 +374,12 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 	
 	private InstructorAttributes createNewInstructor() throws InvalidParametersException {
 		InstructorAttributes i = new InstructorAttributes();
-		i.googleId = "valid.id";
-		i.courseId = "valid.course";
-		i.name = "valid.name";
-		i.email = "valid@email.com";
-				
+		i.googleId = "InstrDbT.valid.id";
+		i.courseId = "InstrDbT.valid.course";
+		i.name = "InstrDbT.valid.name";
+		i.email = "InstrDbT.valid@email.com";
+		i.key = "InstrDbT.validKey";
+		
 		try {
 			instructorsDb.createEntity(i);
 		} catch (EntityAlreadyExistsException e) {

@@ -161,6 +161,13 @@
 			"courseId":"idOfArchivedCourse",
 			"name":"InstructorOfArchiveCourse name",
 			"email":"instructorOfArchiveCourse@archiveCourse.com"
+		},
+		"instructorNotYetJoinCourse":{
+			"googleId":null,
+			"courseId":"idOfSampleCourse-demo",
+			"name":"Instructor Not Yet Joined Course",
+			"email":"instructorNotYetJoined@email.com",
+			"key":"regKeyForInstrNotYetJoinCourse"
 		}
 		
 	},

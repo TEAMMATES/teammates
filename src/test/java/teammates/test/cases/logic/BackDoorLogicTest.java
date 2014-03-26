@@ -53,7 +53,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
 		// clean up the datastore first, to avoid clashes with existing data
 		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
 		for (InstructorAttributes instructor : instructors.values()) {
-			logic.deleteInstructor(instructor.courseId, instructor.googleId);
+			logic.deleteInstructor(instructor.courseId, instructor.email);
 		}
 		______TS("empty data bundle");
 		String status = logic.persistDataBundle(new DataBundle());

@@ -53,17 +53,28 @@ function showNewInstructorForm() {
 }
 
 /**
+ * Functions to trigger registration key sending to a specific instructor in the
+ * course.
+ * @param courseID
+ * @param email
+ */
+function toggleSendRegistrationKey(courseID, email) {
+	return confirm("Do you wish to re-send the invitation email to this instructor now?");
+}
+
+/**
  * Function that shows confirmation dialog for deleting a instructor
  * @param courseID
- * @param instructorID
+ * @param instructorName
+ * @param isDeleteOwnself
  * @returns
  */
-function toggleDeleteInstructorConfirmation(courseID, instructorID, userID) {
-	if (instructorID == userID) {
+function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOwnself) {
+	if (isDeleteOwnself) {
 		return confirm("Are you sure you want to delete your instructor role from the course " + courseID + "? " +
 		"You will not be able to access the course anymore.");
 	} else {
-		return confirm("Are you sure you want to delete the instructor " + instructorID + " from " + courseID + "? " +
+		return confirm("Are you sure you want to delete the instructor " + instructorName + " from " + courseID + "? " +
 			"He/she will not be able to access the course anymore.");
 	}
 }

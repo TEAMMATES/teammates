@@ -452,7 +452,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 	private static void deleteSpecialTestData() {
 		StudentAttributes student = testData.students.get("student1InCourse1");
 		BackDoor.deleteStudent(student.course, student.email);
-		BackDoor.deleteInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+		InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
+		BackDoor.deleteInstructor(instructor.courseId, instructor.email);
 		BackDoor.deleteCourse(student.course);
 	}
 

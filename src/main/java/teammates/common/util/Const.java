@@ -59,6 +59,7 @@ public class Const {
 	
 		public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
 		public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
+		public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
 		
 		public static final String COURSE_STUDENT_DETAILS = "View the details of the student";
 		public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
@@ -386,6 +387,8 @@ public class Const {
 		public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
 		public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
 		public static final String INSTRUCTOR_COURSE_INSTRUCTOR_DELETE = "/page/instructorCourseInstructorDelete";
+		public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
+		public static final String INSTRUCTOR_COURSE_JOIN_AUTHENTICATED = "/page/instructorCourseJoinAuthenticated";
 		public static final String INSTRUCTOR_EVALS_PAGE = "/page/instructorEvalsPage";
 		public static final String INSTRUCTOR_EVAL_ADD = "/page/instructorEvalAdd";
 		public static final String INSTRUCTOR_EVAL_DELETE = "/page/instructorEvalDelete";
@@ -489,7 +492,8 @@ public class Const {
 		public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS = "/jsp/instructorCourseStudentDetails.jsp"; 
 		public static final String INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp"; 
 		public static final String INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp"; 
-		public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp"; 
+		public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp";
+		public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";
 		public static final String INSTRUCTOR_EVALS = "/jsp/instructorEvals.jsp"; 
 		public static final String INSTRUCTOR_EVAL_EDIT = "/jsp/instructorEvalEdit.jsp"; 
 		public static final String INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; 
@@ -579,12 +583,21 @@ public class Const {
 		public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
 		public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
 	
-		public static final String COURSE_INSTRUCTOR_ADDED = "The instructor has been added successfully.";
+		public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully."
+				+ "An email containing how to 'join' this course will be sent to %s in a few minutes.";
 		public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same ID already exists in the course.";
 		public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
 		public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
 		public static final String COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED = "The instructor you are trying to delete is the last instructor in the course. "
 				+ "Deleting the last instructor from the course is not allowed.";
+		
+		public static final String JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER = "The join link used belongs to a different user whose Google ID is "
+				+ "%s (only part of the Google ID is shown to protect privacy). "
+				+ "If that Google ID is owned by you, please logout and re-login "
+				+ "using that Google account. If it doesn’t belong to you, please "
+				+ "<a href=\"mailto:teammates@comp.nus.edu.sg?"
+				+ "body=Your name:%%0AYour course:%%0AYour university:\">"
+				+ "contact us</a> so that we can investigate.";
 		
 		public static final String STUDENT_EDITED = "The student has been edited successfully";
 		public static final String STUDENT_DELETED = "The student has been removed from the course";
