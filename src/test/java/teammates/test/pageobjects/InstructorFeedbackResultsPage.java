@@ -89,7 +89,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 	}
 	
 	public void addFeedbackResponseComment(String commentText) {
-		showResponseCommentAddFormButton.findElement(By.tagName("a")).click();
+		showResponseCommentAddFormButton.findElement(By.tagName("div")).click();
 		fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
 		addResponseCommentForm.findElement(By.className("button")).click();
 		ThreadHelper.waitFor(1000);
