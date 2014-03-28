@@ -108,9 +108,9 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 		ActionResult r = a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=Your+submission+for+evaluation1+In+Course1+"
-				+"in+course+"+eval.courseId +"+has+been+saved+successfully&error=false&user="+ 
-						student1InCourse1.googleId,r.getDestinationWithParams());
+				Const.ActionURIs.STUDENT_HOME_PAGE+"?"+Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION+"=idOfTypicalCourse1evaluation1+In+Course1"+
+				"&message=Your+submission+for+evaluation1+In+Course1+in+course+"+eval.courseId 
+				+"+has+been+saved+successfully&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
 		
 		assertFalse(r.isError);
 		
@@ -205,9 +205,9 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 		ActionResult r = a.executeAndPostProcess();
 		
 		assertEquals(
-				Const.ActionURIs.STUDENT_HOME_PAGE+"?message=Your+submission+for+evaluation1+In+Course1+"
-				+"in+course+"+eval.courseId +"+has+been+saved+successfully&error=false&user="+ 
-						student1InCourse1.googleId,r.getDestinationWithParams());
+				Const.ActionURIs.STUDENT_HOME_PAGE+"?"+Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION+"=idOfTypicalCourse1evaluation1+In+Course1"+
+				"&message=Your+submission+for+evaluation1+In+Course1+in+course+"+eval.courseId 
+				+"+has+been+saved+successfully&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
 		
 		assertFalse(r.isError);
 		

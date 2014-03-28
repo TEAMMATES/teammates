@@ -205,6 +205,21 @@ public class StudentHomePageActionTest extends BaseActionTest {
 		r = getShowPageResult(a);
 		data = (StudentHomePageData)r.data;
 		assertEquals(1, data.courses.size());
+		
+		
+		______TS("Evaluation submission affected by eventual consistency");
+		submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION, "idOfTypicalCourse1evaluation2 In Course1"};
+		student1InCourse1 = dataBundle.students.get("student1InCourse1");
+		studentId = student1InCourse1.googleId;
+		gaeSimulation.loginUser(studentId);
+		a = getAction(submissionParams);
+		r = getShowPageResult(a);
+		data = (StudentHomePageData)r.data;
+		assertEquals(
+				"{idOfTypicalCourse1%evaluation2 In Course1=Submitted, " +
+				"idOfTypicalCourse1%evaluation1 In Course1=Submitted}",
+				data.evalSubmissionStatusMap.toString());
+		
 	}
 
 	private StudentHomePageAction getAction(String... params) throws Exception{

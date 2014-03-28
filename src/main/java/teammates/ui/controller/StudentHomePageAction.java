@@ -67,11 +67,21 @@ public class StudentHomePageAction extends Action {
 	private Map<String, String> generateEvalSubmissionStatusMap(
 			List<CourseDetailsBundle> courses, String googleId) {
 		Map<String, String> returnValue = new HashMap<String, String>();
-
+		
+		String recentlySubmittedEvaluation = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION);
+		
 		for(CourseDetailsBundle c: courses){
 			for(EvaluationDetailsBundle edb: c.evaluations){
 				EvaluationAttributes e = edb.evaluation;
-				returnValue.put(e.courseId+"%"+e.name, getStudentStatusForEval(e, googleId));
+				
+				String currentEvaluation = e.courseId+e.name;
+				boolean isEvaluationRecentlySubmitted = currentEvaluation.equals(recentlySubmittedEvaluation);
+				
+				if(isEvaluationRecentlySubmitted) {
+					returnValue.put(e.courseId+"%"+e.name, Const.STUDENT_EVALUATION_STATUS_SUBMITTED);
+				} else {
+					returnValue.put(e.courseId+"%"+e.name, getStudentStatusForEval(e, googleId));
+				}
 			}
 		}
 		return returnValue;
@@ -81,6 +91,7 @@ public class StudentHomePageAction extends Action {
 			List<CourseDetailsBundle> courses, String googleId) {
 		Map<String, Boolean> returnValue = new HashMap<String, Boolean>();
 
+		
 		for(CourseDetailsBundle c: courses){
 			for(FeedbackSessionDetailsBundle fsb: c.feedbackSessions){
 				FeedbackSessionAttributes f = fsb.feedbackSession;

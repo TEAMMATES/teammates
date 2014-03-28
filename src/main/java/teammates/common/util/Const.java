@@ -360,6 +360,7 @@ public class Const {
 		
 		//Parameters for checking persistence of data during Eventual Consistency
 		public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
+		public static final String CHECK_PERSISTENCE_EVALUATION = "persistenceevalaution";
 	}
 
 	public class ActionURIs{
