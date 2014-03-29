@@ -111,24 +111,9 @@ public class AccountsLogic {
 	public StudentAttributes joinCourseForStudent(String registrationKey, String googleId) 
 			throws JoinCourseException {
 		
-		StudentAttributes student = StudentsLogic.inst().getStudentForRegistrationKey(registrationKey);
+		verifyStudentJoinCourseRequest(registrationKey, googleId);
 		
-		if(student==null){
-			throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
-					"You have used an invalid join link: "
-							+ Const.ActionURIs.STUDENT_COURSE_JOIN 
-							+ "?regkey=" + registrationKey);
-		} else if (student.isRegistered()) {
-			if (student.googleId.equals(googleId)) {
-				throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-						googleId + " has already joined this course");
-			} else {
-				throw new JoinCourseException(
-						Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
-						String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-									truncateGoogleId(student.googleId)));
-			}
-		} 
+		StudentAttributes student = StudentsLogic.inst().getStudentForRegistrationKey(registrationKey);
 		
 		//register the student
 		student.googleId = googleId;
@@ -155,23 +140,9 @@ public class AccountsLogic {
 	public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId)
 			throws JoinCourseException {
 		
-		InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+		verifyInstructorJoinCourseRequest(encryptedKey, googleId);
 		
-		if (instructor == null) {
-			String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?regkey=" + encryptedKey;
-			
-			throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
-					"You have used an invalid join link: " + joinUrl);
-		} else if (instructor.isRegistered()) {
-			if (instructor.googleId.equals(googleId)) {
-				throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-						googleId + " has already joined this course");
-			} else {
-				throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
-						String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-								truncateGoogleId(instructor.googleId)));
-			}
-		}
+		InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
 		
 		instructor.googleId = googleId;
 		try {
@@ -195,6 +166,69 @@ public class AccountsLogic {
 		
 	}
 	
+	private void verifyInstructorJoinCourseRequest(String encryptedKey, String googleId)
+			throws JoinCourseException {
+		
+		InstructorAttributes instructorRole = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+		
+		if (instructorRole == null) {
+			String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?regkey=" + encryptedKey;
+			
+			throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
+					"You have used an invalid join link: " + joinUrl);
+		} else if (instructorRole.isRegistered()) {
+			if (instructorRole.googleId.equals(googleId)) {
+				throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
+						googleId + " has already joined this course");
+			} else {
+				throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
+						String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+								truncateGoogleId(instructorRole.googleId)));
+			}
+		}
+	
+		InstructorAttributes existingInstructor =
+				InstructorsLogic.inst().getInstructorForGoogleId(instructorRole.courseId, googleId);
+		
+		if (existingInstructor != null) {
+			throw new JoinCourseException(
+					String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+							googleId));
+		}
+	}
+	
+	private void verifyStudentJoinCourseRequest(String encryptedKey, String googleId)
+			throws JoinCourseException {
+		
+		StudentAttributes studentRole = StudentsLogic.inst().getStudentForRegistrationKey(encryptedKey);
+		
+		if(studentRole == null){
+			throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
+					"You have used an invalid join link: "
+							+ Const.ActionURIs.STUDENT_COURSE_JOIN 
+							+ "?regkey=" + encryptedKey);
+		} else if (studentRole.isRegistered()) {
+			if (studentRole.googleId.equals(googleId)) {
+				throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
+						googleId + " has already joined this course");
+			} else {
+				throw new JoinCourseException(
+						Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
+						String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+									truncateGoogleId(studentRole.googleId)));
+			}
+		} 
+	
+		StudentAttributes existingStudent =
+				StudentsLogic.inst().getStudentForGoogleId(studentRole.course, googleId);
+		
+		if (existingStudent != null) {
+			throw new JoinCourseException(
+					String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+							googleId));
+		}
+	}
+
 	public void downgradeInstructorToStudentCascade(String googleId) {
 		InstructorsLogic.inst().deleteInstructorsForGoogleId(googleId);
 		makeAccountNonInstructor(googleId);

@@ -599,6 +599,8 @@ public class Const {
 				+ "<a href=\"mailto:teammates@comp.nus.edu.sg?"
 				+ "body=Your name:%%0AYour course:%%0AYour university:\">"
 				+ "contact us</a> so that we can investigate.";
+		public static final String JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER = "The Google ID %s belongs to an existing user in the course."
+				+ "Please login again using a different Google account, and try to join the course again.";
 		
 		public static final String STUDENT_EDITED = "The student has been edited successfully";
 		public static final String STUDENT_DELETED = "The student has been removed from the course";

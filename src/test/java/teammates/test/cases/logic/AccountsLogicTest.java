@@ -13,6 +13,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
@@ -83,6 +84,21 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 			AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
 					e.getMessage());
 		}
+		
+		______TS("failure: googleID belongs to an existing student in the course");
+		
+		String existingId = "AccLogicT.existing.studentId";
+		StudentAttributes existingStudent = new StudentAttributes(existingId,
+				"differentEmail@email.com", "name", "", courseId, "teamName");
+		logic.createStudent(existingStudent);
+		
+		try {
+			accountsLogic.joinCourseForStudent(studentData.key, existingId);
+			signalFailureToDetectException();
+		} catch (JoinCourseException e) {
+			assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+					existingId), e.getMessage());
+		}
 
 		______TS("success: without encryption and account already exists");
 
@@ -126,6 +142,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
 		______TS("success: with encryption and new account to be created");
 
+		logic.deleteStudent(courseId, originalEmail);
+		
 		originalEmail = "email2@gmail.com";
 		studentData = new StudentAttributes(null, originalEmail, "name", "",
 				courseId, "teamName");
@@ -174,11 +192,20 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 		
 		InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
 		String loggedInGoogleId = "AccLogicT.instr.id";
-		
-		______TS("success: instructor joined and new account be created");
-
 		String key = instructorsLogic.getKeyForInstructor(instructor.courseId, instructor.email);
 		String encryptedKey = StringHelper.encrypt(key);
+		
+		______TS("failure: googleID belongs to an existing instructor in the course");
+
+		try {
+			accountsLogic.joinCourseForInstructor(encryptedKey, "idOfInstructorWithOnlyOneSampleCourse");
+			signalFailureToDetectException();
+		} catch (JoinCourseException e) {
+			assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+					"idOfInstructorWithOnlyOneSampleCourse"), e.getMessage());
+		}
+		
+		______TS("success: instructor joined and new account be created");
 		
 		accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId);
 		
