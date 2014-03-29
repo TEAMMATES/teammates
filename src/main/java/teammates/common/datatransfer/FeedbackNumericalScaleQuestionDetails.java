@@ -92,9 +92,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
 	public String getQuestionAdditionalInfoHtml(int questionNumber,
 			String additionalInfoId) {
 		String additionalInfo = getQuestionTypeDisplayName() + ":<br/>";
-		additionalInfo += "Minimum scale: " + minScale 
-								+ ". Maximum scale: " + maxScale 
-								+ ". Increment: " + step + ".";
+		additionalInfo += "Minimum value: " + minScale 
+								+ ". Increment: " + step + ". Maximum value: " + maxScale + ".";
 		
 		return FeedbackQuestionFormTemplates.populateTemplate(
 				FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,

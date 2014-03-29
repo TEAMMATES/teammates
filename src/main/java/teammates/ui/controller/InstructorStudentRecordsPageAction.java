@@ -29,6 +29,8 @@ public class InstructorStudentRecordsPageAction extends Action {
 		String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
 		Assumption.assertNotNull(studentEmail);
 		
+		String showCommentBox = getRequestParamValue(Const.ParamsNames.STUDENT_RECORDS_SHOW_COMMENT_BOX);
+		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getCourse(courseId));
@@ -39,6 +41,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 		try {
 			data.courseId = courseId;
 			data.student = logic.getStudentForEmail(courseId, studentEmail);
+			data.showCommentBox = showCommentBox;
 			data.comments = logic.getCommentsForGiverAndReceiver(courseId, instructor.email, studentEmail);
 			List<EvaluationAttributes> evals = logic.getEvaluationsListForInstructor(account.googleId);
 			List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);

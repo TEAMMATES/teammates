@@ -135,10 +135,11 @@
 											%>
 												<tr id="showResponseCommentAddFormButton-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">
 													<td colspan="5">
-														<a href="#" class="color_gray"
+														<div style="position:relative;" href="#" class="color_gray"
 															onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)">
-															<textarea rows="1" disabled="disabled" style="cursor:text;">Add a comment...</textarea>
-														</a>
+															<textarea rows="1" disabled="disabled" style="overflow: auto; clear: both; cursor:text;">Add a comment...</textarea>
+															<div style="position:absolute; left:0px; right:0px; top:0px; bottom:0px; cursor: pointer;" onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)"></div>
+														</div>
 													</td>
 												</tr>
 												<tr style="display: none;"

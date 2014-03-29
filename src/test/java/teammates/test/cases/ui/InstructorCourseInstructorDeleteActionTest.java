@@ -38,7 +38,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 		InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
 		String[] submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, instructor.courseId,
-				Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
+				Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
 		};
 		
 		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -63,11 +63,12 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 		
 		______TS("Typical case: delete instructor successfully");
 		
-		String instructorIdToDelete = dataBundle.instructors.get("instructor2OfCourse1").googleId;
+		InstructorAttributes instructorToDelete = dataBundle.instructors.get("instructor2OfCourse1");
+		String instructorEmailToDelete = instructorToDelete.email;
 		
 		String[] submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, courseId,
-				Const.ParamsNames.INSTRUCTOR_ID, instructorIdToDelete
+				Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
 		};
 		
 		Action action = getAction(submissionParams);
@@ -77,19 +78,19 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 		assertEquals(false, result.isError);
 		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, result.getStatusMessage());
 
-		assertEquals(false, instructorsLogic.isInstructorOfCourse(instructorIdToDelete, courseId));
+		assertEquals(false, instructorsLogic.isInstructorEmailOfCourse(instructorEmailToDelete, courseId));
 		
-		String expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorIdToDelete + "</span>"
+		String expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
 				+ " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
 		______TS("Success: delete own instructor role from course, redirect back to courses page");
 		
-		instructorIdToDelete = loginInstructorId;
+		instructorEmailToDelete = loginInstructor.email;
 		
 		submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, courseId,
-				Const.ParamsNames.INSTRUCTOR_ID, instructorIdToDelete
+				Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
 		};
 		
 		action = getAction(submissionParams);
@@ -99,35 +100,35 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 		assertEquals(false, result.isError);
 		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, result.getStatusMessage());
 
-		assertEquals(false, instructorsLogic.isInstructorOfCourse(instructorIdToDelete, courseId));
+		assertEquals(false, instructorsLogic.isInstructorOfCourse(loginInstructor.googleId, courseId));
 		
-		expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorIdToDelete + "</span>"
+		expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
 				+ " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 		
 		______TS("Masquerade mode: delete instructor failed due to last instructor in course");
 
-		InstructorAttributes instructorToDelete = dataBundle.instructors.get("instructor4");
-		instructorIdToDelete = instructorToDelete.googleId;
+		instructorToDelete = dataBundle.instructors.get("instructor4");
+		instructorEmailToDelete = instructorToDelete.email;
 		courseId = instructorToDelete.courseId;	
 		
 		gaeSimulation.loginAsAdmin(adminUserId);
 		
 		submissionParams = new String[]{
 				Const.ParamsNames.COURSE_ID, courseId,
-				Const.ParamsNames.INSTRUCTOR_ID, instructorIdToDelete
+				Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
 		};
 		
-		action = getAction(addUserIdToParams(instructorIdToDelete, submissionParams));
+		action = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
 		result = (RedirectResult) action.executeAndPostProcess();
 		
 		assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
 		assertEquals(true, result.isError);
 		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, result.getStatusMessage());
 
-		assertEquals(true, instructorsLogic.isInstructorOfCourse(instructorIdToDelete, courseId));
+		assertEquals(true, instructorsLogic.isInstructorOfCourse(instructorToDelete.googleId, courseId));
 		
-		expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorIdToDelete + "</span>"
+		expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
 				+ " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
 				+ "as there is only one instructor left.<br>";
 		AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());

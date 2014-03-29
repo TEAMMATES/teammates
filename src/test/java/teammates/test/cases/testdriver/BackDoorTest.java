@@ -60,12 +60,12 @@ public class BackDoorTest extends BaseTestCase {
 		// ----------deleting Instructor entities-------------------------
 		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 		verifyPresentInDatastore(instructor1OfCourse1);
-		status = BackDoor.deleteInstructor(instructor1OfCourse1.googleId);
+		status = BackDoor.deleteInstructor(instructor1OfCourse1.courseId, instructor1OfCourse1.email);
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 		verifyAbsentInDatastore(instructor1OfCourse1);
 		
 		//try to delete again: should indicate as success because delete fails silently.
-		status = BackDoor.deleteInstructor(instructor1OfCourse1.googleId);
+		status = BackDoor.deleteInstructor(instructor1OfCourse1.email, instructor1OfCourse1.courseId);
 		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 		
 		// ----------deleting Evaluation entities-------------------------
@@ -214,7 +214,7 @@ public class BackDoorTest extends BaseTestCase {
 		InstructorAttributes instructor = new InstructorAttributes(instructorId, courseId, name, email);
 		
 		// Make sure not already inside
-		BackDoor.deleteInstructor(instructorId);
+		BackDoor.deleteInstructor(courseId, email);
 		verifyAbsentInDatastore(instructor);
 		
 		// Perform creation
@@ -222,7 +222,7 @@ public class BackDoorTest extends BaseTestCase {
 		verifyPresentInDatastore(instructor);
 		
 		// Clean up
-		BackDoor.deleteInstructor(instructorId);
+		BackDoor.deleteInstructor(courseId, email);
 		verifyAbsentInDatastore(instructor);
 	}
 
@@ -274,7 +274,6 @@ public class BackDoorTest extends BaseTestCase {
 		// Don't be confused by the following: it has no relation with the above instructor/course(s)
 		
 		// add a course that belongs to a different instructor
-		String instructor2Id = "AST.TGCBCI.instructor2";
 		String course3 = "AST.TGCBCI.course3";
 		BackDoor.deleteCourse(course3);
 		status = BackDoor.createCourse(new CourseAttributes(course3, "tmapit tgcbci c1OfInstructor2"));
@@ -283,8 +282,8 @@ public class BackDoorTest extends BaseTestCase {
 		courses = BackDoor.getCoursesByInstructorId(instructor1Id);
 		assertEquals("[" + course1 + ", " + course2 + "]", Arrays.toString(courses));
 
-		BackDoor.deleteInstructor(instructor1Id);
-		BackDoor.deleteInstructor(instructor2Id);
+		BackDoor.deleteInstructor(instructor1email, course1);
+		BackDoor.deleteInstructor(instructor1email, course2);
 	}
 
 	@SuppressWarnings("unused")
@@ -526,7 +525,7 @@ public class BackDoorTest extends BaseTestCase {
 	}
 	
 	private void verifyAbsentInDatastore(InstructorAttributes expectedInstructor) {
-		assertEquals("null", BackDoor.getInstructorAsJson(expectedInstructor.googleId, expectedInstructor.courseId));
+		assertEquals("null", BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId));
 	}
 
 	private void verifyAbsentInDatastore(StudentAttributes student) {
@@ -624,8 +623,10 @@ public class BackDoorTest extends BaseTestCase {
 	}
 
 	private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
-		String instructorJsonString = BackDoor.getInstructorAsJson(expectedInstructor.googleId, expectedInstructor.courseId);
+		String instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId);
 		InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);
+		
+		equalizeIrrelevantData(expectedInstructor, actualInstructor);
 		assertEquals(gson.toJson(expectedInstructor), gson.toJson(actualInstructor));
 	}
 	
@@ -657,6 +658,16 @@ public class BackDoorTest extends BaseTestCase {
 		// and cannot be anticipated
 		if ((actualStudent.key != null)) {
 			expectedStudent.key = actualStudent.key;
+		}
+	}
+	
+	private void equalizeIrrelevantData(
+			InstructorAttributes expectedInstructor,
+			InstructorAttributes actualInstructor) {
+		
+		// pretend keys match because the key is generated only before storing into database
+		if ((actualInstructor.key != null)) {
+			expectedInstructor.key = actualInstructor.key;
 		}
 	}
 

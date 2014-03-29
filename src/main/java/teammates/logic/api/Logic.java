@@ -199,9 +199,10 @@ public class Logic {
 	@SuppressWarnings("unused")
 	private void ____INSTRUCTOR_level_methods____________________________________() {
 	}
-
+	
 	/**
-	 * Creates an account and an instructor. <br>
+	 * Creates an instructor and an new account if the instructor doesn't not have account yet.<br>
+	 * <b>Note: Now used for the purpose of testing only.</b><br>
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
@@ -216,7 +217,7 @@ public class Logic {
 
 		accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
 	}
-	
+
 	/**
 	 * Creates a new instructor for a course. <br>
 	 * Preconditions: <br>
@@ -231,6 +232,21 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
 		instructorsLogic.createInstructor(googleId, courseId, name, email);
+	}
+	
+	/**
+	 * Add an instructor for a course. <br>
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void addInstructor(String courseId, String name, String email) 
+			throws InvalidParametersException, EntityAlreadyExistsException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+
+		instructorsLogic.addInstructor(courseId, name, email);
 	}
 
 	/**
@@ -260,6 +276,18 @@ public class Logic {
 	
 	/**
 	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return null if not found.
+	 */
+	public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
+
+		return instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
+	}
+	
+	/**
+	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 * @return Empty list if none found.
 	 */
@@ -268,6 +296,18 @@ public class Logic {
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		
 		return instructorsLogic.getInstructorsForGoogleId(googleId);
+	}
+	
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @return Empty list if none found.
+	 */
+	public List<InstructorAttributes> getInstructorsForEmail(String email) {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		
+		return instructorsLogic.getInstructorsForEmail(email);
 	}
 
 	/**
@@ -281,6 +321,22 @@ public class Logic {
 		
 		return instructorsLogic.getInstructorsForCourse(courseId);
 	}
+	
+	/**
+	 * Get the decrypted registration key for the instructor.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 * @return null if the key doesn't exist.
+	 * @throws EntityDoesNotExistException 
+	 */
+	public String getKeyForInstructor(String courseId, String email)
+			throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+	
+		return instructorsLogic.getKeyForInstructor(courseId, email);
+	}
 
 	/**
 	 * @deprecated Not scalable. Don't use unless in admin features.
@@ -291,6 +347,8 @@ public class Logic {
 		return instructorsLogic.getAllInstructors();
 	}
 	
+	
+	
 	/**
 	 * @return true if this user has instructor privileges.
 	 */
@@ -298,8 +356,18 @@ public class Logic {
 		return accountsLogic.isAccountAnInstructor(googleId);
 	}
 
+	/**
+	 * @return true if this user is an instructor of the course
+	 */
 	public boolean isInstructorOfCourse(String googleId, String courseId) {
 		return instructorsLogic.isInstructorOfCourse(googleId, courseId);
+	}
+	
+	/**
+	 * @return true if this email belongs to an instructor of the course
+	 */
+	public boolean isInstructorEmailOfCourse(String email, String courseId) {
+		return instructorsLogic.isInstructorEmailOfCourse(email, courseId);
 	}
 	
 	/**
@@ -323,25 +391,76 @@ public class Logic {
 	}
 
 	/**
+	 * Update the name and email address of an instructor with the specific Google ID.
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
+	 * @param googleId
+	 * @param instr InstructorAttributes object containing the details to be updated
 	 * @throws InvalidParametersException 
 	 * @throws EntityDoesNotExistException 
 	 */
-	public void updateInstructor(String courseId, String googleId, String name, String email) 
+	public void updateInstructorByGoogleId(String googleId, InstructorAttributes instr) 
 			throws InvalidParametersException, EntityDoesNotExistException {
 		
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
+		
+		coursesLogic.verifyCourseIsPresent(instr.courseId);
+		instructorsLogic.verifyIsInstructorOfCourse(googleId, instr.courseId);
+		
+		instructorsLogic.updateInstructorByGoogleId(googleId, instr);
+	}
+	
+	/**
+	 * Update the Google ID and name of an instructor with the specific email.
+	 * Preconditions: <br>
+	 * * All parameters are non-null. 
+	 * @param email
+	 * @param instr InstructorAttributes object containing the details to be updated
+	 * @throws InvalidParametersException
+	 * @throws EntityDoesNotExistException
+	 */
+	public void updateInstructorByEmail(String email, InstructorAttributes instr) 
+			throws InvalidParametersException, EntityDoesNotExistException {
+		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
 		
-		coursesLogic.verifyCourseIsPresent(courseId);
-		instructorsLogic.verifyInstructorExists(googleId);
+		coursesLogic.verifyCourseIsPresent(instr.courseId);
+		instructorsLogic.verifyIsInstructorEmailOfCourse(email, instr.courseId);
 		
-		instructorsLogic.updateInstructor(courseId, googleId, name, email);
+		instructorsLogic.updateInstructorByEmail(email, instr);
+	}
+	
+	/**
+	 * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
+	 * Create an account for the instructor if there is no account exist for him.
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public void joinCourseForInstructor(String encryptedKey, String googleId)
+			throws JoinCourseException, InvalidParametersException, EntityAlreadyExistsException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
+	
+		accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
+	
 	}
 
+	/**
+	 * Preconditions: <br>
+	 * * All parameters are non-null.
+	 */
+	public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
+			throws EntityDoesNotExistException {
+		
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
+	
+		return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+	}
+	
 	/**
 	 * Removes instructor access but does not delete the account. 
 	 * The account will continue to have student access. <br>
@@ -361,12 +480,12 @@ public class Logic {
 	 * Preconditions: <br>
 	 * * All parameters are non-null. 
 	 */
-	public void deleteInstructor(String courseId, String googleId) {
+	public void deleteInstructor(String courseId, String email) {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+		Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
-		instructorsLogic.deleteInstructor(courseId, googleId);
+		instructorsLogic.deleteInstructor(courseId, email);
 	}
 
 	@SuppressWarnings("unused")
@@ -527,7 +646,6 @@ public class Logic {
 		
 		coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
 	}
-	
 	
 	/**
 	 * Deletes the course and all data related to the course 
@@ -692,16 +810,20 @@ public class Logic {
 	}
 
 	/**
+	 * Make the student join the course, i.e. associate the Google ID to the student.<br>
+	 * Create an account for the student if there is no account exist for him.
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
+	 * @param googleId
+	 * @param key the encrypted registration key
 	 */
-	public void joinCourse(String googleId, String key)
+	public void joinCourseForStudent(String key, String googleId)
 			throws JoinCourseException, InvalidParametersException, EntityAlreadyExistsException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
 	
-		accountsLogic.joinCourse(key, googleId);
+		accountsLogic.joinCourseForStudent(key, googleId);
 	
 	}
 

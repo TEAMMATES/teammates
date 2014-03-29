@@ -5,6 +5,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseInstructorAddAction extends Action {
@@ -14,8 +15,6 @@ public class InstructorCourseInstructorAddAction extends Action {
 
 		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-		Assumption.assertNotNull(instructorId);
 		String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
 		Assumption.assertNotNull(instructorName);
 		String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
@@ -24,14 +23,17 @@ public class InstructorCourseInstructorAddAction extends Action {
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getCourse(courseId));
-
-		String instructorInstitute = account.institute;
+		
+		instructorName = Sanitizer.sanitizeName(instructorName);
+		instructorEmail = Sanitizer.sanitizeEmail(instructorEmail);
+		
 		try {
-			logic.createInstructorAccount(instructorId, courseId, instructorName, 
-									instructorEmail, instructorInstitute);
+			logic.addInstructor(courseId, instructorName, instructorEmail);
+			logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
 			
-			statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED);
-			statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorId + "</span>)"
+			statusToUser.add(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
+					instructorName, instructorEmail));
+			statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorEmail + "</span>)"
 					+ " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
 		} catch (EntityAlreadyExistsException e) {
 			setStatusForException(e, Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);

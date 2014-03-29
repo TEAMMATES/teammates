@@ -43,6 +43,13 @@
       "courseId": "InsCrsEdit.CS2104",
       "name": "Teammates Coord",
       "email": "InsCrsEdit.coord@gmail.com"
+    },
+    "InsCrsEdit.newInstructor": {
+      "googleId": null,
+      "courseId": "InsCrsEdit.CS2104",
+      "name": "Teammates New Instructor",
+      "email": "InsCrsEdit.newInstr@gmail.com",
+      "registrationKey": "InsCrsEdit.newInstr@gmail.com%InsCrsEdit.CS2104"
     }
   },
   

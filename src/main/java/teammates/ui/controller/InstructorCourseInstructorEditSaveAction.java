@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -11,6 +12,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
 	@Override
 	protected ActionResult execute() throws EntityDoesNotExistException {
 
+		//TODO: Allow editing of the instructors whom hasn't join the course yet
+		
 		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
 		String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
@@ -24,8 +27,12 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getCourse(courseId));
 
+		InstructorAttributes instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
+		instructorToEdit.name = instructorName;
+		instructorToEdit.email = instructorEmail;
+		
 		try {
-			logic.updateInstructor(courseId, instructorId, instructorName, instructorEmail);
+			logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
 			
 			statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED);
 			statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"

@@ -101,7 +101,7 @@ public class BackDoor {
 	private static void deleteInstructors(DataBundle data) {
 		HashMap<String, InstructorAttributes> instructors = data.instructors;
 		for (InstructorAttributes instructor : instructors.values()) {
-			deleteInstructor(instructor.googleId);
+			deleteInstructor(instructor.email, instructor.courseId);
 		}
 	}
 	
@@ -199,17 +199,39 @@ public class BackDoor {
 				.toJson(dataBundle));
 	}
 
-	public static String getInstructorAsJson(String instructorId, String courseId) {
-		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_INSTRUCTOR_AS_JSON);
+	public static String getInstructorAsJsonByGoogleId(String instructorId, String courseId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID);
 		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_ID, instructorId);
 		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
 		String instructorJsonString = makePOSTRequest(params);
 		return instructorJsonString;
 	}
 	
-	public static InstructorAttributes getInstructor(String instructorId, String courseId) {
-		String json = getInstructorAsJson(instructorId, courseId);
+	public static String getInstructorAsJsonByEmail(String instructorEmail, String courseId) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL);
+		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		String instructorJsonString = makePOSTRequest(params);
+		return instructorJsonString;
+	}
+	
+	public static InstructorAttributes getInstructorByGoogleId(String instructorId, String courseId) {
+		String json = getInstructorAsJsonByGoogleId(instructorId, courseId);
 		return Utils.getTeammatesGson().fromJson(json, InstructorAttributes.class);
+	}
+	
+	public static InstructorAttributes getInstructorByEmail(String instructorEmail, String courseId) {
+		String json = getInstructorAsJsonByEmail(instructorEmail, courseId);
+		return Utils.getTeammatesGson().fromJson(json, InstructorAttributes.class);
+	}
+	
+	public static String getKeyForInstructor(String courseId, String instructorEmail) {
+		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_KEY_FOR_INSTRUCTOR);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
+		String regKey = makePOSTRequest(params);
+		return regKey;
+
 	}
 
 	public static String editInstructor(InstructorAttributes instructor)
@@ -218,9 +240,10 @@ public class BackDoor {
 				"Not implemented because editing instructors is not currently allowed");
 	}
 
-	public static String deleteInstructor(String instructorId) {
+	public static String deleteInstructor(String courseId, String instructorEmail) {
 		HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_INSTRUCTOR);
-		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_ID, instructorId);
+		params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
+		params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
 		String status = makePOSTRequest(params);
 		return status;
 	}

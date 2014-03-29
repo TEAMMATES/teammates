@@ -1,8 +1,11 @@
 package teammates.storage.entity;
 
+import java.security.SecureRandom;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
 
 /**
  * An association class that represents the association Account
@@ -35,10 +38,11 @@ public class Instructor {
 	/** The instructor's email used for this course. */
 	@Persistent
 	private String email;
-
-	// TODO: this approach is going to be problematic when we require
-	// instructors to 'join' first (because we won't have the GoogleId from the
-	// beginning)
+	
+	/** The instructor's registration key used for joining */
+	@Persistent
+	private String registrationKey;
+	
 	/**
 	 * @param instructorGoogleId
 	 * @param courseId
@@ -49,10 +53,25 @@ public class Instructor {
 			String instructorName, String instructorEmail) {
 		this.setGoogleId(instructorGoogleId);
 		this.setCourseId(courseId);
-		// setId should be called after setting GoogleId and CourseId
-		this.setUniqueId(this.getGoogleId() + '%' + this.getCourseId());
 		this.setName(instructorName);
 		this.setEmail(instructorEmail);
+		// setId should be called after setting email and courseId
+		this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
+		this.setRegistrationKey(generateRegistrationKey());
+	}
+
+	/**
+	 * Constructor used for testing purpose only.
+	 */
+	public Instructor(String instructorGoogleId, String courseId, String instructorName,
+			String instructorEmail, String key) {
+		this.setGoogleId(instructorGoogleId);
+		this.setCourseId(courseId);
+		this.setName(instructorName);
+		this.setEmail(instructorEmail);
+		// setId should be called after setting email and courseId
+		this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
+		this.setRegistrationKey(key);
 	}
 
 	/**
@@ -100,5 +119,27 @@ public class Instructor {
 
 	public void setEmail(String instructorEmail) {
 		this.email = instructorEmail;
+	}
+	
+	public String getRegistrationKey() {
+		return registrationKey;
+	}
+	
+	public void setRegistrationKey(String key) {
+		this.registrationKey = key;
+	}
+	
+	/**
+	 * Generate unique registration key for the instructor. 
+	 * The key contains random elements to avoid being guessed.
+	 * @return
+	 */
+	private String generateRegistrationKey() {
+		String uniqueId = getUniqueId();
+		SecureRandom prng = new SecureRandom();
+		
+		String key = uniqueId + prng.nextInt();
+		
+		return key;
 	}
 }

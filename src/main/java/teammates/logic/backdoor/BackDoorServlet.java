@@ -43,12 +43,14 @@ public class BackDoorServlet extends HttpServlet {
 	public static final String OPERATION_EDIT_SUBMISSION = "OPERATION_EDIT_SUBMISSION";
 	public static final String OPERATION_EDIT_TEAM_PROFILE = "OPERATION_EDIT_TEAM_PROFILE";
 	public static final String OPERATION_EDIT_TFS = "OPERATION_EDIT_TFS";
-	public static final String OPERATION_GET_INSTRUCTOR_AS_JSON = "OPERATION_GET_INSTRUCTOR_AS_JSON";
+	public static final String OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID = "OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID";
+	public static final String OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL = "OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL";
 	public static final String OPERATION_GET_COURSES_BY_INSTRUCTOR = "get_courses_by_instructor";
 	public static final String OPERATION_GET_ACCOUNT_AS_JSON = "OPERATION_GET_ACCOUNT_AS_JSON";
 	public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
 	public static final String OPERATION_GET_STUDENT_AS_JSON = "OPERATION_GET_STUDENT_AS_JSON";
 	public static final String OPERATION_GET_EVALUATION_AS_JSON = "OPERATION_GET_EVALUATION_AS_JSON";
+	public static final String OPERATION_GET_KEY_FOR_INSTRUCTOR = "OPERATION_GET_KEY_FOR_INSTRUCTOR";
 	public static final String OPERATION_GET_KEY_FOR_STUDENT = "OPERATION_GET_KEY_FOR_STUDENT";
 	public static final String OPERATION_GET_SUBMISSION_AS_JSON = "OPERATION_GET_SUBMISSION_AS_JSON";
 	public static final String OPERATION_GET_ALL_SUBMISSIONS_AS_JSON = "OPERATION_GET_ALL_SUBMISSIONS";
@@ -128,8 +130,9 @@ public class BackDoorServlet extends HttpServlet {
 		// TODO: reorder in alphabetical order
 		BackDoorLogic backDoorLogic = new BackDoorLogic();
 		if (action.equals(OPERATION_DELETE_INSTRUCTOR)) {
-			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
-			backDoorLogic.downgradeInstructorToStudentCascade(instructorID);
+			String instructorEmail = req.getParameter(PARAMETER_INSTRUCTOR_EMAIL);
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			backDoorLogic.deleteInstructor(courseId, instructorEmail);
 		} else if (action.equals(OPERATION_DELETE_ACCOUNT)) {
 			String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
 			backDoorLogic.deleteAccount(googleId);
@@ -147,10 +150,14 @@ public class BackDoorServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_GET_ACCOUNT_AS_JSON)) {
 			String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
 			return backDoorLogic.getAccountAsJson(googleId);
-		} else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON)) {
+		} else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID)) {
 			String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
-			return backDoorLogic.getInstructorAsJson(instructorID, courseId);
+			return backDoorLogic.getInstructorAsJsonById(instructorID, courseId);
+		} else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL)) {
+			String instructorEmail = req.getParameter(PARAMETER_INSTRUCTOR_EMAIL);
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			return backDoorLogic.getInstructorAsJsonByEmail(instructorEmail, courseId);
 		} else if (action.equals(OPERATION_GET_COURSE_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			return backDoorLogic.getCourseAsJson(courseId);
@@ -167,6 +174,10 @@ public class BackDoorServlet extends HttpServlet {
 		} else if (action.equals(OPERATION_GET_ALL_STUDENTS_AS_JSON)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			return backDoorLogic.getAllStudentsAsJson(courseId);
+		} else if (action.equals(OPERATION_GET_KEY_FOR_INSTRUCTOR)) {
+			String courseId = req.getParameter(PARAMETER_COURSE_ID);
+			String email = req.getParameter(PARAMETER_INSTRUCTOR_EMAIL);
+			return backDoorLogic.getKeyForInstructor(courseId, email);
 		} else if (action.equals(OPERATION_GET_KEY_FOR_STUDENT)) {
 			String courseId = req.getParameter(PARAMETER_COURSE_ID);
 			String email = req.getParameter(PARAMETER_STUDENT_EMAIL);

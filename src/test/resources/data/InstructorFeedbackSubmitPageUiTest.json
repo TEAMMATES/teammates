@@ -609,6 +609,55 @@
 				"RECEIVER"
 			]
 		},
+
+		"qn17InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"IFSubmitUiT.CS2104",
+			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best instructor?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
+			},
+			"questionNumber":"17",
+			"questionType":"MCQ",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+		"qn18InSession1":{
+			"feedbackSessionName":"First Session",
+			"courseId":"IFSubmitUiT.CS2104",
+			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
+			"questionMetaData":{
+				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutors?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
+			},
+			"questionNumber":"18",
+			"questionType":"MSQ",
+			"giverType":"INSTRUCTORS",
+			"recipientType":"SELF",
+			"numberOfEntitiesToGiveFeedbackTo":1,
+			"showResponsesTo":[
+				"RECEIVER",
+				"INSTRUCTORS"
+			],
+			"showGiverNameTo":[
+				"INSTRUCTORS"
+			],
+			"showRecipientNameTo":[
+				"INSTRUCTORS"
+			]
+		},
+
+		
 		"qn1InSession2":{
 			"feedbackSessionName":"Second Session",
 			"courseId":"IFSubmitUiT.CS2104",

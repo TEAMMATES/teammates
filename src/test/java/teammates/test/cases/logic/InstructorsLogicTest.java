@@ -13,6 +13,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
@@ -21,6 +22,8 @@ import teammates.test.driver.AssertHelper;
 
 public class InstructorsLogicTest extends BaseComponentTestCase{
 
+	//TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
+	
 	private static InstructorsLogic instructorsLogic = new InstructorsLogic();
 	private static InstructorsDb instructorsDb = new InstructorsDb();
 	private static CoursesLogic coursesLogic = new CoursesLogic();
@@ -32,21 +35,21 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 	}
 	
 	@Test
-	public void testCreateInstructor() throws Exception {
+	public void testAddInstructor() throws Exception {
 		
-		______TS("success: create an instructor");
+		______TS("success: add an instructor");
 		
 		InstructorAttributes instr = new InstructorAttributes(
-				"ILogicT.newInstr", "test-course", "New Instructor", "instr@email.com");
+				null, "test-course", "New Instructor", "ILT.instr@email.com");
 		
-		instructorsLogic.createInstructor(instr.googleId, instr.courseId, instr.name, instr.email);
+		instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
 		
 		LogicTest.verifyPresentInDatastore(instr);
 		
 		______TS("failure: instructor already exists");
 		
 		try {
-			instructorsLogic.createInstructor(instr.googleId, instr.courseId, instr.name, instr.email);
+			instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
 			signalFailureToDetectException();
 		} catch (EntityAlreadyExistsException e) {
 			AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
@@ -57,7 +60,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		instr.email = "invalidEmail.com";
 		
 		try {
-			instructorsLogic.createInstructor(instr.googleId, instr.courseId, instr.name, instr.email);
+			instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
 			signalFailureToDetectException();
 		} catch (InvalidParametersException e) {
 			AssertHelper.assertContains("\""+instr.email+"\" is not acceptable to TEAMMATES as an email",
@@ -106,7 +109,30 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		assertEquals(googleId, instr.googleId);
 		assertEquals("instructor1@course1.com", instr.email);
 		assertEquals("Instructor1 Course1", instr.name);
-	} 
+	}
+	
+	@Test
+	public void testGetInstructorForRegistrationKey() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("failure: instructor doesn't exist");
+		String key = "non-existing-key";
+		assertNull(instructorsDb.getInstructorForRegistrationKey(StringHelper.encrypt(key)));
+
+		______TS("success: typical case");
+
+		String courseId = "idOfSampleCourse-demo";
+		String email = "instructorNotYetJoined@email.com";
+		
+		InstructorAttributes instr = instructorsDb.getInstructorForEmail(courseId, email);
+		key = instr.key;
+		
+		InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(key));
+		
+		assertEquals(instr.courseId, retrieved.courseId);
+		assertEquals(instr.name, retrieved.name);
+		assertEquals(instr.email, retrieved.email);
+	}
 
 	@Test
 	public void testGetInstructorsForCourse() throws Exception {
@@ -162,6 +188,31 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 	}
 	
 	@Test
+	public void testGetKeyForInstructor() throws Exception {
+		restoreTypicalDataInDatastore();
+	
+		______TS("success: get encrypted key for instructor");
+		
+		String courseId = "idOfSampleCourse-demo";
+		String email = "instructorNotYetJoined@email.com";
+		
+		InstructorAttributes instructor = instructorsDb.getInstructorForEmail(courseId, email);
+		
+		String key = instructorsLogic.getKeyForInstructor(instructor.courseId, instructor.email);
+		String expected = instructor.key;
+		assertEquals(expected, key);
+		
+		______TS("non-existent instructor");
+
+		try {
+			instructorsLogic.getKeyForInstructor(courseId, "non-existent@email.com");
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals("Instructor does not exist :non-existent@email.com", e.getMessage());
+		}
+	}
+	
+	@Test
 	public void testIsInstructorOfCourse() throws Exception {
 		restoreTypicalDataInDatastore();
 		
@@ -179,6 +230,28 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		courseId = "idOfTypicalCourse2";
 		
 		result = instructorsLogic.isInstructorOfCourse(instructorId, courseId);
+		
+		assertEquals(false, result);
+	}
+	
+	@Test
+	public void testIsInstructorEmailOfCourse() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: is an instructor of a given course");
+
+		String instructorEmail = "instructor1@course1.com";
+		String courseId = "idOfTypicalCourse1";
+		
+		boolean result = instructorsLogic.isInstructorEmailOfCourse(instructorEmail, courseId);
+		
+		assertEquals(true, result);
+		
+		______TS("failure: not an instructor of a given course");
+
+		courseId = "idOfTypicalCourse2";
+		
+		result = instructorsLogic.isInstructorEmailOfCourse(instructorEmail, courseId);
 		
 		assertEquals(false, result);
 	}
@@ -205,6 +278,50 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 	}
 	
 	@Test
+	public void testVerifyIsInstructorOfCourse() throws Exception  {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: instructor belongs to course");
+		
+		String instructorId = "idOfInstructor1OfCourse1";
+		String courseId = "idOfTypicalCourse1";
+		instructorsLogic.verifyIsInstructorOfCourse(instructorId, courseId);
+		
+		______TS("failure: instructor doesn't belong to course");
+		instructorId = "nonExistingInstructorId";
+		
+		try {
+			instructorsLogic.verifyIsInstructorOfCourse(instructorId, courseId);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals("Instructor " + instructorId
+					+ " does not belong to course " + courseId, e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testVerifyIsInstructorEmailOfCourse() throws Exception  {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: instructor belongs to course");
+		
+		String instructorEmail = "instructor1@course1.com";
+		String courseId = "idOfTypicalCourse1";
+		instructorsLogic.verifyIsInstructorEmailOfCourse(instructorEmail, courseId);
+		
+		______TS("failure: instructor doesn't belong to course");
+		instructorEmail = "nonExistingInstructor@email.com";
+		
+		try {
+			instructorsLogic.verifyIsInstructorEmailOfCourse(instructorEmail, courseId);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals("Instructor " + instructorEmail
+					+ " does not belong to course " + courseId, e.getMessage());
+		}
+	}
+	
+	@Test
 	public void testIsNewInstructor() throws Exception {
 		restoreTypicalDataInDatastore();
 		
@@ -223,7 +340,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 	}
 
 	@Test
-	public void testUpdateInstructor() throws Exception {
+	public void testUpdateInstructorByGoogleId() throws Exception {
 		restoreTypicalDataInDatastore();
 		
 		______TS("typical case: update an instructor");
@@ -232,11 +349,34 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		String googleId = "idOfInstructor1OfCourse1";
 		
 		InstructorAttributes instructorToBeUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
+		instructorToBeUpdated.name = "New Name";
 		instructorToBeUpdated.email = "new-email@course1.com";
 		
-		instructorsLogic.updateInstructor(courseId, googleId, instructorToBeUpdated.name, instructorToBeUpdated.email);
+		instructorsLogic.updateInstructorByGoogleId(googleId, instructorToBeUpdated);
 		
 		InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
+		verifySameInstructor(instructorToBeUpdated, instructorUpdated);
+	}
+	
+	@Test
+	public void testUpdateInstructorByEmail() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("typical case: update an instructor");
+		
+		String email = "instructor1@course1.com";
+		String courseId = "idOfTypicalCourse1";
+		
+		String newName = "New name for instructor 1";
+		String newGoogleId = "newIdForInstructor1";
+		
+		InstructorAttributes instructorToBeUpdated = instructorsLogic.getInstructorForEmail(courseId, email);
+		instructorToBeUpdated.googleId = newGoogleId;
+		instructorToBeUpdated.name = newName;
+		
+		instructorsLogic.updateInstructorByEmail(email, instructorToBeUpdated);
+		
+		InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForEmail(courseId, email);
 		verifySameInstructor(instructorToBeUpdated, instructorUpdated);
 	}
 	
@@ -247,11 +387,11 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 		______TS("typical case: delete an instructor for specific course");
 		
 		String courseId = "idOfTypicalCourse1";
-		String googleId = "idOfInstructor1OfCourse1";
+		String email = "instructor1@course1.com";
 		
-		InstructorAttributes instructorDeleted = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
+		InstructorAttributes instructorDeleted = instructorsLogic.getInstructorForEmail(courseId, email);
 		
-		instructorsLogic.deleteInstructor(courseId, googleId);
+		instructorsLogic.deleteInstructor(courseId, email);
 		
 		LogicTest.verifyAbsentInDatastore(instructorDeleted);
 	}

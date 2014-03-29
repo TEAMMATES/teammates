@@ -712,7 +712,7 @@ public class PerformanceProfiler extends Thread{
     	for (String instructorKey : set)
     	{
     		InstructorAttributes instructor = data.instructors.get(instructorKey);
-    		status += BackDoor.deleteInstructor(instructor.googleId);
+    		status += BackDoor.deleteInstructor(instructor.email, instructor.courseId);
     	}
     	return status;
     }

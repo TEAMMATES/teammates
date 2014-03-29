@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -36,7 +37,8 @@ public class AdminAccountDeleteAction extends Action {
 			
 		} else if (courseId != null && instructorId != null){
 			//remove instructor from course
-			logic.deleteInstructor(courseId, instructorId);
+			InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+			logic.deleteInstructor(courseId, instructor.email);
 			statusToUser.add(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
 			statusToAdmin = "Instructor <span class=\"bold\">" + instructorId + 
 					"</span> has been deleted from Course<span class=\"bold\">[" + courseId + "]</span>"; 

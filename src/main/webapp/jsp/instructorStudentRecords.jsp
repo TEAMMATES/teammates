@@ -42,6 +42,9 @@
 	<script type="text/javascript" src="/js/instructor.js"></script>
 	<script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
 	<script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+	<script type="text/javascript">
+    	var showCommentBox = "<%=data.showCommentBox%>";
+    </script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 

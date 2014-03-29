@@ -21,6 +21,7 @@ public class InstructorAttributes extends EntityAttributes {
 	public String name;
 	public String email;
 	public String courseId;
+	public String key;
 	
 	//TODO: remove these after implementing more user friendly way of adding instructors
 	public static final String ERROR_INSTRUCTOR_LINE_NULL = "Instructor line was null";
@@ -38,6 +39,7 @@ public class InstructorAttributes extends EntityAttributes {
 		this.courseId = instructor.getCourseId();
 		this.name = instructor.getName();
 		this.email = instructor.getEmail();
+		this.key = instructor.getRegistrationKey();
 	}
 
 	public InstructorAttributes() {
@@ -61,9 +63,17 @@ public class InstructorAttributes extends EntityAttributes {
 		this.name = parts[1].trim();
 		this.email = parts[2].trim();
 	}
+	
+	public boolean isRegistered() {
+		return googleId != null;
+	}
 
 	public Instructor toEntity() {
-		return new Instructor(googleId, courseId, name, email);
+		if (key != null) {
+			return new Instructor(googleId, courseId, name, email, key);
+		} else {
+			return new Instructor(googleId, courseId, name, email);
+		}
 	}
 
 	public List<String> getInvalidityInfo() {
@@ -71,8 +81,12 @@ public class InstructorAttributes extends EntityAttributes {
 		List<String> errors = new ArrayList<String>();
 		String error;
 		
-		error= validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
-		if(!error.isEmpty()) { errors.add(error); }
+		if (googleId != null) {
+			error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
+			if(!error.isEmpty()) {
+				errors.add(error);
+			}
+		}
 		
 		error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
 		if(!error.isEmpty()) { errors.add(error); }
@@ -92,7 +106,8 @@ public class InstructorAttributes extends EntityAttributes {
 
 	@Override
 	public String getIdentificationString() {
-		return this.googleId + ", " + this.courseId;
+		//TODO: consider changing to the same format as the one in StudentAttributes
+		return this.email + ", " + this.courseId;
 	}
 
 	@Override
@@ -102,6 +117,9 @@ public class InstructorAttributes extends EntityAttributes {
 
 	@Override
 	public void sanitizeForSaving() {
-		// TODO implement this
+		this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
+		this.name = Sanitizer.sanitizeName(this.name);
+		this.email = Sanitizer.sanitizeEmail(this.email);
+		this.courseId = Sanitizer.sanitizeTitle(this.courseId);
 	}
 }

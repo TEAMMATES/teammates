@@ -84,7 +84,8 @@
 								<%
 									int courseIdx = -1;
 									for(CourseDetailsBundle courseDetails: data.courses){
-										courseIdx++;
+										if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
+											courseIdx++;
 								%>
 									<li><input class="course_check" id="course_check-<%=courseIdx %>" type="checkbox" checked="checked">
 										<label for="course_check-<%=courseIdx %>">
@@ -92,6 +93,7 @@
 										</label>
 									</li>
 								<%
+										}
 									}
 								%>
 								</ul>
@@ -110,10 +112,11 @@
 								<%
 									courseIdx = -1;
 									for(CourseDetailsBundle courseDetails: data.courses){
-										courseIdx++;
-										int teamIdx = -1;
-										for(TeamDetailsBundle teamDetails: courseDetails.teams){
-											teamIdx++;
+										if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
+											courseIdx++;
+											int teamIdx = -1;
+											for(TeamDetailsBundle teamDetails: courseDetails.teams){
+												teamIdx++;
 								%>
 									<li><input class="team_check" id="team_check-<%=courseIdx %>-<%=teamIdx %>" type="checkbox" checked="checked">
 										<label for="team_check-<%=courseIdx %>-<%=teamIdx%>">
@@ -121,6 +124,7 @@
 										</label>
 									</li>
 								<%
+											}
 										}
 									}
 								%>
@@ -142,16 +146,18 @@
 								
 								courseIdx = -1;
 								for(CourseDetailsBundle courseDetails: data.courses){
-									courseIdx++;
-									int totalCourseStudents = courseDetails.stats.studentsTotal;
-									if(totalCourseStudents >= 1){
-										int studentIdx = -1;
-										for(TeamDetailsBundle teamDetails: courseDetails.teams){
-											for(StudentAttributes student: teamDetails.students){
-												studentIdx++;
+									if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
+										courseIdx++;
+										int totalCourseStudents = courseDetails.stats.studentsTotal;
+										if(totalCourseStudents >= 1){
+											int studentIdx = -1;
+											for(TeamDetailsBundle teamDetails: courseDetails.teams){
+												for(StudentAttributes student: teamDetails.students){
+													studentIdx++;
 							%>
 									<li class="student_email" id="student_email-c<%=courseIdx %>.<%=studentIdx%>" style="display: list-item;"><%=student.email %></li>
 							<%
+												}
 											}
 										}
 									}

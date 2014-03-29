@@ -447,5 +447,222 @@
       "p2pFeedback" : {"value" :"Nice designs Francis. Good work!"},
       "team" : "Team 2"
     }
+  },
+    
+  "feedbackSessions": {
+    "demo.course:First Session": {
+        "feedbackSessionName": "Session with different question types",
+        "courseId": "demo.course",
+        "creatorEmail": "teammates.demo.instructor@demo.course",
+        "instructions":{
+            "value": "Please give your feedback based on the following questions."
+        },
+        "createdTime": "2012-04-01 11:59 PM UTC",
+        "startTime":"2012-04-01 11:59 PM UTC",
+        "endTime": "2012-04-02 11:59 PM UTC",
+        "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+        "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+        "timeZone":8.0,
+        "gracePeriod":10,
+        "feedbackSessionType":"STANDARD",
+        "sentOpenEmail":true,
+        "sentPublishedEmail":true
+    }
+  },
+
+  "feedbackQuestions": {
+      "qn1InSession1":{
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+              "value":"What general mistakes did the students in the class make?"
+          },
+          "questionNumber": 1,
+          "questionType": "TEXT",
+          "giverType": "INSTRUCTORS",
+          "recipientType": "NONE",
+          "numberOfEntitiesToGiveFeedbackTo": -100,
+          "showResponsesTo":[
+              "STUDENTS",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "STUDENTS",
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "STUDENTS",
+              "INSTRUCTORS"
+          ]
+      },
+      "qn2InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+              "value":"What has been a highlight for you working on this project?"
+          },
+          "questionNumber": 2,
+          "questionType": "TEXT",
+          "giverType": "STUDENTS",
+          "recipientType": "SELF",
+          "numberOfEntitiesToGiveFeedbackTo": 1,
+          "showResponsesTo":[
+              "RECEIVER",
+              "RECEIVER_TEAM_MEMBERS",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ]
+      },
+      "qn3InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+              "value":"{\"questionText\":\"Rate the latest assignment\'s difficulty. (1 = Very Easy, 5 = Very Hard).\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 1}"
+          },
+          "questionNumber": 3,
+          "questionType": "NUMSCALE",
+          "giverType": "STUDENTS",
+          "recipientType": "INSTRUCTORS",
+          "numberOfEntitiesToGiveFeedbackTo": 1,
+          "showResponsesTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ]
+      },
+      "qn4InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+              "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Which team do you think has the best feature?\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
+          },
+          "questionNumber": 4,
+          "questionType": "MCQ",
+          "giverType": "STUDENTS",
+          "recipientType": "NONE",
+          "numberOfEntitiesToGiveFeedbackTo": -100,
+          "showResponsesTo":[
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "INSTRUCTORS"
+          ]
+      },
+      "qn5InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+              "value":"Give feedback to three other students."
+          },
+          "questionNumber": 5,
+          "questionType": "TEXT",
+          "giverType": "STUDENTS",
+          "recipientType": "STUDENTS",
+          "numberOfEntitiesToGiveFeedbackTo": 3,
+          "showResponsesTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ]
+      },
+      "qn6InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+              "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Which programming languages do you know?\",\"numOfMsqChoices\":4,\"msqChoices\":[\"C\", \"C++\", \"Java\", \"Python\"],\"otherEnabled\":false}"
+          },
+          "questionNumber": 6,
+          "questionType": "MSQ",
+          "giverType": "STUDENTS",
+          "recipientType": "NONE",
+          "numberOfEntitiesToGiveFeedbackTo": -100,
+          "showResponsesTo":[
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "INSTRUCTORS"
+          ]
+      },
+      "qn7InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+              "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Give feedback indicating which group they are in.\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"Group 1\", \"Group 2\"],\"otherEnabled\":false}"
+          },
+          "questionNumber": 7,
+          "questionType": "MCQ",
+          "giverType": "INSTRUCTORS",
+          "recipientType": "STUDENTS",
+          "numberOfEntitiesToGiveFeedbackTo": -100,
+          "showResponsesTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ]
+      },
+      "qn8InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+              "value":"What did you learn from working with your team members?"
+          },
+          "questionNumber": 8,
+          "questionType": "TEXT",
+          "giverType": "STUDENTS",
+          "recipientType": "OWN_TEAM_MEMBERS",
+          "numberOfEntitiesToGiveFeedbackTo": -100,
+          "showResponsesTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ]
+      }
   }
 }

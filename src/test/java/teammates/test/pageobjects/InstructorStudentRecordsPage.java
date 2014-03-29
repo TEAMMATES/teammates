@@ -27,8 +27,13 @@ public class InstructorStudentRecordsPage extends AppPage {
 		return getPageSource().contains("'s Records</h1>");
 	}
 	
-	public void verifyIsCorrectPage() {
+	public void verifyBelongsToStudent(String name) {
+		assertTrue(getPageSource().contains(name));
+	}
+	
+	public void verifyIsCorrectPage(String studentName) {
 		assertTrue(containsExpectedPageContents());
+		verifyBelongsToStudent(studentName);
 	}
 	
 	public InstructorEvalSubmissionEditPage clickEvalEditLink(String evalName){
@@ -119,4 +124,5 @@ public class InstructorStudentRecordsPage extends AppPage {
 	private WebElement getCommentSaveLink(int id){
 		return browser.driver.findElement(By.id("commentsave-" + id));
 	}
+
 }

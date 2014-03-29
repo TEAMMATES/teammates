@@ -36,9 +36,6 @@ public class InstructorCourseEditPage extends AppPage {
 	@FindBy(id = "btnShowNewInstructorForm")
 	private WebElement showNewInstructorFormButton;
 	
-	@FindBy(id = "instructorid")
-	private WebElement instructorIdTextBox;
-	
 	@FindBy(id = "instructorname")
 	private WebElement instructorNameTextBox;
 	
@@ -57,10 +54,9 @@ public class InstructorCourseEditPage extends AppPage {
 		return getPageSource().contains("<h1>Edit Course Details</h1>");
 	}
 	
-	public void addNewInstructor(String id, String name, String email) {
+	public void addNewInstructor(String name, String email) {
 		clickShowNewInstructorFormButton();
 		
-		fillInstructorGoogleId(id);
 		fillInstructorName(name);
 		fillInstructorEmail(email);
 		
@@ -84,10 +80,6 @@ public class InstructorCourseEditPage extends AppPage {
 	
 	public void editInstructorEmail(String value) {
 		fillTextBox(editInstructorEmailTextBox, value);
-	}
-
-	public void fillInstructorGoogleId(String value) {
-		fillTextBox(instructorIdTextBox, value);
 	}
 	
 	public void fillInstructorName(String value) {
@@ -116,8 +108,7 @@ public class InstructorCourseEditPage extends AppPage {
 	public boolean clickShowNewInstructorFormButton() {
 		showNewInstructorFormButton.click();
 		
-		boolean isFormShownCorrectly = instructorIdTextBox.isEnabled()
-				&& instructorNameTextBox.isEnabled()
+		boolean isFormShownCorrectly = instructorNameTextBox.isEnabled()
 				&& instructorEmailTextBox.isEnabled()
 				&& addInstructorButton.isDisplayed();
 

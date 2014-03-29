@@ -107,24 +107,32 @@
 					<tr>
 						<td class="label bold">Instructor <%=index%>:</td>
 						<td class="rightalign">
-							<a href="#" class="color_blue pad_right" id="instrEditLink<%=index%>" 
-							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>')" onmouseout="hideddrivetip()" 
-							onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)">Edit</a>
-							<a href="<%=data.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.googleId)%>" class="color_red" id="instrDeleteLink<%=index%>"
+							<% if (instructor.googleId == null) { %>
+								<a href="<%=data.getInstructorCourseInstructorRemindLink(instructor.courseId, instructor.email)%>" class="color_blue pad_right" id="instrRemindLink<%=index%>"
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_INSTRUCTOR_REMIND%>')" onmouseout="hideddrivetip()"
+								onclick="hideddrivetip(); return toggleSendRegistrationKey('<%=instructor.courseId%>','<%=instructor.email%>);">Resend Invite</a>
+							<% } else { %>
+								<a href="#" class="color_blue pad_right" id="instrEditLink<%=index%>" 
+								onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>')" onmouseout="hideddrivetip()" 
+								onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)">Edit</a>
+							<% } %>
+							<a href="<%=data.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email)%>" class="color_red" id="instrDeleteLink<%=index%>"
 							onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_INSTRUCTOR_DELETE%>')" onmouseout="hideddrivetip()"
-							onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('<%=instructor.courseId%>','<%=instructor.googleId%>', '<%=data.account.googleId%>');">Delete</a>
+							onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('<%=instructor.courseId%>','<%=instructor.email%>', <%=instructor.email.equals(data.account.email)%>);">Delete</a>
 						</td>
 					</tr>
-					<tr>
-						<td class="label bold">Google ID:</td>
-						<td><input class="addinput immutable" type="text"
-							name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
-							value="<%=instructor.googleId%>"
-							onmouseover="ddrivetip('Enter the google id of the instructor.')"
-							onmouseout="hideddrivetip()"
-							maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=3
-							disabled="disabled"></td>
-					</tr>
+					<% if (instructor.googleId != null) { %>
+						<tr>
+							<td class="label bold">Google ID:</td>
+							<td><input class="addinput immutable" type="text"
+								name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
+								value="<%=instructor.googleId%>"
+								onmouseover="ddrivetip('Enter the google id of the instructor.')"
+								onmouseout="hideddrivetip()"
+								maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=3
+								disabled="disabled"></td>
+						</tr>
+					<% } %>
 					<tr>
 						<td class="label bold">Name:</td>
 						<td><input class="addinput" type="text"
@@ -171,14 +179,6 @@
 				<table id="instructorAddTable" class="inputTable instructorTable">
 					<tr>
 						<td colspan=2 class="label bold">Instructors <%=data.instructorList.size()+1%>:</td>
-					</tr>
-					<tr>
-						<td class="label bold">Google ID:</td>
-						<td><input class="addinput" type="text"
-							name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>"
-							onmouseover="ddrivetip('Enter the google id of the instructor.')"
-							onmouseout="hideddrivetip()"
-							maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=7/></td>
 					</tr>
 					<tr>
 						<td class="label bold">Name:</td>

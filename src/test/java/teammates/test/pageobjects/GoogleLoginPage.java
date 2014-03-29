@@ -109,5 +109,11 @@ public class GoogleLoginPage extends LoginPage {
 		return changePageType(StudentCourseJoinConfirmationPage.class);
 	}
 
-
+	@Override
+	public InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(
+			String username, String password) {
+		completeGoogleLoginSteps(username, password);
+		browser.isAdminLoggedIn = false;
+		return changePageType(InstructorCourseJoinConfirmationPage.class);
+	}
 }

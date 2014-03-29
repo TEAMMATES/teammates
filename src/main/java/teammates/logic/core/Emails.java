@@ -50,6 +50,7 @@ public class Emails {
 	public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING = "TEAMMATES: Feedback session closing soon";
 	public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED = "TEAMMATES: Feedback session results published";
 	public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
+	public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
 	public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
 			
 	public static enum EmailType {
@@ -268,7 +269,7 @@ public class Emails {
 		String emailBody = template;
 
 		if (isYetToJoinCourse(s)) {
-			emailBody = fillUpJoinFragment(s, emailBody);
+			emailBody = fillUpStudentJoinFragment(s, emailBody);
 		} else {
 			emailBody = emailBody.replace("${joinFragment}", "");
 		}
@@ -557,7 +558,7 @@ public class Emails {
 		String emailBody = template;
 
 		if (isYetToJoinCourse(s)) {
-			emailBody = fillUpJoinFragment(s, emailBody);
+			emailBody = fillUpStudentJoinFragment(s, emailBody);
 		} else {
 			emailBody = emailBody.replace("${joinFragment}", "");
 		}
@@ -608,7 +609,7 @@ public class Emails {
 		String emailBody = template;
 
 		if (insertPlaceholderJoinFragment) {
-			emailBody = fillUpJoinFragment(null, emailBody);
+			emailBody = fillUpStudentJoinFragment(null, emailBody);
 		} else {
 			emailBody = emailBody.replace("${joinFragment}", "");
 		}
@@ -687,22 +688,38 @@ public class Emails {
 	}
 	
 	public MimeMessage generateStudentCourseJoinEmail(
-			CourseAttributes c,	StudentAttributes s) 
+			CourseAttributes course, StudentAttributes student) 
 					throws AddressException, MessagingException, UnsupportedEncodingException {
 
-		MimeMessage message = getEmptyEmailAddressedToEmail(s.email);
+		MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
 		message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
-				+ " [%s][Course ID: %s]", c.name, c.id));
+				+ " [%s][Course ID: %s]", course.name, course.id));
 
-		String emailBody = EmailTemplates.STUDENT_COURSE_JOIN;
-		emailBody = fillUpJoinFragment(s, emailBody);
-		emailBody = emailBody.replace("${studentName}", s.name);
-		emailBody = emailBody.replace("${courseName}", c.name);
+		String emailBody = EmailTemplates.USER_COURSE_JOIN;
+		emailBody = fillUpStudentJoinFragment(student, emailBody);
+		emailBody = emailBody.replace("${userName}", student.name);
+		emailBody = emailBody.replace("${courseName}", course.name);
 
 		message.setContent(emailBody, "text/html");
 		return message;
 	}
 
+	public MimeMessage generateInstructorCourseJoinEmail(
+			CourseAttributes course, InstructorAttributes instructor) 
+					throws AddressException, MessagingException, UnsupportedEncodingException {
+
+		MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);
+		message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
+				+ " [%s][Course ID: %s]", course.name, course.id));
+
+		String emailBody = EmailTemplates.USER_COURSE_JOIN;
+		emailBody = fillUpInstructorJoinFragment(instructor, emailBody);
+		emailBody = emailBody.replace("${userName}", instructor.name);
+		emailBody = emailBody.replace("${courseName}", course.name);
+
+		message.setContent(emailBody, "text/html");
+		return message;
+	}
 	
 	public MimeMessage generateSystemErrorEmail(
 			Throwable error,
@@ -762,7 +779,7 @@ public class Emails {
 	public void sendEmails(List<MimeMessage> messages) {
 		for (MimeMessage m : messages) {
 			try {
-				sendEmail(m);
+				addEmailToTaskQueue(m);
 			} catch (MessagingException e) {
 				/*
 				 * TODO: Add mechanism for handling/resending mails which 
@@ -775,11 +792,33 @@ public class Emails {
 		}
 	}
 
-	public void sendEmail(MimeMessage message) throws MessagingException {
-		log.info(getEmailInfo(message));
-		Transport.send(message);
+	public void addEmailToTaskQueue(MimeMessage message) throws MessagingException {
+		try {
+			HashMap<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put(ParamsNames.EMAIL_SUBJECT, message.getSubject());
+			paramMap.put(ParamsNames.EMAIL_CONTENT, message.getContent().toString());
+			paramMap.put(ParamsNames.EMAIL_SENDER, message.getFrom()[0].toString());
+			paramMap.put(ParamsNames.EMAIL_RECEIVER, message.getRecipients(Message.RecipientType.TO)[0].toString());
+			paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, message.getReplyTo()[0].toString());
+			
+			TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+			taskQueueLogic.createAndAddTask(SystemParams.SEND_EMAIL_TASK_QUEUE,
+					Const.ActionURIs.SEND_EMAIL_WORKER, paramMap);
+		} catch (Exception e) {
+			log.severe("Error when adding email to task queue: " + e.getMessage());
+		} 
+		
 	}
 
+	public void sendEmail(MimeMessage message) {
+		try {
+			log.info(getEmailInfo(message));
+			Transport.send(message);
+		} catch (MessagingException e) {
+			log.severe("Email sending failed " + e.getMessage());
+		}
+	}
+	
 	public MimeMessage sendErrorReport(String path, String params, Throwable error) {
 		MimeMessage email = null;
 		try {
@@ -807,7 +846,7 @@ public class Emails {
 		return email;
 	}
 	
-	private String fillUpJoinFragment(StudentAttributes s, String emailBody) {
+	private String fillUpStudentJoinFragment(StudentAttributes s, String emailBody) {
 		emailBody = emailBody.replace("${joinFragment}",
 				EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN);
 
@@ -820,6 +859,23 @@ public class Emails {
 			joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
 		} else {
 			joinUrl = "{The join link unique for each student appears here}";
+		}
+
+		emailBody = emailBody.replace("${joinUrl}", joinUrl);
+		return emailBody;
+	}
+	
+	private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
+		emailBody = emailBody.replace("${joinFragment}",
+				EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN);
+
+		String joinUrl = "";
+		if (instructor != null) {
+			String key;
+			key = StringHelper.encrypt(instructor.key);
+	
+			joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+			joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
 		}
 
 		emailBody = emailBody.replace("${joinUrl}", joinUrl);

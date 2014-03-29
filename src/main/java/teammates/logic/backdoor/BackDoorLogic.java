@@ -71,11 +71,17 @@ public class BackDoorLogic extends Logic {
 
 		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
 		for (InstructorAttributes instructor : instructors.values()) {
-			log.fine("API Servlet adding instructor :" + instructor.googleId);
-			AccountAttributes existingAccount = getAccount(instructor.googleId);
-			//Hardcoding institute value because this is used for testing only
-			super.createInstructorAccount(instructor.googleId, instructor.courseId, 
-					instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+			if (instructor.googleId != null) {
+				log.fine("API Servlet adding instructor :" + instructor.googleId);
+				AccountAttributes existingAccount = getAccount(instructor.googleId);
+				//Hardcoding institute value because this is used for testing only
+				super.createInstructorAccount(instructor.googleId, instructor.courseId, 
+						instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+			} else {
+				log.fine("API Servlet adding instructor :" + instructor.email);
+				//Hardcoding institute value because this is used for testing only
+				super.instructorsLogic.createInstructor(instructor);
+			}
 		}
 
 		HashMap<String, StudentAttributes> students = dataBundle.students;
@@ -145,14 +151,19 @@ public class BackDoorLogic extends Logic {
 		
 		return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
 	}
-	
+
 	public String getAccountAsJson(String googleId) {
 		AccountAttributes accountData = getAccount(googleId);
 		return Utils.getTeammatesGson().toJson(accountData);
 	}
 	
-	public String getInstructorAsJson(String instructorID, String courseId) {
-		InstructorAttributes instructorData = getInstructorForGoogleId(courseId, instructorID);
+	public String getInstructorAsJsonById(String instructorId, String courseId) {
+		InstructorAttributes instructorData = getInstructorForGoogleId(courseId, instructorId);
+		return Utils.getTeammatesGson().toJson(instructorData);
+	}
+	
+	public String getInstructorAsJsonByEmail(String instructorEmail, String courseId) {
+		InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
 		return Utils.getTeammatesGson().toJson(instructorData);
 	}
 
@@ -515,7 +526,7 @@ public class BackDoorLogic extends Logic {
 			Object retreived = null;
 			int retryCount = 0;
 			while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
-				retreived = this.getInstructorForGoogleId(i.courseId, i.googleId);
+				retreived = this.getInstructorForEmail(i.courseId, i.email);
 				if(retreived == null){
 					break;
 				}else {

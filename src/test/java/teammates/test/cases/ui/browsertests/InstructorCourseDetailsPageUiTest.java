@@ -8,6 +8,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
@@ -22,6 +23,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
+import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * Tests 'Course Details' view for Instructors.
@@ -102,6 +104,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 		InstructorCourseStudentDetailsEditPage studentEditPage = detailsPage.clickEditStudent(charlie.name);
 		studentEditPage.verifyIsCorrectPage(charlie.email);
 		detailsPage = studentEditPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+		
+		______TS("link: add comment");
+		
+		StudentAttributes aliceBetsy = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+		CourseAttributes courseId = testData.courses.get("CCDetailsUiT.CS2104");
+		InstructorStudentRecordsPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name, courseId);
+		studentCommentsPage.verifyIsCorrectPage(aliceBetsy.name);
+		detailsPage = studentCommentsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
 		
 		______TS("link: download student list");
 		

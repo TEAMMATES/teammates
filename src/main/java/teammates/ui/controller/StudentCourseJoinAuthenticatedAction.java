@@ -27,7 +27,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
 		
 		String logMsg = null;
 		try {
-			logic.joinCourse(account.googleId, key);
+			logic.joinCourseForStudent(key, account.googleId);
 		} catch (InvalidParametersException
 				| EntityAlreadyExistsException e) {
 			setStatusForException(e, Sanitizer.sanitizeForHtml(e.getMessage()));

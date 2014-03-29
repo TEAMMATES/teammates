@@ -25,6 +25,12 @@ public class InstructorStudentListPage extends AppPage {
 	@FindBy(id = "displayArchivedCourses_check")
 	private WebElement displayArchiveOptions;
 	
+	@FindBy(id = "course_all")
+	private WebElement selectAll;
+	
+	@FindBy(id = "course_check-0")
+	private WebElement checkBoxOne;
+	
 	public InstructorStudentListPage(Browser browser) {
 		super(browser);
 	}
@@ -83,6 +89,14 @@ public class InstructorStudentListPage extends AppPage {
 	public void setLiveSearchKey(String searchKey){
 		searchBox.clear();
 		searchBox.sendKeys(searchKey);
+	}
+	
+	public void clickSelectAll() {
+		selectAll.click();
+	}
+	
+	public void clickCheckBoxOne() {
+		checkBoxOne.click();
 	}
 	
 	public void clickShowEmail() {

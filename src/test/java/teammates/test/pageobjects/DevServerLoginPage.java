@@ -73,4 +73,13 @@ public class DevServerLoginPage extends LoginPage {
 		browser.isAdminLoggedIn = false;
 		return changePageType(StudentCourseJoinConfirmationPage.class);
 	}
+	
+	@Override
+	public InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(String username, String password) {
+		fillTextBox(emailTextBox, username);
+		loginButton.click();
+		waitForPageToLoad();
+		browser.isAdminLoggedIn = false;
+		return changePageType(InstructorCourseJoinConfirmationPage.class);
+	}
 }

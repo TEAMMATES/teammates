@@ -102,7 +102,12 @@ public class StudentEvalSubmissionEditSaveAction extends Action {
 				response = createRedirectResult(submissionUrl);
 			} else {
 				statusToUser.add(String.format(Const.StatusMessages.STUDENT_EVALUATION_SUBMISSION_RECEIVED, Sanitizer.sanitizeForHtml(evalName), courseId));
-				response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+				String submissionUrl = Const.ActionURIs.STUDENT_HOME_PAGE;
+				
+				String submittedEvaluationName = courseId + evalName;
+				submissionUrl = Url.addParamToUrl(submissionUrl, Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION, submittedEvaluationName);
+				log.info(submittedEvaluationName);
+				response = createRedirectResult(submissionUrl);
 			}
 			return response;
 		}

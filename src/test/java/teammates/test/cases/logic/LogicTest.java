@@ -56,6 +56,8 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -264,7 +266,10 @@ public class LogicTest extends BaseComponentTestCase {
 		// Create fresh
 		logic.createCourseAndInstructor(instructor.googleId, cd.id, cd.name);
 		try {
-			logic.createInstructorAccount(instructor.googleId, instructor.courseId, instructor.name, instructor.email, "National University of Singapore");
+			AccountAttributes instrAcc = dataBundle.accounts.get("instructor1OfCourse1");
+			//the email of instructor and the email of the account are different in test data,
+			//hence to test for EntityAlreadyExistsException we need to use the email of the account
+			logic.createInstructorAccount(instructor.googleId, instructor.courseId, instructor.name, instrAcc.email, "National University of Singapore");
 			signalFailureToDetectException();
 		} catch (EntityAlreadyExistsException eaee) {
 			// Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
@@ -332,6 +337,63 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 	
 	@Test
+	public void testAddInstructor() throws Exception {
+		
+		______TS("success: add an instructor");
+		
+		InstructorAttributes instr = new InstructorAttributes(
+				null, "test-course", "New Instructor", "LT.instr@email.com");
+		
+		logic.addInstructor(instr.courseId, instr.name, instr.email);
+		
+		LogicTest.verifyPresentInDatastore(instr);
+		
+		______TS("failure: instructor already exists");
+		
+		try {
+			logic.addInstructor(instr.courseId, instr.name, instr.email);
+			signalFailureToDetectException();
+		} catch (EntityAlreadyExistsException e) {
+			AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
+		}
+		
+		______TS("failure: invalid parameter");
+		
+		instr.email = "invalidEmail.com";
+		
+		try {
+			logic.addInstructor(instr.courseId, instr.name, instr.email);
+			signalFailureToDetectException();
+		} catch (InvalidParametersException e) {
+			AssertHelper.assertContains("\""+instr.email+"\" is not acceptable to TEAMMATES as an email",
+								e.getMessage());
+		}
+		
+		______TS("failure: null parameters");
+		
+		try {
+			logic.addInstructor(null, instr.name, instr.email);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		try {
+			logic.addInstructor(instr.courseId, null, instr.email);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		try {
+			logic.addInstructor(instr.courseId, instr.name, null);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+	}
+	
+	@Test
 	public void testGetInstructorForGoogleId() throws Exception {
 		
 		______TS("invalid case: null parameters");
@@ -366,6 +428,34 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 	
 	@Test
+	public void testGetInstructorForRegistrationKey() throws Exception {
+		
+		______TS("failure: instructor doesn't exist");
+		String key = "non-existing-key";
+		assertNull(logic.getInstructorForRegistrationKey(StringHelper.encrypt(key)));
+
+		______TS("success: typical case");
+
+		InstructorAttributes instr = dataBundle.instructors.get("instructorNotYetJoinCourse");
+		key = instr.key;
+		
+		InstructorAttributes retrieved = logic.getInstructorForRegistrationKey(StringHelper.encrypt(key));
+		
+		assertEquals(instr.courseId, retrieved.courseId);
+		assertEquals(instr.name, retrieved.name);
+		assertEquals(instr.email, retrieved.email);
+		
+		______TS("null parameters");
+
+		try {
+			logic.getInstructorForRegistrationKey(null);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+	}
+	
+	@Test
 	public void testGetInstructorsForGoogleId() throws Exception {
 	
 		______TS("invalid case: null parameters");
@@ -386,6 +476,80 @@ public class LogicTest extends BaseComponentTestCase {
 		List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(googleId);
 		assertEquals(2, instructors.size());
 		
+	}
+	
+	@Test
+	public void testGetKeyForInstructor() throws Exception {
+		restoreTypicalDataInDatastore();
+	
+		______TS("success: get encrypted key for instructor");
+		
+		InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+		
+		String key = logic.getKeyForInstructor(instructor.courseId, instructor.email);
+		String expected = instructor.key;
+		assertEquals(expected, key);
+		
+		______TS("non-existent instructor");
+
+		try {
+			logic.getKeyForInstructor(instructor.courseId, "non-existent@email.com");
+			Assert.fail();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals("Instructor does not exist :non-existent@email.com", e.getMessage());
+		}
+		
+		______TS("null parameters");
+	
+		try {
+			logic.getKeyForInstructor(instructor.courseId, null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+		try {
+			logic.getKeyForInstructor(null, instructor.email);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+	}
+	
+	@Test
+	public void testIsInstructorOfCourse() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: is an instructor of a given course");
+
+		String instructorId = "idOfInstructor1OfCourse1";
+		String courseId = "idOfTypicalCourse1";
+		
+		assertEquals(true, logic.isInstructorOfCourse(instructorId, courseId));
+		
+		______TS("failure: not an instructor of a given course");
+
+		courseId = "idOfTypicalCourse2";
+		
+		assertEquals(false, logic.isInstructorOfCourse(instructorId, courseId));
+	}
+	
+	@Test
+	public void testIsInstructorEmailOfCourse() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: is an instructor of a given course");
+
+		String instructorEmail = "instructor1@course1.com";
+		String courseId = "idOfTypicalCourse1";
+		
+		assertEquals(true, logic.isInstructorEmailOfCourse(instructorEmail, courseId));
+		
+		______TS("failure: not an instructor of a given course");
+
+		courseId = "idOfTypicalCourse2";
+		
+		assertEquals(false, logic.isInstructorEmailOfCourse(instructorEmail, courseId));
 	}
 	
 	@Test
@@ -424,12 +588,101 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 	
 	@Test
+	public void testJoinCourseForInstructor() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+		String loggedInGoogleId = "LogicT.instr.id";
+		
+		______TS("success: instructor joined course");
+
+		String key = logic.getKeyForInstructor(instructor.courseId, instructor.email);
+		String encryptedKey = StringHelper.encrypt(key);
+		
+		logic.joinCourseForInstructor(encryptedKey, loggedInGoogleId);
+		
+		InstructorAttributes joinedInstructor = logic.getInstructorForEmail(instructor.courseId, instructor.email);
+		assertEquals(loggedInGoogleId, joinedInstructor.googleId);
+		
+		AccountAttributes accountCreated = logic.getAccount(loggedInGoogleId);
+		Assumption.assertNotNull(accountCreated);
+		
+		______TS("failure: instructor already joined");
+
+		try {
+			logic.joinCourseForInstructor(encryptedKey, joinedInstructor.googleId);
+			signalFailureToDetectException();
+		} catch (JoinCourseException e) {
+			assertEquals(joinedInstructor.googleId + " has already joined this course",
+					e.getMessage());
+		}
+		
+		______TS("null parameters");
+		
+		try {
+			logic.joinCourseForInstructor(encryptedKey, null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+		try {
+			logic.joinCourseForInstructor(null, joinedInstructor.googleId);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void testSendRegistrationInviteToInstructor() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: send invite to instructor");
+		
+		InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+	
+		MimeMessage email = logic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
+	
+		verifyJoinInviteToInstructor(instructor, email);
+	
+		______TS("send to non-existing instructor");
+	
+		String instrEmail = "non-existing-instr@email.com";
+		
+		try {
+			logic.sendRegistrationInviteToInstructor(instructor.courseId, instrEmail);
+			Assert.fail();
+		} catch (EntityDoesNotExistException e) {
+			AssertHelper.assertContains("Instructor [" + instrEmail + "] does not exist in course",
+						e.getMessage());
+		}
+		
+		______TS("null parameters");
+		
+		try {
+			logic.sendRegistrationInviteToInstructor(null, instructor.email);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+		
+		try {
+			logic.sendRegistrationInviteToInstructor(instructor.courseId, null);
+			Assert.fail();
+		} catch (AssertionError a) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+		}
+	}
+	
+	@Test
 	public void testDeleteInstructor() throws Exception {
 		
 		______TS("invalid case: null parameters");
 
 		try {
-			logic.deleteInstructor(null, "instructor-id");
+			logic.deleteInstructor(null, "instr@email.com");
 			signalFailureToDetectException();
 		} catch (AssertionError e) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
@@ -447,94 +700,147 @@ public class LogicTest extends BaseComponentTestCase {
 		restoreTypicalDataInDatastore();
 		
 		String courseId = "idOfTypicalCourse1";
-		String googleId = "idOfInstructor1OfCourse1";
+		String email = "instructor1@course1.com";
 		
-		InstructorAttributes instructorDeleted = logic.getInstructorForGoogleId(courseId, googleId);
+		InstructorAttributes instructorDeleted = logic.getInstructorForEmail(courseId, email);
 		
-		logic.deleteInstructor(courseId, googleId);
+		logic.deleteInstructor(courseId, email);
 		
 		LogicTest.verifyAbsentInDatastore(instructorDeleted);
 		
 	}
 
 	@Test
-	public void testUpdateInstructor() throws Exception {
-		
-		______TS("invalid case: course id is null");
-
-		try {
-			logic.updateInstructor(null, "idOfInstructor1OfCourse1", "Instructor Name", "instr@email.com");
-			signalFailureToDetectException();
-		} catch (AssertionError e) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
-		}
-		
-		______TS("invalid case: instructor id is null");
-
-		try {
-			logic.updateInstructor("idOfTypicalCourse1", null, "Instructor Name", "instr@email.com");
-			signalFailureToDetectException();
-		} catch (AssertionError e) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
-		}
-		
-		______TS("invalid case: instructor name is null");
-
-		try {
-			logic.updateInstructor("idOfTypicalCourse1", "idOfInstructor1OfCourse1", null, "instr@email.com");
-			signalFailureToDetectException();
-		} catch (AssertionError e) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
-		}
-		
-		______TS("invalid case: instructor email is null");
-
-		try {
-			logic.updateInstructor("idOfTypicalCourse1", "idOfInstructor1OfCourse1", "Instructor Name", null);
-			signalFailureToDetectException();
-		} catch (AssertionError e) {
-			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
-		}
+	public void testUpdateInstructorByGoogleId() throws Exception {
+		restoreTypicalDataInDatastore();
 		
 		______TS("success: update an instructor");
-		
-		restoreTypicalDataInDatastore();
 		
 		String courseId = "idOfTypicalCourse1";
 		String googleId = "idOfInstructor1OfCourse1";
 		
 		InstructorAttributes instructorToBeUpdated = logic.getInstructorForGoogleId(courseId, googleId);
+		instructorToBeUpdated.name = "New Name";
 		instructorToBeUpdated.email = "new-email@course1.com";
 		
-		logic.updateInstructor(courseId, instructorToBeUpdated.googleId, instructorToBeUpdated.name, instructorToBeUpdated.email);
+		logic.updateInstructorByGoogleId(googleId, instructorToBeUpdated);
 		
 		InstructorAttributes instructorUpdated = logic.getInstructorForGoogleId(courseId, googleId);
+		assertEquals(instructorToBeUpdated.name, instructorUpdated.name);
 		assertEquals(instructorToBeUpdated.email, instructorUpdated.email);
+		
+		______TS("failure: instructor doesn't exist");
+		logic.deleteInstructor(courseId, instructorUpdated.email);
+		
+		try {
+			logic.updateInstructorByGoogleId(googleId, instructorUpdated);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals("Instructor "+googleId+" does not belong to course "+courseId, e.getMessage());
+		}
+		
+		______TS("failure: course doesn't exist");
+		logic.deleteCourse(courseId);
+		
+		try {
+			logic.updateInstructorByGoogleId(googleId, instructorToBeUpdated);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals("Course does not exist: " + courseId, e.getMessage());
+		}
+		
+		______TS("null parameters");
+
+		try {
+			logic.updateInstructorByGoogleId(null, instructorToBeUpdated);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		try {
+			logic.updateInstructorByGoogleId(googleId, null);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testUpdateInstructorByEmail() throws Exception {
+		restoreTypicalDataInDatastore();
+		
+		______TS("success: update an instructor");
+		
+		String courseId = "idOfTypicalCourse1";
+		String email = "instructor1@course1.com";
+		
+		InstructorAttributes instructorToBeUpdated = logic.getInstructorForEmail(courseId, email);
+		instructorToBeUpdated.googleId = "new-google-id";
+		instructorToBeUpdated.name = "New Name";
+		
+		logic.updateInstructorByEmail(email, instructorToBeUpdated);
+		
+		InstructorAttributes instructorUpdated = logic.getInstructorForEmail(courseId, email);
+		assertEquals(instructorToBeUpdated.googleId, instructorUpdated.googleId);
+		assertEquals(instructorToBeUpdated.name, instructorUpdated.name);
+		
+		______TS("failure: instructor doesn't belong to course");
+		logic.deleteInstructor(courseId, instructorToBeUpdated.email);
+		
+		try {
+			logic.updateInstructorByEmail(email, instructorToBeUpdated);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals("Instructor " + email + " does not belong to course " + courseId, e.getMessage());
+		}
+		
+		______TS("failure: course doesn't exist");
+		logic.deleteCourse(courseId);
+		
+		try {
+			logic.updateInstructorByEmail(email, instructorToBeUpdated);
+			signalFailureToDetectException();
+		} catch (EntityDoesNotExistException e) {
+			assertEquals("Course does not exist: " + courseId, e.getMessage());
+		}
+		
+		______TS("null parameters");
+
+		try {
+			logic.updateInstructorByEmail(null, instructorToBeUpdated);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
+		
+		try {
+			logic.updateInstructorByEmail(email, null);
+			signalFailureToDetectException();
+		} catch (AssertionError e) {
+			assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
+		}
 	}
 
 	@Test
 	public void testDowngradeInstructorToStudentCascade() throws Exception {
-
+		restoreTypicalDataInDatastore();
+		
 		// mostly tested in testCreateInstructor
-
-		
 		______TS("typical case");
-		
-		
-
 		InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
 
 		// ensure that the instructor exists in datastore
 		verifyPresentInDatastore(instructor1);
 		
-		logic.deleteInstructor(instructor1.courseId, instructor1.googleId);
+		logic.deleteInstructor(instructor1.courseId, instructor1.email);
 		
 		verifyAbsentInDatastore(instructor1);
 		
 		______TS("non-existent");
 		
 		// try to delete again. Should fail silently.
-		logic.deleteInstructor(instructor1.courseId, instructor1.googleId);
+		logic.deleteInstructor(instructor1.courseId, instructor1.email);
 
 		______TS("null parameter");
 
@@ -545,12 +851,6 @@ public class LogicTest extends BaseComponentTestCase {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 	}
-	
-	//TODO: implement tests for these methods
-	/*
-
-		deleteInstructor(String, String)
-	 */
 
 	@SuppressWarnings("unused")
 	private void ____COURSE_level_methods___________________________________() {
@@ -1478,7 +1778,7 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 
 	@Test
-	public void testJoinCourse() throws Exception {
+	public void testJoinCourseForStudent() throws Exception {
 	
 		restoreTypicalDataInDatastore();
 	
@@ -1508,7 +1808,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		// TODO: remove encrpytion - should fail test
 		//Test if unencrypted key used
-		logic.joinCourse(googleId, key);
+		logic.joinCourseForStudent(key, googleId);
 		assertEquals(googleId,
 				logic.getStudentForEmail(student.course, student.email).googleId);
 		
@@ -1527,7 +1827,7 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		//Test for encrypted key used
 		key = StringHelper.encrypt(key);
-		logic.joinCourse(googleId, key);
+		logic.joinCourseForStudent(key, googleId);
 		assertEquals(googleId,
 				logic.getStudentForEmail(student.course, student.email).googleId);
 		
@@ -1540,14 +1840,14 @@ public class LogicTest extends BaseComponentTestCase {
 		______TS("null parameters");
 	
 		try {
-			logic.joinCourse("valid.user", null);
+			logic.joinCourseForStudent(null, "valid.user");
 			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
 		}
 		
 		try {
-			logic.joinCourse(null, key);
+			logic.joinCourseForStudent(key, null);
 			Assert.fail();
 		} catch (AssertionError a) {
 			assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
@@ -3135,6 +3435,14 @@ public class LogicTest extends BaseComponentTestCase {
 				email.getSubject());
 		AssertHelper.assertContains(student.course, email.getSubject());
 	}
+	
+	private void verifyJoinInviteToInstructor(InstructorAttributes instr,
+			MimeMessage email) throws MessagingException {
+		assertEquals(instr.email, email.getAllRecipients()[0].toString());
+		AssertHelper.assertContains(Emails.SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN,
+				email.getSubject());
+		AssertHelper.assertContains(instr.courseId, email.getSubject());
+	}
 
 	private void verifyEvaluationInfoExistsInList(EvaluationAttributes evaluation,
 			ArrayList<EvaluationDetailsBundle> evalInfoList) {
@@ -3250,8 +3558,14 @@ public class LogicTest extends BaseComponentTestCase {
 	}
 
 	public static void verifyPresentInDatastore(InstructorAttributes expected) {
-		InstructorAttributes actual = instructorsDb.getInstructorForGoogleId(
-				expected.courseId, expected.googleId);
+		InstructorAttributes actual;
+		
+		if (expected.googleId != null) {
+			actual = instructorsDb.getInstructorForGoogleId(expected.courseId, expected.googleId);
+		} else {
+			actual = instructorsDb.getInstructorForEmail(expected.courseId, expected.email);
+		}
+		equalizeIrrelevantData(expected, actual);
 		assertEquals(gson.toJson(expected), gson.toJson(actual));
 	}
 	
@@ -3323,6 +3637,16 @@ public class LogicTest extends BaseComponentTestCase {
 		// and cannot be anticipated
 		if ((actualStudent.key != null)) {
 			expectedStudent.key = actualStudent.key;
+		}
+	}
+	
+	private static void equalizeIrrelevantData(
+			InstructorAttributes expectedInstructor,
+			InstructorAttributes actualInstructor) {
+		
+		// pretend keys match because the key is generated only before storing into database
+		if ((actualInstructor.key != null)) {
+			expectedInstructor.key = actualInstructor.key;
 		}
 	}
 

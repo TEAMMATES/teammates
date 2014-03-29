@@ -12,8 +12,8 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 
 		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 		Assumption.assertNotNull(courseId);
-		String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-		Assumption.assertNotNull(instructorId);
+		String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+		Assumption.assertNotNull(instructorEmail);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -23,15 +23,15 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 		
 		// Only delete if it is not the last instructor in course
 		if (numberOfInstructorsForCourse != 1) {
-			logic.deleteInstructor(courseId, instructorId);
+			logic.deleteInstructor(courseId, instructorEmail);
 			
 			statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
-			statusToAdmin = "Instructor <span class=\"bold\"> " + instructorId + "</span>"
+			statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
 					+ " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
 		} else {
 			isError = true;
 			statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
-			statusToAdmin = "Instructor <span class=\"bold\"> " + instructorId + "</span>"
+			statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
 					+ " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
 					+ "as there is only one instructor left.<br>";
 		}

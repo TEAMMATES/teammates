@@ -29,22 +29,32 @@ public class InstructorCourseRemindAction extends Action {
 		Assumption.assertNotNull(courseId);
 		
 		String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+		String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 		
 		new GateKeeper().verifyAccessible(
 				logic.getInstructorForGoogleId(courseId, account.googleId),
 				logic.getCourse(courseId));
 		
 		List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+		String redirectUrl = "";
 		try {
-			if(studentEmail != null){
+			if (studentEmail != null) {
 				MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
 				emailsSent.add(emailSent);
-				statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO+studentEmail);
 				
+				statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO+studentEmail);
+				redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+			} else if (instructorEmail != null) {
+				MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+				emailsSent.add(emailSent);
+				
+				statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail);
+				redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
 			} else {
 				emailsSent = logic.sendRegistrationInviteForCourse(courseId);
-				statusToUser.add(Const.StatusMessages.COURSE_REMINDERS_SENT);
 				
+				statusToUser.add(Const.StatusMessages.COURSE_REMINDERS_SENT);
+				redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
 			}
 			
 			statusToAdmin = generateStatusToAdmin(emailsSent, courseId);
@@ -52,8 +62,9 @@ public class InstructorCourseRemindAction extends Action {
 			Assumption.fail("InvalidParametersException not expected at this point");
 		}
 		
-		RedirectResult response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
-		response.addResponseParam(Const.ParamsNames.COURSE_ID,courseId); 
+		RedirectResult response = createRedirectResult(redirectUrl);
+		response.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+		
 		return response;
 
 	}

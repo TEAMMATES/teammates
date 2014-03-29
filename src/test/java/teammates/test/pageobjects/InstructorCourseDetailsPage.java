@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.util.Const;
 
 
@@ -73,6 +74,14 @@ public class InstructorCourseDetailsPage extends AppPage {
 		return changePageType(InstructorCourseStudentDetailsViewPage.class);
 	}
 	
+	public InstructorStudentRecordsPage clickAddCommentStudent(
+			String studentName, CourseAttributes courseId) {
+		int rowId = getStudentRowId(studentName);
+		getAddCommentLink(rowId, courseId).click();
+		waitForPageToLoad();
+		return changePageType(InstructorStudentRecordsPage.class);
+	}
+
 	public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentName) {
 		int rowId = getStudentRowId(studentName);
 		getEditLink(rowId).click();
@@ -114,6 +123,10 @@ public class InstructorCourseDetailsPage extends AppPage {
 	
 	private WebElement getEditLink(int rowId) {
 		return browser.driver.findElement(By.className("t_student_edit" + rowId));
+	}
+	
+	private WebElement getAddCommentLink(int rowId, CourseAttributes courseId) {
+		return browser.driver.findElement(By.className("t_student_records-c" + courseId.id + "." + rowId));
 	}
 	
 	private WebElement getDeleteLink(int rowId) {
