@@ -100,7 +100,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 		result = (RedirectResult) action.executeAndPostProcess();
 		
 		AssertHelper.assertContains(
-				Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE+"?message=An+instructor+with+the+same+ID+already+exists+in+the+course.", 
+				Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE+"?message=An+instructor+with+the+same+email+address+already+exists+in+the+course.", 
 				result.getDestinationWithParams());
 		assertEquals(true, result.isError);
 		assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, result.getStatusMessage());
