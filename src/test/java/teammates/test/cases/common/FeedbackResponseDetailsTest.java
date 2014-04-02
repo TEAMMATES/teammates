@@ -10,10 +10,14 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.FeedbackMcqResponseDetails;
+import teammates.common.datatransfer.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.FeedbackMsqResponseDetails;
+import teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
@@ -35,55 +39,58 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 		Map<String, String[]> httpParams = new HashMap<String, String[]>();
 		
 		______TS("TEXT Response");
+		FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
 		
 		FeedbackAbstractResponseDetails responseDetails =
 				FeedbackAbstractResponseDetails.createResponseDetails(
 						httpParams,
 						new String[] { "text answer" },
 						FeedbackQuestionType.TEXT,
-						1, 0);
+						1, 0,textQuestionDetails);
 		
 		assertEquals(responseDetails.questionType, FeedbackQuestionType.TEXT);
 		assertTrue(responseDetails instanceof FeedbackTextResponseDetails);
 		assertEquals("text answer", responseDetails.getAnswerString());
 
 		______TS("MCQ Response: other disabled");
+		FeedbackMcqQuestionDetails mcqQuestionDetails = new FeedbackMcqQuestionDetails();
 		
 		responseDetails = 
 				FeedbackAbstractResponseDetails.createResponseDetails(
 						httpParams,
 						new String[] { "mcq option" },
 						FeedbackQuestionType.MCQ,
-						1, 0);
+						1, 0,mcqQuestionDetails);
 
 		assertEquals(responseDetails.questionType, FeedbackQuestionType.MCQ);
 		assertTrue(responseDetails instanceof FeedbackMcqResponseDetails);
 		assertEquals("mcq option", responseDetails.getAnswerString());
 		
 		______TS("MSQ Response: other disabled");
+		FeedbackMsqQuestionDetails msqQuestionDetails = new FeedbackMsqQuestionDetails();
 		
 		responseDetails = 
 				FeedbackAbstractResponseDetails.createResponseDetails(
 						httpParams,
 						new String[] { "msq option 1", "msq option 2", "msq option 3" },
 						FeedbackQuestionType.MSQ,
-						1, 0);
+						1, 0,msqQuestionDetails);
 
 		assertEquals(responseDetails.questionType, FeedbackQuestionType.MSQ);
 		assertTrue(responseDetails instanceof FeedbackMsqResponseDetails);
 		assertEquals("msq option 1, msq option 2, msq option 3", responseDetails.getAnswerString());
 		
 		______TS("NUMSCALE Response: typical case");
-		
-		httpParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", new String[] {"-5"});
-		httpParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", new String[] {"5"});
+		FeedbackNumericalScaleQuestionDetails numericalScaleQuestionDetails = new FeedbackNumericalScaleQuestionDetails();
+		numericalScaleQuestionDetails.maxScale = 5;
+		numericalScaleQuestionDetails.minScale = -5;
 		
 		responseDetails = 
 				FeedbackAbstractResponseDetails.createResponseDetails(
 						httpParams,
 						new String[] { "-3.5" },
 						FeedbackQuestionType.NUMSCALE,
-						1, 0);
+						1, 0,numericalScaleQuestionDetails);
 
 		assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
 		assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
@@ -96,7 +103,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 						httpParams,
 						new String[] { "9" },
 						FeedbackQuestionType.NUMSCALE,
-						1, 0);
+						1, 0,numericalScaleQuestionDetails);
 
 		assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
 		assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
@@ -109,7 +116,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 						httpParams,
 						new String[] { "-10" },
 						FeedbackQuestionType.NUMSCALE,
-						1, 0);
+						1, 0,numericalScaleQuestionDetails);
 
 		assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
 		assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
@@ -122,8 +129,24 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 						httpParams,
 						new String[] { "-0.5.3" },
 						FeedbackQuestionType.NUMSCALE,
-						1, 0);
+						1, 0,numericalScaleQuestionDetails);
 
 		assertNull(responseDetails);
+		
+		______TS("NUMSCALE Response: fake http hidden value");
+		
+		httpParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", new String[] {"-5"});
+        httpParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", new String[] {"9"});
+        
+		responseDetails = 
+				FeedbackAbstractResponseDetails.createResponseDetails(
+						httpParams,
+						new String[] { "9" },
+						FeedbackQuestionType.NUMSCALE,
+						1, 0,numericalScaleQuestionDetails);
+
+		assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
+		assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
+		assertEquals("5", responseDetails.getAnswerString());
 	}
 }

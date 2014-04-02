@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -49,8 +50,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 			}
 			
 			int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);			
+			FeedbackAbstractQuestionDetails questionDetails = data.bundle.getSortedQuestions().get(questionIndx-1).getQuestionDetails();
 			for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
-				FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx,responseIndx);
+				FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx,responseIndx,questionDetails);
 				response.giverEmail = userEmailForCourse;
 				saveResponse(response);
 			}
@@ -89,7 +91,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 		}
 	}
 	
-	private static FeedbackResponseAttributes extractFeedbackResponseData(Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
+	private static FeedbackResponseAttributes extractFeedbackResponseData(Map<String, String[]> requestParameters, int questionIndx, int responseIndx, FeedbackAbstractQuestionDetails questionDetails) {
 		FeedbackResponseAttributes response = new FeedbackResponseAttributes();
 		
 		//This field can be null if the response is new
@@ -119,7 +121,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 					FeedbackAbstractResponseDetails.createResponseDetails(
 							requestParameters, answer,
 							response.feedbackQuestionType,
-							questionIndx, responseIndx);
+							questionIndx, responseIndx,questionDetails);
 			response.setResponseDetails(responseDetails);
 		} else {
 			response.responseMetaData = new Text("");

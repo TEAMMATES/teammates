@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Map;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 
 /** A class holding the details for the response of a specific question type.
  * This abstract class is inherited by concrete Feedback*ResponseDetails
@@ -29,7 +27,7 @@ public abstract class FeedbackAbstractResponseDetails {
 	public static FeedbackAbstractResponseDetails createResponseDetails(
 			Map<String, String[]> requestParameters, String[] answer,
 			FeedbackQuestionType questionType,
-			int questionIdx, int responseIdx) {
+			int questionIdx, int responseIdx,FeedbackAbstractQuestionDetails questionDetails) {
 		FeedbackAbstractResponseDetails responseDetails = null;
 		
 		switch(questionType) {
@@ -45,13 +43,9 @@ public abstract class FeedbackAbstractResponseDetails {
 			responseDetails = new FeedbackMsqResponseDetails(Arrays.asList(answer));
 			break;
 		case NUMSCALE:
-			String minScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-" + questionIdx + "-" + responseIdx);
-			Assumption.assertNotNull(minScaleString);
-			int minScale = Integer.parseInt(minScaleString);
-			
-			String maxScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-" + questionIdx + "-" + responseIdx);
-			Assumption.assertNotNull(maxScaleString);
-			int maxScale = Integer.parseInt(maxScaleString);
+			FeedbackNumericalScaleQuestionDetails numericalScaleQuestionDetails= (FeedbackNumericalScaleQuestionDetails) questionDetails;
+			int minScale = numericalScaleQuestionDetails.minScale;
+			int maxScale = numericalScaleQuestionDetails.maxScale;
 			
 			try {
 				double numscaleAnswer = Double.parseDouble(answer[0]);
