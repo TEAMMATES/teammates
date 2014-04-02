@@ -164,9 +164,17 @@ public class ActivityLogEntry {
 	}
 	
 	public String getPersonInfo(){
-		return "[" + name +
-				" <a href=\""+getInstructorHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
-				" <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+		if(url.contains("/student")){
+			return "[" + name +
+					" <a href=\""+getStudentHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
+					" <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+		} else if(url.contains("/instructor")){
+			return "[" + name +
+					" <a href=\""+getInstructorHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
+					" <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+		} else { 
+			return googleId; 
+		}
 	}
 	
 	public String getActionInfo(){
@@ -285,5 +293,10 @@ public class ActivityLogEntry {
 		return link;
 	}
 	
+	private String getStudentHomePageViewLink(String googleId){
+		String link = Const.ActionURIs.STUDENT_HOME_PAGE;
+		link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
+		return link;
+	}
 
 }
