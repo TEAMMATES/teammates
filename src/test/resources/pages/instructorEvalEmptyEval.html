@@ -7,16 +7,18 @@
 	<link rel="stylesheet" href="/stylesheets/instructorEvals.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
     <link rel="stylesheet" href="/stylesheets/instructorEvals-print.css" type="text/css" media="print">
-	
+    <link href="/stylesheets/datepicker.css"  media="screen"  rel="stylesheet"  type="text/css" />
+
 	<script async=""  type="text/javascript" src="https://ssl.google-analytics.com/ga.js"></script>
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script src="/js/jquery-minified.js" type="text/javascript"></script>
-	<script src="/js/tooltip.js" type="text/javascript"></script>
-	<script src="/js/date.js" type="text/javascript"></script>
-	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="/js/tooltip.js"  type="text/javascript" ></script>
+    <script src="/js/date.js"  type="text/javascript" ></script>
+    <script src="/js/datepicker.js"  type="text/javascript" ></script>
 	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
 	<script src="/js/common.js" type="text/javascript"></script>
-	
+
 	<script src="/js/instructor.js" type="text/javascript"></script>
 	<script src="/js/instructorEvals.js" type="text/javascript"></script>
 	<script src="/js/ajaxResponseRate.js"  type="text/javascript" >
@@ -24,7 +26,7 @@
 	<script type="text/javascript">
 		var doPageSpecificOnload = selectDefaultTimeOptions;
 	</script>
-	
+
     <noscript>{*}</noscript>
 
 
@@ -33,7 +35,7 @@
 <body>
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		
+
 
 
 		<div id="frameTopWrapper">
@@ -41,7 +43,7 @@
 				<a href="/index.html">
 				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
 				</a>
-			</div>			
+			</div>
 			<div id="contentLinks">
 				<ul id="navbar">
 					<li><a href="/page/instructorHomePage?user=CEvalUiT.noevals" class='nav home' data-link="instructorHome">Home</a></li>
@@ -65,7 +67,7 @@
 			<div id="headerOperation">
 				<h1>Add New Evaluation Session</h1>
 			</div>
-			
+
 			<p class="bold centeralign middlealign">
 				<span style="padding-right: 10px"> Session Type </span> <select
 					id="feedbackchangetype" name="feedbackchangetype"
@@ -79,7 +81,7 @@
 				</select>
 			</p>
 			<br /> <br />
-			
+
 			<form name="form_addevaluation" action="/page/instructorEvalAdd" method="post">
 				<table id="instructorEvaluationManagement" class="inputTable">
 					<tbody><tr>
@@ -89,8 +91,9 @@
 
 							</select></td>
 						<td class="label bold">Opening time:</td>
-						<td><input type="text" tabindex="3" readonly="readonly" value={*} onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter the start date for the evaluation.')" onclick="cal.select(this,'start','dd/MM/yyyy')" id="start" name="start" style="width: 100px;" />
-									@
+						<td>
+                              <input class="hasDatepicker"  id="start"  name="start"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Please enter the start date for the evaluation.')"  readonly="readonly"  style="width: 100px;"  tabindex="3"  type="text"  value="{*}" />
+                                                            @
 							<select tabindex="4" id="starttime" name="starttime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
@@ -123,8 +126,9 @@
 						<td class="label bold">Evaluation name:</td>
 						<td><input type="text" tabindex="2" value="" maxlength="38" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter the name of the evaluation e.g. Mid-term Evaluation 1.')" id="evaluationname" name="evaluationname" placeholder="e.g. Midterm Evaluation"/></td>
 						<td class="label bold">Closing time:</td>
-						<td><input type="text" tabindex="5" readonly="readonly" value="" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter deadline for the evaluation.')" onclick="cal.select(this,'deadline','dd/MM/yyyy')" id="deadline" name="deadline" style="width: 100px;" />
-									@
+						<td>
+                              <input class="hasDatepicker"  id="deadline"  name="deadline"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Please enter deadline for the evaluation.')"  readonly="readonly"  style="width: 100px;"  tabindex="5"  type="text"  value="" />
+                                                            @
 							<select tabindex="6" id="deadlinetime" name="deadlinetime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
@@ -217,9 +221,9 @@
 					<tr>
 						<td class="label bold middlealign">Instructions to students:</td>
 						<td colspan="3">
-						<table><tr><td>	
+						<table><tr><td>
 								<textarea tabindex="8" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please enter instructions for your students, e.g. Avoid comments which are too critical.')" id="instr" name="instr" class="textvalue" cols="90" rows="3">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
-						</td></tr></table>	
+						</td></tr></table>
 						</td>
 					</tr>
 					<tr>
@@ -229,9 +233,9 @@
 				</tbody></table>
 				<input name="user" type="hidden" value="CEvalUiT.noevals">
 			</form>
-			
+
 			<br />
-			
+
 
 
 	<div style="display: block;" id="statusMessage">
@@ -240,7 +244,7 @@
     	document.getElementById( 'statusMessage' ).scrollIntoView();
     </script>
 			<br />
-			
+
 
 			<table class="dataTable">
 				<tbody><tr>
@@ -252,7 +256,7 @@
 					<th class="centeralign color_white bold"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Number of students submitted / Class size')">Response Rate</span></th>
 					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
-				
+
 					<tr>
 						<td></td>
 						<td></td>
@@ -260,11 +264,11 @@
 						<td></td>
 						<td></td>
 					</tr>
-				
+
 			</tbody></table>
 			<br /><br />
 			<br />
-			<div class="centeralign"> 
+			<div class="centeralign">
 				No records found.
 			</div>
 			<br />
@@ -274,11 +278,13 @@
 	</div>
 
 	<div id="frameBottom">
-		
+
 <div id="contentFooter">
 	<span class="floatleft">[<span class="color_white">TEAMMATES </span>V{$version}]</span>
 	[for <span class="color_white">National University of Singapore</span>]
 	<span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
 </div>
-
+</div>
+         <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"  id="ui-datepicker-div" >
+         </div>
 </body></html>

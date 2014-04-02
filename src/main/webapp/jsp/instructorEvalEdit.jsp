@@ -17,17 +17,19 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/instructorEvalEdit.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/instructorEvalEdit-print.css" type="text/css" media="print">
-	
-	
+	<link rel="stylesheet" href="/stylesheets/instructorEvalEdit-print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
+
+
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/date.js"></script>
-	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+	<script type="text/javascript" src="/js/datepicker.js"></script>
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
-	
+
 	<script type="text/javascript" src="/js/instructor.js"></script>
 	<script type="text/javascript" src="/js/instructorEvals.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
@@ -57,8 +59,7 @@
 						<td class="label bold" >Opening time:</td>
 						<td><input style="width: 100px;" type="text"
 									name="<%=Const.ParamsNames.EVALUATION_START%>"
-									id="<%=Const.ParamsNames.EVALUATION_START%>" 
-									onclick ="cal.select(this,'<%=Const.ParamsNames.EVALUATION_START%>','dd/MM/yyyy')"
+									id="<%=Const.ParamsNames.EVALUATION_START%>"
 									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_START%>')"
 									onmouseout="hideddrivetip()"
 									value="<%=TimeHelper.formatDate(data.evaluation.startTime)%>"
@@ -82,7 +83,6 @@
 						<td class="label bold" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
 									name="<%=Const.ParamsNames.EVALUATION_DEADLINE%>" id="<%=Const.ParamsNames.EVALUATION_DEADLINE%>"
-									onclick ="cal.select(this,'<%=Const.ParamsNames.EVALUATION_DEADLINE%>','dd/MM/yyyy')"
 									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_DEADLINE%>')"
 									onmouseout="hideddrivetip()"
 									value="<%=TimeHelper.formatDate(data.evaluation.endTime)%>"

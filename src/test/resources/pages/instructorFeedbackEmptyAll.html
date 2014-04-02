@@ -7,19 +7,21 @@
 	<link media="screen" type="text/css" href="/stylesheets/instructorFeedbacks.css" rel="stylesheet" />
 	<link media="print" type="text/css" href="/stylesheets/common-print.css" rel="stylesheet" />
     <link media="print" type="text/css" href="/stylesheets/instructorEvals-print.css" rel="stylesheet" />
-	
+    <link href="/stylesheets/datepicker.css"  media="screen"  rel="stylesheet"  type="text/css" />
+
 	<script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
 	<script src="/js/jquery-minified.js" type="text/javascript"></script>
-	<script src="/js/tooltip.js" type="text/javascript"></script>
-	<script src="/js/date.js" type="text/javascript"></script>
-	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="/js/tooltip.js"  type="text/javascript" ></script>
+    <script src="/js/date.js"  type="text/javascript" ></script>
+    <script src="/js/datepicker.js"  type="text/javascript" ></script>
 	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
 	<script src="/js/common.js" type="text/javascript"></script>
-	
+
 	<script src="/js/instructor.js" type="text/javascript"></script>
 	<script src="/js/instructorFeedbacks.js" type="text/javascript"></script>
 	<script src="/js/ajaxResponseRate.js"  type="text/javascript" ></script>
-	
+
     <noscript>{*}
 </noscript>
 
@@ -29,7 +31,7 @@
 <body onload="readyFeedbackPage(); initializetooltip();">
 	<div id="dhtmltooltip"></div>
 	<div id="frameTop">
-		
+
 
 
 		<div id="frameTopWrapper">
@@ -37,7 +39,7 @@
 				<a href="/index.html">
 				<img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
 				</a>
-			</div>			
+			</div>
 			<div id="contentLinks">
 				<ul id="navbar">
 					<li><a href="/page/instructorHomePage?user=CFeedbackUiT.nocourses" data-link="instructorHome" class="nav home">Home</a></li>
@@ -61,13 +63,13 @@
 			<div id="headerOperation">
 				<h1>Add New Feedback Session</h1>
 			</div>
-			
+
 			<p class="bold centeralign middlealign"><span style="padding-right:10px">Session Type</span>
 			<select tabindex="0" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select a different type of session here.')" id="feedbackchangetype" name="feedbackchangetype" style="width:730px">
 									<option selected="selected" value="/page/instructorFeedbacksPage">Feedback Session with customizable questions</option>
 									<!-- <option value="TEAM">Team Feedback Session</option> -->
 									<!-- <option value="PRIVATE">Private Feedback Session</option> -->
-									<option value="/page/instructorEvalsPage">Standard Team Peer Evaluation with fixed questions</option>			
+									<option value="/page/instructorEvalsPage">Standard Team Peer Evaluation with fixed questions</option>
 			</select></p>
 			<br /><br />
 			<form name="form_addfeedbacksession" action="/page/instructorFeedbackAdd" method="post">
@@ -75,7 +77,7 @@
 					<tbody><tr>
 						<td class="label bold">Course:</td>
 						<td><select tabindex="1" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the course for which the feedback session is to be created.')" id="courseid" name="courseid">
-										
+
 							</select></td>
 						<td class="label bold">Time zone:</td>
 						<td><select tabindex="2" onmouseout="hideddrivetip()" onmouseover="ddrivetip('You should not need to change this as your timezone is auto-detected.<br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is<br />daylight saving, you should choose UTC -7:00 and its corresponding timings.')" id="timezone" name="timezone">
@@ -124,7 +126,8 @@
 					<tbody><tr>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')" class="label bold middlealign">Submission<br />Opening Time:</td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which users can start submitting responses for the feedback session.')">
-							<input type="text" tabindex="4" readonly="readonly" value="{*}" onclick="cal.select(this,'startdate','dd/MM/yyyy')" id="startdate" name="startdate" style="width: 100px;" /> @ <select tabindex="5" id="starttime" name="starttime" style="width: 70px;">
+						  <input class="hasDatepicker"  id="startdate"  name="startdate"  readonly="readonly"  style="width: 100px;"  tabindex="4"  type="text"  value="{*}" />
+                                                            @ <select tabindex="5" id="starttime" name="starttime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -152,7 +155,9 @@
 
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')" class="label bold middlealign">Submission<br />Closing Time:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')"><input type="text" tabindex="6" readonly="readonly" value="" onclick="cal.select(this,'enddate','dd/MM/yyyy')" id="enddate" name="enddate" style="width: 100px;" /> @ <select tabindex="7" id="endtime" name="endtime" style="width: 70px;">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select the date and time for which the feedback session will no longer accept submissions from users.')">
+                              <input class="hasDatepicker"  id="enddate"  name="enddate"  readonly="readonly"  style="width: 100px;"  tabindex="6"  type="text"  value="" />
+                                                            @ <select tabindex="7" id="endtime" name="endtime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -197,7 +202,9 @@
 				<table id="sessionViewableTable" class="inputTable sessionTable">
 					<tbody><tr>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when you want the questions for the feedback session to be visible to users who need to participate.<br />Note that users cannot submit their responses until the submissions opening time set below.')" class="label bold">Session visible from:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions.')"><input type="radio" value="custom" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" /> <input type="text" tabindex="9" readonly="readonly" value="" onclick="cal.select(this,'visibledate','dd/MM/yyyy')" id="visibledate" name="visibledate" style="width: 100px;" disabled="disabled" /> @ <select tabindex="10" id="visibletime" name="visibletime" style="width: 70px;" disabled="disabled">
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions.')"><input type="radio" value="custom" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" />
+                                                            <input class="hasDatepicker"  disabled="disabled"  id="visibledate"  name="visibledate"  readonly="readonly"  style="width: 100px;"  tabindex="9"  type="text"  value="" />
+                                                            @ <select tabindex="10" id="visibletime" name="visibletime" style="width: 70px;" disabled="disabled">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -233,10 +240,10 @@
 					</tr>
 					<tr id="response_visible_from_row">
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later.')" class="label bold">Responses visible from:</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio" 
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')"><input type="radio"
 							value="custom" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" />
-							<input type="text" disabled="disabled" tabindex="11" readonly="readonly" value="" onclick="cal.select(this,'publishdate','dd/MM/yyyy');" id="publishdate" name="publishdate" style="width: 100px;" />
-							@ <select disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')" tabindex="12" id="publishtime" name="publishtime" style="width: 70px;">
+                                                            <input class="hasDatepicker"  disabled="disabled"  id="publishdate"  name="publishdate"  readonly="readonly"  style="width: 100px;"  tabindex="11"  type="text"  value="" />
+                                                           @ <select disabled="disabled" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible.')" tabindex="12" id="publishtime" name="publishtime" style="width: 70px;">
 								<option value="1">0100H</option>
 <option value="2">0200H</option>
 <option value="3">0300H</option>
@@ -264,13 +271,13 @@
 
 						</select></td>
 						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users.')">
-							<input type="radio" 
+							<input type="radio"
 							 value="atvisible" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" />
 							 Immediately</td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend to manually publish the session later on.')"><input type="radio" 
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend to manually publish the session later on.')"><input type="radio"
 							checked="checked" value="later" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" />
 							 Publish manually </td>
-						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio" 
+						<td onmouseout="hideddrivetip()" onmouseover="ddrivetip('Select this option if you intend never to publish the responses.')"><input type="radio"
 							 value="never" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" />
 							 Never</td>
 					</tr>
@@ -315,7 +322,7 @@
 				<table id="instructionsTable" class="inputTable">
 					<tbody><tr>
 						<td class="label bold middlealign">Instructions to students:</td>
-						<td><textarea tabindex="13" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4">Please answer all the given questions.</textarea>							
+						<td><textarea tabindex="13" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session.')" id="instructions" name="instructions" class="textvalue" cols="100%" rows="4">Please answer all the given questions.</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -324,8 +331,8 @@
 				</tbody></table>
 				<input type="hidden" value="CFeedbackUiT.nocourses" name="user" />
 			</form>
-			
-			
+
+
 
 
 
@@ -337,7 +344,7 @@
     </script>
 
 			<br />
-			
+
 			<table class="dataTable">
 				<tbody><tr>
 					<th class="leftalign color_white bold">
@@ -348,7 +355,7 @@
 					<th class="centeralign color_white bold"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Number of students submitted / Class size')">Response Rate</span></th>
 					<th class="centeralign color_white bold no-print">Action(s)</th>
 				</tr>
-				
+
 				<tr>
 						<td></td>
 						<td></td>
@@ -356,22 +363,22 @@
 						<td></td>
 						<td></td>
 					</tr>
-				
+
 			</tbody></table>
 			<br />
 			<br />
 			<br />
-			
+
 				<div class="centeralign">No records found.</div>
 				<br />
 				<br />
 				<br />
-			
+
 		</div>
 	</div>
 
 	<div id="frameBottom">
-		
+
 
 
 
@@ -381,5 +388,6 @@
 	<span class="floatright">[Send <span class="color_white"><a target="_blank" href="../contact.html">Feedback</a></span>]</span>
 </div>
 	</div>
-
+         <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"  id="ui-datepicker-div" >
+         </div>
 </body></html>

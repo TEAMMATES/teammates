@@ -1,5 +1,5 @@
-/* 
- * This Javascript file is included in all instructor pages. Functions here 
+/*
+ * This Javascript file is included in all instructor pages. Functions here
  * should be common to some/all instructor pages.
  */
 
@@ -7,7 +7,6 @@
 
 //Initial load-up
 //-----------------------------------------------------------------------------
-var cal = new CalendarPopup();
 
 window.onload = function() {
 	initializetooltip();
@@ -21,13 +20,13 @@ $(document).ready(function(){
 	$("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
     	var query = window.location.search.substring(1);
 		var params = {};
-		
+
 		var param_values = query.split("&");
 		for(var i=0;i<param_values.length;i++){
 			var param_value = param_values[i].split("=");
 			params[param_value[0]] = param_value[1];
 		}
-		
+
 		console.log($(this).val()+"?user="+params["user"])+"&courseid="+$("select#"+COURSE_ID).val();
     	window.location.href = $(this).val()+"?user="+params["user"]+"&courseid="+$("select#courseid").val();
     });
@@ -46,7 +45,7 @@ document.onmousemove = positiontip;
  */
 function toggleDeleteCourseConfirmation(courseID) {
 	return confirm("Are you sure you want to delete the course: " + courseID + "? " +
-			"This operation will delete all students and evaluations in this course. " + 
+			"This operation will delete all students and evaluations in this course. " +
 			"All instructors of this course will not be able to access it hereafter as well.");
 }
 
@@ -73,7 +72,7 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
 /**
  * Pops up confirmation dialog whether to publish the specified
  * evaluation
- * @param name 
+ * @param name
  */
 function togglePublishEvaluation(name) {
 	return confirm("Are you sure you want to publish the evaluation " + name + "?");
@@ -82,7 +81,7 @@ function togglePublishEvaluation(name) {
 /**
  * Pops up confirmation dialog whether to unpublish the specified
  * evaluation
- * @param name 
+ * @param name
  */
 function toggleUnpublishEvaluation(name){
 	return confirm("Are you sure you want to unpublish the evaluation " + name + "?");
