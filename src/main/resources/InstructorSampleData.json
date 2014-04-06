@@ -664,5 +664,228 @@
               "INSTRUCTORS"
           ]
       }
+  },
+
+  "feedbackResponses": {
+      "aliceResponse1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"2",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"alice.b.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"A highlight for me has been putting Software Engineering skills to use."
+          }
+      },
+      "aliceResponse2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"3",
+          "feedbackQuestionType":"NUMSCALE",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 4}"
+          }
+      },
+      "aliceResponse3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"4",
+          "feedbackQuestionType":"MCQ",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"%GENERAL%",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 1\", \"otherFieldContent\" : \"\"}"
+          }
+      },
+      "aliceResponse4.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"5",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"benny.c.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"Good job Benny! Thanks for the hard work for making the application pretty!"
+          }
+      },
+      "aliceResponse4.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"5",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"charlie.d.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"It is good to see you working so hard to improve yourself!"
+          }
+      },
+      "aliceResponse4.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"5",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"francis.g.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"Wow! You are really good at designing!"
+          }
+      },
+      "aliceResponse5":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"6",
+          "feedbackQuestionType":"MSQ",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"%GENERAL%",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"C\", \"Java\"], \"otherFieldContent\" : \"\"}"
+          }
+      },
+      "aliceResponse6.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"8",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"benny.c.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"Good job Benny! Thanks for the hard work for making the application pretty!"
+          }
+      },
+      "aliceResponse6.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"8",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"danny.e.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"Thank you Danny! You taught me many useful skills in this project."
+          }
+      },
+      "aliceResponse6.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"8",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"emma.f.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"You are the best Emma! Without you, our application will not be running."
+          }
+      }, 
+      "charlieResponse1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"2",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"charlie.d.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"I have enjoyed learning about new tools and using them."
+          }
+      },
+      "charlieResponse2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"3",
+          "feedbackQuestionType":"NUMSCALE",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 5}"
+          }
+      },
+      "charlieResponse3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"4",
+          "feedbackQuestionType":"MCQ",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"%GENERAL%",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 2\", \"otherFieldContent\" : \"\"}"
+          }
+      },
+      "charlieResponse4.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"5",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"benny.c.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"Thank you for being helpful and explaining how you did your UI."
+          }
+      },
+      "charlieResponse4.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"5",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"alice.b.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"I wish I was as good at programming as Alice."
+          }
+      },
+      "charlieResponse4.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"5",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"francis.g.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"Francis is very talented with design work."
+          }
+      },
+      "charlieResponse5":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"6",
+          "feedbackQuestionType":"MSQ",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"%GENERAL%",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Python\"], \"otherFieldContent\" : \"\"}"
+          }
+      },
+      "charlieResponse6.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"8",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"francis.g.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"I really like your design Francis!"
+          }
+      },
+      "charlieResponse6.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"8",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"gene.h.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"I really appreciate all the coding you have done in the project!"
+          }
+      },
+      "charlieResponse6.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"8",
+          "feedbackQuestionType":"TEXT",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "responseMetaData":{
+              "value":"Thank you Demo_Instructor for all the help in the project."
+          }
+      }
   }
 }

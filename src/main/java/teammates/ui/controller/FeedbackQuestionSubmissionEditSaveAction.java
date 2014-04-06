@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -43,17 +44,20 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
 		
 		String userEmailForCourse = getUserEmailForCourse();
 		
+		getPageData(userEmailForCourse);
+		
 		String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL);
 		int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
+		
 		for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
-			FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndx);
+			FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
+			FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndx, questionDetails);
 			response.giverEmail = userEmailForCourse;
 			
 			saveResponse(response);
 		}
 		
-		data = new FeedbackQuestionSubmissionEditPageData(account);
-		data.bundle = getDataBundle(userEmailForCourse);
+		getPageData(userEmailForCourse);
 		
 		if (isError == false) {
 			statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -91,7 +95,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
 		}
 	}
 	
-	private static FeedbackResponseAttributes extractFeedbackResponseData(Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
+	private static FeedbackResponseAttributes extractFeedbackResponseData(Map<String, String[]> requestParameters, int questionIndx, int responseIndx, FeedbackAbstractQuestionDetails questionDetails) {
 		FeedbackResponseAttributes response = new FeedbackResponseAttributes();
 		
 		//This field can be null if the response is new
@@ -121,13 +125,18 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
 					FeedbackAbstractResponseDetails.createResponseDetails(
 							requestParameters, answer,
 							response.feedbackQuestionType,
-							questionIndx, responseIndx);
+							questionIndx, responseIndx, questionDetails);
 			response.setResponseDetails(responseDetails);
 		} else {
 			response.responseMetaData = new Text("");
 		}
 		
 		return response;
+	}
+	
+	private void getPageData(String userEmailForCourse) throws EntityDoesNotExistException{
+		data = new FeedbackQuestionSubmissionEditPageData(account);
+		data.bundle = getDataBundle(userEmailForCourse);
 	}
 
 	protected abstract void verifyAccesibleForSpecificUser();

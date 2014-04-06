@@ -24,12 +24,14 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/instructorFeedbacks.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
 
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/date.js"></script>
-	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+	<script type="text/javascript" src="/js/datepicker.js"></script>
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 
@@ -95,7 +97,6 @@
 							<input style="width: 100px;" type="text"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
-							onclick="cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>','dd/MM/yyyy')"
 							value="<%=TimeHelper.formatDate(data.session.startTime)%>"
 							readonly="readonly" tabindex="7"> @ <select
 							style="width: 70px;"
@@ -112,7 +113,6 @@
 							<input style="width: 100px;" type="text"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
-							onclick="cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>','dd/MM/yyyy')"
 							value="<%=TimeHelper.formatDate(data.session.endTime)%>"
 							readonly="readonly" tabindex="8"> @ <select
 							style="width: 70px;"
@@ -151,7 +151,6 @@
 									out.print("checked=\"checked\"");%>> <input style="width: 100px;" type="text"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
-							onclick="cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>','dd/MM/yyyy')"
 							value="<%=TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.sessionVisibleFromTime)%>"
 							<%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime))
 									out.print("disabled=\"disabled\"");%>
@@ -205,7 +204,7 @@
 							readonly="readonly" tabindex="5"
 							<%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
 									out.print("disabled=\"disabled\"");%>
-							onclick="cal.select(this,'<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>','dd/MM/yyyy')">
+							>
 							@ <select style="width: 70px;"
 							name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>"
 							id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>"

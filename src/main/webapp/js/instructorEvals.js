@@ -170,7 +170,7 @@ function checkEditEvaluation(form){
  */
 function selectDefaultTimeOptions(){
 	var now = new Date();
-	
+
 	var currentDate = convertDateToDDMMYYYY(now);
 	var hours = convertDateToHHMM(now).substring(0, 2);
 	var currentTime = (parseInt(hours) + 1) % 24;

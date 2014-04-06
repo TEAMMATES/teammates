@@ -20,7 +20,7 @@
 		<table id="tableofcontents">
 		<tbody>
 			<tr>
-				<td width="25%">
+				<td width="20%">
 					<h2>Instructor Pages</h2>
 					<ul class="nav">
 						<li><a href="#instructorHomePage">Instructor Home Page</a></li>
@@ -50,7 +50,7 @@
 						<li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>						
 					</ul>
 				</td>
-				<td width="25%">
+				<td width="20%">
 					<h2>Student Pages</h2>
 					<ul class="nav">
 						<li><a href="#studentHomePage">Student Home Page</a></li>
@@ -64,7 +64,7 @@
 					</ul>
 				<td>
 				</td>
-				<td width="25%">
+				<td width="20%">
 					<h2>Admin Pages</h2>
 					<ul class="nav">
 						<li><a href="#adminHomePage">Admin Home Page</a></li>
@@ -72,7 +72,7 @@
 						<li><a href="#adminActivityLogPage">Admin Activity Log Page</a></li>
 					</ul>
 				</td>
-				<td width="25%">	
+				<td width="20%">	
 					<h2>Static Pages</h2>
 					<ul class="nav">
 						<li><a href="#index">Home Page</a></li>
@@ -84,6 +84,15 @@
 						<li><a href="#studentHelp">Student Help Page</a></li>
 						<li><a href="#instructorHelp">Instructor Help Page</a></li>
 					</ul>
+				</td>
+				<td width="20%">	
+					<h2>Error Pages</h2>
+					<ul class="nav">
+						<li><a href="#deadlineExceededErrorPage">Deadline Exceeded Error Page</a></li>
+						<li><a href="#errorPage">Error Page</a></li>
+						<li><a href="#entityNotFoundPage">Entity Not Found Page</a></li>
+					</ul>
+				</td>
 				</td>
 			</tr>
 			</tbody>
@@ -236,6 +245,14 @@
 		<div id="instructorHelp">
 			<iframe class="wrapper" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
 		</div>
+		<div class="pageinfo">Deadline Exceeded Error Page</div>
+		<div id="deadlineExceededErrorPage" class="wrapper"></div>
+		
+		<div class="pageinfo">Error Page</div>
+		<div id="errorPage" class="wrapper"></div>
+		
+		<div class="pageinfo">Entity Not Found Page</div>
+		<div id="entityNotFoundPage" class="wrapper"></div>
 		<br></br>
 		<br></br>
 		<br></br>
@@ -320,6 +337,10 @@
 			$('#adminHomePage').load("<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #frameBodyWrapper");
 			$('#adminSearchPage').load("<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #frameBodyWrapper");
 			$('#adminActivityLogPage').load("<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #frameBodyWrapper");
+			
+			$('#deadlineExceededErrorPage').load("<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%> #frameBodyWrapper");
+			$('#errorPage').load("<%=Const.ViewURIs.ERROR_PAGE%> #frameBodyWrapper");
+			$('#entityNotFoundPage').load("<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%> #frameBodyWrapper");
 			
 			//Tooltip
 			initializetooltip();

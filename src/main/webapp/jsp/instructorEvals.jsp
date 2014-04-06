@@ -22,16 +22,18 @@
 	<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/instructorEvals.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/instructorEvals-print.css" type="text/css" media="print">
-	
+	<link rel="stylesheet" href="/stylesheets/instructorEvals-print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
+
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
 	<script type="text/javascript" src="/js/date.js"></script>
-	<script type="text/javascript" src="/js/CalendarPopup.js"></script>
+	<script type="text/javascript" src="/js/datepicker.js"></script>
 	<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
-	
+
 	<script type="text/javascript" src="/js/instructor.js"></script>
 	<script type="text/javascript" src="/js/instructorEvals.js"></script>
 	<script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
@@ -68,7 +70,7 @@
 									<option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>">Feedback Session with customizable questions</option>
 									<!-- <option value="TEAM">Team Feedback Session</option> -->
 									<!-- <option value="PRIVATE">Private Feedback Session</option> -->
-									<option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>" selected="selected">Standard Team Peer Evaluation with fixed questions</option>			
+									<option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>" selected="selected">Standard Team Peer Evaluation with fixed questions</option>
 			</select></p>
 			<br><br>
 			<form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_ADD%>" name="form_addevaluation">
@@ -86,8 +88,7 @@
 						<td class="label bold" >Opening time:</td>
 						<td><input style="width: 100px;" type="text"
 									name="<%=Const.ParamsNames.EVALUATION_START%>"
-									id="<%=Const.ParamsNames.EVALUATION_START%>" 
-									onclick ="cal.select(this,'<%=Const.ParamsNames.EVALUATION_START%>','dd/MM/yyyy')"
+									id="<%=Const.ParamsNames.EVALUATION_START%>"
 									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_START%>')"
 									onmouseout="hideddrivetip()"
 									value="<%=(data.newEvaluationToBeCreated==null? TimeHelper.formatDate(TimeHelper.getNextHour()) : TimeHelper.formatDate(data.newEvaluationToBeCreated.startTime))%>"
@@ -113,7 +114,6 @@
 						<td class="label bold" >Closing time:</td>
 						<td><input style="width: 100px;" type="text"
 									name="<%=Const.ParamsNames.EVALUATION_DEADLINE%>" id="<%=Const.ParamsNames.EVALUATION_DEADLINE%>"
-									onclick ="cal.select(this,'<%=Const.ParamsNames.EVALUATION_DEADLINE%>','dd/MM/yyyy')"
 									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_DEADLINE%>')"
 									onmouseout="hideddrivetip()"
 									value="<%=(data.newEvaluationToBeCreated==null? "" : TimeHelper.formatDate(data.newEvaluationToBeCreated.endTime))%>"
@@ -202,12 +202,12 @@
 			<br>
 			<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 			<br>
-			
+
 
 			<table class="dataTable">
 				<tr>
 					<th class="leftalign color_white bold">
-						<input class="buttonSortAscending" type="button" id="button_sortcourseid" 
+						<input class="buttonSortAscending" type="button" id="button_sortcourseid"
 								onclick="toggleSort(this,1)">Course ID</th>
 					<th class="leftalign color_white bold">
 						<input class="buttonSortNone" type="button" id="button_sortname"
@@ -244,7 +244,7 @@
 						}
 						for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
 							sessionIdx++;
-				%>				
+				%>
 				<tr class="sessions_row" id="session<%=sessionIdx%>">
 					<td class="t_session_coursecode"><%=fdb.courseId%></td>
 					<td class="t_session_name"><%=InstructorEvalPageData

@@ -36,7 +36,7 @@ public class ActivityLogTest extends BaseTestCase{
 		assertEquals("<a href=\"URL?user=UserId\" class=\"color_green bold\" target=\"_blank\">instructorHome</a>", entry.getActionInfo());
 		assertEquals("01-01-1970 07:30:00", entry.getDateInfo());
 		assertEquals("Message", entry.getMessageInfo());
-		assertEquals("[UserName <a href=\"/page/instructorHomePage?user=UserId\" target=\"_blank\">UserId</a> <a href=\"mailto:UserEmail\" target=\"_blank\">UserEmail</a>]", entry.getPersonInfo());
+		assertEquals("UserId", entry.getPersonInfo());
 		assertEquals("Instructor", entry.getRoleInfo());
 	}
 	
