@@ -232,7 +232,7 @@ public class StudentHomePageData extends PageData {
 						fs.feedbackSessionName) + "\" " + "onmouseover=\"ddrivetip('"
 					+ (fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING :
 						Const.Tooltips.FEEDBACK_SESSION_SUBMIT) + "')\" "
-					+ "onmouseout=\"hideddrivetip()\" " + (fs.isOpened() ? "" : DISABLED) + ">Submit</a>";	
+					+ "onmouseout=\"hideddrivetip()\" " + (fs.isVisible() ? "" : DISABLED) + ">Submit</a>";	
 		}
 		// @formatter:off
 		
