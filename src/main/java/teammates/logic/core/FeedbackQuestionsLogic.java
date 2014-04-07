@@ -352,7 +352,7 @@ public class FeedbackQuestionsLogic {
 			break;
 		case TEAMS:
 			List<TeamDetailsBundle> teams =
-				coursesLogic.getTeamsForCourse(question.courseId).teams;
+				coursesLogic.getTeamsForCourse(question.courseId);
 			for(TeamDetailsBundle team : teams) {
 				// Ensure student('s team) does not evaluate own team.
 				if (giverTeam.equals(team.name) == false) {

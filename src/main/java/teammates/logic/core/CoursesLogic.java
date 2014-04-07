@@ -12,13 +12,13 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -191,41 +191,48 @@ public class CoursesLogic {
 		return courseDetailsList;
 	}
 
-	public CourseDetailsBundle getTeamsForCourse(String courseId) 
+	/**
+	 * Returns Teams for a particular courseId.<br> 
+	 * <b>Note:</b><br>
+	 * This method does not returns any Loner information presently,<br>
+	 * Loner information must be returned as we decide to support loners<br>in future.
+	 *  
+     */
+	public List<TeamDetailsBundle> getTeamsForCourse(String courseId) 
 			throws EntityDoesNotExistException {
-		//TODO: change the return type to List<TeamDetailsBundle>
-		
+
+		if (getCourse(courseId) == null) {
+			throw new EntityDoesNotExistException("The course " + courseId + " does not exist");
+		}
+	
 		List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
 		StudentAttributes.sortByTeamName(students);
-	
-		CourseAttributes course = getCourse(courseId);
-	
-		if (course == null) {
-			throw new EntityDoesNotExistException("The course " + courseId
-					+ " does not exist");
-		}
 		
-		CourseDetailsBundle cdd = new CourseDetailsBundle(course);
-	
+		List<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>(); 
+		
 		TeamDetailsBundle team = null;
+		
 		for (int i = 0; i < students.size(); i++) {
 	
 			StudentAttributes s = students.get(i);
 	
-			// if loner
+			// if loner 
 			if (s.team.equals("")) {
-				cdd.loners.add(s);
-				// first student of first team
-			} else if (team == null) {
+				//TODO:Return loner details as well when we decide to support loners in future.
+			} 
+			// first student of first team
+			else if (team == null) {
 				team = new TeamDetailsBundle();
 				team.name = s.team;
 				team.students.add(s);
-				// student in the same team as the previous student
-			} else if (s.team.equals(team.name)) {
+			} 
+			// student in the same team as the previous student
+			else if (s.team.equals(team.name)) {
 				team.students.add(s);
-				// first student of subsequent teams (not the first team)
-			} else {
-				cdd.teams.add(team);
+			} 
+			// first student of subsequent teams (not the first team)
+			else {
+				teams.add(team);
 				team = new TeamDetailsBundle();
 				team.name = s.team;
 				team.students.add(s);
@@ -233,11 +240,11 @@ public class CoursesLogic {
 	
 			// if last iteration
 			if (i == (students.size() - 1)) {
-				cdd.teams.add(team);
+				teams.add(team);
 			}
 		}
 	
-		return cdd;
+		return teams;
 	}
 
 	public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
@@ -273,7 +280,8 @@ public class CoursesLogic {
 					+ courseId);
 		}
 
-		CourseDetailsBundle cdd = getTeamsForCourse(courseId);
+		CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
+		cdd.teams= (ArrayList<TeamDetailsBundle>) getTeamsForCourse(courseId);
 		cdd.stats.teamsTotal = getNumberOfTeams(cd.id);
 		cdd.stats.studentsTotal = getTotalEnrolledInCourse(cd.id);
 		cdd.stats.unregisteredTotal = getTotalUnregisteredInCourse(cd.id);

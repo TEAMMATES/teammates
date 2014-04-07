@@ -207,7 +207,7 @@ public class EvaluationsLogic {
 		verifyEvaluationExists(courseId, evaluationName);
 	
 		//TODO: The datatype below is not a good fit for the data. ArralyList<TeamDetailsBundle>?
-		List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId).teams;
+		List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
 		EvaluationResultsBundle returnValue = new EvaluationResultsBundle();
 		returnValue.evaluation = getEvaluation(courseId, evaluationName);
 		
