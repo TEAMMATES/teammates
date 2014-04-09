@@ -99,6 +99,8 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
                         "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
                         "|||/page/instructorCourseStudentDetailsEdit";
         assertEquals(expectedLogMessage, a.getLogMessage());
+        
+        
 	}
 	
 	private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception{

@@ -604,7 +604,8 @@ public class Const {
 		
 		public static final String STUDENT_EDITED = "The student has been edited successfully";
 		public static final String STUDENT_DELETED = "The student has been removed from the course";
-	
+		public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
+		
 		public static final String EVALUATION_ADDED = "The evaluation has been added. If you don't see that evaluation in the list below, please refresh the page after a few moments.";
 		public static final String EVALUATION_DELETED = "The evaluation has been deleted.";
 		public static final String EVALUATION_EDITED = "The evaluation has been edited.";

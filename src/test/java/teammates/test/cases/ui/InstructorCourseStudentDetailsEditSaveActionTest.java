@@ -149,6 +149,42 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         assertEquals(expectedLogMessage, a.getLogMessage());
         
+        ______TS("Error case, invalid email parameter (email already taken by others)");
+        
+        String takenStudentEmail = dataBundle.students.get("student2InCourse1").email;
+         
+        submissionParams = new String[]{
+				Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+				Const.ParamsNames.STUDENT_EMAIL, newStudentEmail, //Use the new email as the previous email have been changed
+				Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
+				Const.ParamsNames.NEW_STUDENT_EMAIL, takenStudentEmail,
+				Const.ParamsNames.COMMENTS, student1InCourse1.comments,
+				Const.ParamsNames.TEAM_NAME, student1InCourse1.team
+		};
+        
+        gaeSimulation.loginAsInstructor(instructorId);
+        a = getAction(submissionParams);
+        result = getShowPageResult(a);
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT +
+        		"?message=" + "Trying+to+update+to+an+email+that+is+already+used+by" +
+        		"%3A+student2+In+Course1%2Fstudent2InCourse1%40gmail.com" +
+        		"&error=" + "true" +
+        		"&user=idOfInstructor1OfCourse1",
+        		result.getDestinationWithParams());
+        
+        assertEquals(true, result.isError);
+        assertEquals(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, dataBundle.students.get("student2InCourse1").name,  takenStudentEmail), 
+        		result.getStatusMessage());
+        
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
+        		"|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||" +
+        		"Servlet Action Failure : " + 
+        		String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, dataBundle.students.get("student2InCourse1").name,  takenStudentEmail) + 
+				"|||/page/instructorCourseStudentDetailsEditSave";
+        
+        assertEquals(expectedLogMessage, a.getLogMessage());
+        
 	}
 	
 	private InstructorCourseStudentDetailsEditSaveAction getAction(String... params) throws Exception{

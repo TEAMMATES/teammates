@@ -59,6 +59,9 @@ public class FieldValidator {
 			"It cannot be longer than "+EMAIL_MAX_LENGTH+" characters. " +
 			"It cannot be empty and it cannot have spaces.";
 	
+	public static final String EMAIL_TAKEN_MESSAGE = 
+			"Trying to update to an email that is already used by: %s/%s";
+	
 	/*
 	 * =======================================================================
 	 * Field: Person name 

@@ -16,6 +16,9 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
 	@FindBy (id = "newstudentemail")
 	private WebElement studentEmailTextbox;
 	
+	@FindBy (id = "studentemail")
+	private WebElement studentEmailTextboxOriginal;
+	
 	@FindBy (id = "comments")
 	private WebElement commentsTextbox;
 	
@@ -76,7 +79,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
 
 	public void verifyIsCorrectPage(String email) {
 		assertTrue(containsExpectedPageContents());
-		assertEquals(email, studentEmailTextbox.getAttribute("value"));
+		assertEquals(email, studentEmailTextboxOriginal.getAttribute("value"));
 	}
 
 }
