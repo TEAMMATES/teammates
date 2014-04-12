@@ -1,6 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -39,7 +40,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 	public void testAll() throws Exception{
 		testContent();
 		testInputValidation();
-		//no links to check
+//		no links to check
 		testEditAction();
 	}
 	
@@ -89,6 +90,24 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 
 	public void testEditAction() throws Exception{
 		
+        ______TS("Error case, invalid email parameter (email already taken by others)");
+
+        StudentAttributes anotherStudent = testData.students.get("unregisteredStudent");
+        
+        
+        editPage  = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
+        editPage.verifyStatus(Const.StatusMessages.STUDENT_EMAIL_CONFLIT+anotherStudent.name+"/"+anotherStudent.email); //??
+        editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.com");
+			
+		// Verify data
+        StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "CCSDEditUiT.jose.tmms@gmail.com");
+		assertEquals("José Gómez",student.name);
+		assertEquals("Team 1",student.team);
+		assertEquals(testData.students.get("registeredStudent").googleId,student.googleId);
+		assertEquals("CCSDEditUiT.jose.tmms@gmail.com",student.email);
+		assertEquals("This student's name is José Gómez",student.comments);
+		
+		
 		______TS("edit action");
 		
 		InstructorCourseDetailsPage detailsPage = editPage.submitSuccessfully("New name", "New team", "newemail@gmail.com", "New comments");
@@ -96,7 +115,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 		detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").id);
 			
 		// Verify data
-		StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "newemail@gmail.com");
+		student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "newemail@gmail.com");
 		assertEquals("New name",student.name);
 		assertEquals("New team",student.team);
 		assertEquals(testData.students.get("registeredStudent").googleId,student.googleId);

@@ -28,6 +28,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -753,7 +754,7 @@ public class Logic {
 	 * Preconditions: <br>
 	 * * All parameters are non-null.
 	 */
-	public CourseDetailsBundle getTeamsForCourse(String courseId)
+	public List<TeamDetailsBundle> getTeamsForCourse(String courseId)
 			throws EntityDoesNotExistException {
 		
 		Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);

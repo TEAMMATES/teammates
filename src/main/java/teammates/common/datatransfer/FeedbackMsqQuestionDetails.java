@@ -156,7 +156,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
 		case TEAMS:
 			try {
 				List<TeamDetailsBundle> teamList = 
-						CoursesLogic.inst().getTeamsForCourse(courseId).teams;
+						CoursesLogic.inst().getTeamsForCourse(courseId);
 				
 				for (TeamDetailsBundle team : teamList) {
 					optionList.add(team.name);

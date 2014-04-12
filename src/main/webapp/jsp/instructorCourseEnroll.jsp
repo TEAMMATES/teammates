@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
     <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll-print.css" type="text/css" media="print">
-	
+		
 	<script type="text/javascript" src="/js/googleAnalytics.js"></script>
 	<script type="text/javascript" src="/js/jquery-minified.js"></script>
 	<script type="text/javascript" src="/js/tooltip.js"></script>
@@ -28,6 +28,7 @@
 	<script type="text/javascript" src="/js/common.js"></script>
 	
 	<script type="text/javascript" src="/js/instructor.js"></script>
+	<script type="text/javascript" src="/js/instructorCourseEnrollPage.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 

@@ -74,7 +74,7 @@
 				 		<td>
 				 			<input class="fieldvalue" name="<%=Const.ParamsNames.NEW_STUDENT_EMAIL%>" 
 				 					id="<%=Const.ParamsNames.NEW_STUDENT_EMAIL%>"
-				 					value="<%=sanitizeForHtml(data.student.email)%>">
+				 					value="<%=sanitizeForHtml(data.newEmail)%>">
 				 		</td>
 				 	</tr>
 					<tr>

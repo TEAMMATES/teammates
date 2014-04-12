@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import java.util.List;
+
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -45,11 +47,11 @@ public class StudentCourseDetailsPageAction extends Action {
 
 	}
 	
-	private TeamDetailsBundle getTeam(CourseDetailsBundle course, StudentAttributes student){
+	private TeamDetailsBundle getTeam(List<TeamDetailsBundle> teams, StudentAttributes student){
 		if(student.team == null || student.team.trim().isEmpty()){
 			return null;
 		}
-		for(TeamDetailsBundle team: course.teams){
+		for(TeamDetailsBundle team: teams){
 			if(team.name.equals(student.team)){
 				return team;
 			}

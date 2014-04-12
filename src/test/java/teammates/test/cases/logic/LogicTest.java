@@ -47,6 +47,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -1678,19 +1679,19 @@ public class LogicTest extends BaseComponentTestCase {
 	
 		CourseAttributes course = dataBundle.courses.get("typicalCourse1");
 		logic.createStudent(new StudentAttributes("t1", "s1", "s1@e", "", course.id));
-		CourseDetailsBundle courseAsTeams = logic.getTeamsForCourse(course.id);
-		assertEquals(3, courseAsTeams.teams.size());
+		List<TeamDetailsBundle> courseAsTeams = logic.getTeamsForCourse(course.id);
+		assertEquals(3, courseAsTeams.size());
 	
 		String team1Id = "Team 1.1";
-		assertEquals(team1Id, courseAsTeams.teams.get(0).name);
-		assertEquals(4, courseAsTeams.teams.get(0).students.size());
-		assertEquals(team1Id, courseAsTeams.teams.get(0).students.get(0).team);
-		assertEquals(team1Id, courseAsTeams.teams.get(0).students.get(1).team);
+		assertEquals(team1Id, courseAsTeams.get(0).name);
+		assertEquals(4, courseAsTeams.get(0).students.size());
+		assertEquals(team1Id, courseAsTeams.get(0).students.get(0).team);
+		assertEquals(team1Id, courseAsTeams.get(0).students.get(1).team);
 	
 		String team2Id = "Team 1.2";
-		assertEquals(team2Id, courseAsTeams.teams.get(1).name);
-		assertEquals(1, courseAsTeams.teams.get(1).students.size());
-		assertEquals(team2Id, courseAsTeams.teams.get(1).students.get(0).team);
+		assertEquals(team2Id, courseAsTeams.get(1).name);
+		assertEquals(1, courseAsTeams.get(1).students.size());
+		assertEquals(team2Id, courseAsTeams.get(1).students.get(0).team);
 	
 		______TS("null parameters");
 	
@@ -1706,10 +1707,10 @@ public class LogicTest extends BaseComponentTestCase {
 		logic.deleteCourse("course1");
 		logic.createAccount("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
 		logic.createCourseAndInstructor("instructor1", "course1", "Course 1");
-		assertEquals(0, logic.getTeamsForCourse("course1").teams.size());
-	
+		assertEquals(0, logic.getTeamsForCourse("course1").size());
+
 		______TS("non-existent course");
-	
+		
 		verifyEntityDoesNotExistException(methodName, paramTypes,
 				new Object[] { "non-existent" });
 	}

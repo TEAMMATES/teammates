@@ -48,6 +48,8 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
 			
 		} catch (InvalidParametersException e) {
 			setStatusForException(e);
+			data.newEmail = data.student.email;
+			data.student.email = studentEmail;
 			return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
 		}
 		

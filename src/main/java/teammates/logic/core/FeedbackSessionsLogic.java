@@ -677,7 +677,7 @@ public class FeedbackSessionsLogic {
 			details.stats.expectedTotal = coursesLogic
 					.getNumberOfTeams(fsa.courseId);
 			List<TeamDetailsBundle> teams = coursesLogic
-					.getTeamsForCourse(fsa.courseId).teams;
+					.getTeamsForCourse(fsa.courseId);
 
 			int teamsSubmitted = 0;
 			for (TeamDetailsBundle team : teams) {

@@ -51,9 +51,17 @@
 			int recipientIndex = 0;
 			for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesForRecipient : allResponses.entrySet()) {
 				recipientIndex++;
+				
+
+				Map<String, List<FeedbackResponseAttributes> > recipientData = responsesForRecipient.getValue();
+				Object[] recipientDataArray =  recipientData.keySet().toArray();
+				String targetEmail = recipientData.get(recipientDataArray[0]).get(0).recipientEmail;
+	
+				
 		%>
 				<div class="backgroundBlock">
-					<h2 class="color_white">To: <%=responsesForRecipient.getKey()%></h2>
+					<h2 class="color_white">To: <%=responsesForRecipient.getKey()%> <a class="emailIdLink" href="mailTo:<%= targetEmail%> ">[<%=targetEmail%>]</a>
+					</h2>
 				<%
 					int giverIndex = 0;
 					for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesForRecipientFromGiver : responsesForRecipient.getValue().entrySet()) {

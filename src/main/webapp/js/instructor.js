@@ -8,13 +8,14 @@
 //Initial load-up
 //-----------------------------------------------------------------------------
 
-window.onload = function() {
+
+window.addEventListener('load', function (){
 	initializetooltip();
 	if(typeof doPageSpecificOnload !== 'undefined'){
 		doPageSpecificOnload();
 	};
 	initializenavbar();
-};
+});
 
 $(document).ready(function(){
 	$("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
