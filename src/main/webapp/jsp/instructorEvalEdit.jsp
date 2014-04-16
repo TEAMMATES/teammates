@@ -113,7 +113,7 @@
 							<label for="commentsstatus_disabled">Disabled</label>
 						</td>
 						<td class="bold label" >Time zone:</td>
-						<td><select style="width: 100px;" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>" id="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>"
+						<td><select style="width: 100px;" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>Select" id="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>Select"
 									onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>')"
 									onmouseout="hideddrivetip()" disabled="disabled" tabindex="7">
 							<%
