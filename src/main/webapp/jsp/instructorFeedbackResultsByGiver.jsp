@@ -3,6 +3,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus" %>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
@@ -46,6 +47,8 @@
 			<br>
 			<%
 				Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiver();
+				Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
+
 				int giverIndex = 0;
 				for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesFromGiver : allResponses.entrySet()) {
 					giverIndex++;
@@ -53,13 +56,15 @@
 			
 				Map<String, List<FeedbackResponseAttributes> > giverData = responsesFromGiver.getValue();
 				Object[] giverDataArray =  giverData.keySet().toArray();
-				String targetEmail = giverData.get(giverDataArray[0]).get(0).giverEmail;
+				FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
+				String targetEmail = firstResponse.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"");
+				String targetEmailDisplay = firstResponse.giverEmail;
 
 			%>
 			<div class="backgroundBlock">
 				<h2 class="color_white">
 					From: <%=responsesFromGiver.getKey()%>
-      <a class="emailIdLink" href="mailTo:<%=targetEmail%> ">[<%=targetEmail%>]</a></h2>
+      <a class="emailIdLink" href="mailTo:<%=targetEmail%> ">[<%=targetEmailDisplay%>]</a></h2>
 				<%
 					int recipientIndex = 0;
 					for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesFromGiverToRecipient : responsesFromGiver.getValue().entrySet()) {
@@ -74,7 +79,6 @@
 					<%
 						int qnIndx = 1;
 						for (FeedbackResponseAttributes singleResponse : responsesFromGiverToRecipient.getValue()) {
-							Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
 							FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
 							FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
 					%>
