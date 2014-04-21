@@ -3,6 +3,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus" %>
@@ -48,6 +49,8 @@
 			<br>
 		<%
 			Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipient();
+			Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
+
 			int recipientIndex = 0;
 			for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesForRecipient : allResponses.entrySet()) {
 				recipientIndex++;
@@ -55,12 +58,16 @@
 
 				Map<String, List<FeedbackResponseAttributes> > recipientData = responsesForRecipient.getValue();
 				Object[] recipientDataArray =  recipientData.keySet().toArray();
-				String targetEmail = recipientData.get(recipientDataArray[0]).get(0).recipientEmail;
-	
-				
+				FeedbackResponseAttributes firstResponse = recipientData.get(recipientDataArray[0]).get(0);
+				String targetEmail = firstResponse.recipientEmail;
+
+				FeedbackParticipantType firstQuestionRecipientType = questions.get(firstResponse.feedbackQuestionId).recipientType;
+				String mailtoStyleAttr = (firstQuestionRecipientType == FeedbackParticipantType.NONE || 
+								firstQuestionRecipientType == FeedbackParticipantType.TEAMS)?"style=\"display:none;\"":"";
 		%>
 				<div class="backgroundBlock">
-					<h2 class="color_white">To: <%=responsesForRecipient.getKey()%> <a class="emailIdLink" href="mailTo:<%= targetEmail%> ">[<%=targetEmail%>]</a>
+					<h2 class="color_white">To: <%=responsesForRecipient.getKey()%>
+						<a class="emailIdLink" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
 					</h2>
 				<%
 					int giverIndex = 0;
@@ -76,7 +83,6 @@
 							<%
 								int qnIndx = 1;
 								for (FeedbackResponseAttributes singleResponse : responsesForRecipientFromGiver.getValue()) {
-									Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
 									FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
 									FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
 							%>

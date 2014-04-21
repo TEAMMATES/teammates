@@ -97,20 +97,20 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 		resultsPage.displayByRecipient();
 		resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipient.html");
 
-		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
-		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
-		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
-		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
-		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-2"));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-2"));
+		assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-2"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-2"));
+		assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-2"));
 
-		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
-		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-2"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-2"));
 
-		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
-		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-2"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-2"));
 
-		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
-		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
+		assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-2"));
+		assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-2"));
 
 		
 		resultsPage.displayByTable();
