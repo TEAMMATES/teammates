@@ -54,7 +54,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 	public String getNameForEmail(String email) {
 		String name = emailNameTable.get(email);
 		if (name == null || name.equals(Const.USER_IS_TEAM)) {
-			return Const.USER_UNKNOWN_TEXT;
+			return Const.USER_UNKNOWN_TEXT; //TODO: this doesn't look right
 		} else if (name.equals(Const.USER_IS_NOBODY)) {
 			return Const.USER_NOBODY_TEXT;
 		} else {
@@ -75,7 +75,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 			FeedbackResponseAttributes response) {
 		String name = emailNameTable.get(response.recipientEmail);
 		if (name == null || name.equals(Const.USER_IS_TEAM)) {
-			return Const.USER_UNKNOWN_TEXT;
+			return Const.USER_UNKNOWN_TEXT; //TODO: this doesn't look right
 		} else if (name.equals(Const.USER_IS_NOBODY)) {
 			return Const.USER_NOBODY_TEXT;
 		} else {
