@@ -89,13 +89,27 @@
 						</h2>
 					<%
 						ListIterator<FeedbackResponseAttributes> itr = questionWithResponses.getValue().listIterator();
-						String previousRecipientEmail = null;
-						while(itr.hasNext()) {
-							FeedbackResponseAttributes singleResponse = itr.next();
-							
-							// New table if previous recipient != current or is first response					
-							if(previousRecipientEmail == null || previousRecipientEmail.equals(singleResponse.recipientEmail) == false) {
-								previousRecipientEmail = singleResponse.recipientEmail;
+							String previousRecipientEmail = null;
+							while(itr.hasNext()) {
+								FeedbackResponseAttributes singleResponse = itr.next();
+								
+								String giverName = data.bundle.getGiverNameForResponse(
+										questionWithResponses.getKey(), singleResponse);
+
+								if (questionWithResponses.getKey().giverType == FeedbackParticipantType.TEAMS) {
+									if (data.student.team.equals(giverName)) {
+										giverName = "Your Team (" + giverName + ")";
+									}
+								} else if (data.student.email
+										.equals(singleResponse.giverEmail)) {
+									giverName = "You";
+								}
+
+								// New table if previous recipient != current or is first response					
+								if (previousRecipientEmail == null
+										|| previousRecipientEmail
+												.equals(singleResponse.recipientEmail) == false) {
+									previousRecipientEmail = singleResponse.recipientEmail;
 					%>
 								<table class="resultTable" style="width: 100%">
 									<thead>
@@ -103,7 +117,7 @@
 											<%
 												String recipientName = 
 													data.bundle.getRecipientNameForResponse(questionWithResponses.getKey(), singleResponse);
-																	
+											
 												if(questionWithResponses.getKey().recipientType ==  FeedbackParticipantType.TEAMS) {
 													if(data.student.team.equals(singleResponse.recipientEmail)) {
 														recipientName = "Your Team ("+ recipientName +")";
@@ -111,6 +125,11 @@
 												} else if (data.student.email.equals(singleResponse.recipientEmail) 
 															&& data.student.name.equals(recipientName)) {
 													recipientName = "You";
+												}
+												
+												//if the giver is the same user, show the real name of the receiver. 
+												if(giverName.equals("You")&&(!recipientName.equals("You"))){
+													recipientName=data.bundle.getNameForEmail(singleResponse.recipientEmail);
 												}
 											%>
 											<th class="leftalign">
@@ -123,18 +142,6 @@
 						%>
 							<tr class="resultSubheader">
 								<td>
-									<%
-										String giverName = 
-											data.bundle.getGiverNameForResponse(questionWithResponses.getKey(), singleResponse);
-										
-										if(questionWithResponses.getKey().giverType ==  FeedbackParticipantType.TEAMS) {
-											if(data.student.team.equals(giverName)) {
-												giverName = "Your Team ("+ giverName +")";
-											}
-										} else if (data.student.email.equals(singleResponse.giverEmail)) {
-											giverName = "You";
-										}
-									%>
 									<span class="bold">From:</span> <%=giverName%>
 								</td>
 							</tr>
