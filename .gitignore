@@ -27,3 +27,4 @@ src/main/webapp/WEB-INF/classes/*.json
 test-output/*
 src/test/current testng.xml
 src/main/webapp/WEB-INF/classes/*.js
+*.exe
