@@ -56,3 +56,47 @@ Important: When a version is specified, please install that version instead of t
     The dev server is now ready to serve requests at the given URL. 
     You can verify by visiting the URL in your Browser.
     To login to the system, you need to add yourself as an instructor first (described below).
+    
+#### Adding instructor accounts
+
+1. Go to `http://[appURL]/admin/adminHomePage` 
+   (On your computer, it may be `http://localhost:8888/admin/adminHomePage`) 
+2. Log in using your Google ID. If this is the dev server, enter any email 
+   address, but remember to check the `log in as administrator` check box. 
+3. Enter credentials for an instructor. e.g.,
+
+	> **Google id:** `teammates.instructor` <br>
+	  **Name:** `John Dorian` <br>
+	  **Email:** `teammates.instructor@gmail.com` <br>
+	  **Institute:** `National University of Singapore` 
+	  
+##Running the test suite
+
+Before running the test suite, we need to change the time zone of the dev server to `UTC`, 
+as expected by test cases. Here is the procedure.
+
+1. Stop the dev server, if it is running already.
+2. Specify timezone as a VM argument:
+    * Go to the 'run configuration' you used to start the dev server.
+    * Click on the to the `Arguments` and add `-Duser.timezone=UTC` to the `VM arguments` text box.
+    * Save the configuration for future use:<br>
+      Go to the `Common` tab (the last one) and make sure you have selected
+      `Save as → Local file` and `Display in favorites menu →  Run, Debug`.
+3. Start the server.
+
+This can be done using the `All tests` option under the green `Run` button 
+in the Eclipse toolbar. If this option is not available 
+(sometimes, Eclipse does not show this option immediately after you set up the project. 
+It will appear in subsequent runs. 'Refreshing' will make it appear too.), 
+run `src/test/testng.xml` (right click and choose `Run as → TestNG Suite`). Most of the tests should pass.
+If a few cases fail (this can happen due to timing issues), run the failed cases 
+using the `Run Failed Test` icon in the TestNG tab in Eclipse until they pass. 
+The default browser used for testing is the Firefox browser. 
+Testing on the Firefox browser is relatively faster as compared to the other browsers, 
+and it can be run in the background.
+
+To change the browser that is used in the UI tests, go to the test.properties 
+file and change the `test.selenium.browser` value to the browser you want to test. 
+Possible values are `firefox`, `chrome`, or `iexplore`. 
+In addition, you need to configure the browser you have selected so that 
+it works with the test suite. 
