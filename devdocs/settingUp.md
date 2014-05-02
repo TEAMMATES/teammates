@@ -29,3 +29,30 @@ Important: When a version is specified, please install that version instead of t
    from the above link, and choose a custom setup during install, 
    in which you will be able to specify a different path for this version 
    (e.g. C:\Program Files\Mozilla Firefox 12) in a later step.
+
+##Setting up the dev server
+`Dev server` means running the server in localhost mode.
+
+1. Create config files {these are not under revision control because their 
+   content vary from developer to developer}.
+   * `src/main/resources/build.properties`<br>
+   Use build.template.properties as a template (i.e. copy → paste → rename)
+   For dev server testing, property values can remain as they are.
+   * `src/test/resources/test.properties`<br>
+   Create it using test.template.properties (in the same folder). 
+   For dev server testing, property values can remain as they are.
+   If you have installed multiple versions of Firefox, you need to specify 
+   which one to use for testing, by modifying the test.firefox.path property.
+   * src/main/webapp/WEB-INF/appengine-web.xml<br>
+   Create using appengine-web.template.xml. 
+   For dev server testing, property values can remain as they are.
+    
+2. In Eclipse, go to `Windows → Preferences → Java → Installed JRE` and ensure a 
+   JDK (not a JRE) is selected. One of the items in the Troubleshooting section 
+    below explains how to do this.<br>
+    Right-click on the project folder and choose `Run → As Web Application`. 
+    After some time, you should see this message on the console 
+    `Dev App Server is now running` or something similar.
+    The dev server is now ready to serve requests at the given URL. 
+    You can verify by visiting the URL in your Browser.
+    To login to the system, you need to add yourself as an instructor first (described below).
