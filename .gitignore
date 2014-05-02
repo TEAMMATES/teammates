@@ -1,0 +1,29 @@
+*.classpath
+.DS_Store
+.settings
+*.orig
+*.class
+*.jar
+*.properties
+report
+target
+appengine-generated
+*.ext
+appengine-web.xml
+chromedriver*
+*.bat
+*.bin
+*.bak
+*.db
+
+src/main/webapp/WEB-INF/classes/META-INF/persistence.xml
+src/main/webapp/WEB-INF/classes/*.html
+src/main/webapp/WEB-INF/classes/*.template
+src/main/webapp/WEB-INF/classes/*.js
+src/main/webapp/WEB-INF/classes/*.css
+src/main/webapp/WEB-INF/classes/*.json
+
+.launches/TM - Start dev server.launch
+test-output/*
+src/test/current testng.xml
+src/main/webapp/WEB-INF/classes/*.js
