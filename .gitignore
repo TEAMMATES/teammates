@@ -15,6 +15,7 @@ chromedriver*
 *.bin
 *.bak
 *.db
+*.md.html
 
 src/main/webapp/WEB-INF/classes/META-INF/persistence.xml
 src/main/webapp/WEB-INF/classes/*.html
@@ -22,6 +23,7 @@ src/main/webapp/WEB-INF/classes/*.template
 src/main/webapp/WEB-INF/classes/*.js
 src/main/webapp/WEB-INF/classes/*.css
 src/main/webapp/WEB-INF/classes/*.json
+src/main/webapp/WEB-INF/classes/teammates
 
 .launches/TM - Start dev server.launch
 test-output/*
