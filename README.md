@@ -24,7 +24,7 @@ Here are some documents important for TEAMMATES developers:
   * [**Specification**](https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true) 
     (short name: **Spec**) : Product specification, written from the developers 
     point of view. The user's point of view is [here](http://teammatesv4.appspot.com/features.html).
-  * The project [**vision, challenges, and principles**](http://teammatesv4.appspot.com/dev/devman.html#project) from a developer's perspective.
+  * The project [**vision, challenges, and principles**](src/main/webapp/dev/devman.html#project) from a developer's perspective.
   * Software [**Design**](http://teammatesv4.appspot.com/dev/devman.html#design) - Architecture, APIs, etc.
   * How to [**set up the developer environment**](/devdocs/settingUp.md)- e.g., tools and libraries used.
   * The development [**process**](/devdocs/process.md).
@@ -35,7 +35,7 @@ Here are some documents important for TEAMMATES developers:
     : Learning resources for the use of developers (tutorials, cheat sheets etc).
   * [**Decision analysis**](https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true)
     : Analysis of problems encountered, solutions considered, rationale for selection etc.
-  * The [**glossary**](http://teammatesv4.appspot.com/dev/devman.html#glossary Glossary) of terms used in the project.
+  * The [**glossary**](http://teammatesv4.appspot.com/dev/devman.html#glossary) of terms used in the project.
   * **Coding standards** for :
     [Java](https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true), 
     [JSP](http://www.oracle.com/technetwork/articles/javase/code-convention-138726.html), 
@@ -46,7 +46,7 @@ Here are some documents important for TEAMMATES developers:
   * **Best practices** for : 
     [UI design](https://docs.google.com/document/d/1Vj59--sCYUfxgg-iLI53hMfc6YY1gguATTN_KXTQVUo/pub?embedded=true), 
     [Coding](https://docs.google.com/document/d/14EFJzdhp10qQ9iZ-FwsS1FAf42voe4exrlbefo_zYaU/pub?embedded=true), 
-    [Testing](https://docs.google.com/document/d/1aK-1ubIA59fbNsEujwvWKqx7itwLPTD6mzFo4F_oEoI/pub?embedded=true Testing)
+    [Testing](https://docs.google.com/document/d/1aK-1ubIA59fbNsEujwvWKqx7itwLPTD6mzFo4F_oEoI/pub?embedded=true)
   * [**Version History**](https://docs.google.com/document/pub?id=1b9UmcYz8NU2TJ6Kt8i6pCcj064B98sbrM0MMEYVWs0Q&embedded=true)
   
    
