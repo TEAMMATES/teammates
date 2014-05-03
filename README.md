@@ -1,4 +1,4 @@
-#TEAMMATES Project - Developer Web Site
+#TEAMMATES Developer Web Site
 
 TEAMMATES is a free online tool for managing peer evaluations and other 
 feedback paths of your students. It is provided as a cloud-based service for 
@@ -9,10 +9,6 @@ This is the developer web site for TEAMMATES. Click [here](http://teammatesv4.ap
 <img src="http://4-19.teammatesv4.appspot.com/images/overview.png" width='600'>
 
 <img src="https://teammatesv4.appspot.com/images/raised-edge.png" width='600'>
-
-[Setting up the dev environment](/devdocs/settingUp.md)
-
-[Development process](/devdocs/process.md)
 
 ##Interested to join TEAMMATES developer team?
 
@@ -25,11 +21,11 @@ We welcome contributions from developers, especially students. Here are some res
 Here are some documents important for TEAMMATES developers:
 
 ### Main documents
-  * [**Specification**](https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true Specification) 
+  * [**Specification**](https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true) 
     (short name: **Spec**) : Product specification, written from the developers 
-    point of view. The user's point of view is [here](http://teammatesv4.appspot.com/features.html here).
-  * The project [**vision, challenges, and principles**](http://teammatesv4.appspot.com/dev/devman.html#project ) from a developer's perspective.
-  * Software [**Design**](http://teammatesv4.appspot.com/dev/devman.html#design design) - Architecture, APIs, etc.
+    point of view. The user's point of view is [here](http://teammatesv4.appspot.com/features.html).
+  * The project [**vision, challenges, and principles**](http://teammatesv4.appspot.com/dev/devman.html#project) from a developer's perspective.
+  * Software [**Design**](http://teammatesv4.appspot.com/dev/devman.html#design) - Architecture, APIs, etc.
   * How to [**set up the developer environment**](/devdocs/settingUp.md)- e.g., tools and libraries used.
   * The development [**process**](/devdocs/process.md).
   
