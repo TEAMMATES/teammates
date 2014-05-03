@@ -1,6 +1,69 @@
 #Setting Up the Developer Environment
 These instructions are for the Windows environment. Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
 
+##Tool stack
+
+####Deployment environment
+* Google App Engine (GAE)
+* Java [version 7, this is the highest version supported by GAE]
+* Live site: http://teammatesv4.appspot.com
+
+####Development environment
+* Eclipse IDE for EE developers [version Kepler]
+* Google App Engine Plugin for Eclipse [version 4.2 or version 4.3]
+* Google App Engine SDK [version 1.7.7.1]
+* GitHub
+* GitHub for Windows/Mac equivalent [version: latest stable]
+
+###Tools used in implementation
+* HTML [version 5, using latest features is discouraged due to lack of enough Browser support], JavaScript, CSS
+* jQuery [version 1.8.3]
+* jQuery is a JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development.
+* JSON (JavaScript Object Notation): JSON is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript.
+* Gson [version 2.2.2] Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.
+* Java Server Pages (JSP): JSP technology provides a simplified way to create dynamic web content. A JSP page can be thought as an HTML page with embedded Java code snippets.
+* Java Servlets: Java Servlet technology provides a simple, consistent mechanism for extending the functionality of a Web server and for accessing existing business systems. A servlet can almost be thought of as an applet that runs on the server side--without a face.
+* Java Data Objects (JDO) [version 2.3; while GAE supports JDO 3.0 as well, we continue to use JDO 2.3 because it is easier to set up.]
+  JDO is a standard interface for storing objects containing data into a database. The standard defines interfaces for annotating Java objects, retrieving objects with queries, and interacting with a database using transactions. An application that uses the JDO interface can work with different kinds of databases without using any database-specific code, including relational databases, hierarchical databases, and object databases.
+* Datanucleus Access Platform [version 1; while GAE supports Datanucleus v2 as well, the version that goes with JDO 2.3 is v1]
+  The DataNucleus Access Platform provides persistence and retrieval of data to a range of datastores using a range of APIs, with a range of query languages.
+  Comes with App Engine SDK.
+* Xerces XML Parser [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
+
+###Tools used in testing
+
+* Selenium [version 2.26.0]
+    Selenium automates browsers. We use it for automating our UI tests.
+    We require Selenium standalone server, Chrome driver, IE driver, and Java language bindings.
+* JavaMail [version 1.4.5]
+    The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging applications.
+    Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
+* TestNG [version 6.8.1]
+    TestNG is a Java test automation framework.
+* QUnit [version 1.10.0]
+    QUnit is a JavaScript unit test suite.
+* NekoHtml [version 1.9.16]
+    NekoHTML is a simple HTML scanner and tag balancer that enables application programmers to parse HTML documents and access the information using standard XML interfaces.
+    NekoHTML is included in the Selenium libraries.
+    Usage: During UI testing, for doing a logical comparison of the pages generated against expected pages.
+    HttpUnit [version 1.7]
+    We use the ServletUnit component of HttpUnit to create HttpServletUnit objects used for testing.
+
+###Config points
+There are several files used to configure various aspects of the system.
+
+* `build.properties` : This is the main general purpose configuration file used by the main app.
+* `logging.properties` : Configuration for java.util.logging users.
+* `log4j.properties` : Configuration for log4j users. Not used by us.
+* `test.properties` : Contains configuration values for the test driver.
+* `appengine-web.xml` : Contains configuration for deploying the application on app engine.
+* `web.xml` : This is the configurations for the webserver. It specifies servlets to run, mapping from URLs to servlets/JSPs, security constraints, etc.
+* `cron.xml` : This specifies cron jobs to run.
+* `queue.xml` : Specifies configuration of task queues.
+* `jdoconfig.xml` : Specifies the JDO configuration.
+* `persistence.xml` : auto-generated. 
+    
+    
 ##Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
 
