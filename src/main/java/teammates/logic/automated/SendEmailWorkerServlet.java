@@ -18,45 +18,45 @@ import teammates.logic.core.Emails;
 
 @SuppressWarnings("serial")
 public class SendEmailWorkerServlet extends WorkerServlet {
-	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-		int responseCodeForRetry = 100;
-		try {
-			String emailSubject = HttpRequestHelper
-					.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SUBJECT);
-			Assumption.assertNotNull(emailSubject);
-			
-			String emailContent = HttpRequestHelper
-					.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_CONTENT);
-			Assumption.assertNotNull(emailContent);
-			
-			String emailSender = HttpRequestHelper
-					.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SENDER);
-			Assumption.assertNotNull(emailSender);
-			
-			String emailReceiver = HttpRequestHelper
-					.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_RECEIVER);
-			Assumption.assertNotNull(emailReceiver);
-			
-			String emailReply = HttpRequestHelper
-					.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_REPLY_TO_ADDRESS);
-			Assumption.assertNotNull(emailReply);
-			
-			Session session = Session.getDefaultInstance(new Properties(), null);
-			MimeMessage message = new MimeMessage(session);
-	
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					emailReceiver));
-			message.setFrom(new InternetAddress(emailSender));
-			message.setContent(emailContent, "text/html");
-			message.setSubject(emailSubject);
-			message.setReplyTo(new Address[] { new InternetAddress(emailReply) });
-			
-			Emails emailManager = new Emails();
-			emailManager.sendEmail(message);
-		} catch (MessagingException e) {
-			log.severe("Error while sending emails via servlet: " + e.getMessage());
-			resp.setStatus(responseCodeForRetry);
-		}
-	}
+    
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        int responseCodeForRetry = 100;
+        try {
+            String emailSubject = HttpRequestHelper
+                    .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SUBJECT);
+            Assumption.assertNotNull(emailSubject);
+            
+            String emailContent = HttpRequestHelper
+                    .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_CONTENT);
+            Assumption.assertNotNull(emailContent);
+            
+            String emailSender = HttpRequestHelper
+                    .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_SENDER);
+            Assumption.assertNotNull(emailSender);
+            
+            String emailReceiver = HttpRequestHelper
+                    .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_RECEIVER);
+            Assumption.assertNotNull(emailReceiver);
+            
+            String emailReply = HttpRequestHelper
+                    .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_REPLY_TO_ADDRESS);
+            Assumption.assertNotNull(emailReply);
+            
+            Session session = Session.getDefaultInstance(new Properties(), null);
+            MimeMessage message = new MimeMessage(session);
+    
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+                    emailReceiver));
+            message.setFrom(new InternetAddress(emailSender));
+            message.setContent(emailContent, "text/html");
+            message.setSubject(emailSubject);
+            message.setReplyTo(new Address[] { new InternetAddress(emailReply) });
+            
+            Emails emailManager = new Emails();
+            emailManager.sendEmail(message);
+        } catch (MessagingException e) {
+            log.severe("Error while sending emails via servlet: " + e.getMessage());
+            resp.setStatus(responseCodeForRetry);
+        }
+    }
 }

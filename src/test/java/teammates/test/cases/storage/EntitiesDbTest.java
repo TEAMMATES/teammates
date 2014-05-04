@@ -16,52 +16,52 @@ import teammates.test.cases.logic.LogicTest;
 import teammates.test.driver.AssertHelper;
 
 public class EntitiesDbTest extends BaseComponentTestCase {
-	
-	
-	@Test
-	public void testCreateEntity() throws EntityAlreadyExistsException, InvalidParametersException {
-		//We are using CoursesDb to test EntititesDb here.
-		CoursesDb coursesDb = new CoursesDb();
-		
-		/*Explanation:
-		 * The SUT (i.e. EntitiesDb::createEntity) has 4 paths. Therefore, we
-		 * have 4 test cases here, one for each path.
-		 */
+    
+    
+    @Test
+    public void testCreateEntity() throws EntityAlreadyExistsException, InvalidParametersException {
+        //We are using CoursesDb to test EntititesDb here.
+        CoursesDb coursesDb = new CoursesDb();
+        
+        /*Explanation:
+         * The SUT (i.e. EntitiesDb::createEntity) has 4 paths. Therefore, we
+         * have 4 test cases here, one for each path.
+         */
 
-		______TS("success: typical case");
-		CourseAttributes c = new CourseAttributes();
-		c.id = "Computing101-fresh";
-		c.name = "Basic Computing";
-		coursesDb.createEntity(c);
-		LogicTest.verifyPresentInDatastore(c);
-		
-		______TS("fails: entity already exists");
-		try {
-			coursesDb.createEntity(c);
-			signalFailureToDetectException();
-		} catch (EntityAlreadyExistsException e) {
-			AssertHelper.assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.getEntityTypeAsString())
-					+ c.getIdentificationString(), e.getMessage());
-		}
-		
-		______TS("fails: invalid parameters");
-		c.id = "invalid id spaces";
-		try {
-			coursesDb.createEntity(c);
-			signalFailureToDetectException();
-		} catch (InvalidParametersException e) {
-			AssertHelper.assertContains(
-					String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
-					e.getMessage());
-		} 
-		
-		______TS("fails: null parameter");
-		try {
-			coursesDb.createEntity(null);
-			signalFailureToDetectException();
-		} catch (AssertionError a) {
-			assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
-		}
-	}
+        ______TS("success: typical case");
+        CourseAttributes c = new CourseAttributes();
+        c.id = "Computing101-fresh";
+        c.name = "Basic Computing";
+        coursesDb.createEntity(c);
+        LogicTest.verifyPresentInDatastore(c);
+        
+        ______TS("fails: entity already exists");
+        try {
+            coursesDb.createEntity(c);
+            signalFailureToDetectException();
+        } catch (EntityAlreadyExistsException e) {
+            AssertHelper.assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.getEntityTypeAsString())
+                    + c.getIdentificationString(), e.getMessage());
+        }
+        
+        ______TS("fails: invalid parameters");
+        c.id = "invalid id spaces";
+        try {
+            coursesDb.createEntity(c);
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e) {
+            AssertHelper.assertContains(
+                    String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
+                    e.getMessage());
+        } 
+        
+        ______TS("fails: null parameter");
+        try {
+            coursesDb.createEntity(null);
+            signalFailureToDetectException();
+        } catch (AssertionError a) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        }
+    }
 
 }

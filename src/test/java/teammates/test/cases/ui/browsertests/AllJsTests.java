@@ -19,40 +19,40 @@ import teammates.test.pageobjects.BrowserPool;
  * because it is not a regular UI test.
  */
 public class AllJsTests extends BaseUiTestCase{
-	
-	private static Browser browser;
-	
-	@BeforeClass
-	public static void setUp() {
-		printTestClassHeader();
-		browser = BrowserPool.getBrowser();
-	}
+    
+    private static Browser browser;
+    
+    @BeforeClass
+    public static void setUp() {
+        printTestClassHeader();
+        browser = BrowserPool.getBrowser();
+    }
 
-	@Test
-	public void executeJsTests() throws IOException {
-		
-		String workingDirectory = new File(".").getCanonicalPath();
-		browser.driver.get("file:///"+workingDirectory+"/src/test/javascript/AllJsUnitTests.html");
+    @Test
+    public void executeJsTests() throws IOException {
+        
+        String workingDirectory = new File(".").getCanonicalPath();
+        browser.driver.get("file:///"+workingDirectory+"/src/test/javascript/AllJsUnitTests.html");
 
-		String totalCasesXpathQuery = "//span[@class='total']",
-			   failedCasesXpathQuery = "//span[@class='failed']";
-		
-		int totalCases = Integer.parseInt(browser.driver
-				.findElement(By.xpath(totalCasesXpathQuery)).getText());
-		int failedCases = Integer.parseInt(browser.driver
-				.findElement(By.xpath(failedCasesXpathQuery)).getText());
-		
-		print("Executed "+totalCases+" JavaScript Unit tests...");
+        String totalCasesXpathQuery = "//span[@class='total']",
+               failedCasesXpathQuery = "//span[@class='failed']";
+        
+        int totalCases = Integer.parseInt(browser.driver
+                .findElement(By.xpath(totalCasesXpathQuery)).getText());
+        int failedCases = Integer.parseInt(browser.driver
+                .findElement(By.xpath(failedCasesXpathQuery)).getText());
+        
+        print("Executed "+totalCases+" JavaScript Unit tests...");
 
-		assertTrue(failedCases == 0);
-		assertTrue(totalCases != 0);
-		
-		print("As expected, "+ failedCases + " failed tests out of " + totalCases + " tests.");
+        assertTrue(failedCases == 0);
+        assertTrue(totalCases != 0);
+        
+        print("As expected, "+ failedCases + " failed tests out of " + totalCases + " tests.");
 
-	}
+    }
 
-	@AfterClass
-	public static void tearDown() {
-		BrowserPool.release(browser);
-	}
+    @AfterClass
+    public static void tearDown() {
+        BrowserPool.release(browser);
+    }
 }

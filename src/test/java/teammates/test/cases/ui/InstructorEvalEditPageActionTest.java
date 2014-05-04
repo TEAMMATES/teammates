@@ -17,89 +17,89 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorEvalEditPageActionTest extends BaseActionTest {
 
-	DataBundle dataBundle;
-	
-	
-	@BeforeClass
-	public static void classSetUp() throws Exception {
-		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE;
-	}
+    DataBundle dataBundle;
+    
+    
+    @BeforeClass
+    public static void classSetUp() throws Exception {
+        printTestClassHeader();
+        uri = Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE;
+    }
 
-	@BeforeMethod
-	public void caseSetUp() throws Exception {
-		dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-	}
-	
-	@Test
-	public void testAccessControl() throws Exception{
-		
-		EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-		
-		String[] submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-				Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
-		};
-		
-		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-		
-	}
-	
-	@Test
-	public void testExecuteAndPostProcess() throws Exception{
-		
-		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-		String instructorId = instructor1OfCourse1.googleId;
-		
-		______TS("Typical case, open edit page for existing evaluation");
-		
-		EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
+    @BeforeMethod
+    public void caseSetUp() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
+    }
+    
+    @Test
+    public void testAccessControl() throws Exception{
+        
+        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
+        
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
+                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
+        };
+        
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        
+    }
+    
+    @Test
+    public void testExecuteAndPostProcess() throws Exception{
+        
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        String instructorId = instructor1OfCourse1.googleId;
+        
+        ______TS("Typical case, open edit page for existing evaluation");
+        
+        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
 
-		gaeSimulation.loginAsInstructor(instructorId);
-		
-		InstructorEvalEditPageAction validPageAction = getAction(
-				Const.ParamsNames.COURSE_ID,evaluationInCourse1.courseId,
-				Const.ParamsNames.EVALUATION_NAME,evaluationInCourse1.name);
-		ShowPageResult successPageResult = getShowPageResult(validPageAction);
-		
-		//Verify URL and user status messages
-		assertEquals(
-				Const.ViewURIs.INSTRUCTOR_EVAL_EDIT+"?error="+successPageResult.isError+"&user="+instructorId,
-				successPageResult.getDestinationWithParams());
-		assertEquals(false,successPageResult.isError);
-		assertEquals("", successPageResult.getStatusMessage());
-		
-		//Verify InstructorEvalEditPageData contents
-		InstructorEvalEditPageData pageData = (InstructorEvalEditPageData) successPageResult.data;
-		
-		assertEquals(instructorId, pageData.account.googleId);
-		assertEquals(evaluationInCourse1.name, pageData.evaluation.name);
-		assertEquals(evaluationInCourse1.courseId, pageData.evaluation.courseId);
-		
-		______TS("Error case, edit a non-existing evaluation");
-		
-		String evalName = "DoesNotExist";
-		EvaluationAttributes nonExistingEvaluation = dataBundle.evaluations.get(evalName);
-		ShowPageResult nonExistingEvalPageResult = null;
-		
-		assertNull(nonExistingEvaluation);
-		
-		try {
-			InstructorEvalEditPageAction nonExistingEvalPageAction = getAction(
-					Const.ParamsNames.COURSE_ID,evaluationInCourse1.courseId,
-					Const.ParamsNames.EVALUATION_NAME,evalName);
-			nonExistingEvalPageResult = getShowPageResult(nonExistingEvalPageAction);
-		} catch(UnauthorizedAccessException e) {
-			assertEquals("Trying to access system using a non-existent evaluation entity", e.getMessage());
-		}
-		
-		assertNull(nonExistingEvalPageResult);
-		
-	}
-	
-	private InstructorEvalEditPageAction getAction(String... params) throws Exception{
-		return (InstructorEvalEditPageAction) (gaeSimulation.getActionObject(uri, params));
-	}
+        gaeSimulation.loginAsInstructor(instructorId);
+        
+        InstructorEvalEditPageAction validPageAction = getAction(
+                Const.ParamsNames.COURSE_ID,evaluationInCourse1.courseId,
+                Const.ParamsNames.EVALUATION_NAME,evaluationInCourse1.name);
+        ShowPageResult successPageResult = getShowPageResult(validPageAction);
+        
+        //Verify URL and user status messages
+        assertEquals(
+                Const.ViewURIs.INSTRUCTOR_EVAL_EDIT+"?error="+successPageResult.isError+"&user="+instructorId,
+                successPageResult.getDestinationWithParams());
+        assertEquals(false,successPageResult.isError);
+        assertEquals("", successPageResult.getStatusMessage());
+        
+        //Verify InstructorEvalEditPageData contents
+        InstructorEvalEditPageData pageData = (InstructorEvalEditPageData) successPageResult.data;
+        
+        assertEquals(instructorId, pageData.account.googleId);
+        assertEquals(evaluationInCourse1.name, pageData.evaluation.name);
+        assertEquals(evaluationInCourse1.courseId, pageData.evaluation.courseId);
+        
+        ______TS("Error case, edit a non-existing evaluation");
+        
+        String evalName = "DoesNotExist";
+        EvaluationAttributes nonExistingEvaluation = dataBundle.evaluations.get(evalName);
+        ShowPageResult nonExistingEvalPageResult = null;
+        
+        assertNull(nonExistingEvaluation);
+        
+        try {
+            InstructorEvalEditPageAction nonExistingEvalPageAction = getAction(
+                    Const.ParamsNames.COURSE_ID,evaluationInCourse1.courseId,
+                    Const.ParamsNames.EVALUATION_NAME,evalName);
+            nonExistingEvalPageResult = getShowPageResult(nonExistingEvalPageAction);
+        } catch(UnauthorizedAccessException e) {
+            assertEquals("Trying to access system using a non-existent evaluation entity", e.getMessage());
+        }
+        
+        assertNull(nonExistingEvalPageResult);
+        
+    }
+    
+    private InstructorEvalEditPageAction getAction(String... params) throws Exception{
+        return (InstructorEvalEditPageAction) (gaeSimulation.getActionObject(uri, params));
+    }
 
 }

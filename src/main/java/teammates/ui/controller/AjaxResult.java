@@ -14,30 +14,30 @@ import teammates.common.datatransfer.AccountAttributes;
 
 public class AjaxResult extends ActionResult {
 
-	public PageData data;
-	
-	public AjaxResult(String destination, AccountAttributes account,
-			Map<String, String[]> parametersFromPreviousRequest,
-			List<String> status) {
-		super(destination, account, parametersFromPreviousRequest, status);
-	}
+    public PageData data;
+    
+    public AjaxResult(String destination, AccountAttributes account,
+            Map<String, String[]> parametersFromPreviousRequest,
+            List<String> status) {
+        super(destination, account, parametersFromPreviousRequest, status);
+    }
 
-	public AjaxResult(String destination, AccountAttributes account,
-			Map<String, String[]> parametersFromPreviousRequest,
-			List<String> status, PageData data) {
-		super(destination, account, parametersFromPreviousRequest, status);
-		this.data = data;
-	}
-	
-	@Override
-	public void send(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
-		
-		resp.setContentType("application/json");
-		String jsonData = (new Gson()).toJson(data);
-		
-		resp.getWriter().write(jsonData);		
+    public AjaxResult(String destination, AccountAttributes account,
+            Map<String, String[]> parametersFromPreviousRequest,
+            List<String> status, PageData data) {
+        super(destination, account, parametersFromPreviousRequest, status);
+        this.data = data;
+    }
+    
+    @Override
+    public void send(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
+        
+        resp.setContentType("application/json");
+        String jsonData = (new Gson()).toJson(data);
+        
+        resp.getWriter().write(jsonData);        
 
-	}
+    }
 
 }

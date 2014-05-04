@@ -8,11 +8,11 @@ import teammates.common.util.Sanitizer;
 import teammates.test.cases.BaseTestCase;
 
 public class SanitizerTest extends BaseTestCase {
-	
-	@Test
-	public void testSanitizeGoogleId() {
+    
+    @Test
+    public void testSanitizeGoogleId() {
 
-		assertEquals("big-small.20_12", Sanitizer.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
-		assertEquals("user@hotmail.com", Sanitizer.sanitizeGoogleId(" user@hotmail.com \t\n"));
-	}
+        assertEquals("big-small.20_12", Sanitizer.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
+        assertEquals("user@hotmail.com", Sanitizer.sanitizeGoogleId(" user@hotmail.com \t\n"));
+    }
 }

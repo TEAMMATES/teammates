@@ -10,40 +10,40 @@ import teammates.common.util.Const;
 
 public class InstructorEvalResultsDownloadActionTest extends BaseActionTest {
 
-	DataBundle dataBundle;
-	
-	
-	@BeforeClass
-	public static void classSetUp() throws Exception {
-		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD;
-	}
+    DataBundle dataBundle;
+    
+    
+    @BeforeClass
+    public static void classSetUp() throws Exception {
+        printTestClassHeader();
+        uri = Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD;
+    }
 
-	@BeforeMethod
-	public void caseSetUp() throws Exception {
-		dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-	}
-	
-	@Test
-	public void testAccessControl() throws Exception{
-		
-		EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-		
-		String[] submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-				Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
-		};
-		
-		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-		
-	}
-	
-	@Test
-	public void testExecuteAndPostProcess() throws Exception{
-		
-		//TODO: implement this
-	}
-	
+    @BeforeMethod
+    public void caseSetUp() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
+    }
+    
+    @Test
+    public void testAccessControl() throws Exception{
+        
+        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
+        
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
+                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
+        };
+        
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        
+    }
+    
+    @Test
+    public void testExecuteAndPostProcess() throws Exception{
+        
+        //TODO: implement this
+    }
+    
 
 }

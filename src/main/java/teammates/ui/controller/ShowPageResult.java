@@ -16,46 +16,46 @@ import teammates.common.util.Const;
  * JSP pages.
  */
 public class ShowPageResult extends ActionResult{
-	
-	/** The data that will be used to render the page*/
-	public PageData data;
-	
-	public ShowPageResult(
-			String destination, 
-			AccountAttributes account,
-			Map<String, String[]> parametersFromPreviousRequest,
-			List<String> status) {
-		super(destination, account, parametersFromPreviousRequest, status);
-	}
-	
-	public ShowPageResult(
-			String destination, 
-			AccountAttributes account,
-			Map<String, String[]> parametersFromPreviousRequest,
-			PageData data,
-			List<String> status) {
-		super(destination, account, parametersFromPreviousRequest, status);
-		this.data = data;
-	}
+    
+    /** The data that will be used to render the page*/
+    public PageData data;
+    
+    public ShowPageResult(
+            String destination, 
+            AccountAttributes account,
+            Map<String, String[]> parametersFromPreviousRequest,
+            List<String> status) {
+        super(destination, account, parametersFromPreviousRequest, status);
+    }
+    
+    public ShowPageResult(
+            String destination, 
+            AccountAttributes account,
+            Map<String, String[]> parametersFromPreviousRequest,
+            PageData data,
+            List<String> status) {
+        super(destination, account, parametersFromPreviousRequest, status);
+        this.data = data;
+    }
 
 
-	@Override
-	public void send(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
-		
-		req.setAttribute("data", data); 
-		
-		/* These two are required for the 'status message' section of the page
-		 * Although these two are also sent as parameters in the URL,
-		 *  they should be set as attributes too, because the status message
-		 *  section is a {@code jsp:include} and cannot see parameters encoded 
-		 *  in the URL
-		 */ 
-		req.setAttribute(Const.ParamsNames.ERROR, ""+isError); 
-		req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, ""+getStatusMessage()); 
-		
-		req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
-	}
+    @Override
+    public void send(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
+        
+        req.setAttribute("data", data); 
+        
+        /* These two are required for the 'status message' section of the page
+         * Although these two are also sent as parameters in the URL,
+         *  they should be set as attributes too, because the status message
+         *  section is a {@code jsp:include} and cannot see parameters encoded 
+         *  in the URL
+         */ 
+        req.setAttribute(Const.ParamsNames.ERROR, ""+isError); 
+        req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, ""+getStatusMessage()); 
+        
+        req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
+    }
 
 
 }

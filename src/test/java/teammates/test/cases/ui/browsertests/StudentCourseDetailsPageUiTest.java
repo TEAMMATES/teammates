@@ -15,50 +15,50 @@ import teammates.test.pageobjects.StudentCourseDetailsPage;
  * Tests Student Course Details page
  */
 public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
-	private static Browser browser;
-	private static DataBundle testData;
-	
+    private static Browser browser;
+    private static DataBundle testData;
+    
 
-	@BeforeClass
-	public static void classSetup() throws Exception {
-		printTestClassHeader();
-		testData = loadDataBundle("/StudentCourseDetailsPageUiTest.json");
-		restoreTestDataOnServer(testData);
-		browser = BrowserPool.getBrowser();
-	}
-	
-	@Test	
-	public void testAll() throws Exception{
-		
-		______TS("content");
-		
-		//with teammates"
-		
-		verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html");
+    @BeforeClass
+    public static void classSetup() throws Exception {
+        printTestClassHeader();
+        testData = loadDataBundle("/StudentCourseDetailsPageUiTest.json");
+        restoreTestDataOnServer(testData);
+        browser = BrowserPool.getBrowser();
+    }
+    
+    @Test    
+    public void testAll() throws Exception{
+        
+        ______TS("content");
+        
+        //with teammates"
+        
+        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html");
 
-		//without teammates 
-		
-		verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie", "/studentCourseDetailsWithoutTeammatesHTML.html");
-		
-		______TS("links, inputValidation, actions");
-		
-		//nothing to test here.
+        //without teammates 
+        
+        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie", "/studentCourseDetailsWithoutTeammatesHTML.html");
+        
+        ______TS("links, inputValidation, actions");
+        
+        //nothing to test here.
 
-	}
+    }
 
-	private void verifyContent(String courseObjectId, String studentObjectId, String filePath) {
-		
-		Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
-			.withUserId(testData.students.get(studentObjectId).googleId)
-			.withCourseId(testData.courses.get(courseObjectId).id);
-		
-		loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class)
-			.verifyHtml(filePath);
-	}
+    private void verifyContent(String courseObjectId, String studentObjectId, String filePath) {
+        
+        Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
+            .withUserId(testData.students.get(studentObjectId).googleId)
+            .withCourseId(testData.courses.get(courseObjectId).id);
+        
+        loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class)
+            .verifyHtml(filePath);
+    }
 
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		BrowserPool.release(browser);
-	}
-	
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
+    }
+    
 }

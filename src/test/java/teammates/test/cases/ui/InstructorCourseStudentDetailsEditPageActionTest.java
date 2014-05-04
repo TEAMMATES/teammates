@@ -16,75 +16,75 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseStudentDetailsEditPageActionTest extends BaseActionTest {
 
-	DataBundle dataBundle;
-	
-	
-	@BeforeClass
-	public static void classSetUp() throws Exception {
-		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
-	}
+    DataBundle dataBundle;
+    
+    
+    @BeforeClass
+    public static void classSetUp() throws Exception {
+        printTestClassHeader();
+        uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
+    }
 
-	@BeforeMethod
-	public void caseSetUp() throws Exception {
-		dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-	}
-	
-	@Test
-	public void testAccessControl() throws Exception{
-		
-		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-		
-		String[] submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-				Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email 
-		};
-		
-		verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-		
-	}
-	
-	@Test
-	public void testExecuteAndPostProcess() throws Exception{
-		
-		InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-		StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-		
+    @BeforeMethod
+    public void caseSetUp() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
+    }
+    
+    @Test
+    public void testAccessControl() throws Exception{
+        
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email 
+        };
+        
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        
+    }
+    
+    @Test
+    public void testExecuteAndPostProcess() throws Exception{
+        
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        
         String instructorId = instructor1OfCourse1.googleId;
         gaeSimulation.loginAsInstructor(instructorId);
         
         ______TS("Invalid parameters");
         
         //no parameters
-		verifyAssumptionFailure();
-		
-		//null student email
-		String[] invalidParams = new String[]{
-				Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
-		};
-		verifyAssumptionFailure(invalidParams);
+        verifyAssumptionFailure();
         
-		//null course id
-		invalidParams = new String[]{
-				Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
-		};
-		verifyAssumptionFailure(invalidParams);
+        //null student email
+        String[] invalidParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+        };
+        verifyAssumptionFailure(invalidParams);
+        
+        //null course id
+        invalidParams = new String[]{
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+        };
+        verifyAssumptionFailure(invalidParams);
         
         
         ______TS("Typical case, edit student detail page");
 
         String[] submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-				Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
-		};
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+        };
         
         InstructorCourseStudentDetailsEditPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT+"?error=false&" +
-        		"user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+                "user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
         
@@ -101,11 +101,11 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         
-	}
-	
-	private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception{
+    }
+    
+    private InstructorCourseStudentDetailsEditPageAction getAction(String... params) throws Exception{
         return (InstructorCourseStudentDetailsEditPageAction) (gaeSimulation.getActionObject(uri, params));
-	}
-	
+    }
+    
 
 }

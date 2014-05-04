@@ -6,11 +6,11 @@ import teammates.common.datatransfer.StudentAttributes;
 
 public class StudentFeedbackResultsPageData extends PageData {
 
-	public FeedbackSessionResultsBundle bundle = null;
-	public StudentAttributes student = null;
-	
-	public StudentFeedbackResultsPageData(AccountAttributes account) {
-		super(account);
-	}
+    public FeedbackSessionResultsBundle bundle = null;
+    public StudentAttributes student = null;
+    
+    public StudentFeedbackResultsPageData(AccountAttributes account) {
+        super(account);
+    }
 
 }

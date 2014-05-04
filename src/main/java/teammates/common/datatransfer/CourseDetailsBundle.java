@@ -17,48 +17,48 @@ import java.util.List;
  */
 public class CourseDetailsBundle {
 
-	public CourseDetailsBundle(CourseAttributes courseData) {
-		this.course = courseData;
-	}
+    public CourseDetailsBundle(CourseAttributes courseData) {
+        this.course = courseData;
+    }
 
-	public CourseAttributes course;
-	public CourseStats stats = new CourseStats();
-	public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
-	public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
-	public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
-	//TODO: remove this as we do not allow loners anymore
-	//Do not remove as we might cater for situations where there are no teams in future
-	public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
-	
-	public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
-		Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
-			public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-				return obj1.course.id.compareTo(obj2.course.id);
-			}
-		});
-	}
-	
-	
-	/**
-	 * Sorts courses based on course ID
-	 */ 
-	public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
-		Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
-			public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-				return obj1.course.id.compareTo(obj2.course.id);
-			}
-		});
-	}
-	
-	/**
-	 * Sorts courses based on course creation date in the order of latest to oldest order
-	 */
-	public static void sortDetailedCoursesByCreationDate(List<CourseDetailsBundle> courses) {
-		Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
-			public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-				return (-1) * obj1.course.createdAt.compareTo(obj2.course.createdAt);
-			}
-		});
-	}
+    public CourseAttributes course;
+    public CourseStats stats = new CourseStats();
+    public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
+    public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
+    public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
+    //TODO: remove this as we do not allow loners anymore
+    //Do not remove as we might cater for situations where there are no teams in future
+    public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
+    
+    public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
+        Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+            public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
+                return obj1.course.id.compareTo(obj2.course.id);
+            }
+        });
+    }
+    
+    
+    /**
+     * Sorts courses based on course ID
+     */ 
+    public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
+        Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+            public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
+                return obj1.course.id.compareTo(obj2.course.id);
+            }
+        });
+    }
+    
+    /**
+     * Sorts courses based on course creation date in the order of latest to oldest order
+     */
+    public static void sortDetailedCoursesByCreationDate(List<CourseDetailsBundle> courses) {
+        Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
+            public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
+                return (-1) * obj1.course.createdAt.compareTo(obj2.course.createdAt);
+            }
+        });
+    }
 
 }

@@ -13,57 +13,57 @@ import com.google.gson.annotations.SerializedName;
  */
 @PersistenceCapable
 public class Course {
-	@PrimaryKey
-	@Persistent
-	@SerializedName("id")
-	private String ID;
+    @PrimaryKey
+    @Persistent
+    @SerializedName("id")
+    private String ID;
 
-	@Persistent
-	private String name;
+    @Persistent
+    private String name;
 
-	@Persistent
-	private Date createdAt;
-	
-	@Persistent
-	private Boolean archiveStatus;
+    @Persistent
+    private Date createdAt;
+    
+    @Persistent
+    private Boolean archiveStatus;
 
 
-	public Course(String courseId, String courseName, Boolean archiveStatus) {
-		this.setUniqueId(courseId);
-		this.setName(courseName);
-		this.setCreatedAt(new Date());
-		this.setArchiveStatus(archiveStatus);
-	}
+    public Course(String courseId, String courseName, Boolean archiveStatus) {
+        this.setUniqueId(courseId);
+        this.setName(courseName);
+        this.setCreatedAt(new Date());
+        this.setArchiveStatus(archiveStatus);
+    }
 
-	public String getUniqueId() {
-		return ID;
-	}
+    public String getUniqueId() {
+        return ID;
+    }
 
-	public void setUniqueId(String uniqueId) {
-		this.ID = uniqueId.trim();
-	}
+    public void setUniqueId(String uniqueId) {
+        this.ID = uniqueId.trim();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name.trim();
-	}
+    public void setName(String name) {
+        this.name = name.trim();
+    }
 
-	public Date getCreatedAt() {
-		return this.createdAt;
-	}
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-	
-	public Boolean getArchiveStatus() {
-		return archiveStatus;
-	}
-	
-	public void setArchiveStatus(Boolean status) {
-		this.archiveStatus = status;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public Boolean getArchiveStatus() {
+        return archiveStatus;
+    }
+    
+    public void setArchiveStatus(Boolean status) {
+        this.archiveStatus = status;
+    }
 }

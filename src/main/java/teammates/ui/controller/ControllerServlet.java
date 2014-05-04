@@ -27,70 +27,70 @@ import com.google.apphosting.api.DeadlineExceededException;
 @SuppressWarnings("serial")
 public class ControllerServlet extends HttpServlet {
 
-	protected static final Logger log = Utils.getLogger();
+    protected static final Logger log = Utils.getLogger();
 
-	@Override
-	public final void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
-		this.doPost(req, resp);
-	}
+    @Override
+    public final void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
+        this.doPost(req, resp);
+    }
 
-	@Override
-	public final void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
+    @Override
+    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
 
-		try{
-			/* We are using the Template Method Design Pattern here.
-			 * This method contains the high level logic of the the request processing.
-			 * Concrete details of the processing steps are to be implemented by child
-			 * classes, based on request-specific needs.
-			 */
-			log.info("Request received : " + req.getRequestURL().toString()
-					+ ":" + HttpRequestHelper.printRequestParameters(req));
-			log.info("User agent : " + req.getHeader("User-Agent"));
-			Action c = new ActionFactory().getAction(req);
-			ActionResult actionResult = c.executeAndPostProcess();
-			actionResult.send(req, resp);
-			
-			// This is the log message that is used to generate the 'activity log' for the admin.
-			log.info(c.getLogMessage());
-			
-		} catch (EntityDoesNotExistException e) {
-			log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
-			resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
+        try{
+            /* We are using the Template Method Design Pattern here.
+             * This method contains the high level logic of the the request processing.
+             * Concrete details of the processing steps are to be implemented by child
+             * classes, based on request-specific needs.
+             */
+            log.info("Request received : " + req.getRequestURL().toString()
+                    + ":" + HttpRequestHelper.printRequestParameters(req));
+            log.info("User agent : " + req.getHeader("User-Agent"));
+            Action c = new ActionFactory().getAction(req);
+            ActionResult actionResult = c.executeAndPostProcess();
+            actionResult.send(req, resp);
+            
+            // This is the log message that is used to generate the 'activity log' for the admin.
+            log.info(c.getLogMessage());
+            
+        } catch (EntityDoesNotExistException e) {
+            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
+            resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
 
-		} catch (UnauthorizedAccessException e) {
-			log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
-			resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
+        } catch (UnauthorizedAccessException e) {
+            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
+            resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
-		} catch (DeadlineExceededException e) {
-			//TODO: This exception is not caught because GAE kills the request soon after throwing it.
-			MimeMessage email = new Logic().emailErrorReport(
-					req.getServletPath(), 
-					HttpRequestHelper.printRequestParameters(req), 
-					e);
-			log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
-			resp.sendRedirect(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
+        } catch (DeadlineExceededException e) {
+            //TODO: This exception is not caught because GAE kills the request soon after throwing it.
+            MimeMessage email = new Logic().emailErrorReport(
+                    req.getServletPath(), 
+                    HttpRequestHelper.printRequestParameters(req), 
+                    e);
+            log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
+            resp.sendRedirect(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
 
-		//TODO: handle invalid parameters exception
-		} catch (NullPostParameterException e) {
-			String requestUrl = req.getRequestURL().toString();
-			log.info(e.getMessage());
-			if(requestUrl.contains("/instructor")) {
-				resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
-			} else if(requestUrl.contains("/student")) {
-				resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE + Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
-			}
-			
-		} catch (Throwable e) {
-			MimeMessage email = new Logic().emailErrorReport(
-					req.getServletPath(), 
-					HttpRequestHelper.printRequestParameters(req), 
-					e);
+        //TODO: handle invalid parameters exception
+        } catch (NullPostParameterException e) {
+            String requestUrl = req.getRequestURL().toString();
+            log.info(e.getMessage());
+            if(requestUrl.contains("/instructor")) {
+                resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
+            } else if(requestUrl.contains("/student")) {
+                resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE + Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
+            }
+            
+        } catch (Throwable e) {
+            MimeMessage email = new Logic().emailErrorReport(
+                    req.getServletPath(), 
+                    HttpRequestHelper.printRequestParameters(req), 
+                    e);
 
-			log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
-		    resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
-		}  
-		
-	}
+            log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
+            resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
+        }  
+        
+    }
 }

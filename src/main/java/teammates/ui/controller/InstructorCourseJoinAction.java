@@ -18,34 +18,34 @@ import teammates.logic.api.GateKeeper;
  * his registration key with another instructor's google account.
  */
 public class InstructorCourseJoinAction extends Action {
-	
-	private InstructorCourseJoinConfirmationPageData data;
-	
-	@Override
-	public ActionResult execute() throws EntityDoesNotExistException {
-		
-		String key = getRequestParamValue(Const.ParamsNames.REGKEY);
-		Assumption.assertNotNull(key);
+    
+    private InstructorCourseJoinConfirmationPageData data;
+    
+    @Override
+    public ActionResult execute() throws EntityDoesNotExistException {
+        
+        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
+        Assumption.assertNotNull(key);
 
-		new GateKeeper().verifyLoggedInUserPrivileges();
-		
-		statusToAdmin = "Action Instructor Clicked Join Link"
-				+ "<br/>Google ID: " + account.googleId
-				+ "<br/>Key: " + key;
-		
-		InstructorAttributes instructor = logic.getInstructorForRegistrationKey(key);
-		if (instructor != null && instructor.isRegistered()) {
-			// Bypass confirmation if instructor is already registered
-			String redirectUrl = Url.addParamToUrl(
-					Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED,
-					Const.ParamsNames.REGKEY, key);
-			
-			return createRedirectResult(redirectUrl);
-		} 
-		
-		data = new InstructorCourseJoinConfirmationPageData(account);
-		data.regkey = key;
-		
-		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, data);
-	}
+        new GateKeeper().verifyLoggedInUserPrivileges();
+        
+        statusToAdmin = "Action Instructor Clicked Join Link"
+                + "<br/>Google ID: " + account.googleId
+                + "<br/>Key: " + key;
+        
+        InstructorAttributes instructor = logic.getInstructorForRegistrationKey(key);
+        if (instructor != null && instructor.isRegistered()) {
+            // Bypass confirmation if instructor is already registered
+            String redirectUrl = Url.addParamToUrl(
+                    Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED,
+                    Const.ParamsNames.REGKEY, key);
+            
+            return createRedirectResult(redirectUrl);
+        } 
+        
+        data = new InstructorCourseJoinConfirmationPageData(account);
+        data.regkey = key;
+        
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, data);
+    }
 }
