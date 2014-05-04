@@ -102,7 +102,7 @@
       "courseId" : "CFeedbackUiT.CS1101",
       "name" : "First Eval",
       "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2014-04-30 11:59 PM UTC",
+      "endTime" : "2016-04-30 11:59 PM UTC",
       "timeZone" : 2.0,
       "p2pEnabled" : true,
       "instructions": {"value" : "This is instruction for first eval"},

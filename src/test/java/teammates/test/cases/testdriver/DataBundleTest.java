@@ -84,7 +84,7 @@ public class DataBundleTest extends BaseTestCase {
 		assertEquals(true, evaluation1.p2pEnabled);
 		assertEquals(TimeHelper.convertToDate("2012-04-01 11:59 PM UTC"),
 				evaluation1.startTime);
-		assertEquals(TimeHelper.convertToDate("2015-04-30 11:59 PM UTC"),
+		assertEquals(TimeHelper.convertToDate("2017-04-30 11:59 PM UTC"),
 				evaluation1.endTime);
 		assertEquals(true, evaluation1.activated);
 		assertEquals(false, evaluation1.published);

@@ -241,7 +241,7 @@
 			"gracePeriod":10,
 			"p2pEnabled":true,
 			"startTime":"2012-04-01 11:59 PM UTC",
-			"endTime":"2015-04-30 11:59 PM UTC",
+			"endTime":"2017-04-30 11:59 PM UTC",
 			"timeZone":2.0,
 			"activated":true,
 			"published":false
@@ -249,7 +249,7 @@
 		"evaluation2InCourse1":{
 			"courseId":"idOfTypicalCourse1",
 			"startTime":"2012-04-01 11:59 PM UTC",
-			"endTime":"2015-04-30 11:59 PM UTC",
+			"endTime":"2017-04-30 11:59 PM UTC",
 			"gracePeriod":20,
 			"instructions":{
 				"value":"Please please fill in the second evaluation in Course1"
@@ -261,7 +261,7 @@
 		"evaluation1InCourse2":{
 			"courseId":"idOfTypicalCourse2",
 			"startTime":"2012-04-01 11:59 PM UTC",
-			"endTime":"2015-04-30 11:59 PM UTC",
+			"endTime":"2017-04-30 11:59 PM UTC",
 			"gracePeriod":20,
 			"instructions":{
 				"value":"Please please fill in the first evaluation in Course2"
@@ -383,9 +383,9 @@
 			},
 			"createdTime":"2012-03-20 11:59 PM UTC",
 			"startTime":"2012-04-01 11:59 PM UTC",
-			"endTime":"2015-04-30 11:59 PM UTC",
+			"endTime":"2017-04-30 11:59 PM UTC",
 			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
-			"resultsVisibleFromTime":"2015-05-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
 			"timeZone":2.0,
 			"gracePeriod":10,
 			"feedbackSessionType":"STANDARD",
@@ -401,9 +401,9 @@
 			},
 			"createdTime":"2013-03-20 11:59 PM UTC",
 			"startTime":"2013-06-01 11:59 PM UTC",
-			"endTime":"2014-04-28 11:59 PM UTC",
+			"endTime":"2016-04-28 11:59 PM UTC",
 			"sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
-			"resultsVisibleFromTime":"2014-04-29 11:59 PM UTC",
+			"resultsVisibleFromTime":"2016-04-29 11:59 PM UTC",
 			"timeZone":2.0,
 			"gracePeriod":5,
 			"feedbackSessionType":"STANDARD",
@@ -419,9 +419,9 @@
 			},
 			"createdTime":"2013-03-20 11:59 PM UTC",
 			"startTime":"2013-06-01 11:59 PM UTC",
-			"endTime":"2014-04-28 11:59 PM UTC",
+			"endTime":"2016-04-28 11:59 PM UTC",
 			"sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
-			"resultsVisibleFromTime":"2014-04-29 11:59 PM UTC",
+			"resultsVisibleFromTime":"2016-04-29 11:59 PM UTC",
 			"timeZone":2.0,
 			"gracePeriod":1440,
 			"feedbackSessionType":"STANDARD",
@@ -491,9 +491,9 @@
 			},
 			"createdTime":"2012-03-20 11:59 PM UTC",
 			"startTime":"2012-04-01 11:59 PM UTC",
-			"endTime":"2015-04-30 11:59 PM UTC",
+			"endTime":"2017-04-30 11:59 PM UTC",
 			"sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
-			"resultsVisibleFromTime":"2015-05-01 11:59 PM UTC",
+			"resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
 			"timeZone":8,
 			"gracePeriod":0,
 			"feedbackSessionType":"STANDARD",
@@ -919,7 +919,7 @@
 			"feedbackQuestionId":"1",
 			"giverEmail":"instructor1@course1.com",
 			"feedbackResponseId":"1%student1InCourse1@gmail.com%student1InCourse1@gmail.com",
-			"createdAt":"2014-03-01 11:59 PM UTC",
+			"createdAt":"2016-03-01 11:59 PM UTC",
 			"commentText":{
 				"value":"Instructor 1 comment to student 1 self feedback"	
 			}
