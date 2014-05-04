@@ -88,12 +88,13 @@ Important: When a version is specified, please install that version instead of t
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/eclipse.html).
 9. If you plan to use Firefox for testing TEAMMATES 
    (alternatively, you may use Chrome or IE, but FF is the most convenient of the three), 
-   downgrade to Firefox 12.0 from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/)
+   downgrade to Firefox 21.0 from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/)
    {The web driver we use does not work with the latest Firefox.} <br>
-   To install Firefox 12.0 while keeping the latest one for
-   regular use, grab Firefox 12.0 from the above link, and choose a custom 
+   To install Firefox 21.0 while keeping the latest one for
+   regular use, grab Firefox 21.0 from the above link, and choose a custom 
    setup during install, in which you will be able to specify a different path 
-   for this version e.g. `C:\Program Files\Mozilla Firefox 12`) in a later step.
+   for this version e.g. `C:\Program Files\Mozilla Firefox 21`) in a later step.<br>
+   Remember to disable auto-updates in Firefox. `Options → Advanced tab → Update`
 
 ##Setting up the dev server
 `Dev server` means running the server in localhost mode.
