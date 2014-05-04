@@ -1,563 +1,563 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link href="/favicon.png" rel="shortcut icon" />
-	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-	<title>TEAMMATES - Instructor</title>
-	<link href="/stylesheets/common.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/stylesheets/instructorStudentRecords.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="/stylesheets/common-print.css" media="print" rel="stylesheet" type="text/css" />
-	
-	<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript"></script>
-	<script src="/js/googleAnalytics.js" type="text/javascript"></script>
-	<script src="/js/jquery-minified.js" type="text/javascript"></script>
-	<script src="/js/tooltip.js" type="text/javascript"></script>
-	<script src="/js/date.js" type="text/javascript"></script>
-	<script src="/js/CalendarPopup.js" type="text/javascript"></script>
-	<script src="/js/AnchorPosition.js" type="text/javascript"></script>
-	<script src="/js/common.js" type="text/javascript"></script>
-	<script src="/js/instructor.js" type="text/javascript"></script>
-	<script src="/js/instructorStudentRecords.js" type="text/javascript" ></script>
-	<script src="/js/additionalQuestionInfo.js"  type="text/javascript" ></script>
-	<script type="text/javascript" >
+    <link href="/favicon.png" rel="shortcut icon" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <title>TEAMMATES - Instructor</title>
+    <link href="/stylesheets/common.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/instructorStudentRecords.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/common-print.css" media="print" rel="stylesheet" type="text/css" />
+    
+    <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript"></script>
+    <script src="/js/googleAnalytics.js" type="text/javascript"></script>
+    <script src="/js/jquery-minified.js" type="text/javascript"></script>
+    <script src="/js/tooltip.js" type="text/javascript"></script>
+    <script src="/js/date.js" type="text/javascript"></script>
+    <script src="/js/CalendarPopup.js" type="text/javascript"></script>
+    <script src="/js/AnchorPosition.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script src="/js/instructor.js" type="text/javascript"></script>
+    <script src="/js/instructorStudentRecords.js" type="text/javascript" ></script>
+    <script src="/js/additionalQuestionInfo.js"  type="text/javascript" ></script>
+    <script type="text/javascript" >
             var showCommentBox = "null";
     </script>
 </head>
 <body onload="readyStudentRecordsPage(); initializetooltip();">
-	<div id="frameTop">
-		<div id="frameTopWrapper">
-			<div id="logo">
-				<a href="/index.html"> <img alt="TEAMMATES" height="47px"
-					src="/images/teammateslogo.jpg" width="150px" />
-				</a>
-			</div>
-			<div id="contentLinks">
-				<ul id="navbar">
-					<li><a class="nav home" data-link="instructorHome"
-						href="/page/instructorHomePage?user=ISR.teammates.test"> Home </a></li>
-					<li><a class="nav courses" data-link="instructorCourse"
-						href="/page/instructorCoursesPage?user=ISR.teammates.test">
-							Courses </a></li>
-					<li><a class="nav evaluations" data-link="instructorEval"
-						href="/page/instructorEvalsPage?user=ISR.teammates.test">
-							Sessions </a></li>
-					<li class="current"><a class="nav students"
-						data-link="instructorStudent"
-						href="/page/instructorStudentListPage?user=ISR.teammates.test">
-							Students </a></li>
-					<li><a class="nav help" href="/instructorHelp.html"
-						target="_blank"> Help </a></li>
-					<li><a class="nav logout" href="/logout.jsp"> Logout </a> <b>
-							(ISR.teammates.test) </b></li>
-				</ul>
-			</div>
-			<div style="clear: both;"></div>
-		</div>
-	</div>
-	<div id="frameBody">
-		<div id="frameBodyWrapper">
-			<div id="topOfPage"></div>
-			<div id="headerOperation">
-				<h1>ISR.CS2104 - Benny Charlés's Records</h1>
-				<hr />
-			</div>
-			<div id="statusMessage" style="display: none;"></div>
-			<div id="commentSection">
-				<table class="resultTable" id="commentTable">
-					<thead>
-						<tr>
-							<th class="bold centeralign" colspan="2">Your comments on this student:
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								<form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-0" method="post" name="form_commentedit">
-									<table id="commentFormTable">
-										<tbody>
-											<tr>
-												<td style="width: 50%;" >
-	                                       			<span class="color_gray" >01 Jun 2012, 19:20</span>
-	                                          	</td>
-												<td class="rightalign">
-													<a class="color_blue pad_right t_comment_edit" href=""
-													id="commentedit-0" onclick="return enableEdit('0', '2');"
-													onmouseout="hideddrivetip()"
-													onmouseover="ddrivetip('Edit this comment')"> Edit </a> 
-													
-													<a class="color_green pad_right t_comment_save" href=""
-													id="commentsave-0" onclick="return submitCommentForm('0');"
-													style="display:none;"> Save Changes </a> 
-													
-													<a class="color_red pad_right t_comment_delete" href=""
-													id="commentdelete-0" onclick="return deleteComment('0');"
-													onmouseout="hideddrivetip()"
-													onmouseover="ddrivetip('Delete this comment')"> Delete </a>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="2">
-													<textarea class="textvalue" disabled="disabled" id="commentText0" name="commenttext" onkeyup="textAreaAdjust(this)" style="{*}">Comment 2 from ISR.CS2104 teammates.test Instructor to Benny</textarea>
-													<input id="commentedittype-0" name="commentedittype" type="hidden" value="edit" />
-													<input name="commentid" type="hidden" value="{*}" /> 
-													<input name="courseid" type="hidden" value="ISR.CS2104" />
-													<input name="studentemail" type="hidden" value="benny.c.tmms@gmail.com" />
-													<input name="user"  type="hidden"  value="ISR.teammates.test" />
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</form>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-1" method="post" name="form_commentedit">
-									<table id="commentFormTable">
-										<tbody>
-											<tr>
-												<td style="width: 50%;" >
-                                             		<span class="color_gray" >01 May 2012, 08:51</span>
-                                          		</td>
-												<td class="rightalign">
-													<a class="color_blue pad_right t_comment_edit" href=""
-													id="commentedit-1" onclick="return enableEdit('1', '2');"
-													onmouseout="hideddrivetip()"
-													onmouseover="ddrivetip('Edit this comment')"> Edit </a> 
-													
-													<a class="color_green pad_right t_comment_save" href=""
-													id="commentsave-1" onclick="return submitCommentForm('1');"
-													style="display:none;"> Save Changes </a>
-													
-													<a class="color_red pad_right t_comment_delete" href=""
-													id="commentdelete-1" onclick="return deleteComment('1');"
-													onmouseout="hideddrivetip()"
-													onmouseover="ddrivetip('Delete this comment')"> Delete</a>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="2">
-													<textarea class="textvalue" disabled="disabled"id="commentText1" name="commenttext" onkeyup="textAreaAdjust(this)" style="{*}">Comment 1 from ISR.CS2104 teammates.test Instructor to Benny</textarea> 
-													<input id="commentedittype-1" name="commentedittype" type="hidden" value="edit" />
-													<input name="commentid" type="hidden"value="{*}" />
-													<input name="courseid" type="hidden"value="ISR.CS2104" />
-													<input name="studentemail" type="hidden"value="benny.c.tmms@gmail.com" />
-													<input name="user"  type="hidden"  value="ISR.teammates.test" />
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</form>
-							</td>
-						</tr>
-						<tr id="comment_box" style="display:none;">
-							<td class="centeralign" colspan="2">
-								<form action="/page/instructorStudentCommentAdd"
-									class="form_comment" method="post" name="form_commentadd">
-									<textarea class="textvalue" id="commentText" name="commenttext"
-										onkeyup="textAreaAdjust(this)"
-										placeholder="Your comment about this student">
+    <div id="frameTop">
+        <div id="frameTopWrapper">
+            <div id="logo">
+                <a href="/index.html"> <img alt="TEAMMATES" height="47px"
+                    src="/images/teammateslogo.jpg" width="150px" />
+                </a>
+            </div>
+            <div id="contentLinks">
+                <ul id="navbar">
+                    <li><a class="nav home" data-link="instructorHome"
+                        href="/page/instructorHomePage?user=ISR.teammates.test"> Home </a></li>
+                    <li><a class="nav courses" data-link="instructorCourse"
+                        href="/page/instructorCoursesPage?user=ISR.teammates.test">
+                            Courses </a></li>
+                    <li><a class="nav evaluations" data-link="instructorEval"
+                        href="/page/instructorEvalsPage?user=ISR.teammates.test">
+                            Sessions </a></li>
+                    <li class="current"><a class="nav students"
+                        data-link="instructorStudent"
+                        href="/page/instructorStudentListPage?user=ISR.teammates.test">
+                            Students </a></li>
+                    <li><a class="nav help" href="/instructorHelp.html"
+                        target="_blank"> Help </a></li>
+                    <li><a class="nav logout" href="/logout.jsp"> Logout </a> <b>
+                            (ISR.teammates.test) </b></li>
+                </ul>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    <div id="frameBody">
+        <div id="frameBodyWrapper">
+            <div id="topOfPage"></div>
+            <div id="headerOperation">
+                <h1>ISR.CS2104 - Benny Charlés's Records</h1>
+                <hr />
+            </div>
+            <div id="statusMessage" style="display: none;"></div>
+            <div id="commentSection">
+                <table class="resultTable" id="commentTable">
+                    <thead>
+                        <tr>
+                            <th class="bold centeralign" colspan="2">Your comments on this student:
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-0" method="post" name="form_commentedit">
+                                    <table id="commentFormTable">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 50%;" >
+                                                       <span class="color_gray" >01 Jun 2012, 19:20</span>
+                                                  </td>
+                                                <td class="rightalign">
+                                                    <a class="color_blue pad_right t_comment_edit" href=""
+                                                    id="commentedit-0" onclick="return enableEdit('0', '2');"
+                                                    onmouseout="hideddrivetip()"
+                                                    onmouseover="ddrivetip('Edit this comment')"> Edit </a> 
+                                                    
+                                                    <a class="color_green pad_right t_comment_save" href=""
+                                                    id="commentsave-0" onclick="return submitCommentForm('0');"
+                                                    style="display:none;"> Save Changes </a> 
+                                                    
+                                                    <a class="color_red pad_right t_comment_delete" href=""
+                                                    id="commentdelete-0" onclick="return deleteComment('0');"
+                                                    onmouseout="hideddrivetip()"
+                                                    onmouseover="ddrivetip('Delete this comment')"> Delete </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <textarea class="textvalue" disabled="disabled" id="commentText0" name="commenttext" onkeyup="textAreaAdjust(this)" style="{*}">Comment 2 from ISR.CS2104 teammates.test Instructor to Benny</textarea>
+                                                    <input id="commentedittype-0" name="commentedittype" type="hidden" value="edit" />
+                                                    <input name="commentid" type="hidden" value="{*}" /> 
+                                                    <input name="courseid" type="hidden" value="ISR.CS2104" />
+                                                    <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.com" />
+                                                    <input name="user"  type="hidden"  value="ISR.teammates.test" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-1" method="post" name="form_commentedit">
+                                    <table id="commentFormTable">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 50%;" >
+                                                     <span class="color_gray" >01 May 2012, 08:51</span>
+                                                  </td>
+                                                <td class="rightalign">
+                                                    <a class="color_blue pad_right t_comment_edit" href=""
+                                                    id="commentedit-1" onclick="return enableEdit('1', '2');"
+                                                    onmouseout="hideddrivetip()"
+                                                    onmouseover="ddrivetip('Edit this comment')"> Edit </a> 
+                                                    
+                                                    <a class="color_green pad_right t_comment_save" href=""
+                                                    id="commentsave-1" onclick="return submitCommentForm('1');"
+                                                    style="display:none;"> Save Changes </a>
+                                                    
+                                                    <a class="color_red pad_right t_comment_delete" href=""
+                                                    id="commentdelete-1" onclick="return deleteComment('1');"
+                                                    onmouseout="hideddrivetip()"
+                                                    onmouseover="ddrivetip('Delete this comment')"> Delete</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <textarea class="textvalue" disabled="disabled"id="commentText1" name="commenttext" onkeyup="textAreaAdjust(this)" style="{*}">Comment 1 from ISR.CS2104 teammates.test Instructor to Benny</textarea> 
+                                                    <input id="commentedittype-1" name="commentedittype" type="hidden" value="edit" />
+                                                    <input name="commentid" type="hidden"value="{*}" />
+                                                    <input name="courseid" type="hidden"value="ISR.CS2104" />
+                                                    <input name="studentemail" type="hidden"value="benny.c.tmms@gmail.com" />
+                                                    <input name="user"  type="hidden"  value="ISR.teammates.test" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="comment_box" style="display:none;">
+                            <td class="centeralign" colspan="2">
+                                <form action="/page/instructorStudentCommentAdd"
+                                    class="form_comment" method="post" name="form_commentadd">
+                                    <textarea class="textvalue" id="commentText" name="commenttext"
+                                        onkeyup="textAreaAdjust(this)"
+                                        placeholder="Your comment about this student">
                                  </textarea>
-									<br /> 
-									<input class="button" id="button_save_comment"type="submit" value="Save Comment" />
-									<input name="courseid" type="hidden" value="ISR.CS2104" />
-									<input name="studentemail" type="hidden" value="benny.c.tmms@gmail.com" />
-									<input name="user"  type="hidden"  value="ISR.teammates.test" />
-								</form>
-							</td>
-						</tr>
-						<tr id="comment_link">
-							<td class="centeralign" colspan="2"><input class="button"
-								id="button_add_comment"
-								onclick="showAddCommentBox(); return false;" type="button"
-								value="Add Comment" /></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<br />
-			<hr />
-			<br />
-			<div class="student_feedback" id="studentFeedback-0">
-					<table class="inputTable" id="studentEvaluationInfo">
-						<tr>
-							<td class="label rightalign bold" width="250px">Feedback Session Name:</td>
-							<td class="leftalign" id="feedback_name-0" width="250px">First feedback session</td>
-						</tr>
-					</table>
-					<br><br>
-			
-						<div class="backgroundBlock">
-							<h2 class="color_white">To: Benny Charlés (Team 1)</h2>
-					
-							<table class="resultTable" style="width: 100%">
-								<thead>
-									<tr>
-										<th class="leftalign"><span class="bold">From: </span>Alice Betsy (Team 2)</th>
-									</tr>
-								</thead>
-						
-								<tr class="resultSubheader">
-									<td class="multiline"><span class="bold">Question 2: </span>Rate 5 other students&#39; products
-									</td>
-								</tr>
-								<tr>
-									<td class="multiline"><span class="bold">Response: </span>Benny is a good student.</td>
-								</tr>
-								<tr>
-									<td><span class="bold"> Comments: </span>
-										<table class="responseCommentTable">
-											<tbody>
-												<tr>
-													<td class="feedbackResponseCommentText">
-														Instructor first comment to Alice about feedback to Benny</td>
-													<td class="feedbackResponseCommentGiver">
-														teammates.test@gmail.com</td>
-													<td class="feedbackResponseCommentTime">
-														Tue Mar 01 23:59:00 UTC 2016</td>
-												</tr>
-												<tr>
-													<td class="feedbackResponseCommentText">
-														Instructor second comment to Alice about feedback to Benny</td>
-													<td class="feedbackResponseCommentGiver">
-														teammates.test@gmail.com</td>
-													<td class="feedbackResponseCommentTime">
-														Wed Mar 02 23:59:00 UTC 2016</td>
-												</tr>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-							</table>
-					
-					</div>
-					<br>
-					<br>
-				
-						<div class="backgroundBlock">
-							<h2 class="color_white">From: Benny Charlés (Team 1)</h2>
-					
-							<table class="resultTable" style="width: 100%">
-								<thead>
-									<tr>
-										<th class="leftalign"><span class="bold">To: </span>Charlie Davis (Team 1)</th>
-									</tr>
-								</thead>
-						
-								<tr class="resultSubheader">
-									<td class="multiline"><span class="bold">Question 2: </span>Rate 5 other students&#39; products
-									</td>
-								</tr>
-								<tr>
-									<td class="multiline"><span class="bold">Response: </span>Charlie did alot of work.</td>
-								</tr>
-							
-							</table>
-							<br>
-						
-					
-							<table class="resultTable" style="width: 100%">
-								<thead>
-									<tr>
-										<th class="leftalign"><span class="bold">To: </span>Danny Engrid (Team 2)</th>
-									</tr>
-								</thead>
-						
-								<tr class="resultSubheader">
-									<td class="multiline"><span class="bold">Question 2: </span>Rate 5 other students&#39; products
-									</td>
-								</tr>
-								<tr>
-									<td class="multiline"><span class="bold">Response: </span>Danny starts with D.</td>
-								</tr>
-							
-							</table>
-							<br>
-						
-					
-					</div>
-					
-					</div>
-					<br>
-					<hr>
-					<br>
-			
-					<div class="student_eval" id="studentEval-0">
-					<table class="inputTable" id="studentEvaluationInfo">
-						<tr>
-							<td class="label rightalign bold" width="250px">Evaluation Name:</td>
-							<td class="leftalign" id="eval_name-0"width="250px">First Eval</td>
-						</tr>
-					</table>
-				
-						<h2 class="centeralign">Benny Charlés's Result</h2>
-						<table class="resultTable">
-							<thead><tr>
-								<th colspan="2" width="10%" class="bold leftalign">
-									<span class="resultHeader">Reviewee: </span>Benny Charlés</th>
-								<th class="bold leftalign"><span class="resultHeader"
-									onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
-									onmouseout="hideddrivetip()">
-									Claimed Contribution: </span><span class="color_negative">N/A</span></th>
-								<th class="bold leftalign"><span class="resultHeader"
-									onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
-									onmouseout="hideddrivetip()">
-									Perceived Contribution: </span>Equal Share<span class="color_positive"> + 5%</span></th>
-								</tr></thead>
-								<tr>
-								<td colspan="4"><span class="bold">Self evaluation:</span><br>
-										N/A</td>
-								</tr>
-								<tr>
-									<td colspan="4"><span class="bold">Comments about team:</span><br>
-										</td>
-								</tr>
-								<tr class="resultSubheader">
-									<td width="15%" class="bold">From Student</td>
-									<td width="5%" class="bold">Contribution</td>
-									<td width="40%" class="bold">Confidential comments</td>
-									<td width="40%" class="bold">Feedback to peer</td>
-								</tr>
-					
-							<tr>
-								<td><b>Charlie Davis</b></td>
-								<td>Equal Share</td>
-								<td>This is a justification from charlie.d.tmms@gmail.com to benny.c.tmms@gmail.com</td>
-								<td>N/A</td>
-							</tr>
-					
-							<tr>
-								<td><b>Teammates Test</b></td>
-								<td>Equal Share<br /><span class="color_positive"> + 10%</span></td>
-								<td>This is a justification from teammates.test@gmail.com to benny.c.tmms@gmail.com</td>
-								<td>This is a public comment from teammates.test@gmail.com to benny.c.tmms@gmail.com</td>
-							</tr>
-					
-						</table>
-						<br><br>
-				
-						<h2 class="centeralign">Benny Charlés's Submission</h2>
-						<table class="resultTable">
-							<thead><tr>
-								<th colspan="2" width="10%" class="bold leftalign">
-									<span class="resultHeader">Reviewer: </span>Benny Charlés</th>
-								<th class="bold leftalign"><span class="resultHeader"
-									onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
-									onmouseout="hideddrivetip()">
-									Claimed Contribution: </span><span class="color_negative">N/A</span></th>
-								<th class="bold leftalign"><span class="resultHeader"
-									onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
-									onmouseout="hideddrivetip()">
-									Perceived Contribution: </span>Equal Share<span class="color_positive"> + 5%</span></th>
-								</tr></thead>
-								<tr>
-								<td colspan="4"><span class="bold">Self evaluation:</span><br>
-										N/A</td>
-								</tr>
-								<tr>
-									<td colspan="4"><span class="bold">Comments about team:</span><br>
-										</td>
-								</tr>
-								<tr class="resultSubheader">
-									<td width="15%" class="bold">To Student</td>
-									<td width="5%" class="bold">Contribution</td>
-									<td width="40%" class="bold">Confidential comments</td>
-									<td width="40%" class="bold">Feedback to peer</td>
-								</tr>
-					
-							<tr>
-								<td><b>Charlie Davis</b></td>
-								<td>Equal Share<br /><span class="color_negative"> - 5%</span></td>
-								<td>This is a justification from benny.c.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-								<td>This is a public comment from benny.c.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
-							</tr>
-					
-							<tr>
-								<td><b>Teammates Test</b></td>
-								<td>Equal Share<br /><span class="color_positive"> + 5%</span></td>
-								<td>This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com</td>
-								<td>This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com</td>
-							</tr>
-					
-						</table>
-						<br><br>
-				
-					<div class="centeralign">
-						<input type="button" class="button" id="button_edit-0" value="Edit Submission"
-							onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=ISR.CS2104&evaluationname=First+Eval&studentemail=benny.c.tmms%40gmail.com&user=ISR.teammates.test'">
-					</div>
-					</div>
-					<br>
-					<hr>
-					<br>
-			
-					<div class="student_feedback" id="studentFeedback-1">
-					<table class="inputTable" id="studentEvaluationInfo">
-						<tr>
-							<td class="label rightalign bold" width="250px">Feedback Session Name:</td>
-							<td class="leftalign" id="feedback_name-1" width="250px">Second feedback session</td>
-						</tr>
-					</table>
-					<br><br>
-			
-					<div class="backgroundBlock">
-							<h4 class="centeralign color_white">No feedback for Benny Charlés found</h4>
-					</div>
-					<br>
-					<br>
-				
-						<div class="backgroundBlock">
-							<h4 class="centeralign color_white">No feedback by Benny Charlés found</h4>
-						</div>
-					
-					</div>
-					<br>
-					<hr>
-					<br>
-			
-					<div class="student_feedback" id="studentFeedback-2">
-					<table class="inputTable" id="studentEvaluationInfo">
-						<tr>
-							<td class="label rightalign bold" width="250px">Feedback Session Name:</td>
-							<td class="leftalign" id="feedback_name-2" width="250px">3rd feedback session</td>
-						</tr>
-					</table>
-					<br><br>
-			
-					<div class="backgroundBlock">
-							<h4 class="centeralign color_white">No feedback for Benny Charlés found</h4>
-					</div>
-					<br>
-					<br>
-				
-						<div class="backgroundBlock">
-							<h4 class="centeralign color_white">No feedback by Benny Charlés found</h4>
-						</div>
-					
-					</div>
-					<br>
-					<hr>
-					<br>
-			
-					<div class="student_eval" id="studentEval-1">
-					<table class="inputTable" id="studentEvaluationInfo">
-						<tr>
-							<td class="label rightalign bold" width="250px">Evaluation Name:</td>
-							<td class="leftalign" id="eval_name-1"width="250px">Second Eval</td>
-						</tr>
-					</table>
-				
-						<h2 class="centeralign">Benny Charlés's Result</h2>
-						<table class="resultTable">
-							<thead><tr>
-								<th colspan="2" width="10%" class="bold leftalign">
-									<span class="resultHeader">Reviewee: </span>Benny Charlés</th>
-								<th class="bold leftalign"><span class="resultHeader"
-									onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
-									onmouseout="hideddrivetip()">
-									Claimed Contribution: </span><span class="color_negative">N/A</span></th>
-								<th class="bold leftalign"><span class="resultHeader"
-									onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
-									onmouseout="hideddrivetip()">
-									Perceived Contribution: </span><span class="color_negative">N/A</span></th>
-								</tr></thead>
-								<tr>
-								<td colspan="4"><span class="bold">Self evaluation:</span><br>
-										N/A</td>
-								</tr>
-								<tr>
-									<td colspan="4"><span class="bold">Comments about team:</span><br>
-										</td>
-								</tr>
-								<tr class="resultSubheader">
-									<td width="15%" class="bold">From Student</td>
-									<td width="5%" class="bold">Contribution</td>
-									<td width="40%" class="bold">Confidential comments</td>
-									<td width="40%" class="bold">Feedback to peer</td>
-								</tr>
-					
-							<tr>
-								<td><b>Charlie Davis</b></td>
-								<td><span class="color_negative">N/A</span></td>
-								<td>N/A</td>
-								<td>N/A</td>
-							</tr>
-					
-							<tr>
-								<td><b>Teammates Test</b></td>
-								<td><span class="color_negative">N/A</span></td>
-								<td>N/A</td>
-								<td>N/A</td>
-							</tr>
-					
-						</table>
-						<br><br>
-				
-						<h2 class="centeralign">Benny Charlés's Submission</h2>
-						<table class="resultTable">
-							<thead><tr>
-								<th colspan="2" width="10%" class="bold leftalign">
-									<span class="resultHeader">Reviewer: </span>Benny Charlés</th>
-								<th class="bold leftalign"><span class="resultHeader"
-									onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
-									onmouseout="hideddrivetip()">
-									Claimed Contribution: </span><span class="color_negative">N/A</span></th>
-								<th class="bold leftalign"><span class="resultHeader"
-									onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
-									onmouseout="hideddrivetip()">
-									Perceived Contribution: </span><span class="color_negative">N/A</span></th>
-								</tr></thead>
-								<tr>
-								<td colspan="4"><span class="bold">Self evaluation:</span><br>
-										N/A</td>
-								</tr>
-								<tr>
-									<td colspan="4"><span class="bold">Comments about team:</span><br>
-										</td>
-								</tr>
-								<tr class="resultSubheader">
-									<td width="15%" class="bold">To Student</td>
-									<td width="5%" class="bold">Contribution</td>
-									<td width="40%" class="bold">Confidential comments</td>
-									<td width="40%" class="bold">Feedback to peer</td>
-								</tr>
-					
-							<tr>
-								<td><b>Charlie Davis</b></td>
-								<td><span class="color_negative">N/A</span></td>
-								<td>N/A</td>
-								<td>N/A</td>
-							</tr>
-					
-							<tr>
-								<td><b>Teammates Test</b></td>
-								<td>Equal Share</td>
-								<td>This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com</td>
-								<td>This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com</td>
-							</tr>
-					
-						</table>
-						<br><br>
-				
-					<div class="centeralign">
-						<input type="button" class="button" id="button_edit-1" value="Edit Submission"
-							onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=ISR.CS2104&evaluationname=Second+Eval&studentemail=benny.c.tmms%40gmail.com&user=ISR.teammates.test'">
-					</div>
-				</div>
-			<br />
-			<hr />
-			<br /> <br /> <br /> <br />
-		</div>
-	</div>
-	<div id="frameBottom">
-		<div id="contentFooter">
-			<span class="floatleft"> [<span class="color_white">TEAMMATES </span>V{$version}]
-			</span> [for <span class="color_white"> National University of Singapore </span> ] 
-			<span class="floatright"> [Send <span class="color_white"> <a href="../contact.html" target="_blank"> Feedback </a>
-			</span> ]
-			</span>
-		</div>
-	</div>
+                                    <br /> 
+                                    <input class="button" id="button_save_comment"type="submit" value="Save Comment" />
+                                    <input name="courseid" type="hidden" value="ISR.CS2104" />
+                                    <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.com" />
+                                    <input name="user"  type="hidden"  value="ISR.teammates.test" />
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="comment_link">
+                            <td class="centeralign" colspan="2"><input class="button"
+                                id="button_add_comment"
+                                onclick="showAddCommentBox(); return false;" type="button"
+                                value="Add Comment" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <hr />
+            <br />
+            <div class="student_feedback" id="studentFeedback-0">
+                    <table class="inputTable" id="studentEvaluationInfo">
+                        <tr>
+                            <td class="label rightalign bold" width="250px">Feedback Session Name:</td>
+                            <td class="leftalign" id="feedback_name-0" width="250px">First feedback session</td>
+                        </tr>
+                    </table>
+                    <br><br>
+            
+                        <div class="backgroundBlock">
+                            <h2 class="color_white">To: Benny Charlés (Team 1)</h2>
+                    
+                            <table class="resultTable" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th class="leftalign"><span class="bold">From: </span>Alice Betsy (Team 2)</th>
+                                    </tr>
+                                </thead>
+                        
+                                <tr class="resultSubheader">
+                                    <td class="multiline"><span class="bold">Question 2: </span>Rate 5 other students&#39; products
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="multiline"><span class="bold">Response: </span>Benny is a good student.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="bold"> Comments: </span>
+                                        <table class="responseCommentTable">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="feedbackResponseCommentText">
+                                                        Instructor first comment to Alice about feedback to Benny</td>
+                                                    <td class="feedbackResponseCommentGiver">
+                                                        teammates.test@gmail.com</td>
+                                                    <td class="feedbackResponseCommentTime">
+                                                        Tue Mar 01 23:59:00 UTC 2016</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="feedbackResponseCommentText">
+                                                        Instructor second comment to Alice about feedback to Benny</td>
+                                                    <td class="feedbackResponseCommentGiver">
+                                                        teammates.test@gmail.com</td>
+                                                    <td class="feedbackResponseCommentTime">
+                                                        Wed Mar 02 23:59:00 UTC 2016</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                    
+                    </div>
+                    <br>
+                    <br>
+                
+                        <div class="backgroundBlock">
+                            <h2 class="color_white">From: Benny Charlés (Team 1)</h2>
+                    
+                            <table class="resultTable" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th class="leftalign"><span class="bold">To: </span>Charlie Davis (Team 1)</th>
+                                    </tr>
+                                </thead>
+                        
+                                <tr class="resultSubheader">
+                                    <td class="multiline"><span class="bold">Question 2: </span>Rate 5 other students&#39; products
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="multiline"><span class="bold">Response: </span>Charlie did alot of work.</td>
+                                </tr>
+                            
+                            </table>
+                            <br>
+                        
+                    
+                            <table class="resultTable" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th class="leftalign"><span class="bold">To: </span>Danny Engrid (Team 2)</th>
+                                    </tr>
+                                </thead>
+                        
+                                <tr class="resultSubheader">
+                                    <td class="multiline"><span class="bold">Question 2: </span>Rate 5 other students&#39; products
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="multiline"><span class="bold">Response: </span>Danny starts with D.</td>
+                                </tr>
+                            
+                            </table>
+                            <br>
+                        
+                    
+                    </div>
+                    
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+            
+                    <div class="student_eval" id="studentEval-0">
+                    <table class="inputTable" id="studentEvaluationInfo">
+                        <tr>
+                            <td class="label rightalign bold" width="250px">Evaluation Name:</td>
+                            <td class="leftalign" id="eval_name-0"width="250px">First Eval</td>
+                        </tr>
+                    </table>
+                
+                        <h2 class="centeralign">Benny Charlés's Result</h2>
+                        <table class="resultTable">
+                            <thead><tr>
+                                <th colspan="2" width="10%" class="bold leftalign">
+                                    <span class="resultHeader">Reviewee: </span>Benny Charlés</th>
+                                <th class="bold leftalign"><span class="resultHeader"
+                                    onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
+                                    onmouseout="hideddrivetip()">
+                                    Claimed Contribution: </span><span class="color_negative">N/A</span></th>
+                                <th class="bold leftalign"><span class="resultHeader"
+                                    onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
+                                    onmouseout="hideddrivetip()">
+                                    Perceived Contribution: </span>Equal Share<span class="color_positive"> + 5%</span></th>
+                                </tr></thead>
+                                <tr>
+                                <td colspan="4"><span class="bold">Self evaluation:</span><br>
+                                        N/A</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><span class="bold">Comments about team:</span><br>
+                                        </td>
+                                </tr>
+                                <tr class="resultSubheader">
+                                    <td width="15%" class="bold">From Student</td>
+                                    <td width="5%" class="bold">Contribution</td>
+                                    <td width="40%" class="bold">Confidential comments</td>
+                                    <td width="40%" class="bold">Feedback to peer</td>
+                                </tr>
+                    
+                            <tr>
+                                <td><b>Charlie Davis</b></td>
+                                <td>Equal Share</td>
+                                <td>This is a justification from charlie.d.tmms@gmail.com to benny.c.tmms@gmail.com</td>
+                                <td>N/A</td>
+                            </tr>
+                    
+                            <tr>
+                                <td><b>Teammates Test</b></td>
+                                <td>Equal Share<br /><span class="color_positive"> + 10%</span></td>
+                                <td>This is a justification from teammates.test@gmail.com to benny.c.tmms@gmail.com</td>
+                                <td>This is a public comment from teammates.test@gmail.com to benny.c.tmms@gmail.com</td>
+                            </tr>
+                    
+                        </table>
+                        <br><br>
+                
+                        <h2 class="centeralign">Benny Charlés's Submission</h2>
+                        <table class="resultTable">
+                            <thead><tr>
+                                <th colspan="2" width="10%" class="bold leftalign">
+                                    <span class="resultHeader">Reviewer: </span>Benny Charlés</th>
+                                <th class="bold leftalign"><span class="resultHeader"
+                                    onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
+                                    onmouseout="hideddrivetip()">
+                                    Claimed Contribution: </span><span class="color_negative">N/A</span></th>
+                                <th class="bold leftalign"><span class="resultHeader"
+                                    onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
+                                    onmouseout="hideddrivetip()">
+                                    Perceived Contribution: </span>Equal Share<span class="color_positive"> + 5%</span></th>
+                                </tr></thead>
+                                <tr>
+                                <td colspan="4"><span class="bold">Self evaluation:</span><br>
+                                        N/A</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><span class="bold">Comments about team:</span><br>
+                                        </td>
+                                </tr>
+                                <tr class="resultSubheader">
+                                    <td width="15%" class="bold">To Student</td>
+                                    <td width="5%" class="bold">Contribution</td>
+                                    <td width="40%" class="bold">Confidential comments</td>
+                                    <td width="40%" class="bold">Feedback to peer</td>
+                                </tr>
+                    
+                            <tr>
+                                <td><b>Charlie Davis</b></td>
+                                <td>Equal Share<br /><span class="color_negative"> - 5%</span></td>
+                                <td>This is a justification from benny.c.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
+                                <td>This is a public comment from benny.c.tmms@gmail.com to charlie.d.tmms@gmail.com</td>
+                            </tr>
+                    
+                            <tr>
+                                <td><b>Teammates Test</b></td>
+                                <td>Equal Share<br /><span class="color_positive"> + 5%</span></td>
+                                <td>This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com</td>
+                                <td>This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com</td>
+                            </tr>
+                    
+                        </table>
+                        <br><br>
+                
+                    <div class="centeralign">
+                        <input type="button" class="button" id="button_edit-0" value="Edit Submission"
+                            onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=ISR.CS2104&evaluationname=First+Eval&studentemail=benny.c.tmms%40gmail.com&user=ISR.teammates.test'">
+                    </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+            
+                    <div class="student_feedback" id="studentFeedback-1">
+                    <table class="inputTable" id="studentEvaluationInfo">
+                        <tr>
+                            <td class="label rightalign bold" width="250px">Feedback Session Name:</td>
+                            <td class="leftalign" id="feedback_name-1" width="250px">Second feedback session</td>
+                        </tr>
+                    </table>
+                    <br><br>
+            
+                    <div class="backgroundBlock">
+                            <h4 class="centeralign color_white">No feedback for Benny Charlés found</h4>
+                    </div>
+                    <br>
+                    <br>
+                
+                        <div class="backgroundBlock">
+                            <h4 class="centeralign color_white">No feedback by Benny Charlés found</h4>
+                        </div>
+                    
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+            
+                    <div class="student_feedback" id="studentFeedback-2">
+                    <table class="inputTable" id="studentEvaluationInfo">
+                        <tr>
+                            <td class="label rightalign bold" width="250px">Feedback Session Name:</td>
+                            <td class="leftalign" id="feedback_name-2" width="250px">3rd feedback session</td>
+                        </tr>
+                    </table>
+                    <br><br>
+            
+                    <div class="backgroundBlock">
+                            <h4 class="centeralign color_white">No feedback for Benny Charlés found</h4>
+                    </div>
+                    <br>
+                    <br>
+                
+                        <div class="backgroundBlock">
+                            <h4 class="centeralign color_white">No feedback by Benny Charlés found</h4>
+                        </div>
+                    
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+            
+                    <div class="student_eval" id="studentEval-1">
+                    <table class="inputTable" id="studentEvaluationInfo">
+                        <tr>
+                            <td class="label rightalign bold" width="250px">Evaluation Name:</td>
+                            <td class="leftalign" id="eval_name-1"width="250px">Second Eval</td>
+                        </tr>
+                    </table>
+                
+                        <h2 class="centeralign">Benny Charlés's Result</h2>
+                        <table class="resultTable">
+                            <thead><tr>
+                                <th colspan="2" width="10%" class="bold leftalign">
+                                    <span class="resultHeader">Reviewee: </span>Benny Charlés</th>
+                                <th class="bold leftalign"><span class="resultHeader"
+                                    onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
+                                    onmouseout="hideddrivetip()">
+                                    Claimed Contribution: </span><span class="color_negative">N/A</span></th>
+                                <th class="bold leftalign"><span class="resultHeader"
+                                    onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
+                                    onmouseout="hideddrivetip()">
+                                    Perceived Contribution: </span><span class="color_negative">N/A</span></th>
+                                </tr></thead>
+                                <tr>
+                                <td colspan="4"><span class="bold">Self evaluation:</span><br>
+                                        N/A</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><span class="bold">Comments about team:</span><br>
+                                        </td>
+                                </tr>
+                                <tr class="resultSubheader">
+                                    <td width="15%" class="bold">From Student</td>
+                                    <td width="5%" class="bold">Contribution</td>
+                                    <td width="40%" class="bold">Confidential comments</td>
+                                    <td width="40%" class="bold">Feedback to peer</td>
+                                </tr>
+                    
+                            <tr>
+                                <td><b>Charlie Davis</b></td>
+                                <td><span class="color_negative">N/A</span></td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                            </tr>
+                    
+                            <tr>
+                                <td><b>Teammates Test</b></td>
+                                <td><span class="color_negative">N/A</span></td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                            </tr>
+                    
+                        </table>
+                        <br><br>
+                
+                        <h2 class="centeralign">Benny Charlés's Submission</h2>
+                        <table class="resultTable">
+                            <thead><tr>
+                                <th colspan="2" width="10%" class="bold leftalign">
+                                    <span class="resultHeader">Reviewer: </span>Benny Charlés</th>
+                                <th class="bold leftalign"><span class="resultHeader"
+                                    onmouseover="ddrivetip('This is student own estimation of his/her contributions to the project')"
+                                    onmouseout="hideddrivetip()">
+                                    Claimed Contribution: </span><span class="color_negative">N/A</span></th>
+                                <th class="bold leftalign"><span class="resultHeader"
+                                    onmouseover="ddrivetip('This is the average of what other team members think this student contributed to the project')"
+                                    onmouseout="hideddrivetip()">
+                                    Perceived Contribution: </span><span class="color_negative">N/A</span></th>
+                                </tr></thead>
+                                <tr>
+                                <td colspan="4"><span class="bold">Self evaluation:</span><br>
+                                        N/A</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><span class="bold">Comments about team:</span><br>
+                                        </td>
+                                </tr>
+                                <tr class="resultSubheader">
+                                    <td width="15%" class="bold">To Student</td>
+                                    <td width="5%" class="bold">Contribution</td>
+                                    <td width="40%" class="bold">Confidential comments</td>
+                                    <td width="40%" class="bold">Feedback to peer</td>
+                                </tr>
+                    
+                            <tr>
+                                <td><b>Charlie Davis</b></td>
+                                <td><span class="color_negative">N/A</span></td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                            </tr>
+                    
+                            <tr>
+                                <td><b>Teammates Test</b></td>
+                                <td>Equal Share</td>
+                                <td>This is a justification from benny.c.tmms@gmail.com to teammates.test@gmail.com</td>
+                                <td>This is a public comment from benny.c.tmms@gmail.com to teammates.test@gmail.com</td>
+                            </tr>
+                    
+                        </table>
+                        <br><br>
+                
+                    <div class="centeralign">
+                        <input type="button" class="button" id="button_edit-1" value="Edit Submission"
+                            onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=ISR.CS2104&evaluationname=Second+Eval&studentemail=benny.c.tmms%40gmail.com&user=ISR.teammates.test'">
+                    </div>
+                </div>
+            <br />
+            <hr />
+            <br /> <br /> <br /> <br />
+        </div>
+    </div>
+    <div id="frameBottom">
+        <div id="contentFooter">
+            <span class="floatleft"> [<span class="color_white">TEAMMATES </span>V{$version}]
+            </span> [for <span class="color_white"> National University of Singapore </span> ] 
+            <span class="floatright"> [Send <span class="color_white"> <a href="../contact.html" target="_blank"> Feedback </a>
+            </span> ]
+            </span>
+        </div>
+    </div>
 </body>
 </html>
