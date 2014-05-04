@@ -10,12 +10,12 @@ These instructions are for the Windows environment. Instructions for Mac OS is s
 
 ####Development environment
 * Eclipse IDE for EE developers [version Kepler]
-* Google App Engine Plugin for Eclipse [version 4.2 or version 4.3]
-* Google App Engine SDK [version 1.7.7.1]
+* Google App Engine Plugin for Eclipse [version 4.3]
+* Google App Engine SDK [version 1.9.4]
 * GitHub
 * GitHub for Windows/Mac equivalent [version: latest stable]
 
-###Tools used in implementation
+####Tools used in implementation
 * HTML [version 5, using latest features is discouraged due to lack of enough Browser support], JavaScript, CSS
 * jQuery [version 1.8.3]
 * jQuery is a JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development.
@@ -30,7 +30,7 @@ These instructions are for the Windows environment. Instructions for Mac OS is s
   Comes with App Engine SDK.
 * Xerces XML Parser [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
 
-###Tools used in testing
+####Tools used in testing
 
 * Selenium [version 2.26.0]
     Selenium automates browsers. We use it for automating our UI tests.
@@ -49,14 +49,17 @@ These instructions are for the Windows environment. Instructions for Mac OS is s
     HttpUnit [version 1.7]
     We use the ServletUnit component of HttpUnit to create HttpServletUnit objects used for testing.
 
-###Config points
+####Config points
 There are several files used to configure various aspects of the system.
 
-* `build.properties` : This is the main general purpose configuration file used by the main app.
+**main:**
+* `build.properties` : This is the main general purpose configuration file used by the Web app.
+* `test.properties` : Contains configuration values for the test driver.
+* `appengine-web.xml` : Contains configuration for deploying the application on App Engine.
+
+**other:**
 * `logging.properties` : Configuration for java.util.logging users.
 * `log4j.properties` : Configuration for log4j users. Not used by us.
-* `test.properties` : Contains configuration values for the test driver.
-* `appengine-web.xml` : Contains configuration for deploying the application on app engine.
 * `web.xml` : This is the configurations for the webserver. It specifies servlets to run, mapping from URLs to servlets/JSPs, security constraints, etc.
 * `cron.xml` : This specifies cron jobs to run.
 * `queue.xml` : Specifies configuration of task queues.
@@ -68,7 +71,6 @@ There are several files used to configure various aspects of the system.
 Important: When a version is specified, please install that version instead of the latest version available.
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
-2. Clone the source code from `https://github.com/TEAMMATES/repo`
 3. Install the latest JDK 7.
 4. [Download Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Kepler).
 5. Change the text file encoding of your Eclipse workspace to UTF-8: <br> 
@@ -80,44 +82,53 @@ Important: When a version is specified, please install that version instead of t
    Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.3 <br>
    Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
-7. Install Google App Engine SDK version 1.7.7.1 <br>
-   Instructions are at https://developers.google.com/eclipse/docs/using_sdks.<br>
-   Download link to the SDK is http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.7.1.zip.
+7. Install Google App Engine SDK version 1.9.4 (this may not the be the latest one)<br>
+   Download link to the SDK is https://commondatastorage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.4.zip.<br>
+   Instructions for installing are at https://developers.google.com/eclipse/docs/using_sdks.
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/eclipse.html).
 9. If you plan to use Firefox for testing TEAMMATES 
    (alternatively, you may use Chrome or IE, but FF is the most convenient of the three), 
    downgrade to Firefox 12.0 from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/)
-   {The web driver we use does not work with the latest Firefox.} 
-   or install multiple version of Firefox. To do this, grab Firefox 12.0 
-   from the above link, and choose a custom setup during install, 
-   in which you will be able to specify a different path for this version 
-   (e.g. C:\Program Files\Mozilla Firefox 12) in a later step.
+   {The web driver we use does not work with the latest Firefox.} <br>
+   To install Firefox 12.0 while keeping the latest one for
+   regular use, grab Firefox 12.0 from the above link, and choose a custom 
+   setup during install, in which you will be able to specify a different path 
+   for this version e.g. `C:\Program Files\Mozilla Firefox 12`) in a later step.
 
 ##Setting up the dev server
 `Dev server` means running the server in localhost mode.
 
-1. Create config files {these are not under revision control because their 
+1. Clone the source code from `https://github.com/TEAMMATES/repo`
+2. Create main config files {These are not under revision control because their 
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
-   Use build.template.properties as a template (i.e. copy → paste → rename)
+   Use `build.template.properties` (in the same folder) 
+   as a template (i.e. `copy → paste → rename`).
    For dev server testing, property values can remain as they are.
    * `src/test/resources/test.properties`<br>
-   Create it using test.template.properties (in the same folder). 
-   For dev server testing, property values can remain as they are.
+   Create it using `test.template.properties`. 
+   For dev server testing, property values can remain as they are.<br>
    If you have installed multiple versions of Firefox, you need to specify 
-   which one to use for testing, by modifying the test.firefox.path property.
-   * src/main/webapp/WEB-INF/appengine-web.xml<br>
-   Create using appengine-web.template.xml. 
+   which one to use for testing, by modifying the `test.firefox.path` property 
+   (note the double slashes).<br>
+   e.g. `test.firefox.path=C:\\Program Files (x86)\\Mozilla Firefox 12.1\\firefox.exe`
+   * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
+   Create using `appengine-web.template.xml`. 
    For dev server testing, property values can remain as they are.
-    
-2. In Eclipse, go to `Windows → Preferences → Java → Installed JRE` and ensure a 
+3. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libs.zip)
+   containing the required library files and unzip it into
+   your project folder. Note that this will overwrite some existing library files,
+   which is what we want. If you unzipped it into the right location, you should now see
+   a `[project folder]/src/test/resources/lib/appengine` containing several jar files.
+4. In Eclipse, go to `Windows → Preferences → Java → Installed JRE` and ensure a 
    JDK (not a JRE) is selected. One of the items in the [Troubleshooting help]
    (https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
     explains how to do this.<br>
     Right-click on the project folder and choose `Run → As Web Application`. 
     After some time, you should see this message on the console 
     `Dev App Server is now running` or something similar.
-    The dev server is now ready to serve requests at the given URL. 
+    The dev server is now ready to serve requests at the URL given in the console output.
+    e.g `http://localhost:8888`.<br> 
     You can verify by visiting the URL in your Browser.
     To login to the system, you need to add yourself as an instructor first (described below).
     
@@ -131,7 +142,7 @@ Important: When a version is specified, please install that version instead of t
 
 	> Google id: `teammates.instructor` <br>
 	  Name: `John Dorian` <br>
-	  Email: `teammates.instructor@gmail.com` <br>
+	  Email: `teammates.instructor@university.edu` <br>
 	  Institute: `National University of Singapore` 
 	  
 ##Running the test suite
@@ -142,12 +153,11 @@ as expected by test cases. Here is the procedure.
 1. Stop the dev server, if it is running already.
 2. Specify timezone as a VM argument:
     * Go to the 'run configuration' you used to start the dev server.
-    * Click on the to the `Arguments` and add `-Duser.timezone=UTC` to the `VM arguments` text box.
+    * Click on the to the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
     * Save the configuration for future use:<br>
       Go to the `Common` tab (the last one) and make sure you have selected
       `Save as → Local file` and `Display in favorites menu →  Run, Debug`.
-3. Start the server.
-
+3. Start the server.<br>
 This can be done using the `All tests` option under the green `Run` button 
 in the Eclipse toolbar. If this option is not available 
 (sometimes, Eclipse does not show this option immediately after you set up the project. 
@@ -159,7 +169,7 @@ The default browser used for testing is the Firefox browser.
 Testing on the Firefox browser is relatively faster as compared to the other browsers, 
 and it can be run in the background.
 
-To change the browser that is used in the UI tests, go to the test.properties 
+To change the browser that is used in the UI tests, go to the `test.properties` 
 file and change the `test.selenium.browser` value to the browser you want to test. 
 Possible values are `firefox` or `chrome`. 
 In addition, you need to configure the browser you have selected so that 
@@ -194,12 +204,9 @@ it works with the test suite.
 
 2. Modify configuration files.
    * `src/main/resources/build.properties` <br>
-       Follow instructions in the file itself.
+      Edit the file as instructed in its comments.
    * `src/test/resources/test.properties` <br>
       Edit the file as instructed in its comments. 
-      Note that in addition to your own Google account, you need four other 
-      Google accounts as test accounts. Create four Google accounts and add 
-      their details to the file.
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
       Modify to match app name and app id of your own app.
 3. Deploy the application to your staging server.
@@ -208,8 +215,7 @@ it works with the test suite.
    * Go to appengine dashboard `https://appengine.google.com/dashboard?&app_id=teammates-name`
    * Click `Versions` under `Main` menu on the left bar.
    * Set the version you deployed as the `default`. <br>
-
-> Note: You can skip the steps to set the deployed version as the default. 
+   Note: You can skip the steps to set the deployed version as the default. 
    In that case, you can access the deployed app using 
    `http://{version}-dot-{app-id}.appspot.com` e.g. `http://4-18-dot-teammates-john.appspot.com`
     You can run the tests again against the deployed app 
@@ -218,4 +224,4 @@ it works with the test suite.
     Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.
 
 ##Troubleshooting
-Troubleshooting instructions have moved [here](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
+Troubleshooting instructions are given [in this document](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
