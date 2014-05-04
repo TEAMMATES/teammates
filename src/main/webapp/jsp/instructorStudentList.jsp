@@ -64,7 +64,7 @@
 								<label for="option_check">
 								Show More Options
 								</label>
-							<input id="displayArchivedCourses_check" type="checkbox" <%if(data.displayArchive){%>checked="checked"<%}%>">
+							<input id="displayArchivedCourses_check" type="checkbox" <%if(data.displayArchive){%>checked="checked"<%}%>>
 							<label for="displayArchivedCourses_check">Display Archived Courses</label>
 						</td>
 					</tr>
