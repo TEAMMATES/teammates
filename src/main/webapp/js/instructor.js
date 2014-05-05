@@ -10,26 +10,26 @@
 
 
 window.addEventListener('load', function (){
-	initializetooltip();
-	if(typeof doPageSpecificOnload !== 'undefined'){
-		doPageSpecificOnload();
-	};
-	initializenavbar();
+    initializetooltip();
+    if(typeof doPageSpecificOnload !== 'undefined'){
+        doPageSpecificOnload();
+    };
+    initializenavbar();
 });
 
 $(document).ready(function(){
-	$("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
-    	var query = window.location.search.substring(1);
-		var params = {};
+    $("select#"+FEEDBACK_SESSION_CHANGETYPE).change(function (){
+        var query = window.location.search.substring(1);
+        var params = {};
 
-		var param_values = query.split("&");
-		for(var i=0;i<param_values.length;i++){
-			var param_value = param_values[i].split("=");
-			params[param_value[0]] = param_value[1];
-		}
+        var param_values = query.split("&");
+        for(var i=0;i<param_values.length;i++){
+            var param_value = param_values[i].split("=");
+            params[param_value[0]] = param_value[1];
+        }
 
-		console.log($(this).val()+"?user="+params["user"])+"&courseid="+$("select#"+COURSE_ID).val();
-    	window.location.href = $(this).val()+"?user="+params["user"]+"&courseid="+$("select#courseid").val();
+        console.log($(this).val()+"?user="+params["user"])+"&courseid="+$("select#"+COURSE_ID).val();
+        window.location.href = $(this).val()+"?user="+params["user"]+"&courseid="+$("select#courseid").val();
     });
 });
 
@@ -45,9 +45,9 @@ document.onmousemove = positiontip;
  * @returns
  */
 function toggleDeleteCourseConfirmation(courseID) {
-	return confirm("Are you sure you want to delete the course: " + courseID + "? " +
-			"This operation will delete all students and evaluations in this course. " +
-			"All instructors of this course will not be able to access it hereafter as well.");
+    return confirm("Are you sure you want to delete the course: " + courseID + "? " +
+            "This operation will delete all students and evaluations in this course. " +
+            "All instructors of this course will not be able to access it hereafter as well.");
 }
 
 /**
@@ -57,7 +57,7 @@ function toggleDeleteCourseConfirmation(courseID) {
  * @returns
  */
 function toggleDeleteEvaluationConfirmation(courseID, name) {
-	return confirm("Are you sure you want to delete the evaluation " + name + " in " + courseID + "?");
+    return confirm("Are you sure you want to delete the evaluation " + name + " in " + courseID + "?");
 }
 
 /**
@@ -67,7 +67,7 @@ function toggleDeleteEvaluationConfirmation(courseID, name) {
  * @returns
  */
 function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
-	return confirm("Are you sure you want to delete the feedback session " + name + " in " + courseID + "?");
+    return confirm("Are you sure you want to delete the feedback session " + name + " in " + courseID + "?");
 }
 
 /**
@@ -76,7 +76,7 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
  * @param name
  */
 function togglePublishEvaluation(name) {
-	return confirm("Are you sure you want to publish the evaluation " + name + "?");
+    return confirm("Are you sure you want to publish the evaluation " + name + "?");
 }
 
 /**
@@ -85,7 +85,7 @@ function togglePublishEvaluation(name) {
  * @param name
  */
 function toggleUnpublishEvaluation(name){
-	return confirm("Are you sure you want to unpublish the evaluation " + name + "?");
+    return confirm("Are you sure you want to unpublish the evaluation " + name + "?");
 }
 
 /**
@@ -95,7 +95,7 @@ function toggleUnpublishEvaluation(name){
  * @param evaluationName
  */
 function toggleRemindStudents(evaluationName) {
-	return confirm("Send e-mails to remind students who have not submitted their evaluations for " + evaluationName + "?");
+    return confirm("Send e-mails to remind students who have not submitted their evaluations for " + evaluationName + "?");
 }
 
 
@@ -108,7 +108,7 @@ function toggleRemindStudents(evaluationName) {
  * @returns {Boolean}
  */
 function isStudentTeamNameValid(teamName) {
-	return teamName.length<=TEAMNAME_MAX_LENGTH;
+    return teamName.length<=TEAMNAME_MAX_LENGTH;
 }
 
 /**
@@ -118,18 +118,18 @@ function isStudentTeamNameValid(teamName) {
  * @returns {Boolean}
  */
 function isStudentInputValid(editName, editTeamName, editEmail) {
-	if (editName == "" || editTeamName == "" || editEmail == "") {
-		setStatusMessage(DISPLAY_FIELDS_EMPTY,true);
-		return false;
-	} else if (!isNameValid(editName)) {
-		setStatusMessage(DISPLAY_NAME_INVALID,true);
-		return false;
-	} else if (!isStudentTeamNameValid(editTeamName)) {
-		setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID,true);
-		return false;
-	} else if (!isEmailValid(editEmail)){
-		setStatusMessage(DISPLAY_EMAIL_INVALID,true);
-		return false;
-	}
-	return true;
+    if (editName == "" || editTeamName == "" || editEmail == "") {
+        setStatusMessage(DISPLAY_FIELDS_EMPTY,true);
+        return false;
+    } else if (!isNameValid(editName)) {
+        setStatusMessage(DISPLAY_NAME_INVALID,true);
+        return false;
+    } else if (!isStudentTeamNameValid(editTeamName)) {
+        setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID,true);
+        return false;
+    } else if (!isEmailValid(editEmail)){
+        setStatusMessage(DISPLAY_EMAIL_INVALID,true);
+        return false;
+    }
+    return true;
 }

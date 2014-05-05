@@ -9,40 +9,40 @@ import teammates.common.util.Const;
 
 public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
-	DataBundle dataBundle;
+    DataBundle dataBundle;
 
-	
-	@BeforeClass
-	public static void classSetUp() throws Exception {
-		printTestClassHeader();
-		uri = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
-	}
+    
+    @BeforeClass
+    public static void classSetUp() throws Exception {
+        printTestClassHeader();
+        uri = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
+    }
 
-	@BeforeMethod
-	public void methodSetUp() throws Exception {
-		dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-	}
-	
-	@Test
-	public void testAccessControl() throws Exception{
-		
-		String iDOfCourseOfStudent = dataBundle.students.get("student1InCourse1").course;
-		
-		String[] submissionParams = new String[]{
-					Const.ParamsNames.COURSE_ID, iDOfCourseOfStudent
-				};
-		
-		verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-		
-	}
-	
-	@Test
-	public void testExecuteAndPostProcess() throws Exception{
-		
-		//TODO: implement this
-		
-	}
+    @BeforeMethod
+    public void methodSetUp() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
+    }
+    
+    @Test
+    public void testAccessControl() throws Exception{
+        
+        String iDOfCourseOfStudent = dataBundle.students.get("student1InCourse1").course;
+        
+        String[] submissionParams = new String[]{
+                    Const.ParamsNames.COURSE_ID, iDOfCourseOfStudent
+                };
+        
+        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        
+    }
+    
+    @Test
+    public void testExecuteAndPostProcess() throws Exception{
+        
+        //TODO: implement this
+        
+    }
 
-	
+    
 }

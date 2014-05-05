@@ -9,10 +9,10 @@
          <link href="/stylesheets/common.css"  media="screen"  rel="stylesheet"  type="text/css" />
                   <link href="/stylesheets/instructorFeedbacks.css"  media="screen"  rel="stylesheet"  type="text/css" />
                   <link href="/stylesheets/common-print.css"  media="print"  rel="stylesheet"  type="text/css" />
-	<link href="/stylesheets/datepicker.css"  media="screen"  rel="stylesheet"  type="text/css" />
+    <link href="/stylesheets/datepicker.css"  media="screen"  rel="stylesheet"  type="text/css" />
 
-	<script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-	<script src="/js/jquery-minified.js" type="text/javascript"></script>
+    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
+    <script src="/js/jquery-minified.js" type="text/javascript"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script src="/js/tooltip.js"  type="text/javascript" ></script>
     <script src="/js/date.js"  type="text/javascript" ></script>
@@ -986,19 +986,19 @@
                                  </tbody>
                               </table>
                               <input id="noofchoicecreated-2"  name="noofchoicecreated"  type="hidden"  value="2" />
-							</td>
-							<td colspan="2" style="vertical-align:top;">
-								<label><input disabled="disabled" id="generateOptionsCheckbox-2"
-									onchange="toggleMcqGeneratedOptions(this,2)" type="checkbox" />
-									Or, generate options from the list of all </label>
-								<select disabled="disabled" id="mcqGenerateForSelect-2"
-									onchange="changeMcqGenerateFor(2)">
-									<option value="STUDENTS">students</option>
-									<option value="TEAMS">teams</option>
-									<option value="INSTRUCTORS">instructors</option>
-								</select>
-								<input id="generatedOptions-2" name="generatedOptions" type="hidden" value="NONE" />
-							</td>
+                            </td>
+                            <td colspan="2" style="vertical-align:top;">
+                                <label><input disabled="disabled" id="generateOptionsCheckbox-2"
+                                    onchange="toggleMcqGeneratedOptions(this,2)" type="checkbox" />
+                                    Or, generate options from the list of all </label>
+                                <select disabled="disabled" id="mcqGenerateForSelect-2"
+                                    onchange="changeMcqGenerateFor(2)">
+                                    <option value="STUDENTS">students</option>
+                                    <option value="TEAMS">teams</option>
+                                    <option value="INSTRUCTORS">instructors</option>
+                                </select>
+                                <input id="generatedOptions-2" name="generatedOptions" type="hidden" value="NONE" />
+                            </td>
                         </tr>
                         <tr>
                            <td class="bold"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Who will give feedback')" >
@@ -1208,7 +1208,7 @@
                               <option value="MSQ" >
                                  Multiple-choice (multiple answers)
                               </option>
-								<option value="NUMSCALE">Numerical-scale question</option>
+                                <option value="NUMSCALE">Numerical-scale question</option>
                            </select>
                         </td>
                         <td>
@@ -1289,84 +1289,84 @@
                                  </tbody>
                               </table>
                               <input id="noofchoicecreated"  name="noofchoicecreated"  type="hidden" />
-							</td>
-                          	<td colspan="2" style="vertical-align:top;">
-								<label><input id="generateOptionsCheckbox"
-									onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox" />
-									Or, generate options from the list of all </label>
-								<select disabled="disabled" id="mcqGenerateForSelect"
-									onchange="changeMcqGenerateFor(-1)">
-									<option value="STUDENTS">students</option>
-									<option value="TEAMS">teams</option>
-									<option value="INSTRUCTORS">instructors</option>
-								</select>
-							</td>
+                            </td>
+                              <td colspan="2" style="vertical-align:top;">
+                                <label><input id="generateOptionsCheckbox"
+                                    onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox" />
+                                    Or, generate options from the list of all </label>
+                                <select disabled="disabled" id="mcqGenerateForSelect"
+                                    onchange="changeMcqGenerateFor(-1)">
+                                    <option value="STUDENTS">students</option>
+                                    <option value="TEAMS">teams</option>
+                                    <option value="INSTRUCTORS">instructors</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr id="msqForm">
-							<td colspan="2">
-								<table id="msqChoiceTable">
-									<tbody>
-										<tr id="msqOptionRow-0">
-											<td><input disabled="disabled" type="checkbox" /></td>
-											<td><input class="msqOptionTextBox" id="msqOption-0"
-												name="msqOption-0" type="text" /> <a
-												class="removeOptionLink" href="#" id="msqRemoveOptionLink"
-												onclick="removeMsqOption(0,-1)" tabindex="-1"> x </a></td>
-										</tr>
-										<tr id="msqOptionRow-1">
-											<td><input disabled="disabled" type="checkbox" /></td>
-											<td><input class="msqOptionTextBox" id="msqOption-1"
-												name="msqOption-1" type="text" /> <a
-												class="removeOptionLink" href="#" id="msqRemoveOptionLink"
-												onclick="removeMsqOption(1,-1)" tabindex="-1"> x </a></td>
-										</tr>
-										<tr id="msqAddOptionRow">
-											<td colspan="2"><a class="color_blue" href="#"
-												id="msqAddOptionLink" onclick="addMsqOption(-1)">+add more options</a></td>
-										</tr>
-									</tbody>
-								</table>
-								<input id="noofchoicecreated" name="noofchoicecreated"	type="hidden" />
-							</td>
-							<td colspan="2" style="vertical-align:top;">
-								<label><input id="generateOptionsCheckbox"
-									onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox" />
-									Or, generate options from the list of all </label>
-								<select disabled="disabled" id="msqGenerateForSelect"
-									onchange="changeMsqGenerateFor(-1)">
-									<option value="STUDENTS">students</option>
-									<option value="TEAMS">teams</option>
-									<option value="INSTRUCTORS">instructors</option>
-								</select>
-							</td>
-						</tr>
-						<tr id="numScaleForm">
-							<td colspan="4">
-								<table>
-									<tr>
-                                       	<td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Minimum acceptable response value')" >
-                                          	Minimum value:
-                                          	<input class="minScaleBox"  id="minScaleBox"  name="numscalemin"  onchange="updateNumScalePossibleValues(-1)"  type="number"  value="1" />
-                                      	</td>
-                                       	<td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Value to be increased/decreased each step')" >
-                                          	Increment:
-                                          	<input class="stepBox"  id="stepBox"  min="0.001"  name="numscalestep"  onchange="updateNumScalePossibleValues(-1)"  step="0.001"  type="number"  value="0.5" />
+                            <td colspan="2">
+                                <table id="msqChoiceTable">
+                                    <tbody>
+                                        <tr id="msqOptionRow-0">
+                                            <td><input disabled="disabled" type="checkbox" /></td>
+                                            <td><input class="msqOptionTextBox" id="msqOption-0"
+                                                name="msqOption-0" type="text" /> <a
+                                                class="removeOptionLink" href="#" id="msqRemoveOptionLink"
+                                                onclick="removeMsqOption(0,-1)" tabindex="-1"> x </a></td>
+                                        </tr>
+                                        <tr id="msqOptionRow-1">
+                                            <td><input disabled="disabled" type="checkbox" /></td>
+                                            <td><input class="msqOptionTextBox" id="msqOption-1"
+                                                name="msqOption-1" type="text" /> <a
+                                                class="removeOptionLink" href="#" id="msqRemoveOptionLink"
+                                                onclick="removeMsqOption(1,-1)" tabindex="-1"> x </a></td>
+                                        </tr>
+                                        <tr id="msqAddOptionRow">
+                                            <td colspan="2"><a class="color_blue" href="#"
+                                                id="msqAddOptionLink" onclick="addMsqOption(-1)">+add more options</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <input id="noofchoicecreated" name="noofchoicecreated"    type="hidden" />
+                            </td>
+                            <td colspan="2" style="vertical-align:top;">
+                                <label><input id="generateOptionsCheckbox"
+                                    onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox" />
+                                    Or, generate options from the list of all </label>
+                                <select disabled="disabled" id="msqGenerateForSelect"
+                                    onchange="changeMsqGenerateFor(-1)">
+                                    <option value="STUDENTS">students</option>
+                                    <option value="TEAMS">teams</option>
+                                    <option value="INSTRUCTORS">instructors</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="numScaleForm">
+                            <td colspan="4">
+                                <table>
+                                    <tr>
+                                           <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Minimum acceptable response value')" >
+                                              Minimum value:
+                                              <input class="minScaleBox"  id="minScaleBox"  name="numscalemin"  onchange="updateNumScalePossibleValues(-1)"  type="number"  value="1" />
+                                          </td>
+                                           <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Value to be increased/decreased each step')" >
+                                              Increment:
+                                              <input class="stepBox"  id="stepBox"  min="0.001"  name="numscalestep"  onchange="updateNumScalePossibleValues(-1)"  step="0.001"  type="number"  value="0.5" />
                                         </td>
-                                       	<td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Maximum acceptable response value')" >
-                                          	Maximum value:
-                                          	<input class="maxScaleBox"  id="maxScaleBox"  name="numscalemax"  onchange="updateNumScalePossibleValues(-1)"  type="number"  value="5" />
+                                           <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Maximum acceptable response value')" >
+                                              Maximum value:
+                                              <input class="maxScaleBox"  id="maxScaleBox"  name="numscalemax"  onchange="updateNumScalePossibleValues(-1)"  type="number"  value="5" />
                                         </td>
                                     </tr>
                                     <tr>
-                                       	<td colspan="3" >
-                                          	<span id="numScalePossibleValues" >
-                                             	[Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]
-                                          	</span>
-                                       	</td>
+                                           <td colspan="3" >
+                                              <span id="numScalePossibleValues" >
+                                                 [Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]
+                                              </span>
+                                           </td>
                                     </tr>
-								</table>
-							</td>
-						</tr>
+                                </table>
+                            </td>
+                        </tr>
                         <tr>
                            <td class="bold"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Who will give feedback')" >
                               Feedback Giver:
@@ -1542,13 +1542,13 @@
                      </tbody>
                   </table>
                   <input name="questionnum"  type="hidden"  value="3" />
-	                <input name="fsname"  type="hidden"  value="First Session" />
-	                <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
-	                <input name="showresponsesto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
-	                <input name="showgiverto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
-	                <input name="showrecipientto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
-	                <input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
-					<input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
+                    <input name="fsname"  type="hidden"  value="First Session" />
+                    <input name="courseid"  type="hidden"  value="CFeedbackEditUiT.CS2104" />
+                    <input name="showresponsesto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
+                    <input name="showgiverto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
+                    <input name="showrecipientto"  type="hidden"  value="RECEIVER,INSTRUCTORS" />
+                    <input name="user"  type="hidden"  value="CFeedbackEditUiT.instructor" />
+                    <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE" />
                                  </form>
                <br/>
                               <br/>

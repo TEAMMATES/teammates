@@ -6,7 +6,7 @@
 <%@ page import="teammates.ui.controller.AdminAccountDetailsPageData"%>
 
 <%
-	AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttribute("data");
+    AdminAccountDetailsPageData data = (AdminAccountDetailsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -66,13 +66,13 @@
                     <th class="bold">Options</th>
                 </tr>
                 <%
-                	if(data.instructorCourseList != null && data.instructorCourseList.size() != 0){
-                                                                   	                    for(CourseDetailsBundle courseDetails : data.instructorCourseList){
-                                                                   	                        out.print("<tr>");
-                                                                   	                        out.print("<td>[" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
-                                                                   	                        out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + data.getAdminDeleteInstructorFromCourseLink(data.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
-                                                                   	                        out.print("</tr>");
-                                                                   	                    }
+                    if(data.instructorCourseList != null && data.instructorCourseList.size() != 0){
+                                                                                           for(CourseDetailsBundle courseDetails : data.instructorCourseList){
+                                                                                               out.print("<tr>");
+                                                                                               out.print("<td>[" + courseDetails.course.id + "] " + courseDetails.course.name + "</td>");
+                                                                                               out.print("<td><a id=\"instructor_" + courseDetails.course.id + "\" href=\"" + data.getAdminDeleteInstructorFromCourseLink(data.accountInformation.googleId, courseDetails.course.id)+ "\">Remove From Course</a></td>");
+                                                                                               out.print("</tr>");
+                                                                                           }
                                                                                     } else {
                                                                                         out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>");
                                                                                     }
@@ -88,7 +88,7 @@
                     <th class="bold">Options</th>
                 </tr>
                 <%
-                	if(data.studentCourseList != null){
+                    if(data.studentCourseList != null){
                                                                                         for(CourseAttributes course : data.studentCourseList){
                                                                                             out.print("<tr>");
                                                                                             out.print("<td>[" + course.id + "] " + course.name + "</td>");

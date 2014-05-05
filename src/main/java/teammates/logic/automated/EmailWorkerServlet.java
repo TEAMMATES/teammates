@@ -15,49 +15,49 @@ import teammates.logic.core.Emails;
 
 @SuppressWarnings("serial")
 public class EmailWorkerServlet extends WorkerServlet {
-	
-	private static Logger log = Utils.getLogger();
-	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-		
-		Emails.EmailType typeOfMail = Emails.EmailType.valueOf(HttpRequestHelper
-				.getValueFromRequestParameterMap(req, ParamsNames.EMAIL_TYPE));
-		Assumption.assertNotNull(typeOfMail);
-		
-		EmailAction emailObj = null;
-		int responseCode = Response.SC_OK;
-		
-		log.info("Email worker activated for :"+ HttpRequestHelper.printRequestParameters(req));
-		
-		switch(typeOfMail) {
-			case EVAL_CLOSING:
-				emailObj = new EvaluationClosingMailAction(req);
-				break;
-			case EVAL_OPENING:
-				emailObj = new EvaluationOpeningMailAction(req);
-				break;
-			case FEEDBACK_CLOSING:
-				emailObj = new FeedbackSessionClosingMailAction(req);
-				break;
-			case FEEDBACK_OPENING:
-				emailObj = new FeedbackSessionOpeningMailAction(req);
-				break;
-			case FEEDBACK_PUBLISHED:
-				emailObj = new FeedbackSessionPublishedMailAction(req);
-				break;
-				
-			default:
-				log.severe("Type of email is null");
-				responseCode = Response.SC_INTERNAL_SERVER_ERROR;
-		}
-		
-		if(emailObj != null) {
-			emailObj.sendEmails();
-		} else {
-			log.severe("Email object is null");
-			responseCode = Response.SC_INTERNAL_SERVER_ERROR;
-		}
-		
-		resp.setStatus(responseCode);
-	}
-}	
+    
+    private static Logger log = Utils.getLogger();
+    
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        
+        Emails.EmailType typeOfMail = Emails.EmailType.valueOf(HttpRequestHelper
+                .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_TYPE));
+        Assumption.assertNotNull(typeOfMail);
+        
+        EmailAction emailObj = null;
+        int responseCode = Response.SC_OK;
+        
+        log.info("Email worker activated for :"+ HttpRequestHelper.printRequestParameters(req));
+        
+        switch(typeOfMail) {
+            case EVAL_CLOSING:
+                emailObj = new EvaluationClosingMailAction(req);
+                break;
+            case EVAL_OPENING:
+                emailObj = new EvaluationOpeningMailAction(req);
+                break;
+            case FEEDBACK_CLOSING:
+                emailObj = new FeedbackSessionClosingMailAction(req);
+                break;
+            case FEEDBACK_OPENING:
+                emailObj = new FeedbackSessionOpeningMailAction(req);
+                break;
+            case FEEDBACK_PUBLISHED:
+                emailObj = new FeedbackSessionPublishedMailAction(req);
+                break;
+                
+            default:
+                log.severe("Type of email is null");
+                responseCode = Response.SC_INTERNAL_SERVER_ERROR;
+        }
+        
+        if(emailObj != null) {
+            emailObj.sendEmails();
+        } else {
+            log.severe("Email object is null");
+            responseCode = Response.SC_INTERNAL_SERVER_ERROR;
+        }
+        
+        resp.setStatus(responseCode);
+    }
+}    

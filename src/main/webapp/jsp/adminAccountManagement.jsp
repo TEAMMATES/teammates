@@ -10,7 +10,7 @@
 <%@ page import="teammates.ui.controller.AdminAccountManagementPageData"%>
 
 <%
-	AdminAccountManagementPageData data = (AdminAccountManagementPageData)request.getAttribute("data");
+    AdminAccountManagementPageData data = (AdminAccountManagementPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -49,16 +49,16 @@
                 <th class="bold" width="25%">Account Info</th>
                 <th class="bold">Instructor for</th>
                 <th class="bold" width="15%"><input class="buttonSortAscending" type="button"
-						id="button_sort_institute"
-						onclick="toggleSort(this,3);">Instructor Institute</th>
+                        id="button_sort_institute"
+                        onclick="toggleSort(this,3);">Instructor Institute</th>
                 <th class="bold" width="10%"><input class="buttonSortNone" type="button"
-						id="button_sort_createat"
-						onclick="toggleSort(this,4);">Create At</th>
+                        id="button_sort_createat"
+                        onclick="toggleSort(this,4);">Create At</th>
                 <th class="bold" width="25%">Options</th>
             </tr>
             <%
-            	for (Map.Entry<String, AccountAttributes> entry : data.instructorAccountsTable.entrySet()) {
-                                                    	String key = entry.getKey();
+                for (Map.Entry<String, AccountAttributes> entry : data.instructorAccountsTable.entrySet()) {
+                                                        String key = entry.getKey();
                                                         AccountAttributes acc = entry.getValue();
                                                         ArrayList<InstructorAttributes> coursesList = data.instructorCoursesTable.get(key);
             %>
@@ -66,21 +66,21 @@
                      <td><%="<span class=\"bold\">Google ID: </span><a href=\""+ data.getInstructorHomePageViewLink(acc.googleId) +"\" target=\"blank\">" + acc.googleId + "</a><br><span class=\"bold\">Name: </span>" + acc.name + "<br><span class=\"bold\">Email: </span>" + acc.email%></td>
                      <td>
                      <%
-                     	if(coursesList != null){
-                                                                                    	   out.print("Total Courses: " + coursesList.size() + "<br>");
-                                                                                    	   for(InstructorAttributes i: coursesList){
-                                                                                    	         out.print(" --- " + i.courseId + "<br>");
-                                                                                    	   }
-                                                                                    	} else {
-                                                                                    	        out.print("No Courses found");
-                                                                                    	}
+                         if(coursesList != null){
+                                                                                           out.print("Total Courses: " + coursesList.size() + "<br>");
+                                                                                           for(InstructorAttributes i: coursesList){
+                                                                                                 out.print(" --- " + i.courseId + "<br>");
+                                                                                           }
+                                                                                        } else {
+                                                                                                out.print("No Courses found");
+                                                                                        }
                      %>
                      </td>
                      <td id="<%=acc.googleId + "_institude"%>">
-                     	<%=acc.institute%>                     
+                         <%=acc.institute%>                     
                      </td>
                      <td id="<%=acc.googleId + "_createAt"%>">
-                     	<%=AdminAccountManagementPageData.displayDateTime(acc.createdAt)%>
+                         <%=AdminAccountManagementPageData.displayDateTime(acc.createdAt)%>
                      </td>
                      <td>
                         <a id="<%=acc.googleId + "_details"%>" href="<%=data.getAdminViewAccountDetailsLink(acc.googleId)%>">View Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -89,7 +89,7 @@
                      </td>
                 </tr>
             <%
-            	}
+                }
             %>
             </table>
             <br>

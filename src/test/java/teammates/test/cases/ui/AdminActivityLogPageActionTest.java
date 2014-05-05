@@ -9,33 +9,33 @@ import teammates.common.util.Const;
 
 public class AdminActivityLogPageActionTest extends BaseActionTest {
 
-	DataBundle dataBundle;
-	
-	
-	@BeforeClass
-	public static void classSetUp() throws Exception {
-		printTestClassHeader();
-		uri = Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE;
-	}
+    DataBundle dataBundle;
+    
+    
+    @BeforeClass
+    public static void classSetUp() throws Exception {
+        printTestClassHeader();
+        uri = Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE;
+    }
 
-	@BeforeMethod
-	public void caseSetUp() throws Exception {
-		dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-	}
-	
-	@Test
-	public void testAccessControl() throws Exception{
-		String[] submissionParams = new String[]{};
-		verifyOnlyAdminsCanAccess(submissionParams);
-	}
+    @BeforeMethod
+    public void caseSetUp() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
+    }
+    
+    @Test
+    public void testAccessControl() throws Exception{
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
+    }
 
-	
-	@Test
-	public void testExecuteAndPostProcess() throws Exception{
-		
-		//TODO: implement this
-	}
-	
+    
+    @Test
+    public void testExecuteAndPostProcess() throws Exception{
+        
+        //TODO: implement this
+    }
+    
 
 }

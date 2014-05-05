@@ -7,17 +7,17 @@ import teammates.logic.core.FeedbackSessionsLogic;
 
 @SuppressWarnings("serial")
 public class FeedbackSessionClosingRemindersServlet extends AutomatedRemindersServlet {
-	
-	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-		servletName = "feedbackSessionClosingReminders";
-		action = "send closing reminders";
+    
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        servletName = "feedbackSessionClosingReminders";
+        action = "send closing reminders";
 
-		String message = "Generating reminders for closing feedback sessions.";
-		logMessage(req, message);
-		
-		FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-		feedbackSessionsLogic.scheduleFeedbackSessionClosingEmails();
-	}
+        String message = "Generating reminders for closing feedback sessions.";
+        logMessage(req, message);
+        
+        FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+        feedbackSessionsLogic.scheduleFeedbackSessionClosingEmails();
+    }
 
 }

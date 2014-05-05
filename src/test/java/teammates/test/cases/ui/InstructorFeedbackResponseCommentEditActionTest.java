@@ -24,103 +24,103 @@ import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 import teammates.ui.controller.InstructorFeedbackResponseCommentEditAction;
 
 public class InstructorFeedbackResponseCommentEditActionTest extends
-		BaseActionTest {
-	DataBundle dataBundle;
+        BaseActionTest {
+    DataBundle dataBundle;
 
-	@BeforeClass
-	public static void classSetUp() throws Exception {
-		printTestClassHeader();
-		uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
-	}
+    @BeforeClass
+    public static void classSetUp() throws Exception {
+        printTestClassHeader();
+        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
+    }
 
-	@BeforeMethod
-	public void caseSetUp() throws Exception {
-		dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-	}
+    @BeforeMethod
+    public void caseSetUp() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
+    }
 
-	@Test
-	public void testAccessControl() throws Exception {
-		FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-		
-		String[] submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, fs.courseId,
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "",
-				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-				Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
-		};
-		verifyOnlyInstructorsCanAccess(submissionParams);
-	}
-	
-	@Test
-	public void testExcecuteAndPostProcess() throws Exception {
-		FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-		FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-		FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+    @Test
+    public void testAccessControl() throws Exception {
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+        };
+        verifyOnlyInstructorsCanAccess(submissionParams);
+    }
+    
+    @Test
+    public void testExcecuteAndPostProcess() throws Exception {
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
-		FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(
-				"First feedback session", "idOfTypicalCourse1", 1);
-		FeedbackResponseAttributes fr = frDb.getFeedbackResponse(fq.getId(),
-				"student1InCourse1@gmail.com", "student1InCourse1@gmail.com");
-		FeedbackResponseCommentAttributes frc = dataBundle.feedbackResponseComments
-				.get("comment1FromT1C1ToR1Q1S1C1");
-		frc = frcDb.getFeedbackResponseComment(fr.getId(),
-				frc.giverEmail, frc.createdAt);
-		assertNotNull("response comment not found", frc);
-		
-		InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-		gaeSimulation.loginAsInstructor(instructor.googleId);
-		
-		______TS("not enough parameters");
-		
-		verifyAssumptionFailure();
-		
-		String[] submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, frc.courseId,
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, frc.feedbackSessionName,
-				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-				Const.ParamsNames.USER_ID, instructor.googleId
-		};
-		
-		verifyAssumptionFailure(submissionParams);
-		
-		______TS("typical case");
-		
-		submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, frc.courseId,
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, frc.feedbackSessionName,
-				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
-				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, frc.commentText + " (Edited)",
-				Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
-		};
-		
-		InstructorFeedbackResponseCommentEditAction a = getAction(submissionParams);
-		AjaxResult r = (AjaxResult) a.executeAndPostProcess();
-		InstructorFeedbackResponseCommentAjaxPageData data =
-				(InstructorFeedbackResponseCommentAjaxPageData) r.data;
-		
-		assertFalse(data.isError);
-		
-		______TS("empty comment text");
-		
-		submissionParams = new String[]{
-				Const.ParamsNames.COURSE_ID, frc.courseId,
-				Const.ParamsNames.FEEDBACK_SESSION_NAME, frc.feedbackSessionName,
-				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
-				Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-				Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
-		};
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(
+                "First feedback session", "idOfTypicalCourse1", 1);
+        FeedbackResponseAttributes fr = frDb.getFeedbackResponse(fq.getId(),
+                "student1InCourse1@gmail.com", "student1InCourse1@gmail.com");
+        FeedbackResponseCommentAttributes frc = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q1S1C1");
+        frc = frcDb.getFeedbackResponseComment(fr.getId(),
+                frc.giverEmail, frc.createdAt);
+        assertNotNull("response comment not found", frc);
+        
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+        
+        ______TS("not enough parameters");
+        
+        verifyAssumptionFailure();
+        
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, frc.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, frc.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
+                Const.ParamsNames.USER_ID, instructor.googleId
+        };
+        
+        verifyAssumptionFailure(submissionParams);
+        
+        ______TS("typical case");
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, frc.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, frc.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, frc.commentText + " (Edited)",
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+        };
+        
+        InstructorFeedbackResponseCommentEditAction a = getAction(submissionParams);
+        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
+        InstructorFeedbackResponseCommentAjaxPageData data =
+                (InstructorFeedbackResponseCommentAjaxPageData) r.data;
+        
+        assertFalse(data.isError);
+        
+        ______TS("empty comment text");
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, frc.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, frc.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+        };
 
-		a = getAction(submissionParams);
-		r = (AjaxResult) a.executeAndPostProcess();
-		data = (InstructorFeedbackResponseCommentAjaxPageData) r.data;
+        a = getAction(submissionParams);
+        r = (AjaxResult) a.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) r.data;
 
-		assertTrue(data.isError);
-		assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
-	}
-	
-	private InstructorFeedbackResponseCommentEditAction getAction(String... params) throws Exception {
-		return (InstructorFeedbackResponseCommentEditAction) (gaeSimulation.getActionObject(uri, params));
-	}
+        assertTrue(data.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
+    }
+    
+    private InstructorFeedbackResponseCommentEditAction getAction(String... params) throws Exception {
+        return (InstructorFeedbackResponseCommentEditAction) (gaeSimulation.getActionObject(uri, params));
+    }
 }

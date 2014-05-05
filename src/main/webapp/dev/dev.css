@@ -4,174 +4,174 @@
 
 
 body {
-	font-family: Arial, Helvetica, sans-serif;
-	margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
 }
 
 img {
-	max-width: 100%;
+    max-width: 100%;
 }
 
 #header {
-	background-color: black;
-	height: 60px;
+    background-color: black;
+    height: 60px;
 }
 
 #headerWrapper {
-	margin: 0px auto;
-	width: 1000px;
+    margin: 0px auto;
+    width: 1000px;
 }
 
 #imageHolder {
-	padding: 5px 15px;
-	width: 150px;
-	float: left;
+    padding: 5px 15px;
+    width: 150px;
+    float: left;
 }
 #footer {
-	background-color: black;
-	clear: both;
-	color: white;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	height: 17px;
-	position: fixed;
-	bottom: 0;
-	z-index: 10;
-	width: 100%;
+    background-color: black;
+    clear: both;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    height: 17px;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
 }
 
 #footerWrapper {
-	text-align: center;
-	margin: 0 auto;
-	position: relative;
-	top: 0;
-	width: 1024px;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    top: 0;
+    width: 1024px;
 }
 
 
 #footerRightCol {
-	float: left;
-	margin-left: 570px;
-	width: 450px;
+    float: left;
+    margin-left: 570px;
+    width: 450px;
 }
 
 #footer a:link {
-	color: #FFFFFF;
+    color: #FFFFFF;
 }
 
 #footer a:visited {
-	color: #FFFFFF;
+    color: #FFFFFF;
 }
 
 #footer a:link:hover {
-	color: #FFFFFF;
-	text-decoration: underline;
+    color: #FFFFFF;
+    text-decoration: underline;
 }
 
 #content {
-	margin: 0 auto;
- 	width: 960px;
+    margin: 0 auto;
+     width: 960px;
 }
 
 .title {
-	color: purple;
-	font-size: 32px;
-	font-weight: bold;
-	text-align: center;
+    color: purple;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .header {
-	color: #FF8C00;
-	font-size: 28px;
-	font-weight: bold;
-	text-align: left;
+    color: #FF8C00;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: left;
 }
 
 .subheader {
-	color: #FF8C00;
-	font-size: 18px;
+    color: #FF8C00;
+    font-size: 18px;
 }
 
 h1 {
-	color: purple;
-	font-size: 28px;
-	font-weight: bold;
-	text-align: left;
+    color: purple;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: left;
 }
 
 h2 {
-	color: green;
-	font-size: 22px;
+    color: green;
+    font-size: 22px;
 }
 
 h3 {
-	color: teal;
-	font-size: 18px;
+    color: teal;
+    font-size: 18px;
 }
 
 hr {
-	color:purple;
+    color:purple;
 }
 
 .bold {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .underline {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 .code {
-	font-family: Consolas, Courier;
+    font-family: Consolas, Courier;
 }
 
 .pending {
-	color: yellow;
-	background: #C26666;
+    color: yellow;
+    background: #C26666;
 }
 
 .level1feature{
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .level2feature {
-	font-weight: bold;
-	color: teal;
-	font-size: 18px;
+    font-weight: bold;
+    color: teal;
+    font-size: 18px;
 }
 
 .level3feature {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 
 .red {
-	color:#FF0000;
+    color:#FF0000;
 }
 
 .blue {
-	color:#0000FF;
+    color:#0000FF;
 }
 
 .green {
-	color:#00AA00;
+    color:#00AA00;
 }
 
 .gray {
-	color:gray;
+    color:gray;
 }
 
 .image-holder {
-	width: 800px;
-	margin: 0 auto;
-	text-align: center;
-	overflow: hidden;
+    width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    overflow: hidden;
 }
 
 .italic {
-	font-style: italic;
+    font-style: italic;
 }
 
 .strikeout {
-	text-decoration:line-through;
+    text-decoration:line-through;
 }

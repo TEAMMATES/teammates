@@ -9,10 +9,10 @@
 <%@ page import="teammates.ui.controller.AdminSearchPageData"%>
 
 <%
-	AdminSearchPageData data = (AdminSearchPageData)request.getAttribute("data");
+    AdminSearchPageData data = (AdminSearchPageData)request.getAttribute("data");
 %>
 <%
-	String outcome = (String) request.getAttribute("outcome");
+    String outcome = (String) request.getAttribute("outcome");
   if (outcome == null || outcome.isEmpty()) {
     outcome = "&nbsp;";
   }
@@ -38,14 +38,14 @@
 <script language="JavaScript" src="/js/tooltip.js"></script>
 </head>
   <body>
-	<div id="dhtmltooltip"></div>
-	<div id="frameTop">
-	<jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
-	</div>
+    <div id="dhtmltooltip"></div>
+    <div id="frameTop">
+    <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
+    </div>
 <div id="frameBody">
 <div id="frameBodyWrapper">
-	<div id="topOfPage"></div>
-	<div id="headerOperation">
+    <div id="topOfPage"></div>
+    <div id="headerOperation">
 
     <form name="search" action="" method="get">
     <select name="limit">
@@ -66,7 +66,7 @@
     <hr/>
     <br>
     <%
-    	List<Document> found = data.results;
+        List<Document> found = data.results;
                   if (found != null) {
     %>
     <form name="delete" action="" method="get">
@@ -85,13 +85,13 @@
           <th>Link</th>
         </tr>
     <%
-    	if (found.isEmpty()) {
+        if (found.isEmpty()) {
     %>
         <tr>
           <td colspan='4'><i>No matching documents found</i></td>
         </tr>
     <%
-    	} else {
+        } else {
                       for (Document doc : found) {
     %>
         <tr>
@@ -110,24 +110,24 @@
             <%=doc.getOnlyField("email").getHTML()%>
           </td>
           <td>
-        	<%=doc.getOnlyField("link").getHTML()%>
+            <%=doc.getOnlyField("link").getHTML()%>
         </td>
         </tr>
     <%
-    	}
+        }
                     }
     %>
       </table>
     </form>
     <%
-    	}
+        }
     %>
     </div>
-	<jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+    <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 </div>
 </div>
     <div id="frameBottom">
-	<jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </div>
 </body>
 </html>

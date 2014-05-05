@@ -23,101 +23,101 @@ import teammates.test.pageobjects.StudentHomePage;
  * SUT: {@link StudentHelpPage} and {@link LoginPage} for students.
  */
 public class StudentHomePageUiTest extends BaseUiTestCase {
-	private static Browser browser;
-	private static DataBundle testData;
-	private StudentHomePage studentHome;
-	private static FeedbackSessionAttributes gracedFeedbackSession;
-	
-	
-	@BeforeClass
-	public static void classSetup() throws Exception {
-		printTestClassHeader();
-		testData = loadDataBundle("/StudentHomePageUiTest.json");
-		restoreTestDataOnServer(testData);
-		
-		gracedFeedbackSession = BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
-		gracedFeedbackSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
-		BackDoor.editFeedbackSession(gracedFeedbackSession);
+    private static Browser browser;
+    private static DataBundle testData;
+    private StudentHomePage studentHome;
+    private static FeedbackSessionAttributes gracedFeedbackSession;
+    
+    
+    @BeforeClass
+    public static void classSetup() throws Exception {
+        printTestClassHeader();
+        testData = loadDataBundle("/StudentHomePageUiTest.json");
+        restoreTestDataOnServer(testData);
+        
+        gracedFeedbackSession = BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
+        gracedFeedbackSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        BackDoor.editFeedbackSession(gracedFeedbackSession);
 
-		browser = BrowserPool.getBrowser();
-	}
-
-
-	@Test	
-	public void allTests() throws Exception{
-		testContentAndLogin();
-		
-		testHelpLink();
-		testViewTeamLinks();
-		testSubmissionLinks();
-		
-		//no input validation in this page
-		
-		testResultsLinks();
-	}
+        browser = BrowserPool.getBrowser();
+    }
 
 
-	private void testContentAndLogin() throws Exception {
-		
-		______TS("content: no courses, 'welcome stranger' message");
-		
-		String unregUserId = TestProperties.inst().TEST_UNREG_ACCOUNT;
-		String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
-		BackDoor.deleteAccount(unregUserId); //delete account if it exists
-		
-		AppPage.logout(browser);
-		studentHome = HomePage.getNewInstance(browser)
-				.clickStudentLogin()
-				.loginAsStudent(unregUserId, unregPassword);
-		studentHome.verifyHtml("/StudentHomeHTMLEmpty.html");
-		
-		______TS("login");
-		
-		studentHome = HomePage.getNewInstance(browser)
-	    		.clickStudentLogin()
-	    		.loginAsStudent(
-	    				TestProperties.inst().TEST_STUDENT1_ACCOUNT, 
-	    				TestProperties.inst().TEST_STUDENT1_PASSWORD);
-			
-		______TS("content: multiple courses");
-		
-		studentHome.verifyHtml("/StudentHomeHTML.html");
-		
-		// TODO: test feedback session visibility
-		// (i.e, same course but no qns for student to submit or view responses => NOT VISIBLE,
-		// same course but closed, no submissions and will nvr have responses to view => NOT VISIBLE,
-		// same course, all other conditions => VISIBLE, must test links)
-	}
+    @Test    
+    public void allTests() throws Exception{
+        testContentAndLogin();
+        
+        testHelpLink();
+        testViewTeamLinks();
+        testSubmissionLinks();
+        
+        //no input validation in this page
+        
+        testResultsLinks();
+    }
 
 
-	private void testHelpLink() {
-		
-		______TS("link: help page");
-		
-		StudentHelpPage helpPage = studentHome.clickHelpLink();
-		helpPage.closeCurrentWindowAndSwitchToParentWindow();
-	}
+    private void testContentAndLogin() throws Exception {
+        
+        ______TS("content: no courses, 'welcome stranger' message");
+        
+        String unregUserId = TestProperties.inst().TEST_UNREG_ACCOUNT;
+        String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
+        BackDoor.deleteAccount(unregUserId); //delete account if it exists
+        
+        AppPage.logout(browser);
+        studentHome = HomePage.getNewInstance(browser)
+                .clickStudentLogin()
+                .loginAsStudent(unregUserId, unregPassword);
+        studentHome.verifyHtml("/StudentHomeHTMLEmpty.html");
+        
+        ______TS("login");
+        
+        studentHome = HomePage.getNewInstance(browser)
+                .clickStudentLogin()
+                .loginAsStudent(
+                        TestProperties.inst().TEST_STUDENT1_ACCOUNT, 
+                        TestProperties.inst().TEST_STUDENT1_PASSWORD);
+            
+        ______TS("content: multiple courses");
+        
+        studentHome.verifyHtml("/StudentHomeHTML.html");
+        
+        // TODO: test feedback session visibility
+        // (i.e, same course but no qns for student to submit or view responses => NOT VISIBLE,
+        // same course but closed, no submissions and will nvr have responses to view => NOT VISIBLE,
+        // same course, all other conditions => VISIBLE, must test links)
+    }
 
 
-	private void testViewTeamLinks() {
-		// TODO: implement this
-		
-	}
+    private void testHelpLink() {
+        
+        ______TS("link: help page");
+        
+        StudentHelpPage helpPage = studentHome.clickHelpLink();
+        helpPage.closeCurrentWindowAndSwitchToParentWindow();
+    }
 
 
-	private void testSubmissionLinks() {
-		// TODO: check for disabling of links, both submit and edit links
-		
-	}
-
-	private void testResultsLinks() {
-		// TODO: Implement this. Check disabling of links too
-		
-	}
+    private void testViewTeamLinks() {
+        // TODO: implement this
+        
+    }
 
 
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		BrowserPool.release(browser);
-	}
+    private void testSubmissionLinks() {
+        // TODO: check for disabling of links, both submit and edit links
+        
+    }
+
+    private void testResultsLinks() {
+        // TODO: Implement this. Check disabling of links too
+        
+    }
+
+
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
+    }
 }

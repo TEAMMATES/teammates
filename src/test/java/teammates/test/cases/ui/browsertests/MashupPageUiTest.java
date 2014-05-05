@@ -14,27 +14,27 @@ import teammates.test.pageobjects.BrowserPool;
  * Loads the Mashup page for the tester to do a visual inspection.
  */
 public class MashupPageUiTest extends BaseUiTestCase {
-	private static Browser browser;
+    private static Browser browser;
 
 
-	@BeforeClass
-	public static void classSetup() throws Exception {
-		printTestClassHeader();
-		DataBundle testData = loadDataBundle("/MashupPageUiTest.json");
-		restoreTestDataOnServer(testData);
-		browser = BrowserPool.getBrowser();
-	}
+    @BeforeClass
+    public static void classSetup() throws Exception {
+        printTestClassHeader();
+        DataBundle testData = loadDataBundle("/MashupPageUiTest.json");
+        restoreTestDataOnServer(testData);
+        browser = BrowserPool.getBrowser();
+    }
 
-	@Test
-	public void loadWebpageCompilation() throws Exception {
-		AppPage page = loginAdmin(browser);
-		page.navigateTo(createUrl(Const.ViewURIs.MASHUP));
-	}
+    @Test
+    public void loadWebpageCompilation() throws Exception {
+        AppPage page = loginAdmin(browser);
+        page.navigateTo(createUrl(Const.ViewURIs.MASHUP));
+    }
 
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		//We do not release the browser instance here because we want the tester
-		//  to see the loaded page.
-	}
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        //We do not release the browser instance here because we want the tester
+        //  to see the loaded page.
+    }
 
 }

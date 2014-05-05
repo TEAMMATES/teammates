@@ -11,53 +11,53 @@ import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class StudentCourseDetailsPageAction extends Action {
-	
-	private StudentCourseDetailsPageData data;
-	
+    
+    private StudentCourseDetailsPageData data;
+    
 
-	@Override
-	public ActionResult execute() throws EntityDoesNotExistException {
+    @Override
+    public ActionResult execute() throws EntityDoesNotExistException {
 
-		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-		Assumption.assertNotNull(courseId);
-		
-		if(notYetJoinedCourse(courseId, account.googleId)){
-			return createPleaseJoinCourseResponse(courseId);
-		}
+        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        Assumption.assertNotNull(courseId);
+        
+        if(notYetJoinedCourse(courseId, account.googleId)){
+            return createPleaseJoinCourseResponse(courseId);
+        }
 
-		new GateKeeper().verifyAccessible(
-				logic.getStudentForGoogleId(courseId, account.googleId),
-				logic.getCourse(courseId));
+        new GateKeeper().verifyAccessible(
+                logic.getStudentForGoogleId(courseId, account.googleId),
+                logic.getCourse(courseId));
 
-		data = new StudentCourseDetailsPageData(account);
+        data = new StudentCourseDetailsPageData(account);
 
-		data.courseDetails = logic.getCourseDetails(courseId);
-		data.instructors = logic.getInstructorsForCourse(courseId);
+        data.courseDetails = logic.getCourseDetails(courseId);
+        data.instructors = logic.getInstructorsForCourse(courseId);
 
-		data.student = logic.getStudentForGoogleId(courseId, account.googleId);
-		data.team = getTeam(logic.getTeamsForCourse(courseId), data.student);
+        data.student = logic.getStudentForGoogleId(courseId, account.googleId);
+        data.team = getTeam(logic.getTeamsForCourse(courseId), data.student);
 
-		statusToAdmin = "studentCourseDetails Page Load<br>" +
-				"Viewing team details for <span class=\"bold\">[" + courseId + "] " +
-				data.courseDetails.course.name + "</span>";
+        statusToAdmin = "studentCourseDetails Page Load<br>" +
+                "Viewing team details for <span class=\"bold\">[" + courseId + "] " +
+                data.courseDetails.course.name + "</span>";
 
-		ShowPageResult response = createShowPageResult(
-				Const.ViewURIs.STUDENT_COURSE_DETAILS, data);
-		return response;
+        ShowPageResult response = createShowPageResult(
+                Const.ViewURIs.STUDENT_COURSE_DETAILS, data);
+        return response;
 
-	}
-	
-	private TeamDetailsBundle getTeam(List<TeamDetailsBundle> teams, StudentAttributes student){
-		if(student.team == null || student.team.trim().isEmpty()){
-			return null;
-		}
-		for(TeamDetailsBundle team: teams){
-			if(team.name.equals(student.team)){
-				return team;
-			}
-		}
-		return null;
-	}
-	
+    }
+    
+    private TeamDetailsBundle getTeam(List<TeamDetailsBundle> teams, StudentAttributes student){
+        if(student.team == null || student.team.trim().isEmpty()){
+            return null;
+        }
+        for(TeamDetailsBundle team: teams){
+            if(team.name.equals(student.team)){
+                return team;
+            }
+        }
+        return null;
+    }
+    
 
 }

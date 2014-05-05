@@ -16,53 +16,53 @@ import teammates.common.util.Utils;
  * http://stackoverflow.com/questions/4185382/how-to-use-jdo-persistence-manager
  */
 public class Datastore {
-	private static PersistenceManagerFactory PMF = null;
-	private static Logger log = Utils.getLogger();
-	private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
+    private static PersistenceManagerFactory PMF = null;
+    private static Logger log = Utils.getLogger();
+    private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
 
-	public static void initialize() {
-		if (PMF == null) {
-			PMF = JDOHelper
-					.getPersistenceManagerFactory("transactions-optional");
-		} else {
-			log.warning("Trying to initialize Datastore again");
-		}
-	}
+    public static void initialize() {
+        if (PMF == null) {
+            PMF = JDOHelper
+                    .getPersistenceManagerFactory("transactions-optional");
+        } else {
+            log.warning("Trying to initialize Datastore again");
+        }
+    }
 
-	public static PersistenceManager getPersistenceManager() {
+    public static PersistenceManager getPersistenceManager() {
 
-		PersistenceManager pm = PER_THREAD_PM.get();
-		if (pm == null) {
-			pm = PMF.getPersistenceManager();
-			PER_THREAD_PM.set(pm);
+        PersistenceManager pm = PER_THREAD_PM.get();
+        if (pm == null) {
+            pm = PMF.getPersistenceManager();
+            PER_THREAD_PM.set(pm);
 
-		} else if (pm.isClosed()) {
+        } else if (pm.isClosed()) {
 
-			PER_THREAD_PM.remove();
-			pm = PMF.getPersistenceManager();
-			PER_THREAD_PM.set(pm);
+            PER_THREAD_PM.remove();
+            pm = PMF.getPersistenceManager();
+            PER_THREAD_PM.set(pm);
 
-		}
-		return pm;
-	}
+        }
+        return pm;
+    }
 
-	public static void finishRequest() {
+    public static void finishRequest() {
 
-		PersistenceManager pm = PER_THREAD_PM.get();
-		
-		if (pm == null) {
-			return;
-		}
-		
-		PER_THREAD_PM.remove();
+        PersistenceManager pm = PER_THREAD_PM.get();
+        
+        if (pm == null) {
+            return;
+        }
+        
+        PER_THREAD_PM.remove();
 
-		if (!pm.isClosed()) {
-			Transaction tx = pm.currentTransaction();
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
+        if (!pm.isClosed()) {
+            Transaction tx = pm.currentTransaction();
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            pm.close();
+        }
 
-	}
+    }
 }

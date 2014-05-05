@@ -1,26 +1,26 @@
 .evalResultHeader {
-	width: 940px;
-	padding: 10px;
+    width: 940px;
+    padding: 10px;
 }
 
 
 .result_studentform{
-	width:960px;
-	margin: 0 auto;
+    width:960px;
+    margin: 0 auto;
 }
 .result_studentform tr{
-	border: 1px dotted #CCC;
+    border: 1px dotted #CCC;
 }
 
 .result_studentform td {
-	background-color: #EAEFF5;
-	padding: 0.5em;
+    background-color: #EAEFF5;
+    padding: 0.5em;
 }
 
 .result_studentform td:first-child {
-	background-color: #4E80BB;
-	color:#FFF;
-	font-weight:bold;
+    background-color: #4E80BB;
+    color:#FFF;
+    font-weight:bold;
 }
 
 

@@ -5,11 +5,11 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 
 public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
 
-	public FeedbackResponseCommentAttributes comment;
-	public boolean isError;
-	public String errorMessage;
-	
-	public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account) {
-		super(account);
-	}
+    public FeedbackResponseCommentAttributes comment;
+    public boolean isError;
+    public String errorMessage;
+    
+    public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account) {
+        super(account);
+    }
 }

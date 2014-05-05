@@ -70,9 +70,9 @@ var DISPLAY_STUDENT_TEAMNAME_INVALID = "Team name should contain less than 60 ch
 
 // Used in instructorCourse.js only
 var DISPLAY_COURSE_LONG_ID = "Course ID should not exceed "
-		+ COURSE_ID_MAX_LENGTH + " characters.";
+        + COURSE_ID_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_LONG_NAME = "Course name should not exceed "
-		+ COURSE_NAME_MAX_LENGTH + " characters.";
+        + COURSE_NAME_MAX_LENGTH + " characters.";
 var DISPLAY_COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
 var DISPLAY_COURSE_COURSE_ID_EMPTY = "Course ID cannot be empty.";
 var DISPLAY_COURSE_COURSE_NAME_EMPTY = "Course name cannot be empty";
@@ -90,7 +90,7 @@ var DISPLAY_ENROLLMENT_INPUT_EMPTY = "Please input at least one student detail."
 var DISPLAY_EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
 var DISPLAY_EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
 var DISPLAY_EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"
-		+ "The start time should be in the future, and the deadline should be after start time.";
+        + "The start time should be in the future, and the deadline should be after start time.";
 var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 
@@ -98,7 +98,7 @@ var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 var DISPLAY_FEEDBACK_SESSION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in feedback session name.";
 var DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
 var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
-		+ "The start time should be in the future, and the end time should be after start time.";
+        + "The start time should be in the future, and the end time should be after start time.";
 var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to.";
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 var DISPLAY_FEEDBACK_SESSION_INSTRUCTIONS_LENGTHINVALID = "Instructions to students should not exceed 500 characters.";
@@ -111,29 +111,29 @@ var INSTITUTION_MAX_LENGTH = 64;
 
 
 function initializenavbar(){
-	//Get Element By Class Name, in this case nav hyperlinks, it should return an array of items
-	var tabs = document.getElementsByClassName('nav');
-	//Get the url of the current page
-	var url = document.location;
-			
-	if (url.href.charAt(url.length-1) == '/') {
-	//Get the final URL sub string of the page e.g. InstructorEval, InstructorEvalEdit, etc.
-		url = url.substr(0,url.length - 1); 
-	}
-	//get the href link and cast it to lower case for string comparison purposes
-	var curPage = url.href.split('/').pop().toLowerCase();
-			
-	for (i=0; i<tabs.length; i++){
-	//Search the so called tabs, using an attribute call data-link as defined in the href link
-	//This attribute will tell which section of the page the user is on and cast to lower case
-		var link = String(tabs[i].getAttribute('data-link')).toLowerCase();
-		if (curPage.indexOf(link) != -1){ 
-		//if curPage contains any part of the link as defined by data-link, then its found
-		tabs[i].parentNode.className = "current"; 
-		//so set the parentNode classname which is the <li> in this case to class current
-		//as defined in common.css
-		} 
-	}
+    //Get Element By Class Name, in this case nav hyperlinks, it should return an array of items
+    var tabs = document.getElementsByClassName('nav');
+    //Get the url of the current page
+    var url = document.location;
+            
+    if (url.href.charAt(url.length-1) == '/') {
+    //Get the final URL sub string of the page e.g. InstructorEval, InstructorEvalEdit, etc.
+        url = url.substr(0,url.length - 1); 
+    }
+    //get the href link and cast it to lower case for string comparison purposes
+    var curPage = url.href.split('/').pop().toLowerCase();
+            
+    for (i=0; i<tabs.length; i++){
+    //Search the so called tabs, using an attribute call data-link as defined in the href link
+    //This attribute will tell which section of the page the user is on and cast to lower case
+        var link = String(tabs[i].getAttribute('data-link')).toLowerCase();
+        if (curPage.indexOf(link) != -1){ 
+        //if curPage contains any part of the link as defined by data-link, then its found
+        tabs[i].parentNode.className = "current"; 
+        //so set the parentNode classname which is the <li> in this case to class current
+        //as defined in common.css
+        } 
+    }
 }
 
 /**
@@ -145,18 +145,18 @@ function initializenavbar(){
  *            The column index (1-based) as key for the sort
  */
 function toggleSort(divElement, colIdx, comparator) {
-	if ($(divElement).attr("class") == "buttonSortNone") {
-		sortTable(divElement, colIdx, comparator, true);
-		$(divElement).parent().parent().find(".buttonSortAscending").attr("class", "buttonSortNone");
-		$(divElement).parent().parent().find(".buttonSortDescending").attr("class", "buttonSortNone");
-		$(divElement).attr("class", "buttonSortAscending");
-	} else if ($(divElement).attr("class") == "buttonSortAscending") {
-		sortTable(divElement, colIdx, comparator, false);
-		$(divElement).attr("class", "buttonSortDescending");
-	} else {
-		sortTable(divElement, colIdx, comparator, true);
-		$(divElement).attr("class", "buttonSortAscending");
-	}
+    if ($(divElement).attr("class") == "buttonSortNone") {
+        sortTable(divElement, colIdx, comparator, true);
+        $(divElement).parent().parent().find(".buttonSortAscending").attr("class", "buttonSortNone");
+        $(divElement).parent().parent().find(".buttonSortDescending").attr("class", "buttonSortNone");
+        $(divElement).attr("class", "buttonSortAscending");
+    } else if ($(divElement).attr("class") == "buttonSortAscending") {
+        sortTable(divElement, colIdx, comparator, false);
+        $(divElement).attr("class", "buttonSortDescending");
+    } else {
+        sortTable(divElement, colIdx, comparator, true);
+        $(divElement).attr("class", "buttonSortAscending");
+    }
 }
 
 
@@ -172,56 +172,56 @@ function toggleSort(divElement, colIdx, comparator) {
  * 			  if this is true, it will be ascending order, else it will be descending order
  */
 function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
-	//Get the table
-	var table = $(oneOfTableCell);
-	if (!table.is("table")){
-		table =  $(oneOfTableCell).parents("table");
-	}
-	
-	var columnType=0;
-	var store = [];
-	var RowList = $("tr", table);
-	//Iterate through column's contents to decide which comparator to use
-	for (var i = 1; i < RowList.length; i++) {
-		var innerText = RowList[i].cells[colIdx-1].innerHTML;
-		
-		//Store rows together with the innerText to compare
-		store.push([innerText, RowList[i]]);
-		
-		if((columnType==0 || columnType==1) && isNumber(innerText)){
-			columnType=1;
-		}else if((columnType==0 || columnType==2) && isDate(innerText)){
-			columnType=2;
-		}else{
-			columnType=3;
-		}
-	}
-	
-	if(comparator==null){
-		if (columnType==1){
-			 comparator = sortNum;
-		}else if(columnType==2){
-			 comparator = sortDate;
-		}else{
-			 comparator = sortBase;
-		}
-	}
-	
-	store.sort(function(x,y){
-		if(ascending==true){
-			return comparator(x[0],y[0]);
-		}else{
-			return comparator(y[0],x[0]);
-		}
+    //Get the table
+    var table = $(oneOfTableCell);
+    if (!table.is("table")){
+        table =  $(oneOfTableCell).parents("table");
+    }
+    
+    var columnType=0;
+    var store = [];
+    var RowList = $("tr", table);
+    //Iterate through column's contents to decide which comparator to use
+    for (var i = 1; i < RowList.length; i++) {
+        var innerText = RowList[i].cells[colIdx-1].innerHTML;
+        
+        //Store rows together with the innerText to compare
+        store.push([innerText, RowList[i]]);
+        
+        if((columnType==0 || columnType==1) && isNumber(innerText)){
+            columnType=1;
+        }else if((columnType==0 || columnType==2) && isDate(innerText)){
+            columnType=2;
+        }else{
+            columnType=3;
+        }
+    }
+    
+    if(comparator==null){
+        if (columnType==1){
+             comparator = sortNum;
+        }else if(columnType==2){
+             comparator = sortDate;
+        }else{
+             comparator = sortBase;
+        }
+    }
+    
+    store.sort(function(x,y){
+        if(ascending==true){
+            return comparator(x[0],y[0]);
+        }else{
+            return comparator(y[0],x[0]);
+        }
     });
-	
-	var tbody = $(table.get(0)).children('tbody');
+    
+    var tbody = $(table.get(0)).children('tbody');
 
-	if(tbody.size<1){
-		tbody = table;
-	}
-	
-	//Must push to target tbody else it will generate a new tbody for the table
+    if(tbody.size<1){
+        tbody = table;
+    }
+    
+    //Must push to target tbody else it will generate a new tbody for the table
     for(var i=0; i<store.length; i++){
         tbody.get(0).appendChild(store[i][1]);
     }
@@ -236,8 +236,8 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
  * @returns
  */
 function sortBase(x, y) {
-	//Text sorting
-	return (x < y ? -1 : x > y ? 1 : 0);
+    //Text sorting
+    return (x < y ? -1 : x > y ? 1 : 0);
 }
 
 /**
@@ -248,7 +248,7 @@ function sortBase(x, y) {
  * @returns
  */
 function sortNum(x, y){
-	return x-y;
+    return x-y;
 }
 
 
@@ -260,10 +260,10 @@ function sortNum(x, y){
  * @returns 1 if Date x is after y, 0 if same and -1 if before
  */
 function sortDate(x, y){
-	x = Date.parse(x);
-	y = Date.parse(y);
-	var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
-	return comparisonResult;
+    x = Date.parse(x);
+    y = Date.parse(y);
+    var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
+    return comparisonResult;
 }
 
 /**
@@ -272,7 +272,7 @@ function sortDate(x, y){
 * @returns pattern string
 */
 function getDayMonthYearFormat(){
-	return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
+    return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
 }
 
 
@@ -289,7 +289,7 @@ function getDayMonthYearFormat(){
  * @returns boolean
  */
 function isDate(date){
-	return !isNaN(Date.parse(date));
+    return !isNaN(Date.parse(date));
 }
 
 /**
@@ -298,7 +298,7 @@ function isDate(date){
 * @returns boolean
 */
 function isNumber(num) {
-	  return (typeof num == 'string' || typeof num == 'number') && !isNaN(num - 0) && num !== '';
+      return (typeof num == 'string' || typeof num == 'number') && !isNaN(num - 0) && num !== '';
 }
 
 /**
@@ -309,14 +309,14 @@ function isNumber(num) {
  * @param b
  */
 function sortByPoint(a, b) {
-	a = getPointValue(a, true);
-	b = getPointValue(b, true);
-	
-	if(isNumber(a) && isNumber(b)){
-		return sortNum(a, b);
-	}else{
-		return sortBase(a, b);
-	}
+    a = getPointValue(a, true);
+    b = getPointValue(b, true);
+    
+    if(isNumber(a) && isNumber(b)){
+        return sortNum(a, b);
+    }else{
+        return sortBase(a, b);
+    }
 }
 
 /**
@@ -327,14 +327,14 @@ function sortByPoint(a, b) {
  * @param b
  */
 function sortByDiff(a, b) {
-	a = getPointValue(a, false);
-	b = getPointValue(b, false);
+    a = getPointValue(a, false);
+    b = getPointValue(b, false);
 
-	if(isNumber(a) && isNumber(b)){
-		return sortNum(a, b);
-	}else{
-		return sortBase(a, b);
-	}
+    if(isNumber(a) && isNumber(b)){
+        return sortNum(a, b);
+    }else{
+        return sortBase(a, b);
+    }
 }
 
 /**
@@ -347,26 +347,26 @@ function sortByDiff(a, b) {
  * @returns
  */
 function getPointValue(s, ditchZero) {
-	if (s.lastIndexOf("<") != -1) {
-		s = s.substring(0, s.lastIndexOf("<"));
-		s = s.substring(s.lastIndexOf(">") + 1);
-	}
-	if (s.indexOf("/") != -1) {
-		if (s.indexOf("S") != -1)
-			return 999; // Case N/S
-		return 1000; // Case N/A
-	}
-	if (s == "0%") { // Case 0%
-		if (ditchZero)
-			return 0;
-		else
-			return 100;
-	}
-	s = s.replace("E", "");
-	s = s.replace("%", "");
-	if (s == "")
-		return 100; // Case E
-	return 100 + eval(s); // Other typical cases
+    if (s.lastIndexOf("<") != -1) {
+        s = s.substring(0, s.lastIndexOf("<"));
+        s = s.substring(s.lastIndexOf(">") + 1);
+    }
+    if (s.indexOf("/") != -1) {
+        if (s.indexOf("S") != -1)
+            return 999; // Case N/S
+        return 1000; // Case N/A
+    }
+    if (s == "0%") { // Case 0%
+        if (ditchZero)
+            return 0;
+        else
+            return 100;
+    }
+    s = s.replace("E", "");
+    s = s.replace("%", "");
+    if (s == "")
+        return 100; // Case E
+    return 100 + eval(s); // Other typical cases
 }
 
 /** -----------------------UI Related Helper Functions-----------------------* */
@@ -376,7 +376,7 @@ var DIV_TOPOFPAGE = "topOfPage";
  * Scrolls the screen to top
  */
 function scrollToTop() {
-	document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+    document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
 }
 
 /** Selector for status message div tag (to be used in JQuery) */
@@ -389,29 +389,29 @@ var DIV_STATUS_MESSAGE = "#statusMessage";
  * @param error
  */
 function setStatusMessage(message, error) {
-	if (message == "") {
-		clearStatusMessage();
-		return;
-	}
-	$(DIV_STATUS_MESSAGE).html(message);
-	$(DIV_STATUS_MESSAGE).show();
-	if (error === true) {
-		$(DIV_STATUS_MESSAGE).attr("style",
-				"display: block; background-color: rgb(255, 153, 153);");
-	} else {
-		$(DIV_STATUS_MESSAGE).attr("style",
-				"display: block; ");
-	}
-	document.getElementById( 'statusMessage' ).scrollIntoView();
+    if (message == "") {
+        clearStatusMessage();
+        return;
+    }
+    $(DIV_STATUS_MESSAGE).html(message);
+    $(DIV_STATUS_MESSAGE).show();
+    if (error === true) {
+        $(DIV_STATUS_MESSAGE).attr("style",
+                "display: block; background-color: rgb(255, 153, 153);");
+    } else {
+        $(DIV_STATUS_MESSAGE).attr("style",
+                "display: block; ");
+    }
+    document.getElementById( 'statusMessage' ).scrollIntoView();
 }
 
 /**
  * Clears the status message div tag and hides it
  */
 function clearStatusMessage() {
-	$(DIV_STATUS_MESSAGE).html("");
-	$(DIV_STATUS_MESSAGE).css("background", "");
-	$(DIV_STATUS_MESSAGE).attr("style", "display: none;");
+    $(DIV_STATUS_MESSAGE).html("");
+    $(DIV_STATUS_MESSAGE).css("background", "");
+    $(DIV_STATUS_MESSAGE).attr("style", "display: none;");
 }
 
 /**
@@ -422,12 +422,12 @@ function clearStatusMessage() {
  * @returns sanitizedGoolgeId
  */
 function sanitizeGoogleId(googleId) {
-	googleId = googleId.trim();
-	var loc = googleId.toLowerCase().indexOf("@gmail.com");
-	if (loc > -1) {
-		googleId = googleId.substring(0, loc);   
-	}
-	return googleId.trim();
+    googleId = googleId.trim();
+    var loc = googleId.toLowerCase().indexOf("@gmail.com");
+    if (loc > -1) {
+        googleId = googleId.substring(0, loc);   
+    }
+    return googleId.trim();
 }
 
 /**
@@ -438,21 +438,21 @@ function sanitizeGoogleId(googleId) {
  * @return {Boolean}
  */
 function isValidGoogleId(googleId) {
-	var isValidNonEmailGoogleId = false;
-	googleId = googleId.trim();
-	
-	// match() retrieve the matches when matching a string against a regular expression.
-	var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
-	
-	isValidNonEmailGoogleId = (matches != null && matches[0] == googleId);
-	
-	var isValidEmailGoogleId = isEmailValid(googleId);
-	if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
-		isValidEmailGoogleId = false;
-	}
-	
-	// email addresses are valid google IDs too
-	return isValidNonEmailGoogleId || isValidEmailGoogleId;
+    var isValidNonEmailGoogleId = false;
+    googleId = googleId.trim();
+    
+    // match() retrieve the matches when matching a string against a regular expression.
+    var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
+    
+    isValidNonEmailGoogleId = (matches != null && matches[0] == googleId);
+    
+    var isValidEmailGoogleId = isEmailValid(googleId);
+    if (googleId.toLowerCase().indexOf("@gmail.com") > -1) {
+        isValidEmailGoogleId = false;
+    }
+    
+    // email addresses are valid google IDs too
+    return isValidNonEmailGoogleId || isValidEmailGoogleId;
 }
 
 /**
@@ -463,8 +463,8 @@ function isValidGoogleId(googleId) {
  * @returns {Boolean}
  */
 function isEmailValid(email) {
-	return email
-			.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null;
+    return email
+            .match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null;
 }
 
 /**
@@ -475,22 +475,22 @@ function isEmailValid(email) {
  * @returns {Boolean}
  */
 function isNameValid(name) {
-	name = name.trim();
+    name = name.trim();
 
-	if (name == "") {
-		return false;
-	}
-	if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
-		// Returns true if a character NOT belonging to the following set
-		// appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
-		// apostrophe('), hyphen(-), round brackets(()), alpha numeric
-		// characters, space, tab
-		return false;
-	} else if (name.length > NAME_MAX_LENGTH) {
-		return false;
-	} else {
-		return true;
-	}
+    if (name == "") {
+        return false;
+    }
+    if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
+        // Returns true if a character NOT belonging to the following set
+        // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
+        // apostrophe('), hyphen(-), round brackets(()), alpha numeric
+        // characters, space, tab
+        return false;
+    } else if (name.length > NAME_MAX_LENGTH) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 /**
@@ -523,8 +523,8 @@ function isInstitutionValid(institution) {
  * [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
  */
 function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed) {
-	element.keydown(function(event){
-		var key = event.which;
+    element.keydown(function(event){
+        var key = event.which;
         // Allow: backspace, delete, tab, escape, and enter
         if ( key == 46 || key == 8 || key == 9 || key == 27 || key == 13 || 
              // Allow: Ctrl+A
@@ -536,7 +536,7 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
              // Allow hyphen if negative is allowed 
              // Code differs by browser (FF/Opera:109, IE/Chrome:189)
              // see http://www.javascripter.net/faq/keycodes.htm
-        	(negativeAllowed && (key == 189 || key == 109)) ) {
+            (negativeAllowed && (key == 189 || key == 109)) ) {
                  // let it happen, don't do anything
                  return;
         } else {
@@ -546,5 +546,5 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
                 return false;
             }   
         }		
-	});
+    });
 }

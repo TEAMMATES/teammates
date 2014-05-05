@@ -11,111 +11,111 @@ import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
 public class FeedbackResponse {
-	
-	// Format is feedbackQuestionId%giverEmail%receiver
-	// i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
-	// 		if response is feedback for person: qnId%giver@gmail.com%reciever@email.com
-	@PrimaryKey
-	@Persistent
-	private String feedbackResponseId;
-	
-	@Persistent
-	private String feedbackSessionName;
-	
-	@Persistent
-	private String courseId;
-	
-	@Persistent
-	private String feedbackQuestionId;
-	
-	@Persistent
-	private FeedbackQuestionType feedbackQuestionType;
-	
-	@Persistent
-	private String giverEmail;
-		
-	@Persistent
-	private String receiver; //TODO: rename to receiverEmail, will require database conversion
-	
-	@Persistent
-	private Text answer; //TODO: rename to responseMetaData, will require database conversion
+    
+    // Format is feedbackQuestionId%giverEmail%receiver
+    // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
+    //         if response is feedback for person: qnId%giver@gmail.com%reciever@email.com
+    @PrimaryKey
+    @Persistent
+    private String feedbackResponseId;
+    
+    @Persistent
+    private String feedbackSessionName;
+    
+    @Persistent
+    private String courseId;
+    
+    @Persistent
+    private String feedbackQuestionId;
+    
+    @Persistent
+    private FeedbackQuestionType feedbackQuestionType;
+    
+    @Persistent
+    private String giverEmail;
+        
+    @Persistent
+    private String receiver; //TODO: rename to receiverEmail, will require database conversion
+    
+    @Persistent
+    private Text answer; //TODO: rename to responseMetaData, will require database conversion
 
-	public String getId() {
-		return feedbackResponseId;
-	}
+    public String getId() {
+        return feedbackResponseId;
+    }
 
-	/* Auto-generated. Do not set this.
-	public void setFeedbackResponseId(String feedbackResponseId) {
-		this.feedbackResponseId = feedbackResponseId;
-	}*/
+    /* Auto-generated. Do not set this.
+    public void setFeedbackResponseId(String feedbackResponseId) {
+        this.feedbackResponseId = feedbackResponseId;
+    }*/
 
-	public String getFeedbackSessionName() {
-		return feedbackSessionName;
-	}
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
+    }
 
-	public void setFeedbackSessionName(String feedbackSessionName) {
-		this.feedbackSessionName = feedbackSessionName;
-	}
+    public void setFeedbackSessionName(String feedbackSessionName) {
+        this.feedbackSessionName = feedbackSessionName;
+    }
 
-	public String getCourseId() {
-		return courseId;
-	}
+    public String getCourseId() {
+        return courseId;
+    }
 
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
-	}
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 
-	public String getFeedbackQuestionId() {
-		return feedbackQuestionId;
-	}
+    public String getFeedbackQuestionId() {
+        return feedbackQuestionId;
+    }
 
-	public void setFeedbackQuestionId(String feedbackQuestionId) {
-		this.feedbackQuestionId = feedbackQuestionId;
-	}
+    public void setFeedbackQuestionId(String feedbackQuestionId) {
+        this.feedbackQuestionId = feedbackQuestionId;
+    }
 
-	public FeedbackQuestionType getFeedbackQuestionType() {
-		return feedbackQuestionType;
-	}
+    public FeedbackQuestionType getFeedbackQuestionType() {
+        return feedbackQuestionType;
+    }
 
-	public void setFeedbackQuestionType(FeedbackQuestionType feedbackQuestionType) {
-		this.feedbackQuestionType = feedbackQuestionType;
-	}
+    public void setFeedbackQuestionType(FeedbackQuestionType feedbackQuestionType) {
+        this.feedbackQuestionType = feedbackQuestionType;
+    }
 
-	public String getGiverEmail() {
-		return giverEmail;
-	}
+    public String getGiverEmail() {
+        return giverEmail;
+    }
 
-	public void setGiverEmail(String giverEmail) {
-		this.giverEmail = giverEmail;
-	}
+    public void setGiverEmail(String giverEmail) {
+        this.giverEmail = giverEmail;
+    }
 
-	public String getRecipientEmail() {
-		return receiver;
-	}
+    public String getRecipientEmail() {
+        return receiver;
+    }
 
-	public void setRecipientEmail(String receiverEmail) {
-		this.receiver = receiverEmail;
-	}
+    public void setRecipientEmail(String receiverEmail) {
+        this.receiver = receiverEmail;
+    }
 
-	public Text getResponseMetaData() {
-		return answer;
-	}
+    public Text getResponseMetaData() {
+        return answer;
+    }
 
-	public void setAnswer(Text answer) {
-		this.answer = answer;
-	}
+    public void setAnswer(Text answer) {
+        this.answer = answer;
+    }
 
-	public FeedbackResponse(String feedbackSessionName, String courseId,
-			String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
-			String giverEmail, String recipient, Text answer) {
-		this.feedbackSessionName = feedbackSessionName;
-		this.courseId = courseId;
-		this.feedbackQuestionId = feedbackQuestionId;
-		this.feedbackQuestionType = feedbackQuestionType;
-		this.giverEmail = giverEmail;
-		this.receiver = recipient;
-		this.answer = answer;
-				
-		this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;								
-	}
+    public FeedbackResponse(String feedbackSessionName, String courseId,
+            String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
+            String giverEmail, String recipient, Text answer) {
+        this.feedbackSessionName = feedbackSessionName;
+        this.courseId = courseId;
+        this.feedbackQuestionId = feedbackQuestionId;
+        this.feedbackQuestionType = feedbackQuestionType;
+        this.giverEmail = giverEmail;
+        this.receiver = recipient;
+        this.answer = answer;
+                
+        this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;                                
+    }
 }

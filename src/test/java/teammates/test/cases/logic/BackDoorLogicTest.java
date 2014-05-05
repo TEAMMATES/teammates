@@ -29,150 +29,150 @@ import teammates.test.cases.common.CourseAttributesTest;
 import com.google.gson.Gson;
 
 public class BackDoorLogicTest extends BaseComponentTestCase {
-	Gson gson = Utils.getTeammatesGson();
-	private static DataBundle dataBundle = getTypicalDataBundle();
+    Gson gson = Utils.getTeammatesGson();
+    private static DataBundle dataBundle = getTypicalDataBundle();
 
-	@BeforeClass
-	public static void classSetUp() throws Exception {
-		printTestClassHeader();
-		turnLoggingUp(BackDoorLogic.class);
-	}
+    @BeforeClass
+    public static void classSetUp() throws Exception {
+        printTestClassHeader();
+        turnLoggingUp(BackDoorLogic.class);
+    }
 
-	@BeforeMethod
-	public void caseSetUp() throws ServletException {
-		dataBundle = getTypicalDataBundle();
-		gaeSimulation.resetDatastore();
-	}
+    @BeforeMethod
+    public void caseSetUp() throws ServletException {
+        dataBundle = getTypicalDataBundle();
+        gaeSimulation.resetDatastore();
+    }
 
-	@Test
-	public void testPersistDataBundle() throws Exception {
+    @Test
+    public void testPersistDataBundle() throws Exception {
 
-		BackDoorLogic logic = new BackDoorLogic();
-		
-		DataBundle dataBundle = getTypicalDataBundle();
-		// clean up the datastore first, to avoid clashes with existing data
-		HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
-		for (InstructorAttributes instructor : instructors.values()) {
-			logic.deleteInstructor(instructor.courseId, instructor.email);
-		}
-		______TS("empty data bundle");
-		String status = logic.persistDataBundle(new DataBundle());
-		assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+        BackDoorLogic logic = new BackDoorLogic();
+        
+        DataBundle dataBundle = getTypicalDataBundle();
+        // clean up the datastore first, to avoid clashes with existing data
+        HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
+        for (InstructorAttributes instructor : instructors.values()) {
+            logic.deleteInstructor(instructor.courseId, instructor.email);
+        }
+        ______TS("empty data bundle");
+        String status = logic.persistDataBundle(new DataBundle());
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
-		logic.persistDataBundle(dataBundle);
-		verifyPresentInDatastore(dataBundle);
+        logic.persistDataBundle(dataBundle);
+        verifyPresentInDatastore(dataBundle);
 
-		______TS("try to persist while entities exist");
-		
-		logic.persistDataBundle(dataBundle);
+        ______TS("try to persist while entities exist");
+        
+        logic.persistDataBundle(dataBundle);
 
-		______TS("null parameter");
-		DataBundle nullDataBundle = null;
-		try {
-			logic.persistDataBundle(nullDataBundle);
-			Assert.fail();
-		} catch (InvalidParametersException e) {
-			assertEquals(Const.StatusCodes.NULL_PARAMETER, e.errorCode);
-		}
+        ______TS("null parameter");
+        DataBundle nullDataBundle = null;
+        try {
+            logic.persistDataBundle(nullDataBundle);
+            Assert.fail();
+        } catch (InvalidParametersException e) {
+            assertEquals(Const.StatusCodes.NULL_PARAMETER, e.errorCode);
+        }
 
-		______TS("invalid parameters in an entity");
-		CourseAttributes invalidCourse = CourseAttributesTest.generateValidCourseAttributesObject();
-		invalidCourse.id = "invalid id";
-		dataBundle = new DataBundle();
-		dataBundle.courses.put("invalid", invalidCourse);
-		try {
-			logic.persistDataBundle(dataBundle);
-			Assert.fail();
-		} catch (InvalidParametersException e) {
-			assertTrue(e.getMessage().contains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format"));
-		}
+        ______TS("invalid parameters in an entity");
+        CourseAttributes invalidCourse = CourseAttributesTest.generateValidCourseAttributesObject();
+        invalidCourse.id = "invalid id";
+        dataBundle = new DataBundle();
+        dataBundle.courses.put("invalid", invalidCourse);
+        try {
+            logic.persistDataBundle(dataBundle);
+            Assert.fail();
+        } catch (InvalidParametersException e) {
+            assertTrue(e.getMessage().contains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format"));
+        }
 
-		// Not checking for invalid values in other entities because they
-		// should be checked at lower level methods
-	}
+        // Not checking for invalid values in other entities because they
+        // should be checked at lower level methods
+    }
 
-		@Test
-	public void testGetSubmission() throws Exception {
+        @Test
+    public void testGetSubmission() throws Exception {
 
-		restoreTypicalDataInDatastore();
+        restoreTypicalDataInDatastore();
 
-		______TS("typical case");
-		SubmissionAttributes expected = dataBundle.submissions
-				.get("submissionFromS1C1ToS1C1");
-		LogicTest.verifyPresentInDatastore(expected);
+        ______TS("typical case");
+        SubmissionAttributes expected = dataBundle.submissions
+                .get("submissionFromS1C1ToS1C1");
+        LogicTest.verifyPresentInDatastore(expected);
 
-		______TS("null parameters");
-		// no need to check for null as this is a private method
+        ______TS("null parameters");
+        // no need to check for null as this is a private method
 
-		______TS("non-existent");
+        ______TS("non-existent");
 
-		assertEquals(
-				null,
-				LogicTest.invokeGetSubmission("non-existent", expected.evaluation,
-						expected.reviewer, expected.reviewee));
-		assertEquals(
-				null,
-				LogicTest.invokeGetSubmission(expected.course, "non-existent",
-						expected.reviewer, expected.reviewee));
-		assertEquals(
-				null,
-				LogicTest.invokeGetSubmission(expected.course, expected.evaluation,
-						"non-existent", expected.reviewee));
-		assertEquals(
-				null,
-				LogicTest.invokeGetSubmission(expected.course, expected.evaluation,
-						expected.reviewer, "non-existent"));
-	}
-	
-	private void verifyPresentInDatastore(DataBundle data) throws Exception {
-		HashMap<String, InstructorAttributes> instructors = data.instructors;
-		for (InstructorAttributes expectedInstructor : instructors.values()) {
-			LogicTest.verifyPresentInDatastore(expectedInstructor);
-		}
-	
-		HashMap<String, CourseAttributes> courses = data.courses;
-		for (CourseAttributes expectedCourse : courses.values()) {
-			LogicTest.verifyPresentInDatastore(expectedCourse);
-		}
-	
-		HashMap<String, StudentAttributes> students = data.students;
-		for (StudentAttributes expectedStudent : students.values()) {
-			LogicTest.verifyPresentInDatastore(expectedStudent);
-		}
-	
-		HashMap<String, EvaluationAttributes> evaluations = data.evaluations;
-		for (EvaluationAttributes expectedEvaluation : evaluations.values()) {
-			LogicTest.verifyPresentInDatastore(expectedEvaluation);
-		}
-	
-		HashMap<String, SubmissionAttributes> submissions = data.submissions;
-		for (SubmissionAttributes expectedSubmission : submissions.values()) {
-			LogicTest.verifyPresentInDatastore(expectedSubmission);
-		}
-	}
+        assertEquals(
+                null,
+                LogicTest.invokeGetSubmission("non-existent", expected.evaluation,
+                        expected.reviewer, expected.reviewee));
+        assertEquals(
+                null,
+                LogicTest.invokeGetSubmission(expected.course, "non-existent",
+                        expected.reviewer, expected.reviewee));
+        assertEquals(
+                null,
+                LogicTest.invokeGetSubmission(expected.course, expected.evaluation,
+                        "non-existent", expected.reviewee));
+        assertEquals(
+                null,
+                LogicTest.invokeGetSubmission(expected.course, expected.evaluation,
+                        expected.reviewer, "non-existent"));
+    }
+    
+    private void verifyPresentInDatastore(DataBundle data) throws Exception {
+        HashMap<String, InstructorAttributes> instructors = data.instructors;
+        for (InstructorAttributes expectedInstructor : instructors.values()) {
+            LogicTest.verifyPresentInDatastore(expectedInstructor);
+        }
+    
+        HashMap<String, CourseAttributes> courses = data.courses;
+        for (CourseAttributes expectedCourse : courses.values()) {
+            LogicTest.verifyPresentInDatastore(expectedCourse);
+        }
+    
+        HashMap<String, StudentAttributes> students = data.students;
+        for (StudentAttributes expectedStudent : students.values()) {
+            LogicTest.verifyPresentInDatastore(expectedStudent);
+        }
+    
+        HashMap<String, EvaluationAttributes> evaluations = data.evaluations;
+        for (EvaluationAttributes expectedEvaluation : evaluations.values()) {
+            LogicTest.verifyPresentInDatastore(expectedEvaluation);
+        }
+    
+        HashMap<String, SubmissionAttributes> submissions = data.submissions;
+        for (SubmissionAttributes expectedSubmission : submissions.values()) {
+            LogicTest.verifyPresentInDatastore(expectedSubmission);
+        }
+    }
 
-	/*
-	 * Following methods are tested by the testPersistDataBundle method
-		getAccountAsJson(String)
-		getInstructorAsJson(String, String)
-		getCourseAsJson(String)
-		getStudentAsJson(String, String)
-		getEvaluationAsJson(String, String)
-		getSubmissionAsJson(String, String, String, String)
-		editAccountAsJson(String)
-		editStudentAsJson(String, String)
-		editEvaluationAsJson(String)
-		editSubmissionAsJson(String)
-		editEvaluation(EvaluationAttributes)
-		createCourse(String, String)
-	*/
-	
+    /*
+     * Following methods are tested by the testPersistDataBundle method
+        getAccountAsJson(String)
+        getInstructorAsJson(String, String)
+        getCourseAsJson(String)
+        getStudentAsJson(String, String)
+        getEvaluationAsJson(String, String)
+        getSubmissionAsJson(String, String, String, String)
+        editAccountAsJson(String)
+        editStudentAsJson(String, String)
+        editEvaluationAsJson(String)
+        editSubmissionAsJson(String)
+        editEvaluation(EvaluationAttributes)
+        createCourse(String, String)
+    */
+    
 
 
-	@AfterClass
-	public static void classTearDown() throws Exception {
-		printTestClassFooter();
-		turnLoggingDown(BackDoorLogic.class);
-	}
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        printTestClassFooter();
+        turnLoggingDown(BackDoorLogic.class);
+    }
 
 }

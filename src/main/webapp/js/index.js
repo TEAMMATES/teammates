@@ -19,114 +19,114 @@ var LOOP_INTERVAL = "5000"; //in milliseconds
 var CURRENT_TESTIMONIAL = 0;
 
 function instructorLogin() {
-	// send request
-	requestInstructorLogin();
-	// handle response
-	handleInstructorLogin();
+    // send request
+    requestInstructorLogin();
+    // handle response
+    handleInstructorLogin();
 }
 
 function requestInstructorLogin() {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "/teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_INSTRUCTORINATOR_LOGIN);
-	}
+    if (xmlhttp) {
+        xmlhttp.open("POST", "/teammates", false);
+        xmlhttp.setRequestHeader("Content-Type",
+                "application/x-www-form-urlencoded;");
+        xmlhttp.send("operation=" + OPERATION_INSTRUCTORINATOR_LOGIN);
+    }
 }
 
 function handleInstructorLogin() {
-	if (xmlhttp.status == 200) {
-		var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
-		window.location = url.firstChild.nodeValue;
-	}
+    if (xmlhttp.status == 200) {
+        var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
+        window.location = url.firstChild.nodeValue;
+    }
 }
 
 function handleStudentLogin() {
-	if (xmlhttp.status == 200) {
-		var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
-		window.location = url.firstChild.nodeValue;
-	}
+    if (xmlhttp.status == 200) {
+        var url = xmlhttp.responseXML.getElementsByTagName("url")[0];
+        window.location = url.firstChild.nodeValue;
+    }
 }
 
 function studentLogin() {
-	if (xmlhttp) {
-		xmlhttp.open("POST", "teammates", false);
-		xmlhttp.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;");
-		xmlhttp.send("operation=" + OPERATION_STUDENT_LOGIN);
-	}
+    if (xmlhttp) {
+        xmlhttp.open("POST", "teammates", false);
+        xmlhttp.setRequestHeader("Content-Type",
+                "application/x-www-form-urlencoded;");
+        xmlhttp.send("operation=" + OPERATION_STUDENT_LOGIN);
+    }
 
-	handleStudentLogin();
+    handleStudentLogin();
 }
 
 function getXMLObject() {
-	var xmlHttp = false;
-	try {
-		xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
-	} catch (e) {
-		try {
-			xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-		} catch (e2) {
-			xmlHttp = false;
-		}
-	}
-	if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
-		xmlHttp = new XMLHttpRequest();
-	}
-	return xmlHttp;
+    var xmlHttp = false;
+    try {
+        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+        try {
+            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (e2) {
+            xmlHttp = false;
+        }
+    }
+    if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
+        xmlHttp = new XMLHttpRequest();
+    }
+    return xmlHttp;
 }
 
 function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) {
-	var errorMsg = "Thousands of";
-	if (!currentDate || !baseDate) {
-		return errorMsg;
-	}
-	var CurrBaseDateDifference = new Date(currentDate - baseDate);
-	if (CurrBaseDateDifference < 0) {
-		return errorMsg;
-	}
+    var errorMsg = "Thousands of";
+    if (!currentDate || !baseDate) {
+        return errorMsg;
+    }
+    var CurrBaseDateDifference = new Date(currentDate - baseDate);
+    if (CurrBaseDateDifference < 0) {
+        return errorMsg;
+    }
 
-	var dd = CurrBaseDateDifference.getDate();
-	var mm = CurrBaseDateDifference.getMonth();
-	var yyyy = CurrBaseDateDifference.getFullYear() - 1970;
-	var month = mm + yyyy * 12;
-	var days = dd + month * 30;
-	var hr = days * 24;
-	var numberOfSubmissions = hr * submissionPerHour;
-	numberOfSubmissions += baseCount;
-	return formatNumber(numberOfSubmissions);
+    var dd = CurrBaseDateDifference.getDate();
+    var mm = CurrBaseDateDifference.getMonth();
+    var yyyy = CurrBaseDateDifference.getFullYear() - 1970;
+    var month = mm + yyyy * 12;
+    var days = dd + month * 30;
+    var hr = days * 24;
+    var numberOfSubmissions = hr * submissionPerHour;
+    numberOfSubmissions += baseCount;
+    return formatNumber(numberOfSubmissions);
 }
 
 //Setting submission count at page load
 onload = function() {
-	
-	// Parameters for the estimation calculation
-	var baseDate = new Date('January 1, 2014 00:00:00');  //The date the parameters were adjusted
-	var baseCount = 180000;     //The submission count on the above date
-	var submissionPerHour = 27; //The rate at which the submission count is growing
-	
-	//set the submission count in the page
-	var e = document.getElementById('submissionsNumber');
-	var currentDate = new Date();
-	e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour, baseCount);
+    
+    // Parameters for the estimation calculation
+    var baseDate = new Date('January 1, 2014 00:00:00');  //The date the parameters were adjusted
+    var baseCount = 180000;     //The submission count on the above date
+    var submissionPerHour = 27; //The rate at which the submission count is growing
+    
+    //set the submission count in the page
+    var e = document.getElementById('submissionsNumber');
+    var currentDate = new Date();
+    e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour, baseCount);
 
-	setInterval(loopTestimonials,LOOP_INTERVAL);
+    setInterval(loopTestimonials,LOOP_INTERVAL);
 };
 
 // Format large number with commas
 function formatNumber(number) {
-	number += '';
-	var expression = /(\d+)(\d{3})/;
-	while (expression.test(number)) {
-		number = number.replace(expression, '$1' + ',' + '$2');
-	}
-	return number;
+    number += '';
+    var expression = /(\d+)(\d{3})/;
+    while (expression.test(number)) {
+        number = number.replace(expression, '$1' + ',' + '$2');
+    }
+    return number;
 }
 
 // looping through all the testimonials
 function loopTestimonials() {
-	var tc = document.getElementById("testimonialContainer");
-	tc.innerHTML = TESTIMONIALS[CURRENT_TESTIMONIAL];
-	CURRENT_TESTIMONIAL = (CURRENT_TESTIMONIAL + 1) % TESTIMONIALS.length;
+    var tc = document.getElementById("testimonialContainer");
+    tc.innerHTML = TESTIMONIALS[CURRENT_TESTIMONIAL];
+    CURRENT_TESTIMONIAL = (CURRENT_TESTIMONIAL + 1) % TESTIMONIALS.length;
 
 }

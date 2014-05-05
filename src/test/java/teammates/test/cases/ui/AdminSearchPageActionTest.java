@@ -9,32 +9,32 @@ import teammates.common.util.Const;
 
 public class AdminSearchPageActionTest extends BaseActionTest {
 
-	DataBundle dataBundle;
-	
-	
-	@BeforeClass
-	public static void classSetUp() throws Exception {
-		printTestClassHeader();
-		uri = Const.ActionURIs.ADMIN_SEARCH_PAGE;
-	}
+    DataBundle dataBundle;
+    
+    
+    @BeforeClass
+    public static void classSetUp() throws Exception {
+        printTestClassHeader();
+        uri = Const.ActionURIs.ADMIN_SEARCH_PAGE;
+    }
 
-	@BeforeMethod
-	public void caseSetUp() throws Exception {
-		dataBundle = getTypicalDataBundle();
-		restoreTypicalDataInDatastore();
-	}
-	
-	@Test
-	public void testAccessControl() throws Exception{
-		String[] submissionParams = new String[]{};
-		verifyOnlyAdminsCanAccess(submissionParams);
-	}
+    @BeforeMethod
+    public void caseSetUp() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
+    }
+    
+    @Test
+    public void testAccessControl() throws Exception{
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
+    }
 
-	
-	@Test
-	public void testExecuteAndPostProcess() throws Exception{
-		// TODO : Test is done as a browser test,
-		// cuz gaeSimulation gives problems when rebuilding the document
-	}
-	
+    
+    @Test
+    public void testExecuteAndPostProcess() throws Exception{
+        // TODO : Test is done as a browser test,
+        // cuz gaeSimulation gives problems when rebuilding the document
+    }
+    
 }

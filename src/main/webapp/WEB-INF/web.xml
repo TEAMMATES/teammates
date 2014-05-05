@@ -1,261 +1,261 @@
 <?xml version="1.0" encoding="utf-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	version="2.5">
-	
-	<!-- This jsp-config element tag must be put above other tags or else it might cause all error pages to be non-accessible -->
-	<jsp-config>
-		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
-			<page-encoding>UTF-8</page-encoding>
-		</jsp-property-group>
-	</jsp-config>
-	
-	<filter>
-		<filter-name>appstats</filter-name>
-		<filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>appstats</filter-name>
-		<url-pattern>/page/*</url-pattern>
-	</filter-mapping>
-	<filter>
-		<filter-name>appstats</filter-name>
-		<filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
-		<init-param>
-			<param-name>calculateRpcCosts</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</filter>
+    version="2.5">
+    
+    <!-- This jsp-config element tag must be put above other tags or else it might cause all error pages to be non-accessible -->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+    
+    <filter>
+        <filter-name>appstats</filter-name>
+        <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>appstats</filter-name>
+        <url-pattern>/page/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>appstats</filter-name>
+        <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+        <init-param>
+            <param-name>calculateRpcCosts</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
 
 
-	<filter>
-		<filter-name>DatastoreFilter</filter-name>
-		<filter-class>teammates.storage.datastore.DatastoreFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>DatastoreFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<filter>
-	    <description>Filter that do the login part for each JSP page</description>
-	    <filter-name>LoginFilter</filter-name>
-	    <filter-class>teammates.ui.controller.LoginFilter</filter-class>
-	    <init-param>
-	        <description>Files excluded from login check. "|"-separated</description>
-	        <param-name>ExcludedFiles</param-name>
-	        <param-value></param-value>
-	    </init-param>
-	</filter>
-	<filter-mapping>
-	    <filter-name>LoginFilter</filter-name>
-	    <url-pattern>/page/*</url-pattern>
-	</filter-mapping>
+    <filter>
+        <filter-name>DatastoreFilter</filter-name>
+        <filter-class>teammates.storage.datastore.DatastoreFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>DatastoreFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <description>Filter that do the login part for each JSP page</description>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>teammates.ui.controller.LoginFilter</filter-class>
+        <init-param>
+            <description>Files excluded from login check. "|"-separated</description>
+            <param-name>ExcludedFiles</param-name>
+            <param-value></param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/page/*</url-pattern>
+    </filter-mapping>
 
-	<servlet>
-		<servlet-name>appstats</servlet-name>
-		<servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
-	</servlet>
+    <servlet>
+        <servlet-name>appstats</servlet-name>
+        <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
+    </servlet>
 
-	<servlet-mapping>
-		<servlet-name>appstats</servlet-name>
-		<url-pattern>/appstats/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>appstats</servlet-name>
+        <url-pattern>/appstats/*</url-pattern>
+    </servlet-mapping>
 
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>appstats</web-resource-name>
-			<url-pattern>/appstats/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>admin</role-name>
-		</auth-constraint>
-	</security-constraint>
-	
-	<servlet>
-	    <display-name>Remote API Servlet</display-name>
-	    <servlet-name>RemoteApiServlet</servlet-name>
-	    <servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
-	    <load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-	    <servlet-name>RemoteApiServlet</servlet-name>
-	    <url-pattern>/remote_api</url-pattern>
-	</servlet-mapping>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>appstats</web-resource-name>
+            <url-pattern>/appstats/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <servlet>
+        <display-name>Remote API Servlet</display-name>
+        <servlet-name>RemoteApiServlet</servlet-name>
+        <servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoteApiServlet</servlet-name>
+        <url-pattern>/remote_api</url-pattern>
+    </servlet-mapping>
 
-	<servlet>
-		<servlet-name>LoginServlet</servlet-name>
-		<servlet-class>teammates.ui.controller.LoginServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>LoginServlet</servlet-name>
-		<url-pattern>/login</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>BackDoorServlet</servlet-name>
-		<servlet-class>teammates.logic.backdoor.BackDoorServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>BackDoorServlet</servlet-name>
-		<url-pattern>/backdoor</url-pattern>
-	</servlet-mapping>
-	
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
-	
-	<servlet>
-		<servlet-name>EmailWorkerServlet</servlet-name>
-		<servlet-class>teammates.logic.automated.EmailWorkerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EmailWorkerServlet</servlet-name>
-		<url-pattern>/emailWorker</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>SendEmailWorkerServlet</servlet-name>
-		<servlet-class>teammates.logic.automated.SendEmailWorkerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SendEmailWorkerServlet</servlet-name>
-		<url-pattern>/sendEmailWorker</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>SubmissionWorkerServlet</servlet-name>
-		<servlet-class>teammates.logic.core.SubmissionWorkerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SubmissionWorkerServlet</servlet-name>
-		<url-pattern>/submissionWorker</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
-		<servlet-class>teammates.logic.core.EvaluationSubmissionAdjustmentWorkerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
-		<url-pattern>/evalSubmissionAdjustmentWorker</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
-		<servlet-class>teammates.logic.core.FeedbackSubmissionAdjustmentWorkerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
-		<url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>EvaluationOpeningReminders</servlet-name>
-		<servlet-class>teammates.logic.automated.EvaluationOpeningRemindersServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EvaluationOpeningReminders</servlet-name>
-		<url-pattern>/evaluationopeningreminders</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>EvaluationClosingReminders</servlet-name>
-		<servlet-class>teammates.logic.automated.EvaluationClosingRemindersServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EvaluationClosingReminders</servlet-name>
-		<url-pattern>/evaluationclosingreminders</url-pattern>
-	</servlet-mapping>	
-	
-	<servlet>
-		<servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
-		<servlet-class>teammates.logic.core.EvaluationPublishEmailWorkerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
-		<url-pattern>/evalPublishEmailWorker</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
-		<servlet-class>teammates.logic.core.EvaluationRemindEmailWorkerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
-		<url-pattern>/evalRemindEmailWorker</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>FeedbackSessionOpeningReminders</servlet-name>
-		<servlet-class>teammates.logic.automated.FeedbackSessionOpeningRemindersServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FeedbackSessionOpeningReminders</servlet-name>
-		<url-pattern>/feedbackSessionOpeningReminders</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>FeedbackSessionClosingReminders</servlet-name>
-		<servlet-class>teammates.logic.automated.FeedbackSessionClosingRemindersServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FeedbackSessionClosingReminders</servlet-name>
-		<url-pattern>/feedbackSessionClosingReminders</url-pattern>
-	</servlet-mapping>	
-	
-	<servlet>
-		<servlet-name>FeedbackSessionPublishedReminders</servlet-name>
-		<servlet-class>teammates.logic.automated.FeedbackSessionPublishedRemindersServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FeedbackSessionPublishedReminders</servlet-name>
-		<url-pattern>/feedbackSessionPublishedReminders</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>CompileLogs</servlet-name>
-		<servlet-class>teammates.logic.automated.CompileLogsServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>CompileLogs</servlet-name>
-		<url-pattern>/compileLogs</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>AdminSearchTask</servlet-name>
-		<servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>
-	</servlet>
-	
-	<servlet>
-	    <description>Servlet that handles all incoming requests</description>
-	    <servlet-name>ControllerServlet</servlet-name>
-	    <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>teammates.ui.controller.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>BackDoorServlet</servlet-name>
+        <servlet-class>teammates.logic.backdoor.BackDoorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BackDoorServlet</servlet-name>
+        <url-pattern>/backdoor</url-pattern>
+    </servlet-mapping>
+    
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    
+    <servlet>
+        <servlet-name>EmailWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.automated.EmailWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EmailWorkerServlet</servlet-name>
+        <url-pattern>/emailWorker</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>SendEmailWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.automated.SendEmailWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendEmailWorkerServlet</servlet-name>
+        <url-pattern>/sendEmailWorker</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>SubmissionWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.core.SubmissionWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmissionWorkerServlet</servlet-name>
+        <url-pattern>/submissionWorker</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.core.EvaluationSubmissionAdjustmentWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
+        <url-pattern>/evalSubmissionAdjustmentWorker</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.core.FeedbackSubmissionAdjustmentWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
+        <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EvaluationOpeningReminders</servlet-name>
+        <servlet-class>teammates.logic.automated.EvaluationOpeningRemindersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EvaluationOpeningReminders</servlet-name>
+        <url-pattern>/evaluationopeningreminders</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EvaluationClosingReminders</servlet-name>
+        <servlet-class>teammates.logic.automated.EvaluationClosingRemindersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EvaluationClosingReminders</servlet-name>
+        <url-pattern>/evaluationclosingreminders</url-pattern>
+    </servlet-mapping>    
+    
+    <servlet>
+        <servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.core.EvaluationPublishEmailWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
+        <url-pattern>/evalPublishEmailWorker</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.core.EvaluationRemindEmailWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
+        <url-pattern>/evalRemindEmailWorker</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>FeedbackSessionOpeningReminders</servlet-name>
+        <servlet-class>teammates.logic.automated.FeedbackSessionOpeningRemindersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackSessionOpeningReminders</servlet-name>
+        <url-pattern>/feedbackSessionOpeningReminders</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>FeedbackSessionClosingReminders</servlet-name>
+        <servlet-class>teammates.logic.automated.FeedbackSessionClosingRemindersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackSessionClosingReminders</servlet-name>
+        <url-pattern>/feedbackSessionClosingReminders</url-pattern>
+    </servlet-mapping>    
+    
+    <servlet>
+        <servlet-name>FeedbackSessionPublishedReminders</servlet-name>
+        <servlet-class>teammates.logic.automated.FeedbackSessionPublishedRemindersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackSessionPublishedReminders</servlet-name>
+        <url-pattern>/feedbackSessionPublishedReminders</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CompileLogs</servlet-name>
+        <servlet-class>teammates.logic.automated.CompileLogsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CompileLogs</servlet-name>
+        <url-pattern>/compileLogs</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AdminSearchTask</servlet-name>
+        <servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <description>Servlet that handles all incoming requests</description>
+        <servlet-name>ControllerServlet</servlet-name>
+        <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
         <servlet-name>AdminSearchTask</servlet-name>
         <url-pattern>/searchTask</url-pattern>
     </servlet-mapping>
-	<servlet-mapping>
-	    <servlet-name>ControllerServlet</servlet-name>
-	    <url-pattern>/admin/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-	    <servlet-name>ControllerServlet</servlet-name>
-	    <url-pattern>/page/*</url-pattern>
-	</servlet-mapping>
-	
-	<security-constraint>
-	  <web-resource-collection>
-	  	<web-resource-name>AllPage</web-resource-name>
-	    <url-pattern>/page/*</url-pattern>
-	  </web-resource-collection>
-	  <user-data-constraint>
-	    <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-	  </user-data-constraint>
-	</security-constraint>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/admin/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/page/*</url-pattern>
+    </servlet-mapping>
+    
+    <security-constraint>
+      <web-resource-collection>
+          <web-resource-name>AllPage</web-resource-name>
+        <url-pattern>/page/*</url-pattern>
+      </web-resource-collection>
+      <user-data-constraint>
+        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+      </user-data-constraint>
+    </security-constraint>
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>AutomatedEmails</web-resource-name>
@@ -277,8 +277,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <role-name>admin</role-name>
         </auth-constraint>
         <user-data-constraint>
-	    	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-	  	</user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+          </user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
@@ -290,8 +290,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <role-name>admin</role-name>
         </auth-constraint>
         <user-data-constraint>
-	    	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-	  	</user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+          </user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
@@ -303,8 +303,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <role-name>admin</role-name>
         </auth-constraint>
         <user-data-constraint>
-	    	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-	  	</user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+          </user-data-constraint>
     </security-constraint>
     <error-page>
         <error-code>403</error-code>

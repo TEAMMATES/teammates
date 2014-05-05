@@ -10,17 +10,17 @@ import teammates.test.driver.GaeSimulation;
  */
 public class BaseComponentTestCase extends BaseTestCase {
 
-	protected static GaeSimulation gaeSimulation;
-	
-	@BeforeTest
-	public void testSetUp() throws Exception {
-		gaeSimulation = GaeSimulation.inst();
-		gaeSimulation.setup();
-	}
+    protected static GaeSimulation gaeSimulation;
+    
+    @BeforeTest
+    public void testSetUp() throws Exception {
+        gaeSimulation = GaeSimulation.inst();
+        gaeSimulation.setup();
+    }
 
-	
-	@AfterTest
-	public void testTearDown() throws Exception {
-		gaeSimulation.tearDown();
-	}
+    
+    @AfterTest
+    public void testTearDown() throws Exception {
+        gaeSimulation.tearDown();
+    }
 }

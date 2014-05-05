@@ -1,13 +1,13 @@
 .inputTable{
-	width: 900px;
+    width: 900px;
 }
 
 .dataTable td{
-	line-height: 20px;
+    line-height: 20px;
 }
 
 #filterForm input[type="text"] {
-	width: 700px;
+    width: 700px;
 }
 
 #filterForm input[type="submit"] {
@@ -15,6 +15,6 @@
 }
 
 #filterReference {
-	display: none;
-	font-size: 11px;
+    display: none;
+    font-size: 11px;
 }

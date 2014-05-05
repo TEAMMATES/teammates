@@ -21,94 +21,94 @@ import teammates.storage.entity.Student;
 
 public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
 
-	// TODO: This class contains lot of code copy-pasted from the Logic and
-	// Storage layer. This duplication can be removed if we figure out
-	// to reuse the Logic API from here.
+    // TODO: This class contains lot of code copy-pasted from the Logic and
+    // Storage layer. This duplication can be removed if we figure out
+    // to reuse the Logic API from here.
 
-	public static void main(String[] args) throws IOException {
-		RepairStudentsWithDuplicateEmail repairman = new RepairStudentsWithDuplicateEmail();
-		repairman.doOperationRemotely();
-	}
-	
-	private int duplicateEmailCount;
+    public static void main(String[] args) throws IOException {
+        RepairStudentsWithDuplicateEmail repairman = new RepairStudentsWithDuplicateEmail();
+        repairman.doOperationRemotely();
+    }
+    
+    private int duplicateEmailCount;
 
-	@Override
-	protected void doOperation() {
-		List<CourseAttributes> allCourses = getAllCourses();
+    @Override
+    protected void doOperation() {
+        List<CourseAttributes> allCourses = getAllCourses();
 
-		duplicateEmailCount = 0;		
-		for (CourseAttributes course : allCourses) {
-			repairCourseStudents(course);
-		}
-		print("Total students with duplicate emails in all courses: " + duplicateEmailCount);
-	}
+        duplicateEmailCount = 0;        
+        for (CourseAttributes course : allCourses) {
+            repairCourseStudents(course);
+        }
+        print("Total students with duplicate emails in all courses: " + duplicateEmailCount);
+    }
 
-	private void repairCourseStudents(CourseAttributes course) {
-		List<StudentAttributes> studentList = getStudentsForCourse(course.id);
+    private void repairCourseStudents(CourseAttributes course) {
+        List<StudentAttributes> studentList = getStudentsForCourse(course.id);
 
-		Map<String, String> emailNameMap = new TreeMap<String, String>();
-		Set<String> duplicateEmailRecord = new TreeSet<String>();
-		for (StudentAttributes student : studentList) {
-			String duplicateEmailOwner =
-					emailNameMap.put(student.email, student.name);
-			
-			if (duplicateEmailOwner != null) {
-				duplicateEmailRecord.add("<" + student.email + "> owner: " + duplicateEmailOwner);
-				duplicateEmailRecord.add("<" + student.email + "> owner: " + student.name);
-			}
-		}
-		
-		for(String entry : duplicateEmailRecord) {
-			print(entry);
-			//TODO: delete duplicate records if possible
-		}
-		
-		duplicateEmailCount += duplicateEmailRecord.size();
-		print("[" + duplicateEmailRecord.size() + ": " + course.id + "]");
-	}
+        Map<String, String> emailNameMap = new TreeMap<String, String>();
+        Set<String> duplicateEmailRecord = new TreeSet<String>();
+        for (StudentAttributes student : studentList) {
+            String duplicateEmailOwner =
+                    emailNameMap.put(student.email, student.name);
+            
+            if (duplicateEmailOwner != null) {
+                duplicateEmailRecord.add("<" + student.email + "> owner: " + duplicateEmailOwner);
+                duplicateEmailRecord.add("<" + student.email + "> owner: " + student.name);
+            }
+        }
+        
+        for(String entry : duplicateEmailRecord) {
+            print(entry);
+            //TODO: delete duplicate records if possible
+        }
+        
+        duplicateEmailCount += duplicateEmailRecord.size();
+        print("[" + duplicateEmailRecord.size() + ": " + course.id + "]");
+    }
 
-	private void print(String string) {
-		System.out.println(string);
-	}
-	
-	private List<CourseAttributes> getAllCourses() {
-		
-		Query q = pm.newQuery(Course.class);
-		
-		@SuppressWarnings("unchecked")
-		List<Course> courseList = (List<Course>) q.execute();
-	
-		List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
-		for (Course c : courseList) {
-			courseDataList.add(new CourseAttributes(c));
-		}
-	
-		return courseDataList;
-	}
+    private void print(String string) {
+        System.out.println(string);
+    }
+    
+    private List<CourseAttributes> getAllCourses() {
+        
+        Query q = pm.newQuery(Course.class);
+        
+        @SuppressWarnings("unchecked")
+        List<Course> courseList = (List<Course>) q.execute();
+    
+        List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
+        for (Course c : courseList) {
+            courseDataList.add(new CourseAttributes(c));
+        }
+    
+        return courseDataList;
+    }
 
-	private List<StudentAttributes> getStudentsForCourse(String courseId) {
-		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+    private List<StudentAttributes> getStudentsForCourse(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-		List<Student> studentList = getStudentEntitiesForCourse(courseId);
+        List<Student> studentList = getStudentEntitiesForCourse(courseId);
 
-		List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
 
-		for (Student s : studentList) {
-			if (!JDOHelper.isDeleted(s)) {
-				studentDataList.add(new StudentAttributes(s));
-			}
-		}
+        for (Student s : studentList) {
+            if (!JDOHelper.isDeleted(s)) {
+                studentDataList.add(new StudentAttributes(s));
+            }
+        }
 
-		return studentDataList;
-	}
+        return studentDataList;
+    }
 
-	private List<Student> getStudentEntitiesForCourse(String courseId) {
-		Query q = pm.newQuery(Student.class);
-		q.declareParameters("String courseIdParam");
-		q.setFilter("courseID == courseIdParam");
+    private List<Student> getStudentEntitiesForCourse(String courseId) {
+        Query q = pm.newQuery(Student.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseID == courseIdParam");
 
-		@SuppressWarnings("unchecked")
-		List<Student> studentList = (List<Student>) q.execute(courseId);
-		return studentList;
-	}
+        @SuppressWarnings("unchecked")
+        List<Student> studentList = (List<Student>) q.execute(courseId);
+        return studentList;
+    }
 }

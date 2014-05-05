@@ -10,8 +10,8 @@
  * 		</ul>
  */
 function showReport(id){
-	$(".evaluation_result").attr("style", "display: none;");
-	$("#"+id).attr("style", "display: block;");
+    $(".evaluation_result").attr("style", "display: none;");
+    $("#"+id).attr("style", "display: block;");
 }
 
 
@@ -23,6 +23,6 @@ function showReport(id){
  * @returns {Boolean}
  */
 function openChildWindow(link){
-	window.open(link, "childWindow");
-	return false;
+    window.open(link, "childWindow");
+    return false;
 }

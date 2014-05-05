@@ -13,16 +13,16 @@ import teammates.logic.automated.WorkerServlet;
  */
 @SuppressWarnings("serial")
 public class EvaluationPublishEmailWorkerServlet extends WorkerServlet {
-	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) {		
-		String evaluationName = HttpRequestHelper
-				.getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_EVAL);
-		Assumption.assertNotNull(evaluationName);
-		
-		String courseId = HttpRequestHelper
-				.getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_COURSE);
-		Assumption.assertNotNull(courseId);
-		
-		EvaluationsLogic.inst().sendEvaluationPublishedEmails(courseId, evaluationName);
-	}
+    
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) {        
+        String evaluationName = HttpRequestHelper
+                .getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_EVAL);
+        Assumption.assertNotNull(evaluationName);
+        
+        String courseId = HttpRequestHelper
+                .getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_COURSE);
+        Assumption.assertNotNull(courseId);
+        
+        EvaluationsLogic.inst().sendEvaluationPublishedEmails(courseId, evaluationName);
+    }
 }

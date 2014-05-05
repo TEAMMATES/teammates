@@ -24,189 +24,189 @@ import teammates.storage.entity.Evaluation;
  */
 public class EvaluationsDb extends EntitiesDb {
 
-	public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Evaluation: ";
-	
-	private static final Logger log = Utils.getLogger();
+    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Evaluation: ";
+    
+    private static final Logger log = Utils.getLogger();
 
-	/**
-	 * Preconditions: <br>
-	 * * All parameters are non-null. 
-	 * @return Null if not found.
-	 */
-	public EvaluationAttributes getEvaluation(String courseId, String name) {
-		
-		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, name);
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
+     * @return Null if not found.
+     */
+    public EvaluationAttributes getEvaluation(String courseId, String name) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, name);
 
-		Evaluation e = getEvaluationEntity(courseId, name);
+        Evaluation e = getEvaluationEntity(courseId, name);
 
-		if (e == null) {
-			return null;
-		} else {
-			return new EvaluationAttributes(e);
-		}
-	}
+        if (e == null) {
+            return null;
+        } else {
+            return new EvaluationAttributes(e);
+        }
+    }
 
-	/**
-	 * Preconditions: <br>
-	 * * All parameters are non-null. 
-	 * @return Empty list if no matching objects found.
-	 */
-	public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
-		
-		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-		
-		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
+     * @return Empty list if no matching objects found.
+     */
+    public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 
-		return EvaluationAttributes.toAttributes(evaluationList);
-	}
-
-
-	/**
-	 * @return empty list if none found.
-	 * @deprecated Not scalable. 
-	 */
-	@Deprecated
-	public List<EvaluationAttributes> getAllEvaluations() {
-		List<Evaluation> allEvaluations = getAllEvaluationEntities();
-		return EvaluationAttributes.toAttributes(allEvaluations);
-	}
+        return EvaluationAttributes.toAttributes(evaluationList);
+    }
 
 
-	/**
-	 * Course ID, evaluation name will not be changed. <br>
-	 * Does not follow the 'Keep existing' policy. <br>
-	 * Preconditions: <br> 
-	 * * The given list is not null and contains valid {@link SubmissionAttributes} objects. <br>
-	 */
-	public void updateEvaluation(EvaluationAttributes newEvaluationAttributes) 
-			throws EntityDoesNotExistException, InvalidParametersException {
-		
-		Assumption.assertNotNull(
-				Const.StatusCodes.DBLEVEL_NULL_INPUT, 
-				newEvaluationAttributes);
-		
-		newEvaluationAttributes.sanitizeForSaving();
-		
-		if (!newEvaluationAttributes.isValid()) {
-			throw new InvalidParametersException(newEvaluationAttributes.getInvalidityInfo());
-		}
-		
-		Evaluation e = getEvaluationEntity(newEvaluationAttributes.courseId, newEvaluationAttributes.name);
-		
-		if (e == null) {
-			throw new EntityDoesNotExistException(
-					ERROR_UPDATE_NON_EXISTENT + newEvaluationAttributes.toString());
-		}
-		
-		e.setLongInstructions(newEvaluationAttributes.instructions);
-		e.setStart(newEvaluationAttributes.startTime);
-		e.setDeadline(newEvaluationAttributes.endTime);
-		e.setGracePeriod(newEvaluationAttributes.gracePeriod);
-		e.setCommentsEnabled(newEvaluationAttributes.p2pEnabled);
-		e.setActivated(newEvaluationAttributes.activated);
-		e.setPublished(newEvaluationAttributes.published);
-		e.setTimeZone(newEvaluationAttributes.timeZone);
-		
-		getPM().close();
-
-	}
+    /**
+     * @return empty list if none found.
+     * @deprecated Not scalable. 
+     */
+    @Deprecated
+    public List<EvaluationAttributes> getAllEvaluations() {
+        List<Evaluation> allEvaluations = getAllEvaluationEntities();
+        return EvaluationAttributes.toAttributes(allEvaluations);
+    }
 
 
-	/**
-	 * Note: This is a non-cascade delete.<br>
-	 * Fails silently if no matching objects. <br>
-	 * Preconditions: <br> 
-	 * * all parameters are non-null.
-	 */
-	public void deleteEvaluation(String courseId, String name) {
-		
-		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, name);
+    /**
+     * Course ID, evaluation name will not be changed. <br>
+     * Does not follow the 'Keep existing' policy. <br>
+     * Preconditions: <br> 
+     * * The given list is not null and contains valid {@link SubmissionAttributes} objects. <br>
+     */
+    public void updateEvaluation(EvaluationAttributes newEvaluationAttributes) 
+            throws EntityDoesNotExistException, InvalidParametersException {
+        
+        Assumption.assertNotNull(
+                Const.StatusCodes.DBLEVEL_NULL_INPUT, 
+                newEvaluationAttributes);
+        
+        newEvaluationAttributes.sanitizeForSaving();
+        
+        if (!newEvaluationAttributes.isValid()) {
+            throw new InvalidParametersException(newEvaluationAttributes.getInvalidityInfo());
+        }
+        
+        Evaluation e = getEvaluationEntity(newEvaluationAttributes.courseId, newEvaluationAttributes.name);
+        
+        if (e == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + newEvaluationAttributes.toString());
+        }
+        
+        e.setLongInstructions(newEvaluationAttributes.instructions);
+        e.setStart(newEvaluationAttributes.startTime);
+        e.setDeadline(newEvaluationAttributes.endTime);
+        e.setGracePeriod(newEvaluationAttributes.gracePeriod);
+        e.setCommentsEnabled(newEvaluationAttributes.p2pEnabled);
+        e.setActivated(newEvaluationAttributes.activated);
+        e.setPublished(newEvaluationAttributes.published);
+        e.setTimeZone(newEvaluationAttributes.timeZone);
+        
+        getPM().close();
 
-		Evaluation e = getEvaluationEntity(courseId, name);
-		if (e == null) {
-			return;
-		}
+    }
 
-		getPM().deletePersistent(e);
-		getPM().flush();
 
-		// wait for the operation to persist.
-		int elapsedTime = 0;
-		Evaluation evaluationCheck = getEvaluationEntity(courseId, name);
-		while ((evaluationCheck != null)
-				&& (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-			ThreadHelper.waitBriefly();
-			evaluationCheck = getEvaluationEntity(courseId, name);
-			elapsedTime += ThreadHelper.WAIT_DURATION;
-		}
-		if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-			log.severe("Operation did not persist in time: deleteEvaluation->"
-					+ courseId + "/" + name);
-		}
-		
-		//TODO: use the method in the parent class instead.
+    /**
+     * Note: This is a non-cascade delete.<br>
+     * Fails silently if no matching objects. <br>
+     * Preconditions: <br> 
+     * * all parameters are non-null.
+     */
+    public void deleteEvaluation(String courseId, String name) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, name);
 
-	}
+        Evaluation e = getEvaluationEntity(courseId, name);
+        if (e == null) {
+            return;
+        }
 
-	/**
-	 * Note: This is a non-cascade delete.<br>
-	 * Fails silently if no matching objects. <br>
-	 * Preconditions: <br> 
-	 * * all parameters are non-null.
-	 */
-	public void deleteAllEvaluationsForCourse(String courseId) {
-		
-		Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        getPM().deletePersistent(e);
+        getPM().flush();
 
-		List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
+        // wait for the operation to persist.
+        int elapsedTime = 0;
+        Evaluation evaluationCheck = getEvaluationEntity(courseId, name);
+        while ((evaluationCheck != null)
+                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            ThreadHelper.waitBriefly();
+            evaluationCheck = getEvaluationEntity(courseId, name);
+            elapsedTime += ThreadHelper.WAIT_DURATION;
+        }
+        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+            log.severe("Operation did not persist in time: deleteEvaluation->"
+                    + courseId + "/" + name);
+        }
+        
+        //TODO: use the method in the parent class instead.
 
-		getPM().deletePersistentAll(evaluationList);
-		getPM().flush();
-	}
+    }
 
-	private Evaluation getEvaluationEntity(String courseId, String evaluationName) {
-		
-		Query q = getPM().newQuery(Evaluation.class);
-		q.declareParameters("String courseIdParam, String EvaluationNameParam");
-		q.setFilter("name == EvaluationNameParam && courseID == courseIdParam");
-		
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) q.execute(courseId, evaluationName);
+    /**
+     * Note: This is a non-cascade delete.<br>
+     * Fails silently if no matching objects. <br>
+     * Preconditions: <br> 
+     * * all parameters are non-null.
+     */
+    public void deleteAllEvaluationsForCourse(String courseId) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-		if (evaluationList.isEmpty()
-				|| JDOHelper.isDeleted(evaluationList.get(0))) {
-			return null;
-		}
+        List<Evaluation> evaluationList = getEvaluationEntitiesForCourse(courseId);
 
-		return evaluationList.get(0);
-	}
+        getPM().deletePersistentAll(evaluationList);
+        getPM().flush();
+    }
 
-	private List<Evaluation> getEvaluationEntitiesForCourse(String courseId) {
-		Query q = getPM().newQuery(Evaluation.class);
-		q.declareParameters("String courseIdParam");
-		q.setFilter("courseID == courseIdParam");
-		
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) q.execute(courseId);
-		return evaluationList;
-	}
+    private Evaluation getEvaluationEntity(String courseId, String evaluationName) {
+        
+        Query q = getPM().newQuery(Evaluation.class);
+        q.declareParameters("String courseIdParam, String EvaluationNameParam");
+        q.setFilter("name == EvaluationNameParam && courseID == courseIdParam");
+        
+        @SuppressWarnings("unchecked")
+        List<Evaluation> evaluationList = (List<Evaluation>) q.execute(courseId, evaluationName);
 
-	private List<Evaluation> getAllEvaluationEntities() {
-		
-		Query q = getPM().newQuery(Evaluation.class);
+        if (evaluationList.isEmpty()
+                || JDOHelper.isDeleted(evaluationList.get(0))) {
+            return null;
+        }
 
-		@SuppressWarnings("unchecked")
-		List<Evaluation> evaluationList = (List<Evaluation>) q.execute();
+        return evaluationList.get(0);
+    }
 
-		return evaluationList;
-	}
+    private List<Evaluation> getEvaluationEntitiesForCourse(String courseId) {
+        Query q = getPM().newQuery(Evaluation.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseID == courseIdParam");
+        
+        @SuppressWarnings("unchecked")
+        List<Evaluation> evaluationList = (List<Evaluation>) q.execute(courseId);
+        return evaluationList;
+    }
 
-	@Override
-	protected Object getEntity(EntityAttributes attributes) {
-		EvaluationAttributes evaluationToGet = (EvaluationAttributes) attributes;
-		return getEvaluationEntity(evaluationToGet.courseId, evaluationToGet.name);
-	}
-	
+    private List<Evaluation> getAllEvaluationEntities() {
+        
+        Query q = getPM().newQuery(Evaluation.class);
+
+        @SuppressWarnings("unchecked")
+        List<Evaluation> evaluationList = (List<Evaluation>) q.execute();
+
+        return evaluationList;
+    }
+
+    @Override
+    protected Object getEntity(EntityAttributes attributes) {
+        EvaluationAttributes evaluationToGet = (EvaluationAttributes) attributes;
+        return getEvaluationEntity(evaluationToGet.courseId, evaluationToGet.name);
+    }
+    
 }

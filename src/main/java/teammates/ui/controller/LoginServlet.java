@@ -18,45 +18,45 @@ import teammates.logic.api.Logic;
  * Servlet to handle Login
  */
 public class LoginServlet extends HttpServlet {
-	
-	protected static final Logger log = Utils.getLogger();
-	
-	@Override
-	public final void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
-		this.doPost(req,resp);
-	}
+    
+    protected static final Logger log = Utils.getLogger();
+    
+    @Override
+    public final void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
+        this.doPost(req,resp);
+    }
 
-	@Override
-	public final void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException{
-		Logic server = new Logic();
-		UserType user = server.getCurrentUser();
-		if(req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR)!=null){
-			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
-			}
-		} else if(req.getParameter(Const.ParamsNames.LOGIN_STUDENT)!=null){
-			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE);
-			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
-			}
-		//TODO: do we need this branch?
-		} else if(req.getParameter(Const.ParamsNames.LOGIN_ADMIN)!=null){
-			if(isMasqueradeMode(user)){
-				resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
-			} else {
-				resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
-			}
-		} else {
-			resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
-		}
-	}
+    @Override
+    public final void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException{
+        Logic server = new Logic();
+        UserType user = server.getCurrentUser();
+        if(req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR)!=null){
+            if(isMasqueradeMode(user)){
+                resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+            } else {
+                resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+            }
+        } else if(req.getParameter(Const.ParamsNames.LOGIN_STUDENT)!=null){
+            if(isMasqueradeMode(user)){
+                resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE);
+            } else {
+                resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
+            }
+        //TODO: do we need this branch?
+        } else if(req.getParameter(Const.ParamsNames.LOGIN_ADMIN)!=null){
+            if(isMasqueradeMode(user)){
+                resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
+            } else {
+                resp.sendRedirect(Logic.getLoginUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
+            }
+        } else {
+            resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
+        }
+    }
 
-	private boolean isMasqueradeMode(UserType user) {
-		return user!=null;
-	}
+    private boolean isMasqueradeMode(UserType user) {
+        return user!=null;
+    }
 }

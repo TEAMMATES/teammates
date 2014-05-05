@@ -21,203 +21,203 @@ import com.google.gson.Gson;
 
 public class AdminInstructorAccountAddAction extends Action {
 
-	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException {
+    @Override
+    protected ActionResult execute() throws EntityDoesNotExistException {
 
-		new GateKeeper().verifyAdminPrivileges(account);
+        new GateKeeper().verifyAdminPrivileges(account);
 
-		AdminHomePageData data = new AdminHomePageData(account);
+        AdminHomePageData data = new AdminHomePageData(account);
 
-		data.instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-		Assumption.assertNotNull(data.instructorId);
-		data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-		Assumption.assertNotNull(data.instructorName);
-		data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-		Assumption.assertNotNull(data.instructorEmail);
-		data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-		Assumption.assertNotNull(data.instructorInstitution);
+        data.instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        Assumption.assertNotNull(data.instructorId);
+        data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
+        Assumption.assertNotNull(data.instructorName);
+        data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+        Assumption.assertNotNull(data.instructorEmail);
+        data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        Assumption.assertNotNull(data.instructorInstitution);
 
-		String importSampleData = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE);
+        String importSampleData = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE);
 
-		data.instructorId = data.instructorId.trim();
-		data.instructorName = data.instructorName.trim();
-		data.instructorEmail = data.instructorEmail.trim();
-		data.instructorInstitution = data.instructorInstitution.trim();
+        data.instructorId = data.instructorId.trim();
+        data.instructorName = data.instructorName.trim();
+        data.instructorEmail = data.instructorEmail.trim();
+        data.instructorInstitution = data.instructorInstitution.trim();
 
-		if (!data.instructorId.isEmpty() && logic.isInstructor(data.instructorId)) {
-			isError = true;
-			String errorMessage = "The Google ID " + data.instructorId
-					+ " is already registered as an instructor";
-			statusToUser.add(errorMessage);
-			statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage;
-			return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
-		}
+        if (!data.instructorId.isEmpty() && logic.isInstructor(data.instructorId)) {
+            isError = true;
+            String errorMessage = "The Google ID " + data.instructorId
+                    + " is already registered as an instructor";
+            statusToUser.add(errorMessage);
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage;
+            return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
+        }
 
-		try {
-			logic.createAccount(data.instructorId,
-					data.instructorName, true,
-					data.instructorEmail,
-					data.instructorInstitution);
+        try {
+            logic.createAccount(data.instructorId,
+                    data.instructorName, true,
+                    data.instructorEmail,
+                    data.instructorInstitution);
 
-			if (importSampleData != null) {
-				importDemoData(data);
-			}
+            if (importSampleData != null) {
+                importDemoData(data);
+            }
 
-		} catch (Exception e) {
-			setStatusForException(e);
-			return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
-		}
+        } catch (Exception e) {
+            setStatusForException(e);
+            return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
+        }
 
-		statusToUser.add("Instructor " + data.instructorName
-				+ " has been successfully created");
-		statusToAdmin = "A New Instructor <span class=\"bold\">"
-				+ data.instructorName + "</span> has been created.<br>"
-				+ "<span class=\"bold\">Id: </span>" + data.instructorId
-				+ "<br>"
-				+ "<span class=\"bold\">Email: </span>" + data.instructorEmail
-				+ "<span class=\"bold\">Institution: </span>"
-				+ data.instructorInstitution;
+        statusToUser.add("Instructor " + data.instructorName
+                + " has been successfully created");
+        statusToAdmin = "A New Instructor <span class=\"bold\">"
+                + data.instructorName + "</span> has been created.<br>"
+                + "<span class=\"bold\">Id: </span>" + data.instructorId
+                + "<br>"
+                + "<span class=\"bold\">Email: </span>" + data.instructorEmail
+                + "<span class=\"bold\">Institution: </span>"
+                + data.instructorInstitution;
 
-		return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
-	}
+        return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
+    }
 
-	private void importDemoData(AdminHomePageData helper)
-			throws EntityAlreadyExistsException,
-			InvalidParametersException, EntityDoesNotExistException {
+    private void importDemoData(AdminHomePageData helper)
+            throws EntityAlreadyExistsException,
+            InvalidParametersException, EntityDoesNotExistException {
 
-		String jsonString;
-		String courseId = generateDemoCourseId(helper.instructorEmail); 
+        String jsonString;
+        String courseId = generateDemoCourseId(helper.instructorEmail); 
 
-		jsonString = FileHelper.readStream(Config.class.getClassLoader()
-				.getResourceAsStream("InstructorSampleData.json"));
+        jsonString = FileHelper.readStream(Config.class.getClassLoader()
+                .getResourceAsStream("InstructorSampleData.json"));
 
-		// replace email
-		jsonString = jsonString.replaceAll(
-				"teammates.demo.instructor@demo.course",
-				helper.instructorEmail);
-		// replace name
-		jsonString = jsonString.replaceAll("Demo_Instructor",
-				helper.instructorName);
-		// replace id
-		jsonString = jsonString.replaceAll("teammates.demo.instructor",
-				helper.instructorId);
-		// replace course
-		jsonString = jsonString.replaceAll("demo.course", courseId);
+        // replace email
+        jsonString = jsonString.replaceAll(
+                "teammates.demo.instructor@demo.course",
+                helper.instructorEmail);
+        // replace name
+        jsonString = jsonString.replaceAll("Demo_Instructor",
+                helper.instructorName);
+        // replace id
+        jsonString = jsonString.replaceAll("teammates.demo.instructor",
+                helper.instructorId);
+        // replace course
+        jsonString = jsonString.replaceAll("demo.course", courseId);
 
-		// update evaluation time
-		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		c.set(Calendar.AM_PM, Calendar.PM);
-		c.set(Calendar.HOUR, 11);
-		c.set(Calendar.MINUTE, 59);
-		c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
+        // update evaluation time
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        c.set(Calendar.AM_PM, Calendar.PM);
+        c.set(Calendar.HOUR, 11);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
 
-		jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
-				formatter.format(c.getTime()));
+        jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
+                formatter.format(c.getTime()));
 
-		Gson gson = Utils.getTeammatesGson();
-		DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+        Gson gson = Utils.getTeammatesGson();
+        DataBundle data = gson.fromJson(jsonString, DataBundle.class);
 
-		new BackDoorLogic().persistDataBundle(data);
+        new BackDoorLogic().persistDataBundle(data);
 
-	}
+    }
 
-	/**
-	* Strategy to Generate New Demo Course Id:
-	* 	a.  keep the part of email before "@"
-	* 		replace "@" with "."
-	* 	    replace email host with their first 3 chars. eg, gmail.com -> gma
-	* 	    append "-demo"
-	*       to sum up: lebron@gmail.com -> lebron.gma-demo
-	*       
-	*   b.  if the generated courseId already exists, create another one by appending a integer to the previous courseId.
-	*   	if the newly generate id still exists, increment the id, until we find a feasible one
-	*   	eg.
-	*   	lebron@gmail.com -> lebron.gma-demo  // already exists!
-	*   	lebron@gmail.com -> lebron.gma-demo0 // already exists!
-	*   	lebron@gmail.com -> lebron.gma-demo1 // already exists!
-	*   	...
-	*   	lebron@gmail.com -> lebron.gma-demo99 // already exists!
-	*   	lebron@gmail.com -> lebron.gma-demo100 // found! a feasible id
-	*   
-	*   c.  in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part 
-	*   	before "@" of the intial input email, by continuously remove its last character
-	*	
-	*	@see #generateDemoCourseId(String)  
-	*	@see #generateNextDemoCourseId(String, int)
-	*/
-	
-	/**    
-	* Generate a course ID for demo course, and if the generated id already exists, try another one
-	*   	
-	* @param instructorEmail is the instructor email.
-	* @return generated course id 
-	*/
-	private String generateDemoCourseId(String instructorEmail) {
-		String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-		while(logic.getCourse(proposedCourseId) != null){
-			proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
-		}
-		return proposedCourseId;
-	}
-	
-	/**    
-	* Generate a course ID for demo course from a given email
-	*   	
-	* @param instructorEmail is the instructor email.
-	* @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
-	*/
-	private String getDemoCourseIdRoot(String instructorEmail){
-		final String[] splitedEmail = instructorEmail.split("@");
-		final String head = splitedEmail[0];
-		final String emailAbbreviation = splitedEmail[1].substring(0, 3);
-		return head + "." + emailAbbreviation
-				+ "-demo";
-	}
-	
-	/**    
-	* Generate a course ID for demo course from a given email or a generated course Id
-	* here we check the input string is a email or course Id and handle them accordingly
-	* check the resulting course id, and if bigger than maximumIdLength, cut it so that it equals maximumIdLength
-	* 
-	* @param instructorEmailOrProposedCourseId is the instructor email or a proposed course id that already exists.
-	* @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@" 
-	* @return the proposed course id. 
-	* 	eg.
-	* 		lebron@gmail.com -> lebron.gma-demo
-	* 		lebron.gma-demo -> lebron.gma-demo0
-	* 		lebron.gma-demo0 -> lebron.gma-demo1
-	* 		012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)
-	*/
-	private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength){
-		final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
-		if(isFirstCourseId){
-			return trimCourseIdToMaximumLengthIfNecessary(getDemoCourseIdRoot(instructorEmailOrProposedCourseId)
-					, maximumIdLength);
-		} else {
-			final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
-			if(isFirstTimeDuplicate){
-				return trimCourseIdToMaximumLengthIfNecessary(instructorEmailOrProposedCourseId + "0"
-						, maximumIdLength);
-			} else {
-				final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
-				final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
-				final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
-				
-				return trimCourseIdToMaximumLengthIfNecessary(root + "-demo" + (previousDedupSuffix+1)
-						, maximumIdLength);
-			}
-		}
-	}
+    /**
+    * Strategy to Generate New Demo Course Id:
+    *     a.  keep the part of email before "@"
+    *         replace "@" with "."
+    *         replace email host with their first 3 chars. eg, gmail.com -> gma
+    *         append "-demo"
+    *       to sum up: lebron@gmail.com -> lebron.gma-demo
+    *       
+    *   b.  if the generated courseId already exists, create another one by appending a integer to the previous courseId.
+    *       if the newly generate id still exists, increment the id, until we find a feasible one
+    *       eg.
+    *       lebron@gmail.com -> lebron.gma-demo  // already exists!
+    *       lebron@gmail.com -> lebron.gma-demo0 // already exists!
+    *       lebron@gmail.com -> lebron.gma-demo1 // already exists!
+    *       ...
+    *       lebron@gmail.com -> lebron.gma-demo99 // already exists!
+    *       lebron@gmail.com -> lebron.gma-demo100 // found! a feasible id
+    *   
+    *   c.  in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part 
+    *       before "@" of the intial input email, by continuously remove its last character
+    *    
+    *    @see #generateDemoCourseId(String)  
+    *    @see #generateNextDemoCourseId(String, int)
+    */
+    
+    /**    
+    * Generate a course ID for demo course, and if the generated id already exists, try another one
+    *       
+    * @param instructorEmail is the instructor email.
+    * @return generated course id 
+    */
+    private String generateDemoCourseId(String instructorEmail) {
+        String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
+        while(logic.getCourse(proposedCourseId) != null){
+            proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
+        }
+        return proposedCourseId;
+    }
+    
+    /**    
+    * Generate a course ID for demo course from a given email
+    *       
+    * @param instructorEmail is the instructor email.
+    * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
+    */
+    private String getDemoCourseIdRoot(String instructorEmail){
+        final String[] splitedEmail = instructorEmail.split("@");
+        final String head = splitedEmail[0];
+        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
+        return head + "." + emailAbbreviation
+                + "-demo";
+    }
+    
+    /**    
+    * Generate a course ID for demo course from a given email or a generated course Id
+    * here we check the input string is a email or course Id and handle them accordingly
+    * check the resulting course id, and if bigger than maximumIdLength, cut it so that it equals maximumIdLength
+    * 
+    * @param instructorEmailOrProposedCourseId is the instructor email or a proposed course id that already exists.
+    * @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@" 
+    * @return the proposed course id. 
+    *     eg.
+    *         lebron@gmail.com -> lebron.gma-demo
+    *         lebron.gma-demo -> lebron.gma-demo0
+    *         lebron.gma-demo0 -> lebron.gma-demo1
+    *         012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)
+    */
+    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength){
+        final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
+        if(isFirstCourseId){
+            return trimCourseIdToMaximumLengthIfNecessary(getDemoCourseIdRoot(instructorEmailOrProposedCourseId)
+                    , maximumIdLength);
+        } else {
+            final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
+            if(isFirstTimeDuplicate){
+                return trimCourseIdToMaximumLengthIfNecessary(instructorEmailOrProposedCourseId + "0"
+                        , maximumIdLength);
+            } else {
+                final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
+                final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
+                final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
+                
+                return trimCourseIdToMaximumLengthIfNecessary(root + "-demo" + (previousDedupSuffix+1)
+                        , maximumIdLength);
+            }
+        }
+    }
 
-	private String trimCourseIdToMaximumLengthIfNecessary(String demoCourseId, final int maximumIdLength) {
-		final int courseIdLength = demoCourseId.length();
-		if (courseIdLength <= maximumIdLength) {
-			return demoCourseId;
-		} else {
-			return demoCourseId.substring(courseIdLength
-					- maximumIdLength);
-		}
-	}
+    private String trimCourseIdToMaximumLengthIfNecessary(String demoCourseId, final int maximumIdLength) {
+        final int courseIdLength = demoCourseId.length();
+        if (courseIdLength <= maximumIdLength) {
+            return demoCourseId;
+        } else {
+            return demoCourseId.substring(courseIdLength
+                    - maximumIdLength);
+        }
+    }
 
 }

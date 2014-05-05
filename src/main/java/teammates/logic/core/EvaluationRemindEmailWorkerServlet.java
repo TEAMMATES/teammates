@@ -17,22 +17,22 @@ import teammates.logic.automated.WorkerServlet;
  */
 @SuppressWarnings("serial")
 public class EvaluationRemindEmailWorkerServlet extends WorkerServlet {
-	private static Logger log = Utils.getLogger();
-	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-		
-		String evaluationName = HttpRequestHelper
-				.getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_EVAL);
-		Assumption.assertNotNull(evaluationName);
-		
-		String courseId = HttpRequestHelper
-				.getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_COURSE);
-		Assumption.assertNotNull(courseId);
-		
-		try {
-			EvaluationsLogic.inst().sendReminderForEvaluation(courseId, evaluationName);
-		} catch (EntityDoesNotExistException e) {
-			log.severe("Unexpected error while sending emails " + e.getMessage());
-		}
-	}
+    private static Logger log = Utils.getLogger();
+    
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        
+        String evaluationName = HttpRequestHelper
+                .getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_EVAL);
+        Assumption.assertNotNull(evaluationName);
+        
+        String courseId = HttpRequestHelper
+                .getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_COURSE);
+        Assumption.assertNotNull(courseId);
+        
+        try {
+            EvaluationsLogic.inst().sendReminderForEvaluation(courseId, evaluationName);
+        } catch (EntityDoesNotExistException e) {
+            log.severe("Unexpected error while sending emails " + e.getMessage());
+        }
+    }
 }

@@ -321,7 +321,7 @@
       "sentOpenEmail" : true,
       "sentPublishedEmail" : false
     },
-	"SHomeUiT.CS2104:Graced Feedback Session": {
+    "SHomeUiT.CS2104:Graced Feedback Session": {
       "feedbackSessionName" : "Graced Feedback Session",
       "courseId" : "SHomeUiT.CS2104",
       "creatorEmail": "SHomeUiT.instr@gmail.com",
@@ -341,32 +341,32 @@
   
   "feedbackQuestions" : {
     "SHomeUiT.CS2104:First Feedback Session:Q1": {
-		"feedbackSessionName" : "First Feedback Session",
-		"courseId" : "SHomeUiT.CS2104",
-		"creatorEmail" : "SHomeUiT.instr@gmail.com",
-		"questionMetaData" : {"value" : "Rate 5 other students' products"},
-		"questionNumber" : "1",
-		"questionType" : "TEXT",
-		"giverType" : "STUDENTS",
-		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 5,
-		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
-		"showGiverNameTo" : [ "INSTRUCTORS" ],
-		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
+        "feedbackSessionName" : "First Feedback Session",
+        "courseId" : "SHomeUiT.CS2104",
+        "creatorEmail" : "SHomeUiT.instr@gmail.com",
+        "questionMetaData" : {"value" : "Rate 5 other students' products"},
+        "questionNumber" : "1",
+        "questionType" : "TEXT",
+        "giverType" : "STUDENTS",
+        "recipientType" : "STUDENTS",
+        "numberOfEntitiesToGiveFeedbackTo" : 5,
+        "showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
+        "showGiverNameTo" : [ "INSTRUCTORS" ],
+        "showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
     },
-	"SHomeUiT.CS2104:Graced Feedback Session:Q1": {
-		"feedbackSessionName" : "Graced Feedback Session",
-		"courseId" : "SHomeUiT.CS2104",
-		"creatorEmail" : "SHomeUiT.instr@gmail.com",
-		"questionMetaData" : {"value" : "Rate 5 other students' products"},
-		"questionNumber" : "1",
-		"questionType" : "TEXT",
-		"giverType" : "STUDENTS",
-		"recipientType" : "STUDENTS",
-		"numberOfEntitiesToGiveFeedbackTo" : 5,
-		"showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
-		"showGiverNameTo" : [ "INSTRUCTORS" ],
-		"showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
+    "SHomeUiT.CS2104:Graced Feedback Session:Q1": {
+        "feedbackSessionName" : "Graced Feedback Session",
+        "courseId" : "SHomeUiT.CS2104",
+        "creatorEmail" : "SHomeUiT.instr@gmail.com",
+        "questionMetaData" : {"value" : "Rate 5 other students' products"},
+        "questionNumber" : "1",
+        "questionType" : "TEXT",
+        "giverType" : "STUDENTS",
+        "recipientType" : "STUDENTS",
+        "numberOfEntitiesToGiveFeedbackTo" : 5,
+        "showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
+        "showGiverNameTo" : [ "INSTRUCTORS" ],
+        "showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
     }
    }
 }

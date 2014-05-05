@@ -6,13 +6,13 @@ package teammates.test.pageobjects;
  */
 public class GenericAppPage extends AppPage {
 
-	public GenericAppPage(Browser browser) {
-		super(browser);
-	}
+    public GenericAppPage(Browser browser) {
+        super(browser);
+    }
 
-	@Override
-	protected boolean containsExpectedPageContents() {
-		return true;
-	}
+    @Override
+    protected boolean containsExpectedPageContents() {
+        return true;
+    }
 
 }

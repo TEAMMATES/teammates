@@ -15,20 +15,20 @@ import teammates.common.util.Utils;
  * another request to the specified {@code destination}.
  */
 public class RedirectResult extends ActionResult {
-	static Logger log = Utils.getLogger();
-	
-	public RedirectResult(
-			String destination, 
-			AccountAttributes account,
-			Map<String, String[]> parametersFromPreviousRequest,
-			List<String> status) {
-		super(destination, account, parametersFromPreviousRequest, status);
-	}
+    static Logger log = Utils.getLogger();
+    
+    public RedirectResult(
+            String destination, 
+            AccountAttributes account,
+            Map<String, String[]> parametersFromPreviousRequest,
+            List<String> status) {
+        super(destination, account, parametersFromPreviousRequest, status);
+    }
 
 
-	@Override
-	public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.sendRedirect(getDestinationWithParams());
-	}
+    @Override
+    public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.sendRedirect(getDestinationWithParams());
+    }
 
 }

@@ -8,43 +8,43 @@ import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackPreviewAsInstructorAction extends Action {
 
-	@Override
-	protected ActionResult execute() throws EntityDoesNotExistException {
-		String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-		String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-		String previewInstructorEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-		if (courseId == null || feedbackSessionName == null	|| previewInstructorEmail == null) {
-			Assumption.fail();
-		}
+    @Override
+    protected ActionResult execute() throws EntityDoesNotExistException {
+        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String previewInstructorEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+        if (courseId == null || feedbackSessionName == null    || previewInstructorEmail == null) {
+            Assumption.fail();
+        }
 
-		// Verify access level
-		new GateKeeper().verifyAccessible(
-				logic.getInstructorForGoogleId(courseId, account.googleId),
-				logic.getFeedbackSession(feedbackSessionName, courseId),
-				true);
+        // Verify access level
+        new GateKeeper().verifyAccessible(
+                logic.getInstructorForGoogleId(courseId, account.googleId),
+                logic.getFeedbackSession(feedbackSessionName, courseId),
+                true);
 
-		InstructorAttributes previewInstructor = logic.getInstructorForEmail(courseId, previewInstructorEmail);
-		
-		FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account);
-		
-		data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
-				feedbackSessionName, courseId, previewInstructor.email);
-		if (data.bundle == null) {
-			throw new EntityDoesNotExistException("Feedback session "
-					+ feedbackSessionName + " does not exist in " + courseId
-					+ ".");
-		}
-		
-		data.isSessionOpenForSubmission = true;
-		data.isPreview = true;
-		data.previewInstructor = previewInstructor;
-		data.bundle.resetAllResponses();
-		
-		statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>" +
-				"Session Name: " + feedbackSessionName + "<br>" +
-				"Course ID: " + courseId;
-		
-		return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
-	}
+        InstructorAttributes previewInstructor = logic.getInstructorForEmail(courseId, previewInstructorEmail);
+        
+        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account);
+        
+        data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
+                feedbackSessionName, courseId, previewInstructor.email);
+        if (data.bundle == null) {
+            throw new EntityDoesNotExistException("Feedback session "
+                    + feedbackSessionName + " does not exist in " + courseId
+                    + ".");
+        }
+        
+        data.isSessionOpenForSubmission = true;
+        data.isPreview = true;
+        data.previewInstructor = previewInstructor;
+        data.bundle.resetAllResponses();
+        
+        statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>" +
+                "Session Name: " + feedbackSessionName + "<br>" +
+                "Course ID: " + courseId;
+        
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
+    }
 
 }
