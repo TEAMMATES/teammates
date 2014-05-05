@@ -94,7 +94,7 @@
                         <div class="result_homeTitle">
                             <h2 class="color_white">
                                 [<%=courseDetails.course.id%>] :
-                                <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
+                        <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
                             </h2>
                         </div>
                         <div class="result_homeLinks blockLink rightalign">
