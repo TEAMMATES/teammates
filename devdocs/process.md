@@ -118,7 +118,7 @@ Issue classification:
 * `d.High`: Requires multiple, possibly non-localized changes. Requires changes to tests and possibly new tests.
 * `d.VeryHigh`: Requires wide ranging tests, new tests and possibly, changes to the data schema.
 
-<img src='http://teammatesv4.appspot.com/dev/images/IssueLifecycle.png' width='600'>
+<img src='../src/main/webapp/dev/images/IssueLifecycle.png' width='600'>
 
-Given above is an illustration of the issue lifecycle **[Incorrect! To be updated]**. 
+Given above is an illustration of the issue lifecycle. 
 Colors indicate which roles are involved in which states/transitions. 
